@@ -1,0 +1,14 @@
+<module>
+
+	<!-- WS Compiler: manually edited -->
+
+	<!-- Inherit DefaultWidgetSet -->
+	<inherits name="com.vaadin.DefaultWidgetSet" /> 
+	<stylesheet src="popupbutton/popupbutton.css"/>
+
+        <inherits name="org.vaadin.hene.popupbutton.widgetset.PopupbuttonWidgetset" />
+	<!-- Widget styles in public -directory -->
+	<stylesheet src="extfilteringtable/extfiltertable.css"/>
+        <stylesheet src="extfilteringtable/customheaderstyles.css"/>
+
+</module>
