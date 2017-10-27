@@ -1,0 +1,4634 @@
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'RS_MODEL'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[RS_MODEL]
+        (
+           RS_MODEL_SID                   INT NOT NULL IDENTITY(1, 1),
+           RS_ID                          VARCHAR(50) NOT NULL,
+           RS_NO                          VARCHAR(50) NOT NULL,
+           RS_NAME                        VARCHAR(100) NULL,
+           RS_TYPE                        INT NOT NULL,
+           REBATE_PROGRAM_TYPE            INT NOT NULL,
+           RS_CATEGORY                    INT NULL,
+           RS_STATUS                      INT NULL,
+           RS_DESIGNATION                 VARCHAR(25) NULL,
+           RS_START_DATE                  DATETIME NOT NULL,
+           RS_END_DATE                    DATETIME NULL,
+           RS_TRADE_CLASS                 INT NULL,
+           MANF_COMPANY_MASTER_SID        INT NULL,
+           PARENT_RS_ID                   VARCHAR(50) NULL,
+           PARENT_RS_NAME                 VARCHAR(100) NULL,
+           RS_TRANS_REF_ID                VARCHAR(50) NULL,
+           RS_TRANS_REF_NO                VARCHAR(50) NULL,
+           RS_TRANS_REF_NAME              VARCHAR(100) NULL,
+           REBATE_RULE_TYPE               INT NULL,
+           REBATE_RULE_ASSOCIATION        VARCHAR(100) NULL,
+           REBATE_PLAN_LEVEL              VARCHAR(50) NULL,
+           INTEREST_BEARING_INDICATOR     CHAR(2) NULL,
+           INTEREST_BEARING_BASIS         VARCHAR(50) NULL,
+           REBATE_PROCESSING_TYPE         INT NULL,
+           REBATE_FREQUENCY               INT NOT NULL,
+           PAYMENT_METHOD                 INT NULL,
+           PAYMENT_FREQUENCY              INT NULL,
+           PAYMENT_TERMS                  INT NULL,
+           PAYMENT_GRACE_PERIOD           VARCHAR(25) NULL,
+           CALENDAR                       VARCHAR(25) NOT NULL,
+           RS_VALIDATION_PROFILE          INT NULL,
+           INTERNAL_NOTES                 VARCHAR(4000) NULL,
+           MAKE_PAYABLE_TO                VARCHAR(50) NULL,
+           ADDRESS_1                      VARCHAR(100) NULL,
+           ADDRESS_2                      VARCHAR(100) NULL,
+           CITY                           VARCHAR(50) NULL,
+           [STATE]                        INT NULL,
+           ZIP_CODE                       VARCHAR(50) NULL,
+           RS_ALIAS                       VARCHAR(100) NULL,
+           FORMULA_METHOD_ID              VARCHAR(38) NULL,
+           CALCULATION_TYPE               INT,
+           CALCULATION_LEVEL              INT,
+           DETECTION_INCLUSION            NUMERIC(22, 6),
+           CALCULATION_RULE               NUMERIC(22, 6),
+           CALCULATION_RULE_LEVEL         NUMERIC(22, 6),
+           EVALUATION_RULE_TYPE           NUMERIC(22, 6),
+           EVALUATION_RULE_LEVEL          NUMERIC(22, 6),
+           EVALUATION_RULE_OR_ASSOCIATION NUMERIC(22, 6),
+           INBOUND_STATUS                 CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS             BIT NOT NULL,
+           BATCH_ID                       VARCHAR(50) NULL,
+           [SOURCE]                       VARCHAR(50) NULL,
+           [CREATED_BY]                   INT NOT NULL,
+           [CREATED_DATE]                 DATETIME NOT NULL,
+           [MODIFIED_BY]                  INT NOT NULL,
+           [MODIFIED_DATE]                DATETIME NOT NULL
+        )
+  END
+
+GO
+
+------------------ DATATYPE CHANGE ------------------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'REBATE_PLAN_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.REBATE_PLAN_LEVEL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'REBATE_PLAN_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN REBATE_PLAN_LEVEL INT
+  END
+
+GO
+
+---------------------------- COLUMN ADDITION ------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD CALCULATION_TYPE INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD CALCULATION_LEVEL INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_RULE')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD CALCULATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_LEVEL')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD CALCULATION_RULE_LEVEL NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_TYPE')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD EVALUATION_RULE_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_LEVEL')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD EVALUATION_RULE_LEVEL NUMERIC(22, 6)
+  END
+
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_OR_ASSOCIATION')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD EVALUATION_RULE_OR_ASSOCIATION NUMERIC(22, 6)
+  END
+
+GO
+
+---------------------------- COLUMN RENAME
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'VALIDATION_PROFILE'
+                  AND TABLE_NAME = 'RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'RS_MODEL.VALIDATION_PROFILE',
+        'RS_VALIDATION_PROFILE',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'TRADE_CLASS'
+                  AND TABLE_NAME = 'RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'RS_MODEL.TRADE_CLASS',
+        'RS_TRADE_CLASS',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'CALENDAR'
+                  AND TABLE_NAME = 'RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'RS_MODEL.CALENDAR',
+        'RS_CALENDAR',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'DETECTION_INCLUSION'
+                  AND TABLE_NAME = 'RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'RS_MODEL.DETECTION_INCLUSION',
+        'DEDUCTION_INCLUSION',
+        'COLUMN'
+  END
+
+GO
+
+------------------ DROP STATISTICS
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'CALENDAR'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.CALENDAR
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'INTEREST_BEARING_INDICATOR'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.INTEREST_BEARING_INDICATOR
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'INTEREST_BEARING_BASIS'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.INTEREST_BEARING_BASIS
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'PAYMENT_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.PAYMENT_LEVEL
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_DESIGNATION'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.RS_DESIGNATION
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'DETECTION_INCLUSION'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.RS_MODEL.DETECTION_INCLUSION
+  END
+
+GO
+
+----------------------- COLUMN DATATYPE MODIFICATION
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'RS_CALENDAR'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN RS_CALENDAR INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'INTEREST_BEARING_INDICATOR'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN INTEREST_BEARING_INDICATOR INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'INTEREST_BEARING_BASIS'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN INTEREST_BEARING_BASIS INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_MODEL'
+                      AND COLUMN_NAME = 'PAYMENT_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ADD PAYMENT_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'RS_DESIGNATION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN RS_DESIGNATION INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'DEDUCTION_INCLUSION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN DEDUCTION_INCLUSION INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN CALCULATION_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'CALCULATION_RULE_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN CALCULATION_RULE_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_TYPE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_OR_ASSOCIATION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_OR_ASSOCIATION INT
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'RS_MODEL'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_RS_MODEL_RS_MODEL_SID'
+                     AND TYPE = 'PK')
+  ALTER TABLE [DBO].[RS_MODEL]
+    ADD CONSTRAINT PK_RS_MODEL_RS_MODEL_SID PRIMARY KEY(RS_MODEL_SID)
+
+GO
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_MODEL')
+                      AND NAME = 'DF_RS_MODEL_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_MODEL]
+        ADD CONSTRAINT [DF_RS_MODEL_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_MODEL')
+                      AND NAME = 'DF_RS_MODEL_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_MODEL]
+        ADD CONSTRAINT [DF_RS_MODEL_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_MODEL')
+                      AND NAME = 'DF_RS_MODEL_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_MODEL]
+        ADD CONSTRAINT [DF_RS_MODEL_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_MODEL')
+                      AND NAME = 'DF_RS_MODEL_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_MODEL]
+        ADD CONSTRAINT [DF_RS_MODEL_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_MODEL')
+                      AND NAME = 'DF_RS_MODEL_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[RS_MODEL]
+        ADD CONSTRAINT [DF_RS_MODEL_RECORD_LOCK_STATUS] DEFAULT (1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'RS_MODEL')
+  BEGIN
+      IF NOT EXISTS (SELECT 1
+                     FROM   SYS.KEY_CONSTRAINTS
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                            AND PARENT_OBJECT_ID = OBJECT_ID('RS_MODEL')
+                            AND NAME = 'UQ_RS_MODEL_RS_ID')
+        BEGIN
+            ALTER TABLE RS_MODEL
+              ADD CONSTRAINT UQ_RS_MODEL_RS_ID UNIQUE(RS_ID)
+        END
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[HIST_RS_MODEL]
+        (
+           RS_MODEL_SID                   INT NOT NULL,
+           RS_ID                          VARCHAR(50) NOT NULL,
+           RS_NO                          VARCHAR(50) NOT NULL,
+           RS_NAME                        VARCHAR(100) NULL,
+           RS_TYPE                        INT NOT NULL,
+           REBATE_PROGRAM_TYPE            INT NOT NULL,
+           RS_CATEGORY                    INT NULL,
+           RS_STATUS                      INT NULL,
+           RS_DESIGNATION                 VARCHAR(25) NULL,
+           RS_START_DATE                  DATETIME NOT NULL,
+           RS_END_DATE                    DATETIME NULL,
+           RS_TRADE_CLASS                 INT NULL,
+           MANF_COMPANY_MASTER_SID        INT NULL,
+           PARENT_RS_ID                   VARCHAR(50) NULL,
+           PARENT_RS_NAME                 VARCHAR(100) NULL,
+           RS_TRANS_REF_ID                VARCHAR(50) NULL,
+           RS_TRANS_REF_NO                VARCHAR(50) NULL,
+           RS_TRANS_REF_NAME              VARCHAR(100) NULL,
+           REBATE_RULE_TYPE               INT NULL,
+           REBATE_RULE_ASSOCIATION        VARCHAR(100) NULL,
+           REBATE_PLAN_LEVEL              VARCHAR(50) NULL,
+           INTEREST_BEARING_INDICATOR     CHAR(2) NULL,
+           INTEREST_BEARING_BASIS         VARCHAR(50) NULL,
+           REBATE_PROCESSING_TYPE         INT NULL,
+           REBATE_FREQUENCY               INT NOT NULL,
+           PAYMENT_METHOD                 INT NULL,
+           PAYMENT_FREQUENCY              INT NULL,
+           PAYMENT_TERMS                  INT NULL,
+           PAYMENT_GRACE_PERIOD           VARCHAR(25) NULL,
+           CALENDAR                       VARCHAR(25) NOT NULL,
+           RS_VALIDATION_PROFILE          INT NULL,
+           INTERNAL_NOTES                 VARCHAR(4000) NULL,
+           MAKE_PAYABLE_TO                VARCHAR(50) NULL,
+           ADDRESS_1                      VARCHAR(100) NULL,
+           ADDRESS_2                      VARCHAR(100) NULL,
+           CITY                           VARCHAR(50) NULL,
+           [STATE]                        INT NULL,
+           ZIP_CODE                       VARCHAR(50) NULL,
+           RS_ALIAS                       VARCHAR(100) NULL,
+           FORMULA_METHOD_ID              VARCHAR(38) NULL,
+           CALCULATION_TYPE               INT,
+           CALCULATION_LEVEL              INT,
+           DETECTION_INCLUSION            NUMERIC(22, 6),
+           CALCULATION_RULE               NUMERIC(22, 6),
+           CALCULATION_RULE_LEVEL         NUMERIC(22, 6),
+           EVALUATION_RULE_TYPE           NUMERIC(22, 6),
+           EVALUATION_RULE_LEVEL          NUMERIC(22, 6),
+           EVALUATION_RULE_OR_ASSOCIATION NUMERIC(22, 6),
+           INBOUND_STATUS                 CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS             BIT NOT NULL,
+           BATCH_ID                       VARCHAR(50) NULL,
+           [SOURCE]                       VARCHAR(50) NULL,
+           [CREATED_BY]                   INT NOT NULL,
+           [CREATED_DATE]                 DATETIME NOT NULL,
+           [MODIFIED_BY]                  INT NOT NULL,
+           [MODIFIED_DATE]                DATETIME NOT NULL,
+           ACTION_FLAG                    CHAR(1) NOT NULL,
+           ACTION_DATE                    DATETIME NOT NULL
+        )
+  END
+
+GO
+
+------------------ DATATYPE CHANGE ------------------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'REBATE_PLAN_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.REBATE_PLAN_LEVEL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'REBATE_PLAN_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN REBATE_PLAN_LEVEL INT
+  END
+
+GO
+
+-------------------------- COLUMN ADDITION ------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD CALCULATION_TYPE INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD CALCULATION_LEVEL INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_RULE')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD CALCULATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_LEVEL')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD CALCULATION_RULE_LEVEL NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_TYPE')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD EVALUATION_RULE_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_LEVEL')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD EVALUATION_RULE_LEVEL NUMERIC(22, 6)
+  END
+
+  GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_OR_ASSOCIATION')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD EVALUATION_RULE_OR_ASSOCIATION NUMERIC(22, 6)
+  END
+
+GO
+
+----------------------------------- COLUMN RENAME 
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'VALIDATION_PROFILE'
+                  AND TABLE_NAME = 'HIST_RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'HIST_RS_MODEL.VALIDATION_PROFILE',
+        'RS_VALIDATION_PROFILE',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'TRADE_CLASS'
+                  AND TABLE_NAME = 'HIST_RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'HIST_RS_MODEL.TRADE_CLASS',
+        'RS_TRADE_CLASS',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'CALENDAR'
+                  AND TABLE_NAME = 'HIST_RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'HIST_RS_MODEL.CALENDAR',
+        'RS_CALENDAR',
+        'COLUMN'
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'DETECTION_INCLUSION'
+                  AND TABLE_NAME = 'HIST_RS_MODEL')
+  BEGIN
+      EXEC SP_RENAME
+        'HIST_RS_MODEL.DETECTION_INCLUSION',
+        'DEDUCTION_INCLUSION',
+        'COLUMN'
+  END
+
+GO
+
+------------------ DROP STATISTICS
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'CALENDAR'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.CALENDAR
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'INTEREST_BEARING_INDICATOR'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.INTEREST_BEARING_INDICATOR
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'INTEREST_BEARING_BASIS'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.INTEREST_BEARING_BASIS
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'PAYMENT_LEVEL'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.PAYMENT_LEVEL
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_DESIGNATION'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.RS_DESIGNATION
+  END
+
+GO
+
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'DETECTION_INCLUSION'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_MODEL')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_MODEL.DETECTION_INCLUSION
+  END
+
+GO
+
+----------------------- COLUMN DATATYPE MODIFICATION
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'RS_CALENDAR'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN RS_CALENDAR INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'INTEREST_BEARING_INDICATOR'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN INTEREST_BEARING_INDICATOR INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'INTEREST_BEARING_BASIS'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN INTEREST_BEARING_BASIS INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                      AND COLUMN_NAME = 'PAYMENT_LEVEL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ADD PAYMENT_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'RS_DESIGNATION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN RS_DESIGNATION INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'DEDUCTION_INCLUSION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN DEDUCTION_INCLUSION INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN CALCULATION_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'CALCULATION_RULE_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN CALCULATION_RULE_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_TYPE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_LEVEL'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_LEVEL INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_MODEL'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_OR_ASSOCIATION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_MODEL
+        ALTER COLUMN EVALUATION_RULE_OR_ASSOCIATION INT
+  END
+
+GO
+
+------------------------ DEFAULT CONSTRAINT --------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.HIST_RS_MODEL')
+                      AND NAME = 'DF_HIST_RS_MODEL_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_RS_MODEL]
+        ADD CONSTRAINT [DF_HIST_RS_MODEL_ACTION_DATE] DEFAULT (GETDATE()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_RS_MODEL'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'RS_MODEL'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_MODEL_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_MODEL_UPD
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_MODEL_UPD]
+ON [DBO].[RS_MODEL]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         AND EXISTS (SELECT *
+                     FROM   DELETED)
+        INSERT INTO HIST_RS_MODEL
+                    (RS_MODEL_SID,
+                     RS_ID,
+                     RS_NO,
+                     RS_NAME,
+                     RS_TYPE,
+                     REBATE_PROGRAM_TYPE,
+                     RS_CATEGORY,
+                     RS_STATUS,
+                     RS_DESIGNATION,
+                     RS_START_DATE,
+                     RS_END_DATE,
+                     RS_TRADE_CLASS,
+                     MANF_COMPANY_MASTER_SID,
+                     PARENT_RS_ID,
+                     PARENT_RS_NAME,
+                     RS_TRANS_REF_ID,
+                     RS_TRANS_REF_NO,
+                     RS_TRANS_REF_NAME,
+                     REBATE_RULE_TYPE,
+                     REBATE_RULE_ASSOCIATION,
+                     REBATE_PLAN_LEVEL,
+                     INTEREST_BEARING_INDICATOR,
+                     INTEREST_BEARING_BASIS,
+                     REBATE_PROCESSING_TYPE,
+                     REBATE_FREQUENCY,
+                     PAYMENT_METHOD,
+                     PAYMENT_FREQUENCY,
+                     PAYMENT_TERMS,
+                     PAYMENT_GRACE_PERIOD,
+                     RS_CALENDAR,
+                     RS_VALIDATION_PROFILE,
+                     INTERNAL_NOTES,
+                     MAKE_PAYABLE_TO,
+                     ADDRESS_1,
+                     ADDRESS_2,
+                     CITY,
+                     STATE,
+                     ZIP_CODE,
+                     RS_ALIAS,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CALCULATION_TYPE,
+                     CALCULATION_LEVEL,
+                     PAYMENT_LEVEL,
+                     DEDUCTION_INCLUSION,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_LEVEL,
+                     EVALUATION_RULE_TYPE,
+                     EVALUATION_RULE_LEVEL,
+                     EVALUATION_RULE_OR_ASSOCIATION,
+                     ACTION_FLAG)
+        SELECT RS_MODEL_SID,
+               RS_ID,
+               RS_NO,
+               RS_NAME,
+               RS_TYPE,
+               REBATE_PROGRAM_TYPE,
+               RS_CATEGORY,
+               RS_STATUS,
+               RS_DESIGNATION,
+               RS_START_DATE,
+               RS_END_DATE,
+               RS_TRADE_CLASS,
+               MANF_COMPANY_MASTER_SID,
+               PARENT_RS_ID,
+               PARENT_RS_NAME,
+               RS_TRANS_REF_ID,
+               RS_TRANS_REF_NO,
+               RS_TRANS_REF_NAME,
+               REBATE_RULE_TYPE,
+               REBATE_RULE_ASSOCIATION,
+               REBATE_PLAN_LEVEL,
+               INTEREST_BEARING_INDICATOR,
+               INTEREST_BEARING_BASIS,
+               REBATE_PROCESSING_TYPE,
+               REBATE_FREQUENCY,
+               PAYMENT_METHOD,
+               PAYMENT_FREQUENCY,
+               PAYMENT_TERMS,
+               PAYMENT_GRACE_PERIOD,
+               RS_CALENDAR,
+               RS_VALIDATION_PROFILE,
+               INTERNAL_NOTES,
+               MAKE_PAYABLE_TO,
+               ADDRESS_1,
+               ADDRESS_2,
+               CITY,
+               STATE,
+               ZIP_CODE,
+               RS_ALIAS,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CALCULATION_TYPE,
+               CALCULATION_LEVEL,
+               PAYMENT_LEVEL,
+               DEDUCTION_INCLUSION,
+               CALCULATION_RULE,
+               CALCULATION_RULE_LEVEL,
+               EVALUATION_RULE_TYPE,
+               EVALUATION_RULE_LEVEL,
+               EVALUATION_RULE_OR_ASSOCIATION,
+               'C'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_MODEL_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_MODEL_INS
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_MODEL_INS]
+ON [DBO].[RS_MODEL]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_RS_MODEL
+                    (RS_MODEL_SID,
+                     RS_ID,
+                     RS_NO,
+                     RS_NAME,
+                     RS_TYPE,
+                     REBATE_PROGRAM_TYPE,
+                     RS_CATEGORY,
+                     RS_STATUS,
+                     RS_DESIGNATION,
+                     RS_START_DATE,
+                     RS_END_DATE,
+                     RS_TRADE_CLASS,
+                     MANF_COMPANY_MASTER_SID,
+                     PARENT_RS_ID,
+                     PARENT_RS_NAME,
+                     RS_TRANS_REF_ID,
+                     RS_TRANS_REF_NO,
+                     RS_TRANS_REF_NAME,
+                     REBATE_RULE_TYPE,
+                     REBATE_RULE_ASSOCIATION,
+                     REBATE_PLAN_LEVEL,
+                     INTEREST_BEARING_INDICATOR,
+                     INTEREST_BEARING_BASIS,
+                     REBATE_PROCESSING_TYPE,
+                     REBATE_FREQUENCY,
+                     PAYMENT_METHOD,
+                     PAYMENT_FREQUENCY,
+                     PAYMENT_TERMS,
+                     PAYMENT_GRACE_PERIOD,
+                     RS_CALENDAR,
+                     RS_VALIDATION_PROFILE,
+                     INTERNAL_NOTES,
+                     MAKE_PAYABLE_TO,
+                     ADDRESS_1,
+                     ADDRESS_2,
+                     CITY,
+                     STATE,
+                     ZIP_CODE,
+                     RS_ALIAS,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CALCULATION_TYPE,
+                     CALCULATION_LEVEL,
+                     PAYMENT_LEVEL,
+                     DEDUCTION_INCLUSION,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_LEVEL,
+                     EVALUATION_RULE_TYPE,
+                     EVALUATION_RULE_LEVEL,
+                     EVALUATION_RULE_OR_ASSOCIATION,
+                     ACTION_FLAG)
+        SELECT RS_MODEL_SID,
+               RS_ID,
+               RS_NO,
+               RS_NAME,
+               RS_TYPE,
+               REBATE_PROGRAM_TYPE,
+               RS_CATEGORY,
+               RS_STATUS,
+               RS_DESIGNATION,
+               RS_START_DATE,
+               RS_END_DATE,
+               RS_TRADE_CLASS,
+               MANF_COMPANY_MASTER_SID,
+               PARENT_RS_ID,
+               PARENT_RS_NAME,
+               RS_TRANS_REF_ID,
+               RS_TRANS_REF_NO,
+               RS_TRANS_REF_NAME,
+               REBATE_RULE_TYPE,
+               REBATE_RULE_ASSOCIATION,
+               REBATE_PLAN_LEVEL,
+               INTEREST_BEARING_INDICATOR,
+               INTEREST_BEARING_BASIS,
+               REBATE_PROCESSING_TYPE,
+               REBATE_FREQUENCY,
+               PAYMENT_METHOD,
+               PAYMENT_FREQUENCY,
+               PAYMENT_TERMS,
+               PAYMENT_GRACE_PERIOD,
+               RS_CALENDAR,
+               RS_VALIDATION_PROFILE,
+               INTERNAL_NOTES,
+               MAKE_PAYABLE_TO,
+               ADDRESS_1,
+               ADDRESS_2,
+               CITY,
+               STATE,
+               ZIP_CODE,
+               RS_ALIAS,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CALCULATION_TYPE,
+               CALCULATION_LEVEL,
+               PAYMENT_LEVEL,
+               DEDUCTION_INCLUSION,
+               CALCULATION_RULE,
+               CALCULATION_RULE_LEVEL,
+               EVALUATION_RULE_TYPE,
+               EVALUATION_RULE_LEVEL,
+               EVALUATION_RULE_OR_ASSOCIATION,
+               'A'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_MODEL_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_MODEL_DEL
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_MODEL_DEL]
+ON [DBO].[RS_MODEL]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_RS_MODEL
+                    (RS_MODEL_SID,
+                     RS_ID,
+                     RS_NO,
+                     RS_NAME,
+                     RS_TYPE,
+                     REBATE_PROGRAM_TYPE,
+                     RS_CATEGORY,
+                     RS_STATUS,
+                     RS_DESIGNATION,
+                     RS_START_DATE,
+                     RS_END_DATE,
+                     RS_TRADE_CLASS,
+                     MANF_COMPANY_MASTER_SID,
+                     PARENT_RS_ID,
+                     PARENT_RS_NAME,
+                     RS_TRANS_REF_ID,
+                     RS_TRANS_REF_NO,
+                     RS_TRANS_REF_NAME,
+                     REBATE_RULE_TYPE,
+                     REBATE_RULE_ASSOCIATION,
+                     REBATE_PLAN_LEVEL,
+                     INTEREST_BEARING_INDICATOR,
+                     INTEREST_BEARING_BASIS,
+                     REBATE_PROCESSING_TYPE,
+                     REBATE_FREQUENCY,
+                     PAYMENT_METHOD,
+                     PAYMENT_FREQUENCY,
+                     PAYMENT_TERMS,
+                     PAYMENT_GRACE_PERIOD,
+                     RS_CALENDAR,
+                     RS_VALIDATION_PROFILE,
+                     INTERNAL_NOTES,
+                     MAKE_PAYABLE_TO,
+                     ADDRESS_1,
+                     ADDRESS_2,
+                     CITY,
+                     STATE,
+                     ZIP_CODE,
+                     RS_ALIAS,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CALCULATION_TYPE,
+                     CALCULATION_LEVEL,
+                     PAYMENT_LEVEL,
+                     DEDUCTION_INCLUSION,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_LEVEL,
+                     EVALUATION_RULE_TYPE,
+                     EVALUATION_RULE_LEVEL,
+                     EVALUATION_RULE_OR_ASSOCIATION,
+                     ACTION_FLAG)
+        SELECT RS_MODEL_SID,
+               RS_ID,
+               RS_NO,
+               RS_NAME,
+               RS_TYPE,
+               REBATE_PROGRAM_TYPE,
+               RS_CATEGORY,
+               RS_STATUS,
+               RS_DESIGNATION,
+               RS_START_DATE,
+               RS_END_DATE,
+               RS_TRADE_CLASS,
+               MANF_COMPANY_MASTER_SID,
+               PARENT_RS_ID,
+               PARENT_RS_NAME,
+               RS_TRANS_REF_ID,
+               RS_TRANS_REF_NO,
+               RS_TRANS_REF_NAME,
+               REBATE_RULE_TYPE,
+               REBATE_RULE_ASSOCIATION,
+               REBATE_PLAN_LEVEL,
+               INTEREST_BEARING_INDICATOR,
+               INTEREST_BEARING_BASIS,
+               REBATE_PROCESSING_TYPE,
+               REBATE_FREQUENCY,
+               PAYMENT_METHOD,
+               PAYMENT_FREQUENCY,
+               PAYMENT_TERMS,
+               PAYMENT_GRACE_PERIOD,
+               RS_CALENDAR,
+               RS_VALIDATION_PROFILE,
+               INTERNAL_NOTES,
+               MAKE_PAYABLE_TO,
+               ADDRESS_1,
+               ADDRESS_2,
+               CITY,
+               STATE,
+               ZIP_CODE,
+               RS_ALIAS,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CALCULATION_TYPE,
+               CALCULATION_LEVEL,
+               PAYMENT_LEVEL,
+               DEDUCTION_INCLUSION,
+               CALCULATION_RULE,
+               CALCULATION_RULE_LEVEL,
+               EVALUATION_RULE_TYPE,
+               EVALUATION_RULE_LEVEL,
+               EVALUATION_RULE_OR_ASSOCIATION,
+               'D'
+        FROM   DELETED
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'RS_DETAILS'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[RS_DETAILS]
+        (
+           RS_DETAILS_SID                INT NOT NULL IDENTITY(1, 1),
+           RS_MODEL_SID                  INT NOT NULL,
+           IFP_MODEL_SID                 INT NULL,
+           ITEM_MASTER_SID               INT NOT NULL,
+           ITEM_REBATE_START_DATE        DATETIME NOT NULL,
+           ITEM_REBATE_END_DATE          DATETIME NULL,
+           ITEM_RS_ATTACHED_STATUS       INT NULL,
+           ITEM_RS_ATTACHED_DATE         DATETIME,
+           FORMULA_ID                    INT NULL,
+           REBATE_PLAN_MASTER_SID        INT NULL,
+           REBATE_AMOUNT                 NUMERIC(22, 6) NULL,
+           BUNDLE_NO                     VARCHAR(25) NULL,
+           FORMULA_METHOD_ID             VARCHAR(50) NULL,
+           DEDUCTION_CALENDAR_MASTER_SID INT,
+           NET_SALES_FORMULA_MASTER_SID  INT,
+           FORMULA_TYPE                  NUMERIC(22, 6),
+           NET_SALES_RULE                NUMERIC(22, 6),
+           EVALUATION_RULE               NUMERIC(22, 6),
+           EVALUATION_RULE_BUNDLE        NUMERIC(22, 6),
+           CALCULATION_RULE              NUMERIC(22, 6),
+           CALCULATION_RULE_BUNDLE       NUMERIC(22, 6),
+           INBOUND_STATUS                CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS            BIT NOT NULL,
+           BATCH_ID                      VARCHAR(50) NULL,
+           [SOURCE]                      VARCHAR(50) NULL,
+           [CREATED_BY]                  INT NOT NULL,
+           [CREATED_DATE]                DATETIME NOT NULL,
+           [MODIFIED_BY]                 INT NOT NULL,
+           [MODIFIED_DATE]               DATETIME NOT NULL
+        )
+  END
+
+GO
+
+--------------------------COLUMN ADDITION-------------------
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'FORMULA_TYPE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD FORMULA_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_RULE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD NET_SALES_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD EVALUATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD EVALUATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD CALCULATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD CALCULATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_FORMULA_MASTER_SID')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD NET_SALES_FORMULA_MASTER_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'RS_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CALENDAR_MASTER_SID')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ADD DEDUCTION_CALENDAR_MASTER_SID INT
+  END
+
+GO
+
+------------------------ DATATYPE MODIFICATION -----------------------
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_DETAILS'
+                  AND COLUMN_NAME = 'NET_SALES_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ALTER COLUMN NET_SALES_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_DETAILS'
+                  AND COLUMN_NAME = 'EVALUATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ALTER COLUMN EVALUATION_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_DETAILS'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE RS_DETAILS
+        ALTER COLUMN CALCULATION_RULE INT
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'RS_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_RS_DETAILS_RS_DETAILS_SID'
+                     AND TYPE = 'PK')
+  ALTER TABLE [DBO].[RS_DETAILS]
+    ADD CONSTRAINT PK_RS_DETAILS_RS_DETAILS_SID PRIMARY KEY(RS_DETAILS_SID)
+
+GO
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS')
+                      AND NAME = 'DF_RS_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS]
+        ADD CONSTRAINT [DF_RS_DETAILS_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS')
+                      AND NAME = 'DF_RS_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS]
+        ADD CONSTRAINT [DF_RS_DETAILS_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS')
+                      AND NAME = 'DF_RS_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS]
+        ADD CONSTRAINT [DF_RS_DETAILS_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS')
+                      AND NAME = 'DF_RS_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS]
+        ADD CONSTRAINT [DF_RS_DETAILS_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS')
+                      AND NAME = 'DF_RS_DETAILS_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS]
+        ADD CONSTRAINT [DF_RS_DETAILS_RECORD_LOCK_STATUS] DEFAULT (1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'RS_DETAILS')
+  BEGIN
+      IF NOT EXISTS (SELECT 1
+                     FROM   SYS.KEY_CONSTRAINTS
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                            AND PARENT_OBJECT_ID = OBJECT_ID('RS_DETAILS')
+                            AND NAME = 'UQ_RS_DETAILS_RS_MODEL_SID_IFP_MODEL_SID_ITEM_MASTER_SID')
+        BEGIN
+            ALTER TABLE RS_DETAILS
+              ADD CONSTRAINT UQ_RS_DETAILS_RS_MODEL_SID_IFP_MODEL_SID_ITEM_MASTER_SID UNIQUE(RS_MODEL_SID, IFP_MODEL_SID, ITEM_MASTER_SID)
+        END
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'HIST_RS_DETAILS'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[HIST_RS_DETAILS]
+        (
+           RS_DETAILS_SID                INT NOT NULL,
+           RS_MODEL_SID                  INT NOT NULL,
+           IFP_MODEL_SID                 INT NULL,
+           ITEM_MASTER_SID               INT NOT NULL,
+           ITEM_REBATE_START_DATE        DATETIME NOT NULL,
+           ITEM_REBATE_END_DATE          DATETIME NULL,
+           ITEM_RS_ATTACHED_STATUS       INT NULL,
+           ITEM_RS_ATTACHED_DATE         DATETIME,
+           FORMULA_ID                    INT NULL,
+           REBATE_PLAN_MASTER_SID        INT NULL,
+           REBATE_AMOUNT                 NUMERIC(22, 6) NULL,
+           BUNDLE_NO                     VARCHAR(25) NULL,
+           FORMULA_METHOD_ID             VARCHAR(50) NULL,
+           DEDUCTION_CALENDAR_MASTER_SID INT,
+           NET_SALES_FORMULA_MASTER_SID  INT,
+           FORMULA_TYPE                  NUMERIC(22, 6),
+           NET_SALES_RULE                NUMERIC(22, 6),
+           EVALUATION_RULE               NUMERIC(22, 6),
+           EVALUATION_RULE_BUNDLE        NUMERIC(22, 6),
+           CALCULATION_RULE              NUMERIC(22, 6),
+           CALCULATION_RULE_BUNDLE       NUMERIC(22, 6),
+           INBOUND_STATUS                CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS            BIT NOT NULL,
+           BATCH_ID                      VARCHAR(50) NULL,
+           [SOURCE]                      VARCHAR(50) NULL,
+           [CREATED_BY]                  INT NOT NULL,
+           [CREATED_DATE]                DATETIME NOT NULL,
+           [MODIFIED_BY]                 INT NOT NULL,
+           [MODIFIED_DATE]               DATETIME NOT NULL,
+           ACTION_FLAG                   CHAR(1) NOT NULL,
+           ACTION_DATE                   DATETIME NOT NULL
+        )
+  END
+
+GO
+
+--------COLUMN ADDITION-------------
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'FORMULA_TYPE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD FORMULA_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_RULE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD NET_SALES_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD EVALUATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD EVALUATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD CALCULATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD CALCULATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CALENDAR_MASTER_SID')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD DEDUCTION_CALENDAR_MASTER_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_FORMULA_MASTER_SID')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ADD NET_SALES_FORMULA_MASTER_SID INT
+  END
+
+GO
+
+--------------------------- DATATYPE MODIFICATION ----------------------
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                  AND COLUMN_NAME = 'NET_SALES_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ALTER COLUMN NET_SALES_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                  AND COLUMN_NAME = 'EVALUATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ALTER COLUMN EVALUATION_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_DETAILS'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_RS_DETAILS
+        ALTER COLUMN CALCULATION_RULE INT
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.HIST_RS_DETAILS')
+                      AND NAME = 'DF_HIST_RS_DETAILS_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_RS_DETAILS]
+        ADD CONSTRAINT [DF_HIST_RS_DETAILS_ACTION_DATE] DEFAULT (GETDATE()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_RS_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'RS_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_UPD
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_UPD]
+ON [DBO].[RS_DETAILS]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         AND EXISTS (SELECT *
+                     FROM   DELETED)
+        INSERT INTO HIST_RS_DETAILS
+                    (RS_DETAILS_SID,
+                     RS_MODEL_SID,
+                     IFP_MODEL_SID,
+                     ITEM_MASTER_SID,
+                     ITEM_REBATE_START_DATE,
+                     ITEM_REBATE_END_DATE,
+                     ITEM_RS_ATTACHED_STATUS,
+                     ITEM_RS_ATTACHED_DATE,
+                     FORMULA_ID,
+                     REBATE_PLAN_MASTER_SID,
+                     REBATE_AMOUNT,
+                     BUNDLE_NO,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     DEDUCTION_CALENDAR_MASTER_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     FORMULA_TYPE,
+                     NET_SALES_RULE,
+                     EVALUATION_RULE,
+                     EVALUATION_RULE_BUNDLE,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_BUNDLE,
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_SID,
+               RS_MODEL_SID,
+               IFP_MODEL_SID,
+               ITEM_MASTER_SID,
+               ITEM_REBATE_START_DATE,
+               ITEM_REBATE_END_DATE,
+               ITEM_RS_ATTACHED_STATUS,
+               ITEM_RS_ATTACHED_DATE,
+               FORMULA_ID,
+               REBATE_PLAN_MASTER_SID,
+               REBATE_AMOUNT,
+               BUNDLE_NO,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               DEDUCTION_CALENDAR_MASTER_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               FORMULA_TYPE,
+               NET_SALES_RULE,
+               EVALUATION_RULE,
+               EVALUATION_RULE_BUNDLE,
+               CALCULATION_RULE,
+               CALCULATION_RULE_BUNDLE,
+               'C'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_INS
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_INS]
+ON [DBO].[RS_DETAILS]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_RS_DETAILS
+                    (RS_DETAILS_SID,
+                     RS_MODEL_SID,
+                     IFP_MODEL_SID,
+                     ITEM_MASTER_SID,
+                     ITEM_REBATE_START_DATE,
+                     ITEM_REBATE_END_DATE,
+                     ITEM_RS_ATTACHED_STATUS,
+                     ITEM_RS_ATTACHED_DATE,
+                     FORMULA_ID,
+                     REBATE_PLAN_MASTER_SID,
+                     REBATE_AMOUNT,
+                     BUNDLE_NO,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     DEDUCTION_CALENDAR_MASTER_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     FORMULA_TYPE,
+                     NET_SALES_RULE,
+                     EVALUATION_RULE,
+                     EVALUATION_RULE_BUNDLE,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_BUNDLE,
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_SID,
+               RS_MODEL_SID,
+               IFP_MODEL_SID,
+               ITEM_MASTER_SID,
+               ITEM_REBATE_START_DATE,
+               ITEM_REBATE_END_DATE,
+               ITEM_RS_ATTACHED_STATUS,
+               ITEM_RS_ATTACHED_DATE,
+               FORMULA_ID,
+               REBATE_PLAN_MASTER_SID,
+               REBATE_AMOUNT,
+               BUNDLE_NO,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               DEDUCTION_CALENDAR_MASTER_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               FORMULA_TYPE,
+               NET_SALES_RULE,
+               EVALUATION_RULE,
+               EVALUATION_RULE_BUNDLE,
+               CALCULATION_RULE,
+               CALCULATION_RULE_BUNDLE,
+               'A'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_DEL
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_DEL]
+ON [DBO].[RS_DETAILS]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   DELETED)
+        INSERT INTO HIST_RS_DETAILS
+                    (RS_DETAILS_SID,
+                     RS_MODEL_SID,
+                     IFP_MODEL_SID,
+                     ITEM_MASTER_SID,
+                     ITEM_REBATE_START_DATE,
+                     ITEM_REBATE_END_DATE,
+                     ITEM_RS_ATTACHED_STATUS,
+                     ITEM_RS_ATTACHED_DATE,
+                     FORMULA_ID,
+                     REBATE_PLAN_MASTER_SID,
+                     REBATE_AMOUNT,
+                     BUNDLE_NO,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     DEDUCTION_CALENDAR_MASTER_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     FORMULA_TYPE,
+                     NET_SALES_RULE,
+                     EVALUATION_RULE,
+                     EVALUATION_RULE_BUNDLE,
+                     CALCULATION_RULE,
+                     CALCULATION_RULE_BUNDLE,
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_SID,
+               RS_MODEL_SID,
+               IFP_MODEL_SID,
+               ITEM_MASTER_SID,
+               ITEM_REBATE_START_DATE,
+               ITEM_REBATE_END_DATE,
+               ITEM_RS_ATTACHED_STATUS,
+               ITEM_RS_ATTACHED_DATE,
+               FORMULA_ID,
+               REBATE_PLAN_MASTER_SID,
+               REBATE_AMOUNT,
+               BUNDLE_NO,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               DEDUCTION_CALENDAR_MASTER_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               FORMULA_TYPE,
+               NET_SALES_RULE,
+               EVALUATION_RULE,
+               EVALUATION_RULE_BUNDLE,
+               CALCULATION_RULE,
+               CALCULATION_RULE_BUNDLE,
+               'D'
+        FROM   DELETED
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        (
+           IMTD_ITEM_PRICE_REBATE_SID    INT IDENTITY(1, 1) NOT NULL,
+           ITEM_MASTER_SID               INT,
+           ITEM_ID                       VARCHAR(38),
+           ITEM_NO                       VARCHAR(50),
+           ITEM_NAME                     VARCHAR(100),
+           ITEM_TYPE                     VARCHAR(50),
+           CONTRACT_MASTER_SID           INT,
+           CFP_MODEL_SID                 INT,
+           IFP_MODEL_SID                 INT,
+           PS_MODEL_SID                  INT,
+           REBATE_AMOUNT                 NUMERIC(22, 6),
+           RS_MODEL_SID                  INT,
+           REBATE_SCHEDULE_TYPE          VARCHAR(25),
+           REBATE_PROGRAM_TYPE           VARCHAR(25),
+           UDC1                          VARCHAR(100),
+           UDC2                          VARCHAR(100),
+           UDC3                          VARCHAR(100),
+           UDC4                          VARCHAR(100),
+           UDC5                          VARCHAR(100),
+           UDC6                          VARCHAR(100),
+           [START_DATE]                  DATETIME,
+           END_DATE                      DATETIME,
+           ATTACHED_STATUS               INT,
+           ATTACHED_DATE                 DATETIME,
+           CONTRACT_PRICE_START_DATE     DATETIME,
+           CONTRACT_PRICE_END_DATE       DATETIME,
+           PRICE_TYPE                    VARCHAR(50),
+           CONTRACT_PRICE                NUMERIC(22, 6),
+           PRICE_REVISION                NUMERIC(22, 6),
+           ITEM_PRICE_REVISION_DATE      DATETIME,
+           PRICE_PROTECTION_START_DATE   DATETIME,
+           PRICE_PROTECTION_END_DATE     DATETIME,
+           PRICE_TOLERANCE_TYPE          VARCHAR(50),
+           PRICE_TOLERANCE               NUMERIC(22, 6),
+           BASE_PRICE                    NUMERIC(22, 6),
+           PRICE_TOLERANCE_FREQUENCY     VARCHAR(50),
+           PRICE_TOLERANCE_INTERVAL      INT,
+           PRICE_PLAN_ID                 VARCHAR(38),
+           RS_DETAILS_SID                INT,
+           PS_DETAILS_SID                INT,
+           IFP_DETAILS_SID               INT,
+           PS_STATUS                     INT,
+           RS_CHECK_RECORD               BIT,
+           RS_ATTACHED_STATUS            INT,
+           RS_ATTACHED_DATE              DATETIME,
+           ITEM_REBATE_START_DATE        DATETIME,
+           ITEM_REBATE_END_DATE          DATETIME,
+           REBATE_PLAN_SYSTEM_ID         INT,
+           TOTAL_VOLUME_COMMITMENT       VARCHAR(50),
+           TOTAL_DOLLAR_COMMITMENT       VARCHAR(50),
+           TOTAL_MARKET_SHARE_COMMITMNET VARCHAR(50),
+           COMMITMENT_PERIOD             VARCHAR(50),
+           SUGGESTED_PRICE               NUMERIC(22, 6),
+           PRICE                         NUMERIC(22, 6),
+           RECORD_LOCK_STATUS            VARCHAR(20),
+           REBATE_REVISION_DATE          DATETIME,
+           BUNDLE_NO                     VARCHAR(50),
+           FORMULA_METHOD_ID             VARCHAR(50),
+           FORMULA_ID                    VARCHAR(38),
+           FORMULA_NAME                  VARCHAR(50),
+           USERS_SID                     INT,
+           SESSION_ID                    VARCHAR(100),
+           CHECK_RECORD                  BIT,
+           IMTD_CREATED_DATE             DATETIME,
+           OPERATION                     VARCHAR(100),
+           [CREATED_BY]                  INT NOT NULL,
+           [CREATED_DATE]                DATETIME NOT NULL,
+           [MODIFIED_BY]                 INT NOT NULL,
+           [MODIFIED_DATE]               DATETIME NOT NULL
+        )
+  END
+
+GO
+
+----------------------------- COLUMN ADDITION ------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CALENDAR_MASTER_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD DEDUCTION_CALENDAR_MASTER_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BASE_PRICE_DDLB'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BASE_PRICE_DDLB INT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_REBATE_PLAN_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_REBATE_PLAN_NAME VARCHAR(50) NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_FORMULA_NO'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_FORMULA_NO VARCHAR(50) NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'SOURCE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD SOURCE VARCHAR(50)
+  END
+
+GO
+
+-----------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NO'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NO VARCHAR(50)
+  END
+
+GO
+
+------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NAME VARCHAR(50)
+  END
+
+GO
+
+-----------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_FORMULA_MASTER_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_SALES_FORMULA_MASTER_SID INT
+  END
+
+GO
+
+------------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NO'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NO VARCHAR(50)
+  END
+
+GO
+
+------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NAME'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NAME VARCHAR(50)
+  END
+
+GO
+
+-----------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'FORMULA_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD FORMULA_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+-----------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_RULE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_SALES_RULE INT
+  END
+
+GO
+
+------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD EVALUATION_RULE INT
+  END
+
+GO
+
+----------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_BUNDLE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD EVALUATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+-----------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD CALCULATION_RULE INT
+  END
+
+GO
+
+------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_BUNDLE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD CALCULATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+---------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'MAX_INCREMENTAL_CHANGE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD MAX_INCREMENTAL_CHANGE NUMERIC(22, 6)
+  END
+
+GO
+
+-------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_ELIGIBLE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_ELIGIBLE VARCHAR(50)
+  END
+
+GO
+
+---------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_TYPE INT
+  END
+
+GO
+
+--------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_DATE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_DATE DATETIME
+  END
+
+GO
+
+-------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_INTERVAL'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_INTERVAL INT
+  END
+
+GO
+
+---------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_FREQUENCY'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_FREQUENCY INT
+  END
+
+GO
+
+---------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_PRICE_TYPE VARCHAR(50)
+  END
+
+GO
+
+------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_PRICE_TYPE_FORMULA'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_PRICE_TYPE_FORMULA VARCHAR(50)
+  END
+
+GO
+
+-------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'PRICE_PROTECTION_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD PRICE_PROTECTION_PRICE_TYPE INT
+  END
+
+GO
+
+-----------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NEP'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NEP NUMERIC(22, 6)
+  END
+
+GO
+
+----------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NEP_FORMULA'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NEP_FORMULA VARCHAR(50)
+  END
+
+GO
+
+---------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BRAND_MASTER_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BRAND_MASTER_SID INT
+  END
+
+GO
+
+----------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'PRICE_PROTECTION_STATUS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD PRICE_PROTECTION_STATUS INT
+  END
+
+GO
+
+--------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BASE_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BASE_PRICE_TYPE VARCHAR(50)
+  END
+
+GO
+
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BASE_PRICE_ENTRY'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BASE_PRICE_ENTRY VARCHAR(50)
+  END
+
+GO
+
+---------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BASE_PRICE_DATE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BASE_PRICE_DATE DATE
+  END
+
+GO
+
+---------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'BEST_PRICE_DDLB'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD BEST_PRICE_DDLB INT
+  END
+
+GO
+
+----------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_BASE_PRICE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_BASE_PRICE BIT
+  END
+
+GO
+
+-----------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_BASE_PRICE_FORMULA_ID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_BASE_PRICE_FORMULA_ID INT
+  END
+
+GO
+
+-------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'SUBSEQUENT_PERIOD_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD SUBSEQUENT_PERIOD_PRICE_TYPE INT
+  END
+
+GO
+
+-----------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_SUBSEQUENT_PERIOD_PRICE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_SUBSEQUENT_PERIOD_PRICE BIT
+  END
+
+GO
+
+----------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_SUBSEQUENT_PRICE_FORMULA_ID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_SUBSEQUENT_PRICE_FORMULA_ID INT
+  END
+
+GO
+
+-----------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'RESET_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD RESET_PRICE_TYPE INT
+  END
+
+GO
+
+------------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_RESET_PRICE_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_RESET_PRICE_TYPE BIT
+  END
+
+GO
+
+------------------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'NET_RESET_PRICE_FORMULA_ID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD NET_RESET_PRICE_FORMULA_ID INT
+  END
+
+GO
+
+------------------------------------------------------------------------------------
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_IMTD_ITEM_PRICE_REBATE_DETAILS_IMTD_ITEM_PRICE_REBATE_SID'
+                     AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        ADD CONSTRAINT PK_IMTD_ITEM_PRICE_REBATE_DETAILS_IMTD_ITEM_PRICE_REBATE_SID PRIMARY KEY(IMTD_ITEM_PRICE_REBATE_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_ITEM_PRICE_REBATE_DETAILS')
+                      AND NAME = 'DF_IMTD_ITEM_PRICE_REBATE_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_ITEM_PRICE_REBATE_DETAILS_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_ITEM_PRICE_REBATE_DETAILS')
+                      AND NAME = 'DF_IMTD_ITEM_PRICE_REBATE_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_ITEM_PRICE_REBATE_DETAILS_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_ITEM_PRICE_REBATE_DETAILS')
+                      AND NAME = 'DF_IMTD_ITEM_PRICE_REBATE_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_ITEM_PRICE_REBATE_DETAILS_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_ITEM_PRICE_REBATE_DETAILS')
+                      AND NAME = 'DF_IMTD_ITEM_PRICE_REBATE_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_ITEM_PRICE_REBATE_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_ITEM_PRICE_REBATE_DETAILS_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+-----------------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'NET_BASE_PRICE'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.NET_BASE_PRICE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'NET_BASE_PRICE'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_BASE_PRICE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'NET_SUBSEQUENT_PERIOD_PRICE'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.NET_SUBSEQUENT_PERIOD_PRICE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'NET_SUBSEQUENT_PERIOD_PRICE'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_SUBSEQUENT_PERIOD_PRICE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'NET_RESET_PRICE_TYPE'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.NET_RESET_PRICE_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'NET_RESET_PRICE_TYPE'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_RESET_PRICE_TYPE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'BASE_PRICE_ENTRY'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.BASE_PRICE_ENTRY
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'BASE_PRICE_ENTRY'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN BASE_PRICE_ENTRY NUMERIC(22, 6)
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'PRICE_TOLERANCE_FREQUENCY'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.PRICE_TOLERANCE_FREQUENCY
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN PRICE_TOLERANCE_FREQUENCY INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  NAME = 'PRICE_TOLERANCE_TYPE'
+                  AND OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      DROP STATISTICS DBO.IMTD_ITEM_PRICE_REBATE_DETAILS.PRICE_TOLERANCE_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'PRICE_TOLERANCE_TYPE'
+                  AND TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN PRICE_TOLERANCE_TYPE INT
+  END
+
+GO
+
+------------------------------------------------
+--COLUMN ADDITION 5-MAY-2015
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'PRIMARY_UOM')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD PRIMARY_UOM INT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                      AND COLUMN_NAME = 'PACKAGE_SIZE')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ADD PACKAGE_SIZE VARCHAR(100) NULL
+  END
+
+GO
+
+--------------------------------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'ITEM_TYPE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.ITEM_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'ITEM_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN ITEM_TYPE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'REBATE_PROGRAM_TYPE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.REBATE_PROGRAM_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'REBATE_PROGRAM_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN REBATE_PROGRAM_TYPE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC1')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC1
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC1'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC1 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC2')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC2
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC2'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC2 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC3')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC3
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC3'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC3 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC4')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC4
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC4'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC4 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC5')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC5
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC5'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC5 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'UDC6')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.UDC6
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'UDC6'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN UDC6 INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'PRICE_TYPE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.PRICE_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'PRICE_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN PRICE_TYPE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'TOTAL_VOLUME_COMMITMENT')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.TOTAL_VOLUME_COMMITMENT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'TOTAL_VOLUME_COMMITMENT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN TOTAL_VOLUME_COMMITMENT NUMERIC(22, 6) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'TOTAL_DOLLAR_COMMITMENT')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.TOTAL_DOLLAR_COMMITMENT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'TOTAL_DOLLAR_COMMITMENT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN TOTAL_DOLLAR_COMMITMENT NUMERIC(22, 6) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'TOTAL_MARKET_SHARE_COMMITMNET')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.TOTAL_MARKET_SHARE_COMMITMNET
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'TOTAL_MARKET_SHARE_COMMITMNET'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN TOTAL_MARKET_SHARE_COMMITMNET NUMERIC(22, 6) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'PRIMARY_UOM')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.PRIMARY_UOM
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'PRIMARY_UOM'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN PRIMARY_UOM INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'PACKAGE_SIZE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.PACKAGE_SIZE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'PACKAGE_SIZE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN PACKAGE_SIZE VARCHAR(100) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'EVALUATION_RULE_BUNDLE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.EVALUATION_RULE_BUNDLE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'EVALUATION_RULE_BUNDLE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN EVALUATION_RULE_BUNDLE VARCHAR(100) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'CALCULATION_RULE_BUNDLE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.CALCULATION_RULE_BUNDLE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'CALCULATION_RULE_BUNDLE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN CALCULATION_RULE_BUNDLE VARCHAR(100) NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'CALCULATION_RULE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.CALCULATION_RULE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN CALCULATION_RULE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'NET_PRICE_TYPE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.NET_PRICE_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'NET_PRICE_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_PRICE_TYPE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'NET_PRICE_TYPE_FORMULA')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.NET_PRICE_TYPE_FORMULA
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'NET_PRICE_TYPE_FORMULA'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_PRICE_TYPE_FORMULA INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'NEP_FORMULA')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.NEP_FORMULA
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'NEP_FORMULA'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NEP_FORMULA INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'BASE_PRICE_TYPE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.BASE_PRICE_TYPE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'BASE_PRICE_TYPE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN BASE_PRICE_TYPE INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'BASE_PRICE_DATE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.BASE_PRICE_DATE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'BASE_PRICE_DATE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN BASE_PRICE_DATE DATETIME NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'NET_RESET_PRICE_FORMULA_ID')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.NET_RESET_PRICE_FORMULA_ID
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'NET_RESET_PRICE_FORMULA_ID'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN NET_RESET_PRICE_FORMULA_ID INT NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.STATS
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND AUTO_CREATED = 0
+                  AND NAME = 'RESET_ELIGIBLE')
+  BEGIN
+      DROP STATISTICS IMTD_ITEM_PRICE_REBATE_DETAILS.RESET_ELIGIBLE
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_ITEM_PRICE_REBATE_DETAILS'
+                  AND COLUMN_NAME = 'RESET_ELIGIBLE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_ITEM_PRICE_REBATE_DETAILS
+        ALTER COLUMN RESET_ELIGIBLE INT NULL
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'IMTD_ITEM_PRICE_REBATE_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_RS_DETAILS]
+        (
+           IMTD_RS_DETAILS_SID                INT IDENTITY(1, 1) NOT NULL,
+           RS_DETAILS_SID                     INT,
+           RS_MODEL_SID                       INT,
+           REBATE_PLAN_MASTER_SID             INT,
+           CONTRACT_MASTER_SID                INT,
+           CFP_MODEL_SID                      INT,
+           PS_MODEL_SID                       INT,
+           RS_ID                              VARCHAR(38),
+           IFP_MODEL_SID                      INT,
+           ITEM_MASTER_SID                    INT,
+           ITEM_ID                            VARCHAR(38),
+           ITEM_NO                            VARCHAR(50),
+           ITEM_NAME                          VARCHAR(100),
+           RS_DETAILS_ATTACHED_STATUS         INT,
+           RS_DETAILS_ATTACHED_DATE           DATETIME,
+           ITEM_REBATE_START_DATE             DATETIME,
+           ITEM_REBATE_END_DATE               DATETIME,
+           RS_DETAILS_REBATE_AMOUNT           NUMERIC(22, 6),
+           RS_DETAILS_FORMULA_ID              VARCHAR(38),
+           RS_DETAILS_FORMULA_TYPE            VARCHAR(50),
+           RS_DETAILS_FORMULA_METHOD_ID       VARCHAR(38),
+           RS_DETAILS_FORMULA_NO              VARCHAR(50),
+           RS_DETAILS_REBATE_PLAN_NAME        VARCHAR(100),
+           RS_DETAILS_FORMULA_NAME            VARCHAR(100),
+           RS_DETAILS_BUNDLE_NO               VARCHAR(25),
+           UDC1                               VARCHAR(100),
+           UDC2                               VARCHAR(100),
+           UDC3                               VARCHAR(100),
+           UDC4                               VARCHAR(100),
+           UDC5                               VARCHAR(100),
+           UDC6                               VARCHAR(100),
+           RS_DETAILS_CREATED_DATE            DATETIME,
+           RS_DETAILS_CREATED_BY              VARCHAR(50),
+           RS_DETAILS_MODIFIED_DATE           DATETIME,
+           RS_DETAILS_MODIFIED_BY             VARCHAR(50),
+           NET_SALES_FORMULA_MASTER_SID       INT,
+           RS_DETAILS_NET_SALES_FORMULA_NO    VARCHAR(50),
+           RS_DETAILS_NET_SALES_FORMULA_NAME  VARCHAR(100),
+           DEDUCTION_CALENDAR_MASTER_SID      INT,
+           RS_DETAILS_DEDUCTION_CALENDAR_NO   VARCHAR(50),
+           RS_DETAILS_DEDUCTION_CALENDAR_NAME VARCHAR(100),
+           FORMULA_TYPE                       NUMERIC(22, 6),
+           NET_SALES_RULE                     NUMERIC(22, 6),
+           EVALUATION_RULE                    NUMERIC(22, 6),
+           EVALUATION_RULE_BUNDLE             NUMERIC(22, 6),
+           CALCULATION_RULE                   NUMERIC(22, 6),
+           CALCULATION_RULE_BUNDLE            NUMERIC(22, 6),
+           USERS_SID                          VARCHAR(50),
+           SESSION_ID                         VARCHAR(100),
+           CHECK_RECORD                       BIT,
+           IMTD_CREATED_DATE                  DATETIME,
+           OPERATION                          VARCHAR(100),
+           [CREATED_BY]                       INT NOT NULL,
+           [CREATED_DATE]                     DATETIME NOT NULL,
+           [MODIFIED_BY]                      INT NOT NULL,
+           [MODIFIED_DATE]                    DATETIME NOT NULL
+        )
+  END
+
+GO
+
+--------------------COLUMN ADDITION
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_FORMULA_MASTER_SID')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD NET_SALES_FORMULA_MASTER_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'RS_DETAILS_NET_SALES_FORMULA_NO')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD RS_DETAILS_NET_SALES_FORMULA_NO VARCHAR(50)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'RS_DETAILS_NET_SALES_FORMULA_NAME')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD RS_DETAILS_NET_SALES_FORMULA_NAME VARCHAR(100)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CALENDAR_MASTER_SID')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD DEDUCTION_CALENDAR_MASTER_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'RS_DETAILS_DEDUCTION_CALENDAR_NO')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD RS_DETAILS_DEDUCTION_CALENDAR_NO VARCHAR(50)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'RS_DETAILS_DEDUCTION_CALENDAR_NAME')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD RS_DETAILS_DEDUCTION_CALENDAR_NAME VARCHAR(100)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'FORMULA_TYPE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD FORMULA_TYPE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'NET_SALES_RULE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD NET_SALES_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD EVALUATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'EVALUATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD EVALUATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD CALCULATION_RULE NUMERIC(22, 6)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                      AND COLUMN_NAME = 'CALCULATION_RULE_BUNDLE')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ADD CALCULATION_RULE_BUNDLE NUMERIC(22, 6)
+  END
+
+GO
+
+------------------------------------- DATATYPE MODIOFICATION ---------------------
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                  AND COLUMN_NAME = 'NET_SALES_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ALTER COLUMN NET_SALES_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                  AND COLUMN_NAME = 'EVALUATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ALTER COLUMN EVALUATION_RULE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_RS_DETAILS'
+                  AND COLUMN_NAME = 'CALCULATION_RULE'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE IMTD_RS_DETAILS
+        ALTER COLUMN CALCULATION_RULE INT
+  END
+
+GO
+
+----------------------PRIMARY KEY---------------------------------
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_IMTD_RS_DETAILS_IMTD_RS_DETAILS_SID'
+                     AND TABLE_NAME = 'IMTD_RS_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_RS_DETAILS]
+        ADD CONSTRAINT PK_IMTD_RS_DETAILS_IMTD_RS_DETAILS_SID PRIMARY KEY(IMTD_RS_DETAILS_SID)
+  END
+
+GO
+
+------------------------- DEFAULT_CONSTRAINTS --------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_RS_DETAILS')
+                      AND NAME = 'DF_IMTD_RS_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_RS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_RS_DETAILS_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_RS_DETAILS')
+                      AND NAME = 'DF_IMTD_RS_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_RS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_RS_DETAILS_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_RS_DETAILS')
+                      AND NAME = 'DF_IMTD_RS_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_RS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_RS_DETAILS_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.IMTD_RS_DETAILS')
+                      AND NAME = 'DF_IMTD_RS_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_RS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_RS_DETAILS_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'IMTD_RS_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'RS_DETAILS_FR'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[RS_DETAILS_FR]
+        (
+           RS_DETAILS_FR_SID  INT NOT NULL IDENTITY(1, 1),
+           RS_DETAILS_SID     INT NOT NULL,
+           ITEM_MASTER_SID    INT NOT NULL,
+           FORMULA_ID         INT NULL,
+           FORMULA_METHOD_ID  VARCHAR(50) NULL,
+           INBOUND_STATUS     CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS BIT NOT NULL,
+           BATCH_ID           VARCHAR(50) NULL,
+           [SOURCE]           VARCHAR(50) NULL,
+           [CREATED_BY]       INT NOT NULL,
+           [CREATED_DATE]     DATETIME NOT NULL,
+           [MODIFIED_BY]      INT NOT NULL,
+           [MODIFIED_DATE]    DATETIME NOT NULL
+        )
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'RS_DETAILS_FR'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_RS_DETAILS_FR_RS_DETAILS_FR_SID'
+                     AND TYPE = 'PK')
+
+BEGIN
+  ALTER TABLE [DBO].[RS_DETAILS_FR]
+    ADD CONSTRAINT PK_RS_DETAILS_FR_RS_DETAILS_FR_SID PRIMARY KEY(RS_DETAILS_FR_SID)
+END
+
+GO
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS_FR')
+                      AND NAME = 'DF_RS_DETAILS_FR_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_RS_DETAILS_FR_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS_FR')
+                      AND NAME = 'DF_RS_DETAILS_FR_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_RS_DETAILS_FR_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS_FR')
+                      AND NAME = 'DF_RS_DETAILS_FR_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_RS_DETAILS_FR_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS_FR')
+                      AND NAME = 'DF_RS_DETAILS_FR_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_RS_DETAILS_FR_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_DETAILS_FR')
+                      AND NAME = 'DF_RS_DETAILS_FR_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_RS_DETAILS_FR_RECORD_LOCK_STATUS] DEFAULT (1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+-------------------------------------------------HIST_RS_DETAILS_FR---------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'HIST_RS_DETAILS_FR'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[HIST_RS_DETAILS_FR]
+        (
+           RS_DETAILS_FR_SID  INT NOT NULL,
+           RS_DETAILS_SID     INT NOT NULL,
+           ITEM_MASTER_SID    INT NOT NULL,
+           FORMULA_ID         INT NULL,
+           FORMULA_METHOD_ID  VARCHAR(50) NULL,
+           INBOUND_STATUS     CHAR(1) NOT NULL,
+           RECORD_LOCK_STATUS BIT NOT NULL,
+           BATCH_ID           VARCHAR(50) NULL,
+           [SOURCE]           VARCHAR(50) NULL,
+           [CREATED_BY]       INT NOT NULL,
+           [CREATED_DATE]     DATETIME NOT NULL,
+           [MODIFIED_BY]      INT NOT NULL,
+           [MODIFIED_DATE]    DATETIME NOT NULL,
+           ACTION_FLAG        CHAR(1) NOT NULL,
+           ACTION_DATE        DATETIME NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.HIST_RS_DETAILS_FR')
+                      AND NAME = 'DF_HIST_RS_DETAILS_FR_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_RS_DETAILS_FR]
+        ADD CONSTRAINT [DF_HIST_RS_DETAILS_FR_ACTION_DATE] DEFAULT (GETDATE()) FOR ACTION_DATE
+  END
+
+GO
+
+-----------TRIGGERS 
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_FR_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_FR_UPD
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_FR_UPD]
+ON [DBO].[RS_DETAILS_FR]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+         AND EXISTS(SELECT *
+                    FROM   DELETED)
+        INSERT INTO HIST_RS_DETAILS_FR
+                    (RS_DETAILS_FR_SID,
+                     RS_DETAILS_SID,
+                     ITEM_MASTER_SID,
+                     FORMULA_ID,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     [SOURCE],
+                     [CREATED_BY],
+                     [CREATED_DATE],
+                     [MODIFIED_BY],
+                     [MODIFIED_DATE],
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_FR_SID,
+               RS_DETAILS_SID,
+               ITEM_MASTER_SID,
+               FORMULA_ID,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               [SOURCE],
+               [CREATED_BY],
+               [CREATED_DATE],
+               [MODIFIED_BY],
+               [MODIFIED_DATE],
+               'C'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_FR_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_FR_INS
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_FR_INS]
+ON [DBO].[RS_DETAILS_FR]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+        INSERT INTO HIST_RS_DETAILS_FR
+                    (RS_DETAILS_FR_SID,
+                     RS_DETAILS_SID,
+                     ITEM_MASTER_SID,
+                     FORMULA_ID,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     [SOURCE],
+                     [CREATED_BY],
+                     [CREATED_DATE],
+                     [MODIFIED_BY],
+                     [MODIFIED_DATE],
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_FR_SID,
+               RS_DETAILS_SID,
+               ITEM_MASTER_SID,
+               FORMULA_ID,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               [SOURCE],
+               [CREATED_BY],
+               [CREATED_DATE],
+               [MODIFIED_BY],
+               [MODIFIED_DATE],
+               'A'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_DETAILS_FR_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_DETAILS_FR_DEL
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_RS_DETAILS_FR_DEL]
+ON [DBO].[RS_DETAILS_FR]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   DELETED)
+        INSERT INTO HIST_RS_DETAILS_FR
+                    (RS_DETAILS_FR_SID,
+                     RS_DETAILS_SID,
+                     ITEM_MASTER_SID,
+                     FORMULA_ID,
+                     FORMULA_METHOD_ID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     BATCH_ID,
+                     [SOURCE],
+                     [CREATED_BY],
+                     [CREATED_DATE],
+                     [MODIFIED_BY],
+                     [MODIFIED_DATE],
+                     ACTION_FLAG)
+        SELECT RS_DETAILS_FR_SID,
+               RS_DETAILS_SID,
+               ITEM_MASTER_SID,
+               FORMULA_ID,
+               FORMULA_METHOD_ID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               BATCH_ID,
+               [SOURCE],
+               [CREATED_BY],
+               [CREATED_DATE],
+               [MODIFIED_BY],
+               [MODIFIED_DATE],
+               'D'
+        FROM   DELETED
+  END
+
+GO
+
+-----------------------------------------------------IMTD_RS_DETAILS_FR---------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  OBJECT_NAME(OBJECT_ID) = 'IMTD_RS_DETAILS_FR'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_RS_DETAILS_FR]
+        (
+           IMTD_RS_DETAILS_FR_SID INT NOT NULL IDENTITY(1, 1),
+           IMTD_RS_DETAILS_SID    INT,
+           RS_DETAILS_FR_SID      INT,
+           RS_DETAILS_SID         INT NULL,
+           ITEM_MASTER_SID        INT NULL,
+           FORMULA_ID             INT NULL,
+           FORMULA_METHOD_ID      VARCHAR(50) NULL,
+           INBOUND_STATUS         CHAR(1) NULL,
+           RECORD_LOCK_STATUS     BIT NULL,
+           IMTD_CREATED_DATE      DATETIME NULL,
+           OPERATION              CHAR(1),
+           BATCH_ID               VARCHAR(50) NULL,
+           [SOURCE]               VARCHAR(50) NULL,
+           [CREATED_BY]           INT NULL,
+           [CREATED_DATE]         DATETIME NULL,
+           [MODIFIED_BY]          INT NULL,
+           [MODIFIED_DATE]        DATETIME NULL,
+           USERS_ID               VARCHAR(50) NULL,
+           SESSION_ID             VARCHAR(100) NULL
+        )
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'IMTD_RS_DETAILS_FR'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_IMTD_RS_DETAILS_FR_IMTD_RS_DETAILS_FR_SID'
+                     AND TYPE = 'PK')
+  ALTER TABLE [DBO].[IMTD_RS_DETAILS_FR]
+    ADD CONSTRAINT PK_IMTD_RS_DETAILS_FR_IMTD_RS_DETAILS_FR_SID PRIMARY KEY(IMTD_RS_DETAILS_FR_SID)
+
+GO 
+
+

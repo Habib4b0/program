@@ -1,0 +1,1427 @@
+------------------------------------------------------------- WORKFLOW_MASTER -----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[WORKFLOW_MASTER]
+        (
+           [WORKFLOW_MASTER_SID]   INT IDENTITY(1, 1) NOT NULL,
+           [WORKFLOW_ID]           VARCHAR(50) NULL,
+           [PROJECTION_MASTER_SID] INT NULL,
+           [WORKFLOW_STATUS_ID]    INT NULL,
+           [APPROVED_BY]           INT NULL,
+           [CREATED_BY]            INT NULL,
+           [CREATED_DATE]          DATETIME NULL,
+           [MODIFIED_BY]           INT NULL,
+           [MODIFIED_DATE]         DATETIME NULL
+        )
+  END
+
+GO
+
+--PrimaryKey
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.INDEXES
+               WHERE  Object_name(OBJECT_ID) = N'WORKFLOW_MASTER'
+                      AND Object_schema_name(OBJECT_ID) = N'DBO'
+                      AND [NAME] = N'PK_WORKFLOW_MASTER_WORKFLOW_MASTER_SID')
+  BEGIN
+      ALTER TABLE [DBO].[WORKFLOW_MASTER]
+        ADD CONSTRAINT [PK_WORKFLOW_MASTER_WORKFLOW_MASTER_SID] PRIMARY KEY ( [WORKFLOW_MASTER_SID])
+  END
+
+GO
+
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.WORKFLOW_MASTER')
+                      AND NAME = 'DF_WORKFLOW_MASTER_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[WORKFLOW_MASTER]
+        ADD CONSTRAINT DF_WORKFLOW_MASTER_CREATED_BY DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.WORKFLOW_MASTER')
+                      AND NAME = 'DF_WORKFLOW_MASTER_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[WORKFLOW_MASTER]
+        ADD CONSTRAINT [DF_WORKFLOW_MASTER_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+---------WORKFLOW MASTER--------------------
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'ACC_CLOSURE_MASTER_SID'
+                  AND TABLE_NAME = 'WORKFLOW_MASTER'
+                 )
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD ACC_CLOSURE_MASTER_SID INT
+  END 
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'NOTES')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD NOTES VARCHAR(8000) NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'NO_OF_APPROVAL')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD NO_OF_APPROVAL INT NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'APPROVAL_LEVEL')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD APPROVAL_LEVEL INT NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_NAME'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD FILE_NAME	VARCHAR(260)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_SIZE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD FILE_SIZE	VARCHAR(10)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'UPLOADED_BY'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD UPLOADED_BY	VARCHAR(50)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'UPLOADED_DATE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD UPLOADED_DATE	DATETIME
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_TYPE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD FILE_TYPE	varchar(10)
+  END
+GO
+
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_MASTER'
+			AND COLUMN_NAME = 'APPROVED_DATE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_MASTER 
+	ADD APPROVED_DATE DATETIME
+END
+GO
+
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_MASTER'
+			AND COLUMN_NAME = 'WORKFLOW_DESCRPTION'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_MASTER 
+	ADD WORKFLOW_DESCRPTION VARCHAR(30)
+END
+GO
+--CONTRACT_MASTER_SID
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'CONTRACT_MASTER_SID'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD CONTRACT_MASTER_SID INT
+  END
+GO
+---CONTRACT_STRUCTURE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'CONTRACT_STRUCTURE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ADD CONTRACT_STRUCTURE [VARCHAR](100) NULL
+  END
+GO
+---WORKFLOW_DESCRPTION(GAL-9292 Changes)
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'WORKFLOW_DESCRPTION'
+					  AND TABLE_SCHEMA='DBO'
+					  AND CHARACTER_MAXIMUM_LENGTH=30)
+  BEGIN
+      ALTER TABLE WORKFLOW_MASTER
+        ALTER COLUMN  WORKFLOW_DESCRPTION  [VARCHAR](200) NULL
+  END
+GO
+------------------------------------------------------------- HIST_WORKFLOW_MASTER -----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.TABLES
+               WHERE  Object_name(OBJECT_ID) = 'HIST_WORKFLOW_MASTER'
+                      AND Schema_name(SCHEMA_ID) = 'DBO')
+  BEGIN
+
+      CREATE TABLE [DBO].HIST_WORKFLOW_MASTER
+        (
+           WORKFLOW_MASTER_SID   INT   NOT NULL,
+           WORKFLOW_ID           VARCHAR(50) NULL,
+           PROJECTION_MASTER_SID INT NULL,
+           WORKFLOW_STATUS_ID    INT NULL,
+           APPROVED_BY           INT NULL,
+           CREATED_BY            INT NULL,
+           CREATED_DATE          DATETIME NULL,
+           MODIFIED_BY           INT NULL,
+           MODIFIED_DATE         DATETIME NULL,
+           ACTION_FLAG           CHAR(1) NOT NULL,
+           ACTION_DATE           DATETIME NOT NULL
+        )
+  END
+
+GO
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.HIST_WORKFLOW_MASTER')
+                      AND NAME = 'DF_HIST_WORKFLOW_MASTER_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].HIST_WORKFLOW_MASTER
+        ADD CONSTRAINT DF_HIST_WORKFLOW_MASTER_ACTION_DATE DEFAULT (Getdate()) FOR ACTION_DATE
+  END
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'ACC_CLOSURE_MASTER_SID'
+                  AND TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                 )
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD ACC_CLOSURE_MASTER_SID INT
+  END 
+GO
+
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'NOTES')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD NOTES VARCHAR(8000) NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'NO_OF_APPROVAL')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD NO_OF_APPROVAL INT NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'APPROVAL_LEVEL')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD APPROVAL_LEVEL INT NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_NAME'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD FILE_NAME	VARCHAR(260)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_SIZE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD FILE_SIZE	VARCHAR(10)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'UPLOADED_BY'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD UPLOADED_BY	VARCHAR(50)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'UPLOADED_DATE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD UPLOADED_DATE	DATETIME
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'hist_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'FILE_TYPE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE hist_WORKFLOW_MASTER
+        ADD FILE_TYPE	varchar(10)
+  END
+GO
+
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+			AND COLUMN_NAME = 'APPROVED_DATE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].HIST_WORKFLOW_MASTER 
+	ADD APPROVED_DATE DATETIME
+END
+GO
+
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+			AND COLUMN_NAME = 'WORKFLOW_DESCRPTION'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].HIST_WORKFLOW_MASTER 
+	ADD WORKFLOW_DESCRPTION VARCHAR(30)
+END
+GO
+--CONTRACT_MASTER_SID
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'CONTRACT_MASTER_SID'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD CONTRACT_MASTER_SID INT
+  END
+GO
+---CONTRACT_STRUCTURE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'CONTRACT_STRUCTURE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ADD CONTRACT_STRUCTURE [VARCHAR](100) NULL
+  END
+GO
+---WORKFLOW_DESCRPTION(GAL-9292 Changes)
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_WORKFLOW_MASTER'
+                      AND COLUMN_NAME = 'WORKFLOW_DESCRPTION'
+					  AND TABLE_SCHEMA='DBO'
+					  AND CHARACTER_MAXIMUM_LENGTH=30)
+  BEGIN
+      ALTER TABLE HIST_WORKFLOW_MASTER
+        ALTER COLUMN  WORKFLOW_DESCRPTION  [VARCHAR](200) NULL
+  END
+GO
+------------- triggers -----------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_WORKFLOW_MASTER_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_WORKFLOW_MASTER_UPD
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_WORKFLOW_MASTER_UPD]
+ON [dbo].[WORKFLOW_MASTER]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+         AND EXISTS(SELECT *
+                    FROM   DELETED)
+        INSERT INTO HIST_WORKFLOW_MASTER
+                    (WORKFLOW_MASTER_SID,
+                     WORKFLOW_ID,
+                     PROJECTION_MASTER_SID,
+                     WORKFLOW_STATUS_ID,
+                     ACC_CLOSURE_MASTER_SID,
+                     NOTES,
+                     APPROVED_BY,
+                     NO_OF_APPROVAL,
+                     APPROVAL_LEVEL,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     FILE_NAME,
+                     FILE_SIZE,
+                     FILE_TYPE,
+                     UPLOADED_BY,
+                     UPLOADED_DATE,
+					 APPROVED_DATE,
+					 WORKFLOW_DESCRPTION,
+					 CONTRACT_MASTER_SID,
+					 CONTRACT_STRUCTURE)
+        SELECT WORKFLOW_MASTER_SID,
+               WORKFLOW_ID,
+               PROJECTION_MASTER_SID,
+               WORKFLOW_STATUS_ID,
+               ACC_CLOSURE_MASTER_SID,
+               NOTES,
+               APPROVED_BY,
+               NO_OF_APPROVAL,
+               APPROVAL_LEVEL,
+               CREATED_BY,
+               CREATED_DATE,
+               COALESCE(MODIFIED_BY, 1),
+               COALESCE(MODIFIED_DATE, Getdate()),
+               'C',
+               FILE_NAME,
+               FILE_SIZE,
+               FILE_TYPE,
+               UPLOADED_BY,
+               UPLOADED_DATE,
+			   APPROVED_DATE,
+			   WORKFLOW_DESCRPTION,
+			   CONTRACT_MASTER_SID,
+			   CONTRACT_STRUCTURE
+        FROM   INSERTED
+  END
+
+GO 
+
+IF EXISTS (SELECT 1
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_WORKFLOW_MASTER_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_WORKFLOW_MASTER_INS
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_WORKFLOW_MASTER_INS]
+ON [dbo].[WORKFLOW_MASTER]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+        INSERT INTO HIST_WORKFLOW_MASTER
+                    (WORKFLOW_MASTER_SID,
+                     WORKFLOW_ID,
+                     PROJECTION_MASTER_SID,
+                     WORKFLOW_STATUS_ID,
+                     ACC_CLOSURE_MASTER_SID,
+                     NOTES,
+                     APPROVED_BY,
+                     NO_OF_APPROVAL,
+                     APPROVAL_LEVEL,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     FILE_NAME,
+                     FILE_SIZE,
+                     FILE_TYPE,
+                     UPLOADED_BY,
+                     UPLOADED_DATE,
+					 APPROVED_DATE,
+					 WORKFLOW_DESCRPTION,
+					 CONTRACT_MASTER_SID,
+					 CONTRACT_STRUCTURE)
+        SELECT WORKFLOW_MASTER_SID,
+               WORKFLOW_ID,
+               PROJECTION_MASTER_SID,
+               WORKFLOW_STATUS_ID,
+               ACC_CLOSURE_MASTER_SID,
+               NOTES,
+               APPROVED_BY,
+               NO_OF_APPROVAL,
+               APPROVAL_LEVEL,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'A',
+               FILE_NAME,
+               FILE_SIZE,
+               FILE_TYPE,
+               UPLOADED_BY,
+               UPLOADED_DATE,
+			   APPROVED_DATE,
+			   WORKFLOW_DESCRPTION,
+			   CONTRACT_MASTER_SID,
+			   CONTRACT_STRUCTURE
+        FROM   INSERTED
+  END
+
+GO 
+
+IF EXISTS (SELECT 1
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_WORKFLOW_MASTER_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_WORKFLOW_MASTER_DEL
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_WORKFLOW_MASTER_DEL]
+ON [dbo].[WORKFLOW_MASTER]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   DELETED)
+        INSERT INTO HIST_WORKFLOW_MASTER
+                    (WORKFLOW_MASTER_SID,
+                     WORKFLOW_ID,
+                     PROJECTION_MASTER_SID,
+                     WORKFLOW_STATUS_ID,
+                     ACC_CLOSURE_MASTER_SID,
+                     NOTES,
+                     APPROVED_BY,
+                     NO_OF_APPROVAL,
+                     APPROVAL_LEVEL,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     FILE_NAME,
+                     FILE_SIZE,
+                     FILE_TYPE,
+                     UPLOADED_BY,
+                     UPLOADED_DATE,
+					 APPROVED_DATE,
+					 WORKFLOW_DESCRPTION,
+					 CONTRACT_MASTER_SID,
+					 CONTRACT_STRUCTURE)
+        SELECT WORKFLOW_MASTER_SID,
+               WORKFLOW_ID,
+               PROJECTION_MASTER_SID,
+               WORKFLOW_STATUS_ID,
+               ACC_CLOSURE_MASTER_SID,
+               NOTES,
+               APPROVED_BY,
+               NO_OF_APPROVAL,
+               APPROVAL_LEVEL,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'D',
+               FILE_NAME,
+               FILE_SIZE,
+               FILE_TYPE,
+               UPLOADED_BY,
+               UPLOADED_DATE,
+			   APPROVED_DATE,
+			   WORKFLOW_DESCRPTION,
+			   CONTRACT_MASTER_SID,
+			   CONTRACT_STRUCTURE
+        FROM   DELETED
+  END
+
+GO 
+
+------------------------------------------------------------------ HIST_MAIL_NOTIFICATION_MASTER -------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_MAIL_NOTIFICATION_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[HIST_MAIL_NOTIFICATION_MASTER]
+        (
+           [MAIL_NOTIFICATION_SID]    INT NOT NULL,
+           [NOTIFICATION_MODULE]      VARCHAR(100) NULL,
+           [NOTIFICATION_CATEGORY_ID] INT NULL,
+           [FROM_MAIL_ID]             VARCHAR(254) NULL,
+           [TO_MAIL_IDS]              VARCHAR(2000) NULL,
+           [CC_MAIL_IDS]              VARCHAR(2000) NULL,
+           [SUBJECT]                  VARCHAR(250) NULL,
+           [BODY]                     VARCHAR(8000) NULL,
+           [CREATED_BY]               INT NOT NULL,
+           [CREATED_DATE]             DATETIME NOT NULL,
+           [MODIFIED_BY]              INT NOT NULL,
+           [MODIFIED_DATE]            DATETIME NOT NULL,
+           [VERSION_NO]               INT NOT NULL,
+           [ACTION_FLAG]              CHAR(1) NOT NULL,
+           [ACTION_DATE]              DATETIME NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_HIST_MAIL_NOTIFICATION_MASTER_MAIL_NOTIFICATION_SID_VERSION_NO'
+                     AND TABLE_NAME = 'HIST_MAIL_NOTIFICATION_MASTER')
+
+ BEGIN
+  ALTER TABLE [HIST_MAIL_NOTIFICATION_MASTER]
+    ADD CONSTRAINT PK_HIST_MAIL_NOTIFICATION_MASTER_MAIL_NOTIFICATION_SID_VERSION_NO PRIMARY KEY(MAIL_NOTIFICATION_SID, VERSION_NO)
+ END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.HIST_MAIL_NOTIFICATION_MASTER')
+                      AND NAME = 'DF_HIST_MAIL_NOTIFICATION_MASTER_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [dbo].[HIST_MAIL_NOTIFICATION_MASTER]
+        ADD CONSTRAINT [DF_HIST_MAIL_NOTIFICATION_MASTER_ACTION_DATE] DEFAULT (Getdate()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_MAIL_NOTIFICATION_MASTER'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+------------------------------------------------------------------ MAIL_NOTIFICATION_MASTER -------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'MAIL_NOTIFICATION_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[MAIL_NOTIFICATION_MASTER]
+        (
+           [MAIL_NOTIFICATION_SID]    INT IDENTITY(1, 1) NOT NULL,
+           [NOTIFICATION_MODULE]      VARCHAR(100) NULL,
+           [NOTIFICATION_CATEGORY_ID] INT NULL,
+           [FROM_MAIL_ID]             VARCHAR(254) NULL,
+           [TO_MAIL_IDS]              VARCHAR(2000) NULL,
+           [CC_MAIL_IDS]              VARCHAR(2000) NULL,
+           [SUBJECT]                  VARCHAR(250) NULL,
+           [BODY]                     VARCHAR(8000) NULL,
+           [CREATED_BY]               INT NOT NULL,
+           [CREATED_DATE]             DATETIME NOT NULL,
+           [MODIFIED_BY]              INT NOT NULL,
+           [MODIFIED_DATE]            DATETIME NOT NULL,
+           [VERSION_NO]               INT NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_MAIL_NOTIFICATION_MASTER_MAIL_NOTIFICATION_SID'
+                     AND TABLE_NAME = 'MAIL_NOTIFICATION_MASTER')
+BEGIN
+  ALTER TABLE MAIL_NOTIFICATION_MASTER
+    ADD CONSTRAINT PK_MAIL_NOTIFICATION_MASTER_MAIL_NOTIFICATION_SID PRIMARY KEY(MAIL_NOTIFICATION_SID)
+END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('MAIL_NOTIFICATION_MASTER')
+                      AND NAME = 'DF_MAIL_NOTIFICATION_MASTER_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[MAIL_NOTIFICATION_MASTER]
+        ADD CONSTRAINT [DF_MAIL_NOTIFICATION_MASTER_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.MAIL_NOTIFICATION_MASTER')
+                      AND NAME = 'DF_MAIL_NOTIFICATION_MASTER_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[MAIL_NOTIFICATION_MASTER]
+        ADD CONSTRAINT [DF_MAIL_NOTIFICATION_MASTER_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.MAIL_NOTIFICATION_MASTER')
+                      AND NAME = 'DF_MAIL_NOTIFICATION_MASTER_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[MAIL_NOTIFICATION_MASTER]
+        ADD CONSTRAINT [DF_MAIL_NOTIFICATION_MASTER_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.MAIL_NOTIFICATION_MASTER')
+                      AND NAME = 'DF_MAIL_NOTIFICATION_MASTER_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[MAIL_NOTIFICATION_MASTER]
+        ADD CONSTRAINT [DF_MAIL_NOTIFICATION_MASTER_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'MAIL_NOTIFICATION_MASTER'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO 
+
+------------------------------------------------------------- WORKFLOW_PROCESS_INFO -----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'WORKFLOW_PROCESS_INFO'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[WORKFLOW_PROCESS_INFO]
+        (
+           [WORKFLOW_PROCESS_INFO_SID] [INT] IDENTITY(1, 1) NOT NULL,
+           [PROJECTION_MASTER_SID]     [INT] NULL,
+           [PROCESS_INSTANCE_ID]       [INT] NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_WORKFLOW_PROCESS_INFO_WORKFLOW_PROCESS_INFO_SID'
+                 AND TABLE_NAME = 'WORKFLOW_PROCESS_INFO')
+  BEGIN
+      ALTER TABLE [DBO].[WORKFLOW_PROCESS_INFO]
+        ADD CONSTRAINT PK_WORKFLOW_PROCESS_INFO_WORKFLOW_PROCESS_INFO_SID PRIMARY KEY(WORKFLOW_PROCESS_INFO_SID)
+  END
+
+GO
+
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'WORKFLOW_PROCESS_INFO')
+  BEGIN
+      IF NOT EXISTS (SELECT 1
+                     FROM   SYS.KEY_CONSTRAINTS
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                        AND PARENT_OBJECT_ID = Object_Id('WORKFLOW_PROCESS_INFO')
+                        AND NAME = 'UQ_WORKFLOW_PROCESS_INFO_PROCESS_INSTANCE_ID')
+        BEGIN
+            ALTER TABLE WORKFLOW_PROCESS_INFO
+              ADD CONSTRAINT UQ_WORKFLOW_PROCESS_INFO_PROCESS_INSTANCE_ID UNIQUE([PROCESS_INSTANCE_ID])
+        END
+  END
+
+GO
+-------------------------------- Addition for Accounting Closure
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_PROCESS_INFO'
+                      AND COLUMN_NAME = 'ACC_CLOSURE_MASTER_SID'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_PROCESS_INFO
+        ADD ACC_CLOSURE_MASTER_SID INT 
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'WORKFLOW_PROCESS_INFO'
+		   AND COLUMN_NAME='ROLEID'
+                 )
+  BEGIN
+      ALTER TABLE WORKFLOW_PROCESS_INFO
+        ADD ROLEID BIGINT 
+  END 
+GO
+
+--CONTRACT_MASTER_SID
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_PROCESS_INFO'
+                      AND COLUMN_NAME = 'CONTRACT_MASTER_SID'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_PROCESS_INFO
+        ADD CONTRACT_MASTER_SID int
+  END
+GO
+---CONTRACT_STRUCTURE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_PROCESS_INFO'
+                      AND COLUMN_NAME = 'CONTRACT_STRUCTURE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_PROCESS_INFO
+        ADD CONTRACT_STRUCTURE [VARCHAR](100) NULL
+  END
+GO
+
+IF NOT EXISTS (SELECT '1'
+       FROM  INFORMATION_SCHEMA.COLUMNS
+       WHERE TABLE_NAME = 'WORKFLOW_PROCESS_INFO '
+             AND COLUMN_NAME = 'CFF_MASTER_SID'
+             AND TABLE_SCHEMA='DBO')
+
+BEGIN
+      ALTER TABLE [DBO].WORKFLOW_PROCESS_INFO  
+	  ADD CFF_MASTER_SID INT
+END 
+GO 
+
+------------------------------------- WORKFLOW_INBOX --------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'WORKFLOW_INBOX'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[WORKFLOW_INBOX]
+        (
+           [WORKFLOW_INBOX_SID]    INT IDENTITY(1, 1) NOT NULL,
+           [VIEW_NAME]             VARCHAR(50) NOT NULL,
+           [VIEW_TYPE]             VARCHAR(10) NOT NULL,
+           [BUSINESS_PROCESS]      VARCHAR(50) NOT NULL,
+           [GL_COMPANY_MASTER_SID] INT NULL,
+           [WORKFLOW_ID]           VARCHAR(50) NULL,
+           [WORKFLOW_NAME]         VARCHAR(50) NULL,
+           [WORKFLOW_STATUS]       INT NULL,
+           [APPROVED_BY]           INT NULL,
+           [WF_CREATED_BY]         INT NULL,
+           [CREATION_FROM_DATE]    DATETIME NULL,
+           [CREATION_TO_DATE]      DATETIME NULL,
+           [CREATED_BY]            INT NOT NULL,
+           [CREATED_DATE]          DATETIME NOT NULL,
+           [MODIFIED_BY]           INT NULL,
+           [MODIFIED_DATE]         DATETIME NULL
+        )
+  END
+
+GO
+
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'WORKFLOW_INBOX'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_WORKFLOW_INBOX_WORKFLOW_INBOX_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[WORKFLOW_INBOX]
+        ADD CONSTRAINT [PK_WORKFLOW_INBOX_WORKFLOW_INBOX_SID] PRIMARY KEY ([WORKFLOW_INBOX_SID])
+  END
+
+GO 
+
+
+--------------------------------- workflow inbox column addition starts here----------------------------------------
+
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'WORKFLOW_DESCRIPTION'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD WORKFLOW_DESCRIPTION VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'APPROVED_DATE_FROM'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD APPROVED_DATE_FROM DATETIME
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'APPROVED_DATE_TO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD APPROVED_DATE_TO DATETIME
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'CONTRACT_ID'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD CONTRACT_ID VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'CONTRACT_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD CONTRACT_NO VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'CONTRACT_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD CONTRACT_NAME VARCHAR(100)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'CONTRACT_TYPE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD CONTRACT_TYPE INT
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'COMPANY_ID'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD COMPANY_ID VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'COMPANY_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD COMPANY_NO VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'COMPANY_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD COMPANY_NAME VARCHAR(100)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'ITEM_ID'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD ITEM_ID VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'ITEM_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD ITEM_NO VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'ITEM_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD ITEM_NAME VARCHAR(100)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'DEDUCTION_LEVEL'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD DEDUCTION_LEVEL VARCHAR(50)
+END
+GO
+
+--------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (
+		SELECT '1'
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'DEDUCTION_VALUE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE [DBO].WORKFLOW_INBOX 
+	ADD DEDUCTION_VALUE INT
+END
+GO
+--------------------MISSING SCRIPT for gal-11152 starts here
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'BUSINESS_UNIT'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD BUSINESS_UNIT INT NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'BRAND_ID'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD BRAND_ID VARCHAR(50) NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'BRAND_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD BRAND_NAME VARCHAR(50) NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'GL_DATE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD GL_DATE DATETIME NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'DEDUCTION_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD DEDUCTION_NO VARCHAR(50) NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'DEDUCTION_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD DEDUCTION_NAME VARCHAR(50) NULL
+END
+GO
+
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'WORKFLOW_INBOX'
+			AND COLUMN_NAME = 'ADJUSTMENT_TYPE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE WORKFLOW_INBOX ADD ADJUSTMENT_TYPE VARCHAR(500) NULL
+END
+GO
+--------------------MISSING SCRIPT for gal-11152 ends here
+
+------------------------------------------
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_INBOX'
+                      AND COLUMN_NAME = 'BUSINESSUNITID'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_INBOX
+        ADD BUSINESSUNITID VARCHAR(100)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_INBOX'
+                      AND COLUMN_NAME = 'BUSINESSUNITNO'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_INBOX
+        ADD BUSINESSUNITNO VARCHAR(100)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'WORKFLOW_INBOX'
+                      AND COLUMN_NAME = 'BUSINESSUNITNAME'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE WORKFLOW_INBOX
+        ADD BUSINESSUNITNAME VARCHAR(100)
+  END
+GO
+
+
+
+--------------------------------- workflow inbox column addition ends here----------------------------------------

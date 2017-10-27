@@ -1,0 +1,140 @@
+-------------------------------------   ACCRUAL_RATE_ACTUALS --------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ACCRUAL_RATE_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].ACCRUAL_RATE_ACTUALS
+        (
+           ACCRUAL_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACCRUAL_RATE             NUMERIC(22, 6) NULL,
+           ACCRUAL_AMOUNT           NUMERIC(22, 6) NULL,
+           PAYMENTS                 NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_RATE     NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_AMOUNT   NUMERIC(22, 6) NULL,
+           EFFECTIVE_ACCRUAL_RATE   NUMERIC(22, 6) NULL,
+        )
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ACCRUAL_RATE_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ACCRUAL_RATE_ACTUALS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ACCRUAL_RATE_ACTUALS
+        ADD CONSTRAINT PK_ACCRUAL_RATE_ACTUALS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID PRIMARY KEY (ACCRUAL_PROJ_DETAILS_SID, PERIOD_SID)
+  END
+
+GO
+
+-------------------------------------   ST_ACCRUAL_RATE_ACTUALS --------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ACCRUAL_RATE_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].ST_ACCRUAL_RATE_ACTUALS
+        (
+           ACCRUAL_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACCRUAL_RATE             NUMERIC(22, 6) NULL,
+           ACCRUAL_AMOUNT           NUMERIC(22, 6) NULL,
+           PAYMENTS                 NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_RATE     NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_AMOUNT   NUMERIC(22, 6) NULL,
+           EFFECTIVE_ACCRUAL_RATE   NUMERIC(22, 6) NULL,
+           USER_ID                  INT NOT NULL,
+           SESSION_ID               INT NOT NULL
+        )
+  END
+
+GO
+
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ACCRUAL_RATE_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ACCRUAL_RATE_ACTUALS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ST_ACCRUAL_RATE_ACTUALS
+        ADD CONSTRAINT PK_ST_ACCRUAL_RATE_ACTUALS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (ACCRUAL_PROJ_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END
+
+GO
+
+-------------------------------------   ACCRUAL_RATE_DETAILS--------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ACCRUAL_RATE_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].ACCRUAL_RATE_DETAILS
+        (
+           ACCRUAL_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACCRUAL_RATE             NUMERIC(22, 6) NULL,
+           ACCRUAL_AMOUNT           NUMERIC(22, 6) NULL,
+           PAYMENTS                 NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_RATE     NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_AMOUNT   NUMERIC(22, 6) NULL,
+           EFFECTIVE_ACCRUAL_RATE   NUMERIC(22, 6) NULL
+        )
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ACCRUAL_RATE_DETAILS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ACCRUAL_RATE_DETAILS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ACCRUAL_RATE_DETAILS
+        ADD CONSTRAINT PK_ACCRUAL_RATE_DETAILS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID PRIMARY KEY (ACCRUAL_PROJ_DETAILS_SID, PERIOD_SID)
+  END
+
+GO
+
+-------------------------------------   ST_ACCRUAL_RATE_DETAILS --------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ACCRUAL_RATE_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].ST_ACCRUAL_RATE_DETAILS
+        (
+           ACCRUAL_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACCRUAL_RATE             NUMERIC(22, 6) NULL,
+           ACCRUAL_AMOUNT           NUMERIC(22, 6) NULL,
+           PAYMENTS                 NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_RATE     NUMERIC(22, 6) NULL,
+           DETAILS_ACCRUAL_AMOUNT   NUMERIC(22, 6) NULL,
+           EFFECTIVE_ACCRUAL_RATE   NUMERIC(22, 6) NULL,
+           USER_ID                  INT NOT NULL,
+           SESSION_ID               INT NOT NULL
+        )
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ACCRUAL_RATE_DETAILS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ACCRUAL_RATE_DETAILS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ST_ACCRUAL_RATE_DETAILS
+        ADD CONSTRAINT PK_ST_ACCRUAL_RATE_DETAILS_ACCRUAL_PROJ_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (ACCRUAL_PROJ_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END
+
+GO

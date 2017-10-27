@@ -1,0 +1,59 @@
+IF EXISTS (
+              SELECT 'X'
+              FROM INFORMATION_SCHEMA.VIEWS
+              WHERE TABLE_NAME = 'VW_IVLD_RETURN_RESERVE'
+                     AND TABLE_SCHEMA = 'dbo'
+              )
+BEGIN
+       DROP VIEW [dbo].[VW_IVLD_RETURN_RESERVE]
+END
+GO
+
+CREATE VIEW [dbo].[VW_IVLD_RETURN_RESERVE]
+AS
+SELECT A.IVLD_RETURN_RESERVE_SID
+       ,A.RETURN_RESERVE_INTF_ID
+       ,A.YEAR
+       ,A.MONTH
+       ,A.BRAND_ID
+       ,A.BRAND_NAME
+       ,A.ITEM_ID
+       ,A.ITEM_NO
+       ,A.ITEM_NAME
+       ,A.UNITS
+       ,A.AMOUNT
+       ,A.COUNTRY,
+	   A.BUSINESS_UNIT,--Company_id
+       BU.COMPANY_NAME AS BUSINESS_UNIT_NAME,
+	   A.GL_COMPANY,--Company id
+       GL.COMPANY_ID,--Gl comp
+       A.COMPANY_NO,--Some company
+       GL.COMPANY_NAME,-- Gl comp
+       A.DIVISION
+       ,A.COST_CENTER
+       ,A.ACCOUNT
+       ,A.PROJECT
+       ,A.FUTURE1
+       ,A.FUTURE2
+       ,A.UDC1
+       ,A.UDC2
+       ,A.UDC3
+       ,A.UDC4
+       ,A.UDC5
+       ,A.UDC6
+       ,A.ADD_CHG_DEL_INDICATOR
+       ,A.CREATED_BY
+       ,A.CREATED_DATE
+       ,A.MODIFIED_BY
+       ,A.MODIFIED_DATE
+       ,A.BATCH_ID
+       ,A.SOURCE
+       ,A.INTF_INSERTED_DATE
+       ,A.REASON_FOR_FAILURE
+       ,A.ERROR_CODE
+       ,A.ERROR_FIELD
+       ,A.REPROCESSED_FLAG
+FROM IVLD_RETURN_RESERVE A
+JOIN COMPANY_MASTER GL ON GL.COMPANY_ID = A.GL_COMPANY
+JOIN COMPANY_MASTER BU ON BU.COMPANY_ID = A.BUSINESS_UNIT
+GO

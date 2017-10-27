@@ -1,0 +1,3459 @@
+--------------------------------------------------------------ARM_PIPELINE_SALES----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_SALES' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_PIPELINE_SALES 
+        ( 
+           PROJECTION_MASTER_SID  INT NOT NULL, 
+           ITEM_MASTER_SID        INT NOT NULL, 
+           PERIOD_SID             INT NOT NULL, 
+           TOTAL_UNITS            NUMERIC(22, 6) NULL, 
+           TOTAL_SALES            NUMERIC(22, 6) NULL, 
+           EXCLUDED_UNITS         NUMERIC(22, 6) NULL, 
+           EXCLUDED_SALES         NUMERIC(22, 6) NULL, 
+           NET_UNITS              NUMERIC(22, 6) NULL, 
+           NET_SALES              NUMERIC(22, 6) NULL, 
+           PRICE                  NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE         NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_SALES   NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE         NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE_PERCENT NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_PIPELINE_SALES' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_PIPELINE_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_SALES 
+        ADD CONSTRAINT PK_ARM_PIPELINE_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID PRIMARY KEY ( PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_PIPELINE_SALES' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+----------------------------------------------------------ARM_PIPELINE_SALES----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_SALES' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_PIPELINE_SALES 
+        ( 
+           PROJECTION_MASTER_SID  INT NOT NULL, 
+           ITEM_MASTER_SID        INT NOT NULL, 
+           PERIOD_SID             INT NOT NULL, 
+           TOTAL_UNITS            NUMERIC(22, 6) NULL, 
+           TOTAL_SALES            NUMERIC(22, 6) NULL, 
+           EXCLUDED_UNITS         NUMERIC(22, 6) NULL, 
+           EXCLUDED_SALES         NUMERIC(22, 6) NULL, 
+           NET_UNITS              NUMERIC(22, 6) NULL, 
+           NET_SALES              NUMERIC(22, 6) NULL, 
+           PRICE                  NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE         NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_SALES   NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE         NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE_PERCENT NUMERIC(22, 6) NULL, 
+           USER_ID                INT NOT NULL, 
+           SESSION_ID             INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_PIPELINE_SALES' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_PIPELINE_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_SALES 
+        ADD CONSTRAINT PK_ST_ARM_PIPELINE_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_PIPELINE_SALES' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_PIPELINE_EXCLUSION_DETAILS----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_EXCLUSION_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_PIPELINE_EXCLUSION_DETAILS 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           COMPANY_MASTER_SID    INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_PIPELINE_EXCLUSION_DETAILS' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_PIPELINE_EXCLUSION_DETAILS_PROJECTION_MASTER_SID_COMPANY_MASTER_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_EXCLUSION_DETAILS 
+        ADD CONSTRAINT PK_ARM_PIPELINE_EXCLUSION_DETAILS_PROJECTION_MASTER_SID_COMPANY_MASTER_SID PRIMARY KEY ( PROJECTION_MASTER_SID, COMPANY_MASTER_SID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_PIPELINE_EXCLUSION_DETAILS' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_PIPELINE_EXCLUSION_DETAILS----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_EXCL_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_PIPELINE_EXCL_DETAILS 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           COMPANY_MASTER_SID    INT NOT NULL, 
+           USER_ID               INT NOT NULL, 
+           SESSION_ID            INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_PIPELINE_EXCL_DETAILS' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_PIPELINE_EXCL_DETAILS_PROJECTION_MASTER_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_EXCL_DETAILS 
+        ADD CONSTRAINT PK_ST_ARM_PIPELINE_EXCL_DETAILS_PROJECTION_MASTER_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID PRIMARY KEY ( PROJECTION_MASTER_SID, COMPANY_MASTER_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_PIPELINE_EXCL_DETAILS' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_PIPELINE_RATE----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_PIPELINE_RATE 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           RATE                       NUMERIC(22, 6) NULL, 
+           CURRENT_PIPELINE_ACCRUAL   NUMERIC(22, 6) NULL, 
+           PROJECTED_PIPELINE_ACCRUAL NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_PIPELINE_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_PIPELINE_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_RATE 
+        ADD CONSTRAINT PK_ARM_PIPELINE_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID )
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'SALES_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_RATE 
+        ADD SALES_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'DISCOUNT_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_RATE 
+        ADD DISCOUNT_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ARM_PIPELINE_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ARM_PIPELINE_RATE ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_PIPELINE_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_PIPELINE_RATE' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_PIPELINE_RATE----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_PIPELINE_RATE 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           RATE                       NUMERIC(22, 6) NULL, 
+           CURRENT_PIPELINE_ACCRUAL   NUMERIC(22, 6) NULL, 
+           PROJECTED_PIPELINE_ACCRUAL NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+ GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_PIPELINE_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_PIPELINE_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_RATE 
+        ADD CONSTRAINT PK_ST_ARM_PIPELINE_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'SALES_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_RATE 
+        ADD SALES_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'DISCOUNT_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_RATE 
+        ADD DISCOUNT_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_PIPELINE_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	 ALTER TABLE ST_ARM_PIPELINE_RATE 
+	   ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_PIPELINE_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_PIPELINE_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_PIPELINE_RATE' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_TR_INVENTORY_DETAILS----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_TR_INVENTORY_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_TR_INVENTORY_DETAILS 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           CHECK_RECORD          BIT NOT NULL, 
+           INDICATOR             BIT NULL, 
+           COMPANY_MASTER_SID    INT NULL, 
+           COMPANY_GROUP_SID     INT NULL 
+        ) 
+  END 
+
+GO
+-----------PRIMARY KEY CONSTRAINTS-------------------- 
+--IF NOT EXISTS ( 
+--    SELECT 1 
+--    FROM SYS.KEY_CONSTRAINTS 
+--    WHERE OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_TR_INVENTORY_DETAILS' 
+--      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+--      AND NAME = 'PK_ARM_TR_INVENTORY_DETAILS_PROJECTION_MASTER_PROJECTION_MASTER_SID' 
+--      AND TYPE = 'PK' 
+--    ) 
+--BEGIN 
+--  ALTER TABLE ARM_TR_INVENTORY_DETAILS ADD CONSTRAINT PK_ARM_TR_INVENTORY_DETAILS_PROJECTION_MASTER_PROJECTION_MASTER_SID PRIMARY KEY (PROJECTION_MASTER_SID)
+--END 
+--GO 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_TR_INVENTORY_DETAILS' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_TR_INVENTORY_DETAILS----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_TR_INVENTORY_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_TR_INVENTORY_DETAILS 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           CHECK_RECORD          BIT NOT NULL, 
+           INDICATOR             BIT NULL, 
+           COMPANY_MASTER_SID    INT NULL, 
+           COMPANY_GROUP_SID     INT NULL, 
+           USER_ID               INT NOT NULL, 
+           SESSION_ID            INT NOT NULL 
+        ) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_TR_INVENTORY_DETAILS' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_INVENTORY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_INVENTORY 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           ITEM_MASTER_SID       INT NOT NULL, 
+           COMP_CUST_MASTER_SID  INT NOT NULL, 
+           PERIOD_SID            INT NOT NULL, 
+           INVENTORY_UNITS       NUMERIC(22, 6) NULL, 
+           TOTAL_INVENTORY       NUMERIC(22, 6) NULL, 
+           WEEKS_ON_HAND         NUMERIC(22, 6) NULL, 
+           UNITS_PER_RETAIL      NUMERIC(22, 6) NULL, 
+           PRICE                 NUMERIC(22, 6) NULL, 
+           RETURN_RESERVE        NUMERIC(22, 6) NULL, 
+           NET_PIPELINE_VALUE    NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE        NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+-----------PRICE_OVERRIDE 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY' 
+                      AND COLUMN_NAME = 'PRICE_OVERRIDE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY 
+        ADD PRICE_OVERRIDE NUMERIC(22, 6) NULL 
+  END 
+
+GO 
+--DEMAND_UNITS
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_INVENTORY'
+                      AND COLUMN_NAME = 'DEMAND_UNITS'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_INVENTORY
+        ADD DEMAND_UNITS NUMERIC(22,6)
+  END
+GO
+
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_INVENTORY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMP_CUST_MASTER_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY 
+        ADD CONSTRAINT PK_ARM_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMP_CUST_MASTER_SID_PERIOD_SID PRIMARY KEY ( PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMP_CUST_MASTER_SID, PERIOD_SID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_INVENTORY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_INVENTORY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_INVENTORY 
+        ( 
+           PROJECTION_MASTER_SID INT NOT NULL, 
+           ITEM_MASTER_SID       INT NOT NULL, 
+           COMP_CUST_MASTER_SID  INT NOT NULL, 
+           PERIOD_SID            INT NOT NULL, 
+           INVENTORY_UNITS       NUMERIC(22, 6) NULL, 
+           TOTAL_INVENTORY       NUMERIC(22, 6) NULL, 
+           WEEKS_ON_HAND         NUMERIC(22, 6) NULL, 
+           UNITS_PER_RETAIL      NUMERIC(22, 6) NULL, 
+           PRICE                 NUMERIC(22, 6) NULL, 
+           RETURN_RESERVE        NUMERIC(22, 6) NULL, 
+           NET_PIPELINE_VALUE    NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE        NUMERIC(22, 6) NULL, 
+           USER_ID               INT NOT NULL, 
+           SESSION_ID            INT NOT NULL 
+        ) 
+  END 
+
+GO
+
+-----------PRICE_OVERRIDE 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY' 
+                      AND COLUMN_NAME = 'PRICE_OVERRIDE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY 
+        ADD PRICE_OVERRIDE NUMERIC(22, 6) NULL 
+  END 
+
+GO 
+
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_INVENTORY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMP_CUST_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY 
+        ADD CONSTRAINT PK_ST_ARM_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMP_CUST_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMP_CUST_MASTER_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_INVENTORY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_INVENTORY_RATE----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_INVENTORY_RATE 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID   INT NOT NULL, 
+           PERIOD_SID                   INT NOT NULL, 
+           RATE                         NUMERIC(22, 6) NULL, 
+           CURRENT_PIPELINE_INVENTORY   NUMERIC(22, 6) NULL, 
+           PROJECTED_PIPELINE_INVENTORY NUMERIC(22, 6) NULL, 
+           PIPELINE_RATIO               NUMERIC(22, 6) NULL, 
+           VARIANCE                     NUMERIC(22, 6) NULL, 
+           OVERRIDE                     NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_INVENTORY_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_INVENTORY_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY_RATE 
+        ADD CONSTRAINT PK_ARM_INVENTORY_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID )
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'SALES_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY_RATE 
+        ADD SALES_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'DISCOUNT_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY_RATE 
+        ADD DISCOUNT_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ARM_INVENTORY_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ARM_INVENTORY_RATE 
+	   ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INVENTORY_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_INVENTORY_RATE' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+-----------------------------------------------------------------ST_ARM_INVENTORY_RATE----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_INVENTORY_RATE 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID   INT NOT NULL, 
+           PERIOD_SID                   INT NOT NULL, 
+           RATE                         NUMERIC(22, 6) NULL, 
+           CURRENT_PIPELINE_INVENTORY   NUMERIC(22, 6) NULL, 
+           PROJECTED_PIPELINE_INVENTORY NUMERIC(22, 6) NULL, 
+           PIPELINE_RATIO               NUMERIC(22, 6) NULL, 
+           VARIANCE                     NUMERIC(22, 6) NULL, 
+           OVERRIDE                     NUMERIC(22, 6) NULL, 
+           USER_ID                      INT NOT NULL, 
+           SESSION_ID                   INT NOT NULL 
+        ) 
+  END 
+
+ GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_INVENTORY_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_INVENTORY_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY_RATE 
+        ADD CONSTRAINT PK_ST_ARM_INVENTORY_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'SALES_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY_RATE 
+        ADD SALES_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'DISCOUNT_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY_RATE 
+        ADD DISCOUNT_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_INVENTORY_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ST_ARM_INVENTORY_RATE 
+	   ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INVENTORY_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INVENTORY_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_INVENTORY_RATE' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_ADJ_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_ADJ_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_DEMAND_ADJ_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           PROJ_TOTAL_DEMAND_ACCRUAL  NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_RATIO       NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_DEMAND_ADJ_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DEMAND_ADJ_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_ADJ_SUMMARY 
+        ADD CONSTRAINT PK_ARM_DEMAND_ADJ_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID )
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ARM_DEMAND_ADJ_SUMMARY'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ARM_DEMAND_ADJ_SUMMARY ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_ADJ_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_ADJ_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_ADJ_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_ADJ_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_DEMAND_ADJ_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_ADJ_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_ADJ_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_DEMAND_ADJ_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           PROJ_TOTAL_DEMAND_ACCRUAL  NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_RATIO       NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_DEMAND_ADJ_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DEMAND_ADJ_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_ADJ_SUMMARY 
+        ADD CONSTRAINT PK_ARM_DEMAND_ADJ_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_DEMAND_ADJ_SUMMARY'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ST_ARM_DEMAND_ADJ_SUMMARY 
+	    ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_ADJ_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_ADJ_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_ADJ_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_ADJ_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_DEMAND_ADJ_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_RF_TRUE_UP_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RF_TRUE_UP_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_DEMAND_RF_TRUE_UP_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           PROJ_TOTAL_DEMAND_ACCRUAL  NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_RATIO       NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_DEMAND_RF_TRUE_UP_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DEMAND_RF_TRUE_UP_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RF_TRUE_UP_SUMMARY 
+        ADD CONSTRAINT PK_ARM_DEMAND_RF_TRUE_UP_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID )
+  END 
+
+GO 
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RF_TRUE_UP_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RF_TRUE_UP_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RF_TRUE_UP_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RF_TRUE_UP_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_DEMAND_RF_TRUE_UP_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_RF_TRUE_UP_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_DEM_RF_TRUE_UP_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           PROJ_TOTAL_DEMAND_ACCRUAL  NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_RATIO       NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_DEM_RF_TRUE_UP_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEM_RF_TRUE_UP_SUMMARY 
+        ADD CONSTRAINT PK_ST_ARM_DEM_RF_TRUE_UP_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE ST_ARM_DEM_RF_TRUE_UP_SUMMARY ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+END
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEM_RF_TRUE_UP_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEM_RF_TRUE_UP_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_DEM_RF_TRUE_UP_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_RECON_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RECON_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_DEMAND_RECON_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           DEMAND_PAYMENT_RECON       NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           ACTUAL_PAYMENTS            NUMERIC(22, 6) NULL, 
+           PAYMENT_RATIO              NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL 
+        ) 
+  END
+ 
+ GO 
+
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_DEMAND_RECON_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DEMAND_RECON_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RECON_SUMMARY 
+        ADD CONSTRAINT PK_ARM_DEMAND_RECON_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID )
+  END 
+
+GO 
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RECON_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RECON_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DEMAND_RECON_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DEMAND_RECON_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ARM_DEMAND_RECON_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------------------------------ARM_DEMAND_RECON_SUMMARY----------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_RECON_SUMMARY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ST_ARM_DEMAND_RECON_SUMMARY 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           DEMAND_ACCRUAL             NUMERIC(22, 6) NULL, 
+           DEMAND_ACCRUAL_REFORECAST  NUMERIC(22, 6) NULL, 
+           DEMAND_PAYMENT_RECON       NUMERIC(22, 6) NULL, 
+           TOTAL_DEMAND_ACCRUAL       NUMERIC(22, 6) NULL, 
+           ACTUAL_PAYMENTS            NUMERIC(22, 6) NULL, 
+           PAYMENT_RATIO              NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           PROJECTED_RATE             NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+GO
+---------PRIMARY KEY CONSTRAINTS-------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_DEMAND_RECON_SUMMARY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_DEMAND_RECON_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_RECON_SUMMARY 
+        ADD CONSTRAINT PK_ST_ARM_DEMAND_RECON_SUMMARY_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_DEMAND_RECON_SUMMARY'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+ BEGIN
+	ALTER TABLE ST_ARM_DEMAND_RECON_SUMMARY 
+	   ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+ END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_RECON_SUMMARY' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_RECON_SUMMARY 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DEMAND_RECON_SUMMARY' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DEMAND_RECON_SUMMARY 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ARM_DEMAND_RECON_SUMMARY' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+------------------------------------- ARM_INFLATION_INVENTORY---------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_INFLATION_INVENTORY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ARM_INFLATION_INVENTORY] 
+        ( 
+           PROJECTION_MASTER_SID      INT NOT NULL, 
+           ITEM_MASTER_SID            INT NOT NULL, 
+           COMPANY_MASTER_SID         INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           TOTAL_INVENTORY            NUMERIC(22, 6) NULL, 
+           BASELINE_PRICE             NUMERIC(22, 6) NULL, 
+           BASELINE_PRICE_OVERRIDE    NUMERIC(22, 6) NULL, 
+           ADJUSTED_PRICE             NUMERIC(22, 6) NULL, 
+           ADJUSTED_PRICE_OVERRIDE    NUMERIC(22, 6) NULL, 
+           PRICE_CHANGE               NUMERIC(22, 6) NULL, 
+           PRICE_CHANGE_PERCENT       NUMERIC(22, 6) NULL, 
+           BASELINE_CALCULATED_AMOUNT NUMERIC(22, 6) NULL, 
+           ADJUSTED_CALCULATED_AMOUNT NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_AMOUNT      NUMERIC(22, 6) NULL, 
+           INFLATION_FACTOR           NUMERIC(22, 6) NULL, 
+           INFLATION_ADJUSTMENT       NUMERIC(22, 6) NULL, 
+        ) 
+  END 
+
+GO 
+
+---------------------------------------PK_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID------------------------------------------------ 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_INFLATION_INVENTORY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ARM_INFLATION_INVENTORY 
+        ADD CONSTRAINT PK_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMPANY_MASTER_SID, PERIOD_SID)
+  END 
+
+GO
+----------------------------------- ARM_INFLATION_INVENTORY_ADJ----------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_INFLATION_INVENTORY_ADJ' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ARM_INFLATION_INVENTORY_ADJ] 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           CURRENT_BALANCE            NUMERIC(22, 6) NULL, 
+           CALCULATED_ADJUSTMENT      NUMERIC(22, 6) NULL, 
+           ADJUSTMENT_RATIO           NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO 
+
+-----------------------------------PK_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID---------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_INFLATION_INVENTORY_ADJ' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ARM_INFLATION_INVENTORY_ADJ 
+        ADD CONSTRAINT PK_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID)
+  END 
+
+GO 
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_INFLATION_INVENTORY_ADJ'
+                      AND COLUMN_NAME = 'TEMP_OVERRIDE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_INFLATION_INVENTORY_ADJ
+        ADD TEMP_OVERRIDE NUMERIC(22,6)
+  END
+
+GO 
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INFLATION_INVENTORY_ADJ' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INFLATION_INVENTORY_ADJ 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_INFLATION_INVENTORY_ADJ' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_INFLATION_INVENTORY_ADJ 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+----------------------------------ST_ARM_INFLATION_INVENTORY------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_INFLATION_INVENTORY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ST_ARM_INFLATION_INVENTORY] 
+        ( 
+           PROJECTION_MASTER_SID      INT NOT NULL, 
+           ITEM_MASTER_SID            INT NOT NULL, 
+           COMPANY_MASTER_SID         INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           TOTAL_INVENTORY            NUMERIC(22, 6) NULL, 
+           BASELINE_PRICE             NUMERIC(22, 6) NULL, 
+           BASELINE_PRICE_OVERRIDE    NUMERIC(22, 6) NULL, 
+           ADJUSTED_PRICE             NUMERIC(22, 6) NULL, 
+           ADJUSTED_PRICE_OVERRIDE    NUMERIC(22, 6) NULL, 
+           PRICE_CHANGE               NUMERIC(22, 6) NULL, 
+           PRICE_CHANGE_PERCENT       NUMERIC(22, 6) NULL, 
+           BASELINE_CALCULATED_AMOUNT NUMERIC(22, 6) NULL, 
+           ADJUSTED_CALCULATED_AMOUNT NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_AMOUNT      NUMERIC(22, 6) NULL, 
+           INFLATION_FACTOR           NUMERIC(22, 6) NULL, 
+           INFLATION_ADJUSTMENT       NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL, 
+        ) 
+  END 
+
+GO 
+
+-----------------------------------PK_ST_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID-------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_INFLATION_INVENTORY' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ST_ARM_INFLATION_INVENTORY 
+        ADD CONSTRAINT PK_ST_ARM_INFLATION_INVENTORY_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMPANY_MASTER_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END 
+
+GO
+-------------------------------------------ST_ARM_INFLATION_INVENTORY_ADJ-------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_INFLATION_INVENTORY_ADJ' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ST_ARM_INFLATION_INVENTORY_ADJ] 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           CURRENT_BALANCE            NUMERIC(22, 6) NULL, 
+           CALCULATED_ADJUSTMENT      NUMERIC(22, 6) NULL, 
+           ADJUSTMENT_RATIO           NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+GO 
+
+-----------------------------------------PK_ST_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID--------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_INFLATION_INVENTORY_ADJ' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ST_ARM_INFLATION_INVENTORY_ADJ 
+        ADD CONSTRAINT PK_ST_ARM_INFLATION_INVENTORY_ADJ_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END 
+
+GO 
+--TEMP_OVERRIDE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_ARM_INFLATION_INVENTORY_ADJ'
+                      AND COLUMN_NAME = 'TEMP_OVERRIDE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_INFLATION_INVENTORY_ADJ
+        ADD TEMP_OVERRIDE NUMERIC(22,6)
+  END
+
+GO 
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INFLATION_INVENTORY_ADJ' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INFLATION_INVENTORY_ADJ 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_INFLATION_INVENTORY_ADJ' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_INFLATION_INVENTORY_ADJ 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+------------------------------------------ARM_DISTRIBUTION_FEES_RATE-------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_DISTRIBUTION_FEES_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ARM_DISTRIBUTION_FEES_RATE] 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           RATE                       NUMERIC(22, 6) NULL, 
+           CURRENT_BALANCE            NUMERIC(22, 6) NULL, 
+           CALCULATED_ADJUSTMENT      NUMERIC(22, 6) NULL, 
+           ADJUSTMENT_RATIO           NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO 
+
+-------------------------------------------PK_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID-------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_DISTRIBUTION_FEES_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ARM_DISTRIBUTION_FEES_RATE 
+        ADD CONSTRAINT PK_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID)
+  END 
+
+GO
+ 
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_DISTRIBUTION_FEES_RATE'
+                  AND COLUMN_NAME = 'DEDUCTION_AMOUNT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_DISTRIBUTION_FEES_RATE
+       ADD DEDUCTION_AMOUNT NUMERIC(22,6)
+  END
+GO
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ARM_DISTRIBUTION_FEES_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+ BEGIN
+	ALTER TABLE ARM_DISTRIBUTION_FEES_RATE 
+	    ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+ END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DISTRIBUTION_FEES_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DISTRIBUTION_FEES_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_DISTRIBUTION_FEES_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_DISTRIBUTION_FEES_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+---------------------------------------ST_ARM_DISTRIBUTION_FEES_RATE---------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_RATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ST_ARM_DISTRIBUTION_FEES_RATE] 
+        ( 
+           ARM_ADJUSTMENT_DETAILS_SID INT NOT NULL, 
+           PERIOD_SID                 INT NOT NULL, 
+           RATE                       NUMERIC(22, 6) NULL, 
+           CURRENT_BALANCE            NUMERIC(22, 6) NULL, 
+           CALCULATED_ADJUSTMENT      NUMERIC(22, 6) NULL, 
+           ADJUSTMENT_RATIO           NUMERIC(22, 6) NULL, 
+           VARIANCE                   NUMERIC(22, 6) NULL, 
+           OVERRIDE                   NUMERIC(22, 6) NULL, 
+           USER_ID                    INT NOT NULL, 
+           SESSION_ID                 INT NOT NULL 
+        ) 
+  END 
+
+GO 
+
+--------------------------------------PK_ST_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID-------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_DISTRIBUTION_FEES_RATE' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ST_ARM_DISTRIBUTION_FEES_RATE 
+        ADD CONSTRAINT PK_ST_ARM_DISTRIBUTION_FEES_RATE_ARM_ADJUSTMENT_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_RATE'
+                  AND COLUMN_NAME = 'DEDUCTION_AMOUNT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_DISTRIBUTION_FEES_RATE
+       ADD DEDUCTION_AMOUNT NUMERIC(22,6)
+  END
+
+GO
+
+--TEMP_OVERRIDE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_RATE'
+			AND COLUMN_NAME = 'TEMP_OVERRIDE'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+ BEGIN
+	ALTER TABLE ST_ARM_DISTRIBUTION_FEES_RATE ADD TEMP_OVERRIDE NUMERIC(22,6)  NULL
+ END
+
+GO
+
+------------------------------------------addition of columns for balance report------------------------
+--LIABILITY_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_RATE' 
+                      AND COLUMN_NAME = 'LIABILITY_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DISTRIBUTION_FEES_RATE 
+        ADD LIABILITY_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO 
+
+--EXPENSE_AMOUNT
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_RATE' 
+                      AND COLUMN_NAME = 'EXPENSE_AMOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ST_ARM_DISTRIBUTION_FEES_RATE 
+        ADD EXPENSE_AMOUNT NUMERIC(22, 6) 
+  END 
+
+GO
+
+
+----------------------------------------ARM_DISTRIBUTION_FEES_SALES------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_DISTRIBUTION_FEES_SALES' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ARM_DISTRIBUTION_FEES_SALES] 
+        ( 
+           PROJECTION_MASTER_SID  INT NOT NULL, 
+           ITEM_MASTER_SID        INT NOT NULL, 
+           COMPANY_MASTER_SID     INT NOT NULL, 
+           PERIOD_SID             INT NOT NULL, 
+           TOTAL_UNITS            NUMERIC(22, 6) NULL, 
+           TOTAL_SALES            NUMERIC(22, 6) NULL, 
+           EXCLUDED_UNITS         NUMERIC(22, 6) NULL, 
+           EXCLUDED_SALES         NUMERIC(22, 6) NULL, 
+           NET_UNITS              NUMERIC(22, 6) NULL, 
+           NET_SALES              NUMERIC(22, 6) NULL, 
+           PRICE                  NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE         NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_SALES   NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE         NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE_PERCENT NUMERIC(22, 6) NULL 
+        ) 
+  END 
+
+GO 
+
+---------------------------PK_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID-------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_DISTRIBUTION_FEES_SALES' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ARM_DISTRIBUTION_FEES_SALES 
+        ADD CONSTRAINT PK_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMPANY_MASTER_SID, PERIOD_SID)
+  END 
+
+GO
+-----------------------------------------ST_ARM_DISTRIBUTION_FEES_SALES----------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ARM_DISTRIBUTION_FEES_SALES' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].[ST_ARM_DISTRIBUTION_FEES_SALES] 
+        ( 
+           PROJECTION_MASTER_SID  INT NOT NULL, 
+           ITEM_MASTER_SID        INT NOT NULL, 
+           COMPANY_MASTER_SID     INT NOT NULL, 
+           PERIOD_SID             INT NOT NULL, 
+           TOTAL_UNITS            NUMERIC(22, 6) NULL, 
+           TOTAL_SALES            NUMERIC(22, 6) NULL, 
+           EXCLUDED_UNITS         NUMERIC(22, 6) NULL, 
+           EXCLUDED_SALES         NUMERIC(22, 6) NULL, 
+           NET_UNITS              NUMERIC(22, 6) NULL, 
+           NET_SALES              NUMERIC(22, 6) NULL, 
+           PRICE                  NUMERIC(22, 6) NULL, 
+           PRICE_OVERRIDE         NUMERIC(22, 6) NULL, 
+           NET_CALCULATED_SALES   NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE         NUMERIC(22, 6) NULL, 
+           SALES_VARIANCE_PERCENT NUMERIC(22, 6) NULL, 
+           USER_ID                INT NOT NULL, 
+           SESSION_ID             INT NOT NULL 
+        ) 
+  END 
+
+GO 
+
+-------------------------------PK_ST_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID--------------------------------------------------- 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ARM_DISTRIBUTION_FEES_SALES' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ST_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].ST_ARM_DISTRIBUTION_FEES_SALES 
+        ADD CONSTRAINT PK_ST_ARM_DISTRIBUTION_FEES_SALES_PROJECTION_MASTER_SID_ITEM_MASTER_SID_COMPANY_MASTER_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, COMPANY_MASTER_SID, PERIOD_SID, USER_ID, SESSION_ID)
+  END 
+
+GO
+-------------------------------------------------------EXTRA TABLE CREATED FOR New debit and credit logic------------------------
+IF NOT EXISTS (
+		SELECT 'X'
+		FROM INFORMATION_SCHEMA.TABLES
+		WHERE TABLE_NAME = 'ST_ARM_INVENTORY_DETAILS'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	CREATE TABLE ST_ARM_INVENTORY_DETAILS 
+	(
+		PROJECTION_MASTER_SID INT NOT NULL
+		,USER_ID INT NOT NULL
+		,SESSION_ID INT NOT NULL
+		,INVENTORY_DETAILS_SID INT NOT NULL
+		)
+END
+
+GO
+
+--------------------------------PK FOR ST_ARM_INVENTORY_DETAILS
+  IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ARM_INVENTORY_DETAILS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ARM_INVENTORY_DETAILS_PROJECTION_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_INVENTORY_DETAILS
+        ADD CONSTRAINT PK_ST_ARM_INVENTORY_DETAILS_PROJECTION_MASTER_SID_USER_ID_SESSION_ID PRIMARY KEY (PROJECTION_MASTER_SID,USER_ID,SESSION_ID)
+  END
+
+GO

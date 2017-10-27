@@ -1,0 +1,3274 @@
+--------------------------------------------------------------COMPANY_FINANCIAL_CLOSE-----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'COMPANY_FINANCIAL_CLOSE'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE COMPANY_FINANCIAL_CLOSE
+        (
+           COMPANY_MASTER_SID INT NOT NULL,
+           MODE               INT NOT NULL,
+           CALENDAR           INT NOT NULL,
+           PERIOD_SID         INT NOT NULL,
+           BUSINESS_DAY       INT NULL,
+           [HOUR]             INT NULL,
+           [MINUTE]           INT NULL,
+           [STATUS]           INT NOT NULL,
+           STATUS_PERIOD_DATE DATETIME NOT NULL,
+           CREATED_BY         INT NOT NULL,
+           CREATED_DATE       DATETIME NOT NULL
+        )
+  END
+
+GO
+------ Default Constraints
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.COMPANY_FINANCIAL_CLOSE')
+                      AND NAME = 'DF_COMPANY_FINANCIAL_CLOSE_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[COMPANY_FINANCIAL_CLOSE]
+        ADD CONSTRAINT [DF_COMPANY_FINANCIAL_CLOSE_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.COMPANY_FINANCIAL_CLOSE')
+                      AND NAME = 'DF_COMPANY_FINANCIAL_CLOSE_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[COMPANY_FINANCIAL_CLOSE]
+        ADD CONSTRAINT [DF_COMPANY_FINANCIAL_CLOSE_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'COMPANY_FINANCIAL_CLOSE'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+----------------------------------------------HIST_COMPANY_FINANCIAL_CLOSE--------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_COMPANY_FINANCIAL_CLOSE'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE HIST_COMPANY_FINANCIAL_CLOSE
+        (
+           COMPANY_MASTER_SID INT NOT NULL,
+           MODE               INT NOT NULL,
+           CALENDAR           INT NOT NULL,
+           PERIOD_SID         INT NOT NULL,
+           BUSINESS_DAY       INT NULL,
+           [HOUR]             INT NULL,
+           [MINUTE]           INT NULL,
+           [STATUS]           INT NOT NULL,
+           STATUS_PERIOD_DATE DATETIME NOT NULL,
+           CREATED_BY         INT NOT NULL,
+           CREATED_DATE       DATETIME NOT NULL,
+           ACTION_FLAG        CHAR(1) NOT NULL,
+           ACTION_DATE        DATETIME NOT NULL
+        )
+  END
+
+GO
+-----TRIGGER FOR COMPANY_FINANCIAL_CLOSE
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_COMPANY_FINANCIAL_CLOSE_DEL')
+  BEGIN
+      DROP TRIGGER DBO.[TRG_COMPANY_FINANCIAL_CLOSE_DEL]
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_COMPANY_FINANCIAL_CLOSE_DEL]
+ON [dbo].COMPANY_FINANCIAL_CLOSE
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   DELETED)
+        INSERT INTO HIST_COMPANY_FINANCIAL_CLOSE
+                    (COMPANY_MASTER_SID,
+                     MODE,
+                     CALENDAR,
+                     PERIOD_SID,
+                     BUSINESS_DAY,
+                     [HOUR],
+                     [MINUTE],
+                     [STATUS],
+                     STATUS_PERIOD_DATE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE)
+        SELECT COMPANY_MASTER_SID,
+               MODE,
+               CALENDAR,
+               PERIOD_SID,
+               BUSINESS_DAY,
+               [HOUR],
+               [MINUTE],
+               [STATUS],
+               STATUS_PERIOD_DATE,
+               CREATED_BY,
+               CREATED_DATE,
+               'D',
+               Getdate()
+        FROM   DELETED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_COMPANY_FINANCIAL_CLOSE_INS')
+  BEGIN
+      DROP TRIGGER DBO.[TRG_COMPANY_FINANCIAL_CLOSE_INS]
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_COMPANY_FINANCIAL_CLOSE_INS]
+ON [dbo].COMPANY_FINANCIAL_CLOSE
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_COMPANY_FINANCIAL_CLOSE
+                    (COMPANY_MASTER_SID,
+                     MODE,
+                     CALENDAR,
+                     PERIOD_SID,
+                     BUSINESS_DAY,
+                     [HOUR],
+                     [MINUTE],
+                     [STATUS],
+                     STATUS_PERIOD_DATE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE)
+        SELECT COMPANY_MASTER_SID,
+               MODE,
+               CALENDAR,
+               PERIOD_SID,
+               BUSINESS_DAY,
+               [HOUR],
+               [MINUTE],
+               [STATUS],
+               STATUS_PERIOD_DATE,
+               CREATED_BY,
+               CREATED_DATE,
+               'A',
+               Getdate()
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_COMPANY_FINANCIAL_CLOSE_UPD')
+  BEGIN
+      DROP TRIGGER DBO.[TRG_COMPANY_FINANCIAL_CLOSE_UPD]
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_COMPANY_FINANCIAL_CLOSE_UPD]
+ON [dbo].COMPANY_FINANCIAL_CLOSE
+AFTER UPDATE
+AS
+  BEGIN
+   SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+         AND EXISTS(SELECT *
+                    FROM   DELETED)
+        INSERT INTO HIST_COMPANY_FINANCIAL_CLOSE
+                    (COMPANY_MASTER_SID,
+                     MODE,
+                     CALENDAR,
+                     PERIOD_SID,
+                     BUSINESS_DAY,
+                     [HOUR],
+                     [MINUTE],
+                     [STATUS],
+                     STATUS_PERIOD_DATE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE)
+        SELECT COMPANY_MASTER_SID,
+               MODE,
+               CALENDAR,
+               PERIOD_SID,
+               BUSINESS_DAY,
+               [HOUR],
+               [MINUTE],
+               [STATUS],
+               STATUS_PERIOD_DATE,
+               CREATED_BY,
+               CREATED_DATE,
+               'C',
+               Getdate()
+        FROM   INSERTED
+  END
+
+GO
+
+--------------------------------------------------------------------------COMPANY_FINANCIAL_CLOSE_AUTO----------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'COMPANY_FINANCIAL_CLOSE_AUTO'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE COMPANY_FINANCIAL_CLOSE_AUTO
+        (
+           COMPANY_MASTER_SID INT NOT NULL,
+           BUSINESS_DAY       INT NOT NULL,
+           HOUR               INT NOT NULL,
+           MINUTE             INT NOT NULL
+        )
+  END
+
+GO
+
+--CALENDAR
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'COMPANY_FINANCIAL_CLOSE_AUTO'
+			AND COLUMN_NAME = 'CALENDAR'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE COMPANY_FINANCIAL_CLOSE_AUTO ADD CALENDAR INT  NULL
+END
+
+GO
+
+--------------------------------------------------------------------------ARM_ADJ_RES_CONFIG_MASTER----------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_MASTER'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_ADJ_RES_CONFIG_MASTER
+        (
+           ARM_ADJ_RES_CONFIG_MASTER_SID INT NOT NULL,
+           GL_COMPANY_MASTER_SID         INT NOT NULL,
+           BU_COMPANY_MASTER_SID         INT NOT NULL,
+           RS_CATEGORY                   INT NOT NULL,
+           RS_TYPE                       INT NOT NULL,
+           REBATE_PROGRAM_TYPE           INT NOT NULL,
+           CONFIGURATION_TYPE            INT NOT NULL,
+           CREATED_BY                    INT NULL,
+           CREATED_DATE                  DATETIME NULL,
+           MODIFIED_BY                   INT NULL,
+           MODIFIED_DATE                 DATETIME NULL,
+           SOURCE                        VARCHAR(50) NULL,
+           DELETE_STATUS                 BIT NOT NULL
+        )
+  END
+
+GO
+---------PRIMARY KEY CONSTRAINTS--------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJ_RES_CONFIG_MASTER'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ARM_ADJ_RES_CONFIG_MASTER_ARM_ADJ_RES_CONFIG_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT PK_ARM_ADJ_RES_CONFIG_MASTER_ARM_ADJ_RES_CONFIG_MASTER_SID PRIMARY KEY(ARM_ADJ_RES_CONFIG_MASTER_SID)
+  END
+
+GO
+
+---------UNIQUE KEY CONSTRAINTS--------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'UQ_ARM_ADJ_RES_CONFIG_MASTER_GL_COMPANY_MASTER_SID_BU_COMPANY_MASTER_SID_RS_CATEGORY_RS_TYPE_REBATE_PGRM_TYPE_CONFIGURATION_TYPE'
+                      AND TYPE = 'UQ')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [UQ_ARM_ADJ_RES_CONFIG_MASTER_GL_COMPANY_MASTER_SID_BU_COMPANY_MASTER_SID_RS_CATEGORY_RS_TYPE_REBATE_PGRM_TYPE_CONFIGURATION_TYPE] UNIQUE (GL_COMPANY_MASTER_SID, BU_COMPANY_MASTER_SID, RS_CATEGORY, RS_TYPE, REBATE_PROGRAM_TYPE, CONFIGURATION_TYPE)
+  END
+
+GO
+
+------ DEFAULT CONSTRAINT
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_SOURCE')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_SOURCE] DEFAULT ('GTN') FOR SOURCE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_MASTER_DELETE_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_MASTER]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_MASTER_DELETE_STATUS] DEFAULT (0) FOR DELETE_STATUS
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ARM_ADJ_RES_CONFIG_MASTER'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_MASTER'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ST_ARM_ADJ_RES_CONFIG_MASTER
+        (
+           ARM_ADJ_RES_CONFIG_MASTER_SID INT IDENTITY(1, 1) NOT NULL,
+           GL_COMPANY_MASTER_SID         INT NOT NULL,
+           BU_COMPANY_MASTER_SID         INT NOT NULL,
+           RS_CATEGORY                   INT NOT NULL,
+           RS_TYPE                       INT NOT NULL,
+           REBATE_PROGRAM_TYPE           INT NOT NULL,
+           CONFIGURATION_TYPE            INT NOT NULL,
+           CREATED_BY                    INT NULL,
+           CREATED_DATE                  DATETIME NULL,
+           MODIFIED_BY                   INT NULL,
+           MODIFIED_DATE                 DATETIME NULL,
+           SOURCE                        VARCHAR(50) NULL,
+		   USER_ID                       INT NULL,
+		   SESSION_ID                    INT NULL
+        )
+  END
+
+GO
+
+---------PRIMARY KEY CONSTRAINTS--------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ARM_ADJ_RES_CONFIG_MASTER'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ARM_ADJ_RES_CONFIG_MASTER_ARM_ADJ_RES_CONFIG_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT PK_ST_ARM_ADJ_RES_CONFIG_MASTER_ARM_ADJ_RES_CONFIG_MASTER_SID PRIMARY KEY(ARM_ADJ_RES_CONFIG_MASTER_SID)
+  END
+
+GO
+
+------ DEFAULT CONSTRAINT
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_MASTER_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_MASTER_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_MASTER_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_MASTER_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_MASTER_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_MASTER')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_MASTER_SOURCE')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_MASTER
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_MASTER_SOURCE] DEFAULT ('GTN') FOR SOURCE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ST_ARM_ADJ_RES_CONFIG_MASTER'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_ADJ_RES_CONFIG_DETAIL
+        (
+           ARM_ADJ_RES_CONFIG_MASTER_SID INT NOT NULL,
+           ADJUSTMENT_TYPE               INT NOT NULL,
+           ACCOUNT_CATEGORY              INT NOT NULL,
+           ACCOUNT_TYPE                  INT NOT NULL,
+           ACCOUNT                       VARCHAR(50) NOT NULL,
+           ACCOUNT_DESC                  VARCHAR(100) NULL,
+           ACCOUNT_INDICATOR             INT NOT NULL,
+           COST_CENTER                   VARCHAR(50) NOT NULL,
+           PROJECT                       VARCHAR(100) NOT NULL,
+           FUTURE_1                      VARCHAR(100) NOT NULL,
+           FUTURE_2                      VARCHAR(100) NOT NULL,
+           UDC_1                         INT NULL,
+           UDC_2                         INT NULL,
+           UDC_3                         INT NULL,
+           UDC_4                         INT NULL,
+           UDC_5                         INT NULL,
+           UDC_6                         INT NULL,
+           BALANCE_TYPE                  VARCHAR(50) NULL,
+           [DATABASE]                    VARCHAR(50) NULL,
+           DATA_ACCESS_SET               VARCHAR(50) NULL,
+           CHART_OF_ACCOUNTS             VARCHAR(50) NULL,
+           LEDGER                        VARCHAR(50) NULL,
+           CATEGORY                      VARCHAR(50) NULL,
+           SOURCE                        VARCHAR(50) NULL,
+           CURRENCY                      INT NULL,
+           JOURNAL_NAME                  VARCHAR(50) NULL,
+           JOURNAL_DESCRIPTION           VARCHAR(50) NULL,
+           REVERSE_JOURNAL               VARCHAR(50) NULL,
+           REVERSAL_PERIOD_DATE          INT NULL,
+           LINE_DESCRIPTION              VARCHAR(50) NULL,
+           CREATED_BY                    INT NULL,
+           CREATED_DATE                  DATETIME NULL,
+           MODIFIED_BY                   INT NULL,
+           MODIFIED_DATE                 DATETIME NULL,
+		   ADJUSTMENT_LEVEL              INT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'CREDIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ADD CREDIT BIT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DEBIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DEBIT BIT
+  END
+
+GO
+
+------ARM_ADJ_RES_CONFIG_DETAIL_SID
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL_SID'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ADD ARM_ADJ_RES_CONFIG_DETAIL_SID INT
+  END
+
+GO
+
+--------------------------------------------------GAL UAT-620 (GAL-8063)  CAHNGES-------------------------------------------------------
+
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DIVISION VARCHAR(50)  NULL
+  END
+
+GO
+
+
+------ DEFAULT CONSTRAINT
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT [DF_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+---------UNIQUE KEY CONSTRAINTS--------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'UQ_ARM_ADJ_RES_CONFIG_DETAIL_ARM_ADJ_RES_CONFIG_MASTER_SID_ADJUSTMENT_TYPE_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ACCOUNT'
+                      AND TYPE = 'UQ')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT UQ_ARM_ADJ_RES_CONFIG_DETAIL_ARM_ADJ_RES_CONFIG_MASTER_SID_ADJUSTMENT_TYPE_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ACCOUNT UNIQUE (ARM_ADJ_RES_CONFIG_MASTER_SID, ADJUSTMENT_TYPE, ACCOUNT_CATEGORY, ACCOUNT_TYPE, ACCOUNT)
+  END
+
+GO
+
+--------------------------------------------------GAL UAT-620 (GAL-8063) CR(Revert) CAHNGES-------------------------------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'COMPANY_NO'
+                  AND Object_name(object_id) = 'ARM_ADJ_RES_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RES_CONFIG_DETAIL.COMPANY_NO
+  END 
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'COMPANY_NO'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       DROP COLUMN  COMPANY_NO 
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'BUSINESS_UNIT'
+                  AND Object_name(object_id) = 'ARM_ADJ_RES_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RES_CONFIG_DETAIL.BUSINESS_UNIT
+  END 
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'BUSINESS_UNIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+      DROP COLUMN BUSINESS_UNIT 
+  END
+
+GO
+-----------DROP CONSTRAINT CHECK_RECORD
+IF  EXISTS(SELECT 1
+              FROM   SYS.default_constraints
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'DF_ARM_ADJ_RES_CONFIG_DETAIL_CHECK_RECORD'
+                    )
+  BEGIN
+      ALTER TABLE [DBO].ARM_ADJ_RES_CONFIG_DETAIL
+        DROP CONSTRAINT DF_ARM_ADJ_RES_CONFIG_DETAIL_CHECK_RECORD 
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'CHECK_RECORD'
+                  AND Object_name(object_id) = 'ARM_ADJ_RES_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RES_CONFIG_DETAIL.CHECK_RECORD
+  END 
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'CHECK_RECORD'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+      DROP COLUMN CHECK_RECORD 
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO'
+				  AND IS_NULLABLE='NO' )
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ALTER COLUMN  DIVISION VARCHAR(50)  NULL
+  END
+
+GO
+
+-------------------------------------ARM_ADJ_RES_CONFIG_DETAIL COST_CENTER Change to NULL FOR GALUAT-645--------------------
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'COST_CENTER'
+                  AND TABLE_SCHEMA = 'DBO'
+				  AND IS_NULLABLE='NO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RES_CONFIG_DETAIL
+       ALTER COLUMN COST_CENTER VARCHAR(50) NULL
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'COST_CENTER'
+                  AND TABLE_SCHEMA = 'DBO'
+				  AND IS_NULLABLE='NO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       ALTER COLUMN COST_CENTER VARCHAR(50) NULL
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ARM_ADJ_RES_CONFIG_DETAIL'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+        (
+           ARM_ADJ_RES_CONFIG_DETAIL_SID INT IDENTITY(1, 1) NOT NULL,
+           ARM_ADJ_RES_CONFIG_MASTER_SID INT NULL,
+           ADJUSTMENT_TYPE               INT NULL,
+           ACCOUNT_CATEGORY              INT NULL,
+           ACCOUNT_TYPE                  INT NULL,
+           ACCOUNT                       VARCHAR(50) NULL,
+           ACCOUNT_DESC                  VARCHAR(100) NULL,
+           ACCOUNT_INDICATOR             INT NULL,
+           COST_CENTER                   VARCHAR(50) NULL,
+           PROJECT                       VARCHAR(100) NULL,
+           FUTURE_1                      VARCHAR(100) NULL,
+           FUTURE_2                      VARCHAR(100) NULL,
+           UDC_1                         INT NULL,
+           UDC_2                         INT NULL,
+           UDC_3                         INT NULL,
+           UDC_4                         INT NULL,
+           UDC_5                         INT NULL,
+           UDC_6                         INT NULL,
+           BALANCE_TYPE                  VARCHAR(50) NULL,
+           [DATABASE]                    VARCHAR(50) NULL,
+           DATA_ACCESS_SET               VARCHAR(50) NULL,
+           CHART_OF_ACCOUNTS             VARCHAR(50) NULL,
+           LEDGER                        VARCHAR(50) NULL,
+           CATEGORY                      VARCHAR(50) NULL,
+           SOURCE                        VARCHAR(50) NULL,
+           CURRENCY                      INT NULL,
+           JOURNAL_NAME                  VARCHAR(50) NULL,
+           JOURNAL_DESCRIPTION           VARCHAR(50) NULL,
+           REVERSE_JOURNAL               VARCHAR(50) NULL,
+           REVERSAL_PERIOD_DATE          INT NULL,
+           LINE_DESCRIPTION              VARCHAR(50) NULL,
+           CREATED_BY                    INT NULL,
+           CREATED_DATE                  DATETIME NULL,
+           MODIFIED_BY                   INT NULL,
+           MODIFIED_DATE                 DATETIME NULL,
+           USER_ID                       INT NOT NULL,
+           SESSION_ID                    INT NOT NULL,
+           CHECK_RECORD                  BIT NOT NULL,
+		   ADJUSTMENT_LEVEL              INT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'CREDIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD CREDIT BIT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DEBIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DEBIT BIT
+  END
+
+GO
+
+--------------------------------------------------GAL UAT-620 (GAL-8063)  CAHNGES-------------------------------------------------------
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DIVISION VARCHAR(50)  NULL
+  END
+
+GO
+
+
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'UPDATE_RECORD'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD UPDATE_RECORD BIT
+  END
+
+GO
+
+---------PRIMARY KEY CONSTRAINTS--------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ARM_ADJ_RES_CONFIG_DETAIL_ARM_ADJ_RES_CONFIG_DETAIL_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD CONSTRAINT PK_ST_ARM_ADJ_RES_CONFIG_DETAIL_ARM_ADJ_RES_CONFIG_DETAIL_SID_USER_ID_SESSION_ID PRIMARY KEY(ARM_ADJ_RES_CONFIG_DETAIL_SID, USER_ID, SESSION_ID)
+  END
+
+GO
+
+------ DEFAULT CONSTRAINT
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[ST_ARM_ADJ_RES_CONFIG_DETAIL]
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD CONSTRAINT [DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ST_ARM_ADJ_RES_CONFIG_DETAIL')
+                      AND NAME = 'DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CHECK_RECORD')
+  BEGIN
+      ALTER TABLE [DBO].ST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD CONSTRAINT DF_ST_ARM_ADJ_RES_CONFIG_DETAIL_CHECK_RECORD DEFAULT (0) FOR CHECK_RECORD
+  END
+
+GO
+
+--------------------------------------------------GAL UAT-620 (GAL-8063) CR(Revert) CAHNGES-------------------------------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'COMPANY_NO'
+                  AND Object_name(object_id) = 'ST_ARM_ADJ_RES_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ST_ARM_ADJ_RES_CONFIG_DETAIL.COMPANY_NO
+  END 
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'COMPANY_NO'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       DROP COLUMN COMPANY_NO 
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'BUSINESS_UNIT'
+                  AND Object_name(object_id) = 'ST_ARM_ADJ_RES_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ST_ARM_ADJ_RES_CONFIG_DETAIL.BUSINESS_UNIT
+  END 
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'BUSINESS_UNIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       DROP COLUMN  BUSINESS_UNIT 
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'ST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO'
+				  AND IS_NULLABLE='NO' )
+  BEGIN
+      ALTER TABLE ST_ARM_ADJ_RES_CONFIG_DETAIL
+       ALTER COLUMN  DIVISION VARCHAR(50)  NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+        (
+           ARM_ADJ_RES_CONFIG_DETAIL_SID INT NULL,
+           ARM_ADJ_RES_CONFIG_MASTER_SID INT NOT NULL,
+           ADJUSTMENT_TYPE               INT NOT NULL,
+           ACCOUNT_CATEGORY              INT NOT NULL,
+           ACCOUNT_TYPE                  INT NOT NULL,
+           ACCOUNT                       VARCHAR(50) NOT NULL,
+           ACCOUNT_DESC                  VARCHAR(100) NULL,
+           ACCOUNT_INDICATOR             INT NOT NULL,
+           COST_CENTER                   VARCHAR(50) NOT NULL,
+           PROJECT                       VARCHAR(100) NOT NULL,
+           FUTURE_1                      VARCHAR(100) NOT NULL,
+           FUTURE_2                      VARCHAR(100) NOT NULL,
+           UDC_1                         INT NULL,
+           UDC_2                         INT NULL,
+           UDC_3                         INT NULL,
+           UDC_4                         INT NULL,
+           UDC_5                         INT NULL,
+           UDC_6                         INT NULL,
+           BALANCE_TYPE                  VARCHAR(50) NULL,
+           [DATABASE]                    VARCHAR(50) NULL,
+           DATA_ACCESS_SET               VARCHAR(50) NULL,
+           CHART_OF_ACCOUNTS             VARCHAR(50) NULL,
+           LEDGER                        VARCHAR(50) NULL,
+           CATEGORY                      VARCHAR(50) NULL,
+           SOURCE                        VARCHAR(50) NULL,
+           CURRENCY                      INT NULL,
+           JOURNAL_NAME                  VARCHAR(50) NULL,
+           JOURNAL_DESCRIPTION           VARCHAR(50) NULL,
+           REVERSE_JOURNAL               VARCHAR(50) NULL,
+           REVERSAL_PERIOD_DATE          INT NULL,
+           LINE_DESCRIPTION              VARCHAR(50) NULL,
+           CREATED_BY                    INT NULL,
+           CREATED_DATE                  DATETIME NULL,
+           MODIFIED_BY                   INT NULL,
+           MODIFIED_DATE                 DATETIME NULL,
+           ACTION_FLAG                   CHAR(1) NOT NULL,
+           ACTION_DATE                   DATETIME NOT NULL,
+		   ADJUSTMENT_LEVEL              INT NULL
+        )
+  END
+
+GO
+--ADDING COLUMN
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'ADJUSTMENT_LEVEL'
+					 AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+        ADD ADJUSTMENT_LEVEL INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'CREDIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD CREDIT BIT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DEBIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DEBIT BIT
+  END
+
+GO 
+
+--------------------------------------------------GAL UAT-620 (GAL-8063)  CAHNGES-------------------------------------------------------
+
+
+IF NOT EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       ADD DIVISION VARCHAR(50) NOT NULL
+  END
+
+GO
+
+
+--------------------------------------------------GAL UAT-620 (GAL-8063) CR(Revert) CAHNGES-------------------------------------------------------
+ 
+ IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'COMPANY_NO'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       DROP COLUMN  COMPANY_NO 
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'BUSINESS_UNIT'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       DROP COLUMN  BUSINESS_UNIT 
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_ARM_ADJ_RES_CONFIG_DETAIL'
+                  AND COLUMN_NAME = 'DIVISION'
+                  AND TABLE_SCHEMA = 'DBO'
+				  AND IS_NULLABLE='NO' )
+  BEGIN
+      ALTER TABLE HIST_ARM_ADJ_RES_CONFIG_DETAIL
+       ALTER COLUMN  DIVISION VARCHAR(50)  NULL
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_ARM_ADJ_RES_CONFIG_DETAIL_UPD')
+  BEGIN
+      DROP TRIGGER dbo.TRG_ARM_ADJ_RES_CONFIG_DETAIL_UPD
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_ARM_ADJ_RES_CONFIG_DETAIL_UPD]
+ON [dbo].ARM_ADJ_RES_CONFIG_DETAIL
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+         AND EXISTS(SELECT *
+                    FROM   DELETED)
+        INSERT INTO HIST_ARM_ADJ_RES_CONFIG_DETAIL
+                    (ARM_ADJ_RES_CONFIG_MASTER_SID,
+                     ADJUSTMENT_TYPE,
+                     ACCOUNT_CATEGORY,
+                     ACCOUNT_TYPE,
+                     ACCOUNT,
+                     ACCOUNT_DESC,
+                     ACCOUNT_INDICATOR,
+                     COST_CENTER,
+                     PROJECT,
+                     FUTURE_1,
+                     FUTURE_2,
+                     UDC_1,
+                     UDC_2,
+                     UDC_3,
+                     UDC_4,
+                     UDC_5,
+                     UDC_6,
+                     BALANCE_TYPE,
+                     [DATABASE],
+                     DATA_ACCESS_SET,
+                     CHART_OF_ACCOUNTS,
+                     LEDGER,
+                     CATEGORY,
+                     SOURCE,
+                     CURRENCY,
+                     JOURNAL_NAME,
+                     JOURNAL_DESCRIPTION,
+                     REVERSE_JOURNAL,
+                     REVERSAL_PERIOD_DATE,
+                     LINE_DESCRIPTION,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE,
+					 ADJUSTMENT_LEVEL,
+					 CREDIT,
+                     DEBIT,
+					 
+					 DIVISION
+					 )
+        SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+               ADJUSTMENT_TYPE,
+               ACCOUNT_CATEGORY,
+               ACCOUNT_TYPE,
+               ACCOUNT,
+               ACCOUNT_DESC,
+               ACCOUNT_INDICATOR,
+               COST_CENTER,
+               PROJECT,
+               FUTURE_1,
+               FUTURE_2,
+               UDC_1,
+               UDC_2,
+               UDC_3,
+               UDC_4,
+               UDC_5,
+               UDC_6,
+               BALANCE_TYPE,
+               [DATABASE],
+               DATA_ACCESS_SET,
+               CHART_OF_ACCOUNTS,
+               LEDGER,
+               CATEGORY,
+               SOURCE,
+               CURRENCY,
+               JOURNAL_NAME,
+               JOURNAL_DESCRIPTION,
+               REVERSE_JOURNAL,
+               REVERSAL_PERIOD_DATE,
+               LINE_DESCRIPTION,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'C',
+               Getdate(),
+			   ADJUSTMENT_LEVEL,
+			   CREDIT,
+               DEBIT,
+			 
+			  DIVISION
+			 
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_ARM_ADJ_RES_CONFIG_DETAIL_INS')
+  BEGIN
+      DROP TRIGGER dbo.TRG_ARM_ADJ_RES_CONFIG_DETAIL_INS
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_ARM_ADJ_RES_CONFIG_DETAIL_INS]
+ON [dbo].ARM_ADJ_RES_CONFIG_DETAIL
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   INSERTED)
+        INSERT INTO HIST_ARM_ADJ_RES_CONFIG_DETAIL
+                    (ARM_ADJ_RES_CONFIG_MASTER_SID,
+                     ADJUSTMENT_TYPE,
+                     ACCOUNT_CATEGORY,
+                     ACCOUNT_TYPE,
+                     ACCOUNT,
+                     ACCOUNT_DESC,
+                     ACCOUNT_INDICATOR,
+                     COST_CENTER,
+                     PROJECT,
+                     FUTURE_1,
+                     FUTURE_2,
+                     UDC_1,
+                     UDC_2,
+                     UDC_3,
+                     UDC_4,
+                     UDC_5,
+                     UDC_6,
+                     BALANCE_TYPE,
+                     [DATABASE],
+                     DATA_ACCESS_SET,
+                     CHART_OF_ACCOUNTS,
+                     LEDGER,
+                     CATEGORY,
+                     SOURCE,
+                     CURRENCY,
+                     JOURNAL_NAME,
+                     JOURNAL_DESCRIPTION,
+                     REVERSE_JOURNAL,
+                     REVERSAL_PERIOD_DATE,
+                     LINE_DESCRIPTION,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE,
+					 ADJUSTMENT_LEVEL,
+					 CREDIT,
+                     DEBIT,
+					 
+			  DIVISION
+			  )
+        SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+               ADJUSTMENT_TYPE,
+               ACCOUNT_CATEGORY,
+               ACCOUNT_TYPE,
+               ACCOUNT,
+               ACCOUNT_DESC,
+               ACCOUNT_INDICATOR,
+               COST_CENTER,
+               PROJECT,
+               FUTURE_1,
+               FUTURE_2,
+               UDC_1,
+               UDC_2,
+               UDC_3,
+               UDC_4,
+               UDC_5,
+               UDC_6,
+               BALANCE_TYPE,
+               [DATABASE],
+               DATA_ACCESS_SET,
+               CHART_OF_ACCOUNTS,
+               LEDGER,
+               CATEGORY,
+               SOURCE,
+               CURRENCY,
+               JOURNAL_NAME,
+               JOURNAL_DESCRIPTION,
+               REVERSE_JOURNAL,
+               REVERSAL_PERIOD_DATE,
+               LINE_DESCRIPTION,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'A',
+               Getdate(),
+			   ADJUSTMENT_LEVEL,
+			    CREDIT,
+                DEBIT,
+				
+			  DIVISION
+			  
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_ARM_ADJ_RES_CONFIG_DETAIL_DEL')
+  BEGIN
+      DROP TRIGGER dbo.TRG_ARM_ADJ_RES_CONFIG_DETAIL_DEL
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_ARM_ADJ_RES_CONFIG_DETAIL_DEL]
+ON [dbo].ARM_ADJ_RES_CONFIG_DETAIL
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS(SELECT *
+                FROM   DELETED)
+        INSERT INTO HIST_ARM_ADJ_RES_CONFIG_DETAIL
+                    (ARM_ADJ_RES_CONFIG_MASTER_SID,
+                     ADJUSTMENT_TYPE,
+                     ACCOUNT_CATEGORY,
+                     ACCOUNT_TYPE,
+                     ACCOUNT,
+                     ACCOUNT_DESC,
+                     ACCOUNT_INDICATOR,
+                     COST_CENTER,
+                     PROJECT,
+                     FUTURE_1,
+                     FUTURE_2,
+                     UDC_1,
+                     UDC_2,
+                     UDC_3,
+                     UDC_4,
+                     UDC_5,
+                     UDC_6,
+                     BALANCE_TYPE,
+                     [DATABASE],
+                     DATA_ACCESS_SET,
+                     CHART_OF_ACCOUNTS,
+                     LEDGER,
+                     CATEGORY,
+                     SOURCE,
+                     CURRENCY,
+                     JOURNAL_NAME,
+                     JOURNAL_DESCRIPTION,
+                     REVERSE_JOURNAL,
+                     REVERSAL_PERIOD_DATE,
+                     LINE_DESCRIPTION,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG,
+                     ACTION_DATE,
+					 ADJUSTMENT_LEVEL,
+					  CREDIT,
+                      DEBIT,
+					 
+			  DIVISION
+			  )
+        SELECT ARM_ADJ_RES_CONFIG_MASTER_SID,
+               ADJUSTMENT_TYPE,
+               ACCOUNT_CATEGORY,
+               ACCOUNT_TYPE,
+               ACCOUNT,
+               ACCOUNT_DESC,
+               ACCOUNT_INDICATOR,
+               COST_CENTER,
+               PROJECT,
+               FUTURE_1,
+               FUTURE_2,
+               UDC_1,
+               UDC_2,
+               UDC_3,
+               UDC_4,
+               UDC_5,
+               UDC_6,
+               BALANCE_TYPE,
+               [DATABASE],
+               DATA_ACCESS_SET,
+               CHART_OF_ACCOUNTS,
+               LEDGER,
+               CATEGORY,
+               SOURCE,
+               CURRENCY,
+               JOURNAL_NAME,
+               JOURNAL_DESCRIPTION,
+               REVERSE_JOURNAL,
+               REVERSAL_PERIOD_DATE,
+               LINE_DESCRIPTION,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'D',
+               Getdate(),
+			   ADJUSTMENT_LEVEL,
+			    CREDIT,
+                DEBIT,
+				
+			  DIVISION
+			 
+        FROM   DELETED
+  END
+
+GO
+
+
+-------------------------------------------ARM_ADJ_RATE_CONFIG_MASTER------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_MASTER'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_ADJ_RATE_CONFIG_MASTER
+        (
+           ARM_ADJ_RATE_CONFIG_MASTER_SID INT IDENTITY(1, 1) NOT NULL,
+           GL_COMPANY_MASTER_SID          INT NOT NULL,
+           BU_COMPANY_MASTER_SID          INT NOT NULL,
+           ADJUSTMENT_TYPE                VARCHAR(50) NOT NULL
+        )
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJ_RATE_CONFIG_MASTER'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ARM_ADJ_RATE_CONFIG_MASTER_ARM_ADJ_RATE_CONFIG_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ARM_ADJ_RATE_CONFIG_MASTER
+        ADD CONSTRAINT PK_ARM_ADJ_RATE_CONFIG_MASTER_ARM_ADJ_RATE_CONFIG_MASTER_SID PRIMARY KEY ( ARM_ADJ_RATE_CONFIG_MASTER_SID)
+  END
+
+GO
+
+----------------UNIQUE CONSTRAINT
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.ARM_ADJ_RATE_CONFIG_MASTER')
+                      AND NAME = 'UQ_ARM_ADJ_RATE_CONFIG_MASTER_GL_COMPANY_MASTER_SID_BU_COMPANY_MASTER_SID_ADJUSTMENT_TYPE'
+                      AND TYPE = 'UQ')
+  BEGIN
+      ALTER TABLE [DBO].[ARM_ADJ_RATE_CONFIG_MASTER]
+        ADD CONSTRAINT [UQ_ARM_ADJ_RATE_CONFIG_MASTER_GL_COMPANY_MASTER_SID_BU_COMPANY_MASTER_SID_ADJUSTMENT_TYPE] UNIQUE (GL_COMPANY_MASTER_SID, BU_COMPANY_MASTER_SID, ADJUSTMENT_TYPE)
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ARM_ADJ_RATE_CONFIG_MASTER'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+----------------------------------------------------------ARM_ADJ_RATE_CONFIG_DETAIL----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        (
+           ARM_ADJ_RATE_CONFIG_DETAIL_SID INT IDENTITY(1, 1) NOT NULL,
+           ARM_ADJ_RATE_CONFIG_MASTER_SID INT NOT NULL,
+           MONTH                          INT NOT NULL,
+           DATE_TYPE                      INT  NULL,
+           PRICE                          INT NOT NULL,
+		   INVENTORY_DETAILS INT NULL,
+           INVENTORY_CUSTOMER             INT NULL,
+           RESERVE_DATE                   INT NULL,
+           RATE_BASIS                     INT NOT NULL,
+           RATE_FREQUENCY                 INT NOT NULL,
+           RATE_PERIOD                    INT NOT NULL,
+		   EXCLUSION_VIEW_MASTER INT NULL,
+		   INVENTORY_VIEW_MASTER INT NULL
+        )
+  END
+
+GO
+  --------------column addition
+--BASE_LINE_PRICE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'BASE_LINE_PRICE'
+					 AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ADD BASE_LINE_PRICE INT NULL
+  END
+
+GO 
+--ADJUSTED_PRICE
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'ADJUSTED_PRICE'
+					 AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ADD ADJUSTED_PRICE INT NULL
+  END
+
+GO 
+--INFLATION_FACTOR
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'INFLATION_FACTOR'
+					 AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ADD INFLATION_FACTOR NUMERIC(22,6) NULL
+  END
+
+GO 
+
+------------------------------DROP STATISTICS-------------------------
+--PRICE
+--IF EXISTS (SELECT 1
+--               FROM   INFORMATION_SCHEMA.COLUMNS
+--               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+--                      AND COLUMN_NAME = 'PRICE'
+--                                  AND TABLE_SCHEMA='DBO')
+--BEGIN 
+--       DROP STATISTICS ARM_ADJ_RATE_CONFIG_DETAIL.PRICE
+--END
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'PRICE'
+                  AND Object_name(object_id) = 'ARM_ADJ_RATE_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RATE_CONFIG_DETAIL.PRICE
+  END 
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'BASE_LINE_PRICE'
+                  AND Object_name(object_id) = 'ARM_ADJ_RATE_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RATE_CONFIG_DETAIL.BASE_LINE_PRICE
+  END 
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'ADJUSTED_PRICE'
+                  AND Object_name(object_id) = 'ARM_ADJ_RATE_CONFIG_DETAIL')
+  BEGIN
+      DROP STATISTICS ARM_ADJ_RATE_CONFIG_DETAIL.ADJUSTED_PRICE
+  END 
+
+GO
+---------------------------------ALTER COLUMN SCRIPT-----------------------------------
+--BASE_LINE_PRICE
+IF EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'BASE_LINE_PRICE'
+                                  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ALTER COLUMN BASE_LINE_PRICE VARCHAR(50)
+  END
+
+GO 
+--ADJUSTED_PRICE
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'ADJUSTED_PRICE'
+                                  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ALTER COLUMN ADJUSTED_PRICE VARCHAR(50)
+  END
+
+GO 
+
+---------------------------------ALTER COLUMN SCRIPT----------------------------------
+--PRICE
+IF EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                      AND COLUMN_NAME = 'PRICE'
+                                  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ARM_ADJ_RATE_CONFIG_DETAIL
+        ALTER COLUMN PRICE VARCHAR(50)
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJ_RATE_CONFIG_DETAIL'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ARM_ADJ_RATE_CONFIG_DETAIL_ARM_ADJ_RATE_CONFIG_DETAIL_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ARM_ADJ_RATE_CONFIG_DETAIL
+        ADD CONSTRAINT PK_ARM_ADJ_RATE_CONFIG_DETAIL_ARM_ADJ_RATE_CONFIG_DETAIL_SID PRIMARY KEY (ARM_ADJ_RATE_CONFIG_DETAIL_SID)
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ARM_ADJ_RATE_CONFIG_DETAIL'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+----------------------------------------------------------ARM_EXCLUSION_DETAIL----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_EXCLUSION_DETAIL'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_EXCLUSION_DETAIL
+        (
+           PROJECTION_MASTER_SID INT NOT NULL,
+           FIELD_VALUES VARCHAR(50) NOT NULL,
+		   FIELD_NAME   VARCHAR(50) NULL
+        )
+  END
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'ARM_EXCLUSION_DETAIL'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+----------------------------------------------------------ARM_VIEW_MASTER----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_VIEW_MASTER'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_VIEW_MASTER
+        (
+           ARM_VIEW_MASTER_SID INT IDENTITY(1, 1) NOT NULL,
+           VIEW_NAME           VARCHAR(100) NULL,
+           VIEW_TYPE           VARCHAR(50) NULL,
+           CREATED_BY          VARCHAR(50) NULL,
+           CREATED_DATE        DATETIME NULL,
+           MODIFIED_BY         VARCHAR(50) NULL,
+           MODIFIED_DATE       DATETIME NULL
+        )
+  END
+
+GO
+---------------PRIMARY KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_VIEW_MASTER'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ARM_VIEW_MASTER_ARM_VIEW_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ARM_VIEW_MASTER
+        ADD CONSTRAINT PK_ARM_VIEW_MASTER_ARM_VIEW_MASTER_SID PRIMARY KEY (ARM_VIEW_MASTER_SID)
+  END
+
+GO 
+
+----------------------------------------------------------ARM_VIEW_DETAILS----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_VIEW_DETAILS'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_VIEW_DETAILS
+        (
+           ARM_VIEW_MASTER_SID INT NOT NULL,
+           COMPANY_MASTER_SID  INT NULL,
+           COMPANY_GROUP_SID   INT NULL,
+           CHECK_RECORD        BIT NULL,
+           INDICATOR           BIT NULL,
+		   FIELD_VALUES        VARCHAR(50) NULL,
+		   FIELD_NAME          VARCHAR(50) NULL
+        )
+  END 
+
+GO
+-------------------------------------FILE_MANGEMENT-------------------------------------
+--BUSINESS_UNIT
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'FILE_MANAGEMENT'
+                      AND COLUMN_NAME = 'BUSINESS_UNIT'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE FILE_MANAGEMENT
+        ADD BUSINESS_UNIT INT  NULL
+  END
+GO
+
+--BU_COMPANY_MASTER_SID
+IF NOT EXISTS (
+		SELECT 1
+		FROM SYS.FOREIGN_KEYS
+		WHERE Object_name(PARENT_OBJECT_ID) = 'FILE_MANAGEMENT'
+			AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+			AND NAME = 'FK_FILE_MANAGEMENT_COMPANY_MASTER_BUSINESS_UNIT'
+			AND TYPE = 'F'
+		)
+BEGIN
+	ALTER TABLE FILE_MANAGEMENT ADD CONSTRAINT FK_FILE_MANAGEMENT_COMPANY_MASTER_BUSINESS_UNIT FOREIGN KEY (BUSINESS_UNIT) REFERENCES COMPANY_MASTER (COMPANY_MASTER_SID)
+END
+GO
+
+-----------------------------------------ARM_ADJUSTMENT_VIEW_DETAILS---------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      CREATE TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        (
+           ARM_VIEW_MASTER_SID INT NOT NULL,
+           ADJUSTMENT_TYPE INT NULL,
+		   ADJUSTMENT_LEVEL INT NOT NULL,
+		   COMPANY_MASTER_SID INT NULL,
+		   BU_COMPANY_MASTER_SID INT NULL, 
+		   WORKFLOW_ID VARCHAR(50) NULL,
+		   WORKFLOW_NAME VARCHAR(100) NULL,
+		   CUSTOMER_NO VARCHAR(50) NULL,
+		   ITEM_NO VARCHAR(50) NULL,
+		   DEDUCTION_LEVEL INT NULL,
+		   CREATION_DATE DATETIME NULL,
+		   CUSTOMER_NAME VARCHAR(100) NULL,
+		   ITEM_NAME VARCHAR(100) NULL,
+		   DEDUCTION_VALUE VARCHAR(1000) NULL,
+		   GL_DATE DATETIME NULL,
+		   BATCH_ID VARCHAR(50) NULL,
+		   BRAND_NAME VARCHAR(50) NULL,
+		   REDEMPTION_PERIOD DATETIME NULL,
+		   POSTING_INDICATOR INT NULL
+
+        )
+  END
+
+GO
+-------------------ADDING COLUMNS
+--TRANSACTION_LEVEL
+  IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS' 
+                      AND COLUMN_NAME = 'TRANSACTION_LEVEL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS 
+        ADD TRANSACTION_LEVEL INT 
+  END 
+
+GO 
+--ACCOUNT_CATEGORY
+  IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS' 
+                      AND COLUMN_NAME = 'ACCOUNT_CATEGORY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS 
+        ADD ACCOUNT_CATEGORY INT 
+  END 
+
+GO 
+--ACCOUNT_TYPE
+  IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS' 
+                      AND COLUMN_NAME = 'ACCOUNT_TYPE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS 
+        ADD ACCOUNT_TYPE INT 
+  END 
+
+GO 
+--ACCOUNT
+ IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS' 
+                      AND COLUMN_NAME = 'ACCOUNT' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS 
+        ADD ACCOUNT VARCHAR(50)
+  END 
+
+GO 
+--REDEMPTION_PERIOD_END_DATE
+ IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS' 
+                      AND COLUMN_NAME = 'REDEMPTION_PERIOD_END_DATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE  ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD REDEMPTION_PERIOD_END_DATE DATETIME NULL
+  END 
+
+GO 
+--DEDUCTION_VALUE DATA TYPE CHANGE 
+IF EXISTS (SELECT 1
+              FROM   INFORMATION_SCHEMA.COLUMNS
+              WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND COLUMN_NAME = 'DEDUCTION_VALUE'
+                     AND TABLE_SCHEMA = 'DBO'
+					 AND DATA_TYPE='VARCHAR'
+					 AND CHARACTER_MAXIMUM_LENGTH=100)
+  BEGIN
+      ALTER TABLE [DBO].ARM_ADJUSTMENT_VIEW_DETAILS
+        ALTER COLUMN DEDUCTION_VALUE VARCHAR(1000) NULL
+  END
+
+GO 
+-----------------------F.K'S
+ --ARM_VIEW_MASTER_SID
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_ARM_VIEW_MASTER_ARM_VIEW_MASTER_SID'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_ARM_VIEW_MASTER_ARM_VIEW_MASTER_SID FOREIGN KEY(ARM_VIEW_MASTER_SID) REFERENCES ARM_VIEW_MASTER(ARM_VIEW_MASTER_SID)
+  END
+
+GO
+
+ --ADJUSTMENT_TYPE
+--IF NOT EXISTS(SELECT 1
+--              FROM   SYS.FOREIGN_KEYS
+--              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+--                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+--                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_TYPE'
+--                     AND TYPE = 'F')
+--  BEGIN
+--      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+--        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_ADJUSTMENT_TYPE_HELPER_TABLE_HELPER_TABLE_SID FOREIGN KEY(ADJUSTMENT_TYPE) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+--  END
+
+--GO
+
+IF  EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_TYPE'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        DROP CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_TYPE 
+  END
+
+GO
+
+IF EXISTS (
+		SELECT 1
+		FROM SYS.FOREIGN_KEYS
+		WHERE OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+			AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+			AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_ADJUSTMENT_TYPE_HELPER_TABLE_HELPER_TABLE_SID'
+			AND TYPE = 'F'
+		)
+  BEGIN
+	ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+	DROP CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_ADJUSTMENT_TYPE_HELPER_TABLE_HELPER_TABLE_SID
+END
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_TYPE'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_TYPE FOREIGN KEY(ADJUSTMENT_TYPE) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+ --ADJUSTMENT_LEVEL
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_LEVEL'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ADJUSTMENT_LEVEL FOREIGN KEY(ADJUSTMENT_LEVEL) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+--COMPANY_MASTER_SID
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_COMPANY_MASTER_COMPANY_MASTER_SID'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_COMPANY_MASTER_COMPANY_MASTER_SID FOREIGN KEY(COMPANY_MASTER_SID) REFERENCES COMPANY_MASTER(COMPANY_MASTER_SID)
+  END
+
+GO
+
+--BU_COMPANY_MASTER_SID
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_COMPANY_MASTER_BU_COMPANY_MASTER_SID'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_COMPANY_MASTER_BU_COMPANY_MASTER_SID FOREIGN KEY(BU_COMPANY_MASTER_SID) REFERENCES COMPANY_MASTER(COMPANY_MASTER_SID)
+  END
+
+GO
+
+ --DEDUCTION_LEVEL
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_DEDUCTION_LEVEL'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_DEDUCTION_LEVEL FOREIGN KEY(DEDUCTION_LEVEL) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+--POSTING_INDICATOR
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_POSTING_INDICATOR'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_POSTING_INDICATOR FOREIGN KEY(POSTING_INDICATOR) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+-----TRANSACTION_LEVEL
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_TRANSACTION_LEVEL'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_TRANSACTION_LEVEL FOREIGN KEY(TRANSACTION_LEVEL) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+-----ACCOUNT_CATEGORY
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ACCOUNT_CATEGORY'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ACCOUNT_CATEGORY FOREIGN KEY(ACCOUNT_CATEGORY) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+-----ACCOUNT_TYPE
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_VIEW_DETAILS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ACCOUNT_TYPE'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE ARM_ADJUSTMENT_VIEW_DETAILS
+        ADD CONSTRAINT FK_ARM_ADJUSTMENT_VIEW_DETAILS_HELPER_TABLE_ACCOUNT_TYPE FOREIGN KEY(ACCOUNT_TYPE) REFERENCES HELPER_TABLE(HELPER_TABLE_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE ARM_ADJUSTMENT_CONFIG 
+        ( 
+           ARM_ADJUSTMENT_CONFIG_SID INT IDENTITY(1, 1) NOT NULL, 
+           TRANSACTION_NAME          VARCHAR(50) NOT NULL, 
+           TRANSACTION_DESC          VARCHAR(50) NOT NULL, 
+           METHODOLGY                INT NOT NULL, 
+           REDEMPTION_PERIOD         BIT NOT NULL, 
+           CREATED_DATE              DATETIME NOT NULL, 
+           CREATED_BY                INT NOT NULL, 
+           MODIFIED_DATE             DATETIME NULL, 
+           MODIFIED_BY               INT NULL 
+        ) 
+  END 
+
+GO 
+
+---------------------PRIMARY KEY CONSTRAINT------------------------ 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_ARM_ADJUSTMENT_CONFIG_ARM_ADJUSTMENT_CONFIG_SID' 
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].[ARM_ADJUSTMENT_CONFIG] 
+        ADD CONSTRAINT PK_ARM_ADJUSTMENT_CONFIG_ARM_ADJUSTMENT_CONFIG_SID PRIMARY KEY ( ARM_ADJUSTMENT_CONFIG_SID )
+  END 
+
+GO 
+-------------UNIQUE KEY CONSTRAINTS
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'UQ_ARM_ADJUSTMENT_CONFIG_TRANSACTION_NAME'
+                     AND TYPE = 'UQ')
+  BEGIN
+      ALTER TABLE [DBO].ARM_ADJUSTMENT_CONFIG
+        ADD CONSTRAINT UQ_ARM_ADJUSTMENT_CONFIG_TRANSACTION_NAME UNIQUE (TRANSACTION_NAME)
+
+  END
+
+GO
+
+-----------------------------DEFAULT CONSTRAINTS 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_ARM_ADJUSTMENT_CONFIG_CREATED_DATE') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_CONFIG 
+        ADD CONSTRAINT DF_ARM_ADJUSTMENT_CONFIG_CREATED_DATE DEFAULT(GETDATE()) FOR CREATED_DATE
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_ARM_ADJUSTMENT_CONFIG_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_CONFIG 
+        ADD CONSTRAINT DF_ARM_ADJUSTMENT_CONFIG_MODIFIED_DATE DEFAULT(GETDATE()) FOR MODIFIED_DATE
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_ARM_ADJUSTMENT_CONFIG_CREATED_BY') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_CONFIG 
+        ADD CONSTRAINT DF_ARM_ADJUSTMENT_CONFIG_CREATED_BY DEFAULT(1) FOR CREATED_BY 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_ARM_ADJUSTMENT_CONFIG_MODIFIED_BY') 
+  BEGIN 
+      ALTER TABLE ARM_ADJUSTMENT_CONFIG 
+        ADD CONSTRAINT DF_ARM_ADJUSTMENT_CONFIG_MODIFIED_BY DEFAULT(1) FOR MODIFIED_BY 
+  END 
+
+GO 
+
+-------------------------------------HIST----------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'HIST_ARM_ADJUSTMENT_CONFIG' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE HIST_ARM_ADJUSTMENT_CONFIG 
+        ( 
+           ARM_ADJUSTMENT_CONFIG_SID INT NOT NULL, 
+           TRANSACTION_NAME          VARCHAR(50) NOT NULL, 
+           TRANSACTION_DESC          VARCHAR(50) NOT NULL, 
+           METHODOLGY                INT NOT NULL, 
+           REDEMPTION_PERIOD         BIT NOT NULL, 
+           CREATED_DATE              DATETIME NOT NULL, 
+           CREATED_BY                INT NOT NULL, 
+           MODIFIED_DATE             DATETIME, 
+           MODIFIED_BY               INT, 
+           ACTION_FLAG               CHAR(1) NOT NULL, 
+           ACTION_DATE               DATETIME NOT NULL 
+        ) 
+  END 
+
+GO 
+
+-------------DEFAULT CONSTRAINTS--------------------- 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'HIST_ARM_ADJUSTMENT_CONFIG' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_HIST_ARM_ADJUSTMENT_CONFIG_ACTION_DATE') 
+  BEGIN 
+      ALTER TABLE HIST_ARM_ADJUSTMENT_CONFIG 
+        ADD CONSTRAINT DF_HIST_ARM_ADJUSTMENT_CONFIG_ACTION_DATE DEFAULT(GETDATE()) FOR ACTION_DATE
+  END 
+
+------------------------------------------TRIGGERS------------------------------------------ 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_ARM_ADJUSTMENT_CONFIG_UPD') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_ARM_ADJUSTMENT_CONFIG_UPD 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].[TRG_ARM_ADJUSTMENT_CONFIG_UPD] 
+ON [DBO].[ARM_ADJUSTMENT_CONFIG] 
+AFTER UPDATE 
+AS 
+  BEGIN 
+  SET NOCOUNT ON
+      IF EXISTS (SELECT * 
+                 FROM   INSERTED) 
+         AND EXISTS (SELECT * 
+                     FROM   DELETED) 
+        INSERT INTO HIST_ARM_ADJUSTMENT_CONFIG 
+                    (ARM_ADJUSTMENT_CONFIG_SID, 
+                     TRANSACTION_NAME, 
+                     TRANSACTION_DESC, 
+                     METHODOLGY, 
+                     REDEMPTION_PERIOD, 
+                     CREATED_DATE, 
+                     CREATED_BY, 
+                     MODIFIED_DATE, 
+                     MODIFIED_BY, 
+                     ACTION_FLAG) 
+        SELECT ARM_ADJUSTMENT_CONFIG_SID, 
+               TRANSACTION_NAME, 
+               TRANSACTION_DESC, 
+               METHODOLGY, 
+               REDEMPTION_PERIOD, 
+               CREATED_DATE, 
+               CREATED_BY, 
+               MODIFIED_DATE, 
+               MODIFIED_BY, 
+               'C' 
+        FROM   INSERTED 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_ARM_ADJUSTMENT_CONFIG_INS') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_ARM_ADJUSTMENT_CONFIG_INS 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].[TRG_ARM_ADJUSTMENT_CONFIG_INS] 
+ON [DBO].[ARM_ADJUSTMENT_CONFIG] 
+AFTER INSERT 
+AS 
+  BEGIN 
+  SET NOCOUNT ON
+      IF EXISTS (SELECT * 
+                 FROM   INSERTED) 
+        INSERT INTO HIST_ARM_ADJUSTMENT_CONFIG 
+                    (ARM_ADJUSTMENT_CONFIG_SID, 
+                     TRANSACTION_NAME, 
+                     TRANSACTION_DESC, 
+                     METHODOLGY, 
+                     REDEMPTION_PERIOD, 
+                     CREATED_DATE, 
+                     CREATED_BY, 
+                     MODIFIED_DATE, 
+                     MODIFIED_BY, 
+                     ACTION_FLAG) 
+        SELECT ARM_ADJUSTMENT_CONFIG_SID, 
+               TRANSACTION_NAME, 
+               TRANSACTION_DESC, 
+               METHODOLGY, 
+               REDEMPTION_PERIOD, 
+               CREATED_DATE, 
+               CREATED_BY, 
+               MODIFIED_DATE, 
+               MODIFIED_BY, 
+               'A' 
+        FROM   INSERTED 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_ARM_ADJUSTMENT_CONFIG_DEL') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_ARM_ADJUSTMENT_CONFIG_DEL 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].[TRG_ARM_ADJUSTMENT_CONFIG_DEL] 
+ON [DBO].[ARM_ADJUSTMENT_CONFIG] 
+AFTER DELETE 
+AS 
+  BEGIN 
+  SET NOCOUNT ON
+      IF EXISTS (SELECT * 
+                 FROM   DELETED) 
+        INSERT INTO HIST_ARM_ADJUSTMENT_CONFIG 
+                    (ARM_ADJUSTMENT_CONFIG_SID, 
+                     TRANSACTION_NAME, 
+                     TRANSACTION_DESC, 
+                     METHODOLGY, 
+                     REDEMPTION_PERIOD, 
+                     CREATED_DATE, 
+                     CREATED_BY, 
+                     MODIFIED_DATE, 
+                     MODIFIED_BY, 
+                     ACTION_FLAG) 
+        SELECT ARM_ADJUSTMENT_CONFIG_SID, 
+               TRANSACTION_NAME, 
+               TRANSACTION_DESC, 
+               METHODOLGY, 
+               REDEMPTION_PERIOD, 
+               CREATED_DATE, 
+               CREATED_BY, 
+               MODIFIED_DATE, 
+               MODIFIED_BY, 
+               'D' 
+        FROM   DELETED 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'PERIOD_CONFIG_MASTER' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE PERIOD_CONFIG_MASTER 
+        ( 
+           PERIOD_CONFIG_MASTER_SID INT IDENTITY(1, 1) NOT NULL, 
+           MODULE                   INT NOT NULL, 
+           BUSINESS_PROCESS_TYPE    INT NOT NULL, 
+           COMPANY_MASTER_SID       INT NOT NULL, 
+           BU_COMPANY_MASTER_SID    INT NOT NULL 
+        ) 
+  END 
+
+GO 
+
+---------------------PRIMARY KEY CONSTRAINT------------------------ 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PERIOD_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_PERIOD_CONFIG_MASTER_PERIOD_CONFIG_MASTER_SID' 
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].[PERIOD_CONFIG_MASTER] 
+        ADD CONSTRAINT PK_PERIOD_CONFIG_MASTER_PERIOD_CONFIG_MASTER_SID PRIMARY KEY ( PERIOD_CONFIG_MASTER_SID )
+  END 
+
+GO 
+
+
+--------------------------------------PERIOD_CONFIG_DETAILS----------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'PERIOD_CONFIG_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE PERIOD_CONFIG_DETAILS 
+        ( 
+           PERIOD_CONFIG_DETAILS_SID INT IDENTITY(1, 1) NOT NULL, 
+           PERIOD_CONFIG_MASTER_SID  INT NOT NULL, 
+           FROM_MODE                 INT NOT NULL, 
+           FROM_DEFAULT_MODE         INT NOT NULL, 
+           FROM_FREQUENCY            INT NULL, 
+           FROM_DEFAULT_FREQUERNCY   INT NULL, 
+           FROM_PERIOD               INT NULL, 
+           FROM_PERIOD_DATE          DATETIME NULL, 
+           FROM_DEFAULT_PERIOD       INT NULL, 
+           FROM_DEFAULT_PERIOD_DATE  DATETIME NULL, 
+           TO_MODE                   INT NULL, 
+           TO_DEFAULT_MODE           INT NULL, 
+           TO_FREQUENCY              INT NULL, 
+           TO_DEFAULT_FREQUERNCY     INT NULL, 
+           TO_PERIOD                 INT NULL, 
+           TO_PERIOD_DATE            DATETIME NULL, 
+           TO_DEFAULT_PERIOD         INT NULL, 
+           TO_DEFUALT_PERIOD_DATE    DATETIME NULL, 
+           VERSION_NO                INT NULL, 
+           PERIOD_VIEW               INT NULL, 
+           CREATED_BY                INT NOT NULL 
+        ) 
+  END 
+
+GO 
+
+---------------------PRIMARY KEY CONSTRAINT------------------------ 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'PERIOD_CONFIG_DETAILS' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_PERIOD_CONFIG_DETAILS_PERIOD_CONFIG_DETAILS_SID' 
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].[PERIOD_CONFIG_DETAILS] 
+        ADD CONSTRAINT PK_PERIOD_CONFIG_DETAILS_PERIOD_CONFIG_DETAILS_SID PRIMARY KEY ( PERIOD_CONFIG_DETAILS_SID )
+  END 
+
+GO 
+
+--------------------------------------CALENDAR_CONFIG_MASTER----------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE CALENDAR_CONFIG_MASTER 
+        ( 
+           CALENDAR_CONFIG_MASTER_SID INT IDENTITY(1, 1) NOT NULL, 
+           CALENDAR_NAME              VARCHAR(50) NULL, 
+           CALENDAR_DESCRIPTION       VARCHAR(50) NULL, 
+           CALENDAR_YEAR              INT NULL, 
+           COUNTRY                    VARCHAR(50) NULL 
+        ) 
+  END 
+
+GO 
+
+------ADDING COLUMNS 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND COLUMN_NAME = 'CREATED_DATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CREATED_DATE DATETIME 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND COLUMN_NAME = 'CREATED_BY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CREATED_BY VARCHAR(50) 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND COLUMN_NAME = 'MODIFIED_DATE' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD MODIFIED_DATE DATETIME 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND COLUMN_NAME = 'MODIFIED_BY' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD MODIFIED_BY VARCHAR(50) 
+  END 
+
+GO
+
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+                      AND COLUMN_NAME = 'DEFAULT_HOLIDAYS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD DEFAULT_HOLIDAYS BIT 
+  END 
+
+GO 
+
+---------------------PRIMARY KEY CONSTRAINT------------------------ 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_CALENDAR_CONFIG_MASTER_CALENDAR_CONFIG_MASTER_SID' 
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].CALENDAR_CONFIG_MASTER 
+        ADD CONSTRAINT PK_CALENDAR_CONFIG_MASTER_CALENDAR_CONFIG_MASTER_SID PRIMARY KEY ( CALENDAR_CONFIG_MASTER_SID )
+  END 
+
+GO 
+
+-----------------------------DEFAULT CONSTRAINTS 
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_CALENDAR_CONFIG_MASTER_CREATED_DATE') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CONSTRAINT DF_CALENDAR_CONFIG_MASTER_CREATED_DATE DEFAULT(GETDATE()) FOR CREATED_DATE
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_CALENDAR_CONFIG_MASTER_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CONSTRAINT DF_CALENDAR_CONFIG_MASTER_MODIFIED_DATE DEFAULT(GETDATE()) FOR MODIFIED_DATE
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_CALENDAR_CONFIG_MASTER_CREATED_BY') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CONSTRAINT DF_CALENDAR_CONFIG_MASTER_CREATED_BY DEFAULT(1) FOR CREATED_BY 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 1 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_MASTER' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'DF_CALENDAR_CONFIG_MASTER_MODIFIED_BY') 
+  BEGIN 
+      ALTER TABLE CALENDAR_CONFIG_MASTER 
+        ADD CONSTRAINT DF_CALENDAR_CONFIG_MASTER_MODIFIED_BY DEFAULT(1) FOR MODIFIED_BY 
+  END 
+
+GO 
+
+--IF NOT EXISTS (SELECT 1 
+--               FROM   INFORMATION_SCHEMA.COLUMNS 
+--               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_MASTER' 
+--                      AND COLUMN_NAME = 'DEFAULT_HOLIDAYS' 
+--                      AND TABLE_SCHEMA = 'DBO') 
+--  BEGIN 
+--      ALTER TABLE CALENDAR_CONFIG_MASTER 
+--        ADD DEFAULT_HOLIDAYS BIT 
+--  END 
+
+--GO 
+
+--------------------------------------CALENDAR_CONFIG_DETAILS----------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'CALENDAR_CONFIG_DETAILS' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE CALENDAR_CONFIG_DETAILS 
+        ( 
+           CALENDAR_CONFIG_DETAILS_SID INT IDENTITY(1, 1) NOT NULL, 
+           CALENDAR_CONFIG_MASTER_SID  INT NOT NULL, 
+           HOLIDAYS_PERIOD_DATE        DATETIME NULL 
+        ) 
+  END 
+
+GO 
+
+---------------------PRIMARY KEY CONSTRAINT------------------------ 
+IF NOT EXISTS (SELECT * 
+               FROM   SYS.KEY_CONSTRAINTS 
+               WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'CALENDAR_CONFIG_DETAILS' 
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                      AND NAME = 'PK_CALENDAR_CONFIG_DETAILS_CALENDAR_CONFIG_DETAILS_SID' 
+                      AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE [DBO].CALENDAR_CONFIG_DETAILS 
+        ADD CONSTRAINT PK_CALENDAR_CONFIG_DETAILS_CALENDAR_CONFIG_DETAILS_SID PRIMARY KEY ( CALENDAR_CONFIG_DETAILS_SID )
+  END 
+
+GO 
+
+----------------------------------DELETE for GAL-8516 FOR CHECKING TRANSACTIONS IN CONFIGUARTION
+--PERIOD_CONFIG_DETAILS
+IF EXISTS (SELECT 1 FROM   PERIOD_CONFIG_MASTER
+ WHERE  BUSINESS_PROCESS_TYPE NOT IN (SELECT BUSINESS_PROCESS_TYPE
+    FROM   PERIOD_CONFIG_MASTER PM
+   JOIN ARM_ADJUSTMENT_CONFIG AD
+ ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
+AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+  BEGIN 
+      DELETE FROM PERIOD_CONFIG_DETAILS 
+      WHERE  PERIOD_CONFIG_MASTER_SID IN(SELECT PERIOD_CONFIG_MASTER_SID 
+                                         FROM   PERIOD_CONFIG_MASTER 
+                                         WHERE  BUSINESS_PROCESS_TYPE IN(SELECT BUSINESS_PROCESS_TYPE
+                                                                         FROM   PERIOD_CONFIG_MASTER
+                                                                         WHERE  BUSINESS_PROCESS_TYPE NOT IN (SELECT BUSINESS_PROCESS_TYPE
+                                                                                                              FROM   PERIOD_CONFIG_MASTER PM
+                                                                                                                     JOIN ARM_ADJUSTMENT_CONFIG AD
+                                                                                                                       ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
+                                                                                AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )))
+  END 
+
+  GO
+
+--PERIOD_CONFIG_MASTER
+IF EXISTS (SELECT 1 
+           FROM   PERIOD_CONFIG_MASTER 
+           WHERE  BUSINESS_PROCESS_TYPE NOT IN (SELECT BUSINESS_PROCESS_TYPE 
+                                                FROM   PERIOD_CONFIG_MASTER PM 
+                                                       JOIN ARM_ADJUSTMENT_CONFIG AD 
+                                                         ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
+                  AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+  BEGIN 
+      DELETE FROM PERIOD_CONFIG_MASTER 
+      WHERE  BUSINESS_PROCESS_TYPE IN(SELECT BUSINESS_PROCESS_TYPE 
+                                      FROM   PERIOD_CONFIG_MASTER 
+                                      WHERE  BUSINESS_PROCESS_TYPE NOT IN (SELECT BUSINESS_PROCESS_TYPE
+                                                                           FROM   PERIOD_CONFIG_MASTER PM
+                                                                                  JOIN ARM_ADJUSTMENT_CONFIG AD
+                                                                                    ON PM.BUSINESS_PROCESS_TYPE = AD.ARM_ADJUSTMENT_CONFIG_SID)
+                                             AND BUSINESS_PROCESS_TYPE NOT IN ( -1, -2 )) 
+  END 
+
+GO 

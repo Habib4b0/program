@@ -1,0 +1,2261 @@
+IF EXISTS (SELECT 'X'
+           FROM   INFORMATION_SCHEMA.ROUTINES
+           WHERE  ROUTINE_NAME = 'PRC_NM_PPA_MAP'
+                  AND ROUTINE_SCHEMA = 'DBO')
+  BEGIN
+      DROP PROCEDURE [DBO].[PRC_NM_PPA_MAP]
+  END
+
+GO
+
+CREATE  PROCEDURE [dbo].[PRC_NM_PPA_MAP] (
+	@PROJECTION_DETAILS_SID				INT
+	,@USER_ID							 VARCHAR(100)
+	,@SESSION_ID						VARCHAR(100)
+	,@PROJ_START_DATE						DATETIME
+	,@PROJ_END_DATE							DATETIME
+	,@ITEM_MASTER_SID					 INT
+	,@REBATE_FREQUENCY							CHAR(1)
+	,@RS_CONTRACT_SID INT
+	,@CAL_START_DATE DATETIME
+	,@CAL_END_DATE DATETIME
+	,@PROJECTION_MASTER_SID INT
+	)
+AS
+
+/**********************************************************************************************************
+** FILE NAME		:	PRC_NM_PPA_MAP.SQL
+** PROCEDURE NAME	:	PRC_NM_PPA_MAP
+** DESCRIPTION		:	this procedure will calculate the ppa discount for a particular ccp and rs which is given as a input
+** INPUT PARAMETERS	:	@PROJECTION_DETAILS_SID	  - passing input as PROJECTION_DETAILS_SID
+						@USER_ID				  - user id for the particular projection 
+						@SESSION_ID				  - session id for the particular projection 
+						@PROJ_START_DATE		  - projection start date so to calculate the wac start date
+						@PROJ_END_DATE			  - projection end date so to calculate the wac end date
+						@ITEM_MASTER_SID		  - item master sid as input
+						@REBATE_FREQUENCY		  - to reset the calcuation of WAc price , Q/S/M/A
+						@RS_CONTRACT_SID		  - rs_contract_Sid to identify the particular ccp+rs
+						@CAL_START_DATE			  - to calculate the nep from this date
+						@CAL_END_DATE			  - to abort the calcuation of the nep for this date
+						@PROJECTION_MASTER_SID     - projection master sid as an input
+** OUTPUT PARAMETERS:	na
+** AUTHOR NAME		:	@SandeepKumar.A
+** CREATION DATE	:	 
+** CALLED BY		:   This procedure will be called from prc_nm_ppa_projection procedure for a particular ccp and rs. this is not used for now.
+**********************************************************************************************************
+** CHANGE HISTORY
+**********************************************************************************************************
+** VER   DATE       LOCAL ALMTICKET NO      SUBTICKET NO        ONLINE ALM TICKET      AUTHOR                              DESCRIPTION 
+** ---   --------      ---------             -------------        -------------     ----------------                       ------------------
+** 1                                                                                   @SandeepKumar.A		               Implemented the logic as the request that is based on price tolerance type and table consists of ccp wise only.
+** 2                                                                                   @SandeepKumar.A		               Implemented the netting logic
+** 3                                                                  GALUAT-321       @SandeepKumar.A		               Implemented the logic in which if there were multiple rebates attached to the PS of Price protection rebate type then the tables should contains the ccp+rebate combinbation.
+** 4                                                                  GAL-1163         @SandeepKumar.A                     Added RS_CONTRACT_SID column instead of RS_MODEL_SID .   
+** 5                                                                  GALUAT-295       @SandeepKumar.A                     Actuals should be taken from actuals details so this logic was added in the insert procedure.
+*****************************************************************************************************/
+
+BEGIN
+	SET NOCOUNT ON
+
+	BEGIN TRY
+
+  -------------------variable declaration-------------------------------------
+     
+
+		DECLARE @ACTUAL_START_DATE DATETIME
+			,@END_DATE_SID INT
+			,@ITEM_UOM VARCHAR(50) = 'EACH'
+			,@MAX_RN INT
+			,@CURRENT_DATE DATETIME
+			,@ACTUAL_PERIOD_SID INT
+			,@PROJ_END_PERIOD_SID INT
+			,@CURRENT_PERIOD INT
+			,@START_DATE_SID INT
+			,@PROJ_START_PERIOD_SID INT
+			,@PRICE_TOL_FRQ VARCHAR(50)
+			,@PRICE_TOL_INT INT
+			,@LOOP_VAR INT = 1
+			,@WAC NUMERIC(22, 6)
+			,@PREV_PRICE NUMERIC(22, 6)
+			,@RESET_TOL_INT INT
+			,@RESET_TOL_FREQ VARCHAR(50)
+			,@RESET INT
+			,@MAP NUMERIC(22, 6)
+			,@NEW_WAC NUMERIC(22, 6)
+			,@REBATE_ROLLOUT INT
+			,@REBATE_INCR INT = 1
+			,@RESET_PRICE_TYPE NUMERIC(22, 6)
+			,@NET_SUBSEQUENT_PERIOD_PRICE VARCHAR(50)
+			,@SUBSEQUENT_PERIOD_PRICE_TYPE INT
+			,@PRODUCT_TABLE      VARCHAR(200)=Concat('ST_PRODUCT_FILE_', @USER_ID, '_', @SESSION_ID, '_', Replace(CONVERT(VARCHAR(50), Getdate(), 2), '.', ''))
+			 DECLARE 
+					@D_PROJECTION_TABLE    VARCHAR(200) = Concat('ST_NM_DISCOUNT_PROJECTION_', @USER_ID, '_', @SESSION_ID,'_',replace(convert(varchar(50),getdate(),2),'.','')),
+					@SQL    NVARCHAR(MAX),
+					@PROJECTION_TABLE  VARCHAR(200)=Concat('ST_NM_PPA_PROJECTION_', @user_id, '_', @session_id,'_',replace(convert(varchar(50),getdate(),2),'.','')),
+					@S_PROJECTION_TABLE    VARCHAR(200) = Concat('ST_NM_SALES_PROJECTION_', @USER_ID, '_', @SESSION_ID,'_',replace(convert(varchar(50),getdate(),2),'.','')) 
+
+		
+		IF OBJECT_ID('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+			DROP TABLE #PERIOD;
+
+		SELECT PERIOD_SID
+			,PERIOD_DATE
+			,MONTH AS PERIOD_MONTH
+			,QUARTER AS PERIOD_QUARTER
+			,SEMI_ANNUAL AS PERIOD_SEMI
+			,YEAR AS PERIOD_YEAR
+			, CASE 
+				WHEN @REBATE_FREQUENCY = 'M'
+					THEN CONCAT (
+							'M'
+							,MONTH
+							,' '
+							,YEAR
+							)
+				WHEN @REBATE_FREQUENCY = 'Q'
+					THEN CONCAT (
+							'Q'
+							,QUARTER
+							,' '
+							,YEAR
+							)
+				WHEN @REBATE_FREQUENCY = 'S'
+					THEN CONCAT (
+							'S'
+							,SEMI_ANNUAL
+							,' '
+							,YEAR
+							)
+				ELSE CAST(YEAR AS CHAR(4))
+				END AS PERIOD
+		INTO #PERIOD
+		FROM PERIOD
+
+
+		-----------------------------------GAL-808------------------------------
+		
+	
+		---------------------------------------------------------- QUARTER PERIOD
+		SET @ACTUAL_START_DATE = DATEADD(YY, DATEDIFF(YY, 0, GETDATE()) - 3, 0) -- FIRST DAY OF -3 YEARS
+		SET @CURRENT_DATE = DATEADD(MM, DATEDIFF(MM, 0, GETDATE()), 0)
+
+		--SET @CURRENT_DATE = DATEADD(MM, DATEDIFF(MM, 0, '2016-02-01'), 0)
+		--     SET @START_DATE='2016-01-01 00:00:00.000'
+		--#TEMP_WAC_PRICES
+		SELECT @ACTUAL_PERIOD_SID = MAX(CASE 
+					WHEN @ACTUAL_START_DATE = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+			,@PROJ_START_PERIOD_SID = MAX(CASE 
+					WHEN DATEADD(MM, DATEDIFF(MM, 0, @PROJ_START_DATE), 0) = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+			,@PROJ_END_PERIOD_SID = MAX(CASE 
+					WHEN DATEADD(DAY, 1, EOMONTH(@PROJ_END_DATE, - 1)) = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+			,@END_DATE_SID = MAX(CASE 
+					WHEN @CAL_END_DATE = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+			,@START_DATE_SID = MAX(CASE 
+					WHEN @CAL_START_DATE = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+			,@CURRENT_PERIOD = MAX(CASE 
+					WHEN @CURRENT_DATE = PERIOD_DATE
+						THEN PERIOD_SID
+					END)
+		FROM #PERIOD
+		WHERE PERIOD_DATE IN (
+				@ACTUAL_START_DATE
+				,@PROJ_START_DATE
+				,DATEADD(DAY, 1, EOMONTH(@PROJ_END_DATE, - 1))
+				,@CURRENT_DATE
+				,@CAL_START_DATE
+				,@CAL_END_DATE
+				)
+
+		--SELECT @START_DATE_SID
+		--     ,@END_DATE_SID
+		--     ,@PROJ_END_DATE
+		--     ,@PROJ_END_PERIOD_SID
+		--     ,DATEADD(DAY, 1, EOMONTH(@PROJ_END_DATE, - 1))
+		----------------------------------------- WAC PRICE CALCULATION  START------------------
+		DECLARE @ITEMID [DBO].[UDT_ITEM]
+
+		INSERT INTO @ITEMID
+		SELECT @ITEM_MASTER_SID
+
+		
+
+		IF OBJECT_ID('TEMPDB.DBO.#UDF_ITEM_PRICING', 'U') IS NOT NULL
+			DROP TABLE #UDF_ITEM_PRICING;
+
+		SELECT ITEM_MASTER_SID,
+				PERIOD_SID,
+				PRICING_QUALIFIER,ITEM_PRICE
+		INTO #UDF_ITEM_PRICING
+		FROM DBO.UDF_ITEM_PRICING(@ITEMID, 'BQWAC,AVGQWAC,MQWAC,EQWAC,WAC', IIF(@ACTUAL_PERIOD_SID > @PROJ_START_PERIOD_SID, @PROJ_START_PERIOD_SID, @ACTUAL_PERIOD_SID), @CURRENT_PERIOD, @ITEM_UOM)
+
+		--SELECT @CURRENT_PERIOD-1
+		IF OBJECT_ID('TEMPDB.DBO.#GTS_WAC', 'U') IS NOT NULL
+			DROP TABLE #GTS_WAC;
+
+		CREATE TABLE #GTS_WAC (
+			ITEM_MASTER_SID INT
+			,PERIOD_SID INT
+			,ACTUAL_GTS_SALES NUMERIC(38, 15)
+			,ACTUAL_GTS_UNITS NUMERIC(38, 15)
+			,FORECAST_GTS_SALES NUMERIC(38, 15)
+			,FORECAST_GTS_UNITS NUMERIC(38, 15)
+			,ACTUAL_PRICE NUMERIC(38, 15)
+			,FORECAST_PRICE NUMERIC(38, 15)
+			,ITEM_PRICE NUMERIC(38, 15)
+			,WAC_PRICE NUMERIC(38, 15)
+			--,F_DAY_WEIGHTED_WAC_PRICE NUMERIC(38, 15)
+			--,A_DAY_WEIGHTED_WAC_PRICE NUMERIC(38, 15)
+			--,NO_OF_DAYS INT
+			,MONTH INT
+			,QUARTER INT
+			,SEMI_ANNUAL INT
+			,YEAR INT
+			,REBATE_FREQUENCY INT
+			,CALCULATION_FREQUENCY INT
+			,PRIMARY KEY (
+				ITEM_MASTER_SID
+				,PERIOD_SID
+				)
+			)
+
+		--SELECT @CURRENT_PERIOD
+	set @SQL=concat(	'INSERT INTO #GTS_WAC (
+			ITEM_MASTER_SID
+			,PERIOD_SID
+			,ACTUAL_GTS_SALES
+			,ACTUAL_GTS_UNITS
+			,FORECAST_GTS_SALES
+			,FORECAST_GTS_UNITS
+			,ACTUAL_PRICE
+			,FORECAST_PRICE
+			,ITEM_PRICE
+			,WAC_PRICE
+			--,F_DAY_WEIGHTED_WAC_PRICE
+			--,A_DAY_WEIGHTED_WAC_PRICE
+			--,NO_OF_DAYS
+			,MONTH
+			,QUARTER
+			,SEMI_ANNUAL
+			,YEAR
+			,REBATE_FREQUENCY
+			,CALCULATION_FREQUENCY
+			)
+		SELECT GTS.ITEM_MASTER_SID
+			,GTS.PERIOD_SID
+			,  EXFACTORY_ACTUAL_SALES
+,EXFACTORY_ACTUAL_UNITS
+,EXFACTORY_FORECAST_SALES
+,EXFACTORY_FORECAST_UNITS
+			
+			,EXFACTORY_ACTUAL_SALES/nullif(EXFACTORY_ACTUAL_UNITS,0) as actual_price
+			,EXFACTORY_FORECAST_SALES/nullif(EXFACTORY_FORECAST_UNITS,0) as FORECAST_PRICE
+			,IP.ITEM_PRICE
+			,COALESCE(EXFACTORY_FORECAST_SALES/nullif(EXFACTORY_FORECAST_units,0) , IP.ITEM_PRICE) WAC_PRICE
+			--,FORECAST_PRICE * DAY(DATEADD(DAY, - DAY(DATEADD(MONTH, 1, PERIOD_DATE)), DATEADD(MONTH, 1, PERIOD_DATE))) F_DAY_WEIGHTED_WAC_PRICE
+			--,IP.ITEM_PRICE * DAY(DATEADD(DAY, - DAY(DATEADD(MONTH, 1, PERIOD_DATE)), DATEADD(MONTH, 1, PERIOD_DATE))) A_DAY_WEIGHTED_WAC_PRICE
+			--,DAY(DATEADD(DAY, - DAY(DATEADD(MONTH, 1, PERIOD_DATE)), DATEADD(MONTH, 1, PERIOD_DATE))) NO_OF_DAYS
+			,P.PERIOD_MONTH
+			,P.PERIOD_QUARTER
+			,P.PERIOD_SEMI
+			,P.PERIOD_YEAR
+			,DENSE_RANK() OVER (
+				ORDER BY P.PERIOD_YEAR
+					,CASE 
+						WHEN @REBATE_FREQUENCY = ''M''
+							THEN P.PERIOD_MONTH
+						WHEN @REBATE_FREQUENCY = ''Q''
+							THEN P.PERIOD_QUARTER
+						WHEN @REBATE_FREQUENCY = ''S''
+							THEN P.PERIOD_SEMI
+						END
+				) REBATE_FREQUENCY
+			,ROW_NUMBER() OVER (
+				--  PARTITION BY P.PERIOD_YEAR, CASE WHEN @CALCULATION_FREQUENCY = ''M'' THEN P.PERIOD_MONTH WHEN @CALCULATION_FREQUENCY = ''Q'' THEN P.PERIOD_QUARTER WHEN @CALCULATION_FREQUENCY = ''S'' THEN P.PERIOD_SEMI END
+				ORDER BY P.PERIOD_YEAR
+					,P.PERIOD_MONTH
+				) CALCULATION_FREQUENCY
+		--     FROM DBO.UDF_GTS_WAC(@ITEMID, @ACTUAL_PERIOD_SID, @PROJ_END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) GTS
+		FROM ', @PRODUCT_TABLE, ' GTS
+		LEFT OUTER JOIN #UDF_ITEM_PRICING IP ON GTS.ITEM_MASTER_SID = IP.ITEM_MASTER_SID
+			AND GTS.PERIOD_SID = IP.PERIOD_SID
+			AND IP.PRICING_QUALIFIER = ''WAC''
+		JOIN #PERIOD P ON P.PERIOD_SID = GTS.PERIOD_SID AND GTS.ITEM_MASTER_SID=',@ITEM_MASTER_SID)
+
+ EXEC SP_EXECUTESQL @SQL,N'@REBATE_FREQUENCY CHAR(1)',
+                        @REBATE_FREQUENCY=@REBATE_FREQUENCY  
+
+		-------------identification of BQWAC,EQWAC,MQWAC,AVQWAC AND WAC from the above tables for all the periods-----------------------------------------------------------------
+		IF OBJECT_ID('TEMPDB.DBO.#ITEM_WAC_PRICES', 'U') IS NOT NULL
+			DROP TABLE #ITEM_WAC_PRICES;;
+
+		WITH FORECAST_PRICE
+		AS (
+			SELECT ITEM_MASTER_SID
+				,MAX(CASE 
+						WHEN MONTH IN (
+								1
+								,4
+								,7
+								,10
+								)
+							THEN FORECAST_GTS_SALES
+						END) / NULLIF(MAX(CASE 
+							WHEN MONTH IN (
+									1
+									,4
+									,7
+									,10
+									)
+								THEN FORECAST_GTS_UNITS
+							END), 0) 'F_BQWAC'
+				,MAX(CASE 
+						WHEN MONTH IN (
+								3
+								,6
+								,9
+								,12
+								)
+							THEN FORECAST_GTS_SALES
+						END) / NULLIF(MAX(CASE 
+							WHEN MONTH IN (
+									3
+									,6
+									,9
+									,12
+									)
+								THEN FORECAST_GTS_UNITS
+							END), 0) 'F_EQWAC'
+				,MAX(CASE 
+						WHEN MONTH IN (
+								2
+								,5
+								,8
+								,11
+								)
+							THEN FORECAST_GTS_SALES
+						END) / NULLIF(MAX(CASE 
+							WHEN MONTH IN (
+									2
+									,5
+									,8
+									,11
+									)
+								THEN FORECAST_GTS_UNITS
+							END), 0) 'F_MQWAC'
+				,
+				-- AVG(COALESCE(ITEM_PRICE,FORECAST_PRICE)) AS 'F_AVGQWAC',
+				AVG(ACTUAL_GTS_SALES / NULLIF(ACTUAL_GTS_UNITS, 0)) AS 'A_SALES_WEIGHTED_AVERAGE_WAC'
+				,AVG(FORECAST_GTS_SALES / NULLIF(FORECAST_GTS_UNITS, 0)) AS 'F_SALES_WEIGHTED_AVERAGE_WAC'
+				--,SUM(F_DAY_WEIGHTED_WAC_PRICE) / SUM(NO_OF_DAYS) AS 'F_DAY_WEIGHTED_WAC_PRICE'
+				--,SUM(A_DAY_WEIGHTED_WAC_PRICE) / SUM(NO_OF_DAYS) AS 'A_DAY_WEIGHTED_WAC_PRICE'
+				,MIN(PERIOD_SID) AS PERIOD_SID
+				,MIN(QUARTER) AS QUARTER
+				,MIN(SEMI_ANNUAL) AS SEMI_ANNUAL
+				,MIN(YEAR) AS YEAR
+			FROM #GTS_WAC C
+			GROUP BY ITEM_MASTER_SID
+				,YEAR
+				,QUARTER
+			)
+			,BQWAC
+		AS (
+			SELECT ITEM_MASTER_SID
+				,ITEM_PRICE 'A_BQWAC'
+				,IP.PERIOD_SID
+			FROM #UDF_ITEM_PRICING IP
+			WHERE IP.PRICING_QUALIFIER = 'BQWAC'
+			)
+			,EQWAC
+		AS (
+			SELECT ITEM_MASTER_SID
+				,ITEM_PRICE 'A_EQWAC'
+				,IP.PERIOD_SID
+			FROM #UDF_ITEM_PRICING IP
+			WHERE IP.PRICING_QUALIFIER = 'EQWAC'
+				AND IP.PERIOD_SID < @CURRENT_PERIOD
+			)
+			,MQWAC
+		AS (
+			SELECT ITEM_MASTER_SID
+				,ITEM_PRICE 'A_MQWAC'
+				,IP.PERIOD_SID
+			FROM #UDF_ITEM_PRICING IP
+			WHERE IP.PRICING_QUALIFIER = 'MQWAC'
+			)
+			,AVGWAC
+		AS (
+			SELECT ITEM_MASTER_SID
+				,ITEM_PRICE 'A_AVGQWAC'
+				,IP.PERIOD_SID
+			FROM #UDF_ITEM_PRICING IP
+			WHERE IP.PRICING_QUALIFIER = 'AVGQWAC'
+				AND IP.PERIOD_SID < @CURRENT_PERIOD
+			)
+			,WAC
+		AS (
+			SELECT ITEM_MASTER_SID
+				,ITEM_PRICE 'A_WAC'
+				,IP.PERIOD_SID
+			FROM #UDF_ITEM_PRICING IP
+			WHERE IP.PRICING_QUALIFIER = 'WAC'
+				AND IP.PERIOD_SID < @CURRENT_PERIOD
+			)
+			,ACTUAL_PRICE
+		AS (
+			SELECT P.PERIOD_SID
+				,P.PERIOD_QUARTER QUARTER
+				,P.PERIOD_SEMI SEMI_ANNUAL
+				,P.PERIOD_YEAR YEAR
+				,DATEADD(QQ, DATEDIFF(QQ, 0, P.PERIOD_DATE), 0) QUART_DATE
+				,B.ITEM_MASTER_SID
+				,B.A_BQWAC
+				,A.A_AVGQWAC
+				,E.A_EQWAC
+				,M.A_MQWAC
+				,W.A_WAC
+			FROM #PERIOD P
+			LEFT JOIN BQWAC B ON B.PERIOD_SID = P.PERIOD_SID
+			LEFT JOIN EQWAC E ON E.PERIOD_SID = P.PERIOD_SID
+			LEFT JOIN MQWAC M ON M.PERIOD_SID = P.PERIOD_SID
+			LEFT JOIN AVGWAC A ON A.PERIOD_SID = P.PERIOD_SID
+			LEFT JOIN WAC W ON W.PERIOD_SID = P.PERIOD_SID
+			WHERE P.PERIOD_SID BETWEEN IIF(@ACTUAL_PERIOD_SID > @PROJ_START_PERIOD_SID, @PROJ_START_PERIOD_SID, @ACTUAL_PERIOD_SID) --@ACTUAL_PERIOD_SID
+					AND @PROJ_END_PERIOD_SID
+			)
+		SELECT AP.PERIOD_SID
+			,COALESCE(AP.ITEM_MASTER_SID, FP.ITEM_MASTER_SID) ITEM_MASTER_SID
+			,CASE 
+				WHEN AP.QUART_DATE <= DATEADD(QQ, DATEDIFF(QQ, 0, @CURRENT_DATE), 0)
+					THEN COALESCE(AP.A_BQWAC, LAG(AP.A_BQWAC) OVER (
+								PARTITION BY AP.QUARTER
+								,AP.YEAR ORDER BY AP.QUARTER
+									,AP.YEAR
+								))
+				ELSE FP.F_BQWAC
+				END F_BQWAC
+			,AVG(CASE 
+					WHEN AP.PERIOD_SID < @CURRENT_PERIOD
+						THEN AP.A_WAC
+					ELSE G.FORECAST_PRICE
+					END) OVER (
+				PARTITION BY G.YEAR
+				,G.QUARTER ORDER BY G.YEAR
+					,G.QUARTER
+				) F_AVGQWAC
+			,CASE 
+				WHEN AP.QUART_DATE < DATEADD(QQ, DATEDIFF(QQ, 0, @CURRENT_DATE), 0)
+					THEN AP.A_EQWAC
+				ELSE FP.F_EQWAC
+				END F_EQWAC
+			,CASE 
+				WHEN AP.QUART_DATE <= DATEADD(QQ, DATEDIFF(QQ, 0, @CURRENT_DATE), 0)
+					THEN COALESCE(AP.A_MQWAC, LAG(AP.A_MQWAC) OVER (
+								PARTITION BY AP.QUARTER
+								,AP.YEAR ORDER BY AP.QUARTER
+									,AP.YEAR
+								))
+				ELSE FP.F_MQWAC
+				END F_MQWAC
+			--,CASE 
+			--     WHEN AP.PERIOD_SID >= @CURRENT_PERIOD
+			--            THEN FP.F_SALES_WEIGHTED_AVERAGE_WAC
+			--     ELSE FP.A_SALES_WEIGHTED_AVERAGE_WAC
+			--     END F_SALES_WEIGHTED_AVERAGE_WAC
+			--,COALESCE(CASE 
+			--     WHEN AP.PERIOD_SID >= @CURRENT_PERIOD
+			--            THEN G.F_DAY_WEIGHTED_WAC_PRICE
+			--     ELSE G.A_DAY_WEIGHTED_WAC_PRICE
+			--     END/NULLIF(G.NO_OF_DAYS,0),0) F_DAY_WEIGHTED_WAC_PRICE
+			--,G.NO_OF_DAYS
+			,G.FORECAST_PRICE FRCT_PRICE
+			,CASE 
+				WHEN AP.PERIOD_SID >= @CURRENT_PERIOD
+					THEN G.FORECAST_PRICE
+				ELSE G.ITEM_PRICE
+				END AS F_WAC --AP.A_MQWAC
+		INTO #ITEM_WAC_PRICES
+		FROM ACTUAL_PRICE AP
+		LEFT JOIN FORECAST_PRICE FP ON AP.QUARTER = FP.QUARTER
+			AND AP.YEAR = FP.YEAR
+		LEFT JOIN #GTS_WAC G ON AP.PERIOD_SID = G.PERIOD_SID
+
+		IF DATEADD(QQ, DATEDIFF(QQ, 0, @CURRENT_DATE), 0) = @CURRENT_DATE
+		BEGIN
+			--SELECT 'ITS HERE'
+				;
+
+			WITH CTE
+			AS (
+				SELECT ITEM_MASTER_SID
+					,MAX(CASE 
+							WHEN MONTH IN (
+									1
+									,4
+									,7
+									,10
+									)
+								THEN FORECAST_GTS_SALES
+							END) / NULLIF(MAX(CASE 
+								WHEN MONTH IN (
+										1
+										,4
+										,7
+										,10
+										)
+									THEN FORECAST_GTS_UNITS
+								END), 0) 'F_BQWAC'
+					,MAX(CASE 
+							WHEN MONTH IN (
+									3
+									,6
+									,9
+									,12
+									)
+								THEN FORECAST_GTS_SALES
+							END) / NULLIF(MAX(CASE 
+								WHEN MONTH IN (
+										3
+										,6
+										,9
+										,12
+										)
+									THEN FORECAST_GTS_UNITS
+								END), 0) 'F_EQWAC'
+					,MAX(CASE 
+							WHEN MONTH IN (
+									2
+									,5
+									,8
+									,11
+									)
+								THEN FORECAST_GTS_SALES
+							END) / NULLIF(MAX(CASE 
+								WHEN MONTH IN (
+										2
+										,5
+										,8
+										,11
+										)
+									THEN FORECAST_GTS_UNITS
+								END), 0) 'F_MQWAC'
+					,MIN(PERIOD_SID) As PERIOD_SID
+					,MIN(QUARTER) AS QUARTER
+					,MIN(SEMI_ANNUAL) AS SEMI_ANNUAL
+					,MIN(YEAR) AS YEAR
+				FROM #GTS_WAC C
+				WHERE C.QUARTER = DATEPART(QQ, @CURRENT_DATE)
+					AND C.YEAR = DATEPART(YYYY, @CURRENT_DATE)
+				GROUP BY ITEM_MASTER_SID
+					,YEAR
+					,QUARTER
+				)
+			UPDATE I
+			SET I.F_BQWAC = C.F_BQWAC
+				,I.F_EQWAC = C.F_EQWAC
+				,I.F_MQWAC = C.F_MQWAC
+			--SELECT C.F_BQWAC,C.F_EQWAC,C.F_MQWAC,I.F_BQWAC,I.F_EQWAC,I.F_MQWAC
+			FROM CTE C
+			JOIN #ITEM_WAC_PRICES I ON I.ITEM_MASTER_SID = C.ITEM_MASTER_SID
+			JOIN #PERIOD P ON P.PERIOD_SID = I.PERIOD_SID
+				AND C.YEAR = P.PERIOD_YEAR
+				AND C.QUARTER = P.PERIOD_QUARTER
+		END
+
+		DECLARE @MONTHS TABLE (MONTH TINYINT)
+
+		INSERT INTO @MONTHS (MONTH)
+		VALUES (1)
+			,(2)
+			,(3)
+			,(4)
+			,(5)
+			,(6)
+			,(7)
+			,(8)
+			,(9)
+			,(10)
+			,(11)
+			,(12);;
+
+		/*
+       WITH --CHANGE
+       FINAL_CHANGE
+       AS (
+              SELECT PERIOD_SID
+                     ,PERIOD_YEAR
+                     ,PERIOD_MONTH
+                     ,PERIOD_QUARTER
+                     ,PERIOD_SEMI
+                     ,PRICE
+              FROM (
+              SELECT P.PERIOD_YEAR
+                     ,P.PERIOD_MONTH
+                     ,P.PERIOD_QUARTER
+                     ,P.PERIOD_SEMI
+                     ,T.PERIOD_SID
+                     ,T.FRCT_PRICE PRICE
+                     ,ROW_NUMBER() OVER (
+                           ORDER BY T.PERIOD_SID
+                           ) RNQ
+                     ,(
+                           (
+                                  ROW_NUMBER() OVER (
+                                         ORDER BY T.PERIOD_SID
+                                         ) - 1
+                                  ) % CASE 
+                                  WHEN @REBATE_FREQUENCY = 'Q'
+                                         THEN 3
+                                  WHEN @REBATE_FREQUENCY = 'M'
+                                         THEN 1
+                                  WHEN @REBATE_FREQUENCY = 'S'
+                                         THEN 6
+                                  WHEN @REBATE_FREQUENCY = 'A'
+                                         THEN 12
+                                  END
+                           ) + 1 REBATE_FREQ
+              FROM --#ITEM_WAC_PRICES
+                     #ITEM_WAC_PRICES T
+              JOIN #PERIOD P ON P.PERIOD_SID = T.PERIOD_SID
+              WHERE T.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
+                           AND (
+                                         SELECT MAX(PERIOD_SID)
+                                         FROM #ITEM_WAC_PRICES
+                                         WHERE FRCT_PRICE IS NOT NULL
+                                         )
+              ) CHANGE
+              WHERE REBATE_FREQ = 1
+              )
+              ,TBLVALUES
+       AS (
+              SELECT RANK() OVER (
+                           ORDER BY Y.PERIOD_YEAR
+                                  ,M.MONTH
+                           ) AS [RANK]
+                     ,M.MONTH
+                     ,Y.PERIOD_YEAR
+                     ,T.PRICE
+              FROM @MONTHS M
+              CROSS JOIN (
+                     SELECT DISTINCT PERIOD_YEAR
+                     FROM FINAL_CHANGE
+                     ) Y
+              LEFT JOIN FINAL_CHANGE T ON T.PERIOD_MONTH = M.MONTH
+                     AND T.PERIOD_YEAR = Y.PERIOD_YEAR
+              )
+              ,FINAL_CHANGE2
+       AS (
+              SELECT P.PERIOD_SID
+                     ,T.MONTH
+                     ,T.PERIOD_YEAR
+                     ,COALESCE(T.PRICE, T1.PRICE) AS VALUE
+              FROM TBLVALUES T
+              LEFT JOIN TBLVALUES T1 ON T1.RANK = (
+                           SELECT MAX(TMAX.RANK)
+                           FROM TBLVALUES TMAX
+                           WHERE TMAX.RANK < T.RANK
+                                  AND TMAX.PRICE IS NOT NULL
+                           )
+              JOIN #PERIOD P ON P.PERIOD_MONTH = T.MONTH
+                     AND P.PERIOD_YEAR = T.PERIOD_YEAR
+              )
+       --SELECT * FROM FINAL_CHANGE2
+       UPDATE I
+       SET I.F_WAC = F2.VALUE
+       FROM #ITEM_WAC_PRICES I
+       JOIN FINAL_CHANGE2 F2 ON F2.PERIOD_SID = I.PERIOD_SID
+       WHERE F2.VALUE IS NOT NULL*/
+--------------taking the price infor based on the rebate frequency----------------------
+
+		IF OBJECT_ID('TEMPDB..#TEMP_WAC_PRICES') IS NOT NULL
+			DROP TABLE #TEMP_WAC_PRICES
+
+		CREATE TABLE #TEMP_WAC_PRICES (
+			WAC_ID INT IDENTITY(1, 1)
+			,ITEM_MASTER_SID INT
+			,PERIOD_SID INT
+			,PERIOD_QUARTER INT
+			,PERIOD_YEAR INT
+			,PERIOD_SEMI INT
+			,F_BQWAC NUMERIC(22, 6)
+			,F_AVGQWAC NUMERIC(22, 6)
+			,F_EQWAC NUMERIC(22, 6)
+			,F_MQWAC NUMERIC(22, 6)
+			,F_WAC NUMERIC(22, 6)
+			--,F_SALES_WEIGHTED_AVERAGE_WAC NUMERIC(22, 6)
+			--,F_DAY_WEIGHTED_WAC_PRICE NUMERIC(22, 6)
+			);
+
+		WITH CTE
+		AS (
+			SELECT I.PERIOD_SID
+				,I.ITEM_MASTER_SID
+				,I.F_BQWAC
+				,I.F_AVGQWAC
+				,I.F_EQWAC
+				,I.F_MQWAC
+				,I.F_WAC
+				,ROW_NUMBER() OVER (
+					ORDER BY I.PERIOD_SID
+					) RN
+			FROM #ITEM_WAC_PRICES I
+			WHERE I.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
+					AND @PROJ_END_PERIOD_SID
+			)
+			,CTE3
+		AS (
+			SELECT *
+				,(
+					(RN - 1) % CASE 
+						WHEN @REBATE_FREQUENCY = 'Q'
+							THEN 3
+						WHEN @REBATE_FREQUENCY = 'M'
+							THEN 1
+						WHEN @REBATE_FREQUENCY = 'S'
+							THEN 6
+						WHEN @REBATE_FREQUENCY = 'A'
+							THEN 12
+						END
+					) + 1 REBATE_FREQ
+			FROM CTE
+			)
+		--SELECT P.PERIOD,C3.PERIOD_SID,ITEM_MASTER_SID,A_BQWAC,A_AVGQWAC,A_EQWAC,A_MQWAC,A_WAC,F_BQWAC,F_AVGQWAC,F_EQWAC,F_MQWAC FROM  #PERIOD P JOIN CTE3 C3 ON P.PERIOD_SID=C3.PERIOD_SID WHERE REBATE_FREQ=1 ORDER BY C3.PERIOD_SID
+		INSERT INTO #TEMP_WAC_PRICES (
+			PERIOD_SID
+			,ITEM_MASTER_SID
+			,F_BQWAC
+			,F_AVGQWAC
+			,F_EQWAC
+			,F_MQWAC
+			,F_WAC
+			,PERIOD_QUARTER
+			,PERIOD_YEAR
+			,PERIOD_SEMI
+			)
+		SELECT C.PERIOD_SID
+			,ITEM_MASTER_SID
+			,F_BQWAC
+			,F_AVGQWAC
+			,F_EQWAC
+			,F_MQWAC
+			,F_WAC
+			,PERIOD_QUARTER
+			,PERIOD_YEAR
+			,PERIOD_SEMI
+		FROM CTE3 C
+		JOIN #PERIOD P ON P.PERIOD_SID = C.PERIOD_SID
+		WHERE REBATE_FREQ = 1;
+	
+		/*WITH CTE_SAL
+       AS (
+              SELECT T.ITEM_PRICE PRICE
+                     ,I.*
+                     ,ROW_NUMBER() OVER (
+                           ORDER BY I.PERIOD_SID
+                           ) RN
+              FROM #GTS_WAC I
+              LEFT JOIN (
+                     SELECT *
+                     FROM #UDF_ITEM_PRICING
+                     WHERE PERIOD_SID < @CURRENT_PERIOD
+                           AND PRICING_QUALIFIER = 'WAC'
+                     ) T ON T.PERIOD_SID = I.PERIOD_SID
+              WHERE I.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID
+                           AND @PROJ_END_PERIOD_SID
+              )
+              ,CTE
+       AS (
+              SELECT *
+                     ,(
+                           (RN - 1) % CASE 
+                                  WHEN @REBATE_FREQUENCY = 'Q'
+                                         THEN 3
+                                  WHEN @REBATE_FREQUENCY = 'M'
+                                         THEN 1
+                                  WHEN @REBATE_FREQUENCY = 'S'
+                                         THEN 6
+                                  WHEN @REBATE_FREQUENCY = 'A'
+                                         THEN 12
+                                  END
+                           ) + 1 REBATE_FREQ
+              FROM CTE_SAL
+              )
+              ,CTE1
+       AS (
+              SELECT PERIOD_SID
+                     ,CASE 
+                           WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                  THEN FORECAST_GTS_SALES
+                           ELSE ACTUAL_GTS_SALES
+                           END SALES
+                     ,CASE 
+                           WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                  THEN FORECAST_GTS_UNITS
+                           ELSE ACTUAL_GTS_UNITS
+                           END UNITS
+                     ,CASE 
+                           WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                  THEN F_DAY_WEIGHTED_WAC_PRICE
+                           ELSE A_DAY_WEIGHTED_WAC_PRICE
+                           END PRICE
+                     ,RN
+                     ,REBATE_FREQ
+                     ,NO_OF_DAYS
+              FROM CTE
+              )
+              ,WEIGH
+       AS (
+              SELECT MIN(PERIOD_SID) PERIOD_SID
+                     ,COALESCE(SUM(SALES) / NULLIF(SUM(UNITS), 0), 0) F_SALES_WEIGH
+                     ,SUM(PRICE) / SUM(NO_OF_DAYS) F_DAY_WEIGH
+              FROM CTE1
+              GROUP BY (RN - REBATE_FREQ)
+              )
+       UPDATE T
+       SET F_SALES_WEIGHTED_AVERAGE_WAC = F_SALES_WEIGH
+              ,F_DAY_WEIGHTED_WAC_PRICE = F_DAY_WEIGH
+       FROM #TEMP_WAC_PRICES T
+       LEFT JOIN WEIGH W ON W.PERIOD_SID = T.PERIOD_SID
+
+       */
+
+	   --CHANGE 1
+	   ---------------------taking the ccp and projection information form respective tables--------------------------
+
+		IF OBJECT_ID('TEMPDB..#TEMP_NM_PPA_PROJECTION') IS NOT NULL
+			DROP TABLE #TEMP_NM_PPA_PROJECTION
+
+		CREATE TABLE #TEMP_NM_PPA_PROJECTION (
+			TEMP_NM_PPA_PROJECTION_SID INT IDENTITY(1, 1)
+			,CCP_DETAILS_SID INT
+			,ITEM_PRICING_QUALIFIER_SID INT
+			,NEP NUMERIC(22, 6)
+			,BASE_PRICE_TYPE NUMERIC(22, 6)
+			,NET_BASE_PRICE INT
+			,NET_BASE_PRICE_FORMULA INT
+			,SUBSEQUENT_PERIOD_PRICE_TYPE INT
+			,NET_SUBSEQUENT_PERIOD_PRICE INT
+			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA INT
+			,PRICE_TOLERANCE_INTERVAL INT
+			,PRICE_TOLERANCE_FREQUENCY INT
+			,PRICE_TOLERANCE_TYPE INT
+			,PRICE_TOLERANCE NUMERIC(22, 6)
+			,MAX_INCREMENTAL_CHANGE NUMERIC(22, 6)
+			,NET_PRICE_TYPE INT
+			,NET_PRICE_TYPE_FORMULA INT
+			,RESET_PRICE_CAP BIT
+			,RESET BIT
+			,PERIOD_SID INT
+			,WAC NUMERIC(22, 6)
+			,MAP NUMERIC(38, 15)
+			,QUARTER INT
+			,YEAR INT
+			--,TOTAL_RPU NUMERIC(22, 6)
+			,RESET_ELIGIBLE INT
+			,RESET_TYPE INT
+			,RESET_DATE DATE
+			,RESET_INTERVAL INT
+			,RESET_FREQUENCY INT
+			,NET_WAC NUMERIC(22, 6)
+			,NET_MAP NUMERIC(22, 6)
+			,PRICE NUMERIC(22, 6)
+			,PRICE_CHANGE NUMERIC(22, 6)
+			,RN INT
+			,NET_RESET_PRICE_TYPE INT
+			,NET_RESET_PRICE_FORMULA INT
+			,RESET_PRICE_TYPE INT
+			,RESET_VIOLATION_DATE INT
+			,RESET_INTERVAL_FREQUENCY INT
+			,WAC_RESET INT
+			,WAC_RN INT
+			)
+			
+
+
+			SET @SQL=CONCAT(';
+
+		WITH
+			-- TOTAL_RPU
+			--AS (
+			--     SELECT SN.CCP_DETAILS_SID
+			--            ,SN.PERIOD_SID
+			--            ,SUM(COALESCE(SN.PROJECTION_SALES / NULLIF(SP.PROJECTION_UNITS, 0), 0)) AS RPU
+			--     FROM ST_NM_DISCOUNT_PROJECTION SN
+			--     JOIN ST_NM_SALES_PROJECTION SP ON SN.CCP_DETAILS_SID = SP.CCP_DETAILS_SID
+			--            AND SN.USER_ID = SP.USER_ID
+			--            AND SN.SESSION_ID = SP.SESSION_ID
+			--     WHERE SN.CCP_DETAILS_SID = @PROJECTION_DETAILS_SID
+			--            AND SN.USER_ID = @USER_ID
+			--            AND SN.SESSION_ID = @SESSION_ID
+			--     GROUP BY SN.PROJECTION_DETAILS_SID
+			--            ,SN.PERIOD_SID
+			--     )
+			--     ,
+		RPU_CAL
+		AS (
+			SELECT SNP.CCP_DETAILS_SID
+				,SNP.ITEM_PRICING_QUALIFIER_SID
+				,NULLIF(SNP.NEP, 0) NEP
+				,SNP.NEP_FORMULA
+				,SNP.BASE_PRICE_MANUAL
+				,SNP.BASE_PRICE_DATE
+				,SNP.BASE_PRICE_PRICE_TYPE
+				,SNP.BASE_PRICE_TYPE
+				,SNP.NET_BASE_PRICE
+				,SNP.NET_BASE_PRICE_FORMULA
+				,SNP.SUBSEQUENT_PERIOD_PRICE_TYPE
+				,SNP.NET_SUBSEQUENT_PERIOD_PRICE
+				,SNP.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+				,SNP.PRICE_TOLERANCE_INTERVAL
+				,SNP.PRICE_TOLERANCE_FREQUENCY
+				,SNP.PRICE_TOLERANCE_TYPE
+				,SNP.PRICE_TOLERANCE
+				,SNP.MAX_INCREMENTAL_CHANGE
+				,SNP.NET_PRICE_TYPE
+				,SNP.NET_PRICE_TYPE_FORMULA
+				,RESET_PRICE_CAP
+				,RESET_ELIGIBLE
+				,RESET_TYPE
+				,DATEADD(MM, DATEDIFF(MM, 0, RESET_DATE), 0) RESET_DATE
+				,RESET_INTERVAL
+				,RESET_FREQUENCY
+				,RESET_PRICE_TYPE
+				,NET_RESET_PRICE_TYPE
+				,NET_RESET_PRICE_FORMULA
+				,P.PERIOD_SID
+				,CASE 
+					WHEN IPQ.PRICING_QUALIFIER = ''BQWAC''
+						THEN IW.F_BQWAC
+					WHEN IPQ.PRICING_QUALIFIER = ''EQWAC''
+						THEN IW.F_EQWAC
+					WHEN IPQ.PRICING_QUALIFIER = ''AVGQWAC''
+						THEN IW.F_AVGQWAC
+					WHEN IPQ.PRICING_QUALIFIER = ''MQWAC''
+						THEN IW.F_MQWAC
+					WHEN IPQ.PRICING_QUALIFIER = ''WAC''
+						THEN IW.F_WAC
+							--WHEN IPQ.PRICING_QUALIFIER = ''DAY WEIGHTED WAC''
+							--     THEN COALESCE(IW.F_DAY_WEIGHTED_WAC_PRICE / NULLIF(IW.NO_OF_DAYS, 0), 0)
+							--WHEN IPQ.PRICING_QUALIFIER = ''SALES WEIGHTED WAC''
+							--     THEN IW.F_SALES_WEIGHTED_AVERAGE_WAC
+					END AS WAC
+				,P.YEAR
+				,P.QUARTER
+				--,TR.RPU
+				,CASE 
+					WHEN HEL.DESCRIPTION = ''MANUAL''
+						THEN ISNULL(SNP.BASE_PRICE_MANUAL, 0)
+					WHEN HEL.DESCRIPTION = ''DATE''
+						THEN IWB.F_WAC
+					WHEN HEL.DESCRIPTION = ''PRICE TYPE''
+						THEN CASE 
+								WHEN IPQ1.PRICING_QUALIFIER = ''BQWAC''
+									THEN IWR.F_BQWAC
+								WHEN IPQ1.PRICING_QUALIFIER = ''EQWAC''
+									THEN IWR.F_EQWAC
+								WHEN IPQ1.PRICING_QUALIFIER = ''AVGQWAC''
+									THEN IWR.F_AVGQWAC
+								WHEN IPQ1.PRICING_QUALIFIER = ''MQWAC''
+									THEN IWR.F_MQWAC
+								WHEN IPQ1.PRICING_QUALIFIER = ''WAC''
+									THEN IWR.F_WAC
+										--WHEN IPQ1.PRICING_QUALIFIER = ''DAY WEIGHTED WAC''
+										--     THEN COALESCE(IWR.F_DAY_WEIGHTED_WAC_PRICE / NULLIF(IWR.NO_OF_DAYS, 0), 0)
+										--WHEN IPQ1.PRICING_QUALIFIER = ''SALES WEIGHTED WAC''
+										--     THEN IWR.F_SALES_WEIGHTED_AVERAGE_WAC
+								END
+							--ELSE COALESCE(IW.WAC, 0)
+					END AS BASE_PRICE
+				,DENSE_RANK() OVER (
+					ORDER BY P.YEAR
+						,P.MONTH
+					) AS RN
+				,(
+					(
+						ROW_NUMBER() OVER (
+							ORDER BY SNP.PERIOD_SID
+							) - 1
+						) / CASE 
+						WHEN ''',@REBATE_FREQUENCY,''' = ''Q''
+							THEN 3
+						WHEN ''',@REBATE_FREQUENCY,''' = ''M''
+							THEN 1
+						WHEN ''',@REBATE_FREQUENCY ,'''= ''S''
+							THEN 6
+						WHEN ''',@REBATE_FREQUENCY,''' = ''A''
+							THEN 12
+						END
+					) + 1 AS WAC_RN
+			FROM ',@PROJECTION_TABLE,' SNP
+			LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON IPQ.ITEM_PRICING_QUALIFIER_SID = SNP.ITEM_PRICING_QUALIFIER_SID
+			JOIN PERIOD P ON P.PERIOD_SID = SNP.PERIOD_SID
+				AND P.PERIOD_SID BETWEEN ',@PROJ_START_PERIOD_SID,'
+					AND ',@PROJ_END_PERIOD_SID,'
+				AND SNP.CCP_DETAILS_SID =', @PROJECTION_DETAILS_SID,'
+				AND SNP.RS_CONTRACT_SID =', @RS_CONTRACT_SID,'
+			LEFT JOIN #ITEM_WAC_PRICES IW ON IW.PERIOD_SID = SNP.PERIOD_SID --AND IW.PERIOD_SID BETWEEN ',@START_DATE_SID,' AND ',@END_DATE_SID,'
+			LEFT JOIN #ITEM_WAC_PRICES IWB ON IWB.PERIOD_SID = SNP.PERIOD_SID --AND IW.PERIOD_SID BETWEEN ',@START_DATE_SID,' AND ',@END_DATE_SID,'
+			LEFT JOIN ITEM_PRICING_QUALIFIER IPQ1 ON IPQ1.ITEM_PRICING_QUALIFIER_SID = SNP.BASE_PRICE_PRICE_TYPE
+			LEFT JOIN #ITEM_WAC_PRICES IWR ON IWR.PERIOD_SID = SNP.PERIOD_SID
+			LEFT JOIN PERIOD PE ON PE.PERIOD_DATE = DATEADD(MM, DATEDIFF(MM, 0, SNP.BASE_PRICE_DATE), 0)
+			LEFT JOIN #ITEM_WAC_PRICES IWE ON IWE.PERIOD_SID = PE.PERIOD_SID
+			--LEFT JOIN TOTAL_RPU TR ON TR.PROJECTION_DETAILS_SID = SNP.PROJECTION_DETAILS_SID
+			--     AND TR.PERIOD_SID = SNP.PERIOD_SID
+			LEFT JOIN HELPER_TABLE HEL ON HEL.HELPER_TABLE_SID = SNP.BASE_PRICE_TYPE
+			)
+		INSERT INTO #TEMP_NM_PPA_PROJECTION (
+			CCP_DETAILS_SID
+			,ITEM_PRICING_QUALIFIER_SID
+			,NEP
+			,BASE_PRICE_TYPE
+			,NET_BASE_PRICE
+			,PRICE_TOLERANCE_INTERVAL
+			,PRICE_TOLERANCE_FREQUENCY
+			,PRICE_TOLERANCE_TYPE
+			,PRICE_TOLERANCE
+			,PERIOD_SID
+			--,TOTAL_RPU
+			,RN
+			,YEAR
+			,QUARTER
+			,SUBSEQUENT_PERIOD_PRICE_TYPE
+			,NET_SUBSEQUENT_PERIOD_PRICE
+			,RESET_ELIGIBLE
+			,RESET_TYPE
+			,RESET_DATE
+			,RESET_INTERVAL
+			,RESET_FREQUENCY
+			,RESET_PRICE_TYPE
+			,MAX_INCREMENTAL_CHANGE
+			,NET_RESET_PRICE_TYPE
+			,NET_RESET_PRICE_FORMULA
+			,NET_PRICE_TYPE
+			,NET_PRICE_TYPE_FORMULA
+			,NET_BASE_PRICE_FORMULA
+			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,WAC_RN
+			)
+		SELECT CCP_DETAILS_SID
+			,ITEM_PRICING_QUALIFIER_SID
+			,NEP
+			,BASE_PRICE
+			,NET_BASE_PRICE
+			,PRICE_TOLERANCE_INTERVAL
+			,PRICE_TOLERANCE_FREQUENCY
+			,PRICE_TOLERANCE_TYPE
+			,PRICE_TOLERANCE
+			,PERIOD_SID
+			--     ,RPU
+			,RN
+			,YEAR
+			,QUARTER
+			,SUBSEQUENT_PERIOD_PRICE_TYPE
+			,NET_SUBSEQUENT_PERIOD_PRICE
+			,RESET_ELIGIBLE
+			,RESET_TYPE
+			,RESET_DATE
+			,RESET_INTERVAL
+			,RESET_FREQUENCY
+			,RESET_PRICE_TYPE
+			,MAX_INCREMENTAL_CHANGE
+			,NET_RESET_PRICE_TYPE
+			,NET_RESET_PRICE_FORMULA
+			,NET_PRICE_TYPE
+			,NET_PRICE_TYPE_FORMULA
+			,NET_BASE_PRICE_FORMULA
+			,NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			,WAC_RN
+		FROM RPU_CAL');
+
+		EXEC sp_executesql @SQL
+--------------netting information was availble and these tables will effect calculation if netting for the particular price was set to yes----------------------
+	
+		
+		IF OBJECT_ID('TEMPDB..#TEMP_REBATE_RPU') IS NOT NULL
+			DROP TABLE #TEMP_REBATE_RPU
+
+		CREATE TABLE #TEMP_REBATE_RPU (
+			REBATE_TYPE INT
+			,PERIOD_SID INT
+			,DEDUCTION_PER_UNIT NUMERIC(22, 6)
+			)
+
+		SET @SQL=CONCAT('INSERT INTO #TEMP_REBATE_RPU (
+			REBATE_TYPE
+			,PERIOD_SID
+			,DEDUCTION_PER_UNIT
+			)
+		SELECT RM.REBATE_PROGRAM_TYPE
+			,DP.PERIOD_SID
+			,COALESCE(SUM(DP.PROJECTION_SALES / NULLIF(SP.PROJECTION_UNITS, 0)), 0) DEDUCTION_PER_UNIT
+		FROM ',@D_PROJECTION_TABLE,' DP
+		--JOIN RS_MODEL RM ON RM.RS_MODEL_SID = DP.RS_MODEL_SID
+		JOIN RS_CONTRACT RM ON RM.RS_CONTRACT_SID = DP.RS_CONTRACT_SID
+		JOIN ',@S_PROJECTION_TABLE,' SP ON SP.CCP_DETAILS_SID = DP.CCP_DETAILS_SID
+			
+			AND DP.PERIOD_SID = SP.PERIOD_SID
+		WHERE DP.CCP_DETAILS_SID =', @PROJECTION_DETAILS_SID,'
+			
+		GROUP BY RM.REBATE_PROGRAM_TYPE
+			,DP.PERIOD_SID')
+
+			EXEC sp_executesql @SQL
+		IF OBJECT_ID('TEMPDB..#TEMP_REBATES') IS NOT NULL
+			DROP TABLE #TEMP_REBATES
+
+		CREATE TABLE #TEMP_REBATES (
+			PERIOD_SID INT
+			,NET_BASE_PRICE NUMERIC(22, 6)
+			,NET_SUBSEQUENT_PERIOD_PRICE NUMERIC(22, 6)
+			,NET_RESET_PRICE NUMERIC(22, 6)
+			,NET_PRICE NUMERIC(22, 6)
+			);
+
+		WITH NET_BASE_PRICE
+		AS (
+			SELECT DISTINCT TN.PERIOD_SID
+				,ISNULL(TRR.DEDUCTION_PER_UNIT * J.INDICATOR, 0) PRODUCT
+				,TRR.REBATE_TYPE
+				,J.INDICATOR
+			FROM #TEMP_NM_PPA_PROJECTION TN
+			LEFT JOIN (
+				SELECT DEDUCTION_SUB_TYPE
+					,NS.NET_SALES_FORMULA_MASTER_SID
+					,CASE 
+						WHEN INDICATOR = '+'
+							THEN (- 1)
+						WHEN INDICATOR = '-'
+							THEN 1
+						END INDICATOR
+				FROM DEDUCTION_DETAILS DD
+				JOIN NET_SALES_FORMULA_MASTER NS ON NS.NET_SALES_FORMULA_MASTER_SID = DD.NET_SALES_FORMULA_MASTER_SID
+				) J ON J.NET_SALES_FORMULA_MASTER_SID = NET_BASE_PRICE_FORMULA
+			LEFT JOIN #TEMP_REBATE_RPU TRR ON TRR.PERIOD_SID = TN.PERIOD_SID
+				AND J.DEDUCTION_SUB_TYPE = TRR.REBATE_TYPE
+			)
+		INSERT INTO #TEMP_REBATES (
+			PERIOD_SID
+			,NET_BASE_PRICE
+			)
+		SELECT PERIOD_SID
+			,SUM(PRODUCT)
+		FROM NET_BASE_PRICE
+		GROUP BY PERIOD_SID;
+
+		WITH NET_SUBSEQUENT_PERIOD_PRICE
+		AS (
+			SELECT DISTINCT TN.PERIOD_SID
+				,ISNULL(TRR.DEDUCTION_PER_UNIT * J.INDICATOR, 0) PRODUCT
+				,TRR.REBATE_TYPE
+				,J.INDICATOR
+			FROM #TEMP_NM_PPA_PROJECTION TN
+			LEFT JOIN (
+				SELECT DEDUCTION_SUB_TYPE
+					,NS.NET_SALES_FORMULA_MASTER_SID
+					,CASE 
+						WHEN INDICATOR = '+'
+							THEN (- 1)
+						WHEN INDICATOR = '-'
+							THEN 1
+						END INDICATOR
+				FROM DEDUCTION_DETAILS DD
+				JOIN NET_SALES_FORMULA_MASTER NS ON NS.NET_SALES_FORMULA_MASTER_SID = DD.NET_SALES_FORMULA_MASTER_SID
+				) J ON J.NET_SALES_FORMULA_MASTER_SID = NET_SUBSEQUENT_PERIOD_PRICE_FORMULA
+			LEFT JOIN #TEMP_REBATE_RPU TRR ON TRR.PERIOD_SID = TN.PERIOD_SID
+				AND J.DEDUCTION_SUB_TYPE = TRR.REBATE_TYPE
+			)
+		UPDATE T
+		SET T.NET_SUBSEQUENT_PERIOD_PRICE = A.NET_SUBSEQUENT_PERIOD_PRICE
+		FROM (
+			SELECT PERIOD_SID
+				,SUM(PRODUCT) NET_SUBSEQUENT_PERIOD_PRICE
+			FROM NET_SUBSEQUENT_PERIOD_PRICE
+			GROUP BY PERIOD_SID
+			) A
+		JOIN #TEMP_REBATES T ON T.PERIOD_SID = A.PERIOD_SID;
+
+		WITH NET_RESET_PRICE
+		AS (
+			SELECT DISTINCT TN.PERIOD_SID
+				,ISNULL(TRR.DEDUCTION_PER_UNIT * J.INDICATOR, 0) PRODUCT
+				,TRR.REBATE_TYPE
+				,J.INDICATOR
+			FROM #TEMP_NM_PPA_PROJECTION TN
+			LEFT JOIN (
+				SELECT DEDUCTION_SUB_TYPE
+					,NS.NET_SALES_FORMULA_MASTER_SID
+					,CASE 
+						WHEN INDICATOR = '+'
+							THEN (- 1)
+						WHEN INDICATOR = '-'
+							THEN 1
+						END INDICATOR
+				FROM DEDUCTION_DETAILS DD
+				JOIN NET_SALES_FORMULA_MASTER NS ON NS.NET_SALES_FORMULA_MASTER_SID = DD.NET_SALES_FORMULA_MASTER_SID
+				) J ON J.NET_SALES_FORMULA_MASTER_SID = NET_RESET_PRICE_FORMULA
+			LEFT JOIN #TEMP_REBATE_RPU TRR ON TRR.PERIOD_SID = TN.PERIOD_SID
+				AND J.DEDUCTION_SUB_TYPE = TRR.REBATE_TYPE
+			)
+		UPDATE T
+		SET T.NET_RESET_PRICE = A.NET_RESET_PRICE
+		FROM (
+			SELECT PERIOD_SID
+				,SUM(PRODUCT) NET_RESET_PRICE
+			FROM NET_RESET_PRICE
+			GROUP BY PERIOD_SID
+			) A
+		JOIN #TEMP_REBATES T ON T.PERIOD_SID = A.PERIOD_SID;
+
+		WITH NET_PRICE_TYPE
+		AS (
+			SELECT DISTINCT TN.PERIOD_SID
+				,ISNULL(TRR.DEDUCTION_PER_UNIT * J.INDICATOR, 0) PRODUCT
+				,TRR.REBATE_TYPE
+				,J.INDICATOR
+			FROM #TEMP_NM_PPA_PROJECTION TN
+			LEFT JOIN (
+				SELECT DEDUCTION_SUB_TYPE
+					,NS.NET_SALES_FORMULA_MASTER_SID
+					,CASE 
+						WHEN INDICATOR = '+'
+							THEN (- 1)
+						WHEN INDICATOR = '-'
+							THEN 1
+						END INDICATOR
+				FROM DEDUCTION_DETAILS DD
+				JOIN NET_SALES_FORMULA_MASTER NS ON NS.NET_SALES_FORMULA_MASTER_SID = DD.NET_SALES_FORMULA_MASTER_SID
+				) J ON J.NET_SALES_FORMULA_MASTER_SID = NET_PRICE_TYPE_FORMULA
+			LEFT JOIN #TEMP_REBATE_RPU TRR ON TRR.PERIOD_SID = TN.PERIOD_SID
+				AND J.DEDUCTION_SUB_TYPE = TRR.REBATE_TYPE
+			)
+		UPDATE T
+		SET T.NET_PRICE = A.NET_PRICE_TYPE
+		FROM (
+			SELECT PERIOD_SID
+				,SUM(PRODUCT) NET_PRICE_TYPE
+			FROM NET_PRICE_TYPE
+			GROUP BY PERIOD_SID
+			) A
+		JOIN #TEMP_REBATES T ON T.PERIOD_SID = A.PERIOD_SID
+
+		UPDATE TN1
+		SET RESET = CASE 
+				WHEN HT.DESCRIPTION = 'YES'
+					--AND HT11.DESCRIPTION = 'YES'
+					AND HT1.DESCRIPTION = 'EFFECTIVE DATE'
+					THEN 1
+				ELSE NULL
+				END
+		FROM #TEMP_NM_PPA_PROJECTION TN
+		LEFT JOIN PERIOD P ON P.PERIOD_DATE = DATEADD(MM, DATEDIFF(MM, 0, TN.RESET_DATE), 0)
+		LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = TN.RESET_TYPE
+		JOIN #TEMP_NM_PPA_PROJECTION TN1 ON --P.QUARTER = TN1.QUARTER
+			--AND P.YEAR = TN1.YEAR
+			TN1.PERIOD_SID = P.PERIOD_SID
+		LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = TN1.RESET_ELIGIBLE
+
+		SELECT @MAX_RN = MAX(RN)
+		FROM #TEMP_NM_PPA_PROJECTION
+
+		DECLARE @PRIOR_PERIOD_MAP NUMERIC(22, 6)
+			,@PRIOR_PERIOD_NET_WAC NUMERIC(22, 6)
+			,@PRIOR_PERIOD_WAC NUMERIC(22, 6)
+			,@PRICE_TOLERENCE_TYPE VARCHAR(100)
+			,@INCR INT
+			,@RESET_ELIGIBLE VARCHAR(100)
+			,@RESET_TYPE VARCHAR(100)
+			,@ROLLOUT INT
+			,@RESET_INC INT = 1
+
+		---DELL
+		SET @INCR = 1
+----------------------------pre calcuating the reset periods for all resets except violation date and ccp's having no reset-----------------------------------------
+
+		--WHILE @LOOP_VAR <= @MAX_RN
+		BEGIN
+			SELECT TOP 1 @PRICE_TOL_FRQ = HT.DESCRIPTION
+				,@PRICE_TOL_INT = HT1.DESCRIPTION
+				,@RESET_TOL_FREQ = HT4.DESCRIPTION
+				,@RESET_TOL_INT = HT5.DESCRIPTION
+				,@RESET_ELIGIBLE = HT3.DESCRIPTION
+				,@RESET_TYPE = HT6.DESCRIPTION
+			FROM #TEMP_NM_PPA_PROJECTION TN
+			LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_FREQUENCY
+				AND HT.LIST_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+			LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_INTERVAL
+				AND HT1.LIST_NAME = 'PRICE_TOLERANCE_INTERVAL'
+			LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_TYPE
+				AND HT2.LIST_NAME = 'PRICE_TOLERANCE_TYPE'
+			LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = TN.RESET_ELIGIBLE
+			LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID = TN.RESET_FREQUENCY
+				AND HT4.LIST_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+			LEFT JOIN HELPER_TABLE HT5 ON HT5.HELPER_TABLE_SID = TN.RESET_INTERVAL
+				AND HT5.LIST_NAME = 'PRICE_TOLERANCE_INTERVAL'
+			LEFT JOIN HELPER_TABLE HT6 ON HT6.HELPER_TABLE_SID = TN.RESET_TYPE
+			LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON IPQ.ITEM_PRICING_QUALIFIER_SID = TN.RESET_PRICE_TYPE
+			--LEFT JOIN #ITEM_WAC_PRICES IW ON IW.PERIOD_SID = TN.PERIOD_SID
+			WHERE TN.RN = @LOOP_VAR
+			ORDER BY TN.RN
+
+			SELECT @PRICE_TOL_INT = CASE 
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'A'
+						THEN @PRICE_TOL_INT * 12
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'S'
+						THEN @PRICE_TOL_INT * 6
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'Q'
+						THEN @PRICE_TOL_INT * 3
+					ELSE @PRICE_TOL_INT
+					END
+				,@RESET_TOL_INT = CASE 
+					WHEN LEFT(@RESET_TOL_FREQ, 1) = 'A'
+						THEN @RESET_TOL_INT * 12
+					WHEN LEFT(@RESET_TOL_FREQ, 1) = 'S'
+						THEN @RESET_TOL_INT * 6
+					WHEN LEFT(@RESET_TOL_FREQ, 1) = 'Q'
+						THEN @RESET_TOL_INT * 3
+					ELSE @RESET_TOL_INT
+					END
+
+			IF @RESET_TYPE = 'INTERVAL FREQUENCY'
+				AND @RESET_ELIGIBLE = 'YES'
+				AND @RESET_TOL_FREQ IS NOT NULL
+				AND @RESET_TOL_INT IS NOT NULL
+				AND (
+					@RESET_INC = @RESET_TOL_INT
+					OR @RESET_INC = @LOOP_VAR
+					)
+			BEGIN
+					;
+
+				--SELECT @RESET_TOL_INT,@LOOP_VAR;
+				WITH TEST_SAMP
+				AS (
+					SELECT CCP_DETAILS_SID
+						,TN1.PERIOD_SID
+						,DATEADD(QQ, DATEDIFF(QQ, 0, PERIOD_DATE) + ISNULL(@LOOP_VAR /* + @RESET_TOL_INT - 1*/, 0), 0) DAT
+						,TN1.RN
+						,P.PERIOD_SID PERIOD
+						,ISNULL(@LOOP_VAR /*+ @RESET_TOL_INT - 1*/, 0) VAL
+					FROM #TEMP_NM_PPA_PROJECTION TN1
+					JOIN PERIOD P ON P.PERIOD_SID = TN1.PERIOD_SID
+					WHERE RN = @LOOP_VAR --ISNULL(@LOOP_VAR + @RESET_TOL_INT - 1, 0)
+					)
+					,TEST1
+				AS (
+					SELECT TS.PERIOD_SID
+						,DAT
+						,YEAR
+						,QUARTER
+						,RN
+						,P.PERIOD_SID RESET_PERIOD
+					FROM TEST_SAMP TS
+					JOIN PERIOD P ON P.PERIOD_DATE = TS.DAT
+					) --SELECT * FROM TEST_SAMP
+				UPDATE T
+				--SET    RESET_INTERVAL_FREQUENCY = 1
+				SET RESET = 1
+				--SELECT T.PERIOD_SID
+				FROM #TEMP_NM_PPA_PROJECTION T
+				JOIN TEST1 T1 ON T.PERIOD_SID = T1.PERIOD_SID
+
+				SET @RESET_INC = 1
+					--SELECT @RESET_INC
+			END
+			ELSE
+			BEGIN
+				SET @RESET_INC = @RESET_INC + 1
+			END
+
+			----THE FOLLOWING WILL BE REMOVED AS PER CHANGE REQUEST
+			--SELECT TOP 1 @PRICE_TOLERANCE1 = ISNULL(PRICE_TOLERANCE,0)
+			--     ,@PRICE_TOLERANCE_INTERVAL1 = ISNULL(PRICE_TOLERANCE_INTERVAL, 0)
+			--     ,@PRICE_TOLERANCE_FREQUENCY1 = ISNULL(PRICE_TOLERANCE_FREQUENCY, 0)
+			--     ,@PRICE_TOLERANCE_TYPE1 = ISNULL(PRICE_TOLERANCE_TYPE, 0)
+			--     ,@ITEM_PRICING_QUALIFIER_SID1 = ISNULL(ITEM_PRICING_QUALIFIER_SID, 0) --TAKE OUT PRICE CAP FOR A QUARTER
+			--FROM #TEMP_NM_PPA_PROJECTION
+			--WHERE RN = @LOOP_VAR
+			--IF @PRICE_TOLERANCE1 <> @PRICE_TOLERANCE
+			--     OR @PRICE_TOLERANCE_INTERVAL1 <> @PRICE_TOLERANCE_INTERVAL
+			--     OR @PRICE_TOLERANCE_FREQUENCY1 <> @PRICE_TOLERANCE_FREQUENCY
+			--     OR @PRICE_TOLERANCE_TYPE1 <> @PRICE_TOLERANCE_TYPE
+			--     OR @ITEM_PRICING_QUALIFIER_SID1 <> @ITEM_PRICING_QUALIFIER_SID
+			--BEGIN
+			--     UPDATE #TEMP_NM_PPA_PROJECTION
+			--     SET RESET = 1
+			--     WHERE RN = @LOOP_VAR
+			--     SET @PRICE_TOLERANCE = @PRICE_TOLERANCE1
+			--     SET @PRICE_TOLERANCE_INTERVAL = @PRICE_TOLERANCE_INTERVAL1
+			--     SET @PRICE_TOLERANCE_FREQUENCY = @PRICE_TOLERANCE_FREQUENCY1
+			--     SET @PRICE_TOLERANCE_TYPE = @PRICE_TOLERANCE_TYPE1
+			--     SET @ITEM_PRICING_QUALIFIER_SID = @ITEM_PRICING_QUALIFIER_SID1
+			--END
+			SET @LOOP_VAR = @LOOP_VAR + 1
+		END
+
+		SET @INCR = 1
+
+		SELECT TOP 1 @RESET = ISNULL(RESET, 0)
+			,@PRICE_TOL_FRQ = HT.DESCRIPTION
+			,@PRICE_TOL_INT = HT1.DESCRIPTION
+			,@PRICE_TOLERENCE_TYPE = HT2.DESCRIPTION
+			,@RESET_TYPE = ISNULL(HT3.DESCRIPTION, 'P')
+			,@RESET_ELIGIBLE = ISNULL(HT4.DESCRIPTION, 'P')
+		FROM #TEMP_NM_PPA_PROJECTION TN
+		LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_FREQUENCY
+			AND HT.LIST_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+		LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_INTERVAL
+			AND HT1.LIST_NAME = 'PRICE_TOLERANCE_INTERVAL'
+		LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_TYPE
+			AND HT2.LIST_NAME = 'PRICE_TOLERANCE_TYPE'
+		LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = TN.RESET_TYPE
+			AND HT3.LIST_NAME = 'RESET_TYPE'
+		LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID = TN.RESET_ELIGIBLE
+		WHERE TN.RN = @INCR
+		ORDER BY TN.RN
+-------------------------calcuating the wac,net,netwac for the first period of each ccp and rs--------------------------------------------
+
+		UPDATE T
+		SET T.BASE_PRICE_TYPE = CASE 
+				WHEN HT.DESCRIPTION = 'YES'
+					THEN (BASE_PRICE_TYPE - TR.NET_BASE_PRICE)
+				ELSE BASE_PRICE_TYPE
+				END
+			,WAC = CASE 
+				WHEN IPQ.PRICING_QUALIFIER = 'BQWAC'
+					THEN ISNULL(WP.F_BQWAC, IWP.F_BQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'EQWAC'
+					THEN isnull(WP.F_EQWAC, iWP.F_EQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'AVGQWAC'
+					THEN isnull(WP.F_AVGQWAC, iWP.F_AVGQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'MQWAC'
+					THEN isnull(WP.F_MQWAC, WP.F_MQWAC)
+						--WHEN IPQ.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+						--     THEN WP.F_DAY_WEIGHTED_WAC_PRICE
+						--WHEN IPQ.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+						--     THEN WP.F_SALES_WEIGHTED_AVERAGE_WAC
+				WHEN IPQ.PRICING_QUALIFIER = 'WAC'
+					THEN ISNULL(WP.F_WAC, IWP.F_WAC)
+				END
+			,PRICE = CASE 
+				WHEN IPQ.PRICING_QUALIFIER = 'BQWAC'
+					THEN isnull(WP.F_BQWAC, iWP.F_BQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'EQWAC'
+					THEN isnull(WP.F_EQWAC, iWP.F_EQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'AVGQWAC'
+					THEN isnull(WP.F_AVGQWAC, iWP.F_AVGQWAC)
+				WHEN IPQ.PRICING_QUALIFIER = 'MQWAC'
+					THEN isnull(WP.F_MQWAC, WP.F_MQWAC)
+						--WHEN IPQ.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+						--     THEN WP.F_DAY_WEIGHTED_WAC_PRICE
+						--WHEN IPQ.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+						--     THEN WP.F_SALES_WEIGHTED_AVERAGE_WAC
+				WHEN IPQ.PRICING_QUALIFIER = 'WAC'
+					THEN WP.F_WAC
+				END
+			,NET_WAC = (
+				CASE 
+					WHEN IPQ.PRICING_QUALIFIER = 'BQWAC'
+						THEN isnull(WP.F_BQWAC, iWP.F_BQWAC)
+					WHEN IPQ.PRICING_QUALIFIER = 'EQWAC'
+						THEN isnull(WP.F_EQWAC, iWP.F_EQWAC)
+					WHEN IPQ.PRICING_QUALIFIER = 'AVGQWAC'
+						THEN isnull(WP.F_AVGQWAC, iWP.F_AVGQWAC)
+					WHEN IPQ.PRICING_QUALIFIER = 'MQWAC'
+						THEN isnull(WP.F_MQWAC, WP.F_MQWAC)
+							--WHEN IPQ.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+							--     THEN WP.F_DAY_WEIGHTED_WAC_PRICE
+							--WHEN IPQ.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+							--     THEN WP.F_SALES_WEIGHTED_AVERAGE_WAC
+					WHEN IPQ.PRICING_QUALIFIER = 'WAC'
+						THEN ISNULL(WP.F_WAC, IWP.F_WAC)
+					END
+				) - CASE 
+				WHEN HT1.DESCRIPTION = 'YES'
+					THEN (TR.NET_PRICE)
+				ELSE 0
+				END
+		FROM #TEMP_NM_PPA_PROJECTION T
+		LEFT JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = T.PERIOD_SID
+		LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = T.NET_BASE_PRICE
+		LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_PRICE_TYPE
+		JOIN #PERIOD P ON P.PERIOD_SID = T.PERIOD_SID
+		LEFT JOIN #TEMP_WAC_PRICES WP ON WP.PERIOD_SID = T.PERIOD_SID
+			AND WP.PERIOD_SID BETWEEN @START_DATE_SID
+				AND @END_DATE_SID
+		LEFT JOIN #ITEM_WAC_PRICES IWP ON IWP.PERIOD_SID = T.PERIOD_SID
+			AND IWP.PERIOD_SID BETWEEN @START_DATE_SID
+				AND @END_DATE_SID
+		LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON IPQ.ITEM_PRICING_QUALIFIER_SID = T.ITEM_PRICING_QUALIFIER_SID
+		WHERE T.RN = @INCR
+
+		--SELECT * FROM #TEMP_WAC_PRICES WP WHERE WP.PERIOD_SID BETWEEN 604 AND 660
+		UPDATE T
+		SET MAP = CASE 
+				WHEN NEP IS NOT NULL
+					THEN NEP
+				ELSE CASE 
+						WHEN LEFT(@PRICE_TOLERENCE_TYPE, 1) = 'P'
+							THEN BASE_PRICE_TYPE * (1 + PRICE_TOLERANCE / 100.0)
+						WHEN LEFT(@PRICE_TOLERENCE_TYPE, 1) = 'D'
+							THEN BASE_PRICE_TYPE + PRICE_TOLERANCE
+						END
+				END
+			,NET_MAP = (
+				CASE 
+					WHEN NEP IS NOT NULL
+						THEN NEP
+					ELSE CASE 
+							WHEN LEFT(@PRICE_TOLERENCE_TYPE, 1) = 'P'
+								THEN BASE_PRICE_TYPE * (1 + PRICE_TOLERANCE / 100.0)
+							WHEN LEFT(@PRICE_TOLERENCE_TYPE, 1) = 'D'
+								THEN BASE_PRICE_TYPE + PRICE_TOLERANCE
+							END
+					END
+				)
+		FROM #TEMP_NM_PPA_PROJECTION T
+		JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = T.PERIOD_SID
+		LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = T.NET_BASE_PRICE
+		LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_PRICE_TYPE
+		WHERE RN = @INCR
+
+		SET @NET_SUBSEQUENT_PERIOD_PRICE = NULL
+		SET @SUBSEQUENT_PERIOD_PRICE_TYPE = NULL
+
+		SELECT @PRIOR_PERIOD_MAP = (NET_MAP)
+			,@PRIOR_PERIOD_NET_WAC = (NET_WAC)
+			,@PRIOR_PERIOD_WAC = (WAC)
+			,@MAP = (NET_MAP)
+			,@WAC = (WAC)
+		FROM #TEMP_NM_PPA_PROJECTION T
+		WHERE RN = @INCR
+
+		SELECT @NET_SUBSEQUENT_PERIOD_PRICE = HT1.DESCRIPTION
+			,@SUBSEQUENT_PERIOD_PRICE_TYPE = T.SUBSEQUENT_PERIOD_PRICE_TYPE
+		FROM #TEMP_NM_PPA_PROJECTION T
+		LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_SUBSEQUENT_PERIOD_PRICE
+		WHERE RN = @INCR
+-----------------------checking the violation condition was true, if true the next period will be reset else normal calculation ----------------------------
+		
+		IF @MAP > @PRIOR_PERIOD_NET_WAC
+			AND @RESET_TYPE = 'VIOLATION DATE'
+			AND @RESET_ELIGIBLE = 'YES'
+		BEGIN
+			UPDATE T
+			SET RESET = CASE 
+					WHEN HT.DESCRIPTION = 'YES'
+						THEN 1
+					END
+			FROM #TEMP_NM_PPA_PROJECTION T
+			LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = T.RESET_ELIGIBLE
+			WHERE RN = @INCR + 1
+		END;
+
+		WITH NEW_MAP
+		AS (
+			SELECT MAP
+				,ROW_NUMBER() OVER (
+					ORDER BY P.YEAR
+						,P.MONTH
+					) RN2
+				,T.RN
+			FROM #TEMP_NM_PPA_PROJECTION T
+			JOIN PERIOD P ON P.PERIOD_SID = T.PERIOD_SID
+			WHERE RN = @INCR
+			)
+		UPDATE T
+		SET MAP = NM.MAP
+			,NET_MAP = NM.MAP
+		FROM #TEMP_NM_PPA_PROJECTION T
+		JOIN NEW_MAP NM ON NM.RN = T.RN
+		WHERE RN2 = 1
+
+		SELECT @PRIOR_PERIOD_MAP = (NET_MAP)
+			,@PRIOR_PERIOD_NET_WAC = (NET_WAC)
+			,@PRIOR_PERIOD_WAC = (WAC)
+			,@MAP = (NET_MAP)
+		FROM #TEMP_NM_PPA_PROJECTION T
+		WHERE RN = @INCR
+
+		SELECT @MAP = --'HI'
+			(
+				CASE 
+					WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD WAC'
+						THEN @PRIOR_PERIOD_WAC
+					WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD NET WAC'
+						THEN @PRIOR_PERIOD_NET_WAC
+					WHEN IP1.PRICING_QUALIFIER = 'BQWAC'
+						THEN F_BQWAC
+					WHEN IP1.PRICING_QUALIFIER = 'EQWAC'
+						THEN F_EQWAC
+					WHEN IP1.PRICING_QUALIFIER = 'AVGQWAC'
+						THEN F_AVGQWAC
+					WHEN IP1.PRICING_QUALIFIER = 'MQWAC'
+						THEN F_MQWAC
+							--WHEN IP1.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+							--     THEN COALESCE(F_DAY_WEIGHTED_WAC_PRICE , 0)
+							--WHEN IP1.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+							--     THEN F_SALES_WEIGHTED_AVERAGE_WAC
+					WHEN IP1.PRICING_QUALIFIER = 'WAC'
+						THEN F_WAC
+					ELSE @PRIOR_PERIOD_MAP
+					END
+				) - (
+				CASE 
+					WHEN @NET_SUBSEQUENT_PERIOD_PRICE = 'YES'
+						THEN TR.NET_SUBSEQUENT_PERIOD_PRICE
+					ELSE 0
+					END
+				)
+		FROM #TEMP_NM_PPA_PROJECTION TN
+		JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = TN.PERIOD_SID
+		LEFT JOIN ITEM_PRICING_QUALIFIER IP1 ON IP1.ITEM_PRICING_QUALIFIER_SID = @SUBSEQUENT_PERIOD_PRICE_TYPE
+		LEFT JOIN #ITEM_WAC_PRICES IW ON TN.PERIOD_SID = IW.PERIOD_SID
+		WHERE TN.RN = @INCR
+
+		SELECT @PRICE_TOL_INT = ISNULL(CASE 
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'A'
+						THEN @PRICE_TOL_INT * 12
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'S'
+						THEN @PRICE_TOL_INT * 6
+					WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'Q'
+						THEN @PRICE_TOL_INT * 3
+					ELSE @PRICE_TOL_INT
+					END, 0)
+			,@REBATE_INCR = CASE 
+				WHEN LEFT(@REBATE_FREQUENCY, 1) = 'A'
+					THEN 12
+				WHEN LEFT(@REBATE_FREQUENCY, 1) = 'S'
+					THEN 6
+				WHEN LEFT(@REBATE_FREQUENCY, 1) = 'Q'
+					THEN 3
+				ELSE 1
+				END
+
+		SET @ROLLOUT = 1
+		SET @INCR = @INCR + 1
+		SET @REBATE_ROLLOUT = 1
+------------------------------------------calculating for the rest of the periods---------------------------------------------------------
+		
+		WHILE (@INCR <= @MAX_RN)
+		BEGIN
+			SELECT TOP 1 @RESET = ISNULL(RESET, 0)
+			--  ,@RESET_INTERVAL_FREQUENCY = ISNULL(RESET_INTERVAL_FREQUENCY, 0)
+			FROM #TEMP_NM_PPA_PROJECTION
+			WHERE RN = @INCR
+			ORDER BY RN
+--------------------if reset happens then new price and new nep has to be calcuated ----------------------
+			
+			IF @RESET = 1
+				OR @ROLLOUT >= @PRICE_TOL_INT
+			BEGIN
+				--     SELECT CASE WHEN @RESET = 1 THEN 'AFDGFDGDSFG' ELSE 0 END,@INCR,'@ROLLOUT',@ROLLOUT,@PRICE_TOL_INT
+				/*     ;
+
+                     WITH RES
+                     AS (
+                           SELECT *
+                                  ,ROW_NUMBER() OVER (
+                                         ORDER BY PERIOD_SID
+                                         ) RN
+                                  ,(
+                                         (
+                                                ROW_NUMBER() OVER (
+                                                       ORDER BY PERIOD_SID
+                                                       ) - 1
+                                                ) / CASE 
+                                                WHEN @REBATE_FREQUENCY = 'Q'
+                                                       THEN 3
+                                                WHEN @REBATE_FREQUENCY = 'M'
+                                                       THEN 1
+                                                WHEN @REBATE_FREQUENCY = 'S'
+                                                       THEN 6
+                                                WHEN @REBATE_FREQUENCY = 'A'
+                                                       THEN 12
+                                                END
+                                         ) + 1 REBATE_FREQ
+                           FROM #GTS_WAC
+                           WHERE PERIOD_SID >= (
+                                         SELECT PERIOD_SID
+                                         FROM #TEMP_NM_PPA_PROJECTION
+                                         WHERE RN = @INCR
+                                         )
+                           )
+                           ,RES_PRI
+                     AS (
+                           SELECT MIN(PERIOD_SID) PERIOD_SID
+                                  ,SUM(CASE 
+                                                WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                                       THEN FORECAST_GTS_SALES
+                                                ELSE ACTUAL_GTS_SALES
+                                                END) / NULLIF(SUM(CASE 
+                                                       WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                                              THEN FORECAST_GTS_UNITS
+                                                       ELSE ACTUAL_GTS_UNITS
+                                                       END), 0) SALES_WEIGHTED_AVG_WAC
+                                  ,SUM((
+                                                CASE 
+                                                       WHEN PERIOD_SID >= @CURRENT_PERIOD
+                                                              THEN FORECAST_PRICE
+                                                       ELSE ITEM_PRICE
+                                                       END
+                                                ) * NO_OF_DAYS) / NULLIF(SUM(NO_OF_DAYS), 0) DAY_WEIGHTED_WAC
+                           FROM RES
+                            GROUP BY REBATE_FREQ
+                           )
+                     UPDATE I
+                     SET --A_SALES_WEIGHTED_AVERAGE_WAC = PR.SALES_WEIGHTED_AVG_WAC
+                           F_SALES_WEIGHTED_AVERAGE_WAC = PR.SALES_WEIGHTED_AVG_WAC
+                           --,I.A_DAY_WEIGHTED_WAC_PRICE = PR.DAY_WEIGHTED_WAC
+                           ,I.F_DAY_WEIGHTED_WAC_PRICE = PR.DAY_WEIGHTED_WAC
+                     FROM #ITEM_WAC_PRICES I
+                     JOIN #PERIOD P ON P.PERIOD_SID = I.PERIOD_SID
+                     JOIN (
+                           SELECT SALES_WEIGHTED_AVG_WAC
+                                  ,DAY_WEIGHTED_WAC
+                                  ,P.*
+                           FROM RES_PRI RP
+                           JOIN #PERIOD P ON P.PERIOD_SID = RP.PERIOD_SID
+                           ) PR ON PR.PERIOD_YEAR = P.PERIOD_YEAR
+                           AND CASE 
+                                  WHEN @REBATE_FREQUENCY = 'S'
+                                         THEN P.PERIOD_SEMI
+                                  WHEN @REBATE_FREQUENCY = 'Q'
+                                         THEN P.PERIOD_QUARTER
+                                  WHEN @REBATE_FREQUENCY = 'M'
+                                         THEN P.PERIOD_MONTH
+                                  END = CASE 
+                                  WHEN @REBATE_FREQUENCY = 'S'
+                                         THEN PR.PERIOD_SEMI
+                                  WHEN @REBATE_FREQUENCY = 'Q'
+                                         THEN PR.PERIOD_QUARTER
+                                  WHEN @REBATE_FREQUENCY = 'M'
+                                         THEN PR.PERIOD_MONTH
+                                  END
+                                  */
+				--
+				SELECT @PRICE_TOL_FRQ = HT5.DESCRIPTION
+					,@PRICE_TOL_INT = HT6.DESCRIPTION
+					,@PRICE_TOLERENCE_TYPE = HT2.DESCRIPTION
+					,@RESET_PRICE_TYPE = CASE 
+						WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD WAC'
+							THEN @PRIOR_PERIOD_WAC
+						WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD NET WAC'
+							THEN @PRIOR_PERIOD_NET_WAC
+						WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD NEP'
+							THEN @PRIOR_PERIOD_MAP
+						WHEN IP1.PRICING_QUALIFIER = 'BQWAC'
+							THEN F_BQWAC
+						WHEN IP1.PRICING_QUALIFIER = 'EQWAC'
+							THEN F_EQWAC
+						WHEN IP1.PRICING_QUALIFIER = 'AVGQWAC'
+							THEN F_AVGQWAC
+						WHEN IP1.PRICING_QUALIFIER = 'MQWAC'
+							THEN F_MQWAC
+								--WHEN IP1.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+								--     THEN COALESCE(F_DAY_WEIGHTED_WAC_PRICE , 0)
+								--WHEN IP1.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+								--     THEN F_SALES_WEIGHTED_AVERAGE_WAC
+						WHEN IP1.PRICING_QUALIFIER = 'WAC'
+							THEN F_WAC
+						END
+					,@RESET_TYPE = ISNULL(HT3.DESCRIPTION, 'P')
+					,@RESET_ELIGIBLE = ISNULL(HT4.DESCRIPTION, 'P')
+					,@WAC = ISNULL((
+							CASE 
+								WHEN IP.PRICING_QUALIFIER = 'BQWAC'
+									THEN F_BQWAC
+								WHEN IP.PRICING_QUALIFIER = 'EQWAC'
+									THEN F_EQWAC
+								WHEN IP.PRICING_QUALIFIER = 'AVGQWAC'
+									THEN F_AVGQWAC
+								WHEN IP.PRICING_QUALIFIER = 'MQWAC'
+									THEN F_MQWAC
+										--WHEN IP.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+										--     THEN COALESCE(F_DAY_WEIGHTED_WAC_PRICE, 0)
+										--WHEN IP.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+										--     THEN F_SALES_WEIGHTED_AVERAGE_WAC
+								WHEN IP.PRICING_QUALIFIER = 'WAC'
+									THEN F_WAC
+								END
+							), 0)
+				FROM #TEMP_NM_PPA_PROJECTION TN
+				LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = TN.RESET_FREQUENCY
+				LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = TN.RESET_INTERVAL
+				LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_TYPE
+				LEFT JOIN ITEM_PRICING_QUALIFIER IP1 ON IP1.ITEM_PRICING_QUALIFIER_SID = TN.RESET_PRICE_TYPE
+				LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = TN.RESET_TYPE
+				LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID = TN.RESET_ELIGIBLE
+				LEFT JOIN #ITEM_WAC_PRICES IW ON TN.PERIOD_SID = IW.PERIOD_SID
+					AND IW.PERIOD_SID BETWEEN @START_DATE_SID
+						AND @END_DATE_SID
+				LEFT JOIN HELPER_TABLE HT5 ON HT5.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_FREQUENCY
+				LEFT JOIN HELPER_TABLE HT6 ON HT6.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_INTERVAL
+				LEFT JOIN ITEM_PRICING_QUALIFIER IP ON IP.ITEM_PRICING_QUALIFIER_SID = TN.ITEM_PRICING_QUALIFIER_SID
+				WHERE TN.RN = @INCR
+
+				--     IF  @INCR=42 BEGIN  SELECT 'THIS IS NIN RESET BLOCK',@INCR,@WAC,@RESET_PRICE_TYPE END
+				--SELECT @INCR,@WAC,@RESET_PRICE_TYPE RPT
+				
+
+				SELECT @PRICE_TOL_INT = CASE 
+						WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'A'
+							THEN @PRICE_TOL_INT * 12
+						WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'S'
+							THEN @PRICE_TOL_INT * 6
+						WHEN LEFT(@PRICE_TOL_FRQ, 1) = 'Q'
+							THEN @PRICE_TOL_INT * 3
+						ELSE @PRICE_TOL_INT
+						END
+					,@REBATE_INCR = CASE 
+						WHEN LEFT(@REBATE_FREQUENCY, 1) = 'A'
+							THEN 12
+						WHEN LEFT(@REBATE_FREQUENCY, 1) = 'S'
+							THEN 6
+						WHEN LEFT(@REBATE_FREQUENCY, 1) = 'Q'
+							THEN 3
+						ELSE 1
+						END
+					--SELECT @PRICE_TOL_FRQ,@INCR;
+					;
+
+				WITH RESET_TYPE
+				AS (
+					SELECT ISNULL(CASE 
+								WHEN HT1.DESCRIPTION = 'YES'
+									THEN @RESET_PRICE_TYPE - TR.NET_RESET_PRICE
+								ELSE @RESET_PRICE_TYPE
+								END, 0) RESET_PRICE_TYPE
+						,CASE 
+							WHEN HT2.DESCRIPTION = 'YES'
+								THEN @WAC - TR.NET_PRICE
+							ELSE @WAC
+							END R_NET_WAC
+						,T.PERIOD_SID
+					-- @PRIOR_PERIOD_MAP PRIOD_MAP
+					FROM #TEMP_NM_PPA_PROJECTION T
+					JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = T.PERIOD_SID
+					LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_RESET_PRICE_TYPE
+					LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = T.NET_PRICE_TYPE
+					WHERE RN = @INCR
+					)
+				UPDATE T
+				SET MAP = CASE 
+						WHEN left(@PRICE_TOLERENCE_TYPE, 1) = 'P'
+							THEN (
+									CASE 
+										WHEN @RESET = 1
+											THEN RT.RESET_PRICE_TYPE
+										ELSE @PRIOR_PERIOD_MAP
+										END
+									) * (1 + PRICE_TOLERANCE / 100.0)
+						WHEN left(@PRICE_TOLERENCE_TYPE, 1) = 'D'
+							THEN (
+									CASE 
+										WHEN @RESET = 1
+											THEN RT.RESET_PRICE_TYPE
+										ELSE @PRIOR_PERIOD_MAP
+										END
+									) + (PRICE_TOLERANCE)
+						END
+					,NET_MAP = CASE 
+						WHEN left(@PRICE_TOLERENCE_TYPE, 1) = 'P'
+							THEN (
+									CASE 
+										WHEN @RESET = 1
+											THEN RT.RESET_PRICE_TYPE
+										ELSE @PRIOR_PERIOD_MAP
+										END
+									) * (1 + PRICE_TOLERANCE / 100.0)
+						WHEN left(@PRICE_TOLERENCE_TYPE, 1) = 'D'
+							THEN (
+									CASE 
+										WHEN @RESET = 1
+											THEN RT.RESET_PRICE_TYPE
+										ELSE @PRIOR_PERIOD_MAP
+										END
+									) + PRICE_TOLERANCE
+						END
+					,WAC = @WAC
+					,PRICE = @WAC
+					,NET_WAC = R_NET_WAC
+					,PRICE_CHANGE = @WAC - R_NET_WAC
+				FROM #TEMP_NM_PPA_PROJECTION T
+				JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = T.PERIOD_SID
+				LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_PRICE_TYPE
+				JOIN RESET_TYPE RT ON RT.PERIOD_SID = T.PERIOD_SID
+				WHERE RN = @INCR;
+
+				SELECT @PRIOR_PERIOD_MAP = (NET_MAP)
+					,@PRIOR_PERIOD_NET_WAC = (NET_WAC)
+					,@PRIOR_PERIOD_WAC = (WAC)
+					,@MAP = (NET_MAP)
+				FROM #TEMP_NM_PPA_PROJECTION T
+				WHERE RN = @INCR
+
+				--SELECT @MAP,@PRIOR_PERIOD_NET_WAC,@PRIOR_PERIOD_WAC,@PRIOR_PERIOD_MAP,@INCR
+				SELECT @NET_SUBSEQUENT_PERIOD_PRICE = HT1.DESCRIPTION
+					,@SUBSEQUENT_PERIOD_PRICE_TYPE = T.SUBSEQUENT_PERIOD_PRICE_TYPE
+				FROM #TEMP_NM_PPA_PROJECTION T
+				LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_SUBSEQUENT_PERIOD_PRICE
+				WHERE RN = @INCR
+
+				IF @MAP > @PRIOR_PERIOD_NET_WAC
+					AND @RESET_TYPE = 'VIOLATION DATE'
+					AND @RESET_ELIGIBLE = 'YES'
+				BEGIN
+					UPDATE T
+					SET RESET = CASE 
+							WHEN HT.DESCRIPTION = 'YES'
+								THEN 1
+							END
+					FROM #TEMP_NM_PPA_PROJECTION T
+					JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = T.RESET_ELIGIBLE
+					WHERE RN = @INCR + 1
+				END
+
+				SELECT @MAP = --'HI'
+					(
+						CASE 
+							WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD WAC'
+								THEN @PRIOR_PERIOD_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD NET WAC'
+								THEN @PRIOR_PERIOD_NET_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'BQWAC'
+								THEN F_BQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'EQWAC'
+								THEN F_EQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'AVGQWAC'
+								THEN F_AVGQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'MQWAC'
+								THEN F_MQWAC
+									--WHEN IP1.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+									--     THEN COALESCE(F_DAY_WEIGHTED_WAC_PRICE, 0)
+									--WHEN IP1.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+									--     THEN F_SALES_WEIGHTED_AVERAGE_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'WAC'
+								THEN F_WAC
+							ELSE @PRIOR_PERIOD_MAP
+							END
+						) - (
+						CASE 
+							WHEN @NET_SUBSEQUENT_PERIOD_PRICE = 'YES'
+								THEN TR.NET_SUBSEQUENT_PERIOD_PRICE
+							ELSE 0
+							END
+						)
+				FROM #TEMP_NM_PPA_PROJECTION TN
+				JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = TN.PERIOD_SID
+				LEFT JOIN ITEM_PRICING_QUALIFIER IP1 ON IP1.ITEM_PRICING_QUALIFIER_SID = @SUBSEQUENT_PERIOD_PRICE_TYPE
+				LEFT JOIN #ITEM_WAC_PRICES IW ON TN.PERIOD_SID = IW.PERIOD_SID
+					AND IW.PERIOD_SID BETWEEN @START_DATE_SID
+						AND @END_DATE_SID
+				WHERE TN.RN = @INCR
+
+				SET @INCR = @INCR + 1
+				SET @ROLLOUT = 1
+				SET @REBATE_ROLLOUT = 1
+				SET @PRICE_TOL_INT = @PRICE_TOL_INT
+			END
+			ELSE
+--------------------if no reset happens then new price has to be calcuated based on rebate frequency other wise price will not be changed and nep will not be changed ----------------------
+			
+			BEGIN
+				DECLARE @PERT INT
+
+				SELECT @PRICE_TOLERENCE_TYPE = HT2.DESCRIPTION
+					,@RESET_TYPE = HT3.DESCRIPTION
+					,@RESET_ELIGIBLE = HT4.DESCRIPTION
+					,@NEW_WAC = ISNULL((
+							CASE 
+								WHEN IP.PRICING_QUALIFIER = 'BQWAC'
+									THEN ISNULL(IW.F_BQWAC, IPR.F_BQWAC)
+								WHEN IP.PRICING_QUALIFIER = 'EQWAC'
+									THEN ISNULL(IW.F_EQWAC, IPR.F_EQWAC)
+								WHEN IP.PRICING_QUALIFIER = 'AVGQWAC'
+									THEN ISNULL(IW.F_AVGQWAC, IPR.F_AVGQWAC)
+								WHEN IP.PRICING_QUALIFIER = 'MQWAC'
+									THEN ISNULL(IW.F_MQWAC, IPR.F_MQWAC)
+										--WHEN IP.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+										--     THEN COALESCE(IW.F_DAY_WEIGHTED_WAC_PRICE, IPR.F_DAY_WEIGHTED_WAC_PRICE, 0)
+										--WHEN IP.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+										--     THEN ISNULL(IW.F_SALES_WEIGHTED_AVERAGE_WAC, IPR.F_SALES_WEIGHTED_AVERAGE_WAC)
+								WHEN IP.PRICING_QUALIFIER = 'WAC'
+									THEN ISNULL(IW.F_WAC, IPR.F_WAC)
+								END
+							), 0)
+					,@PERT = TN.PERIOD_SID
+				FROM #TEMP_NM_PPA_PROJECTION TN
+				LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_FREQUENCY
+				LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_INTERVAL
+				LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = TN.PRICE_TOLERANCE_TYPE
+				LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID = TN.RESET_TYPE
+				LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID = TN.RESET_ELIGIBLE
+				LEFT JOIN ITEM_PRICING_QUALIFIER IP ON IP.ITEM_PRICING_QUALIFIER_SID = TN.ITEM_PRICING_QUALIFIER_SID
+				LEFT JOIN #PERIOD P ON P.PERIOD_SID = TN.PERIOD_SID
+				LEFT JOIN #TEMP_WAC_PRICES IW ON IW.PERIOD_SID = TN.PERIOD_SID
+					AND IW.PERIOD_SID BETWEEN @START_DATE_SID
+						AND @END_DATE_SID
+				LEFT JOIN #ITEM_WAC_PRICES IPR ON IPR.PERIOD_SID = TN.PERIOD_SID
+					AND IPR.PERIOD_SID BETWEEN @START_DATE_SID
+						AND @END_DATE_SID
+				WHERE RN = @INCR
+
+				IF @REBATE_ROLLOUT >= @REBATE_INCR
+				BEGIN
+					SET @WAC = @NEW_WAC
+					SET @REBATE_ROLLOUT = 1
+						--            SELECT @NEW_WAC EW_WAC,@INCR,@WAC WAC,@REBATE_INCR EBATE_INCR,@REBATE_ROLLOUT EBATE_ROLLOUT,@PERT,@CURRENT_PERIOD,CASE
+						--                                       WHEN @PERT >= @CURRENT_PERIOD THEN 'SDGFDG' ELSE 'LOOSE' END 
+				END
+				ELSE
+				BEGIN
+					SET @REBATE_ROLLOUT = @REBATE_ROLLOUT + 1
+				END;
+
+				IF @PERT = @START_DATE_SID
+				BEGIN
+					SET @REBATE_ROLLOUT = 1
+					SET @WAC = @NEW_WAC
+				END
+						--IF  @INCR=41 BEGIN  SELECT 'THIS IS NIN ELSE BLOCK',@REBATE_ROLLOUT,@REBATE_INCR,@NEW_WAC,@WAC END;
+						;
+
+				WITH RESET_TYPE
+				AS (
+					SELECT ISNULL(CASE 
+								WHEN HT2.DESCRIPTION = 'YES'
+									THEN @WAC - TR.NET_PRICE
+								ELSE @WAC
+								END, 0) R_NET_WAC
+						,T.PERIOD_SID
+					-- @PRIOR_PERIOD_MAP PRIOD_MAP
+					FROM #TEMP_NM_PPA_PROJECTION T
+					JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = T.PERIOD_SID
+					LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID = T.NET_PRICE_TYPE
+					WHERE RN = @INCR
+					)
+				UPDATE T
+				SET MAP = @MAP
+					,NET_MAP = @MAP
+					,WAC = @WAC
+					,PRICE = @WAC
+					,NET_WAC = TR.R_NET_WAC
+				FROM #TEMP_NM_PPA_PROJECTION T
+				LEFT JOIN RESET_TYPE TR ON TR.PERIOD_SID = T.PERIOD_SID
+				WHERE RN = @INCR
+
+				SELECT @PRIOR_PERIOD_MAP = (NET_MAP)
+					,@PRIOR_PERIOD_NET_WAC = (NET_WAC)
+					,@PRIOR_PERIOD_WAC = (WAC)
+					,@MAP = (NET_MAP)
+				FROM #TEMP_NM_PPA_PROJECTION T
+				WHERE RN = @INCR
+
+				IF @MAP > @PRIOR_PERIOD_NET_WAC
+					AND @RESET_TYPE = 'VIOLATION DATE'
+					AND @RESET_ELIGIBLE = 'YES'
+				BEGIN
+					UPDATE T
+					SET RESET = CASE 
+							WHEN HT.DESCRIPTION = 'YES'
+								THEN 1
+							END
+					FROM #TEMP_NM_PPA_PROJECTION T
+					JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = T.RESET_ELIGIBLE
+					WHERE RN = @INCR + 1
+				END
+
+				SELECT @NET_SUBSEQUENT_PERIOD_PRICE = HT1.DESCRIPTION
+					,@SUBSEQUENT_PERIOD_PRICE_TYPE = T.SUBSEQUENT_PERIOD_PRICE_TYPE
+				FROM #TEMP_NM_PPA_PROJECTION T
+				LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID = T.NET_SUBSEQUENT_PERIOD_PRICE
+				WHERE RN = @INCR
+
+				SELECT @MAP = --'HI'
+					(
+						CASE 
+							WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD WAC'
+								THEN @PRIOR_PERIOD_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'PRIOR PERIOD NET WAC'
+								THEN @PRIOR_PERIOD_NET_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'BQWAC'
+								THEN F_BQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'EQWAC'
+								THEN F_EQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'AVGQWAC'
+								THEN F_AVGQWAC
+							WHEN IP1.PRICING_QUALIFIER = 'MQWAC'
+								THEN F_MQWAC
+									--WHEN IP1.PRICING_QUALIFIER = 'DAY WEIGHTED WAC'
+									--     THEN F_DAY_WEIGHTED_WAC_PRICE
+									--WHEN IP1.PRICING_QUALIFIER = 'SALES WEIGHTED WAC'
+									--     THEN F_SALES_WEIGHTED_AVERAGE_WAC
+							WHEN IP1.PRICING_QUALIFIER = 'WAC'
+								THEN F_WAC
+							ELSE @PRIOR_PERIOD_MAP
+							END
+						) - (
+						CASE 
+							WHEN @NET_SUBSEQUENT_PERIOD_PRICE = 'YES'
+								THEN TR.NET_SUBSEQUENT_PERIOD_PRICE
+							ELSE 0
+							END
+						)
+				FROM #TEMP_NM_PPA_PROJECTION TN
+				JOIN #TEMP_REBATES TR ON TR.PERIOD_SID = TN.PERIOD_SID
+				LEFT JOIN ITEM_PRICING_QUALIFIER IP1 ON IP1.ITEM_PRICING_QUALIFIER_SID = @SUBSEQUENT_PERIOD_PRICE_TYPE
+				---  AND IP.PRICING_QUALIFIER NOT IN ( 'PRIOR PERIOD WAC', 'PRIOR PERIOD NET WAC', 'PRIOR PERIOD NEP' )
+				LEFT JOIN #ITEM_WAC_PRICES IW ON TN.PERIOD_SID = IW.PERIOD_SID
+				WHERE TN.RN = @INCR
+
+				--SELECT @INCR,@ROLLOUT
+				SET @INCR = @INCR + 1
+				SET @ROLLOUT = @ROLLOUT + 1
+			END
+					--SELECT @REBATE_ROLLOUT,@REBATE_INCR,@INCR
+		END;
+-----------------------calculating the price change based on rebate frequency and the result will be sent to the calling procedure---------------------------
+		
+	;	WITH FINAL_CHANGE
+		AS (
+			SELECT PERIOD_SID
+				,PERIOD_YEAR
+				,PERIOD_MONTH
+				,PERIOD_QUARTER
+				,PERIOD_SEMI
+				,(
+					PRICE - ISNULL(LAG(PRICE) OVER (
+							ORDER BY PERIOD_SID
+							), @PREV_PRICE)
+					) / NULLIF(ISNULL(LAG(PRICE) OVER (
+							ORDER BY PERIOD_SID
+							), @PREV_PRICE), 0) * 100 PRICE_CHANGE
+			FROM (
+				SELECT P.PERIOD_YEAR
+					,P.PERIOD_MONTH
+					,P.PERIOD_QUARTER
+					,P.PERIOD_SEMI
+					,T.PERIOD_SID
+					,PRICE
+					,ROW_NUMBER() OVER (
+						ORDER BY T.PERIOD_SID
+						) RNQ
+					,(
+						(
+							ROW_NUMBER() OVER (
+								ORDER BY T.PERIOD_SID
+								) - 1
+							) % CASE 
+							WHEN @REBATE_FREQUENCY = 'Q'
+								THEN 3
+							WHEN @REBATE_FREQUENCY = 'M'
+								THEN 1
+							WHEN @REBATE_FREQUENCY = 'S'
+								THEN 6
+							WHEN @REBATE_FREQUENCY = 'A'
+								THEN 12
+							END
+						) + 1 REBATE_FREQ
+				FROM --#ITEM_WAC_PRICES
+					#TEMP_NM_PPA_PROJECTION T
+				JOIN #PERIOD P ON P.PERIOD_SID = T.PERIOD_SID
+				) CHANGE
+			WHERE REBATE_FREQ = 1
+			)
+			,TBLVALUES
+		AS (
+			SELECT RANK() OVER (
+					ORDER BY Y.PERIOD_YEAR
+						,M.MONTH
+					) AS [RANK]
+				,M.MONTH
+				,Y.PERIOD_YEAR
+				,T.PRICE_CHANGE
+			FROM @MONTHS M
+			CROSS JOIN (
+				SELECT DISTINCT PERIOD_YEAR
+				FROM FINAL_CHANGE
+				) Y
+			LEFT JOIN FINAL_CHANGE T ON T.PERIOD_MONTH = M.MONTH
+				AND T.PERIOD_YEAR = Y.PERIOD_YEAR
+			)
+			,FINAL_CHANGE2
+		AS (
+			SELECT P.PERIOD_SID
+				,T.MONTH
+				,T.PERIOD_YEAR
+				,COALESCE(T.PRICE_CHANGE, T1.PRICE_CHANGE) AS VALUE
+			FROM TBLVALUES T
+			LEFT JOIN TBLVALUES T1 ON T1.RANK = (
+					SELECT MAX(TMAX.RANK)
+					FROM TBLVALUES TMAX
+					WHERE TMAX.RANK < T.RANK
+						AND TMAX.PRICE_CHANGE IS NOT NULL
+					)
+			JOIN #PERIOD P ON P.PERIOD_MONTH = T.MONTH
+				AND P.PERIOD_YEAR = T.PERIOD_YEAR
+			)
+		SELECT T.PERIOD_SID
+			,T.BASE_PRICE_TYPE AS BASE_PRICE
+			,T.WAC
+			,T.MAP
+			,T.RESET --TOTAL_RPU
+			,T.NET_WAC
+			,T.NET_MAP
+			,T.PRICE
+			,ISNULL(F.VALUE, 0) /*ISNULL(CASE 
+                                  WHEN T.RESET=1
+                                         THEN 0
+                                  ELSE F.VALUE
+                                  END, 0)*/ PRICECHANGE
+		--INTO #TRT
+		FROM #TEMP_NM_PPA_PROJECTION T
+		LEFT JOIN FINAL_CHANGE2 F ON F.PERIOD_SID = T.PERIOD_SID
+	END TRY
+
+	BEGIN CATCH
+		DECLARE @ERRORMESSAGE NVARCHAR(4000);
+		DECLARE @ERRORSEVERITY INT;
+		DECLARE @ERRORSTATE INT;
+		DECLARE @ERRORNUMBER INT;
+		DECLARE @ERRORPROCEDURE VARCHAR(200);
+		DECLARE @ERRORLINE INT;
+
+		EXEC USPERRORCOLLECTOR
+
+		SELECT @ERRORMESSAGE = ERROR_MESSAGE()
+			,@ERRORSEVERITY = ERROR_SEVERITY()
+			,@ERRORSTATE = ERROR_STATE()
+			,@ERRORPROCEDURE = ERROR_PROCEDURE()
+			,@ERRORLINE = ERROR_LINE()
+			,@ERRORNUMBER = ERROR_NUMBER()
+
+		RAISERROR (
+				@ERRORMESSAGE
+				,-- MESSAGE TEXT.
+				@ERRORSEVERITY
+				,-- SEVERITY.
+				@ERRORSTATE
+				,-- STATE.
+				@ERRORPROCEDURE
+				,-- PROCEDURE_NAME.
+				@ERRORNUMBER
+				,-- ERRORNUMBER
+				@ERRORLINE -- ERRORLINE
+				)
+	END CATCH
+END --PROC ENDGO
+
+
+GO
+
+

@@ -1,0 +1,1436 @@
+
+-------------------------------------------------------ADJUSTMENT_GTN_DETAIL------------------------------------------------------------ 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_GTN_DETAIL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+  
+  
+      CREATE TABLE [DBO].ADJUSTMENT_GTN_DETAIL 
+        ( 
+           ADJUSTMENT_GTN_DETAIL_SID INT IDENTITY(1,1) NOT NULL, 
+           WORKFLOW_ID               VARCHAR(50) NULL, 
+           WORKFLOW_NAME             VARCHAR(100) NULL, 
+           ADJUSTMENT_TYPE           INT NULL, 
+           GL_YEAR                   SMALLINT NULL, 
+           GL_MONTH                  TINYINT NULL, 
+           GL_DATE                   DATETIME NULL, 
+           REDEMPTION_PERIOD         DATETIME NULL, 
+		   CALCULATION_PERIOD        DATETIME NOT  NULL, 
+           GL_COMPANY_ID             VARCHAR(50) NULL, 
+           GL_COMPANY_NO             VARCHAR(50) NULL, 
+           GL_COMPANY_NAME           VARCHAR(50) NULL, 
+           BUSINESS_UNIT_ID          VARCHAR(50) NULL, 
+           BUSINESS_UNIT_NO          VARCHAR(50) NULL, 
+           BUSINESS_UNIT_NAME        VARCHAR(50) NULL, 
+           COST_CENTER               VARCHAR(50) NULL, 
+           PROJECT                   VARCHAR(100) NULL, 
+           FUTURE_1                  VARCHAR(100) NULL, 
+           FUTURE_2                  VARCHAR(100) NULL, 
+           GL_STRING                 VARCHAR(200) NULL, 
+           ACCOUNT_CATEGORY          INT NULL, 
+           ACCOUNT_TYPE              INT NULL, 
+           ACCOUNT                   VARCHAR(50) NOT NULL, 
+           CONTRACT_ID               VARCHAR(50) NULL, 
+           CONTRACT_NO               VARCHAR(50) NULL, 
+           CONTRACT_NAME             VARCHAR(100) NULL, 
+           COMPANY_ID                VARCHAR(50) NULL, 
+           COMPANY_NO                VARCHAR(50) NULL, 
+           COMPANY_NAME              VARCHAR(100) NULL, 
+           ITEM_ID                   VARCHAR(50) NULL, 
+           ITEM_NO                   VARCHAR(50) NULL, 
+           ITEM_NAME                 VARCHAR(100) NULL, 
+           BRAND_ID                  VARCHAR(50) NULL, 
+           BRAND_NAME                VARCHAR(100) NULL, 
+           DEDUCTION_ID              VARCHAR(50) NULL, 
+           DEDUCTION_NO              VARCHAR(50) NULL, 
+           DEDUCTION_NAME            VARCHAR(50) NULL, 
+           DEDUCTION_CATEGORY        INT NULL, 
+           DEDUCTION_TYPE            INT NULL, 
+           DEDUCTION_PROGRAM         INT NULL, 
+           DEDUCTION_INCLUSION       INT NULL, 
+           DEDUCTION_UDC_1           INT NULL, 
+           DEDUCTION_UDC_2           INT NULL, 
+           DEDUCTION_UDC_3           INT NULL, 
+           DEDUCTION_UDC_4           INT NULL, 
+           DEDUCTION_UDC_5           INT NULL, 
+           DEDUCTION_UDC_6           INT NULL, 
+           DEDUCTION_AMOUNT          NUMERIC(22, 6) NULL, 
+           DEDUCTION_RATE            NUMERIC(22, 6) NULL, 
+           UDC_1                     INT NULL, 
+           UDC_2                     INT NULL, 
+           UDC_3                     INT NULL, 
+           UDC_4                     INT NULL, 
+           UDC_5                     INT NULL, 
+           UDC_6                     INT NULL, 
+           WORKFLOW_CREATED_BY       VARCHAR(50) NULL, 
+           WORKFLOW_CREATED_DATE     DATETIME NULL, 
+           WORKFLOW_APPROVED_BY      VARCHAR(50) NULL, 
+           WORKFLOW_APPROVED_DATE    DATETIME NULL, 
+           ADJUSTMENT_CREATED_DATE   DATETIME NULL, 
+           BATCH_ID                  VARCHAR(50) NULL, 
+           ORIGINAL_BATCH_ID         VARCHAR(50) NULL, 
+           SOURCE                    VARCHAR(50) NULL, 
+           GL_POSTING_STATUS         CHAR(1) NULL, 
+           OUTBOUND_STATUS           CHAR(1) NULL, 
+           CREATED_BY                VARCHAR(50) NULL, 
+           CREATED_DATE              DATETIME NULL, 
+           MODIFIED_BY               VARCHAR(50) NULL, 
+           MODIFIED_DATE             DATETIME NULL, 
+        ) 
+  END 
+
+GO 
+
+----------ADJUSTMENT_LEVEL 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_GTN_DETAIL' 
+                      AND COLUMN_NAME = 'ADJUSTMENT_LEVEL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+        ADD ADJUSTMENT_LEVEL INT NULL 
+  END 
+
+GO 
+--POSTING_INDICATOR
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_GTN_DETAIL' 
+                      AND COLUMN_NAME = 'POSTING_INDICATOR') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+        ADD POSTING_INDICATOR VARCHAR(50) NULL 
+  END 
+
+GO 
+
+----------ACCOUNT_DESCRIPTION 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_GTN_DETAIL' 
+                      AND COLUMN_NAME = 'ACCOUNT_DESCRIPTION' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+        ADD ACCOUNT_DESCRIPTION varchar(100) NULL
+  END 
+
+GO 
+
+----------ACCOUNT_INDICATOR 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_GTN_DETAIL' 
+                      AND COLUMN_NAME = 'ACCOUNT_INDICATOR' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+        ADD ACCOUNT_INDICATOR int  NULL
+  END 
+
+GO 
+
+-------------STATISTICS-------------------- 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ADJUSTMENT_GTN_DETAIL' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+------------------------------------PRIMARY KEY------------------------------ 
+IF NOT EXISTS(SELECT 1 
+              FROM   SYS.KEY_CONSTRAINTS 
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ADJUSTMENT_GTN_DETAIL' 
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                     AND NAME = 'PK_ADJUSTMENT_GTN_DETAIL_ADJUSTMENT_GTN_DETAIL_SID' 
+                     AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+        ADD CONSTRAINT PK_ADJUSTMENT_GTN_DETAIL_ADJUSTMENT_GTN_DETAIL_SID PRIMARY KEY (ADJUSTMENT_GTN_DETAIL_SID)
+  END 
+
+GO 
+
+-----------------------------------UNIQUE_CONSTRAINT--------------------- 
+IF EXISTS (SELECT NAME 
+           FROM   SYS.TABLES 
+           WHERE  NAME = 'ADJUSTMENT_GTN_DETAIL') 
+  BEGIN 
+      IF NOT EXISTS (SELECT 1 
+                     FROM   SYS.KEY_CONSTRAINTS 
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT' 
+                            AND PARENT_OBJECT_ID = OBJECT_ID('ADJUSTMENT_GTN_DETAIL') 
+                            AND NAME = 'UQ_GTN_CONTRACT_ITEM_COMPANY_DEDUCTION_WORKFLOW_AC_CATEGORY_AC_TYPE_ADJUS_TYPE_ACCOUNT_COMPANY_BUSINESS_PERIOD')
+        BEGIN 
+            ALTER TABLE ADJUSTMENT_GTN_DETAIL 
+              ADD CONSTRAINT UQ_GTN_CONTRACT_ITEM_COMPANY_DEDUCTION_WORKFLOW_AC_CATEGORY_AC_TYPE_ADJUS_TYPE_ACCOUNT_COMPANY_BUSINESS_PERIOD UNIQUE (CONTRACT_ID, ITEM_ID, COMPANY_ID, DEDUCTION_ID, WORKFLOW_ID, ACCOUNT_CATEGORY, ACCOUNT_TYPE, ADJUSTMENT_TYPE, ACCOUNT, GL_COMPANY_ID, BUSINESS_UNIT_ID, CALCULATION_PERIOD)
+        END 
+  END 
+
+GO 
+
+
+----------------------------DEFAULT_CONSTRAINTS-------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_GTN_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_GTN_DETAIL_CREATED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].[ADJUSTMENT_GTN_DETAIL] 
+        ADD CONSTRAINT [DF_ADJUSTMENT_GTN_DETAIL_CREATED_BY] DEFAULT (1) FOR CREATED_BY 
+  END 
+
+GO
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_GTN_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_GTN_DETAIL_MODIFIED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].[ADJUSTMENT_GTN_DETAIL] 
+        ADD CONSTRAINT [DF_ADJUSTMENT_GTN_DETAIL_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY 
+  END 
+
+GO
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_GTN_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_GTN_DETAIL_CREATED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_GTN_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_GTN_DETAIL_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END 
+
+GO
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_GTN_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_GTN_DETAIL_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_GTN_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_GTN_DETAIL_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END 
+
+GO
+---------------------------------------------ST_ADJUSTMENT_GTN_DETAIL---------------------------------------------------------------
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ADJUSTMENT_GTN_DETAIL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].ST_ADJUSTMENT_GTN_DETAIL 
+        ( 
+           WORKFLOW_ID             VARCHAR(50) NOT NULL,          
+           ADJUSTMENT_TYPE         INT NOT NULL, 		
+		   CALCULATION_PERIOD        DATETIME NOT  NULL,              
+           GL_COMPANY_ID           VARCHAR(50) NOT NULL, 
+		   BUSINESS_UNIT_ID        VARCHAR(50) NOT NULL, 
+           ACCOUNT_CATEGORY        INT NOT NULL, 
+           ACCOUNT_TYPE            INT NOT NULL, 
+           ACCOUNT                 VARCHAR(50) NOT NULL, 
+           CONTRACT_ID             VARCHAR(50) NOT NULL, 
+           COMPANY_ID              VARCHAR(50) NOT NULL, 
+           ITEM_ID                 VARCHAR(50) NOT NULL, 
+           DEDUCTION_ID            VARCHAR(50) NOT NULL, 
+           USER_ID                 INT NOT NULL, 
+           SESSION_ID              INT NOT NULL, 
+           CHECK_RECORD            BIT NULL, 
+           ETL_CHECK_RECORD        BIT NULL ,
+		   LAST_MODIFIED_DATE      DATETIME NOT NULL
+        ) 
+  END 
+
+GO 
+
+
+-------------STATISTICS-------------------- 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ADJUSTMENT_GTN_DETAIL' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+
+-------------------------------------PRIMARY KEY----------------------------------------- 
+IF NOT EXISTS(SELECT 1 
+              FROM   SYS.KEY_CONSTRAINTS 
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ADJUSTMENT_GTN_DETAIL' 
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                     AND NAME = 'PK_ST_UQ_GTN_CONTRACT_ITEM_COMP_DEDU_WORK_AC_CATEGORY_AC_TYPE_ADJUS_TYPE_ACCOUNT_GLCOMP_BUSIN_PERIOD_USER_SESSION'
+                     AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ADJUSTMENT_GTN_DETAIL 
+        ADD CONSTRAINT PK_ST_UQ_GTN_CONTRACT_ITEM_COMP_DEDU_WORK_AC_CATEGORY_AC_TYPE_ADJUS_TYPE_ACCOUNT_GLCOMP_BUSIN_PERIOD_USER_SESSION PRIMARY KEY ( CONTRACT_ID, ITEM_ID, COMPANY_ID, DEDUCTION_ID, WORKFLOW_ID, ACCOUNT_CATEGORY, ACCOUNT_TYPE, ADJUSTMENT_TYPE, ACCOUNT, GL_COMPANY_ID, BUSINESS_UNIT_ID, CALCULATION_PERIOD, USER_ID, SESSION_ID)
+  END 
+
+GO 
+
+------------------------------DEFAULT_KEYS--------------------------------- 
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ST_ADJUSTMENT_GTN_DETAIL') 
+                      AND NAME = 'DF_ST_ADJUSTMENT_GTN_DETAIL_LAST_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].[ST_ADJUSTMENT_GTN_DETAIL] 
+        ADD CONSTRAINT [DF_ST_ADJUSTMENT_GTN_DETAIL_LAST_MODIFIED_DATE] DEFAULT (GETDATE()) FOR LAST_MODIFIED_DATE
+  END 
+
+GO
+
+-----------------------------------------ADJUSTMENT_RESERVE_DETAIL---------------------------------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_RESERVE_DETAIL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].ADJUSTMENT_RESERVE_DETAIL 
+        ( 
+           ADJUSTMENT_RESERVE_DETAIL_SID INT IDENTITY(1, 1) NOT NULL, 
+           WORKFLOW_ID                   VARCHAR(50) NULL, 
+           WORKFLOW_NAME                 VARCHAR(100) NULL, 
+           COMPANY                       VARCHAR(50) NULL, 
+           DIVISION                      VARCHAR(50) NULL, 
+           BUSINESS_UNIT                 VARCHAR(50) NULL, 
+           JOURNAL_NAME                  VARCHAR(100) NULL, 
+           JOURNAL_DESCRIPTION           VARCHAR(100) NULL, 
+           BRAND                         VARCHAR(50) NULL, 
+           DEBIT                         NUMERIC(22, 6) NULL, 
+           CREDIT                        NUMERIC(22, 6) NULL, 
+           CURRENCY                      VARCHAR(50) NULL, 
+           ACCOUNTING_DATE               DATETIME NULL, 
+           REDEMPTION_PERIOD             DATETIME NULL, 
+		   CALCULATION_PERIOD            DATETIME NOT  NULL, 
+           POSTING_INDICATOR             VARCHAR(50) NULL, 
+           CATEGORY                      VARCHAR(50) NULL, 
+           BALANCE_TYPE                  VARCHAR(50) NULL, 
+           [ARD_DB]                      VARCHAR(100) NULL, 
+           DATA_ACCESS_SET               VARCHAR(50) NULL, 
+           CHART_OF_ACCOUNTS             VARCHAR(100) NULL, 
+           LEDGER                        VARCHAR(50) NULL, 
+           REVERSE_JOURNAL               VARCHAR(50) NULL, 
+           REVERSAL_PERIOD_DATE          DATETIME NULL, 
+           LINE_DESCRIPTION              VARCHAR(50) NULL, 
+           ACCOUNT_CATEGORY              INT NULL, 
+           ACCOUNT_TYPE                  INT NULL, 
+           ADJUSTMENT_TYPE               INT NULL, 
+           ADJUSTMENT_LEVEL              INT NULL, 
+           ACCOUNT                       VARCHAR(50) NOT NULL, 
+           COST_CENTER                   VARCHAR(50) NULL, 
+           PROJECT                       VARCHAR(100) NULL, 
+           FUTURE_1                      VARCHAR(100) NULL, 
+           FUTURE_2                      VARCHAR(100) NULL, 
+           UDC_1                         INT NULL, 
+           UDC_2                         INT NULL, 
+           UDC_3                         INT NULL, 
+           UDC_4                         INT NULL, 
+           UDC_5                         INT NULL, 
+           UDC_6                         INT NULL, 
+           WORKFLOW_CREATED_BY           VARCHAR(50) NULL, 
+           WORKFLOW_CREATED_DATE         DATETIME NULL, 
+           WORKFLOW_APPROVED_BY          VARCHAR(50) NULL, 
+           WORKFLOW_APPROVED_DATE        DATETIME NULL, 
+           ADJUSTMENT_CREATED_DATE       DATETIME NULL, 
+           GL_POSTING_STATUS             CHAR(1) NULL, 
+           OUTBOUND_STATUS               CHAR(1) NULL, 
+           CREATED_BY                    VARCHAR(50) NULL, 
+           CREATED_DATE                  DATETIME NULL, 
+           MODIFIED_BY                   VARCHAR(50) NULL, 
+           MODIFIED_DATE                 DATETIME NULL, 
+           SOURCE                        VARCHAR(50) NULL, 
+           BATCH_NAME                    VARCHAR(100) NULL, 
+           BATCH_ID                      VARCHAR(50) NULL, 
+           ORIGINAL_BATCH_ID             VARCHAR(50) NULL 
+        ) 
+  END 
+
+GO 
+----------ACCOUNT_DESCRIPTION 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_RESERVE_DETAIL' 
+                      AND COLUMN_NAME = 'ACCOUNT_DESCRIPTION' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_RESERVE_DETAIL 
+        ADD ACCOUNT_DESCRIPTION varchar(100) NULL
+  END 
+
+GO 
+
+----------ACCOUNT_INDICATOR 
+IF NOT EXISTS (SELECT 1 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'ADJUSTMENT_RESERVE_DETAIL' 
+                      AND COLUMN_NAME = 'ACCOUNT_INDICATOR' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_RESERVE_DETAIL 
+        ADD ACCOUNT_INDICATOR int  NULL
+  END 
+
+GO 
+
+
+-------------STATISTICS-------------------- 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ADJUSTMENT_RESERVE_DETAIL' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+------------------------------------PRIMARY KEY------------------------------ 
+IF NOT EXISTS(SELECT 1 
+              FROM   SYS.KEY_CONSTRAINTS 
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ADJUSTMENT_RESERVE_DETAIL' 
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                     AND NAME = 'PK_ADJUSTMENT_RESERVE_DETAIL_ADJUSTMENT_RESERVE_DETAIL_SID' 
+                     AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT PK_ADJUSTMENT_RESERVE_DETAIL_ADJUSTMENT_RESERVE_DETAIL_SID PRIMARY KEY (ADJUSTMENT_RESERVE_DETAIL_SID)
+  END 
+
+GO 
+
+-----------------------------------UNIQUE_CONSTRAINT--------------------- 
+IF EXISTS (SELECT NAME 
+           FROM   SYS.TABLES 
+           WHERE  NAME = 'ADJUSTMENT_RESERVE_DETAIL') 
+  BEGIN 
+      IF NOT EXISTS (SELECT 1 
+                     FROM   SYS.KEY_CONSTRAINTS 
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT' 
+                            AND PARENT_OBJECT_ID = OBJECT_ID('ADJUSTMENT_RESERVE_DETAIL') 
+                            AND NAME = 'UQ_ADJUSTMENT_RESERVE_DETAIL_BRAND_WORKFLOW_ID_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ADJUSTMENT_TYPE_ACCOUNTCOMP_BUSINN_PERIOD')
+        BEGIN 
+            ALTER TABLE ADJUSTMENT_RESERVE_DETAIL 
+              ADD CONSTRAINT UQ_ADJUSTMENT_RESERVE_DETAIL_BRAND_WORKFLOW_ID_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ADJUSTMENT_TYPE_ACCOUNTCOMP_BUSINN_PERIOD UNIQUE (BRAND, WORKFLOW_ID, ACCOUNT_CATEGORY, ACCOUNT_TYPE, ADJUSTMENT_TYPE, ACCOUNT, COMPANY, BUSINESS_UNIT, CALCULATION_PERIOD)
+        END 
+  END 
+
+GO 
+
+----------------------------DEFAULT_CONSTRAINTS-------------------------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_RESERVE_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_RESERVE_DETAIL_CREATED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_RESERVE_DETAIL_CREATED_BY] DEFAULT (1) FOR CREATED_BY 
+  END 
+
+GO
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_RESERVE_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_RESERVE_DETAIL_MODIFIED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_RESERVE_DETAIL_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END 
+
+GO
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_RESERVE_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_RESERVE_DETAIL_CREATED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_RESERVE_DETAIL_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END 
+
+GO
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ADJUSTMENT_RESERVE_DETAIL') 
+                      AND NAME = 'DF_ADJUSTMENT_RESERVE_DETAIL_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT [DF_ADJUSTMENT_RESERVE_DETAIL_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END 
+
+GO
+----------------------------------------------ST_ADJUSTMENT_RESERVE_DETAIL--------------------------------------------------------------------------- 
+          
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'ST_ADJUSTMENT_RESERVE_DETAIL' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].ST_ADJUSTMENT_RESERVE_DETAIL 
+        ( 
+           WORKFLOW_ID             VARCHAR(50) NOT NULL, 
+           COMPANY                 VARCHAR(50) NOT NULL,           
+           BUSINESS_UNIT           VARCHAR(50) NOT NULL,           
+           BRAND                   VARCHAR(50) NOT NULL, 
+           CALCULATION_PERIOD      DATETIME NOT  NULL, 
+           ACCOUNT_CATEGORY        INT NOT NULL, 
+           ACCOUNT_TYPE            INT NOT NULL, 
+           ADJUSTMENT_TYPE         INT NOT NULL, 
+		   ACCOUNT                 VARCHAR(50) NOT NULL, 
+		   USER_ID                 INT NOT NULL, 
+           SESSION_ID              INT NOT NULL, 
+           CHECK_RECORD            BIT NULL, 
+           ETL_CHECK_RECORD        BIT NULL ,
+		   LAST_MODIFIED_DATE      DATETIME  NOT NULL
+        ) 
+  END 
+
+GO 
+
+-------------STATISTICS-------------------- 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'ST_ADJUSTMENT_RESERVE_DETAIL' --TABLE NAME 
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+--------------------------------------PRIMARY KEY------------------------------ 
+IF NOT EXISTS(SELECT 1 
+              FROM   SYS.KEY_CONSTRAINTS 
+              WHERE  OBJECT_NAME(PARENT_OBJECT_ID) = 'ST_ADJUSTMENT_RESERVE_DETAIL' 
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO' 
+                     AND NAME = 'PK_ST_RESERVE_BRAND_WORKFLOW_ID_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ADJUSTMENT_TYPE_ACCOUNT_COMP_BUSS_PERIOD_USER_SESSION'
+                     AND TYPE = 'PK') 
+  BEGIN 
+      ALTER TABLE ST_ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT PK_ST_RESERVE_BRAND_WORKFLOW_ID_ACCOUNT_CATEGORY_ACCOUNT_TYPE_ADJUSTMENT_TYPE_ACCOUNT_COMP_BUSS_PERIOD_USER_SESSION PRIMARY KEY (BRAND, WORKFLOW_ID, ACCOUNT_CATEGORY, ACCOUNT_TYPE, ADJUSTMENT_TYPE, ACCOUNT, COMPANY, BUSINESS_UNIT, CALCULATION_PERIOD, USER_ID, SESSION_ID)
+  END 
+
+GO 
+----------------------------DEFAULT_CONSTRAINTS-------------------------------------- 
+
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.ST_ADJUSTMENT_RESERVE_DETAIL') 
+                      AND NAME = 'DF_ST_ADJUSTMENT_RESERVE_DETAIL_LAST_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].ST_ADJUSTMENT_RESERVE_DETAIL 
+        ADD CONSTRAINT [DF_ST_ADJUSTMENT_RESERVE_DETAIL_LAST_MODIFIED_DATE] DEFAULT (GETDATE()) FOR LAST_MODIFIED_DATE
+  END
+  
+ GO 
+
+-------------GL_POSTING-------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'GL_POSTING' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].GL_POSTING 
+        ( 
+           GL_POSTING_SID          INT IDENTITY(1, 1) NOT NULL, 
+           GL_POSTING_INTERFACE_ID NUMERIC(38, 0) NOT NULL, 
+           ADJUSTMENT_DETAIL_ID    BIGINT NOT NULL, 
+           TRANSACTION_LEVEL       VARCHAR(50) NOT NULL, 
+           STATUS                  CHAR (1) NOT NULL, 
+           BATCH_ID                VARCHAR(50) NOT NULL, 
+           SOURCE                  VARCHAR(50) NULL, 
+           INBOUND_STATUS          CHAR(1) NULL, 
+           RECORD_LOCK_STATUS      BIT NOT NULL, 
+           CREATED_BY              VARCHAR(50) NULL, 
+           CREATED_DATE            DATETIME NULL, 
+           MODIFIED_BY             VARCHAR(50) NULL, 
+           MODIFIED_DATE           DATETIME NULL 
+        ) 
+  END 
+
+GO 
+
+-------------PRIMARY KEYS-------------------- 
+IF NOT EXISTS(SELECT 'X' 
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS 
+              WHERE  CONSTRAINT_NAME = 'PK_GL_POSTING_GL_POSTING_SID' 
+                     AND TABLE_NAME = 'GL_POSTING') 
+  ALTER TABLE GL_POSTING 
+    ADD CONSTRAINT PK_GL_POSTING_GL_POSTING_SID PRIMARY KEY(GL_POSTING_SID) 
+
+GO 
+
+-------------DEFAULT CONSTRAINTS--------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.GL_POSTING') 
+                      AND NAME = 'DF_GL_POSTING_RECORD_LOCK_STATUS') 
+  BEGIN 
+      ALTER TABLE [DBO].GL_POSTING 
+        ADD CONSTRAINT DF_GL_POSTING_RECORD_LOCK_STATUS DEFAULT (1) FOR RECORD_LOCK_STATUS 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.GL_POSTING') 
+                      AND NAME = 'DF_GL_POSTING_CREATED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].GL_POSTING 
+        ADD CONSTRAINT DF_GL_POSTING_CREATED_BY DEFAULT (1) FOR CREATED_BY 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.GL_POSTING') 
+                      AND NAME = 'DF_GL_POSTING_CREATED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].GL_POSTING 
+        ADD CONSTRAINT DF_GL_POSTING_CREATED_DATE DEFAULT (GETDATE()) FOR CREATED_DATE 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.GL_POSTING') 
+                      AND NAME = 'DF_GL_POSTING_MODIFIED_BY') 
+  BEGIN 
+      ALTER TABLE [DBO].GL_POSTING 
+        ADD CONSTRAINT DF_GL_POSTING_MODIFIED_BY DEFAULT (1) FOR MODIFIED_BY 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.GL_POSTING') 
+                      AND NAME = 'DF_GL_POSTING_MODIFIED_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].GL_POSTING 
+        ADD CONSTRAINT DF_GL_POSTING_MODIFIED_DATE DEFAULT (GETDATE()) FOR MODIFIED_DATE 
+  END 
+
+GO 
+
+-------------UNIQUE_CONSTRAINT--------------------- 
+IF EXISTS (SELECT NAME 
+           FROM   SYS.TABLES 
+           WHERE  NAME = 'GL_POSTING') 
+  BEGIN 
+      IF NOT EXISTS (SELECT 1 
+                     FROM   SYS.KEY_CONSTRAINTS 
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT' 
+                            AND PARENT_OBJECT_ID = OBJECT_ID('GL_POSTING') 
+                            AND NAME = 'UQ_GL_POSTING_ADJUSTMENT_DETAIL_ID_TRANSACTION_LEVEL')
+        BEGIN 
+            ALTER TABLE GL_POSTING 
+              ADD CONSTRAINT UQ_GL_POSTING_ADJUSTMENT_DETAIL_ID_TRANSACTION_LEVEL UNIQUE(ADJUSTMENT_DETAIL_ID, TRANSACTION_LEVEL )
+        END 
+  END 
+
+GO 
+
+-------------STATISTICS-------------------- 
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'GL_POSTING'--TABLE NAME 
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+-------------HIST_GL_POSTING--------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.TABLES 
+               WHERE  TABLE_NAME = 'HIST_GL_POSTING' 
+                      AND TABLE_SCHEMA = 'DBO') 
+  BEGIN 
+      CREATE TABLE [DBO].HIST_GL_POSTING 
+        ( 
+           GL_POSTING_SID          INT IDENTITY(1, 1) NOT NULL, 
+           GL_POSTING_INTERFACE_ID NUMERIC(38, 0) NOT NULL, 
+           ADJUSTMENT_DETAIL_ID    BIGINT NOT NULL, 
+           TRANSACTION_LEVEL       VARCHAR(50) NOT NULL, 
+           STATUS                  CHAR (1) NOT NULL, 
+           BATCH_ID                VARCHAR(50) NOT NULL, 
+           SOURCE                  VARCHAR(50) NULL, 
+           INBOUND_STATUS          CHAR(1) NULL, 
+           RECORD_LOCK_STATUS      BIT NOT NULL, 
+           CREATED_BY              VARCHAR(50) NULL, 
+           CREATED_DATE            DATETIME NULL, 
+           MODIFIED_BY             VARCHAR(50) NULL, 
+           MODIFIED_DATE           DATETIME NULL, 
+           [ACTION_FLAG]           CHAR(1) NOT NULL, 
+           [ACTION_DATE]           DATETIME NOT NULL 
+        ) 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS 
+           WHERE  OBJECT_NAME(OBJECT_ID) = 'HIST_GL_POSTING' 
+                  AND NAME = 'GL_POSTING_SID') 
+  BEGIN 
+      DROP STATISTICS HIST_GL_POSTING.GL_POSTING_SID 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.SCHEMAS AS S 
+                  INNER JOIN SYS.TABLES AS T 
+                          ON S.[SCHEMA_ID] = T.[SCHEMA_ID] 
+                  INNER JOIN SYS.IDENTITY_COLUMNS X 
+                          ON X.[OBJECT_ID] = T.[OBJECT_ID] 
+           WHERE  T.NAME = 'HIST_GL_POSTING' 
+                  AND S.NAME = 'DBO' 
+                  AND X.NAME = 'GL_POSTING_SID') 
+  BEGIN 
+      ALTER TABLE HIST_GL_POSTING 
+        DROP COLUMN GL_POSTING_SID 
+  END 
+
+GO 
+
+IF NOT EXISTS (SELECT 'X' 
+               FROM   INFORMATION_SCHEMA.COLUMNS 
+               WHERE  TABLE_NAME = 'HIST_GL_POSTING' 
+                      AND TABLE_SCHEMA = 'DBO' 
+                      AND COLUMN_NAME = 'GL_POSTING_SID') 
+  BEGIN 
+      ALTER TABLE HIST_GL_POSTING 
+        ADD GL_POSTING_SID INT NOT NULL 
+  END 
+
+GO 
+-------------DEFAULT_CONSTRAINT--------------------- 
+IF NOT EXISTS (SELECT 'X' 
+               FROM   SYS.DEFAULT_CONSTRAINTS 
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.HIST_GL_POSTING') 
+                      AND NAME = 'DF_HIST_GL_POSTING_ACTION_DATE') 
+  BEGIN 
+      ALTER TABLE [DBO].HIST_GL_POSTING 
+        ADD CONSTRAINT DF_HIST_GL_POSTING_ACTION_DATE DEFAULT (GETDATE()) FOR ACTION_DATE 
+  END 
+
+GO 
+
+DECLARE @SQL NVARCHAR(MAX) 
+DECLARE @TABLENAME VARCHAR(100) 
+DECLARE @STATSNAME VARCHAR(200) 
+DECLARE @TABLENAME1 VARCHAR(100) 
+DECLARE @SCHEMANAME VARCHAR(30) 
+DECLARE @SCHEMANAME1 VARCHAR(30) 
+
+SET @TABLENAME1 = 'HIST_GL_POSTING'--TABLE NAME 
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.STATS S 
+                  JOIN SYS.TABLES T 
+                    ON S.OBJECT_ID = T.OBJECT_ID 
+           WHERE  AUTO_CREATED = 1 
+                  AND NOT EXISTS (SELECT 1 
+                                  FROM   SYS.INDEXES 
+                                  WHERE  S.NAME = NAME) 
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1) 
+  BEGIN 
+      DECLARE CUR CURSOR STATIC FOR 
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME', 
+               S.NAME                   AS 'STATSNAME', 
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME' 
+        FROM   SYS.STATS S 
+               JOIN SYS.TABLES T 
+                 ON S.OBJECT_ID = T.OBJECT_ID 
+        WHERE  AUTO_CREATED = 1 
+               AND NOT EXISTS (SELECT 1 
+                               FROM   SYS.INDEXES 
+                               WHERE  S.NAME = NAME) 
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME 
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+
+      OPEN CUR 
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+
+      WHILE @@FETCH_STATUS = 0 
+        BEGIN 
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME) 
+                       + '.' + QUOTENAME(@TABLENAME) + '.' 
+                       + QUOTENAME(@STATSNAME) 
+
+            --PRINT @SQL 
+            EXEC SP_EXECUTESQL 
+              @SQL 
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME 
+        END 
+
+      CLOSE CUR 
+
+      DEALLOCATE CUR 
+  END 
+
+DECLARE @STATS NVARCHAR(MAX) 
+DECLARE CUR1 CURSOR STATIC FOR 
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME) 
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID)) 
+         + '.' + QUOTENAME(T.NAME) + ' (' 
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN' 
+  FROM   SYS.TABLES T 
+         JOIN SYS.COLUMNS C 
+           ON T.OBJECT_ID = C.OBJECT_ID 
+  WHERE  NOT EXISTS (SELECT 1 
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC 
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC 
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME 
+                     WHERE  CC.TABLE_NAME = T.NAME 
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID) 
+                            AND C.NAME = COLUMN_NAME) 
+         AND NOT EXISTS (SELECT 1 
+                         FROM   SYS.STATS S 
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID 
+                                AND S.NAME = C.NAME) 
+         AND T.NAME = @TABLENAME1 -- TABLE NAME 
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1 
+  ORDER  BY T.NAME 
+
+OPEN CUR1 
+
+FETCH NEXT FROM CUR1 INTO @STATS 
+
+WHILE @@FETCH_STATUS = 0 
+  BEGIN 
+      --PRINT @STATS 
+      EXEC SP_EXECUTESQL 
+        @STATS 
+
+      FETCH NEXT FROM CUR1 INTO @STATS 
+  END 
+
+CLOSE CUR1 
+
+DEALLOCATE CUR1 
+
+GO 
+
+-------------TRIGGERS-------------------- 
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_GL_POSTING_INS') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_GL_POSTING_INS 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].TRG_GL_POSTING_INS 
+ON [DBO].GL_POSTING 
+AFTER INSERT 
+AS 
+  BEGIN 
+      SET NOCOUNT ON
+      INSERT INTO HIST_GL_POSTING 
+                  (GL_POSTING_SID, 
+                   GL_POSTING_INTERFACE_ID, 
+                   ADJUSTMENT_DETAIL_ID, 
+                   TRANSACTION_LEVEL, 
+                   STATUS, 
+                   BATCH_ID, 
+                   SOURCE, 
+                   INBOUND_STATUS, 
+                   RECORD_LOCK_STATUS, 
+                   CREATED_BY, 
+                   CREATED_DATE, 
+                   MODIFIED_BY, 
+                   MODIFIED_DATE, 
+                   [ACTION_FLAG]) 
+      SELECT GL_POSTING_SID, 
+             GL_POSTING_INTERFACE_ID, 
+             ADJUSTMENT_DETAIL_ID, 
+             TRANSACTION_LEVEL, 
+             STATUS, 
+             BATCH_ID, 
+             SOURCE, 
+             INBOUND_STATUS, 
+             RECORD_LOCK_STATUS, 
+             CREATED_BY, 
+             CREATED_DATE, 
+             MODIFIED_BY, 
+             MODIFIED_DATE, 
+             'A' 
+      FROM   INSERTED 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_GL_POSTING_UPD') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_GL_POSTING_UPD 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].TRG_GL_POSTING_UPD 
+ON [DBO].GL_POSTING 
+AFTER UPDATE 
+AS 
+  BEGIN 
+  SET NOCOUNT ON
+      INSERT INTO HIST_GL_POSTING 
+                  (GL_POSTING_SID, 
+                   GL_POSTING_INTERFACE_ID, 
+                   ADJUSTMENT_DETAIL_ID, 
+                   TRANSACTION_LEVEL, 
+                   STATUS, 
+                   BATCH_ID, 
+                   SOURCE, 
+                   INBOUND_STATUS, 
+                   RECORD_LOCK_STATUS, 
+                   CREATED_BY, 
+                   CREATED_DATE, 
+                   MODIFIED_BY, 
+                   MODIFIED_DATE, 
+                   [ACTION_FLAG]) 
+      SELECT GL_POSTING_SID, 
+             GL_POSTING_INTERFACE_ID, 
+             ADJUSTMENT_DETAIL_ID, 
+             TRANSACTION_LEVEL, 
+             STATUS, 
+             BATCH_ID, 
+             SOURCE, 
+             INBOUND_STATUS, 
+             RECORD_LOCK_STATUS, 
+             CREATED_BY, 
+             CREATED_DATE, 
+             MODIFIED_BY, 
+             MODIFIED_DATE, 
+             'C' 
+      FROM   INSERTED 
+  END 
+
+GO 
+
+IF EXISTS (SELECT 'X' 
+           FROM   SYS.TRIGGERS 
+           WHERE  [NAME] = N'TRG_GL_POSTING_DEL') 
+  BEGIN 
+      DROP TRIGGER DBO.TRG_GL_POSTING_DEL 
+  END 
+
+GO 
+
+CREATE TRIGGER [DBO].[TRG_GL_POSTING_DEL] 
+ON [DBO].GL_POSTING 
+AFTER DELETE 
+AS 
+  BEGIN 
+  SET NOCOUNT ON
+      INSERT INTO HIST_GL_POSTING 
+                  (GL_POSTING_SID, 
+                   GL_POSTING_INTERFACE_ID, 
+                   ADJUSTMENT_DETAIL_ID, 
+                   TRANSACTION_LEVEL, 
+                   STATUS, 
+                   BATCH_ID, 
+                   SOURCE, 
+                   INBOUND_STATUS, 
+                   RECORD_LOCK_STATUS, 
+                   CREATED_BY, 
+                   CREATED_DATE, 
+                   MODIFIED_BY, 
+                   MODIFIED_DATE, 
+                   [ACTION_FLAG]) 
+      SELECT GL_POSTING_SID, 
+             GL_POSTING_INTERFACE_ID, 
+             ADJUSTMENT_DETAIL_ID, 
+             TRANSACTION_LEVEL, 
+             STATUS, 
+             BATCH_ID, 
+             SOURCE, 
+             INBOUND_STATUS, 
+             RECORD_LOCK_STATUS, 
+             CREATED_BY, 
+             CREATED_DATE, 
+             MODIFIED_BY, 
+             MODIFIED_DATE, 
+             'D' 
+      FROM   DELETED 
+  END 
+
+GO 

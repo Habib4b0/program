@@ -1,0 +1,146 @@
+---------------------------------------------TABLE CREATION----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ACCRUAL_DETAILS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ACCRUAL_DETAILS_ACTUALS]
+        (
+           PROJECTION_MASTER_SID      INT NOT NULL,
+           ITEM_MASTER_SID            INT NOT NULL,
+           PERIOD_SID                 INT NOT NULL,
+           COMPANY_MASTER_SID         INT NOT NULL,
+           GROSS_TRADE_SALES          NUMERIC(22, 6),
+           INVENTORY_WITHDRAWALS      NUMERIC(22, 6),
+           ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6) NULL,
+           PERIOD_BASIS_PRICE_CHANGE  NUMERIC(22, 6) NULL,
+           GTS_ACCRUAL_BASIS          NUMERIC(22, 6) NULL
+        )
+  END
+
+GO
+
+----------------------------------------------ADDING PRIMARYKEYEY-------------------------------------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ACCRUAL_DETAILS_ACTUALS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ACCRUAL_DETAILS_ACTUALS_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ACCRUAL_DETAILS_ACTUALS]
+        ADD CONSTRAINT PK_ACCRUAL_DETAILS_ACTUALS_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID, COMPANY_MASTER_SID)
+  END
+
+GO
+--------------------------------------------TABLE CREATION----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ACCRUAL_DETAILS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ST_ACCRUAL_DETAILS_ACTUALS]
+        (
+           PROJECTION_MASTER_SID      INT NOT NULL,
+           ITEM_MASTER_SID            INT NOT NULL,
+           PERIOD_SID                 INT NOT NULL,
+           COMPANY_MASTER_SID         INT NOT NULL,
+           GROSS_TRADE_SALES          NUMERIC(22, 6),
+           INVENTORY_WITHDRAWALS      NUMERIC(22, 6),
+           ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6) NULL,
+           PERIOD_BASIS_PRICE_CHANGE  NUMERIC(22, 6) NULL,
+           GTS_ACCRUAL_BASIS          NUMERIC(22, 6) NULL,
+           USER_ID                    INT NOT NULL,
+           SESSION_ID                 INT NOT NULL
+        )
+  END
+
+GO
+
+----------------------------------------------ADDING PRIMARYKEYEY-------------------------------------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ACCRUAL_DETAILS_ACTUALS'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ACCRUAL_DETAILS_ACTUALS_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_ACCRUAL_DETAILS_ACTUALS]
+        ADD CONSTRAINT PK_ST_ACCRUAL_DETAILS_ACTUALS_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID, COMPANY_MASTER_SID, USER_ID, SESSION_ID)
+  END
+
+GO
+---------------------------------------------TABLE CREATION----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ACCRUAL_DETAILS_INFO'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ACCRUAL_DETAILS_INFO]
+        (
+           PROJECTION_MASTER_SID      INT NOT NULL,
+           ITEM_MASTER_SID            INT NOT NULL,
+           PERIOD_SID                 INT NOT NULL,
+           COMPANY_MASTER_SID         INT NOT NULL,
+           GROSS_TRADE_SALES          NUMERIC(22, 6),
+           INVENTORY_WITHDRAWALS      NUMERIC(22, 6),
+           ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6) NULL,
+           PERIOD_BASIS_PRICE_CHANGE  NUMERIC(22, 6) NULL,
+           GTS_ACCRUAL_BASIS          NUMERIC(22, 6) NULL
+        )
+  END
+
+GO
+
+----------------------------------------------ADDING PRIMARYKEYEY-------------------------------------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ACCRUAL_DETAILS_INFO'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ACCRUAL_DETAILS_INFO_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ACCRUAL_DETAILS_INFO]
+        ADD CONSTRAINT PK_ACCRUAL_DETAILS_INFO_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID, COMPANY_MASTER_SID)
+  END
+
+GO
+
+
+---------------------------------------------TABLE CREATION----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ACCRUAL_DETAILS_INFO'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ST_ACCRUAL_DETAILS_INFO]
+        (
+           PROJECTION_MASTER_SID      INT NOT NULL,
+           ITEM_MASTER_SID            INT NOT NULL,
+           PERIOD_SID                 INT NOT NULL,
+           COMPANY_MASTER_SID         INT NOT NULL,
+           GROSS_TRADE_SALES          NUMERIC(22, 6),
+           INVENTORY_WITHDRAWALS      NUMERIC(22, 6),
+           ELIGIBLE_GROSS_TRADE_SALES NUMERIC(22, 6) NULL,
+           PERIOD_BASIS_PRICE_CHANGE  NUMERIC(22, 6) NULL,
+           GTS_ACCRUAL_BASIS          NUMERIC(22, 6) NULL,
+           USER_ID                    INT NOT NULL,
+           SESSION_ID                 INT NOT NULL
+        )
+  END
+
+GO
+
+----------------------------------------------ADDING PRIMARYKEYEY-------------------------------------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ACCRUAL_DETAILS_INFO'
+                     AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_ACCRUAL_DETAILS_INFO_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_ACCRUAL_DETAILS_INFO]
+        ADD CONSTRAINT PK_ST_ACCRUAL_DETAILS_INFO_PROJECTION_MASTER_SID_ITEM_MASTER_SID_PERIOD_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID PRIMARY KEY (PROJECTION_MASTER_SID, ITEM_MASTER_SID, PERIOD_SID, COMPANY_MASTER_SID, USER_ID, SESSION_ID)
+  END 
+
+GO

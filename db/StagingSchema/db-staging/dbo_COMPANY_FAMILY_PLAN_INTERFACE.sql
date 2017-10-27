@@ -1,0 +1,76 @@
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'COMPANY_FAMILY_PLAN_INTERFACE'
+                      AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+
+      CREATE TABLE [dbo].[COMPANY_FAMILY_PLAN_INTERFACE]
+        (
+           [COMPANY_FAMILY_PLAN_INTERFACE_ID] NUMERIC(38, 0) NOT NULL,
+           [COMPANY_FAMILY_PLAN_ID]           VARCHAR(38) NOT NULL,
+           [COMPANY_FAMILY_PLAN_NO]           VARCHAR(50) NULL,
+           [COMPANY_FAMILY_PLAN_NAME]         VARCHAR(100) NULL,
+           [COMPANY_FAMILY_PLAN_TYPE]         VARCHAR(50) NULL,
+           [COMPANY_FAMILY_PLAN_CATEGORY]     VARCHAR(50) NULL,
+           [COMPANY_FAMILY_PLAN_DESIGNATION]  VARCHAR(50) NULL,
+           [PARENT_COMPANY_FAMILY_PLAN_ID]    VARCHAR(50) NULL,
+           [PARENT_COMPANY_FAMILY_PLAN_NAME]  VARCHAR(50) NULL,
+           [COMPANY_FAMILY_PLAN_STATUS]       VARCHAR(20) NOT NULL,
+           [COMPANY_FAMILY_PLAN_TRADE_CLASS]  VARCHAR(50) NULL,
+           [COMPANY_FAMILY_PLAN_START_DATE]   DATETIME NOT NULL,
+           [COMPANY_FAMILY_PLAN_END_DATE]     DATETIME NULL,
+           [TRADING_PARTNER_ID]               VARCHAR(50) NOT NULL,
+           [IDENTIFIER_CODE_QUALIFIER]        VARCHAR(20) NULL,
+           [TRADING_PARTNER_NO]               VARCHAR(50) NULL,
+           [TRADING_PARTNER_NAME]             VARCHAR(100) NULL,
+           [TRADING_PARTNER_CONTRACT_NO]      VARCHAR(50) NULL,
+           [START_DATE]                       DATETIME NOT NULL,
+           [END_DATE]                         DATETIME NULL,
+           [CONTRACT_ID]                      VARCHAR(50) NOT NULL,
+           [ATTACHED_STATUS]                  VARCHAR(20) NOT NULL,
+           [ATTACHED_DATE]                    DATETIME NOT NULL,
+           [TRADE_CLASS]                      VARCHAR(50) NULL,
+           [TRADE_CLASS_START_DATE]           DATETIME NULL,
+           [TRADE_CLASS_END_DATE]             DATETIME NULL,
+           [INTERNAL_NOTES]                   VARCHAR(1000) NULL,
+           [CREATED_BY]                       VARCHAR(50) NULL,
+           [CREATED_DATE]                     DATETIME NULL,
+           [MODIFIED_BY]                      VARCHAR(50) NULL,
+           [MODIFIED_DATE]                    DATETIME NULL,
+           [ADD_CHG_DEL_INDICATOR]            VARCHAR(10) NOT NULL,
+           [BATCH_ID]                         VARCHAR(38) NOT NULL,
+           [SOURCE]                           VARCHAR(50) NULL
+        )
+  END
+GO
+
+IF EXISTS(SELECT 'X'
+          FROM   INFORMATION_SCHEMA.COLUMNS
+          WHERE  TABLE_NAME = 'COMPANY_FAMILY_PLAN_INTERFACE'
+                 AND TABLE_SCHEMA = 'dbo'
+                 AND COLUMN_NAME = 'TRADE_CLASS'
+                 AND DATA_TYPE = 'VARCHAR'
+                 AND CHARACTER_MAXIMUM_LENGTH = 50)
+  BEGIN
+      ALTER TABLE [dbo].[COMPANY_FAMILY_PLAN_INTERFACE]
+        ALTER COLUMN [TRADE_CLASS] VARCHAR(100)
+  END
+GO
+
+IF EXISTS(SELECT 'X'
+          FROM   INFORMATION_SCHEMA.COLUMNS
+          WHERE  TABLE_NAME = 'COMPANY_FAMILY_PLAN_INTERFACE'
+                 AND TABLE_SCHEMA = 'dbo'
+                 AND COLUMN_NAME = 'COMPANY_FAMILY_PLAN_TRADE_CLASS '
+                 AND DATA_TYPE = 'VARCHAR'
+                 AND CHARACTER_MAXIMUM_LENGTH = 50)
+  BEGIN
+      ALTER TABLE [dbo].[COMPANY_FAMILY_PLAN_INTERFACE]
+        ALTER COLUMN [COMPANY_FAMILY_PLAN_TRADE_CLASS] VARCHAR(100)
+  END
+GO 
+
+
+
+
+

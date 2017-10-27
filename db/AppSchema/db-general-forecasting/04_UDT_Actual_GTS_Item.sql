@@ -1,0 +1,8 @@
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.TYPES A
+               WHERE  NAME = 'UDT_ACTUAL_GTS_ITEM'
+                      AND IS_USER_DEFINED = 1)
+  BEGIN
+      CREATE TYPE [dbo].[UDT_ACTUAL_GTS_ITEM] AS TABLE( [ITEMID] [varchar](50) NULL, [NDC8] [varchar](8) NULL, [COMPANY_COST_CENTER] [varchar](50) NULL, [QUARTER_VAL] [varchar](10) NULL, [PROJECTION_DETAILS_SID] [int] NULL )
+  END
+GO

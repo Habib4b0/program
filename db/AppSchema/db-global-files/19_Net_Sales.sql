@@ -1,0 +1,2121 @@
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'DEDUCTION_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[DEDUCTION_DETAILS]
+        (
+           [DEDUCTION_DETAILS_SID]        [INT] IDENTITY(1, 1) NOT NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [INDICATOR]                    [VARCHAR](2) NOT NULL,
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL,
+           [RS_CONTRACT_SID]              [INT] NULL,
+		   [DEDUCTION_TYPE]               [INT] NULL,
+		   [DEDUCTION_SUB_TYPE]           [INT] NULL,
+		   [DEDUCTION_CATEGORY]           [INT] NULL
+        )
+  END
+
+GO
+-----------------------------column addition ---------------------------
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'RS_MODEL_SID'
+                  AND Object_name(object_id) = 'DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.DEDUCTION_DETAILS.RS_MODEL_SID 
+  END 
+
+GO
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'RS_MODEL_SID'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+	ALTER TABLE DEDUCTION_DETAILS DROP COLUMN RS_MODEL_SID
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE DEDUCTION_DETAILS
+        ADD DEDUCTION_TYPE INT
+  END
+
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_SUB_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE DEDUCTION_DETAILS
+        ADD DEDUCTION_SUB_TYPE INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CATEGORY'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE DEDUCTION_DETAILS
+        ADD DEDUCTION_CATEGORY INT
+  END
+
+GO
+-----------------------primary key---------------------
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+               WHERE  CONSTRAINT_NAME = 'PK_DEDUCTION_DETAILS_DEDUCTION_DETAILS_SID'
+                      AND TABLE_NAME = 'DEDUCTION_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].DEDUCTION_DETAILS
+        ADD CONSTRAINT PK_DEDUCTION_DETAILS_DEDUCTION_DETAILS_SID PRIMARY KEY (DEDUCTION_DETAILS_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.DEDUCTION_DETAILS')
+                      AND NAME = 'DF_DEDUCTION_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_DEDUCTION_DETAILS_CREATED_BY] DEFAULT(1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.DEDUCTION_DETAILS')
+                      AND NAME = 'DF_DEDUCTION_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_DEDUCTION_DETAILS_CREATED_DATE] DEFAULT(Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.DEDUCTION_DETAILS')
+                      AND NAME = 'DF_DEDUCTION_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_DEDUCTION_DETAILS_MODIFIED_BY] DEFAULT(1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.DEDUCTION_DETAILS')
+                      AND NAME = 'DF_DEDUCTION_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_DEDUCTION_DETAILS_MODIFIED_DATE] DEFAULT(Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.DEDUCTION_DETAILS')
+                      AND NAME = 'DF_DEDUCTION_DETAILS_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_DEDUCTION_DETAILS_RECORD_LOCK_STATUS] DEFAULT(1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'DEDUCTION_DETAILS' --TABLE NAME
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_DEDUCTION_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].HIST_DEDUCTION_DETAILS
+        (
+           [DEDUCTION_DETAILS_SID]        [INT] NOT NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [INDICATOR]                    [VARCHAR](2) NOT NULL,
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL,
+           [RS_CONTRACT_SID]              [INT] NULL,
+		   [DEDUCTION_TYPE]               [INT] NULL,
+		   [DEDUCTION_SUB_TYPE]           [INT] NULL,
+		   [DEDUCTION_CATEGORY]           [INT] NULL,
+           ACTION_DATE                    DATETIME NOT NULL,
+           ACTION_FLAG                    CHAR(1) NOT NULL
+        )
+  END
+
+GO
+-------------------------column addition-------------------------------------
+IF EXISTS (SELECT *
+           FROM   SYS.stats
+           WHERE  NAME = 'RS_MODEL_SID'
+                  AND Object_name(object_id) = 'HIST_DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.HIST_DEDUCTION_DETAILS.RS_MODEL_SID 
+  END 
+
+GO
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'RS_MODEL_SID'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+	ALTER TABLE HIST_DEDUCTION_DETAILS DROP COLUMN RS_MODEL_SID
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_DEDUCTION_DETAILS
+        ADD DEDUCTION_TYPE INT
+  END
+
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_SUB_TYPE'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_DEDUCTION_DETAILS
+        ADD DEDUCTION_SUB_TYPE INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_DEDUCTION_DETAILS'
+                      AND COLUMN_NAME = 'DEDUCTION_CATEGORY'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE HIST_DEDUCTION_DETAILS
+        ADD DEDUCTION_CATEGORY INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.HIST_DEDUCTION_DETAILS')
+                      AND NAME = 'DF_HIST_DEDUCTION_DETAILS_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_HIST_DEDUCTION_DETAILS_ACTION_DATE] DEFAULT(Getdate()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_DEDUCTION_DETAILS' --TABLE NAME
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+IF EXISTS (
+		SELECT 'X'
+		FROM SYS.TRIGGERS
+		WHERE [NAME] = N'TRG_DEDUCTION_DETAILS_UPD'
+		)
+BEGIN
+	DROP TRIGGER DBO.TRG_DEDUCTION_DETAILS_UPD
+END
+GO
+
+CREATE TRIGGER [DBO].[TRG_DEDUCTION_DETAILS_UPD] ON [DBO].[DEDUCTION_DETAILS]
+AFTER UPDATE
+AS
+BEGIN
+ SET NOCOUNT ON
+	IF EXISTS (
+			SELECT *
+			FROM INSERTED
+			)
+		AND EXISTS (
+			SELECT *
+			FROM DELETED
+			)
+		INSERT INTO HIST_DEDUCTION_DETAILS (
+			DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,ACTION_FLAG
+			)
+		SELECT DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,'C'
+		FROM INSERTED
+END
+GO
+
+IF EXISTS (
+		SELECT 'X'
+		FROM SYS.TRIGGERS
+		WHERE [NAME] = N'TRG_DEDUCTION_DETAILS_INS'
+		)
+BEGIN
+	DROP TRIGGER DBO.TRG_DEDUCTION_DETAILS_INS
+END
+GO
+
+CREATE TRIGGER [DBO].[TRG_DEDUCTION_DETAILS_INS] ON [DBO].[DEDUCTION_DETAILS]
+AFTER INSERT
+AS
+BEGIN
+SET NOCOUNT ON
+	IF EXISTS (
+			SELECT *
+			FROM INSERTED
+			)
+		INSERT INTO HIST_DEDUCTION_DETAILS (
+			DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,ACTION_FLAG
+			)
+		SELECT DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,'A'
+		FROM INSERTED
+END
+GO
+
+IF EXISTS (
+		SELECT 'X'
+		FROM SYS.TRIGGERS
+		WHERE [NAME] = N'TRG_DEDUCTION_DETAILS_DEL'
+		)
+BEGIN
+	DROP TRIGGER DBO.TRG_DEDUCTION_DETAILS_DEL
+END
+GO
+
+CREATE TRIGGER [DBO].[TRG_DEDUCTION_DETAILS_DEL] ON [DBO].[DEDUCTION_DETAILS]
+AFTER DELETE
+AS
+BEGIN
+SET NOCOUNT ON
+	IF EXISTS (
+			SELECT *
+			FROM DELETED
+			)
+		INSERT INTO HIST_DEDUCTION_DETAILS (
+			DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,ACTION_FLAG
+			)
+		SELECT DEDUCTION_DETAILS_SID
+			,NET_SALES_FORMULA_MASTER_SID
+			,CONTRACT_MASTER_SID
+			,RS_CONTRACT_SID
+			,CDR_MODEL_SID
+			,INDICATOR
+			,INBOUND_STATUS
+			,RECORD_LOCK_STATUS
+			,SOURCE
+			,CREATED_BY
+			,CREATED_DATE
+			,MODIFIED_BY
+			,MODIFIED_DATE
+			,DEDUCTION_TYPE
+			,DEDUCTION_SUB_TYPE
+			,DEDUCTION_CATEGORY
+			,'D'
+		FROM DELETED
+END
+GO
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'SALES_BASIS_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[SALES_BASIS_DETAILS]
+        (
+           [SALES_BASIS_DETAILS_SID]      [INT] IDENTITY(1, 1) NOT NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CFP_CONTRACT_DETAILS_SID]     [INT] NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+               WHERE  CONSTRAINT_NAME = 'PK_SALES_BASIS_DETAILS_SALES_BASIS_DETAILS_SID'
+                      AND TABLE_NAME = 'SALES_BASIS_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].SALES_BASIS_DETAILS
+        ADD CONSTRAINT PK_SALES_BASIS_DETAILS_SALES_BASIS_DETAILS_SID PRIMARY KEY (SALES_BASIS_DETAILS_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_SALES_BASIS_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_SALES_BASIS_DETAILS_CREATED_BY] DEFAULT(1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_SALES_BASIS_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_SALES_BASIS_DETAILS_CREATED_DATE] DEFAULT(Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_SALES_BASIS_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_SALES_BASIS_DETAILS_MODIFIED_BY] DEFAULT(1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_SALES_BASIS_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_SALES_BASIS_DETAILS_MODIFIED_DATE] DEFAULT(Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_SALES_BASIS_DETAILS_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [DBO].[SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_SALES_BASIS_DETAILS_RECORD_LOCK_STATUS] DEFAULT(1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'SALES_BASIS_DETAILS' --TABLE NAME
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_SALES_BASIS_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].HIST_SALES_BASIS_DETAILS
+        (
+           [SALES_BASIS_DETAILS_SID]      [INT] NOT NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CFP_CONTRACT_DETAILS_SID]     [INT] NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL,
+           ACTION_DATE                    DATETIME NOT NULL,
+           ACTION_FLAG                    CHAR(1) NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.HIST_SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_HIST_SALES_BASIS_DETAILS_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_HIST_SALES_BASIS_DETAILS_ACTION_DATE] DEFAULT(Getdate()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_SALES_BASIS_DETAILS' --TABLE NAME
+SET @SCHEMANAME1 = 'DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_SALES_BASIS_DETAILS_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_SALES_BASIS_DETAILS_UPD
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_SALES_BASIS_DETAILS_UPD]
+ON [DBO].[SALES_BASIS_DETAILS]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         AND EXISTS (SELECT *
+                     FROM   DELETED)
+        INSERT INTO HIST_SALES_BASIS_DETAILS
+                    (SALES_BASIS_DETAILS_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     CONTRACT_MASTER_SID,
+                     CFP_CONTRACT_DETAILS_SID,
+                     CDR_MODEL_SID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG)
+        SELECT SALES_BASIS_DETAILS_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               CONTRACT_MASTER_SID,
+               CFP_CONTRACT_DETAILS_SID,
+               CDR_MODEL_SID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'C'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_SALES_BASIS_DETAILS_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_SALES_BASIS_DETAILS_INS
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_SALES_BASIS_DETAILS_INS]
+ON [DBO].[SALES_BASIS_DETAILS]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_SALES_BASIS_DETAILS
+                    (SALES_BASIS_DETAILS_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     CONTRACT_MASTER_SID,
+                     CFP_CONTRACT_DETAILS_SID,
+                     CDR_MODEL_SID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG)
+        SELECT SALES_BASIS_DETAILS_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               CONTRACT_MASTER_SID,
+               CFP_CONTRACT_DETAILS_SID,
+               CDR_MODEL_SID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'A'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_SALES_BASIS_DETAILS_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_SALES_BASIS_DETAILS_DEL
+  END
+
+GO
+
+CREATE TRIGGER [DBO].[TRG_SALES_BASIS_DETAILS_DEL]
+ON [DBO].[SALES_BASIS_DETAILS]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   DELETED)
+        INSERT INTO HIST_SALES_BASIS_DETAILS
+                    (SALES_BASIS_DETAILS_SID,
+                     NET_SALES_FORMULA_MASTER_SID,
+                     CONTRACT_MASTER_SID,
+                     CFP_CONTRACT_DETAILS_SID,
+                     CDR_MODEL_SID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     ACTION_FLAG)
+        SELECT SALES_BASIS_DETAILS_SID,
+               NET_SALES_FORMULA_MASTER_SID,
+               CONTRACT_MASTER_SID,
+               CFP_CONTRACT_DETAILS_SID,
+               CDR_MODEL_SID,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               'D'
+        FROM   DELETED
+  END
+
+GO
+
+--------------------------------------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_DEDUCTION_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_DEDUCTION_DETAILS]
+        (
+           [IMTD_DEDUCTION_DETAILS_SID]   [INT] IDENTITY(1, 1) NOT NULL,
+           [DEDUCTION_DETAILS_SID]        [INT] NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CONTRACT_NO]                  [VARCHAR](50) NULL,
+           [CONTRACT_NAME]                [VARCHAR](100) NULL,
+           [DEDUCTION_NO]                 [VARCHAR](50) NULL,
+           [DEDUCTION_NAME]               [VARCHAR](50) NULL,
+           [DEDUCTION_TYPE]               [INT] NULL,
+           [DEDUCTION_SUB_TYPE]           [INT] NULL,
+           [DEDUCTION_CATEGORY]           [INT] NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [INDICATOR]                    [CHAR](1) NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NULL,
+           [CHECK_RECORD]                 [BIT] NULL,
+           [INBOUND_STATUS]               [CHAR](1) NULL,
+           [USERS_SID]                    [INT] NULL,
+           [SESSION_ID]                   [VARCHAR](50) NOT NULL,
+           [IMTD_CREATED_DATE]            [DATETIME] NULL,
+           [OPERATION]                    [CHAR](2) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL,
+           [RS_CONTRACT_SID]              [INT] NULL
+        )
+  END
+
+GO
+---------------------------------alter column----------------------------------
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'RS_MODEL_SID'
+                  AND Object_name(object_id) = 'IMTD_DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.IMTD_DEDUCTION_DETAILS.RS_MODEL_SID 
+  END 
+
+GO
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'RS_MODEL_SID'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+	ALTER TABLE IMTD_DEDUCTION_DETAILS DROP COLUMN RS_MODEL_SID
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'DEDUCTION_TYPE'
+                  AND Object_name(object_id) = 'IMTD_DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.IMTD_DEDUCTION_DETAILS.DEDUCTION_TYPE 
+  END 
+
+GO
+
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'DEDUCTION_TYPE'
+				  AND TABLE_SCHEMA = 'DBO'
+				  AND DATA_TYPE='VARCHAR')
+  BEGIN
+      ALTER TABLE IMTD_DEDUCTION_DETAILS
+        ALTER COLUMN DEDUCTION_TYPE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'DEDUCTION_SUB_TYPE'
+                  AND Object_name(object_id) = 'IMTD_DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.IMTD_DEDUCTION_DETAILS.DEDUCTION_SUB_TYPE 
+  END 
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'DEDUCTION_SUB_TYPE'
+				  AND TABLE_SCHEMA = 'DBO'
+				  AND DATA_TYPE='VARCHAR')
+  BEGIN
+      ALTER TABLE IMTD_DEDUCTION_DETAILS
+        ALTER COLUMN DEDUCTION_SUB_TYPE INT
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'DEDUCTION_CATEGORY'
+                  AND Object_name(object_id) = 'IMTD_DEDUCTION_DETAILS')
+  BEGIN
+      DROP STATISTICS dbo.IMTD_DEDUCTION_DETAILS.DEDUCTION_CATEGORY 
+  END 
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'IMTD_DEDUCTION_DETAILS'
+                  AND COLUMN_NAME = 'DEDUCTION_CATEGORY'
+				  AND TABLE_SCHEMA = 'DBO'
+				  AND DATA_TYPE='VARCHAR')
+  BEGIN
+      ALTER TABLE IMTD_DEDUCTION_DETAILS
+        ALTER COLUMN DEDUCTION_CATEGORY INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+               WHERE  CONSTRAINT_NAME = 'PK_IMTD_DEDUCTION_DETAILS_IMTD_DEDUCTION_DETAILS_SID'
+                      AND TABLE_NAME = 'IMTD_DEDUCTION_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].IMTD_DEDUCTION_DETAILS
+        ADD CONSTRAINT PK_IMTD_DEDUCTION_DETAILS_IMTD_DEDUCTION_DETAILS_SID PRIMARY KEY (IMTD_DEDUCTION_DETAILS_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_DEDUCTION_DETAILS')
+                      AND NAME = 'DF_IMTD_DEDUCTION_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_DEDUCTION_DETAILS_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_DEDUCTION_DETAILS')
+                      AND NAME = 'DF_IMTD_DEDUCTION_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_DEDUCTION_DETAILS_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_DEDUCTION_DETAILS')
+                      AND NAME = 'DF_IMTD_DEDUCTION_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_DEDUCTION_DETAILS_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_DEDUCTION_DETAILS')
+                      AND NAME = 'DF_IMTD_DEDUCTION_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_DEDUCTION_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_DEDUCTION_DETAILS_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'IMTD_DEDUCTION_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+--------------------------------------------------------------------------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_SALES_BASIS_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_SALES_BASIS_DETAILS]
+        (
+           [IMTD_SALES_BASIS_DETAILS_SID] [INT] IDENTITY(1, 1) NOT NULL,
+           [SALES_BASIS_DETAILS_SID]      [INT] NULL,
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NULL,
+           [CONTRACT_MASTER_SID]          [INT] NULL,
+           [CONTRACT_NO]                  [VARCHAR](50) NULL,
+           [CONTRACT_NAME]                [VARCHAR](100) NULL,
+           [CFP_CONTRACT_DETAILS_SID]     [INT] NULL,
+           [CFP_NO]                       [VARCHAR](50) NULL,
+           [CFP_NAME]                     [VARCHAR](100) NULL,
+           [CUSTOMER_NO]                  [VARCHAR](50) NULL,
+           [CUSTOMER_NAME]                [VARCHAR](100) NULL,
+           [CDR_MODEL_SID]                [INT] NULL,
+           [CHECK_RECORD]                 [BIT] NULL,
+           [INBOUND_STATUS]               [CHAR](1) NULL,
+           [USERS_SID]                    [INT] NULL,
+           [SESSION_ID]                   [VARCHAR](50) NOT NULL,
+           [IMTD_CREATED_DATE]            [DATETIME] NULL,
+           [OPERATION]                    [CHAR](2) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+               WHERE  CONSTRAINT_NAME = 'PK_IMTD_SALES_BASIS_DETAILS_IMTD_SALES_BASIS_DETAILS_SID'
+                      AND TABLE_NAME = 'IMTD_SALES_BASIS_DETAILS')
+  BEGIN
+      ALTER TABLE [DBO].IMTD_SALES_BASIS_DETAILS
+        ADD CONSTRAINT PK_IMTD_SALES_BASIS_DETAILS_IMTD_SALES_BASIS_DETAILS_SID PRIMARY KEY (IMTD_SALES_BASIS_DETAILS_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_IMTD_SALES_BASIS_DETAILS_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_SALES_BASIS_DETAILS_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_IMTD_SALES_BASIS_DETAILS_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_SALES_BASIS_DETAILS_CREATED_DATE] DEFAULT (Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_IMTD_SALES_BASIS_DETAILS_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_SALES_BASIS_DETAILS_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_id('DBO.IMTD_SALES_BASIS_DETAILS')
+                      AND NAME = 'DF_IMTD_SALES_BASIS_DETAILS_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_SALES_BASIS_DETAILS]
+        ADD CONSTRAINT [DF_IMTD_SALES_BASIS_DETAILS_MODIFIED_DATE] DEFAULT (Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'IMTD_SALES_BASIS_DETAILS'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NET_SALES_FORMULA_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[NET_SALES_FORMULA_MASTER]
+        (
+           [NET_SALES_FORMULA_MASTER_SID] [INT] IDENTITY(1, 1) NOT NULL,
+           [NET_SALES_FORMULA_ID]         [VARCHAR](50) NOT NULL,
+           [NET_SALES_FORMULA_NO]         [VARCHAR](50) NOT NULL,
+           [NET_SALES_FORMULA_NAME]       [VARCHAR](100) NOT NULL,
+           [NET_SALES_FORMULA_TYPE]       [INT] NOT NULL,
+           [NET_SALES_FORMULA_CATEGORY]   [INT] NULL,
+           [CONTRACT_SELECTION]           [VARCHAR](50) NOT NULL,
+           CDR_MODEL_SID                  [INT],
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NET_SALES_FORMULA_MASTER'
+                      AND COLUMN_NAME = 'CDR_MODEL_SID')
+  BEGIN
+      ALTER TABLE NET_SALES_FORMULA_MASTER
+        ADD CDR_MODEL_SID INT
+  END
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+               WHERE  CONSTRAINT_NAME = 'PK_NET_SALES_FORMULA_MASTER_NET_SALES_FORMULA_MASTER_SID'
+                      AND TABLE_NAME = 'NET_SALES_FORMULA_MASTER')
+  BEGIN
+      ALTER TABLE [DBO].NET_SALES_FORMULA_MASTER
+        ADD CONSTRAINT PK_NET_SALES_FORMULA_MASTER_NET_SALES_FORMULA_MASTER_SID PRIMARY KEY (NET_SALES_FORMULA_MASTER_SID)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_NET_SALES_FORMULA_MASTER_CREATED_BY')
+  BEGIN
+      ALTER TABLE [dbo].[NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_NET_SALES_FORMULA_MASTER_CREATED_BY] DEFAULT(1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_NET_SALES_FORMULA_MASTER_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [dbo].[NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_NET_SALES_FORMULA_MASTER_CREATED_DATE] DEFAULT(Getdate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_NET_SALES_FORMULA_MASTER_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [dbo].[NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_NET_SALES_FORMULA_MASTER_MODIFIED_BY] DEFAULT(1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_NET_SALES_FORMULA_MASTER_RECORD_LOCK_STATUS')
+  BEGIN
+      ALTER TABLE [dbo].[NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_NET_SALES_FORMULA_MASTER_RECORD_LOCK_STATUS] DEFAULT(1) FOR RECORD_LOCK_STATUS
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_NET_SALES_FORMULA_MASTER_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [dbo].[NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_NET_SALES_FORMULA_MASTER_MODIFIED_DATE] DEFAULT(Getdate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'NET_SALES_FORMULA_MASTER' --TABLE NAME
+SET @SCHEMANAME1 = 'dbo' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_NET_SALES_FORMULA_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].HIST_NET_SALES_FORMULA_MASTER
+        (
+           [NET_SALES_FORMULA_MASTER_SID] [INT] NOT NULL,
+           [NET_SALES_FORMULA_ID]         [VARCHAR](50) NOT NULL,
+           [NET_SALES_FORMULA_NO]         [VARCHAR](50) NOT NULL,
+           [NET_SALES_FORMULA_NAME]       [VARCHAR](100) NOT NULL,
+           [NET_SALES_FORMULA_TYPE]       [INT] NOT NULL,
+           [NET_SALES_FORMULA_CATEGORY]   [INT] NULL,
+           [CONTRACT_SELECTION]           [VARCHAR](50) NOT NULL,
+           CDR_MODEL_SID                  [INT],
+           [INBOUND_STATUS]               [CHAR](1) NOT NULL,
+           [RECORD_LOCK_STATUS]           [BIT] NOT NULL,
+           [SOURCE]                       [VARCHAR](50) NULL,
+           [CREATED_BY]                   [INT] NOT NULL,
+           [CREATED_DATE]                 [DATETIME] NOT NULL,
+           [MODIFIED_BY]                  [INT] NOT NULL,
+           [MODIFIED_DATE]                [DATETIME] NOT NULL,
+           ACTION_DATE                    DATETIME NOT NULL,
+           ACTION_FLAG                    CHAR(1) NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'HIST_NET_SALES_FORMULA_MASTER'
+                      AND COLUMN_NAME = 'CDR_MODEL_SID')
+  BEGIN
+      ALTER TABLE HIST_NET_SALES_FORMULA_MASTER
+        ADD CDR_MODEL_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.HIST_NET_SALES_FORMULA_MASTER')
+                      AND NAME = 'DF_HIST_NET_SALES_FORMULA_MASTER_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [dbo].[HIST_NET_SALES_FORMULA_MASTER]
+        ADD CONSTRAINT [DF_HIST_NET_SALES_FORMULA_MASTER_ACTION_DATE] DEFAULT(Getdate()) FOR ACTION_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_NET_SALES_FORMULA_MASTER' --TABLE NAME
+SET @SCHEMANAME1 = 'dbo' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND Schema_name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               Schema_name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND Object_name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + Quotename(@SCHEMANAME)
+                       + '.' + Quotename(@TABLENAME) + '.'
+                       + Quotename(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC Sp_executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + Quotename(C.NAME)
+         + ' ON ' + Quotename(Schema_name(SCHEMA_ID))
+         + '.' + Quotename(T.NAME) + ' ('
+         + Quotename(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = Schema_name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND Schema_name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC Sp_executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+-------------------------------NET_SALES_FORMULA_MASTER TRIGGER-------------------------------------
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_NET_SALES_FORMULA_MASTER_UPD')
+  BEGIN
+      DROP TRIGGER dbo.TRG_NET_SALES_FORMULA_MASTER_UPD
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_NET_SALES_FORMULA_MASTER_UPD]
+ON [dbo].[NET_SALES_FORMULA_MASTER]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         AND EXISTS (SELECT *
+                     FROM   DELETED)
+        INSERT INTO HIST_NET_SALES_FORMULA_MASTER
+                    (NET_SALES_FORMULA_MASTER_SID,
+                     NET_SALES_FORMULA_ID,
+                     NET_SALES_FORMULA_NO,
+                     NET_SALES_FORMULA_NAME,
+                     NET_SALES_FORMULA_TYPE,
+                     NET_SALES_FORMULA_CATEGORY,
+                     CONTRACT_SELECTION,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CDR_MODEL_SID,
+                     ACTION_FLAG)
+        SELECT NET_SALES_FORMULA_MASTER_SID,
+               NET_SALES_FORMULA_ID,
+               NET_SALES_FORMULA_NO,
+               NET_SALES_FORMULA_NAME,
+               NET_SALES_FORMULA_TYPE,
+               NET_SALES_FORMULA_CATEGORY,
+               CONTRACT_SELECTION,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CDR_MODEL_SID,
+               'C'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_NET_SALES_FORMULA_MASTER_INS')
+  BEGIN
+      DROP TRIGGER dbo.TRG_NET_SALES_FORMULA_MASTER_INS
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_NET_SALES_FORMULA_MASTER_INS]
+ON [dbo].[NET_SALES_FORMULA_MASTER]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+        INSERT INTO HIST_NET_SALES_FORMULA_MASTER
+                    (NET_SALES_FORMULA_MASTER_SID,
+                     NET_SALES_FORMULA_ID,
+                     NET_SALES_FORMULA_NO,
+                     NET_SALES_FORMULA_NAME,
+                     NET_SALES_FORMULA_TYPE,
+                     NET_SALES_FORMULA_CATEGORY,
+                     CONTRACT_SELECTION,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CDR_MODEL_SID,
+                     ACTION_FLAG)
+        SELECT NET_SALES_FORMULA_MASTER_SID,
+               NET_SALES_FORMULA_ID,
+               NET_SALES_FORMULA_NO,
+               NET_SALES_FORMULA_NAME,
+               NET_SALES_FORMULA_TYPE,
+               NET_SALES_FORMULA_CATEGORY,
+               CONTRACT_SELECTION,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CDR_MODEL_SID,
+               'A'
+        FROM   INSERTED
+  END
+
+GO
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [Name] = N'TRG_NET_SALES_FORMULA_MASTER_DEL')
+  BEGIN
+      DROP TRIGGER dbo.TRG_NET_SALES_FORMULA_MASTER_DEL
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_NET_SALES_FORMULA_MASTER_DEL]
+ON [dbo].[NET_SALES_FORMULA_MASTER]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   DELETED)
+        INSERT INTO HIST_NET_SALES_FORMULA_MASTER
+                    (NET_SALES_FORMULA_MASTER_SID,
+                     NET_SALES_FORMULA_ID,
+                     NET_SALES_FORMULA_NO,
+                     NET_SALES_FORMULA_NAME,
+                     NET_SALES_FORMULA_TYPE,
+                     NET_SALES_FORMULA_CATEGORY,
+                     CONTRACT_SELECTION,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     SOURCE,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     CDR_MODEL_SID,
+                     ACTION_FLAG)
+        SELECT NET_SALES_FORMULA_MASTER_SID,
+               NET_SALES_FORMULA_ID,
+               NET_SALES_FORMULA_NO,
+               NET_SALES_FORMULA_NAME,
+               NET_SALES_FORMULA_TYPE,
+               NET_SALES_FORMULA_CATEGORY,
+               CONTRACT_SELECTION,
+               INBOUND_STATUS,
+               RECORD_LOCK_STATUS,
+               SOURCE,
+               CREATED_BY,
+               CREATED_DATE,
+               MODIFIED_BY,
+               MODIFIED_DATE,
+               CDR_MODEL_SID,
+               'D'
+        FROM   DELETED
+  END
+
+GO
+
+-------------------------------- NSF_SELECTION ----------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NSF_SELECTION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[NSF_SELECTION]
+        (
+           NSF_SELECTION_SID            INT IDENTITY(1, 1) NOT NULL,
+           NET_SALES_FORMULA_MASTER_SID INT,
+           SCREEN_NAME                  VARCHAR(50),
+           FIELD_NAME                   VARCHAR(30),
+           FIELD_VALUES                 VARCHAR(4000)
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NSF_SELECTION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NSF_SELECTION_NSF_SELECTION_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NSF_SELECTION]
+        ADD CONSTRAINT PK_NSF_SELECTION_NSF_SELECTION_SID PRIMARY KEY (NSF_SELECTION_SID)
+  END
+
+GO 

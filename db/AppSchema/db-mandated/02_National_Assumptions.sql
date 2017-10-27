@@ -1,0 +1,1113 @@
+-------------------------NATIONAL_ASSUMPTIONS FORECASTING TABLES------------------
+------------------------NATIONAL_ASSUMPTIONS------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE NATIONAL_ASSUMPTIONS
+        (
+           NA_PROJ_MASTER_SID   INT NOT NULL,
+           PRICE_TYPE           VARCHAR(50) NOT NULL,
+           BASELINE_METHODOLOGY VARCHAR(50) NOT NULL,
+           FORECAST_METHODOLOGY VARCHAR(50) NOT NULL,
+           PRICE_BASIS          VARCHAR(30),
+           BASELINE_PERIOD      VARCHAR(8000) NOT NULL,
+           ROLLING_PERIOD       VARCHAR(8000) NULL,
+           START_PERIOD         VARCHAR(8) NOT NULL,
+           END_PERIOD           VARCHAR(8) NOT NULL,
+           GROWTH_RATE          NUMERIC(22, 6) NULL,
+           FREQUENCY            VARCHAR(50) NULL
+        )
+  END
+
+GO
+
+------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NATIONAL_ASSUMPTIONS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NATIONAL_ASSUMPTIONS_NA_PROJ_MASTER_SID_PRICE_TYPE_START_PERIOD_END_PERIOD'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NATIONAL_ASSUMPTIONS]
+        ADD CONSTRAINT PK_NATIONAL_ASSUMPTIONS_NA_PROJ_MASTER_SID_PRICE_TYPE_START_PERIOD_END_PERIOD PRIMARY KEY(NA_PROJ_MASTER_SID, PRICE_TYPE, START_PERIOD, END_PERIOD)
+  END
+
+GO
+
+-------------------- COLUMN ADDITION -----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS'
+                      AND COLUMN_NAME = 'PRICE_BASIS')
+  BEGIN
+      ALTER TABLE [DBO].[NATIONAL_ASSUMPTIONS]
+        ADD PRICE_BASIS VARCHAR(30)
+  END
+
+GO
+--CPI_COMPOUNDING
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS'
+                      AND COLUMN_NAME = 'CPI_COMPOUNDING'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE NATIONAL_ASSUMPTIONS
+        ADD CPI_COMPOUNDING VARCHAR(20)
+  END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS'
+                      AND COLUMN_NAME = 'LAST_MODIFIED_DATE'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE NATIONAL_ASSUMPTIONS
+        ADD LAST_MODIFIED_DATE DATETIME
+  END
+GO
+
+
+------------------------ST_NATIONAL_ASSUMPTIONS------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NATIONAL_ASSUMPTIONS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_NATIONAL_ASSUMPTIONS
+        (
+           NA_PROJ_MASTER_SID   INT NOT NULL,
+           PRICE_TYPE           VARCHAR(50) NOT NULL,
+           BASELINE_METHODOLOGY VARCHAR(50) NOT NULL,
+           FORECAST_METHODOLOGY VARCHAR(50) NOT NULL,
+           PRICE_BASIS          VARCHAR(30),
+           BASELINE_PERIOD      VARCHAR(8000) NOT NULL,
+           ROLLING_PERIOD       VARCHAR(8000) NULL,
+           START_PERIOD         VARCHAR(8) NOT NULL,
+           END_PERIOD           VARCHAR(8) NOT NULL,
+           GROWTH_RATE          NUMERIC(22, 6) NULL,
+           FREQUENCY            VARCHAR(50) NULL,
+           [USER_ID]            INT NOT NULL,
+           SESSION_ID           INT NOT NULL,
+           LAST_MODIFIED_DATE   DATETIME NOT NULL
+        )
+  END
+
+GO
+
+------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NATIONAL_ASSUMPTIONS_NA_PROJ_MASTER_SID_PRICE_TYPE_START_PERIOD_END_PERIOD_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_NATIONAL_ASSUMPTIONS]
+        ADD CONSTRAINT PK_ST_NATIONAL_ASSUMPTIONS_NA_PROJ_MASTER_SID_PRICE_TYPE_START_PERIOD_END_PERIOD_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_MASTER_SID, PRICE_TYPE, START_PERIOD, END_PERIOD, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+-------------------- COLUMN ADDITION -----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_NATIONAL_ASSUMPTIONS'
+                      AND COLUMN_NAME = 'PRICE_BASIS')
+  BEGIN
+      ALTER TABLE [DBO].[ST_NATIONAL_ASSUMPTIONS]
+        ADD PRICE_BASIS VARCHAR(30)
+  END
+
+GO
+--CPI_COMPOUNDING
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_NATIONAL_ASSUMPTIONS'
+                      AND COLUMN_NAME = 'CPI_COMPOUNDING'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE ST_NATIONAL_ASSUMPTIONS
+        ADD CPI_COMPOUNDING VARCHAR(20)
+  END
+GO		
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_NATIONAL_ASSUMPTIONS_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NATIONAL_ASSUMPTIONS
+        ADD CONSTRAINT DF_ST_NATIONAL_ASSUMPTIONS_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------NATIONAL_ASSUMPTIONS_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE NATIONAL_ASSUMPTIONS_ACTUALS
+        (
+           ITEM_MASTER_SID INT NOT NULL,
+           PRICE_TYPE      VARCHAR(50) NOT NULL,
+           PERIOD_SID      INT NOT NULL,
+           ACTUAL_PRICE    NUMERIC(22, 6) NULL
+        )
+  END
+
+------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NATIONAL_ASSUMPTIONS_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NATIONAL_ASSUMPTIONS_ACTUALS_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NATIONAL_ASSUMPTIONS_ACTUALS]
+        ADD CONSTRAINT PK_NATIONAL_ASSUMPTIONS_ACTUALS_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(ITEM_MASTER_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_NATIONAL_ASSUMPTIONS_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NATIONAL_ASSUMPTIONS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_NATIONAL_ASSUMPTIONS_ACTUALS
+        (
+           ITEM_MASTER_SID    INT NOT NULL,
+           PRICE_TYPE         VARCHAR(50) NOT NULL,
+           PERIOD_SID         INT NOT NULL,
+           ACTUAL_PRICE       NUMERIC(22, 6) NULL,
+           [USER_ID]          INT NOT NULL,
+           SESSION_ID         INT NOT NULL,
+           LAST_MODIFIED_DATE DATETIME NOT NULL
+        )
+  END
+
+  GO
+------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NATIONAL_ASSUMPTIONS_ACTUALS_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_NATIONAL_ASSUMPTIONS_ACTUALS]
+        ADD CONSTRAINT PK_ST_NATIONAL_ASSUMPTIONS_ACTUALS_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(ITEM_MASTER_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS_ACTUALS'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_NATIONAL_ASSUMPTIONS_ACTUALS_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NATIONAL_ASSUMPTIONS_ACTUALS
+        ADD CONSTRAINT DF_ST_NATIONAL_ASSUMPTIONS_ACTUALS_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------NATIONAL_ASSUMPTIONS_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NATIONAL_ASSUMPTIONS_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE NATIONAL_ASSUMPTIONS_PROJ
+        (
+           ITEM_MASTER_SID  INT NOT NULL,
+           PRICE_TYPE       VARCHAR(50) NOT NULL,
+           PERIOD_SID       INT NOT NULL,
+           PROJECTION_PRICE NUMERIC(22, 6) NULL
+        )
+  END
+
+  GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NATIONAL_ASSUMPTIONS_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NATIONAL_ASSUMPTIONS_PROJ_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NATIONAL_ASSUMPTIONS_PROJ]
+        ADD CONSTRAINT PK_NATIONAL_ASSUMPTIONS_PROJ_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(ITEM_MASTER_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_NATIONAL_ASSUMPTIONS_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NATIONAL_ASSUMPTIONS_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_NATIONAL_ASSUMPTIONS_PROJ
+        (
+           ITEM_MASTER_SID    INT NOT NULL,
+           PRICE_TYPE         VARCHAR(50) NOT NULL,
+           PERIOD_SID         INT NOT NULL,
+           PROJECTION_PRICE   NUMERIC(22, 6) NULL,
+           [USER_ID]          INT NOT NULL,
+           SESSION_ID         INT NOT NULL,
+           LAST_MODIFIED_DATE DATETIME NOT NULL
+        )
+  END
+
+  GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NATIONAL_ASSUMPTIONS_PROJ_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_NATIONAL_ASSUMPTIONS_PROJ]
+        ADD CONSTRAINT PK_ST_NATIONAL_ASSUMPTIONS_PROJ_ITEM_MASTER_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(ITEM_MASTER_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NATIONAL_ASSUMPTIONS_PROJ'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_NATIONAL_ASSUMPTIONS_PROJ_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NATIONAL_ASSUMPTIONS_PROJ
+        ADD CONSTRAINT DF_ST_NATIONAL_ASSUMPTIONS_PROJ_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+-----------------------DROP OLD NEW NDC TABLE-----------------------------
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.TABLES
+           WHERE  TABLE_NAME = 'ST_NEW_NDC')
+  BEGIN
+      DROP TABLE ST_NEW_NDC
+  END
+
+GO
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.TABLES
+           WHERE  TABLE_NAME = 'NEW_NDC')
+  BEGIN
+      DROP TABLE NEW_NDC
+  END
+
+GO
+
+-----------------------DROP OLD NEW NDC TABLE-----------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_MEDICAID_NEW_NDC')
+  BEGIN
+      CREATE TABLE [DBO].[ST_MEDICAID_NEW_NDC]
+        (
+           [NDC9]               [VARCHAR](25) NOT NULL,
+           [WAC_PRICE]          [NUMERIC](22, 6) NULL,
+           [BASE_YEAR_AMP]      [NUMERIC](22, 6) NULL,
+           [BASE_YEAR_CPI]      [NUMERIC](22, 6) NULL,
+           [FORECAST_AMP]       [NUMERIC](22, 6) NULL,
+           [FORECAST_BESTPRICE] [NUMERIC](22, 6) NULL,
+           [USER_ID]            [INT] NOT NULL,
+           [SESSION_ID]         [INT] NOT NULL,
+           LAST_MODIFIED_DATE   [DATETIME] NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_NEW_NDC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_MEDICAID_NEW_NDC_NDC9_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ST_MEDICAID_NEW_NDC
+        ADD CONSTRAINT PK_ST_MEDICAID_NEW_NDC_NDC9_USER_ID_SESSION_ID PRIMARY KEY([NDC9], [USER_ID], [SESSION_ID])
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_NEW_NDC'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_MEDICAID_NEW_NDC_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_MEDICAID_NEW_NDC
+        ADD CONSTRAINT DF_ST_MEDICAID_NEW_NDC_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'MEDICAID_NEW_NDC')
+  BEGIN
+      CREATE TABLE [DBO].[MEDICAID_NEW_NDC]
+        (
+           [NDC9]               [VARCHAR](25) NOT NULL,
+           [WAC_PRICE]          [NUMERIC](22, 6) NULL,
+           [BASE_YEAR_AMP]      [NUMERIC](22, 6) NULL,
+           [BASE_YEAR_CPI]      [NUMERIC](22, 6) NULL,
+           [FORECAST_AMP]       [NUMERIC](22, 6) NULL,
+           [FORECAST_BESTPRICE] [NUMERIC](22, 6) NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'MEDICAID_NEW_NDC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_MEDICAID_NEW_NDC_NDC9'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].MEDICAID_NEW_NDC
+        ADD CONSTRAINT PK_MEDICAID_NEW_NDC_NDC9 PRIMARY KEY([NDC9])
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_FEDERAL_NEW_NDC')
+  BEGIN
+      CREATE TABLE [DBO].[ST_FEDERAL_NEW_NDC]
+        (
+           [ITEM_MASTER_SID]  [INT] NOT NULL,
+           [WAC_PRICE]        [NUMERIC](22, 6) NULL,
+           [NON_FAMP]         [NUMERIC](22, 6) NULL,
+           [FSS]              [NUMERIC](22, 6) NULL,
+           [USER_ID]          [INT] NOT NULL,
+           [SESSION_ID]       [INT] NOT NULL,
+           LAST_MODIFIED_DATE [DATETIME] NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FEDERAL_NEW_NDC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_FEDERAL_NEW_NDC_ITEM_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].ST_FEDERAL_NEW_NDC
+        ADD CONSTRAINT PK_ST_FEDERAL_NEW_NDC_ITEM_MASTER_SID_USER_ID_SESSION_ID PRIMARY KEY([ITEM_MASTER_SID], [USER_ID], [SESSION_ID])
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FEDERAL_NEW_NDC'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_FEDERAL_NEW_NDC_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_FEDERAL_NEW_NDC
+        ADD CONSTRAINT DF_ST_FEDERAL_NEW_NDC_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'FEDERAL_NEW_NDC')
+  BEGIN
+      CREATE TABLE [DBO].[FEDERAL_NEW_NDC]
+        (
+           [ITEM_MASTER_SID] [INT] NOT NULL,
+           [WAC_PRICE]       [NUMERIC](22, 6) NULL,
+           [NON_FAMP]        [NUMERIC](22, 6) NULL,
+           [FSS]             [NUMERIC](22, 6) NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'FEDERAL_NEW_NDC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_FEDERAL_NEW_NDC_ITEM_MASTER_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].FEDERAL_NEW_NDC
+        ADD CONSTRAINT PK_FEDERAL_NEW_NDC_ITEM_MASTER_SID PRIMARY KEY([ITEM_MASTER_SID])
+  END
+
+GO
+
+----------------------------MEDICAID_URA_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'MEDICAID_URA_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE MEDICAID_URA_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           BASE_YEAR           NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           ALT_BASE_YEAR       NUMERIC(22, 6)
+        )
+  END
+
+  GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'MEDICAID_URA_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_MEDICAID_URA_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[MEDICAID_URA_ACTUALS]
+        ADD CONSTRAINT PK_MEDICAID_URA_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+-------------------------- COLUMN ADDITION----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'MEDICAID_URA_ACTUALS'
+                      AND COLUMN_NAME = 'ALT_BASE_YEAR'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE MEDICAID_URA_ACTUALS
+        ADD ALT_BASE_YEAR NUMERIC(22, 6) NULL
+  END
+
+GO
+
+----------------------------ST_MEDICAID_URA_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_MEDICAID_URA_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_MEDICAID_URA_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           BASE_YEAR           NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           ALT_BASE_YEAR       NUMERIC(22, 6),
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+  GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_URA_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_MEDICAID_URA_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_MEDICAID_URA_ACTUALS]
+        ADD CONSTRAINT PK_ST_MEDICAID_URA_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_URA_ACTUALS'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_MEDICAID_URA_ACTUALS_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_MEDICAID_URA_ACTUALS
+        ADD CONSTRAINT DF_ST_MEDICAID_URA_ACTUALS_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+---------------- COLUMN ADDITION ------------------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_MEDICAID_URA_ACTUALS'
+                      AND COLUMN_NAME = 'ALT_BASE_YEAR'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_MEDICAID_URA_ACTUALS
+        ADD ALT_BASE_YEAR NUMERIC(22, 6) NULL
+  END
+
+GO
+
+----------------------------MEDICAID_URA_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'MEDICAID_URA_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE MEDICAID_URA_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL
+        )
+  END
+
+GO
+---------------------column addition------------------------------
+-------ADJUSTMENT_PRICE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'MEDICAID_URA_PROJ'
+			AND COLUMN_NAME = 'ADJUSTMENT_PRICE'
+		)
+BEGIN
+	ALTER TABLE MEDICAID_URA_PROJ ADD ADJUSTMENT_PRICE NUMERIC(22, 6)
+END
+GO
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'MEDICAID_URA_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_MEDICAID_URA_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[MEDICAID_URA_PROJ]
+        ADD CONSTRAINT PK_MEDICAID_URA_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_MEDICAID_URA_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_MEDICAID_URA_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_MEDICAID_URA_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_MEDICAID_URA_PROJ'
+                      AND COLUMN_NAME = 'ADJUSTMENT_PRICE')
+  BEGIN
+      ALTER TABLE ST_MEDICAID_URA_PROJ
+        ADD ADJUSTMENT_PRICE NUMERIC(22, 6) NULL
+  END
+GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_URA_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_MEDICAID_URA_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_MEDICAID_URA_PROJ]
+        ADD CONSTRAINT PK_ST_MEDICAID_URA_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_MEDICAID_URA_PROJ'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_MEDICAID_URA_PROJ_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_MEDICAID_URA_PROJ
+        ADD CONSTRAINT DF_ST_MEDICAID_URA_PROJ_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------FCP_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'FCP_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE FCP_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL
+        )
+  END
+
+GO
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'FCP_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_FCP_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[FCP_ACTUALS]
+        ADD CONSTRAINT PK_FCP_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_FCP_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_FCP_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_FCP_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+GO
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FCP_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_FCP_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_FCP_ACTUALS]
+        ADD CONSTRAINT PK_ST_FCP_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FCP_ACTUALS'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_FCP_ACTUALS_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_FCP_ACTUALS
+        ADD CONSTRAINT DF_ST_FCP_ACTUALS_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------FCP_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'FCP_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE FCP_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL
+        )
+  END
+
+GO
+---------column adition -----------------------
+
+-----ADJUSTMENT_PRICE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'FCP_PROJ'
+			AND COLUMN_NAME = 'ADJUSTMENT_PRICE'
+		)
+
+BEGIN
+	ALTER TABLE FCP_PROJ ADD ADJUSTMENT_PRICE NUMERIC(22, 6)
+END
+GO
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'FCP_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_FCP_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[FCP_PROJ]
+        ADD CONSTRAINT PK_FCP_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_FCP_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_FCP_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_FCP_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+  GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_FCP_PROJ'
+                      AND COLUMN_NAME = 'ADJUSTMENT_PRICE')
+  BEGIN
+      ALTER TABLE ST_FCP_PROJ
+        ADD ADJUSTMENT_PRICE NUMERIC(22, 6) NULL
+  END
+
+  GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FCP_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_FCP_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_FCP_PROJ]
+        ADD CONSTRAINT PK_ST_FCP_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_FCP_PROJ'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_FCP_PROJ_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_FCP_PROJ
+        ADD CONSTRAINT DF_ST_FCP_PROJ_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------PHS_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'PHS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE PHS_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL
+        )
+  END
+
+GO
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'PHS_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_PHS_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[PHS_ACTUALS]
+        ADD CONSTRAINT PK_PHS_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+GO
+
+----------------------------ST_PHS_ACTUALS-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_PHS_ACTUALS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_PHS_ACTUALS
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           ACTUAL_PRICE        NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+GO
+
+
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_PHS_ACTUALS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_PHS_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_PHS_ACTUALS]
+        ADD CONSTRAINT PK_ST_PHS_ACTUALS_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_PHS_ACTUALS'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_PHS_ACTUALS_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_PHS_ACTUALS
+        ADD CONSTRAINT DF_ST_PHS_ACTUALS_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+----------------------------PHS_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'PHS_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE PHS_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL
+        )
+  END
+
+GO
+----------------------------column adddition ---------------------------
+---ADJUSTMENT_PRICE
+IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'PHS_PROJ'
+			AND COLUMN_NAME = 'ADJUSTMENT_PRICE'
+		)
+BEGIN
+	ALTER TABLE PHS_PROJ ADD ADJUSTMENT_PRICE NUMERIC(22, 6)
+END
+GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'PHS_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_PHS_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[PHS_PROJ]
+        ADD CONSTRAINT PK_PHS_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID)
+  END
+
+  GO
+----------------------------ST_PHS_PROJ-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_PHS_PROJ'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_PHS_PROJ
+        (
+           NA_PROJ_DETAILS_SID INT NOT NULL,
+           PERIOD_SID          INT NOT NULL,
+           PRICE_TYPE          VARCHAR(50) NOT NULL,
+           PROJECTION_PRICE    NUMERIC(22, 6) NULL,
+           ADJUSTMENT          NUMERIC(22, 6) NULL,
+           NOTES               VARCHAR(8000) NULL,
+           [USER_ID]           INT NOT NULL,
+           SESSION_ID          INT NOT NULL,
+           LAST_MODIFIED_DATE  DATETIME NOT NULL
+        )
+  END
+
+  GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_PHS_PROJ'
+                      AND COLUMN_NAME = 'ADJUSTMENT_PRICE')
+  BEGIN
+      ALTER TABLE ST_PHS_PROJ
+        ADD ADJUSTMENT_PRICE NUMERIC(22, 6) NULL
+  END
+GO
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_PHS_PROJ'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_PHS_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ST_PHS_PROJ]
+        ADD CONSTRAINT PK_ST_PHS_PROJ_NA_PROJ_DETAILS_SID_PRICE_TYPE_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(NA_PROJ_DETAILS_SID, PRICE_TYPE, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+  GO
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_PHS_PROJ'
+                      AND Schema_name(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'DF_ST_PHS_PROJ_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_PHS_PROJ
+        ADD CONSTRAINT DF_ST_PHS_PROJ_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO 
+
+----------------------------NA_NDC9_WAC-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NA_NDC9_WAC'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[NA_NDC9_WAC]
+        (
+           [NDC9]               [VARCHAR](25) NOT NULL,
+           [PERIOD_SID]         [INT] NOT NULL,
+           [BQWAC]              [NUMERIC](22, 6) NULL,
+           [EQWAC]              [NUMERIC](22, 6) NULL,
+           [MQWAC]              [NUMERIC](22, 6) NULL,
+           [AVGQWAC]            [NUMERIC](22, 6) NULL,
+           [DAY_WEIGHTED_WAC]   [NUMERIC](22, 6) NULL,
+           [SALES_WEIGHTED_WAC] [NUMERIC](22, 6) NULL
+        )
+  END
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NA_NDC9_WAC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NA_NDC9_WAC_NDC9_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NA_NDC9_WAC]
+        ADD CONSTRAINT [PK_NA_NDC9_WAC_NDC9_PERIOD_SID] PRIMARY KEY ( [NDC9] ASC, [PERIOD_SID] ASC )
+  END
+
+GO 
+
+----------------------------NA_NDC11_WAC-----------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NA_NDC11_WAC'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[NA_NDC11_WAC]
+        (
+           [ITEM_MASTER_SID]    [INT] NOT NULL,
+           [PERIOD_SID]         [INT] NOT NULL,
+           [BQWAC]              [NUMERIC](22, 6) NULL,
+           [EQWAC]              [NUMERIC](22, 6) NULL,
+           [MQWAC]              [NUMERIC](22, 6) NULL,
+           [AVGQWAC]            [NUMERIC](22, 6) NULL,
+           [DAY_WEIGHTED_WAC]   [NUMERIC](22, 6) NULL,
+           [SALES_WEIGHTED_WAC] [NUMERIC](22, 6) NULL,
+        )
+  END
+
+-----------------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NA_NDC11_WAC'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NA_NDC11_WAC_ITEM_MASTER_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[NA_NDC11_WAC]
+        ADD CONSTRAINT [PK_NA_NDC11_WAC_ITEM_MASTER_SID_PERIOD_SID] PRIMARY KEY ( [ITEM_MASTER_SID] ASC, [PERIOD_SID] ASC )
+  END
+
+GO 

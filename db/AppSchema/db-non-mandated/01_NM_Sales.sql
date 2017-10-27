@@ -1,0 +1,605 @@
+--------------------------------------------- NM_SALES_PROJECTION_MASTER -------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[NM_SALES_PROJECTION_MASTER]
+        (
+           PROJECTION_DETAILS_SID INT NOT NULL,
+           METHODOLOGY            VARCHAR(20) NULL,
+           USER_GROUP             VARCHAR(50) NULL,
+           CALCULATION_PERIODS    VARCHAR(4000) NULL,
+           CALCULATION_BASED      VARCHAR(100) NULL,
+           CHECK_RECORD           BIT NOT NULL
+        )
+  END
+GO
+
+
+
+---------------------PRIMARY KEY CONSTRAINT-------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NM_SALES_PROJECTION_MASTER'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NM_SALES_PROJECTION_MASTER_PROJECTION_DETAILS_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[NM_SALES_PROJECTION_MASTER]
+        ADD CONSTRAINT PK_NM_SALES_PROJECTION_MASTER_PROJECTION_DETAILS_SID PRIMARY KEY(PROJECTION_DETAILS_SID)
+  END
+
+GO
+
+------------------------- column addition ----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FORECAST_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD FORECAST_START_PERIOD_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FORECAST_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD FORECAST_END_PERIOD_SID INT
+  END
+
+GO
+
+
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'ALLOCATION_BASIS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD ALLOCATION_BASIS VARCHAR(50)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT *
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'METHODOLOGY'
+                      AND TABLE_SCHEMA = 'DBO'
+					  AND CHARACTER_MAXIMUM_LENGTH=50)
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ALTER COLUMN METHODOLOGY VARCHAR(50)
+  END
+
+GO 
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'EFFECTIVE_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD EFFECTIVE_START_PERIOD_SID INT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'EFFECTIVE_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD EFFECTIVE_END_PERIOD_SID INT NULL
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FREQ_CAL_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD FREQ_CAL_START_PERIOD_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FREQ_CAL_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        ADD FREQ_CAL_END_PERIOD_SID INT
+  END 
+
+GO
+
+------------------------------------------- ST_NM_SALES_PROJECTION_MASTER ----------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NM_SALES_PROJECTION_MASTER'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ST_NM_SALES_PROJECTION_MASTER]
+        (
+           PROJECTION_DETAILS_SID INT NOT NULL,
+           METHODOLOGY            VARCHAR(20) NULL,
+           USER_GROUP             VARCHAR(50) NULL,
+           CALCULATION_PERIODS    VARCHAR(4000) NULL,
+           CALCULATION_BASED      VARCHAR(100) NULL,
+           CHECK_RECORD           BIT NOT NULL,
+           [USER_ID]              INT NOT NULL,
+           SESSION_ID             INT NOT NULL,
+           LAST_MODIFIED_DATE     DATETIME NOT NULL
+        )
+  END
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_SALES_PROJECTION_MASTER'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NM_SALES_PROJECTION_MASTER_PROJECTION_DETAILS_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[ST_NM_SALES_PROJECTION_MASTER]
+        ADD CONSTRAINT PK_ST_NM_SALES_PROJECTION_MASTER_PROJECTION_DETAILS_SID_USER_ID_SESSION_ID PRIMARY KEY(PROJECTION_DETAILS_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_SALES_PROJECTION_MASTER'
+                      AND Schema_name(SCHEMA_ID) = 'dbo'
+                      AND NAME = 'DF_ST_NM_SALES_PROJECTION_MASTER_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION_MASTER
+        ADD CONSTRAINT DF_ST_NM_SALES_PROJECTION_MASTER_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+
+------------------------- column addition ----------------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FORECAST_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION_MASTER
+        ADD FORECAST_START_PERIOD_SID INT
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FORECAST_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION_MASTER
+        ADD FORECAST_END_PERIOD_SID INT
+  END
+GO
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ST_NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'ALLOCATION_BASIS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION_MASTER
+        ADD ALLOCATION_BASIS VARCHAR(50)
+  END
+
+GO
+IF EXISTS (SELECT *
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  COLUMN_NAME = 'METHODOLOGY'
+                  AND TABLE_NAME = 'ST_NM_SALES_PROJECTION_MASTER'
+                  AND DATA_TYPE = 'VARCHAR'
+                  AND CHARACTER_MAXIMUM_LENGTH = 20)
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION_MASTER
+        ALTER COLUMN METHODOLOGY VARCHAR(50)
+  END
+
+GO
+------------------------------------------- NM_ACTUAL_SALES -----------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NM_ACTUAL_SALES'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[NM_ACTUAL_SALES]
+        (
+           PROJECTION_DETAILS_SID   INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACTUAL_SALES             NUMERIC(22, 6) NULL,
+           ACTUAL_UNITS             NUMERIC(22, 6) NULL,
+           HISTORY_PROJECTION_SALES NUMERIC(22, 6) NULL,
+           HISTORY_PROJECTION_UNITS NUMERIC(22, 6) NULL
+        )
+  END
+GO
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NM_ACTUAL_SALES'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NM_ACTUAL_SALES_PROJECTION_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[NM_ACTUAL_SALES]
+        ADD CONSTRAINT PK_NM_ACTUAL_SALES_PROJECTION_DETAILS_SID_PERIOD_SID PRIMARY KEY(PROJECTION_DETAILS_SID, PERIOD_SID)
+  END
+
+GO
+-------------------------------------------------- ST_NM_ACTUAL_SALES -------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NM_ACTUAL_SALES'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ST_NM_ACTUAL_SALES]
+        (
+           PROJECTION_DETAILS_SID   INT NOT NULL,
+           PERIOD_SID               INT NOT NULL,
+           ACTUAL_SALES             NUMERIC(22, 6) NULL,
+           ACTUAL_UNITS             NUMERIC(22, 6) NULL,
+           HISTORY_PROJECTION_SALES NUMERIC(22, 6) NULL,
+           HISTORY_PROJECTION_UNITS NUMERIC(22, 6) NULL,
+           [USER_ID]                INT NOT NULL,
+           SESSION_ID               INT NOT NULL,
+           LAST_MODIFIED_DATE       DATETIME NOT NULL
+        )
+  END
+GO
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_ACTUAL_SALES'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NM_ACTUAL_SALES_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[ST_NM_ACTUAL_SALES]
+        ADD CONSTRAINT PK_ST_NM_ACTUAL_SALES_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(PROJECTION_DETAILS_SID, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_ACTUAL_SALES'
+                      AND Schema_name(SCHEMA_ID) = 'dbo'
+                      AND NAME = 'DF_ST_NM_ACTUAL_SALES_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NM_ACTUAL_SALES
+        ADD CONSTRAINT DF_ST_NM_ACTUAL_SALES_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+------------------------------------------------------ NM_SALES_PROJECTION ------------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[NM_SALES_PROJECTION]
+        (
+           PROJECTION_DETAILS_SID INT NOT NULL,
+           ACCOUNT_GROWTH         NUMERIC(22, 6) NULL,
+           PRODUCT_GROWTH         NUMERIC(22, 6) NULL,
+           PROJECTION_SALES       NUMERIC(22, 6) NULL,
+           PROJECTION_UNITS       NUMERIC(22, 6) NULL,
+           PERIOD_SID             INT NOT NULL,
+           ADJUSTMENT_TYPE        VARCHAR(20) NULL,
+           ADJUSTMENT_BASIS       VARCHAR(20) NULL,
+           ADJUSTMENT_VARIABLE    BIT NULL,
+           ADJUSTMENT_METHODOLOGY VARCHAR(50) NULL,
+           ADJUSTMENT_VALUES      NUMERIC(22, 6) NULL
+        )
+  END
+GO
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'NM_SALES_PROJECTION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_NM_SALES_PROJECTION_PROJECTION_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[NM_SALES_PROJECTION]
+        ADD CONSTRAINT PK_NM_SALES_PROJECTION_PROJECTION_DETAILS_SID_PERIOD_SID PRIMARY KEY(PROJECTION_DETAILS_SID, PERIOD_SID)
+  END
+
+GO
+------------------------------------------- ST_NM_SALES_PROJECTION ------------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_NM_SALES_PROJECTION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[ST_NM_SALES_PROJECTION]
+        (
+           PROJECTION_DETAILS_SID INT NOT NULL,
+           ACCOUNT_GROWTH         NUMERIC(22, 6) NULL,
+           PRODUCT_GROWTH         NUMERIC(22, 6) NULL,
+           PROJECTION_SALES       NUMERIC(22, 6) NULL,
+           PROJECTION_UNITS       NUMERIC(22, 6) NULL,
+           PERIOD_SID             INT NOT NULL,
+           ADJUSTMENT_TYPE        VARCHAR(20) NULL,
+           ADJUSTMENT_BASIS       VARCHAR(20) NULL,
+           ADJUSTMENT_VARIABLE    BIT NULL,
+           ADJUSTMENT_METHODOLOGY VARCHAR(50) NULL,
+           ADJUSTMENT_VALUES      NUMERIC(22, 6) NULL,
+           [USER_ID]              INT NOT NULL,
+           SESSION_ID             INT NOT NULL,
+           LAST_MODIFIED_DATE     DATETIME NOT NULL
+        )
+  END
+GO
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_SALES_PROJECTION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ST_NM_SALES_PROJECTION_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[ST_NM_SALES_PROJECTION]
+        ADD CONSTRAINT PK_ST_NM_SALES_PROJECTION_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY(PROJECTION_DETAILS_SID, PERIOD_SID, [USER_ID], SESSION_ID)
+  END
+
+GO
+---------------------DEFAULT_CONSTRAINTS------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_NM_SALES_PROJECTION'
+                      AND Schema_name(SCHEMA_ID) = 'dbo'
+                      AND NAME = 'DF_ST_NM_SALES_PROJECTION_LAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE ST_NM_SALES_PROJECTION
+        ADD CONSTRAINT DF_ST_NM_SALES_PROJECTION_LAST_MODIFIED_DATE DEFAULT (Getdate()) FOR LAST_MODIFIED_DATE
+  END
+
+GO
+-------------------------------------------------Sales Alternate history table scripts starts here-----------------------------------------------------
+
+-------------------------------------------------ST_CCP_ACTUAL_DETAILS -----------------------------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_CCP_ACTUAL_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_CCP_ACTUAL_DETAILS
+        (
+           CCP_DETAILS_SID  INT NOT NULL,
+           PERIOD_SID       INT NOT NULL,
+           ACTUAL_SALES     NUMERIC(22, 6),
+           PROJECTION_SALES NUMERIC(22, 6),
+           ACTUAL_UNITS     NUMERIC(22, 6),
+           PROJECTION_UNITS NUMERIC(22, 6),
+           USER_ID          INT NOT NULL,
+           SESSION_ID       VARCHAR(100) NOT NULL
+        )
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_CCP_ACTUAL_DETAILS'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'PK_ST_CCP_ACTUAL_DETAILS_CCP_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [dbo].[ST_CCP_ACTUAL_DETAILS]
+        ADD CONSTRAINT PK_ST_CCP_ACTUAL_DETAILS_CCP_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( CCP_DETAILS_SID, PERIOD_SID ,USER_ID ,SESSION_ID )
+  END
+
+GO
+
+-------------------------------------------------ST_CCP_ACTUAL_DETAILS END -----------------------------------------------------
+
+-------------------------------------------------------ST_ALTERBNATE_HIST_ALLOCATION--------------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ST_ALTERNATE_HIST_ALLOCATION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE ST_ALTERNATE_HIST_ALLOCATION
+        (
+           PROJECTION_DETAILS_SID        INT NOT NULL,
+           PERIOD_SID                    INT NOT NULL,
+           TOTAL_ACTUAL_UNITS            NUMERIC(22, 6) NULL,
+           TOTAL_PROJECTION_UNITS        NUMERIC(22, 6) NULL,
+           ACTUAL_UNITS                  NUMERIC(22, 6) NULL,
+           PROJECTION_UNITS              NUMERIC(22, 6) NULL,
+           ACTUAL_ALLOCATION_PERCENT     NUMERIC(22, 6) NULL,
+           PROJECTION_ALLOCATION_PERCENT NUMERIC(22, 6) NULL,
+           CHECK_RECORD                  BIT NULL,
+           FLAG                          CHAR(1),
+           USER_ID                       INT NOT NULL,
+           SESSION_ID                    VARCHAR(100) NOT NULL
+        )
+  END
+
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS (SELECT 1
+               FROM   SYS.KEY_CONSTRAINTS
+               WHERE  Object_name(PARENT_OBJECT_ID) = 'ST_ALTERNATE_HIST_ALLOCATION'
+                      AND SCHEMA_NAME(SCHEMA_ID) = 'DBO'
+                      AND NAME = 'PK_ST_ALTERNATE_HIST_ALLOCATION_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID'
+                      AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE[dbo].[ST_ALTERNATE_HIST_ALLOCATION]
+        ADD CONSTRAINT PK_ST_ALTERNATE_HIST_ALLOCATION_PROJECTION_DETAILS_SID_PERIOD_SID_USER_ID_SESSION_ID PRIMARY KEY ( PROJECTION_DETAILS_SID, PERIOD_SID, USER_ID, SESSION_ID )
+  END
+
+GO
+
+-------------------------------------------------------ST_ALTERBNATE_HIST_ALLOCATION END--------------------------------
+
+-------------------------------------------------Sales Alternate history table scripts END here-----------------------------------------------------
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'ALTERNATE_HIST_ALLOCATION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[ALTERNATE_HIST_ALLOCATION]
+        (
+           [PROJECTION_DETAILS_SID]        [INT] NOT NULL,
+           [PERIOD_SID]                    [INT] NOT NULL,
+           [TOTAL_ACTUAL_UNITS]            [NUMERIC](22, 6) NULL,
+           [TOTAL_PROJECTION_UNITS]        [NUMERIC](22, 6) NULL,
+           [ACTUAL_UNITS]                  [NUMERIC](22, 6) NULL,
+           [PROJECTION_UNITS]              [NUMERIC](22, 6) NULL,
+           [ACTUAL_ALLOCATION_PERCENT]     [NUMERIC](22, 6) NULL,
+           [PROJECTION_ALLOCATION_PERCENT] [NUMERIC](22, 6) NULL,
+           [CHECK_RECORD]                  [BIT] NULL,
+           [FLAG]                          [CHAR](1) NULL,
+           [AVAILABLE_CHECKBOX]            [BIT] NULL,
+           [SELECTED_CHECKBOX]             [BIT] NULL
+        )
+  END
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'ALTERNATE_HIST_ALLOCATION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_ALTERNATE_HIST_ALLOCATION_PROJECTION_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[ALTERNATE_HIST_ALLOCATION]
+        ADD CONSTRAINT [PK_ALTERNATE_HIST_ALLOCATION_PROJECTION_DETAILS_SID_PERIOD_SID] PRIMARY KEY CLUSTERED ( [PROJECTION_DETAILS_SID] ASC, [PERIOD_SID] ASC)
+  END
+
+GO
+
+
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'AL_HISTORY_ITEM_SELECTION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[AL_HISTORY_ITEM_SELECTION]
+        (
+           [ITEM_MASTER_SID]    [INT] NOT NULL,
+           [AVAILABLE_CHECKBOX] [BIT] NULL,
+           [SELECTED_CHECKBOX]  [BIT] NULL,
+           [SELECTED_RECORDS]   [BIT] NULL,
+           [LAST_MODIFIED_DATE] [DATETIME] NULL,
+           CONSTRAINT [PK_AL_HISTORY_ITEM_SELECTION_ITEM_MASTER_SID_USER_ID_SESSION_ID] PRIMARY KEY CLUSTERED ( [ITEM_MASTER_SID] ASC)
+        )
+  END
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'AL_HISTORY_ITEM_SELECTION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_AL_HISTORY_ITEM_SELECTION_ITEM_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[AL_HISTORY_ITEM_SELECTION]
+        ADD CONSTRAINT [PK_AL_HISTORY_ITEM_SELECTION_ITEM_MASTER_SID_USER_ID_SESSION_ID] PRIMARY KEY CLUSTERED ( [ITEM_MASTER_SID] ASC)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'AL_HISTORY_CUSTOMER_SELECTION'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[AL_HISTORY_CUSTOMER_SELECTION]
+        (
+           [CONTRACT_MASTER_SID] [INT] NOT NULL,
+           [COMPANY_MASTER_SID]  [INT] NOT NULL,
+           [AVAILABLE_CHECKBOX]  [BIT] NULL,
+           [SELECTED_CHECKBOX]   [BIT] NULL,
+           [SELECTED_RECORDS]    [BIT] NULL,
+           [LAST_MODIFIED_DATE]  [DATETIME] NULL
+        )
+  END
+GO
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'AL_HISTORY_CUSTOMER_SELECTION'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_AL_HISTORY_CUSTOMER_SELECTION_CONTRACT_MASTER_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[AL_HISTORY_CUSTOMER_SELECTION]
+        ADD CONSTRAINT [PK_AL_HISTORY_CUSTOMER_SELECTION_CONTRACT_MASTER_SID_COMPANY_MASTER_SID_USER_ID_SESSION_ID] PRIMARY KEY CLUSTERED ( [CONTRACT_MASTER_SID] ASC, [COMPANY_MASTER_SID] ASC)
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'CCP_ACTUAL_DETAILS'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [dbo].[CCP_ACTUAL_DETAILS]
+        (
+           [CCP_DETAILS_SID]  [INT] NOT NULL,
+           [PERIOD_SID]       [INT] NOT NULL,
+           [ACTUAL_SALES]     [NUMERIC](22, 6) NULL,
+           [PROJECTION_SALES] [NUMERIC](22, 6) NULL,
+           [ACTUAL_UNITS]     [NUMERIC](22, 6) NULL,
+           [PROJECTION_UNITS] [NUMERIC](22, 6) NULL,
+           CONSTRAINT [PK_CCP_ACTUAL_DETAILS_CCP_DETAILS_SID_PERIOD_SID] PRIMARY KEY CLUSTERED ( [CCP_DETAILS_SID] ASC, [PERIOD_SID] ASC)
+        )
+  END
+
+go
+
+---------------------PRIMARY KEY CONSTRAINT------------------------
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.KEY_CONSTRAINTS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'CCP_ACTUAL_DETAILS'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'PK_CCP_ACTUAL_DETAILS_CCP_DETAILS_SID_PERIOD_SID'
+                     AND TYPE = 'PK')
+  BEGIN
+      ALTER TABLE [DBO].[CCP_ACTUAL_DETAILS]
+        ADD CONSTRAINT [PK_CCP_ACTUAL_DETAILS_CCP_DETAILS_SID_PERIOD_SID] PRIMARY KEY CLUSTERED ( [CCP_DETAILS_SID] ASC, [PERIOD_SID] ASC)
+  END
+
+GO
