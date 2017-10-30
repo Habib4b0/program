@@ -1,0 +1,87 @@
+<?xml version="1.0" ?> 
+<project name="gtnAntRelease" default="renameDB">
+
+	<property name="Dist" location="Dist"/>
+	<property name="DefaultWar" location="${Dist}/Default_War1-1"/>
+	<property name="DB_Script" location="${DefaultWar}/DB_Script"/>
+	<property name="Application_Build" location="${DefaultWar}/Application_Build"/>
+	
+  
+	<target name="prepareRpmDist">
+		<delete dir="${Dist}"/>
+		<mkdir dir="${Dist}"/>
+		<mkdir dir="${DefaultWar}"/>
+		<mkdir dir="${DB_Script}"/>
+		 <copy todir="${DB_Script}">
+			<fileset dir="db"/>	
+		 </copy>
+		 
+		<mkdir dir="${Application_Build}"/>
+		<mkdir dir="${DefaultWar}/ETL_Build/"/>
+		<mkdir dir="${DefaultWar}/ETL_Build/Interface_Job/"/>
+		
+		<move todir="${Application_Build}">
+			<fileset dir="app/Dist">
+			  <include name="**/*.war"/>
+			  <include name="**/*.jar"/>
+			</fileset>
+		 </move>		
+		 
+		<move file="etl/target/R2_ETL-1.0-war-exec.jar" tofile="${Application_Build}/R2_ETL.jar"/>
+		<copy file="etl/dir_struct.sh" tofile="${Application_Build}/dir_struct.sh"/>
+		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties"/>
+		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties"/>
+		
+		<copy todir="${DefaultWar}/ETL_Build/Interface_Job/">
+			<fileset dir="etl/Scripts"/>
+		 </copy>	
+		
+	</target>
+
+	<target name="renameDB" depends="prepareRpmDist">
+	
+		<delete dir ="${DB_Script}/AppSchema/db-accounting-close"/>
+		<move todir="${DB_Script}/App_Schema">
+			<fileset dir="${DB_Script}/AppSchema"/>
+		 </move>
+		<move todir="${DB_Script}/Staging_Schema">
+			<fileset dir="${DB_Script}/StagingSchema"/>
+		 </move>
+		 <move todir="${DB_Script}/Sys_Schema">
+			<fileset dir="${DB_Script}/SysSchema"/>
+		 </move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/01_Global">
+			<fileset dir="${DB_Script}/App_Schema/db-global-files"/>
+		 </move>		 
+		<move todir="${DB_Script}/App_Schema/Sql_Script/02_Admin">
+			<fileset dir="${DB_Script}/App_Schema/db-admin-console"/>
+		 </move>		 
+		<move todir="${DB_Script}/App_Schema/Sql_Script/03_Contract">
+			<fileset dir="${DB_Script}/App_Schema/db-contract-management"/>
+		 </move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/04_Transaction">
+			<fileset dir="${DB_Script}/App_Schema/db-transaction-management"/>
+		 </move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/05_General_Forecasting">
+			<fileset dir="${DB_Script}/App_Schema/db-general-forecasting"/>
+		 </move>		 
+		<move todir="${DB_Script}/App_Schema/Sql_Script/06_Non_mandated">
+			<fileset dir="${DB_Script}/App_Schema/db-non-mandated"/>
+		 </move>		 
+		<move todir="${DB_Script}/App_Schema/Sql_Script/07_Mandated">
+			<fileset dir="${DB_Script}/App_Schema/db-mandated"/>
+		 </move>
+		<move todir="${DB_Script}/App_Schema/Sql_Script/08_Channels">
+			<fileset dir="${DB_Script}/App_Schema/db-channels"/>
+		 </move>	
+		<move todir="${DB_Script}/App_Schema/Sql_Script/09_Future_events">
+			<fileset dir="${DB_Script}/App_Schema/db-future-events"/>
+		 </move>			 
+		 <move todir="${DB_Script}/Staging_Schema/Sql_Script/01_Staging">
+			<fileset dir="${DB_Script}/Staging_Schema/db-staging"/>
+		 </move>
+		 <move todir="${DB_Script}/Sys_Schema/Sql_Script/01_Initial">
+			<fileset dir="${DB_Script}/Sys_Schema/db-initial"/>
+		 </move>		 
+	</target>
+</project>
