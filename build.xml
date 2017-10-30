@@ -5,7 +5,7 @@
 	<property name="DefaultWar" location="${Dist}/Default_War1-1"/>
 	<property name="DB_Script" location="${DefaultWar}/DB_Script"/>
 	<property name="Application_Build" location="${DefaultWar}/Application_Build"/>
-	
+	<property name="rpmdir" location="${Dist}/rpm"/>
   
 	<target name="prepareRpmAppDist">
 		<delete dir="${Dist}"/>
@@ -19,6 +19,7 @@
 		<mkdir dir="${Application_Build}"/>
 		<mkdir dir="${DefaultWar}/ETL_Build/"/>
 		<mkdir dir="${DefaultWar}/ETL_Build/Interface_Job/"/>
+		<mkdir dir="${rpmdir}"/>
 		
 		<move todir="${Application_Build}">
 			<fileset dir="app/Dist">
@@ -40,6 +41,12 @@
 		<copy file="app/Repository/com/stpl/app/gtnServicePartII/1.0/gtnServicePartII-1.0.jar" tofile ="${Application_Build}/gtnServicePartII-1.0.jar"> 
 		<copy file="app/gtnProperties/target/gtnProperties.jar" tofile ="${Application_Build}/gtnProperties.jar"> 		 
 		
+		<mkdir dir="${rpmdir}/rpmfiles"/>				
+		<copy todir="${rpmdir}/rpmfiles">
+			<fileset dir="Release/jenkins_rpm/"/>
+		 </copy>
+		<mkdir dir="${rpmdir}/rpmfiles/Output_RPM"/> 
+		 
 	</target>
 
 	<target name="prepareRpmDist" depends="prepareRpmAppDist">
