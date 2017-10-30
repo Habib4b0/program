@@ -37,9 +37,9 @@
 			<fileset dir="etl/Scripts"/>
 		 </copy>
 		 
-		<copy file="app/Repository/com/stpl/app/gtnServicePartI/1.0/gtnServicePartI-1.0.jar" tofile ="${Application_Build}/gtnServicePartI-1.0.jar"> 
-		<copy file="app/Repository/com/stpl/app/gtnServicePartII/1.0/gtnServicePartII-1.0.jar" tofile ="${Application_Build}/gtnServicePartII-1.0.jar"> 
-		<copy file="app/gtnProperties/target/gtnProperties.jar" tofile ="${Application_Build}/gtnProperties.jar"> 		 
+		<copy file="app/Repository/com/stpl/app/gtnServicePartI/1.0/gtnServicePartI-1.0.jar" tofile ="${Application_Build}/gtnServicePartI-1.0.jar"/> 
+		<copy file="app/Repository/com/stpl/app/gtnServicePartII/1.0/gtnServicePartII-1.0.jar" tofile ="${Application_Build}/gtnServicePartII-1.0.jar"/> 
+		<copy file="app/gtnProperties/target/gtnProperties.jar" tofile ="${Application_Build}/gtnProperties.jar"/> 		 
 		
 		<mkdir dir="${rpmdir}/rpmfiles"/>				
 		<copy todir="${rpmdir}/rpmfiles">
