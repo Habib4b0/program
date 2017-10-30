@@ -1,5 +1,5 @@
 <?xml version="1.0" ?> 
-<project name="gtnAntRelease" default="renameDB">
+<project name="gtnAntRelease" default="prepareRpmDist">
 
 	<property name="Dist" location="Dist"/>
 	<property name="DefaultWar" location="${Dist}/Default_War1-1"/>
@@ -7,7 +7,7 @@
 	<property name="Application_Build" location="${DefaultWar}/Application_Build"/>
 	
   
-	<target name="prepareRpmDist">
+	<target name="prepareRpmAppDist">
 		<delete dir="${Dist}"/>
 		<mkdir dir="${Dist}"/>
 		<mkdir dir="${DefaultWar}"/>
@@ -38,7 +38,7 @@
 		
 	</target>
 
-	<target name="renameDB" depends="prepareRpmDist">
+	<target name="prepareRpmDist" depends="prepareRpmAppDist">
 	
 		<delete dir ="${DB_Script}/AppSchema/db-accounting-close"/>
 		<move todir="${DB_Script}/App_Schema">
