@@ -30,11 +30,15 @@
 		<move file="etl/target/R2_ETL-1.0-war-exec.jar" tofile="${Application_Build}/R2_ETL.jar"/>
 		<copy file="etl/dir_struct.sh" tofile="${Application_Build}/dir_struct.sh"/>
 		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties"/>
-		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties"/>
+		<copy file="etl/ETLProcedureInput.properties" tofile="${Application_Build}/ETLProcedureInput.properties"/>
 		
 		<copy todir="${DefaultWar}/ETL_Build/Interface_Job/">
 			<fileset dir="etl/Scripts"/>
-		 </copy>	
+		 </copy>
+		 
+		<copy file="app/Repository/com/stpl/app/gtnServicePartI/1.0/gtnServicePartI-1.0.jar" tofile ="${Application_Build}/gtnServicePartI-1.0.jar"> 
+		<copy file="app/Repository/com/stpl/app/gtnServicePartII/1.0/gtnServicePartII-1.0.jar" tofile ="${Application_Build}/gtnServicePartII-1.0.jar"> 
+		<copy file="app/gtnProperties/target/gtnProperties.jar" tofile ="${Application_Build}/gtnProperties.jar"> 		 
 		
 	</target>
 
