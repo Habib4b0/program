@@ -111,7 +111,6 @@
 				<module>gtnWorkflow</module>
 				<module>gtnGCM</module>
 				<module>gtnCff</module>
-				<module>etl</module>
 			</modules>
 			<activation>
 				<property>
