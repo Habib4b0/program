@@ -48,6 +48,7 @@
 			<id>Install-Dependency</id>
 			<modules>
 				<module>etl</module>
+				<module>Resources</module>
 				<module>app/gtnProperties</module>
 				<module>app/util-service</module>
 				<module>app/gtnServicePartII</module>
