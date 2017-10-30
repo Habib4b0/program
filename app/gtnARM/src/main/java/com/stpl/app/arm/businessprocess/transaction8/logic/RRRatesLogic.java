@@ -195,7 +195,7 @@ public class RRRatesLogic<T extends AdjustmentDTO, E extends AbstractSelectionDT
                         ? VariableConstants.BRAND_UPPERCASE : ARMConstants.getDeductionCustomer().equals(selection.getRateDeductionView())
                         ? VariableConstants.CUSTOMER_UPPERCASE : VariableConstants.CONTRACT_UPPERCASE;
                 input.addAll(new ArrayList<>(Arrays.asList(selection.getRateDeductionLevelName(), value, selection.getTableName())));
-                input.addAll(new ArrayList<>(Arrays.asList("%", "%", "%", "%", "'" + parentDTO.getDeductionName() + "'")));
+                input.addAll(new ArrayList<>(Arrays.asList("%", parentDTO.getDeductionSID(), "%", "%", "'" + parentDTO.getDeductionName() + "'")));
                 break;
 
             case VariableConstants.CUSTOMER_UPPERCASE:

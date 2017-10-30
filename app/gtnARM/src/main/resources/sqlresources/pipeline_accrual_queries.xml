@@ -1320,7 +1320,7 @@ ORDER BY
 
                 SET @SQL=';WITH CTE 
                 AS (SELECT IM.ITEM_MASTER_SID, 
-                                      IM.ITEM_ID,
+                                      IM.ITEM_NO,
                                       IM.ITEM_NAME,
                            BM.BRAND_MASTER_SID,
                                       BM.BRAND_ID,
@@ -1357,7 +1357,7 @@ ORDER BY
                                                   WHEN token='I' THEN 'ITEM_MASTER_SID'
                                      END AS COLUMN_NAME,
                                          CASE WHEN token='B' THEN 'BRAND_ID+'' - ''+BRAND_NAME'  
-                                                  WHEN token='I' THEN 'ITEM_ID+'' - ''+ITEM_NAME'
+                                                  WHEN token='I' THEN 'ITEM_NO+'' - ''+ITEM_NAME'
                                      END AS COLUMN_ADD_NAME,
                                          CASE WHEN token='B' THEN 'BRAND '  
                                                   WHEN token='I' THEN 'ITEM '
@@ -1948,7 +1948,7 @@ ORDER BY
 
                 SET @SQL=';WITH CTE 
                 AS (SELECT IM.ITEM_MASTER_SID, 
-                                      IM.ITEM_ID,
+                                      IM.ITEM_NO,
                                       IM.ITEM_NAME,
                            BM.BRAND_MASTER_SID,
                                       BM.BRAND_ID,
@@ -1985,7 +1985,7 @@ ORDER BY
                                                   WHEN token='I' THEN 'ITEM_MASTER_SID'
                                      END AS COLUMN_NAME,
                                          CASE WHEN token='B' THEN 'BRAND_ID+'' - ''+BRAND_NAME'  
-                                                  WHEN token='I' THEN 'ITEM_ID+'' - ''+ITEM_NAME'
+                                                  WHEN token='I' THEN 'ITEM_NO+'' - ''+ITEM_NAME'
                                      END AS COLUMN_ADD_NAME,
                                          CASE WHEN token='B' THEN 'BRAND '  
                                                   WHEN token='I' THEN 'ITEM '

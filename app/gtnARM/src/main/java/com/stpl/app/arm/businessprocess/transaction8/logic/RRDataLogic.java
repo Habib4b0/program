@@ -147,7 +147,7 @@ public class RRDataLogic<T extends AdjustmentDTO, E extends AbstractSelectionDTO
                 dto.addStringProperties(variables[NumericConstants.TWO], String.valueOf(getFormattedValue(NUM_ZERO, String.valueOf(obj[NumericConstants.FOUR]))));
                 dto.addStringProperties(variables[NumericConstants.THREE], String.valueOf(getFormattedValue(NUM_ZERO, String.valueOf(obj[NumericConstants.FIVE]))));
                 dto.addStringProperties(variables[NumericConstants.FOUR], String.valueOf(getFormattedValue(CUR_TWO, String.valueOf(obj[NumericConstants.SIX]))));
-                dto.addStringProperties(variables[NumericConstants.FIVE], String.valueOf(getFormattedValue(PER_TWO, String.valueOf(obj[NumericConstants.SEVEN]))));
+                dto.addStringProperties(variables[NumericConstants.FIVE], String.valueOf(getFormattedValue(CUR_TWO, String.valueOf(obj[NumericConstants.SEVEN]))));
                 lastValue = String.valueOf(obj[1]);
             }
         }

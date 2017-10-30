@@ -1,5 +1,57 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SPACE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.URA_RESULTS_SCREEN;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ACTUALS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMOUNT;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMP;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ASCENDING;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AVERAGE_QUARTER_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BASIC_URA;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEGINNING_QUARTER_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEST_PRICE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BOTH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.CPI_URA_SPACE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DAY_WEIGHTED_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DESCENDING;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ENDING_QUARTER_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MEDICAID_URA;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MID_QUARTER_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NM_NET_PRICE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERCENTAGE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERIOD;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PIVOT_VIEW;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TYPE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PROJECTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SALES_WEIGHTED_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.TOTAL_URA;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -11,6 +63,7 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.MedicaidURAResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.MedicaidURAResultsTableLogic;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
@@ -19,12 +72,6 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCo
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.URA_RESULTS_SCREEN;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -58,23 +105,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class MedicaidURA.
@@ -288,7 +318,8 @@ public class MedicaidURA extends CustomComponent implements View {
      *
      * @return the caption
      */
-    public String getCaption() {
+    @Override
+	public String getCaption() {
         LOGGER.debug("Inside MedicaidURA getCaption");
 
         return MEDICAID_URA_RESULTS;
@@ -522,7 +553,8 @@ public class MedicaidURA extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            public void noMethod() {
+            @Override
+			public void noMethod() {
                 // do nothing
             }
 
@@ -703,7 +735,8 @@ public class MedicaidURA extends CustomComponent implements View {
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
-                        public void buttonClick(final Button.ClickEvent event) {
+                        @Override
+						public void buttonClick(final Button.ClickEvent event) {
                             ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                             worksheetProjDto.setNdc9(tableDto.getNdc9());
                             worksheetProjDto.setAdjust(false);
@@ -841,6 +874,7 @@ public class MedicaidURA extends CustomComponent implements View {
                 loadExcelResultTable();
 
             }
+			NationalAssumptionsUI.EXCEL_CLOSE = true;
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), MEDICAID_URA_RESULTS, MEDICAID_URA_RESULTS, "Medicaid_URA_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
@@ -906,7 +940,8 @@ public class MedicaidURA extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
-    public void enter(ViewChangeEvent event) {
+    @Override
+	public void enter(ViewChangeEvent event) {
         return;
     }
 

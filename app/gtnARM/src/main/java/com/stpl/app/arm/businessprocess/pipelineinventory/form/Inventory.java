@@ -257,7 +257,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         priceddlb = CommonUtils.getPeriodsByFrequency("M", selectionDto.getDataSelectionDTO().getFromPeriodMonth(), str);
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlb));
-        List<String> reserveDatelist = getPeriodsByFrequencyForMonth();
+        List<String> reserveDatelist = getPeriodsByFrequencyForMonthPrice();
         reserveDate.removeAllItems();
         reserveDate.setContainerDataSource(new IndexedContainer(reserveDatelist));
         inventoryDetailsDdlb.removeAllItems();
@@ -499,10 +499,10 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
         String[] months = dateFormatSymbols.getShortMonths();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -NumericConstants.TWELVE);
+        calendar.add(Calendar.MONTH, -NumericConstants.SIX);
         String year;
         int month;
-        for (int i = 0; i <= NumericConstants.FIFTEEN; i++) {
+        for (int i = 0; i <= NumericConstants.NINE; i++) {
             year = String.valueOf(calendar.get(Calendar.YEAR));
             month = calendar.get(Calendar.MONTH);
             String period = months[month] + " " + year;
@@ -511,6 +511,7 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         }
         return periodList;
     }
+    
 
     private void configureWorkFlow() {
         if (selectionDto.getSessionDTO().isWorkFlow()) {
@@ -573,13 +574,14 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
         price.removeAllItems();
         price.setContainerDataSource(new IndexedContainer(priceddlbList));
         price.setValue(selectionDto.getPrice());
-        List<String> reserveDatelist = getPeriodsByFrequencyForMonth();
+        List<String> reserveDatelist = getPeriodsByFrequencyForMonthPrice();
+        List<String> inventoryDetailsDdlbList = getPeriodsByFrequencyForMonth();
         reserveDate.removeAllItems();
         reserveDate.setContainerDataSource(new IndexedContainer(reserveDatelist));
         reserveDate.setValue(selectionDto.getInventoryreserveDate());
         reserveDate.setNullSelectionAllowed(false);
         inventoryDetailsDdlb.removeAllItems();
-        inventoryDetailsDdlb.setContainerDataSource(new IndexedContainer(reserveDatelist));
+        inventoryDetailsDdlb.setContainerDataSource(new IndexedContainer(inventoryDetailsDdlbList));
         inventoryDetailsDdlb.setValue(selectionDto.getInventoryDetails());
         inventoryDetailsDdlb.setNullSelectionAllowed(false);
         inventoryLevel.removeValueChangeListener(frequencyListener);
@@ -699,6 +701,24 @@ public class Inventory extends VerticalLayout implements View, GenerateAble, Def
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+    public static List<String> getPeriodsByFrequencyForMonthPrice() {
+        List<String> periodList = new ArrayList<>();
+        periodList.add(ConstantsUtils.SELECT_ONE);
+        DateFormatSymbols dateFormatSymbols = new DateFormatSymbols();
+        String[] months = dateFormatSymbols.getShortMonths();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -NumericConstants.SIX);
+        String year;
+        int month;
+        for (int i = 0; i <= NumericConstants.TWELVE; i++) {
+            year = String.valueOf(calendar.get(Calendar.YEAR));
+            month = calendar.get(Calendar.MONTH);
+            String period = months[month] + " " + year;
+            calendar.add(Calendar.MONTH, NumericConstants.ONE);
+            periodList.add(period);
+        }
+        return periodList;
     }
 
 }

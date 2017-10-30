@@ -105,6 +105,7 @@ and open the template in the editor.
                DEDUCTION_SET_1            VARCHAR(150),
                DEDUCTION_SET_2            VARCHAR(150),
                DEDUCTION_SET_3            VARCHAR(150),
+               DEDUCTION_SET_4   INT,
        RANK_VIEW                  INT,
        ROW_NUM                    INT,
        PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
@@ -138,6 +139,7 @@ and open the template in the editor.
                        DEDUCTION_SET_1,
                        DEDUCTION_SET_2,
                        DEDUCTION_SET_3,
+                        DEDUCTION_SET_4,
                        RANK_VIEW, ROW_NUM)
                        SELECT ARM_ADJUSTMENT_DETAILS_SID,
          ITEM_MASTER_SID,
@@ -166,6 +168,7 @@ and open the template in the editor.
          DEDUCTION_SET_1,
          DEDUCTION_SET_2,
          DEDUCTION_SET_3,
+          DEDUCTION_SET_4,
          RANK_VIEW ,
             ROW_NUMBER() OVER(PARTITION BY DEDUCTION_SET_1, DEDUCTION_SET_2, ITEM_MASTER_SID ORDER BY ITEM_MASTER_SID ) AS ROW_NUM
           FROM(
@@ -234,6 +237,18 @@ and open the template in the editor.
                             WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 6' THEN U6.DESCRIPTION
                                   END
                                    ORDER BY IM.ITEM_MASTER_SID),
+                   DEDUCTION_SET_4= CASE
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION PROGRAM' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION TYPE' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 1' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 2' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 3' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 4' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 5' THEN R.RS_MODEL_SID
+                            WHEN @DEDUCTION_LEVEL = 'DEDUCTION CATEGORY 6' THEN R.RS_MODEL_SID
+                                  END,
               RANK_VIEW=DENSE_RANK()
                      OVER(
                        ORDER BY CASE WHEN @VIEW = 'PRODUCT' THEN IM.ITEM_MASTER_SID WHEN @VIEW = 'BRAND'
@@ -336,7 +351,8 @@ and open the template in the editor.
                         A.METHODOLOGY,
                         MAX(A.[OVERRIDE]) AS [OVERRIDE],
                         MAX(SID)   AS SID,
-                        MAX(LEVEL) LEVEL
+                        MAX(LEVEL) LEVEL,
+                        DEDUCTION_SET_4
                 FROM   (
                         SELECT A.DEDUCTION_SET_1,
                         A.DEDUCTION_SET_2,
@@ -347,14 +363,16 @@ and open the template in the editor.
                          CASE WHEN @VIEW='PRODUCT' THEN A.METHODOLOGY ELSE NULL END AS METHODOLOGY,
                          A.[OVERRIDE] AS [OVERRIDE],
                         DEDUCTION_SET_3 AS SID,
-                        @VIEW           AS LEVEL
+                        @VIEW           AS LEVEL,
+                        A.DEDUCTION_SET_4
                  FROM   #TEMP_RATE A
                         JOIN #TABLE_PROD B
                           ON A.DEDUCTION_SET_1 = B.DEDUCTION_SET_1 AND A.DEDUCTION_SET_2 = B.DEDUCTION_SET_2
                              AND A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
                  WHERE  RANK_VIEW BETWEEN ? AND ?
                          )A
-                 GROUP  BY A.DEDUCTION_SET_1, A.DEDUCTION_SET_2,METHODOLOGY
+                 GROUP  BY A.DEDUCTION_SET_1, A.DEDUCTION_SET_2,A.DEDUCTION_SET_4,METHODOLOGY
+                 ORDER BY A.DEDUCTION_SET_4
 
         ]]>  
         </query>
