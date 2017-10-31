@@ -48,11 +48,12 @@
 			<id>Install-Dependency</id>
 			<modules>
 				<module>etl</module>
-				<module>app/Resources</module>
+				<module>app/Resources</module>				
 				<module>app/gtnProperties</module>
+				<module>app/gtnUtility</module>				
 				<module>app/util-service</module>
 				<module>app/gtnServicePartII</module>
-				<module>app/gtnServicePartI</module>
+				<module>app/gtnServicePartI</module>				
 				<module>app/WarReleasePlugin</module>
 			</modules>
 			<build>
@@ -85,6 +86,7 @@
 				<module>app/gtnWorkflow</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+				<module>app/gtnUtilities</module>
 			</modules>
 			<activation>
 				<property>
@@ -96,7 +98,7 @@
 			</properties>
 			<build>
 				<defaultGoal>
-                    com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
+                    clean install com.stpl.gtn.gtn2o:WarReleasePlugin:Release 
                 </defaultGoal>
 				<plugins>
 					<plugin>
