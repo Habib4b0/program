@@ -1,0 +1,96 @@
+## ---------- Logo ---------- ##
+
+#if (($company.getLogoId() == 0) && $use_company_logo && $theme_settings.display-company-logo != true)
+	#set ($site_logo = "${images_folder}/logo.png")
+	#set ($site_logo_height = 71)
+	#set ($site_logo_width = 187)
+#end
+
+#*********************** side-bar-shortcut *********************#
+
+#if ($journalContentUtil.getContent($group_id, $theme_settings.side-bar-shortcut, null, "$locale", $theme_display))
+	#set ($side-bar-shortcut = $journalContentUtil.getContent($group_id, $theme_settings.side-bar-shortcut, null, "$locale", $theme_display))
+#else
+	#set ($side-bar-shortcut =  $theme_settings.side-bar-shortcut)
+#end
+
+
+## ---------- Footer Content ---------- ##
+
+#if ($journalContentUtil.getContent($group_id, $theme_settings.footer-section-1-article-id, null, "$locale", $theme_display))
+	#set ($footer_section_1 = $journalContentUtil.getContent($group_id, $theme_settings.footer-section-1-article-id, null, "$locale", $theme_display))
+#else
+	#set ($footer_section_1 =  $theme_settings.footer-section-1-article-id)
+#end
+
+
+## ---------- Custom Field Naviagtion item Icon class ---------- ##
+ 
+#set ($customFieldName1 = "navItem-icon1")
+#if ($layout.getExpandoBridge().hasAttribute($customFieldName1) == false)
+	#set($VOID = $layout.getExpandoBridge().addAttribute($customFieldName1, 15, false))
+#end
+#set ($customFieldName2 = "navItem-icon2")
+#if ($layout.getExpandoBridge().hasAttribute($customFieldName2) == false)
+	#set($VOID = $layout.getExpandoBridge().addAttribute($customFieldName2, 15, false))
+#end
+#set($navItem-icon1 ="")
+#set($navItem-icon2 ="")
+
+## ----------  Language bar ---------- ##
+#if ($theme_settings.show-language-choice==true)
+	#set ($displayLanguage = true)
+#end
+
+## ----------  fixed-navbar macro---------- ##
+#set ($NavbarCssClass = "navbar")
+#macro( fixednavbar )
+	#set ($css_class = $css_class + " navbar-fixed")
+	#set ($NavbarCssClass = $NavbarCssClass + " navbar-fixed-top")
+#end
+
+## ----------  fixed-sidebar macro---------- ##
+#set ($SidebarCssClass = "sidebar")
+#macro( fixedsidebar )
+	
+	#set ($SidebarCssClass = $SidebarCssClass + " sidebar-fixed")
+#end
+
+## ----------  fixed-breadcrumbs macro---------- ##
+#macro( fixedbreadcrumbs )
+	#set ($css_class = $css_class + " breadcrumbs-fixed")
+	<script type="text/javascript">
+	window.onload=
+		function() {
+			if(!$('.breadcrumbs').hasClass('breadcrumbs-fixed')){
+				$('.breadcrumbs').addClass('breadcrumbs-fixed');
+			}
+		
+	};
+	</script>
+#end
+
+
+
+## ----------  fixed-navbar ---------- ##
+
+#if ($theme_settings.fixed-navbar==true)
+	#fixednavbar()
+	
+#end
+
+
+## ----------  fixed-sidebar ---------- ##
+
+#if ($theme_settings.fixed-sidebar==true)
+	#fixednavbar()
+	#fixedsidebar()
+#end
+
+
+## ----------  fixed-breadcrumbs ---------- ##
+#if ($theme_settings.fixed-breadcrumbs==true)
+	#fixednavbar()
+	#fixedsidebar()
+	#fixedbreadcrumbs()
+#end

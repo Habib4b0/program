@@ -29,7 +29,7 @@
         <module>calendar</module>
         <module>calendarfield</module>
         <module>vaadin-widgetset</module>
-        
+		<module>stpl-maven-plugin</module>		
     </modules>
     <repositories>
         <repository>
