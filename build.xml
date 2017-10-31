@@ -26,7 +26,12 @@
 			  <include name="**/*.war"/>
 			  <include name="**/*.jar"/>
 			</fileset>
-		 </move>		
+		 </move>	
+		<move todir="${Application_Build}">		 
+			<fileset dir="app/Resources/vaadin-widgetset/target">
+			  <include name="**/*.war"/>
+			</fileset>
+		</move>
 		 
 		<move file="etl/target/R2_ETL-1.0-war-exec.jar" tofile="${Application_Build}/R2_ETL.jar"/>
 		<copy file="etl/dir_struct.sh" tofile="${Application_Build}/dir_struct.sh"/>
