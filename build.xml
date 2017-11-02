@@ -124,4 +124,11 @@
 			<fileset dir="${DB_Script}/Sys_Schema/db-initial" />
 		</move>
 	</target>
+	
+	<target name="prepareRpmArmDist">
+		<copy todir="${DB_Script}/App_Schema/Sql_Script/10_Arm">
+			<fileset dir="db/AppSchema/db-accounting-close" />
+		</copy>
+	
+	</target>
 </project>
