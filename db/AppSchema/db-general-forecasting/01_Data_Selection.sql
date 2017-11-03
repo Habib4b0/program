@@ -1,4 +1,4 @@
--------------------------------------------------- CCP_DETAILS --------------------------------------------------
+--------------------------------------------------- CCP_DETAILS --------------------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'CCP_DETAILS'
@@ -12,9 +12,7 @@ IF NOT EXISTS (SELECT 'X'
            ITEM_MASTER_SID     INT
         )
   END
-
 GO
-
 ---------------------PRIMARY KEY CONSTRAINT--------------------------
 IF NOT EXISTS(SELECT 1
               FROM   SYS.KEY_CONSTRAINTS
@@ -26,9 +24,7 @@ IF NOT EXISTS(SELECT 1
       ALTER TABLE [dbo].[CCP_DETAILS]
         ADD CONSTRAINT PK_CCP_DETAILS_CCP_DETAILS_SID PRIMARY KEY(CCP_DETAILS_SID)
   END
-
 GO
-
 ----------------------unique key-----------------------------------
 IF EXISTS (SELECT NAME
            FROM   SYS.TABLES
@@ -192,6 +188,33 @@ IF  EXISTS (SELECT 1
       ALTER TABLE PROJECTION_MASTER
         DROP COLUMN FILE_MANAGEMENT_SID 
   END
+GO
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'DEDUCTION_HIERARCHY_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+
+ALTER TABLE PROJECTION_MASTER 
+ADD DEDUCTION_HIERARCHY_SID  INT
+  END
+
+GO
+
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'DED_RELATIONSHIP_BULDER_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+     
+ALTER TABLE PROJECTION_MASTER 
+ADD DED_RELATIONSHIP_BULDER_SID  INT
+  END
+
 GO
 
 

@@ -2111,7 +2111,7 @@ AS (SELECT A.NA_PROJ_DETAILS_SID,
                       WHERE  INDEX_TYPE = B.PRICE_TYPE1
                              AND INBOUND_STATUS <> ''D''
        ORDER BY EFFECTIVE_DATE DESC
-       ) C  where b.PRICE_TYPE2 <>''WAC''');------cel-1895
+       ) C  where b.PRICE_TYPE2 <>''WAC''');------cel-1895, ALG-2310
 /*
 SET @SQL_FCP_UPD5 =CONCAT('
 WITH CTE

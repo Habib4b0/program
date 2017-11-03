@@ -8615,6 +8615,29 @@ IF NOT EXISTS (SELECT 'X'
 
 GO
 
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ACCRUAL_MASTER'
+                      AND COLUMN_NAME = 'PROVISION_ID'
+                      AND TABLE_SCHEMA = 'DBO' )
+  BEGIN
+      ALTER TABLE ACCRUAL_MASTER
+        ALTER COLUMN  PROVISION_ID VARCHAR(50) NULL
+  END
+GO
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'ACCRUAL_MASTER'
+                      AND COLUMN_NAME = 'ITEM_ID'
+                      AND TABLE_SCHEMA = 'DBO' )
+  BEGIN
+      ALTER TABLE ACCRUAL_MASTER
+        ALTER COLUMN  ITEM_ID VARCHAR(50) NULL
+  END
+GO
+
 -----------STATISTICS--------------------
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -22393,5 +22416,620 @@ AS
   END
 
 GO
+
+--------------------------------RETURN_RATE_FORECATS_MASTER-----------------------------------------
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'RETURN_RATE_FORECAST'
+                      AND TABLE_SCHEMA = 'DBO')
+BEGIN
+      CREATE TABLE [DBO].[RETURN_RATE_FORECAST]
+        (          
+           [RETURN_RATE_FORECAST_SID]   INT NOT NULL IDENTITY(1, 1), 
+           [ITEM_MASTER_SID]            INT NOT NULL,
+           [ITEM_ID]                     VARCHAR(38) NOT NULL,
+           [ITEM_NO]                     VARCHAR(50) NULL,
+           [ITEM_NAME]                   VARCHAR(100) NULL,
+           [FORECAST_YEAR]               VARCHAR(5) NULL,
+           [FORECAST_MONTH]              VARCHAR(25) NULL,
+           [RATE]                        NUMERIC(22, 6) NULL,
+           [FORECAST_NAME]               VARCHAR(100) NULL,
+           [FORECAST_VER]                VARCHAR(15) NULL,
+           [CREATED_BY]                  VARCHAR(50) NULL,
+           [CREATED_DATE]                DATETIME NULL,
+           [MODIFIED_BY]                 VARCHAR(50) NULL,
+           [MODIFIED_DATE]               DATETIME NULL,
+           [INBOUND_STATUS]              VARCHAR(10) NOT NULL,
+           [BATCH_ID]                    VARCHAR(38) NOT NULL,
+           [SOURCE]                      VARCHAR(50) NULL
+     )
+END
+
+GO
+
+
+-------------------DEFAULT CONSTRAINT ----------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RETURN_RATE_FORECAST')
+                      AND NAME = 'DF_RETURN_RATE_FORECAST_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RETURN_RATE_FORECAST]
+        ADD CONSTRAINT [DF_RETURN_RATE_FORECAST_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+  
+  GO
+  
+
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RETURN_RATE_FORECAST')
+                      AND NAME = 'DF_RETURN_RATE_FORECAST_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RETURN_RATE_FORECAST]
+        ADD CONSTRAINT [DF_RETURN_RATE_FORECAST_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+    
+	GO
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RETURN_RATE_FORECAST')
+                      AND NAME = 'DF_RETURN_RATE_FORECAST_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RETURN_RATE_FORECAST]
+        ADD CONSTRAINT [DF_RETURN_RATE_FORECAST_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+  
+  GO
+    
+
+
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RETURN_RATE_FORECAST')
+                      AND NAME = 'DF_RETURN_RATE_FORECAST_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RETURN_RATE_FORECAST]
+        ADD CONSTRAINT [DF_RETURN_RATE_FORECAST_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+  
+  GO
+
+-----------------------UNIQUE KEY CONSTARINT-------------------------------------
+
+IF EXISTS (SELECT NAME
+           FROM   SYS.TABLES
+           WHERE  NAME = 'RETURN_RATE_FORECAST')
+  BEGIN
+      IF NOT EXISTS (SELECT 1
+                     FROM   SYS.KEY_CONSTRAINTS
+                     WHERE  TYPE_DESC = 'UNIQUE_CONSTRAINT'
+                            AND PARENT_OBJECT_ID = OBJECT_ID('RETURN_RATE_FORECAST')
+                            AND NAME = 'UQ_RETURN_RATE_FORECAST_ITEM_ID_FORECAST_YEAR_FORECAST_MONTH')
+        BEGIN
+            ALTER TABLE RETURN_RATE_FORECAST
+              ADD CONSTRAINT UQ_RETURN_RATE_FORECAST_ITEM_ID_FORECAST_YEAR_FORECAST_MONTH UNIQUE(ITEM_ID, FORECAST_YEAR, FORECAST_MONTH)
+        END
+  END
+  
+  GO
+  
+  ------------------------ADD COLUMN IN RETURN_RATE_FORECAST-----------------
+
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'RETURN_RATE_FORECAST' AND COLUMN_NAME  = 'RETURN_RATE_FORECAST_INTERFACE_ID' AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE RETURN_RATE_FORECAST
+        ADD RETURN_RATE_FORECAST_INTERFACE_ID numeric(38,0) null
+  END
+  GO
+---------------NOT NULL QUERY RETURN_RATE_FORECAST-------------------
+
+IF EXISTS (
+    SELECT 1 FROM RETURN_RATE_FORECAST
+      WHERE RETURN_RATE_FORECAST_INTERFACE_ID IS NULL)
+BEGIN
+
+UPDATE RETURN_RATE_FORECAST
+SET RETURN_RATE_FORECAST_INTERFACE_ID = 1
+WHERE RETURN_RATE_FORECAST_INTERFACE_ID IS NULL
+
+END
+GO
+
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RETURN_RATE_FORECAST'
+                  AND COLUMN_NAME = 'RETURN_RATE_FORECAST_INTERFACE_ID'
+                  AND IS_NULLABLE = 'YES')
+  BEGIN
+      ALTER TABLE RETURN_RATE_FORECAST
+        ALTER COLUMN RETURN_RATE_FORECAST_INTERFACE_ID numeric(38,0) NOT NULL
+  END
+
+GO
+
+------------------RETURN_RATE_FORECAST_MASTER_STATISTICS---------------------
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'RETURN_RATE_FORECAST'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+----------------------------------HIST_RETURN_RATE_FORECAST------------------------------------------
+ 
+ IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'HIST_RETURN_RATE_FORECAST'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[HIST_RETURN_RATE_FORECAST]
+        (          
+           [RETURN_RATE_FORECAST_SID]   NUMERIC(38, 0) NOT NULL, 
+           [ITEM_MASTER_SID]            INT NOT NULL,
+           [ITEM_ID]                     VARCHAR(38) NOT NULL,
+           [ITEM_NO]                     VARCHAR(50) NULL,
+           [ITEM_NAME]                   VARCHAR(100) NULL,
+           [FORECAST_YEAR]               VARCHAR(5) NULL,
+           [FORECAST_MONTH]              VARCHAR(25) NULL,
+           [RATE]                        NUMERIC(22, 6) NULL,
+           [FORECAST_NAME]               VARCHAR(100) NULL,
+           [FORECAST_VER]                VARCHAR(15) NULL, 
+           [CREATED_BY]                  VARCHAR(50) NULL,
+           [CREATED_DATE]                DATETIME NULL,
+           [MODIFIED_BY]                 VARCHAR(50) NULL,
+           [MODIFIED_DATE]               DATETIME NULL,
+           [INBOUND_STATUS]             VARCHAR(10) NOT NULL,
+           [BATCH_ID]                    VARCHAR(38) NOT NULL,
+           [SOURCE]                      VARCHAR(50) NULL,
+           [ACTION_FLAG]                 CHAR(1) NOT NULL,
+           [ACTION_DATE]                 DATETIME NOT NULL
+         
+     )
+  END
+  GO
+  
+  ------------------------DEFAULT CONSTRAINT--------------------
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.HIST_RETURN_RATE_FORECAST')
+                      AND NAME = 'DF_HIST_RETURN_RATE_FORECAST_ACTION_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[HIST_RETURN_RATE_FORECAST]
+        ADD CONSTRAINT [DF_HIST_RETURN_RATE_FORECAST_ACTION_DATE] DEFAULT (GETDATE()) FOR ACTION_DATE
+  END
+  GO
+  -----------------------------ADD COLUMN IN HIST_RETURN_RATE_FOREACST ----------------
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'HIST_RETURN_RATE_FORECAST' AND COLUMN_NAME  = 'RETURN_RATE_FORECAST_INTERFACE_ID' AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE HIST_RETURN_RATE_FORECAST
+        ADD RETURN_RATE_FORECAST_INTERFACE_ID numeric(38,0) null
+  END
+  GO
+
+---------------NOT NULL QUERY-------------------
+
+IF EXISTS (
+    SELECT 1 FROM HIST_RETURN_RATE_FORECAST
+      WHERE RETURN_RATE_FORECAST_INTERFACE_ID IS NULL)
+BEGIN
+
+UPDATE HIST_RETURN_RATE_FORECAST
+SET RETURN_RATE_FORECAST_INTERFACE_ID = 1
+WHERE RETURN_RATE_FORECAST_INTERFACE_ID IS NULL
+
+END
+GO
+
+
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RETURN_RATE_FORECAST'
+                  AND COLUMN_NAME = 'RETURN_RATE_FORECAST_INTERFACE_ID'
+                  )
+  BEGIN
+      ALTER TABLE HIST_RETURN_RATE_FORECAST
+        ALTER COLUMN RETURN_RATE_FORECAST_INTERFACE_ID numeric(38,0) NOT NULL
+  END
+  GO
+
+---------------------------HIST_STATISTICS------------------------------------
+  
+ DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'HIST_RETURN_RATE_FORECAST'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+         AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO
+
+----------------------------------------RETURN_RATE_FORECAST_TRIGGERS--------------------------------------------
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RETURN_RATE_FORECAST_UPD')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RETURN_RATE_FORECAST_UPD
+  END
+  GO
+
+CREATE TRIGGER [DBO].[TRG_RETURN_RATE_FORECAST_UPD]
+ON [DBO].[RETURN_RATE_FORECAST]
+AFTER UPDATE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         AND EXISTS (SELECT *
+                     FROM   DELETED)
+        INSERT INTO HIST_RETURN_RATE_FORECAST
+                    (RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,         
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+				   ACTION_FLAG,
+				   RETURN_RATE_FORECAST_INTERFACE_ID)
+        SELECT RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,          
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+					'C',
+					RETURN_RATE_FORECAST_INTERFACE_ID
+        FROM   INSERTED
+  END
+  GO
+
+
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RETURN_RATE_FORECAST_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RETURN_RATE_FORECAST_INS
+  END
+  GO
+
+
+
+CREATE TRIGGER [DBO].[TRG_RETURN_RATE_FORECAST_INS]
+ON [DBO].[RETURN_RATE_FORECAST]
+AFTER INSERT
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   INSERTED)
+         
+        INSERT INTO HIST_RETURN_RATE_FORECAST
+                    (RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,          
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+				   ACTION_FLAG,
+				   RETURN_RATE_FORECAST_INTERFACE_ID)
+        SELECT RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,         
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+				  'A',
+				  RETURN_RATE_FORECAST_INTERFACE_ID
+        FROM   INSERTED
+  END
+  GO
+
+
+
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RETURN_RATE_FORECAST_DEL')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RETURN_RATE_FORECAST_DEL
+  END
+  GO
+
+
+
+CREATE TRIGGER [DBO].[TRG_RETURN_RATE_FORECAST_DEL]
+ON [DBO].[RETURN_RATE_FORECAST]
+AFTER DELETE
+AS
+  BEGIN
+  SET NOCOUNT ON
+      IF EXISTS (SELECT *
+                 FROM   DELETED)
+        INSERT INTO HIST_RETURN_RATE_FORECAST
+                    (RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,          
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+				   ACTION_FLAG,
+				   RETURN_RATE_FORECAST_INTERFACE_ID)
+        SELECT RETURN_RATE_FORECAST_SID,
+					ITEM_MASTER_SID,
+				   ITEM_ID,                 
+				   ITEM_NO,                 
+				   ITEM_NAME,               
+				   FORECAST_YEAR,           
+				   FORECAST_MONTH,          
+				   RATE,                    
+				   FORECAST_NAME,           
+				   FORECAST_VER,            
+				   MODIFIED_BY,             
+				   MODIFIED_DATE,           
+				   CREATED_BY,             
+				   CREATED_DATE,            
+				   INBOUND_STATUS,   
+				   BATCH_ID,                
+				   SOURCE, 
+				   'D',
+				   RETURN_RATE_FORECAST_INTERFACE_ID
+        FROM   DELETED
+  END
+  GO
+
 
 

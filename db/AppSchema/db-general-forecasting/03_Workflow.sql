@@ -19,7 +19,6 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
-
 --PrimaryKey
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.INDEXES

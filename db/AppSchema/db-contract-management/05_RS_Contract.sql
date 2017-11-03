@@ -2364,6 +2364,90 @@ AS
 
 GO
 
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.TRIGGERS
+           WHERE  [NAME] = N'TRG_RS_CONTRACT_DTLS_DYNAMIC_INS')
+  BEGIN
+      DROP TRIGGER DBO.TRG_RS_CONTRACT_DTLS_DYNAMIC_INS
+  END
+
+GO
+
+CREATE TRIGGER [dbo].[TRG_RS_CONTRACT_DTLS_DYNAMIC_INS]
+ON [dbo].[RS_CONTRACT_DETAILS]
+AFTER INSERT
+AS
+  BEGIN
+      SET NOCOUNT ON
+
+      IF Object_id('tempdb..#TEMP_DEDUCTION_HIERARCHY') IS NOT NULL
+        DROP TABLE #TEMP_DEDUCTION_HIERARCHY
+
+      CREATE TABLE #TEMP_DEDUCTION_HIERARCHY
+        (
+           ITEM_MASTER_SID          INT,
+           RS_CONTRACT_SID          INT,
+           REBATE_SCHEDULE_CATEGORY INT,
+           REBATE_SCHEDULE_TYPE     INT,
+           REBATE_PROGRAM_TYPE      INT,
+           UDC1                     INT,
+           UDC2                     INT,
+           UDC3                     INT,
+           UDC4                     INT,
+           UDC5                     INT,
+           UDC6                     INT
+        )
+
+      INSERT INTO #TEMP_DEDUCTION_HIERARCHY
+                  (ITEM_MASTER_SID,
+                   RS_CONTRACT_SID,
+                   REBATE_SCHEDULE_CATEGORY,
+                   REBATE_SCHEDULE_TYPE,
+                   REBATE_PROGRAM_TYPE,
+                   UDC1,
+                   UDC2,
+                   UDC3,
+                   UDC4,
+                   UDC5,
+                   UDC6)
+      SELECT a.ITEM_MASTER_SID,
+             A.RS_CONTRACT_SID,
+             rs.RS_CATEGORY,
+             rs.RS_TYPE,
+             rs.REBATE_PROGRAM_TYPE,
+             U.UDC1,
+             U.UDC2,
+             U.UDC3,
+             U.UDC4,
+             U.UDC5,
+             U.UDC6
+      FROM   INSERTED A
+             JOIN RS_CONTRACT rs
+               ON rs.RS_CONTRACT_SID = a.RS_CONTRACT_SID AND RS.INBOUND_STATUS<>'D'
+             LEFT JOIN UDCS U
+                    ON U.MASTER_SID = A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+
+      -------------------------Procedure Call ---------------------------------------
+      IF @@ROWCOUNT > 0
+        BEGIN
+            BEGIN TRY
+                BEGIN TRANSACTION
+
+                EXEC Prc_deduction_hierarchy_dynamic_add --DEDUCTION
+                COMMIT
+            END TRY
+
+            BEGIN CATCH
+                IF @@TRANCOUNT <> 0
+                  ROLLBACK
+            END CATCH
+        END
+  END
+GO
+
+
+
 -----------------------------------------------RS_CONTRACT_DETAILS_FR------------------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.TABLES
@@ -2696,3 +2780,202 @@ IF NOT EXISTS(SELECT 1
     ADD CONSTRAINT PK_IMTD_RS_CONTRACT_DETAILS_FR_IMTD_RS_CONTRACT_DETAILS_FR_SID PRIMARY KEY(IMTD_RS_CONTRACT_DETAILS_FR_SID)
 
 GO 
+----------------------------------------------RS_CONTRACT_DETAILS_PENDING-----------------------------------------------
+IF NOT EXISTS (
+                                SELECT 'X'
+                                FROM INFORMATION_SCHEMA.TABLES
+                                WHERE TABLE_NAME = 'RS_CONTRACT_DETAILS_PENDING'
+                                                AND TABLE_SCHEMA = 'DBO'
+                                )
+BEGIN
+                CREATE TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING] (
+                                RS_CONTRACT_DETAILS_PENDING_SID INT IDENTITY(1,1) NOT NULL,
+                RS_CONTRACT_SID INT NOT NULL,
+                ITEM_MASTER_SID INT NOT NULL,
+                ITEM_REBATE_START_DATE DATETIME NOT NULL,
+                ITEM_REBATE_END_DATE DATETIME NULL,
+                FORMULA_ID INT NULL,
+                REBATE_PLAN_MASTER_SID INT NULL,
+                RS_CONTRACT_ATTACHED_STATUS INT NULL,
+                RS_CONTRACT_ATTACHED_DATE DATETIME NULL,
+                REBATE_AMOUNT NUMERIC(22, 6) NULL,
+                BUNDLE_NO VARCHAR(25) NULL,
+                FORMULA_METHOD_ID VARCHAR(50) NULL,
+                INBOUND_STATUS CHAR(1) NOT NULL,
+                RECORD_LOCK_STATUS BIT NOT NULL,
+                BATCH_ID VARCHAR(50) NULL,
+                SOURCE VARCHAR(50) NULL,
+                CREATED_BY INT NOT NULL,
+                CREATED_DATE DATETIME NOT NULL,
+                MODIFIED_BY INT NOT NULL,
+                MODIFIED_DATE DATETIME NOT NULL,
+                DEDUCTION_CALENDAR_MASTER_SID INT NULL,
+                NET_SALES_FORMULA_MASTER_SID INT NULL,
+                FORMULA_TYPE NUMERIC(22, 6) NULL,
+                NET_SALES_RULE INT NULL,
+                EVALUATION_RULE INT NULL,
+                EVALUATION_RULE_BUNDLE VARCHAR(100) NULL,
+                CALCULATION_RULE INT NULL,
+                CALCULATION_RULE_BUNDLE VARCHAR(100) NULL,
+  CHECK_RECORD   BIT
+                                )
+END
+GO
+
+----------------------PRIMARY KEY---------------------------------
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_RS_CONTRACT_DETAILS_PENDING_RS_CONTRACT_DETAILS_PENDING_SID'
+                     AND TABLE_NAME = 'RS_CONTRACT_DETAILS_PENDING')
+  BEGIN
+      ALTER TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING]
+        ADD CONSTRAINT PK_RS_CONTRACT_DETAILS_PENDING_RS_CONTRACT_DETAILS_PENDING_SID PRIMARY KEY(RS_CONTRACT_DETAILS_PENDING_SID)
+  END
+
+GO
+
+-------------------------   DEFAULT_CONSTRAINTS --------------------------
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_CONTRACT_DETAILS_PENDING')
+                      AND NAME = 'DF_RS_CONTRACT_DETAILS_PENDING_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_RS_CONTRACT_DETAILS_PENDING_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_CONTRACT_DETAILS_PENDING')
+                      AND NAME = 'DF_RS_CONTRACT_DETAILS_PENDING_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_RS_CONTRACT_DETAILS_PENDING_CREATED_DATE] DEFAULT (GETDATE()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_CONTRACT_DETAILS_PENDING')
+                      AND NAME = 'DF_RS_CONTRACT_DETAILS_PENDING_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_RS_CONTRACT_DETAILS_PENDING_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = OBJECT_ID('DBO.RS_CONTRACT_DETAILS_PENDING')
+                      AND NAME = 'DF_RS_CONTRACT_DETAILS_PENDING_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[RS_CONTRACT_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_RS_CONTRACT_DETAILS_PENDING_MODIFIED_DATE] DEFAULT (GETDATE()) FOR MODIFIED_DATE
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'RS_CONTRACT_DETAILS_PENDING'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+                  JOIN SYS.TABLES T
+                    ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+                  AND NOT EXISTS (SELECT 1
+                                  FROM   SYS.INDEXES
+                                  WHERE  S.NAME = NAME)
+                  AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+                  AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT OBJECT_NAME(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               SCHEMA_NAME(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+               JOIN SYS.TABLES T
+                 ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+               AND NOT EXISTS (SELECT 1
+                               FROM   SYS.INDEXES
+                               WHERE  S.NAME = NAME)
+               AND OBJECT_NAME(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+               AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QUOTENAME(@SCHEMANAME)
+                       + '.' + QUOTENAME(@TABLENAME) + '.'
+                       + QUOTENAME(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC SP_EXECUTESQL
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QUOTENAME(C.NAME)
+         + ' ON ' + QUOTENAME(SCHEMA_NAME(SCHEMA_ID))
+         + '.' + QUOTENAME(T.NAME) + ' ('
+         + QUOTENAME(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+         JOIN SYS.COLUMNS C
+           ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT 1
+                     FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                            INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC
+                                    ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE  CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = SCHEMA_NAME(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+         AND NOT EXISTS (SELECT 1
+                         FROM   SYS.STATS S
+                         WHERE  S.OBJECT_ID = C.OBJECT_ID
+                                AND S.NAME = C.NAME)
+         AND T.NAME = @TABLENAME1 -- TABLE NAME
+        AND SCHEMA_NAME(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC SP_EXECUTESQL
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO

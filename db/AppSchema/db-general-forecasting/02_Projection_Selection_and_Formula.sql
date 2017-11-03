@@ -27,7 +27,49 @@ IF NOT EXISTS(SELECT 1
   END
 GO 
 
+--------------------------------
+INSERT INTO NM_PROJECTION_SELECTION (
+       PROJECTION_MASTER_SID
+       ,SCREEN_NAME
+       ,FIELD_NAME
+       ,FIELD_VALUES
+       )
+SELECT DISTINCT pd.PROJECTION_MASTER_SID
+       , 'Discount Projection'
+       , 'DeductionLevelValue' FIELD_NAME
+       ,STUFF((
+                                  SELECT DISTINCT ', ' + CONVERT(VARCHAR(max), RS_CATEGORY)
+                                  FROM RS_CONTRACT RC
+                                  WHERE RC.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+                                  FOR XML PATH('')
+                                         ,TYPE
+                                  ).value('.', 'NVARCHAR(MAX)'), 1, 2, '')
+              FIELD_VALUES
+FROM PROJECTION_DETAILS PD
+JOIN NM_DISCOUNT_PROJ_MASTER NDP ON NDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+WHERE not EXISTS(SELECT 1 FROM  NM_PROJECTION_SELECTION NPS
+              WHERE  NPS.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                     AND NPS.SCREEN_NAME = 'DISCOUNT PROJECTION'
+                     AND NPS.FIELD_NAME = 'DEDUCTIONLEVELVALUE')
+              
 
+INSERT INTO NM_PROJECTION_SELECTION (
+       PROJECTION_MASTER_SID
+       ,SCREEN_NAME
+       ,FIELD_NAME
+       ,FIELD_VALUES
+       )
+SELECT DISTINCT pd.PROJECTION_MASTER_SID
+       , 'Discount Projection'
+       , 'DeductionLevel' FIELD_NAME
+       ,1 as FIELD_VALUES
+FROM PROJECTION_DETAILS PD
+JOIN NM_DISCOUNT_PROJ_MASTER NDP ON NDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+WHERE not EXISTS(SELECT 1 FROM  NM_PROJECTION_SELECTION NPS
+              WHERE  NPS.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                     AND NPS.SCREEN_NAME = 'DISCOUNT PROJECTION'
+                     AND NPS.FIELD_NAME = 'DeductionLevel' )
+----------------------------------------------------------
 ------------------------------------------------------------- PERIOD ------------------------------------------------
 
 IF NOT EXISTS (SELECT 'X'

@@ -133,7 +133,7 @@ IF EXISTS(SELECT 1
                   OR SAVE_FLAG = 0)
   BEGIN
       DELETE FROM M_ACTUAL_DISCOUNT
-         WHERE  SAVE_FLAG = 0
+       WHERE  SAVE_FLAG = 0
               OR SAVE_FLAG IS NULL
   END
   GO

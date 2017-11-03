@@ -30,7 +30,6 @@ AS
   ** VER   Date      Ticket No         Author          Description 
   ** ---   --------  ---------        -------------    -----------------------------
   ** 1    07/26/2017  GAL-12236      @SandeepKumar     Contract Details information setup for the Tx-3 AND Tx-7.
-  ** 1    10/16/2017  GAL-12531      @SandeepKumar     Contract Details information setup for the Tx-3.  
   *********************************************************************************************************/
   BEGIN
       SET NOCOUNT ON
@@ -138,7 +137,7 @@ AS
             )
 
           DECLARE @rate_ident NVARCHAR(max)
-----GAL-12531 ---REMOVED TH CCP DETAILS CONDITION
+
           IF EXISTS (SELECT *
                      FROM   DBO.HELPER_TABLE
                      WHERE  DESCRIPTION = 'TRANSACTION 3 - PIPELINE INVENTORY TRUE-UP'
@@ -158,7 +157,8 @@ AS
                                           ARM_DET.RS_MODEL_SID 
                                           FROM  ', @INVENTORY_TABLE, ' INVEN
                                    JOIN ARM_ADJUSTMENT_DETAILS ARM_DET ON ARM_DET.PROJECTION_MASTER_SID = INVEN.PROJECTION_MASTER_SID
-                                   JOIN CCP_DETAILS CD ON INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID								   
+                                   JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = ARM_DET.CCP_DETAILS_SID
+                                   AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
 								   GROUP BY ARM_DET.ARM_ADJUSTMENT_DETAILS_SID,
                                           INVEN.PROJECTION_MASTER_SID,
                                           ARM_DET.CCP_DETAILS_SID,
@@ -188,8 +188,7 @@ AS
 								  FROM  ', @ARM_DISTRIBUTION_FEES_SALES_TABLE, ' INVEN
                                   JOIN ARM_ADJUSTMENT_DETAILS ARM_DET ON ARM_DET.PROJECTION_MASTER_SID = INVEN.PROJECTION_MASTER_SID
                                   JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = ARM_DET.CCP_DETAILS_SID
-                                  AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
-								  AND INVEN.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID')
+                                  AND INVEN.ITEM_MASTER_SID = CD.ITEM_MASTER_SID')
             END
 
           EXEC Sp_executesql
@@ -357,8 +356,7 @@ AS
                      NET_CALCULATED_SALES       NUMERIC(22, 6) NULL,
                      NET_UNITS                  NUMERIC(22, 6) NULL,
                      SALES_PROJECTED_VALUE      NUMERIC(22, 6) NULL,
-                     CALCULATION_TYPE           VARCHAR(50) NULL,
-					 SUM_PROJECTION             NUMERIC(22, 6) NULL----GAL-12531
+                     CALCULATION_TYPE           VARCHAR(50) NULL
                      PRIMARY KEY (ARM_ADJUSTMENT_DETAILS_SID)
                   );
 
@@ -650,14 +648,14 @@ AS
                                 PROJECTION_REBATE_PER_UNIT= ( AMOUNT / NULLIF(NET_UNITS, 0) ),
                                 NET_CALCULATED_SALES,
 								NET_UNITS,
-                                SALES_PROJECTED_VALUE,SUM_PROJECTION----GAL-12531
+                                SALES_PROJECTED_VALUE
                          FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                         RS_MODEL_SID,
                                         PERIOD_SID,
                                         AMOUNT,
                                         NET_CALCULATED_SALES,
 										NET_UNITS,
-                                        SALES_PROJECTED_VALUE,SUM_PROJECTION--------GAL-12531
+                                        SALES_PROJECTED_VALUE
                                  FROM   (SELECT ARM_ADJUSTMENT_DETAILS_SID,
                                                 RS_MODEL_SID,
                                                 PERIOD_SID,
@@ -669,7 +667,7 @@ AS
                                                 NET_CALCULATED_SALES,
 												NET_UNITS,
                                                 SALES_PROJECTED_VALUE,
-                                                REBATE_STRUCTURE,SUM_PROJECTION----GAL-12531
+                                                REBATE_STRUCTURE
                                          FROM   AGGREGATION
                                          WHERE  RN = 1)B)A)
                 INSERT INTO #CONTRACT_DETAILS1
@@ -682,7 +680,7 @@ AS
                              NET_CALCULATED_SALES,
                              NET_UNITS,
                              SALES_PROJECTED_VALUE,
-                             CALCULATION_TYPE,SUM_PROJECTION)--------GAL-12531
+                             CALCULATION_TYPE)
                 SELECT ARM_ADJUSTMENT_DETAILS_SID,
                        RS_MODEL_SID,
                        ISNULL(PERIOD_SID, ', @PROJECTION_START_PERIOD_SID, '),
@@ -692,49 +690,23 @@ AS
                        ISNULL(NET_CALCULATED_SALES, 0),
                        ISNULL(NET_UNITS, 0),
                        ISNULL(SALES_PROJECTED_VALUE, 0),
-                       ''REBATE PLAN'',SUM_PROJECTION--------GAL-12531
+                       ''REBATE PLAN''
                 FROM   CONTRACT_DETAILS')
 
                       EXEC Sp_executesql
                         @SQL
-						----GAL-12531
-						IF EXISTS (SELECT *
-                                   FROM   DBO.HELPER_TABLE
-                                   WHERE  DESCRIPTION = 'TRANSACTION 3 - PIPELINE INVENTORY TRUE-UP'
-                                          AND LIST_NAME = 'ARM_TRX_METHDOLOGY'
-                                          AND @MODULE = DESCRIPTION)
-                          BEGIN
-                              SELECT ARM_ADJUSTMENT_DETAILS_SID,
-                                     RS_MODEL_SID,
-                                     PERIOD_SID,
-                                     PROJECTION_AMOUNT,
-                                     SUM_PROJECTION*100 PROJECTION_RATE,
-                                     PROJECTION_REBATE_PER_UNIT,
-                                     NET_CALCULATED_SALES,
-                                     NET_UNITS,
-                                     SALES_PROJECTED_VALUE,
-                                     CALCULATION_TYPE
-                              FROM   #CONTRACT_DETAILS1
-                          END 
-                        IF EXISTS (SELECT *
-                                   FROM   DBO.HELPER_TABLE
-                                   WHERE  LIST_NAME = 'ARM_TRX_METHDOLOGY'
-                                          AND DESCRIPTION = 'TRANSACTION 7 - DISTRIBUTION FEES'
-                                          AND @MODULE = DESCRIPTION)
-                          BEGIN
-                              SELECT ARM_ADJUSTMENT_DETAILS_SID,
-                                     RS_MODEL_SID,
-                                     PERIOD_SID,
-                                     PROJECTION_AMOUNT,
-                                     PROJECTION_RATE,
-                                     PROJECTION_REBATE_PER_UNIT,
-                                     NET_CALCULATED_SALES,
-                                     NET_UNITS,
-                                     SALES_PROJECTED_VALUE,
-                                     CALCULATION_TYPE
-                              FROM   #CONTRACT_DETAILS1
-                          END 
-                        
+
+                      SELECT ARM_ADJUSTMENT_DETAILS_SID,
+                             RS_MODEL_SID,
+                             PERIOD_SID,
+                             PROJECTION_AMOUNT,
+                             PROJECTION_RATE,
+                             PROJECTION_REBATE_PER_UNIT,
+                             NET_CALCULATED_SALES,
+                             NET_UNITS,
+                             SALES_PROJECTED_VALUE,
+                             CALCULATION_TYPE
+                      FROM   #CONTRACT_DETAILS1
                   END
             END
       END TRY
@@ -765,4 +737,3 @@ AS
           );
       END CATCH
   END
-GO

@@ -41,7 +41,6 @@ AS
 ** ---   --------  ---------        -------------    -----------------------------
 ** 1    11/08/2016  GAL-8283        @Ajay             Temp table Changes.
 ** 2	08/07/2017  GAL-12264       @Kishore Kumar	  MI003 - Unqualified column name
-** 3    26/10/2017  GAL-12644       @AjayNaidu        PUlling exfactory latest price changes
 *********************************************************************************************************/
 BEGIN
 	SET NOCOUNT ON
@@ -327,10 +326,8 @@ BEGIN
 					ITEM_MASTER_SID
 					,PRICE
 					)
-					SELECT A.ITEM_MASTER_SID,A.PRICE FROM (
 				SELECT B.ITEM_MASTER_SID
 					,A.PRICE
-					,ROW_NUMBER() OVER(PARTITION BY  FORECAST_YEAR,FORECAST_MONTH,NDC ORDER BY CREATED_DATE DESC) AS RN
 				FROM FORECASTING_MASTER A
 				INNER JOIN #TEMP_ARM_PROJ_ITEM B ON A.NDC = B.ITEM_ID
 				WHERE A.FORECAST_MONTH = @PRICE_MONTH
@@ -339,7 +336,7 @@ BEGIN
 					AND A.FORECAST_VER IN (
 						@FORECAST_VERSION_EXFACTORY
 						,FLOOR(@FORECAST_VERSION_EXFACTORY)
-						)) A WHERE A.RN=1
+						)
 					-- Price Period select in UI greater than getdate() pulling price from exfactory ends here 
 			END
 
@@ -467,3 +464,4 @@ BEGIN
 				);
 	END CATCH
 END
+GO
