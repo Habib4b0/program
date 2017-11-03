@@ -520,8 +520,7 @@ FROM   '+@PHS_ACTUAL_TABLE+' pp
                                   ON A.NA_PROJ_DETAILS_SID = B.NA_PROJ_DETAILS_SID)
 								 
           UPDATE IP
-		  SET    IP.PROJECTION_PRICE = IIF(IP.ACTUAL_PRICE=0, A.ITEM_PRICE,IP.ACTUAL_PRICE)--CEL-1933
-          --SET    IP.PROJECTION_PRICE = A.ITEM_PRICE
+          SET    IP.PROJECTION_PRICE = A.ITEM_PRICE
           FROM   #ITEM_PRICING IP
                  INNER JOIN (SELECT ITEM_MASTER_SID,
                                     PERIOD_SID,

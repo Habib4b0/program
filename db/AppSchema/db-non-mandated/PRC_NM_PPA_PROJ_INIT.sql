@@ -183,16 +183,7 @@ AS
           FROM  CCP_DETAILS CD JOIN ', @S_MASTER_TABLE, ' S ON S.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
                      WHERE EXISTS (
 				   SELECT 1 FROM ', @MASTER_TABLE, ' S WHERE CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID)
-				
-				   ', 'AND EXISTS (
-				  SELECT 1 FROM ', @PROJECTION_TABLE, ' S
-				  LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=S.NET_BASE_PRICE
-				  LEFT JOIN HELPER_TABLE HT1 ON HT1.HELPER_TABLE_SID=S.NET_SUBSEQUENT_PERIOD_PRICE
-				  LEFT JOIN HELPER_TABLE HT2 ON HT2.HELPER_TABLE_SID=S.NET_RESET_PRICE_TYPE
-				  LEFT JOIN HELPER_TABLE HT3 ON HT3.HELPER_TABLE_SID=S.NET_PRICE_TYPE
-				  LEFT JOIN HELPER_TABLE HT4 ON HT4.HELPER_TABLE_SID=S.RESET_ELIGIBLE 
-				  LEFT JOIN HELPER_TABLE HT5 ON HT5.HELPER_TABLE_SID=S.RESET_TYPE
-				   WHERE CD.CCP_DETAILS_SID = S.CCP_DETAILS_SID )')
+				')
       END
 
       EXEC Sp_executesql
@@ -221,7 +212,8 @@ AS
            PRICE_PROTECTION_STATUS     INT,
            CAL_START_DATE              DATE,
            CAL_END_DATE                DATE,
-           REBATE_FREQUENCY            VARCHAR(100)
+           REBATE_FREQUENCY            VARCHAR(100),
+		   PPA_INDEX_NO				   INT
         );
 
       SET @SQL = Concat ('  INSERT INTO #TEMP_NM_PPA_PROJECTION_MASTER 
@@ -237,8 +229,8 @@ AS
                        CAL_START_DATE, 
                        CAL_END_DATE, 
                        REBATE_FREQUENCY, 
-                       RS_CONTRACT_SID) 
-          SELECT ROW_NUMBER () OVER (ORDER BY A.CCP_DETAILS_SID, A.RS_CONTRACT_SID), 
+                       RS_CONTRACT_SID,PPA_INDEX_NO) 
+          SELECT ROW_NUMBER () OVER (ORDER BY A.CCP_DETAILS_SID, A.RS_CONTRACT_SID,PPA_INDEX_NO), 
                  A.CCP_DETAILS_SID, 
                  C.CONTRACT_MASTER_SID, 
                  C.COMPANY_MASTER_SID, 
@@ -248,11 +240,8 @@ AS
                  A.PRICE_PROTECTION_END_DATE, 
                  A.PRICE_PROTECTION_STATUS, 
                  IIF(PROJ_START_DATE > PRICE_PROTECTION_START_DATE, PROJ_START_DATE, PRICE_PROTECTION_START_DATE) AS CAL_START_DATE 
-                 , 
-                 IIF(PROJ_END_DATE < PRICE_PROTECTION_END_DATE, PROJ_END_DATE, PRICE_PROTECTION_END_DATE) AS CAL_END_DATE 
-                 , 
-                 HT.DESCRIPTION, 
-                 A.RS_CONTRACT_SID 
+                 ,IIF(PROJ_END_DATE < PRICE_PROTECTION_END_DATE, PROJ_END_DATE, PRICE_PROTECTION_END_DATE) AS CAL_END_DATE 
+                 ,HT.DESCRIPTION,A.RS_CONTRACT_SID,PPA_INDEX_NO 
           FROM   ', @MASTER_TABLE, ' A 
                  JOIN CCP_DETAILS C 
                    ON C.CCP_DETAILS_SID = A.CCP_DETAILS_SID 
@@ -626,7 +615,8 @@ AS
            PRICE_PROTECTION_STATUS             INT,
            CAL_START_DATE                      DATE,
            CAL_END_DATE                        DATE,
-           REBATE_FREQUENCY                    VARCHAR(100)
+           REBATE_FREQUENCY                    VARCHAR(100),
+		   PPA_INDEX_NO						INT
         )
 
       CREATE NONCLUSTERED INDEX IDX_1
@@ -699,13 +689,15 @@ AS
                        T_MAS.PRICE_PROTECTION_STATUS, 
                        T_MAS.CAL_START_DATE, 
                        T_MAS.CAL_END_DATE, 
-                       T_MAS.REBATE_FREQUENCY
+                       T_MAS.REBATE_FREQUENCY,
+					   T_MAS.PPA_INDEX_NO
 
 
 				
 			FROM  ', @CONTRACT_SETUP, '  SNP
 			JOIN #TEMP_NM_PPA_PROJECTION_MASTER T_MAS ON T_MAS.CCP_DETAILS_SID = SNP.CCP_DETAILS_SID
 				AND T_MAS.RS_CONTRACT_SID = SNP.RS_CONTRACT_SID
+				AND T_MAS.PPA_INDEX_NO = SNP.PPA_INDEX_NO
 			LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON IPQ.ITEM_PRICING_QUALIFIER_SID = SNP.ITEM_PRICING_QUALIFIER_SID
 			LEFT JOIN ITEM_PRICING_QUALIFIER IPQ1 ON IPQ1.ITEM_PRICING_QUALIFIER_SID = SNP.BASE_PRICE_PRICE_TYPE
 			left join #period p on p.period_date = T_MAS.PRICE_PROTECTION_START_DATE
@@ -774,7 +766,8 @@ INSERT INTO #TEMP_NM_PPA_PROJECTION
              PRICE_PROTECTION_STATUS,
              CAL_START_DATE,
              CAL_END_DATE,
-             REBATE_FREQUENCY)
+             REBATE_FREQUENCY,
+			 PPA_INDEX_NO)
 SELECT CCP_DETAILS_SID,
        RS_CONTRACT_SID,
        ITEM_PRICING_QUALIFIER_SID,
@@ -810,7 +803,8 @@ SELECT CCP_DETAILS_SID,
        PRICE_PROTECTION_STATUS,
        CAL_START_DATE,
        CAL_END_DATE,
-       REBATE_FREQUENCY
+       REBATE_FREQUENCY,
+	   PPA_INDEX_NO
 FROM   RPU_CAL 
 ');
 
@@ -884,7 +878,8 @@ FROM   RPU_CAL
                       PRICE_TOL_INT  varchar(100),
                       PRICE_TOL_TYPE   varchar(100),
                       REBATE_FREQUENCY varchar(100),
-                      CCP_DETAILS_SID int
+                      CCP_DETAILS_SID int,
+					  PPA_INDEX_NO INT
 					  )
 
           insert into ' + @ST_NM_PPA_SETUP + '
@@ -905,7 +900,8 @@ FROM   RPU_CAL
                       PRICE_TOL_INT = TN.PRICE_TOLERANCE_INTERVAL,
                       PRICE_TOL_TYPE = TN.PRICE_TOLERANCE_TYPE,
                       TN.REBATE_FREQUENCY,
-                      TN.CCP_DETAILS_SID
+                      TN.CCP_DETAILS_SID,
+					  PPA_INDEX_NO
       FROM   #TEMP_NM_PPA_PROJECTION TN
              JOIN #PERIOD P
                ON P.PERIOD_DATE = DATEADD(MM, DATEDIFF(MM, 0, TN.CAL_START_DATE), 0)
@@ -919,7 +915,6 @@ FROM   RPU_CAL
 
       EXEC Sp_executesql
         @SQL;
-
       --------------taking the price infor based on the rebate frequency----------------------
       IF Object_id('TEMPDB..#TEMP_WAC_PRICES') IS NOT NULL
         DROP TABLE #TEMP_WAC_PRICES
@@ -945,7 +940,7 @@ FROM   RPU_CAL
       CREATE NONCLUSTERED INDEX IDX_TEMP_WAC_PRICES
         ON #TEMP_WAC_PRICES ( ITEM_MASTER_SID, PERIOD_SID );
 
-      EXEC(';
+      SET @SQL= ';
       WITH CTE
            AS (SELECT T2.CONTRACT_MASTER_SID,
        T2.RS_CONTRACT_SID,
@@ -959,7 +954,7 @@ FROM   RPU_CAL
        T2.REBATE_FREQUENCY,
        Row_number()
          OVER (
-           PARTITION BY T2.CONTRACT_MASTER_SID, T2.ITEM_MASTER_SID, T2.RS_CONTRACT_SID
+           PARTITION BY T2.CONTRACT_MASTER_SID, T2.ITEM_MASTER_SID, T2.RS_CONTRACT_SID,T2.PPA_INDEX_NO
            ORDER BY I.PERIOD_SID ) RN
 FROM   #ITEM_WAC_PRICES I
        JOIN (SELECT DISTINCT T2.CONTRACT_MASTER_SID,
@@ -967,7 +962,7 @@ FROM   #ITEM_WAC_PRICES I
                              ITEM_MASTER_SID,
                              T2.CAL_START_DATE,
                              T2.CAL_END_DATE,
-                             T2.REBATE_FREQUENCY
+                             T2.REBATE_FREQUENCY,PPA_INDEX_NO
              FROM   '+@ST_NM_PPA_SETUP+' T2) t2
          ON I.ITEM_MASTER_SID = T2.ITEM_MASTER_SID
 WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
@@ -1008,7 +1003,10 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
       FROM   CTE3 C
              JOIN #PERIOD P
                ON P.PERIOD_SID = C.PERIOD_SID
-      WHERE  REBATE_FREQ = 1')
+      WHERE  REBATE_FREQ = 1'
+	    EXEC Sp_executesql
+        @SQL;
+		;
 
       ------------------------combining the reset information, ccp+D period wise information and price information in single temp table so for the future this will be used in calculated-------------------------------------------
       IF Object_id('TEMPDB..#REC_USED_TABLE') IS NOT NULL
@@ -1065,6 +1063,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
              NEP_RESULT = Cast(0 AS NUMERIC(22, 6)),
              WAC_RESULT = Cast(0 AS NUMERIC(22, 6))
 			 ,NEP              AS INITIAL_NEP-----------CEL-1465
+			 ,T.PPA_INDEX_NO
       INTO   #REC_USED_TABLE
       FROM   #TEMP_NM_PPA_PROJECTION T
              JOIN #period p1
@@ -1112,11 +1111,11 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
       WITH CTE
            AS (SELECT ( Row_number()
                           OVER (
-                            PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                            PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                             ORDER BY PERIOD_SID ) - 1 ) + 1                                            AS hard_reset_periods,
                       ( ( Row_number()
                             OVER (
-                              PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                              PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                               ORDER BY PERIOD_SID ) - 1 ) % ( CASE LEFT(A.PRICE_TOLERANCE_FREQUENCY, 1)
                                                                 WHEN 'M' THEN 1
                                                                 WHEN 'Q' THEN 3
@@ -1139,12 +1138,12 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                FROM   (SELECT T.*,
                               CASE
                                 WHEN T.RESET_ELIGIBLE = 'YES'
-                                     AND T.RESET_TYPE = 'EFFECTIVE DATE' THEN Sum(CASE WHEN T.RESET_DATE = P.PERIOD_DATE THEN 1 ELSE 0 END) OVER ( PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID ORDER BY T.PERIOD_SID )
+                                     AND T.RESET_TYPE = 'EFFECTIVE DATE' THEN Sum(CASE WHEN T.RESET_DATE = P.PERIOD_DATE THEN 1 ELSE 0 END) OVER ( PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO ORDER BY T.PERIOD_SID )
                                                                               + 1
                                 WHEN T.RESET_ELIGIBLE = 'YES'
                                      AND T.RESET_TYPE = 'INTERVAL FREQUENCY' THEN ( ( Row_number()
                                                                                         OVER (
-                                                                                          PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID
+                                                                                          PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO
                                                                                           ORDER BY P.PERIOD_SID ) - 1 ) / ( CASE LEFT(T.RESET_FREQUENCY, 1)
                                                                                                                               WHEN 'M' THEN 1
                                                                                                                               WHEN 'Q' THEN 3
@@ -1172,7 +1171,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                                                        END + 1 <> 1 THEN 0
                    ELSE 1
                  END)
-               OVER(
+               OVER( PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO
                  ORDER BY PERIOD_SID)               TTE,
              *,--CHANGE 3 TO FREQUENCT CASE STATEMENT 
              NEW_WAC_PRICE_VALUE = CASE
@@ -1191,7 +1190,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
            AS (SELECT *,
                       Row_number()
                         OVER (
-                          PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                          PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                           ORDER BY PERIOD_SID ) FIRST_PERIOD
                FROM   #RESULT_PREW RP
                WHERE  RESET_PERIODS_RN = 1
@@ -1211,10 +1210,10 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                  WHEN SUBSEQUENT_PERIOD_PRICE_TYPE IN ( 'BQWAC', 'EQWAC', 'AVGQWAC', 'MQWAC', 'WAC' ) THEN SUBSEQUENT_PERIOD_PRICE
                  ELSE Iif(RESET_GRP = 1, Iif(NULLIF(INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, INITIAL_NEP, BASE_PRICE_TYPE), First_value(RESET_PRICE_VALUE)
                                                                                                                   OVER (
-                                                                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                                                                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                                                                                                                     ORDER BY PERIOD_SID )) + ( Sum(PRICE_TOLERANCE)
                                                                                                                                                  OVER (
-                                                                                                                                                   PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                                                                                                                                                   PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, PPA_INDEX_NO,RESET_GRP
                                                                                                                                                    ORDER BY PERIOD_SID ) - Iif(NULLIF(INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, PRICE_TOLERANCE, 0) )
                END
              WHEN LEFT(PRICE_TOLERANCE_TYPE, 1) = 'P' THEN
@@ -1222,12 +1221,13 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                  WHEN SUBSEQUENT_PERIOD_PRICE_TYPE IN ( 'BQWAC', 'EQWAC', 'AVGQWAC', 'MQWAC', 'WAC' ) THEN SUBSEQUENT_PERIOD_PRICE
                  ELSE Iif(RESET_GRP = 1, Iif(NULLIF(INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, INITIAL_NEP, BASE_PRICE_TYPE), First_value(RESET_PRICE_VALUE)
                                                                                                                   OVER (
-                                                                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                                                                                                                    PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                                                                                                                     ORDER BY PERIOD_SID )) * Power(( 1 + PRICE_TOLERANCE / 100.0 ), FIRST_PERIOD - Iif(NULLIF(INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, 1, 0))
                END
            END AS NEP_WITHOUT_NETTING
     INTO   #NEP_RESULT
-    FROM   CTE---------------CEL-1465
+    FROM   CTE
+	---------------CEL-1465
 	/*      SELECT *,
              CASE
                WHEN LEFT(PRICE_TOLERANCE_TYPE, 1) = 'D' THEN
@@ -1248,6 +1248,8 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
       INTO   #NEP_RESULT
       FROM   CTE
 	  */
+
+
       ----------the following temp table will identify ccp+d who having the reset type violation date only and calculate NEP values for period wise based on the ppa setup -----
       IF EXISTS (SELECT 1
                  FROM   #TEMP_NM_PPA_PROJECTION
@@ -1262,14 +1264,15 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
               (
                  CCP_DETAILS_SID INT,
                  RS_CONTRACT_SID INT,
-                 PERIOD_SID      INT
+                 PERIOD_SID      INT,
+				 PPA_INDEX_NO    INT
               )
 
-            EXEC('Insert into #BEFORE_WAC(CCP_DETAILS_SID,
-             RS_CONTRACT_SID,PERIOD_SID)
+            SET @SQL= 'Insert into #BEFORE_WAC(CCP_DETAILS_SID,
+             RS_CONTRACT_SID,PERIOD_SID,PPA_INDEX_NO)
       SELECT CCP_DETAILS_SID,
              RS_CONTRACT_SID,
-             MAX(PERIOD_SID) AS PERIOD_SID
+             MAX(PERIOD_SID) AS PERIOD_SID,PPA_INDEX_NO
       FROM   (SELECT C.CCP_DETAILS_SID,
                      RS_CONTRACT_SID,
                      PERIOD_SID,
@@ -1288,18 +1291,22 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                                                                       END * C.PRICE_TOL_INT ) + 1
                          END)
                        OVER(
-                         PARTITION BY C.CCP_DETAILS_SID, RS_CONTRACT_SID)                         AS PROJ_STAT_GRP
+                         PARTITION BY C.CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO)                         AS PROJ_STAT_GRP,PPA_INDEX_NO
               FROM   #PERIOD P
                      JOIN '+@ST_NM_PPA_SETUP+' C
+					 ON P.PERIOD_SID >= C.PRICE_PROTECTION_START_DATE
+                          AND P.PERIOD_SID <= C.PRICE_PROTECTION_END_DATE
                           JOIN #PROJECTION_DATES PD
                             ON C.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-                       ON P.PERIOD_SID >= C.PRICE_PROTECTION_START_DATE
-                          AND P.PERIOD_SID <= C.PRICE_PROTECTION_END_DATE
+                       
               WHERE  C.RESET_TYPE = ''VIOLATION_DATE''
                      AND C.RESET_ELIGIBLE = ''YES'') A
       WHERE  GRP <= PROJ_STAT_GRP
       GROUP  BY CCP_DETAILS_SID,
-                RS_CONTRACT_SID')
+                RS_CONTRACT_SID,PPA_INDEX_NO'
+
+			EXEC Sp_Executesql @SQL
+					
             ----------for the projeciton periods we need to calcualte the nep, but when ever nep>wac(price protectyion violation) occurs the next period has to be reset, hence at the reset period  both the nep and wac has to be reset irrespective of price tolerance variables--------------
             ----------so based on that logic we need to use recurssive cte for the calculation----------------------
             IF Object_id('tempdb..#VIOLATION_NEP_RESULT') IS NOT NULL
@@ -1309,16 +1316,17 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                  AS (SELECT *,
                             Row_number()
                               OVER (
-                                PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, RESET_GRP
+                                PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO, RESET_GRP
                                 ORDER BY PERIOD_SID ) FIRST_PERIOD
                      FROM   #RESULT_PREW RP
                      WHERE  RESET_PERIODS_RN = 1
                           AND EXISTS(SELECT 1
-                                     FROM   #TEMP_NM_PPA_PROJECTION th
-                                     WHERE  th.RESET_TYPE = 'VIOLATION DATE'
-                                            AND th.RESET_ELIGIBLE = 'YES'
-                                            AND rp.CCP_DETAILS_SID = th.CCP_DETAILS_SID
-                                            AND rp.RS_CONTRACT_SID = th.RS_CONTRACT_SID))---------CEL-1465
+                                     FROM   #TEMP_NM_PPA_PROJECTION TH
+                                     WHERE  TH.RESET_TYPE = 'VIOLATION DATE'
+                                            AND TH.RESET_ELIGIBLE = 'YES'
+                                            AND RP.CCP_DETAILS_SID = TH.CCP_DETAILS_SID
+                                            AND RP.RS_CONTRACT_SID = TH.RS_CONTRACT_SID
+											AND RP.PPA_INDEX_NO=TH.PPA_INDEX_NO))---------CEL-1465
           SELECT C.*,
                  CASE
                    WHEN LEFT(c.PRICE_TOLERANCE_TYPE, 1) = 'D' THEN
@@ -1326,10 +1334,10 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                        WHEN SUBSEQUENT_PERIOD_PRICE_TYPE IN ( 'BQWAC', 'EQWAC', 'AVGQWAC', 'MQWAC', 'WAC' ) THEN SUBSEQUENT_PERIOD_PRICE
                        ELSE Iif(c.RESET_GRP = 1, Iif(NULLIF(c.INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, INITIAL_NEP, BASE_PRICE_TYPE), First_value(RESET_PRICE_VALUE)
                                                                                                                             OVER (
-                                                                                                                              PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID, c.RESET_GRP
+                                                                                                                              PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID,c.PPA_INDEX_NO, c.RESET_GRP
                                                                                                                               ORDER BY c.PERIOD_SID )) + ( Sum(c.PRICE_TOLERANCE)
                                                                                                                                                              OVER (
-                                                                                                                                                               PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID, c.RESET_GRP
+                                                                                                                                                               PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID,c.PPA_INDEX_NO, c.RESET_GRP
                                                                                                                                                                ORDER BY c.PERIOD_SID ) - Iif(NULLIF(c.INITIAL_NEP, 0) IS NOT NULL and RESET_GRP = 1, PRICE_TOLERANCE, 0) )
                      END
                    WHEN LEFT(c.PRICE_TOLERANCE_TYPE, 1) = 'P' THEN
@@ -1337,7 +1345,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                        WHEN c.SUBSEQUENT_PERIOD_PRICE_TYPE IN ( 'BQWAC', 'EQWAC', 'AVGQWAC', 'MQWAC', 'WAC' ) THEN SUBSEQUENT_PERIOD_PRICE
                        ELSE Iif(c.RESET_GRP = 1, Iif(NULLIF(c.INITIAL_NEP, 0) IS NOT NULL AND RESET_GRP = 1, c.INITIAL_NEP, c.BASE_PRICE_TYPE), First_value(c.RESET_PRICE_VALUE)
                                                                                                                                 OVER (
-                                                                                                                                  PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID, c.RESET_GRP
+                                                                                                                                  PARTITION BY c.CCP_DETAILS_SID, c.RS_CONTRACT_SID,c.PPA_INDEX_NO, c.RESET_GRP
                                                                                                                                   ORDER BY c.PERIOD_SID )) * ( Power(( 1 + c.PRICE_TOLERANCE / 100.0 ), FIRST_PERIOD - Iif(NULLIF(c.INITIAL_NEP, 0) IS NOT NULL and RESET_GRP = 1, 1, 0)) )
                      END
                  END AS NEP_WITHOUT_NETTING
@@ -1346,6 +1354,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                  LEFT JOIN #BEFORE_WAC B
                         ON C.CCP_DETAILS_SID = B.CCP_DETAILS_SID
                            AND C.RS_CONTRACT_SID = B.RS_CONTRACT_SID
+						   AND C.PPA_INDEX_NO=B.PPA_INDEX_NO
                            AND C.PERIOD_SID <= B.PERIOD_SID
           WHERE  C.RESET_TYPE = 'VIOLATION DATE'
                  AND C.RESET_ELIGIBLE = 'YES'
@@ -1361,6 +1370,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                                                   AND NULLIF(T.NET_RESET_PRICE_FORMULA, 0) IS NOT NULL )) )
                                          AND T.CCP_DETAILS_SID = C.CCP_DETAILS_SID
                                          AND T.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+										 AND T.PPA_INDEX_NO=C.PPA_INDEX_NO
                                          AND T.PERIOD_SID = C.PERIOD_SID)
 /*SELECT C.*,
                    CASE
@@ -1407,7 +1417,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
           FROM   (SELECT A.*,
                          Row_number()
                            OVER(
-                             PARTITION BY a.CCP_DETAILS_SID, a.RS_CONTRACT_SID
+                             PARTITION BY a.CCP_DETAILS_SID, a.RS_CONTRACT_SID,A.PPA_INDEX_NO
                              ORDER BY a.PERIOD_SID DESC) LAST_PERIOD,
                          /*SUM(a.PRICE_TOLERANCE)
                            OVER (
@@ -1417,7 +1427,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                   FROM   (SELECT *,
                                  ( Row_number()
                                      OVER(
-                                       PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID
+                                       PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO
                                        ORDER BY PERIOD_SID) - 1 ) % PT_SEQ + 1 GRP
                           FROM   #VIOLATION_NEP_RESULT) A
                          JOIN #PROJECTION_DATES PD
@@ -1469,11 +1479,12 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                           1                                         AS RESET_PERIOD,
                           1                                         AS PTF_RESET,
                           T.NEW_WAC_PRICE_VALUE                     AS PREV_WAC,
-                          T.PERIOD_SID
+                          T.PERIOD_SID,T.PPA_INDEX_NO
                    FROM   #TEST T
                           JOIN #RESULT_PREW RP
                             ON T.CCP_DETAILS_SID = RP.CCP_DETAILS_SID
                                AND T.RS_CONTRACT_SID = RP.RS_CONTRACT_SID
+							   AND T.PPA_INDEX_NO=RP.PPA_INDEX_NO
                                AND T.PERIOD_SID = RP.PERIOD_SID
                    UNION ALL
                    SELECT R.CCP_DETAILS_SID,
@@ -1549,12 +1560,13 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                           PTF_RESET = ( Iif(C.FLAG = 0, PTF_RESET + 1, 1) - 1 ) % PT_SEQ + 1,
                           PREV_WAC = Iif(C.FLAG = 1
                                           OR RESET_PERIOD = RESET_SEQ, R.NEW_WAC_PRICE_VALUE, C.PREV_WAC),
-                          R.PERIOD_SID
+                          R.PERIOD_SID,R.PPA_INDEX_NO
                    FROM   REC_CTE C
                           JOIN #RESULT_PREW R
                             ON R.PERIOD_SID = C.PERIOD_SID + 1
                                AND C.CCP_DETAILS_SID = R.CCP_DETAILS_SID
-                               AND C.RS_CONTRACT_SID = R.RS_CONTRACT_SID)
+                               AND C.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+							   AND C.PPA_INDEX_NO=R.PPA_INDEX_NO)
           UPDATE RP
           SET    RP.NEP_RESULT = RUNNING_TOTAL,
                  RP.WAC_RESULT = PREV_WAC,
@@ -1563,7 +1575,9 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                  JOIN REC_CTE RC
                    ON RP.CCP_DETAILS_SID = RC.CCP_DETAILS_SID
                       AND RP.RS_CONTRACT_SID = RC.RS_CONTRACT_SID
+					  AND RP.PPA_INDEX_NO=RC.PPA_INDEX_NO
                       AND RP.PERIOD_SID = RC.PERIOD_SID
+					  
 			/*;WITH REC_CTE
                  AS (SELECT RP.CCP_DETAILS_SID,
                             RP.RS_CONTRACT_SID,
@@ -1642,12 +1656,12 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
         END
 
       CREATE NONCLUSTERED INDEX NIX_RESULT_PREW
-        ON #RESULT_PREW (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID)
+        ON #RESULT_PREW (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO)
 
       CREATE NONCLUSTERED INDEX NIX_NEP_RESULT
-        ON #NEP_RESULT (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID)
+        ON #NEP_RESULT (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO)
         INCLUDE (NEP_WITHOUT_NETTING)
-
+		
       UPDATE RP
       SET    NEP_RESULT = OA.NEP_WITHOUT_NETTING
       FROM   #RESULT_PREW RP
@@ -1655,6 +1669,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                           FROM   #NEP_RESULT NR
                           WHERE  RP.CCP_DETAILS_SID = NR.CCP_DETAILS_SID
                                  AND RP.RS_CONTRACT_SID = NR.RS_CONTRACT_SID
+								 AND RP.PPA_INDEX_NO=NR.PPA_INDEX_NO
                                  AND RP.PERIOD_SID >= NR.PERIOD_SID
                           ORDER  BY PERIOD_SID DESC) OA
     WHERE  NOT EXISTS(SELECT 1
@@ -1662,10 +1677,11 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
                       WHERE  th.RESET_TYPE = 'VIOLATION DATE'
                              AND th.RESET_ELIGIBLE = 'YES'
                              AND rp.CCP_DETAILS_SID = th.CCP_DETAILS_SID
-                             AND rp.RS_CONTRACT_SID = th.RS_CONTRACT_SID)
+                             AND rp.RS_CONTRACT_SID = th.RS_CONTRACT_SID
+							 AND RP.PPA_INDEX_NO=TH.PPA_INDEX_NO)
 
-      ----------------wac information  was obtained for the periods for the projection periods excpet for the reset type violation date----------
-      IF Object_id('TEMPDB..#WAC_RESULT') IS NOT NULL
+      ----------------WAC INFORMATION  WAS OBTAINED FOR THE PERIODS FOR THE PROJECTION PERIODS EXCPET FOR THE RESET TYPE VIOLATION DATE----------
+      IF OBJECT_ID('TEMPDB..#WAC_RESULT') IS NOT NULL
         DROP TABLE #WAC_RESULT;
 
   ; /*
@@ -1680,48 +1696,52 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
       SELECT CCP_DETAILS_SID,
              RS_CONTRACT_SID,
              PERIOD_SID,
-             RES_WAC=WAC_PRICE_VALUE
+             RES_WAC=WAC_PRICE_VALUE,
+			 PPA_INDEX_NO
       INTO   #WAC_RESULT
-      FROM   (SELECT Row_number()
+      FROM   (SELECT ROW_NUMBER()
                        OVER(
-                         PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, TTE
+                         PARTITION BY CCP_DETAILS_SID, RS_CONTRACT_SID, TTE,PPA_INDEX_NO
                          ORDER BY PERIOD_SID)RNO,
                      CCP_DETAILS_SID,
                      RS_CONTRACT_SID,
                      PERIOD_SID,
-                     WAC_PRICE_VALUE
+                     WAC_PRICE_VALUE,R.PPA_INDEX_NO
               FROM   #RESULT_PREW R
               WHERE  PERIOD_SID >= WAC_START_SID
                      AND PERIOD_SID <= WAC_END_SID
                      -- AND RESET_ELIGIBLE <> 'YES'
-                     --  AND RESET_TYPE <> 'VIOLATION DATE' or RESET_TYPE is null
+                     --  AND RESET_TYPE <> 'VIOLATION DATE' OR RESET_TYPE IS NULL
                      AND NOT EXISTS (SELECT 1
-                                     FROM   #TEMP_NM_PPA_PROJECTION m
-                                     WHERE  m.CCP_DETAILS_SID = r.CCP_DETAILS_SID
-                                            AND m.RS_CONTRACT_SID = r.RS_CONTRACT_SID
-                                            AND m.RESET_TYPE = 'VIOLATION DATE'
-                                            AND m.RESET_ELIGIBLE = 'yes'))A
+                                     FROM   #TEMP_NM_PPA_PROJECTION M
+                                     WHERE  M.CCP_DETAILS_SID = R.CCP_DETAILS_SID
+                                            AND M.RS_CONTRACT_SID = R.RS_CONTRACT_SID
+											AND M.PPA_INDEX_NO=R.PPA_INDEX_NO
+                                            AND M.RESET_TYPE = 'VIOLATION DATE'
+                                            AND M.RESET_ELIGIBLE = 'YES'))A
       WHERE  RNO = 1
 
-      CREATE NONCLUSTERED INDEX nix_WAC_RESULT
-        ON #WAC_RESULT (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID)
-        include (RES_WAC)
+      CREATE NONCLUSTERED INDEX NIX_WAC_RESULT
+        ON #WAC_RESULT (PERIOD_SID, CCP_DETAILS_SID, RS_CONTRACT_SID,PPA_INDEX_NO)
+        INCLUDE (RES_WAC)
 
       UPDATE RP
-      SET    WAC_RESULT = Isnull(OA.RES_WAC, 0) --SELECT RES_WAC
+      SET    WAC_RESULT = ISNULL(OA.RES_WAC, 0) --SELECT RES_WAC
       FROM   #RESULT_PREW RP
              OUTER APPLY (SELECT TOP 1 RES_WAC
                           FROM   #WAC_RESULT NR
                           WHERE  RP.CCP_DETAILS_SID = NR.CCP_DETAILS_SID
                                  AND RP.RS_CONTRACT_SID = NR.RS_CONTRACT_SID
+								 AND RP.PPA_INDEX_NO=NR.PPA_INDEX_NO
                                  AND RP.PERIOD_SID >= NR.PERIOD_SID
                           ORDER  BY PERIOD_SID DESC) OA
     WHERE  NOT EXISTS(SELECT 1
-                      FROM   #TEMP_NM_PPA_PROJECTION th
-                      WHERE  th.RESET_TYPE = 'VIOLATION DATE'
-                             AND th.RESET_ELIGIBLE = 'YES'
-                             AND rp.CCP_DETAILS_SID = th.CCP_DETAILS_SID
-                             AND rp.RS_CONTRACT_SID = th.RS_CONTRACT_SID)
+                      FROM   #TEMP_NM_PPA_PROJECTION TH
+                      WHERE  TH.RESET_TYPE = 'VIOLATION DATE'
+                             AND TH.RESET_ELIGIBLE = 'YES'
+                             AND RP.CCP_DETAILS_SID = TH.CCP_DETAILS_SID
+                             AND RP.RS_CONTRACT_SID = TH.RS_CONTRACT_SID
+							 AND RP.PPA_INDEX_NO=TH.PPA_INDEX_NO)
 
       --------------identified the netting ccp's and placed the information in the table which will be used in ppa projection--------------
       --------------instead of calling the same information from first step this table will gives the result--------------
@@ -1744,6 +1764,7 @@ WHERE  I.PERIOD_SID BETWEEN T2.CAL_START_DATE AND T2.CAL_END_DATE ),
              JOIN #TEMP_NM_PPA_PROJECTION T
                ON T.CCP_DETAILS_SID = NC.CCP_DETAILS_SID
                   AND T.RS_CONTRACT_SID = NC.RS_CONTRACT_SID
+				  AND T.PPA_INDEX_NO=NC.PPA_INDEX_NO
       WHERE  ( (( T.NET_BASE_PRICE = ''YES''
                   AND NULLIF(T.NET_BASE_PRICE_FORMULA, 0) IS NOT NULL ))
                 OR (( T.NET_PRICE_TYPE = ''YES''
@@ -1772,18 +1793,19 @@ CREATE TABLE ', @ST_PPA_RESET_PERIODS, '
      CCP_DETAILS_SID  INT,
      RS_CONTRACT_SID  INT,
      PERIOD_SID       SMALLINT,
-     REBATE_FREQUENCY CHAR(1)
+     REBATE_FREQUENCY CHAR(1),
+	 PPA_INDEX_NO  INT
   )
   ')
 
       EXEC Sp_executesql
         @sql
 
-      SET @SQL= Concat('insert into ', @ST_PPA_RESET_PERIODS, '(CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,REBATE_FREQUENCY)
+      SET @SQL= Concat('insert into ', @ST_PPA_RESET_PERIODS, '(CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,REBATE_FREQUENCY,PPA_INDEX_NO)
 SELECT  CCP_DETAILS_SID,
                 RS_CONTRACT_SID,
 				PERIOD_SID,
-                LEFT(REBATE_FREQUENCY, 1) AS REBATE_FREQUENCY
+                LEFT(REBATE_FREQUENCY, 1) AS REBATE_FREQUENCY,PPA_INDEX_NO
 FROM   #RESULT_PREW C
 WHERE  hard_reset_periods = 1 
     and not exists(select 1 from #TEMP_NM_PPA_PROJECTION T
@@ -1797,7 +1819,8 @@ WHERE  hard_reset_periods = 1
                       AND NULLIF(T.NET_RESET_PRICE_FORMULA, 0) IS NOT NULL )) )
 					  and 
                T.CCP_DETAILS_SID = C.CCP_DETAILS_SID
-                  AND T.RS_CONTRACT_SID = C.RS_CONTRACT_SID)
+                  AND T.RS_CONTRACT_SID = C.RS_CONTRACT_SID
+				  AND T.PPA_INDEX_NO=C.PPA_INDEX_NO)
 ')
 
       EXEC Sp_executesql
@@ -1818,15 +1841,16 @@ CREATE TABLE ', @ST_PPA_WAC_PRICE, '
      CCP_DETAILS_SID  INT,
      RS_CONTRACT_SID  INT,
      PERIOD_SID      SMALLINT,
-     WAC_PRICE       NUMERIC(22, 6)
+     WAC_PRICE       NUMERIC(22, 6),
+	 PPA_INDEX_NO  INT
   )
   ')
 
       EXEC Sp_executesql
         @sql
 
-      SET @SQL= Concat('insert into ', @ST_PPA_WAC_PRICE, '(CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,WAC_PRICE)
-select distinct CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,WAC_PRICE_VALUE from #RESULT_PREW C where PERIOD_SID >= WAC_START_SID
+      SET @SQL= Concat('insert into ', @ST_PPA_WAC_PRICE, '(CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,WAC_PRICE,PPA_INDEX_NO)
+select distinct CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD_SID,WAC_PRICE_VALUE,PPA_INDEX_NO from #RESULT_PREW C where PERIOD_SID >= WAC_START_SID
                      AND PERIOD_SID <= WAC_END_SID 
 					 ')
 
@@ -1917,9 +1941,9 @@ WHERE  NOT EXISTS (SELECT 1
                    FROM   '+@NETTING_LOGIC_CCPS+' NLC
                    WHERE  NLC.CCP_DETAILS_SID = RP.CCP_DETAILS_SID
                           AND NLC.RS_CONTRACT_SID = RP.RS_CONTRACT_SID) ')---------GALUAT-870
-  END
+
+END
 
 
 GO
-
 

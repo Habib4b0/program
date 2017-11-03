@@ -1,5 +1,5 @@
 IF NOT EXISTS (SELECT 'X'
-               FROM   SYS.TABLES
+               FROM     SYS.TABLES
                WHERE  Object_name(OBJECT_ID) = 'IFP_CONTRACT'
                       AND Schema_name(SCHEMA_ID) = 'dbo')
   BEGIN
@@ -1207,3 +1207,223 @@ AS
   END
 
 GO 
+
+
+------------------------IMTD_IFP_DETAILS_PENDING---------------------------
+IF NOT EXISTS (SELECT 'X'
+               FROM   INFORMATION_SCHEMA.TABLES
+               WHERE  TABLE_NAME = 'IMTD_IFP_DETAILS_PENDING'
+                  AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      CREATE TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        (
+           [IMTD_IFP_DETAILS_PENDING_SID]         INT IDENTITY(1, 1) NOT NULL,
+           [IFP_MODEL_SID]                INT,
+           [ITEM_MASTER_SID]              INT,
+           [CONTRACT_MASTER_SID]          INT,
+           [CFP_MODEL_SID]                INT,
+           [ITEM_ID]                      VARCHAR(38),
+           [ITEM_NO]                      VARCHAR(50),
+           [ITEM_NAME]                    VARCHAR(100),
+           [ITEM_STATUS]                  INT,
+           [ITEM_START_DATE]              DATETIME,
+           [ITEM_END_DATE]                DATETIME,
+           [ITEM_PACKAGE_SIZE]            VARCHAR(100),
+           [ITEM_THERAPEUTIC_CLASS]       VARCHAR(50),
+           [ITEM_PRIMARY_UOM]             VARCHAR(20),
+           [ITEM_BRAND]                   VARCHAR(100),
+           [ITEM_FORM]                    VARCHAR(50),
+           [ITEM_STRENGTH]                VARCHAR(100),
+           [IFP_DETAILS_SID]              INT,
+           [IFP_DETAILS_START_DATE]       DATETIME,
+           [IFP_DETAILS_END_DATE]         DATETIME,
+           [IFP_DETAILS_ATTACHED_STATUS]  INT,
+           [IFP_DETAILS_CREATED_BY]       VARCHAR(50),
+           [IFP_DETAILS_CREATED_DATE]     DATETIME,
+           [IFP_DETAILS_MODIFIED_BY]      VARCHAR(50),
+           [IFP_DETAILS_MODIFIED_DATE]    DATETIME,
+           [IFP_DETAILS_ATTACHED_DATE]    DATETIME,
+           [TOTAL_VOLUME_COMMITMENT]      VARCHAR(50),
+           [TOTAL_DOLLAR_COMMITMENT]      VARCHAR(50),
+           [TOTAL_MARKETSHARE_COMMITMENT] VARCHAR(50),
+           [COMMITMENT_PERIOD]            VARCHAR(50),
+           [USERS_SID]                    INT,
+           [SESSION_ID]                   VARCHAR(100),
+           [IMTD_CREATEDDATE]             DATETIME,
+           [CHECK_BOX]                    BIT,
+           [OPERATION]                    VARCHAR(100),
+           [CREATED_BY]                   INT NOT NULL,
+           [CREATED_DATE]                 DATETIME NOT NULL,
+           [MODIFIED_BY]                  INT NOT NULL,
+           [MODIFIED_DATE]                DATETIME NOT NULL,
+		   [IFP_CONTRACT_SID]             INT NOT NULL
+        )
+  END
+
+GO
+
+IF NOT EXISTS(SELECT 'X'
+              FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+              WHERE  CONSTRAINT_NAME = 'PK_IMTD_IFP_DETAILS_PENDING_IMTD_IFP_DETAILS_PENDING_SID'
+                 AND TABLE_NAME = 'IMTD_IFP_DETAILS_PENDING')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        ADD CONSTRAINT PK_IMTD_IFP_DETAILS_PENDING_IMTD_IFP_DETAILS_PENDING_SID PRIMARY KEY([IMTD_IFP_DETAILS_PENDING_SID])
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_Id('DBO.IMTD_IFP_DETAILS_PENDING')
+                  AND NAME = 'DF_IMTD_IFP_DETAILS_PENDING_CREATED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_IMTD_IFP_DETAILS_PENDING_CREATED_BY] DEFAULT (1) FOR CREATED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_Id('DBO.IMTD_IFP_DETAILS_PENDING')
+                  AND NAME = 'DF_IMTD_IFP_DETAILS_PENDING_CREATED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_IMTD_IFP_DETAILS_PENDING_CREATED_DATE] DEFAULT (GetDate()) FOR CREATED_DATE
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_Id('DBO.IMTD_IFP_DETAILS_PENDING')
+                  AND NAME = 'DF_IMTD_IFP_DETAILS_PENDING_MODIFIED_BY')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_IMTD_IFP_DETAILS_PENDING_MODIFIED_BY] DEFAULT (1) FOR MODIFIED_BY
+  END
+
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  PARENT_OBJECT_ID = Object_Id('DBO.IMTD_IFP_DETAILS_PENDING')
+                  AND NAME = 'DF_IMTD_IFP_DETAILS_PENDING_MODIFIED_DATE')
+  BEGIN
+      ALTER TABLE [DBO].[IMTD_IFP_DETAILS_PENDING]
+        ADD CONSTRAINT [DF_IMTD_IFP_DETAILS_PENDING_MODIFIED_DATE] DEFAULT (GetDate()) FOR MODIFIED_DATE
+  END
+
+GO
+
+--Column Addition 5-May-2015
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'IMTD_IFP_DETAILS_PENDING'
+                  AND COLUMN_NAME = 'ITEM_DESC')
+  BEGIN
+      ALTER TABLE IMTD_IFP_DETAILS_PENDING
+        ADD ITEM_DESC VARCHAR(250) NULL
+  END
+
+GO
+
+DECLARE @SQL NVARCHAR(MAX)
+DECLARE @TABLENAME VARCHAR(100)
+DECLARE @STATSNAME VARCHAR(200)
+DECLARE @TABLENAME1 VARCHAR(100)
+DECLARE @SCHEMANAME VARCHAR(30)
+DECLARE @SCHEMANAME1 VARCHAR(30)
+
+SET @TABLENAME1 = 'IMTD_IFP_DETAILS_PENDING'--TABLE NAME
+SET @SCHEMANAME1 ='DBO' -- SCHEMA NAME
+IF EXISTS (SELECT 'X'
+           FROM   SYS.STATS S
+           JOIN   SYS.TABLES T ON S.OBJECT_ID = T.OBJECT_ID
+           WHERE  AUTO_CREATED = 1
+              AND NOT EXISTS (SELECT 1
+                              FROM   SYS.INDEXES
+                              WHERE  S.NAME = NAME)
+              AND Object_Name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+              AND scHema_Name(SCHEMA_ID) = @SCHEMANAME1)
+  BEGIN
+      DECLARE CUR CURSOR STATIC FOR
+        SELECT Object_Name(S.OBJECT_ID) AS 'TABLENAME',
+               S.NAME                   AS 'STATSNAME',
+               scHema_Name(T.SCHEMA_ID) AS 'SCHEMA_NAME'
+        FROM   SYS.STATS S
+        JOIN   SYS.TABLES T ON S.OBJECT_ID = T.OBJECT_ID
+        WHERE  AUTO_CREATED = 1
+           AND NOT EXISTS (SELECT 1
+                           FROM   SYS.INDEXES
+                           WHERE  S.NAME = NAME)
+           AND Object_Name(S.OBJECT_ID) = @TABLENAME1 -- TABLE NAME
+           AND scHema_Name(SCHEMA_ID) = @SCHEMANAME1
+
+      OPEN CUR
+
+      FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+
+      WHILE @@FETCH_STATUS = 0
+        BEGIN
+            SET @SQL = 'DROP STATISTICS ' + QuoteName(@SCHEMANAME)
+                       + '.' + QuoteName(@TABLENAME) + '.'
+                       + QuoteName(@STATSNAME)
+
+            --PRINT @SQL
+            EXEC sp_Executesql
+              @SQL
+
+            FETCH NEXT FROM CUR INTO @TABLENAME, @STATSNAME, @SCHEMANAME
+        END
+
+      CLOSE CUR
+
+      DEALLOCATE CUR
+  END
+
+DECLARE @STATS NVARCHAR(MAX)
+DECLARE CUR1 CURSOR STATIC FOR
+  SELECT 'CREATE STATISTICS ' + QuoteName(C.NAME)
+         + ' ON ' + QuoteName(scHema_Name(SCHEMA_ID))
+         + '.' + QuoteName(T.NAME) + ' ('
+         + QuoteName(C.NAME) + ') WITH FULLSCAN'
+  FROM   SYS.TABLES T
+  JOIN   SYS.COLUMNS C ON T.OBJECT_ID = C.OBJECT_ID
+  WHERE  NOT EXISTS (SELECT     1
+                     FROM       INFORMATION_SCHEMA.TABLE_CONSTRAINTS TC
+                     INNER JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE CC ON TC.CONSTRAINT_NAME = CC.CONSTRAINT_NAME
+                     WHERE      CC.TABLE_NAME = T.NAME
+                            AND CC.TABLE_SCHEMA = scHema_Name(SCHEMA_ID)
+                            AND C.NAME = COLUMN_NAME)
+     AND NOT EXISTS (SELECT 1
+                     FROM   SYS.STATS S
+                     WHERE  S.OBJECT_ID = C.OBJECT_ID
+                        AND S.NAME = C.NAME)
+     AND T.NAME = @TABLENAME1 -- TABLE NAME
+     AND scHema_Name(SCHEMA_ID) = @SCHEMANAME1
+  ORDER  BY T.NAME
+
+OPEN CUR1
+
+FETCH NEXT FROM CUR1 INTO @STATS
+
+WHILE @@FETCH_STATUS = 0
+  BEGIN
+      --PRINT @STATS
+      EXEC sp_Executesql
+        @STATS
+
+      FETCH NEXT FROM CUR1 INTO @STATS
+  END
+
+CLOSE CUR1
+
+DEALLOCATE CUR1
+
+GO 
+
+
+

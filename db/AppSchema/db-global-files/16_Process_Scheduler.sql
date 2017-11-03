@@ -5477,53 +5477,6 @@ BEGIN
 END
 GO
 
---insert for RETURN_RESERVE_INTERFACE
-IF NOT EXISTS (
-		SELECT 1
-		FROM WORKFLOW_PROFILE
-		WHERE PROCESS_NAME = 'RETURN_RESERVE_INTERFACE'
-		)
-BEGIN
-	INSERT INTO [WORKFLOW_PROFILE] (
-		[PROCESS_NAME]
-		,[ACTIVE_FLAG]
-		,[PROCESS_DISPLAY_NAME]
-		,[FREQUENCY]
-		,[SCHEMA_NAME]
-		,[SLA_CALENDAR_MASTER_SID]
-		,[USER_SID]
-		,[INBOUND_STATUS]
-		,[SCRIPT_NAME]
-		,[EMAIL_NOTIFICATION_SUCCESS_TO]
-		,[EMAIL_NOTIFICATION_SUCCESS_CC]
-		,[EMAIL_NOTIFICATION_FAILURE_TO]
-		,[EMAIL_NOTIFICATION_FAILURE_CC]
-		,[SUCCESS_MAIL_SUBJECT]
-		,[SUCCESS_MAIL_BODY]
-		,[FAILURE_MAIL_SUBJECT]
-		,[FAILURE_MAIL_BODY]
-		)
-	VALUES (
-		'RETURN_RESERVE_INTERFACE'
-		,'Y'
-		,'RETURN_RESERVE_INTERFACE'
-		,'Time'
-		,'BPI'
-		,1
-		,1
-		,'A'
-		,'RETURN_RESERVE_INTERFACE.sh'
-		,'support@bpitechnologies.com'
-		,'support@bpitechnologies.com'
-		,'support@bpitechnologies.com'
-		,'support@bpitechnologies.com'
-		,'SUCCESS - RETURN_RESERVE_INTERFACE'
-		,'SUCCESSFUL PROCESS PLEASE VERIFY VALID AND INVALID COUNTS'
-		,'FAILURE-RETURN_RESERVE_INTERFACE'
-		,'FAILURE-RETURN_RESERVE_INTERFACE'
-		)
-END
-GO
 
 
 
@@ -5906,6 +5859,1119 @@ SET SUCCESS_MAIL_SUBJECT = 'SUCCESS - ' + [PROCESS_NAME]
 	,SUCCESS_MAIL_BODY = 'SUCCESSFUL PROCESS PLEASE VERIFY VALID AND INVALID COUNTS'
 	,FAILURE_MAIL_SUBJECT = 'FAILURE - ' + [PROCESS_NAME]
 	,FAILURE_MAIL_BODY = [PROCESS_NAME] + ' FAILURE'
+GO
+
+
+----------------------------------------INSERTION OF ROWS------------------------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'RETURN_RATE_FORECAST_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'RETURN_RATE_FORECAST_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Return_Rate_Forecast_Intf.sh'
+		,'RETURN_RATE_FORECAST_INTERFACE'
+		,'N'
+		)
+END
+
+GO
+
+----------------------------------WORKFLOW_PROFILE_ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Actual_Master_Chargeback_Intf.sh'
+		,'ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE'
+		,'N'
+		)
+END
+GO
+
+----------------------------------WORKFLOW_PROFILE_ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Actual_Master_Medicaid_Intf.sh'
+		,'ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ACTUAL_MASTER_REBATE_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ACTUAL_MASTER_REBATE_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ACTUAL_MASTER_REBATE_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Actual_Master_Rebate_Intf.sh'
+		,'ADROIT_ACTUAL_MASTER_REBATE_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ACTUAL_MASTER_COUPON_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ACTUAL_MASTER_COUPON_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ACTUAL_MASTER_COUPON_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Actual_Master_Coupon_Intf.sh'
+		,'ADROIT_ACTUAL_MASTER_COUPON_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_COMPANY_MASTER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_COMPANY_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_COMPANY_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Company_Master_Intf.sh'
+		,'ADROIT_COMPANY_MASTER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_COMPANY_IDENTIFIER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_COMPANY_IDENTIFIER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_COMPANY_IDENTIFIER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Company_Identifier_Intf.sh'
+		,'ADROIT_COMPANY_IDENTIFIER_INTERFACE'
+		,'N'
+		)
+END
+GO
+
+----------------------------------ADROIT_COMPANY_TRADE_CLASS_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_COMPANY_TRADE_CLASS_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_COMPANY_TRADE_CLASS_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Company_Trade_Class_Intf.sh'
+		,'ADROIT_COMPANY_TRADE_CLASS_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_IDENTIFIER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_IDENTIFIER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_IDENTIFIER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Identifier_Intf.sh'
+		,'ADROIT_ITEM_IDENTIFIER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_MASTER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Master_Intf.sh'
+		,'ADROIT_ITEM_MASTER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_HIERARCHY_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_HIERARCHY_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_HIERARCHY_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Heirarchy_Intf.sh'
+		,'ADROIT_ITEM_HIERARCHY_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Business_Warehouse_Intf.sh'
+		,'ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_PRICING_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_PRICING_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_PRICING_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Pricing_Intf.sh'
+		,'ADROIT_ITEM_PRICING_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_CONTRACT_HEADER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_CONTRACT_HEADER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_CONTRACT_HEADER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Contract_Header_Intf.sh'
+		,'ADROIT_CONTRACT_HEADER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_COMPANY_FAMILY_PLAN_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_COMPANY_FAMILY_PLAN_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_COMPANY_FAMILY_PLAN_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Company_Family_Plan_Intf.sh'
+		,'ADROIT_COMPANY_FAMILY_PLAN_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ITEM_FAMILY_PLAN_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ITEM_FAMILY_PLAN_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ITEM_FAMILY_PLAN_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Item_Family_Plan_Intf.sh'
+		,'ADROIT_ITEM_FAMILY_PLAN_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_REBATE_PLAN_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_REBATE_PLAN_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_REBATE_PLAN_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Rebate_Plan_Intf.sh'
+		,'ADROIT_REBATE_PLAN_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_PRICE_SCHEDULE_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_PRICE_SCHEDULE_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_PRICE_SCHEDULE_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Price_Schedule_Intf.sh'
+		,'ADROIT_PRICE_SCHEDULE_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_REBATE_SCHEDULE_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_REBATE_SCHEDULE_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_REBATE_SCHEDULE_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Rebate_Schedule_Intf.sh'
+		,'ADROIT_REBATE_SCHEDULE_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_SALES_MASTER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_SALES_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_SALES_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Sales_Master_Intf.sh'
+		,'ADROIT_SALES_MASTER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Customer_Gts_Actual_Intf.sh'
+		,'ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Customer_Gts_Forecast_Intf.sh'
+		,'ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_RETURNS_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_RETURNS_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_RETURNS_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Returns_Intf.sh'
+		,'ADROIT_RETURNS_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_CPI_INDEX_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_CPI_INDEX_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_CPI_INDEX_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_CPI_Index_Intf.sh'
+		,'ADROIT_CPI_INDEX_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_GL_COST_CENTER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_GL_COST_CENTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_GL_COST_CENTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_GL_Cost_Center_Intf.sh'
+		,'ADROIT_GL_COST_CENTER_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_ACCRUAL_INBOUND_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_ACCRUAL_INBOUND_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_ACCRUAL_INBOUND_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Accrual_Master_Intf.sh'
+		,'ADROIT_ACCRUAL_INBOUND_INTERFACE'
+		,'N'
+		)
+END
+GO
+----------------------------------ADROIT_FORECASTING_MASTER_INTERFACE -------------------------------------
+IF NOT EXISTS (
+		SELECT 1
+		FROM WORKFLOW_PROFILE
+		WHERE PROCESS_NAME = 'ADROIT_FORECASTING_MASTER_INTERFACE'
+		)
+BEGIN
+	INSERT [dbo].[WORKFLOW_PROFILE] (
+		[PROCESS_NAME]		
+		,[ACTIVE_FLAG]		
+		,[FREQUENCY]		
+		,[MODIFIED_BY]
+		,[MODIFIED_DATE]		
+		,[SCHEMA_NAME]
+		,[INBOUND_STATUS]
+		,[CREATED_DATE]
+		,[SLA_CALENDAR_MASTER_SID]
+		,[USER_SID]
+		,[CREATED_BY]	
+        ,[SCRIPT_NAME]
+		,[PROCESS_DISPLAY_NAME]
+		,[VALIDATION]
+		)
+	VALUES (
+		'ADROIT_FORECASTING_MASTER_INTERFACE'		
+		,'Y'				
+		,'Time'		
+		,1
+		,getdate()		
+		,'BPI'
+		,'A'
+		,getdate()
+		,1
+		,1
+		,1
+        ,'Adroit_Forecasting_Sales_Intf.sh'
+		,'ADROIT_FORECASTING_MASTER_INTERFACE'
+		,'N'
+		)
+END
 GO
 
 

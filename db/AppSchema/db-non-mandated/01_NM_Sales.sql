@@ -1,8 +1,8 @@
---------------------------------------------- NM_SALES_PROJECTION_MASTER -------------------------------
+----------------------------------------------- NM_SALES_PROJECTION_MASTER -------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
                WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
-                      AND TABLE_SCHEMA = 'DBO')
+                      AND TABLE_SCHEMA = 'dbo')
   BEGIN
       CREATE TABLE [DBO].[NM_SALES_PROJECTION_MASTER]
         (
@@ -14,8 +14,7 @@ IF NOT EXISTS (SELECT 'X'
            CHECK_RECORD           BIT NOT NULL
         )
   END
-GO
-
+Go
 
 
 ---------------------PRIMARY KEY CONSTRAINT-------------------------
@@ -131,6 +130,68 @@ IF NOT EXISTS (SELECT 1
   END 
 
 GO
+
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'EFFECTIVE_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        DROP COLUMN EFFECTIVE_START_PERIOD_SID  
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'EFFECTIVE_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        DROP COLUMN EFFECTIVE_END_PERIOD_SID  
+  END
+
+GO
+
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FREQ_CAL_START_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        DROP COLUMN FREQ_CAL_START_PERIOD_SID 
+  END
+
+GO
+
+IF  EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'NM_SALES_PROJECTION_MASTER'
+                      AND COLUMN_NAME = 'FREQ_CAL_END_PERIOD_SID'
+                      AND TABLE_SCHEMA = 'DBO')
+  BEGIN
+      ALTER TABLE NM_SALES_PROJECTION_MASTER
+        DROP COLUMN FREQ_CAL_END_PERIOD_SID 
+  END 
+
+GO
+
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------- ST_NM_SALES_PROJECTION_MASTER ----------------------------------------------------------
 IF NOT EXISTS (SELECT 'X'
@@ -740,12 +801,22 @@ IF EXISTS (SELECT 1
 GO
 
 
+-----item_uom
 
 
 
-
-
-
-
-
-
+IF NOT EXISTS (
+		SELECT 'X'
+		FROM INFORMATION_SCHEMA.TABLES
+		WHERE TABLE_NAME = 'ITEM_UOM_DETAILS'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	CREATE TABLE [DBO].ITEM_UOM_DETAILS (
+	
+		ITEM_MASTER_SID INT NOT NULL
+		,UOM_VALUE NUMERIC(22, 6)
+		,UOM_CODE VARCHAR(50)  NULL
+		)
+END
+GO

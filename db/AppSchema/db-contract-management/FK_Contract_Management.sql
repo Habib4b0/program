@@ -332,6 +332,19 @@ GO
 
 ------------------------------------ IFP CONTRACT ----------------------------------------------------------------
 
+IF NOT EXISTS(SELECT 1
+              FROM   SYS.FOREIGN_KEYS
+              WHERE  Object_name(PARENT_OBJECT_ID) = 'IMTD_IFP_DETAILS_PENDING'
+                     AND Schema_name(SCHEMA_ID) = 'DBO'
+                     AND NAME = 'FK_IMTD_IFP_DETAILS_PENDING_IFP_CONTRACT_IFP_CONTRACT_SID'
+                     AND TYPE = 'F')
+  BEGIN
+      ALTER TABLE [DBO].IMTD_IFP_DETAILS_PENDING
+        ADD CONSTRAINT FK_IMTD_IFP_DETAILS_PENDING_IFP_CONTRACT_IFP_CONTRACT_SID FOREIGN KEY(IFP_CONTRACT_SID) REFERENCES IFP_CONTRACT ( IFP_CONTRACT_SID)
+  END
+
+GO 
+
 
 ------------------------------------- CFP_CONTRACT_SID REFERENCE FROM CFP_CONTRACT TABLE -------------------------------------------------
 IF NOT EXISTS(SELECT 1

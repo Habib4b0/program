@@ -20,7 +20,7 @@ AS
 
 
 	  
-           DECLARE 
+                      DECLARE 
 
 @MEDICAID_ACTUAL_TABLE     VARCHAR(200) = CONCAT('ST_MEDICAID_URA_ACTUALS_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
 @MEDICAID_PROJECTION_TABLE VARCHAR(200) = CONCAT('ST_MEDICAID_URA_PROJ_', @USER_ID, '_', @SESSION_ID, '_', REPLACE(CONVERT(VARCHAR(50), GETDATE(), 2), '.', '')),
@@ -413,6 +413,7 @@ JOIN #PROJECTION_DETAILS PD ON PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
 JOIN #PERIOD_QUARTER P ON P.PERIOD_SID BETWEEN @ACT_PERIOD_START_SID
               AND @PROJ_PERIOD_END_SID
 
+			 
 UPDATE A
 SET A.BASE_CPI = B.BASE_CPI
        ,A.BASELINE_AMP = B.BASELINE_AMP
@@ -430,11 +431,7 @@ WHERE A.NEW_FORMULATION = B.ITEM_ID
        AND PERIOD_DATE BETWEEN CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(NEW_FORMULATION_START_DATE, 0))))
               AND COALESCE(CONVERT(DATETIME, DATEADD(MM, - 1, DATEADD(DD, 1, EOMONTH(NEW_FORMULATION_END_DATE, 0)))), @PROJECTION_END_DATE)
 
-
-
-
-
-          ------------------------------------------- UPDATING MEDICAID ACTUAL TABLE WITH HISTORICAL PRICE FOR WAC INCREASE % AND CMS UNITS
+ ------------------------------------------- UPDATING MEDICAID ACTUAL TABLE WITH HISTORICAL PRICE FOR WAC INCREASE % AND CMS UNITS
            SET @SQL1= CONCAT('UPDATE MUA
           SET    MUA.ACTUAL_PRICE = ISNULL(A.ITEM_PRICE, 0)
           FROM   ',@MEDICAID_ACTUAL_TABLE,' MUA
@@ -655,13 +652,24 @@ WHERE A.NEW_FORMULATION = B.ITEM_ID
                AS (SELECT A.NA_PROJ_DETAILS_SID,
                           A.PERIOD_SID,
                           CASE
-                            WHEN ISNULL(AMP, 0) - ISNULL(BP, 0) > ISNULL(AMP, 0) * 0.231 THEN ISNULL(AMP, 0) - ISNULL(BP, 0)
-                            ELSE ISNULL(AMP, 0) * 0.231
+                            WHEN CONVERT(VARCHAR(10),B.ITEM_CLASS)  = ''N''
+                                                THEN
+                                                IIF((ISNULL(AMP, 0) - ISNULL(BP, 0)) > ISNULL(AMP, 0) * 0.13 , ISNULL(AMP, 0) - ISNULL(BP, 0) , ISNULL(AMP, 0) * 0.13)
+                                              
+                            WHEN CONVERT(VARCHAR(10),B.ITEM_CLASS)  in( ''I'',''S'')  THEN
+                                                 IIF((ISNULL(AMP, 0) - ISNULL(BP, 0) )> ISNULL(AMP, 0) * 0.231 , ISNULL(AMP, 0) - ISNULL(BP, 0) , ISNULL(AMP, 0) * 0.231)
+                                                                             
                           END BASIC_URA,
+
+
                           CASE
-                            WHEN ( AMP - ( ( CPI / NULLIF(BASE_YEAR_CPI, 0) ) * BASE_YEAR_AMP ) ) < 1 THEN 0
-                            ELSE ( AMP - ( ( CPI / NULLIF(BASE_YEAR_CPI, 0) ) * BASE_YEAR_AMP ) )
+
+                                         WHEN ((NULLIF(BASE_YEAR_AMP,0)/NULLIF(BASE_YEAR_CPI, 0))*CPI)>=NULLIF(AMP,0) THEN 0
+                                         ELSE
+                                         NULLIF(AMP,0)-((NULLIF(BASE_YEAR_AMP,0)/NULLIF(BASE_YEAR_CPI, 0))*CPI)
+                                         
                           END CPI_URA
+
 						  ,AMP
 						  
                    FROM   (SELECT NA_PROJ_DETAILS_SID,
@@ -728,7 +736,7 @@ UPDATE MUP
                                                 
                                                 EXEC sp_executesql @sql1
                                                 
-                                                
+                                                 
          -----------cel-1826---------------
           SET @SQL1= Concat(';WITH URA
                AS (SELECT A.NA_PROJ_DETAILS_SID,
@@ -765,6 +773,7 @@ UPDATE MUP
                                              BASE_YEAR_CPI=COALESCE(C.BASE_YEAR_CPI, BASE_CPI),
                                              NA_PROJ_DETAILS_SID,I.PERIOD_SID,ITEM_CLASS
                                       FROM   #ITEM_MASTER I
+
 
 
                                              INNER JOIN #PROJECTION_DETAILS PD
@@ -809,7 +818,6 @@ UPDATE MUP
             @sql1;
 ---------cel-1826			
 -------------CEL-312
-
 
 /*----cel-1827
 IF OBJECT_ID('TEMPDB..#FORECAST_PRICE_PERIOD') IS NOT NULL
