@@ -14926,6 +14926,46 @@ IF NOT EXISTS (SELECT 1
 					)
 			END
 				GO
+				
+				IF NOT EXISTS (
+					SELECT 1
+					FROM HELPER_TABLE
+					WHERE DESCRIPTION = 'Return Rate Forecast'
+						AND LIST_NAME = 'INVALID_MODULE_NAME'
+					)
+			BEGIN
+				INSERT INTO HELPER_TABLE (
+					DESCRIPTION
+					,LIST_NAME
+					,REF_COUNT
+					)
+				VALUES (
+					'Return Rate Forecast'
+					,'INVALID_MODULE_NAME'
+					,0
+					)
+			END
+				GO 
+				
+				IF NOT EXISTS (
+					SELECT 1
+					FROM HELPER_TABLE
+					WHERE DESCRIPTION = 'Item Uom'
+						AND LIST_NAME = 'INVALID_MODULE_NAME'
+					)
+			BEGIN
+				INSERT INTO HELPER_TABLE (
+					DESCRIPTION
+					,LIST_NAME
+					,REF_COUNT
+					)
+				VALUES (
+					'Item Uom'
+					,'INVALID_MODULE_NAME'
+					,0
+					)
+			END
+				GO 
 				-------------------------GAL-11484 -----------------------
 				IF NOT EXISTS (
 					SELECT 1
