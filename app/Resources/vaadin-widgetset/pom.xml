@@ -163,6 +163,18 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                          <filesets>
+                              <fileset>
+                                  <directory>${basedir}/src/main/webapp/hookcontent/html/VAADIN/widgetsets</directory>
+                                  <followSymlinks>false</followSymlinks>
+                              </fileset>
+                          </filesets>
+                    </configuration>
+            </plugin>
         </plugins>
     </build>
 
