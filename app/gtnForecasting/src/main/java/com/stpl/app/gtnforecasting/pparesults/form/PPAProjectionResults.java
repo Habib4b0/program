@@ -15,7 +15,6 @@ import com.stpl.app.gtnforecasting.pparesults.logic.PPAProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.pparesults.logic.tablelogic.PPAResultsTableLogic;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
@@ -204,12 +203,9 @@ public class PPAProjectionResults extends CustomComponent implements View {
      * The graph image.
      */
     private final Resource graphImage = new ThemeResource(GRAPH_IMAGE_PATH.getConstant());
-    /* The bean for loading history drop down */
+    
     /**
-     * The history bean.
-     */
-    /**
-     * The period table id.
+     * The table logic
      */
     PPAResultsTableLogic tableLogic = new PPAResultsTableLogic();
     FreezePagedTreeTable periodTableId;
@@ -412,17 +408,17 @@ public class PPAProjectionResults extends CustomComponent implements View {
      */
     protected final List<String> loadHistory(String frequency, String period)  {
         LOGGER.debug("Entering loadHistory method");
-        List<String> history;
-        history = session.getFrequencyAndQuaterValue(frequency);
+        List<String> historyList;
+        historyList = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
-        if (history == null || history.isEmpty()) {
+        if (historyList == null || historyList.isEmpty()) {
             endValue = CommonUtils.getProjections(session.getFromDate(), new Date(), frequency);
-            history = CommonUtils.getHistoryDdlbList(endValue, period);
+            historyList = CommonUtils.getHistoryDdlbList(endValue, period);
         }
 
-        session.addFrequencyAndQuater(frequency, history);
+        session.addFrequencyAndQuater(frequency, historyList);
         LOGGER.debug("End of loadHistory method");
-        return history;
+        return historyList;
     }
 
     /**
@@ -1027,9 +1023,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
         LOGGER.debug("loadLevelFilter initiated ");
         level.setEnabled(true);
         List<Leveldto> hierarchy = null;
-       String view = StringUtils.EMPTY;
         if (selection.isIsCustomHierarchy()) {
-            view = Constant.CUSTOM_LABEL;
             if (!session.getCustomHierarchyMap().containsKey(customId)) {
             Utility.loadCustomHierarchyList(session);
             }

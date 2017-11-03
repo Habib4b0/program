@@ -6,7 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <directory>&#x2f;</directory>
+    <directory>&#47;</directory>
     <parameters>
     </parameters>
     <log>
@@ -16,7 +16,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -33,11 +33,6 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
-<metrics-log-table><connection/>
-<schema/>
-<table/>
-<timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -66,23 +61,21 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</created_date>
+  <created_date>2015&#47;09&#47;21 12:26:33.734</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
+  <modified_date>2015&#47;09&#47;21 12:26:33.734</modified_date>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>db</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>${BPI_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
+    <database>${BPI_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -99,13 +92,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>${STAGING_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>${STAGING_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -122,13 +115,13 @@
   </connection>
   <connection>
     <name>sys_db</name>
-    <server>&#x24;&#x7b;BPI_SYS_HOST&#x7d;</server>
+    <server>${BPI_SYS_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_SYS_DB&#x7d;</database>
+    <database>${BPI_SYS_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_SYS_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_SYS_PASSWORD&#x7d;</password>
+    <username>${BPI_SYS_USER}</username>
+    <password>${BPI_SYS_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -144,36 +137,12 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>N</enabled> </hop>
-  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>N</enabled> </hop>
-  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>
-  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>
-  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>
-  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>N</enabled> </hop>
-  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>
-  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>
-  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>If field value is null</to><enabled>N</enabled> </hop>
-  <hop> <from>Invalid Field Type</from><to>Table output 3</to><enabled>Y</enabled> </hop>
-  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>N</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>N</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>N</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>SALES_AMOUNT</to><enabled>Y</enabled> </hop>  <hop> <from>SALES_AMOUNT</from><to>AMOUNT</to><enabled>Y</enabled> </hop>  <hop> <from>AMOUNT</from><to>QUANTITY</to><enabled>Y</enabled> </hop>  <hop> <from>SALES_AMOUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>INVALID_TABLE 2 2 3</to><enabled>N</enabled> </hop>  <hop> <from>AMOUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>QUANTITY</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 3</from><to>SNAPSHOT 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants 2</from><to>INVALID_TABLE 2 2 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>QUANTITY</from><to>PRICE 2</to><enabled>Y</enabled> </hop>  <hop> <from>PRICE 2</from><to>PRICE</to><enabled>Y</enabled> </hop>  <hop> <from>PRICE 2</from><to>MANDATED_DISCOUNT_AMOUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>MANDATED_DISCOUNT_AMOUNT 2</from><to>Table output 3</to><enabled>Y</enabled> </hop>  <hop> <from>PRICE</from><to>MANDATED_DISCOUNT_AMOUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>PRICE</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  <hop> <from>MANDATED_DISCOUNT_AMOUNT 2</from><to>MANDATED_DISCOUNT_AMOUNT</to><enabled>Y</enabled> </hop>  <hop> <from>MANDATED_DISCOUNT_AMOUNT</from><to>Table output 3</to><enabled>Y</enabled> </hop>  <hop> <from>MANDATED_DISCOUNT_AMOUNT</from><to>Add constants 2</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -191,13 +160,13 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -214,11 +183,38 @@
     </step>
 
   <step>
+    <name>AMOUNT</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>QUANTITY</send_true_to>
+<send_false_to>Add constants 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>AMOUNT</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>789</xloc>
+      <yloc>763</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Add constants</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -235,7 +231,6 @@
         <nullif>Missing Required Field</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Length_description</name>
@@ -247,7 +242,6 @@
         <nullif>Invalid Field Length</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Type_description</name>
@@ -259,7 +253,6 @@
         <nullif>Invalid Field Type</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Record Duplicate_description</name>
@@ -271,7 +264,6 @@
         <nullif>Record Duplicate</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>userid</name>
@@ -283,7 +275,6 @@
         <nullif>1</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -295,11 +286,52 @@
     </step>
 
   <step>
+    <name>Add constants 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>error_field</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>SALES_AMOUNT</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>error_code_fieldname1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E03</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>401</xloc>
+      <yloc>779</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Audit Status</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -316,7 +348,6 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -332,18 +363,17 @@
     <type>CsvInput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;ACTUAL_MASTER_INTERFACE1.csv</filename>
+    <filename>${FILE_LOCAL_PATH}&#47;ACTUAL_MASTER_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>&#x7c;</separator>
-    <enclosure>&#x22;</enclosure>
+    <separator>|</separator>
+    <enclosure>&quot;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>N</lazy_conversion>
@@ -883,7 +913,6 @@
     <type>Validator</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -891,7 +920,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>UPLOAD_DATE</name>
 <validation_name>UPLOAD_DATE</validation_name>
 <max_length/>
@@ -931,7 +960,6 @@
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -939,7 +967,9 @@
            </partitioning>
     <connection>sys_db</connection>
     <rowlimit>0</rowlimit>
-    <sql>&#xa;SELECT userid as userid&#xa;FROM user_ where screenname&#x3d;&#x27;etluser&#x27; </sql>
+    <sql>
+SELECT userid as userid
+FROM user_ where screenname=&apos;etluser&apos; </sql>
     <outer_join>Y</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -957,7 +987,6 @@
     <type>GetVariable</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -966,7 +995,7 @@
     <fields>
       <field>
         <name>userid</name>
-        <variable>&#x24;&#x7b;userid&#x7d;</variable>
+        <variable>${userid}</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -990,7 +1019,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1228,7 +1256,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1466,7 +1493,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1704,7 +1730,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1942,7 +1967,6 @@
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1950,7 +1974,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>ACTUAL_ID</name>
 <validation_name>ACTUAL_ID</validation_name>
 <max_length/>
@@ -2380,7 +2404,6 @@
     <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2390,7 +2413,6 @@
       <replaceAllMask/>
       <selectFields>Y</selectFields>
       <selectValuesType>N</selectValuesType>
-      <setEmptyStringAll>N</setEmptyStringAll>
     <valuetypes>
       </valuetypes>
     <fields>
@@ -2398,7 +2420,6 @@
         <name>userid</name>
         <value>1</value>
         <mask/>
-        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -2414,7 +2435,6 @@
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2422,7 +2442,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>ACTUAL_ID</name>
 <validation_name>ACTUAL_ID</validation_name>
 <max_length>50</max_length>
@@ -3216,7 +3236,6 @@
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3224,7 +3243,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>ACTUAL_ID</name>
 <validation_name>ACTUAL_ID</validation_name>
 <max_length>50</max_length>
@@ -4014,11 +4033,50 @@
     </step>
 
   <step>
+    <name>MANDATED_DISCOUNT_AMOUNT</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Table output 3</send_true_to>
+<send_false_to>Add constants 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>MANDATED_DISCOUNT_AMOUNT</leftvalue>
+   <function>REGEXP</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>AND</operator>
+   <leftvalue>MANDATED_DISCOUNT_AMOUNT</leftvalue>
+   <function>IS NULL</function>
+   <rightvalue/>
+   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>635</xloc>
+      <yloc>1173</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Memory Group by</name>
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4047,11 +4105,94 @@
     </step>
 
   <step>
+    <name>PRICE</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>MANDATED_DISCOUNT_AMOUNT 2</send_true_to>
+<send_false_to>Add constants 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>PRICE</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>636</xloc>
+      <yloc>1019</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>QUANTITY</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>PRICE 2</send_true_to>
+<send_false_to>Add constants 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>QUANTITY</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>791</xloc>
+      <yloc>845</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SALES_AMOUNT</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>AMOUNT</send_true_to>
+<send_false_to>Add constants 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>SALES_AMOUNT</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>786</xloc>
+      <yloc>667</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>SNAPSHOT</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4277,7 +4418,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4503,7 +4643,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4729,7 +4868,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4955,7 +5093,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4967,7 +5104,7 @@
     <commit>1000</commit>
     <truncate>Y</truncate>
     <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
+    <use_batch>Y</use_batch>
     <specify_fields>Y</specify_fields>
     <partitioning_enabled>N</partitioning_enabled>
     <partitioning_field/>
@@ -5176,6 +5313,529 @@
       </GUI>
     </step>
 
+  <step>
+    <name>INVALID_TABLE 2 2 3 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <schema/>
+    <table>IVLD_ACTUAL_MASTER</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NAME</column_name>
+          <stream_name>ACCOUNT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NO</column_name>
+          <stream_name>ACCOUNT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_ACTUAL_END_DATE</column_name>
+          <stream_name>ACCRUAL_ACTUAL_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_ACTUAL_START_DATE</column_name>
+          <stream_name>ACCRUAL_ACTUAL_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PROCESSED</column_name>
+          <stream_name>ACCRUAL_PROCESSED</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_ID</column_name>
+          <stream_name>ACTUAL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_INTFID</column_name>
+          <stream_name>ACTUAL_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>ANALYSIS_CODE</column_name>
+          <stream_name>ANALYSIS_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CASH_PAID_DATE</column_name>
+          <stream_name>CASH_PAID_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLAIM_INDICATOR</column_name>
+          <stream_name>CLAIM_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>COM_DIV_MKT_BRAND_PROD_KEY</column_name>
+          <stream_name>COM_DIV_MKT_BRAND_PROD_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DISPENSED_DATE</column_name>
+          <stream_name>DISPENSED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DIVISION_ID</column_name>
+          <stream_name>DIVISION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>error_code_fieldname1</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>error_field</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NO</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>IS_ACTIVE</column_name>
+          <stream_name>IS_ACTIVE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MANDATED_DISCOUNT_AMOUNT</column_name>
+          <stream_name>MANDATED_DISCOUNT_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_ID</column_name>
+          <stream_name>MARKET_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>PARENTCOM_DIVMKT_BRAND_PRODKEY</column_name>
+          <stream_name>PARENTCOM_DIVMKT_BRAND_PRODKEY</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_ADJUSTMENT_NAME</column_name>
+          <stream_name>PRICE_ADJUSTMENT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PROGRAM_STATE_CODE</column_name>
+          <stream_name>PROGRAM_STATE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PROVISION_CLAIM_INDICATOR</column_name>
+          <stream_name>PROVISION_CLAIM_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PROVISION_ID</column_name>
+          <stream_name>PROVISION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY_INCLUSION</column_name>
+          <stream_name>QUANTITY_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Invalid Field Type_description</stream_name>
+        </field>
+        <field>
+          <column_name>RECORD_SEQUENCE</column_name>
+          <stream_name>RECORD_SEQUENCE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>SENT_OUT</column_name>
+          <stream_name>SENT_OUT</stream_name>
+        </field>
+        <field>
+          <column_name>SETTLEMENT_METHOD_NO</column_name>
+          <stream_name>SETTLEMENT_METHOD</stream_name>
+        </field>
+        <field>
+          <column_name>SETTLEMENT_NO</column_name>
+          <stream_name>SETTLEMENT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>UPLOAD_DATE</column_name>
+          <stream_name>UPLOAD_DATE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>228</xloc>
+      <yloc>810</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SNAPSHOT 3 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>staging</connection>
+    <schema/>
+    <table>SNAP_ACTUAL_MASTER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field>COMPANY_MASTER_INTERFACE_ID</return_field>
+    <fields>
+        <field>
+          <column_name>ACCOUNT_ID</column_name>
+          <stream_name>ACCOUNT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NAME</column_name>
+          <stream_name>ACCOUNT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ACCOUNT_NO</column_name>
+          <stream_name>ACCOUNT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_ACTUAL_END_DATE</column_name>
+          <stream_name>ACCRUAL_ACTUAL_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_ACTUAL_START_DATE</column_name>
+          <stream_name>ACCRUAL_ACTUAL_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ACCRUAL_PROCESSED</column_name>
+          <stream_name>ACCRUAL_PROCESSED</stream_name>
+        </field>
+        <field>
+          <column_name>ACCT_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ACCT_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_ID</column_name>
+          <stream_name>ACTUAL_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ACTUAL_INTFID</column_name>
+          <stream_name>ACTUAL_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AMOUNT</column_name>
+          <stream_name>AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>ANALYSIS_CODE</column_name>
+          <stream_name>ANALYSIS_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CASH_PAID_DATE</column_name>
+          <stream_name>CASH_PAID_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLAIM_INDICATOR</column_name>
+          <stream_name>CLAIM_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>COM_DIV_MKT_BRAND_PROD_KEY</column_name>
+          <stream_name>COM_DIV_MKT_BRAND_PROD_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>CONTRACT_ID</column_name>
+          <stream_name>CONTRACT_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DISPENSED_DATE</column_name>
+          <stream_name>DISPENSED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DIVISION_ID</column_name>
+          <stream_name>DIVISION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>INVOICE_LINE_NUMBER</column_name>
+          <stream_name>INVOICE_LINE_NUMBER</stream_name>
+        </field>
+        <field>
+          <column_name>IS_ACTIVE</column_name>
+          <stream_name>IS_ACTIVE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_IDENTIFIER_CODE_QUALIFIER</column_name>
+          <stream_name>ITEM_IDENTIFIER_CODE_QUALIFIER</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MANDATED_DISCOUNT_AMOUNT</column_name>
+          <stream_name>MANDATED_DISCOUNT_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_ID</column_name>
+          <stream_name>MARKET_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>PARENTCOM_DIVMKT_BRAND_PRODKEY</column_name>
+          <stream_name>PARENTCOM_DIVMKT_BRAND_PRODKEY</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE</column_name>
+          <stream_name>PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_ADJUSTMENT_NAME</column_name>
+          <stream_name>PRICE_ADJUSTMENT_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>PROGRAM_STATE_CODE</column_name>
+          <stream_name>PROGRAM_STATE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PROVISION_CLAIM_INDICATOR</column_name>
+          <stream_name>PROVISION_CLAIM_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PROVISION_ID</column_name>
+          <stream_name>PROVISION_ID</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY</column_name>
+          <stream_name>QUANTITY</stream_name>
+        </field>
+        <field>
+          <column_name>QUANTITY_INCLUSION</column_name>
+          <stream_name>QUANTITY_INCLUSION</stream_name>
+        </field>
+        <field>
+          <column_name>RECORD_SEQUENCE</column_name>
+          <stream_name>RECORD_SEQUENCE</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_AMOUNT</column_name>
+          <stream_name>SALES_AMOUNT</stream_name>
+        </field>
+        <field>
+          <column_name>SENT_OUT</column_name>
+          <stream_name>SENT_OUT</stream_name>
+        </field>
+        <field>
+          <column_name>SETTLEMENT_METHOD</column_name>
+          <stream_name>SETTLEMENT_METHOD</stream_name>
+        </field>
+        <field>
+          <column_name>SETTLEMENT_NO</column_name>
+          <stream_name>SETTLEMENT_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>UPLOAD_DATE</column_name>
+          <stream_name>UPLOAD_DATE</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>87</xloc>
+      <yloc>808</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>PRICE 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>MANDATED_DISCOUNT_AMOUNT 2</send_true_to>
+<send_false_to>PRICE</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>PRICE</leftvalue>
+ <function>IS NULL</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>793</xloc>
+      <yloc>929</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>MANDATED_DISCOUNT_AMOUNT 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Table output 3</send_true_to>
+<send_false_to>MANDATED_DISCOUNT_AMOUNT</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>MANDATED_DISCOUNT_AMOUNT</leftvalue>
+   <function>IS NULL</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>801</xloc>
+      <yloc>1079</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>Data Validator</source_step>
@@ -5241,5 +5901,4 @@
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>

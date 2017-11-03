@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 
 /**
  *
@@ -34,8 +35,8 @@ public class MedicaidQueryUtils {
     private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();
 
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
-    
-     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+
+    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     /**
      * The Constant LOGGER.
      */
@@ -91,21 +92,21 @@ public class MedicaidQueryUtils {
         input.put("?PT", priceType);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getMedicaidPercentageForView":"getMedicaidPercentage");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidPercentageForView" : "getMedicaidPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidAmountForView":"getMedicaidAmount");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidAmountForView" : "getMedicaidAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }
 
-        medicaidList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
+        medicaidList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return medicaidList;
 
     }
 
-    public void saveNotes(Map<String, String> editedValues, SessionDTO  session, String ndc9, String pricetype) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -167,7 +168,7 @@ public class MedicaidQueryUtils {
         }
     }
 
-    public String[] getTextValue(String propertyId,SessionDTO session, int itemSid, String pricetype) throws PortalException, SystemException {
+    public String[] getTextValue(String propertyId, SessionDTO session, int itemSid, String pricetype) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
@@ -215,7 +216,7 @@ public class MedicaidQueryUtils {
         return notesText;
     }
 
-    public void saveBaseYearNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException{
+    public void saveBaseYearNotes(Map<String, String> editedValues, SessionDTO session, String ndc9, String pricetype) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -251,9 +252,9 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER  IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID=" + session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9='" + ndc9.trim());
+                queryBuilder1.append("  AND NDC9='").append(ndc9.trim());
 
-                queryBuilder1.append("') AND PRICE_TYPE='" + pricetype + "'");
+                queryBuilder1.append("') AND PRICE_TYPE='").append(pricetype).append("'");
 
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
@@ -271,7 +272,7 @@ public class MedicaidQueryUtils {
         String queryName;
         ndc9 = "'" + ndc9 + "'";
         if (adjustFlag) {
-            queryName = Constant.VIEW.equalsIgnoreCase(mode) ?"getMedicaidWorkSheetAdjustmentForView":"getMedicaidWorkSheetAdjustment";
+            queryName = Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidWorkSheetAdjustmentForView" : "getMedicaidWorkSheetAdjustment";
         } else {
             queryName = Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidWorkSheetForView" : "getMedicaidWorkSheet";
         }
@@ -287,6 +288,20 @@ public class MedicaidQueryUtils {
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;
+    }
+
+    public Map<String, String> getPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+        List<Object[]> phsWSList;
+        Map<String, String> priceType = new HashMap<>();
+
+        String customSql = SQlUtil.getQuery("Medicaid_Ura_Worsheet_Helper_table");
+        customSql = customSql.replace("SCREEN_NAME", screenName);
+        phsWSList = (List<Object[]>) DAO.executeSelectQuery(customSql);
+        for (int i = 0; i < phsWSList.size(); i++) {
+            Object[] obj = phsWSList.get(i);
+            priceType.put(String.valueOf(obj[1]), String.valueOf(obj[0]));
+        }
+        return priceType;
     }
 
     public List loadMedicaidParent(int projMasterId, int brandSid, String ndc9LevelFilter, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
@@ -310,15 +325,15 @@ public class MedicaidQueryUtils {
 
         String customSql;
 
-        if (StringUtils.isNotBlank(ndc9LevelFilter)) {        
-            customSql = CustomSQLUtil.get("getMedicaidLevelFilter");
+        if (StringUtils.isNotBlank(ndc9LevelFilter)) {
+            customSql = SQlUtil.getQuery("getMedicaidLevelFilter");
             for (String key : input.keySet()) {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
             customSql += " AND IM.NDC9 = '" + ndc9LevelFilter + "'";
             customSql += " GROUP  BY IM.NDC9,IM.ITEM_DESC ORDER  BY IM.NDC9 ";
         } else {
-            customSql = CustomSQLUtil.get("getMedicaidParent");
+            customSql = SQlUtil.getQuery("getMedicaidParent");
             for (String key : input.keySet()) {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
@@ -328,7 +343,7 @@ public class MedicaidQueryUtils {
         return medicaidList;
     }
 
-    public void updateAdjustment(String ndc9, String queryName,SessionDTO session) throws PortalException, SystemException {
+    public void updateAdjustment(String ndc9, String queryName, SessionDTO session) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         Map<String, Object> input = new HashMap<>();
         ndc9 = "'" + ndc9 + "'";
@@ -369,7 +384,7 @@ public class MedicaidQueryUtils {
         return medicaidList;
     }
 
-    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9,String priceType) throws PortalException, SystemException {
+    public void saveBaseYear(Map<String, String> editedValues, SessionDTO session, String ndc9, String priceType) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -390,7 +405,7 @@ public class MedicaidQueryUtils {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR='").append(finalvalue).append("' ");
                     } else {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET ALT_BASE_YEAR=").append(0);
-}
+                    }
                 } else if (rowId.equals(Constant.NOTES)) {
 
                     queryBuilder1.append("UPDATE dbo.ST_MEDICAID_URA_ACTUALS SET NOTES='").append(formatedValue).append("' ");

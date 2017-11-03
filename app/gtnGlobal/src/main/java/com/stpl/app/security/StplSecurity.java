@@ -1,11 +1,11 @@
 package com.stpl.app.security;
 
-import com.stpl.app.global.company.util.CommonUtils;
 import com.stpl.app.global.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.domain.global.security.StplSecurityDAO;
@@ -240,7 +240,7 @@ public StplSecurityDAO getDto() {
         domainIds = getDomainPermission(userId);
         final Disjunction disJunction = RestrictionsFactoryUtil.disjunction();
         for (int i = 0; i < domainIds.size(); i++) {
-            final String dId = CommonUtils.CHAR_PERCENT + "D" + domainIds.get(i) + "D" + CommonUtils.CHAR_PERCENT;
+            final String dId = CommonUIUtils.CHAR_PERCENT + "D" + domainIds.get(i) + "D" + CommonUIUtils.CHAR_PERCENT;
             disJunction.add(RestrictionsFactoryUtil.like("domainId", dId));
         }
         companyDynamicQuery.add(disJunction);

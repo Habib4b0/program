@@ -247,6 +247,21 @@ public interface RelationshipLevelDefinitionModel extends BaseModel<Relationship
      */
     public void setLevelName(String levelName);
 
+    /**
+     * Returns the parent hierarchy no of this relationship level definition.
+     *
+     * @return the parent hierarchy no of this relationship level definition
+     */
+    @AutoEscape
+    public String getParentHierarchyNo();
+
+    /**
+     * Sets the parent hierarchy no of this relationship level definition.
+     *
+     * @param parentHierarchyNo the parent hierarchy no of this relationship level definition
+     */
+    public void setParentHierarchyNo(String parentHierarchyNo);
+
     @Override
     public boolean isNew();
 

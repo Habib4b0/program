@@ -234,17 +234,17 @@ public class NationalAssumptionLogic {
     public String removePriceType(PriceTypeDTO priceType, SessionDTO session) {
         try {
 
-            int count = 0;
+            int priceTypeCount = 0;
             String customSql = null;
             customSql = "SELECT count(*) FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
                     + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND  START_PERIOD = '" + priceType.getStartPeriod() + "'"
                     + " AND END_PERIOD = '" + priceType.getEndPeriod() + "'";
             List countObj = (List) commonDAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
             if (countObj != null && !countObj.isEmpty()) {
-                count = (int) countObj.get(0);
+                priceTypeCount = (int) countObj.get(0);
             }
 
-            if (count > 0) {
+            if (priceTypeCount > 0) {
                 customSql = "DELETE FROM dbo.ST_NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
                         + " AND PRICE_TYPE ='" + priceType.getPriceType() + "'" + " AND  START_PERIOD = '" + priceType.getStartPeriod() + "'"
                         + " AND END_PERIOD = '" + priceType.getEndPeriod() + "'";
@@ -283,7 +283,7 @@ public class NationalAssumptionLogic {
                         queryBuilder.append("'").append(priceType.getStartPeriod() != null ? priceType.getStartPeriod() : StringUtils.EMPTY).append("',");
                         queryBuilder.append("'").append(priceType.getEndPeriod() != null ? priceType.getEndPeriod() : StringUtils.EMPTY).append("',");
 
-                        if (GROWTH.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
+                        if (GROWTH.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
                             String growthString = priceType.getGrowthRate();
                             growthString = StringUtils.isNotBlank(growthString) ? growthString.trim().replace(Constant.PERCENT, StringUtils.EMPTY) : Constant.DASH;
 
@@ -299,7 +299,7 @@ public class NationalAssumptionLogic {
                             queryBuilder.append(" NULL ,");
                         }
 
-                        if (PRICE_TRENDING.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
+                        if (PRICE_TRENDING.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceType.getForecastMethodology())) {
                             String priceBasis = priceType.getPriceBasis();
 
                             switch (priceBasis) {
@@ -369,15 +369,15 @@ public class NationalAssumptionLogic {
             priceTypeResult.setPriceType(String.valueOf(obj[1]));
             priceTypeResult.setBaselineMethodology(String.valueOf(obj[NumericConstants.TWO]));
             priceTypeResult.setForecastMethodology(String.valueOf(obj[NumericConstants.THREE]));
-            if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
-                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR])));
+            if (GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
+                priceTypeResult.setGrowthRate(getFormattedGrowth(String.valueOf(obj[NumericConstants.FOUR]), GROWTH.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())));
                 priceTypeResult.setFrequency(String.valueOf(obj[NumericConstants.NINE]));
             }
             priceTypeResult.setStartPeriod(String.valueOf(obj[NumericConstants.FIVE]));
             priceTypeResult.setEndPeriod(String.valueOf(obj[NumericConstants.SIX]));
             priceTypeResult.setBasePeriod(String.valueOf(obj[NumericConstants.SEVEN]));
             priceTypeResult.setRollingPeriod(String.valueOf(obj[NumericConstants.EIGHT]));
-            if (PRICE_TRENDING.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
+            if (PRICE_TRENDING.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())||PER_OF_WAC.getConstant().equalsIgnoreCase(priceTypeResult.getForecastMethodology())) {
                 String priceBasis = String.valueOf(obj[NumericConstants.TEN] != null ? obj[NumericConstants.TEN] : StringUtils.EMPTY);
                 if (priceBasis.equals("AVGQWAC")) {
                     priceBasis = "Average Quarter WAC";
@@ -405,7 +405,7 @@ public class NationalAssumptionLogic {
             naDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.ITEM_MASTER_SID, itemNo));
             @SuppressWarnings("unchecked")
             List<StNewNdc> resultList = StNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
-            if (resultList != null && resultList.size() > 0) {
+            if (resultList != null && !resultList.isEmpty()) {
                 newNDC = resultList.get(0);
             }
 
@@ -764,7 +764,7 @@ public class NationalAssumptionLogic {
                 String ndcDescription = value[NumericConstants.TWO] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[NumericConstants.TWO];
                 String ndc = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(ndcDescription)) {
-                    ndc += ndcDescription + ", ";
+                    ndc += ndcDescription + Constant.HYPHEN;
                 }
                 ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
                 dto.setDescription(ndc);
@@ -792,11 +792,11 @@ public class NationalAssumptionLogic {
             boolean mediflag = true;
             for (final Iterator<Object[]> iterator = ndc9List.iterator(); iterator.hasNext();) {
                 final Object[] value = iterator.next();
-                dto = new HelperDTO(StringUtils.EMPTY);
+                dto = new HelperDTO(Integer.parseInt(String.valueOf(value[2])),StringUtils.EMPTY);
                 String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
                 String ndc9 = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(itemDesc)) {
-                    ndc9 += itemDesc + ", ";
+                    ndc9 += itemDesc + Constant.HYPHEN;
                 }
                 ndc9 += value[0];
                 dto.setDescription(ndc9);
@@ -988,7 +988,7 @@ public class NationalAssumptionLogic {
                 String ndcDescription = value[NumericConstants.TWO] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[NumericConstants.TWO];
                 String ndc = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(ndcDescription)) {
-                    ndc += ndcDescription + ", ";
+                    ndc += ndcDescription + Constant.HYPHEN;
                 }
                 ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
                 dto.setDescription(ndc);
@@ -1010,7 +1010,7 @@ public class NationalAssumptionLogic {
                 String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
                 String ndc9 = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(itemDesc)) {
-                    ndc9 += itemDesc + ", ";
+                    ndc9 += itemDesc + Constant.HYPHEN;
                 }
                 ndc9 += value[0];
                 dto.setDescription(ndc9);
@@ -1054,17 +1054,17 @@ public class NationalAssumptionLogic {
     public String deletePriceTypeMain(PriceTypeDTO priceType) {
         try {
             LOGGER.debug("inside deletePriceTypeMain");
-            int count = 0;
+            int intCount = 0;
             String customSql = null;
             customSql = "SELECT count(*) FROM dbo.NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
                     + " AND PRICE_TYPE = '" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
                     + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'";
             List countObj = (List) commonDAO.executeSelectQuery(customSql);
             if (countObj != null && !countObj.isEmpty()) {
-                count = (int) countObj.get(0);
+                intCount = (int) countObj.get(0);
             }
 
-            if (count > 0) {
+            if (intCount > 0) {
                 customSql = "DELETE FROM dbo.NATIONAL_ASSUMPTIONS WHERE NA_PROJ_MASTER_SID = " + priceType.getNaProjMasterSid()
                         + " AND PRICE_TYPE = '" + priceType.getPriceType() + "'" + " AND START_PERIOD = '" + priceType.getStartPeriod() + "'"
                         + " AND END_PERIOD ='" + priceType.getEndPeriod() + "'";
@@ -1078,13 +1078,13 @@ public class NationalAssumptionLogic {
         return Constant.SUCCESS;
     }
 
-    public String getFormattedGrowth(String value) {
+    public String getFormattedGrowth(String value, boolean isGrowth) {
         if (value.contains(Constant.NULL)) {
             value = StringUtils.EMPTY;
         } else {
             Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
-            value = PER_FOUR.format(newValue);
+            value = isGrowth ? PER_FOUR.format(newValue) : PER_FOUR.format(newValue) ;
         }
         return value;
     }
@@ -1360,8 +1360,8 @@ public class NationalAssumptionLogic {
     public int getCount(List<Object[]> list) {
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            int count = obj == null ? 0 : (Integer) obj;
-            return count;
+            int listCount = obj == null ? 0 : (Integer) obj;
+            return listCount;
         }
         return 0;
     }

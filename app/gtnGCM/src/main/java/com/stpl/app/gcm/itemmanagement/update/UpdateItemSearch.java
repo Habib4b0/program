@@ -65,7 +65,7 @@ public class UpdateItemSearch extends AbstractContractSearch {
         } else {
             selection.setCountQueryName("Item Load contract Count");
             selection.setDataQueryName("Load contract Item");
-            searchButtonLogic();
+            searchButtonLogic(true);
         }
     }
 

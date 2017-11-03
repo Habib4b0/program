@@ -95,8 +95,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -123,7 +121,7 @@ import org.kie.api.task.model.TaskSummary;
 public class ForecastForm extends AbstractForm {
 
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastForm.class);
-    
+
     /**
      * The data.
      */
@@ -250,7 +248,7 @@ public class ForecastForm extends AbstractForm {
         this.editWindow = editWindow;
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(screenName) || CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(screenName)) {
             isCommercialGovernment = Boolean.TRUE;
-             this.forecastWindow = forecastWindow;
+            this.forecastWindow = forecastWindow;
         }
         this.resultTable = resultTable;
         this.screenName = screenName;
@@ -279,7 +277,7 @@ public class ForecastForm extends AbstractForm {
         session.setPpaIndicator(true);
         forecastDTOConfiguration();
         this.data = new DataSelection(dataSelectionBinder, dataSelectionDTO, session, this, screenName, dataSelectionForm);
-            
+
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             session.setMaximumCustomerLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(), Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY));
             session.setMaximumProductLevel(dsLogic.getMaximumLevelNo(session.getHierarchyLevelDetails(), Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY));
@@ -318,12 +316,12 @@ public class ForecastForm extends AbstractForm {
             dsThread = new Thread(createRunnable());
             dsThread.start();
             if(Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction())){
-                  logic.tempTableInsertReturns(session, "RETURNS_EDIT_TEMP_INSERT_QUERY");
+                logic.tempTableInsertReturns(session, "RETURNS_EDIT_TEMP_INSERT_QUERY");
             }
             this.returnsProjection = new ReturnsProjection(session, screenName);
 
         }
-}
+    }
 
     /**
      * Adds the content to the screen.
@@ -374,15 +372,15 @@ public class ForecastForm extends AbstractForm {
             getBtnCancel().setVisible(false);
         }
 
-            getBtnSubmit().setEnabled(true);
+        getBtnSubmit().setEnabled(true);
         configureForView();
         setTabSecurity();
         setButtonSecurity();
         if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             tabSheet.setSelectedTab(2);
         } else {
-        tabSheet.setSelectedTab(1);
-    }
+            tabSheet.setSelectedTab(1);
+        }
     }
 
     protected void initializeLazyTabLoad(final Map<Integer, Boolean> tabLazyLoadMap, final int componentCount) {
@@ -458,7 +456,7 @@ public class ForecastForm extends AbstractForm {
         tabSheet.addSelectedTabChangeListener(new TabSheet.SelectedTabChangeListener() {
             @Override
             public void selectedTabChange(final TabSheet.SelectedTabChangeEvent event) {
-              boolean checkSalesFlag = false;
+                boolean checkSalesFlag = false;
                 final Tab tab = (Tab) event.getTabSheet().getTab(event.getTabSheet().getSelectedTab());
                 tabPosition = event.getTabSheet().getTabPosition(tab);
                 buttonEnableLogic(tabPosition, tabSheet.getComponentCount() - 1);
@@ -479,14 +477,22 @@ public class ForecastForm extends AbstractForm {
                         if (tabSheet.getTab(tabPosition).isVisible() && tabPosition == NumericConstants.SEVEN) {
                             nonmandatedprojectionResults.defaultFocus();
                         }
+                        if(tabPosition == NumericConstants.TWO)
+                        {
+                            session.setIsDeductionCustom(false);
+                        }
+                        if(tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE)
+                        {
+                            session.setIsDeductionCustom(true);
+                        }
                         onTabChange(tabPosition);
 
                     } else if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
-                    //To check wheather the thread is alive
-                    if (tabPosition == 0) {
+                        //To check wheather the thread is alive
+                        if (tabPosition == 0) {
                      session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD,0).get();
-                    }
-                    checkSalesFlag = checkLastPositionTab(tabPosition);
+                        }
+                        checkSalesFlag = checkLastPositionTab(tabPosition);
                         if (checkSalesFlag) {
                             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
                         }
@@ -581,7 +587,6 @@ public class ForecastForm extends AbstractForm {
                                 try {
                                     data.updateDataSelection();
                                     if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-                                        List<Integer> productListValue = DataSelection.getProductBeanLisTemp();
                                         data.updateDataSelectionSelectedProducts();
                                         data.updateProjectionProdHierarchy();
                                         dsLogic.updateReturnDetails(session);
@@ -753,85 +758,84 @@ public class ForecastForm extends AbstractForm {
         try {
 
             if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
-                    dsFlag = false;
-                    tempTabPosition = tabPosition;
-                    tabSheet.setSelectedTab(0);
-                    new AbstractNotificationUtils() {
-                        @Override
-                        public void yesMethod() {
-                            try {
-                                if (data.isReturnsDataSelectionValid()) {
-                                    List<Integer> productListValue = DataSelection.getProductBeanLisTemp();
+                dsFlag = false;
+                tempTabPosition = tabPosition;
+                tabSheet.setSelectedTab(0);
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void yesMethod() {
+                        try {
+                            if (data.isReturnsDataSelectionValid()) {
 
-                                    data.updateDataSelection();
-                                    data.updateDataSelectionSelectedProducts();
-                                    data.updateProjectionProdHierarchy();
-                                    dsLogic.updateReturnDetails(session);
+                                data.updateDataSelection();
+                                data.updateDataSelectionSelectedProducts();
+                                data.updateProjectionProdHierarchy();
+                                dsLogic.updateReturnDetails(session);
                                     session.setReturnsDetailsMap(dsLogic.getReturnDetails( session, true));
-                                    dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(), SalesUtils.RETURNS_SALES_INSERT_PRO_NAME);
-                                    if (session.isFromDateChanged()) {
-                                        DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-                                        session.setFromDateChanged(false);
-                                    }
-                                    tabSheet.setSelectedTab(tempTabPosition);
-                                    tabPosition = tempTabPosition;
-                                    dsFlag = true;
-
-                                    returnsProjection.customContainer.removeAllItems();
-                                    returnsProjection.init();
-
-                                } else {
-
-                                    try {
-                                        Tab tabToReset = tabSheet.getTab(1);
-                                        tabSheet.removeTab(tabToReset);
-                                        tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
-                                        tabSheet.setSelectedTab(0);
-                                        data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
-                                        tabPosition = 0;
-                                        dsFlag = true;
-                                    } catch (Exception e) {
-                                        LOGGER.error(e);
-                                    }
-
-                                    AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
+                                dsLogic.callInsertProcedure(session.getProjectionId(), session.getUserId(), session.getSessionId(), SalesUtils.RETURNS_SALES_INSERT_PRO_NAME);
+                                if (session.isFromDateChanged()) {
+                                    DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                                    session.setFromDateChanged(false);
                                 }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                tabSheet.setSelectedTab(tempTabPosition);
+                                tabPosition = tempTabPosition;
+                                dsFlag = true;
+
+                                returnsProjection.customContainer.removeAllItems();
+                                returnsProjection.init();
+
+                            } else {
+
+                                try {
+                                    Tab tabToReset = tabSheet.getTab(1);
+                                    tabSheet.removeTab(tabToReset);
+                                    tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
+                                    tabSheet.setSelectedTab(0);
+                                    data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
+                                    tabPosition = 0;
+                                    dsFlag = true;
+                                } catch (Exception e) {
+                                    LOGGER.error(e);
+                                }
+
+                                AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                             }
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
                         }
-
-                        @Override
-                        public void noMethod() {
-                            try {
-                                Tab tabToReset = tabSheet.getTab(1);
-                                tabSheet.removeTab(tabToReset);
-                                tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
-                                tabSheet.setSelectedTab(0);
-                                data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
-                                tabPosition = 0;
-
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
-                            }
-                            dsFlag = true;
-                        }
-                    }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-                    data.setReloadAfterUpdate(Boolean.FALSE);
-                    data.setUpdateOnTabChange(Boolean.FALSE);
-                }
-            if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
-                    try {
-
-                        data.setReloadAfterUpdate(Boolean.FALSE);
-                    } catch (Exception ex) {
-                        LOGGER.error(ex);
                     }
+
+                    @Override
+                    public void noMethod() {
+                        try {
+                            Tab tabToReset = tabSheet.getTab(1);
+                            tabSheet.removeTab(tabToReset);
+                            tabSheet.addTab(returnsProjection, Constant.RETURNS_PROJECTION, null, 1);
+                            tabSheet.setSelectedTab(0);
+                            data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
+                            tabPosition = 0;
+
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
+                        }
+                        dsFlag = true;
+                    }
+                }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
+                data.setReloadAfterUpdate(Boolean.FALSE);
+                data.setUpdateOnTabChange(Boolean.FALSE);
+            }
+            if ((tabPosition == data.getTabNumber()) && (data.isReloadAfterUpdate())) {
+                try {
+
+                    data.setReloadAfterUpdate(Boolean.FALSE);
+                } catch (Exception ex) {
+                    LOGGER.error(ex);
                 }
+            }
 
             if ((tabPosition == data.getTabNumber()) && (Constant.EDIT_SMALL.equals(session.getAction()))) {
 
-                }
+            }
 
             lastPosition = tabPosition;
         } catch (Exception ex) {
@@ -844,69 +848,69 @@ public class ForecastForm extends AbstractForm {
         try {
 
             if ((lastPosition == data.getTabNumber()) && (data.isUpdateOnTabChange() && dsFlag)) {
-                    dsFlag = false;
-                    tempTabPosition = tabPosition;
-                    tabSheet.setSelectedTab(0);
-                    new AbstractNotificationUtils() {
-                        @Override
-                        public void yesMethod() {
-                            try {
-                                if (data.isDataSelectionValid()) {
-                                    data.updateDataSelection();
-                                     nmSalesInsertProcedure();
-                                    if (session.isFromDateChanged()) {
+                dsFlag = false;
+                tempTabPosition = tabPosition;
+                tabSheet.setSelectedTab(0);
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void yesMethod() {
+                        try {
+                            if (data.isDataSelectionValid()) {
+                                data.updateDataSelection();
+                                nmSalesInsertProcedure();
+                                if (session.isFromDateChanged()) {
 
-                                        DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
-                                        session.setFromDateChanged(false);
-                                    }
-                                    tabSheet.setSelectedTab(tempTabPosition);
-                                    tabPosition = tempTabPosition;
-                                    dsFlag = true;
-                                    salesProjectionForMandated.init();
-                                    salesProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-                                    discountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-                                    projectionVarianceForMandated.resultBeanContainer.removeAllItems();
-                                    mmdiscountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-                                } else {
-
-                                    try {
-                                        Tab tabToReset = tabSheet.getTab(1);
-                                        tabSheet.removeTab(tabToReset);
-                                        tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
-                                        tabSheet.setSelectedTab(0);
-                                        data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
-                                        tabPosition = 0;
-                                        dsFlag = true;
-                                    } catch (Exception e) {
-                                        LOGGER.error(e);
-                                    }
-
-                                    AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
+                                    DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                                    session.setFromDateChanged(false);
                                 }
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
-                            }
-                        }
+                                tabSheet.setSelectedTab(tempTabPosition);
+                                tabPosition = tempTabPosition;
+                                dsFlag = true;
+                                salesProjectionForMandated.init();
+                                salesProjectionResultsForMandated.resultBeanContainer.removeAllItems();
+                                discountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
+                                projectionVarianceForMandated.resultBeanContainer.removeAllItems();
+                                mmdiscountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
+                            } else {
 
-                        @Override
-                        public void noMethod() {
-                            try {
-                                Tab tabToReset = tabSheet.getTab(1);
-                                tabSheet.removeTab(tabToReset);
-                                tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
-                                tabSheet.setSelectedTab(0);
-                                data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
-                                tabPosition = 0;
+                                try {
+                                    Tab tabToReset = tabSheet.getTab(1);
+                                    tabSheet.removeTab(tabToReset);
+                                    tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
+                                    tabSheet.setSelectedTab(0);
+                                    data.configureOnLoading(session.getProjectionId(), dataSelectionDTO);
+                                    tabPosition = 0;
+                                    dsFlag = true;
+                                } catch (Exception e) {
+                                    LOGGER.error(e);
+                                }
 
-                            } catch (Exception ex) {
-                                LOGGER.error(ex);
+                                AbstractNotificationUtils.getErrorNotification(Constant.SELECTION_CRITERIA_HEADER, Constant.NOT_ALL_REQUIRED_FIELDS_POPULATED);
                             }
-                            dsFlag = true;
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
                         }
-                    }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
-                    data.setReloadAfterUpdate(Boolean.FALSE);
-                    data.setUpdateOnTabChange(Boolean.FALSE);
-                }
+                    }
+
+                    @Override
+                    public void noMethod() {
+                        try {
+                            Tab tabToReset = tabSheet.getTab(1);
+                            tabSheet.removeTab(tabToReset);
+                            tabSheet.addTab(salesProjectionForMandated, Constant.SALES_PROJECTION, null, 1);
+                            tabSheet.setSelectedTab(0);
+                            data.configureOnTabLoad(session.getProjectionId(), dataSelectionDTO);
+                            tabPosition = 0;
+
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
+                        }
+                        dsFlag = true;
+                    }
+                }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.DATA_SELECTION_VALUES_HAVE_CHANGED);
+                data.setReloadAfterUpdate(Boolean.FALSE);
+                data.setUpdateOnTabChange(Boolean.FALSE);
+            }
             switch (tabPosition) {
 
                 case Constant.ZERO:
@@ -939,15 +943,17 @@ public class ForecastForm extends AbstractForm {
                     session.setDprRefreshReqd(true);
                     break;
                 case Constant.FIVE:
-                    
+
                     mandatedprojectionResults.configureScreen();
-                     session.setPrRefreshReqd(true);
+                    session.setPrRefreshReqd(true);
                     break;
                 case Constant.SIX:
                     projectionVarianceForMandated.configureScreen();
                     projectionVarianceForMandated.contractTypeList.clear();
                     break;
                 case Constant.SEVEN:
+                    break;
+                default:
                     break;
 
             }
@@ -983,7 +989,7 @@ public class ForecastForm extends AbstractForm {
 
             } else if (tabPosition == projectionVariance.getTabNumber()) {
                 tabSheet.replaceComponent(projectionVariance, projectionVariance);
-                projectionVariance.setProjectionSelection();
+                projectionVariance.setProjectionSelection(false);
             } else if (tabPosition == NumericConstants.NINE) {
                 tabSheet.replaceComponent(additionalInformation, additionalInformation);
                 try {
@@ -1016,7 +1022,7 @@ public class ForecastForm extends AbstractForm {
     @Override
     protected void btnSaveLogic() {
         MessageBox
-                .showPlain(Icon.QUESTION, "Save Confirmation", "Save record " + session.getProjectionName() + "?", new MessageBoxListener() {
+                .showPlain(Icon.QUESTION, "Save Confirmation", "Are you sure you want to save the projection?", new MessageBoxListener() {
                     public void buttonClicked(ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             try {
@@ -1054,7 +1060,7 @@ public class ForecastForm extends AbstractForm {
         } else {
             if (tabPosition != Constant.ZERO) {
                 tabSheet.setSelectedTab(tabPosition - 1);
-            } 
+            }
         }
     }
 
@@ -1090,10 +1096,10 @@ public class ForecastForm extends AbstractForm {
 
                 msgContent = "Do you want to save the changes made to the projection < " + data.getProjectionName() + " >?";
             } else {
-                msgContent = "Any unsaved information will not be saved. Do you want to proceed?";
+                msgContent = "Changes have been made to the projection. Would you like to save the changes before closing?";
             }
         } else {
-            msgTitle = "Close Confirmation";
+            msgTitle = Constant.CLOSE_CONFIRMATION;
             msgContent = "Are you sure you want to close this Projection?";
         }
 
@@ -1140,15 +1146,15 @@ public class ForecastForm extends AbstractForm {
             public void noMethod() {
               if (!screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION))  {
                    if(screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED) && (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()))){
-                   if (editWindow != null) {
-                    closeEditTray(editWindow);
-                    editWindow.close();
-                       } else if (isCommercialGovernment && forecastWindow != null) {
-                           closeEditTray(forecastWindow);
-                           forecastWindow.close();
-                }
+                        if (editWindow != null) {
+                            closeEditTray(editWindow);
+                            editWindow.close();
+                        } else if (isCommercialGovernment && forecastWindow != null) {
+                            closeEditTray(forecastWindow);
+                            forecastWindow.close();
+                        }
                 }else if /*session.isSaveFlag() &&*/(Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
-                        checkSaveFlag(false);
+                        checkCloseFlag(true);
                     }
                 }
             }
@@ -1157,14 +1163,13 @@ public class ForecastForm extends AbstractForm {
     }
 
     private void checkSaveFlag(boolean flag)  {
-        final NonMandatedLogic logic;
         if (!session.isProjectionSaveFlag()) {
             if (dataSelectionDTO != null && Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
                 new AbstractNotificationUtils() {
                     @Override
                     public void yesMethod() {
                         try {
-                        
+
                             if (resultTable != null) {
                                 resultTable.removeAllItems();
                                 BeanItemContainer<DataSelectionDTO> tempContainer = new BeanItemContainer<>(DataSelectionDTO.class);
@@ -1172,8 +1177,8 @@ public class ForecastForm extends AbstractForm {
                                 resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
                                 resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
                             }
-                            dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
-                        }
+                              saveProjection();
+                        } 
                         catch (Exception ex) {
                             LOGGER.error(ex);
                         }
@@ -1193,9 +1198,18 @@ public class ForecastForm extends AbstractForm {
 
                     @Override
                     public void noMethod() {
-                        tabSheet.setSelectedTab(0);
+                        if (editWindow != null) {
+                            closeEditTray(editWindow);
+                            editWindow.close();
+                        } else if (isCommercialGovernment && forecastWindow != null) {
+                            closeEditTray(forecastWindow);
+                        }
+                        if (viewWindow != null) {
+                            closeViewTray(viewWindow);
+                            viewWindow.close();
+                        }
                     }
-                }.getConfirmationMessage("Close Confirmation", "Changes have been made to the projection. Would you like to save the changes before closing?");
+                }.getConfirmationMessage(Constant.CLOSE_CONFIRMATION, "Changes have been saved. Do you want to close the projection now?");
             } else if (flag) {
                 if (editWindow != null) {
                     closeEditTray(editWindow);
@@ -1210,7 +1224,7 @@ public class ForecastForm extends AbstractForm {
                 }
             }
         } else {
-           
+
             if (flag) {
                 if (editWindow != null) {
                     closeEditTray(editWindow);
@@ -1232,7 +1246,7 @@ public class ForecastForm extends AbstractForm {
      * Logic to save the projection.
      */
     @Override
-    protected void btnSubmitLogic() {
+        protected void btnSubmitLogic() {
         if (Constant.EDIT_SMALL.equalsIgnoreCase(session.getAction()) || Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 if (submitCheck()) {
@@ -1263,15 +1277,15 @@ public class ForecastForm extends AbstractForm {
     private void submitLogic(final boolean isCommercial) {
         new AbstractNotificationUtils() {
             @Override
-            public void yesMethod() {
+        public void yesMethod() {
                 final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
                 getUI().getCurrent().addWindow(popup);
                 popup.addCloseListener(new Window.CloseListener() {
                     @Override
-                    public void windowClose(Window.CloseEvent e) {
+        public void windowClose(Window.CloseEvent e) {
                         try {
                             nmPPAInitProcedure();
-                            if ( ppaProjectionResults != null && ppaProjectionResults.isIsTabVisible()) {
+                            if (ppaProjectionResults.isIsTabVisible()) {
                                 ppaProjectionResults.getContent();
                                 ppaProjectionResults.ppaProcedure();
                             }
@@ -1302,7 +1316,7 @@ public class ForecastForm extends AbstractForm {
             }
 
             @Override
-            public void noMethod() {
+        public void noMethod() {
                 if (isCommercial) {
                     dataAssumption.isSalesCalculatedAlready();
                 }
@@ -1478,7 +1492,7 @@ public class ForecastForm extends AbstractForm {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
-                        public void buttonClicked(final ButtonId buttonId) {
+        public void buttonClicked(final ButtonId buttonId) {
                             if (session.getWorkflowId() != 0) {
                                 getBtnSave().setEnabled(false);
                                 getBtnSubmit().setEnabled(false);
@@ -1494,7 +1508,7 @@ public class ForecastForm extends AbstractForm {
 
             } else {
                 submitProjection(notes, screenName, getUploadedData);
-                    }
+}
                         } catch (Exception ex) {
                             Logger.getLogger(ForecastForm.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -1540,7 +1554,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     @Override
-    protected void btnRefreshLogic() {
+        protected void btnRefreshLogic() {
 
         saveProjection();
     }
@@ -1784,7 +1798,7 @@ public class ForecastForm extends AbstractForm {
         if (logic.checkForZeroActuals(session)) {
             new AbstractNotificationUtils() {
                 @Override
-                public void yesMethod() {
+        public void yesMethod() {
                     try {
                         if(!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)){
                         callInsertProcedureOnGenerate(session, screenName);
@@ -1797,7 +1811,7 @@ public class ForecastForm extends AbstractForm {
                 }
 
                 @Override
-                public void noMethod() {
+        public void noMethod() {
                     try {
                         logic.removeTPOrCustomerFromProjection(session);
                          if(!screenName.equals(Constants.BUSINESS_PROCESS_TYPE_NONMANDATED)){
@@ -1830,7 +1844,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     @Override
-    protected void btnApproveLogic() {
+        protected void btnApproveLogic() {
 
         MessageBox.showPlain(Icon.QUESTION, "Confirm Approve", "Are you sure you want to approve the projection " + " ?", new MessageBoxListener() {
             public void buttonClicked(ButtonId buttonId) {
@@ -1840,7 +1854,7 @@ public class ForecastForm extends AbstractForm {
                     getUI().getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+        public void windowClose(Window.CloseEvent e) {
                             try {
                                 int projectionId = session.getProjectionId();
                                 String userId = session.getUserId();
@@ -1886,7 +1900,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     @Override
-    protected void btnRejectLogic() {
+        protected void btnRejectLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reject", "Are you sure you want to reject the projection " + " ?", new MessageBoxListener() {
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
@@ -1894,7 +1908,7 @@ public class ForecastForm extends AbstractForm {
                     getUI().getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+        public void windowClose(Window.CloseEvent e) {
                             try {
                                 int projectionId = session.getProjectionId();
                                 String userId = session.getUserId();
@@ -1932,7 +1946,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     @Override
-    protected void btnWithdrawLogic() {
+        protected void btnWithdrawLogic() {
 
         MessageBox.showPlain(Icon.QUESTION, "Confirm Withdraw", "Are you sure you want to withdraw the projection " + " ?", new MessageBoxListener() {
             public void buttonClicked(ButtonId buttonId) {
@@ -1941,7 +1955,7 @@ public class ForecastForm extends AbstractForm {
                     getUI().getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+        public void windowClose(Window.CloseEvent e) {
                             try {
                                 int projectionId = session.getProjectionId();
                                 String userId = session.getUserId();
@@ -1981,7 +1995,7 @@ public class ForecastForm extends AbstractForm {
     }
 
     @Override
-    protected void btnCancelLogic() {
+        protected void btnCancelLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Cancel", "Are you sure you want to cancel the projection " + " ?", new MessageBoxListener() {
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
@@ -1989,7 +2003,7 @@ public class ForecastForm extends AbstractForm {
                     getUI().getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
                         @Override
-                        public void windowClose(Window.CloseEvent e) {
+        public void windowClose(Window.CloseEvent e) {
                             try {
                                 int projectionId = session.getProjectionId();
                                 String userId = session.getUserId();
@@ -2062,7 +2076,7 @@ public class ForecastForm extends AbstractForm {
         Runnable runnable = new Runnable() {
 
             @Override
-            public void run() {
+        public void run() {
                 try {
                    data.init();
                    latch.countDown();
@@ -2083,7 +2097,7 @@ public class ForecastForm extends AbstractForm {
             synchronized (th) {
             try {
                     th.wait();
-                } catch (InterruptedException ex) {
+} catch (InterruptedException ex) {
                     Logger.getLogger(ForecastForm.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -2169,15 +2183,17 @@ public class ForecastForm extends AbstractForm {
                 nmPPAProcedure();
               
                 break;
-                
+       
             case Constant.VIEW:
 
                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCallForView()))});
                 //Main to temp insert
                 logic.mainToTempTableInsert(session, service);
-            
+
                 session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
 
+                break;
+            default:
                 break;
 
         }
@@ -2215,15 +2231,15 @@ public class ForecastForm extends AbstractForm {
 
                 //Call sales Insert Procedure
                 nmSalesInsertProcedure();
-                 //supplement discount insert threads need to be completed before calling supplement discound procedure thread
+                //supplement discount insert threads need to be completed before calling supplement discound procedure thread
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.SUPPLEMENTAL));
                 //Call supplement Insert Procedure
                 supplementDiscountProcedure();
-                
+
                 //Call supplement Insert Procedure
                 mDiscountProcedure();
                 break;
-                
+
             case Constant.VIEW:
 
                 session.addFutureMap(Constant.FILE_INSERT, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.MERGE_QUERY, dataInsertProcedureCall()))});
@@ -2231,10 +2247,11 @@ public class ForecastForm extends AbstractForm {
                 logic.mainToTempTableInsertForMandated(session, service);
 
                 session.addFutureMap(Constant.DATA_SELECTION_TAB_LOAD, new Future[]{service.submit(CommonUtil.getInstance().createRunnable(Constant.DATA_SELECTION_TAB_LOAD, data))});
-                
-            
+
                 //Call supplement Insert Procedure
-                 mDiscountProcedure();
+                mDiscountProcedure();
+                break;
+            default:
                 break;
 
         }
@@ -2312,7 +2329,7 @@ public class ForecastForm extends AbstractForm {
      private void callContractDetailsPrcForDiscount(){
          Runnable runnable = new Runnable() {
             @Override
-            public void run() {
+        public void run() {
                 Thread.currentThread().setName(Constant.PRC_CONTRACT_DETAILS_REBATE);
                  //It will wait until the discount insert procedure complete 
                 CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.DISCOUNT_PROCEDURE_CALL));
@@ -2342,10 +2359,86 @@ public class ForecastForm extends AbstractForm {
       * calculation procedure will be triggered once the insert procedure is done
       * 
       */
-      private void mDiscountProcedure() {
-         Future mDiscountInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, Constant.PRC_M_DISCOUNT_INSERT, session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
-         session.addFutureMap(Constant.M_DISCOUNT_PROCEDURE_CALL, new Future[]{mDiscountInsert});
-     }
-      
+     private void mDiscountProcedure() {
+        Future mDiscountInsert = service.submit(CommonUtil.getInstance().createRunnable(Constant.PROCEDURE_CALL, Constant.PRC_M_DISCOUNT_INSERT, session.getProjectionId(), session.getUserId(), "SPAP", session.getSessionId()));
+        session.addFutureMap(Constant.M_DISCOUNT_PROCEDURE_CALL, new Future[]{mDiscountInsert});
+    }
+     
+    private void checkCloseFlag(boolean flag) {
+        
+        if (!session.isProjectionSaveFlag()) {
+            if (dataSelectionDTO != null && Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction())) {
+                new AbstractNotificationUtils() {
+                    @Override
+                    public void yesMethod() {
+                        try {
+
+                            if (resultTable != null) {
+                                resultTable.removeAllItems();
+                                BeanItemContainer<DataSelectionDTO> tempContainer = new BeanItemContainer<>(DataSelectionDTO.class);
+                                resultTable.setContainerDataSource(tempContainer);
+                                resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().dataSelectionColumns);
+                                resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().dataSelectionHeaders);
+                            }
+                            dsLogic.deleteProjection(session.getProjectionId(), session.getUserId(), screenName);
+                        } catch (Exception ex) {
+                            LOGGER.error(ex);
+                        }
+                        if (editWindow != null) {
+                            closeEditTray(editWindow);
+                            editWindow.close();
+                        } else if (isCommercialGovernment && forecastWindow != null) {
+                            closeEditTray(forecastWindow);
+                            forecastWindow.close();
+                        }
+                        if (viewWindow != null) {
+                            closeViewTray(viewWindow);
+                            viewWindow.close();
+                        }
+
+                    }
+
+                    @Override
+                    public void noMethod() {
+                        if (editWindow != null) {
+                            closeEditTray(editWindow);
+                            editWindow.close();
+                        } else if (isCommercialGovernment && forecastWindow != null) {
+                            closeEditTray(forecastWindow);
+                        }
+                        if (viewWindow != null) {
+                            closeViewTray(viewWindow);
+                            viewWindow.close();
+                        }
+                    }
+                }.getConfirmationMessage(Constant.CLOSE_CONFIRMATION, "Changes have not been saved.Do you want to close the projection now?");
+            } else if (flag) {
+                if (editWindow != null) {
+                    closeEditTray(editWindow);
+                    editWindow.close();
+                } else if (isCommercialGovernment && forecastWindow != null) {
+                    closeEditTray(forecastWindow);
+                    forecastWindow.close();
+                }
+                if (viewWindow != null) {
+                    closeViewTray(viewWindow);
+                    viewWindow.close();
+                }
+            }
+        } else if (flag) {
+            if (editWindow != null) {
+                closeEditTray(editWindow);
+                editWindow.close();
+            } else if (isCommercialGovernment && forecastWindow != null) {
+                closeEditTray(forecastWindow);
+                forecastWindow.close();
+            }
+            if (viewWindow != null) {
+                closeViewTray(viewWindow);
+                viewWindow.close();
+            }
+        }
     }
 
+}
+                           

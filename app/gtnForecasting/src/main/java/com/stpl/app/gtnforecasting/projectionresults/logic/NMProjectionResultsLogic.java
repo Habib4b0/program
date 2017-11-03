@@ -511,7 +511,7 @@ public class NMProjectionResultsLogic {
             } else if (projSelDTO.getSales().contains(Constant.RATE)) {
                 projDTO.setGroup("Total Discount %");
             } else {
-                projDTO.setGroup(Constant.Total_RPU);
+                projDTO.setGroup(Constant.TOTAL_RPU_CAPS);
             }
         } else {
             if (discount != null) {
@@ -634,8 +634,8 @@ public class NMProjectionResultsLogic {
                 + "\n";
         String gtsListQuery = cogsSelect + " \n " + CCPQuery + " \n" + getProjectionResultsPivotQuery(projSelDTO);
         List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(gtsListQuery, projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
-        List discountList = getTotalRPUDollar(projSelDTO, Boolean.TRUE, 0);
-        projDTOList = getCustomizedProjectionPivot(gtsList, discountList, projSelDTO);
+        List discList = getTotalRPUDollar(projSelDTO, Boolean.TRUE, 0);
+        projDTOList = getCustomizedProjectionPivot(gtsList, discList, projSelDTO);
         return projDTOList;
     }
     
@@ -643,7 +643,6 @@ public class NMProjectionResultsLogic {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
-        String newDiscount;
         int discountIndex = 0;
         int col = NumericConstants.TWO;
         int dcol = NumericConstants.TWO;
@@ -1008,7 +1007,6 @@ public class NMProjectionResultsLogic {
         projectionTotalList.clear();
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
-        String newDiscount;
         int discountIndex = 0;
         int col = NumericConstants.FIVE;
         int dcol = NumericConstants.THREE;
@@ -1728,7 +1726,7 @@ public class NMProjectionResultsLogic {
             projDTOList = new ArrayList<>(prjTotalDisDolDtoList);
         } else if (projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER) ) {
             projDTOList = new ArrayList<>(prjTotalDisPerDtoList);
-        } else if (projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+        } else if (projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
             projDTOList = new ArrayList<>(prjTotalRPUDtoList);
         } else if (projSelDTO.getGroup().contains(Constant.DISCOUNT_PER_OF_EX_FACTORY_HEADER)) {
             projDTOList = new ArrayList<>(prjDisDolExfacDtoList);
@@ -2076,7 +2074,7 @@ public class NMProjectionResultsLogic {
         projSelDTO.setProjectionHeaderList(CommonUtils.prepareProjectionPeriodList(projSelDTO));
         Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, discList, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId()};
         if (!projSelDTO.getGroup().startsWith(Constant.ALL)
-                && !projSelDTO.getGroup().contains(Constant.SALES_)
+                && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 if ((projSelDTO.isIsTotal()) && (projSelDTO.isIsProjectionTotal())) {
@@ -2175,7 +2173,7 @@ public class NMProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT) && !projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT) && !projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
                             if ((salesUnits.equals(BOTH.getConstant()) && started == NumericConstants.NINE) || started == NumericConstants.EIGHT) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                                     ProjectionResultsDTO discountPerDto = projectionTotalList.get(NumericConstants.EIGHT);
@@ -2197,7 +2195,7 @@ public class NMProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
                             if ((salesUnits.equals(BOTH.getConstant()) && started == NumericConstants.ELEVEN) || started == NumericConstants.TEN) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                                     ProjectionResultsDTO discountDolDto = projectionTotalList.get(NumericConstants.TEN);
@@ -2297,7 +2295,7 @@ public class NMProjectionResultsLogic {
                             mayBeAdded++;
                         }
                         List<ProjectionResultsDTO> list = getTotalDiscountLevels(projSelDTO, 0);
-                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT) && !projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_AMOUNT) && !projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
                             if ((salesUnits.equals(BOTH.getConstant()) && started == NumericConstants.TWO) || started == 1) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                                     ProjectionResultsDTO discountPerDtoList = list.get(0);
@@ -2319,7 +2317,7 @@ public class NMProjectionResultsLogic {
                             }
                             mayBeAdded++;
                         }
-                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+                        if (neededRecord > 0 && !projSelDTO.getGroup().contains(CommonUtils.VAR_DIS_RATE) && !projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
                             if ((salesUnits.equals(BOTH.getConstant()) && started == NumericConstants.FOUR) || started == NumericConstants.THREE) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                                     ProjectionResultsDTO discountDolarDtoList = list.get(NumericConstants.TWO);
@@ -2416,7 +2414,7 @@ public class NMProjectionResultsLogic {
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
                     }
-                    if (projSelDTO.getGroup().contains(Constant.Total_RPU)) {
+                    if (projSelDTO.getGroup().contains(Constant.TOTAL_RPU_CAPS)) {
                         if (started < (projSelDTO.getDiscountNameList().size()+ ppaCount)) {
                             List<ProjectionResultsDTO> discountPerDtoList;
                             if (projSelDTO.isIsProjectionTotal()) {
@@ -2501,7 +2499,7 @@ public class NMProjectionResultsLogic {
                 if ((neededRecord > 0 && projSelDTO.isIsTotal() && !projSelDTO.isIsFilter()) && ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                         && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY))))
                         && !projSelDTO.getGroup().startsWith(Constant.ALL)
-                        && !projSelDTO.getGroup().contains(Constant.SALES_)
+                        && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
                         && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                         && !projSelDTO.getGroup().contains(Constant.PPA)) {
 
@@ -2675,7 +2673,7 @@ public class NMProjectionResultsLogic {
          CommonLogic commonLogic = new CommonLogic();
          String query = StringUtils.EMPTY;
         if (!projSelDTO.getGroup().startsWith(Constant.ALL)
-                && !projSelDTO.getGroup().contains(Constant.SALES_)
+                && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
@@ -2724,7 +2722,7 @@ public class NMProjectionResultsLogic {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
                     && !projSelDTO.getGroup().startsWith(Constant.ALL)
-                    && !projSelDTO.getGroup().contains(Constant.SALES_)
+                    && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
                     && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                     && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 count = count + 1;

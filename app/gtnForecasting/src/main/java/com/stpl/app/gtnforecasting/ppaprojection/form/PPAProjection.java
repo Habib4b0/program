@@ -11,7 +11,6 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.RunnableJob;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.lookups.PPAFormulaLookup;
@@ -372,36 +371,36 @@ public class PPAProjection extends CustomComponent implements View {
                 Field component = null;
                 final PPAProjectionDTO dto = (PPAProjectionDTO) itemId;
                 if (propertyId.equals(Constant.CHECK_RECORD + ".0")) {
-                    Object value = dto.getPropertyValue(propertyId.toString());
+                    Object checkRecordValue = dto.getPropertyValue(propertyId.toString());
                     final ExtCustomCheckBox checkRecord = new ExtCustomCheckBox();
                     checkRecord.setImmediate(true);
-                    if (value != null) {
-                        checkRecord.setValue(Boolean.valueOf(String.valueOf(value)));
+                    if (checkRecordValue != null) {
+                        checkRecord.setValue(Boolean.valueOf(String.valueOf(checkRecordValue)));
                     }
                     checkRecord.setEnabled(!Constant.VIEW.equals(session.getAction()));
                     checkRecord.addClickListener(new ExtCustomCheckBox.ClickListener() {
                         @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             if (PPAProjection.valueChangeAllowed) {
-                                Boolean value = checkRecord.getValue();
-                                savePPAProjection(propertyId.toString(), value, dto.getHirarechyNo(), Constant.LEFT);
+                                Boolean booleanValue = checkRecord.getValue();
+                                savePPAProjection(propertyId.toString(), booleanValue, dto.getHirarechyNo(), Constant.LEFT);
                                 try {
-                                    updateForTopLevelCheckRecord(value, dto, propertyId);
-                                    updateForChildLevel(value, itemId, propertyId.toString(), true);
-                                    if (checkedAllRecords && !value) {
+                                    updateForTopLevelCheckRecord(booleanValue, dto, propertyId);
+                                    updateForChildLevel(booleanValue, itemId, propertyId.toString(), true);
+                                    if (checkedAllRecords && !booleanValue) {
                                         valueChangeForColumnCheckBox = Boolean.TRUE;
                                         leftTable.setColumnCheckBox(Constant.CHECK_RECORD + ".0", true, false);
                                         valueChangeForColumnCheckBox = Boolean.FALSE;
                                         checkedAllRecords = Boolean.FALSE;
                                     }
 
-                                    updateUncheckedRecords(value, itemId);
+                                    updateUncheckedRecords(booleanValue, itemId);
 
                                 } catch (Exception ex) {
                                     LOGGER.error(ex);
                                 }
 
-                                dto.addBooleanProperties(propertyId.toString(), value);
+                                dto.addBooleanProperties(propertyId.toString(), booleanValue);
                             }
                         }
                     });
@@ -422,12 +421,12 @@ public class PPAProjection extends CustomComponent implements View {
                                     @Override
                                     public void valueChange(Property.ValueChangeEvent event) {
                                         if (PPAProjection.valueChangeAllowed) {
-                                            String value = group.getValue();
-                                            if (value == null || StringUtils.EMPTY.equals(value) || Constant.NULL.equals(value)) {
+                                            String groupValue = group.getValue();
+                                            if (groupValue == null || StringUtils.EMPTY.equals(groupValue) || Constant.NULL.equals(groupValue)) {
                                                 return;
                                             }
-                                            savePPAProjection(propertyId.toString(), value, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
-                                            ((PPAProjectionDTO) itemId).setGroup(value);
+                                            savePPAProjection(propertyId.toString(), groupValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
+                                            ((PPAProjectionDTO) itemId).setGroup(groupValue);
 
                                             groupChangeFlag = Boolean.TRUE;
                                             loadGroupFilter();
@@ -458,10 +457,10 @@ public class PPAProjection extends CustomComponent implements View {
                                 public void valueChange(Property.ValueChangeEvent event) {
                                     try {
                                         if (PPAProjection.valueChangeAllowed) {
-                                            int value = Integer.valueOf(status.getValue() == null ? DASH : String.valueOf(status.getValue()));
-                                            ((PPAProjectionDTO) itemId).setPriceProtectionStatus(value);
+                                            int statusValue = Integer.valueOf(status.getValue() == null ? DASH : String.valueOf(status.getValue()));
+                                            ((PPAProjectionDTO) itemId).setPriceProtectionStatus(statusValue);
                                             tableHirarechyNos.add(tableLogic.getTreeLevelonCurrentPage(itemId));
-                                            savePPAProjection(propertyId.toString(), value, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
+                                            savePPAProjection(propertyId.toString(), statusValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.LEFT);
 
                                         }
                                     } catch (Exception e) {
@@ -555,13 +554,13 @@ public class PPAProjection extends CustomComponent implements View {
                                         @Override
                                         public void valueChange(Property.ValueChangeEvent event) {
                                             if (PPAProjection.valueChangeAllowed) {
-                                                int value = Integer.valueOf(String.valueOf(comboBox.getValue()));
-                                                if (value == -1) {
+                                                int ddlbValue = Integer.valueOf(String.valueOf(comboBox.getValue()));
+                                                if (ddlbValue == -1) {
                                                     return;
                                                 }
                                                 dto.getHelperList().remove(propertyId.toString());
-                                                dto.addProperties(propertyId.toString(), value);
-                                                savePPAProjection(propertyId.toString(), value, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
+                                                dto.addProperties(propertyId.toString(), ddlbValue);
+                                                savePPAProjection(propertyId.toString(), ddlbValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
                                                 tableHirarechyNos.add(tableLogic.getTreeLevelonCurrentPage(itemId));
                                             }
                                         }
@@ -593,21 +592,21 @@ public class PPAProjection extends CustomComponent implements View {
                                         @Override
                                         public void valueChange(Property.ValueChangeEvent event) {
                                             if (PPAProjection.valueChangeAllowed) {
-                                                String value = textField.getValue();
-                                                if (value == null || StringUtils.EMPTY.equals(value) || Constant.NULL.equals(value)) {
+                                                String textValue = textField.getValue();
+                                                if (textValue == null || StringUtils.EMPTY.equals(textValue) || Constant.NULL.equals(textValue)) {
                                                     savePPAProjection(propertyId.toString(), null, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
                                                     return;
                                                 }
                                                 tableHirarechyNos.add(tableLogic.getTreeLevelonCurrentPage(itemId));
-                                                dto.addProperties(propertyId.toString(), value);
+                                                dto.addProperties(propertyId.toString(), textValue);
                                                 dto.getHelperList().remove(propertyId.toString());
                                                 String propId = String.valueOf(propertyId);
                                                 if (propId.contains(Constant.PPAColumns.NEP.getConstant())
                                                         || propId.contains(Constant.PPAColumns.PRICE_TOLERANCE.getConstant())
                                                         || propId.contains(Constant.PPAColumns.MAX_INCREMENTAL_CHANGE.getConstant())) {
-                                                    value = String.valueOf(Double.valueOf(value) / dto.getCCPCount());
+                                                    textValue = String.valueOf(Double.valueOf(textValue) / dto.getCCPCount());
                                                 }
-                                                savePPAProjection(propertyId.toString(), value, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
+                                                savePPAProjection(propertyId.toString(), textValue, ((PPAProjectionDTO) itemId).getHirarechyNo(), Constant.RIGHT);
 
                                             }
                                         }
@@ -1063,21 +1062,12 @@ public class PPAProjection extends CustomComponent implements View {
                 }
                 int startQuater = 0;
                 int startYear = 0;
-                int endQuater = 0;
-                int endYear = 0;
                 if (startPeriod.getValue() != null) {
                     startQuater = Integer.valueOf(startPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
                     startYear = Integer.valueOf(startPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
                 } else if (startPeriod.isVisible()) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, alertMsg.getString("PPA_MSG_ID_03"), ButtonId.OK);
                     return;
-                }
-                if (endPeriod.getValue() != null) {
-                    endQuater = Integer.valueOf(endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
-                    endYear = Integer.valueOf(endPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
-                } else {
-                    endQuater = this.endQuater;
-                    endYear = this.endYear;
                 }
                 if (populateIdentifier.get(Constant.FROZEN_FIELDS).contains(fieldValue)) {
                     Object val = null;
@@ -1502,8 +1492,8 @@ public class PPAProjection extends CustomComponent implements View {
         }
         loadMassPeriods(selection);
         if (filterValue != null) {
-            String value = filterValue.toString();
-            selection.setLevelNo(Integer.valueOf(value.split("~")[0]));
+            String filteredValue = filterValue.toString();
+            selection.setLevelNo(Integer.valueOf(filteredValue.split("~")[0]));
             selection.setIsFilter(Boolean.TRUE);
             tableLogic.setSelection(selection);
             resetTable();

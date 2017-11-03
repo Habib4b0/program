@@ -135,6 +135,7 @@ public class CFFQueryUtils {
                 approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[NumericConstants.TWO]));
                 approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[NumericConstants.THREE]));
                 approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[NumericConstants.FOUR]));
+                approvedDetailsSids.add(Integer.valueOf(StringUtils.EMPTY + approveList[NumericConstants.FIVE]));
             }
             return approvedDetailsSids;
         } catch (Exception ex) {

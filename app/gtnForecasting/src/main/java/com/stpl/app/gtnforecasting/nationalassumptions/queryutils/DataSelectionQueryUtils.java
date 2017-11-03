@@ -140,7 +140,7 @@ public class DataSelectionQueryUtils {
                 sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
-            sql.append(" IM.THERAPEUTIC_CLASS = ").append(therapeuticId);
+            sql.append(" NAM.THERAPEUTIC_CLASS = ").append(therapeuticId);
         }
         if (!"0".equals(String.valueOf(businessUnit)) && !"null".equals(String.valueOf(businessUnit))) {
             if (flag) {
@@ -486,7 +486,7 @@ public class DataSelectionQueryUtils {
                 sql.append(Constant.SPACE_WHERE_SMALL);
                 flag = true;
             }
-            sql.append(" IM.THERAPEUTIC_CLASS =  ").append(therapeuticId);
+            sql.append(" NAM.THERAPEUTIC_CLASS =  ").append(therapeuticId);
         }
         if (!"0".equals(String.valueOf(businessUnit)) && !"null".equals(String.valueOf(businessUnit))) {
             if (flag) {

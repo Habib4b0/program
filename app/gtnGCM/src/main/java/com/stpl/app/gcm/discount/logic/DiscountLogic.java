@@ -1477,7 +1477,7 @@ public class DiscountLogic {
             }
         }
     }
- 
+
     public int getCommonCountForSelectedResult(ContractsDetailsDto newDiscountTabDto) throws SystemException {
         List results = new ArrayList();
         Map<String, String> inputMap = new HashMap<>();
@@ -1535,7 +1535,7 @@ public class DiscountLogic {
                 LOGGER.error(ex);
             }
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
-            if (selectedItemsTable && !isAdd) {
+             if (selectedItemsTable && !isAdd) {
                 operation = Constants.IndicatorConstants.SELECTED_ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();
             } else {
                 operation = Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant();

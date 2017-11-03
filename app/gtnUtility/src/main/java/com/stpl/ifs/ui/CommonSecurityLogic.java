@@ -178,6 +178,7 @@ public class CommonSecurityLogic {
                     if (layout.getComponent(i) != null && layout.getComponent(i).getClass().isInstance(new Label())) {
                         Label l = (Label) layout.getComponent(i);
                         if (labelStr.equals(l.getValue())) {
+
                             layout.removeComponent(layout.getComponent(i));
                         }
                     }

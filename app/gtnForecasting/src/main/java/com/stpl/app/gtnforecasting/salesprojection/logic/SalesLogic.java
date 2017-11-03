@@ -106,6 +106,9 @@ public class SalesLogic {
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(SalesLogic.class);
     SalesProjectionDAO salesAllocationDAO = new SalesProjectionDAOImpl();
     ResourceBundle resourceBundle = ResourceBundle.getBundle("properties.tablename");
+    public static final String ACTUAL_SALES = "-ActualSales";
+    public static final String FREQ_VAL = "@FREVAL@";
+    public static final String PROJECTED_SALES = "-ProjectedSales";
     private SessionDTO session;
     NMSalesProjectionResultsLogic sprLogic = new NMSalesProjectionResultsLogic();
     CommonLogic commonLogic = new CommonLogic();
@@ -123,8 +126,9 @@ public class SalesLogic {
      * Returns the No. of rows in actual and projection sales per level Item.
      *
      * @param sessionDTO - Session DTO
-     * @param projectionSelectionDTO
      * @return
+     * @throws PortalException
+     * @throws Exception
      */
     public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO)  {
         String query = CustomSQLUtil.get("rows-per-level-item");
@@ -347,7 +351,6 @@ public class SalesLogic {
                 if (projSelDTO.getActualsOrProjections().equals(Constant.BOTH)) {
                     projSelDTO.setActualsOrProjections("Actuals and Projections");
                 }
-
                 if (parentId instanceof SalesRowDto) {
                     projSelDTO.setIsProjectionTotal(false);
                     SalesRowDto parentDto = (SalesRowDto) parentId;
@@ -468,7 +471,8 @@ public class SalesLogic {
             sql += SQlUtil.getQuery("alternate-join-loaddata");
             sql += SQlUtil.getQuery("alternate-histroy-sales-summary");
         } else if (projSelDTO.isIsCustomHierarchy() && CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) && !projSelDTO.isExcel()) {
-            sql += SQlUtil.getQuery("sales-customView");
+            String queryNameforSales=CommonUtil.isValueEligibleForLoading()?"sales-customView-proj":"sales-customView";
+            sql += SQlUtil.getQuery(queryNameforSales);
         } else {
             sql += CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName()) ? SQlUtil.getQuery("non-mandated-sales-query-new") : SQlUtil.getQuery("mandated-sales-query");
         }
@@ -497,6 +501,13 @@ public class SalesLogic {
         sql = sql.replace("@START", String.valueOf(start));
         sql = sql.replace("@END", String.valueOf(end));
         sql = sql.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
+        if (CommonUtil.isValueEligibleForLoading()) {
+            String joinQuery=" JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '"+projSelDTO.getUomCode()+"'";
+            sql = sql.replace("@SALESINCLUSION", projSelDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? StringUtils.EMPTY : "and shn.sales_inclusion=" + projSelDTO.getSessionDTO().getSalesInclusion());
+            sql = sql.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
+            sql = sql.replace("@SUMPROJECTEDUNITS", projSelDTO.getUomCode().equals("EACH") ? "SUM(NMSP.PROJECTION_UNITS) AS PROJECTION_UNITS":"SUM(ISNULL(NMSP.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS PROJECTION_UNITS");
+            sql = sql.replace("@SUMACTUALUNITS", projSelDTO.getUomCode().equals("EACH") ? "Sum(NMSP.ACTUAL_UNITS) AS ACTUAL_UNITS":"Sum(ISNULL(NMSP.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0)) AS ACTUAL_UNITS");
+        }
         int freqNo = getFrequencyNumber(projSelDTO.getFrequency());
         sql = sql.replaceAll("@FREQDIVISION", String.valueOf(freqNo));
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projSelDTO.getScreenName())) {
@@ -531,29 +542,37 @@ public class SalesLogic {
                 case 1:
                     sql = sql.replace(Constant.AT_FREQUENCY_AT, "1 AS FREQ");
                     sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, StringUtils.EMPTY);
+                    sql = sql.replace("SH.@FRE@", "1 ");
+                    sql = sql.replace("MSP.@FRE@", "1 ");
+                    sql = sql.replace("mas.@FRE@", "1 ");
+                    sql = sql.replace(",P.@FREVAL@", " ");
                     sql = sql.replace(Constant.FREQ_AT, "1 ");
                     break;
                 case NumericConstants.TWO:
                     sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.SEMI_ANNUAL");
                     sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.SEMI_ANNUAL");
                     sql = sql.replace(Constant.FREQ_AT, Constant.SEMI_ANNUAL);
+                    sql = sql.replace(FREQ_VAL, Constant.SEMI_ANNUAL);
                     break;
                 case NumericConstants.FOUR:
                     sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.QUARTER");
                     sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.QUARTER");
                     sql = sql.replace(Constant.FREQ_AT, Constant.QUARTER);
+                    sql = sql.replace(FREQ_VAL, Constant.QUARTER);
                     break;
                 case NumericConstants.TWELVE:
                     sql = sql.replace(Constant.AT_FREQUENCY_AT, "p.MONTH");
                     sql = sql.replace(Constant.AT_FREQUENCY_GROUP_AT, ",p.MONTH");
                     sql = sql.replace(Constant.FREQ_AT, "MONTH");
+                    sql = sql.replace(FREQ_VAL, "MONTH");
                     break;
                 default:
                     break;
-            }
+            } 
         }
-        
-        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames()));
+        sql= projSelDTO.isExcel() ? sql.replaceAll(",INSTR INT", "").replace(",INSTR", ""):sql;
+        String aaa=QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
     }   
 
@@ -661,7 +680,7 @@ public class SalesLogic {
 
         for (int i = 0; i < resulList.size(); i++) {
             Object obj[] = (Object[]) resulList.get(i);
-            MSalesProjection.rowCountMap.put(String.valueOf(obj[NumericConstants.TEN]), Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])));
+            MSalesProjection.rowCountMap.put(String.valueOf(obj[NumericConstants.TEN]), obj[NumericConstants.ELEVEN]!=null ?Integer.parseInt(String.valueOf(obj[NumericConstants.ELEVEN])):null);
             if (lastLevelValue.equalsIgnoreCase(STRING_EMPTY) || lastLevelValue.equals(String.valueOf(obj[NumericConstants.TEN]))) {
 
                 lastLevelValue = String.valueOf(obj[NumericConstants.TEN]);
@@ -674,7 +693,8 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(1)));
-                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
+//                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
 
             } else {
@@ -691,10 +711,11 @@ public class SalesLogic {
                     salesRowDto.setTreeLevelNo(Integer.valueOf(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(NumericConstants.TWO))));
                 }
                 salesRowDto.setHierarchyLevel(String.valueOf(relationshipDetailsMap.get(lastLevelValue).get(1)));
-                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
+//                salesRowDto.setLevelName(projectionSelectionDTO.getSessionDTO().getLevelValueDiscription(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN])));
+                salesRowDto.setLevelName(CommonUtil.getDisplayFormattedName(String.valueOf(obj[NumericConstants.TEN]), String.valueOf(obj[NumericConstants.SIXTEEN]), relationshipDetailsMap, projectionSelectionDTO.getSessionDTO(), projectionSelectionDTO.getDisplayFormat()));
                 salesRowDto.setHierarchyIndicator(String.valueOf(obj[NumericConstants.SIXTEEN]));
             }
-            salesRowDto.addBooleanProperties(Constant.CHECK, Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true));
+            salesRowDto.addBooleanProperties(Constant.CHECK, obj[NumericConstants.THIRTEEN]!=null?Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTEEN])) == 0 ? new Boolean(false) : new Boolean(true):new Boolean(false));
             if (obj[NumericConstants.FOURTEEN] != null) {
                 salesRowDto.setUncheckCount(Integer.parseInt(String.valueOf(obj[NumericConstants.FOURTEEN])));
             }
@@ -726,21 +747,41 @@ public class SalesLogic {
                 String monthName = getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.SEVEN])) - 1);
                 key = monthName.toLowerCase() + "-" + String.valueOf(obj[NumericConstants.SIX]);
             }
-
+            if (CommonUtil.isValueEligibleForLoading()) {
+                salesRowDto.setSalesInclusion(obj[NumericConstants.NINETEEN] != null?String.valueOf(obj[NumericConstants.NINETEEN]):StringUtils.EMPTY);
+            }
             if (Integer.parseInt(String.valueOf(obj[NumericConstants.TWELVE])) == 0) {
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProjectedSales", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.TWO] == null ? 0 : obj[NumericConstants.TWO])));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
-                headerMapValue.remove(key + "-ProjectedSales");
-                headerMapValue.remove(key + PROJECTED_UNITS1);
+                if (CommonUtil.isValueEligibleForLoading() &&salesRowDto.getSalesInclusion().isEmpty()) {
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", StringUtils.EMPTY);
+                    headerMapValue.remove(key + PROJECTED_SALES);
+                    headerMapValue.remove(key + PROJECTED_UNITS1);
+                } else {
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.TWO], true));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + PROJECTED_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.THREE] == null ? 0 : obj[NumericConstants.THREE])));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ProductGrowth", String.valueOf(UNITTWODECIMAL.format(obj[1] == null ? 0 : obj[1])) + Constant.PERCENT);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-AccountGrowth", String.valueOf(UNITTWODECIMAL.format(obj[0] == null ? 0 : obj[0])) + Constant.PERCENT);
+                    headerMapValue.remove(key + PROJECTED_SALES);
+                    headerMapValue.remove(key + PROJECTED_UNITS1);
+                }
             } else {
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-ActualSales", String.valueOf(MONEYNODECIMAL.format(obj[NumericConstants.FOUR] == null ? 0 : obj[NumericConstants.FOUR])));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(PROJECTEDUNITDECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", String.valueOf(0));
-                salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", String.valueOf(0));
-                headerMapValue.remove(key + "-ActualSales");
-                headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
+                if (CommonUtil.isValueEligibleForLoading() && salesRowDto.getSalesInclusion().isEmpty()) {
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", StringUtils.EMPTY);
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", StringUtils.EMPTY);
+                    headerMapValue.remove(key + ACTUAL_SALES);
+                    headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
+                } else {
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + ACTUAL_SALES, CommonUtil.getConversionFormattedValue(projectionSelectionDTO, obj[NumericConstants.FOUR], true));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + Constant.ACTUAL_UNITS1, String.valueOf(UNITNODECIMAL.format(obj[NumericConstants.FIVE] == null ? 0 : obj[NumericConstants.FIVE])));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedSales", String.valueOf(0));
+                    salesRowDto.addStringProperties(StringUtils.EMPTY + key + "-HistoryProjectedUnits", String.valueOf(0));
+                    headerMapValue.remove(key + ACTUAL_SALES);
+                    headerMapValue.remove(key + Constant.ACTUAL_UNITS1);
+                }
             }
 
             if (obj[NumericConstants.FOURTEEN] != null) {
@@ -1552,7 +1593,7 @@ public class SalesLogic {
                 checkRecordsQuery.replace(checkRecordsQuery.indexOf("?"), checkRecordsQuery.indexOf("?") + 1, String.valueOf(temp));
             }
             List list = salesProjectionDAO.executeUpdateQuery(checkRecordsQuery.toString());
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 count = Integer.parseInt(String.valueOf(list.get(0)));
             }
         } else {
@@ -1596,7 +1637,7 @@ public class SalesLogic {
                 checkRecordsQuery.append(" AND USER_ID = '").append(projectionSelectionDTO.getUserId()).append("' AND SESSION_ID = '").append(projectionSelectionDTO.getSessionId()).append("'  \n");
             }
             List list = salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(checkRecordsQuery.toString(), projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 count = Integer.parseInt(String.valueOf(list.get(0)));
             }
         }
@@ -1645,7 +1686,7 @@ public class SalesLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         List list = salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(finalQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
         int count = 0;
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             count = Integer.parseInt(String.valueOf(list.get(0)));
         }
         return count;
@@ -2006,10 +2047,19 @@ public class SalesLogic {
                 case Constant.PROJECTED_UNITS1:
                     if (!incOrDecPer.isInfinite() && !incOrDecPer.isNaN()) {
                         finalvalue = new BigDecimal(incOrDecPer).divide(new BigDecimal(100), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(")");
+                        if (CommonUtil.isValueEligibleForLoading()) {
+                            updateLine.append(" PROJECTION_UNITS= (PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append("))/NULLIF(UOM_VALUE,0) ");
+                        } else {
+                            updateLine.append(" PROJECTION_UNITS= PROJECTION_UNITS + ( PROJECTION_UNITS * ").append(finalvalue.toString()).append(")");
+                        }
                     } else {
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(" ");
+                        if (CommonUtil.isValueEligibleForLoading()) {
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append("/NULLIF(UOM_VALUE,0) ").append(" ");
+                        } else {
+                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue.toString()).append(" ");
+                        }
+
                     }
                     break;
             }
@@ -2053,6 +2103,12 @@ public class SalesLogic {
 
             String updateQuery = SQlUtil.getQuery("line-level-update");
             updateQuery = updateQuery.replace("[?UPDATE_LINE]", updateLine.toString());
+            String uomJoin=" JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=NMSP.CCP_DETAILS_SID  LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+projectionSelectionDTO.getUomCode()+"'";
+            if (Constant.PROJECTED_UNITS1.equals(column) && CommonUtil.isValueEligibleForLoading()) {
+                updateQuery = updateQuery.replace("@CCP_DETAIL_JOIN", uomJoin);
+            } else {
+                updateQuery = updateQuery.replace("@CCP_DETAIL_JOIN", StringUtils.EMPTY);
+            }
             updateQuery = updateQuery.replace("[?PERIOD_RESTRICTION]", periodRestriction.toString());
 
             String finalQuery = hierarchyInserQuery + updateQuery;
@@ -2105,17 +2161,22 @@ public class SalesLogic {
                 if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
                     statement = connection.prepareCall("{call PRC_SALES_PROJ_MANUAL_ENTRY (?,?,?,?)}");
                 } else {
-                    statement = connection.prepareCall("{call PRC_SALES_PROJ_MANUAL_ENTRY_TEMP (?,?,?,?)}");
+                    statement = connection.prepareCall("{call PRC_SALES_PROJ_MANUAL_ENTRY_TEMP (?,?,?,?,?)}");
                 }
-                LOGGER.debug("Projection Id --> " + session.getProjectionId());
-                LOGGER.debug("User Id -->       " + session.getUserId());
-                LOGGER.debug("Session Id -->    " + session.getSessionId());
-                LOGGER.debug("changedProperty-> " + changedProperty);
+                LOGGER.debug("PRC_SALES_PROJ_MANUAL_ENTRY_TEMP");
+                LOGGER.debug("1 " + session.getProjectionId());
+                LOGGER.debug("2 " + session.getUserId());
+                LOGGER.debug("3 " + session.getSessionId());
+                LOGGER.debug("4 " + changedProperty);
+                LOGGER.debug(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
 
                 statement.setObject(1, session.getProjectionId()); //  @PROJECTION_SID
                 statement.setObject(NumericConstants.TWO, Integer.parseInt(session.getUserId())); //  @USER_ID
                 statement.setObject(NumericConstants.THREE, session.getSessionId()); //  @SESSION_ID
                 statement.setObject(NumericConstants.FOUR, changedProperty);
+                if (!CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
+                    statement.setObject(NumericConstants.FIVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+                }
                 status = statement.execute();
             }
             LOGGER.debug("Ending callManualEntryProcedure return  staus ::::" + status);
@@ -2145,6 +2206,27 @@ public class SalesLogic {
      * @throws Exception
      */
     public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, final int startYear, final int endYear, final int startQuarter, final int endQuarter, final String value, final String growth) throws PortalException, SystemException {
+
+        if (growth.equals(Constant.MASS_UPDATE_SALES) || growth.equals(Constant.MASS_UPDATE_UNIT_VOLUME)) {
+            int frequency = projectionSelectionDTO.getFrequencyDivision();
+            String freq = (frequency == 12 ? "M"
+                    : frequency == 4 ? "Q"
+                            : frequency == 2 ? "S" : "A");
+           
+            List<Object> input = new ArrayList<>();
+            input.add(freq+startQuarter +" "+ startYear);
+            input.add(freq+endQuarter +" "+ endYear);
+         
+            input.add(value);
+            
+            input.add(frequency == 12 ? 'M'
+                    : frequency == 4 ? 'Q'
+                            : frequency == 2 ? 'S' : 'A');
+            
+            input.add(growth.equals(Constant.MASS_UPDATE_SALES) ? "PROJECTION_SALES" : "PROJECTION_UNITS");
+            com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(input, "mass-update-sales-units", projectionSelectionDTO.getSessionDTO());
+            return;
+        }
 
         String projectionTable = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION : Constant.ST_NM_SALES_PROJECTION;
         String masterTable = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION_MASTER : Constant.ST_NM_SALES_PROJECTION_MASTER;
@@ -2586,20 +2668,23 @@ public class SalesLogic {
             connection = dataSourceConnection.getConnection();
 
             if (connection != null) {
-                LOGGER.debug("BASLINE_PERIODS" + historyPeriods);
-                LOGGER.debug("SELECTED_PERIODS" + projectionPeriods);
-                LOGGER.debug("PROJECTION_SID" + projectionSelectionDTO.getProjectionId());
-                LOGGER.debug("Frequency" + projectionSelectionDTO.getFrequency());
-                LOGGER.debug("USER_ID" + projectionSelectionDTO.getUserId());
-                LOGGER.debug("SESSION_ID" + projectionSelectionDTO.getSessionDTO().getSessionId());
-                LOGGER.debug("adjType " + adjType);
-                LOGGER.debug("adjBasis " + adjBasis);
-                LOGGER.debug("adsVar " + adsVar);
-                LOGGER.debug("adsMeth " +adsMeth);
-                LOGGER.debug("adjVal " + adjVal);
+                LOGGER.info("PRC_SALES_ADJUSTMENT_TEMP");
+                LOGGER.info("BASLINE_PERIODS" + historyPeriods);
+                LOGGER.info("SELECTED_PERIODS" + projectionPeriods);
+                LOGGER.info("PROJECTION_SID" + projectionSelectionDTO.getProjectionId());
+                LOGGER.info("Frequency" + projectionSelectionDTO.getFrequency());
+                LOGGER.info("USER_ID" + projectionSelectionDTO.getUserId());
+                LOGGER.info("SESSION_ID" + projectionSelectionDTO.getSessionDTO().getSessionId());
+                LOGGER.info("adjType " + adjType);
+                LOGGER.info("adjBasis " + adjBasis);
+                LOGGER.info("adsVar " + adsVar);
+                LOGGER.info("adsMeth " +adsMeth);
+                LOGGER.info("adjVal " + adjVal);
+                LOGGER.info(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+                LOGGER.info(projectionSelectionDTO.getUomCode());
                
                 if (Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projectionSelectionDTO.getScreenName())) {
-                    statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT_TEMP (?,?,?,?,?,?,?,?,?,?,?)}");
+                    statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT_TEMP (?,?,?,?,?,?,?,?,?,?,?,?,?)}");
                 } else {
                     statement = connection.prepareCall("{call PRC_SALES_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}");
                 }
@@ -2614,7 +2699,10 @@ public class SalesLogic {
                 statement.setObject(NumericConstants.NINE, adsVar);
                 statement.setObject(NumericConstants.TEN,adsMeth);
                 statement.setObject(NumericConstants.ELEVEN, adjVal);
-                
+                 if (Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projectionSelectionDTO.getScreenName())) {
+                     statement.setObject(NumericConstants.TWELVE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+                     statement.setObject(NumericConstants.THIRTEEN, projectionSelectionDTO.getUomCode());
+                 } 
                 status = statement.execute();
             }
 
@@ -2626,6 +2714,7 @@ public class SalesLogic {
         }
         return status;
     }
+    public static final String ALL = "ALL";
 
     /**
      * Saves the calculation selection before calculation in Commercial and
@@ -2671,25 +2760,26 @@ public class SalesLogic {
      * @throws javax.naming.NamingException
      */
     public boolean callCalculationProcedure(final ProjectionSelectionDTO projectionSelectionDTO,final String calcBased,final String allocationBasis) throws SQLException, NamingException {
-        LOGGER.debug("callCalculationProcedure PRC_SALES_PROJECTION ");
-        LOGGER.debug("Projection ID --- " + projectionSelectionDTO.getProjectionId());
-        LOGGER.debug("UserID ---        " + projectionSelectionDTO.getUserId());
-        LOGGER.debug("Session ID ----   " + projectionSelectionDTO.getSessionDTO().getSessionId());
-        LOGGER.debug("Frequency ----    " + projectionSelectionDTO.getFrequency());
-        LOGGER.debug("ScreenName ----    " + projectionSelectionDTO.getScreenName());
-        LOGGER.debug("calcbased ----    " + calcBased);
-        LOGGER.debug("fstartid ----    " + start);
-        LOGGER.debug("fendid ----    " + end);
-        LOGGER.debug("allocationBasis ----    " + allocationBasis);
+        LOGGER.info("callCalculationProcedure PRC_SALES_PROJECTION ");
+        LOGGER.info("Projection ID --- " + projectionSelectionDTO.getProjectionId());
+        LOGGER.info("UserID ---        " + projectionSelectionDTO.getUserId());
+        LOGGER.info("Session ID ----   " + projectionSelectionDTO.getSessionDTO().getSessionId());
+        LOGGER.info("Frequency ----    " + projectionSelectionDTO.getFrequency());
+        LOGGER.info("ScreenName ----    " + projectionSelectionDTO.getScreenName());
+        LOGGER.info("calcbased ----    " + calcBased);
+        LOGGER.info("fstartid ----    " + start);
+        LOGGER.info("fendid ----    " + end);
+        LOGGER.info("allocationBasis ----    " + allocationBasis);
+        LOGGER.info(projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
         boolean isCalculated = false;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
         Connection connection = dataSourceConnection.getConnection();
         if (connection != null) {
             if (Constants.BUSINESS_PROCESS_TYPE_NONMANDATED.equalsIgnoreCase(projectionSelectionDTO.getScreenName())) {
-                getStatement(connection, "PRC_SALES_PROJECTION_TEMP",projectionSelectionDTO,start,end,calcBased,allocationBasis);
+                getStatement(connection, "PRC_SALES_PROJECTION_TEMP",projectionSelectionDTO,start,end,calcBased,allocationBasis,"NM");
                 isCalculated = true;
             } else {
-                 getStatement(connection, "PRC_SALES_PROJECTION",projectionSelectionDTO,start,end,calcBased,allocationBasis);
+                 getStatement(connection, "PRC_SALES_PROJECTION",projectionSelectionDTO,start,end,calcBased,allocationBasis,"M");
                 isCalculated = true;
             }
         }
@@ -3341,7 +3431,7 @@ public class SalesLogic {
                     queryBuilder.append(" WHERE  RETURNS_DETAILS_SID IN (" + returnDetailsSid + ")");
                 }
                 List list = salesAllocationDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), sessionDTO.getCurrentTableNames()));
-                if (list.size() > 0) {
+                if (!list.isEmpty()) {
                     count = Integer.parseInt(String.valueOf(list.get(0)));
                 }
             }
@@ -4249,9 +4339,13 @@ private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO
         return builder.toString();
     }
 
-    private void getStatement(Connection connection, String prc_sales_projection_temp,ProjectionSelectionDTO projectionSelectionDTO,String start, String end,String calcBased,String allocationBasis) {
+    private void getStatement(Connection connection, String prc_sales_projection_temp,ProjectionSelectionDTO projectionSelectionDTO,String start, String end,String calcBased,String allocationBasis,String indicator) {
         StringBuilder procedure = new StringBuilder("{call ");
-        procedure.append(prc_sales_projection_temp).append(" (?,?,?,?,?,?,?,?)}");
+        if (indicator.equals("NM")) {
+            procedure.append(prc_sales_projection_temp).append(" (?,?,?,?,?,?,?,?,?)}");
+        } else {
+            procedure.append(prc_sales_projection_temp).append(" (?,?,?,?,?,?,?,?)}");
+        }
         try (CallableStatement statement = connection.prepareCall(procedure.toString())) {
             statement.setObject(1, projectionSelectionDTO.getProjectionId());
             statement.setObject(NumericConstants.TWO, projectionSelectionDTO.getUserId());
@@ -4261,7 +4355,9 @@ private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO
             statement.setObject(NumericConstants.SIX,end);
             statement.setObject(NumericConstants.SEVEN, calcBased);
             statement.setObject(NumericConstants.EIGHT, allocationBasis);
-            
+            if (indicator.equals("NM")) {
+                statement.setObject(NumericConstants.NINE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+            }
             statement.execute();
         } catch (SQLException ex) {
             LOGGER.error(ex);

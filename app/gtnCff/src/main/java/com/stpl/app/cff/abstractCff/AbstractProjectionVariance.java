@@ -17,7 +17,9 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.LabelConstants;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOM;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Property;
@@ -32,12 +34,18 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.ui.themes.ValoTheme;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -57,6 +65,11 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public abstract class AbstractProjectionVariance extends CustomComponent implements View {
 
+     /**
+     * varianceSelection VerticalLayout.
+     */
+    @UiField("varianceSelection")
+    protected VerticalLayout varianceSelection;
     /**
      * The comparison.
      */
@@ -184,6 +197,13 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     @UiField("verticalLayout")
     protected VerticalLayout verticalLayout;
     /**
+     * Display Format Custom menu bar
+     */
+    @UiField("displayFormatDdlb")
+    protected CustomMenuBar displayFormatDdlb;
+    
+    protected CustomMenuBar.CustomMenuItem displayFormatValues;
+    /**
      * The excel btn.
      */
     @UiField("group")
@@ -194,6 +214,67 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected Label groupLabel;
     @UiField("discountLevelLabel")
     protected Label discountLevelLabel;
+    
+    /**
+     * The customerlevelDdlb Button.
+     */
+    @UiField("customerlevelDdlb")
+    protected ComboBox customerlevelDdlb;
+    /**
+     * The customerlevelDdlb Button.
+     */
+    @UiField("productlevelDdlb")
+    protected ComboBox productlevelDdlb;
+    /**
+     * The deductionlevelDdlb Button.
+     */
+    @UiField("deductionlevelDdlb")
+    protected ComboBox deductionlevelDdlb;
+    /**
+     * The deductionInclusionDdlb Button.
+     */
+    @UiField("deductionInclusionDdlb")
+    protected CustomMenuBar deductionInclusionDdlb;
+    
+        /**
+     * The salesInclusionDdlb Button.
+     */
+    @UiField("salesInclusionDdlb")
+    protected CustomMenuBar salesInclusionDdlb;
+    /**
+     * The customerFilterDdlb Button.
+     */
+    @UiField("customerFilterDdlb")
+    protected CustomMenuBar customerFilterDdlb;
+    /**
+     * The productFilterDdlb Button.
+     */
+    @UiField("productFilterDdlb")
+    protected CustomMenuBar productFilterDdlb;
+    /**
+     * The deductionFilterDdlb Button.
+     */
+    @UiField("deductionFilterDdlb")
+    protected CustomMenuBar deductionFilterDdlb;
+  /**
+     * The TabSheet.
+     */
+    @UiField("tabsheetVariance")
+    protected TabSheet tabsheetVariance;
+    
+ 
+    
+    @UiField("projectionVariancefilterLayout")
+    protected HorizontalLayout projectionVariancefilterLayout;
+    
+    @UiField("conversionFactorDdlb")
+    protected ComboBox conversionFactorDdlb;
+    
+    /**
+     * The UOMDdlb Button.
+     */
+    @UiField("uomDdlb")
+    protected ComboBox uomDdlb;
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
     /**
      * Screen Name
@@ -263,8 +344,13 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected PVSelectionDTO pvSelectionDTO = new PVSelectionDTO();
     protected SessionDTO sessionDTO;
     protected ProjectionVarianceLogic logic = new ProjectionVarianceLogic();
+    protected CustomMenuBar.CustomMenuItem deductionInclusionValues;
+    protected CustomMenuBar.CustomMenuItem salesInclusionValues;
+    protected CustomMenuBar.CustomMenuItem customerFilterValues;
+    protected CustomMenuBar.CustomMenuItem productFilterValues;
+    protected CustomMenuBar.CustomMenuItem deductionFilterValues;
 
-    protected AbstractProjectionVariance(SessionDTO sessionDTO) {
+    public AbstractProjectionVariance(SessionDTO sessionDTO) {
         this.sessionDTO = sessionDTO;
         VerticalLayout layout = new VerticalLayout();
         layout.addComponent(Clara.create(getClass().getResourceAsStream("/cff/tabs/ProjectionVarianceTab.xml"), this));
@@ -278,6 +364,11 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     }
 
     public void configureFilds() {
+        tabsheetVariance.addTab(varianceSelection, "Display Selection");
+        tabsheetVariance.addTab(projectionVariancefilterLayout, "Filter Option");
+        tabsheetVariance.addStyleName(ValoTheme.TABSHEET_FRAMED);
+        tabsheetVariance.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        
         comparison.addStyleName(ConstantsUtils.SEARCH_ICON);
         comparison.setReadOnly(false);
         comparison.setValue(SELECT_ONE);
@@ -528,6 +619,8 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     }
 
     protected String getCheckedValues() {
+        List<String> returnList = loadVariablesDdlb();
+        String[] variableValues = returnList.toArray(new String[0]);
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
             List<String> result = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
@@ -535,7 +628,7 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
                     if (customMenuItem1.getMenuItem().getCaption().equals(Constants.PVVariables.CHECK_ALL.toString())) {
-                        result.addAll(Arrays.asList(Constants.PVVariables.getCheckAllVariables()));
+                        result.addAll(Arrays.asList(Arrays.toString(ArrayUtils.removeElement(variableValues, Constants.PVVariables.CHECK_ALL.toString())).replaceAll("^.|.$", "").split(",")));
                         variablesValue = Arrays.toString(result.toArray());
                         return Arrays.toString(result.toArray());
                     }
@@ -682,4 +775,35 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
     protected abstract void excelBtnLogic();
 
     protected abstract void graphBtnLogic();
+    
+    public List<String> loadVariablesDdlb() {
+        List<String> outputList = new ArrayList<>();
+        List<String> variablesList = new ArrayList<>();
+            String query;
+            List<String> returnList;
+            Map<String, List<String>> input = new HashMap<>();
+            List<String> defaultNames = Arrays.asList("01.Check All", "14.Contract Sales @ WAC", "15.Contract Units", "16.Discount $", "17.Discount %", "18.RPU", "20.Net Sales", "24.COGS", "25.Net Profit");
+            List<String> ExfactNames = Arrays.asList("02.Ex-Factory Product", "03.Ex-Factory Customer", "08.% Of Ex-Factory Product", "09.% Of Ex-Factory Customer", "21.Net Sales % of Ex-Factory", "22.Net Ex-Factory Sales", "23.Net Ex-Factory Sales as % of Ex-Factory Sales", "19.Discount % of Ex-Factory");
+            List<String> DemandNames = Arrays.asList("04.Demand", "10.% Of Demand");
+            List<String> InventoryNames = Arrays.asList("12.Inventory Withdrawal Summary", "13.Inventory Withdrawal Details", "09.% Of Inventory Withdrawal Summary", "10.% Of Inventory Withdrawal Details");
+            List<String> AdjDemandNames = Arrays.asList("05.Adjusted Demand", "11.% Of Adjusted Demand");
+            input.put("Ex-Factory Sales", ExfactNames);
+            input.put("Demand", DemandNames);
+            input.put("Inventory Withdrawal - Forecast Detail", InventoryNames);
+            input.put("Inventory Withdrawal - Forecast Summary", InventoryNames);
+            input.put("Adjusted Demand", AdjDemandNames);
+            query = SQlUtil.getQuery("get-file-type-query");
+            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+            outputList.addAll(defaultNames);
+            for (String string : returnList) {
+                if (!"Customer Sales".equals(string)) {
+                    outputList.addAll(input.get(string));
+                }
+            }
+            Collections.sort(outputList);
+            for (String str : outputList) {
+                variablesList.add(str.split("\\.")[1]);
+            }
+        return variablesList;
+    }
 }

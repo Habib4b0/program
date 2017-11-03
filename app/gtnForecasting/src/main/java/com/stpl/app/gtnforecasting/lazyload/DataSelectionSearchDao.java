@@ -7,12 +7,8 @@ package com.stpl.app.gtnforecasting.lazyload;
 
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.vaadin.addons.lazycontainer.BeanDAO;
 import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
 import org.vaadin.addons.lazycontainer.OrderByColumn;

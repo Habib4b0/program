@@ -9,7 +9,6 @@ import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.Collections;
 import java.util.Map;
-import org.jboss.logging.Logger;
 
 public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 

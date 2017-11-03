@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.tree.node;
 
-import com.stpl.app.gtnforecasting.salesprojection.tree.node.SalesBaseNode;
 import java.util.ArrayList;
 
 /**

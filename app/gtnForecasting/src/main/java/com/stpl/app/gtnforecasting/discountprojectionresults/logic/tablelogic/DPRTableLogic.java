@@ -63,6 +63,9 @@ public class DPRTableLogic extends PageTreeTableLogic {
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                         list = commercialDPRLogic.getConfiguredProjectionResults(getLastParent(), start, offset, projSelDTO);
                         break;
+                    default:
+                        LOGGER.warn("screenName is not valid: " + screenName);
+                        break;
                 }
 
                 int i = start;
@@ -94,7 +97,10 @@ public class DPRTableLogic extends PageTreeTableLogic {
                         }
                         break;
                     case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
-                        count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);                        
+                        count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
+                        break;
+                    default:
+                        LOGGER.warn("screenName is not valid: " + screenName);
                         break;
                 }
                
@@ -191,6 +197,9 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                 nmExpandData(parentId, treeLevel, expandLevelNo);
+                break;
+            default:
+                LOGGER.warn("screenName is not valid: " + screenName);
                 break;
         }
 

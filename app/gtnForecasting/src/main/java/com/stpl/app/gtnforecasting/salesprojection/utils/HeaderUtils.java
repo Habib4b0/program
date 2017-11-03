@@ -283,6 +283,8 @@ public class HeaderUtils {
                                     singleColumnForExcel.add(commonColumn + Constant.ACTUAL_UNITS_DASH);//Added for tabwise excel export
                                     singleHeaderForExcel.add(commonHeader + Constant.ACTUAL_UNITS_SPACE);//Ends here
                                     break;
+                                default:
+                                    break;
                             }
                         }
                     }
@@ -299,6 +301,8 @@ public class HeaderUtils {
                                     columnConfigure(commonColumn + Constant.HISTORY_PROJECTED_UNITS1, commonHeader + PROJECTED_UNITS1, Constant.PROJECTED_UNITS, tableHeaderDTO, excelHeader, dmap);
                                     singleColumnForExcel.add(commonColumn + Constant.HISTORY_PROJECTED_UNITS1);//Added for tabwise excel export
                                     singleHeaderForExcel.add(commonHeader + PROJECTED_UNITS1);//Ends here
+                                    break;
+                                default:
                                     break;
                             }
                         }
@@ -330,6 +334,8 @@ public class HeaderUtils {
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
                                 break;
+                            default:
+                                break;
                         }
                     }
                     tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
@@ -359,6 +365,8 @@ public class HeaderUtils {
                                 columnConfigure(commonColumn + Constant.ACCOUNT_GROWTH_TILT, commonHeader + Constant.ACCOUNT_GROWTH_1, Constant.ACCOUNT_GROWTH, tableHeaderDTO, excelHeader, dmap);
                                 singleColumnForExcel.add(commonColumn + Constant.ACCOUNT_GROWTH_TILT);//Added for tabwise excel export
                                 singleHeaderForExcel.add(commonHeader + Constant.ACCOUNT_GROWTH_1);//Ends here
+                                break;
+                            default:
                                 break;
                         }
                     }

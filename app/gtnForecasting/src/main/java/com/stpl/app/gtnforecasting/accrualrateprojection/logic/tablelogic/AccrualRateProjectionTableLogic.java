@@ -9,7 +9,6 @@ import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateProjecti
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateSelectionDTO;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.AccrualRateProjectionLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.vaadin.data.Container;
 import java.util.ArrayList;
 import java.util.List;

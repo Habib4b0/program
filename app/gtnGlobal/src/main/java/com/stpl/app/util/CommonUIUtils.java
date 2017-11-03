@@ -3,9 +3,14 @@ package com.stpl.app.util;
 import com.stpl.app.global.abstractsearch.util.ConstantUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
+import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import org.jboss.logging.Logger;
 
 import com.vaadin.server.Page;
@@ -19,8 +24,10 @@ import com.vaadin.ui.Notification;
 import java.text.ParseException;
 import com.vaadin.ui.UI;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +45,62 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
 public class CommonUIUtils {
 
     private static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.constants");
+    /**
+     * The Constant CHAR_PERCENT.
+     */
+    public static final char CHAR_PERCENT = '%';
+    /**
+     * The Constant CHAR_ASTERISK.
+     */
+    public static final char CHAR_ASTERISK = '*';
+
+    public static final String STATUS = "STATUS";
+
+    public static final String FORM1 = "FORM";
+    
+    /** The item type. */
+    public static final String ITEM_TYPE = "ITEM_TYPE";
+    
+    public static final String STRENGTH1 = "STRENGTH";
+    
+    public static final String UOM = "UOM";
+    
+    /** The item category. */
+    public static final String ITEM_CLASS  = "ITEM_CLASS";
+    
+    /** Therapeutic class. */
+    public static final String THERAPEUTIC_CLASS  = "THERAPEUTIC_CLASS";
+    
+    /** The Constant COMPANY_TYPE. */
+    public static final String COMPANY_TYPE = "COMPANY_TYPE";
+    
+    /** The Constant UDC1. */
+    public static final String UDC1 = "COMP_UDC1";
+    
+    /** The Constant UDC2. */
+    public static final String UDC2 = "COMP_UDC2";
+    
+    /** The Constant UDC3. */
+    public static final String UDC3 = "COMP_UDC3";
+    
+    /** The Constant UDC4. */
+    public static final String UDC4 = "COMP_UDC4";
+    
+    /** The Constant UDC5. */
+    public static final String UDC5 = "COMP_UDC5";
+    
+    /** The Constant UDC6. */
+    public static final String UDC6 = "COMP_UDC6";
+    
+    /** The Constant ORGANIZATION_KEY. */
+    public static final String ORGANIZATION_KEY = "ORGANIZATION_KEY";
+    
+    /** The Constant COMPANY_GROUP. */
+    public static final String COMPANY_GROUP = "COMPANY_GROUP";
+    
+    public static final String ADD_NOTE = "addNote";
+        
+    public static final String REMOVE_NOTE = "remove";
 
     /**
      * The Constant REBATE_PLAN_COLUMNS.
@@ -340,5 +403,86 @@ public class CommonUIUtils {
         }
         comboBox.select(ConstantUtil.SELECT_ONE);
         return comboBox;
+    }
+
+    public List<Object> getFieldsForSecurity(String moduleName, String tabName) {
+        List<Object> resultList = new ArrayList<>();
+        try {
+            resultList = ImtdIfpDetailsLocalServiceUtil.fetchFieldsForSecurity(moduleName, tabName, null, null, null);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        return resultList;
+    }
+    
+    public static String getDescription(int id) {
+        HelperDTO hDTO = new HelperDTO();
+        try {
+            if (id != 0) {
+                HelperTable helperTable = HelperTableLocalServiceUtil.getHelperTable(id);
+                hDTO.setId(helperTable.getHelperTableSid());
+                hDTO.setDescription(helperTable.getDescription());
+            }
+            return id == 0 ? StringUtils.EMPTY : hDTO.getDescription();
+        } catch (PortalException ex) {
+
+            LOGGER.error(ex);
+            return StringUtils.EMPTY;
+        } catch (SystemException ex) {
+            LOGGER.error(ex);
+            return StringUtils.EMPTY;
+        }
+
+    }
+    
+    /* To convert List<String> into a comma separated String
+     *
+     * @param collectionOfString
+     * @param toAddQuote
+     * @return
+     */
+    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+        return CollectionToString(collectionOfString, toAddQuote, false);
+    }
+    /**
+     * To convert List<String> into a comma separated String
+     *
+     * @param collectionOfString
+     * @param toAddQuote
+     * @param toRemoveSpace
+     * @return
+     */
+    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote, boolean toRemoveSpace) {
+
+        String framedString = "";
+        if (collectionOfString != null && !collectionOfString.isEmpty()) {
+            if (toAddQuote) {
+                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "'").replace("]", "'").replace(", ", "','");
+            } else {
+                framedString += Arrays.toString(collectionOfString.toArray()).replace("[", "").replace("]", "");
+            }
+
+            if (toRemoveSpace) {
+                framedString.replace(", ", "");
+            }
+        }
+        return framedString;
+    }
+
+    /**
+     * Gets the select null.
+     *
+     * @param select the select
+     * @return the selet null
+     */
+    public static ComboBox getSelectNull(final ComboBox select) {
+        select.setNullSelectionAllowed(true);
+        select.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
+        return select;
+    }
+    
+    public static String getDateForSession() {
+        SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmmssms");
+        return dt.format(new Date());
     }
 }

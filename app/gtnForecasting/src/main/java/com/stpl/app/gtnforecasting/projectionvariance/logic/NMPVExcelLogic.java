@@ -9,16 +9,14 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.PVParameters;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.SEMI_ANNUALLY;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
-import static com.stpl.app.utils.Constants.CommonConstants.CHANGE;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
-import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
-import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
 import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
@@ -219,7 +217,7 @@ public class NMPVExcelLogic {
                 }
             }
         }
-    }
+        }
 
     private boolean isRefreshNeeded(String levelFilterValue, String groupFilterValue, String viewValue, int freDiv) {
         boolean val = this.levelFilterValue.equals(levelFilterValue)
@@ -302,7 +300,9 @@ public class NMPVExcelLogic {
                     detail.setHierarchyNo(obj[1].toString());
                     detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
                 } else {
-                    groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
+//                    groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
+                      groupName = CommonUtil.getDisplayFormattedName(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString(),
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
                 }
 
                 detail.setGroup(groupName);
@@ -969,14 +969,17 @@ public class NMPVExcelLogic {
             parameters.put(PRC_PV_SELECTION, parameterDto.clone());
         }
         if (isRefresh) {
+            NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
             List<Integer> projectionIdList = new ArrayList();
             projectionIdList.add(selection.getCurrentProjId());
             projectionIdList.addAll(selection.getProjIdList());
             String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-            Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(),
-                parameterDto.getDiscountLevel(), parameterDto.getFrequency(), selection.isIsCustomHierarchy() ? "D" : parameterDto.getViewIndicator(),
+            String levelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getSelectedDeductionLevelName() : parameterDto.getDiscountLevel();
+            String sIds = selection.getDeductionLevelFilter().isEmpty() ? null :logic.removeBracesInList(selection.getDeductionLevelFilter());
+            Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(),levelName
+                , parameterDto.getFrequency(), selection.isIsCustomHierarchy() ? "D" : parameterDto.getViewIndicator(),
                 parameterDto.getGroupFilter(), parameterDto.getGroupFilterValue(), parameterDto.getHierarchyNo(),
-                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView()};
+                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView(),selection.getUomCode(),selection.getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion(),sIds};
             rawList = CommonLogic.callProcedure(PRC_PV_SELECTION, orderedArg);
             if (parameterDto.getViewName().equals("DETAIL_TOTAL_DISCOUNT")) {
                 procRawList_detail.clear();
@@ -1060,7 +1063,9 @@ public class NMPVExcelLogic {
 //                detail.setParentHierarchyNo(obj[obj.length-1] == null ? null : obj[obj.length-1].toString().substring(obj[obj.length-1].toString().indexOf('-') + 1));
                 detail.setParentHierarchyNo(obj[obj.length - 1] == null ? null : obj[obj.length - 1].toString());
             } else {
-                groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
+//                groupName = selection.getSessionDTO().getLevelValueDiscription(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString());
+                groupName = CommonUtil.getDisplayFormattedName(obj[baseColumn_hierarchy_index].toString(), obj[baseColumn_hierarchyIndicator_index].toString(),
+                            selection.getSessionDTO().getHierarchyLevelDetails(), selection.getSessionDTO(), selection.getDisplayFormat());
             }
 
             detail.setGroup(groupName);
@@ -1623,7 +1628,7 @@ public class NMPVExcelLogic {
         if (dataList != null && !dataList.isEmpty()) {
             for (int i = 0; i < dataList.size(); i++) {
                 final Object[] obj = (Object[]) dataList.get(i);
-                if ("Program Category".equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
+                if (PROGRAM_CAT.equalsIgnoreCase(projSelDTO.getDiscountLevel())) {
                     if (!"".equals(lastValue) && !"null".equals(lastValue) && obj[NumericConstants.TWO] != null && !lastValue.equals(String.valueOf(obj[NumericConstants.TWO]))) {
                         pvDTO.setGroup(lastValue);
                         resultDto.add(pvDTO);
@@ -1935,7 +1940,7 @@ public class NMPVExcelLogic {
     void getTotalDiscount(PVSelectionDTO projSelDTO) {
         pivotDiscountList.clear();
         String frequency = projSelDTO.getFrequency();
-        String discountId = CommonUtils.CollectionToString(projSelDTO.getDiscountNoList(), false);
+        String discountId = null;
         List<String> projectionIdList = new ArrayList<>();
         pivotDiscountList = new ArrayList<>();
         if (frequency.equals(Constant.QUARTERLY)) {
@@ -1957,7 +1962,7 @@ public class NMPVExcelLogic {
             Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", PROGRAM};
             discountsList = CommonLogic.callProcedure(PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE, orderedArg);
         } else {
-            Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", "Program Category"};
+            Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", PROGRAM_CAT};
             discountsList = CommonLogic.callProcedure(PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE, orderedArg);
         }
         pivotDiscountList.addAll(discountsList);
@@ -1967,7 +1972,6 @@ public class NMPVExcelLogic {
     private void customize_discount_pivot() {
         int count = procRawList_detail_discount.size();
         String oldHierarchyNo = StringUtils.EMPTY;
-        String discountNo;
         String newyear;
         String oldYear = StringUtils.EMPTY;
         String newPeriod;
@@ -1976,7 +1980,7 @@ public class NMPVExcelLogic {
         List<Integer> projList = selection.getProjIdList();
         ProjectionVarianceDTO discountDto = new ProjectionVarianceDTO();
 
-        List<String> discountNames = new ArrayList<>(selection.getDiscountNameList());
+        List<String> discountNames = new ArrayList<>(selection.getDeductionLevelCaptions());
         //PPA
         List list3 = CommonLogic.getPPADiscountNameList(selection);
         if (list3 != null) {
@@ -2012,7 +2016,6 @@ public class NMPVExcelLogic {
                 if (oldYear.equals(newyear) && newPeriod.equals(oldPeriod)) {
                     String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
                     setBase_Value(discountDto, obj, discount);
-                    discountNo = discount_No(discount);
                     customize_PriorList(discountDto, projList, discount, obj);
 
                 } else if (i == 0) {
@@ -2020,7 +2023,6 @@ public class NMPVExcelLogic {
                     commonColumn = getVisibleColumn_Header(obj);
                     String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
 
-                    discountNo = discount_No(discount);
                     setBase_Value(discountDto, obj, discount);
                     customize_PriorList(discountDto, projList, discount, obj);
 
@@ -2034,7 +2036,6 @@ public class NMPVExcelLogic {
                     discountDto = new ProjectionVarianceDTO();
                     commonColumn = getVisibleColumn_Header(obj);
                     String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-                    discountNo = discount_No(discount);
                     setBase_Value(discountDto, obj, discount);
                     customize_PriorList(discountDto, projList, discount, obj);
 
@@ -2051,7 +2052,6 @@ public class NMPVExcelLogic {
                 discountDto = new ProjectionVarianceDTO();
                 commonColumn = getVisibleColumn_Header(obj);
                 String discount = String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY);
-                discountNo = discount_No(discount);
                 setBase_Value(discountDto, obj, discount);
                 customize_PriorList(discountDto, projList, discount, obj);
 
@@ -2103,7 +2103,7 @@ public class NMPVExcelLogic {
 
         if (actualBasis) {
             String discountVarCurrent;
-            String variance = PVCommonLogic.getVariance(actualValue, currentValue, format);
+            String variance = PVCommonLogic.getVariance(actualValue, currentValue, format, selection);
             if (discountColumn.contains("RPU")) {
                 discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
             } else {
@@ -2116,7 +2116,7 @@ public class NMPVExcelLogic {
             discountDto.addStringProperties(discountVarPer, discountPer + PERCENT);
         } else if (accrualBasis) {
             String discountVarCurrent;
-            String variance = PVCommonLogic.getVariance(accrualValue, currentValue, format);
+            String variance = PVCommonLogic.getVariance(accrualValue, currentValue, format, selection);
             if (discountColumn.contains("RPU")) {
                 discountVarCurrent = discountColumn + VAR + discount + discountNo + CURRENT + projId;
             } else {
@@ -2147,7 +2147,7 @@ public class NMPVExcelLogic {
 
         if (actualBasis) {
             if (!isActualFormat) {
-                String variance = PVCommonLogic.getVariance(actualValue, priorValue, isPer ? RATE : AMOUNT);
+                String variance = PVCommonLogic.getVariance(actualValue, priorValue, isPer ? RATE : AMOUNT, selection);
                 String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
                 discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
 
@@ -2156,7 +2156,7 @@ public class NMPVExcelLogic {
                 discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
             }
         } else if (accrualBasis) {
-            String variance = PVCommonLogic.getVariance(accrualValue, priorValue, isPer ? RATE : AMOUNT);
+            String variance = PVCommonLogic.getVariance(accrualValue, priorValue, isPer ? RATE : AMOUNT, selection);
             String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT: variance);
 
@@ -2164,7 +2164,7 @@ public class NMPVExcelLogic {
             String discountVarPer = discountColumn + PER + discount + discountNo + projId;
             discountDto.addStringProperties(discountVarPer, isPer ? discountPer + PERCENT : discountPer);
         } else {
-            String variance = PVCommonLogic.getVariance(currentValue, priorValue, isPer ? RATE : AMOUNT);
+            String variance = PVCommonLogic.getVariance(currentValue, priorValue, isPer ? RATE : AMOUNT, selection);
             String discountVarCurrent = discountColumn + VAR + discount + discountNo + projId;
             discountDto.addStringProperties(discountVarCurrent, isPer ? variance + PERCENT : variance);
 
@@ -2210,7 +2210,8 @@ public class NMPVExcelLogic {
 
         for (Iterator i = keys.iterator(); i.hasNext();) {
             String key = (String) i.next();
-            String value = (String) relationshipLevelDetailsMap.get(key).get(0).toString();
+//            String value = (String) relationshipLevelDetailsMap.get(key).get(0).toString();
+            String value = CommonUtil.getDisplayFormattedName(key, relationshipLevelDetailsMap.get(key).get(4).toString(), relationshipLevelDetailsMap, selection.getSessionDTO(), selection.getDisplayFormat());
             customViewMap.put(key, value);
         }
         return customViewMap;

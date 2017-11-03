@@ -72,7 +72,7 @@
                                   immediate="true" height="288px">
                     <Panel caption="Forecast Methodology" width="88%" height="260px">
                             <GridLayout id="forecastMethodologyLayout" spacing="false" margin="false" immediate="true"
-                                        rows="5" columns="2">
+                                        rows="7" columns="2">
                             </GridLayout>
                     </Panel>
                         <VerticalLayout caption="Periods for Rolling Average" id="vLayoutAvg" spacing="false" margin="false" height="227px">

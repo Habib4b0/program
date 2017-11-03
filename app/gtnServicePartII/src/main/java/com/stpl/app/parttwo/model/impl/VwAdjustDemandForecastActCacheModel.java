@@ -20,10 +20,10 @@ import java.io.ObjectOutput;
  */
 public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustDemandForecastAct>,
     Externalizable {
-    public String forecastVersion;
+    public String forecastVer;
     public double grossUnits;
     public String businessUnitNo;
-    public String year;
+    public String forecastYear;
     public String brandName;
     public String itemId;
     public String organizationKey;
@@ -31,15 +31,15 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
     public int marketShareRatio;
     public String businessUnitName;
     public double marketShareUnits;
-    public String month;
+    public String forecastMonth;
     public double inventoryUnitChange;
     public String uncapturedUnitsRatio;
     public String country;
     public String forecastType;
-    public double totalAdjustedDemandUnits;
+    public double totalDemandUnits;
     public String brandId;
     public String isForecast;
-    public double totalAdjustedDemandAmount;
+    public double totalDemandAmount;
     public double uncapturedUnits;
     public double grossPrice;
     public double grossAmount;
@@ -56,14 +56,14 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
     public String toString() {
         StringBundler sb = new StringBundler(63);
 
-        sb.append("{forecastVersion=");
-        sb.append(forecastVersion);
+        sb.append("{forecastVer=");
+        sb.append(forecastVer);
         sb.append(", grossUnits=");
         sb.append(grossUnits);
         sb.append(", businessUnitNo=");
         sb.append(businessUnitNo);
-        sb.append(", year=");
-        sb.append(year);
+        sb.append(", forecastYear=");
+        sb.append(forecastYear);
         sb.append(", brandName=");
         sb.append(brandName);
         sb.append(", itemId=");
@@ -78,8 +78,8 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
         sb.append(businessUnitName);
         sb.append(", marketShareUnits=");
         sb.append(marketShareUnits);
-        sb.append(", month=");
-        sb.append(month);
+        sb.append(", forecastMonth=");
+        sb.append(forecastMonth);
         sb.append(", inventoryUnitChange=");
         sb.append(inventoryUnitChange);
         sb.append(", uncapturedUnitsRatio=");
@@ -88,14 +88,14 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
         sb.append(country);
         sb.append(", forecastType=");
         sb.append(forecastType);
-        sb.append(", totalAdjustedDemandUnits=");
-        sb.append(totalAdjustedDemandUnits);
+        sb.append(", totalDemandUnits=");
+        sb.append(totalDemandUnits);
         sb.append(", brandId=");
         sb.append(brandId);
         sb.append(", isForecast=");
         sb.append(isForecast);
-        sb.append(", totalAdjustedDemandAmount=");
-        sb.append(totalAdjustedDemandAmount);
+        sb.append(", totalDemandAmount=");
+        sb.append(totalDemandAmount);
         sb.append(", uncapturedUnits=");
         sb.append(uncapturedUnits);
         sb.append(", grossPrice=");
@@ -127,10 +127,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
     public VwAdjustDemandForecastAct toEntityModel() {
         VwAdjustDemandForecastActImpl vwAdjustDemandForecastActImpl = new VwAdjustDemandForecastActImpl();
 
-        if (forecastVersion == null) {
-            vwAdjustDemandForecastActImpl.setForecastVersion(StringPool.BLANK);
+        if (forecastVer == null) {
+            vwAdjustDemandForecastActImpl.setForecastVer(StringPool.BLANK);
         } else {
-            vwAdjustDemandForecastActImpl.setForecastVersion(forecastVersion);
+            vwAdjustDemandForecastActImpl.setForecastVer(forecastVer);
         }
 
         vwAdjustDemandForecastActImpl.setGrossUnits(grossUnits);
@@ -141,10 +141,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             vwAdjustDemandForecastActImpl.setBusinessUnitNo(businessUnitNo);
         }
 
-        if (year == null) {
-            vwAdjustDemandForecastActImpl.setYear(StringPool.BLANK);
+        if (forecastYear == null) {
+            vwAdjustDemandForecastActImpl.setForecastYear(StringPool.BLANK);
         } else {
-            vwAdjustDemandForecastActImpl.setYear(year);
+            vwAdjustDemandForecastActImpl.setForecastYear(forecastYear);
         }
 
         if (brandName == null) {
@@ -181,10 +181,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
 
         vwAdjustDemandForecastActImpl.setMarketShareUnits(marketShareUnits);
 
-        if (month == null) {
-            vwAdjustDemandForecastActImpl.setMonth(StringPool.BLANK);
+        if (forecastMonth == null) {
+            vwAdjustDemandForecastActImpl.setForecastMonth(StringPool.BLANK);
         } else {
-            vwAdjustDemandForecastActImpl.setMonth(month);
+            vwAdjustDemandForecastActImpl.setForecastMonth(forecastMonth);
         }
 
         vwAdjustDemandForecastActImpl.setInventoryUnitChange(inventoryUnitChange);
@@ -207,7 +207,7 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             vwAdjustDemandForecastActImpl.setForecastType(forecastType);
         }
 
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandUnits(totalAdjustedDemandUnits);
+        vwAdjustDemandForecastActImpl.setTotalDemandUnits(totalDemandUnits);
 
         if (brandId == null) {
             vwAdjustDemandForecastActImpl.setBrandId(StringPool.BLANK);
@@ -221,7 +221,7 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             vwAdjustDemandForecastActImpl.setIsForecast(isForecast);
         }
 
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandAmount(totalAdjustedDemandAmount);
+        vwAdjustDemandForecastActImpl.setTotalDemandAmount(totalDemandAmount);
         vwAdjustDemandForecastActImpl.setUncapturedUnits(uncapturedUnits);
         vwAdjustDemandForecastActImpl.setGrossPrice(grossPrice);
         vwAdjustDemandForecastActImpl.setGrossAmount(grossAmount);
@@ -264,10 +264,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
 
     @Override
     public void readExternal(ObjectInput objectInput) throws IOException {
-        forecastVersion = objectInput.readUTF();
+        forecastVer = objectInput.readUTF();
         grossUnits = objectInput.readDouble();
         businessUnitNo = objectInput.readUTF();
-        year = objectInput.readUTF();
+        forecastYear = objectInput.readUTF();
         brandName = objectInput.readUTF();
         itemId = objectInput.readUTF();
         organizationKey = objectInput.readUTF();
@@ -275,15 +275,15 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
         marketShareRatio = objectInput.readInt();
         businessUnitName = objectInput.readUTF();
         marketShareUnits = objectInput.readDouble();
-        month = objectInput.readUTF();
+        forecastMonth = objectInput.readUTF();
         inventoryUnitChange = objectInput.readDouble();
         uncapturedUnitsRatio = objectInput.readUTF();
         country = objectInput.readUTF();
         forecastType = objectInput.readUTF();
-        totalAdjustedDemandUnits = objectInput.readDouble();
+        totalDemandUnits = objectInput.readDouble();
         brandId = objectInput.readUTF();
         isForecast = objectInput.readUTF();
-        totalAdjustedDemandAmount = objectInput.readDouble();
+        totalDemandAmount = objectInput.readDouble();
         uncapturedUnits = objectInput.readDouble();
         grossPrice = objectInput.readDouble();
         grossAmount = objectInput.readDouble();
@@ -300,10 +300,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
     @Override
     public void writeExternal(ObjectOutput objectOutput)
         throws IOException {
-        if (forecastVersion == null) {
+        if (forecastVer == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(forecastVersion);
+            objectOutput.writeUTF(forecastVer);
         }
 
         objectOutput.writeDouble(grossUnits);
@@ -314,10 +314,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             objectOutput.writeUTF(businessUnitNo);
         }
 
-        if (year == null) {
+        if (forecastYear == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(year);
+            objectOutput.writeUTF(forecastYear);
         }
 
         if (brandName == null) {
@@ -354,10 +354,10 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
 
         objectOutput.writeDouble(marketShareUnits);
 
-        if (month == null) {
+        if (forecastMonth == null) {
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
-            objectOutput.writeUTF(month);
+            objectOutput.writeUTF(forecastMonth);
         }
 
         objectOutput.writeDouble(inventoryUnitChange);
@@ -380,7 +380,7 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             objectOutput.writeUTF(forecastType);
         }
 
-        objectOutput.writeDouble(totalAdjustedDemandUnits);
+        objectOutput.writeDouble(totalDemandUnits);
 
         if (brandId == null) {
             objectOutput.writeUTF(StringPool.BLANK);
@@ -394,7 +394,7 @@ public class VwAdjustDemandForecastActCacheModel implements CacheModel<VwAdjustD
             objectOutput.writeUTF(isForecast);
         }
 
-        objectOutput.writeDouble(totalAdjustedDemandAmount);
+        objectOutput.writeDouble(totalDemandAmount);
         objectOutput.writeDouble(uncapturedUnits);
         objectOutput.writeDouble(grossPrice);
         objectOutput.writeDouble(grossAmount);

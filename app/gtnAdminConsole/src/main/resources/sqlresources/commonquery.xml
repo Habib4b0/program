@@ -655,16 +655,211 @@ and open the template in the editor.
     <entity id="balanceSummaryReport">
             <query>
                 <![CDATA[    
-                SELECT
+                  SELECT
                     HT.HELPER_TABLE_SID,        
                     HT.DESCRIPTION
                 FROM
                     HELPER_TABLE HT
-                    where HT.LIST_NAME = 'ARM_REPORT_TYPE'
+                    where HT.LIST_NAME = 'Balance_Summary_Report_Type'
                       ]]>
             </query>
         </entity> 
 
+    <entity id="getHierarchyCatBySid">
+        <query> 
+            <![CDATA[
+                SELECT
+                         DISTINCT he.DESCRIPTION
+                 from
+                         dbo.HIERARCHY_DEFINITION hld join dbo.HELPER_TABLE he on
+                         he.HELPER_TABLE_SID = hld.HIERARCHY_CATEGORY
+                 WHERE
+                         hld.HIERARCHY_DEFINITION_SID = ?HIERDEFSID
+            ]]>
+        </query>
+     </entity>
+     
+     <entity id="getRBItemId">
+		<query> 
+        <![CDATA[
+          SELECT
+					DISTINCT IM.ITEM_MASTER_SID
+				FROM
+					ITEM_MASTER IM
+					JOIN BRAND_MASTER B1 ON
+					B1.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+					JOIN GL_COST_CENTER_MASTER GLC ON
+					GLC.NDC8 = IM.NDC8
+					JOIN COMPANY_MASTER CM ON
+					CM.COMPANY_ID = GLC.COMPANY_CODE
+					WHERE
+					IM.ITEM_NAME IS NOT NULL
+					?;
+]]>
+		</query>
+	</entity>
 
+	<entity id="getDeductionData">
+		<query> 
+        <![CDATA[
+         SELECT DISTINCT
+	  RS.RS_CATEGORY as RS_CATEGORY,
+      RS.RS_TYPE as RS_TYPE,
+      RS.REBATE_PROGRAM_TYPE as REBATE_PROGRAM_TYPE,
+      
+        isnull(CASE WHEN (U.UDC1)=0 THEN ( SELECT HELPER_TABLE_SID                                 FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC1'
+                                       AND LIST_NAME = 'RS_UDC1')  END ,( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC1'
+                                       AND LIST_NAME = 'RS_UDC1') )
+									    AS UDC1,
+      
+          isnull(CASE WHEN (U.udc2)=0 THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'udc2'
+                                       AND LIST_NAME = 'RS_UDC2')  END ,( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'udc2'
+                                       AND LIST_NAME = 'RS_UDC2') )
+									    AS udc2,
+
+
+										      isnull(CASE WHEN (U.UDC3)=0 THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC3'
+                                       AND LIST_NAME = 'RS_UDC3')  END ,( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC3'
+                                       AND LIST_NAME = 'RS_UDC3') )
+									    AS UDC3,
+
+
+										      isnull(CASE WHEN (U.UDC4)=0 THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC4'
+                                       AND LIST_NAME = 'RS_UDC4')  END ,( SELECT HELPER_TABLE_SID
+                                FROM  helper_table
+                                WHERE  DESCRIPTION = 'UDC4'
+                                       AND LIST_NAME = 'RS_UDC4') )
+									    AS UDC4,
+
+
+										      isnull(CASE WHEN (U.UDC5)=0 THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC5'
+                                       AND LIST_NAME = 'RS_UDC5')  END ,( SELECT HELPER_TABLE_SID
+                                FROM  helper_table
+                                WHERE  DESCRIPTION = 'UDC5'
+                                       AND LIST_NAME = 'RS_UDC5') )
+									    AS UDC5,
+
+
+										      isnull(CASE WHEN (U.UDC6)=0 THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC6'
+                                       AND LIST_NAME = 'RS_UDC6')  END ,( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC6'
+                                       AND LIST_NAME = 'RS_UDC6') )
+									    AS UDC6,
+            RS.RS_CONTRACT_SID as RS_ID
+	FROM
+	RS_contract_details A join RS_CONTRACT RS on
+	RS.RS_CONTRACT_SID = a.RS_CONTRACT_SID
+	and RS.INBOUND_STATUS <> 'D'and a.INBOUND_STATUS <> 'D' left
+JOIN UDCS U ON
+	U.MASTER_SID = A.RS_CONTRACT_SID
+where
+	A.item_master_sid in (?)
+	order by  
+    RS_CATEGORY,RS_TYPE,REBATE_PROGRAM_TYPE, UDC1,UDC2,UDC3,UDC4,UDC5,UDC6,RS_ID ASC;
+]]>
+		</query>
+	</entity>
+
+
+	<entity id="getHierarchyDefSid">
+		<query> 
+        <![CDATA[
+      select
+	LEVEL_NO,
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NAME
+from
+	dbo.HIERARCHY_LEVEL_DEFINITION
+WHERE
+	HIERARCHY_DEFINITION_SID = (select HIERARCHY_DEFINITION_SID from dbo.RELATIONSHIP_BUILDER where RELATIONSHIP_BUILDER_SID = ?)
+]]>
+		</query>
+	</entity>
+
+	<entity id="getHierarchyDefSidRB">
+		<query> 
+        <![CDATA[
+     select
+	HIERARCHY_DEFINITION_SID
+from
+	dbo.HIERARCHY_DEFINITION
+where
+	HIERARCHY_NAME like '%Deduction%'
+ORDER By
+	CREATED_DATE DESC;
+]]>
+		</query>
+	</entity>
+
+	<entity id="getProductRelationId">
+		<query> 
+        <![CDATA[
+   select
+	RELATIONSHIP_BUILDER_SID
+from
+	dbo.RELATIONSHIP_BUILDER
+where
+	deduction_relation = ?;
+]]>
+		</query>
+	</entity>
+
+
+	<entity id="getProductRelationIdRLD">
+		<query> 
+        <![CDATA[
+select
+      *
+ from
+      (
+              select
+                      LEVEL_NAME,LEVEL_NO,RELATIONSHIP_LEVEL_VALUES,PARENT_NODE,
+                      dense_rank() 
+                      OVER(                  
+                      order by
+                              LEVEL_NO desc
+                      ) rn
+              from
+                      dbo.RELATIONSHIP_LEVEL_DEFINITION
+              where
+                      RELATIONSHIP_BUILDER_SID = ?
+      ) A
+ where
+     a.rn =1
+]]>
+		</query>
+	</entity>
+        
+        <entity id="getHierarchyCatBySidForDed">
+        <query> 
+            <![CDATA[
+                SELECT
+                         DISTINCT he.DESCRIPTION
+                 from
+                         dbo.HIERARCHY_DEFINITION hld join dbo.HELPER_TABLE he on
+                         he.HELPER_TABLE_SID = hld.HIERARCHY_CATEGORY
+                 WHERE
+                         hld.HIERARCHY_DEFINITION_SID = ?
+            ]]>
+        </query>
+     </entity>
      
 </sql>

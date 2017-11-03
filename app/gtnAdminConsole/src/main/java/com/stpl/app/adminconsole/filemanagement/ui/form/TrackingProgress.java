@@ -18,7 +18,6 @@ import com.stpl.app.adminconsole.filemanagement.dto.FileMananagementResultDTO;
 import com.stpl.app.adminconsole.filemanagement.dto.TrackingProcessDTO;
 import com.stpl.app.adminconsole.filemanagement.logic.FileManagementLogic;
 import com.stpl.app.adminconsole.filemanagement.logic.tablelogic.TrackingProgressTableLogic;
-import com.stpl.app.adminconsole.itemgroup.util.UISecurityUtil;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.security.StplSecurity;
@@ -155,9 +154,9 @@ public class TrackingProgress extends Window {
             final String userId = String.valueOf(sessionDTO.getUserId());
             final Map<String, AppPermission> fieldIfpHM;
 
-            fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.FILE_MANAGEMENT+","+UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
+            fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.FILE_MANAGEMENT+","+CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.FILE_MANAGEMENT, UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
+            List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
             Object[] objColumn = summaryColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 
@@ -194,9 +193,9 @@ public class TrackingProgress extends Window {
             final String userId = String.valueOf(sessionDTO.getUserId());
             final Map<String, AppPermission> fieldIfpHM;
 
-            fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.FILE_MANAGEMENT+","+UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
+            fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.FILE_MANAGEMENT+","+CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
 
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.FILE_MANAGEMENT, UISecurityUtil.PROGRAM_TRACKING_LIST_VIEW);
+            List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.PROGRAM_TRACKING_LIST_VIEW);
             Object[] objColumn = detailsColumn;
             TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, "Add");
 

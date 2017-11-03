@@ -5,18 +5,31 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
-import com.stpl.app.adminconsole.util.StringConstantUtils;
+import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getFtpBundleValue;
+
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
-import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getFtpBundleValue;
 import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.ManualTableLogic;
 import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.ProcessSchedulerTableLogic;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.MessageUtil;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CommonSecurityLogic;
@@ -40,17 +53,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
-import java.util.ResourceBundle;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -274,7 +276,8 @@ public class processSchedulerForm extends CustomComponent {
             /**
              *
              */
-            public void valueChange(final Property.ValueChangeEvent event) {
+            @Override
+			public void valueChange(final Property.ValueChangeEvent event) {
                 if (String.valueOf(status.getValue()).equalsIgnoreCase("Inactive")) {
                     processName.setEnabled(false);
                 } else {
@@ -432,8 +435,8 @@ public class processSchedulerForm extends CustomComponent {
         resultTable.setColumnHeaders(Arrays.copyOf(getColumns(false, key), getColumns(false, key).length, String[].class));
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
-        resultTable.setWidth("967px");
-        resultTable.setHeight("253px");
+		resultTable.setWidth("100%");
+		resultTable.setHeight("253px");
         resultTable.setSelectable(true);
         resultTable.markAsDirty();
         resultTable.setComponentError(null);
@@ -446,8 +449,8 @@ public class processSchedulerForm extends CustomComponent {
         LOGGER.debug("Inside configureManualTable");
         manualTabLogic.setContainerDataSource(manualProcSchContainerBean);
         manualTabLogic.setPageLength(NumericConstants.FIFTEEN);
-        manualProcTable.setWidth("490px");
-        manualProcTable.setHeight("560px");
+		manualProcTable.setWidth("100%");
+		manualProcTable.setHeight("560px");
         manualProcTable.setSelectable(true);
         manualProcTable.setMultiSelect(false);
         HorizontalLayout controls = manualTabLogic.createControls();

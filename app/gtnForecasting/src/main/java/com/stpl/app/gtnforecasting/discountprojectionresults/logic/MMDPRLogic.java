@@ -533,7 +533,6 @@ public class MMDPRLogic {
         List<DiscountProjectionResultsDTO> projDTOList = new ArrayList<>();
         List<String> periodList = new ArrayList<>(projSelDTO.getPeriodList());
         int col = NumericConstants.FIVE;
-        int dcol;
         if (frequencyDivision != 1) {
             col = col + 1;
         }
@@ -1170,7 +1169,7 @@ public class MMDPRLogic {
 
             List<Integer> projectionDet = dqLogic.getProjectionDetailsId(projSelDTO);
 
-            if (projectionDet != null && projectionDet.size() > 0) {
+            if (projectionDet != null && !projectionDet.isEmpty()) {
 
                 String frequency = projSelDTO.getFrequency();
                 List<String> discountList;
@@ -1196,7 +1195,7 @@ public class MMDPRLogic {
                     list = dqLogic.getMandatedSupp2(projectionDet, frequency, yearList, projSelDTO);
                 }
 
-                if (list != null && list.size() > 0) {
+                if (list != null && !list.isEmpty()) {
 
                     if (frequency.equals(Constant.QUARTERLY)) {
                         double actualSales = 0;
@@ -1787,8 +1786,6 @@ public class MMDPRLogic {
             String userId = String.valueOf(projSelDTO.getUserId());
             String sessionId = String.valueOf(projSelDTO.getSessionId());
             List<Integer> projectionDet = dqLogic.getProjectionDetailsId(projSelDTO);
-            int user = Integer.valueOf(userId);
-            int session = Integer.valueOf(sessionId);
             String frequency = projSelDTO.getFrequency();
             List<String> discountList = projSelDTO.getDiscountNameList();
             String discountString = StringUtils.EMPTY;
@@ -1979,7 +1976,6 @@ public class MMDPRLogic {
                 }
 
                 List<String> column = getCommonColumnHeader(frequencyDivision, year, period);
-                String commonColumn = column.get(0);
                 if (periodList.contains(column.get(1))) {
                     periodList.remove(column.get(1));
                     if (checkYear.isEmpty() || !checkYear.equalsIgnoreCase(column.get(1))) {
@@ -2395,7 +2391,7 @@ public class MMDPRLogic {
                 }
             }
 
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);
                     if (i == 0) {

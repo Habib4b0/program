@@ -1555,8 +1555,8 @@ public class SPRCommonLogic {
             } else if (userGroup.startsWith(Constant.PPA)) {
                 userGroup = " = '" + userGroup.replace(Constant.PPA, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterPPAQuery(userGroup, userId, sessionId);
-            } else if (userGroup.startsWith(Constant.SALES_)) {
-                userGroup = " = '" + userGroup.replace(Constant.SALES_, StringUtils.EMPTY) + "' ";
+            } else if (userGroup.startsWith(Constant.SALES_WITH_HYPHEN)) {
+                userGroup = " = '" + userGroup.replace(Constant.SALES_WITH_HYPHEN, StringUtils.EMPTY) + "' ";
                 query = getGroupFilterSalesQuery(userGroup, userId, sessionId);
             }
         }
@@ -1629,7 +1629,7 @@ public class SPRCommonLogic {
             List<Object> list = (List<Object>) executeSelectQuery(query, null, null);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
-                    groupList.add(Constant.SALES_ + String.valueOf(list1));
+                    groupList.add(Constant.SALES_WITH_HYPHEN + String.valueOf(list1));
                 }
             }
         } catch (Exception ex) {

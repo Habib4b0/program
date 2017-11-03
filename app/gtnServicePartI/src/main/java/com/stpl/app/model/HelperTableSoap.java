@@ -21,6 +21,7 @@ public class HelperTableSoap implements Serializable {
     private int _helperTableSid;
     private int _modifiedBy;
     private Date _modifiedDate;
+    private String _aliasName;
 
     public HelperTableSoap() {
     }
@@ -36,6 +37,7 @@ public class HelperTableSoap implements Serializable {
         soapModel.setHelperTableSid(model.getHelperTableSid());
         soapModel.setModifiedBy(model.getModifiedBy());
         soapModel.setModifiedDate(model.getModifiedDate());
+        soapModel.setAliasName(model.getAliasName());
 
         return soapModel;
     }
@@ -146,5 +148,13 @@ public class HelperTableSoap implements Serializable {
 
     public void setModifiedDate(Date modifiedDate) {
         _modifiedDate = modifiedDate;
+    }
+
+    public String getAliasName() {
+        return _aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        _aliasName = aliasName;
     }
 }

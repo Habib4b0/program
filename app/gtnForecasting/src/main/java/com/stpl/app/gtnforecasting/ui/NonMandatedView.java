@@ -7,10 +7,8 @@ package com.stpl.app.gtnforecasting.ui;
 
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.VerticalLayout;
 import java.util.logging.Level;

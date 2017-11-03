@@ -21,11 +21,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
 import com.stpl.app.adminconsole.dao.HelperTableDAO;
-import com.stpl.app.adminconsole.dao.HierarchyBuilderLogicDAO;
-import com.stpl.app.adminconsole.dao.ItemGroupLogicDAO;
 import com.stpl.app.adminconsole.dao.impl.HelperTableDAOImpl;
-import com.stpl.app.adminconsole.dao.impl.HierarchyBuilderLogicDAOImpl;
-import com.stpl.app.adminconsole.dao.impl.ItemGroupLogicDAOImpl;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
@@ -53,8 +49,12 @@ import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.VerticalLayout;
 import java.util.Arrays;
 import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDate;
+import com.stpl.app.adminconsole.util.HelperListUtil;
+import com.stpl.app.adminconsole.dao.CommonDAO;
+import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import static com.stpl.app.adminconsole.common.util.CommonUtil.convertStringToDate;
 
 /**
  * The Class CommonUtil.
@@ -73,11 +73,9 @@ public final class CommonUtil {
 
     public static final String STRING_NULL = "null";
 
-    private static HierarchyBuilderLogicDAO hierarchyBuilderLogicDAO = new HierarchyBuilderLogicDAOImpl();
+    static CommonDAO DAO = new CommonDAOImpl();
 
     private static HelperTableDAO helperTableDAO = new HelperTableDAOImpl();
-
-    private static ItemGroupLogicDAO itemGroupMasterDAO = new ItemGroupLogicDAOImpl();
 
     private static final Logger LOGGER = Logger.getLogger(CommonUtil.class);
 
@@ -101,6 +99,10 @@ public final class CommonUtil {
     public static final String TABLECHECKBOX = "TableCheckBox";
     public static final String FORECAST_YEAR = "forcastYear";
     public static final String CHECK = "check";
+    public static final String DEDUCTION_GROUPING = "Deduction Grouping";
+    public static final String FILE_MANAGEMENT = "File Management";
+    public static final String LANDING_SCREEN = "Landing Screen";
+    public static final String PROGRAM_TRACKING_LIST_VIEW = "Program Tracking List view";
     public CommonUtil() {
         LOGGER.debug("CommonUtil");
     }
@@ -218,7 +220,7 @@ public final class CommonUtil {
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = hierarchyBuilderLogicDAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -250,7 +252,7 @@ public final class CommonUtil {
 
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = hierarchyBuilderLogicDAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
                 final HelperTable helperTable = (HelperTable) list.get(i);
@@ -275,22 +277,29 @@ public final class CommonUtil {
         LOGGER.debug("Entering getDropDown  P1:select and P2:listName=" + listName);
         final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         final HelperDTO fileTypeNullDto = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
+        Map<Integer, String> aliasNameMap  = new HashMap<>();
         helperList.add(fileTypeNullDto);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.like(CommonUtil.LISTNAME, listName));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(CommonUtil.DESCRIPTION, ConstantsUtils.INVENTORY_WITHDRAWAL));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(CommonUtil.DESCRIPTION));
-        final List<HelperTable> list = hierarchyBuilderLogicDAO.getHelperTableList(cfpDynamicQuery);
+        final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
+                aliasNameMap.put(0,"");
                 final HelperTable helperTable = (HelperTable) list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
+                aliasNameMap.put(helperTable.getHelperTableSid(),helperTable.getAliasName());
             }
         }
         select.setPageLength(NumericConstants.SEVEN);
         for (final Iterator<HelperDTO> iterator = helperList.iterator(); iterator.hasNext();) {
             final HelperDTO helperDTO = iterator.next();
             select.addItem(helperDTO.getId());
+            if(aliasNameMap.get(helperDTO.getId()).isEmpty()){
             select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+            }else {
+            select.setItemCaption(helperDTO.getId(), aliasNameMap.get(helperDTO.getId()));
+            }
             fileTypeList.add(helperDTO);
         }
         select.select(0);
@@ -298,7 +307,7 @@ public final class CommonUtil {
 
         return select;
     }
-
+    
     /**
      * Gets the created by user.
      *
@@ -310,7 +319,7 @@ public final class CommonUtil {
         LOGGER.debug("Entering getCreatedByUser()");
         final HashMap<String, String> userMap = new HashMap<>();
         final DynamicQuery userGroupDynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
-        final List<User> users = hierarchyBuilderLogicDAO.getUsersList(userGroupDynamicQuery);
+        final List<User> users = DAO.getUsersList(userGroupDynamicQuery);
 
         for (final Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
             final User user = iterator.next();
@@ -384,7 +393,7 @@ public final class CommonUtil {
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
         brandDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.BRAND_NAME));
-        final List<BrandMaster> list = itemGroupMasterDAO.getBrandNameandId(brandDynamicQuery);
+        final List<BrandMaster> list = DAO.getBrandNameandId(brandDynamicQuery);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 final BrandMaster values = list.get(i);
@@ -417,7 +426,7 @@ public final class CommonUtil {
         projList.add(ProjectionFactoryUtil.property("brandMasterSid"));
         projList.add(ProjectionFactoryUtil.property("brandName"));
         brandDynamicQuery.addOrder(OrderFactoryUtil.asc("brandName"));
-        final List<BrandMaster> list = itemGroupMasterDAO.getBrandNameandId(brandDynamicQuery);
+        final List<BrandMaster> list = DAO.getBrandNameandId(brandDynamicQuery);
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 final BrandMaster values = list.get(i);
@@ -530,7 +539,7 @@ public final class CommonUtil {
     }
 
     public TableResultCustom getTableColumnsPermission(List<Object> resultList, Object[] obj, Map<String, AppPermission> fieldIfpHM, String mode) {
-        TableResultCustom tableResultCustom = new TableResultCustom();
+        TableResultCustom tableResultCustom;
         List<Object> strList = Arrays.asList(obj);
         List<String> columnList = new ArrayList<>();
         List<Object> columnList1 = new ArrayList<>();
@@ -540,7 +549,7 @@ public final class CommonUtil {
             Object[] objResult = (Object[]) resultList.get(i);
             String value = objResult[1].toString();
             if (strList.contains(value)) {
-                columnList.add(value.toString());
+                columnList.add(value);
                 headerList.add(objResult[0].toString());
             }
         }
@@ -778,7 +787,8 @@ public final class CommonUtil {
     public static HelperDTO getSelectedFileType(ComboBox fileType) {
         HelperDTO selectedFileType = null;
         if(fileType.getValue() != null && !String.valueOf(fileType.getValue()).equals("0")) {
-            selectedFileType = new HelperDTO(Integer.valueOf(String.valueOf(fileType.getValue())), fileType.getItemCaption(fileType.getValue()));
+            String Desc = HelperListUtil.getInstance().getIdHelperDTOMap().get(fileType.getValue()).getDescription();
+            selectedFileType = new HelperDTO(Integer.valueOf(String.valueOf(fileType.getValue())),Desc);
         }
         return selectedFileType;
     }

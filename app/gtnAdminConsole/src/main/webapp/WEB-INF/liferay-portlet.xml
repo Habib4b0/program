@@ -3,32 +3,10 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>ItemGroup</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-	<portlet>
-		<portlet-name>CustomerGroup</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-	<portlet>
 		<portlet-name>FileManagement</portlet-name>
 		<instanceable>false</instanceable>
 		<ajaxable>false</ajaxable>
 	</portlet>
-        
-	<portlet>
-		<portlet-name>RelationshipBuilder</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>        
-	<portlet>
-		<portlet-name>HierarchyBuilder</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-	
 	<portlet>
 		<portlet-name>Archive</portlet-name>
 		<instanceable>false</instanceable>
@@ -39,41 +17,8 @@
 		<instanceable>false</instanceable>
 		<ajaxable>false</ajaxable>
 	</portlet>
-	<portlet>
-		<portlet-name>Forecast</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-        <portlet>
-		<portlet-name>Period Configuration</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-        <portlet>
-		<portlet-name>ProjectionNameConfiguration</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
         <portlet>
 		<portlet-name>ProcessScheduler</portlet-name>
-		<instanceable>false</instanceable>
-		<ajaxable>false</ajaxable>
-	</portlet>
-        
-        <portlet>
-                <portlet-name>CalendarConfiguration</portlet-name>
-                <instanceable>false</instanceable>
-                <ajaxable>false</ajaxable>
-        </portlet>
-	
-        <portlet>
-                <portlet-name>ProcessMonitoring</portlet-name>
-                <instanceable>false</instanceable>
-                <ajaxable>false</ajaxable>
-        </portlet>
-    
-        <portlet>
-		<portlet-name>EmailConfiguration</portlet-name>
 		<instanceable>false</instanceable>
 		<ajaxable>false</ajaxable>
 	</portlet>

@@ -131,7 +131,7 @@ public class PPAChart {
         plot.setPointPadding(NumericConstants.DOUBLE_ZERO_TWO);
         plot.setBorderWidth(0);
 
-        if (dto != null && dto.size() > 0) {
+        if (dto != null && !dto.isEmpty()) {
 
             if (selection.getPivotView().equals(Constant.PERIOD)) {
                 List<String> xcat = new ArrayList<>();

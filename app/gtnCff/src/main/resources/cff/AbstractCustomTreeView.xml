@@ -28,6 +28,15 @@
                                 <Button id="removeProduct" caption="&lt;"></Button>
                             </VerticalLayout>
                         </HorizontalLayout>
+                        
+                        <HorizontalLayout  id="deductionLayout" spacing="false" margin="false" immediate="true">
+                            <Table id="deductionTable"  caption="Deduction Hierarchy" width="210px" height="191px"  immediate="true" styleName="table-header-normal" selectable="true" />
+                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                                <Label caption="" hieght="120px" contentMode="HTML" immediate="true" />
+                                <Button id="addDeduction" caption="&gt;"></Button>
+                                <Button id="removeDeduction" caption="&lt;"></Button>
+                            </VerticalLayout>
+                        </HorizontalLayout>
                     </VerticalLayout>
                     <HorizontalLayout  spacing="false" margin="false" immediate="true">
                         <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" height="446px"  width="370px" immediate="true" selectable="true" />        

@@ -716,7 +716,7 @@ public class NMSalesProjectionResultsLogic {
         Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, discList, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId()};
         List<SalesProjectionResultsDTO> projDTOList = new ArrayList<>();
         if (!projSelDTO.getLevelValue().startsWith(Constant.ALL)
-                && !projSelDTO.getLevelValue().contains(Constant.SALES_)) {
+                && !projSelDTO.getLevelValue().contains(Constant.SALES_WITH_HYPHEN)) {
             if (projSelDTO.isIsProjectionTotal()) {
                 if (started == 0) {
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
@@ -890,7 +890,7 @@ public class NMSalesProjectionResultsLogic {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
                     && !projSelDTO.getLevelValue().startsWith(Constant.ALL)
-                    && !projSelDTO.getLevelValue().contains(Constant.SALES_)) {
+                    && !projSelDTO.getLevelValue().contains(Constant.SALES_WITH_HYPHEN)) {
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + started)) {
                     SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
                     dto.setLevelNo(projSelDTO.getLevelNo());
@@ -981,7 +981,6 @@ public class NMSalesProjectionResultsLogic {
     public List<SalesProjectionResultsDTO> getCustomizedProjectionTotal(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("getCustomizedProjectionTotal() starts");
         int frequencyDivision = projSelDTO.getFrequencyDivision();
-        String salesOrUnits;
         SalesProjectionResultsDTO exFactorySalesDTO = new SalesProjectionResultsDTO();
         SalesProjectionResultsDTO demandSalesDTO = new SalesProjectionResultsDTO();
         SalesProjectionResultsDTO inventoryWithdrawDTO = new SalesProjectionResultsDTO();
@@ -1122,7 +1121,7 @@ public class NMSalesProjectionResultsLogic {
 
     public List<SalesProjectionResultsDTO[]> getContractSalesAndUnitsMultipleCustom(Set nodeSet, ProjectionSelectionDTO projSelDTO) {
         CommonLogic logic = new CommonLogic();
-        String sql = logic.insertAvailableHierarchyNoForCustomExpand(nodeSet);
+        String sql = logic.insertAvailableHierarchyNoForCustomExpand(nodeSet,projSelDTO);
         sql += SQlUtil.getQuery("non-mandated-sales-projections-query-new-custom");
         List<Object> list = (List<Object>) CommonLogic.executeSelectQuery(QueryUtil.replaceTableNames(getContractsAndUnit(sql, projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames()), null, null);
         return getCustomizedSalesProjectionResultsSalesMultiple(list, projSelDTO);
@@ -1393,7 +1392,6 @@ public class NMSalesProjectionResultsLogic {
     }
 
     private void generateContractUnitData(Object[] obj, int frequencyDivision, ProjectionSelectionDTO projSelDTO, SalesProjectionResultsDTO projSalesDTO, SalesProjectionResultsDTO projUnitDTO, SalesProjectionResultsDTO projExFac, List<String> columnList) {
-        String salesOrUnits;
         int year = Integer.valueOf(String.valueOf(obj[0]));
         int period = Integer.valueOf(String.valueOf(obj[1]));
         List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -1452,7 +1450,6 @@ public class NMSalesProjectionResultsLogic {
         projectionTotalList.clear();// Fix for GAL-4084
         if (projectionTotalList.isEmpty()) {
             List<Object[]> gtsList = null;
-            List<Object[]> discountList = new ArrayList<>();
             if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
                 LOGGER.debug("Entering getProjectionPivotTotal NonMandated");
 
@@ -1631,7 +1628,6 @@ public class NMSalesProjectionResultsLogic {
             LOGGER.debug("Entering getProjection Pivot NonMandated");
 
             List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(CommonLogic.getCCPQuery(projSelDTO, Boolean.FALSE) + " \n" + getSalesProjectionResultsSalesQuery(projSelDTO), null, null);
-            List<Object> discountList = new ArrayList<>();
             projDTOList = getCustomizedProjectionPivot(gtsList, projSelDTO);
             LOGGER.debug("Ending getProjection Pivot NonMandated");
         } else if (projSelDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
@@ -1857,7 +1853,7 @@ public class NMSalesProjectionResultsLogic {
     public int getProjectionResultsCount(ProjectionSelectionDTO projSelDTO, boolean isLevelCount) {
         int count = 0;
         if (!projSelDTO.getLevelValue().startsWith(Constant.ALL)
-                && !projSelDTO.getLevelValue().contains(Constant.SALES_)) {
+                && !projSelDTO.getLevelValue().contains(Constant.SALES_WITH_HYPHEN)) {
             if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
                 if (projSelDTO.isIsProjectionTotal()) {
                     count = count + NumericConstants.TWO;
@@ -1888,7 +1884,7 @@ public class NMSalesProjectionResultsLogic {
             if ((projSelDTO.getTreeLevelNo() + 1) == projSelDTO.getTpLevel()
                     && ((projSelDTO.isIsCustomHierarchy()) || (!projSelDTO.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)))
                     && !projSelDTO.getLevelValue().startsWith(Constant.ALL)
-                    && !projSelDTO.getLevelValue().contains(Constant.SALES_)) {
+                    && !projSelDTO.getLevelValue().contains(Constant.SALES_WITH_HYPHEN)) {
                 count = count + 1;
                 projSelDTO.setGroupCount(true);
                 projSelDTO.setLevelCount(1);
@@ -2514,7 +2510,6 @@ public class NMSalesProjectionResultsLogic {
         LOGGER.debug("Entering getProjectionPivotTotalMandated");
         List<SalesProjectionResultsDTO> projDTOList;
         List<Object[]> gtsList = SPRCommonLogic.callProcedure(Constant.PRC_M_PROJECTION_RESULTS, orderedArgs);
-        List<Object[]> discountList = new ArrayList<>();
         projDTOList = getCustomizedProjectionPivotTotalMandated(gtsList, projSelDTO);
         LOGGER.debug("Ends getProjectionPivotTotalMandated");
         return projDTOList;

@@ -4,44 +4,23 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MEDICAID_URA_WORKSHEET_LOOKUP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.MedicaidURAResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.MedicaidWorkSheetTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.MedicaidQueryUtils;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.NotesTextField;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -79,6 +58,23 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+import com.vaadin.ui.Table;
 
 /**
  * The Class MedicaidUraWorkSheet.
@@ -141,6 +137,9 @@ public class MedicaidUraWorkSheet extends Window {
     @UiField("reset")
     private Button reset;
 
+     @UiField("cpiTable")
+    private Table cpiTable;
+     
     /**
      * The excel export image.
      */
@@ -282,6 +281,14 @@ public class MedicaidUraWorkSheet extends Window {
         brandDdlb.select(projectionDTO.getBrand());
         loadNdc();
         ndcDdlb.select(ndcResultdto);
+        
+          cpiTable.addContainerProperty("Item ID", String.class, null);
+        cpiTable.addContainerProperty("Item Name", String.class, null);
+        if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {
+            Object item = cpiTable.addItem();
+            cpiTable.getItem(item).getItemProperty("Item ID").setValue(projectionDTO.getNewFormulation());
+            cpiTable.getItem(item).getItemProperty("Item Name").setValue(projectionDTO.getNewFormulationItemId());
+        }
 
         ndcDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
@@ -293,19 +300,7 @@ public class MedicaidUraWorkSheet extends Window {
                 if (ndcDdlb.getValue() != null && !SELECT_ONE.getConstant().equals(String.valueOf(ndcDdlb.getValue()))) {
                     HelperDTO helperDTO = (HelperDTO) ndcDdlb.getValue();
                     int ndcId = helperDTO.getId();
-                    String ndc9 = helperDTO.getDescription();
-                    String[] ndcArr = ndc9.split(",");
-
-                    if (ndcArr.length > 0) {
-                        if (ndcArr.length > 1) {
-                            ndc9 = ndcArr[1].trim();
-                        } else {
-                            ndc9 = ndcArr[0].trim();
-                        }
-                    }
-
-                    projectionDTO.setNdcSid(helperDTO);
-                    projectionDTO.setNdc9(ndc9);
+                    projectionDTO.setNdc9(String.valueOf(helperDTO.getId()));
                     LOGGER.debug("ndcDdlb ValueChangeEvent ends theraupeyticId   " + ndcId);
 
                 }
@@ -405,8 +400,7 @@ public class MedicaidUraWorkSheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -433,8 +427,7 @@ public class MedicaidUraWorkSheet extends Window {
     public void tableReset(Button.ClickEvent event) {
 
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -464,8 +457,7 @@ public class MedicaidUraWorkSheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -480,8 +472,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -579,14 +570,13 @@ public class MedicaidUraWorkSheet extends Window {
             /**
              * To create editable fields inside table .
              */
-            @Override
-			public Field<?> createField(final Container container,
+            public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
                 final TableDTO tableDto = getBeanFromId(itemId);
 
                 if (tableDto.getParent() == 0 && (String.valueOf(propertyId).endsWith(Constant.PROJECTIONS)
-                        && tableDto.getGroup().startsWith(Constant.ADJUSTMENT) && !tableDto.getGroup().equalsIgnoreCase("Adjustment CPI (Alt)"))
+                        && (tableDto.getGroup().startsWith(Constant.ADJUSTMENT) && !tableDto.getGroup().equalsIgnoreCase("Adjustment CPI (Alt)") || tableDto.getGroup().startsWith(Constant.OVERRIDE)))
                         || (String.valueOf(propertyId).equalsIgnoreCase("Base Year") && tableDto.getGroup().equalsIgnoreCase(Constant.AMP)
                         && tableDto.getGroup().equalsIgnoreCase(CPIU_LABEL))) {
 
@@ -603,17 +593,17 @@ public class MedicaidUraWorkSheet extends Window {
 
                         String adjustValue = StringUtils.EMPTY;
                         String notesValue = StringUtils.EMPTY;
-                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP)) {
+                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || tableDto.getGroup().startsWith(Constant.OVERRIDE_AMP)) {
                             notesMap = projectionDTO.getNotesMap();
                             adjustValue = adjustedValues.get(adjustPropId);
                             notesValue = editedNotes.get(notesPropId);
                         }
-                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE)) {
+                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || tableDto.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE)) {
                             notesMap = projectionDTO.getSecondRowNotesMap();
                             adjustValue = secondAdjustedValues.get(adjustPropId);
                             notesValue = secondEditedNotes.get(notesPropId);
                         }
-                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI)) {
+                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI) || tableDto.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
                             notesMap = projectionDTO.getThirdRowNotesMap();
                             adjustValue = thirdAdjustedValues.get(adjustPropId);
                             notesValue = thirdEditedNotes.get(notesPropId);
@@ -622,11 +612,11 @@ public class MedicaidUraWorkSheet extends Window {
                         String[] noteArr = notesMap.get(String.valueOf(propertyId));
                         if (StringUtils.isNotBlank(adjustValue)) {
                             notesField.setTextfieldValue(adjustValue);
-                        } else {
-                            if (noteArr != null && noteArr.length != 0) {
+                        } 
+                        else if (noteArr != null && noteArr.length != 0) {
                                 notesField.setTextfieldValue(noteArr[0]);
                             }
-                        }
+                        
                         notesField.addTextFieldFocusListener(new FieldEvents.FocusListener() {
 
                             @Override
@@ -643,14 +633,14 @@ public class MedicaidUraWorkSheet extends Window {
 
                                 if (valueChange) {
                                     try {
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP)) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || tableDto.getGroup().startsWith(Constant.OVERRIDE_AMP)) {
                                             adjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
 
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE)) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || tableDto.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE)) {
                                             secondAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
-                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI)) {
+                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI) || tableDto.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
                                             thirdAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
                                         valueChange = false;
@@ -670,11 +660,10 @@ public class MedicaidUraWorkSheet extends Window {
                         if (StringUtils.isNotBlank(notesValue)) {
                             notesField.setNotesValue(notesValue);
                             notesField.addToolTip(notesValue);
-                        } else {
-                            if (noteArr != null && noteArr.length != 0) {
+                        } else   if (noteArr != null && noteArr.length != 0) {
                                 notesField.setNotesValue(noteArr[1]);
                                 notesField.addToolTip(noteArr[1]);
-                            }
+                            
                         }
                         notesField.addTextAreaFocusListener(new FieldEvents.FocusListener() {
 
@@ -697,13 +686,13 @@ public class MedicaidUraWorkSheet extends Window {
                                         SimpleDateFormat dateTimeFormat = new SimpleDateFormat(" MM/dd/YYYY, HH.mm.ss");
                                         String formattedValue = String.valueOf(((TextArea) event.getComponent()).getValue()) + dateTimeFormat.format(new Date()) + " ,<" + CommonUtils.getUserNameById( sessionDTO.getUserId()) + ">";
                                         description = formattedValue;
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP)) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || tableDto.getGroup().startsWith(Constant.OVERRIDE_AMP)) {
                                             editedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE)) {
+                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || tableDto.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE)) {
                                             secondEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
-                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI)) {
+                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI) || tableDto.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
                                             thirdEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
                                         valueTAChange = false;
@@ -781,10 +770,9 @@ public class MedicaidUraWorkSheet extends Window {
                         }
                         if (StringUtils.isNotBlank(adjustValue)) {
                             notesField.setTextfieldValue(adjustValue);
-                        } else {
-                            if (noteArr.length != 0) {
+                        } else if (noteArr.length != 0) {
                                 notesField.setTextfieldValue(noteArr[0]);
-                            }
+                            
                         }
                         notesField.addTextFieldFocusListener(new FieldEvents.FocusListener() {
 
@@ -826,11 +814,10 @@ public class MedicaidUraWorkSheet extends Window {
                         if (StringUtils.isNotBlank(notesValue)) {
                             notesField.setNotesValue(notesValue);
                             notesField.addToolTip(notesValue);
-                        } else {
-                            if ( noteArr.length != 0) {
+                        } else  if ( noteArr.length != 0) {
                                 notesField.setNotesValue(noteArr[1]);
                                 notesField.addToolTip(noteArr[1]);
-                            }
+                            
                         }
                         notesField.addTextAreaFocusListener(new FieldEvents.FocusListener() {
 
@@ -873,6 +860,19 @@ public class MedicaidUraWorkSheet extends Window {
                         if (Constant.VIEW.equalsIgnoreCase(mode)) {
                             notesField.setEnable(false);
                         }
+                                if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {
+
+                            System.out.println("projectionDTO.getBaeselineAmp() = " + projectionDTO.getBaeselineAmp());
+                            if (tableDto.getGroup().equalsIgnoreCase(Constant.AMP)) {
+                                container.getContainerProperty(itemId, propertyId).setValue(projectionDTO.getBaeselineAmp());
+                                notesField.setTextfieldValue(projectionDTO.getBaeselineAmp());
+                            } else if (tableDto.getGroup().equalsIgnoreCase(CPIU_LABEL)) {
+                                container.getContainerProperty(itemId, propertyId).setValue(projectionDTO.getBaeselineCpi());
+                                notesField.setTextfieldValue(projectionDTO.getBaeselineCpi());
+                            }
+
+                        }
+                                
                         return notesField;
 
                     } catch (Exception ex) {
@@ -963,7 +963,6 @@ public class MedicaidUraWorkSheet extends Window {
         LOGGER.debug("excelBtn click listener started");
         configureExcelResultTable();
         loadExcelResultTable();
-		NationalAssumptionsUI.EXCEL_CLOSE = true;
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.MEDICAID_URA_WORKSHEET, Constant.MEDICAID_URA_WORKSHEET, "Medicaid_URA_Worksheet.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
@@ -999,16 +998,16 @@ public class MedicaidUraWorkSheet extends Window {
     }
 
     public void loadDataToContainer(List<TableDTO> resultList, Object parentId) {
-        for (TableDTO dto : resultList) {
-            excelResultBeanContainer.addBean(dto);
+        for (TableDTO tableDto : resultList) {
+            excelResultBeanContainer.addBean(tableDto);
             if (parentId != null) {
-                excelResultBeanContainer.setParent(dto, parentId);
+                excelResultBeanContainer.setParent(tableDto, parentId);
             }
-            if (dto.getParent() == 1) {
-                excelResultBeanContainer.setChildrenAllowed(dto, true);
-                addLowerLevelsForExport(dto);
+            if (tableDto.getParent() == 1) {
+                excelResultBeanContainer.setChildrenAllowed(tableDto, true);
+                addLowerLevelsForExport(tableDto);
             } else {
-                excelResultBeanContainer.setChildrenAllowed(dto, false);
+                excelResultBeanContainer.setChildrenAllowed(tableDto, false);
             }
         }
     }
@@ -1055,8 +1054,7 @@ public class MedicaidUraWorkSheet extends Window {
     public void submitBtn(final Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
-                @Override
-				public void noMethod() {
+                public void noMethod() {
 //
                 }
 
@@ -1068,9 +1066,9 @@ public class MedicaidUraWorkSheet extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 public void yesMethod() {
-                    MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
+                    MedicaidQueryUtils QueryUtil = new MedicaidQueryUtils();
                     try {
-                        queryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
+                        QueryUtil.updateAdjustment(projectionDTO.getNdc9(), "updateMedicaidAdjustment",sessionDTO);
                         submitFlag = true;
                         submitMsg = false;
                     } catch (Exception ex) {

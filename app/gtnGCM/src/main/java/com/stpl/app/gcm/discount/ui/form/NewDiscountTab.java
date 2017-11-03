@@ -444,6 +444,7 @@ public class NewDiscountTab extends CustomComponent {
                     newDiscountTabDto.setCheckAll(true);
                     newDiscountTabDto.setCheckRecord(event.isChecked());
                     DiscountLogic.updateTempTableRecord(newDiscountTabDto, session, Constants.CHECK_RECORD, true);
+
                     tableLogic.loadSetData(newDiscountTabDto, session, false);
                 }
             }
@@ -1127,10 +1128,8 @@ public class NewDiscountTab extends CustomComponent {
             } else {
                 newDiscountTabDto.setCategory(Constants.IndicatorConstants.CFP.getConstant());
             }
-
-      
-            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,true) > 0) {
-                      new DiscountLogic().updateDataOperation(newDiscountTabDto.getCategory(), session, true);
+            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true, true) > 0) {
+                new DiscountLogic().updateDataOperation(newDiscountTabDto.getCategory(), session, true);
                 if (!selectedTableLogic.loadSetData(newDiscountTabDto, session, false)) {
                     componentDetailsSelectedItem.setColumnCheckBoxDisable(Constants.CHECK_RECORD, Boolean.TRUE);
                     AbstractNotificationUtils.getErrorNotification("No Records Found",
@@ -1887,7 +1886,7 @@ public class NewDiscountTab extends CustomComponent {
                         try {
                             int rsModelSysId = 0;
 
-                            if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
+                           if (DiscountLogic.getCountForNewDiscountSelectedItems(newDiscountTabDto, session, true,false) > 0) {
                                 for (final Iterator iterator = idList.iterator(); iterator.hasNext();) {
                                     final Object idValue = iterator.next();
                                     final ContractsDetailsDto temp = getBeanFromID(idValue);

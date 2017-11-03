@@ -15,6 +15,7 @@ import com.stpl.app.model.AdditionalNotes;
 import com.stpl.app.model.DocDetails;
 import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -266,7 +267,7 @@ public class AdditionalInfoLogic {
         Button fileLink = new Button(fileName);
         fileLink.setStyleName(Reindeer.BUTTON_LINK);
 
-        Resource res = new FileResource(new File(filePath +File.separator + fileName));
+        Resource res = new FileResource(CommonUtil.getFilePath(filePath +File.separator + fileName));
         FileDownloader fileDownloader = new FileDownloader(res);
         fileDownloader.extend(fileLink);
         return fileLink;

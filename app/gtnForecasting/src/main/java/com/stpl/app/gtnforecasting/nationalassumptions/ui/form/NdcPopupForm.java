@@ -6,7 +6,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * and open the template in the editor.
  */
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.*;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -16,7 +15,6 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Window;

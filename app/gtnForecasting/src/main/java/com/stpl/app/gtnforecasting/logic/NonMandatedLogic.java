@@ -5,6 +5,29 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.jboss.logging.Logger;
+
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
@@ -24,8 +47,6 @@ import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.Converters;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.DataSourceConnection;
@@ -40,7 +61,7 @@ import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants.CommonConstants;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
@@ -66,23 +87,6 @@ import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -1266,9 +1270,24 @@ public class NonMandatedLogic {
         projectionMaster.setDiscountType(dataSelectionDTO.getDiscountSid());
         projectionMaster.setForecastingType(screenName);
         projectionMaster.setBusinessUnit(dataSelectionDTO.getBusinessUnitSystemId());
+        System.out.println("Inside CommonUtil.isValueEligibleForLoading()--------------");
+        Object[] obj = null;
+        if (CommonUtil.isValueEligibleForLoading()) {
+            obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
+        }
+        projectionMaster.setDedRelationshipBuilderSid(CommonUtil.isValueEligibleForLoading() ? obj[0].toString() : null);
+        projectionMaster.setDeductionHierarchySid(CommonUtil.isValueEligibleForLoading() ? obj[1].toString() : null);
         projectionMaster = dataSelection.addProjectionMaster(projectionMaster);
         return projectionMaster.getProjectionMasterSid();
 
+    }
+    
+    public Object[] deductionRelationBuilderId(String prdRelSid){
+        List<String> input = new ArrayList<>();
+        input.add(prdRelSid);
+        String sql = QueryUtils.getQuery(input, "DeductionRelationshipId");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+		return list == null || list.isEmpty() ? null : (Object[]) list.get(0);
     }
 
     /**
@@ -1985,8 +2004,8 @@ public class NonMandatedLogic {
                 + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID \n"
                 + "			AND B.PROJECTION_MASTER_SID = " + projectionId + ";";
 
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(insertQuery);
+        SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
+        salesDAO.executeUpdateQuery(insertQuery);
 
     }
 
@@ -2027,8 +2046,8 @@ public class NonMandatedLogic {
                 + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
                 + "			AND B.PROJECTION_MASTER_SID=" + projectionId + ";";
 
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(insertQuery);
+        SalesProjectionDAO DAO = new SalesProjectionDAOImpl();
+        DAO.executeUpdateQuery(insertQuery);
 
     }
 
@@ -2059,8 +2078,8 @@ public class NonMandatedLogic {
                 + "		WHERE A.PROJECTION_DETAILS_SID=B.PROJECTION_DETAILS_SID\n"
                 + "			AND B.PROJECTION_MASTER_SID=" + projectionId + ";";
 
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-        salesProjectionDAO.executeUpdateQuery(insertQuery);
+        SalesProjectionDAO spDAO = new SalesProjectionDAOImpl();
+        spDAO.executeUpdateQuery(insertQuery);
 
     }
 
@@ -2073,8 +2092,8 @@ public class NonMandatedLogic {
             insertQuery = insertQuery.replace("@USER_ID", StringUtils.EMPTY + inputDto.getUserId());
             insertQuery = insertQuery.replace("@SESSION_ID", StringUtils.EMPTY + inputDto.getSessionId());
 
-            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
+            SalesProjectionDAO salesProjDAO = new SalesProjectionDAOImpl();
+            salesProjDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error("Query:======================>" + insertQuery);
             LOGGER.error(e);
@@ -2087,8 +2106,8 @@ public class NonMandatedLogic {
             insertQuery = CommonUtils.getReturnsProperties(query);
             insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + inputDto.getProjectionId());
 
-            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
+            SalesProjectionDAO insertDAO = new SalesProjectionDAOImpl();
+            insertDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery, inputDto.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error("Query:======================>" + insertQuery);
             LOGGER.error(e);
@@ -2134,8 +2153,8 @@ public class NonMandatedLogic {
 
             insertQuery = CommonUtils.getReturnsProperties(queryName);
             insertQuery = insertQuery.replace(Constant.AT_PROJECTION_MASTER_SID, StringUtils.EMPTY + inputDto.getProjectionId());
-            SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-            salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery,inputDto.getCurrentTableNames()));
+            SalesProjectionDAO deleteDAO = new SalesProjectionDAOImpl();
+            deleteDAO.executeUpdateQuery(QueryUtil.replaceTableNames(insertQuery,inputDto.getCurrentTableNames()));
         } catch (Exception e) {
             LOGGER.error(e);
         }

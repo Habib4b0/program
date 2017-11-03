@@ -16,14 +16,13 @@ import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.stpl.app.global.deductioncalendar.logic.tablelogic.ItemSelectionAvailableTableLogic;
 import com.stpl.app.global.deductioncalendar.logic.tablelogic.ItemSelectionTableLogic;
 import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
-import com.stpl.app.global.ifp.logic.IFPLogic;
-import com.stpl.app.global.item.ui.lazyload.BrandContainer;
-import com.stpl.app.global.item.ui.lazyload.BrandCriteria;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.StplR2Exception;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.ui.lazyload.BrandContainer;
+import com.stpl.app.ui.lazyload.BrandCriteria;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.ErrorCodeUtil;
 import com.stpl.app.util.ErrorCodes;
@@ -62,7 +61,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -148,7 +146,7 @@ public class ItemSelection extends CustomComponent {
     
     DeductionCalendarForm deductionCalendarForm;
     
-    IFPLogic ifpLogic = new IFPLogic();
+    com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
     /**
      * Bean container for available result table.
      */
@@ -175,10 +173,6 @@ public class ItemSelection extends CustomComponent {
     ExtPagedTable selectedItemTable;
     /**
      * The binder.
-     */
-    
-    /**
-     * code
      */
     private final ErrorfulFieldGroup binder;
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
@@ -263,7 +257,7 @@ public class ItemSelection extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, ConstantsUtils.DEDUCTION_CALENDAR+ConstantsUtils.COMMA+ConstantsUtils.ITEM_SELECTION,false);
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
             Object[] objColumn = headerUtils.itemColumns;
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
             
@@ -808,7 +802,7 @@ public class ItemSelection extends CustomComponent {
     private void getResponsiveFirstTab(final Map<String, AppPermission> fieldItemHM) {
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.ITEM_SELECTION);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldItemHM, mode.equals("Copy")?"Edit":mode);
         } catch (Exception ex) {
             LOGGER.error(ex);

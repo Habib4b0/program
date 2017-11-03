@@ -11,11 +11,11 @@ import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.global.common.util.HelperListUtil;
 import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
-import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.CommonSecurityLogic;
@@ -141,7 +141,7 @@ public class RuleInformation extends CustomComponent {
     public ErrorLabel errorMsg = new ErrorLabel();
     SessionDTO sessionDTO;
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    IFPLogic ifpLogic = new IFPLogic();
+    CommonUIUtils commonUIUtils = new CommonUIUtils();
     List deletedRuleInfoIds = new ArrayList();
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
@@ -483,13 +483,17 @@ public class RuleInformation extends CustomComponent {
             ruleDetailsDto.setKeywordDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.EIGHT] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.EIGHT])) : 0));
             ruleDetailsDto.setOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.NINE] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.NINE])) : 0));
 
-            ruleDetailsDto.setComparisonDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.ELEVEN] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN])) : 0));
-            if (ruleDetailsDto.getComparisonDdlb().getId() == 0) {
+            if(objects[NumericConstants.ELEVEN] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN])) != 0) {
+                ruleDetailsDto.setComparisonDdlb(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN]))));
+            }
+            if (objects[NumericConstants.ELEVEN] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.ELEVEN])) == 0) {
                 ruleDetailsDto.setValueText(objects[NumericConstants.TEN] != null ? dollarFormat.format(Double.valueOf(String.valueOf(objects[NumericConstants.TEN]))) : StringUtils.EMPTY);
             } else {
                 ruleDetailsDto.setValueText(objects[NumericConstants.TEN] != null ? percentFormat.format(Double.valueOf(String.valueOf(objects[NumericConstants.TEN]))) + "%" : StringUtils.EMPTY);
             }
-            ruleDetailsDto.setLogicalOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(objects[NumericConstants.TWELVE] != null ? Integer.valueOf(String.valueOf(objects[NumericConstants.TWELVE])) : 0));
+            if(objects[NumericConstants.TWELVE] != null && Integer.valueOf(String.valueOf(objects[NumericConstants.TWELVE])) != 0) {
+                ruleDetailsDto.setLogicalOperatorDdlb(helperListUtil.getIdHelperDTOMap().get(Integer.valueOf(String.valueOf(objects[NumericConstants.TWELVE]))));
+            }
 
             if (ConstantsUtils.COPY.equals(sessionDTO.getMode())) {
                 ruleDetailsDto.setCdrDetailsSid(0);
@@ -549,7 +553,7 @@ public class RuleInformation extends CustomComponent {
         try {
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPLIANCE_DEDUCTION_RULES, ConstantsUtils.RULE_INFORMATION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(UISecurityUtil.COMPLIANCE_DEDUCTION_RULES, ConstantsUtils.RULE_INFORMATION);
             commonSecurityLogic.removeComponentOnPermission(resultList, buttonLayout, fieldCompanyHM, mode);
 
             if (functionHM.get("addBtn") != null && ((AppPermission) functionHM.get("addBtn")).isFunctionFlag()) {

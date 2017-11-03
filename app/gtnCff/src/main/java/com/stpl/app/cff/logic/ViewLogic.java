@@ -126,7 +126,7 @@ public class ViewLogic {
      * @return true od false.
      */
     public CffViewMaster updateView(SaveViewDTO saveViewDTO, final String viewName, final String viewType) {
-        Object objects[] = null;
+        Object[] objects = null;
         CffViewMaster updatedViewMaster = null;
         try {
             int viewId = 0;

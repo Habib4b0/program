@@ -59,6 +59,15 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO>{
     
      private String ndc9 = StringUtils.EMPTY;
      
+     private String newFormulation = StringUtils.EMPTY;
+     
+     private String newFormulationItemId = StringUtils.EMPTY;
+     
+     private String baeselineAmp = StringUtils.EMPTY;
+     
+     private String baeselineCpi = StringUtils.EMPTY;
+     private String priceType = StringUtils.EMPTY;
+     
     public String getGroup() {
         return group;
     }
@@ -213,5 +222,45 @@ public class TableDTO extends ExtMapDTO implements Comparator<TableDTO>{
         }
         
         return value;
+    }
+
+    public String getNewFormulation() {
+        return newFormulation;
+    }
+
+    public void setNewFormulation(String newFormulation) {
+        this.newFormulation = newFormulation;
+    }
+
+    public String getNewFormulationItemId() {
+        return newFormulationItemId;
+    }
+
+    public void setNewFormulationItemId(String newFormulationItemId) {
+        this.newFormulationItemId = newFormulationItemId;
+    }
+
+    public String getBaeselineAmp() {
+        return baeselineAmp;
+    }
+
+    public void setBaeselineAmp(String baeselineAmp) {
+        this.baeselineAmp = baeselineAmp;
+    }
+
+    public String getBaeselineCpi() {
+        return baeselineCpi;
+    }
+
+    public void setBaeselineCpi(String baeselineCpi) {
+        this.baeselineCpi = baeselineCpi;
+    }
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
     }
 }

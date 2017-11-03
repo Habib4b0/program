@@ -5,6 +5,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.util;
 
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.USER_ID;
+import com.stpl.ifs.util.CommonUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
@@ -77,7 +78,7 @@ public class FileUploader implements Receiver {
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
         try {
-            final File dir = new File(basepath + File.separator + MOVEBACK + MOVEBACK + MOVEBACK + File.separator + "Documents" + File.separator + moduleName + File.separator + userId + File.separator);
+            final File dir = CommonUtil.getFilePath(basepath + File.separator + MOVEBACK + MOVEBACK + MOVEBACK + File.separator + "Documents" + File.separator + moduleName + File.separator + userId + File.separator);
             if (!dir.exists()) {
                 dir.mkdirs();
             }

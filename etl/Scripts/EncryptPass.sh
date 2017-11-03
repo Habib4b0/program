@@ -3,7 +3,7 @@ file="Server_Path/etl/Interface_Job/EtlConfiguration.properties"
 var2=$(grep -E "ETL_PORT_NO" $file)
 #echo $var2
 ETL_PORT=`echo ${var2} | cut -d "=" -f2`
-echo $ETL_PORT
+#echo $ETL_PORT
 cd ..
 echo "Enter the Password to Encrypt:" 
 read pass

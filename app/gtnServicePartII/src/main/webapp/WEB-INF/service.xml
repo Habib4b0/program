@@ -487,10 +487,10 @@
             name="VwAdjustDemandForecastAct" remote-service="false" 
             session-factory="appSessionFactory" table="VW_ADJUST_DEMAND_FORECAST_ACT"
             tx-manager="appTransactionManager">
-        <column db-name="FORECAST_VERSION" name="forecastVersion" primary="false" type="String"/>
+        <column db-name="FORECAST_VER" name="forecastVer" primary="false" type="String"/>
         <column db-name="GROSS_UNITS" name="grossUnits" primary="false" type="double"/>
         <column db-name="BUSINESS_UNIT_NO" name="businessUnitNo" primary="false" type="String"/>
-        <column db-name="YEAR" name="year" primary="false" type="String"/>
+        <column db-name="FORECAST_YEAR" name="forecastYear" primary="false" type="String"/>
         <column db-name="BRAND_NAME" name="brandName" primary="false" type="String"/>
         <column db-name="ITEM_ID" name="itemId" primary="false" type="String"/>
         <column db-name="ORGANIZATION_KEY" name="organizationKey" primary="false" type="String"/>
@@ -498,15 +498,15 @@
         <column db-name="MARKET_SHARE_RATIO" name="marketShareRatio" primary="false" type="int"/>
         <column db-name="BUSINESS_UNIT_NAME" name="businessUnitName" primary="false" type="String"/>
         <column db-name="MARKET_SHARE_UNITS" name="marketShareUnits" primary="false" type="double"/>
-        <column db-name="MONTH" name="month" primary="false" type="String"/>
+        <column db-name="FORECAST_MONTH" name="forecastMonth" primary="false" type="String"/>
         <column db-name="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" primary="false" type="double"/>
         <column db-name="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" primary="false" type="String"/>
         <column db-name="COUNTRY" name="country" primary="false" type="String"/>
         <column db-name="FORECAST_TYPE" name="forecastType" primary="false" type="String"/>
-        <column db-name="TOTAL_ADJUSTED_DEMAND_UNITS" name="totalAdjustedDemandUnits" primary="false" type="double"/>
+        <column db-name="TOTAL_DEMAND_UNITS" name="totalDemandUnits" primary="false" type="double"/>
         <column db-name="BRAND_ID" name="brandId" primary="false" type="String"/>
         <column db-name="IS_FORECAST" name="isForecast" primary="false" type="String"/>
-        <column db-name="TOTAL_ADJUSTED_DEMAND_AMOUNT" name="totalAdjustedDemandAmount" primary="false" type="double"/>
+        <column db-name="TOTAL_DEMAND_AMOUNT" name="totalDemandAmount" primary="false" type="double"/>
         <column db-name="UNCAPTURED_UNITS" name="uncapturedUnits" primary="false" type="double"/>
         <column db-name="GROSS_PRICE" name="grossPrice" primary="false" type="double"/>
         <column db-name="GROSS_AMOUNT" name="grossAmount" primary="false" type="double"/>

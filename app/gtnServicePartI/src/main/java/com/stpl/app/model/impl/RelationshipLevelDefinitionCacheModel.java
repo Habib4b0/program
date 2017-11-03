@@ -36,10 +36,11 @@ public class RelationshipLevelDefinitionCacheModel implements CacheModel<Relatio
     public int relationshipLevelSid;
     public String flag;
     public String levelName;
+    public String parentHierarchyNo;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(29);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("{relationshipLevelValues=");
         sb.append(relationshipLevelValues);
@@ -69,6 +70,8 @@ public class RelationshipLevelDefinitionCacheModel implements CacheModel<Relatio
         sb.append(flag);
         sb.append(", levelName=");
         sb.append(levelName);
+        sb.append(", parentHierarchyNo=");
+        sb.append(parentHierarchyNo);
         sb.append("}");
 
         return sb.toString();
@@ -138,6 +141,12 @@ public class RelationshipLevelDefinitionCacheModel implements CacheModel<Relatio
             relationshipLevelDefinitionImpl.setLevelName(levelName);
         }
 
+        if (parentHierarchyNo == null) {
+            relationshipLevelDefinitionImpl.setParentHierarchyNo(StringPool.BLANK);
+        } else {
+            relationshipLevelDefinitionImpl.setParentHierarchyNo(parentHierarchyNo);
+        }
+
         relationshipLevelDefinitionImpl.resetOriginalValues();
 
         return relationshipLevelDefinitionImpl;
@@ -159,6 +168,7 @@ public class RelationshipLevelDefinitionCacheModel implements CacheModel<Relatio
         relationshipLevelSid = objectInput.readInt();
         flag = objectInput.readUTF();
         levelName = objectInput.readUTF();
+        parentHierarchyNo = objectInput.readUTF();
     }
 
     @Override
@@ -210,6 +220,12 @@ public class RelationshipLevelDefinitionCacheModel implements CacheModel<Relatio
             objectOutput.writeUTF(StringPool.BLANK);
         } else {
             objectOutput.writeUTF(levelName);
+        }
+
+        if (parentHierarchyNo == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(parentHierarchyNo);
         }
     }
 }

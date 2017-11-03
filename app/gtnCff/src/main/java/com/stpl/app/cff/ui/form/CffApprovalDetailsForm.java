@@ -257,6 +257,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         String projId = String.valueOf(sessionDTO.getProjectionId());
                         Object[] obj = {projId};
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
+                        projectionVariance.uomLoadingTabChange();
                     }
 
                     if (event.getTabSheet().getSelectedTab().getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
@@ -543,7 +544,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
     }
 
     private void checkIsCffDetailsInsertJobRunning() throws ExecutionException, InterruptedException {
-        System.out.println(" CHECK **************************************   " + sessionDTO.getFuture().isDone());
         sessionDTO.getFuture().get();
     }
 

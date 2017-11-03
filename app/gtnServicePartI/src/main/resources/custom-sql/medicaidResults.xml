@@ -43,17 +43,43 @@ WHERE  ROWNUM >= @OFFSET
         @BRAND_MASTER_SID   INT=?BID,
         @TH_CLASS varchar(50)=?TID
 
-SELECT count(distinct IM.NDC9)
-FROM   NA_PROJ_MASTER PM,
-       NA_PROJ_DETAILS PD,
-       ITEM_MASTER IM
-WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
-       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
-       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
-              OR @BRAND_MASTER_SID IS NULL ) 
-		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
-              OR @TH_CLASS IS NULL )  
+
+  SELECT count(*)
+
+         FROM  (
+
+ SELECT NDC9,
+        ITEM_DESC,
+        ROWNUM,
+        NEW_FORMULATION ,
+        BASELINE_AMP,
+        BASE_CPI
+ FROM   (SELECT IM.NDC9,
+                ITEM_DESC=CASE 
+ 
+ WHEN COUNT(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                            ELSE MAX(ITEM_DESC)
+                          END,
+                ROW_NUMBER()
+                  OVER (
+                    ORDER BY IM.NDC9) AS ROWNUM
+                    ,IM.NEW_FORMULATION ,IM.BASELINE_AMP,
+        IM.BASE_CPI
+         FROM   NA_PROJ_MASTER PM,
+                NA_PROJ_DETAILS PD,
+                ITEM_MASTER IM
+         WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+                AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                       OR @NA_PROJ_MASTER_SID IS NULL )
+                AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                       OR @BRAND_MASTER_SID IS NULL )
+                AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+                       OR @TH_CLASS IS NULL )
+         GROUP  BY IM.NDC9,IM.NEW_FORMULATION,BASELINE_AMP,    BASE_CPI )A
+
+ ) A   JOIN
+                         ITEM_MASTER B ON A.NDC9 =CONVERT(VARCHAR(100),B.ITEM_MASTER_SID)  
  ]]>
 
     </sql>
@@ -874,10 +900,11 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
         @BRAND_MASTER_SID   INT=?BID,
 	@TH_CLASS varchar(50)=?TID,
         @OFFSET   INT=?OFFSET,
-        @LIMIT   INT=?LIMIT
-        
-  SELECT NDC9,
-       ITEM_DESC,
+        @LIMIT   INT=?LIMIT1 SELECT
+B.ITEM_NO,
+       B.ITEM_NAME,
+       a.NDC9,
+       a.ITEM_DESC,
        ROWNUM
 FROM  (SELECT IM.NDC9,
               ITEM_DESC=CASE
@@ -897,7 +924,14 @@ FROM  (SELECT IM.NDC9,
                      OR @BRAND_MASTER_SID IS NULL )
               AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
                      OR @TH_CLASS IS NULL ) AND IM.NDC9 LIKE '?TEXT'
-       GROUP  BY IM.NDC9)A
+       GROUP  BY IM.NDC9,IM.NEW_FORMULATION)A
+       
+       JOIN ITEM_MASTER B ON
+       A.NDC9 = CONVERT(
+              VARCHAR(100),
+              B.ITEM_MASTER_SID
+       )
+
 WHERE  ROWNUM >= @OFFSET AND ROWNUM < @OFFSET + @LIMIT
 
  ]]>

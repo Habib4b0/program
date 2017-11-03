@@ -570,23 +570,23 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
         if (Constant.DISCOUNT_SMALL.equalsIgnoreCase(projectionDTO.getPivotView())) {
             int columnIndex = NumericConstants.TWO;
-            List<Object> pcNameList = getPcNameList();
+            List<Object> nameList = getPcNameList();
             rightTable.setColumnCollapsingAllowed(true);
             rightTable.setImmediate(true);
             rightTable.setDoubleHeaderColumnExpandIcon(rightHeader.getDoubleColumns().get(0), false);
             rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(0), false);
             rightTable.setDoubleHeaderColumnExpandIcon(rightHeader.getDoubleColumns().get(1), false);
             rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(1), true);
-            if (pcNameList != null && !pcNameList.isEmpty()) {
-                for (int i = 0; i < pcNameList.size(); i++) {
+            if (nameList != null && !nameList.isEmpty()) {
+                for (int i = 0; i < nameList.size(); i++) {
                     rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(columnIndex++), true);
                 }
             }
             int suppIndex = columnIndex;
             rightTable.setDoubleHeaderColumnExpandIcon(rightHeader.getDoubleColumns().get(suppIndex), false);
             rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(suppIndex++), true);
-            if (pcNameList != null && !pcNameList.isEmpty()) {
-                for (int i = 0; i < pcNameList.size(); i++) {
+            if (nameList != null && !nameList.isEmpty()) {
+                for (int i = 0; i < nameList.size(); i++) {
                     rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(suppIndex++), true);
                 }
             }
@@ -597,9 +597,9 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                 public void doubleHeaderColumnExpandIcon(ExtCustomTable.DoubleHeaderColumnExpandIconEvent event) {
                     LOGGER.debug("SupplementalDiscountProjection addColumnExpandIconListener initiated ");
                     int columnIndex = NumericConstants.TWO;
-                    List<Object> pcNameList = dprLogic.getProgramCodeName(projectionDTO);
-                    if (pcNameList != null && !pcNameList.isEmpty()) {
-                        for (int i = 0; i < pcNameList.size(); i++) {
+                    List<Object> doubleheaderNameList = dprLogic.getProgramCodeName(projectionDTO);
+                    if (doubleheaderNameList != null && !doubleheaderNameList.isEmpty()) {
+                        for (int i = 0; i < doubleheaderNameList.size(); i++) {
                             columnIndex++;
                         }
                     }
@@ -617,10 +617,10 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                             rightTable.markAsDirty();
                         }
 
-                    } else if ((event.getPropertyId().equals("MandatedDiscount") || event.getPropertyId().equals("SupplementalDiscount")) && (pcNameList != null && !pcNameList.isEmpty())) {
+                    } else if ((event.getPropertyId().equals("MandatedDiscount") || event.getPropertyId().equals("SupplementalDiscount")) && (doubleheaderNameList != null && !doubleheaderNameList.isEmpty())) {
 
                             int j = event.getPropertyId().equals("MandatedDiscount") ? NumericConstants.TWO : suppIndex + 1;
-                            for (int i = 0; i < pcNameList.size(); i++) {
+                            for (int i = 0; i < doubleheaderNameList.size(); i++) {
                                 rightTable.setDoubleHeaderColumnCollapsed(rightHeader.getDoubleColumns().get(j++), !event.isExpanded());
                             }
 

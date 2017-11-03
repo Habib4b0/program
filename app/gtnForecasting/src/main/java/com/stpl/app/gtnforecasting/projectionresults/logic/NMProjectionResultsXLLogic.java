@@ -16,7 +16,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.FrequencyConstants.SEMI
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
-import static com.stpl.app.utils.Constants.LabelConstants.VALUE;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -638,7 +637,7 @@ public class NMProjectionResultsXLLogic {
         LOGGER.debug("Inside getCustomisedProjectionResultsTotalDiscount");
         String lastValue = StringUtils.EMPTY;
         List<ProjectionResultsDTO> resultDto = new ArrayList<>();
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        int freqDivision = projSelDTO.getFrequencyDivision();
         ProjectionResultsDTO pvDTO = new ProjectionResultsDTO();
         pvDTO.setLevelValue(projSelDTO.getLevelValue());
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
@@ -658,13 +657,13 @@ public class NMProjectionResultsXLLogic {
                 lastGroupName = String.valueOf(obj[NumericConstants.THREE]);
                 pvDTO.setGroup(lastGroupName);
                 String commonColumn = StringUtils.EMPTY;
-                if (frequencyDivision == NumericConstants.FOUR) {
+                if (freqDivision == NumericConstants.FOUR) {
                     commonColumn = "q" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[1];
-                } else if (frequencyDivision == NumericConstants.TWO) {
+                } else if (freqDivision == NumericConstants.TWO) {
                     commonColumn = "s" + obj[NumericConstants.TWO] + StringUtils.EMPTY + obj[1];
-                } else if (frequencyDivision == 1) {
+                } else if (freqDivision == 1) {
                     commonColumn = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                } else if (frequencyDivision == NumericConstants.TWELVE) {
+                } else if (freqDivision == NumericConstants.TWELVE) {
                     String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.TWO])) - 1);
                     commonColumn = monthName.toLowerCase() + obj[1];
                 }
@@ -695,7 +694,7 @@ public class NMProjectionResultsXLLogic {
 
     public ProjectionResultsDTO getCustomizedPPA(List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, int index, int actIndex, boolean isPer, String parentGroup, String ppaGroup) {
         LOGGER.debug("Inside getCustomizedPPA");
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        int frequencyDiv = projSelDTO.getFrequencyDivision();
         ProjectionResultsDTO pvDTO = new ProjectionResultsDTO();
         pvDTO.setLevelValue(projSelDTO.getLevelValue());
         pvDTO.setLevelNo(projSelDTO.getLevelNo());
@@ -709,13 +708,13 @@ public class NMProjectionResultsXLLogic {
                     final Object[] obj = (Object[]) dataList.get(i);
                     String commonColumn = StringUtils.EMPTY;
                     String column1;
-                    if (frequencyDivision == NumericConstants.FOUR) {
+                    if (frequencyDiv == NumericConstants.FOUR) {
                         commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == NumericConstants.TWO) {
+                    } else if (frequencyDiv == NumericConstants.TWO) {
                         commonColumn = "s" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == 1) {
+                    } else if (frequencyDiv == 1) {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == NumericConstants.TWELVE) {
+                    } else if (frequencyDiv == NumericConstants.TWELVE) {
                         String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                         commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
                     }
@@ -730,13 +729,13 @@ public class NMProjectionResultsXLLogic {
                 } else {
                     final Object[] obj = (Object[]) dataList.get(i);
                     String commonColumn = StringUtils.EMPTY;
-                    if (frequencyDivision == NumericConstants.FOUR) {
+                    if (frequencyDiv == NumericConstants.FOUR) {
                         commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == NumericConstants.TWO) {
+                    } else if (frequencyDiv == NumericConstants.TWO) {
                         commonColumn = "s" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == 1) {
+                    } else if (frequencyDiv == 1) {
                         commonColumn = StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                    } else if (frequencyDivision == NumericConstants.TWELVE) {
+                    } else if (frequencyDiv == NumericConstants.TWELVE) {
                         String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                         commonColumn = monthName.toLowerCase() + obj[NumericConstants.FIVE];
                     }
@@ -765,7 +764,7 @@ public class NMProjectionResultsXLLogic {
     public void getCustomizedReturns(List<Object> dataList, ProjectionSelectionDTO projSelDTO, boolean isDetail, int index, int actRetIndex, boolean isPer, String parentGroup, String returnsGroup) {
         LOGGER.debug("Inside getCustomizedReturns");
         try {
-            int frequencyDivision = projSelDTO.getFrequencyDivision();
+            int freqDiv = projSelDTO.getFrequencyDivision();
             ProjectionResultsDTO pvDTO = new ProjectionResultsDTO();
             pvDTO.setLevelValue(projSelDTO.getLevelValue());
             pvDTO.setLevelNo(projSelDTO.getLevelNo());
@@ -781,15 +780,15 @@ public class NMProjectionResultsXLLogic {
                         final Object[] obj = (Object[]) dataList.get(i);
                         String commonColumn = StringUtils.EMPTY;
                         String column1;
-                        if (frequencyDivision == NumericConstants.FOUR) {
+                        if (freqDiv == NumericConstants.FOUR) {
                             commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[discountIndex];
-                        } else if (frequencyDivision == NumericConstants.TWO) {
+                        } else if (freqDiv == NumericConstants.TWO) {
                             commonColumn = "s" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[discountIndex];
-                        } else if (frequencyDivision == 1) {
+                        } else if (freqDiv == 1) {
                             commonColumn = StringUtils.EMPTY + obj[discountIndex - 1];
                             annualIndex = index - 1;
                             annualActRetIndex = actRetIndex - 1;
-                        } else if (frequencyDivision == NumericConstants.TWELVE) {
+                        } else if (freqDiv == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                             commonColumn = monthName.toLowerCase() + obj[discountIndex];
                         }
@@ -814,17 +813,17 @@ public class NMProjectionResultsXLLogic {
                     } else {
                         final Object[] obj = (Object[]) dataList.get(i);
                         String commonColumn = StringUtils.EMPTY;
-                        if (frequencyDivision == NumericConstants.FOUR) {
+                        if (freqDiv == NumericConstants.FOUR) {
                             commonColumn = "q" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[discountIndex];
-                        } else if (frequencyDivision == NumericConstants.TWO) {
+                        } else if (freqDiv == NumericConstants.TWO) {
                             commonColumn = "s" + obj[NumericConstants.FOUR] + StringUtils.EMPTY + obj[discountIndex];
-                        } else if (frequencyDivision == 1) {
+                        } else if (freqDiv == 1) {
                             commonColumn = StringUtils.EMPTY + obj[discountIndex - 1];
-                        } else if (frequencyDivision == NumericConstants.TWELVE) {
+                        } else if (freqDiv == NumericConstants.TWELVE) {
                             String monthName = HeaderUtils.getMonthForInt(Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR])) - 1);
                             commonColumn = monthName.toLowerCase() + obj[discountIndex];
                         }
-                        if (frequencyDivision != 1) {
+                        if (freqDiv != 1) {
                             String value = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[index])));
                             String baseValue = getFormattedValue(AMOUNT, value);
                             pvDTO.addStringProperties(commonColumn + CURRENT, isPer ? baseValue + PERCENT : baseValue);

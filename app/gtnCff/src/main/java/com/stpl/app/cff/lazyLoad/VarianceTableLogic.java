@@ -28,17 +28,21 @@ import org.jboss.logging.Logger;
  */
 public class VarianceTableLogic extends PageTreeTableLogic{
 
+	public VarianceTableLogic() {
+		super();
+	}
     List<Leveldto> currentHierarchy = new ArrayList<>();
-    PVSelectionDTO projSelDTO = new PVSelectionDTO();
+    private PVSelectionDTO projSelDTO = new PVSelectionDTO();
     int levelNo;
-    String hierarchyNo;
+    private String hierarchyNo;
     boolean firstGenerated = false;
     boolean isChild = false;
     public static final Logger LOGGER = Logger.getLogger(VarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
-    String productHierarchyNo = StringUtils.EMPTY;
-    String customerHierarchyNo = StringUtils.EMPTY;
-    ProjectionVarianceLogic nmProjectionVarianceLogic = new ProjectionVarianceLogic();
+    private String productHierarchyNo = StringUtils.EMPTY;
+    private String customerHierarchyNo = StringUtils.EMPTY;
+    private String deductionHierarchyNo = StringUtils.EMPTY;
+    private ProjectionVarianceLogic nmProjectionVarianceLogic = new ProjectionVarianceLogic();
     /**
      * Load date method for loading container based on different modules
      *
@@ -214,12 +218,13 @@ public class VarianceTableLogic extends PageTreeTableLogic{
             count = new ProjectionVarianceLogic().getConfiguredProjectionVarianceCount(parentId, projSelDTO, true);
             LevelMap levelMap = new LevelMap(count, getColumnIdToFilterMap());
             addlevelMap(treeLevel, levelMap);
-            String productHierarchyNo = projSelDTO.getProductHierarchyNo();
-            String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
+            String prodHierarchyNo = projSelDTO.getProductHierarchyNo();
+            String custHierarchyNo = projSelDTO.getCustomerHierarchyNo();
+            String dedHierarchyNo = projSelDTO.getDeductionHierarchyNo();
             String hierarchyNo = projSelDTO.getHierarchyNo();
-            int levelNo = projSelDTO.getTreeLevelNo();
+            int currentLevelNo = projSelDTO.getTreeLevelNo();
             String indicator = projSelDTO.getHierarchyIndicator();
-            if (expandLevelNo >= levelNo) {
+            if (expandLevelNo >= currentLevelNo) {
                 if (projSelDTO.isGroupCount()) {
                     customizeResult(levelList, count, treeLevel, expandLevelNo, false);
                 } else if (projSelDTO.getLevelCount() != 0) {
@@ -233,11 +238,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
-                                projSelDTO.setProductHierarchyNo(productHierarchyNo);
-                                projSelDTO.setCustomerHierarchyNo(customerHierarchyNo);
+                                projSelDTO.setProductHierarchyNo(prodHierarchyNo);
+                                projSelDTO.setCustomerHierarchyNo(custHierarchyNo);
+                                projSelDTO.setDeductionHierarchyNo(dedHierarchyNo);
                                 projSelDTO.setHierarchyNo(hierarchyNo);
                                 projSelDTO.setHierarchyIndicator(indicator);
-                                projSelDTO.setTreeLevelNo(levelNo);
+                                projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
                                 ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
@@ -249,11 +255,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
-                                projSelDTO.setProductHierarchyNo(productHierarchyNo);
-                                projSelDTO.setCustomerHierarchyNo(customerHierarchyNo);
+                                projSelDTO.setProductHierarchyNo(prodHierarchyNo);
+                                projSelDTO.setCustomerHierarchyNo(custHierarchyNo);
+                                projSelDTO.setDeductionHierarchyNo(dedHierarchyNo);
                                 projSelDTO.setHierarchyNo(hierarchyNo);
                                 projSelDTO.setHierarchyIndicator(indicator);
-                                projSelDTO.setTreeLevelNo(levelNo);
+                                projSelDTO.setTreeLevelNo(currentLevelNo);
                                 String customTreeLevel = treeLevel + (index + j) + ".";
                                 ProjectionVarianceDTO dto = new ProjectionVarianceLogic().configureDetailsInDTO(projSelDTO, list.get(j), projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(list.get(j)).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(list.get(j)));
                                 addExpandedTreeList(customTreeLevel, dto);
@@ -294,9 +301,15 @@ public class VarianceTableLogic extends PageTreeTableLogic{
             if (dto.getHierarchyIndicator().equals("C")) {
                 dto.setCustomerHierarchyNo(dto.getHierarchyNo());
                 dto.setProductHierarchyNo(productHierarchyNo);
+                dto.setDeductionHierarchyNo(deductionHierarchyNo);
             } else if (dto.getHierarchyIndicator().equals("P")) {
                 dto.setProductHierarchyNo(dto.getHierarchyNo());
                 dto.setCustomerHierarchyNo(customerHierarchyNo);
+                dto.setDeductionHierarchyNo(deductionHierarchyNo);
+            } else{
+                dto.setProductHierarchyNo(productHierarchyNo);
+                dto.setCustomerHierarchyNo(customerHierarchyNo);
+                dto.setDeductionHierarchyNo(dto.getHierarchyNo());
             }
             dto.setGroup(flag ? projSelDTO.getSessionDTO().getLevelValueDiscription(levelDto.getHierarchyNo(), levelDto.getHierarchyIndicator()) : projSelDTO.getGroupFilter());
             dto.setParent(1);

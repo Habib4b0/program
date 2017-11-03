@@ -1518,6 +1518,7 @@
 		<property name="listName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="LIST_NAME" />
 		<property name="modifiedBy" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="MODIFIED_BY" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" column="MODIFIED_DATE" />
+		<property name="aliasName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ALIAS_NAME" />
 	</class>
 	<class name="com.stpl.app.model.impl.HierarchyDefinitionImpl" table="HIERARCHY_DEFINITION">
 		<id name="hierarchyDefinitionSid" column="HIERARCHY_DEFINITION_SID" type="int">
@@ -3755,6 +3756,8 @@
 		<property name="prodRelationshipBuilderSid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PROD_RELATIONSHIP_BUILDER_SID" />
 		<property name="discountType" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="DISCOUNT_TYPE" />
 		<property name="businessUnit" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BUSINESS_UNIT" />
+		<property name="deductionHierarchySid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DEDUCTION_HIERARCHY_SID" />
+		<property name="dedRelationshipBuilderSid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DED_RELATIONSHIP_BULDER_SID" />
 	</class>
 	<class name="com.stpl.app.model.impl.ProjectionNameConfigImpl" table="PROJECTION_NAME_CONFIG">
 		<id name="projectionNameConfigSid" column="PROJECTION_NAME_CONFIG_SID" type="int">
@@ -4057,6 +4060,7 @@
 		<property name="hierarchyVersion" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="HIERARCHY_VERSION" />
 		<property name="modifiedBy" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="MODIFIED_BY" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" column="MODIFIED_DATE" />
+		<property name="deductionRelation" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="DEDUCTION_RELATION" />
 		<property name="relationshipType" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="RELATIONSHIP_TYPE" />
 		<property name="buildType" type="com.stpl.portal.dao.orm.hibernate.StringType" column="BUILD_TYPE" />
 	</class>
@@ -4077,6 +4081,7 @@
 		<property name="hierarchyNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="HIERARCHY_NO" />
 		<property name="flag" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FLAG" />
 		<property name="levelName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="LEVEL_NAME" />
+		<property name="parentHierarchyNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="PARENT_HIERARCHY_NO" />
 	</class>
 	<class name="com.stpl.app.model.impl.ReturnsMasterImpl" table="RETURNS_MASTER">
 		<id name="returnsMasterSid" column="RETURNS_MASTER_SID" type="int">

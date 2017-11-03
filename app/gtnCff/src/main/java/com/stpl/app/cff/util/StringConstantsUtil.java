@@ -315,6 +315,31 @@ public class StringConstantsUtil {
     public static final String HISTORY1 = "HISTORY";
     public static final String FUTURE = "FUTURE";
     public static final String UNITS1 = "Units";
+    public static final String CFFMASTERSID = "@CFFMASTERSID";
+    public static final String RELATIONBUILDERSID = "@RBSID";
+    public static final String TABLE_RELATION_SHIP_LEVEL_DEFINITION = "RELATIONSHIP_LEVEL_DEFINITION";
+    public static final String CUSTOMER_HIERARCHY = "Customer Hierarchy";
+    public static final String WHERE_SPACE = " WHERE ";
+    public static final String FILTER_TABLE = "filtertable";
+    public static final String NDC = "NDC";
+    public static final String PROJECTION_MASTER_SID_AT = "@PROJECTION_MASTER_SID";
+    public static final String HIERARCHY_SID_AT = "@HIERARCHY_SID";
+    public static final String HIERARCHY_COLUMN_QUESTION = "[?HIERARCHY_COLUMN]";
+    public static final String CFF_MASTER_WHERE = " where HC.CFF_MASTER_SID= ";
+    public static final String DEDUCTION_FILTER_QUERY = "deduction-dynamic-filter";
+    public static final String DEDRELBUILDSID = "@DEDRELBUILDSID";
+    public static final String DEDLEVELVALUES = "@DEDLEVELVALUES";
+    public static final String LEVELVALUES = "@LEVELVALUES";
+    public static final String RELBUILDSID = "@RELBUILDSID";
+    public static final String SelectLevel = "-Select Level-";
+    public static final String SelectAll = "Select All";
+    public static final String UDCJOIN = "@UDCJOIN";
+    public static final String HELPERTABLEJOIN = "@HELPERTABLEJOIN";
+    public static final String UDC_MASTER_SID = " JOIN UDCS UD ON UD.MASTER_SID=RS.RS_CONTRACT_SID AND UD.MASTER_TYPE='RS_CONTRACT'  ";
+    public static final String WHERE_FIRST_CAP = "Where";
+	public static final String RS_CONTRACT = "RS_CONTRACT";
+	public static final String RS_CONTRACT_DETAILS = "RS_CONTRACT_DETAILS";
+	public static final String ITEM_MASTER_SID_CAPS = "ITEM_MASTER_SID";
 
     private StringConstantsUtil() {
         /*

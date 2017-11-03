@@ -10,13 +10,13 @@ import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.FileUploader;
 import com.stpl.app.utils.ValidationUtils;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
@@ -32,7 +32,6 @@ import com.vaadin.ui.Upload;
 import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.StartedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
-import de.steinwedel.messagebox.MessageBox;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -97,9 +96,9 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
         uploadReceiver = (Receiver) new FileUploader(moduleName + "/" + userId);
         uploadComponent = new Upload(null, (FileUploader) uploadReceiver);
-        filePath = new File(basepath + File.separator + "Documents" + File.separator + moduleName);
-        wordFile = new File(filePath + File.separator + fileName + ExportWord.DOC_EXT);
-        pdfFile = new File(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
+        filePath = CommonUtil.getFilePath(basepath + File.separator + "Documents" + File.separator + moduleName);
+        wordFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT);
+        pdfFile = CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT);
         fileUploadPath = FileUploader.FILE_PATH + moduleName + "/" + userId + "/";
 
         if (isViewMode) {
@@ -153,10 +152,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 Date date = new Date();
                 long value = date.getTime();
                 sb.insert(sb.lastIndexOf("."), "_" + value);
-                File destFileUpload = new File(fileUploadPath + event.getFilename());
+                File destFileUpload = CommonUtil.getFilePath(fileUploadPath + event.getFilename());
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
-                File renameFileUpload = new File(fileUploadPath + name);
+                File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
                 destFileUpload.renameTo(renameFileUpload);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -270,7 +269,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
             }
             tableBean = (NotesDTO) targetItem.getBean();
             if (event.isDoubleClick()) {
-                File uploadedFile = new File(tableBean.getDocumentFullPath());
+                File uploadedFile = CommonUtil.getFilePath(tableBean.getDocumentFullPath());
                 Resource res = new FileResource(uploadedFile);
                 fileDownloader.setFileDownloadResource(res);
                 downloadFile(uploadedFile);
@@ -308,6 +307,7 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
                 }
             }
             removedAttachments.clear();
+            loadAttachments(projectionId);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -320,10 +320,10 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
 
     public void addSecurity() {
 
-        final StplSecurity stplSecurity = new StplSecurity();
+        final StplSecurity stplSecurityNotes = new StplSecurity();
         final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(USER_ID.getConstant()));
         try {
-            final Map<String, AppPermission> tabItemHM = stplSecurity.getBusinessFunctionPermission(userId, NATIONAL_ASSUMPTIONS.getConstant() + "," + ADDITIONAL_INFORMATION);
+            final Map<String, AppPermission> tabItemHM = stplSecurityNotes.getBusinessFunctionPermission(userId, NATIONAL_ASSUMPTIONS.getConstant() + "," + ADDITIONAL_INFORMATION);
             if (tabItemHM.get("addNote") != null && tabItemHM.get("addNote").isFunctionFlag()) {
                 addNote.setVisible(true);
             } else {
@@ -355,5 +355,17 @@ public class AdditionalInformationForm extends AbsAdditionalInformation {
         } else {
             remove.setVisible(false);
         }
+    }
+     /**
+     * 
+     * Method to re load Attachment Table after save
+     * @param projectionId
+     * @throws Exception 
+     */
+    public void loadAttachments(int projectionId) throws Exception {
+        attachmentsListBean.removeAllItems();
+        final List<NotesDTO> allFiles = logic.getAttachmentDTOList(projectionId, moduleName, fileUploadPath);
+
+        attachmentsListBean.addAll(logic.addUserFile(allFiles));
     }
 }

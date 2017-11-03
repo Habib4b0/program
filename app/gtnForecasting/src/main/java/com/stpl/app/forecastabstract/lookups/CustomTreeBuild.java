@@ -52,7 +52,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * @param customId
      */
     public CustomTreeBuild(SessionDTO session, int customId) {
-        super();
+        super(session);
         this.session = session;
         this.customId = customId;
         if (customId != 0) {
@@ -310,6 +310,30 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 
         productContainer.addAll(productList);
     }
+    
+      /* (non-Javadoc)
+     * @see com.stpl.app.forecastabstract.lookups.AbstractCustomTreeView#loadDeductions()
+     */
+    @Override
+    protected void loadDeductions() {
+        if (productContainer == null) {
+            productContainer = new BeanItemContainer<>(Leveldto.class);
+        }
+
+        List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), session.getProductLevelNumber() != null ? Integer.valueOf(session.getProductLevelNumber()) : 1);
+
+        int size = productList.size();
+        for (int i = 0; i < size; i++) {
+            Object obj = productList.get(i);
+            if (isTreeitem(obj)) {
+                productList.remove(obj);
+                size--;
+                i--;
+            }
+        }
+
+        productContainer.addAll(productList);
+    }
 
     @Override
     protected String getCustomMasterData() {
@@ -353,6 +377,22 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
 
     public boolean isIsSelect() {
         return isSelect;
+    }
+
+    @Override
+    protected AbstractContainer getDeductionsContainer() {
+        //To change body of generated methods, choose Tools | Templates.
+        return null;
+    }
+
+    @Override
+    protected void customTreeAddDeductionLogic() {
+       //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void customTreeRemoveDeductionLogic() {
+        //To change body of generated methods, choose Tools | Templates.
     }
 
 }

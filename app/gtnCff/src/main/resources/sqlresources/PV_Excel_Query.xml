@@ -229,5 +229,32 @@ and CVD.CFF_CUSTOM_VIEW_MASTER_SID =[$CUSTOM_VIEW_MASTER_SID]
         ]]>
         </query> 
     </entity>
+    <entity id="get-RsId-For-Current-Hierarchy">
+        <query> 
+        <![CDATA[
+                IF EXISTS (SELECT 1
+                 FROM  ?tableNameCCP_DEDUCTION_HIERARCHY B
+                        JOIN #SELECTED_HIERARCHY_NO CCP
+                          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                   AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO  )
+                   BEGIN 
+                         SELECT DISTINCT RS_CONTRACT_SID 
+                 FROM  ?tableNameCCP_DEDUCTION_HIERARCHY B
+                        JOIN #SELECTED_HIERARCHY_NO CCP
+                          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND FILTER_CCPD=1
+                AND B.DEDUCTION_HIERARCHY_NO=CCP.HIERARCHY_NO
+
+           END
+                   ELSE
+                   BEGIN
+                         SELECT DISTINCT RS_CONTRACT_SID 
+                 FROM   ?tableNameCCP_DEDUCTION_HIERARCHY B
+                        JOIN #SELECTED_HIERARCHY_NO CCP
+                          ON B.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID AND FILTER_CCPD=1
+           END;
+        ]]>
+        </query> 
+    </entity>
+    
     
 </sql>

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 
@@ -64,8 +65,10 @@ public class SessionDTO implements Cloneable {
     private boolean fromDateChanged = false;
     private String custRelationshipBuilderSid = StringUtils.EMPTY;
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
+    private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
+    private Map<String, String> deductionDescription = new HashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -98,11 +101,18 @@ public class SessionDTO implements Cloneable {
     private boolean isGenerated = false;
     private Map<String, String> currentTableNames = new LinkedHashMap<>();
     private String screenName = StringUtils.EMPTY;
-    private Map<String, List> hierarchyLevelDetails = new HashMap<>();   
+    private Map<String, List> hierarchyLevelDetails = new HashMap<>();
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
     private int customId;
     private Map<Integer, List<CffCustomViewDetails>> customDetailMap = new HashMap<>();
     private Future future;
+    private boolean isDeductionCustom = false;
+    private String salesInclusion = StringUtils.EMPTY;
+    private String deductionInclusion = StringUtils.EMPTY;
+    private String discountUom = StringUtils.EMPTY;
+    private int selectedDeductionLevelNo;
+    private int customerLastLevelNo;
+    private int productLastLevelNo;
     public boolean isHasTradingPartner() {
         return hasTradingPartner;
     }
@@ -695,10 +705,21 @@ public class SessionDTO implements Cloneable {
         return sessionDate;
     }
 
+    public Map<String, String> getDeductionDescription() {
+        return deductionDescription;
+    }
+
+    public void setDeductionDescription(Map<String, String> deductionDescription) {
+        this.deductionDescription = deductionDescription;
+    }
+    
+    
+
     public SessionDTO clone() throws CloneNotSupportedException {
         SessionDTO sessiondto = (SessionDTO) super.clone();
         return sessiondto;
     }
+    
 
     public String getLevelValueDiscription(String hierarchyNo, String indicator) {
         String retVal;
@@ -746,6 +767,20 @@ public class SessionDTO implements Cloneable {
         }
         this.hierarchyLevelDetails.putAll(productLevelDetails);
     }
+    
+     /**
+     *
+     * @param deductionLevelDetails
+     */
+	public void setDeductionLevelDetails(Map<String, List> deductionLevelDetails) {
+		if (deductionLevelDetails != null && !deductionLevelDetails.isEmpty()) {
+			this.productDescription.clear();
+			for (Entry<String, List> iterable_element : deductionLevelDetails.entrySet()) {
+				this.productDescription.put(iterable_element.getKey(), iterable_element.getValue().get(0).toString());
+			}
+		}
+		this.hierarchyLevelDetails.putAll(deductionLevelDetails);
+	}
     public Map<String, List> getHierarchyLevelDetails() {
         return Collections.unmodifiableMap(hierarchyLevelDetails);
     }
@@ -804,5 +839,69 @@ public class SessionDTO implements Cloneable {
     public void setFuture(Future future) {
         this.future = future;
     }
-    
+
+    public boolean isIsDeductionCustom() {
+        return isDeductionCustom;
+    }
+
+    public void setIsDeductionCustom(boolean isDeductionCustom) {
+        this.isDeductionCustom = isDeductionCustom;
+    }
+
+    public String getDedRelationshipBuilderSid() {
+        return dedRelationshipBuilderSid;
+    }
+
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid) {
+        this.dedRelationshipBuilderSid = dedRelationshipBuilderSid;
+    }
+
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
+
+    public String getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(String deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
+    }
+
+    public String getDiscountUom() {
+        return discountUom;
+    }
+
+    public void setDiscountUom(String discountUom) {
+        this.discountUom = discountUom;
+    }
+
+    public int getSelectedDeductionLevelNo() {
+        return selectedDeductionLevelNo;
+    }
+
+    public void setSelectedDeductionLevelNo(int selectedDeductionLevelNo) {
+        this.selectedDeductionLevelNo = selectedDeductionLevelNo;
+    }
+
+    public int getCustomerLastLevelNo() {
+        return customerLastLevelNo;
+    }
+
+    public void setCustomerLastLevelNo(int customerLastLevelNo) {
+        this.customerLastLevelNo = customerLastLevelNo;
+    }
+
+    public int getProductLastLevelNo() {
+        return productLastLevelNo;
+    }
+
+    public void setProductLastLevelNo(int productLastLevelNo) {
+        this.productLastLevelNo = productLastLevelNo;
+    }
+        
 }

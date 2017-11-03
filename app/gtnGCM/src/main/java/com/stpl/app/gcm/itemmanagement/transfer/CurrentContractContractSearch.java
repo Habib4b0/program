@@ -110,7 +110,7 @@ public class CurrentContractContractSearch extends AbstractContractSearch {
                 selection.setDataQueryName("Load contract Item");
             }
 
-            searchButtonLogic();
+            searchButtonLogic(true);
         }
     }
 

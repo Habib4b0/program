@@ -45,6 +45,9 @@ public class CommonUtils {
     public static final String CATEGORY_SPACE_NAME = "Category Name";
     public static final String SUBMODULE_SPACE_NAME = "Submodule Name";
     public static final String MODULE_SPACE_NAME = "Module Name";
+    public static final String FILE_TYPE = "FILE_TYPE";
+    public static final String ALIAS_NAME = "Alias Name";
+    public static final String ALIASNAME = "aliasName";
 	/*
 	 * @param listTypeId- listType typeid of listtype table to get the description
 	 * @return String - The description for the specific listtype id

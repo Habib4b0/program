@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;06 01:26:55.935</created_date>
+  <created_date>2013&#x2f;07&#x2f;06 01&#x3a;26&#x3a;55.935</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;06 01:26:55.935</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;06 01&#x3a;26&#x3a;55.935</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -85,7 +85,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ITEM_HIERARCHY_DATAFETCH.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ITEM_HIERARCHY_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,7 +93,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -104,6 +104,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -117,7 +118,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ITEM_HIERARCHY_VALIDATIONS.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ITEM_HIERARCHY_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -125,7 +126,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -136,6 +137,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -216,7 +218,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -230,8 +232,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -246,7 +250,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -260,8 +264,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -274,7 +280,7 @@
       <name>Duplicate Record</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE IVLD_ITEM_HIERARCHY   SET ERROR_CODE=&apos;E04&apos; WHERE REASON_FOR_FAILURE =&apos;Duplicate Record&apos;</sql>
+      <sql>UPDATE IVLD_ITEM_HIERARCHY   SET ERROR_CODE&#x3d;&#x27;E04&#x27; WHERE REASON_FOR_FAILURE &#x3d;&#x27;Duplicate Record&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -292,7 +298,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -311,6 +317,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -324,7 +331,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -343,6 +350,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -356,7 +364,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -375,6 +383,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -388,7 +397,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -407,6 +416,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -420,7 +430,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;REPROCESSING_INVALID_DATA.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -439,6 +449,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -450,11 +461,7 @@
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -467,13 +474,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;IT
       <yloc>180</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (3)</name>
+      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -486,13 +490,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <yloc>1565</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2)</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -510,7 +511,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -529,6 +530,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -542,7 +544,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ITEM_HIERARCHY_VALIDATIONS_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ITEM_HIERARCHY_VALIDATIONS_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -550,7 +552,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -561,6 +563,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -572,131 +575,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>
-TRUNCATE TABLE STAG_ITEM_HIERARCHY
-
-insert into STAG_ITEM_HIERARCHY(
-
-
-LEVEL0_TAG
-,LEVEL0
-,LEVEL0_ALIAS
-,LEVEL1
-,LEVEL1_ALIAS
-,LEVEL2
-,LEVEL2_ALIAS
-,LEVEL3
-,LEVEL3_ALIAS
-,LEVEL4
-,LEVEL4_ALIAS
-,LEVEL5
-,LEVEL5_ALIAS
-,LEVEL6
-,LEVEL6_ALIAS
-,LEVEL7
-,LEVEL7_ALIAS
-,LEVEL8
-,LEVEL8_ALIAS
-,LEVEL9
-,LEVEL9_ALIAS
-,LEVEL10
-,LEVEL10_ALIAS
-,LEVEL11
-,LEVEL11_ALIAS
-,LEVEL12
-,LEVEL12_ALIAS
-,LEVEL13
-,LEVEL13_ALIAS
-,LEVEL14
-,LEVEL14_ALIAS
-,LEVEL15
-,LEVEL15_ALIAS
-,LEVEL16
-,LEVEL16_ALIAS
-,LEVEL17
-,LEVEL17_ALIAS
-,LEVEL18
-,LEVEL18_ALIAS
-,LEVEL19
-,LEVEL19_ALIAS
-,LEVEL20
-,LEVEL20_ALIAS
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,GTN_BRAND
-,GTN_THERAPEUTIC_CLASS
-,GTN_COMPANY
-,ITEM_HIERARCHY_INTFID
-
-
-)
-select 
-
-LEVEL0_TAG
-,LEVEL0
-,LEVEL0_ALIAS
-,LEVEL1
-,LEVEL1_ALIAS
-,LEVEL2
-,LEVEL2_ALIAS
-,LEVEL3
-,LEVEL3_ALIAS
-,LEVEL4
-,LEVEL4_ALIAS
-,LEVEL5
-,LEVEL5_ALIAS
-,LEVEL6
-,LEVEL6_ALIAS
-,LEVEL7
-,LEVEL7_ALIAS
-,LEVEL8
-,LEVEL8_ALIAS
-,LEVEL9
-,LEVEL9_ALIAS
-,LEVEL10
-,LEVEL10_ALIAS
-,LEVEL11
-,LEVEL11_ALIAS
-,LEVEL12
-,LEVEL12_ALIAS
-,LEVEL13
-,LEVEL13_ALIAS
-,LEVEL14
-,LEVEL14_ALIAS
-,LEVEL15
-,LEVEL15_ALIAS
-,LEVEL16
-,LEVEL16_ALIAS
-,LEVEL17
-,LEVEL17_ALIAS
-,LEVEL18
-,LEVEL18_ALIAS
-,LEVEL19
-,LEVEL19_ALIAS
-,LEVEL20
-,LEVEL20_ALIAS
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,isnull(CREATED_DATE,getdate())
-,MODIFIED_BY
-,isnull(MODIFIED_DATE,getdate())
-,BATCH_ID
-,SOURCE
-,GTN_BRAND
-,GTN_THERAPEUTIC_CLASS
-,GTN_COMPANY
-,ITEM_HIERARCHY_INTERFACE_ID
-
-
- FROM ${STAGING_DB}..ITEM_HIERARCHY_INTERFACE
-
-
-</sql>
+      <sql>&#xa;TRUNCATE TABLE STAG_ITEM_HIERARCHY&#xa;&#xa;insert into STAG_ITEM_HIERARCHY&#x28;&#xa;&#xa;&#xa;LEVEL0_TAG&#xa;,LEVEL0&#xa;,LEVEL0_ALIAS&#xa;,LEVEL1&#xa;,LEVEL1_ALIAS&#xa;,LEVEL2&#xa;,LEVEL2_ALIAS&#xa;,LEVEL3&#xa;,LEVEL3_ALIAS&#xa;,LEVEL4&#xa;,LEVEL4_ALIAS&#xa;,LEVEL5&#xa;,LEVEL5_ALIAS&#xa;,LEVEL6&#xa;,LEVEL6_ALIAS&#xa;,LEVEL7&#xa;,LEVEL7_ALIAS&#xa;,LEVEL8&#xa;,LEVEL8_ALIAS&#xa;,LEVEL9&#xa;,LEVEL9_ALIAS&#xa;,LEVEL10&#xa;,LEVEL10_ALIAS&#xa;,LEVEL11&#xa;,LEVEL11_ALIAS&#xa;,LEVEL12&#xa;,LEVEL12_ALIAS&#xa;,LEVEL13&#xa;,LEVEL13_ALIAS&#xa;,LEVEL14&#xa;,LEVEL14_ALIAS&#xa;,LEVEL15&#xa;,LEVEL15_ALIAS&#xa;,LEVEL16&#xa;,LEVEL16_ALIAS&#xa;,LEVEL17&#xa;,LEVEL17_ALIAS&#xa;,LEVEL18&#xa;,LEVEL18_ALIAS&#xa;,LEVEL19&#xa;,LEVEL19_ALIAS&#xa;,LEVEL20&#xa;,LEVEL20_ALIAS&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,GTN_BRAND&#xa;,GTN_THERAPEUTIC_CLASS&#xa;,GTN_COMPANY&#xa;,ITEM_HIERARCHY_INTFID&#xa;&#xa;&#xa;&#x29;&#xa;select &#xa;&#xa;LEVEL0_TAG&#xa;,LEVEL0&#xa;,LEVEL0_ALIAS&#xa;,LEVEL1&#xa;,LEVEL1_ALIAS&#xa;,LEVEL2&#xa;,LEVEL2_ALIAS&#xa;,LEVEL3&#xa;,LEVEL3_ALIAS&#xa;,LEVEL4&#xa;,LEVEL4_ALIAS&#xa;,LEVEL5&#xa;,LEVEL5_ALIAS&#xa;,LEVEL6&#xa;,LEVEL6_ALIAS&#xa;,LEVEL7&#xa;,LEVEL7_ALIAS&#xa;,LEVEL8&#xa;,LEVEL8_ALIAS&#xa;,LEVEL9&#xa;,LEVEL9_ALIAS&#xa;,LEVEL10&#xa;,LEVEL10_ALIAS&#xa;,LEVEL11&#xa;,LEVEL11_ALIAS&#xa;,LEVEL12&#xa;,LEVEL12_ALIAS&#xa;,LEVEL13&#xa;,LEVEL13_ALIAS&#xa;,LEVEL14&#xa;,LEVEL14_ALIAS&#xa;,LEVEL15&#xa;,LEVEL15_ALIAS&#xa;,LEVEL16&#xa;,LEVEL16_ALIAS&#xa;,LEVEL17&#xa;,LEVEL17_ALIAS&#xa;,LEVEL18&#xa;,LEVEL18_ALIAS&#xa;,LEVEL19&#xa;,LEVEL19_ALIAS&#xa;,LEVEL20&#xa;,LEVEL20_ALIAS&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,GTN_BRAND&#xa;,GTN_THERAPEUTIC_CLASS&#xa;,GTN_COMPANY&#xa;,ITEM_HIERARCHY_INTERFACE_ID&#xa;&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..ITEM_HIERARCHY_INTERFACE&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -714,7 +593,7 @@ LEVEL0_TAG
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -733,6 +612,7 @@ LEVEL0_TAG
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -746,7 +626,7 @@ LEVEL0_TAG
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -760,8 +640,10 @@ LEVEL0_TAG
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -776,7 +658,7 @@ LEVEL0_TAG
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -795,6 +677,7 @@ LEVEL0_TAG
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -806,7 +689,7 @@ LEVEL0_TAG
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;ITEM_HIERARCHY_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ITEM_HIERARCHY_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -822,7 +705,7 @@ LEVEL0_TAG
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SET_STAG_COUNT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -841,6 +724,7 @@ LEVEL0_TAG
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -870,180 +754,7 @@ LEVEL0_TAG
       <name>FULL LOAD</name>
       <description/>
       <type>SQL</type>
-      <sql>----UPDATE A SET INBOUND_STATUS = &apos;D&apos; FROM   ITEM_HIERARCHY_MASTER A
-----WHERE NOT EXISTS(SELECT * FROM   STAG_ITEM_HIERARCHY SID WHERE SID.LEVEL0 = A.LEVEL0 AND SID.GTN_COMPANY = A.GTN_COMPANY)
-
-
-
---DECLARE @sql nvarchar(max)
---DECLARE @sql1 nvarchar(max)
---DECLARE @TABLE_NAME varchar(100),@columnName varchar(100)=&apos;a&apos;,@columnName1 varchar(100)=&apos;b&apos;
---SET @TABLE_NAME =(SELECT CONCAT(&apos;ITEM_HIERARCHY_MASTER&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
---    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
---    ELSE &apos;SEMI_ANNUAL_2&apos;
---  END))
--- -- select @TABLE_NAME
-
---  IF NOT EXISTS (SELECT &apos;X&apos;
---               FROM   INFORMATION_SCHEMA.TABLES
---               WHERE  TABLE_NAME = @TABLE_NAME
---                      AND TABLE_SCHEMA = &apos;dbo&apos;)
---  BEGIN
---  -- select 1
-
-   
-----DECLARE @TABLE_NAME varchar(100)
-----SET @TABLE_NAME =(SELECT CONCAT(&apos;A&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
-----    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
-----    ELSE &apos;SEMI_ANNUAL_2&apos;
-----  END))
-
---  --DECLARE  @SQL NVARCHAR(MAX), @SQL1 NVARCHAR(MAX)
---  set @sql1=&apos;
---[ITEM_HIERARCHY_MASTER_SID] [int]  NOT NULL,
---	[LEVEL0_TAG] [varchar](100) NULL,
---	[LEVEL0] [varchar](100) NULL,
---	[LEVEL0_ALIAS] [varchar](100) NULL,
---	[LEVEL1] [varchar](100) NULL,
---	[LEVEL1_ALIAS] [varchar](100) NULL,
---	[LEVEL2] [varchar](100) NULL,
---	[LEVEL2_ALIAS] [varchar](100) NULL,
---	[LEVEL3] [varchar](100) NULL,
---	[LEVEL3_ALIAS] [varchar](100) NULL,
---	[LEVEL4] [varchar](100) NULL,
---	[LEVEL4_ALIAS] [varchar](100) NULL,
---	[LEVEL5] [varchar](100) NULL,
---	[LEVEL5_ALIAS] [varchar](100) NULL,
---	[LEVEL6] [varchar](100) NULL,
---	[LEVEL6_ALIAS] [varchar](100) NULL,
---	[LEVEL7] [varchar](100) NULL,
---	[LEVEL7_ALIAS] [varchar](100) NULL,
---	[LEVEL8] [varchar](100) NULL,
---	[LEVEL8_ALIAS] [varchar](100) NULL,
---	[LEVEL9] [varchar](100) NULL,
---	[LEVEL9_ALIAS] [varchar](100) NULL,
---	[LEVEL10] [varchar](100) NULL,
---	[LEVEL10_ALIAS] [varchar](100) NULL,
---	[LEVEL11] [varchar](100) NULL,
---	[LEVEL11_ALIAS] [varchar](100) NULL,
---	[LEVEL12] [varchar](100) NULL,
---	[LEVEL12_ALIAS] [varchar](100) NULL,
---	[LEVEL13] [varchar](100) NULL,
---	[LEVEL13_ALIAS] [varchar](100) NULL,
---	[LEVEL14] [varchar](100) NULL,
---	[LEVEL14_ALIAS] [varchar](100) NULL,
---	[LEVEL15] [varchar](100) NULL,
---	[LEVEL15_ALIAS] [varchar](100) NULL,
---	[LEVEL16] [varchar](100) NULL,
---	[LEVEL16_ALIAS] [varchar](100) NULL,
---	[LEVEL17] [varchar](100) NULL,
---	[LEVEL17_ALIAS] [varchar](100) NULL,
---	[LEVEL18] [varchar](100) NULL,
---	[LEVEL18_ALIAS] [varchar](100) NULL,
---	[LEVEL19] [varchar](100) NULL,
---	[LEVEL19_ALIAS] [varchar](100) NULL,
---	[LEVEL20] [varchar](100) NULL,
---	[LEVEL20_ALIAS] [varchar](100) NULL,
---	[GTN_COMPANY] [varchar](100) NOT NULL,
---	[GTN_BRAND] [varchar](100) NULL,
---	[GTN_THERAPEUTIC_CLASS] [varchar](100) NULL,
---	[INBOUND_STATUS] [char](1) NULL,
---	[RECORD_LOCK_STATUS] [bit] NOT NULL,
---	[BATCH_ID] [varchar](50) NOT NULL,
---	[SOURCE] [varchar](50) NULL,
---	[CREATED_BY] [int] NOT NULL,
---	[CREATED_DATE] [datetime] NOT NULL,
---	[MODIFIED_BY] [int] NOT NULL,
---	[MODIFIED_DATE] [datetime] NOT NULL
---        &apos;
---SET @SQL =&apos;CREATE TABLE &apos;  + @TABLE_NAME + &apos;( &apos;+@sql1+&apos; )&apos;
---exec(  @SQL)
-
-
-
-
-
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from ITEM_HIERARCHY_MASTER&apos;
-
---  exec (@sql)
---   end
-
---   else
-
---   begin
-----select 3
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from ITEM_HIERARCHY_MASTER&apos;
-
---    exec (@sql)
-
---   end
-
-
-DECLARE @SQL NVARCHAR(MAX)
-       ,@SQL1 NVARCHAR(MAX)
-       ,@TABLE_NAME VARCHAR(100)
-       ,@SQL2 NVARCHAR(MAX)
-
-SELECT @TABLE_NAME = (SELECT CONCAT (&apos;ITEM_HIERARCHY_MASTER&apos;,&apos;_&apos;,YEAR(GETDATE()),&apos;_&apos;,CASE WHEN MONTH(GETDATE()) &lt;= 6 THEN &apos;SEMI_ANNUAL_1&apos; ELSE &apos;SEMI_ANNUAL_2&apos; END))
-
-
-IF NOT EXISTS (
-              SELECT &apos;X&apos;
-              FROM INFORMATION_SCHEMA.TABLES
-              WHERE TABLE_NAME = @TABLE_NAME
-                     AND TABLE_SCHEMA = &apos;DBO&apos;
-              )
-BEGIN
-       SET @SQL1 = &apos;
-SELECT @SQL2=STUFF((
-            SELECT &apos;&apos;,&apos;&apos; + CONCAT(COLUMN_NAME,&apos;&apos; &apos;&apos; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN ( &apos;&apos;char&apos;&apos; ,&apos;&apos;VARCHAR&apos;&apos; )
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,CHARACTER_MAXIMUM_LENGTH
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         WHEN DATA_TYPE = &apos;&apos;numeric&apos;&apos;
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,NUMERIC_PRECISION
-                                                              ,&apos;&apos;,&apos;&apos;,NUMERIC_SCALE
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         ELSE &apos;&apos;&apos;&apos;
-                                         END
-                                  ,&apos;&apos; &apos;&apos; ,CASE WHEN IS_NULLABLE=&apos;&apos;NO&apos;&apos; THEN &apos;&apos;NOT NULL&apos;&apos; ELSE &apos;&apos;NULL&apos;&apos; END )
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME =&apos;&apos;ITEM_HIERARCHY_MASTER&apos;&apos;
-                     order by ORDINAL_POSITION 
-            FOR XML PATH(&apos;&apos;&apos;&apos;)
-            ), 1, 1, &apos;&apos;&apos;&apos;) 
-&apos;
-
-       EXEC SP_EXECUTESQL @SQL1
-              ,N&apos;@SQL2 NVARCHAR(MAX) OUTPUT&apos;
-              ,@SQL2 OUTPUT
-       SET @SQL = &apos;CREATE TABLE &apos; + @TABLE_NAME + &apos;( &apos; + @SQL2 + &apos; )&apos;
-
-       EXEC (@SQL)
-
-       SET @SQL = &apos;INSERT INTO &apos; + @TABLE_NAME + &apos; SELECT * FROM ITEM_HIERARCHY_MASTER&apos;
-
-       EXEC (@SQL)
-END
-ELSE
-BEGIN
-       SET @SQL = &apos;INSERT INTO  &apos; + @TABLE_NAME + &apos; SELECT * FROM ITEM_HIERARCHY_MASTER&apos;
-
-       EXEC (@SQL)
-         
-END
-
-
-
-
-
-</sql>
+      <sql>----UPDATE A SET INBOUND_STATUS &#x3d; &#x27;D&#x27; FROM   ITEM_HIERARCHY_MASTER A&#xa;----WHERE NOT EXISTS&#x28;SELECT &#x2a; FROM   STAG_ITEM_HIERARCHY SID WHERE SID.LEVEL0 &#x3d; A.LEVEL0 AND SID.GTN_COMPANY &#x3d; A.GTN_COMPANY&#x29;&#xa;&#xa;&#xa;&#xa;--DECLARE &#x40;sql nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;sql1 nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;,&#x40;columnName varchar&#x28;100&#x29;&#x3d;&#x27;a&#x27;,&#x40;columnName1 varchar&#x28;100&#x29;&#x3d;&#x27;b&#x27;&#xa;--SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;ITEM_HIERARCHY_MASTER&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;--    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;--    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;--  END&#x29;&#x29;&#xa;-- -- select &#x40;TABLE_NAME&#xa;&#xa;--  IF NOT EXISTS &#x28;SELECT &#x27;X&#x27;&#xa;--               FROM   INFORMATION_SCHEMA.TABLES&#xa;--               WHERE  TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;--                      AND TABLE_SCHEMA &#x3d; &#x27;dbo&#x27;&#x29;&#xa;--  BEGIN&#xa;--  -- select 1&#xa;&#xa;   &#xa;----DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;&#xa;----SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;A&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;----    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;----    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;----  END&#x29;&#x29;&#xa;&#xa;--  --DECLARE  &#x40;SQL NVARCHAR&#x28;MAX&#x29;, &#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;--  set &#x40;sql1&#x3d;&#x27;&#xa;--&#x5b;ITEM_HIERARCHY_MASTER_SID&#x5d; &#x5b;int&#x5d;  NOT NULL,&#xa;--	&#x5b;LEVEL0_TAG&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL0&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL0_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL1&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL1_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL2&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL2_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL3&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL3_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL4&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL4_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL5&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL5_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL6&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL6_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL7&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL7_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL8&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL8_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL9&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL9_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL10&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL10_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL11&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL11_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL12&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL12_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL13&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL13_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL14&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL14_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL15&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL15_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL16&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL16_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL17&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL17_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL18&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL18_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL19&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL19_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL20&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;LEVEL20_ALIAS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;GTN_COMPANY&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NOT NULL,&#xa;--	&#x5b;GTN_BRAND&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;GTN_THERAPEUTIC_CLASS&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;INBOUND_STATUS&#x5d; &#x5b;char&#x5d;&#x28;1&#x29; NULL,&#xa;--	&#x5b;RECORD_LOCK_STATUS&#x5d; &#x5b;bit&#x5d; NOT NULL,&#xa;--	&#x5b;BATCH_ID&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;SOURCE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;CREATED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;CREATED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL&#xa;--        &#x27;&#xa;--SET &#x40;SQL &#x3d;&#x27;CREATE TABLE &#x27;  &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27;&#x2b;&#x40;sql1&#x2b;&#x27; &#x29;&#x27;&#xa;--exec&#x28;  &#x40;SQL&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from ITEM_HIERARCHY_MASTER&#x27;&#xa;&#xa;--  exec &#x28;&#x40;sql&#x29;&#xa;--   end&#xa;&#xa;--   else&#xa;&#xa;--   begin&#xa;----select 3&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from ITEM_HIERARCHY_MASTER&#x27;&#xa;&#xa;--    exec &#x28;&#x40;sql&#x29;&#xa;&#xa;--   end&#xa;&#xa;&#xa;DECLARE &#x40;SQL NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#xa;       ,&#x40;SQL2 NVARCHAR&#x28;MAX&#x29;&#xa;&#xa;SELECT &#x40;TABLE_NAME &#x3d; &#x28;SELECT CONCAT &#x28;&#x27;ITEM_HIERARCHY_MASTER&#x27;,&#x27;_&#x27;,YEAR&#x28;GETDATE&#x28;&#x29;&#x29;,&#x27;_&#x27;,CASE WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d; 6 THEN &#x27;SEMI_ANNUAL_1&#x27; ELSE &#x27;SEMI_ANNUAL_2&#x27; END&#x29;&#x29;&#xa;&#xa;&#xa;IF NOT EXISTS &#x28;&#xa;              SELECT &#x27;X&#x27;&#xa;              FROM INFORMATION_SCHEMA.TABLES&#xa;              WHERE TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;                     AND TABLE_SCHEMA &#x3d; &#x27;DBO&#x27;&#xa;              &#x29;&#xa;BEGIN&#xa;       SET &#x40;SQL1 &#x3d; &#x27;&#xa;SELECT &#x40;SQL2&#x3d;STUFF&#x28;&#x28;&#xa;            SELECT &#x27;&#x27;,&#x27;&#x27; &#x2b; CONCAT&#x28;COLUMN_NAME,&#x27;&#x27; &#x27;&#x27; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN &#x28; &#x27;&#x27;char&#x27;&#x27; ,&#x27;&#x27;VARCHAR&#x27;&#x27; &#x29;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,CHARACTER_MAXIMUM_LENGTH&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         WHEN DATA_TYPE &#x3d; &#x27;&#x27;numeric&#x27;&#x27;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,NUMERIC_PRECISION&#xa;                                                              ,&#x27;&#x27;,&#x27;&#x27;,NUMERIC_SCALE&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         ELSE &#x27;&#x27;&#x27;&#x27;&#xa;                                         END&#xa;                                  ,&#x27;&#x27; &#x27;&#x27; ,CASE WHEN IS_NULLABLE&#x3d;&#x27;&#x27;NO&#x27;&#x27; THEN &#x27;&#x27;NOT NULL&#x27;&#x27; ELSE &#x27;&#x27;NULL&#x27;&#x27; END &#x29;&#xa;            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME &#x3d;&#x27;&#x27;ITEM_HIERARCHY_MASTER&#x27;&#x27;&#xa;                     order by ORDINAL_POSITION &#xa;            FOR XML PATH&#x28;&#x27;&#x27;&#x27;&#x27;&#x29;&#xa;            &#x29;, 1, 1, &#x27;&#x27;&#x27;&#x27;&#x29; &#xa;&#x27;&#xa;&#xa;       EXEC SP_EXECUTESQL &#x40;SQL1&#xa;              ,N&#x27;&#x40;SQL2 NVARCHAR&#x28;MAX&#x29; OUTPUT&#x27;&#xa;              ,&#x40;SQL2 OUTPUT&#xa;       SET &#x40;SQL &#x3d; &#x27;CREATE TABLE &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27; &#x2b; &#x40;SQL2 &#x2b; &#x27; &#x29;&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM ITEM_HIERARCHY_MASTER&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;END&#xa;ELSE&#xa;BEGIN&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO  &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM ITEM_HIERARCHY_MASTER&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;         &#xa;END&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1061,7 +772,7 @@ END
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1078,13 +789,10 @@ END
       <yloc>965</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;</sql>
+      <sql>&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1118,121 +826,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <name>FULL LOAD 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-      INSERT INTO HIST_ITEM_HIERARCHY_MASTER
-                  (ITEM_HIERARCHY_MASTER_SID,
-                   LEVEL0_TAG,
-                   LEVEL0,
-                   LEVEL0_ALIAS,
-                   LEVEL1,
-                   LEVEL1_ALIAS,
-                   LEVEL2,
-                   LEVEL2_ALIAS,
-                   LEVEL3,
-                   LEVEL3_ALIAS,
-                   LEVEL4,
-                   LEVEL4_ALIAS,
-                   LEVEL5,
-                   LEVEL5_ALIAS,
-                   LEVEL6,
-                   LEVEL6_ALIAS,
-                   LEVEL7,
-                   LEVEL7_ALIAS,
-                   LEVEL8,
-                   LEVEL8_ALIAS,
-                   LEVEL9,
-                   LEVEL9_ALIAS,
-                   LEVEL10,
-                   LEVEL10_ALIAS,
-                   LEVEL11,
-                   LEVEL11_ALIAS,
-                   LEVEL12,
-                   LEVEL12_ALIAS,
-                   LEVEL13,
-                   LEVEL13_ALIAS,
-                   LEVEL14,
-                   LEVEL14_ALIAS,
-                   LEVEL15,
-                   LEVEL15_ALIAS,
-                   LEVEL16,
-                   LEVEL16_ALIAS,
-                   LEVEL17,
-                   LEVEL17_ALIAS,
-                   LEVEL18,
-                   LEVEL18_ALIAS,
-                   LEVEL19,
-                   LEVEL19_ALIAS,
-                   LEVEL20,
-                   LEVEL20_ALIAS,
-                   GTN_COMPANY,
-                   GTN_BRAND,
-                   GTN_THERAPEUTIC_CLASS,
-                   RECORD_LOCK_STATUS,
-                   BATCH_ID,
-                   SOURCE,
-                   ACTION_FLAG,
-                   INBOUND_STATUS,
-                   CREATED_BY,
-                   CREATED_DATE,
-                   MODIFIED_BY,
-                   MODIFIED_DATE)
-      SELECT ITEM_HIERARCHY_MASTER_SID,
-             LEVEL0_TAG,
-             LEVEL0,
-             LEVEL0_ALIAS,
-             LEVEL1,
-             LEVEL1_ALIAS,
-             LEVEL2,
-             LEVEL2_ALIAS,
-             LEVEL3,
-             LEVEL3_ALIAS,
-             LEVEL4,
-             LEVEL4_ALIAS,
-             LEVEL5,
-             LEVEL5_ALIAS,
-             LEVEL6,
-             LEVEL6_ALIAS,
-             LEVEL7,
-             LEVEL7_ALIAS,
-             LEVEL8,
-             LEVEL8_ALIAS,
-             LEVEL9,
-             LEVEL9_ALIAS,
-             LEVEL10,
-             LEVEL10_ALIAS,
-             LEVEL11,
-             LEVEL11_ALIAS,
-             LEVEL12,
-             LEVEL12_ALIAS,
-             LEVEL13,
-             LEVEL13_ALIAS,
-             LEVEL14,
-             LEVEL14_ALIAS,
-             LEVEL15,
-             LEVEL15_ALIAS,
-             LEVEL16,
-             LEVEL16_ALIAS,
-             LEVEL17,
-             LEVEL17_ALIAS,
-             LEVEL18,
-             LEVEL18_ALIAS,
-             LEVEL19,
-             LEVEL19_ALIAS,
-             LEVEL20,
-             LEVEL20_ALIAS,
-             GTN_COMPANY,
-             GTN_BRAND,
-             GTN_THERAPEUTIC_CLASS,
-             RECORD_LOCK_STATUS,
-             BATCH_ID,
-             SOURCE,
-             &apos;D&apos;,
-             INBOUND_STATUS,
-             CREATED_BY,
-             CREATED_DATE,
-             MODIFIED_BY,
-             MODIFIED_DATE
-      FROM  ITEM_HIERARCHY_MASTER</sql>
+      <sql>&#xa;      INSERT INTO HIST_ITEM_HIERARCHY_MASTER&#xa;                  &#x28;ITEM_HIERARCHY_MASTER_SID,&#xa;                   LEVEL0_TAG,&#xa;                   LEVEL0,&#xa;                   LEVEL0_ALIAS,&#xa;                   LEVEL1,&#xa;                   LEVEL1_ALIAS,&#xa;                   LEVEL2,&#xa;                   LEVEL2_ALIAS,&#xa;                   LEVEL3,&#xa;                   LEVEL3_ALIAS,&#xa;                   LEVEL4,&#xa;                   LEVEL4_ALIAS,&#xa;                   LEVEL5,&#xa;                   LEVEL5_ALIAS,&#xa;                   LEVEL6,&#xa;                   LEVEL6_ALIAS,&#xa;                   LEVEL7,&#xa;                   LEVEL7_ALIAS,&#xa;                   LEVEL8,&#xa;                   LEVEL8_ALIAS,&#xa;                   LEVEL9,&#xa;                   LEVEL9_ALIAS,&#xa;                   LEVEL10,&#xa;                   LEVEL10_ALIAS,&#xa;                   LEVEL11,&#xa;                   LEVEL11_ALIAS,&#xa;                   LEVEL12,&#xa;                   LEVEL12_ALIAS,&#xa;                   LEVEL13,&#xa;                   LEVEL13_ALIAS,&#xa;                   LEVEL14,&#xa;                   LEVEL14_ALIAS,&#xa;                   LEVEL15,&#xa;                   LEVEL15_ALIAS,&#xa;                   LEVEL16,&#xa;                   LEVEL16_ALIAS,&#xa;                   LEVEL17,&#xa;                   LEVEL17_ALIAS,&#xa;                   LEVEL18,&#xa;                   LEVEL18_ALIAS,&#xa;                   LEVEL19,&#xa;                   LEVEL19_ALIAS,&#xa;                   LEVEL20,&#xa;                   LEVEL20_ALIAS,&#xa;                   GTN_COMPANY,&#xa;                   GTN_BRAND,&#xa;                   GTN_THERAPEUTIC_CLASS,&#xa;                   RECORD_LOCK_STATUS,&#xa;                   BATCH_ID,&#xa;                   SOURCE,&#xa;                   ACTION_FLAG,&#xa;                   INBOUND_STATUS,&#xa;                   CREATED_BY,&#xa;                   CREATED_DATE,&#xa;                   MODIFIED_BY,&#xa;                   MODIFIED_DATE&#x29;&#xa;      SELECT ITEM_HIERARCHY_MASTER_SID,&#xa;             LEVEL0_TAG,&#xa;             LEVEL0,&#xa;             LEVEL0_ALIAS,&#xa;             LEVEL1,&#xa;             LEVEL1_ALIAS,&#xa;             LEVEL2,&#xa;             LEVEL2_ALIAS,&#xa;             LEVEL3,&#xa;             LEVEL3_ALIAS,&#xa;             LEVEL4,&#xa;             LEVEL4_ALIAS,&#xa;             LEVEL5,&#xa;             LEVEL5_ALIAS,&#xa;             LEVEL6,&#xa;             LEVEL6_ALIAS,&#xa;             LEVEL7,&#xa;             LEVEL7_ALIAS,&#xa;             LEVEL8,&#xa;             LEVEL8_ALIAS,&#xa;             LEVEL9,&#xa;             LEVEL9_ALIAS,&#xa;             LEVEL10,&#xa;             LEVEL10_ALIAS,&#xa;             LEVEL11,&#xa;             LEVEL11_ALIAS,&#xa;             LEVEL12,&#xa;             LEVEL12_ALIAS,&#xa;             LEVEL13,&#xa;             LEVEL13_ALIAS,&#xa;             LEVEL14,&#xa;             LEVEL14_ALIAS,&#xa;             LEVEL15,&#xa;             LEVEL15_ALIAS,&#xa;             LEVEL16,&#xa;             LEVEL16_ALIAS,&#xa;             LEVEL17,&#xa;             LEVEL17_ALIAS,&#xa;             LEVEL18,&#xa;             LEVEL18_ALIAS,&#xa;             LEVEL19,&#xa;             LEVEL19_ALIAS,&#xa;             LEVEL20,&#xa;             LEVEL20_ALIAS,&#xa;             GTN_COMPANY,&#xa;             GTN_BRAND,&#xa;             GTN_THERAPEUTIC_CLASS,&#xa;             RECORD_LOCK_STATUS,&#xa;             BATCH_ID,&#xa;             SOURCE,&#xa;             &#x27;D&#x27;,&#xa;             INBOUND_STATUS,&#xa;             CREATED_BY,&#xa;             CREATED_DATE,&#xa;             MODIFIED_BY,&#xa;             MODIFIED_DATE&#xa;      FROM  ITEM_HIERARCHY_MASTER</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1248,9 +842,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <name>FULL LOAD PURGE DAYS</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-DELETE FROM HIST_ITEM_HIERARCHY_MASTER
-WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)</sql>
+      <sql>DECLARE &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;DELETE FROM HIST_ITEM_HIERARCHY_MASTER&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1266,29 +858,7 @@ WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)</
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @SQL        VARCHAR(MAX),
-        @TABLE_NAME VARCHAR(100)=&apos;SNAP_ITEM_HIERARCHY&apos;,
-        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-		,@var1 varchar(2)=&apos;&lt;&apos;
-
-
-SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos; AND NAME NOT LIKE &apos;%DEFINITION%&apos;
-          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
-
-SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
-
-
-exec( @SQL)
- 
-SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos; AND NAME NOT LIKE &apos;%DEFINITION%&apos;
-          FOR XML PATH(&apos;&apos;))
-
-exec( @SQL) 
-</sql>
+      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_ITEM_HIERARCHY&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27; AND NAME NOT LIKE &#x27;&#x25;DEFINITION&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa; &#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27; AND NAME NOT LIKE &#x27;&#x25;DEFINITION&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1306,7 +876,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1325,6 +895,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1336,7 +907,7 @@ exec( @SQL)
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;ITEM_HIERARCHY_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ITEM_HIERARCHY_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1352,7 +923,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;FULLLOAD.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULLLOAD.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1360,7 +931,7 @@ exec( @SQL)
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1371,11 +942,12 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>592</xloc>
+      <xloc>595</xloc>
       <yloc>326</yloc>
       </entry>
     <entry>
@@ -1384,7 +956,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1424,7 +996,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1443,6 +1015,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1456,7 +1029,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1478,7 +1051,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1518,7 +1091,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1540,7 +1113,7 @@ exec( @SQL)
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1554,8 +1127,10 @@ exec( @SQL)
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -1570,7 +1145,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1587,12 +1162,12 @@ exec( @SQL)
       <yloc>448</yloc>
       </entry>
     <entry>
-      <name>MAIL (2) 2</name>
+      <name>MAIL &#x28;2&#x29; 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1611,6 +1186,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1619,13 +1195,10 @@ exec( @SQL)
       <yloc>365</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1638,13 +1211,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <yloc>1204</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_HIERARCHY_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_HIERARCHY_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_HIERARCHY_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1660,7 +1230,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <name>Check if a folder is empty 3</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;${INTERFACE_NAME_INPUT}</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;INTERFACE_NAME_INPUT&#x7d;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1669,6 +1239,39 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <nr>0</nr>
       <xloc>787</xloc>
       <yloc>246</yloc>
+      </entry>
+    <entry>
+      <name>UNLOCK</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1276</xloc>
+      <yloc>1346</yloc>
       </entry>
   </entries>
   <hops>
@@ -1695,7 +1298,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <to>TRUNCATE BPI TEMP TABLES</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -1746,7 +1349,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1755,7 +1358,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1764,7 +1367,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1773,7 +1376,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1871,7 +1474,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
+      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1890,7 +1493,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1935,7 +1538,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1944,7 +1547,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2124,7 +1727,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2141,7 +1744,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2214,7 +1817,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL (2) 2</to>
+      <to>MAIL &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2222,8 +1825,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2231,7 +1834,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2240,8 +1843,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2250,7 +1853,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2259,7 +1862,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2268,7 +1871,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2277,7 +1880,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2285,7 +1888,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2295,7 +1898,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2303,7 +1906,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2347,7 +1950,26 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;IT
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>Duplicate Record</from>
+      <to>UNLOCK</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>UNLOCK</from>
+      <to>TRUNCATE BPI TEMP TABLES</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
+
 </job>

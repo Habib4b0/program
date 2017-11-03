@@ -5,16 +5,24 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.bpi.di.core.EtlEnvironment;
-import org.bpi.di.core.encryption.Encr;
-import org.bpi.di.core.exception.EtlException;
-import org.bpi.di.job.Job;
-import org.bpi.di.job.JobMeta;
+//import org.bpi.di.core.EtlEnvironment;
+import org.pentaho.di.core.encryption.Encr;
+//import org.bpi.di.core.encryption.Encr;
+//import org.bpi.di.core.exception.EtlException;
+//import org.bpi.di.job.Job;
+import org.pentaho.di.core.exception.KettleException;
+//import org.bpi.di.job.JobMeta;
+import org.pentaho.di.core.KettleEnvironment;
+import org.pentaho.di.job.Job;
+import org.pentaho.di.job.JobMeta;
+import org.r2.etl.common.util.CommonUtils;
 import org.r2.etl.common.controller.BPIETLException;
 import org.r2.etl.common.util.FilePathUtil;
 
@@ -52,10 +60,12 @@ public class R2ETL {
 		logpath = file.getCanonicalPath();
 		final Properties dbResouce = new Properties();
 		final String path = logpath +FilePathUtil.DATABASE_CONFIGURATION_FILE_NAME;
+                final String procedurePath = logpath +FilePathUtil.PROCEDURE_CONFIGURATION_FILE_NAME;
+
 		dbResouce.load(new FileInputStream(path));
 		LOGGER.info("The Database Configuration files exist in the path");
-
-		EtlEnvironment.init();
+		KettleEnvironment.init();
+		//EtlEnvironment.init();
 		final JobMeta jobMeta = new JobMeta(filename, null);
 		final Job job = new Job(null, jobMeta);
 
@@ -87,8 +97,9 @@ public class R2ETL {
 			
 		
 	
-			job.setVariable("ETL_PROPERTY_FILE",path );
-		job.setVariable("BPI_SYS_HOST", dbResouce.getProperty("BPI_SYS_HOST"));
+		job.setVariable("ETL_PROPERTY_FILE",path );
+                job.setVariable("ETL_PROCEDURE_PROPERTY_FILE",procedurePath );
+                job.setVariable("BPI_SYS_HOST", dbResouce.getProperty("BPI_SYS_HOST"));
 		job.setVariable("BPI_SYS_DB", dbResouce.getProperty("BPI_SYS_DB"));
 		job.setVariable("BPI_SYS_USER", dbResouce.getProperty("BPI_SYS_USER"));
 		job.setVariable(BPI_SYS_PSW, dbResouce.getProperty(BPI_SYS_PSW));		
@@ -170,7 +181,7 @@ public class R2ETL {
 	  
 	    
 	}
-		catch (EtlException ex) {
+		catch (KettleException ex) {
 			LOGGER.error(ex.getMessage());
 			throw new BPIETLException(ex);
 		}

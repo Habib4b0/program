@@ -20,10 +20,10 @@ import java.util.Map;
 
 public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandForecastAct>
     implements VwAdjustDemandForecastAct {
-    private String _forecastVersion;
+    private String _forecastVer;
     private double _grossUnits;
     private String _businessUnitNo;
-    private String _year;
+    private String _forecastYear;
     private String _brandName;
     private String _itemId;
     private String _organizationKey;
@@ -31,15 +31,15 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     private int _marketShareRatio;
     private String _businessUnitName;
     private double _marketShareUnits;
-    private String _month;
+    private String _forecastMonth;
     private double _inventoryUnitChange;
     private String _uncapturedUnitsRatio;
     private String _country;
     private String _forecastType;
-    private double _totalAdjustedDemandUnits;
+    private double _totalDemandUnits;
     private String _brandId;
     private String _isForecast;
-    private double _totalAdjustedDemandAmount;
+    private double _totalDemandAmount;
     private double _uncapturedUnits;
     private double _grossPrice;
     private double _grossAmount;
@@ -90,10 +90,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("forecastVersion", getForecastVersion());
+        attributes.put("forecastVer", getForecastVer());
         attributes.put("grossUnits", getGrossUnits());
         attributes.put("businessUnitNo", getBusinessUnitNo());
-        attributes.put("year", getYear());
+        attributes.put("forecastYear", getForecastYear());
         attributes.put("brandName", getBrandName());
         attributes.put("itemId", getItemId());
         attributes.put("organizationKey", getOrganizationKey());
@@ -101,16 +101,15 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         attributes.put("marketShareRatio", getMarketShareRatio());
         attributes.put("businessUnitName", getBusinessUnitName());
         attributes.put("marketShareUnits", getMarketShareUnits());
-        attributes.put("month", getMonth());
+        attributes.put("forecastMonth", getForecastMonth());
         attributes.put("inventoryUnitChange", getInventoryUnitChange());
         attributes.put("uncapturedUnitsRatio", getUncapturedUnitsRatio());
         attributes.put("country", getCountry());
         attributes.put("forecastType", getForecastType());
-        attributes.put("totalAdjustedDemandUnits", getTotalAdjustedDemandUnits());
+        attributes.put("totalDemandUnits", getTotalDemandUnits());
         attributes.put("brandId", getBrandId());
         attributes.put("isForecast", getIsForecast());
-        attributes.put("totalAdjustedDemandAmount",
-            getTotalAdjustedDemandAmount());
+        attributes.put("totalDemandAmount", getTotalDemandAmount());
         attributes.put("uncapturedUnits", getUncapturedUnits());
         attributes.put("grossPrice", getGrossPrice());
         attributes.put("grossAmount", getGrossAmount());
@@ -128,10 +127,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String forecastVersion = (String) attributes.get("forecastVersion");
+        String forecastVer = (String) attributes.get("forecastVer");
 
-        if (forecastVersion != null) {
-            setForecastVersion(forecastVersion);
+        if (forecastVer != null) {
+            setForecastVer(forecastVer);
         }
 
         Double grossUnits = (Double) attributes.get("grossUnits");
@@ -146,10 +145,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
             setBusinessUnitNo(businessUnitNo);
         }
 
-        String year = (String) attributes.get("year");
+        String forecastYear = (String) attributes.get("forecastYear");
 
-        if (year != null) {
-            setYear(year);
+        if (forecastYear != null) {
+            setForecastYear(forecastYear);
         }
 
         String brandName = (String) attributes.get("brandName");
@@ -194,10 +193,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
             setMarketShareUnits(marketShareUnits);
         }
 
-        String month = (String) attributes.get("month");
+        String forecastMonth = (String) attributes.get("forecastMonth");
 
-        if (month != null) {
-            setMonth(month);
+        if (forecastMonth != null) {
+            setForecastMonth(forecastMonth);
         }
 
         Double inventoryUnitChange = (Double) attributes.get(
@@ -226,11 +225,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
             setForecastType(forecastType);
         }
 
-        Double totalAdjustedDemandUnits = (Double) attributes.get(
-                "totalAdjustedDemandUnits");
+        Double totalDemandUnits = (Double) attributes.get("totalDemandUnits");
 
-        if (totalAdjustedDemandUnits != null) {
-            setTotalAdjustedDemandUnits(totalAdjustedDemandUnits);
+        if (totalDemandUnits != null) {
+            setTotalDemandUnits(totalDemandUnits);
         }
 
         String brandId = (String) attributes.get("brandId");
@@ -245,11 +243,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
             setIsForecast(isForecast);
         }
 
-        Double totalAdjustedDemandAmount = (Double) attributes.get(
-                "totalAdjustedDemandAmount");
+        Double totalDemandAmount = (Double) attributes.get("totalDemandAmount");
 
-        if (totalAdjustedDemandAmount != null) {
-            setTotalAdjustedDemandAmount(totalAdjustedDemandAmount);
+        if (totalDemandAmount != null) {
+            setTotalDemandAmount(totalDemandAmount);
         }
 
         Double uncapturedUnits = (Double) attributes.get("uncapturedUnits");
@@ -321,23 +318,21 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     }
 
     @Override
-    public String getForecastVersion() {
-        return _forecastVersion;
+    public String getForecastVer() {
+        return _forecastVer;
     }
 
     @Override
-    public void setForecastVersion(String forecastVersion) {
-        _forecastVersion = forecastVersion;
+    public void setForecastVer(String forecastVer) {
+        _forecastVer = forecastVer;
 
         if (_vwAdjustDemandForecastActRemoteModel != null) {
             try {
                 Class<?> clazz = _vwAdjustDemandForecastActRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setForecastVersion",
-                        String.class);
+                Method method = clazz.getMethod("setForecastVer", String.class);
 
-                method.invoke(_vwAdjustDemandForecastActRemoteModel,
-                    forecastVersion);
+                method.invoke(_vwAdjustDemandForecastActRemoteModel, forecastVer);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -391,21 +386,22 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     }
 
     @Override
-    public String getYear() {
-        return _year;
+    public String getForecastYear() {
+        return _forecastYear;
     }
 
     @Override
-    public void setYear(String year) {
-        _year = year;
+    public void setForecastYear(String forecastYear) {
+        _forecastYear = forecastYear;
 
         if (_vwAdjustDemandForecastActRemoteModel != null) {
             try {
                 Class<?> clazz = _vwAdjustDemandForecastActRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setYear", String.class);
+                Method method = clazz.getMethod("setForecastYear", String.class);
 
-                method.invoke(_vwAdjustDemandForecastActRemoteModel, year);
+                method.invoke(_vwAdjustDemandForecastActRemoteModel,
+                    forecastYear);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -574,21 +570,22 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     }
 
     @Override
-    public String getMonth() {
-        return _month;
+    public String getForecastMonth() {
+        return _forecastMonth;
     }
 
     @Override
-    public void setMonth(String month) {
-        _month = month;
+    public void setForecastMonth(String forecastMonth) {
+        _forecastMonth = forecastMonth;
 
         if (_vwAdjustDemandForecastActRemoteModel != null) {
             try {
                 Class<?> clazz = _vwAdjustDemandForecastActRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setMonth", String.class);
+                Method method = clazz.getMethod("setForecastMonth", String.class);
 
-                method.invoke(_vwAdjustDemandForecastActRemoteModel, month);
+                method.invoke(_vwAdjustDemandForecastActRemoteModel,
+                    forecastMonth);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -689,23 +686,23 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     }
 
     @Override
-    public double getTotalAdjustedDemandUnits() {
-        return _totalAdjustedDemandUnits;
+    public double getTotalDemandUnits() {
+        return _totalDemandUnits;
     }
 
     @Override
-    public void setTotalAdjustedDemandUnits(double totalAdjustedDemandUnits) {
-        _totalAdjustedDemandUnits = totalAdjustedDemandUnits;
+    public void setTotalDemandUnits(double totalDemandUnits) {
+        _totalDemandUnits = totalDemandUnits;
 
         if (_vwAdjustDemandForecastActRemoteModel != null) {
             try {
                 Class<?> clazz = _vwAdjustDemandForecastActRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setTotalAdjustedDemandUnits",
+                Method method = clazz.getMethod("setTotalDemandUnits",
                         double.class);
 
                 method.invoke(_vwAdjustDemandForecastActRemoteModel,
-                    totalAdjustedDemandUnits);
+                    totalDemandUnits);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -757,23 +754,23 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     }
 
     @Override
-    public double getTotalAdjustedDemandAmount() {
-        return _totalAdjustedDemandAmount;
+    public double getTotalDemandAmount() {
+        return _totalDemandAmount;
     }
 
     @Override
-    public void setTotalAdjustedDemandAmount(double totalAdjustedDemandAmount) {
-        _totalAdjustedDemandAmount = totalAdjustedDemandAmount;
+    public void setTotalDemandAmount(double totalDemandAmount) {
+        _totalDemandAmount = totalDemandAmount;
 
         if (_vwAdjustDemandForecastActRemoteModel != null) {
             try {
                 Class<?> clazz = _vwAdjustDemandForecastActRemoteModel.getClass();
 
-                Method method = clazz.getMethod("setTotalAdjustedDemandAmount",
+                Method method = clazz.getMethod("setTotalDemandAmount",
                         double.class);
 
                 method.invoke(_vwAdjustDemandForecastActRemoteModel,
-                    totalAdjustedDemandAmount);
+                    totalDemandAmount);
             } catch (Exception e) {
                 throw new UnsupportedOperationException(e);
             }
@@ -1101,10 +1098,10 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     public Object clone() {
         VwAdjustDemandForecastActClp clone = new VwAdjustDemandForecastActClp();
 
-        clone.setForecastVersion(getForecastVersion());
+        clone.setForecastVer(getForecastVer());
         clone.setGrossUnits(getGrossUnits());
         clone.setBusinessUnitNo(getBusinessUnitNo());
-        clone.setYear(getYear());
+        clone.setForecastYear(getForecastYear());
         clone.setBrandName(getBrandName());
         clone.setItemId(getItemId());
         clone.setOrganizationKey(getOrganizationKey());
@@ -1112,15 +1109,15 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         clone.setMarketShareRatio(getMarketShareRatio());
         clone.setBusinessUnitName(getBusinessUnitName());
         clone.setMarketShareUnits(getMarketShareUnits());
-        clone.setMonth(getMonth());
+        clone.setForecastMonth(getForecastMonth());
         clone.setInventoryUnitChange(getInventoryUnitChange());
         clone.setUncapturedUnitsRatio(getUncapturedUnitsRatio());
         clone.setCountry(getCountry());
         clone.setForecastType(getForecastType());
-        clone.setTotalAdjustedDemandUnits(getTotalAdjustedDemandUnits());
+        clone.setTotalDemandUnits(getTotalDemandUnits());
         clone.setBrandId(getBrandId());
         clone.setIsForecast(getIsForecast());
-        clone.setTotalAdjustedDemandAmount(getTotalAdjustedDemandAmount());
+        clone.setTotalDemandAmount(getTotalDemandAmount());
         clone.setUncapturedUnits(getUncapturedUnits());
         clone.setGrossPrice(getGrossPrice());
         clone.setGrossAmount(getGrossAmount());
@@ -1179,14 +1176,14 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
     public String toString() {
         StringBundler sb = new StringBundler(63);
 
-        sb.append("{forecastVersion=");
-        sb.append(getForecastVersion());
+        sb.append("{forecastVer=");
+        sb.append(getForecastVer());
         sb.append(", grossUnits=");
         sb.append(getGrossUnits());
         sb.append(", businessUnitNo=");
         sb.append(getBusinessUnitNo());
-        sb.append(", year=");
-        sb.append(getYear());
+        sb.append(", forecastYear=");
+        sb.append(getForecastYear());
         sb.append(", brandName=");
         sb.append(getBrandName());
         sb.append(", itemId=");
@@ -1201,8 +1198,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getBusinessUnitName());
         sb.append(", marketShareUnits=");
         sb.append(getMarketShareUnits());
-        sb.append(", month=");
-        sb.append(getMonth());
+        sb.append(", forecastMonth=");
+        sb.append(getForecastMonth());
         sb.append(", inventoryUnitChange=");
         sb.append(getInventoryUnitChange());
         sb.append(", uncapturedUnitsRatio=");
@@ -1211,14 +1208,14 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getCountry());
         sb.append(", forecastType=");
         sb.append(getForecastType());
-        sb.append(", totalAdjustedDemandUnits=");
-        sb.append(getTotalAdjustedDemandUnits());
+        sb.append(", totalDemandUnits=");
+        sb.append(getTotalDemandUnits());
         sb.append(", brandId=");
         sb.append(getBrandId());
         sb.append(", isForecast=");
         sb.append(getIsForecast());
-        sb.append(", totalAdjustedDemandAmount=");
-        sb.append(getTotalAdjustedDemandAmount());
+        sb.append(", totalDemandAmount=");
+        sb.append(getTotalDemandAmount());
         sb.append(", uncapturedUnits=");
         sb.append(getUncapturedUnits());
         sb.append(", grossPrice=");
@@ -1255,8 +1252,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append("</model-name>");
 
         sb.append(
-            "<column><column-name>forecastVersion</column-name><column-value><![CDATA[");
-        sb.append(getForecastVersion());
+            "<column><column-name>forecastVer</column-name><column-value><![CDATA[");
+        sb.append(getForecastVer());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>grossUnits</column-name><column-value><![CDATA[");
@@ -1267,8 +1264,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getBusinessUnitNo());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>year</column-name><column-value><![CDATA[");
-        sb.append(getYear());
+            "<column><column-name>forecastYear</column-name><column-value><![CDATA[");
+        sb.append(getForecastYear());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>brandName</column-name><column-value><![CDATA[");
@@ -1299,8 +1296,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getMarketShareUnits());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>month</column-name><column-value><![CDATA[");
-        sb.append(getMonth());
+            "<column><column-name>forecastMonth</column-name><column-value><![CDATA[");
+        sb.append(getForecastMonth());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>inventoryUnitChange</column-name><column-value><![CDATA[");
@@ -1319,8 +1316,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getForecastType());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>totalAdjustedDemandUnits</column-name><column-value><![CDATA[");
-        sb.append(getTotalAdjustedDemandUnits());
+            "<column><column-name>totalDemandUnits</column-name><column-value><![CDATA[");
+        sb.append(getTotalDemandUnits());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>brandId</column-name><column-value><![CDATA[");
@@ -1331,8 +1328,8 @@ public class VwAdjustDemandForecastActClp extends BaseModelImpl<VwAdjustDemandFo
         sb.append(getIsForecast());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>totalAdjustedDemandAmount</column-name><column-value><![CDATA[");
-        sb.append(getTotalAdjustedDemandAmount());
+            "<column><column-name>totalDemandAmount</column-name><column-value><![CDATA[");
+        sb.append(getTotalDemandAmount());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>uncapturedUnits</column-name><column-value><![CDATA[");

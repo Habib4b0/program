@@ -205,7 +205,7 @@ public class SupplementalDiscountProjectionLogic {
 
             String selectQuery;
             String concat = StringUtils.EMPTY;
-            String levelName = "'" + projSelDTO.getSupplementalLevelName() + "'" + " as LEVEL_NAME,";
+            String supplemetalLevelName = "'" + projSelDTO.getSupplementalLevelName() + "'" + " as LEVEL_NAME,";
             String tempName = StringUtils.EMPTY;
             String tempGroupName = StringUtils.EMPTY;
             String finalQuery;
@@ -318,7 +318,7 @@ public class SupplementalDiscountProjectionLogic {
                 }
             } else {
                 selectQuery = "select " + selectedId + levelSelection + " \n"
-                        + levelName + " avg(SUPMAS.ACTUAL_DISCOUNT) as ACTUAL_DISCOUNT,"
+                        + supplemetalLevelName + " avg(SUPMAS.ACTUAL_DISCOUNT) as ACTUAL_DISCOUNT,"
                         + "CONVERT(VARCHAR(10),SUPMAS.CONTRACT_END_DATE,110) " + tempName;
                 selectQuery += ",min(CASE(SUPMAS.CHECK_RECORD) WHEN 1 THEN 1 ELSE 0  END)  AS CHECK_RECORD" + (projSelDTO.getSupplementalLevelNo() == 4 ? ",CM.COMPANY_ID,TT.ITEM_ID " : StringUtils.EMPTY);
                 selectQuery += (projSelDTO.getSupplementalLevelNo() == 0 ? ",CM.COMPANY_ID " : StringUtils.EMPTY);
@@ -466,10 +466,10 @@ public class SupplementalDiscountProjectionLogic {
                 }
                 if (supplementalColumns.contains(ACCESS.getConstant()) && suppIementLevelNo > NumericConstants.TWO) {
                     supplemental = commonColumn + ACCESS.getConstant();
-                    String projectionValue = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                    projectionValue = projectionValue.isEmpty() || projectionValue.equals(Constant.NULL)
-                            || projectionValue.equals(Constant.MULTIPLE) ? SELECT_ONE.getConstant() : projectionValue;
-                    dto.addStringProperties(supplemental, projectionValue);
+                    String projectedValue = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                    projectedValue = projectedValue.isEmpty() || projectedValue.equals(Constant.NULL)
+                            || projectedValue.equals(Constant.MULTIPLE) ? SELECT_ONE.getConstant() : projectedValue;
+                    dto.addStringProperties(supplemental, projectedValue);
                 }
                 if (supplementalColumns.contains(PARITY.getConstant()) && suppIementLevelNo == NumericConstants.FOUR) {
                     supplemental = commonColumn + PARITY.getConstant();
@@ -684,7 +684,7 @@ public class SupplementalDiscountProjectionLogic {
                 " from PROJECTION_CUST_HIERARCHY where PROJECTION_MASTER_SID=" + hier_Id + " and Level_NAME='Market Type'))";
 
         list = (List<Object>) CommonLogic.executeSelectQuery(query, null, null);
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             str = String.valueOf(list.get(0));
         }
 
@@ -732,13 +732,13 @@ public class SupplementalDiscountProjectionLogic {
             for (int i = 0; i < finalDtoList.size(); i++) {
                 LookUpDTO dto = finalDtoList.get(i);
                 StringBuilder queryBuilder1 = new StringBuilder();
-                SalesProjectionDAO dao = new SalesProjectionDAOImpl();
+                SalesProjectionDAO salesDAO = new SalesProjectionDAOImpl();
                 if (projId != 0 && !StringUtils.EMPTY.equals(dto.getMethodology()) && !StringUtils.EMPTY.equals(dto.getContract()) && dto.getContractMasterSid() != 0 && dto.getItemMasterSid() != 0 && !StringUtils.EMPTY.equals(dto.getQuarterValue()) && !StringUtils.EMPTY.equals(dto.getYearValue()) && !StringUtils.EMPTY.equals(dto.getDiscount1()) && !StringUtils.EMPTY.equals(dto.getDiscount2())) {
                     queryBuilder1.append("INSERT INTO M_PARITY_LOOKUP (CONTRACT_MASTER_SID,ITEM_MASTER_SID,QUARTER,\"YEAR\",METHODOLOGY, \n");
                     queryBuilder1.append("CONTRACT_PRICE,DISCOUNT_RATE_1,DISCOUNT_RATE_2,CCP_DETAILS_SID) \n");
                     queryBuilder1.append(" VALUES (").append(dto.getContractMasterSid()).append(", ").append(dto.getItemMasterSid()).append(", ").append(dto.getQuarterValue()).append(", ").append(dto.getYearValue()).append(", '\n");
                     queryBuilder1.append(dto.getMethodology()).append("', ").append(dto.getContract()).append(", ").append(dto.getDiscount1()).append(", ").append(dto.getDiscount2()).append(", ").append(dto.getCcpDetailsSid()).append(")");
-                    dao.executeUpdateQuery(queryBuilder1.toString());
+                    salesDAO.executeUpdateQuery(queryBuilder1.toString());
                 }
 
             }
@@ -1287,7 +1287,7 @@ public class SupplementalDiscountProjectionLogic {
         //emptyNdc
         //quarterEmtyNdc and quartername
         //insertlist
-        if (dtoList.size() > 0) {
+        if (!dtoList.isEmpty()) {
 
             for (int i = 0; i < dtoList.size(); i++) {
                 List<String> quarList = new ArrayList<>();
@@ -1415,7 +1415,7 @@ public class SupplementalDiscountProjectionLogic {
         try {
             StringBuilder queryBuilder = new StringBuilder();
             String projectionDetailsId = StringUtils.EMPTY;
-            if (projectionDetailsList.size() > 0) {
+            if (!projectionDetailsList.isEmpty()) {
                 projectionDetailsId = CommonUtils.CollectionToString(projectionDetailsList, false);
             }
             if (!StringUtils.EMPTY.equals(projectionDetailsId) && !Constant.NULL.equals(projectionDetailsId)) {
@@ -1455,7 +1455,7 @@ public class SupplementalDiscountProjectionLogic {
                 containerPropertyCheck[2] = tableLogic.getContainerDataSource().getContainerPropertyIds().contains(tempPropertyId + Constant.DISCOUNT_TWO);
                 Map<String, Object> mapList = tableLogic.getExpandedTreeLevelList();
                 List<Object> currentContainerList = (List<Object>) ((Container.Indexed) tableLogic.getContainerDataSource()).getItemIds(0, tableLogic.getContainerDataSource().size());
-                if (list != null && list.size() > 0) {
+                if (list != null && !list.isEmpty()) {
                     Object[] ob = (Object[]) list.get(0);
                     methodologyUpdate(saveDto, session, ob, propertyId, tempStr, false);
                     updateFieldsBasedOnMethodology(tempPropertyId, tableLogic, ob, currentContainerList, propertyId, containerPropertyCheck, saveDto, tempStr);
@@ -1497,7 +1497,7 @@ public class SupplementalDiscountProjectionLogic {
                         + "                AND ITEM_ID = '" + tempStr[0] + "' \n"
                         + "                AND FORMULA_DESC = '" + value + "'\n");
                 List<Object> list = (List<Object>) dao.executeSelectQuery(query.toString());
-                if (list != null && list.size() > 0) {
+                if (list != null && !list.isEmpty()) {
                     Object[] ob = (Object[]) list.get(0);
 
                     boolean populateDateFlag = Integer.valueOf(ob[NumericConstants.FIVE].toString()) <= saveDto.getStartYear() && Integer.valueOf(ob[NumericConstants.SIX].toString()) >= saveDto.getEndYear()
@@ -1625,7 +1625,7 @@ public class SupplementalDiscountProjectionLogic {
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
-        return methodologyCount.size() > 0 ? methodologyCount.size() : 0;
+        return !methodologyCount.isEmpty() ? methodologyCount.size() : 0;
     }
 
     private void methodologyRefresher(DiscountProjectionDTO saveDto, Map<String, Object> mapList, SupplementalTableLogic tableLogic, Object propertyId, String value, int levelNo) {
@@ -1809,7 +1809,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && obList.size() > 0) {
+            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));
@@ -1840,7 +1840,7 @@ public class SupplementalDiscountProjectionLogic {
 
             List<Object> obList = (List<Object>) CommonLogic.executeSelectQuery(queryBuild.toString(), null, null);
 
-            if (obList != null && !obList.isEmpty() && obList.size() > 0) {
+            if (obList != null && !obList.isEmpty() && !obList.isEmpty()) {
                 for (int i = 0; i < obList.size(); i++) {
                     Object ob = obList.get(i);
                     dropDownList.add(String.valueOf(ob));

@@ -4,6 +4,30 @@
  */
 package com.stpl.app.cff.util;
 
+import static com.stpl.app.cff.util.Constants.LabelConstants.ALL_BRANDS;
+import static com.stpl.app.cff.util.Constants.LabelConstants.CONTRACTED;
+import static com.stpl.app.cff.util.Constants.LabelConstants.MODE_ADD;
+import static com.stpl.app.cff.util.Constants.LabelConstants.MODE_SEARCH;
+import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_ASSUMPTIONS;
+import static com.stpl.app.cff.util.Constants.LabelConstants.TAB_PPA_PROJECTION;
+import static com.stpl.app.cff.util.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
+
+import com.stpl.app.cff.util.Constants.CommonConstants;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
@@ -22,22 +46,6 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.Window;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
-import static com.stpl.app.cff.util.Constants.CommonConstants;
-import static com.stpl.app.cff.util.Constants.LabelConstants.*;
-import static com.stpl.app.cff.util.Constants.RegexConstants.REGEX_EXTRACT_DIGITS;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *
@@ -141,367 +149,392 @@ public class UiUtils {
      * @return Data selection mode option group
      */
     public static OptionGroup dataSelectionMode() {
-        OptionGroup mode = new OptionGroup();
-        mode.addItem(MODE_ADD.getConstant());
-        mode.addItem(MODE_SEARCH.getConstant());
-        mode.select(MODE_ADD.getConstant());
-        return mode;
-    }
+		OptionGroup mode = new OptionGroup();
+		mode.addItem(MODE_ADD.getConstant());
+		mode.addItem(MODE_SEARCH.getConstant());
+		mode.select(MODE_ADD.getConstant());
+		return mode;
+	}
 
-    /**
-     * To create mode option group for data selection screen
-     *
-     * @return Data selection mode option group
-     */
-    public static OptionGroup addBrandType() {
-        OptionGroup brandType = new OptionGroup();
-        brandType.addItem(CONTRACTED);
-        brandType.addItem(ALL_BRANDS);
-        brandType.select(CONTRACTED);
-        return brandType;
-    }
+	/**
+	 * To create mode option group for data selection screen
+	 *
+	 * @return Data selection mode option group
+	 */
+	public static OptionGroup addBrandType() {
+		OptionGroup brandType = new OptionGroup();
+		brandType.addItem(CONTRACTED);
+		brandType.addItem(ALL_BRANDS);
+		brandType.select(CONTRACTED);
+		return brandType;
+	}
 
-    /**
-     * Customizes the given window
-     *
-     * @param window the window to be customized
-     */
-    public static void customizeLookUps(Window window) {
-        window.setClosable(true);
-        window.setModal(true);
-        window.center();
-    }
+	/**
+	 * Customizes the given window
+	 *
+	 * @param window
+	 *            the window to be customized
+	 */
+	public static void customizeLookUps(Window window) {
+		window.setClosable(true);
+		window.setModal(true);
+		window.center();
+	}
 
-    /**
-     * Adds a new textfield
-     *
-     * @return a new textfield
-     */
-    public static TextField addTextField() {
-        TextField textField = new TextField();
-        textField.setImmediate(true);
-        return textField;
-    }
+	/**
+	 * Adds a new textfield
+	 *
+	 * @return a new textfield
+	 */
+	public static TextField addTextField() {
+		TextField textField = new TextField();
+		textField.setImmediate(true);
+		return textField;
+	}
 
-    /**
-     * Adds a new result Table
-     *
-     * @return a new resultTable
-     */
-    public static Table addResultTable() {
-        resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
-        Table resultTable = new Table();
-        resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
-        resultTable.setSizeFull();
-        resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))), Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
-        return resultTable;
-    }
+	/**
+	 * Adds a new result Table
+	 *
+	 * @return a new resultTable
+	 */
+	public static Table addResultTable() {
+		resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
+		Table resultTable = new Table();
+		resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
+		resultTable.setSizeFull();
+		resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))),
+				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
+		return resultTable;
+	}
 
-    /**
-     * Adds a new result Table
-     *
-     * @return a new resultTable
-     */
-    public static ExtFilterTable addFilterResultTable() {
-        resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
-        ExtFilterTable resultTable = new ExtFilterTable();
-        resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
-        resultTable.setSizeFull();
-        resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))), Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
-        return resultTable;
-    }
+	/**
+	 * Adds a new result Table
+	 *
+	 * @return a new resultTable
+	 */
+	public static ExtFilterTable addFilterResultTable() {
+		resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
+		ExtFilterTable resultTable = new ExtFilterTable();
+		resultTable.setSelectable(Boolean.valueOf(resourceBundle.getString("table_selectable")));
+		resultTable.setSizeFull();
+		resultTable.setWidth(Float.valueOf(String.valueOf(resourceBundle.getString("max_width"))),
+				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("max_width_unit"))));
+		return resultTable;
+	}
 
-    /**
-     * Creates a new label for fields with ';'
-     *
-     * @param value The name of the label
-     * @return the label
-     */
-    public static Label makeLabel(String value) {
-        Label label = new Label(value + CommonConstants.COLON);
-        label.setSizeFull();
-        return label;
-    }
+	/**
+	 * Creates a new label for fields with ';'
+	 *
+	 * @param value
+	 *            The name of the label
+	 * @return the label
+	 */
+	public static Label makeLabel(String value) {
+		Label label = new Label(value + CommonConstants.COLON);
+		label.setSizeFull();
+		return label;
+	}
 
-    /**
-     * Creates a new label for fields with ';'
-     *
-     * @param value The name of the label
-     * @return the label
-     */
-    public static Label makeComparisonLookupLabel(String value) {
-        Label label = new Label(value + CommonConstants.COLON);
-        label.setWidth("147px");
-        return label;
-    }
+	/**
+	 * Creates a new label for fields with ';'
+	 *
+	 * @param value
+	 *            The name of the label
+	 * @return the label
+	 */
+	public static Label makeComparisonLookupLabel(String value) {
+		Label label = new Label(value + CommonConstants.COLON);
+		label.setWidth("147px");
+		return label;
+	}
 
-    /**
-     * Creates a new label for fields with ';'
-     *
-     * @param value The name of the label
-     * @param width Width for the label
-     * @param unit unit of the width
-     * @return the label
-     */
-    public static Label makeLabel(String value, float width, Sizeable.Unit unit) {
-        Label label = new Label(value + CommonConstants.COLON);
-        label.setWidth(width, unit);
-        return label;
-    }
+	/**
+	 * Creates a new label for fields with ';'
+	 *
+	 * @param value
+	 *            The name of the label
+	 * @param width
+	 *            Width for the label
+	 * @param unit
+	 *            unit of the width
+	 * @return the label
+	 */
+	public static Label makeLabel(String value, float width, Sizeable.Unit unit) {
+		Label label = new Label(value + CommonConstants.COLON);
+		label.setWidth(width, unit);
+		return label;
+	}
 
-    /**
-     * Adds a default native select with only -Select One- in list
-     *
-     * @return default native select
-     */
-    public static NativeSelect addDefaultNativeSelect() {
-        NativeSelect defaultNativeSelect = new NativeSelect();
-        defaultNativeSelect.setNullSelectionAllowed(true);
-        defaultNativeSelect.setNullSelectionItemId("-Select One-");
-        return defaultNativeSelect;
-    }
+	/**
+	 * Adds a default native select with only -Select One- in list
+	 *
+	 * @return default native select
+	 */
+	public static NativeSelect addDefaultNativeSelect() {
+		NativeSelect defaultNativeSelect = new NativeSelect();
+		defaultNativeSelect.setNullSelectionAllowed(true);
+		defaultNativeSelect.setNullSelectionItemId("-Select One-");
+		return defaultNativeSelect;
+	}
 
-    /**
-     * A common method to return Vertical or Horizontal or Form layouts with
-     * default configurations
-     *
-     * @param theClass
-     * @return VerticalLayout or HorizontalLayout or FormLayout
-     */
-    public static AbstractOrderedLayout getLayout(Class<?> theClass) {
-        resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
-        AbstractOrderedLayout layout = null;
-        try {
-            layout = (AbstractOrderedLayout) Class.forName(theClass.getName()).newInstance();
+	/**
+	 * A common method to return Vertical or Horizontal or Form layouts with
+	 * default configurations
+	 *
+	 * @param theClass
+	 * @return VerticalLayout or HorizontalLayout or FormLayout
+	 */
+	public static AbstractOrderedLayout getLayout(Class<?> theClass) {
+		resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
+		AbstractOrderedLayout layout = null;
+		try {
+			layout = (AbstractOrderedLayout) Class.forName(theClass.getName()).newInstance();
 
-            layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
-            layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
-            return layout;
-        } catch (InstantiationException ex) {
-            Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return layout;
-    }
+			layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
+			layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
+			return layout;
+		} catch (InstantiationException ex) {
+			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
+		} catch (ClassNotFoundException ex) {
+			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return layout;
+	}
 
-    /**
-     * To configure the customer and product hierarchy group builder tables
-     *
-     * @param availableTree available customer or product table
-     * @param selectedTree selected customer or product table
-     */
-    public static void configureHierarchyTables(final TreeTable availableTree, final TreeTable selectedTree) {
-        resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
-        float tableWidth = Float.valueOf(resourceBundle.getString("table_group_heirarchy_width"));
-        availableTree.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
-        selectedTree.setWidth(tableWidth, Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
-    }
+	/**
+	 * To configure the customer and product hierarchy group builder tables
+	 *
+	 * @param availableTree
+	 *            available customer or product table
+	 * @param selectedTree
+	 *            selected customer or product table
+	 */
+	public static void configureHierarchyTables(final TreeTable availableTree, final TreeTable selectedTree) {
+		resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
+		float tableWidth = Float.valueOf(resourceBundle.getString("table_group_heirarchy_width"));
+		availableTree.setWidth(tableWidth,
+				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
+		selectedTree.setWidth(tableWidth,
+				Sizeable.Unit.valueOf(String.valueOf(resourceBundle.getString("default_unit"))));
+	}
 
-    /**
-     * To capitalize the captions of components
-     *
-     * @param value the value to be capitalized
-     * @return
-     */
-    public static String capitalizeCaptions(String value) {
-        return value.toUpperCase();
-    }
+	/**
+	 * To capitalize the captions of components
+	 *
+	 * @param value
+	 *            the value to be capitalized
+	 * @return
+	 */
+	public static String capitalizeCaptions(String value) {
+		return value.toUpperCase();
+	}
 
-    /**
-     * Resets the given components
-     *
-     * @param components varags which contains a collection of components whose
-     * values are to be reseted
-     */
-    public static void componentResetLogic(final Component... components) {
-        if (components != null) {
+	/**
+	 * Resets the given components
+	 *
+	 * @param components
+	 *            varags which contains a collection of components whose values
+	 *            are to be reseted
+	 */
+	public static void componentResetLogic(final Component... components) {
+		if (components != null) {
 
-            for (Component component : components) {
-                if (component != null) {
-                    if (component instanceof TextField) {
-                        TextField tempTextField = (TextField) component;
-                        tempTextField.setValue(StringUtils.EMPTY);
-                    } else if (component instanceof Table) {
-                        Table tempTable = (Table) component;
-                        tempTable.getContainerDataSource().removeAllItems();
-                    } else if (component instanceof ExtFilterTable) {
-                        ExtFilterTable tempTable = (ExtFilterTable) component;
-                        tempTable.getContainerDataSource().removeAllItems();
-                    } else if (component instanceof TreeTable) {
-                        TreeTable tempTreeTable = (TreeTable) component;
-                        tempTreeTable.getContainerDataSource().removeAllItems();
-                    } else if (component instanceof NativeSelect) {
-                        NativeSelect tempNativeSelect = (NativeSelect) component;
-                        tempNativeSelect.setValue(null);
-                    } else if (component instanceof OptionGroup) {
-                        OptionGroup optionGroup = (OptionGroup) component;
-                        for (Object itemId : optionGroup.getItemIds()) {
-                            optionGroup.unselect(itemId);
-                        }
-                    } else if (component instanceof PopupDateField) {
-                        PopupDateField dateField = (PopupDateField) component;
-                        dateField.setValue(null);
-                    }
-                }
-            }
-        }
-    }
+			for (Component component : components) {
+				if (component != null) {
+					if (component instanceof TextField) {
+						TextField tempTextField = (TextField) component;
+						tempTextField.setValue(StringUtils.EMPTY);
+					} else if (component instanceof Table) {
+						Table tempTable = (Table) component;
+						tempTable.getContainerDataSource().removeAllItems();
+					} else if (component instanceof ExtFilterTable) {
+						ExtFilterTable tempTable = (ExtFilterTable) component;
+						tempTable.getContainerDataSource().removeAllItems();
+					} else if (component instanceof TreeTable) {
+						TreeTable tempTreeTable = (TreeTable) component;
+						tempTreeTable.getContainerDataSource().removeAllItems();
+					} else if (component instanceof NativeSelect) {
+						NativeSelect tempNativeSelect = (NativeSelect) component;
+						tempNativeSelect.setValue(null);
+					} else if (component instanceof OptionGroup) {
+						OptionGroup optionGroup = (OptionGroup) component;
+						for (Object itemId : optionGroup.getItemIds()) {
+							optionGroup.unselect(itemId);
+						}
+					} else if (component instanceof PopupDateField) {
+						PopupDateField dateField = (PopupDateField) component;
+						dateField.setValue(null);
+					}
+				}
+			}
+		}
+	}
 
-    /**
-     * Parses a string value to integer NOTE: max length of integer that can be
-     * parsed without error is 9
-     *
-     * @param value the string input
-     * @return parsed integer output
-     */
-    public static int parseStringToInteger(final String value) {
-        // max length of integer that can be parsed without error is 9
-        String returnValue;
-        if (value == null || CommonConstants.NULL.getConstant().equals(String.valueOf(value)) || value.equals(StringUtils.EMPTY)) {
-            return 0;
-        } else {
-            returnValue = String.valueOf(value);
-            return Integer.parseInt(returnValue.replaceAll(REGEX_EXTRACT_DIGITS.getConstant(), StringUtils.EMPTY));
-        }
-    }
+	/**
+	 * Parses a string value to integer NOTE: max length of integer that can be
+	 * parsed without error is 9
+	 *
+	 * @param value
+	 *            the string input
+	 * @return parsed integer output
+	 */
+	public static int parseStringToInteger(final String value) {
+		// max length of integer that can be parsed without error is 9
+		String returnValue;
+		if (value == null || CommonConstants.NULL.getConstant().equals(String.valueOf(value))
+				|| value.equals(StringUtils.EMPTY)) {
+			return 0;
+		} else {
+			returnValue = String.valueOf(value);
+			return Integer.parseInt(returnValue.replaceAll(REGEX_EXTRACT_DIGITS.getConstant(), StringUtils.EMPTY));
+		}
+	}
 
-    /**
-     * Generates HQL field from Table column name
-     *
-     * @param fieldName
-     * @param indicator
-     * @return
-     */
-    public static String generateHqlField(String fieldName, final String indicator) {
-        String finalValue = StringUtils.EMPTY;
-        int loop = 0;
-        fieldName = fieldName.toLowerCase();
-        String[] splitArray = fieldName.split("_");
-        if (indicator.equals("table")) {
-            loop = 0;
-        } else {
-            finalValue = splitArray[0];
-            loop = 1;
-        }
-        for (int i = loop, j = splitArray.length; i < j; i++) {
-            finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)), String.valueOf(splitArray[i].charAt(0)).toUpperCase());
-        }
-        return finalValue;
-    }
+	/**
+	 * Generates HQL field from Table column name
+	 *
+	 * @param fieldName
+	 * @param indicator
+	 * @return
+	 */
+	public static String generateHqlField(String fieldName, final String indicator) {
+		String finalValue = StringUtils.EMPTY;
+		int loop = 0;
+		fieldName = fieldName.toLowerCase();
+		String[] splitArray = fieldName.split("_");
+		if (indicator.equals("table")) {
+			loop = 0;
+		} else {
+			finalValue = splitArray[0];
+			loop = 1;
+		}
+		for (int i = loop, j = splitArray.length; i < j; i++) {
+			finalValue += splitArray[i].replaceFirst(String.valueOf(splitArray[i].charAt(0)),
+					String.valueOf(splitArray[i].charAt(0)).toUpperCase());
+		}
+		return finalValue;
+	}
 
-    public static List<Integer> convertStringListToIngeter(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<>();
+	public static List<Integer> convertStringListToIngeter(List<String> stringList) {
+		List<Integer> integerList = new ArrayList<>();
 
-        for (String sid : stringList) {
-            integerList.add(Integer.parseInt(sid));
-        }
+		for (String sid : stringList) {
+			integerList.add(Integer.parseInt(sid));
+		}
 
-        return integerList;
-    }
+		return integerList;
+	}
 
-    public static List<Integer> convertStringListToParsedIngeter(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<>();
+	public static List<Integer> convertStringListToParsedIngeter(List<String> stringList) {
+		List<Integer> integerList = new ArrayList<>();
 
-        for (String sid : stringList) {
-            if (!StringUtils.EMPTY.equals(String.valueOf(parseStringToInteger(sid))) && !"0".equals(String.valueOf(parseStringToInteger(sid)))) {
-                integerList.add(parseStringToInteger(sid));
-            }
-        }
+		for (String sid : stringList) {
+			if (!StringUtils.EMPTY.equals(String.valueOf(parseStringToInteger(sid)))
+					&& !"0".equals(String.valueOf(parseStringToInteger(sid)))) {
+				integerList.add(parseStringToInteger(sid));
+			}
+		}
 
-        return integerList;
-    }
+		return integerList;
+	}
 
-    public static List<String> convertIngeterListToString(List<Integer> integetList) {
-        List<String> stringList = new ArrayList<>();
+	public static List<String> convertIngeterListToString(List<Integer> integetList) {
+		List<String> stringList = new ArrayList<>();
 
-        for (int sid : integetList) {
-            stringList.add(String.valueOf(sid));
-        }
+		for (int sid : integetList) {
+			stringList.add(String.valueOf(sid));
+		}
 
-        return stringList;
-    }
+		return stringList;
+	}
 
-    public static void getMessageNotification(String message) {
-        Notification notif = new Notification(message,
-                Notification.Type.HUMANIZED_MESSAGE);
-        notif.setPosition(Position.MIDDLE_CENTER);
-        notif.setStyleName("mystyle");
-        notif.show(Page.getCurrent());
-    }
+	public static void getMessageNotification(String message) {
+		Notification notif = new Notification(message, Notification.Type.HUMANIZED_MESSAGE);
+		notif.setPosition(Position.MIDDLE_CENTER);
+		notif.setStyleName("mystyle");
+		notif.show(Page.getCurrent());
+	}
 
-    public static String stringListToString(List<String> stringList) {
-        StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
-        if (stringList != null && !stringList.isEmpty()) {
-            for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
-                builder.append("'");
-                builder.append(stringList.get(loop));
-                builder.append("'");
-                if (loop != (limit - 1)) {
-                    builder.append(", ");
-                }
-            }
-        }
-        return builder.toString();
-    }
+	public static String stringListToString(List<String> stringList) {
+		StringBuilder builder = new StringBuilder(StringUtils.EMPTY);
+		if (stringList != null && !stringList.isEmpty()) {
+			for (int loop = 0, limit = stringList.size(); loop < limit; loop++) {
+				builder.append("'");
+				builder.append(stringList.get(loop));
+				builder.append("'");
+				if (loop != (limit - 1)) {
+					builder.append(", ");
+				}
+			}
+		}
+		return builder.toString();
+	}
 
-    public static List<String> objectListToStringList(List<Object> objectList) {
-        List<String> stringList = new ArrayList<>();
-        if (objectList != null) {
-            for (Object object : objectList) {
-                stringList.add(String.valueOf(object));
-            }
-        }
-        return stringList;
-    }
+	public static List<String> objectListToStringList(List<Object> objectList) {
+		List<String> stringList = new ArrayList<>();
+		if (objectList != null) {
+			for (Object object : objectList) {
+				stringList.add(String.valueOf(object));
+			}
+		}
+		return stringList;
+	}
 
-    public static String convertNullToEmpty(Object value) {
-        String returnValue;
-        if (value == null || CommonConstants.NULL.getConstant().equals(String.valueOf(value))) {
-            returnValue = StringUtils.EMPTY;
-        } else {
-            returnValue = String.valueOf(value);
-        }
-        return returnValue;
-    }
+	public static String convertNullToEmpty(Object value) {
+		String returnValue;
+		if (value == null || CommonConstants.NULL.getConstant().equals(String.valueOf(value))) {
+			returnValue = StringUtils.EMPTY;
+		} else {
+			returnValue = String.valueOf(value);
+		}
+		return returnValue;
+	}
 
-    public static Date parseDate(String value, String format) throws ParseException {
-        LOGGER.debug("UiUtils - parseDate period: " + value + " format: " + format);
-        Date date = null;
-        value = convertNullToEmpty(value);
-        SimpleDateFormat parse = new SimpleDateFormat(format);
-        if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
-            date = parse.parse(value);
-        }
-        return date;
-    }
+	public static Date parseDate(String value, String format) throws ParseException {
+		LOGGER.debug("UiUtils - parseDate period: " + value + " format: " + format);
+		Date date = null;
+		value = convertNullToEmpty(value);
+		SimpleDateFormat parse = new SimpleDateFormat(format);
+		if (value != null && !StringUtils.EMPTY.equals(value) && !CommonConstants.NULL.getConstant().equals(value)) {
+			date = parse.parse(value);
+		}
+		return date;
+	}
 
-    public static void setExtFilterTreeTableColumnWidth(final ExtFilterTreeTable table, final int columnWidth, final String screenName) {
-        if (table != null) {
-            for (Object propertyId : table.getVisibleColumns()) {
-                table.setColumnWidth(propertyId, columnWidth);
-                if (screenName.equals(TAB_PPA_PROJECTION.getConstant()) && String.valueOf(propertyId).toLowerCase().contains("reset")) {
-                        table.setColumnWidth(propertyId, NumericConstants.SEVENTY);
-                }
-            }
-        }
-    }
+	public static void setExtFilterTreeTableColumnWidth(final ExtFilterTreeTable table, final int columnWidth,
+			final String screenName) {
+		if (table != null) {
+			for (Object propertyId : table.getVisibleColumns()) {
+				table.setColumnWidth(propertyId, columnWidth);
+				if (screenName.equals(TAB_PPA_PROJECTION.getConstant())
+						&& String.valueOf(propertyId).toLowerCase().contains("reset")) {
+					table.setColumnWidth(propertyId, NumericConstants.SEVENTY);
+				}
+			}
+		}
+	}
 
-    public static void setFreezePagedFilterTableColumnWidth(final ExtPagedFilterTable table, final int columnWidth, final String screenName) {
-        if (table != null) {
-            for (Object propertyId : table.getVisibleColumns()) {
-                if (screenName.equals(TAB_ASSUMPTIONS.getConstant())) {
-                    if (String.valueOf(propertyId).equals("totalDiscountProjectedPV")) {
-                        table.setColumnWidth(propertyId, NumericConstants.ONE_NINE_FIVE);
-                    } else {
-                        table.setColumnWidth(propertyId, columnWidth);
-                    }
-                } else {
-                    table.setColumnWidth(propertyId, columnWidth);
-                }
-            }
-        }
-    }
+	public static void setFreezePagedFilterTableColumnWidth(final ExtPagedFilterTable table, final int columnWidth,
+			final String screenName) {
+		if (table != null) {
+			for (Object propertyId : table.getVisibleColumns()) {
+				if (screenName.equals(TAB_ASSUMPTIONS.getConstant())) {
+					if (String.valueOf(propertyId).equals("totalDiscountProjectedPV")) {
+						table.setColumnWidth(propertyId, NumericConstants.ONE_NINE_FIVE);
+					} else {
+						table.setColumnWidth(propertyId, columnWidth);
+					}
+				} else {
+					table.setColumnWidth(propertyId, columnWidth);
+				}
+			}
+		}
+	}
+
+	public static String getLevelNo(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

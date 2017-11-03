@@ -1179,6 +1179,7 @@
 		<field name="helperTableSid" type="int" />
 		<field name="modifiedBy" type="int" />
 		<field name="modifiedDate" type="Date" />
+		<field name="aliasName" type="String" />
 	</model>
 	<model name="com.stpl.app.model.HierarchyDefinition">
 		<field name="createdDate" type="Date" />
@@ -3226,6 +3227,8 @@
 		<field name="prodRelationshipBuilderSid" type="String" />
 		<field name="discountType" type="int" />
 		<field name="businessUnit" type="int" />
+		<field name="deductionHierarchySid" type="String" />
+		<field name="dedRelationshipBuilderSid" type="String" />
 	</model>
 	<model name="com.stpl.app.model.ProjectionNameConfig">
 		<field name="createdDate" type="Date" />
@@ -3506,6 +3509,7 @@
 		<field name="hierarchyVersion" type="int" />
 		<field name="modifiedBy" type="int" />
 		<field name="modifiedDate" type="Date" />
+		<field name="deductionRelation" type="int" />
 		<field name="relationshipType" type="int" />
 		<field name="buildType" type="String" />
 	</model>
@@ -3524,6 +3528,7 @@
 		<field name="relationshipLevelSid" type="int" />
 		<field name="flag" type="String" />
 		<field name="levelName" type="String" />
+		<field name="parentHierarchyNo" type="String" />
 	</model>
 	<model name="com.stpl.app.model.ReturnsMaster">
 		<field name="adjValueAtOrigAsp" type="String" />

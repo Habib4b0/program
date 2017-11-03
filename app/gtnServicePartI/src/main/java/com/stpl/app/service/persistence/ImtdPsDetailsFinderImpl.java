@@ -687,12 +687,12 @@ public class ImtdPsDetailsFinderImpl extends BasePersistenceImpl<ImtdPsDetails> 
             
             if (parameters.get("filter~contractPriceStartDate") != null) {
                 String compStart= parameters.get("filter~contractPriceStartDate").toString();
-                sql.append(andOperator).append(" PS_DTLS_CONT_PRICE_STARTDATE like '").append(compStart).append("' ");
+                sql.append(andOperator).append(" CONVERT(CHAR(10),PS_DTLS_CONT_PRICE_STARTDATE,120) >=  '").append(compStart).append("' ");
                 andOperator = " AND ";
             }
             if (parameters.get("filter~contractPriceEndDate") != null) {
                 String compStart= parameters.get("filter~contractPriceEndDate").toString();
-                sql.append(andOperator).append(" PS_DTLS_CONT_PRICE_ENDDATE like '").append(compStart).append("' ");
+                sql.append(andOperator).append(" CONVERT(CHAR(10),PS_DTLS_CONT_PRICE_ENDDATE,120) >=  '").append(compStart).append("' ");
                 andOperator = " AND ";
             }
             if (parameters.get("priceTolerance-equal") != null) {
@@ -724,12 +724,12 @@ public class ImtdPsDetailsFinderImpl extends BasePersistenceImpl<ImtdPsDetails> 
             
             if (parameters.get("filter~priceProtectionStartDate") != null) {
                 String compStart= parameters.get("filter~priceProtectionStartDate").toString();
-                sql.append(andOperator).append(" PS_DETAILS_PRIC_PRTCN_STDATE like '").append(compStart).append("' ");
+                sql.append(andOperator).append(" CONVERT(CHAR(10),PS_DETAILS_PRIC_PRTCN_STDATE,120) >= '").append(compStart).append("' ");
                 andOperator = " AND ";
             }
             if (parameters.get("filter~priceProtectionEndDate") != null) {
                 String compStart= parameters.get("filter~priceProtectionEndDate").toString();
-                sql.append(andOperator).append(" PS_DETAILS_PRIC_PRTCN_EDDATE like '").append(compStart).append("' ");
+                sql.append(andOperator).append(" CONVERT(CHAR(10),PS_DETAILS_PRIC_PRTCN_EDDATE,120) >= '").append(compStart).append("' ");
                 andOperator = " AND ";
             }
             if (parameters.get("priceToleranceType") != null) {

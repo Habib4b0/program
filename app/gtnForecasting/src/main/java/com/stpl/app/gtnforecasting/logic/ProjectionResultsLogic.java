@@ -329,8 +329,8 @@ public class ProjectionResultsLogic {
         String gtsListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsPivotQuery(projSelDTO);
         List<Object> gtsList = (List<Object>) CommonLogic.executeSelectQuery(gtsListQuery, null, null);
         String discountListQuery = CommonLogic.getCCPQuery(projSelDTO,Boolean.FALSE) + " \n" + getProjectionResultsDiscountsPivotQuery(projSelDTO);
-        List<Object> discountList = (List<Object>) CommonLogic.executeSelectQuery(discountListQuery, null, null);
-        projDTOList = getCustomizedProjectionPivot(gtsList, discountList, projSelDTO);
+        List<Object> discountprojectionList = (List<Object>) CommonLogic.executeSelectQuery(discountListQuery, null, null);
+        projDTOList = getCustomizedProjectionPivot(gtsList, discountprojectionList, projSelDTO);
         return projDTOList;
     }
 
@@ -1021,7 +1021,7 @@ public class ProjectionResultsLogic {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         List<ProjectionResultsDTO> projDolDTOList = new ArrayList<>();
         List<ProjectionResultsDTO> projPerDTOList = new ArrayList<>();
-        List<String> discountList = new ArrayList<>(projSelDTO.getDiscountNameList());
+        List<String> disList = new ArrayList<>(projSelDTO.getDiscountNameList());
         String oldDiscountName;
         String newDiscountName = "oldDiscountName";
         if (list != null && !list.isEmpty()) {
@@ -1045,9 +1045,9 @@ public class ProjectionResultsLogic {
                 newDiscountName = StringUtils.EMPTY + obj[col];
                 if (!oldDiscountName.equals(newDiscountName)) {
                     add = false;
-                    if (discountList.contains(newDiscountName)) {
+                    if (disList.contains(newDiscountName)) {
                         add = true;
-                        discountList.remove(newDiscountName);
+                        disList.remove(newDiscountName);
                         projDolDTO = new ProjectionResultsDTO();
                         projPerDTO = new ProjectionResultsDTO();
                         projDolDTO.setParent(0);
@@ -1092,7 +1092,7 @@ public class ProjectionResultsLogic {
         }
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
-        for (String ob : discountList) {
+        for (String ob : disList) {
             ProjectionResultsDTO projDTO = new ProjectionResultsDTO();
             projDTO.setParent(0);
             projDTO.setProjectionTotal(1);
@@ -1145,7 +1145,7 @@ public class ProjectionResultsLogic {
 
         Object[] orderedArgs = {projSelDTO.getProjectionId(), freq, discList, "ASSUMPTIONS", projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId()};
         if (!projSelDTO.getGroup().startsWith(Constant.ALL)
-                && !projSelDTO.getGroup().contains(Constant.SALES_)
+                && !projSelDTO.getGroup().contains(Constant.SALES_WITH_HYPHEN)
                 && !projSelDTO.getGroup().contains(Constant.DISCOUNT)
                 && !projSelDTO.getGroup().contains(Constant.PPA)) {
                 if ((projSelDTO.isIsTotal()) && (projSelDTO.isIsProjectionTotal())) {

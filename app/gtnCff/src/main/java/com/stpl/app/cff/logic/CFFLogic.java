@@ -10,6 +10,7 @@ import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
+import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
@@ -92,7 +93,7 @@ public class CFFLogic {
     public static Map<String, String> userMap = new HashMap<>();
     FileSelectionDTO dto = new FileSelectionDTO();
     DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
-
+    
     /**
      * Gets the cff details for add.
      *
@@ -159,7 +160,7 @@ public class CFFLogic {
         final List<HelperTable> list = DAO.getHelperTableDetailsByListName(listName);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                final HelperTable helperTable = (HelperTable) list.get(i);
+                final HelperTable helperTable = list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable.getDescription()));
 
             }
@@ -188,7 +189,7 @@ public class CFFLogic {
         final List<HelperTable> list = DAO.getHelperTableList(cfpDynamicQuery);
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                final HelperTable helperTable = (HelperTable) list.get(i);
+                final HelperTable helperTable = list.get(i);
                 helperList.add(new HelperDTO(helperTable.getHelperTableSid(), helperTable
                         .getDescription()));
             }
@@ -489,7 +490,7 @@ public class CFFLogic {
             list.add(cffId);
             List<Object[]> listSeq = CommonQueryUtils.getAppData(list, "getCFFLevel", null);
             if (listSeq != null) {
-                Object[] obj = (Object[]) listSeq.get(0);
+                Object[] obj = listSeq.get(0);
                 if (obj[NumericConstants.SEVEN] != null) {
                     String level = String.valueOf(obj[NumericConstants.SEVEN]);
                     noOfLevel = Integer.valueOf(level);
@@ -497,7 +498,7 @@ public class CFFLogic {
             }
             List<Object[]> currentLevelList = CommonQueryUtils.getAppData(list, "getCFFCurrentLevel", null);
             if (currentLevelList != null) {
-                Object[] obj = (Object[]) currentLevelList.get(0);
+                Object[] obj = currentLevelList.get(0);
                 if (obj[NumericConstants.FOUR] != null) {
                     String level = String.valueOf(obj[NumericConstants.FOUR]);
                     currentLevel = Integer.valueOf(level);
@@ -776,7 +777,7 @@ public class CFFLogic {
         try {
             userList = UserLocalServiceUtil.dynamicQuery(query);
             for (int loop = 0, limit = userList.size(); loop < limit; loop++) {
-                Object array[] = (Object[]) userList.get(loop);
+                Object[] array = (Object[]) userList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
         } catch (Exception ex) {
@@ -829,7 +830,7 @@ public class CFFLogic {
                     if (resultList != null) {
                         for (int i = 0; i < resultList.size(); i++) {
                             final FileSelectionDTO dto = new FileSelectionDTO();
-                            final Object[] obj = (Object[]) resultList.get(i);
+                            final Object[] obj = resultList.get(i);
                             dto.setFileManagementSid(String.valueOf(obj[NumericConstants.TWO]));
                             dto.setFileName(String.valueOf(obj[NumericConstants.THREE]));
                             dto.setVersion(String.valueOf(obj[NumericConstants.FOUR]));
@@ -863,7 +864,7 @@ public class CFFLogic {
                 if (resultList != null) {
                     for (int i = 0; i < resultList.size(); i++) {
                         final FileSelectionDTO dto = new FileSelectionDTO();
-                        final Object[] obj = (Object[]) resultList.get(i);
+                        final Object[] obj = resultList.get(i);
                         dto.setFileManagementSid(String.valueOf(obj[0]));
                         dto.setFileName(String.valueOf(obj[1]));
                         dto.setVersion(String.valueOf(obj[NumericConstants.THREE]));
@@ -915,16 +916,17 @@ public class CFFLogic {
      */
     public int saveCFFMaster(final DataSelectionDTO dataSelectionDTO, boolean isUpdate, int projectionIdValue) {
         int projectionId = 0;
+        Object[] dedRelId = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdRelationshipBuilderSid()));
         SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
         String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
         String query = "INSERT INTO CFF_MASTER (CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
                 + "    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,\n"
                 + "    PRODUCT_HIERARCHY_LEVEL, PRODUCT_HIER_VERSION_NO, ITEM_GROUP_SID, PRODUCT_HIERARCHY_INNER_LEVEL, PROD_RELATIONSHIP_BUILDER_SID, INBOUND_STATUS, CREATED_BY,\n"
-                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT) VALUES ('@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
+                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT @DEDUCTION_ADDITION ) VALUES ('@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
                 + "    '@CUSTOMER_HIERARCHY_SID', '@CUSTOMER_HIERARCHY_LEVEL', '@CUSTOMER_HIER_VERSION_NO', @COMPANY_GROUP_SID,\n"
                 + "    '@CUSTOMER_HIERARCHY_INNER_LEVEL', '@CUST_RELATIONSHIP_BUILDER_SID', '@COMPANY_MASTER_SID', '@PRODUCT_HIERARCHY_SID',\n"
                 + "    '@PRODUCT_HIERARCHY_LEVEL', '@PRODUCT_HIER_VERSION_NO', @ITEM_GROUP_SID, '@PRODUCT_HIERARCHY_INNER_LEVEL',\n"
-                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT') ";
+                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT' @DED_ADD_VALUES ) ";
 
         if (isUpdate) {
             List l = new ArrayList();
@@ -958,13 +960,19 @@ public class CFFLogic {
         query = query.replace("@CREATED_DATE", DBDate.format(new Date()));
         query = query.replace("@MODIFIED_DATE", DBDate.format(new Date()));
         query = query.replace("@BUSINESS_UNIT", dataSelectionDTO.getBusinessUnitSystemId() + "");
+        
+       
+        query = query.replace("@DEDUCTION_ADDITION", CommonUtils.isValueEligibleForLoading() ? " ,DEDUCTION_HIERARCHY_SID,DED_RELATIONSHIP_BULDER_SID " : StringUtils.EMPTY);
+        query = query.replace("@DED_ADD_VALUES", CommonUtils.isValueEligibleForLoading() ? " ,'@DEDUCTION_HIERARCHY_SID','@DED_RELATIONSHIP_BULDER_SID' " : StringUtils.EMPTY);
+        query = query.replace("@DED_RELATIONSHIP_BULDER_SID", dedRelId[0] + "");
+        query = query.replace("@DEDUCTION_HIERARCHY_SID", dedRelId[1] + "");
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
         if (isUpdate) {
             return projectionIdValue;
         } else {
             String cffQuery = "select IDENT_CURRENT( 'cff_master' )";
             List list = HelperTableLocalServiceUtil.executeSelectQuery(cffQuery);
-            if (list != null && list.size() > 0) {
+            if (list != null && !list.isEmpty()) {
                 Object obj = list.get(0);
                 String ccfMasterId = String.valueOf(obj);
                 projectionId = Integer.valueOf(ccfMasterId);
@@ -972,6 +980,14 @@ public class CFFLogic {
             return projectionId;
         }
 
+    }
+    
+    public Object[] deductionRelationBuilderId(String prdRelSid){
+        List input = new ArrayList<>();
+        input.add(prdRelSid);
+        String sql = CommonQueryUtils.getAppQuery(input, "DeductionRelationshipId");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+        return  (Object[])list.get(0);
     }
 
     /**
@@ -1202,7 +1218,7 @@ public class CFFLogic {
         list.add(cffMasterSid);
         List<Object[]> currentLevelList = CommonQueryUtils.getAppData(list, "getCFFCurrentLevel", null);
         if (currentLevelList != null) {
-            Object[] obj = (Object[]) currentLevelList.get(0);
+            Object[] obj = currentLevelList.get(0);
             if (obj[NumericConstants.SEVEN] != null) {
                 noOfLevel = String.valueOf(obj[NumericConstants.SEVEN]);
             }
@@ -1265,7 +1281,7 @@ public class CFFLogic {
     private Map<String, String> getFileSelectionFilterMap() {
         Map<String, String> filterMap = new HashMap<>();
         filterMap.put("fileName", "A.FILE_NAME");
-        filterMap.put("fileType", "HT.DESCRIPTION");
+        filterMap.put("fileType", ConstantsUtil.HT_DESCRIPTION);
         filterMap.put("version", "A.VERSION");
         filterMap.put(StringConstantsUtil.ACTIVE_FROM_DATE, "A.ACTIVE_FROM");
         filterMap.put(StringConstantsUtil.ACTIVE_TO_DATE, "A.ACTIVE_TO");
@@ -1409,7 +1425,7 @@ public class CFFLogic {
         String unionAll = StringUtils.EMPTY;
         for (Object[] objects : contractList) {
             queryBuilder.append(unionAll).append(" SELECT '").append(objects[0]).append("' as HIERARCHY_NO ,").append(objects[1]).append(" as RELATIONSHIP_LEVEL_VALUES ");
-            unionAll = " UNION ALL ";
+            unionAll = ConstantsUtil.UNION_ALL;
         }
         return queryBuilder.toString();
     }
@@ -1463,6 +1479,19 @@ public class CFFLogic {
         }
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
+    
+    public void callDeductionCCPHierarchyInsertion(SessionDTO session, final Map<String, String> tempTableNames, final boolean isDataSelectionTab) {
+
+        StringBuilder builder = new StringBuilder();
+        if (isDataSelectionTab) {
+            builder.append(QueryUtil.replaceTableNames(SQlUtil.getQuery("DELETION").replace("@TABLE_NAME", "ST_CCP_DEDUCTION_HIERARCHY"), tempTableNames));
+        }
+        builder.append(SQlUtil.getQuery("DEDUCTION_HIERARCHY_INSERT"));
+        builder.replace(builder.indexOf(StringConstantsUtil.CFFMASTERSID), StringConstantsUtil.CFFMASTERSID.length() + builder.lastIndexOf(StringConstantsUtil.CFFMASTERSID), String.valueOf(session.getProjectionId()));
+        builder.replace(builder.indexOf(StringConstantsUtil.RELATIONBUILDERSID), StringConstantsUtil.RELATIONBUILDERSID.length() + builder.lastIndexOf(StringConstantsUtil.RELATIONBUILDERSID), session.getDedRelationshipBuilderSid());
+       
+        HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
+    }
 
     /**
      * Used to build the query to get the CCP values for CCP_HIERARCHY insert
@@ -1491,31 +1520,13 @@ public class CFFLogic {
     private Map<String, List> getRelationshipDetails(SessionDTO sessionDTO, String relationshipBuilderSid, boolean isCustomerHierarchy) {
 
         String customSql = SQlUtil.getQuery("getHierarchyTableDetails");
-        customSql = customSql.replace("?RBSID", relationshipBuilderSid);
+        customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, relationshipBuilderSid);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-
         Map<String, List> resultMap = new HashMap<>();
-
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
-
-        String finalQuery = StringUtils.EMPTY;
-        for (int i = tempList.size() - 1; i >= 0; i--) {
-            customSql = SQlUtil.getQuery("getRelationshipLevelValues");
-            Object[] tempListObject = (Object[]) tempList.get(i);
-            customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
-            customSql = customSql.replace("?TABLE", String.valueOf(tempListObject[1]));
-            customSql = customSql.replace("?IDCOL", String.valueOf(tempListObject[NumericConstants.TWO]));
-            customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
-            customSql = customSql.replace("?RBSID", relationshipBuilderSid);
-            customSql = customSql.replace("?HIERARCHY_NO", hierarchyNoType);
-            if (i != 0) {
-                customSql = customSql.concat(" UNION ALL ");
-            }
-            finalQuery += customSql;
-        }
-
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType);
         tempList.clear();
-        tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(finalQuery, sessionDTO.getCurrentTableNames()));
+        tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
         for (int j = tempList.size() - 1; j >= 0; j--) {
             Object[] object = (Object[]) tempList.get(j);
             final List detailsList = new ArrayList();
@@ -1524,6 +1535,39 @@ public class CFFLogic {
             detailsList.add(object[NumericConstants.THREE]); // Level Name
             detailsList.add(object[NumericConstants.FOUR]); // RL Level Value - Actual System Id
             detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY INDICATOR
+            commonUtils.updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
+            resultMap.put(String.valueOf(object[0]), detailsList);
+            if (j == tempList.size() - 1) {
+                if (isCustomerHierarchy) {
+                    sessionDTO.setCustomerLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+                } else {
+                    sessionDTO.setProductLastLevelNo(Integer.parseInt(object[NumericConstants.THREE].toString()));
+                }
+            }
+        }
+        return resultMap;
+    }
+    
+    
+    
+    public Map<String, List> getRelationshipDetailsDeduction(SessionDTO sessionDTO, String relationshipBuilderSid) {
+
+        String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
+        customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, relationshipBuilderSid);
+        List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+        Map<String, List> resultMap = new HashMap<>();
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, "D");
+        tempList.clear();
+        tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
+        for (int j = tempList.size() - 1; j >= 0; j--) {
+            Object[] object = (Object[]) tempList.get(j);
+            final List detailsList = new ArrayList();
+            detailsList.add(object[1]); // Level Value
+            detailsList.add(object[NumericConstants.TWO]); // Level No
+            detailsList.add(object[NumericConstants.THREE]); // Level Name
+            detailsList.add(object[NumericConstants.FOUR]); // RL Level Value - Actual System Id
+            detailsList.add("D"); // HIERARCHY INDICATOR
+            commonUtils.updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
             resultMap.put(String.valueOf(object[0]), detailsList);
         }
         return resultMap;

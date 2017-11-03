@@ -155,7 +155,8 @@ public class HelperTablePersistenceImpl extends BasePersistenceImpl<HelperTable>
     private static Log _log = LogFactoryUtil.getLog(HelperTablePersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
                 "createdDate", "createdBy", "description", "refCount",
-                "listName", "helperTableSid", "modifiedBy", "modifiedDate"
+                "listName", "helperTableSid", "modifiedBy", "modifiedDate",
+                "aliasName"
             });
     private static HelperTable _nullHelperTable = new HelperTableImpl() {
             @Override
@@ -1684,6 +1685,7 @@ public class HelperTablePersistenceImpl extends BasePersistenceImpl<HelperTable>
         helperTableImpl.setHelperTableSid(helperTable.getHelperTableSid());
         helperTableImpl.setModifiedBy(helperTable.getModifiedBy());
         helperTableImpl.setModifiedDate(helperTable.getModifiedDate());
+        helperTableImpl.setAliasName(helperTable.getAliasName());
 
         return helperTableImpl;
     }

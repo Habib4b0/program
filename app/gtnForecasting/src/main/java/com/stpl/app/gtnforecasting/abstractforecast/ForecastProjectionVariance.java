@@ -15,8 +15,10 @@ import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import static com.stpl.app.gtnforecasting.utils.Constant.OR_DOLLAR;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.security.StplSecurity;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
@@ -56,6 +58,9 @@ import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.themes.ValoTheme;
+import org.apache.commons.lang.ArrayUtils;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -210,9 +215,66 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
 
     @UiField("discountLevelLabel")
     protected Label discountLevelLabel;
+    
+    @UiField("UomLb")
+    protected Label uomLb;
+    
+    @UiField("displaySelectionLayout")
+    protected VerticalLayout displaySelectionLayout;
+    
+    @UiField("filterOptionLayout")
+    protected VerticalLayout filterOptionLayout;
+    
+    @UiField("UomDdlb")
+    protected ComboBox uomDdlb;
+    
+    @UiField("tabsheetVariance")
+    protected TabSheet tabsheetVariance;
+    
+    @UiField("panelVariance")
+    protected Panel panelVariance;
+    
+    @UiField("customerlevelDdlb")
+    protected ComboBox customerlevelDdlb;
+    
+    @UiField("productlevelDdlb")
+    protected ComboBox productlevelDdlb;
+    
+    @UiField("deductionlevelDdlb")
+    protected ComboBox deductionlevelDdlb;
+    
+    @UiField("deductionInclusionDdlb")
+    protected CustomMenuBar deductionInclusionDdlb;
+    
+    @UiField("salesInclusionDdlb")
+    protected CustomMenuBar salesInclusionDdlb;
+    
+    @UiField("customerFilterDdlb")
+    protected CustomMenuBar customerFilterDdlb;
+    
+    @UiField("productFilterDdlb")
+    protected CustomMenuBar productFilterDdlb;
+    
+    @UiField("deductionFilterDdlb")
+    protected CustomMenuBar deductionFilterDdlb;
+    
+     @UiField("conversionFactorDdlb")
+    protected ComboBox conversionFactorDdlb;
+    
+    protected CustomMenuBar.CustomMenuItem deductionInclusionValues;
+    protected CustomMenuBar.CustomMenuItem salesInclusionValues;
+    protected CustomMenuBar.CustomMenuItem customerFilterValues;
+    protected CustomMenuBar.CustomMenuItem productFilterValues;
+    protected CustomMenuBar.CustomMenuItem deductionFilterValues;
 
-    final StplSecurity stplSecurity = new StplSecurity();
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    /**
+     * Display Format Custom menu bar
+     */
+    @UiField("displayFormatDdlb")
+    protected CustomMenuBar displayFormatDdlb;
+    
+    protected CustomMenuBar.CustomMenuItem displayFormatValues;
     /**
      * Session DTO
      */
@@ -311,6 +373,19 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     }
 
     public void configureFilds() {
+ 
+        if (CommonUtil.isValueEligibleForLoading()) {
+            panelVariance.setVisible(false);
+            tabsheetVariance.addTab(displaySelectionLayout, "Display Selection");
+            tabsheetVariance.addTab(filterOptionLayout, "Filter Option");
+            tabsheetVariance.addStyleName(ValoTheme.TABSHEET_FRAMED);
+            tabsheetVariance.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+        } else {
+            filterOptionLayout.setVisible(false);
+            uomLb.setVisible(false);
+            uomDdlb.setVisible(false);
+        }
+
         comparison.addStyleName(Constant.SEARCH_ICON_STYLE);
         comparison.setReadOnly(false);
         comparison.setValue(SELECT_ONE);
@@ -656,10 +731,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         LOGGER.debug("loadLevelFilter initiated ");
         level.setEnabled(true);
         List<Leveldto> hierarchy = null;
-       String view = StringUtils.EMPTY;
-        if (pvSelectionDTO.isIsCustomHierarchy()) {
-            view=Constant.CUSTOM_LABEL;
-           if(sessionDTO.getCustomHierarchyMap().containsKey(customId)){
+               if (pvSelectionDTO.isIsCustomHierarchy()) {
+                  if(sessionDTO.getCustomHierarchyMap().containsKey(customId)){
             hierarchy = sessionDTO.getCustomHierarchyMap().get(customId);
             }
         } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(pvSelectionDTO.getHierarchyIndicator())) {
@@ -678,6 +751,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      * @return String List
      */
     protected String getCheckedValues() {
+        List<String> returnList = loadVariablesDdlb();
+        String[] variableValues = returnList.toArray(new String[0]);
         if (customMenuItem != null && customMenuItem.getSize() > 0) {
             List<String> result = new ArrayList<>();
             List<CustomMenuBar.CustomMenuItem> items = customMenuItem.getChildren();
@@ -685,7 +760,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
                 CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
                 if (customMenuItem1.isChecked()) {
                     if (customMenuItem1.getMenuItem().getCaption().equals(Constant.PVVariables.CHECK_ALL.toString())) {
-                        result.addAll(Arrays.asList(Constant.PVVariables.getCheckAllVariables()));
+                        result.addAll(Arrays.asList(Arrays.toString(ArrayUtils.removeElement(variableValues, Constant.PVVariables.CHECK_ALL.toString())).replaceAll(OR_DOLLAR, StringUtils.EMPTY).split(",")));
                         variablesValue = Arrays.toString(result.toArray());
                         return Arrays.toString(result.toArray());
                     }
@@ -697,7 +772,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         }
         return StringUtils.EMPTY;
     }
-
+    
     /**
      * Method to get checked Variable Category Values
      *
@@ -814,4 +889,33 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected abstract void excelBtnLogic();
 
     protected abstract void graphBtnLogic();
+
+    public List<String> loadVariablesDdlb() {
+        List<String> outputList = new ArrayList<>();
+        List<String> variablesList = new ArrayList<>();
+            String query;
+            List<String> returnList = new ArrayList<>();
+            Map<String, List<String>> input = new HashMap<>();
+            List<String> defaultNames = Arrays.asList("01.Check All", "08.Contract Sales @ WAC", "09.Contract Units", "10.Discount $", "11.Discount %", "12.RPU", "14.Net Sales", "18.COGS", "19.Net Profit");
+            List<String> exfactNames = Arrays.asList("02.Ex-Factory Sales", "04.Contract Sales % Of Ex-Factory", "13.Discount % of Ex-Factory", "15.Net Sales % of Ex-Factory", "16.Net Ex-Factory Sales", "17.Net Ex-Factory Sales as % of Ex-Factory Sales");
+            List<String> demandNames = Arrays.asList("03.Demand Sales", "05.% Of Demand");
+            List<String> inventoryNames = Arrays.asList("06.Inventory Withdrawal Sales", "07.% Of Inventory Withdrawal Sales");
+            input.put("Ex-Factory Sales", exfactNames);
+            input.put("Demand", demandNames);
+            input.put("Inventory Withdrawal - Forecast Detail", inventoryNames);
+            input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
+            query = SQlUtil.getQuery("get-file-type-query");
+            returnList = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
+            outputList.addAll(defaultNames);
+            for (String string : returnList) {
+                if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
+                    outputList.addAll(input.get(string));
+                }
+            }
+            Collections.sort(outputList);
+            for (String str : outputList) {
+                variablesList.add(str.split("\\.")[1]);
+            }
+        return variablesList;
+    }
 }

@@ -15,7 +15,6 @@ import com.stpl.app.adminconsole.filemanagement.dto.FileManagementFilterGenerato
 import com.stpl.app.adminconsole.filemanagement.dto.FileMananagementResultDTO;
 import com.stpl.app.adminconsole.filemanagement.logic.FileManagementLogic;
 import com.stpl.app.adminconsole.filemanagement.logic.tablelogic.FileManagementTableLogic;
-import com.stpl.app.adminconsole.itemgroup.util.UISecurityUtil;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ErrorCodeUtil;
@@ -260,8 +259,8 @@ public class FileManagementIndex extends CustomComponent implements View {
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = String.valueOf(sessionDTO.getUserId());
         final Map<String, AppPermission> fieldItemHM;
-        fieldItemHM = stplSecurity.getFieldOrColumnPermission(userId, UISecurityUtil.FILE_MANAGEMENT + "," + UISecurityUtil.LANDING_SCREEN, false);
-        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.FILE_MANAGEMENT + "," + UISecurityUtil.LANDING_SCREEN);
+        fieldItemHM = stplSecurity.getFieldOrColumnPermission(userId, CommonUtil.FILE_MANAGEMENT + "," + CommonUtil.LANDING_SCREEN, false);
+        final Map<String, AppPermission> functionCompanyHM = stplSecurity.getBusinessFunctionPermission(userId, CommonUtil.FILE_MANAGEMENT + "," + CommonUtil.LANDING_SCREEN);
 
         getResponsiveFirstTab(fieldItemHM);
         getButtonPermission(functionCompanyHM);
@@ -273,7 +272,7 @@ public class FileManagementIndex extends CustomComponent implements View {
     private void getResponsiveFirstTab(final Map<String, AppPermission> fieldItemHM) {
         LOGGER.debug("Entering getFirstTab1");
         try {
-            List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.FILE_MANAGEMENT, UISecurityUtil.LANDING_SCREEN);
+            List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.FILE_MANAGEMENT, CommonUtil.LANDING_SCREEN);
 
             commonSecurity.removeSearchComponentOnPermission(resultList, selectFileCssLayout, fieldItemHM);
 
@@ -769,6 +768,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                             //Removed Alert message based on CEL-281 online CR
                             Date gtsDate = new com.stpl.app.adminconsole.util.CommonUtils().getCurrentGTSToDate(ConstantsUtils.EX_FACTORY_SALES);
                             fileMgtLogic.updateAutoModeProcess(gtsDate);
+                            sendMailOnFileActivation();
                         } catch (SystemException e) {
                             final String errorMsg = ErrorCodeUtil.getErrorMessage(e);
                             LOGGER.error(e);
@@ -846,5 +846,15 @@ public class FileManagementIndex extends CustomComponent implements View {
             excelTableBean.addAll(resultList);
         }
     }
-
+    
+    public void sendMailOnFileActivation() {
+        final Emailer email = new Emailer();
+        try {
+            List<FileManagementDTO> processList = logic.getSearchResult(fileType);
+            String msg = email.sendMailonFileActivation(false, processList);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+    }
+    
 }

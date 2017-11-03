@@ -5,31 +5,6 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MASTER_PHS_WORKSHEET_LOOKUP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NOTES_DATE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
@@ -38,13 +13,17 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.PhsResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.PhsWorksheetTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.FcpQueryUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.PhsQueryUtils;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.NotesTextField;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -82,6 +61,21 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 /**
  * The Class MasterPHSWorksheet.
  *
@@ -433,7 +427,7 @@ public class MasterPhsWorksheet extends Window {
                     final Component uiContext) {
                 TableDTO tableDto = getBeanFromId(itemId);
 
-                if (tableDto.getParent() == 0 && String.valueOf(propertyId).endsWith(Constant.PROJECTIONS) && tableDto.getGroup().startsWith(Constant.ADJUSTMENT)) {
+                if (tableDto.getParent() == 0 && String.valueOf(propertyId).endsWith(Constant.PROJECTIONS) && (tableDto.getGroup().startsWith(Constant.ADJUSTMENT) || tableDto.getGroup().startsWith(Constant.OVERRIDE))) {
 
                     try {
                         final NotesTextField notesField = new NotesTextField();
@@ -658,8 +652,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -677,8 +670,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("tableReset")
     public void tableReset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -701,8 +693,7 @@ public class MasterPhsWorksheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -717,8 +708,7 @@ public class MasterPhsWorksheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -777,7 +767,6 @@ public class MasterPhsWorksheet extends Window {
         LOGGER.debug("excelBtn click listener started");
         configureExcelResultTable();
         loadExcelResultTable();
-		NationalAssumptionsUI.EXCEL_CLOSE = true;
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), MASTER_PHS_WORKSHEET, MASTER_PHS_WORKSHEET, "Master_PHS_Worksheet.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
@@ -883,8 +872,7 @@ public class MasterPhsWorksheet extends Window {
     public void submit(Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
-                @Override
-				public void noMethod() {
+                public void noMethod() {
                     return;
                 }
 

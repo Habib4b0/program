@@ -945,8 +945,8 @@ public class NMPmpyCalculator extends Window {
                 salesValue = Double.valueOf(salesFormat.format(Double.valueOf(tempSales)));
 
             } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
-                final DecimalFormat unitFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
-                salesValue = Double.valueOf(unitFormat.format(Double.valueOf(tempSales)));
+                final DecimalFormat unitsFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
+                salesValue = Double.valueOf(unitsFormat.format(Double.valueOf(tempSales)));
 
             }
         } else {
@@ -1119,8 +1119,8 @@ public class NMPmpyCalculator extends Window {
             final DecimalFormat salesFormat = new DecimalFormat("####");
             value = String.valueOf(salesFormat.format(Double.valueOf(value)));
         } else if (Constant.UNITS.equalsIgnoreCase(variableValue)) {
-            final DecimalFormat unitFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
-            value = String.valueOf(unitFormat.format(Double.valueOf(value)));
+            final DecimalFormat unitDecimalFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
+            value = String.valueOf(unitDecimalFormat.format(Double.valueOf(value)));
         }
         if (effectivePeriod.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("No Effective Date", "Please select an Effective Period.");

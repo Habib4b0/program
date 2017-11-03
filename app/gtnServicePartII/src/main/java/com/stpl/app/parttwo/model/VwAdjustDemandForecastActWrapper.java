@@ -39,10 +39,10 @@ public class VwAdjustDemandForecastActWrapper
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("forecastVersion", getForecastVersion());
+        attributes.put("forecastVer", getForecastVer());
         attributes.put("grossUnits", getGrossUnits());
         attributes.put("businessUnitNo", getBusinessUnitNo());
-        attributes.put("year", getYear());
+        attributes.put("forecastYear", getForecastYear());
         attributes.put("brandName", getBrandName());
         attributes.put("itemId", getItemId());
         attributes.put("organizationKey", getOrganizationKey());
@@ -50,16 +50,15 @@ public class VwAdjustDemandForecastActWrapper
         attributes.put("marketShareRatio", getMarketShareRatio());
         attributes.put("businessUnitName", getBusinessUnitName());
         attributes.put("marketShareUnits", getMarketShareUnits());
-        attributes.put("month", getMonth());
+        attributes.put("forecastMonth", getForecastMonth());
         attributes.put("inventoryUnitChange", getInventoryUnitChange());
         attributes.put("uncapturedUnitsRatio", getUncapturedUnitsRatio());
         attributes.put("country", getCountry());
         attributes.put("forecastType", getForecastType());
-        attributes.put("totalAdjustedDemandUnits", getTotalAdjustedDemandUnits());
+        attributes.put("totalDemandUnits", getTotalDemandUnits());
         attributes.put("brandId", getBrandId());
         attributes.put("isForecast", getIsForecast());
-        attributes.put("totalAdjustedDemandAmount",
-            getTotalAdjustedDemandAmount());
+        attributes.put("totalDemandAmount", getTotalDemandAmount());
         attributes.put("uncapturedUnits", getUncapturedUnits());
         attributes.put("grossPrice", getGrossPrice());
         attributes.put("grossAmount", getGrossAmount());
@@ -77,10 +76,10 @@ public class VwAdjustDemandForecastActWrapper
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String forecastVersion = (String) attributes.get("forecastVersion");
+        String forecastVer = (String) attributes.get("forecastVer");
 
-        if (forecastVersion != null) {
-            setForecastVersion(forecastVersion);
+        if (forecastVer != null) {
+            setForecastVer(forecastVer);
         }
 
         Double grossUnits = (Double) attributes.get("grossUnits");
@@ -95,10 +94,10 @@ public class VwAdjustDemandForecastActWrapper
             setBusinessUnitNo(businessUnitNo);
         }
 
-        String year = (String) attributes.get("year");
+        String forecastYear = (String) attributes.get("forecastYear");
 
-        if (year != null) {
-            setYear(year);
+        if (forecastYear != null) {
+            setForecastYear(forecastYear);
         }
 
         String brandName = (String) attributes.get("brandName");
@@ -143,10 +142,10 @@ public class VwAdjustDemandForecastActWrapper
             setMarketShareUnits(marketShareUnits);
         }
 
-        String month = (String) attributes.get("month");
+        String forecastMonth = (String) attributes.get("forecastMonth");
 
-        if (month != null) {
-            setMonth(month);
+        if (forecastMonth != null) {
+            setForecastMonth(forecastMonth);
         }
 
         Double inventoryUnitChange = (Double) attributes.get(
@@ -175,11 +174,10 @@ public class VwAdjustDemandForecastActWrapper
             setForecastType(forecastType);
         }
 
-        Double totalAdjustedDemandUnits = (Double) attributes.get(
-                "totalAdjustedDemandUnits");
+        Double totalDemandUnits = (Double) attributes.get("totalDemandUnits");
 
-        if (totalAdjustedDemandUnits != null) {
-            setTotalAdjustedDemandUnits(totalAdjustedDemandUnits);
+        if (totalDemandUnits != null) {
+            setTotalDemandUnits(totalDemandUnits);
         }
 
         String brandId = (String) attributes.get("brandId");
@@ -194,11 +192,10 @@ public class VwAdjustDemandForecastActWrapper
             setIsForecast(isForecast);
         }
 
-        Double totalAdjustedDemandAmount = (Double) attributes.get(
-                "totalAdjustedDemandAmount");
+        Double totalDemandAmount = (Double) attributes.get("totalDemandAmount");
 
-        if (totalAdjustedDemandAmount != null) {
-            setTotalAdjustedDemandAmount(totalAdjustedDemandAmount);
+        if (totalDemandAmount != null) {
+            setTotalDemandAmount(totalDemandAmount);
         }
 
         Double uncapturedUnits = (Double) attributes.get("uncapturedUnits");
@@ -290,23 +287,23 @@ public class VwAdjustDemandForecastActWrapper
     }
 
     /**
-    * Returns the forecast version of this vw adjust demand forecast act.
+    * Returns the forecast ver of this vw adjust demand forecast act.
     *
-    * @return the forecast version of this vw adjust demand forecast act
+    * @return the forecast ver of this vw adjust demand forecast act
     */
     @Override
-    public java.lang.String getForecastVersion() {
-        return _vwAdjustDemandForecastAct.getForecastVersion();
+    public java.lang.String getForecastVer() {
+        return _vwAdjustDemandForecastAct.getForecastVer();
     }
 
     /**
-    * Sets the forecast version of this vw adjust demand forecast act.
+    * Sets the forecast ver of this vw adjust demand forecast act.
     *
-    * @param forecastVersion the forecast version of this vw adjust demand forecast act
+    * @param forecastVer the forecast ver of this vw adjust demand forecast act
     */
     @Override
-    public void setForecastVersion(java.lang.String forecastVersion) {
-        _vwAdjustDemandForecastAct.setForecastVersion(forecastVersion);
+    public void setForecastVer(java.lang.String forecastVer) {
+        _vwAdjustDemandForecastAct.setForecastVer(forecastVer);
     }
 
     /**
@@ -350,23 +347,23 @@ public class VwAdjustDemandForecastActWrapper
     }
 
     /**
-    * Returns the year of this vw adjust demand forecast act.
+    * Returns the forecast year of this vw adjust demand forecast act.
     *
-    * @return the year of this vw adjust demand forecast act
+    * @return the forecast year of this vw adjust demand forecast act
     */
     @Override
-    public java.lang.String getYear() {
-        return _vwAdjustDemandForecastAct.getYear();
+    public java.lang.String getForecastYear() {
+        return _vwAdjustDemandForecastAct.getForecastYear();
     }
 
     /**
-    * Sets the year of this vw adjust demand forecast act.
+    * Sets the forecast year of this vw adjust demand forecast act.
     *
-    * @param year the year of this vw adjust demand forecast act
+    * @param forecastYear the forecast year of this vw adjust demand forecast act
     */
     @Override
-    public void setYear(java.lang.String year) {
-        _vwAdjustDemandForecastAct.setYear(year);
+    public void setForecastYear(java.lang.String forecastYear) {
+        _vwAdjustDemandForecastAct.setForecastYear(forecastYear);
     }
 
     /**
@@ -510,23 +507,23 @@ public class VwAdjustDemandForecastActWrapper
     }
 
     /**
-    * Returns the month of this vw adjust demand forecast act.
+    * Returns the forecast month of this vw adjust demand forecast act.
     *
-    * @return the month of this vw adjust demand forecast act
+    * @return the forecast month of this vw adjust demand forecast act
     */
     @Override
-    public java.lang.String getMonth() {
-        return _vwAdjustDemandForecastAct.getMonth();
+    public java.lang.String getForecastMonth() {
+        return _vwAdjustDemandForecastAct.getForecastMonth();
     }
 
     /**
-    * Sets the month of this vw adjust demand forecast act.
+    * Sets the forecast month of this vw adjust demand forecast act.
     *
-    * @param month the month of this vw adjust demand forecast act
+    * @param forecastMonth the forecast month of this vw adjust demand forecast act
     */
     @Override
-    public void setMonth(java.lang.String month) {
-        _vwAdjustDemandForecastAct.setMonth(month);
+    public void setForecastMonth(java.lang.String forecastMonth) {
+        _vwAdjustDemandForecastAct.setForecastMonth(forecastMonth);
     }
 
     /**
@@ -610,23 +607,23 @@ public class VwAdjustDemandForecastActWrapper
     }
 
     /**
-    * Returns the total adjusted demand units of this vw adjust demand forecast act.
+    * Returns the total demand units of this vw adjust demand forecast act.
     *
-    * @return the total adjusted demand units of this vw adjust demand forecast act
+    * @return the total demand units of this vw adjust demand forecast act
     */
     @Override
-    public double getTotalAdjustedDemandUnits() {
-        return _vwAdjustDemandForecastAct.getTotalAdjustedDemandUnits();
+    public double getTotalDemandUnits() {
+        return _vwAdjustDemandForecastAct.getTotalDemandUnits();
     }
 
     /**
-    * Sets the total adjusted demand units of this vw adjust demand forecast act.
+    * Sets the total demand units of this vw adjust demand forecast act.
     *
-    * @param totalAdjustedDemandUnits the total adjusted demand units of this vw adjust demand forecast act
+    * @param totalDemandUnits the total demand units of this vw adjust demand forecast act
     */
     @Override
-    public void setTotalAdjustedDemandUnits(double totalAdjustedDemandUnits) {
-        _vwAdjustDemandForecastAct.setTotalAdjustedDemandUnits(totalAdjustedDemandUnits);
+    public void setTotalDemandUnits(double totalDemandUnits) {
+        _vwAdjustDemandForecastAct.setTotalDemandUnits(totalDemandUnits);
     }
 
     /**
@@ -670,23 +667,23 @@ public class VwAdjustDemandForecastActWrapper
     }
 
     /**
-    * Returns the total adjusted demand amount of this vw adjust demand forecast act.
+    * Returns the total demand amount of this vw adjust demand forecast act.
     *
-    * @return the total adjusted demand amount of this vw adjust demand forecast act
+    * @return the total demand amount of this vw adjust demand forecast act
     */
     @Override
-    public double getTotalAdjustedDemandAmount() {
-        return _vwAdjustDemandForecastAct.getTotalAdjustedDemandAmount();
+    public double getTotalDemandAmount() {
+        return _vwAdjustDemandForecastAct.getTotalDemandAmount();
     }
 
     /**
-    * Sets the total adjusted demand amount of this vw adjust demand forecast act.
+    * Sets the total demand amount of this vw adjust demand forecast act.
     *
-    * @param totalAdjustedDemandAmount the total adjusted demand amount of this vw adjust demand forecast act
+    * @param totalDemandAmount the total demand amount of this vw adjust demand forecast act
     */
     @Override
-    public void setTotalAdjustedDemandAmount(double totalAdjustedDemandAmount) {
-        _vwAdjustDemandForecastAct.setTotalAdjustedDemandAmount(totalAdjustedDemandAmount);
+    public void setTotalDemandAmount(double totalDemandAmount) {
+        _vwAdjustDemandForecastAct.setTotalDemandAmount(totalDemandAmount);
     }
 
     /**

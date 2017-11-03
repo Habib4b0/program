@@ -1,11 +1,9 @@
 package com.stpl.app.util;
 
-import com.stpl.app.global.dao.impl.CompanySearchLogicDAOImpl;
-import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
+import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.domain.global.company.CompanyMasterDAO;
-import com.stpl.domain.global.item.ItemDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -188,6 +186,8 @@ public class GeneralCommonUtils {
      * Null representation of HelperDTO (Select one item)
      */
     public static final HelperDTO NULL_HELPER_DTO = new HelperDTO(ConstantsUtils.SELECT_ONE);
+    
+    final static CommonDao DAO = CommonDaoImpl.getInstance();
 
     /**
      * Add items to the NativeSelect from list of HelperDTO.
@@ -466,7 +466,7 @@ public class GeneralCommonUtils {
     }
     
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
-        final ItemDAO DAO = new ItemSearchLogicDAOImpl();
+        
         int code=0;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
@@ -480,9 +480,8 @@ public class GeneralCommonUtils {
     }
     
     public static Map<Integer, String> getCodeDescription() throws PortalException, SystemException{
-        CompanyMasterDAO dao = new CompanySearchLogicDAOImpl();
         Map<Integer, String> helperTableMap = new HashMap<>();
-        final List<HelperTable> list = dao.getHelperTableDetailsByListName();
+        final List<HelperTable> list = DAO.getHelperTableDetailsByListName();
         for(HelperTable helperTable: list){
             helperTableMap.put(helperTable.getHelperTableSid(), helperTable.getDescription());
         }
@@ -546,7 +545,7 @@ public class GeneralCommonUtils {
      */
     public List<HelperDTO> getHelperResults(final String listType) throws SystemException, PortalException {
         
-        final ItemDAO DAO = new ItemSearchLogicDAOImpl();
+        CommonDao DAO = CommonDaoImpl.getInstance();
         final List<HelperDTO> helperList = new ArrayList<>();
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
                 .forClass(HelperTable.class);

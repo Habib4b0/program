@@ -23,96 +23,98 @@ import com.stpl.ifs.ui.util.NumericConstants;
  */
 public class ProjectionSelectionDTO {
 
-    int projectionId;
-    int userId;
-    int sessionId;
-    int levelNo;
-    int treeLevelNo;
-    int frequencyDivision;
-    int historyStartYear;
-    int historyStartMonth;
-    int historyStartDay;
-    int historyStartPeriod;
-    int historyEndDay;
-    int historyEndPeriod;
-    int historyEndMonth;
-    int historyEndYear;
-    int forecastStartDay;
-    int forecastStartPeriod;
-    int forecastStartMonth;
-    int forecastStartYear;
-    int forecastEndDay;
-    int forecastEndPeriod;
-    int projectionStartDay;
-    int projectionStartPeriod;
-    int projectionStartMonth;
-    int projectionStartYear;
-    int projectionEndDay;
-    int projectionEndPeriod;
-    int currentYear;
-    int startYear;
-    int endYear;
-    int startPeriod;
-    int endPeriod;
-    int currentPeriod;
-    int startMonth;
-    int endMonth;
-    int startDay;
-    int endDay;
-    String salesOrUnit;
-    String actualsOrProjections;
-    String levelValue = StringUtils.EMPTY;
-    String parentNode = StringUtils.EMPTY;
-    String year;
-    String sales;
-    boolean isTotal;
-    boolean isProjectionTotal;
+    private int projectionId;
+    private int userId;
+    private int sessionId;
+    private int levelNo;
+    private int treeLevelNo;
+    private int frequencyDivision;
+    private int historyStartYear;
+    private int historyStartMonth;
+    private int historyStartDay;
+    private int historyStartPeriod;
+    private int historyEndDay;
+    private int historyEndPeriod;
+    private int historyEndMonth;
+    private int historyEndYear;
+    private int forecastStartDay;
+    private int forecastStartPeriod;
+    private int forecastStartMonth;
+    private int forecastStartYear;
+    private int forecastEndDay;
+    private int forecastEndPeriod;
+    private int projectionStartDay;
+    private int projectionStartPeriod;
+    private int projectionStartMonth;
+    private int projectionStartYear;
+    private int projectionEndDay;
+    private int projectionEndPeriod;
+    private int currentYear;
+    private int startYear;
+    private int endYear;
+    private int startPeriod;
+    private int endPeriod;
+    private int currentPeriod;
+    private int startMonth;
+    private int endMonth;
+    private int startDay;
+    private int endDay;
+    private String salesOrUnit;
+    private String actualsOrProjections;
+    private String levelValue = StringUtils.EMPTY;
+    private String parentNode = StringUtils.EMPTY;
+    private String year;
+    private String sales;
+    private boolean isTotal;
+    private boolean isProjectionTotal;
     private String hierarchyNo;
     private String reHierarchyNo = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
     private String customerHierarchyNo = StringUtils.EMPTY;
+    private String deductionHierarchyNo = StringUtils.EMPTY;
     private String hierarchyIndicator = StringUtils.EMPTY;
-    List<List<String>> discountList = new ArrayList<>();
-    String view;
-    String frequency = StringUtils.EMPTY;
-    boolean isFrequencyChanged = Boolean.TRUE;
-    String projectionOrder;
-    String history = StringUtils.EMPTY;
-    boolean isHistroryChanged = Boolean.TRUE;
-    String projection;
-    String pivotView;
-    String group;
-    int customId = 0;
-    int historyNum;
-    int projectionNum;
-    List<String> levelValueList = new ArrayList<>();
-    List<String> parentNodeList = new ArrayList<>();
-    Date startDate;
-    Date toDates;
-    List<String> columns = new ArrayList<>();
-    List<String> periodList = new ArrayList<>();
-    List<String> discountProgramsList = new ArrayList<>();
-    Map<String, String> periodListMap = new HashMap<>();
-    boolean isFilter;
-    boolean isCustomHierarchy;
-    int discountIndex = 0;
-    boolean isCount;
-    boolean isExandCollapse;
-    boolean ppa;
-    int total;
+    private List<List<String>> discountList = new ArrayList<>();
+    private String view;
+    private String frequency = StringUtils.EMPTY;
+    private boolean isFrequencyChanged = Boolean.TRUE;
+    private String projectionOrder;
+    private String history = StringUtils.EMPTY;
+    private boolean isHistroryChanged = Boolean.TRUE;
+    private String projection;
+    private String pivotView;
+    private String group;
+    private int customId = 0;
+    private int historyNum;
+    private int projectionNum;
+    private List<String> levelValueList = new ArrayList<>();
+    private List<String> parentNodeList = new ArrayList<>();
+    private Date startDate;
+    private Date toDates;
+    private List<String> columns = new ArrayList<>();
+    private List<String> periodList = new ArrayList<>();
+    private List<String> discountProgramsList = new ArrayList<>();
+    private Map<String, String> periodListMap = new HashMap<>();
+    private boolean isFilter;
+    private boolean isCustomHierarchy;
+    private int discountIndex = 0;
+    private boolean isCount;
+    private boolean isExandCollapse;
+    private boolean ppa;
+    private int total;
     private int filterLevelNo;
     private String filterHierarchyNo = StringUtils.EMPTY;
     private int customerLevelNo;
     private int productLevelNo;
-    ForecastDTO forecastDTO;
-    SessionDTO sessionDTO;
+    private int deductionLevelNo;
+    private ForecastDTO forecastDTO;
+    private SessionDTO sessionDTO;
     private Map<String, Integer> projectionDetails = new HashMap<>();
-    int historyStartIndex = -1;
-    int projectionStartIndex = -1;
-    int forecastStartIndex = -1;
-    int historyEndIndex = -1;
-    int projectionEndIndex = -1;
-    int forecastEndIndex = -1;
+    private int historyStartIndex = -1;
+    private int projectionStartIndex = -1;
+    private int forecastStartIndex = -1;
+    private int historyEndIndex = -1;
+    private int projectionEndIndex = -1;
+    private int forecastEndIndex = -1;
     private String groupFilter = StringUtils.EMPTY;
     private int tpLevel = 0;
     private boolean excelExport;
@@ -120,9 +122,9 @@ public class ProjectionSelectionDTO {
     private String prodRelationshipBuilderSid;
     private String relationshipBuilderSid;
     private List<String> nonFetchableIndex = new ArrayList<>();
-    boolean groupCount = false;
-    int levelCount = 0;
-    List<String> hirarechyNo = new ArrayList<>();
+    private boolean groupCount = false;
+    private int levelCount = 0;
+    private List<String> hirarechyNo = new ArrayList<>();
     private String discountName = StringUtils.EMPTY;
     private boolean expandCollapseFlag = false;
     private String ndcType = StringUtils.EMPTY;
@@ -229,8 +231,8 @@ public class ProjectionSelectionDTO {
     private String filterCustomerDDLB = StringUtils.EMPTY;
     private String filterLevelValue = StringUtils.EMPTY;
     private boolean FilterFlag;
-    int start = 0;
-    int offset = 0;
+    private int start = 0;
+    private int offset = 0;
     private String discountLevel = StringUtils.EMPTY;
     private Integer onExpandTotalRow = 0;
     private String pivotValue = StringUtils.EMPTY;
@@ -250,11 +252,11 @@ public class ProjectionSelectionDTO {
     private String definedContract=StringUtils.EMPTY;
     private String functionality=StringUtils.EMPTY;
     private boolean isSumarry=false;
-      private List<DiscountProjectionDTO> alternatePivotList=new ArrayList<>();
+    private List<DiscountProjectionDTO> alternatePivotList=new ArrayList<>();
     private String variableView=StringUtils.EMPTY;
     private boolean isAlternate=false;
     private String detailsSid=StringUtils.EMPTY;
-    Map<Integer, List> headerMapForExcel = new HashMap<>();
+    private Map<Integer, List> headerMapForExcel = new HashMap<>();
 
     private boolean returns;
     private List<String> commonColumn = new ArrayList<>();
@@ -268,6 +270,60 @@ public class ProjectionSelectionDTO {
     private String tabName = StringUtils.EMPTY;
     private boolean isGenerate = false;
     private boolean isDiscountFlag=false;
+    private boolean isproductFirst=false;
+    private boolean isdeductionFirst=false;
+    private boolean iscustomerFirst=false;
+    private List<String> customerLevelFilter=new ArrayList<>();
+    private List<String> productLevelFilter=new ArrayList<>();
+    private List<String> deductionLevelFilter=new ArrayList<>();
+    private List<String> deductionLevelFilterPv=new ArrayList<>();
+    private List<String> deductionLevelCaptions=new ArrayList<>();
+    private String selectedDeductionLevelName= StringUtils.EMPTY;
+    private String uomCode = StringUtils.EMPTY;
+    private Object[] displayFormat = null;
+    private Object conversionFactor = null;
+    
+    public List<String> getDeductionLevelFilter() {
+        return deductionLevelFilter;
+    }
+
+    public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
+        this.deductionLevelFilter = deductionLevelFilter;
+    }
+    public List<String> getDeductionLevelFilterPv() {
+        return deductionLevelFilterPv;
+    }
+
+    public void setDeductionLevelFilterPv(List<String> deductionLevelFilterPv) {
+        this.deductionLevelFilterPv = deductionLevelFilterPv;
+    }
+    
+
+    public String getUomCode() {
+        return uomCode;
+    }
+
+    public void setUomCode(String uomCode) {
+        this.uomCode = uomCode;
+    }
+
+    public List<String> getCustomerLevelFilter() {
+        return customerLevelFilter;
+    }
+
+    public void setCustomerLevelFilter(List<String> customerLevelFilter) {
+        this.customerLevelFilter = customerLevelFilter;
+    }
+
+    public List<String> getProductLevelFilter() {
+        return productLevelFilter;
+    }
+
+    public void setProductLevelFilter(List<String> productLevelFilter) {
+        this.productLevelFilter = productLevelFilter;
+    }
+    
+    
 
     public boolean isIsDiscountFlag() {
         return isDiscountFlag;
@@ -943,7 +999,7 @@ public class ProjectionSelectionDTO {
 
     public List<String> getDiscountNoList() {
         List<String> discountNos = new ArrayList<>();
-        if (discountList != null && discountList.size() > 0) {
+        if (discountList != null && !discountList.isEmpty()) {
             discountNos = discountList.get(0);
         }
         return discountNos;
@@ -951,7 +1007,7 @@ public class ProjectionSelectionDTO {
 
      public List<String> getDiscountNameNoList() {
         List<String> discountNos = new ArrayList<>();
-        if (discountList != null && discountList.size() > 0) {
+        if (discountList != null && !discountList.isEmpty()) {
             discountNos = discountList.get(NumericConstants.TWO);
         }
         return discountNos;
@@ -2252,6 +2308,79 @@ public class ProjectionSelectionDTO {
 
     public void setTabName(String tabName) {
         this.tabName = tabName;
+    }
+
+    public boolean getIsproductFirst() {
+        return isproductFirst;
+    }
+
+    public void setIsproductFirst(boolean isproductFirst) {
+        this.isproductFirst = isproductFirst;
+    }
+
+    public boolean getIscustomerFirst() {
+        return iscustomerFirst;
+    }
+
+    public void setIscustomerFirst(boolean iscustomerFirst) {
+        this.iscustomerFirst = iscustomerFirst;
+    }
+
+    public boolean getIsdeductionFirst() {
+        return isdeductionFirst;
+    }
+
+    public void setIsdeductionFirst(boolean isdeductionFirst) {
+        this.isdeductionFirst = isdeductionFirst;
+    }
+
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
+    }
+
+    public int getDeductionLevelNo() {
+        return deductionLevelNo;
+    }
+
+    public void setDeductionLevelNo(int deductionLevelNo) {
+        this.deductionLevelNo = deductionLevelNo;
+    }
+
+    public List<String> getDeductionLevelCaptions() {
+        return deductionLevelCaptions;
+    }
+
+    public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
+        this.deductionLevelCaptions = deductionLevelCaptions;
+    }
+
+    public String getSelectedDeductionLevelName() {
+        return selectedDeductionLevelName;
+    }
+
+    public void setSelectedDeductionLevelName(String selectedDeductionLevelName) {
+        this.selectedDeductionLevelName = selectedDeductionLevelName;
+    }
+    public Object[] getDisplayFormat() {
+        return displayFormat;
+    }
+
+    public void setDisplayFormat(Object[] displayFormat) {
+        this.displayFormat = new Object[displayFormat.length];
+        this.displayFormat = displayFormat;
+    }
+
+
+    public Object getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public void setConversionFactor(Object conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
 }

@@ -2,11 +2,14 @@ package com.stpl.app.security.udc.logic;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.vaadin.addons.lazycontainer.OrderByColumn;
 
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.HelperTable;
@@ -34,6 +37,9 @@ public class UdcLogic {
     private static final Logger LOGGER = LogManager
             .getLogger(UdcLogic.class.getName());
     private static final String CATEGORY = "CategoryName";
+    private static final String BRAND_NAME = "brandName";
+    private static final String DISPLAY_BRAND = "displayBrand";
+    private static final String BRAND_ID = "brand_id";
     UdcLogicDAO dao = new UdcLogicDAOImpl();
 
     public Container getListNames() {
@@ -87,6 +93,32 @@ public class UdcLogic {
         return helperList;
 
     }
+    
+    public List<HelperForm> getFileTypeDescription(String listName) {
+
+        List<HelperTable> list = null;
+        List<HelperForm> helperList = new ArrayList<HelperForm>();
+        try {
+            list = dao.getDescrition(listName);
+        } catch (SystemException e) {
+
+            LOGGER.error(e);
+        }
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                HelperForm helperForm = new HelperForm();
+
+                HelperTable helperTable = (HelperTable) list.get(i);
+                helperForm.setHelperTableSid(helperTable.getHelperTableSid());
+                helperForm.setListName(helperTable.getListName());
+                helperForm.setAliasName(helperTable.getAliasName());
+                helperForm.setDescription(helperTable.getDescription());
+                helperList.add(helperForm);
+            }
+        }
+        return helperList;
+
+    }
 
     public String SaveHelperTable(ErrorfulFieldGroup helperForm) {
         HelperTable helperTable = HelperTableLocalServiceUtil.createHelperTable(0);
@@ -100,6 +132,49 @@ public class UdcLogic {
                 helperTable.setListName(helperForm.getField(CommonUtils.CATEGORY).getValue().toString());
 
                 helperTable.setDescription(helperForm.getField(CommonUtils.DESCRIPTION)
+                        .getValue().toString());
+                helperTable.setRefCount(0);
+                helperTable.setCreatedBy(0);
+                helperTable.setModifiedBy(0);
+                helperTable.setCreatedDate(date);
+                helperTable.setModifiedDate(date);
+
+                list = dao.findByHelperTableDetails(helperForm.getField(CommonUtils.CATEGORY).getValue().toString());
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getDescription().equalsIgnoreCase(helperTable.getDescription())) {
+                        count++;
+                    }
+                }
+
+                if (count == 0) {
+                    dao.saveHelperTableDetails(helperTable);
+                    return CommonUtils.SUCCESS;
+                }
+
+            }
+
+            return "fail";
+        } catch (Exception e) {
+            LOGGER.debug("exception occured--->" + e);
+            return "fail";
+        }
+
+    }
+    
+    public String SaveFileTypeHelperTable(ErrorfulFieldGroup helperForm) {
+        HelperTable helperTable = HelperTableLocalServiceUtil.createHelperTable(0);
+        List<HelperTable> list;
+        int count = 0;
+        Date date = new Date();
+        try {
+            if (helperForm.getField(CommonUtils.CATEGORY) != null && helperForm.getField(CommonUtils.CATEGORY).getValue() != null
+                    && helperForm.getField(CommonUtils.DESCRIPTION).getValue() != null && helperForm.getField(CommonUtils.DESCRIPTION).getValue().toString() != "") {
+
+                helperTable.setListName(helperForm.getField(CommonUtils.CATEGORY).getValue().toString());
+
+                helperTable.setDescription(helperForm.getField(CommonUtils.DESCRIPTION)
+                        .getValue().toString());
+                 helperTable.setAliasName(helperForm.getField(CommonUtils.ALIASNAME)
                         .getValue().toString());
                 helperTable.setRefCount(0);
                 helperTable.setCreatedBy(0);
@@ -142,13 +217,13 @@ public class UdcLogic {
                 String displayBrand = StringUtils.EMPTY;
 
                 brandTable.setBrandId(brandForm.getField(CommonUtils.BRAND_ID).getValue().toString());
-                if (!StringUtils.EMPTY.equals(brandForm.getField("brandName").getValue().toString())) {
-                    brandName = brandForm.getField("brandName")
+                if (!StringUtils.EMPTY.equals(brandForm.getField(BRAND_NAME).getValue().toString())) {
+                    brandName = brandForm.getField(BRAND_NAME)
                             .getValue().toString();
                     brandTable.setBrandName(brandName);
                 }
-                if (!StringUtils.EMPTY.equals(brandForm.getField("displayBrand").getValue().toString())) {
-                    displayBrand = brandForm.getField("displayBrand")
+                if (!StringUtils.EMPTY.equals(brandForm.getField(DISPLAY_BRAND).getValue().toString())) {
+                    displayBrand = brandForm.getField(DISPLAY_BRAND)
                             .getValue().toString();
                     brandTable.setDisplayBrand(displayBrand);
                 }
@@ -229,14 +304,39 @@ public class UdcLogic {
     /**
      *
      */
-    public List<BrandMasterDTO> brandFind(String categoryValue, int startIndex, int offset) {
-        String query = " select brand_id,BRAND_NAME,DISPLAY_BRAND, BRAND_MASTER_SID from brand_master where inbound_status <> 'D' order by brand_id OFFSET " + startIndex + "ROWS FETCH NEXT " + offset + " ROWS ONLY";
+    public List<BrandMasterDTO> brandFind(String categoryValue, int startIndex, int offset,final List<OrderByColumn> columns) {
+    	String orderQuery = getOrderByStatement(columns);
+        String query = " select brand_id,BRAND_NAME,DISPLAY_BRAND, BRAND_MASTER_SID from brand_master where inbound_status <> 'D' "+orderQuery+" OFFSET " + startIndex + "ROWS FETCH NEXT " + offset + " ROWS ONLY";
         List list = (List) BrandMasterLocalServiceUtil.executeSelectQuery(query, null, null);
         List<BrandMasterDTO> finalList = getCustomizedBrandResults(list, categoryValue);
         return finalList;
     }
 
-    public List<BrandMasterDTO> getCustomizedBrandResults(final List list, String categoryValue) {
+    private String getOrderByStatement(final List<OrderByColumn> columns) {
+    	StringBuilder orderBuilder = new StringBuilder( "order by "); //
+    	Map<String,String> columnIdMap = getBrandColumnIdMap();
+    	if(columns != null && !columns.isEmpty()) {
+    		for (OrderByColumn orderByColumn : columns) {
+    			orderBuilder.append(" ").append(columnIdMap.get(orderByColumn.getName())).append(" ").append(orderByColumn.getType()).append(",");
+			}
+    		
+    		return orderBuilder.toString().substring(0, orderBuilder.length()-1);
+    	}
+		return orderBuilder.append(BRAND_ID).toString();
+				
+		
+	}
+
+	private Map<String, String> getBrandColumnIdMap() {
+		Map<String,String> columnIdMap = new HashMap<>();
+		columnIdMap.put("brandId", BRAND_ID);
+		columnIdMap.put(BRAND_NAME, "BRAND_NAME");
+		columnIdMap.put(DISPLAY_BRAND, "DISPLAY_BRAND");
+		columnIdMap.put("category", BRAND_ID);
+		return columnIdMap;
+	}
+
+	public List<BrandMasterDTO> getCustomizedBrandResults(final List list, String categoryValue) {
         List<BrandMasterDTO> results = new ArrayList<BrandMasterDTO>();
         for (int i = 0; i < list.size(); i++) {
             BrandMasterDTO brandDto = new BrandMasterDTO();

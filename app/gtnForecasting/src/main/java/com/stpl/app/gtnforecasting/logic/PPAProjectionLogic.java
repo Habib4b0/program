@@ -13,7 +13,6 @@ import com.stpl.app.gtnforecasting.dto.PPAProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
-import com.stpl.app.gtnforecasting.ppaprojection.form.PPAProjection;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
 import com.stpl.app.gtnforecasting.queryUtils.QueryReader;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -32,7 +31,6 @@ import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
@@ -174,11 +172,9 @@ public class PPAProjectionLogic {
         LOGGER.debug("Inside getcustomized PPA");
         try {
             List<PPAProjectionDTO> result = new ArrayList<>();
-            CustomTableHeaderDTO header = new CustomTableHeaderDTO();
             List<Object> visibleColumn = ridhtdto.getSingleColumns();
             PPAProjectionDTO dto = null;
             int levelNo = selection.getLevelNo();
-            String hirarechyNo = selection.getHierarchyNo();
             for (int i = 0; i < list.size(); i++) {
                 Object[] str = list.get(i);
                 if (str[0].toString().equalsIgnoreCase(String.valueOf(levelNo))) {

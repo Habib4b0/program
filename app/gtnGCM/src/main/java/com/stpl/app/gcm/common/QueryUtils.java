@@ -199,12 +199,6 @@ public class QueryUtils {
                             Query = Query + " AND HT.DESCRIPTION like '" + filterString
                                     + "' and HT.LIST_NAME = 'CONTRACT_TYPE'";
                         }
-                        if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.START_DATE = '" + DBDate.format(filterString) + "'";
-                        }
-                        if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
-                            Query = Query + " AND CN.END_DATE = '" + DBDate.format(filterString) + "'";
-                        }
                         if (Constants.IFPNAME.equals(stringFilter.getPropertyId())) {
                             Query = Query + " AND IFC.IFP_NAME like '" + filterString + "'";
                         }
@@ -214,7 +208,37 @@ public class QueryUtils {
                         if (Constants.RSNAME.equals(stringFilter.getPropertyId())) {
                             Query = Query + " AND RSC.RS_NAME like '" + filterString + "'";
                         }
-                    }
+                    } else if (filter instanceof Between) {
+                        Between stringFilter = (Between) filter;
+                        Date filterString = (Date) stringFilter.getStartValue();
+                        Date filterString1 = (Date) stringFilter.getEndValue();
+                        if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
+                            Query = Query + " AND CN.START_DATE BETWEEN  '" + DBDate.format(filterString) + "' AND '" + DBDate.format(filterString1) + "'";
+                        }
+                        if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
+                            Query = Query + " AND CN.END_DATE = '" + DBDate.format(filterString) + "' AND '" + DBDate.format(filterString1) + "'";
+                        }
+                    } else if (filter instanceof Compare) {
+                        Compare stringFilter = (Compare) filter;
+
+                        if (stringFilter.getValue() instanceof Date) {
+                            Compare.Operation operation = stringFilter.getOperation();
+                            String operator = "";
+                            Date value = (Date) stringFilter.getValue();
+                            if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                                operator = ">=";
+                            } else {
+                                operator = "<=";
+                            }
+                            if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
+                                Query = Query + " AND CN.START_DATE " + operator + " '" + DBDate.format(value) + "'  ";
+
+                            }
+                            if (Constants.END_DATE.equals(stringFilter.getPropertyId())) {
+                                Query = Query + " AND CN.END_DATE " + operator + " '" + DBDate.format(value) + "'  ";
+                            }
+                        }
+                }
                 }
             }
             Query = Query + " GROUP BY CM.COMPANY_NAME,CN.CONTRACT_NO,CN.CONTRACT_NAME,HT.DESCRIPTION,\n"

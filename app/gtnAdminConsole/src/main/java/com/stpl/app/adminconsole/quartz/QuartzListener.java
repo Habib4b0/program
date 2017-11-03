@@ -93,7 +93,7 @@ public class QuartzListener implements ServletContextListener {
 			printJobList();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+                    LOGGER.error(e);
 		}
 	}
 
@@ -181,7 +181,7 @@ public class QuartzListener implements ServletContextListener {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+                    LOGGER.error(e);
 		}
 
 	}
@@ -285,7 +285,7 @@ public class QuartzListener implements ServletContextListener {
 		}
                 Date startDate = getStartDate(profile.getStartDate());
                 if (startDate.after(profile.getEndDate())) {
-                     return triggerBuilder;
+                        return triggerBuilder;
                 }
 		if (profile.getStartDate() != null) {
 			triggerBuilder.startAt(startDate);
@@ -365,7 +365,6 @@ public class QuartzListener implements ServletContextListener {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e);
-			e.printStackTrace();
 		}
 	}
 

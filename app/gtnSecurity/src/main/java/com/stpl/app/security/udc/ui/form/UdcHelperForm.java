@@ -75,6 +75,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     final TextField brandId = new TextField();
     final TextField brandName = new TextField();
     final TextField displayBrand = new TextField();
+    final TextField aliasName = new TextField();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     ErrorfulFieldGroup binder;
     ErrorfulFieldGroup brandBinder;
@@ -88,7 +89,9 @@ public class UdcHelperForm extends CustomComponent implements View {
     public static final String UDC_CONFIGURATION = "UDC Configuration";
     private static final Object[] BRAND_HELPER_COLUMNS = new Object[]{BRAND_ID_LABEL, BRAND_NAME_LABEL, DIS_BRAND_LABEL, CATEGORY_LABEL};
     private static final String[] BRAND_HELPER_HEADERS = new String[]{"Brand ID", "Brand Name", "Display Brand", CommonUtils.CASECATEGORY};
-
+    
+    private static final Object[] FILE_TYPE_HELPER_COLUMNS = new Object[]{"description", "listName", "aliasName"};
+    private static final String[] FILE_TYPE_HELPER_HEADERS = new String[]{"Description", CommonUtils.CASECATEGORY ,CommonUtils.ALIAS_NAME};
     Button btnDelete = new Button("Delete");
     Button btnSave1 = new Button("Add");
 
@@ -99,6 +102,7 @@ public class UdcHelperForm extends CustomComponent implements View {
     Table table = new Table();
     LazyBeanItemContainer searchResults;
     final Label valueLabel = new Label("Value");
+    final Label aliasNameLabel = new Label("AliasName");
     final Label brandIdLabel = new Label("Brand ID");
     final Label brandNameLabel = new Label("Brand Name");
     final Label displayBrandLabel = new Label("Display Brand");
@@ -169,7 +173,7 @@ public class UdcHelperForm extends CustomComponent implements View {
         brandBinder.setErrorDisplay(errorMsg);
         return brandBinder;
     }
-    GridLayout gridLayout = new GridLayout(NumericConstants.FIVE, NumericConstants.FOUR);
+    GridLayout gridLayout = new GridLayout(NumericConstants.SEVEN, NumericConstants.FOUR);
 
     private GridLayout addGrid() {
 
@@ -302,6 +306,24 @@ public class UdcHelperForm extends CustomComponent implements View {
                         table.setVisibleColumns(BRAND_HELPER_COLUMNS);
                         table.setColumnHeaders(BRAND_HELPER_HEADERS);
 
+                    }else if (event.getProperty().getValue().equals(CommonUtils.FILE_TYPE)) {
+                        gridLayout.removeAllComponents();
+                        gridLayout.addComponent(new Label(CommonUtils.CASECATEGORY), 0, 0);
+                        gridLayout.addComponent(category, NumericConstants.ONE, 0);
+
+                        gridLayout.addComponent(valueLabel, NumericConstants.TWO, 0);
+                        gridLayout.addComponent(description, NumericConstants.THREE, 0);
+                        gridLayout.addComponent(aliasNameLabel, NumericConstants.FOUR, 0);
+                        gridLayout.addComponent(aliasName, NumericConstants.FIVE, 0);
+                        gridLayout.addComponent(addButton(), NumericConstants.SIX, 0);
+//                                       
+                        table.removeAllItems();
+                        List<HelperForm> helperResult = udcLogic.getFileTypeDescription(category.getValue().toString());
+                        searchResultbeans.addAll(helperResult);
+                        table.setContainerDataSource(searchResultbeans);
+                        table.setVisibleColumns(FILE_TYPE_HELPER_COLUMNS);
+                        table.setColumnHeaders(FILE_TYPE_HELPER_HEADERS);
+
                     } else {
                         gridLayout.removeAllComponents();
                         gridLayout.addComponent(new Label(CommonUtils.CASECATEGORY), 0, 0);
@@ -318,6 +340,12 @@ public class UdcHelperForm extends CustomComponent implements View {
                         table.setVisibleColumns(HELPER_COLUMNS);
                         table.setColumnHeaders(HELPER_HEADERS);
                     }
+                    
+                    description.setValue(StringUtils.EMPTY);
+                    aliasName.setValue(StringUtils.EMPTY);
+                    brandId.setValue(StringUtils.EMPTY);
+                    brandName.setValue(StringUtils.EMPTY);
+                    displayBrand.setValue(StringUtils.EMPTY);
 
                 } else {
 
@@ -347,7 +375,10 @@ public class UdcHelperForm extends CustomComponent implements View {
                         if (category.getValue().equals(CommonUtils.BRAND)) {
                             success = udcLogic.saveBrandMaster(brandBinder, masterSid);
 
-                        } else {
+                        }else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
+                            success = udcLogic.SaveFileTypeHelperTable(binder);
+
+                        }else {
                             success = udcLogic.SaveHelperTable(binder);
                         }
                         if (success.equals("success")) {
@@ -359,7 +390,12 @@ public class UdcHelperForm extends CustomComponent implements View {
                                 table.setContainerDataSource(searchResults);
                                 table.setVisibleColumns(BRAND_HELPER_COLUMNS);
                                 table.setColumnHeaders(BRAND_HELPER_HEADERS);
-                            } else {
+                            }else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
+                                searchResultbeans.removeAllItems();
+
+                                List<HelperForm> helperResult = udcLogic.getFileTypeDescription(category.getValue().toString());
+                                searchResultbeans.addAll(helperResult);
+                            }else {
                                 searchResultbeans.removeAllItems();
 
                                 List<HelperForm> helperResult = udcLogic.getDescrition(category.getValue().toString());
@@ -383,6 +419,12 @@ public class UdcHelperForm extends CustomComponent implements View {
                             notif.show(Page.getCurrent());
 
                         }
+                    description.setValue(StringUtils.EMPTY);
+                    aliasName.setValue(StringUtils.EMPTY);
+                    brandId.setValue(StringUtils.EMPTY);
+                    brandName.setValue(StringUtils.EMPTY);
+                    displayBrand.setValue(StringUtils.EMPTY);
+                        
                     } catch (Exception e) {
                         LOGGER.error(e);
 
@@ -455,6 +497,31 @@ public class UdcHelperForm extends CustomComponent implements View {
                             NotificationUtils.getErrorNotification("Error", "Please select Brand to delete");
                         } else {
                             Notification notif = new Notification("Deleted Failed. Category Value " + "BRAND" + " is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
+                            notif.setPosition(Position.MIDDLE_CENTER);
+                            notif.setStyleName(CommonUtils.MYSTYLE);
+                            notif.show(Page.getCurrent());
+                        }
+                    } else if (category.getValue().equals(CommonUtils.FILE_TYPE)) {
+                        HelperTable check = HelperTableLocalServiceUtil.getHelperTable(masterSid);
+                        HelperTable helperTable = HelperTableLocalServiceUtil.getHelperTable(masterSid);
+                        if (check.getRefCount() == 0 && masterSid != 0) {
+                            helperTable = udcLogic.deleteHelperTableByCode(masterSid);
+
+                            searchResultbeans.removeAllItems();
+
+                            List<HelperForm> helperResult = udcLogic.getFileTypeDescription(String.valueOf(category.getValue()));
+                            searchResultbeans.addAll(helperResult);
+                            Notification notif = new Notification(" Category Value " + helperTable.getListName() + " Deleted successfully", Notification.Type.HUMANIZED_MESSAGE);
+                            notif.setPosition(Position.MIDDLE_CENTER);
+                            notif.setStyleName(CommonUtils.MYSTYLE);
+                            notif.show(Page.getCurrent());
+                        } else if (masterSid == 0) {
+                            Notification notif = new Notification("Deleted Failed", Notification.Type.HUMANIZED_MESSAGE);
+                            notif.setPosition(Position.MIDDLE_CENTER);
+                            notif.setStyleName(CommonUtils.MYSTYLE);
+                            notif.show(Page.getCurrent());
+                        } else {
+                            Notification notif = new Notification("Deleted Failed. Category Value " + helperTable.getListName() + "is currently used in Master Records", Notification.Type.HUMANIZED_MESSAGE);
                             notif.setPosition(Position.MIDDLE_CENTER);
                             notif.setStyleName(CommonUtils.MYSTYLE);
                             notif.show(Page.getCurrent());

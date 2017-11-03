@@ -19,7 +19,6 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.app.serviceUtils.ErrorCodeUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
@@ -486,13 +485,15 @@ public class PPADetailsLookup extends Window {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public void createWorkSheetContent(final PrintWriter printWriter)  {
+    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter)  {
         PPADetailsDTO dto;
         final List<PPADetailsDTO> searchList = excelResultsContainer.getItemIds();
         for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {
 
             dto = searchList.get(rowCount);
             printWriter.print(ConstantsUtils.QUOTE + dto.getPeriod() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
+            
+            printWriter.print(ConstantsUtils.QUOTE + dto.getRebateScheduleName()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
 
             printWriter.print(ConstantsUtils.QUOTE + dto.getPriceProtectionPriceType() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
 
@@ -541,6 +542,8 @@ public class PPADetailsLookup extends Window {
             } else {
                 printWriter.print(dto.getResetDate() + ExcelExportUtil.COMMA);
             }
+            
+            printWriter.print(ConstantsUtils.QUOTE + dto.getResetInterval()+ ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
 
             printWriter.print(ConstantsUtils.QUOTE + dto.getResetFrequency() + ConstantsUtils.QUOTE + ExcelExportUtil.COMMA);
 

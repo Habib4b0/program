@@ -5,30 +5,32 @@
  */
 package com.stpl.app.utils;
 
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
-import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import com.stpl.app.utils.Constants.*;
+
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.utils.Constants.StringConstants;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
 
 /**
  *
@@ -79,7 +81,7 @@ public class QueryUtils {
      * @param periodsMap
      */
     public void updateDiscProjMasterCalc(ProjectionSelectionDTO projectionSelection,
-             Map<String, Map<String, List<String>>> periodsMap,List<String> selectedDiscount,Boolean isProgram) {
+             Map<String, Map<String, List<String>>> periodsMap,List<String> selectedDiscount,Boolean isProgram,Boolean isCustom) {
         LOGGER.debug(" entering updateInputsForCalc");
         try {
 
@@ -89,8 +91,12 @@ public class QueryUtils {
             List<String> periodsList = new ArrayList<>();
             if (projectionSelection.getMethodology().equals(CONTRACT_DETAILS.getConstant())) {
                 baselinePeriods = " ";
-                for (String discountName : periodsMap.keySet()) {
+                for (String discountName : selectedDiscount) {
+                    if(isCustom){
+                      updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection, discountName,isProgram);
+                    }else{
                      updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
+                    }
                 }
             } else {
                 for (String discountName : periodsMap.keySet()) {
@@ -111,8 +117,11 @@ public class QueryUtils {
                     if (projectionSelection.getFrequency().equals(MONTHLY.getConstant())) {
                         baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
                     }
-
-                    updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName,isProgram);
+                    if (isCustom) {
+                        updateBaseLinePeriodsCustom(baselinePeriods, projectionSelection, discountName, isProgram);
+                    } else {
+                        updateBaseLinePeriods(baselinePeriods, projectionSelection, discountName, isProgram);
+                    }
                 }
             }
 
@@ -212,7 +221,7 @@ public class QueryUtils {
 
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
 
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             String countValue = String.valueOf(obj);
 
@@ -486,6 +495,19 @@ public class QueryUtils {
         }
         return sql.toString();
     }
+    public static String getQuery( String query,List input) {
+        StringBuilder sql =new StringBuilder();
+        try {
+            sql = new StringBuilder(query);
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
+
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
+        return sql.toString();
+    }
         /**
      * get Count method
      *
@@ -591,7 +613,7 @@ public class QueryUtils {
         query = query + ") TMP_COUNT;";
         
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-        return list != null && list.size() > 0 ? (Integer) list.get(0) : 0;
+        return list != null && !list.isEmpty() ? (Integer) list.get(0) : 0;
     }
 
     public List itemsSearch(Map<String, Object> parameters, int start, int offset, SessionDTO session) {
@@ -730,9 +752,9 @@ public class QueryUtils {
     }
 
     private void updateBaseLinePeriods(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String discountName,Boolean isProgram) {
-       LOGGER.debug(" Baseline Periods " + baselinePeriods);
+       LOGGER.debug("  Baseline Periods " + baselinePeriods);
        String masterTableUpdateQuery;
-                masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY");
+                masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY_NEW");
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_PERIODS", baselinePeriods);
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@FORECAST_START_PERIOD_SID", projectionSelection.getFromDateDdlb());
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@FORECAST_END_PERIOD_SID", projectionSelection.getToDateDdlb());
@@ -740,6 +762,20 @@ public class QueryUtils {
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@METHODOLOGY", projectionSelection.getMethodology());
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("$COLUMN_NAME", isProgram ? "RS.RS_CONTRACT_SID":"DPM.PRICE_GROUP_TYPE");
                 masterTableUpdateQuery = masterTableUpdateQuery.replace("@PRICE_GROUP_TYPE", discountName.contains(TILT) ? discountName.split(TILT)[1] : discountName );
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@LEVELVALUES", projectionSelection.getDeductionLevelFilter().toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY));
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@RELBUILDSID", projectionSelection.getSessionDTO().getDedRelationshipBuilderSid() );
+               commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
+    }
+    
+    private void updateBaseLinePeriodsCustom(String baselinePeriods, ProjectionSelectionDTO projectionSelection, String discountName,Boolean isProgram) {
+       LOGGER.info(" Baseline Periods " + baselinePeriods);
+       String masterTableUpdateQuery;
+                masterTableUpdateQuery = SQlUtil.getQuery("BASELINE_UPDATE_QUERY_CUSTOM");
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_PERIODS", baselinePeriods);
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@FORECAST_START_PERIOD_SID", projectionSelection.getFromDateDdlb());
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@FORECAST_END_PERIOD_SID", projectionSelection.getToDateDdlb());
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@CALCULATION_BASED", projectionSelection.getCalcBased());
+                masterTableUpdateQuery = masterTableUpdateQuery.replace("@METHODOLOGY", projectionSelection.getMethodology());
                commonDao.executeBulkUpdateQuery(QueryUtil.replaceTableNames(masterTableUpdateQuery, projectionSelection.getSessionDTO().getCurrentTableNames()), null, null);
     }
     public static List getAppData(List input, String queryName, String quaryName2) {

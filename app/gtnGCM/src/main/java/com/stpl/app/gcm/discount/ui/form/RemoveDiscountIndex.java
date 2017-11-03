@@ -30,6 +30,7 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -243,10 +244,12 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
         }
         resultsTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -258,6 +261,7 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constants.MARKET_TYPE.equals(propertyId)) {
                     ComboBox marketType = new ComboBox();
@@ -272,6 +276,8 @@ public class RemoveDiscountIndex extends CustomComponent implements View {
                     checkRec.setVisible(false);
                     return checkRec;
                 }
+                
+           
                 return null;
             }
 

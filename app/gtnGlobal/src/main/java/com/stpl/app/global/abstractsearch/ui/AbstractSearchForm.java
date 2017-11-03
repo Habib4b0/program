@@ -10,46 +10,16 @@ import com.stpl.app.global.abstractsearch.util.Message;
 import com.stpl.app.global.abstractsearch.util.MessageUtil;
 import com.stpl.app.global.abstractsearch.util.UIUtils;
 import com.stpl.app.global.abstractsearch.util.ValidationUtil;
-import com.stpl.app.global.cfp.ui.view.CFPAddView;
-import com.stpl.app.global.cfp.util.CFPTestGenerator;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.CommonUtil;
-import com.stpl.app.global.company.dto.CompanyFilterGenerator;
-import com.stpl.app.global.company.ui.lazyload.CompanyQualifierNameContainer;
-import com.stpl.app.global.company.ui.lazyload.CompanyQualifierNameCriteria;
-import com.stpl.app.global.company.ui.view.CompanyAddView;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.compliancededuction.ui.util.ComplianceDeductionFilterGenerator;
 import com.stpl.app.global.compliancededuction.ui.view.CDRView;
 import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.stpl.app.global.deductioncalendar.ui.util.DeductionFilterGenerator;
 import com.stpl.app.global.deductioncalendar.ui.view.DeductionCalendarView;
-import com.stpl.app.global.ifp.ui.view.IFPAddView;
-import com.stpl.app.global.item.dto.ItemMasterGenerate;
-import com.stpl.app.global.item.ui.lazyload.BrandContainer;
-import com.stpl.app.global.item.ui.lazyload.BrandCriteria;
-import com.stpl.app.global.item.ui.lazyload.ItemQualifierNameContainer;
-import com.stpl.app.global.item.ui.lazyload.ItemQualifierNameCriteria;
-import com.stpl.app.global.item.ui.lazyload.Ndc8Container;
-import com.stpl.app.global.item.ui.lazyload.Ndc8Criteria;
-import com.stpl.app.global.item.ui.lazyload.Ndc9Container;
-import com.stpl.app.global.item.ui.lazyload.Ndc9Criteria;
-import com.stpl.app.global.item.ui.view.ItemAddView;
-import com.stpl.app.global.netsalesformula.dto.NsfFilterGenerator;
-import com.stpl.app.global.netsalesformula.logic.NsfLogic;
-import com.stpl.app.global.netsalesformula.ui.view.NSFView;
-import com.stpl.app.global.priceschedule.dto.PSFilterGenerator;
-import com.stpl.app.global.priceschedule.ui.view.PSView;
-import com.stpl.app.global.rebateplan.dto.RebatePlanMasterDTO;
-import com.stpl.app.global.rebateplan.logic.RebatePlanSearchLogic;
-import com.stpl.app.global.rebateplan.ui.view.RebatePlanView;
-import com.stpl.app.global.rebateplan.util.RPFilterGenerator;
-import com.stpl.app.global.rebateschedule.dto.RSFilterGenerate;
-import com.stpl.app.global.rebateschedule.ui.view.RebateScheduleAddView;
-import com.stpl.app.model.RebatePlanMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.ui.IFPFilterGenerator;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.CommonUIUtils;
@@ -57,7 +27,6 @@ import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.ErrorCodeUtil;
 import com.stpl.app.util.ErrorCodes;
 import com.stpl.app.util.FunctionNameUtil;
-import com.stpl.app.util.HelperDTO;
 import com.stpl.app.util.ResponsiveUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.DateToStringConverter;
@@ -71,22 +40,18 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDateConverter;
 import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.data.validator.BeanValidator;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ItemClickEvent;
-import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
@@ -106,7 +71,6 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -352,7 +316,7 @@ public final class AbstractSearchForm extends CustomComponent {
      */
     @UiField("label17")
     private Label label17;
-    
+
     /**
      * Copy Button
      */
@@ -544,10 +508,7 @@ public final class AbstractSearchForm extends CustomComponent {
                         if (searchForm.isRecordLockStatus()) {
                             if (itemStatusCheck()) {
                                 sessionDTO.setMode(ConstantsUtils.VIEW);
-                                if (ConstantUtil.COMPANY_MAST.equals(moduleName) || ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-                                    getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-
-                                } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
+                                if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
                                     getUI().getNavigator().navigateTo(CDRView.NAME);
                                 } else {
                                     getUI().getNavigator().navigateTo(ConstantsUtils.ADD);
@@ -571,12 +532,8 @@ public final class AbstractSearchForm extends CustomComponent {
                             }
                         } else {
                             sessionDTO.setMode(ConstantsUtils.EDIT);
-                            if (ConstantUtil.COMPANY_MAST.equals(moduleName) || ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-                                getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-                            } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
+                            if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
                                 getUI().getNavigator().navigateTo(CDRView.NAME);
-                            } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-                                getUI().getNavigator().navigateTo(NSFView.NAME);
                             } else {
                                 getUI().getNavigator().navigateTo(ConstantsUtils.ADD);
                             }
@@ -881,147 +838,7 @@ public final class AbstractSearchForm extends CustomComponent {
 
     private void configureLayout(String moduleName) {
 
-        if (ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-            label17.setVisible(false);
-            text9.setVisible(false);
-        } else if (ConstantUtil.COMPANY_MAST.equals(moduleName)) {
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label8.setVisible(false);
-            text6.setVisible(false);
-            label12.setVisible(false);
-            text7.setVisible(false);
-            label14.setVisible(false);
-            combo7.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            label17.setVisible(false);
-            text9.setVisible(false);
-        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName) || ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            combo3.setVisible(false);
-            label10.setVisible(false);
-            combo4.setVisible(false);
-            label11.setVisible(false);
-            combo5.setVisible(false);
-            label13.setVisible(false);
-            combo6.setVisible(false);
-            label14.setVisible(false);
-            combo7.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            label17.setVisible(false);
-            text9.setVisible(false);
-            if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-                copyBtn.setVisible(true);
-                deleteBtn.setVisible(false);
-            }
-
-        }
-        else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
-
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            combo3.setVisible(false);
-            label10.setVisible(false);
-            combo4.setVisible(false);
-            label11.setVisible(false);
-            combo5.setVisible(false);
-            label13.setVisible(false);
-            combo6.setVisible(false);
-            label14.setVisible(false);
-            combo7.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            label17.setVisible(false);
-            text9.setVisible(false);
-            copyBtn.setVisible(true);
-            deleteBtn.setVisible(false);
-
-        }
-        
-        else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label8.setVisible(false);
-            text6.setVisible(false);
-            label11.setVisible(false);
-            combo5.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            copyBtn.setVisible(true);
-            deleteBtn.setVisible(false);
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            combo3.setVisible(false);
-            label10.setVisible(false);
-            combo4.setVisible(false);
-            label11.setVisible(false);
-            combo5.setVisible(false);
-            label13.setVisible(false);
-            combo6.setVisible(false);
-            label14.setVisible(false);
-            combo7.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            text6.setVisible(false);
-            text7.setVisible(false);
-            text8.setVisible(false);
-            text9.setVisible(false);
-            label12.setVisible(false);
-            label16.setVisible(false);
-            label17.setVisible(false);
-            text9.setVisible(false);
-            copyBtn.setVisible(true);
-            deleteBtn.setVisible(false);
-            reset.setVisible(true);
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            label1.setVisible(false);
-            text1.setVisible(false);
-            label2.setVisible(false);
-            text2.setVisible(false);
-            label4.setVisible(false);
-            text4.setVisible(false);
-            label3.setVisible(false);
-            text3.setVisible(false);
-            label5.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            label6.setVisible(false);
-            combo1.setVisible(false);
-            combo3.setVisible(false);
-            label10.setVisible(false);
-            combo4.setVisible(false);
-            label11.setVisible(false);
-            combo5.setVisible(false);
-            label13.setVisible(false);
-            combo6.setVisible(false);
-            label14.setVisible(false);
-            combo7.setVisible(false);
-            label15.setVisible(false);
-            combo8.setVisible(false);
-            label17.setVisible(false);
-            text9.setVisible(false);
-            copyBtn.setVisible(true);
-            deleteBtn.setVisible(true);
-            reset.setVisible(true);
-        } else if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
+        if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             label4.setVisible(false);
             text4.setVisible(false);
             label5.setVisible(false);
@@ -1088,125 +905,16 @@ public final class AbstractSearchForm extends CustomComponent {
     }
 
     private void loadComponents(String moduleName) throws SystemException, PortalException {
-        if (ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo2, UIUtils.ITEM_TYPE);
-            final LazyContainer ndc9Container = new LazyContainer(HelperDTO.class, new Ndc9Container(), new Ndc9Criteria());
-            commonsUtil.loadLazyComboBox(combo3, ndc9Container);
-            commonsUtil.loadComboBox(combo4, UIUtils.FORM1);
-            final LazyContainer container = new LazyContainer(HelperDTO.class, new ItemQualifierNameContainer(false), new ItemQualifierNameCriteria());
-            commonsUtil.loadLazyComboBox(combo5, container);
-            final LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new BrandContainer(false), new BrandCriteria());
-            commonsUtil.loadLazyComboBox(combo6, identifierTypeDescContainer);
-            final LazyContainer ndc8Container = new LazyContainer(HelperDTO.class, new Ndc8Container(), new Ndc8Criteria());
-            commonsUtil.loadLazyComboBox(combo7, ndc8Container);
-            commonsUtil.loadComboBox(combo8, UIUtils.STRENGTH1);
-        } else if (ConstantUtil.COMPANY_MAST.equals(moduleName)) {
-
-            commonsUtil.loadComboBox(combo1, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo2, UIUtils.COMPANY_TYPE);
-            commonsUtil.loadComboBox(combo3, UIUtils.COMPANY_CATEGORY);
-            commonsUtil.loadComboBox(combo4, UIUtils.COMPANY_GROUP);
-            commonsUtil.loadComboBox(combo5, UIUtils.COMPANY_TRADE_CLASS);
-            combo5.setWidth("207px");
-            final LazyContainer identifierTypeDescContainer = new LazyContainer(HelperDTO.class, new CompanyQualifierNameContainer(false), new CompanyQualifierNameCriteria());
-            commonsUtil.loadLazyComboBox(combo6, identifierTypeDescContainer);
-        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.CFP_TYPES);
-            commonsUtil.loadComboBox(combo2, UIUtils.STATUS);
-        } else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo2, UIUtils.HELPER_IFP_TYPE);
-        } else if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo2, UIUtils.PS_TYPE);
-        } else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.REBATE_SCHEDULE_TYPE);
-            commonsUtil.loadComboBox(combo2, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo3, UIUtils.REBATE_PROGRAM_TYPE);
-            commonsUtil.loadComboBox(combo4, UIUtils.REBATE_SCHEDULE_CATEGORY);
-            commonsUtil.loadComboBox(combo6, UIUtils.REBATE_FREQUENCY);
-            commonsUtil.loadComboBox(combo7, UIUtils.CALCULATION_TYPE);
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo1, UIUtils.STATUS);
-            commonsUtil.loadComboBox(combo2, UIUtils.REBATE_PLAN_TYPE);
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo2, UIUtils.NS_FORMULA_TYPE);
-        } else if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
+        if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             commonsUtil.loadComboBox(combo1, UIUtils.DEDUCTION_CALENDAR_CATEGORY);
         } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
             commonsUtil.loadComboBox(combo1, UIUtils.RULE_TYPE);
             commonsUtil.loadComboBox(combo6, UIUtils.RULE_CATEGORY);
         }
-
     }
 
     private void fieldValidation(String moduleName) {
-
-        if (ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-            text1.setData("maxlengthvalidation,maxlengthvalidationsystemid,specialcharvalidation,specialcharvalidationsystemid");
-            text2.setData("maxlengthvalidation,maxlengthvalidationitemid,null,null");
-            text3.setData("maxlengthvalidationfifty,maxlengthvalidationitemno,null,null");
-            text4.setData("maxlengthvalidationhundred,maxlengthvalidationitemname,null,null");
-            text5.setData("maxlengthvalidationtwofifty,maxlengthvalidationitemdesc,alphaNumericCharWithoutStar,allowedSpwecialCharacters");
-            text7.setData("maxlengthvalidation,maxlengthvalidationitemidentifier,specialcharvalidation,specialcharvalidationitemidentifier");
-            text2.focus();
-            text7.setEnabled(false);
-            text7.setValidationVisible(true);
-            text7.addValidator(new BeanValidator(SearchCriteriaDTO.class, "text7"));
-            text7.addValidator(new IdentifierValidator());
-        } else if (ConstantUtil.COMPANY_MAST.equals(moduleName)) {
-            text1.setData("maxlengthvalidation,maxlengthvalidationcompanyid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationcompanyno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyname,null,null");
-            text8.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyidentifier,null,null");
-            text1.focus();
-            text8.setEnabled(false);
-            text8.setValidationVisible(true);
-            text8.addValidator(new BeanValidator(SearchCriteriaDTO.class, "text8"));
-            text8.addValidator(new CompanyIdentifierValidator());
-        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName)) {
-            text1.focus();
-            text1.setData("maxlengthvalidation,maxlengthvalidationcompanyfamilyplanid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationcompanyfamilyplanno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyfamilyplanname,null,null");
-            text6.setData("maxlengthvalidation,maxlengthvalidationcompanyid,alphaNumericChars,alphaNumericCharsMessage");
-            text7.setData("maxlengthvalidationfifty,maxlengthvalidationcompanyno,alphaNumericChars,alphaNumericCharsMessage");
-            text8.setData("maxlengthvalidationhundred,maxlengthvalidationcompanyname,alphaNumericChars,alphaNumericCharsMessage");
-        } else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
-            text1.focus();
-            text1.setData("maxlengthvalidationfifty,maxlengthvalidationitemfamilyplanid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationitemfamilyplanno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationitemfamilyplanname,null,null");
-            text6.setData("maxlengthvalidationfifty,maxlengthvalidationitemid,alphaNumericChars,alphaNumericCharsMessage");
-            text7.setData("maxlengthvalidationfifty,maxlengthvalidationifpitemno,alphaNumericChars,alphaNumericCharsMessage");
-            text8.setData("maxlengthvalidationhundred,maxlengthvalidationifpitemname,alphaNumericChars,alphaNumericCharsMessage");
-        } else if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-            text1.focus();
-            text1.setData("maxlengthvalidation,maxlengthvalidationpricescheduleid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationpricescheduleno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationpriceschedulename,null,null");
-
-            text6.setData("maxlengthvalidationhundred,maxlengthvalidationitemidhun,null,null");
-            text7.setData("maxlengthvalidationhundred,maxlengthvalidationitemnohun,null,null");
-            text8.setData("maxlengthvalidationhundred,maxlengthvalidationitemnamehun,null,null");
-
-        } else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-            text1.focus();
-            text1.setData("maxlengthvalidationfifty,maxlengthvalidationrebatescheduleid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationrebatescheduleno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationrebateschedulename,null,null");
-
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            text1.focus();
-            text1.setData("maxlengthvalidation,maxlengthvalidationrebateplanid,null,null");
-            text2.setData("maxlengthvalidationfifty,maxlengthvalidationrebateplanno,null,null");
-            text3.setData("maxlengthvalidationhundred,maxlengthvalidationrebateplanname,null,null");
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            text6.setData(ConstantUtil.NULL_DATA);
-            text7.setData(ConstantUtil.NULL_DATA);
-            text8.setData(ConstantUtil.NULL_DATA);
-        } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
+        if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
             combo1.focus();
             text6.setData(ConstantUtil.NULL_DATA);
             text7.setData(ConstantUtil.NULL_DATA);
@@ -1329,32 +1037,6 @@ public final class AbstractSearchForm extends CustomComponent {
     public void btnAddLogic(Button.ClickEvent event) {
         VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantsUtils.ADD);
         sessionDTO.setMode(ConstantsUtils.ADD);
-        if (ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-        }
-        if (ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(ItemAddView.NAME);
-        }
-        if (ConstantUtil.COMPANY_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(CFPAddView.NAME);
-        }
-        if (ConstantUtil.ITEM_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(IFPAddView.NAME);
-        }
-        if (ConstantUtil.PRICE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(PSView.NAME);
-        }
-        if (ConstantUtil.REBATE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
-        }
-        if (ConstantUtil.REBATE_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(RebatePlanView.NAME);
-        }
-        if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            sessionDTO.setMode(ConstantsUtils.ADD);
-            VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.ADD);
-            getUI().getNavigator().navigateTo(NSFView.NAME);
-        }
         if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             sessionDTO.setMode(ConstantUtil.ADD);
             getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
@@ -1414,31 +1096,6 @@ public final class AbstractSearchForm extends CustomComponent {
     public void editLogic() {
         itemselectLogic(null);
         sessionDTO.setMode(ConstantsUtils.EDIT);
-        if (ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-        }
-        if (ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(ItemAddView.NAME);
-        }
-        if (ConstantUtil.COMPANY_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(CFPAddView.NAME);
-        }
-        if (ConstantUtil.ITEM_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(IFPAddView.NAME);
-        }
-        if (ConstantUtil.PRICE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(PSView.NAME);
-        }
-        if (ConstantUtil.REBATE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
-        }
-        if (ConstantUtil.REBATE_PLAN.equalsIgnoreCase(moduleName)) {
-            getUI().getNavigator().navigateTo(RebatePlanView.NAME);
-        }
-        if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.EDIT);
-            getUI().getNavigator().navigateTo(NSFView.NAME);
-        }
         if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
         }
@@ -1470,33 +1127,6 @@ public final class AbstractSearchForm extends CustomComponent {
         } else {
             itemselectLogic(null);
             sessionDTO.setMode(ConstantsUtils.VIEW);
-            if (ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName)) {
-                getUI().getNavigator().navigateTo(CompanyAddView.NAME);
-            }
-            if (ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName)) {
-                getUI().getNavigator().navigateTo(ItemAddView.NAME);
-            }
-            if (ConstantUtil.COMPANY_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setMode(ConstantUtil.VIEW_BTN);
-                getUI().getNavigator().navigateTo(CFPAddView.NAME);
-            }
-            if (ConstantUtil.ITEM_FAMILY_PLAN.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setMode(ConstantUtil.VIEW_BTN);
-                getUI().getNavigator().navigateTo(IFPAddView.NAME);
-            }
-            if (ConstantUtil.PRICE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-                getUI().getNavigator().navigateTo(PSView.NAME);
-            }
-            if (ConstantUtil.REBATE_SCHEDULE_MASTER.equalsIgnoreCase(moduleName)) {
-                getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
-            }
-            if (ConstantUtil.REBATE_PLAN.equalsIgnoreCase(moduleName)) {
-                getUI().getNavigator().navigateTo(RebatePlanView.NAME);
-            }
-            if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-                VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.VIEW_BTN);
-                getUI().getNavigator().navigateTo(NSFView.NAME);
-            }
             if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
                 getUI().getNavigator().navigateTo(DeductionCalendarView.NAME);
             }
@@ -1506,85 +1136,6 @@ public final class AbstractSearchForm extends CustomComponent {
             }
         }
         resultTable.unselect(resultTable.getValue());
-    }
-
-    @SuppressWarnings(ConstantUtil.RAWTYPES)
-    private class CompanyIdentifierValidator extends AbstractValidator {
-
-        /**
-         * The Constructor.
-         */
-        public CompanyIdentifierValidator() {
-            super("");
-        }
-
-        /**
-         * The Constructor.
-         *
-         * @param errorMessage the error message
-         */
-        public CompanyIdentifierValidator(final String errorMessage) {
-            super(errorMessage);
-        }
-
-        /**
-         * Validates the value.
-         *
-         * @param value the value
-         * @throws InvalidValueException the invalid value exception
-         */
-        @Override
-        public void validate(final Object value) {
-
-            markAsDirty();
-            if (!isValidValue(value) && hasValue(combo6.getValue())) {
-                throw new Validator.InvalidValueException("Both Identifier and Qualifier should be present");
-            }
-        }
-
-        /**
-         * Validates the value.
-         *
-         * @param value the value
-         * @return true, if checks if is valid value
-         */
-        @Override
-        protected boolean isValidValue(final Object value) {
-
-            if (hasValue(combo6.getValue())) {
-                return hasValue(text8.getValue());
-            } else {
-                return !hasValue(text8.getValue());
-            }
-
-        }
-
-        /**
-         * Checks for value.
-         *
-         * @param obj the obj
-         * @return true, if checks for value
-         */
-        private boolean hasValue(final Object obj) {
-            LOGGER.debug("Enters hasValue() " + obj);
-
-            if (obj == null || ConstantUtil.SELECT_ONE.equals(obj.toString())) {
-                return false;
-            } else {
-                return !StringUtils.isEmpty(obj.toString());
-
-            }
-            }
-
-        /**
-         * Default method.
-         *
-         * @return the type
-         */
-        @Override
-        public Class getType() {
-            return null;
-        }
     }
 
     /**
@@ -1613,23 +1164,7 @@ public final class AbstractSearchForm extends CustomComponent {
      * @return
      */
     private ExtFilterGenerator getFilterGeneratorClass(String moduleName) {
-        if (ConstantUtil.COMPANY_MAST.equals(moduleName)) {
-            return new CompanyFilterGenerator();
-        } else if (ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-            return new ItemMasterGenerate();
-        } else if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName)) {
-            return new CFPTestGenerator(binder);
-        } else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
-            return new IFPFilterGenerator();
-        } else if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-            return new PSFilterGenerator();
-        } else if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-            return new RSFilterGenerate();
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            return new RPFilterGenerator();
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            return new NsfFilterGenerator();
-        } else if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
+        if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             return new DeductionFilterGenerator();
         } else if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
             return new ComplianceDeductionFilterGenerator();
@@ -1668,27 +1203,6 @@ public final class AbstractSearchForm extends CustomComponent {
                 }
             }, ButtonId.OK);
             msg.getButton(ButtonId.OK).focus();
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            if (resultTable.getValue() == null) {
-                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Record Selected to Copy", "Please select an existing Net Sales Formula record to copy. ", new MessageBoxListener() {
-                    /**
-                     * The method is triggered when a button of the message box
-                     * is pressed .
-                     *
-                     * @param buttonId The buttonId of the pressed button.
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
-                        // Do Nothing
-                    }
-                }, ButtonId.OK);
-                msg.getButton(ButtonId.OK).focus();
-            } else {
-                VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantsUtils.COPY);
-                sessionDTO.setMode(ConstantsUtils.COPY);
-                getUI().getNavigator().navigateTo(NSFView.NAME);
-                resultTable.unselect(resultTable.getValue());
-            }
         } else if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             if (resultTable.getValue() == null) {
                 final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Record Selected to Copy", "Please select a Deduction Calendar record. ", new MessageBoxListener() {
@@ -1728,29 +1242,7 @@ public final class AbstractSearchForm extends CustomComponent {
             sessionDTO.setMode(ConstantUtil.COPY);
             getUI().getNavigator().navigateTo(CDRView.NAME);
             resultTable.unselect(resultTable.getValue());
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.COPY);
-            sessionDTO.setMode(ConstantUtil.COPY);
-            getUI().getNavigator().navigateTo(RebatePlanView.NAME);
-            resultTable.unselect(resultTable.getValue());
-        }
-        else if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName) || ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName) || ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-            VaadinSession.getCurrent().setAttribute(ConstantsUtils.GLOBAL_FILES_MODE, ConstantUtil.COPY);
-            sessionDTO.setMode(ConstantUtil.COPY);
-            if(ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName))
-            {
-            getUI().getNavigator().navigateTo(IFPAddView.NAME);
-            }
-            if(ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName))
-            {
-            getUI().getNavigator().navigateTo(PSView.NAME);
-            }
-            if(ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName))
-            {
-            getUI().getNavigator().navigateTo(RebateScheduleAddView.NAME);
-            }
-            resultTable.unselect(resultTable.getValue());
-        }
+        } 
     }
 
     @UiHandler("deleteBtn")
@@ -1800,89 +1292,6 @@ public final class AbstractSearchForm extends CustomComponent {
                 }, ButtonId.YES, ButtonId.NO);
                 msg.getButton(ButtonId.YES).focus();
             }
-        } else if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-            if (resultTable.getValue() == null) {
-                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "Delete Error", "Please select a record to Delete", new MessageBoxListener() {
-                    /**
-                     * The method is triggered when a button of the message box
-                     * is pressed .
-                     *
-                     * @param buttonId The buttonId of the pressed button.
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
-                        // Do Nothing
-                    }
-                }, ButtonId.OK);
-                msg.getButton(ButtonId.OK).focus();
-            } else {
-                final SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                final MessageBox msg = MessageBox.showPlain(Icon.INFO, ConstantUtil.DELETE_CONFORMATION, "Are you sure you want to Delete the selected Net Sales Formula record? ", new MessageBoxListener() {
-                    /**
-                     * The method is triggered when a button of the message box
-                     * is pressed .
-                     *
-                     * @param buttonId The buttonId of the pressed button.
-                     */
-                    public void buttonClicked(final ButtonId buttonId) {
-                        try {
-                            if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
-                                NsfLogic nsfLogic = new NsfLogic();
-                                nsfLogic.deleteNsfMasterById(Integer.valueOf(searchForm.getSystemID()));
-                                resultTable.removeItem(resultTable.getValue());
-                            }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
-                        }
-
-                    }
-                }, ButtonId.YES, ButtonId.NO);
-                msg.getButton(ButtonId.YES).focus();
-            }
-        } else if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-            if (resultTable.getValue() == null) {
-                final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Record Selected to Delete", "Please select a record to continue. ", new MessageBoxListener() {
-                    /**
-                     * The method is triggered when a button of the message box
-                     * is pressed .
-                     *
-                     * @param buttonId The buttonId of the pressed button.
-                     */
-                    @SuppressWarnings("PMD")
-                    public void buttonClicked(final ButtonId buttonId) {
-                        // Do Nothing
-                    }
-                }, ButtonId.OK);
-                msg.getButton(ButtonId.OK).focus();
-            } else {
-                final SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                final MessageBox msg = MessageBox.showPlain(Icon.INFO, ConstantUtil.DELETE_CONFORMATION, "Are you sure you want to delete the record " + searchForm.getRebatePlanName(), new MessageBoxListener() {
-                    /**
-                     * The method is triggered when a button of the message box
-                     * is pressed .
-                     *
-                     * @param buttonId The buttonId of the pressed button.
-                     */
-                    public void buttonClicked(final ButtonId buttonId) {
-                        try {
-                            if (buttonId.name().equalsIgnoreCase(ConstantUtil.YES_VARIABLE)) {
-                                RebatePlanSearchLogic rebatePlanLogic = new RebatePlanSearchLogic();
-                                RebatePlanMasterDTO rebatePlanMasterDTO = rebatePlanLogic.getRebatePlanMasterById(Integer.valueOf(searchForm.getSystemID()));
-                                final RebatePlanMaster master = rebatePlanLogic.deleteRebatePlanById(Integer.valueOf(searchForm.getSystemID()), rebatePlanMasterDTO);
-                                final Notification notif = new Notification(commonMsg.getDeletedSuccessfulMessage(master.getRebatePlanId(), master.getRebatePlanName()), Notification.Type.HUMANIZED_MESSAGE);
-                                notif.setPosition(Position.MIDDLE_CENTER);
-                                notif.setStyleName(ConstantsUtils.MY_STYLE);
-                                notif.show(Page.getCurrent());
-                                resultTable.removeItem(resultTable.getValue());
-                            }
-                        } catch (Exception e) {
-                            LOGGER.error(e);
-                        }
-
-                    }
-                }, ButtonId.YES, ButtonId.NO);
-                msg.getButton(ButtonId.YES).focus();
-            }
         } else if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
             if (resultTable.getValue() == null) {
                 final MessageBox msg = MessageBox.showPlain(Icon.ERROR, "No Record Selected to Delete", "Please select an existing Deduction calendar record to delete. ", new MessageBoxListener() {
@@ -1900,7 +1309,7 @@ public final class AbstractSearchForm extends CustomComponent {
                 msg.getButton(ButtonId.OK).focus();
             } else {
                 final SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                final MessageBox msg = MessageBox.showPlain(Icon.INFO, ConstantUtil.DELETE_CONFORMATION, "Are you sure you want to delete record <" + searchForm.getDeductionCalendarname() + ">?", new MessageBoxListener() {
+                final MessageBox msg = MessageBox.showPlain(Icon.INFO, ConstantUtil.DELETE_CONFORMATION, "Are you sure you want to delete record " + searchForm.getDeductionCalendarname() + "?", new MessageBoxListener() {
                     /**
                      * The method is triggered when a button of the message box
                      * is pressed .
@@ -2015,7 +1424,7 @@ public final class AbstractSearchForm extends CustomComponent {
             if (functionCfpHM.get(FunctionNameUtil.VIEW) != null && !((AppPermission) functionCfpHM.get(FunctionNameUtil.VIEW)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
             }
-             if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
                 deleteBtn.setVisible(false);
             }
             if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {
@@ -2039,7 +1448,7 @@ public final class AbstractSearchForm extends CustomComponent {
             if (functionCfpHM.get(FunctionNameUtil.VIEW) != null && !((AppPermission) functionCfpHM.get(FunctionNameUtil.VIEW)).isFunctionFlag()) {
                 viewBtn.setVisible(false);
             }
-             if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
+            if (functionCfpHM.get(ConstantUtil.DELETE_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.DELETE_BUTTON)).isFunctionFlag()) {
                 deleteBtn.setVisible(false);
             }
             if (functionCfpHM.get(ConstantUtil.COPY_BUTTON) != null && !((AppPermission) functionCfpHM.get(ConstantUtil.COPY_BUTTON)).isFunctionFlag()) {

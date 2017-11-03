@@ -4,20 +4,11 @@
 <display>
 
     <category name="AdminConsole">
-        <portlet id="ItemGroup" />
-        <portlet id="CustomerGroup" />
-        <portlet id="RelationshipBuilder" />        
-        <portlet id="HierarchyBuilder" />        
         <portlet id="FileManagement" />    
         <portlet id="Archive" />
         <portlet id="Discount" /> 
         <portlet id="Forecast"/>
-        <portlet id="Period Configuration"/>
-        <portlet id="ProjectionNameConfiguration"/>
         <portlet id="ProcessScheduler"/>
-        <portlet id="CalendarConfiguration" /> 
-        <portlet id="ProcessMonitoring" />   
-        <portlet id="EmailConfiguration"/>
         <portlet id="ServerLogging"/>
     </category>
 

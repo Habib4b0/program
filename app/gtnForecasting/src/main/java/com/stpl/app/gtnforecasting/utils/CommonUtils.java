@@ -209,6 +209,7 @@ public class CommonUtils {
     public static final String PMPY = "pmpy";
     public static final String PROGRAM_SELECTION = "programSelectionLookup";
     public static final String ALT_HISTORY_BTN = "altHistoryBtn";
+    public static final String TOTAL_LIVES_LAYOUT = "totalLivesLayout";
     /*
      * Projection Variance variables
      */

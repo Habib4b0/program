@@ -69,6 +69,7 @@ public class SessionDTO implements Serializable {
     private boolean fromDateChanged = false;
     private String custRelationshipBuilderSid = StringUtils.EMPTY;
     private String prodRelationshipBuilderSid = StringUtils.EMPTY;
+    private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
     private Map<String, List> hierarchyLevelDetails = new HashMap<>();
@@ -146,11 +147,23 @@ public class SessionDTO implements Serializable {
     private boolean newFileAtivated = false;
     private boolean isSalesCalculated = false;
     private boolean isDiscountCalculated = false;
-        private int ccpDetailsSid ;
+    private int ccpDetailsSid ;
+    private String salesInclusion = StringUtils.EMPTY;
+    private String deductionInclusion = StringUtils.EMPTY;
+    private String discountUom = StringUtils.EMPTY;
     private boolean isSPCalculationDoneAgain = false;
     private Map<String,Object[]> latestProjectionFileDetails = new HashMap<>();
     private String fileNameUsedInSales = StringUtils.EMPTY;
     private DataAssumptionsLogic dataAssumptionLogic;
+    private boolean actualAdjustment = false;
+    private String actualAdjustmentPeriods = StringUtils.EMPTY;
+    private boolean isDeductionCustom = false;
+    List<String> selectedRsForCustom;
+    private int selectedDeductionLevelNo;
+    private int selectedDeductionLevelNoPv;
+    private int customerLastLevelNo;
+    private int productLastLevelNo;
+    
                 
     public String getAltFromPeriod() {
         return altFromPeriod;
@@ -264,8 +277,8 @@ public class SessionDTO implements Serializable {
                 retVal = productDescription.get(hierarchyNo) == null ? StringUtils.EMPTY : productDescription.get(hierarchyNo);
             }
         } else {
-            retVal = StringUtils.EMPTY;
-        }
+                retVal = StringUtils.EMPTY;
+            }
         return retVal;
     }
 
@@ -283,6 +296,10 @@ public class SessionDTO implements Serializable {
      */
     public void setProductLevelDetails(Map<String, List> productLevelDetails) {
         this.hierarchyLevelDetails.putAll(productLevelDetails);
+    }
+    
+     public void setDeductionLevelDetails(Map<String, List> deductionLevelDetails) {
+        this.hierarchyLevelDetails.putAll(deductionLevelDetails);
     }
 
     public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
@@ -1252,5 +1269,100 @@ public class SessionDTO implements Serializable {
     public void setFileStatus(int fileStatus) {
         this.fileStatus = fileStatus;
     }
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
     
+    public boolean isActualAdjustment() {
+        return actualAdjustment;
+    }
+
+    public void setActualAdjustment(boolean actualAdjustment) {
+        this.actualAdjustment = actualAdjustment;
+    }
+
+    public String getActualAdjustmentPeriods() {
+        return actualAdjustmentPeriods;
+    }
+
+    public void setActualAdjustmentPeriods(String actualAdjustmentPeriods) {
+        this.actualAdjustmentPeriods = actualAdjustmentPeriods;
+    }
+
+    public String getDedRelationshipBuilderSid() {
+        return dedRelationshipBuilderSid;
+    }
+
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid) {
+        this.dedRelationshipBuilderSid = dedRelationshipBuilderSid;
+    }
+
+    public boolean isIsDeductionCustom() {
+        return isDeductionCustom;
+    }
+
+    public void setIsDeductionCustom(boolean isDeductionCustom) {
+        this.isDeductionCustom = isDeductionCustom;
+    }
+
+    public List<String> getSelectedRsForCustom() {
+        return selectedRsForCustom;
+    }
+
+    public void setSelectedRsForCustom(List<String> selectedRsForCustom) {
+        this.selectedRsForCustom = selectedRsForCustom;
+    }
+
+    public String getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(String deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
+    }
+
+    public String getDiscountUom() {
+        return discountUom;
+    }
+
+    public void setDiscountUom(String discountUom) {
+        this.discountUom = discountUom;
+    }
+
+    public int getSelectedDeductionLevelNo() {
+        return selectedDeductionLevelNo;
+    }
+
+    public void setSelectedDeductionLevelNo(int selectedDeductionLevelNo) {
+        this.selectedDeductionLevelNo = selectedDeductionLevelNo;
+    }
+    
+    public int getSelectedDeductionLevelNoPv() {
+        return selectedDeductionLevelNoPv;
+    }
+
+    public void setSelectedDeductionLevelNoPv(int selectedDeductionLevelNoPv) {
+        this.selectedDeductionLevelNoPv = selectedDeductionLevelNoPv;
+    }
+
+    public int getCustomerLastLevelNo() {
+        return customerLastLevelNo;
+    }
+
+    public void setCustomerLastLevelNo(int customerLastLevelNo) {
+        this.customerLastLevelNo = customerLastLevelNo;
+    }
+
+    public int getProductLastLevelNo() {
+        return productLastLevelNo;
+    }
+
+    public void setProductLastLevelNo(int productLastLevelNo) {
+        this.productLastLevelNo = productLastLevelNo;
+    }
+
 }

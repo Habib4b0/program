@@ -1209,15 +1209,16 @@ public class HeaderUtils {
         String column = commonColumn;
         String variableCategory = selection.getVariableCategory() != null ? selection.getVariableCategory() : StringUtils.EMPTY;
         List<String> discountNames = new ArrayList<>(selection.getDiscountLevel().equals("Program") ? selection.getDiscountNameList() : selection.getDiscountNameCFF());
+        List<String> dedNames = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelCaptions() : discountNames;
         List<Integer> projList = selection.getProjIdList();
         Map<Integer, String> priorMap = selection.getProjectionMap();
         List<String> commonColumnList = new ArrayList<>();
         List<Object> dmap = new ArrayList<>();
-        if (!discountNames.isEmpty()) {
+        if (!dedNames.isEmpty()) {
 
-            for (int i = 0; i < discountNames.size(); i++) {
+            for (int i = 0; i < dedNames.size(); i++) {
                 dmap.clear();
-                String disCommonHeader = discountNames.get(i);
+                String disCommonHeader = dedNames.get(i);
                 commonColumn = column + disCommonHeader.replace(" ", "") + i;
                 
                 if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){

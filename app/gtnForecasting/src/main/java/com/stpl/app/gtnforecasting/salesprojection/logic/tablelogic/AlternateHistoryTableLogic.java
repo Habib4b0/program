@@ -9,7 +9,6 @@ package com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerSelection;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;

@@ -462,6 +462,36 @@ public interface ProjectionMasterModel extends BaseModel<ProjectionMaster> {
      */
     public void setBusinessUnit(int businessUnit);
 
+    /**
+     * Returns the deduction hierarchy sid of this projection master.
+     *
+     * @return the deduction hierarchy sid of this projection master
+     */
+    @AutoEscape
+    public String getDeductionHierarchySid();
+
+    /**
+     * Sets the deduction hierarchy sid of this projection master.
+     *
+     * @param deductionHierarchySid the deduction hierarchy sid of this projection master
+     */
+    public void setDeductionHierarchySid(String deductionHierarchySid);
+
+    /**
+     * Returns the ded relationship builder sid of this projection master.
+     *
+     * @return the ded relationship builder sid of this projection master
+     */
+    @AutoEscape
+    public String getDedRelationshipBuilderSid();
+
+    /**
+     * Sets the ded relationship builder sid of this projection master.
+     *
+     * @param dedRelationshipBuilderSid the ded relationship builder sid of this projection master
+     */
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid);
+
     @Override
     public boolean isNew();
 

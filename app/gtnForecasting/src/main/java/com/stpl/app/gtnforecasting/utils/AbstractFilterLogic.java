@@ -7,12 +7,10 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.And;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +20,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
  *
- * @author Vigneshkanna
+ * @author 
  */
 public class AbstractFilterLogic {
     public static final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");

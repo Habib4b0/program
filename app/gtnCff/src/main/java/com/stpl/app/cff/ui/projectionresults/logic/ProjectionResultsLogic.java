@@ -4290,7 +4290,6 @@ public class ProjectionResultsLogic {
                 }
             }
         }
-        System.out.println("==ccp string=======================>>>"+ccps);
         return ccps;
  } 
     
@@ -4306,7 +4305,6 @@ public class ProjectionResultsLogic {
             for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
                 String hierarchyNo = hierarchyNoList.get(i);
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
-                    System.out.println("relationshipLevelDetailsMap.get(hierarchyNo)----------" + relationshipLevelDetailsMap.get(hierarchyNo));
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(), i));
 
 }
@@ -4343,7 +4341,6 @@ public class ProjectionResultsLogic {
         dto.setLevelNo(Integer.valueOf(detailsList.get(NumericConstants.TWO).toString()));
         dto.setTreeLevelNo(levelNo);
         dto.setGroup(detailsList.get(0).toString());
-        System.out.println("de------------------" + detailsList.get(NumericConstants.THREE).toString());
         dto.setLevelValue(detailsList.get(NumericConstants.THREE).toString());
         if (i == (listSize - 1)) {
             dto.setGroup(detailsList.get(0).toString());

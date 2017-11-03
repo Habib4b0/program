@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.abstractforecast;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesRowDto;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
@@ -20,6 +19,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -28,10 +28,11 @@ import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.gtnforecasting.utils.TotalLivesChart;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CustomViewMaster;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
@@ -109,6 +110,7 @@ import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
@@ -160,8 +162,38 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     @UiField("tabsheet")
     private TabSheet tabsheet;
+    @UiField("tabsheet1")
+    protected TabSheet tabsheet1;
     @UiField("massUpdateLayout")
     private VerticalLayout massUpdateLayout;
+    @UiField("salesProjectionSelectionLayout")
+    protected VerticalLayout salesProjectionSelectionLayout;
+    @UiField("salesProjectionfilterLayout")
+    protected VerticalLayout salesProjectionfilterLayout;
+    @UiField("customerlevelDdlb")
+    protected ComboBox customerlevelDdlb;
+    @UiField("customerFilterDdlb")
+    protected CustomMenuBar customerFilterDdlb;
+    @UiField("productFilterDdlb")
+    protected CustomMenuBar productFilterDdlb;
+    @UiField("salesInclusionDdlb")
+    protected CustomMenuBar salesInclusionDdlb;
+    @UiField("displayFormatDdlb")
+    protected CustomMenuBar displayFormatDdlb;
+    @UiField("productlevelDdlb")
+    protected ComboBox productlevelDdlb;
+    @UiField("unitOfMeasureDdlb")
+    protected ComboBox unitOfMeasureDdlb;
+    @UiField("unitOfMeasure")
+    protected Label unitOfMeasure;
+    @UiField("conversionFactorDdlb")
+    protected ComboBox conversionFactorDdlb;
+    
+    protected CustomMenuBar.CustomMenuItem salesInclusionValues;
+    protected CustomMenuBar.CustomMenuItem customerFilterValues;
+    protected CustomMenuBar.CustomMenuItem productFilterValues;
+    protected CustomMenuBar.CustomMenuItem displayFormatValues;
+    
     /**
      * The mass update.
      */
@@ -385,16 +417,18 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected ExtFilterTreeTable rightTable;
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    final public BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
+    public final BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
+    public final BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
     protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
     AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected int uncheckRecordCount;
+
+    public static final String SELECT_ALL_LABEL = "Select All";
+    
     /**
      * Level Filter Listener
      */
@@ -420,19 +454,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     ComboBox userGroupTest = new ComboBox();
     protected ComboBox metohdologyFilter = new ComboBox();
     protected ComboBox baseLineFilter = new ComboBox();
-    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
+    public final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    public final BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
     protected String screenName;
     @UiField("mainPanel")
     Panel mainPanel;
     @UiField("channelMassUpdatePanel")
     Panel channelMassUpdatePanel;
     @UiField("salesProjectionSelection")
-    Panel salesProjectionSelection;
+    protected Panel salesProjectionSelection;
     @UiField("channelSalesAllocationSelection")
     Panel channelSalesAllocationSelection;
     @UiField("totalLivesLayout")
-    HorizontalLayout totalLivesLayout;
+    protected HorizontalLayout totalLivesLayout;
     @UiField("viewLayout")
     HorizontalLayout viewLayout;
     @UiField("level")
@@ -453,8 +487,12 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
     protected final SalesLogic salesLogic = new SalesLogic();
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    DataFormatConverter unitFormat = new DataFormatConverter("#,##0.0");
-    DataFormatConverter salesFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_DOLLAR);
+    protected DataFormatConverter unitFormat = new DataFormatConverter("#,##0.0");
+    private static final String SALES_DECIMAL_FORMAT = "#,##0";
+    protected DataFormatConverter unitConversionFormat = new DataFormatConverter(SALES_DECIMAL_FORMAT);
+    protected DataFormatConverter salesFormat = new DataFormatConverter(SALES_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_DOLLAR);
+    protected DataFormatConverter salesConversionFormat = new DataFormatConverter(SALES_DECIMAL_FORMAT, DataFormatConverter.INDICATOR_DOLLAR);
+    protected DataFormatConverter salesConversionTwoDecimalFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
     DataFormatConverter growthFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
     DataFormatConverter rpuFormat = new DataFormatConverter("0.00", DataFormatConverter.INDICATOR_DOLLAR);
     String oldValue = StringUtils.EMPTY;
@@ -493,7 +531,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected Label forecastEPeriod;
     boolean returnsFlag = false;
     public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
-    CommonLogic commonLogic = new CommonLogic();
+    protected CommonLogic commonLogic = new CommonLogic();
+    protected List<String> generateProductToBeLoaded=new ArrayList<>();
+    protected List<String> generateCustomerToBeLoaded=new ArrayList<>();
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -513,6 +553,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 mSalesProjectionTableLogic = new MSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
             }
+            projectionDTO.setSessionDTO(session);
             addComponent();
             configurefields();
             Utility.loadHierarchyList(session);
@@ -535,7 +576,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         editBtn.setEnabled(false);
         newBtn.setEnabled(true);
         alternateHistoryPanel.setVisible(false);
-        fieldDdlb.setEnabled(true);
         valueDdlb.setEnabled(true);
         valueTxt.setEnabled(true);
         startPeriod.setEnabled(true);
@@ -567,6 +607,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         variable.addItem(Constant.SALES_SMALL);
         variable.addItem(Constant.UNIT);
+        variable.addItem(Constant.ACTUAL);
         variable.select(Constant.SALES_SMALL);
         variable.setStyleName(Constant.HORIZONTAL);
 
@@ -595,6 +636,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         populateLevel.setVisible(false);
 
         if (returnsFlag) {
+            fieldDdlb.setEnabled(true);
             tabsheet.addTab(massUpdateLayout, "Mass Update");
             tabsheet.addTab(forecastLayout, Constant.FORECAST);
 
@@ -645,7 +687,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             fieldDdlb.addItem(Constant.GROWTH_RATE);
             gridPopulate.setImmediate(true);
             gridPopulate.replaceComponent(valueDdlb, valueTxt);
-
+            
             methodology.addItem(Constant.PERCOFEXFACTORY);
             methodology.addItem(Constant.SINGLE_PERIOD);
             methodology.addItem(Constant.AVERAGE);
@@ -662,6 +704,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             populateLevel.setVisible(true);
 
         } else {
+            massUpdate.setVisible(false);
             variables.addItem(Constant.SALES_SMALL);
             variables.addItem(Constant.UNITS_SMALL);
             variables.addItem(Constant.PRODUCT_GROWTH);
@@ -674,6 +717,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             tabsheet.addTab(adjustmentLayout, Constant.ADJUSTMENT);
 
             channelLayout.setVisible(false);
+            fieldDdlb.addItem(Constant.MASS_UPDATE_SALES);
+            fieldDdlb.addItem(Constant.MASS_UPDATE_UNIT_VOLUME);
             fieldDdlb.addItem(Constant.ACCOUNT_GROWTH);
             fieldDdlb.addItem(Constant.PRODUCT_GROWTH);
             valueDdlb.setVisible(false);
@@ -683,15 +728,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             valueTxt.setStyleName(Constant.TXT_RIGHT_ALIGN);
             valueTxt.setVisible(true);
-
-            methodology.addItem(Constant.SINGLE_PERIOD);
-            methodology.addItem(Constant.AVERAGE);
-            methodology.addItem(Constant.ROLLINGANNUALTREND);
-
-            methodology.addItem(Constant.PERCOFEXFACTORYSALES);
-            methodology.addItem(Constant.PERCOFDEMAND);
-            methodology.addItem(Constant.PERCOFINVENTORYWITHDRAWAL);
-            methodology.addItem(Constant.PERC_OF_ADJUSTED_DEMAND);
+            loadMethodologyDdlb(methodology);
+            
             
             variables.addItem(Constant.SALES_SMALL);
             variables.addItem(Constant.UNITS_SMALL);
@@ -700,22 +738,22 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
             variables.select(Constant.SALES_SMALL);
             variables.setStyleName(Constant.HORIZONTAL);
-
+             
             massUpdate.addItem(Constant.LabelConstants.ENABLE);
             massUpdate.addItem(Constant.LabelConstants.DISABLE);
             massUpdate.select(Constant.LabelConstants.DISABLE);
             massUpdate.setStyleName(Constant.HORIZONTAL);
-            fieldDdlb.setEnabled(false);
-            valueDdlb.setEnabled(false);
-            valueTxt.setEnabled(false);
-            startPeriod.setEnabled(false);
-            endPeriod.setEnabled(false);
-            populate.setEnabled(false);
+            valueDdlb.setEnabled(true);
+            valueTxt.setEnabled(true);
+            startPeriod.setEnabled(true);
+            endPeriod.setEnabled(true);
+            populate.setEnabled(true);
+          
         }
 
         configureFrequency(nmFrequencyDdlb, historyDdlb);
         loadFrequency(nmFrequencyDdlb, historyDdlb);
-
+       
         refreshBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(Button.ClickEvent event) {
@@ -753,9 +791,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         allocationBasis.addItem(Constant.SELECT_ONE);
         allocationBasis.setNullSelectionItemId(Constant.SELECT_ONE);
-        allocationBasis.addItem(Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant());
-        allocationBasis.addItem(Constant.PERCOFDEMAND);
-        allocationBasis.addItem(Constant.PERCOFINVENTORYWITHDRAWAL);
+        loadAllocationDdlb(allocationBasis);
 
         allocationBasis.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -838,6 +874,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             }
         });
 
+        variable.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                variableChangeLogic();
+            }
+        });
+
         altHistoryBtn.addClickListener(new Button.ClickListener() {
 
             @Override
@@ -881,11 +924,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 loadOnViewChange();
             }
         });
-
-        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
-            setProjectionSelection();
+        
         }
-    }
 
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
@@ -1158,6 +1198,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected abstract void resetBtnLogic();
 
     protected abstract void pmpyLogic();
+    
+    protected abstract void variableChangeLogic();
 
     /**
      * Configures the Sales Projection Selection for Mandated and Non-Mandated
@@ -1205,6 +1247,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     case Constant.PRODUCT_GROWTH:
                         selection.put(Constant.A_GROWTH, Constant.TRUE);
                         break;
+                    default:
+                        LOGGER.warn("value is not valid: " + value);
+                        break;
+
                 }
             }
         }
@@ -1502,10 +1548,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 updateCheckForChildLevels(tableHierarchyNo, itemId, checkValue);
 
                                 if (!checkValue) {
-                                    ExtPagedTreeTable leftTable = resultsTable.getLeftFreezeAsTable();
-                                    leftTable.removeColumnCheckListener(checkListener);
-                                    leftTable.setColumnCheckBox(Constant.CHECK, true, false);
-                                    leftTable.addColumnCheckListener(checkListener);
+                                    ExtPagedTreeTable lefttreeTable = resultsTable.getLeftFreezeAsTable();
+                                    lefttreeTable.removeColumnCheckListener(checkListener);
+                                    lefttreeTable.setColumnCheckBox(Constant.CHECK, true, false);
+                                    lefttreeTable.addColumnCheckListener(checkListener);
                                     checkAll = false;
                                 }
                                 if (returnsFlag == true) {
@@ -1578,15 +1624,19 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         && !String.valueOf(propertyId).contains("ActualReturned") && !String.valueOf(propertyId).contains(Constant.ACTUALRPU)) {
                     final TextField textField = new TextField();
                     final SalesRowDto salesRowDto = getBeanFromId(itemId);
+                    if (salesRowDto.getSalesInclusion().isEmpty()) {
+                        return null;
+                    }
+                    
                     textField.setData(propertyId + "~" + salesRowDto.getHierarchyNo());
                     textField.setImmediate(true);
                     textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
                     textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     textField.setEnabled(true);
                     if (String.valueOf(propertyId).contains(Constant.SALES_SMALL)) {
-                        textField.setConverter(salesFormat);
+                        textField.setConverter(getConverter(Constant.SALES_SMALL));
                     } else if (String.valueOf(propertyId).contains(Constant.UNITS_SMALL)) {
-                        textField.setConverter(unitFormat);
+                        textField.setConverter(getConverter(Constant.UNITS_SMALL));
                     } else if (String.valueOf(propertyId).contains(Constant.GROWTH)) {
                         textField.setConverter(growthFormat);
                     } else if (String.valueOf(propertyId).contains("Return%") && returnsFlag) {
@@ -1618,7 +1668,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                     Double newNumber, oldNumber;
                                     newNumber = StringUtils.EMPTY.equals(newValue) || Constant.NULL.equals(newValue) ? 0.0 : Double.valueOf(newValue);
                                     oldNumber = StringUtils.EMPTY.equals(oldValue) || Constant.NULL.equals(oldValue) ? 0.0 : Double.valueOf(oldValue);
-
+                                    if (String.valueOf(propertyId).contains(Constant.SALES_SMALL)) {
+                                        newNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, newNumber);
+                                        oldNumber = CommonUtil.getConversionFormattedMultipleValue(projectionDTO, oldNumber);
+                                    }
                                     Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                     String tempValue = String.valueOf(((TextField) event.getComponent()).getData());
                                     String tempArray[] = tempValue.split("-");
@@ -2064,7 +2117,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     updateVariable = Constant.ACCOUNT_GROWTH;
                 } else if (Constant.PRODUCT_GROWTH.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.PRODUCT_GROWTH;
-                } else if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
+                }else if (Constant.MASS_UPDATE_SALES.equals(String.valueOf(fieldDdlb.getValue()))) {
+                    updateVariable = Constant.MASS_UPDATE_SALES;
+                } else if (Constant.MASS_UPDATE_UNIT_VOLUME.equals(String.valueOf(fieldDdlb.getValue()))) {
+                    updateVariable = Constant.MASS_UPDATE_UNIT_VOLUME;
+                }else if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.GROUPFCAPS;
                 } else {
                     updateVariable = StringUtils.EMPTY;
@@ -2106,9 +2163,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                             if (projectionDTO.getFrequencyDivision() == 1 && periods[0] >= startYear
                                                     && periods[0] <= endYear) {
 
-                                                String oldValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+                                                String oldAmtValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
                                                 Double newNumber = Double.valueOf(enteredValue);
-                                                Double oldNumber = Double.valueOf(oldValue);
+                                                Double oldNumber = Double.valueOf(oldAmtValue);
                                                 Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                                 selectedValues.put(StringUtils.EMPTY + periods[0], incOrDec);
                                             } else if (periods[0] >= startQuater
@@ -2116,9 +2173,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                                     && periods[1] >= startYear
                                                     && periods[1] <= endYear) {
 
-                                                String oldValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
+                                                String oldProjAmtValue = String.valueOf(entry.getValue()).replace("$", StringUtils.EMPTY).replace(",", StringUtils.EMPTY);
                                                 Double newNumber = Double.valueOf(enteredValue);
-                                                Double oldNumber = Double.valueOf(oldValue);
+                                                Double oldNumber = Double.valueOf(oldProjAmtValue);
                                                 Double incOrDec = ((newNumber - oldNumber) / oldNumber) * NumericConstants.HUNDRED;
                                                 selectedValues.put(periods[1] + "," + periods[0], incOrDec);
                                             }
@@ -2186,6 +2243,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("adjust")
     public void adjustmentLogic(Button.ClickEvent event) {
+        if (!checkForCheckedRecord()) {
+            AbstractNotificationUtils.getErrorNotification("No Hierarchy level selected", "Please select a level in the hierarchy.");
+            return;
+        }
         for (Object propertyId : checkedDiscountsPropertyIds) {
             String tripleHeader = resultsTable.getRightFreezeAsTable().getTripleHeaderColumnHeader(propertyId);
             if (tripleHeaderForCheckedDoubleHeader.get(tripleHeader) == null) {
@@ -2193,122 +2254,192 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 return;
             }
         }
-        if (!String.valueOf(adjustment.getValue()).matches(Constant.NUM_WIHT2DECIMAL) || adjustment.getValue().length() > NumericConstants.THIRTY_EIGHT) {
-            AbstractNotificationUtils.getErrorNotification("Incorrect data type entered", "Please enter a numeric value in the Adjustment text box.");
-            adjustment.setValue(StringUtils.EMPTY);
-            return;
-        }
-        if (allocMethodology.getValue() != null) {
 
+        if ((Constant.ACTUAL).equals(variable.getValue())) {
             final String adjValue = String.valueOf(adjustment.getValue());
-            if (adjValue != null && StringUtils.isNotBlank(adjValue)) {
-                final String adjType = String.valueOf(type.getValue());
-                final String adjBasis = String.valueOf(basis.getValue());
-                final String adjVariable = String.valueOf(variable.getValue()).equals(Constant.SALES_SMALL) ? Constant.STRING_ONE : Constant.DASH;
-                final String adjustPeriod = (String) adjustPeriods.getValue();
-                final String adjMethodology = String.valueOf(allocMethodology.getValue());
-                final String historyPeriods;
-                final String projectionPeriods;
+            final String adjType = String.valueOf(type.getValue());
+            final String adjBasis = String.valueOf(basis.getValue());
+            final String adjVariable = Constant.A;
+            final String adjPeriod = (String) adjustPeriods.getValue();
+            final String adjMethodology = String.valueOf(allocMethodology.getValue());
+            final String historyPeriods = null;
+            final String projectionPeriods;
 
-                if (adjustPeriod.equals(Constant.ALL)) {
-                    if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
+            if (adjType.equals("Incremental") || adjType.equals("Override")) {
+                if (adjBasis.equals("Percentage")) {
+                    AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
+                            "Please enter a correct adjustment type and adjustment basis ");
+                    return;
+                }
+                if (adjBasis.equals("Amount") && adjType.equals("Incremental")) {
+                    AbstractNotificationUtils.getErrorNotification("Incorrect Type&Basis entered",
+                            "Please enter a correct adjustment type and adjustment basis ");
+                    return;
+                }
+            }
+            if (adjPeriod.equals(Constant.ALL)) {
+                projectionPeriods = getAllProjectionPeriods();
+            } else {
+                projectionPeriods = getSelectedProjectionPeriods();
+                if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
+                    AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES,
+                            "Please select a Projection Period.");
+                    return;
+                }
+
+            }
+
+            String confirmMessage = "Confirm Actual variable Adjustment";
+            String messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + " adjustment for the following periods "
+                    + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+
+            new AbstractNotificationUtils() {
+                @Override
+                public void noMethod() {
+                    return;
+                }
+
+                @Override
+                public void yesMethod() {
+                    try {
+                        if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                            CommonUtil.getInstance()
+                                    .waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
+                        }
+                        getTableLogic().setRefresh(false);
+                        salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable,
+                                adjMethodology, historyPeriods, projectionPeriods);
+                        refreshTableData(getCheckedRecordsHierarchyNo());
+                        getTableLogic().setRefresh(true);
+                        session.setActualAdjustment(true);
+                        session.setActualAdjustmentPeriods(projectionPeriods);
+
+                    } catch (PortalException ex) {
+                        LOGGER.error(ex);
+                    } catch (Exception ex) {
+                        LOGGER.error(ex);
+                    }
+                }
+            }.getOkCancelMessage(confirmMessage, messageBody);
+
+        } else {
+            session.setActualAdjustment(false);
+            if (!String.valueOf(adjustment.getValue()).matches(Constant.NUM_WIHT2DECIMAL) || adjustment.getValue().length() > NumericConstants.THIRTY_EIGHT) {
+                AbstractNotificationUtils.getErrorNotification("Incorrect data type entered", "Please enter a numeric value in the Adjustment text box.");
+                adjustment.setValue(StringUtils.EMPTY);
+                return;
+            }
+            if (allocMethodology.getValue() != null) {
+
+                final String adjValue = String.valueOf(adjustment.getValue());
+                if (adjValue != null && StringUtils.isNotBlank(adjValue)) {
+                    final String adjType = String.valueOf(type.getValue());
+                    final String adjBasis = String.valueOf(basis.getValue());
+                    final String adjVariable = String.valueOf(variable.getValue()).equals(Constant.SALES_SMALL) ? Constant.STRING_ONE : Constant.DASH;
+                    final String adjustPeriod = (String) adjustPeriods.getValue();
+                    final String adjMethodology = String.valueOf(allocMethodology.getValue());
+                    final String historyPeriods;
+                    final String projectionPeriods;
+
+                    if (adjustPeriod.equals(Constant.ALL)) {
+                        if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
+                            historyPeriods = getSelectedHistoryPeriods();
+                            if (StringUtils.EMPTY.equals(historyPeriods)) {
+                                AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Historic Period");
+                                return;
+                            }
+                            projectionPeriods = getAllProjectionPeriods();
+                        } else {
+                            historyPeriods = getAllProjectionPeriods();
+                            projectionPeriods = getAllProjectionPeriods();
+                        }
+                    } else if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
                         historyPeriods = getSelectedHistoryPeriods();
-                        if (StringUtils.EMPTY.equals(historyPeriods)) {
+                        if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
                             AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Historic Period");
                             return;
                         }
-                        projectionPeriods = getAllProjectionPeriods();
-                    } else {
-                        historyPeriods = getAllProjectionPeriods();
-                        projectionPeriods = getAllProjectionPeriods();
-                    }
-                } else if (adjMethodology.equals(Constant.HISTORICAL_OF_BUSINESS)) {
-                    historyPeriods = getSelectedHistoryPeriods();
-                    if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Historic Period");
-                        return;
-                    }
-                    projectionPeriods = getSelectedProjectionPeriods();
-                    if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
-                        return;
-                    }
-                } else {
-                    historyPeriods = getSelectedProjectionPeriods();
-                    if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
-                        AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
-                        return;
-                    }
-                    projectionPeriods = getSelectedProjectionPeriods();
-                }
-                if (!checkForCheckedRecord()) {
-                    AbstractNotificationUtils.getErrorNotification("No level selected", "Please select a Level from the drop down");
-                    return;
-                }
-                String confirmMessage = "Confirm Incremental adjustment";
-                String messageBody = StringUtils.EMPTY;
-
-                if (adjType.equals("Incremental")) {
-                    confirmMessage = "Confirm Incremental adjustment";
-                    if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
-                        if (variable.getValue().equals(Constant.UNIT)) {
-                            messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
-                                    + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
-                        } else {
-                            messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
-                                    + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                        projectionPeriods = getSelectedProjectionPeriods();
+                        if (String.valueOf(projectionPeriods).equals(StringUtils.EMPTY)) {
+                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
+                            return;
                         }
                     } else {
-                        messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue
-                                + "% adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
-                    }
-                } else if (adjType.equals("Override")) {
-                    confirmMessage = "Confirm Override";
-                    if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
-                        if (variable.getValue().equals(Constant.UNIT)) {
-                            messageBody = Constant.REPLACE_THE_CURRENT_VALUES
-                                    + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY) + ". \n Are you sure you want to continue?";
-                        } else {
-                            messageBody = Constant.REPLACE_THE_CURRENT_VALUES
-                                    + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY) + ". \n Are you sure you want to continue?";
+                        historyPeriods = getSelectedProjectionPeriods();
+                        if (String.valueOf(historyPeriods).equals(StringUtils.EMPTY)) {
+                            AbstractNotificationUtils.getErrorNotification(Constant.IMPROPER_CALCULATION_VARIABLES, "Please select a Projection Period.");
+                            return;
                         }
-                    } else {
-                        messageBody = Constant.REPLACE_THE_CURRENT_VALUES
-                                + adjValue + "%. \n Are you sure you want to continue?";
+                        projectionPeriods = getSelectedProjectionPeriods();
                     }
-                }
-
-                new AbstractNotificationUtils() {
-                    @Override
-                    public void noMethod() {
+                    if (!checkForCheckedRecord()) {
+                        AbstractNotificationUtils.getErrorNotification("No level selected", "Please select a Level from the drop down");
                         return;
                     }
+                    String confirmMessage = "Confirm Incremental adjustment";
+                    String messageBody = StringUtils.EMPTY;
 
-                    @Override
-                    public void yesMethod() {
-                        try {
-                            if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
-                                CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
+                    if (adjType.equals("Incremental")) {
+                        confirmMessage = "Confirm Incremental adjustment";
+                        if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
+                            if (variable.getValue().equals(Constant.UNIT)) {
+                                messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY)
+                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                            } else {
+                                messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY)
+                                        + " adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
                             }
-                            getTableLogic().setRefresh(false);
-                            salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
-                            refreshTableData(getCheckedRecordsHierarchyNo());
-                            getTableLogic().setRefresh(true);
-                        } catch (PortalException ex) {
-                            LOGGER.error(ex);
-                        } catch (Exception ex) {
-                            LOGGER.error(ex);
+                        } else {
+                            messageBody = Constant.YOU_ARE_ABOUT_TO_MAKE_THE_FOLLOWING + adjValue
+                                    + "% adjustment for the following periods " + projectionPeriods + Constant.ARE_YOU_SURE_YOU_WANT_TO_CONTINUE;
+                        }
+                    } else if (adjType.equals("Override")) {
+                        confirmMessage = "Confirm Override";
+                        if (basis.getValue().equals(Constant.LabelConstants.AMOUNT)) {
+                            if (variable.getValue().equals(Constant.UNIT)) {
+                                messageBody = Constant.REPLACE_THE_CURRENT_VALUES
+                                        + getFormatValue(Constant.UNIT_FORMAT, adjValue, StringUtils.EMPTY) + ". \n Are you sure you want to continue?";
+                            } else {
+                                messageBody = Constant.REPLACE_THE_CURRENT_VALUES
+                                        + getFormatValue(Constant.TWO_DECIMAL, adjValue, Constant.CURRENCY) + ". \n Are you sure you want to continue?";
+                            }
+                        } else {
+                            messageBody = Constant.REPLACE_THE_CURRENT_VALUES
+                                    + adjValue + "%. \n Are you sure you want to continue?";
                         }
                     }
-                }.getOkCancelMessage(confirmMessage, messageBody);
+
+                    new AbstractNotificationUtils() {
+                        @Override
+                        public void noMethod() {
+                            return;
+                        }
+
+                        @Override
+                        public void yesMethod() {
+                            try {
+                                if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
+                                    CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT)[0]);
+                                }
+                                getTableLogic().setRefresh(false);
+                                salesLogic.adjustSalesProjection(projectionDTO, adjType, adjValue, adjBasis, adjVariable, adjMethodology, historyPeriods, projectionPeriods);
+                                refreshTableData(getCheckedRecordsHierarchyNo());
+                                getTableLogic().setRefresh(true);
+                            } catch (PortalException ex) {
+                                LOGGER.error(ex);
+                            } catch (Exception ex) {
+                                LOGGER.error(ex);
+                            }
+                        }
+                    }.getOkCancelMessage(confirmMessage, messageBody);
+                } else {
+                    AbstractNotificationUtils.getErrorNotification("No adjustment entered", "Please enter a numeric value in the Adjustment text box.");
+                }
             } else {
-                AbstractNotificationUtils.getErrorNotification("No adjustment entered", "Please enter a numeric value in the Adjustment text box.");
+                AbstractNotificationUtils.getErrorNotification("No Allocation Methodology selected", "Please select an Allocation Methodology");
             }
-        } else {
-            AbstractNotificationUtils.getErrorNotification("No Allocation Methodology selected", "Please select an Allocation Methodology");
         }
     }
-
     /**
      * Gets the selected History periods that can be used for the adjustment and
      * calculation.
@@ -2344,6 +2475,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 case ANNUAL:
                     condition = tempYear < currentYear;
                     break;
+                default:
+                LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                break;
             }
             if ((condition) && (checkBoxMap.get(key))) {
                 if (!selectedPeriods.equals(StringUtils.EMPTY)) {
@@ -2391,6 +2525,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         break;
                     case ANNUAL:
                         condition = tempYear >= projStartYear;
+                        break;
+                    default:
+                        LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
                         break;
                 }
                 if (condition) {
@@ -2440,6 +2577,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 case ANNUAL:
                     condition = tempYear >= projStartYear;
                     break;
+                default:
+                LOGGER.warn("selectedFreq is not valid: " + selectedFreq);
+                break;
             }
 
             if ((condition) && (checkBoxMap.get(key))) {
@@ -2534,6 +2674,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             case NumericConstants.FOUR:
                 AbstractNotificationUtils.getErrorNotification("No period selected", "Please select at least two historic periods to use as a baseline for each selected discount.");
                 return;
+           default:
+                LOGGER.warn("Baseline period is not valid: ");
+                break;
         }
 
         if (!checkForCheckedRecord()) {
@@ -2566,7 +2709,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     return;
                 }
             }
-            if ((calcMethodology.equals(Constant.SINGLE_PERIOD) || Constant.PERCOFDEMAND.equals(calcMethodology) || Constant.PERCOFEXFACTORYSALES.equals(calcMethodology) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(calcMethodology) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(calcMethodology))  && (selectedPeriods.contains(","))) {
+            if ((calcMethodology.equals(Constant.SINGLE_PERIOD) || Constant.PERCOFDEMAND.equals(calcMethodology) || Constant.PERCOFINVENTORYWITHDRAWAL.equals(calcMethodology) || Constant.PERC_OF_ADJUSTED_DEMAND.equals(calcMethodology))  && (selectedPeriods.contains(","))) {
                 AbstractNotificationUtils.getErrorNotification("Single period ", "Please select a single period for calculation.");
                 return;
             }
@@ -2576,7 +2719,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 if (QUARTERLY.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.FOUR) {
-                        if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("Q1")) {
+                        if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("Q1") && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(calcMethodology)) {
                             throwErrorMessage(calcMethodology);
                             return;
                         }
@@ -2587,7 +2730,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
                 } else if (SEMI_ANNUAL.getConstant().equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.TWO) {
-                        if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("S1")) {
+                        if (!String.valueOf(forecastStartPeriod.getValue()).trim().startsWith("S1") && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(calcMethodology)) {
                             throwErrorMessage(calcMethodology);
                             return;
                         }
@@ -2602,7 +2745,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                 } else if (MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency())) {
                     if (historySelected.length == NumericConstants.TWELVE) {
-                        if (!String.valueOf(forecastStartPeriod.getValue()).startsWith("Jan")) {
+                        if (!String.valueOf(forecastStartPeriod.getValue()).startsWith("Jan") && !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(calcMethodology)) {
                             throwErrorMessage(calcMethodology);
                             return;
                         }
@@ -2667,17 +2810,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     return;
                 }
             }
-            String startPeriod = String.valueOf(forecastStartPeriod.getValue());
-            String endPeriod = forecastEndPeriod.getValue() == null ? StringUtils.EMPTY : String.valueOf(forecastEndPeriod.getValue());
+            String startPeriodAt = String.valueOf(forecastStartPeriod.getValue());
+            String endPeriodAt = forecastEndPeriod.getValue() == null ? StringUtils.EMPTY : String.valueOf(forecastEndPeriod.getValue());
             if (MONTHLY.equalsIgnoreCase(projectionDTO.getFrequency())) {
                 try {
-                    startPeriod = "M" + CommonLogic.getYearAndPeriod(startPeriod, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(startPeriod, projectionDTO.getFrequency(), true)[0];
-                    endPeriod = endPeriod.isEmpty() ? endPeriod : "M" + CommonLogic.getYearAndPeriod(endPeriod, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(endPeriod, projectionDTO.getFrequency(), true)[0];
+                    startPeriodAt = "M" + CommonLogic.getYearAndPeriod(startPeriodAt, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(startPeriodAt, projectionDTO.getFrequency(), true)[0];
+                    endPeriodAt = endPeriodAt.isEmpty() ? endPeriodAt : "M" + CommonLogic.getYearAndPeriod(endPeriodAt, projectionDTO.getFrequency(), true)[1] + " " + CommonLogic.getYearAndPeriod(endPeriodAt, projectionDTO.getFrequency(), true)[0];
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
             }
-            isSalesCalculated = salesLogic.calculateReturnsProjection(projectionDTO, calcMethodology, selectedPeriods, startPeriod, endPeriod);
+            isSalesCalculated = salesLogic.calculateReturnsProjection(projectionDTO, calcMethodology, selectedPeriods, startPeriodAt, endPeriodAt);
             refreshTableData(getReturnsCheckedRecordsHierarchyNo());
 
         }
@@ -2796,6 +2939,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     case Constant.PRODUCT_GROWTH:
                         proGrowth = true;
                         break;
+                    default:
+                        LOGGER.warn("Value is not valid: " + value);
+                        break;
                 }
             }
 
@@ -2816,7 +2962,11 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         } else {
             AbstractNotificationUtils.getErrorNotification("No Variable Selected", "Please select any one Variable");
         }
-
+        Object[] displayValidation = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+        if (!CommonUtil.nullCheck(displayValidation) && displayValidation.length == 0) {
+            AbstractNotificationUtils.getErrorNotification("No Display Format Selected", "Please select value(s) from the Display Format field");
+            checkSelection = false;
+        }
         return checkSelection;
     }
 
@@ -2885,8 +3035,6 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     protected void configureExcelResultTable() {
         excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-        List<String> columnHeader;
-        List<Object> visibleColumns;
         projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(String.valueOf(view.getValue())) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
         if (returnsFlag) {
             excelTable.setRefresh(false);
@@ -2909,7 +3057,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected void levelFilterDdlbChangeOption(boolean excelExport) {
         LOGGER.debug("excelExport"+excelExport);
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(levelFilter.getValue());
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if (levelNo < 0) {
             levelNo = 0;
         }
@@ -2943,6 +3091,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             if ("Returns".equalsIgnoreCase(screenName)) {
                 count = salesLogic.getConfiguredSalesProjectionCount(new Object(), projectionDTO, true, initialProjSelDTO);
             } else {
+                projectionDTO.setExcelFlag(true);
                 count = salesLogic.getConfiguredSalesProjectionCount(new Object(), projectionDTO, true, projectionDTO);
             }
             List<SalesRowDto> resultList = salesLogic.getConfiguredSalesProjection(new Object(), 0, count, projectionDTO);
@@ -2980,7 +3129,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     protected void loadDataToContainer(List<SalesRowDto> resultList, Object parentId) {
         try {
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 for (SalesRowDto dto : resultList) {
                     excelContainer.addBean(dto);
                     if (parentId != null) {
@@ -3007,7 +3156,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     protected void expandCollapseLevelOption(boolean isExpand, Object value) {
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
-        int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
+        int levelNo = Integer.parseInt(String.valueOf(levelHierarchy.get(0)));
         if(level.getValue()!=null){
                 levelFilter.setValue(null);
             }
@@ -3048,7 +3197,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     }
 
-    private void setProjectionSelection() {
+    protected void setProjectionSelection(boolean isReset) {
         Map<Object, Object> map = null;
         if ("Returns".equalsIgnoreCase(screenName)) {
             map = CommonLogic.getReturnsProjectionSelection(session.getProjectionId());
@@ -3099,6 +3248,28 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     }
                     variables.setImmediate(true);
                 }
+            }
+            value = map.get(Constant.DISPLAY_FORMAT_SAVE);
+            if (!CommonUtil.nullCheck(value)) {
+                CommonUtil.setCustomMenuBarValuesInEdit(value, displayFormatValues);
+            }
+             if (isReset) {
+                CommonLogic.unCheckMultiSelect(customerFilterValues);
+                CommonLogic.unCheckMultiSelect(productFilterValues);
+            }
+            value = map.get(Constant.CUSTOMER_LEVEL_DDLB);
+            customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value)? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
+            if (!CommonUtil.nullCheck(value)) {
+                generateCustomerToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.EMPTY_LIST : generateCustomerToBeLoaded;
+                CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
+            }
+            value = map.get(Constant.PRODUCT_LEVEL_DDLB);
+            productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
+            value = map.get(Constant.PRODUCT_LEVEL_VALUE);
+            if (!CommonUtil.nullCheck(value)) {
+                generateProductToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.EMPTY_LIST : generateProductToBeLoaded;
+                CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
             }
         }
     }
@@ -3183,14 +3354,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
             for (String e : checkedDoubleHeaders.keySet()) {
                 List a = checkedDoubleHeaders.get(e);
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
                     checkedList.addAll(a);
                 }
             }
-            if (checkedList.size() > 0) {
+            if (!checkedList.isEmpty()) {
                 isOne = false;
             }
         }
@@ -3334,13 +3505,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     group.setWidth("100%");
                     return group;
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
-                    TextField metohdologyFilter = new TextField();
-                    metohdologyFilter.setWidth("100%");
-                    return metohdologyFilter;
+                    TextField metodologyFilter = new TextField();
+                    metodologyFilter.setWidth("100%");
+                    return metodologyFilter;
                 } else if (Constant.BASELINE.equals(propertyId)) {
-                    TextField baseLineFilter = new TextField();
-                    baseLineFilter.setWidth("100%");
-                    return baseLineFilter;
+                    TextField baseFilter = new TextField();
+                    baseFilter.setWidth("100%");
+                    return baseFilter;
                 } else if (Constant.LEVELNAME.equals(propertyId)) {
                     TextField levelField = new TextField();
                     levelField.setWidth("100%");
@@ -3389,16 +3560,16 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                 if (Constant.GROUP.equals(propertyId)) {
 
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
-                    TextField metohdologyFilter = new TextField();
-                    metohdologyFilter.setReadOnly(true);
-                    metohdologyFilter.setWidth("100%");
-                    return metohdologyFilter;
+                    TextField FilterForMetohdology = new TextField();
+                    FilterForMetohdology.setReadOnly(true);
+                    FilterForMetohdology.setWidth("100%");
+                    return FilterForMetohdology;
 
                 } else if (Constant.BASELINE.equals(propertyId)) {
-                    TextField baseLineFilter = new TextField();
-                    baseLineFilter.setReadOnly(true);
-                    baseLineFilter.setWidth("100%");
-                    return baseLineFilter;
+                    TextField FilterForBaseline = new TextField();
+                    FilterForBaseline.setReadOnly(true);
+                    FilterForBaseline.setWidth("100%");
+                    return FilterForBaseline;
 
                 } else if (Constant.LEVELNAME.equals(propertyId)) {
                     TextField levelField = new TextField();
@@ -3456,6 +3627,9 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             case NumericConstants.TWELVE:
                 periods[0] = CommonUtils.getIntegerForMonth(StringUtils.capitalize(key.toString().substring(0, NumericConstants.THREE)));
                 periods[1] = Integer.valueOf(key.toString().substring(NumericConstants.FOUR, NumericConstants.EIGHT));
+                break;
+            default:
+                LOGGER.warn("frequencyDivision is not valid: " + frequencyDivision);
                 break;
         }
         return periods;
@@ -3530,8 +3704,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     return true;
                 }
             } else {
-                int startyear = Integer.valueOf(start.trim().substring(NumericConstants.THREE));
-                int endyear = Integer.valueOf(end.trim().substring(NumericConstants.THREE));
+                int startyear = Integer.parseInt(start.trim().substring(NumericConstants.THREE));
+                int endyear = Integer.parseInt(end.trim().substring(NumericConstants.THREE));
                 if ((endyear > startyear)
                         || ((startyear == endyear) && (Integer.valueOf(end.trim().substring(1, NumericConstants.TWO)) > Integer.valueOf(start.trim().substring(1, NumericConstants.TWO))))) {
                     return true;
@@ -3548,4 +3722,69 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public PageTreeTableLogic getTableLogic() {
         return mSalesProjectionTableLogic;
     }
+    
+    protected DataFormatConverter getConverter(String indicator) {
+        if (Constant.SALES_SMALL.equals(indicator)) {
+            if (!CommonUtil.isValueEligibleForLoading()) {
+                return salesFormat;
+            }
+            return (stringNullCheck(projectionDTO.getConversionFactor())
+                    || StringUtils.isBlank(String.valueOf(projectionDTO.getConversionFactor()))
+                    || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(projectionDTO.getConversionFactor())))
+                    ? salesConversionFormat : salesConversionTwoDecimalFormat;
+        } else {
+            if (!CommonUtil.isValueEligibleForLoading()) {
+                return unitFormat;
+            }
+            return unitConversionFormat;
+        }
+    }
+    
+    public void loadMethodologyDdlb(final ComboBox methodology) {
+            String query;
+            Map<String, List<String>> input = new HashMap<>();
+            List<String> defaultNames = Arrays.asList("1.Single Period", "2.Average", "3.Rolling Annual Trend");
+            List<String> exfactNames = Arrays.asList("4.% of Ex-Factory Sales", "9.% of Ex-Factory Sales Seasonal Trend");
+            List<String> demandNames = Arrays.asList("5.% of Demand");
+            List<String> adjDemandNames = Arrays.asList("7.% of Adjusted Demand");
+            List<String> inventoryNames = Arrays.asList("6.% of Inventory Withdrawal");
+            List<String> custGTSNames = Arrays.asList("8.Customer GTS");
+            List<String> outputList = new ArrayList<>();
+            input.put("Ex-Factory Sales", exfactNames);
+            input.put("Demand", demandNames);
+            input.put("Inventory Withdrawal - Forecast Detail", inventoryNames);
+            input.put("Inventory Withdrawal - Forecast Summary", inventoryNames);
+            input.put("Customer Sales", custGTSNames);
+            input.put("Adjusted Demand", adjDemandNames);
+            query = SQlUtil.getQuery("get-file-type-query");
+            List<String> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            outputList.addAll(defaultNames);
+            for (String string : returnList) {
+                outputList.addAll(input.get(string));                
+            }
+            Collections.sort(outputList);
+            for (String str : outputList) {
+                methodology.addItem(str.split("\\.")[1]);
+            }
+    }
+    
+    public void loadAllocationDdlb(final ComboBox allocationBasis) {
+            String query;
+            Map<String, String> input = new HashMap<>();
+            List<String> outputList = new ArrayList<>();
+            input.put("Ex-Factory Sales", Constant.LabelConstants.PERC_OF_EX_FACTORY.getConstant());
+            input.put("Demand", Constant.PERCOFDEMAND);
+            input.put("Inventory Withdrawal - Forecast Detail", Constant.PERCOFINVENTORYWITHDRAWAL);
+            input.put("Inventory Withdrawal - Forecast Summary", Constant.PERCOFINVENTORYWITHDRAWAL);
+            query = SQlUtil.getQuery("get-file-type-query");
+            List<String> returnList = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            for (String string : returnList) {
+                if (!"Customer Sales".equals(string) && !"Adjusted Demand".equals(string)) {
+                    outputList.add(input.get(string));
+                }
+            }
+            
+            allocationBasis.addItems(outputList);
+    }
+
 }

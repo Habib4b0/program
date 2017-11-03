@@ -28,8 +28,6 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
@@ -150,13 +148,10 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
             public void buttonClick(Button.ClickEvent event) {
                 try {
                     btnSearchLogic();
-                } catch (PortalException ex) {
+                } catch (PortalException |SystemException ex) {
                     LOGGER.error(ex);
                     AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
-                } catch (SystemException ex) {
-                    LOGGER.error(ex);
-                    AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000), ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5039));
-                }
+                } 
             }
         });
 

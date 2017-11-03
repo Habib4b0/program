@@ -82,6 +82,16 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
     private String reHierarchyNo =StringUtils.EMPTY;
     private Integer projectionTotal = 0;
     private String secHierarchyNo = StringUtils.EMPTY;
+    private String salesInclusion = StringUtils.EMPTY;
+    private String deductionInclusion = StringUtils.EMPTY;
+
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
 
     public String getMethodology() {
         return methodology;
@@ -581,6 +591,14 @@ public class SalesRowDto extends ExtMapDTO implements Comparator<SalesRowDto>{
         }
         
         return value;
+    }
+
+    public String getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(String deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
     }
 
 }

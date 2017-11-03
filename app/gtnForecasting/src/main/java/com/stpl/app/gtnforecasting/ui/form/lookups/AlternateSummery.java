@@ -959,7 +959,7 @@ public class AlternateSummery extends CustomComponent {
      */
     protected void loadDataToContainer(List<SalesRowDto> resultList, Object parentId) {
         try {
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 for (SalesRowDto dto : resultList) {
                     excelContainer.addBean(dto);
                     if (parentId != null) {

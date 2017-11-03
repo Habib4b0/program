@@ -20,8 +20,6 @@ import com.stpl.app.adminconsole.util.SchedulerExcelEport;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExcelExportUtil;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.ExtCustomTreeTable;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
@@ -132,8 +130,9 @@ public class OutboundProcess {
 
     }
 
-    public void createWorkSheetContent( final Integer end, final PrintWriter printWriter) {
+    public void createWorkSheetContent( final Integer start, final Integer end, final PrintWriter printWriter) {
         try {
+            LOGGER.info("Start index of record is : "+start);
             if (end != 0 && StringConstantUtils.RELATIONSHIP_BUILDER_OUTBOUND.equalsIgnoreCase(processName)) {
                     for (int headerCount = 0; headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length; headerCount++) {
                         if (headerCount < CommonUIUtil.getInstance().relationshipOutboundExcelHeader.length - 1) {
@@ -155,7 +154,7 @@ public class OutboundProcess {
         try {
             String jbossHome = System.getProperty("jboss.home.dir");
             if (!"null".equals(jbossHome)) {
-                String ftppath[] = jbossHome.split("jboss-7.1.1");
+                String[] ftppath = jbossHome.split("jboss-7.1.1");
                 if (ftppath.length != 0) {
                     LOGGER.info(ftppath[0] + FTP_PROPERTIES_PATH);
                     java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);

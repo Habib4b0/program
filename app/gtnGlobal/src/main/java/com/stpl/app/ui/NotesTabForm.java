@@ -5,8 +5,6 @@
  */
 package com.stpl.app.ui;
 
-import com.stpl.app.global.ifp.logic.IFPLogic;
-import com.stpl.app.global.item.util.FieldNameUtils;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -71,7 +69,6 @@ public class NotesTabForm extends AbstractNotesTab {
 	protected final boolean isViewMode;
         CommonUIUtils commonUiUtil = new CommonUIUtils();
         CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-        IFPLogic ifpLogic = new IFPLogic();
 
 	public NotesTabForm(ErrorfulFieldGroup binder, String moduleName, String dbModuleName, String masterTableSid,String mode) throws SystemException, PortalException {
 		super(binder, moduleName);
@@ -93,7 +90,7 @@ public class NotesTabForm extends AbstractNotesTab {
                 getNotesTab(fieldNotesHM,functionNotesHM);
                 
                 final Map<String, AppPermission> fieldNotesTableHM = stplSecurity.getFieldOrColumnPermission(userId, moduleName+","+ConstantsUtils.NOTES,false);
-              List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
+              List<Object> resultList = commonUiUtil.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
             Object[] obj = new Object[]{"documentName", "dateAdded", "userName"};
             String[] objHeaders = new String[]{"Document Name", "Date Added", "User Name"};
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, obj, fieldNotesTableHM, mode.equals("Copy")?"Edit":mode);
@@ -320,18 +317,18 @@ public class NotesTabForm extends AbstractNotesTab {
         LOGGER.debug("Entering getFirstTab1");
         try {
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
+            List<Object> resultList = commonUiUtil.getFieldsForSecurity(moduleName, ConstantsUtils.NOTES);
 
             commonUiUtil.removeComponentOnPermission(resultList, cssLayout1, fieldCompanyHM, mode, binder);
 
             commonSecurityLogic.removeComponentOnPermission(resultList, cssHistoryNote, fieldCompanyHM, mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssNewNote, fieldCompanyHM, mode);
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout1, fieldCompanyHM, mode);
-            if (functionHM.get(FieldNameUtils.ADD_NOTE) != null && !((AppPermission) functionHM.get(FieldNameUtils.ADD_NOTE)).isFunctionFlag()) {
+            if (functionHM.get(CommonUIUtils.ADD_NOTE) != null && !((AppPermission) functionHM.get(CommonUIUtils.ADD_NOTE)).isFunctionFlag()) {
                 addBtnlayout.removeComponent(getAddNote());
             }
 
-            if (functionHM.get(FieldNameUtils.REMOVE_NOTE) != null && !((AppPermission) functionHM.get(FieldNameUtils.REMOVE_NOTE)).isFunctionFlag()) {
+            if (functionHM.get(CommonUIUtils.REMOVE_NOTE) != null && !((AppPermission) functionHM.get(CommonUIUtils.REMOVE_NOTE)).isFunctionFlag()) {
                 tableLayout.removeComponent(getRemove());
             }
         } catch (Exception ex) {

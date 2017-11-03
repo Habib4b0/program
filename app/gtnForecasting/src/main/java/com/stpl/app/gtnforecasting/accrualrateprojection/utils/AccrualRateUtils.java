@@ -361,6 +361,9 @@ public class AccrualRateUtils {
             case DETAILS:
                 createHeadersForDetails(historyStartPeriod, filterStartindex, filterEndIndex, tableHeaderDTO, accrualRateSelectionDTO, recordHeaderDTO);
                 break;
+            default:
+                LOGGER.warn("screenName is not valid: " + screenName);
+                break;
         }
     }
 

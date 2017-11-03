@@ -187,7 +187,7 @@ public class ProjectionResults extends ForecastProjectionResults {
             projectionSelectionDTO.setForecastDTO(sessionDTO.getForecastDTO());
             projectionSelectionDTO.setHistoryNum(historyNum);
             projectionSelectionDTO.setProjectionNum(NumericConstants.TWO);
-            projectionSelectionDTO.setProjection("" + projectionSelectionDTO.getProjectionNum());
+            projectionSelectionDTO.setProjection("" + Integer.toString(projectionSelectionDTO.getProjectionNum()));
 
             projectionSelectionDTO.setActualsOrProjections(actualOrProjectionsOpg.getValue().toString());
 

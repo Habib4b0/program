@@ -10,11 +10,15 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.cff.logic.CommonLogic;
 import static com.stpl.app.cff.logic.CommonLogic.isValidViewName;
 import com.stpl.app.cff.logic.CustomViewLogic;
+import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.vaadin.data.util.AbstractContainer;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Table;
+import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.container.ExtTreeContainer;
 import org.jboss.logging.Logger;
@@ -27,12 +31,12 @@ import org.jboss.logging.Logger;
  */
 public class CustomTreeBuild extends AbstractCustomTreeView {
 
-    SessionDTO session;
+    private SessionDTO session;
     int customId = 0;
     boolean isSelect = false;
-    CffCustomViewMaster customView = null;
+    private CffCustomViewMaster customView = null;
     private static final Logger LOGGER = Logger.getLogger(CustomTreeBuild.class);
-    CustomViewLogic relationBuildLogic = new CustomViewLogic(); 
+    private CustomViewLogic relationBuildLogic = new CustomViewLogic(); 
 
     /**
      * The Constructor.
@@ -42,7 +46,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      */
     public CustomTreeBuild(SessionDTO session) {
         this(session, 0);
-	// TODO Auto-generated constructor stub
     }
 
     /**
@@ -53,7 +56,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
      * @param customId
      */
     public CustomTreeBuild(SessionDTO session, int customId) {
-        super();
         this.session = session;
         this.customId = customId;
         if (customId != 0) {
@@ -101,6 +103,12 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         // Logic to be written here
         customTreeAddLogic(productTable);
     }
+    
+    @Override
+    protected void customTreeAddDeductionLogic() {
+        // Logic to be written here
+        customTreeAddLogic(deductionTable);
+    }
 
     private void customTreeAddLogic(Table table) {
         Object itemId = table.getValue();
@@ -116,19 +124,24 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 if (treeItemId == null || treeItemId.equals(treeItemId1)) {
 
                     if (isValidTree(table, pitemId.getHierarchyIndicator())) {
-                        pitemId.setTreeLevelNo(treeTable.getItemIds().size() + 1);
-                        treeTable.addItem(itemId);
-                        table.removeItem(itemId);
-                        treeTable.setParent(itemId, treeItemId1);
-                        treeTable.setCollapsed(treeItemId1, false);
+                        if (tlitemId.getHierarchyIndicator().equals(Constants.DEDUCTION_HIERARCHY_INDICATOR) && tlitemId.getLevelNo() > pitemId.getLevelNo()) {
+                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR_NOTIFICATION_INVALID_STRUCTURE, Constants.ERROR_NOTIFICATION_INVALID_ADDITION+ pitemId.getLevel()
+                                    + Constants.ERROR_NOTIFICATION_INVALID_CHILD + tlitemId.getLevel());
+                        } else {
+                            pitemId.setTreeLevelNo(treeTable.getItemIds().size() + 1);
+                            treeTable.addItem(itemId);
+                            table.removeItem(itemId);
+                            treeTable.setParent(itemId, treeItemId1);
+                            treeTable.setCollapsed(treeItemId1, false);
+                        }
                     } else {
-                        AbstractNotificationUtils.getErrorNotification("Invalid Structure", "You cannot add " + pitemId.getLevel()
-                                + " as a child to " + tlitemId.getLevel());
+                        AbstractNotificationUtils.getErrorNotification(Constants.ERROR_NOTIFICATION_INVALID_STRUCTURE, Constants.ERROR_NOTIFICATION_INVALID_ADDITION + pitemId.getLevel()
+                                + Constants.ERROR_NOTIFICATION_INVALID_CHILD + tlitemId.getLevel());
                     }
 
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("Invalid Structure", "You cannot add " + pitemId.getLevel()
-                            + " as a child to " + titemId.getLevel());
+                    AbstractNotificationUtils.getErrorNotification(Constants.ERROR_NOTIFICATION_INVALID_STRUCTURE, Constants.ERROR_NOTIFICATION_INVALID_ADDITION + pitemId.getLevel()
+                            + Constants.ERROR_NOTIFICATION_INVALID_CHILD + titemId.getLevel());
                 }
             } else {
                 pitemId.setTreeLevelNo(1);
@@ -155,6 +168,11 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     @Override
     protected void customTreeRemoveProductLogic() {
         customTreeRemoveLogic(productTable);
+    }
+    
+    @Override
+    protected void customTreeRemoveDeductionLogic() {
+        customTreeRemoveLogic(deductionTable);
     }
 
     private void customTreeRemoveLogic(Table table) {
@@ -303,7 +321,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         }
         LOGGER.debug("loadProducts projectionId=" + session.getProjectionId()+"=====product level number======="+session.getProductLevelNumber());
         List productList = CommonLogic.getProductHierarchy(session.getProjectionId(), Integer.valueOf(session.getProductLevelNumber()));
-        LOGGER.debug("loadProducts productList size=" + productList.size());
+        LOGGER.debug("loadProducts productList Start size=" + productList.size());
         int size = productList.size();
         for (int i = 0; i < size; i++) {
             Object obj = productList.get(i);
@@ -313,8 +331,38 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 i--;
             }
         }
-        LOGGER.debug("loadProducts productList size=" + productList.size());
+        LOGGER.debug("loadProducts productList End size=" + productList.size());
         productContainer.addAll(productList);
+    }
+    
+    @Override
+    protected void loadDeductions() {
+        try{
+        if (deductionContainer == null) {
+            deductionContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        
+        List input = new ArrayList<>();
+        input.add(session.getProdRelationshipBuilderSid());
+        String sql = CommonQueryUtils.getAppQuery(input, "DEDUCTION_LEVEL_NO");
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
+        Object[] res = (Object[])list.get(0);
+        List deductionList = CommonLogic.getDeductionHierarchy(session.getProjectionId(), Integer.valueOf(res[0].toString()));
+        LOGGER.debug("load Deductions productList Start size=" + deductionList.size());
+        int size = deductionList.size();
+        for (int i = 0; i < size; i++) {
+            Object obj = deductionList.get(i);
+            if (isTreeitem(obj)) {
+                deductionList.remove(obj);
+                size--;
+                i--;
+            }
+        }
+        LOGGER.debug("load Deductions productList End size=" + deductionList.size());
+        deductionContainer.addAll(deductionList);
+        }catch(Exception e){
+        	LOGGER.error(e);
+        }
     }
 
     @Override
@@ -343,6 +391,14 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             customerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
         }
         return customerContainer;
+    }
+    
+    @Override
+    protected AbstractContainer getDeductionsContainer() {
+        if (deductionContainer == null) {
+            deductionContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+        }
+        return deductionContainer;
     }
 
     @Override

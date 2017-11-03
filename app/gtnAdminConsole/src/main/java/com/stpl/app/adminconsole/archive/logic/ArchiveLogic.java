@@ -5,9 +5,9 @@
 package com.stpl.app.adminconsole.archive.logic;
 
 import com.stpl.app.adminconsole.archive.dto.ArchiveDTO;
-import com.stpl.app.adminconsole.dao.HierarchyBuilderLogicDAO;
-import com.stpl.app.adminconsole.dao.impl.HierarchyBuilderLogicDAOImpl;
-import com.stpl.app.adminconsole.itemgroup.util.CommonUtils;
+import com.stpl.app.adminconsole.dao.CommonDAO;
+import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
+import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.model.VwUserTables;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -34,7 +34,7 @@ public class ArchiveLogic {
     /**
      * The dao.
      */
-    private final HierarchyBuilderLogicDAO dao = new HierarchyBuilderLogicDAOImpl();
+    static CommonDAO dao = new CommonDAOImpl();
 
     /**
      * Gets the table name.

@@ -82,7 +82,8 @@ public class RelationshipBuilderPersistenceImpl extends BasePersistenceImpl<Rela
                 "startDate", "createdDate", "createdBy",
                 "relationshipDescription", "hierarchyDefinitionSid", "versionNo",
                 "relationshipName", "relationshipBuilderSid", "hierarchyVersion",
-                "modifiedBy", "modifiedDate", "relationshipType", "buildType"
+                "modifiedBy", "modifiedDate", "deductionRelation",
+                "relationshipType", "buildType"
             });
     private static RelationshipBuilder _nullRelationshipBuilder = new RelationshipBuilderImpl() {
             @Override
@@ -349,6 +350,7 @@ public class RelationshipBuilderPersistenceImpl extends BasePersistenceImpl<Rela
         relationshipBuilderImpl.setHierarchyVersion(relationshipBuilder.getHierarchyVersion());
         relationshipBuilderImpl.setModifiedBy(relationshipBuilder.getModifiedBy());
         relationshipBuilderImpl.setModifiedDate(relationshipBuilder.getModifiedDate());
+        relationshipBuilderImpl.setDeductionRelation(relationshipBuilder.getDeductionRelation());
         relationshipBuilderImpl.setRelationshipType(relationshipBuilder.getRelationshipType());
         relationshipBuilderImpl.setBuildType(relationshipBuilder.getBuildType());
 

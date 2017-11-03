@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.logic.tablelogic;
 
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;

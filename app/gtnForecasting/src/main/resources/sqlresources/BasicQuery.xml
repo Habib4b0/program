@@ -1784,7 +1784,7 @@ SELECT count(1)
             <![CDATA[
                 SELECT
                     DISTINCT RLD.LEVEL_NO,
-                    RLD.LEVEL_NO as TREE_LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
                     '?' as HIERARCHY_INDICATOR,
                     RLD.LEVEL_NAME,
                     RLD.HIERARCHY_LEVEL_DEFINITION_SID
@@ -1794,7 +1794,8 @@ SELECT count(1)
                     RLD.RELATIONSHIP_BUILDER_SID = PM.?
                 WHERE
                     PM.PROJECTION_MASTER_SID = ?
-                    AND RLD.LEVEL_NO >= ?;
+                    AND RLD.LEVEL_NO >= ?
+                    order by convert(int, RLD.level_no) ;
             ]]>
         </query>
     </entity>
@@ -1818,7 +1819,7 @@ SELECT count(1)
     <entity id="discount-join">
         <query>
             <![CDATA[
-                JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID
+                JOIN ST_NM_DISCOUNT_PROJ_MASTER SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN
             ]]>
         </query>
     </entity>
@@ -1906,10 +1907,24 @@ SELECT count(1)
     <entity id="get-helper-table-query">
         <query>
             <![CDATA[
-                select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION = '?' AND LIST_NAME = '?';
+               select HELPER_TABLE_SID from dbo.HELPER_TABLE where DESCRIPTION = '?';
             ]]>
         </query>
     </entity>
     
+    <entity id="get-file-type-query">
+        <query>
+            <![CDATA[
+        select
+	HT.DESCRIPTION
+        from
+	dbo.FILE_MANAGEMENT FT
+        JOIN dbo.HELPER_TABLE HT on
+	FT.FILE_TYPE = HT.HELPER_TABLE_SID
+        where
+	TO_PERIOD is null
+            ]]>
+        </query>
+    </entity>
     
 </sql>

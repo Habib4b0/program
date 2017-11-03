@@ -5,6 +5,7 @@
 package com.stpl.app.adminconsole.dao;
 
 import com.stpl.app.model.HelperTable;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.List;
 
@@ -18,14 +19,22 @@ public interface CommonDAO {
    
     Object executeBulkUpdateQuery(String query, Object udc1, Object udc2);
    
-      public Object executeSelectQuery(final List input, String queryName1, String queryName2);
+    public Object executeSelectQuery(final List input, String queryName1, String queryName2);
 
-     /* Gets the HELPER TABLE list.
-     *
-     * @param query the query
-     * @return the helper table list
-     * @throws SystemException the system exception
-     */
-   List<HelperTable> getHelperTableDetailsByListName(String listName)
+    List<HelperTable> getHelperTableDetailsByListName(String listName)
 			throws SystemException; 
+   
+    List getHierachyDefinitionList(DynamicQuery query) throws SystemException;
+   
+    List getRelationshipBuilderList(DynamicQuery query) throws SystemException;
+    
+    List getLookUpData(DynamicQuery query) throws SystemException;
+    
+    List getColumnValues(String tableName, String fieldName) throws SystemException;
+    
+    List getHelperTableList(DynamicQuery query) throws SystemException;
+    
+    List getUsersList(DynamicQuery query) throws SystemException;
+    
+    List getBrandNameandId(final DynamicQuery query) throws SystemException;
 }

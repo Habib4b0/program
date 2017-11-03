@@ -41,6 +41,8 @@ public class ProjectionMasterSoap implements Serializable {
     private String _prodRelationshipBuilderSid;
     private int _discountType;
     private int _businessUnit;
+    private String _deductionHierarchySid;
+    private String _dedRelationshipBuilderSid;
 
     public ProjectionMasterSoap() {
     }
@@ -76,6 +78,8 @@ public class ProjectionMasterSoap implements Serializable {
         soapModel.setProdRelationshipBuilderSid(model.getProdRelationshipBuilderSid());
         soapModel.setDiscountType(model.getDiscountType());
         soapModel.setBusinessUnit(model.getBusinessUnit());
+        soapModel.setDeductionHierarchySid(model.getDeductionHierarchySid());
+        soapModel.setDedRelationshipBuilderSid(model.getDedRelationshipBuilderSid());
 
         return soapModel;
     }
@@ -356,5 +360,21 @@ public class ProjectionMasterSoap implements Serializable {
 
     public void setBusinessUnit(int businessUnit) {
         _businessUnit = businessUnit;
+    }
+
+    public String getDeductionHierarchySid() {
+        return _deductionHierarchySid;
+    }
+
+    public void setDeductionHierarchySid(String deductionHierarchySid) {
+        _deductionHierarchySid = deductionHierarchySid;
+    }
+
+    public String getDedRelationshipBuilderSid() {
+        return _dedRelationshipBuilderSid;
+    }
+
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid) {
+        _dedRelationshipBuilderSid = dedRelationshipBuilderSid;
     }
 }

@@ -15,6 +15,8 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
     private int refCount;
 
     private String description = HelperUtils.EMPTY;
+    
+    private String aliasName = HelperUtils.EMPTY;
 
     private static final Logger LOGGER = Logger.getLogger(HelperDTO.class);
     
@@ -77,6 +79,14 @@ public class HelperDTO implements Serializable, Comparable<HelperDTO> {
 
     public void setRefCount(int refCount) {
         this.refCount = refCount;
+    }
+    
+    public String getAliasName() {
+        return aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
     }
 
     @Override

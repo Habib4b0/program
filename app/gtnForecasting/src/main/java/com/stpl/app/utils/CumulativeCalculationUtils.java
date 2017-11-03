@@ -24,12 +24,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang.StringUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.service.persistence.HelperTableFinderUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
+import com.stpl.ifs.util.constants.ForecastingConstants;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -182,7 +182,7 @@ public class CumulativeCalculationUtils {
             strb.append("'").append(credentials.isIsPasswordEncrypted() ? getDecryptedPassword(credentials.getPassword()) : credentials.getPassword()).append("'");
             strb.append(">");
             strb.append(logPath);
-            File shellFile = new File(folderName + File.separator + "exec.sh");
+            File shellFile = CommonUtil.getFilePath(folderName + File.separator + "exec.sh");
             fileList.add(shellFile.getAbsolutePath());
             try (FileOutputStream outShell = new FileOutputStream(shellFile)) {
                 outShell.write(strb.toString().getBytes());
@@ -193,7 +193,7 @@ public class CumulativeCalculationUtils {
             shellFile.setReadable(true, false);
 
             builder = new ProcessBuilder(shellFile.getAbsolutePath());
-            File dir = new File(folderName);
+            File dir = CommonUtil.getFilePath(folderName);
             if (!dir.exists()) {
                 dir.mkdir();
                 dir.setExecutable(true, false);
@@ -229,7 +229,7 @@ public class CumulativeCalculationUtils {
                     Files.createDirectories(path);
             }
             
-            File file = new File(finalFile);
+            File file = CommonUtil.getFilePath(finalFile);
             file.createNewFile();
             
             long time = System.currentTimeMillis();
@@ -256,7 +256,7 @@ public class CumulativeCalculationUtils {
                 }
                 strb.append(" > ");
                 strb.append(finalFile);
-                File shellFile = new File(folderName + "/Cumulative_Logic" + File.separator + "Concat_exec.sh");
+                File shellFile = CommonUtil.getFilePath(folderName + "/Cumulative_Logic" + File.separator + "Concat_exec.sh");
                 
                 try (FileOutputStream outShell = new FileOutputStream(shellFile)) {
                     outShell.write(strb.toString().getBytes());
@@ -474,7 +474,7 @@ public class CumulativeCalculationUtils {
     }
     private static String getDecryptedPassword(String secret) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
         byte[] kbytes = "jaas is the way".getBytes();
-        SecretKeySpec key = new SecretKeySpec(kbytes, "Blowfish");
+        SecretKeySpec key = new SecretKeySpec(kbytes, ForecastingConstants.getPassword());
         BigInteger n = new BigInteger(secret, NumericConstants.SIXTEEN);
         byte[] encoding = n.toByteArray();
         if (encoding.length % NumericConstants.EIGHT != 0) {
@@ -492,7 +492,7 @@ public class CumulativeCalculationUtils {
                 }
             }
         }
-        Cipher cipher = Cipher.getInstance("Blowfish");
+        Cipher cipher = Cipher.getInstance(ForecastingConstants.getPassword());
         cipher.init(Cipher.DECRYPT_MODE, key);
         byte[] decode = cipher.doFinal(encoding);
         return new String(decode);

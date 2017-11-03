@@ -45,6 +45,7 @@ import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
+import com.stpl.app.gcm.tp.dto.IdDescriptionDTO;
 import com.stpl.app.gcm.tp.logic.ContractSelectionLogic;
 import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.util.CommonUtils;
@@ -58,6 +59,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_TRANSFER_CO
 import com.stpl.app.gcm.util.Converters;
 import static com.stpl.app.gcm.util.Converters.convertNullToEmpty;
 import static com.stpl.app.gcm.util.Converters.formatDate;
+import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -3385,5 +3387,27 @@ public class PromoteTPLogic {
 
         return flag;
     }
+    public void loadDdlb(String queryName, ComboBox comboBox) {
+        List<IdDescriptionDTO> resultList = new ArrayList<>();
+        IdDescriptionDTO idDescription = null;
 
-}
+        List<Object[]> list = ItemQueries.execute(SQlUtil.getQuery(queryName));
+
+        if (!list.isEmpty()) {
+            for (int i = 0; i < list.size(); i++) {
+                Object obj[] = (Object[]) list.get(i);
+                idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
+                resultList.add(idDescription);
+            }
+        }
+        if (!resultList.isEmpty()) {
+            comboBox.removeAllItems();
+            comboBox.addItem(Constants.SELECT_ONE);
+            comboBox.setNullSelectionItemId(Constants.SELECT_ONE);
+            for (IdDescriptionDTO dto : resultList) {
+                comboBox.addItem(String.valueOf(dto.getId()));
+                comboBox.setItemCaption(String.valueOf(dto.getId()), dto.getDescription());
+            }
+        }
+    }
+    }

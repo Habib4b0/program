@@ -5,10 +5,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.log4j.Logger;
-import org.bpi.di.core.encryption.Encr;
+import org.pentaho.di.core.encryption.Encr;
 import org.r2.etl.common.util.CommonUtils;
 import org.r2.etl.common.util.Constants;
+import org.r2.etl.common.controller.BPIETLException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -338,6 +340,145 @@ public class HomeController {
     /**
      * private variable for Master ETL.
      */
+    
+    /**
+     * private variable for RETURN RATE FORECAST INTERFACE.
+     */
+    private static final String RETURN_RATE_FORECAST_INTERFACE = "ReturnRateForecastInterface";
+    
+     /**
+     * private variable for TESTING-ENCRYPTION INTERFACE.
+     */
+    private static final String TESTING_INTERFACE = "TestingInterface";
+    /**
+     * private variable for ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE
+     */
+    private static final String ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE = "AdroitActualMasterChargebackInterface";
+    
+    /**
+     * private variable for ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE
+     */
+    private static final String ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE = "AdroitActualMasterMedicaidInterface";
+    /**
+     * private variable for ADROIT_ACTUAL_MASTER_REBATE_INTERFACE 
+     */
+    private static final String ADROIT_ACTUAL_MASTER_REBATE_INTERFACE = "AdroitActualMasterRebateInterface";
+    /**
+     * private variable for ADROIT_ACTUAL_MASTER_COUPON_INTERFACE
+     */
+    private static final String ADROIT_ACTUAL_MASTER_COUPON_INTERFACE = "AdroitActualMasterCouponInterface";
+    /**
+     * private variable for ADROIT_ITEM_HIERARCHY_INTERFACE 
+     */
+    private static final String ADROIT_ITEM_HIERARCHY_INTERFACE = "AdroitItemHierarchyInterface";
+    /**
+     * private variable for ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE .
+     */
+    private static final String ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE = "AdroitItemBusinessWarehouseInterface";
+    
+    
+     /**
+     * private variable for ADROIT_COMPANY_IDENTIFIER_INTERFACE
+     */
+    private static final String ADROIT_COMPANY_IDENTIFIER_INTERFACE = "AdroitCompanyIdentifierInterface";
+   
+    
+    
+    
+    
+    /**
+     * private variable for ADROIT_COMPANY_MASTER_INTERFACE
+     */
+    private static final String ADROIT_COMPANY_MASTER_INTERFACE = "AdroitCompanyMasterInterface";
+    
+     /**
+     * private variable for ADROIT_COMPANY_TRADE_CLASS_INTERFACE
+     */
+    private static final String ADROIT_COMPANY_TRADE_CLASS_INTERFACE = "AdroitCompanyTradeClass";
+    /**
+     * private variable for ADROIT_ITEM_IDENTIFIER_INTERFACE.
+     */
+    private static final String ADROIT_ITEM_IDENTIFIER_INTERFACE = "AdroitItemIdentifier";
+     /**
+     * private variable for ADROIT_ITEM_MASTER_INTERFACE.
+     */
+    private static final String ADROIT_ITEM_MASTER_INTERFACE = "AdroitItemMaster";
+    /**
+     * private variable for ADROIT_ITEM_PRICING_INTERFACE.
+     */
+    private static final String ADROIT_ITEM_PRICING_INTERFACE = "AdroitItemPricing";
+    
+     /**
+     * private variable for ADROIT_CONTRACT_HEADER_INTERFACE
+     */
+    private static final String ADROIT_CONTRACT_HEADER_INTERFACE = "AdroitContractHeader";
+    /**
+     * private variable for ADROIT_COMPANY_FAMILY_PLAN_INTERFACE
+     */
+    private static final String ADROIT_COMPANY_FAMILY_PLAN_INTERFACE = "AdroitCompanyFamilyPlan";
+     /**
+     * private variable for ADROIT_ITEM_FAMILY_PLAN_INTERFACE.
+     */
+    private static final String ADROIT_ITEM_FAMILY_PLAN_INTERFACE = "AdroitItemFamilyPlan";
+    
+    
+    
+    /**
+     * private variable for ADROIT_REBATE_PLAN_INTERFACE.
+     */
+    private static final String ADROIT_REBATE_PLAN_INTERFACE = "AdroitRebatePlan";
+
+    /**
+     * private variable for ADROIT_PRICE_SCHEDULE_INTERFACE.
+     */
+    private static final String ADROIT_PRICE_SCHEDULE_INTERFACE = "AdroitPriceSchedule";
+    /**
+     * private variable for ADROIT_REBATE_SCHEDULE_INTERFACE.
+     */
+    private static final String ADROIT_REBATE_SCHEDULE_INTERFACE = "AdroitRebateSchedule";
+
+    /**
+     * private variable for ADROIT_SALES_MASTER_INTERFACE.
+     */
+    private static final String ADROIT_SALES_MASTER_INTERFACE = "AdroitSalesMaster";
+    /**
+     * private variable for ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE.
+     */
+    private static final String ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE = "AdroitCustomerGtsActualInterface";
+    /**
+     * private variable for ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE.
+     */
+    private static final String ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE = "AdroitCustomerGtsForecastInterface";
+    /**
+     * private variable for ADROIT_RETURNS_INTERFACE.
+     */
+    private static final String ADROIT_RETURNS_INTERFACE = "AdroitReturnsInterface";
+
+    /**
+     * private variable for LOT ADROIT_CPI_INDEX_INTERFACE.
+     */
+    private static final String ADROIT_CPI_INDEX_INTERFACE = "AdroitCPIIndex";
+    
+    
+     /**
+     * private variable for ADROIT_GL_COST_CENTER_INTERFACE.
+     */
+    private static final String ADROIT_GL_COST_CENTER_INTERFACE = "AdroitGLCostCenter";
+    /**
+     * private variable for ADROIT_ITEM_UOM_INTERFACE.
+     */
+    private static final String ADROIT_ITEM_UOM_INTERFACE = "AdroitItemUomInterface";
+    /**
+     * private variable for ADROIT_ACCRUAL_INBOUND_INTERFACE.
+     */
+    private static final String ADROIT_ACCRUAL_INBOUND_INTERFACE = "AdroitAccrualMaster";
+
+    /**
+     * private variable for LOT ADROIT_FORECASTING_MASTER_INTERFACE.
+     */
+    private static final String ADROIT_FORECASTING_MASTER_INTERFACE = "AdroitForecastingSales";
+    
+    
     static Map<String, String[]> loaddata = new HashMap<String, String[]>();
 
     String[] loaddat(String keyValue) {
@@ -448,6 +589,51 @@ public class HomeController {
             loaddata.put(ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE, new String[]{Constants.ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE, FilePathUtil.ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE1});
             loaddata.put(ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE, new String[]{Constants.ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE, FilePathUtil.ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE1});
             loaddata.put(ITEM_UOM_INTERFACE, new String[]{Constants.ITEM_UOM_INTERFACE, FilePathUtil.ITEM_UOM_INTERFACE});
+            loaddata.put(RETURN_RATE_FORECAST_INTERFACE, new String[]{Constants.RETURN_RATE_FORECAST_INTERFACE, FilePathUtil.RETURN_RATE_FORECAST_INTERFACE});
+            loaddata.put(TESTING_INTERFACE, new String[]{Constants.TESTING_INTERFACE, FilePathUtil.TESTING_INTERFACE});
+            
+            
+            loaddata.put(ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE, new String[]{Constants.ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE, FilePathUtil.ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE});
+            loaddata.put(ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE, new String[]{Constants.ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE, FilePathUtil.ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE});
+            loaddata.put(ADROIT_ACTUAL_MASTER_REBATE_INTERFACE, new String[]{Constants.ADROIT_ACTUAL_MASTER_REBATE_INTERFACE, FilePathUtil.ADROIT_ACTUAL_MASTER_REBATE_INTERFACE});
+            loaddata.put(ADROIT_ACTUAL_MASTER_COUPON_INTERFACE, new String[]{Constants.ADROIT_ACTUAL_MASTER_COUPON_INTERFACE, FilePathUtil.ADROIT_ACTUAL_MASTER_COUPON_INTERFACE});
+            loaddata.put(ADROIT_ITEM_HIERARCHY_INTERFACE, new String[]{Constants.ADROIT_ITEM_HIERARCHY_INTERFACE, FilePathUtil.ADROIT_ITEM_HIERARCHY_INTERFACE});
+            loaddata.put(ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE, new String[]{Constants.ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE, FilePathUtil.ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE});            
+            
+            
+            
+            
+            
+            loaddata.put(ADROIT_COMPANY_IDENTIFIER_INTERFACE, new String[]{Constants.ADROIT_COMPANY_IDENTIFIER_INTERFACE, FilePathUtil.ADROIT_COMPANY_IDENTIFIER_INTERFACE});
+
+            
+            
+            
+            
+            
+            
+            loaddata.put(ADROIT_COMPANY_MASTER_INTERFACE, new String[]{Constants.ADROIT_COMPANY_MASTER_INTERFACE, FilePathUtil.ADROIT_COMPANY_MASTER_INTERFACE});
+            loaddata.put(ADROIT_COMPANY_TRADE_CLASS_INTERFACE, new String[]{Constants.ADROIT_COMPANY_TRADE_CLASS_INTERFACE, FilePathUtil.ADROIT_COMPANY_TRADE_CLASS_INTERFACE});
+            loaddata.put(ADROIT_ITEM_IDENTIFIER_INTERFACE, new String[]{Constants.ADROIT_ITEM_IDENTIFIER_INTERFACE, FilePathUtil.ADROIT_ITEM_IDENTIFIER_INTERFACE});
+            loaddata.put(ADROIT_ITEM_MASTER_INTERFACE, new String[]{Constants.ADROIT_ITEM_MASTER_INTERFACE, FilePathUtil.ADROIT_ITEM_MASTER_INTERFACE});
+
+            loaddata.put(ADROIT_ITEM_PRICING_INTERFACE, new String[]{Constants.ADROIT_ITEM_PRICING_INTERFACE, FilePathUtil.ADROIT_ITEM_PRICING_INTERFACE});
+            loaddata.put(ADROIT_CONTRACT_HEADER_INTERFACE, new String[]{Constants.ADROIT_CONTRACT_HEADER_INTERFACE, FilePathUtil.ADROIT_CONTRACT_HEADER_INTERFACE});
+            loaddata.put(ADROIT_COMPANY_FAMILY_PLAN_INTERFACE, new String[]{Constants.ADROIT_COMPANY_FAMILY_PLAN_INTERFACE, FilePathUtil.ADROIT_COMPANY_FAMILY_PLAN_INTERFACE});
+            loaddata.put(ADROIT_ITEM_FAMILY_PLAN_INTERFACE, new String[]{Constants.ADROIT_ITEM_FAMILY_PLAN_INTERFACE, FilePathUtil.ADROIT_ITEM_FAMILY_PLAN_INTERFACE});
+            loaddata.put(ADROIT_REBATE_PLAN_INTERFACE, new String[]{Constants.ADROIT_REBATE_PLAN_INTERFACE, FilePathUtil.ADROIT_REBATE_PLAN_INTERFACE});
+
+            loaddata.put(ADROIT_PRICE_SCHEDULE_INTERFACE, new String[]{Constants.ADROIT_PRICE_SCHEDULE_INTERFACE, FilePathUtil.ADROIT_PRICE_SCHEDULE_INTERFACE});
+            loaddata.put(ADROIT_REBATE_SCHEDULE_INTERFACE, new String[]{Constants.ADROIT_REBATE_SCHEDULE_INTERFACE, FilePathUtil.ADROIT_REBATE_SCHEDULE_INTERFACE});
+            loaddata.put(ADROIT_SALES_MASTER_INTERFACE, new String[]{Constants.ADROIT_SALES_MASTER_INTERFACE, FilePathUtil.ADROIT_SALES_MASTER_INTERFACE});
+            loaddata.put(ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE, new String[]{Constants.ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE, FilePathUtil.ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE});
+            loaddata.put(ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE, new String[]{Constants.ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE, FilePathUtil.ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE});
+            loaddata.put(ADROIT_RETURNS_INTERFACE, new String[]{Constants.ADROIT_RETURNS_INTERFACE, FilePathUtil.ADROIT_RETURNS_INTERFACE});
+            loaddata.put(ADROIT_CPI_INDEX_INTERFACE, new String[]{Constants.ADROIT_CPI_INDEX_INTERFACE, FilePathUtil.ADROIT_CPI_INDEX_INTERFACE});
+            loaddata.put(ADROIT_GL_COST_CENTER_INTERFACE, new String[]{Constants.ADROIT_GL_COST_CENTER_INTERFACE, FilePathUtil.ADROIT_GL_COST_CENTER_INTERFACE});
+            loaddata.put(ADROIT_ITEM_UOM_INTERFACE, new String[]{Constants.ADROIT_ITEM_UOM_INTERFACE, FilePathUtil.ADROIT_ITEM_UOM_INTERFACE});
+            loaddata.put(ADROIT_ACCRUAL_INBOUND_INTERFACE, new String[]{Constants.ADROIT_ACCRUAL_INBOUND_INTERFACE, FilePathUtil.ADROIT_ACCRUAL_INBOUND_INTERFACE});
+            loaddata.put(ADROIT_FORECASTING_MASTER_INTERFACE, new String[]{Constants.ADROIT_FORECASTING_MASTER_INTERFACE, FilePathUtil.ADROIT_FORECASTING_MASTER_INTERFACE});
 
         }
         return loaddata.get(keyValue);
@@ -468,17 +654,26 @@ public class HomeController {
         try {
 
             List<String> global = Arrays.asList(COMPANY_MASTER, COMPANY_HIS, COMPANY_PARENT, COMPANY_PARENT_HIS, COMPANY_TRADE_HIS,
-                    COMPANY_TRADE, COMPANY_IDEN, COMPANY_IDEN_HIS, ITEM_MASTER, ITEM_MASTER_HIS, ITEM_IDEN, ITEM_IDEN_HIS, ITEM_PRICING, ITEM_PRICING_HISTORY);
+                    COMPANY_TRADE, COMPANY_IDEN, COMPANY_IDEN_HIS, ITEM_MASTER, ITEM_MASTER_HIS, ITEM_IDEN, ITEM_IDEN_HIS, ITEM_PRICING, ITEM_PRICING_HISTORY,ADROIT_COMPANY_IDENTIFIER_INTERFACE,
+                    ADROIT_COMPANY_MASTER_INTERFACE,ADROIT_COMPANY_TRADE_CLASS_INTERFACE,ADROIT_ITEM_IDENTIFIER_INTERFACE,ADROIT_ITEM_MASTER_INTERFACE,ADROIT_ITEM_PRICING_INTERFACE,ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE,
+                    ADROIT_ITEM_HIERARCHY_INTERFACE
+            );
 
             List<String> contract = Arrays.asList(CONTRACT_HEADER, CONTRACT_HIS, CFP, CFP_HISTORY, IFP, IFP_HISTORY, PRICE_SCHEDULE,
-                    PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN, REBATE_PLAN_HISTORY);
+                    PRICE_SCHEDULE_HISTORY, REBATE_SCHEDULE, REBATE_SCHEDULE_HISTORY, REBATE_PLAN, REBATE_PLAN_HISTORY,
+                    ADROIT_CONTRACT_HEADER_INTERFACE,ADROIT_COMPANY_FAMILY_PLAN_INTERFACE,ADROIT_ITEM_FAMILY_PLAN_INTERFACE,ADROIT_REBATE_PLAN_INTERFACE,ADROIT_PRICE_SCHEDULE_INTERFACE,ADROIT_REBATE_SCHEDULE_INTERFACE
+                    );
 
             List<String> transaction = Arrays.asList(ACTUALS, ACTUALS_HISTORY, ITEM_HIERARCHY, ITEM_HIERARCHY_HIS, ITEM_HIER_DEF, ITEM_HIER_DEF_HIS, SALES_MASTER, SALES_MASTER_HISTORY, FORECAST, FORECAST_HIS,
                     GL_BALANCE, GL_BALANCE_HISTORY, CPI_INDEX, CPI_INDEX_HIS, FORMULA_DET, FORMULA_DET_HIS, MASTER_DATA_ATT, MASTER_DATA_ATT_HISTORY, BEST_PRICE, BEST_PRICE_HIS, AVG_SHELF_LIFE, AVG_SHELF_LIFE_HIS,
                     GL_COST, GL_COST_HIS, LOT_MASTER, LOT_MASTER_HIS, ACCRUAL_MASTER, ACCRUAL_OUTBOUND, GL_POSTING, DEMAND_ACTUAL, DEMAND_FORECAST, INVENTORY_ACTUAL_DETAIL, INVENTORY_ACTUAL_SUMMARY,
                     INVENTORY_PROJECTED_DETAIL, INVENTORY_PROJECTED_SUMMARY, RETURNS_INTERFACE, ADJUSTED_DEMAND_ACTUAL_INTERFACE, ADJUSTED_DEMAND_FORECASTINTERFACE, CUSTOMER_GTS_ACTUAL_INTERFACE,
                     CUSTOMER_GTS_FORECAST_INTERFACE, RETURN_RESERVE_INTERFACE, CFF_OUTBOUND_INTERFACE,
-                    ARP_OUTBOUND_INTERFACE, ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE, ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE, ITEM_UOM_INTERFACE
+                    ARP_OUTBOUND_INTERFACE, ADJUSTMENT_GTN_DETAIL_OUTBOUND_INTERFACE, ADJUSTMENT_RESERVE_DETAIL_OUTBOUND_INTERFACE, ITEM_UOM_INTERFACE,RETURN_RATE_FORECAST_INTERFACE,TESTING_INTERFACE,ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE,
+                    ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE,ADROIT_ACTUAL_MASTER_REBATE_INTERFACE,ADROIT_ACTUAL_MASTER_COUPON_INTERFACE,
+                    ADROIT_SALES_MASTER_INTERFACE,ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE,ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE,ADROIT_RETURNS_INTERFACE,ADROIT_CPI_INDEX_INTERFACE,ADROIT_GL_COST_CENTER_INTERFACE,ADROIT_ITEM_UOM_INTERFACE,
+                    ADROIT_ACCRUAL_INBOUND_INTERFACE,ADROIT_FORECASTING_MASTER_INTERFACE
+                    
             );
 
             if (Constants.APP_KEY.equals(apikey)) {

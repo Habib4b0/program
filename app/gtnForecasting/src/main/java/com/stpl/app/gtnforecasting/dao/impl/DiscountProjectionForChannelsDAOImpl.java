@@ -376,7 +376,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         int endFreq = 0;
         int startYear = 0;
         int endYear = 0;
-        int freqcount = 1;
         String query;
         if (startAndEndPeriods != null && !startAndEndPeriods.isEmpty()) {
             startFreq = startAndEndPeriods.get(0);
@@ -396,7 +395,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
         if (frequency.equals(ANNUALLY.getConstant())) {
             startMonth = 1;
             endMonth = NumericConstants.TWELVE;
-            freqcount = NumericConstants.TWELVE;
         }
         if (frequency.equals(QUARTERLY.getConstant())) {
             switch (startFreq) {
@@ -412,6 +410,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 case NumericConstants.FOUR:
                     startMonth = NumericConstants.TEN;
                     break;
+                default:
+                    LOGGER.warn("startFreq is not valid: " + startFreq);
+                    break;
             }
             switch (endFreq) {
                 case 1:
@@ -426,8 +427,10 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 case NumericConstants.FOUR:
                     endMonth = NumericConstants.TWELVE;
                     break;
+                default:
+                    LOGGER.warn("endFreq is not valid: " + endFreq);
+                    break;
             }
-            freqcount = NumericConstants.THREE;
         }
         if (frequency.equals(SEMI_ANNUALLY.getConstant())) {
             switch (startFreq) {
@@ -437,6 +440,9 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 case NumericConstants.TWO:
                     startMonth = NumericConstants.SEVEN;
                     break;
+                default:
+                    LOGGER.warn("startFreq is not valid: " + startFreq);
+                    break;
             }
             switch (endFreq) {
                 case 1:
@@ -445,13 +451,14 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 case NumericConstants.TWO:
                     endMonth = NumericConstants.TWELVE;
                     break;
+                default:
+                    LOGGER.warn("endFreq is not valid: " + endFreq);
+                    break;
             }
-            freqcount = NumericConstants.SIX;
         }
         if (frequency.equals(MONTHLY.getConstant())) {
             startMonth = startFreq;
             endMonth = endFreq;
-            freqcount = 1;
         }
         Date sDate = commonUtils.getDate(01, startMonth - 1, startYear);
 

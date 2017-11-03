@@ -357,7 +357,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
         medicaidMap.put(newNDC.getItemMasterSid(), newNDC);
         List itemToBeRemoved = getItemSameNDC();
         deletedItem.setDeletedItems(itemToBeRemoved);
-        if (itemToBeRemoved.size() > 0) {
+        if (!itemToBeRemoved.isEmpty()) {
             for (int i = 0; i < itemToBeRemoved.size(); i++) {
                 ndc.removeItem(itemToBeRemoved.get(i));
             }
@@ -450,7 +450,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
         List listCount = nationalAssumptionLogic.listCount(projection.getNdc9(), sessionDTO);
         if (listCount.isEmpty()) {
             nDCLineExtensionBean.removeItem(projection);
-            if (deletedItem.getDeletedItems().size() > 0) {
+            if (!deletedItem.getDeletedItems().isEmpty()) {
                 for (int i = 0; i < deletedItem.getDeletedItems().size(); i++) {
                     ndc.addItem(deletedItem.getDeletedItems().get(i));
                     value = ndc9Map.get(deletedItem.getDeletedItems().get(i));
@@ -467,7 +467,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
             nDCLineExtensionBean.removeItem(projection);
             nationalAssumptionLogic.medicaidDeleteLogic(projection.getNdc9(),sessionDTO);
             removedMedicaidNdc.add(projection);
-            if (deletedItem.getDeletedItems().size() > 0) {
+            if (!deletedItem.getDeletedItems().isEmpty()) {
                 for (int i = 0; i < deletedItem.getDeletedItems().size(); i++) {
                     ndc.addItem(deletedItem.getDeletedItems().get(i));
                     value = ndc9Map.get(deletedItem.getDeletedItems().get(i));

@@ -29,6 +29,7 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
     private int _helperTableSid;
     private int _modifiedBy;
     private Date _modifiedDate;
+    private String _aliasName;
     private BaseModel<?> _helperTableRemoteModel;
 
     public HelperTableClp() {
@@ -76,6 +77,7 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
         attributes.put("helperTableSid", getHelperTableSid());
         attributes.put("modifiedBy", getModifiedBy());
         attributes.put("modifiedDate", getModifiedDate());
+        attributes.put("aliasName", getAliasName());
 
         return attributes;
     }
@@ -128,6 +130,12 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
 
         if (modifiedDate != null) {
             setModifiedDate(modifiedDate);
+        }
+
+        String aliasName = (String) attributes.get("aliasName");
+
+        if (aliasName != null) {
+            setAliasName(aliasName);
         }
     }
 
@@ -307,6 +315,28 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
         }
     }
 
+    @Override
+    public String getAliasName() {
+        return _aliasName;
+    }
+
+    @Override
+    public void setAliasName(String aliasName) {
+        _aliasName = aliasName;
+
+        if (_helperTableRemoteModel != null) {
+            try {
+                Class<?> clazz = _helperTableRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setAliasName", String.class);
+
+                method.invoke(_helperTableRemoteModel, aliasName);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getHelperTableRemoteModel() {
         return _helperTableRemoteModel;
     }
@@ -382,6 +412,7 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
         clone.setHelperTableSid(getHelperTableSid());
         clone.setModifiedBy(getModifiedBy());
         clone.setModifiedDate(getModifiedDate());
+        clone.setAliasName(getAliasName());
 
         return clone;
     }
@@ -427,7 +458,7 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{createdDate=");
         sb.append(getCreatedDate());
@@ -445,6 +476,8 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
         sb.append(getModifiedBy());
         sb.append(", modifiedDate=");
         sb.append(getModifiedDate());
+        sb.append(", aliasName=");
+        sb.append(getAliasName());
         sb.append("}");
 
         return sb.toString();
@@ -452,7 +485,7 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(28);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.HelperTable");
@@ -489,6 +522,10 @@ public class HelperTableClp extends BaseModelImpl<HelperTable>
         sb.append(
             "<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
         sb.append(getModifiedDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>aliasName</column-name><column-value><![CDATA[");
+        sb.append(getAliasName());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

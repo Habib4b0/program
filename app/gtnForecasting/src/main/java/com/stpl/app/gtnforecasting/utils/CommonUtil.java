@@ -5,12 +5,28 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+
+import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.DataSelection;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -25,16 +41,7 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.ComboBox;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import java.text.DecimalFormat;
 
 /**
  * The Class CommonUtil.
@@ -51,6 +58,8 @@ public class CommonUtil {
     public static final String CLOSE_PARANTHESIS = ")";
     public static final String BUSINESS_PROCESS = "businessProcess";
     public static final String BP_NAME = "ALLERGAN";
+    public static final DecimalFormat FORMAT_NO_DECIMAL = new DecimalFormat("$#,##0");
+    public static final DecimalFormat FORMAT_TWO_DECIMAL = new DecimalFormat("$#,##0.00");
 
     /**
      * The helper list util.
@@ -406,11 +415,14 @@ public class CommonUtil {
                             if (inputs.length == NumericConstants.THREE) {
                                 waitsForOtherThreadsToComplete((Future) inputs[NumericConstants.TWO]);
                             }
+                            System.out.println("inputs[1].toString()---------------------------------"+inputs[1].toString());
                             HelperTableLocalServiceUtil.executeUpdateQuery(inputs[1].toString());                            
                         break;
                     case Constant.DISCOUNT_LIST_VIEW_SAVE:
                         Thread.currentThread().setName(Constant.DISCOUNT_LIST_VIEW_SAVE);
                         ((NMDiscountProjection) inputs[1]).saveDiscountProjectionScreen(false);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -435,23 +447,6 @@ public class CommonUtil {
                 logger.error(e.getMessage());
             }
         }
-    }
-    
-    /**
-     * Convert the given list value to feed in query format
-     *      
-     * @param valueToform 
-     * @param coloumnName 
-     * @return  
-     */
-    public String formInqueryStringValue(final List<String> valueToform, String coloumnName) {
-        StringBuilder value = new StringBuilder();
-        String comma = StringUtils.EMPTY;
-        for (String string : valueToform) {
-            value.append(comma).append(coloumnName).append(" like '").append(string).append("%'");
-            comma = " or ";
-}
-        return value.toString();
     }
     
     /**
@@ -530,6 +525,170 @@ public class CommonUtil {
     public static boolean isValueEligibleForLoading() {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
-        
+    
+    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+        StringBuilder formattedName = new StringBuilder();
+        try {
+            List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);
+            if (displayFormatConditionCheck(relationshipValues, displayFormatIndex)) {
+                List<Object> levelName = (List<Object>) relationshipValues.get(NumericConstants.FIVE);
+                if (displayFormatIndex.length > 0 && !containsAllNull(levelName)) {
+                    for (int i = 0; i < displayFormatIndex.length; i++) {
+                        formattedName.append(setLevelNameValues(i, levelName, displayFormatIndex));
+                    }
+                    if (displayFormatIndex.length == 1 && StringUtils.isBlank(formattedName.toString())) {
+                        return String.valueOf(levelName.get(NumericConstants.ZERO));
+                    }
+                } else {
+                    return String.valueOf(levelName.get(NumericConstants.ZERO));
+                }
+            } else {
+                return session.getLevelValueDiscription(hierarchyNumber, indicator);
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        return formattedName.toString();
+    }
+    
+    private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {
+        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE;
+    }
+    
+    private static boolean getLevelName(Object value) {
+        String objValue = String.valueOf(value);
+        return StringUtils.isBlank(objValue) || Constant.NULL.equals(objValue);
+    }
+    
+    private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
+        String formattedName = StringUtils.EMPTY;
+        int indexFrom = (int) displayFormatIndex[index];
+        Object value = levelName.get(indexFrom + 1);
+        if (!getLevelName(value)) {
+            if (index != 0) {
+                formattedName += " - ";
+            }
+            formattedName += value;
+        }
+        return formattedName;
+    }
+    
+    public static boolean nullCheck(Object value) {
+        return value == null;
+    }
+    
+    public static Object[] getDisplayFormatSelectedValues(CustomMenuBar.CustomMenuItem displayFormatValues) {
+        List<Object> productList = new ArrayList<>();
+        if (displayFormatValues != null && displayFormatValues.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> items = displayFormatValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
+                if (customMenuItem1.isChecked()) {
+                    productList.add(customMenuItem1.getMenuItem().getId());
+                }
+            }
+        }
+        return productList.toArray();
+    }
+    
+    private static boolean containsAllNull(List<Object> levelName) {
+        boolean flag = true;
+        for (int i = 1; i < levelName.size(); i++) {
+            if (!nullCheck(levelName.get(i))) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+    
+    public static void setCustomMenuBarValuesInEdit(Object value, CustomMenuBar.CustomMenuItem customMenuItem) {
+        if (value != null && customMenuItem != null && value.toString().length() > 0) {
+            String val = value.toString();
+            final String[] col = val.split(",");
+            for (int i = 0; i < col.length; i++) {
+                setChecked(customMenuItem.getChildren(), col, i);
+            }
+        }
+    }
+
+    private static void setChecked(List<CustomMenuBar.CustomMenuItem> customMenuItem, String[] col, int i) {
+        if (!nullCheck(customMenuItem)) {
+            for (CustomMenuBar.CustomMenuItem string : customMenuItem) {
+                if (string.getMenuItem().getId() == Integer.parseInt(col[i])
+                        || (!nullCheck(string.getMenuItem().getWindow()) && string.getMenuItem().getWindow().equals(col[i].trim()))
+                        || string.getText().equals(String.valueOf(col[i]).trim()) || String.valueOf(string.getMenuItem().getWindow()).startsWith(String.valueOf(col[i]))) {
+                    string.setChecked(true);
+                }
+            }
+        }
+    }
+    
+    public static boolean stringNullCheck(Object value) {
+        return Constant.NULL.equals(String.valueOf(value));
+    }
+    
+    public ComboBox loadConvertionFactorComboBox(final ComboBox select, String listName) {
+        try {
+            select.removeAllItems();
+            select.addItem(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
+            select.setValidationVisible(true);
+            select.setImmediate(true);
+            select.setNullSelectionAllowed(true);
+            select.setNullSelectionItemId(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
+            List<HelperDTO> helperList = new ArrayList<>();
+            if (helperListUtil.getListNameMap().get(listName) != null) {
+                helperList.addAll(helperListUtil.getListNameMap().get(listName));
+            }
+            for (HelperDTO helperDTO : helperList) {
+                if (helperDTO.getDescription().contains("~")) {
+                    String[] values = helperDTO.getDescription().split("~");
+                    select.addItem(values[1]);
+                    select.setItemCaption(values[1], values[0]);
+                } else {
+                    select.addItems(helperDTO.getId());
+                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+                }
+            }
+            select.select(Constant.CONVERSION_FACTOR_DEFALUT_VALUE);
+            return select;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static String getConversionFormattedValue(ProjectionSelectionDTO selection, Object value, boolean needZeroForNull) {
+        if (stringNullCheck(selection.getConversionFactor())
+                || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
+                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
+            if (nullCheck(value) && needZeroForNull) {
+                return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
+            } else if (nullCheck(value)) {
+                return String.valueOf(value);
+            }
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+        }
+        if (nullCheck(value) && needZeroForNull) {
+            return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
+        } else if (nullCheck(value)) {
+            return String.valueOf(value);
+        }
+        double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());
+        double doubleFinalValue = Double.parseDouble(value.toString()) / doubleValue;
+        return FORMAT_TWO_DECIMAL.format(doubleFinalValue);
+    }
+
+    public static double getConversionFormattedMultipleValue(ProjectionSelectionDTO selection, double value) {
+        if (stringNullCheck(selection.getConversionFactor())
+                || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
+                || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))
+                || 0.0 == value || 0 == value) {
+            return value;
+        }
+        double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());
+        return value * doubleValue;
+    }
+
 }
 

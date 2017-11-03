@@ -8,10 +8,9 @@ import com.stpl.app.adminconsole.dao.impl.FileManagementLogicDAOImpl;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
 import com.stpl.app.adminconsole.filemanagement.dto.FileMananagementResultDTO;
 import com.stpl.app.adminconsole.filemanagement.dto.ItemSearchDTO;
-import com.stpl.app.adminconsole.itemgroup.util.CommonUtils;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
+import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
-import com.stpl.app.adminconsole.util.SysDataSourceConnection;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.DemandForecast;
@@ -52,7 +51,6 @@ import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.ComboBox;
-import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -64,7 +62,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
@@ -1311,7 +1308,7 @@ public class FileManagementLogic {
             if (!isCount) {
                 loadMonthMap();
                 for (int i = 0; i < resultsList.size(); i++) {
-                    final Object obj[] = (Object[]) resultsList.get(i);
+                    final Object[] obj = (Object[]) resultsList.get(i);
                     final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
                     fmDTO.setFileName(String.valueOf(obj[0]));
                     if (!ConstantsUtils.NULL.equals(String.valueOf(obj[1]))) {
@@ -1335,7 +1332,6 @@ public class FileManagementLogic {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             LOGGER.error(e);
         }
         return object;
@@ -3674,5 +3670,45 @@ public Object getCustomerSalesResults_Excel(FileMananagementResultDTO detailsRes
         }
     }
 
+
+    public List<FileManagementDTO> getSearchResult(ComboBox fileType) {
+        LOGGER.info("Entering getSearchResult");
+        List<FileManagementDTO> processList = new ArrayList<>();
+        try {
+            String query = "SELECT WP.PROCESS_SID, WP.PROCESS_DISPLAY_NAME \n"
+                    + ",WP.EMAIL_NOTIFICATION_SUCCESS_TO ,WP.EMAIL_NOTIFICATION_SUCCESS_CC"
+                    + " ,WP.EMAIL_NOTIFICATION_FAILURE_TO,WP.EMAIL_NOTIFICATION_FAILURE_CC"
+                    + " ,WP.SUCCESS_MAIL_SUBJECT,WP.SUCCESS_MAIL_BODY "
+                    + " ,WP.FAILURE_MAIL_SUBJECT,WP.FAILURE_MAIL_BODY "
+                    + " FROM WORKFLOW_PROFILE WP WHERE WP.PROCESS_NAME like  '" + CommonUtil.getSelectedFileType(fileType) + "' \n";
+            List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+            
+            if (list != null && !list.isEmpty()) {
+                for (int i = 0; i < list.size(); i++) {
+                    Object[] obj = (Object[]) list.get(i);
+                    FileManagementDTO dto = new FileManagementDTO();
+                    dto.setProcessSid(Integer.valueOf(String.valueOf(obj[0])));
+                    dto.setProcessName(String.valueOf(obj[1]));
+                    dto.setSuccessTo(String.valueOf(obj[NumericConstants.TWO]));
+                    dto.setSuccessCC(String.valueOf(obj[NumericConstants.THREE]));
+                    dto.setFailTo(String.valueOf(obj[NumericConstants.FOUR]));
+                    dto.setFailCC(String.valueOf(obj[NumericConstants.FIVE]));
+                    dto.setSuccessSubject(String.valueOf(obj[NumericConstants.SIX]));
+                    dto.setSuccessText(String.valueOf(obj[NumericConstants.SEVEN]));
+                    dto.setFailSubject(String.valueOf(obj[NumericConstants.EIGHT]));
+                    dto.setFailText(String.valueOf(obj[NumericConstants.NINE]));
+                    processList.add(dto);
+                }
+
+            }
+
+            return processList;
+
+        } catch (Exception ex) {
+
+            LOGGER.error(ex);
+            return Collections.emptyList();
+        }
+    }
 
 }

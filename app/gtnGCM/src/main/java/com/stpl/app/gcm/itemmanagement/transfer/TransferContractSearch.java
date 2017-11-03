@@ -89,7 +89,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                 selection.setCountQueryName("Load Non Selected item Contract Count");
                 selection.setDataQueryName("Load Non Selected item Contract");
             }
-            searchButtonLogic();
+            searchButtonLogic(true);
         }
     }
 
@@ -474,7 +474,7 @@ public class TransferContractSearch extends AbstractContractSearch {
                             }
                             updateSubmittedContract();
                             binder.commit();
-                            searchButtonLogic();
+                            searchButtonLogic(true);
                             selection.getLookup().changeTab();
                             isSubmit = true;
                         } catch (Exception ex) {

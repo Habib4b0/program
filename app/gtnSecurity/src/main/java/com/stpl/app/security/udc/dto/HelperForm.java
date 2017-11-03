@@ -8,6 +8,7 @@ public class HelperForm {
 	private int helperTableSid;
 	private String description=StringUtils.EMPTY;
 	private String listName=StringUtils.EMPTY;
+	private String aliasName=StringUtils.EMPTY;
 	private String category;
 	private Boolean add;
 	private Boolean edit;
@@ -68,6 +69,13 @@ public class HelperForm {
     public void setDelete(Boolean delete) {
         this.delete = delete;
     }
-	
+
+    public String getAliasName() {
+        return aliasName;
+    }
+
+    public void setAliasName(String aliasName) {
+        this.aliasName = aliasName;
+    }
 	
 }

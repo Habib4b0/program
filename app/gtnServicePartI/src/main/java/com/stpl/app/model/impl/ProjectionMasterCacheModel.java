@@ -50,10 +50,12 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
     public String prodRelationshipBuilderSid;
     public int discountType;
     public int businessUnit;
+    public String deductionHierarchySid;
+    public String dedRelationshipBuilderSid;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(57);
+        StringBundler sb = new StringBundler(61);
 
         sb.append("{productHierarchyLevel=");
         sb.append(productHierarchyLevel);
@@ -111,6 +113,10 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         sb.append(discountType);
         sb.append(", businessUnit=");
         sb.append(businessUnit);
+        sb.append(", deductionHierarchySid=");
+        sb.append(deductionHierarchySid);
+        sb.append(", dedRelationshipBuilderSid=");
+        sb.append(dedRelationshipBuilderSid);
         sb.append("}");
 
         return sb.toString();
@@ -231,6 +237,18 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         projectionMasterImpl.setDiscountType(discountType);
         projectionMasterImpl.setBusinessUnit(businessUnit);
 
+        if (deductionHierarchySid == null) {
+            projectionMasterImpl.setDeductionHierarchySid(StringPool.BLANK);
+        } else {
+            projectionMasterImpl.setDeductionHierarchySid(deductionHierarchySid);
+        }
+
+        if (dedRelationshipBuilderSid == null) {
+            projectionMasterImpl.setDedRelationshipBuilderSid(StringPool.BLANK);
+        } else {
+            projectionMasterImpl.setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
+        }
+
         projectionMasterImpl.resetOriginalValues();
 
         return projectionMasterImpl;
@@ -266,6 +284,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         prodRelationshipBuilderSid = objectInput.readUTF();
         discountType = objectInput.readInt();
         businessUnit = objectInput.readInt();
+        deductionHierarchySid = objectInput.readUTF();
+        dedRelationshipBuilderSid = objectInput.readUTF();
     }
 
     @Override
@@ -360,5 +380,17 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
 
         objectOutput.writeInt(discountType);
         objectOutput.writeInt(businessUnit);
+
+        if (deductionHierarchySid == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(deductionHierarchySid);
+        }
+
+        if (dedRelationshipBuilderSid == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(dedRelationshipBuilderSid);
+        }
     }
 }

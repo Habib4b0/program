@@ -3,7 +3,6 @@ package com.stpl.app.global.abstractsearch.util;
 
 // TODO: Auto-generated Javadoc
 
-import com.stpl.app.global.item.util.LabelUtils;
 import com.stpl.app.util.ConstantsUtils;
 
 /**
@@ -235,38 +234,11 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 			ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE,ConstantsUtils.THERAPEUTIC_CLASS,
 			ConstantsUtils.BRAND, ConstantsUtils.NDC9, ConstantsUtils.NDC8, ConstantsUtils.FORM, ConstantsUtils.STRENGTH
 			 };
-	
-	/** The Constant WITHOUT_IDEN_SEARCH_HEADER. */
-
-        
-        
-    public static final String[] WITHOUT_IDEN_SEARCH_HEADER = new String[] { LabelUtils.SYSTEM_ID, ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEMS_NO,
-		ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMS_DESC, ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEMS_TYPE,LabelUtils.THERAPY_CLASS, LabelUtils.BRAND,
-                LabelUtils.NDC_9, LabelUtils.NDC_8, 
-		LabelUtils.FORM,LabelUtils.STRENGTH,  
-		};
 	/** The Constant WITH_IDEN_SEARCH. */
-
-        
         public static final Object[] WITH_IDEN_SEARCH = new Object[] { ConstantsUtils.SYSTEM_ID, ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NO, ConstantsUtils.ITEM_NAME, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEM_STATUS, ConstantsUtils.ITEM_TYPE, ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.THERAPEUTIC_CLASS,
 			ConstantsUtils.BRAND, ConstantsUtils.NDC9, ConstantsUtils.NDC8, ConstantsUtils.FORM, ConstantsUtils.STRENGTH
 			 };
-	
-	
-	/** The Constant WITH_IDEN_SEARCH_HEADER. */
-
-        
-        /** The Constant WITH_IDEN_SEARCH_HEADER. */
-	public static final String[] WITH_IDEN_SEARCH_HEADER = new String[] { LabelUtils.SYSTEM_ID, ConstantsUtils.ITEMS_ID, ConstantsUtils.ITEMS_NO,
-		ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEM_DESC, ConstantsUtils.ITEMSTATUS, ConstantsUtils.ITEMS_TYPE, LabelUtils.ITEMQUALIFIERNAME,LabelUtils.ITEMIDENTIFIER, LabelUtils.THERAPY_CLASS, LabelUtils.BRAND,
-                LabelUtils.NDC_9, LabelUtils.NDC_8, 
-		 LabelUtils.FORM,LabelUtils.STRENGTH, 
-		};
-	
-	
-	
-	
 	/** The Constant COL_WITHOUT_IDEN. */
 	public static final Object[] COL_WITHOUT_IDEN = new Object[] { ConstantsUtils.ITEMS_ID,
 			ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMDESCRIPTION, ConstantsUtils.ITEMSTATUS,
@@ -283,15 +255,6 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 	/** The Constant QUALIFIER_PRICING. */
 	public static final Object[] QUALIFIER_PRICING = new Object[] {
 		ConstantsUtils.IDENTIFIER_CODE_QUALIFIER, ConstantsUtils.IDENTIFIER_CODE_QUALIFIER_NAME };
-        
-        /** The Constant PRICING_QUALIFIER_HEADER. */
-	public static final String[] PRICING_QUALIFIER_HEADER = new String[] {LabelUtils.ITEMPRICINGQUALIFIER, LabelUtils.ITEMPRICINGQUALIFIERNAME };        
-	
-	/** The Constant COL_WITH_IDEN. */
-	public static final Object[] COL_WITH_IDEN = new Object[] { ConstantsUtils.ITEMS_ID,
-			ConstantsUtils.ITEMS_NO, ConstantsUtils.ITEM_NAMES, ConstantsUtils.ITEMDESCRIPTION, ConstantsUtils.ITEMSTATUS,
-			ConstantsUtils.ITEMS_TYPE, LabelUtils.EDITLISTITEMPRICINGQUALIFIER, "Identifier" };
-
 	/** The Constant ITEMINFO_COL_ORDER. */
 	public static final Object[] ITEMINFO_COL_ORDER = new Object[] { ConstantsUtils.ITEM_ID,
 			ConstantsUtils.ITEM_NAME, ConstantsUtils.STRENGTH, ConstantsUtils.PRIMARY_UOM, ConstantsUtils.ITEM_NO, ConstantsUtils.SECONDARY_UOM,
@@ -320,11 +283,6 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 	/** The Constant IDEN_FORM_COL_ORDER. */
 	public static final Object[] IDEN_FORM_COL_ORDER = new Object[] {
 			ConstantsUtils.ITEM_IRT_QUALIFIER_NAME,ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.IDENTIFIER_STATUS, ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP,ConstantsUtils.ENTITY_CODE,ConstantsUtils.ENTITY_CODE_NAME, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE};
-	        
-	/** The Constant IDEN_FORM_COL_ORDER_HEADER. */
-	public static final String[] IDEN_FORM_COL_ORDER_HEADER = new String[] {
-		LabelUtils.ITEMQUALIFIERNAME, "Item Identifier", "Identifier Status", LabelUtils.PRICING_START_DATE, LabelUtils.PRICING_END_DATE,ConstantsUtils.ENTITYCODE,ConstantsUtils.ENTITYCODENAME, ConstantsUtils.MODIFIED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.CREATED_BY, LabelUtils.CREATEDDATE};
-	
 	/** The Constant IDEN_VIEW_FORM_COL_ORDER. */
 	public static final Object[] IDEN_VIEW_FORM_COL_ORDER = new Object[] {
 		ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, "identifierStatusView", "viewStartDate", "viewEndDate",ConstantsUtils.ENTITY_CODE, ConstantsUtils.ENTITY_CODE_NAME, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE
@@ -335,12 +293,6 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 
 			ConstantsUtils.IDENTIFIER_CODE_QUALIFIER_NAME, ConstantsUtils.ITEM_PRICE,"pricingCodeStatus", "itemUom",
 			 ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP, ConstantsUtils.ENTITY_CODE,ConstantsUtils.SOURCE, ConstantsUtils.MODIFIEDBY, ConstantsUtils.MODIFIEDDATE, ConstantsUtils.CREATEDBY, ConstantsUtils.CREATEDDATE};
-	
-	/** The Constant PRICING_FORM_COL_ORDER_HEADER. */
-	public static final String[] PRICING_FORM_COL_ORDER_HEADER = new String[] {
-		"Pricing Qualifier Name", "Item Price", "Pricing Status", "Item UOM", LabelUtils.PRICING_START_DATE, LabelUtils.PRICING_END_DATE, 
-		"Entity Code","Source", ConstantsUtils.MODIFIED_BY, ConstantsUtils.MODIFIED_DATE, ConstantsUtils.CREATED_BY, LabelUtils.CREATEDDATE};
-	
 	/** The Constant PRICING_VIEW_FORM_COL_ORDER. */
 	public static final Object[] PRICING_VIEW_FORM_COL_ORDER = new Object[] {
 
@@ -353,20 +305,6 @@ public static final Object[] WITHOUT_IDEN_SEARCH = new Object[] { ConstantsUtils
 			ConstantsUtils.ITEM_IRT_QUALIFIER_NAME, ConstantsUtils.ITEM_IDENTIFIER, ConstantsUtils.ENTITY_CODE,
 			ConstantsUtils.START_DATE_SP, ConstantsUtils.END_DATE_SP, "identifierStatus" };
 	
-	
-/** The Constant IFP_COL_HEADERS. */
-public static final String[] IFP_COL_HEADERS = new String[] {
-	"System ID","IFP ID", "IFP No", "IFP Name",
-	"IFP Type","IFP Status","IFP Category", "IFP Start Date", "IFP End Date","IFP Designation","Parent ID",
-        "Parent Name",
-        ConstantsUtils.CREATED_BY,LabelUtils.CREATEDDATE};
-
-/** The Constant IFP_SEARCH_TABLE. */
-public static final Object[] IFP_SEARCH_TABLE = new Object[] {
-		"itemFamilyplanSystemId","ifpId", "ifpNo", "ifpName",
-		"ifpType", "ifpStatus", "ifpCategory", "itemFamilyplanStartDate", "itemFamilyplanEndDate","ifpDesignation","parentItemFamilyplanId",
-                "parentItemFamilyplanName",
-		ConstantsUtils.CREATEDBY,ConstantsUtils.CREATEDDATE};
 
 /** The Constant AVAILABLE_ITEM_COL. */
 public static final Object[] AVAILABLE_ITEM_COL = new Object[] {

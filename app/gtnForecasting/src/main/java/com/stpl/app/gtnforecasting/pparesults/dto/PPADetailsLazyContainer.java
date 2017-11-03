@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.pparesults.dto;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.pparesults.logic.PPAProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.util.HelperDTO;

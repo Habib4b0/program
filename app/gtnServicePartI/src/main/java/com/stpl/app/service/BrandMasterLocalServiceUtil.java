@@ -3,7 +3,6 @@ package com.stpl.app.service;
 import com.stpl.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.stpl.portal.kernel.util.ReferenceRegistry;
 import com.stpl.portal.service.InvokableLocalService;
-import org.jboss.logging.Logger;
 
 /**
  * Provides the local service utility for BrandMaster. This utility wraps
@@ -21,7 +20,6 @@ import org.jboss.logging.Logger;
  */
 public class BrandMasterLocalServiceUtil {
     private static BrandMasterLocalService _service;
-    private static final Logger LOGGER = Logger.getLogger(BrandMasterLocalServiceUtil.class);
 
     /*
      * NOTE FOR DEVELOPERS:
@@ -266,20 +264,17 @@ public class BrandMasterLocalServiceUtil {
 
     public static java.lang.Object executeSelectQuery(java.lang.String query,
         java.lang.Object udc1, java.lang.Object udc2) {
-        LOGGER.debug(query);
         return getService().executeSelectQuery(query, udc1, udc2);
     }
 
     public static java.lang.Object executeBulkUpdateQuery(
         java.lang.String query, java.lang.Object udc1, java.lang.Object udc2) {
-        LOGGER.debug(query);
         return getService().executeBulkUpdateQuery(query, udc1, udc2);
     }
 
     public static java.lang.Object executeUpdateQuery(
         java.util.List<?> nmSalesList, java.lang.Object udc1,
         java.lang.Object udc2, java.lang.Object udc3) {
-        LOGGER.debug(nmSalesList.toString());
         return getService().executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
     }
 

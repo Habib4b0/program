@@ -129,7 +129,7 @@ public class ViewLogic {
      * @return true od false.
      */
     public ForecastingViewMaster updateView(SaveViewDTO saveViewDTO, final String viewName, final String viewType) {
-        Object objects[] = null;
+        Object[] objects = null;
         ForecastingViewMaster updatedViewMaster = null;
         try {
             int viewId = 0;

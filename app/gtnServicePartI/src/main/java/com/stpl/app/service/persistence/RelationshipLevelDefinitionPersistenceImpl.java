@@ -85,7 +85,7 @@ public class RelationshipLevelDefinitionPersistenceImpl
                 "parentNode", "versionNo", "relationshipBuilderSid",
                 "modifiedDate", "createdBy", "createdDate", "levelNo",
                 "modifiedBy", "hierarchyNo", "relationshipLevelSid", "flag",
-                "levelName"
+                "levelName", "parentHierarchyNo"
             });
     private static RelationshipLevelDefinition _nullRelationshipLevelDefinition = new RelationshipLevelDefinitionImpl() {
             @Override
@@ -363,6 +363,7 @@ public class RelationshipLevelDefinitionPersistenceImpl
         relationshipLevelDefinitionImpl.setRelationshipLevelSid(relationshipLevelDefinition.getRelationshipLevelSid());
         relationshipLevelDefinitionImpl.setFlag(relationshipLevelDefinition.getFlag());
         relationshipLevelDefinitionImpl.setLevelName(relationshipLevelDefinition.getLevelName());
+        relationshipLevelDefinitionImpl.setParentHierarchyNo(relationshipLevelDefinition.getParentHierarchyNo());
 
         return relationshipLevelDefinitionImpl;
     }

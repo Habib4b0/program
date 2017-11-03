@@ -3099,8 +3099,8 @@
 			<id name="adjustedDemandForecastId">
 				<column name="ADJUSTED_DEMAND_FORECAST_ID" />
 			</id>
-			<basic name="forecastVersion">
-				<column name="FORECAST_VERSION" />
+			<basic name="forecastVer">
+				<column name="FORECAST_VER" />
 			</basic>
 			<basic name="grossUnits">
 				<column name="GROSS_UNITS" />
@@ -3108,8 +3108,8 @@
 			<basic name="businessUnitNo">
 				<column name="BUSINESS_UNIT_NO" />
 			</basic>
-			<basic name="year">
-				<column name="YEAR" />
+			<basic name="forecastYear">
+				<column name="FORECAST_YEAR" />
 			</basic>
 			<basic name="brandName">
 				<column name="BRAND_NAME" />
@@ -3132,8 +3132,8 @@
 			<basic name="marketShareUnits">
 				<column name="MARKET_SHARE_UNITS" />
 			</basic>
-			<basic name="month">
-				<column name="MONTH" />
+			<basic name="forecastMonth">
+				<column name="FORECAST_MONTH" />
 			</basic>
 			<basic name="inventoryUnitChange">
 				<column name="INVENTORY_UNIT_CHANGE" />
@@ -3147,8 +3147,8 @@
 			<basic name="forecastType">
 				<column name="FORECAST_TYPE" />
 			</basic>
-			<basic name="totalAdjustedDemandUnits">
-				<column name="TOTAL_ADJUSTED_DEMAND_UNITS" />
+			<basic name="totalDemandUnits">
+				<column name="TOTAL_DEMAND_UNITS" />
 			</basic>
 			<basic name="brandId">
 				<column name="BRAND_ID" />
@@ -3156,8 +3156,8 @@
 			<basic name="isForecast">
 				<column name="IS_FORECAST" />
 			</basic>
-			<basic name="totalAdjustedDemandAmount">
-				<column name="TOTAL_ADJUSTED_DEMAND_AMOUNT" />
+			<basic name="totalDemandAmount">
+				<column name="TOTAL_DEMAND_AMOUNT" />
 			</basic>
 			<basic name="uncapturedUnits">
 				<column name="UNCAPTURED_UNITS" />

@@ -27,6 +27,7 @@ public class RelationshipLevelDefinitionSoap implements Serializable {
     private int _relationshipLevelSid;
     private String _flag;
     private String _levelName;
+    private String _parentHierarchyNo;
 
     public RelationshipLevelDefinitionSoap() {
     }
@@ -49,6 +50,7 @@ public class RelationshipLevelDefinitionSoap implements Serializable {
         soapModel.setRelationshipLevelSid(model.getRelationshipLevelSid());
         soapModel.setFlag(model.getFlag());
         soapModel.setLevelName(model.getLevelName());
+        soapModel.setParentHierarchyNo(model.getParentHierarchyNo());
 
         return soapModel;
     }
@@ -210,5 +212,13 @@ public class RelationshipLevelDefinitionSoap implements Serializable {
 
     public void setLevelName(String levelName) {
         _levelName = levelName;
+    }
+
+    public String getParentHierarchyNo() {
+        return _parentHierarchyNo;
+    }
+
+    public void setParentHierarchyNo(String parentHierarchyNo) {
+        _parentHierarchyNo = parentHierarchyNo;
     }
 }

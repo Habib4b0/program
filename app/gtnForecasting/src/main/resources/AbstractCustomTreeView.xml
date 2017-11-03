@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
     <VerticalLayout   spacing="true" margin="true" immediate="true" styleName="bootstrap-forecast">
-        <Panel>
+        <Panel width="150%">
             <VerticalLayout spacing="true" margin="true" immediate="true">
                 <HorizontalLayout  spacing="false" margin="false" immediate="true">
                     <Label value="Tree View Name:" contentMode="HTML" /> 
@@ -28,9 +28,19 @@
                                 <Button id="removeProduct" caption="&lt;"></Button>
                             </VerticalLayout>
                         </HorizontalLayout>
+                        
+                        
+                        <HorizontalLayout  id="deductionLayout" spacing="false" margin="false" immediate="true">
+                            <Table id="deductionTable"  caption="Deduction Hierarchy" width="210px" height="191px"  immediate="true" styleName="table-header-normal" selectable="true" />
+                            <VerticalLayout spacing="true" margin="false" immediate="true">
+                                <Label caption="" hieght="120px" contentMode="HTML" immediate="true" />
+                                <Button id="addDeduction" caption="&gt;"></Button>
+                                <Button id="removeDeduction" caption="&lt;"></Button>
+                            </VerticalLayout>
+                        </HorizontalLayout>
                     </VerticalLayout>
                     <HorizontalLayout  spacing="false" margin="false" immediate="true">
-                        <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" height="446px"  width="370px" immediate="true" selectable="true" />        
+                        <TreeTable id="treeTable" caption=" Tree Structure" styleName="table-header-normal" immediate="true" selectable="true" />
                     </HorizontalLayout>
                 </GridLayout>
             </VerticalLayout>

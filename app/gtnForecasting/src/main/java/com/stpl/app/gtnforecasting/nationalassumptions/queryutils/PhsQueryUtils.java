@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.stpl.app.gtnforecasting.nationalassumptions.queryutils;
 
 import com.stpl.app.gtnforecasting.dao.CommonResultsDAO;
@@ -11,6 +10,7 @@ import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
 import static com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -28,58 +28,59 @@ import org.apache.commons.lang.StringUtils;
  * @author Nadhiya
  */
 public class PhsQueryUtils {
- 
-    private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();   
-    public final  String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    
-      public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
-          Map<String, Object> input = new HashMap<>();
-          List phsList ;
-          String customSql;
-          StringBuilder priceType = new StringBuilder();
-          int size = priceTypeList.size();
-          int lastOne = size - 1;
-          for (int i = 0; i < size; i++) {
-              if (i == lastOne) {
-                  priceType.append(priceTypeList.get(i).toUpperCase());
-              } else {
-                  priceType.append(priceTypeList.get(i).toUpperCase()).append(",");
-              }
-          }
-       
-          input.put("?PID", session.getProjectionId());
-          input.put("?IMID", parentSid);
-          input.put("?PT", priceType);
-        
-          if(percentFlag){
-         customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getPhsPercentageForView":"getPhsPercentage");
-          }else{
-                customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode)?"getPhsAmountForView":"getPhsAmount");
-          }
-          for (Map.Entry<String, Object> entry : input.entrySet()) {
-              LOGGER.debug(" Key : " + entry.getKey());
-              customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
-          }
 
-          phsList = (List) DAO.executeSelectQuery( QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+    private static final CommonResultsDAO DAO = new CommonResultsDAOImpl();
+    public final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
-          return phsList;
+    public List loadPhsResultsChild(SessionDTO session, int parentSid, List<String> priceTypeList, boolean percentFlag) throws PortalException, SystemException {
+        Map<String, Object> input = new HashMap<>();
+        List phsList;
+        String customSql;
+        StringBuilder priceType = new StringBuilder();
+        int size = priceTypeList.size();
+        int lastOne = size - 1;
+        for (int i = 0; i < size; i++) {
+            if (i == lastOne) {
+                priceType.append(priceTypeList.get(i).toUpperCase());
+            } else {
+                priceType.append(priceTypeList.get(i).toUpperCase()).append(",");
+            }
+        }
+
+        input.put("?PID", session.getProjectionId());
+        input.put("?IMID", parentSid);
+        input.put("?PT", priceType);
+
+        if (percentFlag) {
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsPercentageForView" : "getPhsPercentage");
+        } else {
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsAmountForView" : "getPhsAmount");
+        }
+        for (Map.Entry<String, Object> entry : input.entrySet()) {
+            LOGGER.debug(" Key : " + entry.getKey());
+            customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
+        }
+
+        phsList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+
+        return phsList;
 
     }
-    public List loadPhsResultsTable(int projMasterId,int brandSid,String queryName,int parentLevelId, int itemMasterSID,int therapeuticSid) throws PortalException, SystemException {
-        List phsList;          
+
+    public List loadPhsResultsTable(int projMasterId, int brandSid, String queryName, int parentLevelId, int itemMasterSID, int therapeuticSid) throws PortalException, SystemException {
+        List phsList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
-        if( brandSid==0){
-        input.put("?BID", Constant.NULL_CAPS);
-        }else{
-        input.put("?BID", brandSid);
+        if (brandSid == 0) {
+            input.put("?BID", Constant.NULL_CAPS);
+        } else {
+            input.put("?BID", brandSid);
         }
-        if(therapeuticSid==0){
-        input.put("?TID", Constant.NULL_CAPS);
-        }else{
-        input.put("?TID", therapeuticSid);
-        }       
+        if (therapeuticSid == 0) {
+            input.put("?TID", Constant.NULL_CAPS);
+        } else {
+            input.put("?TID", therapeuticSid);
+        }
         input.put("?IMD", itemMasterSID);
         String customSql = CustomSQLUtil.get(queryName);
 
@@ -87,16 +88,17 @@ public class PhsQueryUtils {
             LOGGER.debug(" Key : " + entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
-            if (parentLevelId != 0) {
+        if (parentLevelId != 0) {
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         }
-     
-          phsList = (List) DAO.executeSelectQuery(customSql);
-      
-           return phsList;
-        
+
+        phsList = (List) DAO.executeSelectQuery(customSql);
+
+        return phsList;
+
     }
-     public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws PortalException, SystemException {
+
+    public static void saveSelection(Map map, int projectionID, String screenName, String saveOrUpdate) throws PortalException, SystemException {
         Object[] obj = map.keySet().toArray();
         StringBuilder queryBuilder = new StringBuilder();
         if (Constant.SAVE.equalsIgnoreCase(saveOrUpdate)) {
@@ -114,28 +116,30 @@ public class PhsQueryUtils {
         }
         DAO.executeBulkUpdateQuery(queryBuilder.toString());
     }
-    public List loadPhsWorksheet(SessionDTO session, int ndcSid,boolean adjustFlag) throws PortalException, SystemException {
+
+    public List loadPhsWorksheet(SessionDTO session, int ndcSid, boolean adjustFlag) throws PortalException, SystemException {
         List phsWSList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
         input.put("?IMID", ndcSid);
         String customSql;
         if (adjustFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode)?"getPhsWorkSheetAdjustmentForView":"getPhsWorkSheetAdjustment");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetAdjustmentForView" : "getPhsWorkSheetAdjustment");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getPhsWorkSheetForView":"getPhsWorkSheet");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetForView" : "getPhsWorkSheet");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
             LOGGER.debug("Key : " + entry.getKey());
             customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
         }
 
-        phsWSList = (List) DAO.executeSelectQuery( QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
+        phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;
     }
+
     public void saveNotes(Map<String, String> editedValues, SessionDTO session, int itemSid) throws PortalException, SystemException {
-   
+
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -166,7 +170,6 @@ public class PhsQueryUtils {
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 
-
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
                 queryList.add(queryBuilder1);
@@ -179,7 +182,7 @@ public class PhsQueryUtils {
 
     public void saveNotesCondition(String rowId, String formatedValue, StringBuilder queryBuilder1) {
         Double finalvalue;
-        
+
         if (rowId.equals(Constant.ADJUSTMENT)) {
             formatedValue = formatedValue.replace(Constant.PERCENT, StringUtils.EMPTY);
             formatedValue = formatedValue.replace("$", StringUtils.EMPTY);
@@ -196,43 +199,59 @@ public class PhsQueryUtils {
                 queryBuilder1.append(" UPDATE dbo.ST_PHS_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
             }
         } else if (rowId.equals(Constant.NOTES)) {
-            
+
             queryBuilder1.append("UPDATE dbo.ST_PHS_PROJ SET NOTES='").append(formatedValue).append("' ");
-            
+
         }
     }
-     public List loadPhsParent(int projMasterId, int brandSid,int parentLevelId,com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session,int therapeuticSid) throws PortalException, SystemException {
+
+    public Map<String, String> getPhsPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+        List<Object[]> phsWSList;
+        Map<String, String> priceType = new HashMap<>();
+
+        String customSql = SQlUtil.getQuery("Medicaid_Ura_Worsheet_Helper_table");
+        customSql = customSql.replace("SCREEN_NAME", screenName);
+        phsWSList = (List<Object[]>) DAO.executeSelectQuery(customSql);
+        for (int i = 0; i < phsWSList.size(); i++) {
+            Object[] obj = phsWSList.get(i);
+            priceType.put(String.valueOf(obj[1]), String.valueOf(obj[0]));
+        }
+
+        return priceType;
+    }
+
+    public List loadPhsParent(int projMasterId, int brandSid, int parentLevelId, com.stpl.app.gtnforecasting.nationalassumptions.dto.SessionDTO session, int therapeuticSid) throws PortalException, SystemException {
         List fcpList;
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
-        if( brandSid==0){
-        input.put("?BID", Constant.NULL_CAPS);
-        }else{
-        input.put("?BID",  brandSid);
+        if (brandSid == 0) {
+            input.put("?BID", Constant.NULL_CAPS);
+        } else {
+            input.put("?BID", brandSid);
         }
-        if(therapeuticSid==0){
-        input.put("?TID", Constant.NULL_CAPS);
-        }else{
-        input.put("?TID",therapeuticSid);
-        }       
-      
-         if (session.isPageFlag()) {
-             input.put("?OFFSET", +session.getStart() + 1);
-             input.put("?LIMIT", session.getOffset());
-         }
+        if (therapeuticSid == 0) {
+            input.put("?TID", Constant.NULL_CAPS);
+        } else {
+            input.put("?TID", therapeuticSid);
+        }
 
-         String customSql;
+        if (session.isPageFlag()) {
+            input.put("?OFFSET", +session.getStart() + 1);
+            input.put("?LIMIT", session.getOffset());
+        }
 
-         if (parentLevelId != 0) {
-             customSql = CustomSQLUtil.get("getPhsLevelFilter");
-             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
-         } else {
-             customSql = CustomSQLUtil.get("getPhsParent");
-         }
+        String customSql;
+
+        if (parentLevelId != 0) {
+            customSql = CustomSQLUtil.get("getPhsLevelFilter");
+            customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
+        } else {
+            customSql = CustomSQLUtil.get("getPhsParent");
+        }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
-              LOGGER.debug("Key : " + entry.getKey());
-              customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
-          }
+            LOGGER.debug("Key : " + entry.getKey());
+            customSql = customSql.replace(entry.getKey(), String.valueOf(entry.getValue()));
+        }
 
         fcpList = (List) DAO.executeSelectQuery(customSql);
         return fcpList;

@@ -14,6 +14,7 @@ import com.stpl.app.gtnforecasting.nationalassumptions.util.FileUploader;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -164,7 +165,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file path.
      */
-    final File filePath = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
+    final File filePath = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
     
     /**
      * The upload receiver.
@@ -186,7 +187,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The logo.
      */
-    private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
+    private File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     /**
      * The file name.
      */
@@ -194,11 +195,11 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The word file.
      */
-    private File wordFile = new File(filePath + File.separator + FILENAME + ExportWord.DOC_EXT);
+    private File wordFile = CommonUtil.getFilePath(filePath + File.separator + FILENAME + ExportWord.DOC_EXT);
     /**
      * The pdf file.
      */
-    private File pdfFile = new File(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT);
+    private File pdfFile = CommonUtil.getFilePath(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT);
     /**
      * The word downloader.
      */
@@ -220,7 +221,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file path.
      */
-    final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
+    final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
     /**
      * Instantiates a new additional information.
@@ -278,7 +279,7 @@ public class AdditionalInformation extends CustomComponent {
             public void call(final org.json.JSONArray arguments) throws org.json.JSONException {
                 File fileUpload;
                 final String value = String.valueOf(arguments.get(0));
-                fileUpload = new File(value);
+                fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
                 if (name.contains("\\")) {
                     final String replace = name.replace("\\", ",");
@@ -393,7 +394,7 @@ public class AdditionalInformation extends CustomComponent {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("uploader.addValueChangeListener started");
-                File[] listOfFiles = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId)
+                File[] listOfFiles = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId)
                         .listFiles();
                 boolean fileExist = false;
                 for (File file : listOfFiles) {
@@ -524,7 +525,7 @@ public class AdditionalInformation extends CustomComponent {
                             dto.setDocumentFullPath(tableBean.getDocumentFullPath());
                             removedDetailsList.add(dto);
 
-                            File file = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
+                            File file = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId
                                     + File.separator + tableBean.getDocumentName());
                             file.delete();
                             resultsTable.removeItem(tableBeanId);
@@ -601,12 +602,12 @@ public class AdditionalInformation extends CustomComponent {
 
         final ExportWord exportWord = new ExportWord(filePath, wordFile);
         exportWord.wordExport(wordList);
-        final Resource wordResOnEdit = new FileResource(new File(filePath + File.separator + FILENAME + ExportWord.DOC_EXT));
+        final Resource wordResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + FILENAME + ExportWord.DOC_EXT));
         wordDownloader.setFileDownloadResource(wordResOnEdit);
 
         final ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
         exportPdf.export(notesHistory.getValue());
-        final Resource pdfResOnEdit = new FileResource(new File(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT));
+        final Resource pdfResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + FILENAME + ExportPdf.PDF_EXT));
         pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         LOGGER.debug("Ends AdditionalInformation document Exporter");
@@ -621,8 +622,8 @@ public class AdditionalInformation extends CustomComponent {
      */
     public void setValues(boolean saveFlag) throws SystemException {
         LOGGER.debug("Inside of AdditionalInformation setValues Method");
-        String mode = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
-        if (Constant.EDIT_SMALL.equalsIgnoreCase(mode) || Constant.VIEW.equalsIgnoreCase(mode) || saveFlag) {
+        String modeValue = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.MODE));
+        if (Constant.EDIT_SMALL.equalsIgnoreCase(modeValue) || Constant.VIEW.equalsIgnoreCase(modeValue) || saveFlag) {
             attachmentsListBean.removeAllItems();
             final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(PROJECTION_ID.getConstant());
             final List<AttachmentDTO> allFiles = addInfoLogic.getAttachmentDTOList(projectionId, MODULE_NAME, filePathForLink);

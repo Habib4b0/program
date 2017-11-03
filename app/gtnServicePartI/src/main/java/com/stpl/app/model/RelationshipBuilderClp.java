@@ -32,6 +32,7 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
     private int _hierarchyVersion;
     private int _modifiedBy;
     private Date _modifiedDate;
+    private int _deductionRelation;
     private int _relationshipType;
     private String _buildType;
     private BaseModel<?> _relationshipBuilderRemoteModel;
@@ -84,6 +85,7 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
         attributes.put("hierarchyVersion", getHierarchyVersion());
         attributes.put("modifiedBy", getModifiedBy());
         attributes.put("modifiedDate", getModifiedDate());
+        attributes.put("deductionRelation", getDeductionRelation());
         attributes.put("relationshipType", getRelationshipType());
         attributes.put("buildType", getBuildType());
 
@@ -159,6 +161,13 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
 
         if (modifiedDate != null) {
             setModifiedDate(modifiedDate);
+        }
+
+        Integer deductionRelation = (Integer) attributes.get(
+                "deductionRelation");
+
+        if (deductionRelation != null) {
+            setDeductionRelation(deductionRelation);
         }
 
         Integer relationshipType = (Integer) attributes.get("relationshipType");
@@ -424,6 +433,29 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
     }
 
     @Override
+    public int getDeductionRelation() {
+        return _deductionRelation;
+    }
+
+    @Override
+    public void setDeductionRelation(int deductionRelation) {
+        _deductionRelation = deductionRelation;
+
+        if (_relationshipBuilderRemoteModel != null) {
+            try {
+                Class<?> clazz = _relationshipBuilderRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDeductionRelation",
+                        int.class);
+
+                method.invoke(_relationshipBuilderRemoteModel, deductionRelation);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
     public int getRelationshipType() {
         return _relationshipType;
     }
@@ -547,6 +579,7 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
         clone.setHierarchyVersion(getHierarchyVersion());
         clone.setModifiedBy(getModifiedBy());
         clone.setModifiedDate(getModifiedDate());
+        clone.setDeductionRelation(getDeductionRelation());
         clone.setRelationshipType(getRelationshipType());
         clone.setBuildType(getBuildType());
 
@@ -594,7 +627,7 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(27);
+        StringBundler sb = new StringBundler(29);
 
         sb.append("{startDate=");
         sb.append(getStartDate());
@@ -618,6 +651,8 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
         sb.append(getModifiedBy());
         sb.append(", modifiedDate=");
         sb.append(getModifiedDate());
+        sb.append(", deductionRelation=");
+        sb.append(getDeductionRelation());
         sb.append(", relationshipType=");
         sb.append(getRelationshipType());
         sb.append(", buildType=");
@@ -629,7 +664,7 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(43);
+        StringBundler sb = new StringBundler(46);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.RelationshipBuilder");
@@ -678,6 +713,10 @@ public class RelationshipBuilderClp extends BaseModelImpl<RelationshipBuilder>
         sb.append(
             "<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
         sb.append(getModifiedDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>deductionRelation</column-name><column-value><![CDATA[");
+        sb.append(getDeductionRelation());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>relationshipType</column-name><column-value><![CDATA[");

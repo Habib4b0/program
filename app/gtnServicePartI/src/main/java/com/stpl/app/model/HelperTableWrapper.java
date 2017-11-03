@@ -46,6 +46,7 @@ public class HelperTableWrapper implements HelperTable,
         attributes.put("helperTableSid", getHelperTableSid());
         attributes.put("modifiedBy", getModifiedBy());
         attributes.put("modifiedDate", getModifiedDate());
+        attributes.put("aliasName", getAliasName());
 
         return attributes;
     }
@@ -98,6 +99,12 @@ public class HelperTableWrapper implements HelperTable,
 
         if (modifiedDate != null) {
             setModifiedDate(modifiedDate);
+        }
+
+        String aliasName = (String) attributes.get("aliasName");
+
+        if (aliasName != null) {
+            setAliasName(aliasName);
         }
     }
 
@@ -279,6 +286,26 @@ public class HelperTableWrapper implements HelperTable,
     @Override
     public void setModifiedDate(java.util.Date modifiedDate) {
         _helperTable.setModifiedDate(modifiedDate);
+    }
+
+    /**
+    * Returns the alias name of this helper table.
+    *
+    * @return the alias name of this helper table
+    */
+    @Override
+    public java.lang.String getAliasName() {
+        return _helperTable.getAliasName();
+    }
+
+    /**
+    * Sets the alias name of this helper table.
+    *
+    * @param aliasName the alias name of this helper table
+    */
+    @Override
+    public void setAliasName(java.lang.String aliasName) {
+        _helperTable.setAliasName(aliasName);
     }
 
     @Override

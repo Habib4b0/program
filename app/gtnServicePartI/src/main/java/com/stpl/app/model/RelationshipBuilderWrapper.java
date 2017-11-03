@@ -49,6 +49,7 @@ public class RelationshipBuilderWrapper implements RelationshipBuilder,
         attributes.put("hierarchyVersion", getHierarchyVersion());
         attributes.put("modifiedBy", getModifiedBy());
         attributes.put("modifiedDate", getModifiedDate());
+        attributes.put("deductionRelation", getDeductionRelation());
         attributes.put("relationshipType", getRelationshipType());
         attributes.put("buildType", getBuildType());
 
@@ -124,6 +125,13 @@ public class RelationshipBuilderWrapper implements RelationshipBuilder,
 
         if (modifiedDate != null) {
             setModifiedDate(modifiedDate);
+        }
+
+        Integer deductionRelation = (Integer) attributes.get(
+                "deductionRelation");
+
+        if (deductionRelation != null) {
+            setDeductionRelation(deductionRelation);
         }
 
         Integer relationshipType = (Integer) attributes.get("relationshipType");
@@ -378,6 +386,26 @@ public class RelationshipBuilderWrapper implements RelationshipBuilder,
     @Override
     public void setModifiedDate(java.util.Date modifiedDate) {
         _relationshipBuilder.setModifiedDate(modifiedDate);
+    }
+
+    /**
+    * Returns the deduction relation of this relationship builder.
+    *
+    * @return the deduction relation of this relationship builder
+    */
+    @Override
+    public int getDeductionRelation() {
+        return _relationshipBuilder.getDeductionRelation();
+    }
+
+    /**
+    * Sets the deduction relation of this relationship builder.
+    *
+    * @param deductionRelation the deduction relation of this relationship builder
+    */
+    @Override
+    public void setDeductionRelation(int deductionRelation) {
+        _relationshipBuilder.setDeductionRelation(deductionRelation);
     }
 
     /**

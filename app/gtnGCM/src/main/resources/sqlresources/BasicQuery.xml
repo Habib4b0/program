@@ -482,5 +482,22 @@ AND MODULE_NAME='CUSTOMER_MANAGEMENT'
 		]]>
       </query>
     </entity>
-   
+    
+     <entity id="getCompanyTypeForContact">
+      <query>
+       <![CDATA[
+        SELECT 
+          HT.HELPER_TABLE_SID,HT.DESCRIPTION
+          FROM COMPANY_MASTER CM
+          JOIN HELPER_TABLE HT
+          ON CM.COMPANY_TYPE = HT.HELPER_TABLE_SID
+          AND HT.LIST_NAME='COMPANY_TYPE'
+          GROUP  BY HT.HELPER_TABLE_SID,
+          HT.DESCRIPTION
+          ORDER BY HT.HELPER_TABLE_SID;    
+
+		]]>
+     </query>
+    </entity>
+    
 </sql>

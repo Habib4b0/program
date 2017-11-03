@@ -28,6 +28,7 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
     private String levelValue = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
     private String customerHierarchyNo = StringUtils.EMPTY;
+    private String deductionHierarchyNo = StringUtils.EMPTY;
     private Integer customId = 0;
     private String relationshipLevelName = StringUtils.EMPTY;
     private Integer onExpandTotalRow = 0;
@@ -194,6 +195,14 @@ public class ProjectionVarianceDTO extends ExtMapDTO implements Comparator<Proje
         this.parentHierarchyNo = parentHierarchyNo;
     }
 
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
+    }
+    
     @Override
     public int compare(ProjectionVarianceDTO obj1, ProjectionVarianceDTO obj2) {
         int value = 0;

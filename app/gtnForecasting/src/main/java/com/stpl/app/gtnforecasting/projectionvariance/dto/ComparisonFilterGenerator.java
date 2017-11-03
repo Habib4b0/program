@@ -124,15 +124,15 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 pvSelectionDTO.setLevelName("'" + pvSelectionDTO.getView() + "'");
                 levelNo = pvSelectionDTO.getCustomerLevelNo();
             }
-            final ComboBox contractType = new ComboBox();
-            contractType.setNullSelectionAllowed(true);
-            contractType.setNullSelectionItemId(SELECT_ONE);
-            contractType.setImmediate(true);
-            contractType.addStyleName(Constant.FILTER_COMBOBOX);
+            final ComboBox contractTypeDdlb = new ComboBox();
+            contractTypeDdlb.setNullSelectionAllowed(true);
+            contractTypeDdlb.setNullSelectionItemId(SELECT_ONE);
+            contractTypeDdlb.setImmediate(true);
+            contractTypeDdlb.addStyleName(Constant.FILTER_COMBOBOX);
             if (detailFlag && !Constant.CUSTOM_LABEL.equals(pvSelectionDTO.getView())) {
 
-                contractType.addItem(ZERO);
-                contractType.setItemCaption(ZERO, SELECT_ONE);
+                contractTypeDdlb.addItem(ZERO);
+                contractTypeDdlb.setItemCaption(ZERO, SELECT_ONE);
                 /**
                  * MultiKey to put input . if input is same then fetch from map
                  * else fetch from db and put
@@ -149,14 +149,14 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                 if (list != null && !list.isEmpty()) {
                     for (Leveldto dto : list) {
                         if ((pvSelectionDTO.getLevelName().toString()).contains(dto.getLevel().replaceAll("'", StringUtils.EMPTY))) {
-                            contractType.addItem(dto.getHierarchyNo());
-                            contractType.setItemCaption(dto.getHierarchyNo(), dto.getRelationshipLevelName());
+                            contractTypeDdlb.addItem(dto.getHierarchyNo());
+                            contractTypeDdlb.setItemCaption(dto.getHierarchyNo(), dto.getRelationshipLevelName());
                         }
                     }
                 }
 
-                contractType.select(ZERO);
-                contractType.addValueChangeListener(new Property.ValueChangeListener() {
+                contractTypeDdlb.select(ZERO);
+                contractTypeDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
                     @Override
                     public void valueChange(Property.ValueChangeEvent event) {
@@ -176,9 +176,9 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                     }
                 });
             } else {
-                contractType.setEnabled(false);
+                contractTypeDdlb.setEnabled(false);
             }
-            return contractType;
+            return contractTypeDdlb;
         }
 
         if (RELATIONSHIP_LEVEL_NAME.equals(propertyId) && prFlag) {
@@ -231,7 +231,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                     List list = mmLogic.loadCustomerDdlb(psDTO, str);
                     contractType.addItem(0);
                     contractType.setItemCaption(0, SELECT_ONE);
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
                             contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT);

@@ -21,7 +21,6 @@ import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
 import com.stpl.app.gcm.ui.errorhandling.ErrorLabel;
 import com.stpl.app.gcm.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
-import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -32,10 +31,8 @@ import com.vaadin.data.Container;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
-import com.stpl.ifs.util.ExcelExportforBB;
-import com.vaadin.server.Resource;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
@@ -48,11 +45,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -112,8 +106,6 @@ public class CopyContractindex extends VerticalLayout {
     public PopupDateField aliasStartDate;
     @UiField("aliasEndDate")
     public PopupDateField aliasEndDate;
-    @UiField("excelBtn")
-    public Button excel;
     private final ContractSearchLogic logic = new ContractSearchLogic();
     private final ErrorfulFieldGroup binder;
     TextField hiddenId = new TextField();
@@ -123,7 +115,6 @@ public class CopyContractindex extends VerticalLayout {
     final SimpleDateFormat fmtID = new SimpleDateFormat("hhmmssms");
     ContractSearchDTO binderDTO;
     List<ContractSearchDTO> selectionList = new ArrayList<>();
-    private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     public CopyContractindex() throws SystemException {
         addComponent(Clara.create(getClass().getResourceAsStream("/CopyContract.xml"), this));
         configuretable();
@@ -149,8 +140,6 @@ public class CopyContractindex extends VerticalLayout {
             startDate.setDateFormat(Constants.MM_DD_YYYY);
             endDate.setStyleName(Constants.DATE_FIELD_CENTER);
             endDate.setDateFormat(Constants.MM_DD_YYYY);
-            excel.setPrimaryStyleName("link");
-            excel.setIcon(excelExportImage, "Excel Export");
             
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -319,50 +308,6 @@ public class CopyContractindex extends VerticalLayout {
         }
     }
 
-    
-    
-    @UiHandler("excelBtn")
-    public void excelExport(Button.ClickEvent event) {
-        try {
-            if (resultContainer.size() > 0) {
-                createWorkSheet("Contract_Details", copycontractResultsTable);
-            }
-
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-    }
-
-    public void createWorkSheet(String moduleName, ExtPagedTable resultTable) throws  NoSuchMethodException, IllegalAccessException,  InvocationTargetException, IllegalArgumentException, SystemException {
-        long recordCount = 0;
-        List<String> visibleList = Arrays.asList(copycontractResultsTable.getColumnHeaders()).subList(1, copycontractResultsTable.getVisibleColumns().length);
-        if (resultTable.size() != 0) {
-            binderDTO.setIsCount(false);
-            binderDTO.setFilters(tablelogic.getFilters());
-            recordCount = CommonUtils.getDataCount("Copy Contract-contract Search Count", logic.getInputForContractSearch(binderDTO,0,0,true,null));
-        }
-        ExcelExportforBB.createWorkSheet(visibleList.toArray(new String[visibleList.size()]), recordCount, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
-    }
-
-    public void createWorkSheetContent(final Integer start, final Integer end, final PrintWriter printWriter) {
-        binderDTO.setStartIndex(start);
-        binderDTO.setEndIndex(end);
-        binderDTO.setIsCount(true);
-        List visibleList = Arrays.asList(copycontractResultsTable.getVisibleColumns()).subList(1, copycontractResultsTable.getVisibleColumns().length);
-        try {
-            if (end != 0) {
-                binderDTO.setFilters(tablelogic.getFilters());
-                final List<ContractSearchDTO> searchList = logic.getPlaceHolderContractData(binderDTO,start,end,null);
-                ExcelExportforBB.createFileContent(visibleList.toArray(), searchList, printWriter);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
-    }
-
-    
-    
-    
     @UiHandler("btnreset")
     public void resetButtonClickLogic(Button.ClickEvent event
     ) {
@@ -375,7 +320,7 @@ public class CopyContractindex extends VerticalLayout {
             public void yesMethod() {
                 try {
                     binder.setItemDataSource(new BeanItem<>(new ContractSearchDTO()));
-                    resultContainer.removeAllItems();
+                    tablelogic.loadSetDate(binderDTO, false);
                     copycontractResultsTable.resetFilters();
                     aliastypecc.setValue(Constant.HELPER_DTO);
 

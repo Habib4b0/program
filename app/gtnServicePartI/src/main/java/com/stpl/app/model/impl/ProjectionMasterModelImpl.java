@@ -68,9 +68,11 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
             { "CUST_RELATIONSHIP_BUILDER_SID", Types.VARCHAR },
             { "PROD_RELATIONSHIP_BUILDER_SID", Types.VARCHAR },
             { "DISCOUNT_TYPE", Types.INTEGER },
-            { "BUSINESS_UNIT", Types.INTEGER }
+            { "BUSINESS_UNIT", Types.INTEGER },
+            { "DEDUCTION_HIERARCHY_SID", Types.VARCHAR },
+            { "DED_RELATIONSHIP_BULDER_SID", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER)";
+    public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER,DEDUCTION_HIERARCHY_SID VARCHAR(75) null,DED_RELATIONSHIP_BULDER_SID VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table PROJECTION_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY projectionMaster.projectionMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY PROJECTION_MASTER.PROJECTION_MASTER_SID ASC";
@@ -118,6 +120,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
     private String _prodRelationshipBuilderSid;
     private int _discountType;
     private int _businessUnit;
+    private String _deductionHierarchySid;
+    private String _dedRelationshipBuilderSid;
     private ProjectionMaster _escapedModel;
 
     public ProjectionMasterModelImpl() {
@@ -189,6 +193,9 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
             getProdRelationshipBuilderSid());
         attributes.put("discountType", getDiscountType());
         attributes.put("businessUnit", getBusinessUnit());
+        attributes.put("deductionHierarchySid", getDeductionHierarchySid());
+        attributes.put("dedRelationshipBuilderSid",
+            getDedRelationshipBuilderSid());
 
         return attributes;
     }
@@ -373,6 +380,20 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
         if (businessUnit != null) {
             setBusinessUnit(businessUnit);
+        }
+
+        String deductionHierarchySid = (String) attributes.get(
+                "deductionHierarchySid");
+
+        if (deductionHierarchySid != null) {
+            setDeductionHierarchySid(deductionHierarchySid);
+        }
+
+        String dedRelationshipBuilderSid = (String) attributes.get(
+                "dedRelationshipBuilderSid");
+
+        if (dedRelationshipBuilderSid != null) {
+            setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
         }
     }
 
@@ -683,6 +704,26 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
     }
 
     @Override
+    public String getDeductionHierarchySid() {
+        return _deductionHierarchySid;
+    }
+
+    @Override
+    public void setDeductionHierarchySid(String deductionHierarchySid) {
+        _deductionHierarchySid = deductionHierarchySid;
+    }
+
+    @Override
+    public String getDedRelationshipBuilderSid() {
+        return _dedRelationshipBuilderSid;
+    }
+
+    @Override
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid) {
+        _dedRelationshipBuilderSid = dedRelationshipBuilderSid;
+    }
+
+    @Override
     public ProjectionMaster toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (ProjectionMaster) ProxyUtil.newProxyInstance(_classLoader,
@@ -724,6 +765,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         projectionMasterImpl.setProdRelationshipBuilderSid(getProdRelationshipBuilderSid());
         projectionMasterImpl.setDiscountType(getDiscountType());
         projectionMasterImpl.setBusinessUnit(getBusinessUnit());
+        projectionMasterImpl.setDeductionHierarchySid(getDeductionHierarchySid());
+        projectionMasterImpl.setDedRelationshipBuilderSid(getDedRelationshipBuilderSid());
 
         projectionMasterImpl.resetOriginalValues();
 
@@ -928,12 +971,30 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
         projectionMasterCacheModel.businessUnit = getBusinessUnit();
 
+        projectionMasterCacheModel.deductionHierarchySid = getDeductionHierarchySid();
+
+        String deductionHierarchySid = projectionMasterCacheModel.deductionHierarchySid;
+
+        if ((deductionHierarchySid != null) &&
+                (deductionHierarchySid.length() == 0)) {
+            projectionMasterCacheModel.deductionHierarchySid = null;
+        }
+
+        projectionMasterCacheModel.dedRelationshipBuilderSid = getDedRelationshipBuilderSid();
+
+        String dedRelationshipBuilderSid = projectionMasterCacheModel.dedRelationshipBuilderSid;
+
+        if ((dedRelationshipBuilderSid != null) &&
+                (dedRelationshipBuilderSid.length() == 0)) {
+            projectionMasterCacheModel.dedRelationshipBuilderSid = null;
+        }
+
         return projectionMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(57);
+        StringBundler sb = new StringBundler(61);
 
         sb.append("{productHierarchyLevel=");
         sb.append(getProductHierarchyLevel());
@@ -991,6 +1052,10 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         sb.append(getDiscountType());
         sb.append(", businessUnit=");
         sb.append(getBusinessUnit());
+        sb.append(", deductionHierarchySid=");
+        sb.append(getDeductionHierarchySid());
+        sb.append(", dedRelationshipBuilderSid=");
+        sb.append(getDedRelationshipBuilderSid());
         sb.append("}");
 
         return sb.toString();
@@ -998,7 +1063,7 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(88);
+        StringBundler sb = new StringBundler(94);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ProjectionMaster");
@@ -1115,6 +1180,14 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         sb.append(
             "<column><column-name>businessUnit</column-name><column-value><![CDATA[");
         sb.append(getBusinessUnit());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>deductionHierarchySid</column-name><column-value><![CDATA[");
+        sb.append(getDeductionHierarchySid());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>dedRelationshipBuilderSid</column-name><column-value><![CDATA[");
+        sb.append(getDedRelationshipBuilderSid());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

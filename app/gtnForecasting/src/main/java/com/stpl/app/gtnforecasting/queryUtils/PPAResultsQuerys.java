@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.queryUtils;
 
-import org.jboss.logging.Logger;
-
 /**
  *
  * @author srithar

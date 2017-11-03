@@ -5,7 +5,6 @@ import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonFilterGenerator;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.gtnforecasting.projectionvariance.dto.LookUpDTO;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -33,7 +32,6 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.drools.core.util.StringUtils;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
 
 /**
  * The Class CustomerTreeLookup.

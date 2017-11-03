@@ -5,22 +5,22 @@
     <extended_description/>
     <job_version/>
     <job_status>0</job_status>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 14:52:59.959</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 14&#x3a;52&#x3a;59.959</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 14:52:59.959</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 14&#x3a;52&#x3a;59.959</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -37,13 +37,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -66,7 +66,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ADJUSTED_DEMAND_FORECAST_VALIDATION.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ADJUSTED_DEMAND_FORECAST_VALIDATION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -94,7 +94,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -105,6 +105,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -154,7 +155,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ADJUSTED_DEMAND_FORECAST_DATA_FETCH.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ADJUSTED_DEMAND_FORECAST_DATA_FETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -173,6 +174,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -217,7 +219,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -231,8 +233,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -247,7 +251,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -261,8 +265,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -277,7 +283,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -296,6 +302,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -304,12 +311,12 @@
       <yloc>900</yloc>
       </entry>
     <entry>
-      <name>MAIL (2)</name>
+      <name>MAIL &#x28;2&#x29;</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -328,6 +335,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -336,12 +344,12 @@
       <yloc>1254</yloc>
       </entry>
     <entry>
-      <name>MAIL (3)</name>
+      <name>MAIL &#x28;3&#x29;</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -360,6 +368,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -368,12 +377,12 @@
       <yloc>1595</yloc>
       </entry>
     <entry>
-      <name>MAIL (4)</name>
+      <name>MAIL &#x28;4&#x29;</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -392,6 +401,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -405,7 +415,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;REPROCESSING_INVALID_DATA.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -424,6 +434,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -435,11 +446,7 @@
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -452,12 +459,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;AD
       <yloc>65</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (3)</name>
+      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -470,12 +475,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <yloc>1805</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2)</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -493,7 +496,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -512,6 +515,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -523,87 +527,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>
-TRUNCATE TABLE STAG_ADJUSTED_DEMAND_FORECAST
-
-insert into STAG_ADJUSTED_DEMAND_FORECAST(
-
-ADJUSTED_DEMAND_FORECAST_INTF_ID
-,FORECAST_TYPE
-,YEAR
-,MONTH
-,ITEM_ID
-,ITEM_IDENTIFIER_CODE_QUALIFIER
-,ITEM_IDENTIFIER
-,BRAND_ID
-,SEGMENT
-,MARKET_SIZE_UNITS
-,MARKET_SHARE_RATIO
-,MARKET_SHARE_UNITS
-,UNCAPTURED_UNITS
-,UNCAPTURED_UNITS_RATIO
-,TOTAL_DEMAND_UNITS
-,TOTAL_DEMAND_AMOUNT
-,INVENTORY_UNIT_CHANGE
-,GROSS_UNITS
-,GROSS_PRICE
-,GROSS_AMOUNT
-,NET_SALES_PRICE
-,NET_SALES_AMOUNT
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_NAME
-,FORECAST_VER
-,COUNTRY
-,ORGANIZATION_KEY
-
-
-)
-select 
-
-ADJUSTED_DEMAND_FORECAST_INTF_ID
-,FORECAST_TYPE
-,YEAR
-,MONTH
-,ITEM_ID
-,ITEM_IDENTIFIER_CODE_QUALIFIER
-,ITEM_IDENTIFIER
-,BRAND_ID
-,SEGMENT
-,MARKET_SIZE_UNITS
-,MARKET_SHARE_RATIO
-,MARKET_SHARE_UNITS
-,UNCAPTURED_UNITS
-,UNCAPTURED_UNITS_RATIO
-,TOTAL_DEMAND_UNITS
-,TOTAL_DEMAND_AMOUNT
-,INVENTORY_UNIT_CHANGE
-,GROSS_UNITS
-,GROSS_PRICE
-,GROSS_AMOUNT
-,NET_SALES_PRICE
-,NET_SALES_AMOUNT
-,CREATED_BY
-,isnull(CREATED_DATE,getdate())
-,MODIFIED_BY
-,isnull(MODIFIED_DATE,getdate())
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_NAME
-,FORECAST_VER
-,COUNTRY
-,ORGANIZATION_KEY
-
- FROM ${STAGING_DB}..ADJUSTED_DEMAND_FORECAST_INTF
-
-
-</sql>
+      <sql>&#xa;TRUNCATE TABLE STAG_ADJUSTED_DEMAND_FORECAST&#xa;&#xa;insert into STAG_ADJUSTED_DEMAND_FORECAST&#x28;&#xa;&#xa;ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,FORECAST_TYPE&#xa;,YEAR&#xa;,MONTH&#xa;,ITEM_ID&#xa;,ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_IDENTIFIER&#xa;,BRAND_ID&#xa;,SEGMENT&#xa;,MARKET_SIZE_UNITS&#xa;,MARKET_SHARE_RATIO&#xa;,MARKET_SHARE_UNITS&#xa;,UNCAPTURED_UNITS&#xa;,UNCAPTURED_UNITS_RATIO&#xa;,TOTAL_DEMAND_UNITS&#xa;,TOTAL_DEMAND_AMOUNT&#xa;,INVENTORY_UNIT_CHANGE&#xa;,GROSS_UNITS&#xa;,GROSS_PRICE&#xa;,GROSS_AMOUNT&#xa;,NET_SALES_PRICE&#xa;,NET_SALES_AMOUNT&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_NAME&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,ORGANIZATION_KEY&#xa;&#xa;&#xa;&#x29;&#xa;select &#xa;&#xa;ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,FORECAST_TYPE&#xa;,YEAR&#xa;,MONTH&#xa;,ITEM_ID&#xa;,ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_IDENTIFIER&#xa;,BRAND_ID&#xa;,SEGMENT&#xa;,MARKET_SIZE_UNITS&#xa;,MARKET_SHARE_RATIO&#xa;,MARKET_SHARE_UNITS&#xa;,UNCAPTURED_UNITS&#xa;,UNCAPTURED_UNITS_RATIO&#xa;,TOTAL_DEMAND_UNITS&#xa;,TOTAL_DEMAND_AMOUNT&#xa;,INVENTORY_UNIT_CHANGE&#xa;,GROSS_UNITS&#xa;,GROSS_PRICE&#xa;,GROSS_AMOUNT&#xa;,NET_SALES_PRICE&#xa;,NET_SALES_AMOUNT&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_NAME&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,ORGANIZATION_KEY&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..ADJUSTED_DEMAND_FORECAST_INTF&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -621,7 +545,7 @@ ADJUSTED_DEMAND_FORECAST_INTF_ID
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;ADJUSTED_DEMAND_FORECAST_VALIDATION_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;ADJUSTED_DEMAND_FORECAST_VALIDATION_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -629,7 +553,7 @@ ADJUSTED_DEMAND_FORECAST_INTF_ID
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -640,6 +564,7 @@ ADJUSTED_DEMAND_FORECAST_INTF_ID
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -651,96 +576,7 @@ ADJUSTED_DEMAND_FORECAST_INTF_ID
       <name>ITEM VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST
-(
-
-ADJUSTED_DEMAND_FORECAST_INTF_ID
-,FORECAST_TYPE
-,YEAR
-,MONTH
-,ITEM_ID
-,ITEM_IDENTIFIER_CODE_QUALIFIER
-,ITEM_IDENTIFIER
-,BRAND_ID
-,SEGMENT
-,MARKET_SIZE_UNITS
-,MARKET_SHARE_RATIO
-,MARKET_SHARE_UNITS
-,UNCAPTURED_UNITS
-,UNCAPTURED_UNITS_RATIO
-,TOTAL_DEMAND_UNITS
-,TOTAL_DEMAND_AMOUNT
-,INVENTORY_UNIT_CHANGE
-,GROSS_UNITS
-,GROSS_PRICE
-,GROSS_AMOUNT
-,NET_SALES_PRICE
-,NET_SALES_AMOUNT
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_NAME
-,FORECAST_VER
-,COUNTRY
-,ORGANIZATION_KEY
-,REASON_FOR_FAILURE
-
-
-)
-
-SELECT
-
-a.ADJUSTED_DEMAND_FORECAST_INTF_ID
-,a.FORECAST_TYPE
-,a.YEAR
-,a.MONTH
-,a.ITEM_ID
-,a.ITEM_IDENTIFIER_CODE_QUALIFIER
-,a.ITEM_IDENTIFIER
-,a.BRAND_ID
-,a.SEGMENT
-,a.MARKET_SIZE_UNITS
-,a.MARKET_SHARE_RATIO
-,a.MARKET_SHARE_UNITS
-,a.UNCAPTURED_UNITS
-,a.UNCAPTURED_UNITS_RATIO
-,a.TOTAL_DEMAND_UNITS
-,a.TOTAL_DEMAND_AMOUNT
-,a.INVENTORY_UNIT_CHANGE
-,a.GROSS_UNITS
-,a.GROSS_PRICE
-,a.GROSS_AMOUNT
-,a.NET_SALES_PRICE
-,a.NET_SALES_AMOUNT
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_NAME
-,a.FORECAST_VER
-,a.COUNTRY
-,a.ORGANIZATION_KEY
-,&apos;Invalid ItemId&apos;
-
-
-
-
-       FROM STAG_ADJUSTED_DEMAND_FORECAST  A 
-WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID )
-
-
-
-</sql>
+      <sql>&#xa;&#xa;INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST&#xa;&#x28;&#xa;&#xa;ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,FORECAST_TYPE&#xa;,YEAR&#xa;,MONTH&#xa;,ITEM_ID&#xa;,ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_IDENTIFIER&#xa;,BRAND_ID&#xa;,SEGMENT&#xa;,MARKET_SIZE_UNITS&#xa;,MARKET_SHARE_RATIO&#xa;,MARKET_SHARE_UNITS&#xa;,UNCAPTURED_UNITS&#xa;,UNCAPTURED_UNITS_RATIO&#xa;,TOTAL_DEMAND_UNITS&#xa;,TOTAL_DEMAND_AMOUNT&#xa;,INVENTORY_UNIT_CHANGE&#xa;,GROSS_UNITS&#xa;,GROSS_PRICE&#xa;,GROSS_AMOUNT&#xa;,NET_SALES_PRICE&#xa;,NET_SALES_AMOUNT&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_NAME&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,ORGANIZATION_KEY&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;SELECT&#xa;&#xa;a.ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,a.FORECAST_TYPE&#xa;,a.YEAR&#xa;,a.MONTH&#xa;,a.ITEM_ID&#xa;,a.ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,a.ITEM_IDENTIFIER&#xa;,a.BRAND_ID&#xa;,a.SEGMENT&#xa;,a.MARKET_SIZE_UNITS&#xa;,a.MARKET_SHARE_RATIO&#xa;,a.MARKET_SHARE_UNITS&#xa;,a.UNCAPTURED_UNITS&#xa;,a.UNCAPTURED_UNITS_RATIO&#xa;,a.TOTAL_DEMAND_UNITS&#xa;,a.TOTAL_DEMAND_AMOUNT&#xa;,a.INVENTORY_UNIT_CHANGE&#xa;,a.GROSS_UNITS&#xa;,a.GROSS_PRICE&#xa;,a.GROSS_AMOUNT&#xa;,a.NET_SALES_PRICE&#xa;,a.NET_SALES_AMOUNT&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.ORGANIZATION_KEY&#xa;,&#x27;Invalid ItemId&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;       FROM STAG_ADJUSTED_DEMAND_FORECAST  A &#xa;WHERE NOT EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID &#x29;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -756,100 +592,7 @@ WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B
       <name>BRAND VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_ADJUSTED_DEMAND_FORECAST  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID )
-
-INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST
-(
-
-ADJUSTED_DEMAND_FORECAST_INTF_ID
-,FORECAST_TYPE
-,YEAR
-,MONTH
-,ITEM_ID
-,ITEM_IDENTIFIER_CODE_QUALIFIER
-,ITEM_IDENTIFIER
-,BRAND_ID
-,SEGMENT
-,MARKET_SIZE_UNITS
-,MARKET_SHARE_RATIO
-,MARKET_SHARE_UNITS
-,UNCAPTURED_UNITS
-,UNCAPTURED_UNITS_RATIO
-,TOTAL_DEMAND_UNITS
-,TOTAL_DEMAND_AMOUNT
-,INVENTORY_UNIT_CHANGE
-,GROSS_UNITS
-,GROSS_PRICE
-,GROSS_AMOUNT
-,NET_SALES_PRICE
-,NET_SALES_AMOUNT
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_NAME
-,FORECAST_VER
-,COUNTRY
-,ORGANIZATION_KEY
-,REASON_FOR_FAILURE
-
-
-)
-
-select 
-
-a.ADJUSTED_DEMAND_FORECAST_INTF_ID
-,a.FORECAST_TYPE
-,a.YEAR
-,a.MONTH
-,a.ITEM_ID
-,a.ITEM_IDENTIFIER_CODE_QUALIFIER
-,a.ITEM_IDENTIFIER
-,a.BRAND_ID
-,a.SEGMENT
-,a.MARKET_SIZE_UNITS
-,a.MARKET_SHARE_RATIO
-,a.MARKET_SHARE_UNITS
-,a.UNCAPTURED_UNITS
-,a.UNCAPTURED_UNITS_RATIO
-,a.TOTAL_DEMAND_UNITS
-,a.TOTAL_DEMAND_AMOUNT
-,a.INVENTORY_UNIT_CHANGE
-,a.GROSS_UNITS
-,a.GROSS_PRICE
-,a.GROSS_AMOUNT
-,a.NET_SALES_PRICE
-,a.NET_SALES_AMOUNT
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_NAME
-,a.FORECAST_VER
-,a.COUNTRY
-,a.ORGANIZATION_KEY
-,&apos;Invalid Brand_Id&apos;
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM BRAND_MASTER  B 
-           WHERE A.BRAND_ID=B.BRAND_ID )
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_ADJUSTED_DEMAND_FORECAST  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID &#x29;&#xa;&#xa;INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST&#xa;&#x28;&#xa;&#xa;ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,FORECAST_TYPE&#xa;,YEAR&#xa;,MONTH&#xa;,ITEM_ID&#xa;,ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_IDENTIFIER&#xa;,BRAND_ID&#xa;,SEGMENT&#xa;,MARKET_SIZE_UNITS&#xa;,MARKET_SHARE_RATIO&#xa;,MARKET_SHARE_UNITS&#xa;,UNCAPTURED_UNITS&#xa;,UNCAPTURED_UNITS_RATIO&#xa;,TOTAL_DEMAND_UNITS&#xa;,TOTAL_DEMAND_AMOUNT&#xa;,INVENTORY_UNIT_CHANGE&#xa;,GROSS_UNITS&#xa;,GROSS_PRICE&#xa;,GROSS_AMOUNT&#xa;,NET_SALES_PRICE&#xa;,NET_SALES_AMOUNT&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_NAME&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,ORGANIZATION_KEY&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa;&#xa;a.ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,a.FORECAST_TYPE&#xa;,a.YEAR&#xa;,a.MONTH&#xa;,a.ITEM_ID&#xa;,a.ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,a.ITEM_IDENTIFIER&#xa;,a.BRAND_ID&#xa;,a.SEGMENT&#xa;,a.MARKET_SIZE_UNITS&#xa;,a.MARKET_SHARE_RATIO&#xa;,a.MARKET_SHARE_UNITS&#xa;,a.UNCAPTURED_UNITS&#xa;,a.UNCAPTURED_UNITS_RATIO&#xa;,a.TOTAL_DEMAND_UNITS&#xa;,a.TOTAL_DEMAND_AMOUNT&#xa;,a.INVENTORY_UNIT_CHANGE&#xa;,a.GROSS_UNITS&#xa;,a.GROSS_PRICE&#xa;,a.GROSS_AMOUNT&#xa;,a.NET_SALES_PRICE&#xa;,a.NET_SALES_AMOUNT&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.ORGANIZATION_KEY&#xa;,&#x27;Invalid Brand_Id&#x27;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM BRAND_MASTER  B &#xa;           WHERE A.BRAND_ID&#x3d;B.BRAND_ID &#x29;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -865,99 +608,7 @@ WHERE not  EXISTS (SELECT 1 FROM BRAND_MASTER  B
       <name>ORGANIZATION VALIDATION </name>
       <description/>
       <type>SQL</type>
-      <sql>
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_ADJUSTED_DEMAND_FORECAST  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID )
-	AND	    EXISTS (SELECT 1 FROM BRAND_MASTER  B 
-           WHERE A.BRAND_ID=B.BRAND_ID )
-
-
-
-INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST
-(
-ADJUSTED_DEMAND_FORECAST_INTF_ID
-,FORECAST_TYPE
-,YEAR
-,MONTH
-,ITEM_ID
-,ITEM_IDENTIFIER_CODE_QUALIFIER
-,ITEM_IDENTIFIER
-,BRAND_ID
-,SEGMENT
-,MARKET_SIZE_UNITS
-,MARKET_SHARE_RATIO
-,MARKET_SHARE_UNITS
-,UNCAPTURED_UNITS
-,UNCAPTURED_UNITS_RATIO
-,TOTAL_DEMAND_UNITS
-,TOTAL_DEMAND_AMOUNT
-,INVENTORY_UNIT_CHANGE
-,GROSS_UNITS
-,GROSS_PRICE
-,GROSS_AMOUNT
-,NET_SALES_PRICE
-,NET_SALES_AMOUNT
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_NAME
-,FORECAST_VER
-,COUNTRY
-,ORGANIZATION_KEY
-,REASON_FOR_FAILURE
-
-)
-
-select 
-a.ADJUSTED_DEMAND_FORECAST_INTF_ID
-,a.FORECAST_TYPE
-,a.YEAR
-,a.MONTH
-,a.ITEM_ID
-,a.ITEM_IDENTIFIER_CODE_QUALIFIER
-,a.ITEM_IDENTIFIER
-,a.BRAND_ID
-,a.SEGMENT
-,a.MARKET_SIZE_UNITS
-,a.MARKET_SHARE_RATIO
-,a.MARKET_SHARE_UNITS
-,a.UNCAPTURED_UNITS
-,a.UNCAPTURED_UNITS_RATIO
-,a.TOTAL_DEMAND_UNITS
-,a.TOTAL_DEMAND_AMOUNT
-,a.INVENTORY_UNIT_CHANGE
-,a.GROSS_UNITS
-,a.GROSS_PRICE
-,a.GROSS_AMOUNT
-,a.NET_SALES_PRICE
-,a.NET_SALES_AMOUNT
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_NAME
-,a.FORECAST_VER
-,a.COUNTRY
-,a.ORGANIZATION_KEY
-,&apos;Invalid OrganizationKey&apos;
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B 
-           WHERE A.ORGANIZATION_KEY=B.COMPANY_ID )
-
-</sql>
+      <sql>&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_ADJUSTED_DEMAND_FORECAST  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID &#x29;&#xa;	AND	    EXISTS &#x28;SELECT 1 FROM BRAND_MASTER  B &#xa;           WHERE A.BRAND_ID&#x3d;B.BRAND_ID &#x29;&#xa;&#xa;&#xa;&#xa;INSERT INTO IVLD_ADJUSTED_DEMAND_FORECAST&#xa;&#x28;&#xa;ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,FORECAST_TYPE&#xa;,YEAR&#xa;,MONTH&#xa;,ITEM_ID&#xa;,ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_IDENTIFIER&#xa;,BRAND_ID&#xa;,SEGMENT&#xa;,MARKET_SIZE_UNITS&#xa;,MARKET_SHARE_RATIO&#xa;,MARKET_SHARE_UNITS&#xa;,UNCAPTURED_UNITS&#xa;,UNCAPTURED_UNITS_RATIO&#xa;,TOTAL_DEMAND_UNITS&#xa;,TOTAL_DEMAND_AMOUNT&#xa;,INVENTORY_UNIT_CHANGE&#xa;,GROSS_UNITS&#xa;,GROSS_PRICE&#xa;,GROSS_AMOUNT&#xa;,NET_SALES_PRICE&#xa;,NET_SALES_AMOUNT&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_NAME&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,ORGANIZATION_KEY&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa;a.ADJUSTED_DEMAND_FORECAST_INTF_ID&#xa;,a.FORECAST_TYPE&#xa;,a.YEAR&#xa;,a.MONTH&#xa;,a.ITEM_ID&#xa;,a.ITEM_IDENTIFIER_CODE_QUALIFIER&#xa;,a.ITEM_IDENTIFIER&#xa;,a.BRAND_ID&#xa;,a.SEGMENT&#xa;,a.MARKET_SIZE_UNITS&#xa;,a.MARKET_SHARE_RATIO&#xa;,a.MARKET_SHARE_UNITS&#xa;,a.UNCAPTURED_UNITS&#xa;,a.UNCAPTURED_UNITS_RATIO&#xa;,a.TOTAL_DEMAND_UNITS&#xa;,a.TOTAL_DEMAND_AMOUNT&#xa;,a.INVENTORY_UNIT_CHANGE&#xa;,a.GROSS_UNITS&#xa;,a.GROSS_PRICE&#xa;,a.GROSS_AMOUNT&#xa;,a.NET_SALES_PRICE&#xa;,a.NET_SALES_AMOUNT&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.ORGANIZATION_KEY&#xa;,&#x27;Invalid OrganizationKey&#x27;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM COMPANY_MASTER  B &#xa;           WHERE A.ORGANIZATION_KEY&#x3d;B.COMPANY_ID &#x29;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -975,7 +626,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -994,6 +645,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1007,7 +659,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1021,8 +673,10 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -1037,7 +691,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1056,6 +710,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1067,7 +722,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_FORECAST_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1101,7 +756,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SET_STAG_COUNT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1120,6 +775,7 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1128,11 +784,10 @@ WHERE not  EXISTS (SELECT 1 FROM COMPANY_MASTER  B
       <yloc>316</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;</sql>
+      <sql>&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1148,166 +803,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <name>ADJUSTED DEMAND FORECAST TABLE</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
---DECLARE @sql nvarchar(max)
---DECLARE @sql1 nvarchar(max)
---DECLARE @TABLE_NAME varchar(100),@columnName varchar(100)=&apos;a&apos;,@columnName1 varchar(100)=&apos;b&apos;
---SET @TABLE_NAME =(SELECT CONCAT(&apos;ADJUSTED_DEMAND_FORECAST&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
---    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
---    ELSE &apos;SEMI_ANNUAL_2&apos;
---  END))
--- -- select @TABLE_NAME
-
---  IF NOT EXISTS (SELECT &apos;X&apos;
---               FROM   INFORMATION_SCHEMA.TABLES
---               WHERE  TABLE_NAME = @TABLE_NAME
---                      AND TABLE_SCHEMA = &apos;dbo&apos;)
---  BEGIN
---  -- select 1
-
-   
-----DECLARE @TABLE_NAME varchar(100)
-----SET @TABLE_NAME =(SELECT CONCAT(&apos;A&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
-----    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
-----    ELSE &apos;SEMI_ANNUAL_2&apos;
-----  END))
-
---  --DECLARE  @SQL NVARCHAR(MAX), @SQL1 NVARCHAR(MAX)
---  set @sql1=&apos;
-
---   [ADJUSTED_DEMAND_FORECAST_SID] [int]  NOT NULL,
---	[FORECAST_TYPE] [varchar](50) NOT NULL,
---	[YEAR] [varchar](5) NOT NULL,
---	[MONTH] [tinyint] NOT NULL,
---	[ITEM_ID] [varchar](38) NOT NULL,
---	[ITEM_MASTER_SID] [int] NOT NULL,
---	[ITEM_IDENTIFIER_CODE_QUALIFIER] [varchar](25) NULL,
---	[ITEM_IDENTIFIER] [varchar](50) NULL,
---	[BRAND_ID] [varchar](50) NULL,
---	[BRAND_MASTER_SID] [int] NULL,
---	[SEGMENT] [varchar](50) NULL,
---	[MARKET_SIZE_UNITS] [numeric](22, 6) NULL,
---	[MARKET_SHARE_RATIO] [varchar](25) NULL,
---	[MARKET_SHARE_UNITS] [numeric](22, 6) NULL,
---	[UNCAPTURED_UNITS] [numeric](22, 6) NULL,
---	[UNCAPTURED_UNITS_RATIO] [varchar](25) NULL,
---	[TOTAL_DEMAND_UNITS] [numeric](22, 6) NOT NULL,
---	[TOTAL_DEMAND_AMOUNT] [numeric](22, 6) NOT NULL,
---	[INVENTORY_UNIT_CHANGE] [numeric](22, 6) NULL,
---	[GROSS_UNITS] [numeric](22, 6) NULL,
---	[GROSS_PRICE] [numeric](22, 6) NULL,
---	[GROSS_AMOUNT] [numeric](22, 6) NULL,
---	[NET_SALES_PRICE] [numeric](22, 6) NULL,
---	[NET_SALES_AMOUNT] [numeric](22, 6) NULL,
---	[CREATED_BY] [int] NOT NULL,
---	[CREATED_DATE] [datetime] NOT NULL,
---	[MODIFIED_BY] [int] NOT NULL,
---	[MODIFIED_DATE] [datetime] NOT NULL,
---	[INBOUND_STATUS] [char](1) NULL,
---	[RECORD_LOCK_STATUS] [bit] NOT NULL,
---	[BATCH_ID] [varchar](38) NOT NULL,
---	[SOURCE] [varchar](50) NOT NULL,
---	[FORECAST_NAME] [varchar](100) NOT NULL,
---	[FORECAST_VER] [varchar](15) NOT NULL,
---	[COUNTRY] [varchar](25) NOT NULL,
---	[ORGANIZATION_KEY] [varchar](50) NOT NULL,
---	[BUSINESS_UNIT] [int] NULL
-
---        &apos;
---SET @SQL =&apos;CREATE TABLE &apos;  + @TABLE_NAME + &apos;( &apos;+@sql1+&apos; )&apos;
---exec(  @SQL)
-
-
-
-
-
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from ADJUSTED_DEMAND_FORECAST&apos;
-
---  exec (@sql)
---   end
-
---   else
-
---   begin
-----select 3
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from ADJUSTED_DEMAND_FORECAST&apos;
-
---    exec (@sql)
-
---   end
-
-
-DECLARE @SQL NVARCHAR(MAX)
-       ,@SQL1 NVARCHAR(MAX)
-       ,@TABLE_NAME VARCHAR(100)
-       ,@SQL2 NVARCHAR(MAX)
-
-SELECT @TABLE_NAME = (SELECT CONCAT (&apos;ADJUSTED_DEMAND_FORECAST&apos;,&apos;_&apos;,YEAR(GETDATE()),&apos;_&apos;,CASE WHEN MONTH(GETDATE()) &lt;= 6 THEN &apos;SEMI_ANNUAL_1&apos; ELSE &apos;SEMI_ANNUAL_2&apos; END))
-
-
-IF NOT EXISTS (
-              SELECT &apos;X&apos;
-              FROM INFORMATION_SCHEMA.TABLES
-              WHERE TABLE_NAME = @TABLE_NAME
-                     AND TABLE_SCHEMA = &apos;DBO&apos;
-              )
-BEGIN
-       SET @SQL1 = &apos;
-SELECT @SQL2=STUFF((
-            SELECT &apos;&apos;,&apos;&apos; + CONCAT(COLUMN_NAME,&apos;&apos; &apos;&apos; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN ( &apos;&apos;char&apos;&apos; ,&apos;&apos;VARCHAR&apos;&apos; )
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,CHARACTER_MAXIMUM_LENGTH
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         WHEN DATA_TYPE = &apos;&apos;numeric&apos;&apos;
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,NUMERIC_PRECISION
-                                                              ,&apos;&apos;,&apos;&apos;,NUMERIC_SCALE
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         ELSE &apos;&apos;&apos;&apos;
-                                         END
-                                  ,&apos;&apos; &apos;&apos; ,CASE WHEN IS_NULLABLE=&apos;&apos;NO&apos;&apos; THEN &apos;&apos;NOT NULL&apos;&apos; ELSE &apos;&apos;NULL&apos;&apos; END )
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME =&apos;&apos;ADJUSTED_DEMAND_FORECAST&apos;&apos;
-                     order by ORDINAL_POSITION 
-            FOR XML PATH(&apos;&apos;&apos;&apos;)
-            ), 1, 1, &apos;&apos;&apos;&apos;) 
-&apos;
-
-       EXEC SP_EXECUTESQL @SQL1
-              ,N&apos;@SQL2 NVARCHAR(MAX) OUTPUT&apos;
-              ,@SQL2 OUTPUT
-       SET @SQL = &apos;CREATE TABLE &apos; + @TABLE_NAME + &apos;( &apos; + @SQL2 + &apos; )&apos;
-
-       EXEC (@SQL)
-
-       SET @SQL = &apos;INSERT INTO &apos; + @TABLE_NAME + &apos; SELECT * FROM ADJUSTED_DEMAND_FORECAST&apos;
-
-       EXEC (@SQL)
-END
-ELSE
-BEGIN
-       SET @SQL = &apos;INSERT INTO  &apos; + @TABLE_NAME + &apos; SELECT * FROM ADJUSTED_DEMAND_FORECAST&apos;
-
-       EXEC (@SQL)
-         
-END
-
-
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;--DECLARE &#x40;sql nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;sql1 nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;,&#x40;columnName varchar&#x28;100&#x29;&#x3d;&#x27;a&#x27;,&#x40;columnName1 varchar&#x28;100&#x29;&#x3d;&#x27;b&#x27;&#xa;--SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;ADJUSTED_DEMAND_FORECAST&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;--    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;--    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;--  END&#x29;&#x29;&#xa;-- -- select &#x40;TABLE_NAME&#xa;&#xa;--  IF NOT EXISTS &#x28;SELECT &#x27;X&#x27;&#xa;--               FROM   INFORMATION_SCHEMA.TABLES&#xa;--               WHERE  TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;--                      AND TABLE_SCHEMA &#x3d; &#x27;dbo&#x27;&#x29;&#xa;--  BEGIN&#xa;--  -- select 1&#xa;&#xa;   &#xa;----DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;&#xa;----SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;A&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;----    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;----    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;----  END&#x29;&#x29;&#xa;&#xa;--  --DECLARE  &#x40;SQL NVARCHAR&#x28;MAX&#x29;, &#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;--  set &#x40;sql1&#x3d;&#x27;&#xa;&#xa;--   &#x5b;ADJUSTED_DEMAND_FORECAST_SID&#x5d; &#x5b;int&#x5d;  NOT NULL,&#xa;--	&#x5b;FORECAST_TYPE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;YEAR&#x5d; &#x5b;varchar&#x5d;&#x28;5&#x29; NOT NULL,&#xa;--	&#x5b;MONTH&#x5d; &#x5b;tinyint&#x5d; NOT NULL,&#xa;--	&#x5b;ITEM_ID&#x5d; &#x5b;varchar&#x5d;&#x28;38&#x29; NOT NULL,&#xa;--	&#x5b;ITEM_MASTER_SID&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;ITEM_IDENTIFIER_CODE_QUALIFIER&#x5d; &#x5b;varchar&#x5d;&#x28;25&#x29; NULL,&#xa;--	&#x5b;ITEM_IDENTIFIER&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;BRAND_ID&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;BRAND_MASTER_SID&#x5d; &#x5b;int&#x5d; NULL,&#xa;--	&#x5b;SEGMENT&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;MARKET_SIZE_UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;MARKET_SHARE_RATIO&#x5d; &#x5b;varchar&#x5d;&#x28;25&#x29; NULL,&#xa;--	&#x5b;MARKET_SHARE_UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;UNCAPTURED_UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;UNCAPTURED_UNITS_RATIO&#x5d; &#x5b;varchar&#x5d;&#x28;25&#x29; NULL,&#xa;--	&#x5b;TOTAL_DEMAND_UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NOT NULL,&#xa;--	&#x5b;TOTAL_DEMAND_AMOUNT&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NOT NULL,&#xa;--	&#x5b;INVENTORY_UNIT_CHANGE&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;GROSS_UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;GROSS_PRICE&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;GROSS_AMOUNT&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;NET_SALES_PRICE&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;NET_SALES_AMOUNT&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;CREATED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;CREATED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL,&#xa;--	&#x5b;INBOUND_STATUS&#x5d; &#x5b;char&#x5d;&#x28;1&#x29; NULL,&#xa;--	&#x5b;RECORD_LOCK_STATUS&#x5d; &#x5b;bit&#x5d; NOT NULL,&#xa;--	&#x5b;BATCH_ID&#x5d; &#x5b;varchar&#x5d;&#x28;38&#x29; NOT NULL,&#xa;--	&#x5b;SOURCE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_NAME&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_VER&#x5d; &#x5b;varchar&#x5d;&#x28;15&#x29; NOT NULL,&#xa;--	&#x5b;COUNTRY&#x5d; &#x5b;varchar&#x5d;&#x28;25&#x29; NOT NULL,&#xa;--	&#x5b;ORGANIZATION_KEY&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;BUSINESS_UNIT&#x5d; &#x5b;int&#x5d; NULL&#xa;&#xa;--        &#x27;&#xa;--SET &#x40;SQL &#x3d;&#x27;CREATE TABLE &#x27;  &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27;&#x2b;&#x40;sql1&#x2b;&#x27; &#x29;&#x27;&#xa;--exec&#x28;  &#x40;SQL&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from ADJUSTED_DEMAND_FORECAST&#x27;&#xa;&#xa;--  exec &#x28;&#x40;sql&#x29;&#xa;--   end&#xa;&#xa;--   else&#xa;&#xa;--   begin&#xa;----select 3&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from ADJUSTED_DEMAND_FORECAST&#x27;&#xa;&#xa;--    exec &#x28;&#x40;sql&#x29;&#xa;&#xa;--   end&#xa;&#xa;&#xa;DECLARE &#x40;SQL NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#xa;       ,&#x40;SQL2 NVARCHAR&#x28;MAX&#x29;&#xa;&#xa;SELECT &#x40;TABLE_NAME &#x3d; &#x28;SELECT CONCAT &#x28;&#x27;ADJUSTED_DEMAND_FORECAST&#x27;,&#x27;_&#x27;,YEAR&#x28;GETDATE&#x28;&#x29;&#x29;,&#x27;_&#x27;,CASE WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d; 6 THEN &#x27;SEMI_ANNUAL_1&#x27; ELSE &#x27;SEMI_ANNUAL_2&#x27; END&#x29;&#x29;&#xa;&#xa;&#xa;IF NOT EXISTS &#x28;&#xa;              SELECT &#x27;X&#x27;&#xa;              FROM INFORMATION_SCHEMA.TABLES&#xa;              WHERE TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;                     AND TABLE_SCHEMA &#x3d; &#x27;DBO&#x27;&#xa;              &#x29;&#xa;BEGIN&#xa;       SET &#x40;SQL1 &#x3d; &#x27;&#xa;SELECT &#x40;SQL2&#x3d;STUFF&#x28;&#x28;&#xa;            SELECT &#x27;&#x27;,&#x27;&#x27; &#x2b; CONCAT&#x28;COLUMN_NAME,&#x27;&#x27; &#x27;&#x27; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN &#x28; &#x27;&#x27;char&#x27;&#x27; ,&#x27;&#x27;VARCHAR&#x27;&#x27; &#x29;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,CHARACTER_MAXIMUM_LENGTH&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         WHEN DATA_TYPE &#x3d; &#x27;&#x27;numeric&#x27;&#x27;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,NUMERIC_PRECISION&#xa;                                                              ,&#x27;&#x27;,&#x27;&#x27;,NUMERIC_SCALE&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         ELSE &#x27;&#x27;&#x27;&#x27;&#xa;                                         END&#xa;                                  ,&#x27;&#x27; &#x27;&#x27; ,CASE WHEN IS_NULLABLE&#x3d;&#x27;&#x27;NO&#x27;&#x27; THEN &#x27;&#x27;NOT NULL&#x27;&#x27; ELSE &#x27;&#x27;NULL&#x27;&#x27; END &#x29;&#xa;            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME &#x3d;&#x27;&#x27;ADJUSTED_DEMAND_FORECAST&#x27;&#x27;&#xa;                     order by ORDINAL_POSITION &#xa;            FOR XML PATH&#x28;&#x27;&#x27;&#x27;&#x27;&#x29;&#xa;            &#x29;, 1, 1, &#x27;&#x27;&#x27;&#x27;&#x29; &#xa;&#x27;&#xa;&#xa;       EXEC SP_EXECUTESQL &#x40;SQL1&#xa;              ,N&#x27;&#x40;SQL2 NVARCHAR&#x28;MAX&#x29; OUTPUT&#x27;&#xa;              ,&#x40;SQL2 OUTPUT&#xa;       SET &#x40;SQL &#x3d; &#x27;CREATE TABLE &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27; &#x2b; &#x40;SQL2 &#x2b; &#x27; &#x29;&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM ADJUSTED_DEMAND_FORECAST&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;END&#xa;ELSE&#xa;BEGIN&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO  &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM ADJUSTED_DEMAND_FORECAST&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;         &#xa;END&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1325,7 +821,7 @@ END
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1363,86 +859,7 @@ END
       <name>ADJUSTED DEMAND FORECAST TABLE 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-      INSERT INTO HIST_ADJUSTED_DEMAND_FORECAST
-                  (ADJUSTED_DEMAND_FORECAST_SID,
-                   FORECAST_TYPE,
-                   YEAR,
-                   MONTH,
-                   ITEM_ID,
-                   ITEM_MASTER_SID,
-                   ITEM_IDENTIFIER_CODE_QUALIFIER,
-                   ITEM_IDENTIFIER,
-                   BRAND_ID,
-                   BRAND_MASTER_SID,
-                   SEGMENT,
-                   MARKET_SIZE_UNITS,
-                   MARKET_SHARE_RATIO,
-                   MARKET_SHARE_UNITS,
-                   UNCAPTURED_UNITS,
-                   UNCAPTURED_UNITS_RATIO,
-                   TOTAL_DEMAND_UNITS,
-                   TOTAL_DEMAND_AMOUNT,
-                   INVENTORY_UNIT_CHANGE,
-                   GROSS_UNITS,
-                   GROSS_PRICE,
-                   GROSS_AMOUNT,
-                   NET_SALES_PRICE,
-                   NET_SALES_AMOUNT,
-                   CREATED_BY,
-                   CREATED_DATE,
-                   MODIFIED_BY,
-                   MODIFIED_DATE,
-                   INBOUND_STATUS,
-                   RECORD_LOCK_STATUS,
-                   BATCH_ID,
-                   SOURCE,
-                   FORECAST_NAME,
-                   FORECAST_VER,
-                   COUNTRY,
-                   ORGANIZATION_KEY,
-                   ACTION_FLAG,
-				   BUSINESS_UNIT)
-      SELECT ADJUSTED_DEMAND_FORECAST_SID,
-             FORECAST_TYPE,
-             YEAR,
-             MONTH,
-             ITEM_ID,
-             ITEM_MASTER_SID,
-             ITEM_IDENTIFIER_CODE_QUALIFIER,
-             ITEM_IDENTIFIER,
-             BRAND_ID,
-             BRAND_MASTER_SID,
-             SEGMENT,
-             MARKET_SIZE_UNITS,
-             MARKET_SHARE_RATIO,
-             MARKET_SHARE_UNITS,
-             UNCAPTURED_UNITS,
-             UNCAPTURED_UNITS_RATIO,
-             TOTAL_DEMAND_UNITS,
-             TOTAL_DEMAND_AMOUNT,
-             INVENTORY_UNIT_CHANGE,
-             GROSS_UNITS,
-             GROSS_PRICE,
-             GROSS_AMOUNT,
-             NET_SALES_PRICE,
-             NET_SALES_AMOUNT,
-             CREATED_BY,
-             CREATED_DATE,
-             MODIFIED_BY,
-             MODIFIED_DATE,
-             INBOUND_STATUS,
-             RECORD_LOCK_STATUS,
-             BATCH_ID,
-             SOURCE,
-             FORECAST_NAME,
-             FORECAST_VER,
-             COUNTRY,
-             ORGANIZATION_KEY,
-             &apos;D&apos;,
-			 BUSINESS_UNIT
-      FROM   ADJUSTED_DEMAND_FORECAST
-</sql>
+      <sql>&#xa;      INSERT INTO HIST_ADJUSTED_DEMAND_FORECAST&#xa;                  &#x28;ADJUSTED_DEMAND_FORECAST_SID,&#xa;                   FORECAST_TYPE,&#xa;                   YEAR,&#xa;                   MONTH,&#xa;                   ITEM_ID,&#xa;                   ITEM_MASTER_SID,&#xa;                   ITEM_IDENTIFIER_CODE_QUALIFIER,&#xa;                   ITEM_IDENTIFIER,&#xa;                   BRAND_ID,&#xa;                   BRAND_MASTER_SID,&#xa;                   SEGMENT,&#xa;                   MARKET_SIZE_UNITS,&#xa;                   MARKET_SHARE_RATIO,&#xa;                   MARKET_SHARE_UNITS,&#xa;                   UNCAPTURED_UNITS,&#xa;                   UNCAPTURED_UNITS_RATIO,&#xa;                   TOTAL_DEMAND_UNITS,&#xa;                   TOTAL_DEMAND_AMOUNT,&#xa;                   INVENTORY_UNIT_CHANGE,&#xa;                   GROSS_UNITS,&#xa;                   GROSS_PRICE,&#xa;                   GROSS_AMOUNT,&#xa;                   NET_SALES_PRICE,&#xa;                   NET_SALES_AMOUNT,&#xa;                   CREATED_BY,&#xa;                   CREATED_DATE,&#xa;                   MODIFIED_BY,&#xa;                   MODIFIED_DATE,&#xa;                   INBOUND_STATUS,&#xa;                   RECORD_LOCK_STATUS,&#xa;                   BATCH_ID,&#xa;                   SOURCE,&#xa;                   FORECAST_NAME,&#xa;                   FORECAST_VER,&#xa;                   COUNTRY,&#xa;                   ORGANIZATION_KEY,&#xa;                   ACTION_FLAG,&#xa;				   BUSINESS_UNIT&#x29;&#xa;      SELECT ADJUSTED_DEMAND_FORECAST_SID,&#xa;             FORECAST_TYPE,&#xa;             YEAR,&#xa;             MONTH,&#xa;             ITEM_ID,&#xa;             ITEM_MASTER_SID,&#xa;             ITEM_IDENTIFIER_CODE_QUALIFIER,&#xa;             ITEM_IDENTIFIER,&#xa;             BRAND_ID,&#xa;             BRAND_MASTER_SID,&#xa;             SEGMENT,&#xa;             MARKET_SIZE_UNITS,&#xa;             MARKET_SHARE_RATIO,&#xa;             MARKET_SHARE_UNITS,&#xa;             UNCAPTURED_UNITS,&#xa;             UNCAPTURED_UNITS_RATIO,&#xa;             TOTAL_DEMAND_UNITS,&#xa;             TOTAL_DEMAND_AMOUNT,&#xa;             INVENTORY_UNIT_CHANGE,&#xa;             GROSS_UNITS,&#xa;             GROSS_PRICE,&#xa;             GROSS_AMOUNT,&#xa;             NET_SALES_PRICE,&#xa;             NET_SALES_AMOUNT,&#xa;             CREATED_BY,&#xa;             CREATED_DATE,&#xa;             MODIFIED_BY,&#xa;             MODIFIED_DATE,&#xa;             INBOUND_STATUS,&#xa;             RECORD_LOCK_STATUS,&#xa;             BATCH_ID,&#xa;             SOURCE,&#xa;             FORECAST_NAME,&#xa;             FORECAST_VER,&#xa;             COUNTRY,&#xa;             ORGANIZATION_KEY,&#xa;             &#x27;D&#x27;,&#xa;			 BUSINESS_UNIT&#xa;      FROM   ADJUSTED_DEMAND_FORECAST&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1458,13 +875,7 @@ END
       <name>FULL LOAD PURGE DAYS</name>
       <description/>
       <type>SQL</type>
-      <sql>
-DECLARE @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-DELETE FROM HIST_ADJUSTED_DEMAND_FORECAST
-WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)
-
-
-</sql>
+      <sql>&#xa;DECLARE &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;DELETE FROM HIST_ADJUSTED_DEMAND_FORECAST&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1480,29 +891,7 @@ WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @SQL        VARCHAR(MAX),
-        @TABLE_NAME VARCHAR(100)=&apos;SNAP_ADJUSTED_DEMAND_FORECAST&apos;,
-        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-		,@var1 varchar(2)=&apos;&lt;&apos;
-
-
-SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
-
-SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
-
-
-exec( @SQL)
-
-SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;))
-
-exec( @SQL) 
-</sql>
+      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_ADJUSTED_DEMAND_FORECAST&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1520,7 +909,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1539,6 +928,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1550,7 +940,7 @@ exec( @SQL)
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;ADJUSTED_DEMAND_FORECAST_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1566,7 +956,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;FULLLOAD.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULLLOAD.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1574,7 +964,7 @@ exec( @SQL)
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1585,6 +975,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1598,7 +989,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1638,7 +1029,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1657,6 +1048,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1688,7 +1080,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1710,7 +1102,7 @@ exec( @SQL)
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1724,8 +1116,10 @@ exec( @SQL)
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -1740,7 +1134,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1757,12 +1151,12 @@ exec( @SQL)
       <yloc>455</yloc>
       </entry>
     <entry>
-      <name>MAIL (2) 2</name>
+      <name>MAIL &#x28;2&#x29; 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1781,6 +1175,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1794,7 +1189,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1816,7 +1211,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -1833,12 +1228,10 @@ exec( @SQL)
       <yloc>461</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1851,12 +1244,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <yloc>789</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ADJUSTED_DEMAND_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ADJUSTED_DEMAND_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1872,7 +1263,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <name>Check if a folder is empty 3</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;${INTERFACE_NAME_INPUT}</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;INTERFACE_NAME_INPUT&#x7d;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -1881,6 +1272,39 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <nr>0</nr>
       <xloc>971</xloc>
       <yloc>132</yloc>
+      </entry>
+    <entry>
+      <name>UNLOCK</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>995</xloc>
+      <yloc>1564</yloc>
       </entry>
   </entries>
   <hops>
@@ -1913,7 +1337,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>VALIDATIONS</from>
-      <to>MAIL (2)</to>
+      <to>MAIL &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1922,7 +1346,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>TRUNCATE STAG TABLE</from>
-      <to>MAIL (3)</to>
+      <to>MAIL &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1931,7 +1355,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>TRUNCATE INTERFACE TABLE</from>
-      <to>MAIL (4)</to>
+      <to>MAIL &#x28;4&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1940,7 +1364,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1948,8 +1372,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2)</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <from>MAIL &#x28;2&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1957,8 +1381,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (3)</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <from>MAIL &#x28;3&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1966,8 +1390,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (4)</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <from>MAIL &#x28;4&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2015,13 +1439,13 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <to>TRUNCATE STAG TABLE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
     <hop>
       <from>VALIDATIONS 2</from>
-      <to>MAIL (2)</to>
+      <to>MAIL &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2066,7 +1490,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>ITEM VALIDATION</from>
-      <to>MAIL (2)</to>
+      <to>MAIL &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2075,7 +1499,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>BRAND VALIDATION</from>
-      <to>MAIL (2)</to>
+      <to>MAIL &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2084,7 +1508,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>ORGANIZATION VALIDATION </from>
-      <to>MAIL (2)</to>
+      <to>MAIL &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2119,7 +1543,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
+      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2138,7 +1562,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2165,7 +1589,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>CHECKING FILE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2174,7 +1598,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2426,7 +1850,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL (2) 2</to>
+      <to>MAIL &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2444,7 +1868,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2461,7 +1885,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2470,8 +1894,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2479,7 +1903,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2488,8 +1912,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>N</enabled>
@@ -2498,7 +1922,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2506,8 +1930,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2)</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2515,8 +1939,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (3)</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;3&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2524,8 +1948,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (4)</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;4&#x29;</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2533,7 +1957,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2543,7 +1967,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2551,7 +1975,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2595,7 +2019,26 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;AD
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>VALIDATIONS 2</from>
+      <to>UNLOCK</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>UNLOCK</from>
+      <to>TRUNCATE STAG TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
+
 </job>

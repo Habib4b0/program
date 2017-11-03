@@ -15,8 +15,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -53,11 +51,20 @@ public class FcpResultsLogic {
     private static final DecimalFormat PER_TWO = new DecimalFormat("0.00%");
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.00");
     public static final String ACTUALS_AND_PROJECTIONS = "Actuals and Projections";
+    public static final String FCP_CPI_U = "FCP_CPI_U";
+    public static final String FCP_NON_FAMP = "FCP_NON_FAMP";
+    public static final String ADJUSTMENT = "Adjustment ";
+    public static final String OVERRIDE = "Override ";
+    public static final String FORECAST = "Forecast ";
+    public static final String HISTORICAL = "Historical ";
+    public static final String FCP_MAXIMUM_FSS_PRICE_OGA = "FCP_MAXIMUM_FSS_PRICE_OGA";
+    public static final String FCP_OVERRIDE_FSS = "FCP_OVERRIDE_FSS";
+    public static final String FCP_OVERRIDE_CPI_U = "FCP_OVERRIDE_CPI_U";
 
     private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     FcpQueryUtils queryUtil = new FcpQueryUtils();
 
-    public List<TableDTO> getConfiguredFcpResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getConfiguredFcpResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
 
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
@@ -71,11 +78,11 @@ public class FcpResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
             int parentSid = parentDto.getItemMasterSid();
-            resultList = getFcpChildren(start, offset, projSelDTO, parentSid,session);
+            resultList = getFcpChildren(start, offset, projSelDTO, parentSid, session);
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
@@ -104,7 +111,7 @@ public class FcpResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
             count += getFcpResultsCount(projSelDTO);
         } else {
@@ -164,7 +171,7 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getFcpChild(ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
+    public List<TableDTO> getFcpChild(ProjectionSelectionDTO projSelDTO, int parentSid, SessionDTO session) {
         LOGGER.debug("getFcpChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         try {
@@ -303,41 +310,41 @@ public class FcpResultsLogic {
                         String commonColumn = common.get(0);
                         if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
                             if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                    column = commonColumn + ACTUALS.getConstant();
-                                    if (projSelDTO.hasColumn(column)) {
-                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                        fcpDTO.addStringProperties(column, value);
-                                        columnList.remove(column);
-                                    }
+                                column = commonColumn + ACTUALS.getConstant();
+                                if (projSelDTO.hasColumn(column)) {
+                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                    fcpDTO.addStringProperties(column, value);
+                                    columnList.remove(column);
+                                }
                             }
                             if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                    column = commonColumn + PROJECTIONS.getConstant();
-                                    if (projSelDTO.hasColumn(column)) {
-                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                        fcpDTO.addStringProperties(column, value);
-                                        columnList.remove(column);
-                                    }
+                                column = commonColumn + PROJECTIONS.getConstant();
+                                if (projSelDTO.hasColumn(column)) {
+                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                    fcpDTO.addStringProperties(column, value);
+                                    columnList.remove(column);
+                                }
                             }
                         } else {
                             if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                    column = commonColumn + ACTUALS.getConstant();
-                                    if (projSelDTO.hasColumn(column)) {
-                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                        value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                        fcpDTO.addStringProperties(column, value);
-                                        columnList.remove(column);
-                                    }
+                                column = commonColumn + ACTUALS.getConstant();
+                                if (projSelDTO.hasColumn(column)) {
+                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                    value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                    fcpDTO.addStringProperties(column, value);
+                                    columnList.remove(column);
+                                }
                             }
                             if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                    column = commonColumn + PROJECTIONS.getConstant();
-                                    if (projSelDTO.hasColumn(column)) {
-                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                        value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                        fcpDTO.addStringProperties(column, value);
-                                        columnList.remove(column);
-                                    }
+                                column = commonColumn + PROJECTIONS.getConstant();
+                                if (projSelDTO.hasColumn(column)) {
+                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                    value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                    fcpDTO.addStringProperties(column, value);
+                                    columnList.remove(column);
+                                }
                             }
                         }
 
@@ -349,20 +356,20 @@ public class FcpResultsLogic {
             LOGGER.error(e);
         }
         for (String columns : columnList) {
-            fcpDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables()) ? PER_TWO :CUR_FOUR, Constant.NULL));
+            fcpDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables()) ? PER_TWO : CUR_FOUR, Constant.NULL));
         }
         projDTOList.add(fcpDTO);
         return projDTOList;
     }
 
-    public List<TableDTO> getFcpChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
+    public List<TableDTO> getFcpChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid, SessionDTO session) {
         LOGGER.debug("getFcpChildren start=" + start + " offset=" + offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getFcpChild(projSelDTO, parentSid,session);
+            List<TableDTO> resultList = getFcpChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -389,7 +396,6 @@ public class FcpResultsLogic {
             actualColumns.put(Constant.FCP, "fcpActuals");
             actualColumns.put(Constant.FCP_DISCOUNT, "fcpdiscountActuals");
 
-            
             Map<String, String> projColumns = new HashMap<>();
             projColumns.put(Constant.WAC, "wacProjections");
             projColumns.put(Constant.FSS, "fssProjections");
@@ -399,7 +405,6 @@ public class FcpResultsLogic {
             projColumns.put(Constant.FCP, "fcpProjections");
             projColumns.put(Constant.FCP_DISCOUNT, "fcpdiscountProjections");
 
-           
             List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
             List<String> selectedColumn = projSelDTO.getPeriodList();
             List<String> selectedHeader = projSelDTO.getPivotList();
@@ -423,47 +428,47 @@ public class FcpResultsLogic {
                             String column;
                             if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
                                 if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
 
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                                 if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
 
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                            value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                             } else {
-                                    if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
                                     }
+                                }
                                 if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                            value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                        value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                             }
                             for (String columns : columnList) {
-                                tableDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())? PER_TWO :CUR_FOUR, Constant.NULL));
+                                tableDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables()) ? PER_TWO : CUR_FOUR, Constant.NULL));
                             }
                         }
                     }
@@ -478,7 +483,7 @@ public class FcpResultsLogic {
     }
 
     // Non Famp Starts 
-    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO,String hierarchyNo,SessionDTO session) {
+    public List<TableDTO> getConfiguredNonFamp(int start, int offset, ProjectionSelectionDTO projSelDTO, String hierarchyNo, SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
@@ -488,7 +493,7 @@ public class FcpResultsLogic {
         projSelDTO.setTreeLevelNo(0);
         projSelDTO.setGroup(StringUtils.EMPTY);
         hierarchyNo = null;
-        resultList = getNonFampResults(start, offset, projSelDTO,session);
+        resultList = getNonFampResults(start, offset, projSelDTO, session);
 
         return resultList;
     }
@@ -528,7 +533,7 @@ public class FcpResultsLogic {
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getNonFamp(projSelDTO,session);
+            List<TableDTO> resultList = getNonFamp(projSelDTO, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -538,7 +543,7 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getNonFamp(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getNonFamp(ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getNonFamp method started ");
         int brandMasterSid = projSelDTO.getBrandMasterId();
         int therapeuticSid = projSelDTO.getTherapeuticSid().getId();
@@ -612,55 +617,55 @@ public class FcpResultsLogic {
                     String source = StringUtils.EMPTY + obj[NumericConstants.EIGHT];
                     if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
                         if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + ACTUALS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                         if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + PROJECTIONS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.FIVE];
+                                value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
 
                     } else {
                         if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
-                                    value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + ACTUALS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.FOUR];
+                                value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                         if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                                    value = CommonUtils.getFormattedValue(CUR_FOUR, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + PROJECTIONS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.FIVE];
+                                value = CommonUtils.getFormattedValue(CUR_FOUR, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                     }
                 }
             }
         }
         for (String columns : columnList) {
-            gtsDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())? PER_TWO :CUR_FOUR, Constant.NULL));
+            gtsDTO.addStringProperties(columns, CommonUtils.getFormattedValue(PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables()) ? PER_TWO : CUR_FOUR, Constant.NULL));
         }
         projDTOList.add(gtsDTO);
         return projDTOList;
     }
 
-    public int getNonFampCount(ProjectionSelectionDTO projSelDTO)  {
+    public int getNonFampCount(ProjectionSelectionDTO projSelDTO) {
         int count = 0;
         int projMasterId = projSelDTO.getProjectionId();
         int brandMasterSid = projSelDTO.getBrandMasterId();
@@ -671,7 +676,7 @@ public class FcpResultsLogic {
     }
 
     // Master Worksheet Fcp starts
-    public List<TableDTO> getConfiguredFcpWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getConfiguredFcpWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
         projSelDTO.setActualsOrProjections(ACTUALS_AND_PROJECTIONS);
         if (parentId instanceof TableDTO) {
@@ -683,11 +688,10 @@ public class FcpResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
-            int parentSid = parentDto.getItemMasterSid();
-            resultList = getFcpWorksheetChildren(start, offset, projSelDTO,session);
+            resultList = getFcpWorksheetChildren(start, offset, projSelDTO, session);
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
@@ -695,7 +699,7 @@ public class FcpResultsLogic {
             projSelDTO.setLevelNo(0);
             projSelDTO.setGroup(StringUtils.EMPTY);
 
-            resultList = getFcpWorksheetResults(start, offset, projSelDTO,session);
+            resultList = getFcpWorksheetResults(start, offset, projSelDTO, session);
 
         }
 
@@ -714,7 +718,7 @@ public class FcpResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
             if (parentDto.getGroup().startsWith("CPI-U")) {
                 count += NumericConstants.TWO;
@@ -732,14 +736,14 @@ public class FcpResultsLogic {
         return count;
     }
 
-    public List<TableDTO> getFcpWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getFcpWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getFcpResults start=" + start + "   offset=" + offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getFcpWorksheet(projSelDTO,session);
+            List<TableDTO> resultList = getFcpWorksheet(projSelDTO, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -749,14 +753,14 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getFcpWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getFcpWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getFcpWorksheetChildren start=" + start + "offset = " + offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getFcpWorksheetChild(projSelDTO,session);
+            List<TableDTO> resultList = getFcpWorksheetChild(projSelDTO, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -766,14 +770,15 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getFcpWorksheetChild(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getFcpWorksheetChild(ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getFcpWorksheetChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         int ndcSid = projSelDTO.getNdcSid().getId();
         try {
             List<Object[]> fcpQtrList = queryUtil.loadFCPWorksheet(session, ndcSid, false, projSelDTO.isAdjust());
             List<Object[]> fcpYearlist = queryUtil.loadFCPWorksheet(session, ndcSid, true, projSelDTO.isAdjust());
-            projDTOList = getCustFcpWorksheetChild(projSelDTO, fcpQtrList, fcpYearlist);
+            Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
+            projDTOList = getCustFcpWorksheetChild(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
 
         } catch (Exception e) {
             LOGGER.error(e);
@@ -782,7 +787,7 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getCustFcpWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> fcpList, List<Object[]> fcpYearlist) {
+    public List<TableDTO> getCustFcpWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> fcpList, List<Object[]> fcpYearlist, Map<String, String> priceTypeList) {
         List<TableDTO> projDTOList = new ArrayList<>();
 
         boolean fss = false;
@@ -802,45 +807,45 @@ public class FcpResultsLogic {
         if (fss) {
 
             TableDTO histFss = new TableDTO();
-            histFss.setGroup("Historical FSS (OGA) Pricing");
+            histFss.setGroup(HISTORICAL + priceTypeList.get(FCP_MAXIMUM_FSS_PRICE_OGA));
             histFss.setParent(0);
             projDTOList.addAll(getWorksheetData(fcpList, projSelDTO, histFss, "HISTORICAL FSS (OGA) PRICING", CUR_FOUR));
 
             TableDTO forecastfssDTO = new TableDTO();
-            forecastfssDTO.setGroup("Forecast FSS (OGA) Pricing");
+            forecastfssDTO.setGroup(FORECAST + priceTypeList.get(FCP_MAXIMUM_FSS_PRICE_OGA));
             forecastfssDTO.setParent(0);
             projDTOList.addAll(getWorksheetData(fcpList, projSelDTO, forecastfssDTO, "Forecast FSS (OGA) Pricing", CUR_FOUR));
 
             TableDTO overrideFssDTO = new TableDTO();
-            overrideFssDTO.setGroup("Adjustment FSS (OGA) Pricing");
+            overrideFssDTO.setGroup(OVERRIDE + priceTypeList.get(FCP_OVERRIDE_FSS));
             overrideFssDTO.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(fcpList, projSelDTO, overrideFssDTO, "FORECAST FSS (OGA) PRICING", CUR_FOUR));
 
         }
         if (nonFamp) {
             TableDTO histNonFamp = new TableDTO();
-            histNonFamp.setGroup("Historical Non-FAMP");
+            histNonFamp.setGroup(HISTORICAL + priceTypeList.get(FCP_NON_FAMP));
             histNonFamp.setParent(0);
             projDTOList.addAll(getWorksheetData(fcpList, projSelDTO, histNonFamp, "HISTORICAL NON-FAMP", CUR_FOUR));
 
             TableDTO forecastnonFamp = new TableDTO();
-            forecastnonFamp.setGroup("Forecast Non-FAMP");
+            forecastnonFamp.setGroup(FORECAST + priceTypeList.get(FCP_NON_FAMP));
             forecastnonFamp.setParent(0);
             projDTOList.addAll(getWorksheetData(fcpList, projSelDTO, forecastnonFamp, Constant.FORECAST_NONFAMP, CUR_FOUR));
 
             TableDTO overrideDto = new TableDTO();
-            overrideDto.setGroup("Adjustment Non-FAMP");
+            overrideDto.setGroup(OVERRIDE + priceTypeList.get(FCP_NON_FAMP));
             overrideDto.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(fcpList, projSelDTO, overrideDto, Constant.FORECAST_NONFAMP, CUR_FOUR));
         }
         if (cpi) {
             TableDTO forecastCpiDTO = new TableDTO();
-            forecastCpiDTO.setGroup("Forecast CPI-U");
+            forecastCpiDTO.setGroup(FORECAST + priceTypeList.get(FCP_CPI_U));
             forecastCpiDTO.setParent(0);
             projDTOList.addAll(getWorksheetDataYear(projSelDTO, forecastCpiDTO, fcpYearlist, "FORECAST CPI-U", PER_TWO));
 
             TableDTO cpiDTO = new TableDTO();
-            cpiDTO.setGroup("CPI-U Adjustment");
+            cpiDTO.setGroup(priceTypeList.get(FCP_OVERRIDE_CPI_U) + " "+OVERRIDE);
             cpiDTO.setParent(0);
             projDTOList.addAll(getWorksheetDataYear(projSelDTO, cpiDTO, fcpYearlist, "CPI-U ADJUSTMENT", CUR_FOUR));
 
@@ -849,15 +854,15 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getFcpWorksheet(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getFcpWorksheet(ProjectionSelectionDTO projSelDTO, SessionDTO session) {
 
         List<TableDTO> projDTOList = new ArrayList<>();
         int ndcSid = projSelDTO.getNdcSid().getId();
         try {
             List<Object[]> fcpQtrList = queryUtil.loadFCPWorksheet(session, ndcSid, false, projSelDTO.isAdjust());
             List<Object[]> fcpYearlist = queryUtil.loadFCPWorksheet(session, ndcSid, true, projSelDTO.isAdjust());
-
-            projDTOList = getCustomizedFcpWorksheet(projSelDTO, fcpQtrList, fcpYearlist);
+            Map<String, String> priceTypeList = queryUtil.getFcpPriceTypeNameDynamic("FCP");
+            projDTOList = getCustomizedFcpWorksheet(projSelDTO, fcpQtrList, fcpYearlist, priceTypeList);
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -865,76 +870,86 @@ public class FcpResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getCustomizedFcpWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> fcpQtrList, List<Object[]> fcpYearlist)  {
+    public List<TableDTO> getCustomizedFcpWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> fcpQtrList, List<Object[]> fcpYearlist, Map<String, String> priceTypeList) {
 
         List<TableDTO> projDTOList = new ArrayList<>();
 
         TableDTO reportfcpDTO = new TableDTO();
-        reportfcpDTO.setGroup("Reported FCP- (Calendar Year)");
+        reportfcpDTO.setGroup(priceTypeList.get("FCP_REPORTED_FCP_CALENDAR_YEAR"));
+        reportfcpDTO.setPriceType("Reported FCP- (Calendar Year)");
         reportfcpDTO.setParent(0);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, reportfcpDTO, fcpYearlist, "REPORTED FCP-(CALENDER YEAR)", CUR_FOUR));
 
         TableDTO forecastfcpDTO = new TableDTO();
-        forecastfcpDTO.setGroup("Forecast FCP Calculated");
+        forecastfcpDTO.setGroup(priceTypeList.get("FCP_FORECAST_FCP_CALCULATED"));
+        forecastfcpDTO.setPriceType("Forecast FCP Calculated");
         forecastfcpDTO.setParent(0);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, forecastfcpDTO, fcpYearlist, "FORECAST FCP CALCULATED", CUR_FOUR));
 
         TableDTO maxFssfcpDTO = new TableDTO();
-        maxFssfcpDTO.setGroup("Maximum FSS Price (OGA)");
+        maxFssfcpDTO.setGroup(priceTypeList.get(FCP_MAXIMUM_FSS_PRICE_OGA));
+        maxFssfcpDTO.setPriceType("Maximum FSS Price (OGA)");
         maxFssfcpDTO.setParent(1);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, maxFssfcpDTO, fcpYearlist, "MAXIMUM FSS PRICE (OGA)", CUR_FOUR));
 
         TableDTO nonFampDTO = new TableDTO();
-        nonFampDTO.setGroup("Non-FAMP");
+        nonFampDTO.setGroup(priceTypeList.get(FCP_NON_FAMP));
+        nonFampDTO.setPriceType("Non-FAMP");
         nonFampDTO.setParent(1);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, nonFampDTO, fcpYearlist, NONFAMP1, CUR_FOUR));
 
         TableDTO cpiDTO = new TableDTO();
-        cpiDTO.setGroup("CPI-U Additional Discount");
+        cpiDTO.setGroup(priceTypeList.get(FCP_CPI_U));
+        cpiDTO.setPriceType("CPI-U Additional Discount");
         cpiDTO.setParent(1);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, cpiDTO, fcpYearlist, "CPI-U", CUR_FOUR));
 
         TableDTO rebateDTO = new TableDTO();
-        rebateDTO.setGroup("Retail (Rebate)");
+        rebateDTO.setGroup(priceTypeList.get("FCP_RETAIL_REBATE"));
+        rebateDTO.setPriceType("Retail (Rebate)");
         rebateDTO.setParent(0);
         projDTOList.add(rebateDTO);
 
         TableDTO discountDTO = new TableDTO();
-        discountDTO.setGroup("TriCare");
+        discountDTO.setGroup(priceTypeList.get("FCP_TRICARE"));
+        discountDTO.setPriceType("TriCare");
         discountDTO.setParent(0);
         projDTOList.addAll(getWorksheetDataYear(projSelDTO, discountDTO, fcpYearlist, "MANDATED DISCOUNT ($)", CUR_FOUR));
 
         TableDTO wacDTO = new TableDTO();
-        wacDTO.setGroup(Constant.WAC);
+        wacDTO.setGroup(priceTypeList.get("FCP_WAC"));
+        wacDTO.setPriceType(Constant.WAC);
         wacDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, wacDTO, Constant.WAC, CUR_FOUR));
 
         TableDTO wacIncreaseDTO = new TableDTO();
-        wacIncreaseDTO.setGroup("WAC Increase %");
+        wacIncreaseDTO.setGroup(priceTypeList.get("FCP_WAC_INCREASE"));
+        wacIncreaseDTO.setPriceType("WAC Increase %");
         wacIncreaseDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, wacIncreaseDTO, "WAC INCREASE %", PER_TWO));
-        
-        
-         TableDTO wacFccDTO = new TableDTO();
-        wacFccDTO.setGroup("WAC-FCP");
+
+        TableDTO wacFccDTO = new TableDTO();
+        wacFccDTO.setGroup(priceTypeList.get("FCP_WAC_FCP"));
+        wacFccDTO.setPriceType("WAC-FCP");
         wacFccDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, wacFccDTO, Constant.WAC_FCP, CUR_FOUR));
-        
-        
-         TableDTO wacFssDTO = new TableDTO();
-        wacFssDTO.setGroup("WAC-FSS");
+
+        TableDTO wacFssDTO = new TableDTO();
+        wacFssDTO.setGroup(priceTypeList.get("FCP_WAC_FSS"));
+        wacFssDTO.setPriceType("WAC-FSS");
         wacFssDTO.setParent(0);
-       projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, wacFssDTO, Constant.WAC_FSS, CUR_FOUR));
+        projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, wacFssDTO, Constant.WAC_FSS, CUR_FOUR));
 
         TableDTO cmsUnitsDTO = new TableDTO();
-        cmsUnitsDTO.setGroup("CMS Units");
+        cmsUnitsDTO.setGroup(priceTypeList.get("FCP_CMS_UNITS"));
+        cmsUnitsDTO.setPriceType("CMS Units");
         cmsUnitsDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(fcpQtrList, projSelDTO, cmsUnitsDTO, "CMS UNITS", UNITS));
 
         return projDTOList;
     }
 
-    public String fcpSetupCook(com.stpl.app.gtnforecasting.sessionutils.SessionDTO session, String priceBasis) throws NamingException, SQLException  {
+    public String fcpSetupCook(com.stpl.app.gtnforecasting.sessionutils.SessionDTO session, String priceBasis) throws NamingException, SQLException {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -1008,30 +1023,30 @@ public class FcpResultsLogic {
                     String commonColumn = common.get(0);
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                     if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                            column = commonColumn + ACTUALS.getConstant();
-                            if (projSelDTO.hasColumn(column)) {
-                                if (fcpDTO.getGroup().startsWith(Constant.FORECAST)) {
-                                    fcpDTO.addStringProperties(column, DASH.getConstant());
-                                } else {
-                                    String value = StringUtils.EMPTY + obj[1];
-                                    value = CommonUtils.getFormattedValue(format, value);
-                                    fcpDTO.addStringProperties(column, value);
-                                }
-                                columnList.remove(column);
+                        column = commonColumn + ACTUALS.getConstant();
+                        if (projSelDTO.hasColumn(column)) {
+                            if (fcpDTO.getGroup().startsWith(Constant.FORECAST)) {
+                                fcpDTO.addStringProperties(column, DASH.getConstant());
+                            } else {
+                                String value = StringUtils.EMPTY + obj[1];
+                                value = CommonUtils.getFormattedValue(format, value);
+                                fcpDTO.addStringProperties(column, value);
                             }
+                            columnList.remove(column);
+                        }
                     }
                     if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                            column = commonColumn + PROJECTIONS.getConstant();
-                            if (projSelDTO.hasColumn(column)) {
-                                if (fcpDTO.getGroup().startsWith("Historical")) {
-                                    fcpDTO.addStringProperties(column, DASH.getConstant());
-                                } else {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                    value = CommonUtils.getFormattedValue(format, value);
-                                    fcpDTO.addStringProperties(column, value);
-                                }
-                                columnList.remove(column);
+                        column = commonColumn + PROJECTIONS.getConstant();
+                        if (projSelDTO.hasColumn(column)) {
+                            if (fcpDTO.getGroup().startsWith("Historical")) {
+                                fcpDTO.addStringProperties(column, DASH.getConstant());
+                            } else {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                                value = CommonUtils.getFormattedValue(format, value);
+                                fcpDTO.addStringProperties(column, value);
                             }
+                            columnList.remove(column);
+                        }
                     }
                 }
             }
@@ -1109,35 +1124,35 @@ public class FcpResultsLogic {
                 String commonColumn = common.get(0);
                 String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
 
-                if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant())) ) {
-                        column = commonColumn + PROJECTIONS.getConstant();
-                        if (projSelDTO.hasColumn(column)) {
-                            String value;
-                            String[] notesArray = new String[NumericConstants.TWO];
-                            if (obj[NumericConstants.SIX] != null) {
-                                notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
-                            } else {
-                                notesArray[0] = StringUtils.EMPTY;
-                            }
-                            notesArray[1] = obj[NumericConstants.FIVE] == null ? StringUtils.EMPTY : StringUtils.EMPTY + obj[NumericConstants.FIVE];
-                            if (projSelDTO.isExcel()) {
-                                if (group.equalsIgnoreCase(groupIndicator.trim())) {
-                                    value = notesArray[0];
-                                    fcpDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
-                            } else {
-                                if (group.startsWith(Constant.FORECAST_NONFAMP)) {
-                                    fampNotesMap.put(column, notesArray);
-                                }
-                                if (group.startsWith("FORECAST FSS (OGA) PRICING")) {
-                                    fssNotesMap.put(column, notesArray);
-                                }
+                if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
+                    column = commonColumn + PROJECTIONS.getConstant();
+                    if (projSelDTO.hasColumn(column)) {
+                        String value;
+                        String[] notesArray = new String[NumericConstants.TWO];
+                        if (obj[NumericConstants.SIX] != null) {
+                            notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                        } else {
+                            notesArray[0] = StringUtils.EMPTY;
+                        }
+                        notesArray[1] = obj[NumericConstants.FIVE] == null ? StringUtils.EMPTY : StringUtils.EMPTY + obj[NumericConstants.FIVE];
+                        if (projSelDTO.isExcel()) {
+                            if (group.equalsIgnoreCase(groupIndicator.trim())) {
                                 value = notesArray[0];
                                 fcpDTO.addStringProperties(column, value);
                                 columnList.remove(column);
                             }
+                        } else {
+                            if (group.startsWith(Constant.FORECAST_NONFAMP)) {
+                                fampNotesMap.put(column, notesArray);
+                            }
+                            if (group.startsWith("FORECAST FSS (OGA) PRICING")) {
+                                fssNotesMap.put(column, notesArray);
+                            }
+                            value = notesArray[0];
+                            fcpDTO.addStringProperties(column, value);
+                            columnList.remove(column);
                         }
+                    }
                 }
             }
         }

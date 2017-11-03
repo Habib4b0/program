@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.discountprojectionresults.dto;
 
-import com.stpl.app.gtnforecasting.logic.DiscountProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.logic.GroupFilter;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -86,7 +85,7 @@ public class NMFilterGenerator implements ExtFilterGenerator {
             con.addItem(Constant.ALL_DISCOUNT_GROUP);
                 GroupFilter.initdiscountMap(session);
             Set<String> list = session.getDiscountgroupSet();
-            if (list != null && list.size() > 0) {
+            if (list != null && !list.isEmpty()) {
                 for (String string : list) {
                     con.addItem(Constant.DISCOUNT + string);
                 }

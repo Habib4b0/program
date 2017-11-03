@@ -81,12 +81,12 @@ public class VwAdjustDemandForecastActPersistenceImpl
                 PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
     private static Log _log = LogFactoryUtil.getLog(VwAdjustDemandForecastActPersistenceImpl.class);
     private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-                "forecastVersion", "grossUnits", "businessUnitNo", "year",
+                "forecastVer", "grossUnits", "businessUnitNo", "forecastYear",
                 "brandName", "itemId", "organizationKey", "source",
                 "marketShareRatio", "businessUnitName", "marketShareUnits",
-                "month", "inventoryUnitChange", "uncapturedUnitsRatio",
-                "country", "forecastType", "totalAdjustedDemandUnits", "brandId",
-                "isForecast", "totalAdjustedDemandAmount", "uncapturedUnits",
+                "forecastMonth", "inventoryUnitChange", "uncapturedUnitsRatio",
+                "country", "forecastType", "totalDemandUnits", "brandId",
+                "isForecast", "totalDemandAmount", "uncapturedUnits",
                 "grossPrice", "grossAmount", "batchId",
                 "adjustedDemandForecastId", "itemName", "netSalesPrice",
                 "netSalesAmount", "segment", "forecastName", "marketSizeUnits"
@@ -349,10 +349,10 @@ public class VwAdjustDemandForecastActPersistenceImpl
         vwAdjustDemandForecastActImpl.setNew(vwAdjustDemandForecastAct.isNew());
         vwAdjustDemandForecastActImpl.setPrimaryKey(vwAdjustDemandForecastAct.getPrimaryKey());
 
-        vwAdjustDemandForecastActImpl.setForecastVersion(vwAdjustDemandForecastAct.getForecastVersion());
+        vwAdjustDemandForecastActImpl.setForecastVer(vwAdjustDemandForecastAct.getForecastVer());
         vwAdjustDemandForecastActImpl.setGrossUnits(vwAdjustDemandForecastAct.getGrossUnits());
         vwAdjustDemandForecastActImpl.setBusinessUnitNo(vwAdjustDemandForecastAct.getBusinessUnitNo());
-        vwAdjustDemandForecastActImpl.setYear(vwAdjustDemandForecastAct.getYear());
+        vwAdjustDemandForecastActImpl.setForecastYear(vwAdjustDemandForecastAct.getForecastYear());
         vwAdjustDemandForecastActImpl.setBrandName(vwAdjustDemandForecastAct.getBrandName());
         vwAdjustDemandForecastActImpl.setItemId(vwAdjustDemandForecastAct.getItemId());
         vwAdjustDemandForecastActImpl.setOrganizationKey(vwAdjustDemandForecastAct.getOrganizationKey());
@@ -360,15 +360,15 @@ public class VwAdjustDemandForecastActPersistenceImpl
         vwAdjustDemandForecastActImpl.setMarketShareRatio(vwAdjustDemandForecastAct.getMarketShareRatio());
         vwAdjustDemandForecastActImpl.setBusinessUnitName(vwAdjustDemandForecastAct.getBusinessUnitName());
         vwAdjustDemandForecastActImpl.setMarketShareUnits(vwAdjustDemandForecastAct.getMarketShareUnits());
-        vwAdjustDemandForecastActImpl.setMonth(vwAdjustDemandForecastAct.getMonth());
+        vwAdjustDemandForecastActImpl.setForecastMonth(vwAdjustDemandForecastAct.getForecastMonth());
         vwAdjustDemandForecastActImpl.setInventoryUnitChange(vwAdjustDemandForecastAct.getInventoryUnitChange());
         vwAdjustDemandForecastActImpl.setUncapturedUnitsRatio(vwAdjustDemandForecastAct.getUncapturedUnitsRatio());
         vwAdjustDemandForecastActImpl.setCountry(vwAdjustDemandForecastAct.getCountry());
         vwAdjustDemandForecastActImpl.setForecastType(vwAdjustDemandForecastAct.getForecastType());
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandUnits(vwAdjustDemandForecastAct.getTotalAdjustedDemandUnits());
+        vwAdjustDemandForecastActImpl.setTotalDemandUnits(vwAdjustDemandForecastAct.getTotalDemandUnits());
         vwAdjustDemandForecastActImpl.setBrandId(vwAdjustDemandForecastAct.getBrandId());
         vwAdjustDemandForecastActImpl.setIsForecast(vwAdjustDemandForecastAct.getIsForecast());
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandAmount(vwAdjustDemandForecastAct.getTotalAdjustedDemandAmount());
+        vwAdjustDemandForecastActImpl.setTotalDemandAmount(vwAdjustDemandForecastAct.getTotalDemandAmount());
         vwAdjustDemandForecastActImpl.setUncapturedUnits(vwAdjustDemandForecastAct.getUncapturedUnits());
         vwAdjustDemandForecastActImpl.setGrossPrice(vwAdjustDemandForecastAct.getGrossPrice());
         vwAdjustDemandForecastActImpl.setGrossAmount(vwAdjustDemandForecastAct.getGrossAmount());

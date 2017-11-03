@@ -4,34 +4,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUALLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MASTER_FCP_WORKSHEET_LOOKUP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NOTES_DATE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
@@ -39,13 +11,19 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.MedicaidURAResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.MasterFcpWorkSheetTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.FcpQueryUtils;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MASTER_FCP_WORKSHEET_LOOKUP;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NOTES_DATE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.NotesTextField;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
@@ -84,6 +62,22 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class MasterFcpWorkSheet.
@@ -385,8 +379,7 @@ public class MasterFcpWorkSheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -412,8 +405,7 @@ public class MasterFcpWorkSheet extends Window {
     @UiHandler("tableReset")
     public void tableReset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -445,8 +437,7 @@ public class MasterFcpWorkSheet extends Window {
     public void submit(Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
-                @Override
-				public void noMethod() {
+                public void noMethod() {
                     // do nothing
                 }
 
@@ -552,8 +543,7 @@ public class MasterFcpWorkSheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -568,8 +558,7 @@ public class MasterFcpWorkSheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
-                    @Override
-					public void noMethod() {
+                    public void noMethod() {
                         // do nothing
                     }
 
@@ -679,13 +668,12 @@ public class MasterFcpWorkSheet extends Window {
             /**
              * To create editable fields inside table .
              */
-            @Override
-			public Field<?> createField(final Container container,
+            public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
                 final TableDTO tableDto = getBeanFromId(itemId);
 
-                if (tableDto.getParent() == 0 && String.valueOf(propertyId).endsWith(Constant.PROJECTIONS) && tableDto.getGroup().startsWith(Constant.ADJUSTMENT)) {
+                if (tableDto.getParent() == 0 && String.valueOf(propertyId).endsWith(Constant.PROJECTIONS) && (tableDto.getGroup().startsWith(Constant.OVERRIDE) || tableDto.getGroup().contains(Constant.OVERRIDE))) {
                     try {
                         final NotesTextField notesField = new NotesTextField();
                         String adjustPropId = propertyId + "~" + Constant.ADJUSTMENT;
@@ -699,12 +687,12 @@ public class MasterFcpWorkSheet extends Window {
 
                         String adjustValue = StringUtils.EMPTY;
                         String notesValue = StringUtils.EMPTY;
-                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
+                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_FSS)) {
                             notesMap = projectionDTO.getNotesMap();
                             adjustValue = fssAdjustedValues.get(adjustPropId);
                             notesValue = fssEditedNotes.get(notesPropId);
                         }
-                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
+                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_NON_FAMP)) {
                             notesMap = projectionDTO.getSecondRowNotesMap();
                             adjustValue = ovrAdjustedValues.get(adjustPropId);
                             notesValue = ovrEditedNotes.get(notesPropId);
@@ -734,11 +722,11 @@ public class MasterFcpWorkSheet extends Window {
 
                                 if (valueChange) {
                                     try {
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
+                                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_FSS)) {
                                             fssAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
 
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
+                                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_NON_FAMP)) {
                                             ovrAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
                                         valueChange = false;
@@ -785,10 +773,10 @@ public class MasterFcpWorkSheet extends Window {
                                         DateFormat dateTimeFormat = new SimpleDateFormat(NOTES_DATE.getConstant());
                                         String formattedValue = String.valueOf(((TextArea) event.getComponent()).getValue()) + dateTimeFormat.format(new Date()) + " ,<" + CommonUtils.getUserNameById(sessionDTO.getUserId()) + ">";
                                         description = formattedValue;
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_FSS)) {
+                                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_FSS)) {
                                             fssEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
-                                        if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_NON_FAMP)) {
+                                        if (tableDto.getGroup().startsWith(Constant.OVERRIDE_NON_FAMP)) {
                                             ovrEditedNotes.put(String.valueOf(((TextArea) event.getComponent()).getData()), formattedValue);
                                         }
                                         valueTAChange = false;
@@ -896,7 +884,6 @@ public class MasterFcpWorkSheet extends Window {
         LOGGER.debug("excelBtn click listener started");
         configureExcelResultTable();
         loadExcelResultTable();
-		NationalAssumptionsUI.EXCEL_CLOSE = true;
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.MASTER_FCP_WORKSHEET, Constant.MASTER_FCP_WORKSHEET, "Master_FCP_Worksheet.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
@@ -932,16 +919,16 @@ public class MasterFcpWorkSheet extends Window {
     }
 
     public void loadDataToContainer(List<TableDTO> resultList, Object parentId) {
-        for (TableDTO dto : resultList) {
-            excelResultBeanContainer.addBean(dto);
+        for (TableDTO tableDto : resultList) {
+            excelResultBeanContainer.addBean(tableDto);
             if (parentId != null) {
-                excelResultBeanContainer.setParent(dto, parentId);
+                excelResultBeanContainer.setParent(tableDto, parentId);
             }
-            if (dto.getParent() == 1) {
-                excelResultBeanContainer.setChildrenAllowed(dto, true);
-                addLowerLevelsForExport(dto);
+            if (tableDto.getParent() == 1) {
+                excelResultBeanContainer.setChildrenAllowed(tableDto, true);
+                addLowerLevelsForExport(tableDto);
             } else {
-                excelResultBeanContainer.setChildrenAllowed(dto, false);
+                excelResultBeanContainer.setChildrenAllowed(tableDto, false);
             }
         }
     }

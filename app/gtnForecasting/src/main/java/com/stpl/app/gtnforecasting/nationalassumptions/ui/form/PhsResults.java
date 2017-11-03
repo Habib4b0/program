@@ -4,58 +4,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SPACE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.PHS_RESULTS_SCREEN;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ACTUALS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMOUNT;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ASCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AVERAGE_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEGINNING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BOTH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DAY_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DESCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ENDING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MID_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERCENTAGE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERIOD;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PHS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PHS_RESULTS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PIVOT_VIEW;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TYPE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PROJECTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SALES_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.TOTAL_URA;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.NamingException;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NationalAssumptionsFilterGenerator;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
@@ -63,7 +11,6 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.PhsResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.PhsResultsTableLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
@@ -72,6 +19,12 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCo
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.*;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -105,6 +58,25 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.naming.NamingException;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class PhsResults.
@@ -196,12 +168,13 @@ public class PhsResults extends CustomComponent implements View {
      */
     @UiField("excelBtn")
     private Button excelBtn;
-    private PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
+    PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
 
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
     
-    private LazyContainer ndcLevelContainer;
+    LazyContainer ndcLevelContainer;
+
     /**
      * The excel export image.
      */
@@ -212,11 +185,11 @@ public class PhsResults extends CustomComponent implements View {
      */
     @UiField("tablePanel")
     public Panel tablePanel;
-    private CommonLogic commonLogic = new CommonLogic();
-    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    CommonLogic commonLogic = new CommonLogic();
+    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     public HorizontalLayout controlLayout;
     public boolean wacFlag = false;
     public boolean phsFlag = false;
@@ -228,7 +201,7 @@ public class PhsResults extends CustomComponent implements View {
     public final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
             Constant.PROJECTION_ID);
 
-    private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The max split position.
      */
@@ -243,36 +216,38 @@ public class PhsResults extends CustomComponent implements View {
      * The split position.
      */
     private static final float SPLIT_POSITION = 300;
-    private LazyContainer therapeuticContainer;
-    private LazyContainer brandContainer;
+    LazyContainer therapeuticContainer;
+    LazyContainer brandContainer;
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    private PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
-    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
+    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
 
-    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     @UiField("ndcFilterDdlb")
     private ComboBox ndcFilterDdlb;
     private final HelperDTO ndcHelperDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    private LazyContainer ndcFilterContainer;
+    LazyContainer ndcFilterContainer;
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
 
     /**
      * The grid layout.
      */
     @UiField("gridLayout")
-    private GridLayout gridLayout;
+    GridLayout gridLayout;
 
     /**
      * The price type.
      */
     private final OptionGroup priceType = new OptionGroup();
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    private Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
-    private NationalAssumptionsForm form;
-    private SessionDTO sessionDTO;
+    Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
+     NationalAssumptionsForm form;
+     SessionDTO sessionDTO;
+    private final Map<String,String> priceTypeReplaceMap = new HashMap();
+    private final Map<String,String> loadPriceActualMap = new HashMap();
 
     /**
      * Instantiates a new phs results.
@@ -340,10 +315,7 @@ public class PhsResults extends CustomComponent implements View {
         view.addItem(PRICE_TYPE.getConstant());
         view.setValue(PERIOD.getConstant());
 
-        priceType.addItem(Constant.WAC);
-        priceType.addItem("PHS");
-        priceType.addItem("Total URA");
-        priceType.addItem(Constant.AMP); 
+        loadPriceTypes();
 
         excelBtn.setIcon(excelExportImage);
 
@@ -625,7 +597,7 @@ public class PhsResults extends CustomComponent implements View {
             List<String> selectedPrice = new ArrayList<>();
             for (Object itemId : itemIds) {
                 if (priceType.isSelected(itemId)) {
-                    selectedPrice.add(String.valueOf(itemId));
+                    selectedPrice.add(priceTypeReplaceMap.get(String.valueOf(itemId)));
                 }
             }
             for (int i = 0; i < selectedPrice.size(); i++) {
@@ -672,7 +644,7 @@ public class PhsResults extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
+        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, Constant.PHS);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -787,10 +759,10 @@ public class PhsResults extends CustomComponent implements View {
 
     public void generateLogic() {
         try {
-            if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
-                callPhsProcedure();
+          if(!Constant.VIEW.equalsIgnoreCase(MODE)){     
+            callPhsProcedure();
             }
-            loadResultTable();
+           loadResultTable();
         } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
@@ -874,7 +846,6 @@ public class PhsResults extends CustomComponent implements View {
             if (resultBeanContainer.size() > 0) {
                 loadExcelResultTable();
             }
-			NationalAssumptionsUI.EXCEL_CLOSE = true;
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.PHS_RESULTS, Constant.PHS_RESULTS, "PHS_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
@@ -1040,9 +1011,9 @@ public class PhsResults extends CustomComponent implements View {
                             priceType.select(PHS.getConstant());
                             phsFlag = true;
                         }
-                        if (tempValue.equals(TOTAL_URA.getConstant())) {
+                        if (tempValue.equals(projectionDTO.getLoadPhsPriceMap().get(Constant.PHS_TOTAL_URA))) {
 
-                            priceType.select(TOTAL_URA.getConstant());
+                            priceType.select(projectionDTO.getLoadPhsPriceMap().get(Constant.PHS_TOTAL_URA));
                             totalURAFlag = true;
                         }
                         if (tempValue.equals(AMP.getConstant())) {
@@ -1163,5 +1134,36 @@ public class PhsResults extends CustomComponent implements View {
         leftTable.setFilterBarVisible(true);
         leftTable.setFilterDecorator(new ExtDemoFilterDecorator());
         leftTable.setFilterGenerator(new NationalAssumptionsFilterGenerator(projectionDTO,Constant.PHS_RESULTS));
+    }
+    
+    private void loadPriceTypes() {
+        
+        Map<String, String> priceTypeMap = CommonUtils.getPriceTypeNameDynamic("PHS", "Medicaid_Ura_Worsheet_Helper_table");
+        projectionDTO.setLoadPhsPriceMap(priceTypeMap);
+        loadPriceTypeReplaceMap(priceTypeMap);
+        loadPriceActualMap(priceTypeMap);
+        projectionDTO.setLoadPhsPriceActualMap(loadPriceActualMap);
+        priceType.addItem(Constant.WAC);
+        priceType.addItem(Constant.PHS);
+        if (!StringUtils.isBlank(CommonUtils.getGroupName(priceTypeMap.get(Constant.PHS_TOTAL_URA)))) {
+            priceType.addItem(CommonUtils.getGroupName(priceTypeMap.get(Constant.PHS_TOTAL_URA)));
+        }
+        if (!StringUtils.isBlank(CommonUtils.getGroupName(priceTypeMap.get(Constant.PHS_AMP)))) {
+            priceType.addItem(CommonUtils.getGroupName(priceTypeMap.get(Constant.PHS_AMP)));
+        }
+    }
+    
+    private void loadPriceTypeReplaceMap(final Map<String, String> priceTypeMap) {
+        priceTypeReplaceMap.put(Constant.WAC, Constant.WAC);
+        priceTypeReplaceMap.put(Constant.PHS, Constant.PHS);
+        priceTypeReplaceMap.put(priceTypeMap.get(Constant.PHS_TOTAL_URA), "Total URA");
+        priceTypeReplaceMap.put(priceTypeMap.get(Constant.PHS_AMP), Constant.AMP);
+    }
+    
+    private void loadPriceActualMap(final Map<String, String> priceTypeMap) {
+        loadPriceActualMap.put(Constant.WAC, Constant.WAC);
+        loadPriceActualMap.put(Constant.AMP, Constant.AMP);
+        loadPriceActualMap.put("Total URA", priceTypeMap.get(Constant.PHS_TOTAL_URA));
+        loadPriceActualMap.put(Constant.AMP, priceTypeMap.get(Constant.PHS_AMP));
     }
 }

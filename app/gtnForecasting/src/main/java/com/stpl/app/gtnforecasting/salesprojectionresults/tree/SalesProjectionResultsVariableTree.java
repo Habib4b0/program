@@ -15,7 +15,6 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +62,6 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
     private void loadStaticRows(ProjectionSelectionDTO projSelDTO) {
         projSelDTO.setPivotView(Constant.PERIOD);
         CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-        CustomTableHeaderDTO leftDTO = HeaderUtils.getSalesProjectionResultsLeftTableColumns(fullHeader);
         projSelDTO.setProjTabName("SPR");
         CustomTableHeaderDTO table = HeaderUtils.getSalesProjectionResultsCalculatedColumns(new CustomTableHeaderDTO(), projSelDTO, fullHeader);
         dataLevel = table.getDoubleHeaders().toArray();

@@ -426,7 +426,7 @@ public class Allocation extends CustomComponent implements View {
                                             return;
                                         }
                                         Double incOrDec;
-                                        Double oldNumber = 0.0;
+                                        
                                         if (String.valueOf(propertyId).contains(Constant.PERCENT)) {
                                             incOrDec = Double.valueOf(blurValue);
                                         } else {

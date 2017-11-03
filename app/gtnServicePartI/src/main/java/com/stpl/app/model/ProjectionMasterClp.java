@@ -49,6 +49,8 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
     private String _prodRelationshipBuilderSid;
     private int _discountType;
     private int _businessUnit;
+    private String _deductionHierarchySid;
+    private String _dedRelationshipBuilderSid;
     private BaseModel<?> _projectionMasterRemoteModel;
 
     public ProjectionMasterClp() {
@@ -120,6 +122,9 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
             getProdRelationshipBuilderSid());
         attributes.put("discountType", getDiscountType());
         attributes.put("businessUnit", getBusinessUnit());
+        attributes.put("deductionHierarchySid", getDeductionHierarchySid());
+        attributes.put("dedRelationshipBuilderSid",
+            getDedRelationshipBuilderSid());
 
         return attributes;
     }
@@ -304,6 +309,20 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
         if (businessUnit != null) {
             setBusinessUnit(businessUnit);
+        }
+
+        String deductionHierarchySid = (String) attributes.get(
+                "deductionHierarchySid");
+
+        if (deductionHierarchySid != null) {
+            setDeductionHierarchySid(deductionHierarchySid);
+        }
+
+        String dedRelationshipBuilderSid = (String) attributes.get(
+                "dedRelationshipBuilderSid");
+
+        if (dedRelationshipBuilderSid != null) {
+            setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
         }
     }
 
@@ -957,6 +976,54 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         }
     }
 
+    @Override
+    public String getDeductionHierarchySid() {
+        return _deductionHierarchySid;
+    }
+
+    @Override
+    public void setDeductionHierarchySid(String deductionHierarchySid) {
+        _deductionHierarchySid = deductionHierarchySid;
+
+        if (_projectionMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _projectionMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDeductionHierarchySid",
+                        String.class);
+
+                method.invoke(_projectionMasterRemoteModel,
+                    deductionHierarchySid);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public String getDedRelationshipBuilderSid() {
+        return _dedRelationshipBuilderSid;
+    }
+
+    @Override
+    public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid) {
+        _dedRelationshipBuilderSid = dedRelationshipBuilderSid;
+
+        if (_projectionMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _projectionMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setDedRelationshipBuilderSid",
+                        String.class);
+
+                method.invoke(_projectionMasterRemoteModel,
+                    dedRelationshipBuilderSid);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getProjectionMasterRemoteModel() {
         return _projectionMasterRemoteModel;
     }
@@ -1054,6 +1121,8 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         clone.setProdRelationshipBuilderSid(getProdRelationshipBuilderSid());
         clone.setDiscountType(getDiscountType());
         clone.setBusinessUnit(getBusinessUnit());
+        clone.setDeductionHierarchySid(getDeductionHierarchySid());
+        clone.setDedRelationshipBuilderSid(getDedRelationshipBuilderSid());
 
         return clone;
     }
@@ -1099,7 +1168,7 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(57);
+        StringBundler sb = new StringBundler(61);
 
         sb.append("{productHierarchyLevel=");
         sb.append(getProductHierarchyLevel());
@@ -1157,6 +1226,10 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         sb.append(getDiscountType());
         sb.append(", businessUnit=");
         sb.append(getBusinessUnit());
+        sb.append(", deductionHierarchySid=");
+        sb.append(getDeductionHierarchySid());
+        sb.append(", dedRelationshipBuilderSid=");
+        sb.append(getDedRelationshipBuilderSid());
         sb.append("}");
 
         return sb.toString();
@@ -1164,7 +1237,7 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(88);
+        StringBundler sb = new StringBundler(94);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ProjectionMaster");
@@ -1281,6 +1354,14 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         sb.append(
             "<column><column-name>businessUnit</column-name><column-value><![CDATA[");
         sb.append(getBusinessUnit());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>deductionHierarchySid</column-name><column-value><![CDATA[");
+        sb.append(getDeductionHierarchySid());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>dedRelationshipBuilderSid</column-name><column-value><![CDATA[");
+        sb.append(getDedRelationshipBuilderSid());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

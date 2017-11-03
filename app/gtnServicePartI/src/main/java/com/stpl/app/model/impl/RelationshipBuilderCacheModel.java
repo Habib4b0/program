@@ -33,12 +33,13 @@ public class RelationshipBuilderCacheModel implements CacheModel<RelationshipBui
     public int hierarchyVersion;
     public int modifiedBy;
     public long modifiedDate;
+    public int deductionRelation;
     public int relationshipType;
     public String buildType;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(27);
+        StringBundler sb = new StringBundler(29);
 
         sb.append("{startDate=");
         sb.append(startDate);
@@ -62,6 +63,8 @@ public class RelationshipBuilderCacheModel implements CacheModel<RelationshipBui
         sb.append(modifiedBy);
         sb.append(", modifiedDate=");
         sb.append(modifiedDate);
+        sb.append(", deductionRelation=");
+        sb.append(deductionRelation);
         sb.append(", relationshipType=");
         sb.append(relationshipType);
         sb.append(", buildType=");
@@ -114,6 +117,7 @@ public class RelationshipBuilderCacheModel implements CacheModel<RelationshipBui
             relationshipBuilderImpl.setModifiedDate(new Date(modifiedDate));
         }
 
+        relationshipBuilderImpl.setDeductionRelation(deductionRelation);
         relationshipBuilderImpl.setRelationshipType(relationshipType);
 
         if (buildType == null) {
@@ -140,6 +144,7 @@ public class RelationshipBuilderCacheModel implements CacheModel<RelationshipBui
         hierarchyVersion = objectInput.readInt();
         modifiedBy = objectInput.readInt();
         modifiedDate = objectInput.readLong();
+        deductionRelation = objectInput.readInt();
         relationshipType = objectInput.readInt();
         buildType = objectInput.readUTF();
     }
@@ -170,6 +175,7 @@ public class RelationshipBuilderCacheModel implements CacheModel<RelationshipBui
         objectOutput.writeInt(hierarchyVersion);
         objectOutput.writeInt(modifiedBy);
         objectOutput.writeLong(modifiedDate);
+        objectOutput.writeInt(deductionRelation);
         objectOutput.writeInt(relationshipType);
 
         if (buildType == null) {

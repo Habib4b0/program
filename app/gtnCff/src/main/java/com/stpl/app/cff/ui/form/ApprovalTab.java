@@ -607,6 +607,7 @@ public class ApprovalTab extends CustomComponent {
                     parameter += "&custRelationshipBuilderSid=" + list.get(NumericConstants.TWO);
                     parameter += "&productHierarchyLevel=" + list.get(NumericConstants.THREE);
                     parameter += "&prodRelationshipBuilderSid=" + list.get(NumericConstants.FOUR);
+                    parameter += "&productHierSid=" + list.get(NumericConstants.FIVE);
                 }
                 link.setDescription("Open Commercial Forecasting");
             }

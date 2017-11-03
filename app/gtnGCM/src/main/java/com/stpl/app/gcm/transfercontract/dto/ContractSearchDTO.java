@@ -7,9 +7,7 @@ package com.stpl.app.gcm.transfercontract.dto;
 
 import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
 import java.util.Date;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -49,41 +47,6 @@ public class ContractSearchDTO {
     private String aliastypecc = StringUtils.EMPTY;
     private Integer sessionId;
     private Integer userId;
-     private Integer startIndex = 0;
-    private Integer endIndex = 0;
-    private boolean isCount = false;
-    private Set<Container.Filter> filters;
-
-    public Integer getStartIndex() {
-        return startIndex;
-    }
-
-    public void setStartIndex(Integer startIndex) {
-        this.startIndex = startIndex;
-    }
-
-    public Integer getEndIndex() {
-        return endIndex;
-    }
-
-    public void setEndIndex(Integer endIndex) {
-        this.endIndex = endIndex;
-    }
-
-    public boolean isIsCount() {
-        return isCount;
-    }
-
-    public void setIsCount(boolean isCount) {
-        this.isCount = isCount;
-    }
-      public Set<Container.Filter> getFilters() {
-        return filters;
-    }
-
-    public void setFilters(Set<Container.Filter> filters) {
-        this.filters = filters;
-    }
 
     public Integer getSessionId() {
         return sessionId;

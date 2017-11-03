@@ -11,8 +11,8 @@ import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.RelationshipOutboundDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.OutboundLogic;
 import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.RelationshipOutboundTableLogic;
-import com.stpl.app.adminconsole.relationshipbuilder.ui.lazyload.HierarchyNameContainer;
-import com.stpl.app.adminconsole.relationshipbuilder.ui.lazyload.HierarchyNameCriteria;
+import com.stpl.app.adminconsole.processscheduler.ui.lazyload.HierarchyNameContainer;
+import com.stpl.app.adminconsole.processscheduler.ui.lazyload.HierarchyNameCriteria;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CommonUtils;
 
@@ -372,8 +372,9 @@ public class RelationshipOutboundProcess extends Window {
         ExcelExportforBB.createWorkSheet(CommonUIUtil.getInstance().relationshipOutboundExcelHeader, recordCount, this, UI.getCurrent(), csvName);
     }
 
-    public void createWorkSheetContent(final Integer end, final PrintWriter printWriter) {
+    public void createWorkSheetContent(final Integer start,final Integer end, final PrintWriter printWriter) {
         try {
+             LOGGER.info("Start index of record is : "+start);
             if (end != 0) {
                 ExcelExportforBB.createFileContent(CommonUIUtil.getInstance().relationshipOutboundExcelColumns, rbCsvList, printWriter);
             }

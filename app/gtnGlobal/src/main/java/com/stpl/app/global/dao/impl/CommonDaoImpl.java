@@ -5,8 +5,14 @@
 package com.stpl.app.global.dao.impl;
 
 import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemQualifierLocalServiceUtil;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**
@@ -30,5 +36,26 @@ public class CommonDaoImpl implements CommonDao {
 
     public Object executeUpdate(String query) {
         return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+    }
+    
+    public List getBrandList(final DynamicQuery ifpDynamicQuery) throws PortalException, SystemException {
+        return BrandMasterLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
+    }
+    
+    public List itemIrtQualifierNameList(final DynamicQuery ifpDynamicQuery) throws PortalException,SystemException{
+        return ItemQualifierLocalServiceUtil.dynamicQuery(ifpDynamicQuery);
+    }
+    
+     /**
+     * Performs a dynamic query on the database and returns the matching rows.
+     * @param query - dynamic query of HelperTable
+     * @return list of HelperTable
+     * @throws SystemException 
+     */
+    public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException,SystemException {
+        return HelperTableLocalServiceUtil.dynamicQuery(query);
+    }
+    public List<HelperTable> getHelperTableDetailsByListName() throws SystemException {
+        return HelperTableLocalServiceUtil.getHelperTables(0, HelperTableLocalServiceUtil.getHelperTablesCount());
     }
 }

@@ -390,10 +390,10 @@ public class Sales extends CustomComponent {
     }
 
     public void saveTabSelection() {
-        Map map = new HashMap();
-        map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
-        map.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
-        map.put("Price Basis", String.valueOf(priceBasisDdlb.getValue()));
+        Map selectionMap = new HashMap();
+        selectionMap.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
+        selectionMap.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
+        selectionMap.put("Price Basis", String.valueOf(priceBasisDdlb.getValue()));
         String varValue = StringUtils.EMPTY;
         String actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? Constant.UPDATE_SMALL : "Save";
         for (String variables : selectedVariables) {
@@ -404,30 +404,30 @@ public class Sales extends CustomComponent {
                 varValue += "," + variables;
             }
         }
-        map.put(Constant.VARIABLES, varValue);
-        dsLogic.saveScreenSelection(session.getProjectionId(), map, Constant.SALES_SMALL, actionValue);
+        selectionMap.put(Constant.VARIABLES, varValue);
+        dsLogic.saveScreenSelection(session.getProjectionId(), selectionMap, Constant.SALES_SMALL, actionValue);
     }
 
     private void setProjectionSelection() {
-        Map<Object, Object> map = DSLogic.getProjectionSelection(session.getProjectionId(), Constant.SALES_SMALL);
-        if (map != null && !map.isEmpty()) {
-            Object value = map.get(Constant.FREQUENCY_SMALL);
+        Map<Object, Object> projectionSelectionmap = DSLogic.getProjectionSelection(session.getProjectionId(), Constant.SALES_SMALL);
+        if (projectionSelectionmap != null && !projectionSelectionmap.isEmpty()) {
+            Object value = projectionSelectionmap.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
-                frequencyDdlb.setValue(map.get(Constant.FREQUENCY_SMALL));
+                frequencyDdlb.setValue(projectionSelectionmap.get(Constant.FREQUENCY_SMALL));
                 frequencyDdlb.setImmediate(true);
             }
-            value = map.get(Constant.HISTORY_CAPS);
+            value = projectionSelectionmap.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 historyDdlb.setValue(String.valueOf(value));
                 historyDdlb.setImmediate(true);
                 setDefaultFocus();
             }
-            value = map.get("Price Basis");
+            value = projectionSelectionmap.get("Price Basis");
             if (value != null) {
                 priceBasisDdlb.setValue(String.valueOf(value));
             }
             this.map.put(Constant.PERIOD_BASIS, priceBasisDdlb.getValue());
-            value = map.get(Constant.VARIABLES);
+            value = projectionSelectionmap.get(Constant.VARIABLES);
             if (value != null) {
                 String val = value.toString();
                 int customMenuSize = customMenuItem.getSize() - 1;
@@ -494,8 +494,8 @@ public class Sales extends CustomComponent {
     @UiHandler("excelBtn")
     public void excelBtnLogic(Button.ClickEvent event) {
         final ExtCustomTable excelTable = new ExtCustomTable();
-        final ExtContainer<AccrualRateProjectionDTO> excelContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
-        configureAndLoadDataForExcel(excelTable, excelContainer);
+        final ExtContainer<AccrualRateProjectionDTO> excelBeanContainer = new ExtContainer<>(AccrualRateProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+        configureAndLoadDataForExcel(excelTable, excelBeanContainer);
         if (excelTable.size() > 0) {
             ForecastUI.EXCEL_CLOSE = true;
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(excelTable), AccrualRateUtils.SALES, AccrualRateUtils.SALES, "Sales.xls", false);

@@ -986,10 +986,10 @@
 		<field name="contractNo" type="String" />
 	</model>
 	<model name="com.stpl.app.parttwo.model.VwAdjustDemandForecastAct">
-		<field name="forecastVersion" type="String" />
+		<field name="forecastVer" type="String" />
 		<field name="grossUnits" type="double" />
 		<field name="businessUnitNo" type="String" />
-		<field name="year" type="String" />
+		<field name="forecastYear" type="String" />
 		<field name="brandName" type="String" />
 		<field name="itemId" type="String" />
 		<field name="organizationKey" type="String" />
@@ -997,15 +997,15 @@
 		<field name="marketShareRatio" type="int" />
 		<field name="businessUnitName" type="String" />
 		<field name="marketShareUnits" type="double" />
-		<field name="month" type="String" />
+		<field name="forecastMonth" type="String" />
 		<field name="inventoryUnitChange" type="double" />
 		<field name="uncapturedUnitsRatio" type="String" />
 		<field name="country" type="String" />
 		<field name="forecastType" type="String" />
-		<field name="totalAdjustedDemandUnits" type="double" />
+		<field name="totalDemandUnits" type="double" />
 		<field name="brandId" type="String" />
 		<field name="isForecast" type="String" />
-		<field name="totalAdjustedDemandAmount" type="double" />
+		<field name="totalDemandAmount" type="double" />
 		<field name="uncapturedUnits" type="double" />
 		<field name="grossPrice" type="double" />
 		<field name="grossAmount" type="double" />

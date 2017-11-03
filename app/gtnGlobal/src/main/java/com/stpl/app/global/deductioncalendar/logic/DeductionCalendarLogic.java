@@ -8,15 +8,21 @@ package com.stpl.app.global.deductioncalendar.logic;
 import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.common.util.HelperListUtil;
+import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.global.dao.impl.DeductionCalendarDaoImpl;
 import com.stpl.app.global.deductioncalendar.dto.DeductionCalendarDTO;
-import com.stpl.app.global.item.util.CommonUtils;
+import com.stpl.app.model.BrandMaster;
+import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.DeductionCalendarMaster;
+import com.stpl.app.model.ItemQualifier;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.DeductionCalendarMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.util.CommonUIUtils;
+import com.stpl.app.util.Constants;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.NotesTabLogic;
 import com.stpl.app.util.xmlparser.SQLUtil;
@@ -28,6 +34,12 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
@@ -38,13 +50,13 @@ import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.TextField;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
@@ -61,6 +73,8 @@ public class DeductionCalendarLogic {
     private final HelperListUtil helperListUtil = HelperListUtil.getInstance();
     static HashMap<String, String> criteria = new HashMap<String, String>();
     NotesTabLogic notesLogic = new NotesTabLogic();
+    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    static int itemQualifierNameCount = 0;
 
     public static CustomTableHeaderDTO getCalculatedSalesAllocationRight(CustomTableHeaderDTO fullHeaderDTO) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
@@ -204,11 +218,6 @@ public class DeductionCalendarLogic {
                     filterCriteria.put(String.valueOf(stringFilter.getPropertyId()) + ConstantsUtils.END, format.format(filterString1));
                 } else if (filter instanceof Compare) {
                     Compare stringFilter = (Compare) filter;
-                    if (stringFilter.getValue() instanceof Integer && stringFilter.getOperation().equals(stringFilter.getOperation().EQUAL) && ((Integer) stringFilter.getValue()) != 0) {
-                                     int value = (Integer) stringFilter.getValue();
-                                filterCriteria.put(String.valueOf(stringFilter.getPropertyId()), value);
-                    }
-                    if (stringFilter.getValue() instanceof Date) {
                         Compare.Operation operation = stringFilter.getOperation();
                         Date value = (Date) stringFilter.getValue();
                         if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
@@ -216,7 +225,6 @@ public class DeductionCalendarLogic {
                         } else {
                             filterCriteria.put(String.valueOf(stringFilter.getPropertyId()) + ConstantsUtils.END, format.format(value));
                         }
-                    }
                 }
             }
         }
@@ -322,16 +330,32 @@ public class DeductionCalendarLogic {
             sql += String.valueOf(parameters.get("dcModifiedBy")).replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY) + "' ";
         }
 
-        if (parameters.get("dcCreationDatestart") != null && parameters.get("dcCreationDateend") != null) {
-            String from = String.valueOf(parameters.get("dcCreationDatestart"));
-            String to = String.valueOf(parameters.get("dcCreationDateend"));
+        if (parameters.get(ConstantsUtils.DC_CREATION_DATE_START) != null && parameters.get(ConstantsUtils.DC_CREATION_DATE_END) != null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.DC_CREATION_DATE_START));
+            String to = String.valueOf(parameters.get(ConstantsUtils.DC_CREATION_DATE_END));
             sql += " AND DSM.CREATED_DATE BETWEEN '" + from + "' AND '" + to + "'";
         }
+        if (parameters.get(ConstantsUtils.DC_CREATION_DATE_START) != null && parameters.get(ConstantsUtils.DC_CREATION_DATE_END) == null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.DC_CREATION_DATE_START));
+            sql += " AND DSM.CREATED_DATE >= '" + from + "' ";
+        }
+        if (parameters.get(ConstantsUtils.DC_CREATION_DATE_START) == null && parameters.get(ConstantsUtils.DC_CREATION_DATE_END) != null) {
+            String to = String.valueOf(parameters.get(ConstantsUtils.DC_CREATION_DATE_END));
+            sql += " AND DSM.CREATED_DATE <= '" + to + "'";
+        }
 
-        if (parameters.get("dcModifiedDatestart") != null && parameters.get("dcModifiedDateend") != null) {
-            String from = String.valueOf(parameters.get("dcModifiedDatestart"));
-            String to = String.valueOf(parameters.get("dcModifiedDateend"));
+        if (parameters.get(ConstantsUtils.DC_MODIFIED_DATE_START) != null && parameters.get(ConstantsUtils.DC_MODIFIED_DATE_END) != null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.DC_MODIFIED_DATE_START));
+            String to = String.valueOf(parameters.get(ConstantsUtils.DC_MODIFIED_DATE_END));
             sql += " AND DSM.MODIFIED_DATE BETWEEN '" + from + "' AND '" + to + "'";
+        }
+        if (parameters.get(ConstantsUtils.DC_MODIFIED_DATE_START) != null && parameters.get(ConstantsUtils.DC_MODIFIED_DATE_END) == null) {
+            String from = String.valueOf(parameters.get(ConstantsUtils.DC_MODIFIED_DATE_START));
+            sql += " AND DSM.MODIFIED_DATE >= '" + from + "'";
+        }
+        if (parameters.get(ConstantsUtils.DC_MODIFIED_DATE_START) == null && parameters.get(ConstantsUtils.DC_MODIFIED_DATE_END) != null) {
+            String to = String.valueOf(parameters.get(ConstantsUtils.DC_MODIFIED_DATE_END));
+            sql += " AND DSM.MODIFIED_DATE <= '" + to + "'";
         }
 
         if (!isCount) {
@@ -409,7 +433,7 @@ public class DeductionCalendarLogic {
     private String replaceForWildCardSearch(String input) {
         if (StringUtils.isNotBlank(input)) {
             input = input.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
-            input = input.replace(CommonUtils.CHAR_ASTERISK, CommonUtils.CHAR_PERCENT);
+            input = input.replace(CommonUIUtils.CHAR_ASTERISK, CommonUIUtils.CHAR_PERCENT);
         }
         return input;
     }
@@ -508,4 +532,257 @@ public class DeductionCalendarLogic {
             return dto;
         }
     }
+    /**
+     * getting count for Brand
+     *
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyBrandCount(String filterText) throws PortalException, SystemException {
+        filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
+        LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
+        List<Object[]> qualifierList;
+        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.BRAND_NAME, filterText));
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.BRAND_NAME));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
+        qualifierList = DAO.getBrandList(ifpDynamicQuery);
+        int brandCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        LOGGER.debug("Ending getLazyBrandCount method : returning count :" + brandCount);
+        return brandCount;
+    }
+    
+    /**
+     * getting results for Brand
+     *
+     * @param start
+     * @param end
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<com.stpl.app.util.HelperDTO> getLazyBrandResults(final int start, final int end, String filterText, final com.stpl.app.util.HelperDTO brand, boolean isFilter) throws PortalException, SystemException {
+        filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
+        LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
+        List<Object[]> qualifierList;
+        final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
+        if (start == Constants.ZERO) {
+            startValue = start;
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+
+        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        ifpDynamicQuery.setLimit(startValue, endValue);
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_MASTER_SID));
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_NAME));
+        ifpDynamicQuery.setProjection(projectionList);
+        ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.BRAND_NAME));
+        if (filterText != null) {
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.BRAND_NAME, filterText));
+        }
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
+        if (brand != null && brand.getId() != 0) {
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.BRAND_MASTER_SID, brand.getId()));
+        }
+
+        qualifierList = DAO.getBrandList(ifpDynamicQuery);
+
+        com.stpl.app.util.HelperDTO dto;
+        if (start == Constants.ZERO) {
+            dto = new com.stpl.app.util.HelperDTO(0, isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE);
+            list.add(dto);
+            if (brand != null && brand.getId() != 0) {
+
+                list.add(brand);
+            }
+
+        }
+        for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            dto = new com.stpl.app.util.HelperDTO(StringUtils.EMPTY);
+            dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+            dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+            list.add(dto);
+        }
+        LOGGER.debug("return Brand size -" + list.size());
+        return list;
+    }
+
+    /**
+     * getting count for CompanyQualifierName
+     *
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
+        filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
+        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.ITEM_QUAL_NAME));
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_QUALIFIER_SID));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_QUAL_NAME, filterText));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_QUAL_NAME, StringUtils.EMPTY)));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.ITEM_QUAL_NAME));
+        final List<Object[]> qualifierList = DAO.itemIrtQualifierNameList(ifpDynamicQuery);
+        itemQualifierNameCount = Integer.parseInt(String.valueOf(qualifierList.get(0)));
+        if (itemQualifierNameCount == 0 && isEditList) {
+            itemQualifierNameCount++;
+        }
+        LOGGER.debug("Ending getLazyPriceTypeCount method : returning count :" + itemQualifierNameCount);
+        return itemQualifierNameCount;
+    }
+
+    /**
+     * getting results for CompanyQualifierName
+     *
+     * @param start
+     * @param end
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<com.stpl.app.util.HelperDTO> getLazyItemQualifierNameResults(final int start, final int end, final String filteredText, final boolean editListFlag) throws PortalException, SystemException {
+        String filterText = StringUtils.trimToEmpty(filteredText) + ConstantsUtils.PERCENCTAGE;
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
+        final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
+        int startValue;
+        int endValue;
+        if (start == Constants.ZERO) {
+            startValue = start;
+            endValue = end - 1;
+        } else {
+            startValue = start - 1;
+            endValue = end - 1;
+        }
+
+        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
+        ifpDynamicQuery.setLimit(startValue, endValue);
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_QUALIFIER_SID));
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_QUAL_NAME));
+        ifpDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
+        ifpDynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.ITEM_QUAL_NAME));
+        if (filterText != null) {
+            ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.ITEM_QUAL_NAME, filterText));
+        }
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.ITEM_QUAL_NAME, StringUtils.EMPTY)));
+        ifpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.ITEM_QUAL_NAME));
+        final List<Object[]> qualifierList = DAO.itemIrtQualifierNameList(ifpDynamicQuery);
+
+        com.stpl.app.util.HelperDTO dto;
+        if (start == Constants.ZERO) {
+            dto = new com.stpl.app.util.HelperDTO(ConstantsUtils.SELECT_ONE);
+            list.add(dto);
+        }
+        for (final Iterator<Object[]> iterator = qualifierList.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            dto = new com.stpl.app.util.HelperDTO(StringUtils.EMPTY);
+            dto.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+            dto.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+            if (!StringUtils.EMPTY.equals(dto.getDescription())) {
+                list.add(dto);
+            }
+        }
+        if (editListFlag) {
+            filterText = filterText.replace("*", StringUtils.EMPTY);
+            filterText = filterText.replace(ConstantsUtils.PERCENCTAGE, StringUtils.EMPTY);
+
+            filterText = filterText.toUpperCase(Locale.ENGLISH);
+            if (!StringUtils.EMPTY.equals(filterText) && Constants.EDIT_LIST.startsWith(filterText)) {
+                dto = new com.stpl.app.util.HelperDTO(ConstantsUtils.EDITLIST);
+                list.add(dto);
+            }
+            if (StringUtils.EMPTY.equals(filterText) && itemQualifierNameCount != 0 && itemQualifierNameCount == end - NumericConstants.TWO) {
+                dto = new com.stpl.app.util.HelperDTO(ConstantsUtils.EDITLIST);
+                list.add(dto);
+            }
+        }
+        LOGGER.debug("return CompanyQualifier size -" + list.size());
+        return list;
+    }
+    public static int getLazyManufactureIdCount(String filter) throws PortalException, SystemException {
+        filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText :" + filter);
+        List<Object[]> qualifierList;
+        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_ID, filter));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D)));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_TYPE, com.stpl.app.util.GeneralCommonUtils.getHelperCode("COMPANY_TYPE", ConstantsUtils.MANUFACTURE)));
+        cfpDynamicQuery.setProjection(ProjectionFactoryUtil.countDistinct(ConstantsUtils.COMPANY_MASTER_ID));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.COMPANY_ID));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.COMPANY_ID, StringUtils.EMPTY)));
+        qualifierList = DAO.getBrandList(cfpDynamicQuery);
+        LOGGER.debug("Ending getLazyCompanyQualifierNameCount method with filterText with count :" + qualifierList.get(0));
+        return Integer.parseInt(String.valueOf(qualifierList.get(0)));
+    }
+
+    public static List<com.stpl.app.util.HelperDTO> getLazyManufactureIdResults(final int startIndex, final int end, final String filter, final com.stpl.app.util.HelperDTO manufactureId, final boolean filerGeneraterFlag) throws PortalException, SystemException {
+        final List<com.stpl.app.util.HelperDTO> list = new ArrayList<>();
+        int startValue = startIndex;
+        int endValue;
+        if (startIndex == ConstantsUtils.ZERO_INT) {
+            endValue = end - 1;
+        } else {
+            startValue = startIndex - 1;
+            endValue = end - 1;
+        }
+        LOGGER.debug("Entering getLazyManufactureIdResults method with filterText :" + filter);
+        final String filterString = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
+        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+        cfpDynamicQuery.setLimit(startValue, endValue);
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_TYPE, com.stpl.app.util.GeneralCommonUtils.getHelperCode("COMPANY_TYPE", ConstantsUtils.MANUFACTURE)));
+        if (manufactureId != null && manufactureId.getId() != 0) {
+            cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.COMPANY_MASTER_ID, manufactureId.getId()));
+        }
+        // Added to check INBOUND_STATUS is A. ETL Soft delete data should not be included, where INBOUND_STATUS is D
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D)));
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.COMPANY_MASTER_ID));
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.COMPANY_ID));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.COMPANY_ID, StringUtils.EMPTY)));
+        cfpDynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.COMPANY_ID));
+        if (filter != null) {
+            cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_ID, filterString));
+        }
+        cfpDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
+        final List<Object[]> returnList = DAO.getBrandList(cfpDynamicQuery);
+        com.stpl.app.util.HelperDTO helperTable;
+        if (startIndex == ConstantsUtils.ZERO_INT) {
+            helperTable = new com.stpl.app.util.HelperDTO();
+            if (filerGeneraterFlag) {
+                helperTable.setDescription(ConstantsUtils.SHOW_ALL);
+            } else {
+                helperTable.setDescription(ConstantsUtils.SELECT_ONE);
+            }
+            list.add(helperTable);
+            if (manufactureId != null && manufactureId.getId() != 0) {
+                list.add(manufactureId);
+            }
+        }
+        for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            helperTable = new com.stpl.app.util.HelperDTO();
+            helperTable.setId(value[0] != null ? Integer.parseInt(value[0].toString()) : 0);
+            helperTable.setDescription(value[1] != null ? value[1].toString() : StringUtils.EMPTY);
+            if (!StringUtils.EMPTY.equals(helperTable.getDescription())) {
+                list.add(helperTable);
+            }
+        }
+        LOGGER.debug("Ending getLazyManufactureIdResults  return list size :" + +list.size());
+        return list;
+    }
+
 }

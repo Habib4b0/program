@@ -2705,6 +2705,8 @@ public final class ConstantsUtils {
     public static final String CUSTOMER_START_DATE_TO = "customerStartDateto";
     public static final String ITEM_MASTER_START_DATE_FROM = " AND IM.item_Start_Date <= '";
     public static final String ITEM_MASTER_START_DATE_TO = " AND IM.item_Start_Date >= '";
+    public static final String ITEM_MASTER_END_DATE_FROM = " AND IM.item_End_Date <= '";
+    public static final String ITEM_MASTER_END_DATE_TO = " AND IM.item_End_Date >= '";
     public static final String IFP_START_DATE_FROM = " AND IFD.START_DATE <= '";
     public static final String IFP_START_DATE_TO = " AND IFD.START_DATE >= '";
     public static final String CUSTOMER_TYPE = "customerType";
@@ -2904,6 +2906,11 @@ public final class ConstantsUtils {
     public static final String ITEM_MASTER_TABLE ="ITEM_MASTER";
     public static final String BASE_AMP ="BASELINE_AMP";
     public static final String BASE_CPI_CAPS ="BASE_CPI";
+    public static final String DC_CREATION_DATE_END ="dcCreationDateend";
+    public static final String DC_CREATION_DATE_START ="dcCreationDatestart";
+    public static final String DC_MODIFIED_DATE_START ="dcModifiedDatestart";
+    public static final String DC_MODIFIED_DATE_END ="dcModifiedDateend";
+    public static final String PACKAGE_SIZE_INTRO_GREATER =" AND IM.package_Size_Intro_Date >= '";
 
     /**
      * Constructor

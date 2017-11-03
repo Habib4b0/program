@@ -9,13 +9,12 @@ import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.util.AbstractFilterLogic;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
+import com.stpl.app.adminconsole.dao.CommonDAO;
+import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.app.adminconsole.processscheduler.dto.HierarchyDefinitionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.RelationshipOutboundDTO;
-import static com.stpl.app.adminconsole.relationshipbuilder.logic.RelationBuilderLogic.dao;
-import static com.stpl.app.adminconsole.relationshipbuilder.logic.RelationBuilderLogic.getDBColumnName;
-import static com.stpl.app.adminconsole.relationshipbuilder.logic.RelationBuilderLogic.loadColumnName;
-import com.stpl.app.adminconsole.relationshipbuilder.util.CommonUtils;
+import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.model.HierarchyDefinition;
@@ -72,7 +71,10 @@ public class OutboundLogic {
     SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
     static HashMap<String, String> hierarchyCheckAllMap = new HashMap<>();
     static HashMap<String, String> rbMap = new HashMap<>();
-
+    static CommonDAO dao = new CommonDAOImpl();
+    static HashMap<String, String> columnNames = new HashMap<String, String>();
+    public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
+    
     public int getHierarchyDefinitionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet, String hierType) {
         int count = 0;
         StringBuilder queryBuilder = buildHierarchyDefinitionSearchQuery(searchFields, true, hierType);
@@ -184,9 +186,9 @@ public class OutboundLogic {
             hierarchyFilterMap.put(StringConstantUtils.HIERARCHY_CATEGORY_PROPERTY, StringConstantUtils.HDHIERARCHY_CATEGORY);
             hierarchyFilterMap.put("noOfLevels", "HD.NO_OF_LEVELS");
             hierarchyFilterMap.put("versionNo", "HD.VERSION_NO");
-            hierarchyFilterMap.put("createdBy", "HD.CREATED_BY");
+            hierarchyFilterMap.put(ConstantsUtils.CREATED_BY, "HD.CREATED_BY");
             hierarchyFilterMap.put(StringConstantUtils.CREATED_DATE_PROPERTY, StringConstantUtils.HDCREATED_DATE);
-            hierarchyFilterMap.put("modifiedDate", "HD.MODIFIED_DATE");
+            hierarchyFilterMap.put(ConstantsUtils.MODIFIED_DATE, "HD.MODIFIED_DATE");
         }
     }
 
@@ -879,4 +881,22 @@ public class OutboundLogic {
         return rbOutboundList;
     }
   
+    public static String getDBColumnName(String visibleColumnName) {
+        return columnNames.get(visibleColumnName);
+    }
+
+    public static HashMap<String, String> loadColumnName() {
+
+        columnNames.put("relationshipName", "relationshipName");
+        columnNames.put("relationshipDesc", RELATIONSHIP_DESCRIPTION);
+        columnNames.put("relationshipType", "relationshipType");
+        columnNames.put("hierarchyName", "hierarchyDefinitionSid");
+        columnNames.put(ConstantsUtils.VERSION_NO, ConstantsUtils.VERSION_NO);
+        columnNames.put("startDate", "startDate");
+        columnNames.put(ConstantsUtils.CREATED_DATE, ConstantsUtils.CREATED_DATE);
+        columnNames.put(ConstantsUtils.MODIFIED_DATE, ConstantsUtils.MODIFIED_DATE);
+        columnNames.put(ConstantsUtils.CREATED_BY, ConstantsUtils.CREATED_BY);
+
+        return columnNames;
+    }
 }

@@ -3,49 +3,6 @@
 
 <liferay-portlet-app>
     <portlet>
-        <portlet-name>Item</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
-        <portlet-name>Company</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <!-- Added by Mani -->
-    <!-- Start of code by Mani -->
-    <portlet>
-        <portlet-name>RebatePlan</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
-        <portlet-name>RebateSchedule</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <!-- End of code by Mani -->
-    <portlet>
-        <portlet-name>CompanyFamilyPlan</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
-        <portlet-name>ItemFamilyPlan</portlet-name>
-        <instanceable>false</instanceable>
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
-        <portlet-name>PriceSchedule</portlet-name>
-        <instanceable>false</instanceable>       
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
-        <portlet-name>NetSalesFormula</portlet-name>
-        <instanceable>false</instanceable>       
-        <ajaxable>false</ajaxable>
-    </portlet>
-    <portlet>
         <portlet-name>DeductionCalendar</portlet-name>
         <instanceable>false</instanceable>
         <ajaxable>false</ajaxable>

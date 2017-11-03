@@ -438,8 +438,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID  ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
-                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
+            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
+                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -842,8 +842,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
-                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
+            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
+                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -1069,7 +1069,7 @@ public class PVQueryUtils {
                 + "AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
         }
         ccpQuery += " ) CCPMAP,\n"
                 + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
@@ -1111,7 +1111,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
         }
 
         ccpQuery += " ) CCPMAPC \n"
@@ -1123,7 +1123,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
         }
 
         ccpQuery += " ) CCPMAPP \n"
@@ -1343,8 +1343,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
-                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
+            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
+                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID = J.RS_MODEL_SID ";
@@ -1420,8 +1420,8 @@ public class PVQueryUtils {
                 + "where A1.PROJECTION_DETAILS_SID = B1.PROJECTION_DETAILS_SID "
                 + "and B1.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B1")
-                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A1");
+            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B1")
+                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A1");
         }
         customSql += " and  E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId()
                 + ccpWhereCond

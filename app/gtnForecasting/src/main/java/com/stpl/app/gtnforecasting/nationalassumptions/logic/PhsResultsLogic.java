@@ -56,9 +56,15 @@ public class PhsResultsLogic {
     private static final DecimalFormat UNITS = new DecimalFormat("#0.00");
     private static final String DATASOURCECONTEXT = "java:jboss/datasources/jdbc/appDataPool";
 
+    public static final String ADJUSTMENT = "Adjustment ";
+    public static final String OVERRIDE = "Override ";
+    public static final String HISTORICAL = "Historical ";
+    public static final String FORECAST = "Forecast ";
+    public static final String PHS_PRICE = "PHS_PRICE";
+
     private final PhsQueryUtils queryUtil = new PhsQueryUtils();
 
-    public List<TableDTO> getConfiguredPhsResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getConfiguredPhsResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
@@ -71,11 +77,11 @@ public class PhsResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
             int parentSid = parentDto.getItemMasterSid();
-            resultList = getPhsChildren(start, offset, projSelDTO, parentSid,session);
+            resultList = getPhsChildren(start, offset, projSelDTO, parentSid, session);
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
@@ -89,15 +95,15 @@ public class PhsResultsLogic {
 
         return resultList;
     }
-    
-    public List<TableDTO> getPhsChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
+
+    public List<TableDTO> getPhsChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, int parentSid, SessionDTO session) {
         LOGGER.debug("getPhsChildren started");
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getPhsChild(projSelDTO, parentSid,session);
+            List<TableDTO> resultList = getPhsChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++, neededRecord--) {
                 projDTOList.add(resultList.get(k));
             }
@@ -106,7 +112,7 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsChild(ProjectionSelectionDTO projSelDTO, int parentSid,SessionDTO session) {
+    public List<TableDTO> getPhsChild(ProjectionSelectionDTO projSelDTO, int parentSid, SessionDTO session) {
         LOGGER.debug("getPhsChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         try {
@@ -165,24 +171,35 @@ public class PhsResultsLogic {
     }
 
     public void getCustPhsChildCustomization(boolean wac, List<Object[]> list, ProjectionSelectionDTO projSelDTO, List<TableDTO> projDTOList, boolean phs, boolean phsDiscount, boolean totalURA, boolean amp) {
+        Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
         if (wac) {
-            List<TableDTO> wacList = getCustomizedPhsChild(list, projSelDTO, WAC.getConstant());
+            TableDTO phsDTO = new TableDTO();
+            phsDTO.setGroup(WAC.getConstant());
+            List<TableDTO> wacList = getCustomizedPhsChild(list, projSelDTO, WAC.getConstant(), phsDTO);
             projDTOList.addAll(wacList);
         }
         if (phs) {
-            List<TableDTO> phsList = getCustomizedPhsChild(list, projSelDTO, PHS.getConstant());
+            TableDTO phsDTO = new TableDTO();
+            phsDTO.setGroup(PHS.getConstant());
+            List<TableDTO> phsList = getCustomizedPhsChild(list, projSelDTO, PHS.getConstant(), phsDTO);
             projDTOList.addAll(phsList);
         }
         if (phsDiscount) {
-            List<TableDTO> phsDiscountList = getCustomizedPhsChild(list, projSelDTO, PHS_DISCOUNT.getConstant());
+            TableDTO phsDTO = new TableDTO();
+            phsDTO.setGroup(PHS_DISCOUNT.getConstant());
+            List<TableDTO> phsDiscountList = getCustomizedPhsChild(list, projSelDTO, PHS_DISCOUNT.getConstant(), phsDTO);
             projDTOList.addAll(phsDiscountList);
         }
         if (totalURA) {
-            List<TableDTO> uraList = getCustomizedPhsChild(list, projSelDTO, TOTAL_URA.getConstant());
+            TableDTO phsDTO = new TableDTO();
+            phsDTO.setGroup(CommonUtils.getGroupName(priceTypeList.get(Constant.PHS_TOTAL_URA)));
+            List<TableDTO> uraList = getCustomizedPhsChild(list, projSelDTO, TOTAL_URA.getConstant(), phsDTO);
             projDTOList.addAll(uraList);
         }
         if (amp) {
-            List<TableDTO> ampList = getCustomizedPhsChild(list, projSelDTO, AMP.getConstant());
+            TableDTO phsDTO = new TableDTO();
+            phsDTO.setGroup(CommonUtils.getGroupName(priceTypeList.get(Constant.PHS_AMP)));
+            List<TableDTO> ampList = getCustomizedPhsChild(list, projSelDTO, AMP.getConstant(), phsDTO);
             projDTOList.addAll(ampList);
         }
     }
@@ -231,10 +248,10 @@ public class PhsResultsLogic {
         int brandSid = projSelDTO.getBrandMasterId();
         int therapeutic = projSelDTO.getTherapeuticSid().getId();
         List<Object[]> phsList;
-        int phsParentCount = 0; 
+        int phsParentCount = 0;
         phsList = queryUtil.loadPhsResultsTable(projMasterId, brandSid, "getPhsParentCount", projSelDTO.getLevelNo(), 0, therapeutic);
         if (phsList != null && !phsList.isEmpty()) {
-             phsParentCount += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
+            phsParentCount += Integer.parseInt(StringUtils.isNotBlank(String.valueOf(phsList.get(0))) ? String.valueOf(phsList.get(0)) : Constant.STRING_ONE);
         }
         return phsParentCount;
     }
@@ -243,7 +260,7 @@ public class PhsResultsLogic {
         int count = 0;
         int phsCount = 0;
         if (projSelDTO.getPivotView().contains(PERIOD.getConstant())) {
-             phsCount = count + projSelDTO.getPriceTypeList().size();
+            phsCount = count + projSelDTO.getPriceTypeList().size();
         } else {
             phsCount = count + projSelDTO.getPeriodList().size();
         }
@@ -267,21 +284,17 @@ public class PhsResultsLogic {
                 projDTOList = getCustomizedProjectionTotal(phsList);
             }
         } catch (PortalException | SystemException e) {
-           LOGGER.error(e);
+            LOGGER.error(e);
         }
         LOGGER.debug("getPhs method ends ");
         return projDTOList;
     }
 
-    public List<TableDTO> getCustomizedPhsChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO, String groupIndicator) {
+    public List<TableDTO> getCustomizedPhsChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO, String groupIndicator, TableDTO phsDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projections = projSelDTO.getActualsOrProjections();
         List<TableDTO> projDTOList = new ArrayList<>();
-        TableDTO phsDTO = new TableDTO();
         phsDTO.setParent(0);
-
-        phsDTO.setGroup(groupIndicator);
-
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
@@ -351,7 +364,7 @@ public class PhsResultsLogic {
                 columnList.remove(column);
             }
         }
-        
+
     }
 
     public String getFormattedValue(DecimalFormat format, String value) {
@@ -396,7 +409,7 @@ public class PhsResultsLogic {
     }
 
 // Master Phs Worksheet starts
-    public List<TableDTO> getConfiguredPhsWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, int levelNo,SessionDTO session) {
+    public List<TableDTO> getConfiguredPhsWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, int levelNo, SessionDTO session) {
         List<TableDTO> resultList = new ArrayList<>();
         if (levelNo == 0) {
             projSelDTO.setYear(Constant.ALL);
@@ -410,7 +423,7 @@ public class PhsResultsLogic {
                 projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
                 projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
                 projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-                projSelDTO.setGroup(parentDto.getGroup());
+                projSelDTO.setGroup(parentDto.getPriceType());
                 projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
                 resultList = getPhsWorksheetChildren(start, offset, projSelDTO, session);
             } else {
@@ -445,7 +458,7 @@ public class PhsResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
             if (parentDto.getGroup().startsWith("PHS")) {
                 count += NumericConstants.THREE;
@@ -465,15 +478,15 @@ public class PhsResultsLogic {
         return count;
     }
 
-    public List<TableDTO> getPhsWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getPhsWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getPhsWorksheetResults started");
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getPHSWorksheet(projSelDTO,session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++,  neededRecord--) {
+            List<TableDTO> resultList = getPHSWorksheet(projSelDTO, session);
+            for (int k = started; k < resultList.size() && neededRecord > 0; k++, neededRecord--) {
                 projDTOList.add(resultList.get(k));
             }
         }
@@ -481,7 +494,7 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getPhsWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getPhsWorksheetChildren started");
         int neededRecord = offset;
         int started = start;
@@ -489,7 +502,7 @@ public class PhsResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getPhsWorksheetChild(projSelDTO, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++,  neededRecord--) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; k++, neededRecord--) {
                 projDTOList.add(resultList.get(k));
             }
         }
@@ -497,13 +510,14 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPhsWorksheetChild(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getPhsWorksheetChild(ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getPhsWorksheetChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         try {
             int ndcSid = projSelDTO.getNdcSid().getId();
             List<Object[]> pfsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
-            projDTOList = getCustPHSWorksheetChild(projSelDTO, pfsWSList);
+            Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
+            projDTOList = getCustPHSWorksheetChild(projSelDTO, pfsWSList, priceTypeList);
         } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
@@ -511,59 +525,60 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getCustPHSWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList) {
+    public List<TableDTO> getCustPHSWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList, Map<String, String> priceTypeList) {
         List<TableDTO> projDTOList = new ArrayList<>();
-
+        
         boolean phsPrice = false;
         boolean totalUra = false;
         boolean isAMPExpanded = false;
-
+        List<String> priceList = projSelDTO.getPriceTypeList();
+        
         if ("PHS Price".equalsIgnoreCase(projSelDTO.getGroup())) {
             phsPrice = true;
-        }
-        if (TOTAL_URA.getConstant().equalsIgnoreCase(projSelDTO.getGroup())) {
+        } else if (priceList.contains(TOTAL_URA.getConstant()) && (projSelDTO.getGroup().equals(TOTAL_URA.getConstant()) || projSelDTO.getGroup().equals(priceTypeList.get(Constant.PHS_TOTAL_URA)))) {
             totalUra = true;
+        } else if (Constant.AMP.equalsIgnoreCase(projSelDTO.getGroup())) {
+            isAMPExpanded = true;
         }
-        isAMPExpanded = Constant.AMP.equalsIgnoreCase(projSelDTO.getGroup());
-
+        
         if (phsPrice) {
 
             TableDTO histFss = new TableDTO();
-            histFss.setGroup("Historical PHS Price");
+            histFss.setGroup(HISTORICAL + priceTypeList.get(PHS_PRICE));
             histFss.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, histFss, PHS.getConstant(), CUR_TWO));
 
             TableDTO forecastfssDTO = new TableDTO();
-            forecastfssDTO.setGroup("Forecast PHS Price");
+            forecastfssDTO.setGroup(FORECAST + priceTypeList.get(PHS_PRICE));
             forecastfssDTO.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, forecastfssDTO, PHS.getConstant(), CUR_TWO));
 
             TableDTO overrideFssDTO = new TableDTO();
-            overrideFssDTO.setGroup("Adjustment PHS Price");
+            overrideFssDTO.setGroup(OVERRIDE + priceTypeList.get(PHS_PRICE));
             overrideFssDTO.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(pfsWSList, projSelDTO, overrideFssDTO, PHS.getConstant(), CUR_TWO));
 
         }
         if (totalUra) {
             TableDTO histNonFamp = new TableDTO();
-            histNonFamp.setGroup("Historical Total URA");
+            histNonFamp.setGroup(HISTORICAL + priceTypeList.get(Constant.PHS_TOTAL_URA));
             histNonFamp.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, histNonFamp, TOTAL_URA.getConstant(), CUR_TWO));
 
             TableDTO forecastnonFamp = new TableDTO();
-            forecastnonFamp.setGroup("Forecast Total URA");
+            forecastnonFamp.setGroup(FORECAST + priceTypeList.get(Constant.PHS_TOTAL_URA));
             forecastnonFamp.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, forecastnonFamp, TOTAL_URA.getConstant(), CUR_TWO));
 
         }
         if (isAMPExpanded) {
             TableDTO histAMP = new TableDTO();
-            histAMP.setGroup("Historical AMP");
+            histAMP.setGroup(HISTORICAL + priceTypeList.get(Constant.PHS_AMP));
             histAMP.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, histAMP, Constant.AMP, CUR_TWO));
 
             TableDTO forecastAMP = new TableDTO();
-            forecastAMP.setGroup("Forecast AMP");
+            forecastAMP.setGroup(FORECAST + priceTypeList.get(Constant.PHS_AMP));
             forecastAMP.setParent(0);
             projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, forecastAMP, Constant.AMP, CUR_TWO));
         }
@@ -571,13 +586,14 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPHSWorksheet(ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getPHSWorksheet(ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         LOGGER.debug("getPHSWorksheet method starts ");
         int ndcSid = projSelDTO.getNdcSid().getId();
         List<TableDTO> projDTOList = new ArrayList<>();
         try {
             List<Object[]> phsWSList = queryUtil.loadPhsWorksheet(session, ndcSid, projSelDTO.isAdjust());
-            projDTOList = getCustomizedPhsWorksheet(projSelDTO, phsWSList);
+            Map<String, String> priceTypeList = projSelDTO.getLoadPhsPriceMap();
+            projDTOList = getCustomizedPhsWorksheet(projSelDTO, phsWSList, priceTypeList);
         } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
@@ -585,44 +601,50 @@ public class PhsResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getCustomizedPhsWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList) {
+    public List<TableDTO> getCustomizedPhsWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> pfsWSList, Map<String, String> priceTypeList) {
 
         List<TableDTO> projDTOList = new ArrayList<>();
 
         TableDTO phsPriceDTO = new TableDTO();
-        phsPriceDTO.setGroup("PHS Price");
+        phsPriceDTO.setGroup(priceTypeList.get(PHS_PRICE));
+        phsPriceDTO.setPriceType("PHS Price");
         phsPriceDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, phsPriceDTO, PHS.getConstant(), CUR_TWO));
 
         TableDTO totalUraDTO = new TableDTO();
-        totalUraDTO.setGroup(TOTAL_URA.getConstant());
+        totalUraDTO.setGroup(priceTypeList.get(Constant.PHS_TOTAL_URA));
+        totalUraDTO.setPriceType(TOTAL_URA.getConstant());
         totalUraDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, totalUraDTO, TOTAL_URA.getConstant(), CUR_TWO));
 
         TableDTO ampDTO = new TableDTO();
-        ampDTO.setGroup(Constant.AMP);
+        ampDTO.setGroup(priceTypeList.get(Constant.PHS_AMP));
+        ampDTO.setPriceType(Constant.AMP);
         ampDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, ampDTO, Constant.AMP, CUR_TWO));
 
         TableDTO wacCmsUnitPrice = new TableDTO();
-        wacCmsUnitPrice.setGroup("WAC (CMS Unit Price)");
+        wacCmsUnitPrice.setGroup(priceTypeList.get("PHS_WAC_CMS_UNIT_PRICE"));
+        wacCmsUnitPrice.setPriceType("WAC (CMS Unit Price)");
         wacCmsUnitPrice.setParent(0);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, wacCmsUnitPrice, WAC.getConstant(), CUR_TWO));
 
         TableDTO wacIncrease = new TableDTO();
-        wacIncrease.setGroup("WAC Increase %");
+        wacIncrease.setGroup(priceTypeList.get("PHS_WAC_INCREASE"));
+        wacIncrease.setPriceType("WAC Increase %");
         wacIncrease.setParent(0);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, wacIncrease, "WAC INCREASE %", PER_TWO));
 
         TableDTO cmsDto = new TableDTO();
-        cmsDto.setGroup("CMS Units");
+        cmsDto.setGroup(priceTypeList.get("PHS_CMS_UNITS"));
+        cmsDto.setPriceType("CMS Units");
         cmsDto.setParent(0);
         projDTOList.addAll(getWorksheetData(pfsWSList, projSelDTO, cmsDto, "CMS Units", UNITS));
 
         return projDTOList;
     }
 
-    public String getPhsCook(String priceBasis,SessionDTO session) throws SQLException, NamingException  {
+    public String getPhsCook(String priceBasis, SessionDTO session) throws SQLException, NamingException {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -782,7 +804,7 @@ public class PhsResultsLogic {
         String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
         if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
             getWorksheetDataActuals(commonColumn, projSelDTO, phsDTO, obj, format, columnList);
-            
+
         }
         if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
             getWorksheetDataProjection(commonColumn, projSelDTO, phsDTO, obj, format, columnList);
@@ -810,7 +832,7 @@ public class PhsResultsLogic {
         if (projSelDTO.hasColumn(column)) {
             if (phsDTO.getGroup().startsWith(Constant.FORECAST)) {
                 phsDTO.addStringProperties(column, DASH.getConstant());
-            } else if (phsDTO.getGroup().startsWith(Constant.ADJUSTMENT)) {
+            } else if (phsDTO.getGroup().startsWith(Constant.OVERRIDE)) {
                 phsDTO.addStringProperties(column, StringUtils.EMPTY);
             } else {
                 String value = StringUtils.EMPTY + obj[1];

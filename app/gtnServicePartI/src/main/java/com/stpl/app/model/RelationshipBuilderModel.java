@@ -202,6 +202,20 @@ public interface RelationshipBuilderModel extends BaseModel<RelationshipBuilder>
     public void setModifiedDate(Date modifiedDate);
 
     /**
+     * Returns the deduction relation of this relationship builder.
+     *
+     * @return the deduction relation of this relationship builder
+     */
+    public int getDeductionRelation();
+
+    /**
+     * Sets the deduction relation of this relationship builder.
+     *
+     * @param deductionRelation the deduction relation of this relationship builder
+     */
+    public void setDeductionRelation(int deductionRelation);
+
+    /**
      * Returns the relationship type of this relationship builder.
      *
      * @return the relationship type of this relationship builder

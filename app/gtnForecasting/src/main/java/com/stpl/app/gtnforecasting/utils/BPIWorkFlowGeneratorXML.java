@@ -5,12 +5,12 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.MedicaidNdcPopUp;
 import java.util.HashMap;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -72,8 +72,9 @@ public class BPIWorkFlowGeneratorXML {
         HashMap hm = new HashMap();
         
         try {
-            File file = new File(fileWithPath);
+            File file = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
@@ -212,8 +213,9 @@ public class BPIWorkFlowGeneratorXML {
         boolean updateflag = false;
         
         try {
-            File file = new File(fileWithPath);
+            File file = com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath);
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(file);
             doc.getDocumentElement().normalize();
@@ -270,7 +272,7 @@ public class BPIWorkFlowGeneratorXML {
                     Transformer xformer = TransformerFactory.newInstance()
                             .newTransformer();
                     xformer.transform(new DOMSource(doc), new StreamResult(
-                            new File(fileWithPath)));
+                            com.stpl.ifs.util.CommonUtil.getFilePath(fileWithPath)));
                 }
                 
             }

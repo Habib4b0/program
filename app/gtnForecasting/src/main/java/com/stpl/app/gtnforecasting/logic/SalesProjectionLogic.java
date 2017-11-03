@@ -569,7 +569,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             List list = salesProjectionDAO.getSalesProjection(inputs);
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 count = Integer.parseInt(String.valueOf(list.get(0)));
             }
         } catch (PortalException ex) {
@@ -967,7 +967,7 @@ public class SalesProjectionLogic {
         } catch (Exception ex) {
             Logger.getLogger(SalesProjectionLogic.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (list.size() > 0) {
+        if (!list.isEmpty()) {
             id = list.size();
            
         }
@@ -1001,7 +1001,7 @@ public class SalesProjectionLogic {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         try {
             List list = salesProjectionDAO.getSalesProjection(input);
-            if (list.size() > 0) {
+            if (!list.isEmpty()) {
                 count = Integer.valueOf(list.get(0).toString());
             }
         } catch (PortalException ex) {
@@ -1220,5 +1220,5 @@ public class SalesProjectionLogic {
         }
         return hasNoActuals;
     }
-
+    
 }

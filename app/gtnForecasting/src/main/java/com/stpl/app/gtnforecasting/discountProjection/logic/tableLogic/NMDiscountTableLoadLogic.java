@@ -12,6 +12,7 @@ import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.Constants;
@@ -19,11 +20,9 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Container;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
@@ -79,7 +78,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
     CommonLogic commonLogic = new CommonLogic();
     DiscountQueryBuilder queryBuilder = new DiscountQueryBuilder();
-    
+
     public void setDiscountVariablesForLogic(SessionDTO session, ProjectionSelectionDTO projectionSelection, List<Integer> startAndEndPeriods, boolean isProgram, List<String> discountList,
             int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, String userGroup, List<Leveldto> currentHierarchy,
             boolean isCustomHierarchy, int customId, String relationshipBuilderSid) {
@@ -102,6 +101,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         this.userGroup = userGroup;
         this.relationshipBuilderSid = relationshipBuilderSid;
         this.forecastConfigList = projectionSelection.getForecastConfigPeriods();
+        this.projectionSelection=projectionSelection;
         if (!isCustomHierarchy) {
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
                 lastLevelNo = session.getLowerMostCustomerLevelNo();
@@ -111,7 +111,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 lastLevelNo = 0;
             }
         } else {
-            lastLevelNo = currentHierarchy.size();
+            lastLevelNo = currentHierarchy != null ? currentHierarchy.size() : 0;
         }
         setCurrentPage(1);
     }
@@ -171,6 +171,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             String tempHierarchyIndicator = StringUtils.EMPTY;
             String customerHierarchyNo = StringUtils.EMPTY;
             String productHierarchyNo = StringUtils.EMPTY;
+            String deductionHierarchyNo = StringUtils.EMPTY;
 
             int treeLevelNo = 0;
             List customDetailsList = new ArrayList();
@@ -189,12 +190,18 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                         tempHierarchyIndicator = levelDto.getHierarchyIndicator();
                         levelNumber = levelDto.getLevelNo();
                         treeLevelNo = levelDto.getTreeLevelNo();
-                        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
+                        if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(dto.getHierarchyIndicator())) {
+                            customerHierarchyNo = dto.getCustomerHierarchyNo();
+                            productHierarchyNo = dto.getProductHierarchyNo();
+                            deductionHierarchyNo = dto.getHierarchyNo();
+                        } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
                             customerHierarchyNo = dto.getHierarchyNo();
                             productHierarchyNo = dto.getProductHierarchyNo();
+                            deductionHierarchyNo = dto.getDeductionHierarchyNo();
                         } else {
                             customerHierarchyNo = dto.getCustomerHierarchyNo();
                             productHierarchyNo = dto.getHierarchyNo();
+                            deductionHierarchyNo = dto.getDeductionHierarchyNo();
                         }
 
                     } else {
@@ -207,20 +214,23 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 }
 
             } else // For parent
-            if (currentHierarchy != null) {
+            {
+                if (currentHierarchy != null) {
                 LOGGER.debug(" This is parent");
                 LOGGER.debug(" level No" + levelNo);
-                Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
+                    Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
 
-                if (levelDto != null) {
-                    tempHierarchyIndicator = levelDto.getHierarchyIndicator();
-                    levelNumber = levelDto.getLevelNo();
-                    if (isCustomHierarchy) {
-                        treeLevelNo = levelDto.getTreeLevelNo();
-                        customerHierarchyNo = StringUtils.EMPTY;
-                        productHierarchyNo = StringUtils.EMPTY;
-                    } else {
-                        treeLevelNo = levelNumber;
+                    if (levelDto != null) {
+                        tempHierarchyIndicator = levelDto.getHierarchyIndicator();
+                        levelNumber = levelDto.getLevelNo();
+                        if (isCustomHierarchy) {
+                            treeLevelNo = levelDto.getTreeLevelNo();
+                            customerHierarchyNo = StringUtils.EMPTY;
+                            productHierarchyNo = StringUtils.EMPTY;
+                            deductionHierarchyNo = StringUtils.EMPTY;
+                        } else {
+                            treeLevelNo = levelNumber;
+                        }
                     }
                 }
             }
@@ -233,12 +243,19 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
-
-                if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(tempHierarchyIndicator)) {
+                String deductionLevelNo;
+              
+                if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(tempHierarchyIndicator)) {
+                    customerLevelNo = Constant.PERCENT;
+                    productLevelNo = Constant.PERCENT;
+                    deductionLevelNo = String.valueOf(treeLevelNo);
+                } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(tempHierarchyIndicator)) {
                     customerLevelNo = String.valueOf(treeLevelNo);
                     productLevelNo = Constant.PERCENT;
+                    deductionLevelNo = Constant.PERCENT;
                 } else {
                     customerLevelNo = Constant.PERCENT;
+                    deductionLevelNo = Constant.PERCENT;
                     productLevelNo = String.valueOf(treeLevelNo);
                 }
 
@@ -254,6 +271,9 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 customViewDetails.add(productHierarchyNo);
                 customViewDetails.add(session.getCustRelationshipBuilderSid());
                 customViewDetails.add(session.getProdRelationshipBuilderSid());
+                customViewDetails.add(session.getDedRelationshipBuilderSid());
+                customViewDetails.add(deductionLevelNo);
+                customViewDetails.add(deductionHierarchyNo);
             } else {
                 LOGGER.debug(" Hierarchy No === " + hierarchyNo);
                 LOGGER.debug(" level No ===" + levelNumber);
@@ -268,13 +288,13 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, start, offset, false, isParentChecked, customViewDetails, false, false,
-                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList);
+                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList,projectionSelection);
             }
 
-        } catch (Exception ex) {    
+        } catch (Exception ex) {
             refreshHierarchyNumbers = StringUtils.EMPTY;
             LOGGER.error(ex);
-        }      
+        }
         refreshHierarchyNumbers = StringUtils.EMPTY;
         return list;
     }
@@ -296,6 +316,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             String tempHierarchyIndicator = StringUtils.EMPTY;
             String customerHierarchyNo = StringUtils.EMPTY;
             String productHierarchyNo = StringUtils.EMPTY;
+            String deductionHierarchyNo = StringUtils.EMPTY;
 
             int treeLevelNo = 0;
             List customDetailsList = new ArrayList();
@@ -313,12 +334,18 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                         levelNumber = levelDto.getLevelNo();
                         treeLevelNo = levelDto.getTreeLevelNo();
 
-                        if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
+                        if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(dto.getHierarchyIndicator())) {
+                            customerHierarchyNo = dto.getCustomerHierarchyNo();
+                            productHierarchyNo = dto.getProductHierarchyNo();
+                            deductionHierarchyNo = dto.getHierarchyNo();
+                        } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(dto.getHierarchyIndicator())) {
                             customerHierarchyNo = dto.getHierarchyNo();
                             productHierarchyNo = dto.getProductHierarchyNo();
+                            deductionHierarchyNo = dto.getDeductionHierarchyNo();
                         } else {
                             customerHierarchyNo = dto.getCustomerHierarchyNo();
                             productHierarchyNo = dto.getHierarchyNo();
+                            deductionHierarchyNo = dto.getDeductionHierarchyNo();
                         }
 
                     } else {
@@ -331,20 +358,23 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 }
 
             } else // For parent
-            if (currentHierarchy != null) {
-                LOGGER.debug(" This is parent");
-                LOGGER.debug(" level No " + levelNo);
-                Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
+            {
+                if (currentHierarchy != null) {
+                    LOGGER.debug(" This is parent");
+                    LOGGER.debug(" level No " + levelNo);
+                    Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
 
-                if (levelDto != null) {
-                    tempHierarchyIndicator = levelDto.getHierarchyIndicator();
-                    levelNumber = levelDto.getLevelNo();
-                    if (isCustomHierarchy) {
-                        treeLevelNo = levelDto.getTreeLevelNo();
-                        customerHierarchyNo = StringUtils.EMPTY;
-                        productHierarchyNo = StringUtils.EMPTY;
-                    } else {
-                        treeLevelNo = levelNumber;
+                    if (levelDto != null) {
+                        tempHierarchyIndicator = levelDto.getHierarchyIndicator();
+                        levelNumber = levelDto.getLevelNo();
+                        if (isCustomHierarchy) {
+                            treeLevelNo = levelDto.getTreeLevelNo();
+                            customerHierarchyNo = StringUtils.EMPTY;
+                            productHierarchyNo = StringUtils.EMPTY;
+                            deductionHierarchyNo = StringUtils.EMPTY;
+                        } else {
+                            treeLevelNo = levelNumber;
+                        }
                     }
                 }
             }
@@ -361,12 +391,19 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             if (isCustomHierarchy) {
                 String customerLevelNo;
                 String productLevelNo;
+                String deductionLevelNo;
 
-                if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(tempHierarchyIndicator)) {
+                if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(tempHierarchyIndicator)) {
+                    customerLevelNo = Constant.PERCENT;
+                    productLevelNo = Constant.PERCENT;
+                    deductionLevelNo = String.valueOf(treeLevelNo);
+                } else if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(tempHierarchyIndicator)) {
                     customerLevelNo = String.valueOf(treeLevelNo);
                     productLevelNo = Constant.PERCENT;
+                    deductionLevelNo = Constant.PERCENT;
                 } else {
                     customerLevelNo = Constant.PERCENT;
+                    deductionLevelNo = Constant.PERCENT;
                     productLevelNo = String.valueOf(treeLevelNo);
                 }
 
@@ -382,16 +419,20 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 customViewDetails.add(productHierarchyNo);
                 customViewDetails.add(session.getCustRelationshipBuilderSid());
                 customViewDetails.add(session.getProdRelationshipBuilderSid());
+                customViewDetails.add(session.getDedRelationshipBuilderSid());
+                customViewDetails.add(deductionLevelNo);
+                customViewDetails.add(deductionHierarchyNo);
             }
 
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
                 if (isCustomHierarchy) {
-                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customerHierarchyNo, productHierarchyNo, discountList, isProgram, userGroup);
+                    return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, discountList, isProgram, userGroup);
                 } else {
-                    return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup);
-            }
-                
+
+                    return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup,projectionSelection);
+                }
+
             }
         } catch (Exception ex) {
             LOGGER.error("getCount - " + ex);
@@ -544,12 +585,13 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustomHierarchy = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustomHierarchy = !CommonUtil.isValueEligibleForLoading() ? Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator) : Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
+
                 customDetailsList, true, isCustomHierarchy, rightDto, 0, 0, false, false, customViewDetails, false, true, hierarchyNumbers,
-                relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList);
+                relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList,projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {
             bulkDataMap.put(tempMap.get(dto.getHierarchyNo()), dto);
@@ -568,9 +610,9 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         Object groupDdlb = getColumnIdToFilterValue(Constant.GROUP);
         projectionSelection = getProjectionSelection();
         if (groupDdlb != null) {
-                if ((projectionSelection != null) && (projectionSelection.isIsCustomHierarchy() || !projectionSelection.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY))) {
-                    projectionSelection.setGroupFilter(String.valueOf(groupDdlb));
-                }
+            if ((projectionSelection != null) && (projectionSelection.isIsCustomHierarchy() || !projectionSelection.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY))) {
+                projectionSelection.setGroupFilter(String.valueOf(groupDdlb));
+            }
             clearAll();
         }
     }
@@ -636,5 +678,5 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     public void setRefreshHierarchyNo(String hierarchyNo) {
         this.refreshHierarchyNumbers = hierarchyNo;
     }
-    
+
 }

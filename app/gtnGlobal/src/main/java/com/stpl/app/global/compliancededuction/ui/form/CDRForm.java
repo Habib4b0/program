@@ -11,12 +11,12 @@ import com.stpl.app.global.common.dto.SessionDTO;
 import com.stpl.app.global.compliancededuction.dto.CDRDto;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.compliancededuction.ui.view.CDRView;
-import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.NotesTabForm;
 import com.stpl.app.ui.StplCustomComponent;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.UISecurityUtil;
 import com.stpl.ifs.ui.CommonSecurityLogic;
@@ -43,7 +43,6 @@ import java.util.logging.Level;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -91,7 +90,7 @@ public class CDRForm extends StplCustomComponent {
     Button resetBtn;
     RuleInformation ruleInfo = new RuleInformation();
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-    IFPLogic ifpLogic = new IFPLogic();
+    CommonUIUtils commonUIUtils = new CommonUIUtils();
     NotesTabForm notesTabForm;
     ErrorfulFieldGroup binder;
     SessionDTO sessionDTO;
@@ -325,7 +324,7 @@ public class CDRForm extends StplCustomComponent {
         try {
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(UISecurityUtil.COMPLIANCE_DEDUCTION_RULES, ConstantsUtils.RULE_INFORMATION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(UISecurityUtil.COMPLIANCE_DEDUCTION_RULES, ConstantsUtils.RULE_INFORMATION);
             commonSecurityLogic.removeComponentOnPermission(resultList, buttonLayout, fieldCompanyHM, mode);
             if (functionHM.get("saveBtn") != null && ((AppPermission) functionHM.get("saveBtn")).isFunctionFlag()) {
                 saveBtn();

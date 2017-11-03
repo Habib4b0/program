@@ -183,7 +183,8 @@ public class Constants {
         DATA_SELECTION_TAB("Data Selection"),
         PRODUCT_GROUP_LOOKUP("Product Group Lookup"),
         ADDITIONAL_INFORMATION("Additional Information"),
-        RETURNS("Returns");
+        RETURNS("Returns"),
+        PER_OF_WAC("% of WAC");
         private String constant;
 
         private LabelConstants(String constant) {

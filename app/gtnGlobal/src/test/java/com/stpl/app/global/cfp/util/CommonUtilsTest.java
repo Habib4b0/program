@@ -5,14 +5,10 @@
  */
 package com.stpl.app.global.cfp.util;
 
-import com.stpl.app.util.ConstantsUtils;
-import com.vaadin.data.Container;
+import com.stpl.app.util.CommonUIUtils;
 import com.vaadin.ui.ComboBox;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import org.jboss.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -50,25 +46,6 @@ public class CommonUtilsTest {
     }
 
     /**
-     * Test of Positive searchFields method, of class CommonUtils.
-     */
-    @Test
-    public void positiveTestSearchFields() {
-        LOGGER.debug("searchFields");
-        CommonUtils instance = new CommonUtils();
-        final List<String> list = new ArrayList<>();
-        list.add(ConstantsUtils.SELECT_ONE);
-        list.add("Company Name");
-        list.add("Company No");
-        list.add("Company Status");
-        list.add("Company Type");
-        Container result = instance.searchFields();
-        final Collection<?> actual = result.getItemIds();
-        assertEquals(list,actual);
-
-    }
-
-    /**
      * Test of Negative getSeletNull method, of class CommonUtils.
      */
     @Test
@@ -76,7 +53,7 @@ public class CommonUtilsTest {
         LOGGER.debug("getSeletNull");
         ComboBox select = new ComboBox();
         ComboBox expResult = new ComboBox();
-        ComboBox result = CommonUtils.getSeletNull(select);
+        ComboBox result = CommonUIUtils.getSelectNull(select);
         assertEquals(String.valueOf(expResult), String.valueOf(result));
     }
 
@@ -87,7 +64,7 @@ public class CommonUtilsTest {
     public void NegativeTestGetSeletNull_ComboBox() {
         LOGGER.debug("getSeletNull");
         ComboBox expResult = new ComboBox();
-        ComboBox result = CommonUtils.getSeletNull(null);
+        ComboBox result = CommonUIUtils.getSelectNull(null);
         assertEquals(expResult, String.valueOf(result));
     }
 
@@ -99,7 +76,7 @@ public class CommonUtilsTest {
         LOGGER.debug("getDateForSession");
         SimpleDateFormat dt = new SimpleDateFormat("yyyyymmddhhmmssms");
         String expResult =  dt.format(new Date());
-        String result = CommonUtils.getDateForSession();
+        String result = CommonUIUtils.getDateForSession();
         assertEquals(expResult, result);
     }
    

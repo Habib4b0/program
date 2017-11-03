@@ -4,14 +4,16 @@
  */
 package com.stpl.app.cff.queryUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
+
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 
 /**
  *
@@ -33,11 +35,11 @@ public class CommonQueryUtils {
                     sql.append(" ");
                     sql.append(CustomSQLUtil.get(quaryName2));
                 }
-                for (Object temp : input) {
+                for (final Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 list = (List<Object[]>) DAO.executeSelectQuery(sql.toString());
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.error(ex);
             }
         }
@@ -51,18 +53,18 @@ public class CommonQueryUtils {
         StringBuilder sql = new StringBuilder();
         try {
             sql = new StringBuilder(CustomSQLUtil.get(queryName));
-            for (Object temp : input) {
+            for (final Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
 
-            Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
+            final Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
             if (count > 0) {
                 return Boolean.TRUE;
             } else {
                 return Boolean.FALSE;
             }
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End of CFF Update");
@@ -75,10 +77,24 @@ public class CommonQueryUtils {
             sql = new StringBuilder();
             sql = new StringBuilder(CustomSQLUtil.get(queryName));
             if (input.size() > 0) {
-                for (Object temp : input) {
+                for (final Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
             }
+        } catch (final Exception ex) {
+            LOGGER.error(ex);
+        }
+        return sql.toString();
+    }
+    
+    public static String getQuery( String query,List input) {
+        StringBuilder sql =new StringBuilder();
+        try {
+            sql = new StringBuilder(query);
+            for (Object temp : input) {
+                sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+            }
+
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -89,7 +105,7 @@ public class CommonQueryUtils {
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(CustomSQLUtil.get(queryName));
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex);
         }
         return sql.toString();
@@ -107,11 +123,11 @@ public class CommonQueryUtils {
                     sql.append(" ");
                     sql.append(SQlUtil.getQuery(quaryName2));
                 }
-                for (Object temp : input) {
+                for (final Object temp : input) {
                     sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
                 }
                 list = (List<Object[]>) DAO.executeSelectQuery(sql.toString());
-            } catch (Exception ex) {
+            } catch (final Exception ex) {
                 LOGGER.error(ex);
             }
         }
@@ -126,19 +142,19 @@ public class CommonQueryUtils {
         try {
             LOGGER.debug("queryName - - >>" + queryName);
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
-            for (Object temp : input) {
+            for (final Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
             LOGGER.debug("Input-->>" + input);
             LOGGER.debug("Sql-->>" + sql);
-            Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
+            final Integer count = (Integer) DAO.executeUpdateQuery(sql.toString());
             if (count > 0) {
                 return Boolean.TRUE;
             } else {
                 return Boolean.FALSE;
             }
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End of Item Update");
@@ -150,11 +166,11 @@ public class CommonQueryUtils {
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
-            for (Object temp : input) {
+            for (final Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex);
         }
         return sql.toString();
@@ -165,11 +181,11 @@ public class CommonQueryUtils {
         try {
             sql = new StringBuilder();
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
-            for (Object temp : input) {
+            for (final Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
 
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             LOGGER.error(ex);
         }
         return sql;

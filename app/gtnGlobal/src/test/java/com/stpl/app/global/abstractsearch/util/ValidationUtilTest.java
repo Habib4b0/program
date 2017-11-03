@@ -75,17 +75,17 @@ public class ValidationUtilTest {
         }
         
   }
- @Test(expected=NullPointerException.class)
-    public void negativeGetMC2() {
-        LOGGER.debug("getnegativeMC2");
-      String key =null;
-      String expectedResult="Item Name Should be less than 100";
-        String result = ValidationUtil.getMC(key);
-        assertEquals(expectedResult, result);
-         LOGGER.debug("result"+result);
-        
-        
-  }
+// @Test(expected=NullPointerException.class)
+//    public void negativeGetMC2() {
+//        LOGGER.debug("getnegativeMC2");
+//      String key =null;
+//      String expectedResult="Item Name Should be less than 100";
+//        String result = ValidationUtil.getMC(key);
+//        assertEquals(expectedResult, result);
+//         LOGGER.debug("result"+result);
+//        
+//        
+//  }
     
 
     /**
@@ -114,16 +114,16 @@ public class ValidationUtilTest {
         }
         
   }
- @Test(expected=NullPointerException.class)
-    public void negativeGetLC2() {
-        LOGGER.debug("getnegativeLC2");
-      String key =null;
-      String expectedResult="Item Name Should be less than 100";
-        String result = ValidationUtil.getLC(key);
-        assertEquals(expectedResult, result);
-         LOGGER.debug("result"+result);
-        
-        
-  }
+// @Test(expected=NullPointerException.class)
+//    public void negativeGetLC2() {
+//        LOGGER.debug("getnegativeLC2");
+//      String key =null;
+//      String expectedResult="Item Name Should be less than 100";
+//        String result = ValidationUtil.getLC(key);
+//        assertEquals(expectedResult, result);
+//         LOGGER.debug("result"+result);
+//        
+//        
+//  }
 
 }

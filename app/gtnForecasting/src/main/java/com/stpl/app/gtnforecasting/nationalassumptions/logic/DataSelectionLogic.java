@@ -41,7 +41,6 @@ import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -83,7 +82,7 @@ public class DataSelectionLogic {
             }
             productsList = getCustomizedCustomersAndContractsFromModel(resultList);
             result.setAvailableProducts(productsList);
-            if (productsList.size() > 0) {
+            if (!productsList.isEmpty()) {
                 result.setFlag(Constant.SUCCESS);
             }
         } catch (Exception e) {
@@ -308,7 +307,7 @@ public class DataSelectionLogic {
             naProjDetails = NaProjDetailsLocalServiceUtil
                     .dynamicQuery(projectioncProdDetailsDynamicQuery);
             if (naProjDetails != null
-                    && naProjDetails.size() > 0) {
+                    && !naProjDetails.isEmpty()) {
                 for (NaProjDetails prodDetails : naProjDetails) {
                     NaProjDetailsLocalServiceUtil
                             .deleteNaProjDetails(prodDetails);

@@ -30,9 +30,9 @@ public class BPMManagerBean {
     private BPMManagerBean() {
         try {
             String identifier = "com.sample:example:1.0";
-            ReleaseId releaseId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId","com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId","ForecastingWorkflow"), properties.getProperty("Forecasting_version","1.0"));
+            ReleaseId relId = new ReleaseIdImpl(properties.getProperty("Forecasting_groupId","com.stpl.app.bpm"), properties.getProperty("Forecasting_artifactId","ForecastingWorkflow"), properties.getProperty("Forecasting_version","1.0"));
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("org.jbpm.domain");
-            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(releaseId).entityManagerFactory(emf).userGroupCallback(new CustomUserCallBack());
+            RuntimeEnvironmentBuilder builder = RuntimeEnvironmentBuilder.Factory.get().newDefaultBuilder(relId).entityManagerFactory(emf).userGroupCallback(new CustomUserCallBack());
             if (registry.isRegistered(identifier)){
                 registry.remove(identifier);
             }

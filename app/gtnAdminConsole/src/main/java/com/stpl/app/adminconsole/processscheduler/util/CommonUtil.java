@@ -37,7 +37,7 @@ public class CommonUtil {
             }
 
         } else {
-            query += " WHERE HTF.DESCRIPTION LIKE 'Manual' OR HTF.DESCRIPTION LIKE 'Both' OR HTF.DESCRIPTION LIKE '-Select One-' OR HTF.DESCRIPTION is null";
+            query += " WHERE HTF.DESCRIPTION LIKE 'Manual' OR HTF.DESCRIPTION LIKE 'Both' OR HTF.DESCRIPTION LIKE '-Select One-' OR HTF.DESCRIPTION is null AND WP.PROCESS_NAME not in (SELECT DESCRIPTION from HELPER_TABLE where LIST_NAME like 'File_Type')";
         }
         if (!count) {
             if (orderByColumn == null || StringUtils.EMPTY.equals(orderByColumn)) {

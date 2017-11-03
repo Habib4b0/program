@@ -1133,10 +1133,10 @@ public final class ConstantsUtils {
      */
     public static final String NATIONAL_ASSUMPTIONS = "National Assumptions";
     
-    public final Object PROCESS_MONITOR_COLUMNS[] = new Object[]{
+    public final Object[] PROCESS_MONITOR_COLUMNS = new Object[]{
         PROCESS_NAME, "processType", "calender", "modifiedDate", "modifiedBy"};
     
-    public final String PROCESS_MONITOR_HEADER[] = new String[]{
+    public final String[] PROCESS_MONITOR_HEADER = new String[]{
         "Monitor Name", "Process Type", "Calendar", "Modified Date", "Modified By"};
 
     /**

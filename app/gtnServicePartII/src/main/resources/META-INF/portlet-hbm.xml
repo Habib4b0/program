@@ -1116,10 +1116,10 @@
 		<id name="adjustedDemandForecastId" column="ADJUSTED_DEMAND_FORECAST_ID" type="int">
 			<generator class="assigned" />
 		</id>
-		<property name="forecastVersion" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FORECAST_VERSION" />
+		<property name="forecastVer" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FORECAST_VER" />
 		<property name="grossUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="GROSS_UNITS" />
 		<property name="businessUnitNo" type="com.stpl.portal.dao.orm.hibernate.StringType" column="BUSINESS_UNIT_NO" />
-		<property name="year" type="com.stpl.portal.dao.orm.hibernate.StringType" column="YEAR" />
+		<property name="forecastYear" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FORECAST_YEAR" />
 		<property name="brandName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="BRAND_NAME" />
 		<property name="itemId" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ITEM_ID" />
 		<property name="organizationKey" type="com.stpl.portal.dao.orm.hibernate.StringType" column="ORGANIZATION_KEY" />
@@ -1127,15 +1127,15 @@
 		<property name="marketShareRatio" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="MARKET_SHARE_RATIO" />
 		<property name="businessUnitName" type="com.stpl.portal.dao.orm.hibernate.StringType" column="BUSINESS_UNIT_NAME" />
 		<property name="marketShareUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="MARKET_SHARE_UNITS" />
-		<property name="month" type="com.stpl.portal.dao.orm.hibernate.StringType" column="MONTH" />
+		<property name="forecastMonth" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FORECAST_MONTH" />
 		<property name="inventoryUnitChange" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="INVENTORY_UNIT_CHANGE" />
 		<property name="uncapturedUnitsRatio" type="com.stpl.portal.dao.orm.hibernate.StringType" column="UNCAPTURED_UNITS_RATIO" />
 		<property name="country" type="com.stpl.portal.dao.orm.hibernate.StringType" column="COUNTRY" />
 		<property name="forecastType" type="com.stpl.portal.dao.orm.hibernate.StringType" column="FORECAST_TYPE" />
-		<property name="totalAdjustedDemandUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="TOTAL_ADJUSTED_DEMAND_UNITS" />
+		<property name="totalDemandUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="TOTAL_DEMAND_UNITS" />
 		<property name="brandId" type="com.stpl.portal.dao.orm.hibernate.StringType" column="BRAND_ID" />
 		<property name="isForecast" type="com.stpl.portal.dao.orm.hibernate.StringType" column="IS_FORECAST" />
-		<property name="totalAdjustedDemandAmount" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="TOTAL_ADJUSTED_DEMAND_AMOUNT" />
+		<property name="totalDemandAmount" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="TOTAL_DEMAND_AMOUNT" />
 		<property name="uncapturedUnits" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="UNCAPTURED_UNITS" />
 		<property name="grossPrice" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="GROSS_PRICE" />
 		<property name="grossAmount" type="com.stpl.portal.dao.orm.hibernate.DoubleType" column="GROSS_AMOUNT" />

@@ -30,4 +30,8 @@ public class ForecastingConstants {
     public static String getTableNames(final String screenName) {
         return PROPERTIES.getProperty(screenName);
     }
+    
+     public static String getPassword() {
+        return PROPERTIES.getProperty("PassWord");
+    }
 }

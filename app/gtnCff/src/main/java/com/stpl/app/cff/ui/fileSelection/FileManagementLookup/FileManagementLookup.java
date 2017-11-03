@@ -1519,13 +1519,13 @@ public class FileManagementLookup extends Window {
                 final FileMananagementResultDTO beanItem = itemIds.get(i);
                 if (!beanItem.isRecordLockStatus()) {
 
-                    if (((beanItem.getYear().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getMonth().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getUnits().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getPrice().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getDollars().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getItemNo().toString().equals(ConstantsUtils.EMPTY))
-                            || (beanItem.getItemName().toString().equals(ConstantsUtils.EMPTY)))
+                    if (((beanItem.getYear().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getMonth().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getUnits().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getPrice().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getDollars().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getItemNo().equals(ConstantsUtils.EMPTY))
+                            || (beanItem.getItemName().equals(ConstantsUtils.EMPTY)))
                             && FileType.equals(ConstantsUtils.EX_FACTORY_SALES)) {
                         AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Please Enter the value at all fields");
                         return;
@@ -3806,12 +3806,8 @@ public class FileManagementLookup extends Window {
                 }
                 dirName = "FILE_MANAGEMENT_DIR";
                 outputFilePath = "FileManagementDetails.csv";
-                long exportBeginTime = System.currentTimeMillis();
                 String[] bcpHeader = configureExcelDetailsTableBCP();
                 fileName = BCPExcelUtility.excelExport_bcpUtility("FILE_MANAGEMENT", bcpHeader, query, outputFilePath);
-                System.out.println("fileName = " + fileName);
-                long exportEndTime = System.currentTimeMillis();
-                System.out.println("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
                 file = new File(fileName);
                 List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
                 if (fileList == null) {
@@ -3830,7 +3826,6 @@ public class FileManagementLookup extends Window {
         @Override
         public InputStream getStream() {
 
-            System.out.println("Getting Stream to Export :");
             try {
 
                 if (file != null) {

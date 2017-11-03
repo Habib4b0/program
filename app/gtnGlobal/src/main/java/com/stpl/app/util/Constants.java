@@ -359,8 +359,8 @@ public final class Constants {
     /**
      * The Constant EDIT_LIST.
      */
-    public final static String EDIT_LIST = "EDITLIST";
-
+    public final static String EDIT_LIST = "EDIT LIST";
+    
     public static final String CUSTOMER_SELECTION = "Customer Selection";
 
     public static final String ITEM_SELECTION = "Item Selection";

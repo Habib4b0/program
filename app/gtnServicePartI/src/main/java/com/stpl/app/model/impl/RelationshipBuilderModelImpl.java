@@ -52,10 +52,11 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
             { "HIERARCHY_VERSION", Types.INTEGER },
             { "MODIFIED_BY", Types.INTEGER },
             { "MODIFIED_DATE", Types.TIMESTAMP },
+            { "DEDUCTION_RELATION", Types.INTEGER },
             { "RELATIONSHIP_TYPE", Types.INTEGER },
             { "BUILD_TYPE", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table RELATIONSHIP_BUILDER (START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY INTEGER,RELATIONSHIP_DESCRIPTION VARCHAR(75) null,HIERARCHY_DEFINITION_SID INTEGER,VERSION_NO INTEGER,RELATIONSHIP_NAME VARCHAR(75) null,RELATIONSHIP_BUILDER_SID INTEGER not null primary key IDENTITY,HIERARCHY_VERSION INTEGER,MODIFIED_BY INTEGER,MODIFIED_DATE DATE null,RELATIONSHIP_TYPE INTEGER,BUILD_TYPE VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table RELATIONSHIP_BUILDER (START_DATE DATE null,CREATED_DATE DATE null,CREATED_BY INTEGER,RELATIONSHIP_DESCRIPTION VARCHAR(75) null,HIERARCHY_DEFINITION_SID INTEGER,VERSION_NO INTEGER,RELATIONSHIP_NAME VARCHAR(75) null,RELATIONSHIP_BUILDER_SID INTEGER not null primary key IDENTITY,HIERARCHY_VERSION INTEGER,MODIFIED_BY INTEGER,MODIFIED_DATE DATE null,DEDUCTION_RELATION INTEGER,RELATIONSHIP_TYPE INTEGER,BUILD_TYPE VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table RELATIONSHIP_BUILDER";
     public static final String ORDER_BY_JPQL = " ORDER BY relationshipBuilder.relationshipBuilderSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY RELATIONSHIP_BUILDER.RELATIONSHIP_BUILDER_SID ASC";
@@ -86,6 +87,7 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
     private int _hierarchyVersion;
     private int _modifiedBy;
     private Date _modifiedDate;
+    private int _deductionRelation;
     private int _relationshipType;
     private String _buildType;
     private RelationshipBuilder _escapedModel;
@@ -138,6 +140,7 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
         attributes.put("hierarchyVersion", getHierarchyVersion());
         attributes.put("modifiedBy", getModifiedBy());
         attributes.put("modifiedDate", getModifiedDate());
+        attributes.put("deductionRelation", getDeductionRelation());
         attributes.put("relationshipType", getRelationshipType());
         attributes.put("buildType", getBuildType());
 
@@ -213,6 +216,13 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
 
         if (modifiedDate != null) {
             setModifiedDate(modifiedDate);
+        }
+
+        Integer deductionRelation = (Integer) attributes.get(
+                "deductionRelation");
+
+        if (deductionRelation != null) {
+            setDeductionRelation(deductionRelation);
         }
 
         Integer relationshipType = (Integer) attributes.get("relationshipType");
@@ -347,6 +357,16 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
     }
 
     @Override
+    public int getDeductionRelation() {
+        return _deductionRelation;
+    }
+
+    @Override
+    public void setDeductionRelation(int deductionRelation) {
+        _deductionRelation = deductionRelation;
+    }
+
+    @Override
     public int getRelationshipType() {
         return _relationshipType;
     }
@@ -395,6 +415,7 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
         relationshipBuilderImpl.setHierarchyVersion(getHierarchyVersion());
         relationshipBuilderImpl.setModifiedBy(getModifiedBy());
         relationshipBuilderImpl.setModifiedDate(getModifiedDate());
+        relationshipBuilderImpl.setDeductionRelation(getDeductionRelation());
         relationshipBuilderImpl.setRelationshipType(getRelationshipType());
         relationshipBuilderImpl.setBuildType(getBuildType());
 
@@ -503,6 +524,8 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
             relationshipBuilderCacheModel.modifiedDate = Long.MIN_VALUE;
         }
 
+        relationshipBuilderCacheModel.deductionRelation = getDeductionRelation();
+
         relationshipBuilderCacheModel.relationshipType = getRelationshipType();
 
         relationshipBuilderCacheModel.buildType = getBuildType();
@@ -518,7 +541,7 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(27);
+        StringBundler sb = new StringBundler(29);
 
         sb.append("{startDate=");
         sb.append(getStartDate());
@@ -542,6 +565,8 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
         sb.append(getModifiedBy());
         sb.append(", modifiedDate=");
         sb.append(getModifiedDate());
+        sb.append(", deductionRelation=");
+        sb.append(getDeductionRelation());
         sb.append(", relationshipType=");
         sb.append(getRelationshipType());
         sb.append(", buildType=");
@@ -553,7 +578,7 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(43);
+        StringBundler sb = new StringBundler(46);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.RelationshipBuilder");
@@ -602,6 +627,10 @@ public class RelationshipBuilderModelImpl extends BaseModelImpl<RelationshipBuil
         sb.append(
             "<column><column-name>modifiedDate</column-name><column-value><![CDATA[");
         sb.append(getModifiedDate());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>deductionRelation</column-name><column-value><![CDATA[");
+        sb.append(getDeductionRelation());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>relationshipType</column-name><column-value><![CDATA[");

@@ -664,10 +664,10 @@ public class DataSelection extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    List<DataSelectionDTO> selectedProducts = new ArrayList<>();
+                    List<DataSelectionDTO> ProductSelected = new ArrayList<>();
                     for (int i = 0; i < selectedProductBean.size(); i++) {
                         DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
-                        selectedProducts.add(dataSelectionDto);
+                        ProductSelected.add(dataSelectionDto);
                     }
                     try {
                         dataSelectionBinder.commit();
@@ -767,7 +767,7 @@ public class DataSelection extends CustomComponent implements View {
      */
     private void loadTherapeuticClass() {
         List<HelperDTO> result = CommonUtils.getTherapeuticClass();
-        if (result != null && result.size() > 0) {
+        if (result != null && !result.isEmpty()) {
             therapeuticClass.setContainerDataSource(new IndexedContainer(result));
         }
     }
@@ -909,10 +909,10 @@ public class DataSelection extends CustomComponent implements View {
             loadData();
             try {
                 // Save the Projection
-                List<DataSelectionDTO> selectedProducts = new ArrayList<>();
+                List<DataSelectionDTO> selectedProduct = new ArrayList<>();
                 for (int i = 0; i < selectedProductBean.size(); i++) {
                     DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
-                    selectedProducts.add(dataSelectionDto);
+                    selectedProduct.add(dataSelectionDto);
                 }
                 try {
                     dataSelectionBinder.commit();
@@ -921,7 +921,7 @@ public class DataSelection extends CustomComponent implements View {
                 }
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
-                logic.saveProjection(values, selectedProducts, true,sessionDTO);
+                logic.saveProjection(values, selectedProduct, true,sessionDTO);
                 List<Integer> existList = new ArrayList<>(existItems);
                 List<Integer> currentList = new ArrayList<>(currentItems);
                 existItems.removeAll(currentItems);

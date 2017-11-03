@@ -68,6 +68,7 @@ public class ProjectionSelectionDTO {
     private String hierarchyNo;
     private String reHierarchyNo = StringUtils.EMPTY;
     private String productHierarchyNo = "";
+    private String deductionHierarchyNo = "";
     private String customerHierarchyNo = "";
     private String hierarchyIndicator = "";
     List<List<String>> discountList = new ArrayList<>();
@@ -252,6 +253,8 @@ public class ProjectionSelectionDTO {
     private Map<Integer,String> levelDdlbMap = new HashMap();
 
     private String ccpIds=StringUtils.EMPTY;
+    private Object[] displayFormat = null;
+    private Object conversionFactor = null;
     public List<String> getdPVariablesList() {
         return dPVariablesList;
     }
@@ -2101,6 +2104,30 @@ public class ProjectionSelectionDTO {
 
     public void setLevelDdlbMap(Map<Integer, String> levelDdlbMap) {
         this.levelDdlbMap = levelDdlbMap;
+    }
+
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
+    }
+    
+    public Object[] getDisplayFormat() {
+        return displayFormat;
+    }
+
+    public void setDisplayFormat(Object[] displayFormat) {
+        this.displayFormat = new Object[displayFormat.length];
+        this.displayFormat = displayFormat;
+    }
+      public Object getConversionFactor() {
+        return conversionFactor;
+    }
+
+    public void setConversionFactor(Object conversionFactor) {
+        this.conversionFactor = conversionFactor;
     }
 
 }

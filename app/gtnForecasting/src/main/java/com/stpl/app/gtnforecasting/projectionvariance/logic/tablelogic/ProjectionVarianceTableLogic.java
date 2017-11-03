@@ -86,6 +86,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
         int count = 0;
         if (firstGenerated) {
             if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                projSelDTO.setTabName("Variance");
                 count = nmProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, baseVariables, true);
             } else if (!StringUtils.EMPTY.equals(getScreenName()) && getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
                 count = mProjectionVarianceLogic.getConfiguredProjectionVarianceCount(getLastParent(), projSelDTO, true);
@@ -249,6 +250,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 addlevelMap(treeLevel, levelMap);
                 String productHierarchyNo = projSelDTO.getProductHierarchyNo();
                 String customerHierarchyNo = projSelDTO.getCustomerHierarchyNo();
+                String deductionHierarchyNo = projSelDTO.getDeductionHierarchyNo();
                 String hierarchyNo = projSelDTO.getHierarchyNo();
 
                 String indicator = projSelDTO.getHierarchyIndicator();
@@ -266,9 +268,15 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                         if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY)) {
                             dto.setCustomerHierarchyNo(dto.getHierarchyNo());
                             dto.setProductHierarchyNo(productHierarchyNo);
+                            dto.setDeductionHierarchyNo(deductionHierarchyNo);
                         } else if (dto.getHierarchyIndicator().equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
                             dto.setProductHierarchyNo(dto.getHierarchyNo());
                             dto.setCustomerHierarchyNo(customerHierarchyNo);
+                            dto.setDeductionHierarchyNo(deductionHierarchyNo);
+                        } else{
+                            dto.setProductHierarchyNo(productHierarchyNo);
+                            dto.setCustomerHierarchyNo(customerHierarchyNo);
+                            dto.setDeductionHierarchyNo(dto.getHierarchyNo());
                         }
                         dto.setGroup(projSelDTO.getGroupFilter());
                         dto.setGroupParent(1);
@@ -282,13 +290,14 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list = new NMProjectionVarianceLogic().getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
                                 projSelDTO.setProductHierarchyNo(productHierarchyNo);
                                 projSelDTO.setCustomerHierarchyNo(customerHierarchyNo);
+                                projSelDTO.setDeductionHierarchyNo(deductionHierarchyNo);
                                 projSelDTO.setHierarchyNo(hierarchyNo);
                                 projSelDTO.setHierarchyIndicator(indicator);
                                 projSelDTO.setTreeLevelNo(levelNo);

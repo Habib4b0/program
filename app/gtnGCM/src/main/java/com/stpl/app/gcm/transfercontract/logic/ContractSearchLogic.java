@@ -39,8 +39,8 @@ public class ContractSearchLogic {
     public static final Logger LOGGER = Logger.getLogger(ContractSearchLogic.class);
     QueryUtils queryUtils = new QueryUtils();
 
-    public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset,List<SortByColumn> sortByColumns) {
-        List input = getInputForContractSearch(binderDTO, start, offset, false,sortByColumns);
+    public List<ContractSearchDTO> getPlaceHolderContractData(ContractSearchDTO binderDTO, int start, int offset, List<SortByColumn> sortByColumns) {
+        List input = getInputForContractSearch(binderDTO, start, offset, false, sortByColumns);
         return configurePHContract(ItemQueries.getItemData(input, "Copy Contract-contract Search", null));
     }
 
@@ -103,7 +103,7 @@ public class ContractSearchLogic {
                 || binderDTO.getStartDate() != null || binderDTO.getEndDate() != null || (binderDTO.getMarketType() != null);
     }
 
-    public List getInputForContractSearch(ContractSearchDTO binderDTO, int start, int offset, boolean isCount,List<SortByColumn> sortByColumns) {
+    public List getInputForContractSearch(ContractSearchDTO binderDTO, int start, int offset, boolean isCount, List<SortByColumn> sortByColumns) {
         List input = new ArrayList();
         String columnName = StringUtils.EMPTY;
         if (binderDTO.getAliasNumber() != null && !binderDTO.getAliasNumber().isEmpty()) {
@@ -132,10 +132,8 @@ public class ContractSearchLogic {
         } else {
             input.add("%");
         }
-        if (!isCount) {
-            input.add(binderDTO.getSessionId());
-            input.add(binderDTO.getUserId());
-        }
+        input.add(binderDTO.getSessionId());
+        input.add(binderDTO.getUserId());
         if (binderDTO.getHiddenId() != null && !binderDTO.getHiddenId().isEmpty()) {
             input.add(binderDTO.getHiddenId());
         } else {
@@ -156,8 +154,7 @@ public class ContractSearchLogic {
         } else {
             input.add("%");
         }
-        
-        
+
         if (binderDTO.getStartDate() != null) {
             input.add(" AND CM.START_DATE > '" + CommonUtil.getDBDate(binderDTO.getStartDate()) + "'");
         } else {
@@ -187,11 +184,11 @@ public class ContractSearchLogic {
                     columnName = sortByColumn.getName();
                     asc = sortByColumn.getType() == SortByColumn.Type.ASC;
                 }
-                input.add("order by " + columnName +" "+(asc ? "ASC " : "DESC ")+ " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY " );
+                input.add("order by " + columnName + " " + (asc ? "ASC " : "DESC ") + " OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY ");
             } else {
                 input.add("order by CONTRACT_MASTER_SID OFFSET " + start + " ROWS FETCH NEXT " + offset + " ROWS ONLY ;");
             }
-        
+
         }
         return input;
     }

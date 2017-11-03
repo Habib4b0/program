@@ -66,6 +66,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Iterator;
+import org.asi.ui.custommenubar.CustomMenuBar;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -221,7 +224,13 @@ public class CommonUtils {
     public static final String EMPTY = ConstantsUtil.EMPTY;
     public static final String MMDDYYYY = "MM/dd/yyyy";
     private static CommonUtils object;
-
+    
+    //Decimal Format
+    
+     public static final DecimalFormat FORMAT_NO_DECIMAL = new DecimalFormat("$#,##0");
+    public static final DecimalFormat FORMAT_TWO_DECIMAL = new DecimalFormat("$#,##0.00");
+     public static final String DASH = "0";
+    
     /**
      * Gets the user info.
      *
@@ -843,7 +852,7 @@ public class CommonUtils {
 
         if (frequency.equals(QUARTERLY.getConstant())) {
             frequencyDivision = NumericConstants.FOUR;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int[] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -852,7 +861,7 @@ public class CommonUtils {
             projectionEndPeriod = a[NumericConstants.SIX];
         } else if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
             frequencyDivision = NumericConstants.TWO;
-            int a[] = getQSPeriodDetails(projSelDTO, frequencyDivision);
+            int[] a = getQSPeriodDetails(projSelDTO, frequencyDivision);
             historyStartPeriod = a[1];
             historyEndPeriod = a[NumericConstants.TWO];
             forecastStartPeriod = a[NumericConstants.THREE];
@@ -1213,7 +1222,7 @@ public class CommonUtils {
         return object;
     }
 
-    public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
+     public static String CollectionToString(Collection<?> collectionOfString, boolean toAddQuote) {
         return CollectionToString(collectionOfString, toAddQuote, false);
     }
 
@@ -1348,4 +1357,175 @@ public class CommonUtils {
     public static boolean isValueEligibleForLoading() {
         return System.getProperty(BUSINESS_PROCESS).equals(BP_NAME);
     }
+    
+    public static String getDisplayFormattedName(String hierarchyNumber, String indicator, Map<String, List> relationshipDetails, SessionDTO session, Object[] displayFormatIndex) {
+        StringBuilder formattedName = new StringBuilder();
+        try {
+            List<Object> relationshipValues = relationshipDetails.get(hierarchyNumber);
+            if (displayFormatConditionCheck(relationshipValues, displayFormatIndex)) {
+                List<Object> levelName = (List<Object>) relationshipValues.get(NumericConstants.FIVE);
+                if (displayFormatIndex.length > 0 && !containsAllNull(levelName)) {
+                    for (int i = 0; i < displayFormatIndex.length; i++) {
+                        formattedName.append(setLevelNameValues(i, levelName, displayFormatIndex));
+                    }
+                    if (displayFormatIndex.length == 1 && StringUtils.isBlank(formattedName.toString())) {
+                        return String.valueOf(levelName.get(NumericConstants.ZERO));
+                    }
+                } else {
+                    return String.valueOf(levelName.get(NumericConstants.ZERO));
+                }
+            } else {
+                return session.getLevelValueDiscription(hierarchyNumber, indicator);
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return formattedName.toString();
+    }
+    
+    private static boolean displayFormatConditionCheck(List<Object> relationshipValues, Object[] displayFormatIndex) {
+        return !nullCheck(relationshipValues) && !nullCheck(displayFormatIndex) && !relationshipValues.isEmpty() && relationshipValues.size() > NumericConstants.FIVE;
+    }
+    
+    private static boolean getLevelName(Object value) {
+        String objValue = String.valueOf(value);
+        return StringUtils.isBlank(objValue) || Constants.NULL.equals(objValue);
+    }
+    
+    private static String setLevelNameValues(int index, List<Object> levelName, Object[] displayFormatIndex) {
+        String formattedName = StringUtils.EMPTY;
+        int indexFrom = (int) displayFormatIndex[index];
+        Object value = levelName.get(indexFrom + 1);
+        if (!getLevelName(value)) {
+            if (index != 0) {
+                formattedName += " - ";
+            }
+            formattedName += value;
+        }
+        return formattedName;
+    }
+    
+    public static boolean nullCheck(Object value) {
+        return value == null;
+    }
+    
+    public static Object[] getDisplayFormatSelectedValues(CustomMenuBar.CustomMenuItem displayFormatValues) {
+        List<Object> productList = new ArrayList<>();
+        if (displayFormatValues != null && displayFormatValues.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> items = displayFormatValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
+                if (customMenuItem1.isChecked()) {
+                    productList.add(customMenuItem1.getMenuItem().getId());
+                }
+            }
+        }
+        return productList.toArray();
+    }
+    
+    public void updateRelationShipLevelList(Object[] object, List<Object> detailsList, String defaultValue) {
+        if (object.length > 5) {
+            List<Object> displayFormat = new ArrayList<>();
+            displayFormat.add(defaultValue);
+            for (int i = 5; i < object.length; i++) {
+                displayFormat.add(object[i]);
+            }
+            detailsList.add(displayFormat);
+        }
+    }
+    
+    private static boolean containsAllNull(List<Object> levelName) {
+        boolean flag = true;
+        for (int i = 1; i < levelName.size(); i++) {
+            if (!nullCheck(levelName.get(i))) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+    
+    public static void setCustomMenuBarValuesInEdit(Object value, CustomMenuBar.CustomMenuItem customMenuItem) {
+        if (value != null && customMenuItem != null && value.toString().length() > 0) {
+            String val = value.toString();
+            final String[] col = val.split(",");
+            for (int i = 0; i < col.length; i++) {
+                setChecked(customMenuItem.getChildren(), col, i);
+            }
+        }
+    }
+
+    private static void setChecked(List<CustomMenuBar.CustomMenuItem> customMenuItem, String[] col, int i) {
+        if (!nullCheck(customMenuItem)) {
+            for (CustomMenuBar.CustomMenuItem string : customMenuItem) {
+                if (string.getMenuItem().getId() == Integer.parseInt(col[i])
+                        || (!nullCheck(string.getMenuItem().getWindow()) && string.getMenuItem().getWindow().equals(col[i].trim()))
+                        || string.getText().equals(String.valueOf(col[i]).trim())) {
+                    string.setChecked(true);
+                } else {
+                    string.setChecked(false);
+                }
+            }
+        }
+    }
+    
+    public static boolean stringNullCheck(Object value) {
+        return Constants.NULL.equals(String.valueOf(value));
+    }
+    
+    // coversion factor
+    
+       
+    public ComboBox loadConvertionFactorComboBox(final ComboBox select, String listName) {
+        try {
+            select.removeAllItems();
+            select.addItem(Constants.CONVERSION_FACTOR_DEFALUT_VALUE);
+            select.setValidationVisible(true);
+            select.setImmediate(true);
+            select.setNullSelectionAllowed(true);
+            select.setNullSelectionItemId(Constants.CONVERSION_FACTOR_DEFALUT_VALUE);
+            List<HelperDTO> helperList = new ArrayList<>();
+            if (helperListUtil.getListNameMap().get(listName) != null) {
+                helperList.addAll(helperListUtil.getListNameMap().get(listName));
+            }
+            for (HelperDTO helperDTO : helperList) {
+                if (helperDTO.getDescription().contains("~")) {
+                    String[] values = helperDTO.getDescription().split("~");
+                    select.addItem(values[1]);
+                    select.setItemCaption(values[1], values[0]);
+                } else {
+                    select.addItems(helperDTO.getId());
+                    select.setItemCaption(helperDTO.getId(), helperDTO.getDescription());
+                }
+            }
+            select.select(Constants.CONVERSION_FACTOR_DEFALUT_VALUE);
+            return select;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public static String getConversionFormattedValue(ProjectionSelectionDTO selection, Object value, boolean needZeroForNull) {
+        if (stringNullCheck(selection.getConversionFactor())
+                || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
+                || Constants.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
+            if (nullCheck(value) && needZeroForNull) {
+                return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
+            } else if (nullCheck(value)) {
+                return String.valueOf(value);
+            }
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+        }
+        if (nullCheck(value) && needZeroForNull) {
+            return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));
+        } else if (nullCheck(value)) {
+            return String.valueOf(value);
+        }
+        double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());
+        double doubleFinalValue = Double.parseDouble(value.toString()) / doubleValue;
+        return FORMAT_TWO_DECIMAL.format(doubleFinalValue);
+    }
+    
+    
 }

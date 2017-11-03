@@ -6,14 +6,13 @@
 package com.stpl.app.global.deductioncalendar.dto;
 
 import com.stpl.app.global.common.util.CommonUtil;
-import com.stpl.app.global.item.ui.lazyload.BrandContainer;
-import com.stpl.app.global.item.ui.lazyload.BrandCriteria;
-import com.stpl.app.global.item.ui.lazyload.ItemQualifierNameContainer;
-import com.stpl.app.global.item.ui.lazyload.ItemQualifierNameCriteria;
-import com.stpl.app.global.item.ui.lazyload.ManufactureIdCriteria;
-import com.stpl.app.global.item.ui.lazyload.ManufacturerIdContainer;
-import com.stpl.app.global.item.util.UIUtils;
-import com.stpl.app.global.item.util.CommonUtils;
+import com.stpl.app.ui.lazyload.BrandContainer;
+import com.stpl.app.ui.lazyload.BrandCriteria;
+import com.stpl.app.ui.lazyload.ItemQualifierNameContainer;
+import com.stpl.app.ui.lazyload.ItemQualifierNameCriteria;
+import com.stpl.app.ui.lazyload.ManufactureIdCriteria;
+import com.stpl.app.ui.lazyload.ManufacturerIdContainer;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -36,7 +35,6 @@ import org.vaadin.addons.lazycontainer.LazyContainer;
  */
 public class ItemMasterGenerate implements ExtFilterGenerator {
 
-    final CommonUtils commonsUtil = new CommonUtils();
     final com.stpl.app.global.abstractsearch.util.CommonUtils abstractCommonsUtil = new com.stpl.app.global.abstractsearch.util.CommonUtils();
     private HelperDTO dto = new HelperDTO(ConstantsUtils.SHOW_ALL);
     /** The logger. */
@@ -84,17 +82,17 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
         try {
             if ("identifierStatus".equals(propertyId)) {
                 final ComboBox identifierStatus = new ComboBox();
-                 commonUtil.loadComboBox(identifierStatus, UIUtils.STATUS, true);
+                 commonUtil.loadComboBox(identifierStatus, CommonUIUtils.STATUS, true);
                 return identifierStatus;
             } else if ("pricingCodeStatus".equals(propertyId)) {
                 final ComboBox pricingCodeStatus = new ComboBox();
-                  commonUtil.loadComboBox(pricingCodeStatus, UIUtils.STATUS, true);
+                  commonUtil.loadComboBox(pricingCodeStatus, CommonUIUtils.STATUS, true);
                 return pricingCodeStatus;
             } else {
                 if (ConstantsUtils.ITEM_STATUS.equals(propertyId)) {
                           ComboBox itemStatus = new ComboBox();
                           
-                          commonUtil.loadComboBox(itemStatus, UIUtils.STATUS, true);
+                          commonUtil.loadComboBox(itemStatus, CommonUIUtils.STATUS, true);
 
                         return itemStatus;
                 }
@@ -102,7 +100,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 if (ConstantsUtils.ITEM_TYPE.equals(propertyId)) {
                     
                         ComboBox itemType = new ComboBox();
-                          commonUtil.loadComboBox(itemType, UIUtils.ITEM_TYPE, true);
+                          commonUtil.loadComboBox(itemType, CommonUIUtils.ITEM_TYPE, true);
                         return itemType;
                    
                 }
@@ -123,19 +121,19 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
                 if (ConstantsUtils.FORM.equals(propertyId)) {
                     ComboBox form = new ComboBox();
-                      commonUtil.loadComboBox(form, UIUtils.FORM1, true);
+                      commonUtil.loadComboBox(form, CommonUIUtils.FORM1, true);
                     return form;
                 }
 
                 if (ConstantsUtils.STRENGTH.equals(propertyId)) {
                     ComboBox strength = new ComboBox();
-                     commonUtil.loadComboBox(strength, UIUtils.STRENGTH1, true);
+                     commonUtil.loadComboBox(strength, CommonUIUtils.STRENGTH1, true);
                     return strength;
                 }
 
                 if (ConstantsUtils.PRIMARY_UOM.equals(propertyId)) {
                     ComboBox primaryUom = new ComboBox();
-                        commonUtil.loadComboBox(primaryUom, UIUtils.UOM, true);
+                        commonUtil.loadComboBox(primaryUom, CommonUIUtils.UOM, true);
                     return primaryUom;
                 }
 
@@ -147,7 +145,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
 
                 if (ConstantsUtils.ITEM_CLASS.equals(propertyId)) {
                     ComboBox itemClass = new ComboBox();
-                      commonUtil.loadComboBox(itemClass, UIUtils.ITEM_CLASS, true);
+                      commonUtil.loadComboBox(itemClass, CommonUIUtils.ITEM_CLASS, true);
                     return itemClass;
                 }
                 if("manufacturerId".equals(propertyId)){
@@ -167,7 +165,7 @@ public class ItemMasterGenerate implements ExtFilterGenerator {
                 }
                 if (ConstantsUtils.THERAPEUTIC_CLASS.equals(propertyId)) {
                     ComboBox therapeuticClass = new ComboBox();
-                     commonUtil.loadComboBox(therapeuticClass, UIUtils.THERAPEUTIC_CLASS, true);
+                     commonUtil.loadComboBox(therapeuticClass, CommonUIUtils.THERAPEUTIC_CLASS, true);
                     therapeuticClass.setImmediate(true);
 
                     return therapeuticClass;

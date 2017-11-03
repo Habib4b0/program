@@ -219,7 +219,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                     List list = mmLogic.loadCustomerDdlb(psDTO, str);
                     contractType.addItem(0);
                     contractType.setItemCaption(0, SELECT_ONE);
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
 

@@ -11,7 +11,6 @@ import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_ADD;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_REMOVE;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_RESET;
@@ -53,7 +52,7 @@ import org.jboss.logging.Logger;
 
 /**
  *
- * @author soundarrajan
+ * @author 
  */
 public abstract class AbstractComparisonLookup extends AbstractLookup {
 

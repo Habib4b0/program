@@ -34,29 +34,42 @@ public class Constants {
     public static final String VIEW_NAME = "viewName";
     public static final String PRIVATE = "Private";
     public static final String SAVE = "save";
-    public final static String SAVED = "Saved";
-    public final static String SUBMITTED = "Submitted";
-    public final static String APPROVED = "Approved";
-    public final static String REJECTED = "Rejected";
-    public final static String PENDING = "Pending";
-    public final static String CANCELLED = "Cancelled";
-    public final static String FILTER_TABLE = "filtertable";
-    public final static String RESPONSIVE_PAGED_TABLE = "responsivePagedTable";
-    public final static String BOOTSTRAP_UI = "bootstrap-ui";
-    public final static String BOOTSTRAP = "bootstrap";
-    public final static String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
-    public final static String OPTION_GROUP_WIDTH = "optiongroupwidth";
-    public final static String ADD = "add";
-    public final static String PRODUCT_LABEL = "Product";
-    public final static String POPUPCONTENTCOMBOSIZE = "popupContentComboSize";
-    public final static String DESCENDING_LABEL = "Descending";
-    public final static String SYS_SCHEMA = "sys.schema.jndi.name";
-    public final static String SPACE = " ";
-    public final static String DASH_NO_DATA = "-";
-    
-    
-    
+    public static final String SAVED = "Saved";
+    public static final String SUBMITTED = "Submitted";
+    public static final String APPROVED = "Approved";
+    public static final String REJECTED = "Rejected";
+    public static final String PENDING = "Pending";
+    public static final String CANCELLED = "Cancelled";
+    public static final String FILTER_TABLE = "filtertable";
+    public static final String RESPONSIVE_PAGED_TABLE = "responsivePagedTable";
+    public static final String BOOTSTRAP_UI = "bootstrap-ui";
+    public static final String BOOTSTRAP = "bootstrap";
+    public static final String BOOTSTRAP_FORECAST_BOOTSTRAP_NM = "bootstrap-forecast bootstrap-nm";
+    public static final String OPTION_GROUP_WIDTH = "optiongroupwidth";
+    public static final String ADD = "add";
+    public static final String PRODUCT_LABEL = "Product";
+    public static final String POPUPCONTENTCOMBOSIZE = "popupContentComboSize";
+    public static final String DESCENDING_LABEL = "Descending";
+    public static final String SYS_SCHEMA = "sys.schema.jndi.name";
+    public static final String SPACE = " ";
+    public static final String DASH_NO_DATA = "-";
+    public static final String ERROR_NOTIFICATION_INVALID_STRUCTURE = "Invalid Structure";
+    public static final String ERROR_NOTIFICATION_INVALID_ADDITION = "You cannot add ";
+    public static final String ERROR_NOTIFICATION_INVALID_CHILD = " as a child to ";
+    public static final String DEDUCTION_HIERARCHY_INDICATOR = "D";
+    public static final String DISPLAY_FORMAT_SAVE="DisplayFormat";
+    public static String COMMA=",";
+    public static final String CUSTOMER_LEVEL_DDLB="CustomerLevel";
+    public static final String CUSTOMER_LEVEL_VALUE="CustomerLevelValue";
+    public static final String PRODUCT_LEVEL_DDLB="ProductLevel";
+    public static final String PRODUCT_LEVEL_VALUE="ProductLevelValue";
+    public static final String DEDUCTION_LEVEL_DDLB="DeductionLevel";
+    public static final String DEDUCTION_LEVEL_VALUE="DeductionLevelValue";
+    public static final String PROGRAM_CATEGORY_LABEL = "Program Category";
+    public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
+    public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No_Conversion";
 
+    
     
      /**
              * The fail.
@@ -1472,9 +1485,10 @@ public class Constants {
     /**
      * The Constant Avilable Customer Header.
      */
-    public final String AVAILABLE_ITEMS_HEADERS[] = new String[]{
+    public final String[] AVAILABLE_ITEMS_HEADERS = new String[]{
         "", "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand Name", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public final Object AVAILABLE_ITEMS_VISIBLE_COLUMNS[] = new Object[]{
+    public final Object[] AVAILABLE_ITEMS_VISIBLE_COLUMNS = new Object[]{
         "check", "businessUnitNo", "businessUnitName", "theraputicClass", "brand", "itemNo", "itemName", "itemIdentifierType", "itemIdentifier"};
+    public static final String DEFAULT_REPLACE = "?DEFAULT";
 }
 

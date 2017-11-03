@@ -118,6 +118,11 @@
             <version>1.1.0</version>
         </dependency>
         <dependency>
+			<groupId>gtnHierarchyRouteBuilder</groupId>
+			<artifactId>gtnHierarchyRouteBuilder</artifactId>
+			<version>1.0</version>
+		</dependency>
+        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>${commons.lang.version}</version>
@@ -229,8 +234,13 @@
             </exclusions>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>gtnHierarchyRouteBuilder</groupId>
+            <artifactId>gtnHierarchyRouteBuilder</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
-<properties>
+    <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

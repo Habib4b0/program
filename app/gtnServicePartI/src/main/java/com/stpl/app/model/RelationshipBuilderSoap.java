@@ -24,6 +24,7 @@ public class RelationshipBuilderSoap implements Serializable {
     private int _hierarchyVersion;
     private int _modifiedBy;
     private Date _modifiedDate;
+    private int _deductionRelation;
     private int _relationshipType;
     private String _buildType;
 
@@ -44,6 +45,7 @@ public class RelationshipBuilderSoap implements Serializable {
         soapModel.setHierarchyVersion(model.getHierarchyVersion());
         soapModel.setModifiedBy(model.getModifiedBy());
         soapModel.setModifiedDate(model.getModifiedDate());
+        soapModel.setDeductionRelation(model.getDeductionRelation());
         soapModel.setRelationshipType(model.getRelationshipType());
         soapModel.setBuildType(model.getBuildType());
 
@@ -183,6 +185,14 @@ public class RelationshipBuilderSoap implements Serializable {
 
     public void setModifiedDate(Date modifiedDate) {
         _modifiedDate = modifiedDate;
+    }
+
+    public int getDeductionRelation() {
+        return _deductionRelation;
+    }
+
+    public void setDeductionRelation(int deductionRelation) {
+        _deductionRelation = deductionRelation;
     }
 
     public int getRelationshipType() {

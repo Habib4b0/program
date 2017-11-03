@@ -35,6 +35,7 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
     private int _relationshipLevelSid;
     private String _flag;
     private String _levelName;
+    private String _parentHierarchyNo;
     private BaseModel<?> _relationshipLevelDefinitionRemoteModel;
 
     public RelationshipLevelDefinitionClp() {
@@ -89,6 +90,7 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
         attributes.put("relationshipLevelSid", getRelationshipLevelSid());
         attributes.put("flag", getFlag());
         attributes.put("levelName", getLevelName());
+        attributes.put("parentHierarchyNo", getParentHierarchyNo());
 
         return attributes;
     }
@@ -181,6 +183,12 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
 
         if (levelName != null) {
             setLevelName(levelName);
+        }
+
+        String parentHierarchyNo = (String) attributes.get("parentHierarchyNo");
+
+        if (parentHierarchyNo != null) {
+            setParentHierarchyNo(parentHierarchyNo);
         }
     }
 
@@ -505,6 +513,30 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
         }
     }
 
+    @Override
+    public String getParentHierarchyNo() {
+        return _parentHierarchyNo;
+    }
+
+    @Override
+    public void setParentHierarchyNo(String parentHierarchyNo) {
+        _parentHierarchyNo = parentHierarchyNo;
+
+        if (_relationshipLevelDefinitionRemoteModel != null) {
+            try {
+                Class<?> clazz = _relationshipLevelDefinitionRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setParentHierarchyNo",
+                        String.class);
+
+                method.invoke(_relationshipLevelDefinitionRemoteModel,
+                    parentHierarchyNo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getRelationshipLevelDefinitionRemoteModel() {
         return _relationshipLevelDefinitionRemoteModel;
     }
@@ -588,6 +620,7 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
         clone.setRelationshipLevelSid(getRelationshipLevelSid());
         clone.setFlag(getFlag());
         clone.setLevelName(getLevelName());
+        clone.setParentHierarchyNo(getParentHierarchyNo());
 
         return clone;
     }
@@ -634,7 +667,7 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(29);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("{relationshipLevelValues=");
         sb.append(getRelationshipLevelValues());
@@ -664,6 +697,8 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
         sb.append(getFlag());
         sb.append(", levelName=");
         sb.append(getLevelName());
+        sb.append(", parentHierarchyNo=");
+        sb.append(getParentHierarchyNo());
         sb.append("}");
 
         return sb.toString();
@@ -671,7 +706,7 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(46);
+        StringBundler sb = new StringBundler(49);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.RelationshipLevelDefinition");
@@ -732,6 +767,10 @@ public class RelationshipLevelDefinitionClp extends BaseModelImpl<RelationshipLe
         sb.append(
             "<column><column-name>levelName</column-name><column-value><![CDATA[");
         sb.append(getLevelName());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>parentHierarchyNo</column-name><column-value><![CDATA[");
+        sb.append(getParentHierarchyNo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

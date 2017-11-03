@@ -4,14 +4,6 @@
 <display>
 
     <category name="GlobalFiles">
-        <portlet id="Item" />
-        <portlet id="Company" />
-        <portlet id="CompanyFamilyPlan" />
-        <portlet id="ItemFamilyPlan" />
-        <portlet id="PriceSchedule" />
-        <portlet id="RebatePlan" />
-        <portlet id="RebateSchedule" />
-        <portlet id="NetSalesFormula" />
         <portlet id="DeductionCalendar" />
         <portlet id="ComplianceDeductionRules" />
     </category>

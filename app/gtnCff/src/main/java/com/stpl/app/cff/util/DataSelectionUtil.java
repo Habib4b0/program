@@ -16,8 +16,6 @@ import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.TreeTable;
@@ -271,7 +269,7 @@ public class DataSelectionUtil {
         String dd = "01";
         String MM = "01";
         String date = "";
-        String split[] = quarter.split(" - ");
+        String[] split = quarter.split(" - ");
         String splitQuarter = split[0];
         int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
         String yyyy = split[1];
@@ -459,7 +457,7 @@ public class DataSelectionUtil {
         String dd = "30";
         String MM = "01";
         String date = "";
-        String split[] = quarter.split(" - ");
+        String[] split = quarter.split(" - ");
         String splitQuarter = split[0];
         int quarterValue = UiUtils.parseStringToInteger(splitQuarter);
         String yyyy = split[1];

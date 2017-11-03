@@ -12,10 +12,10 @@ import java.util.List;
  * @generated
  */
 public class VwAdjustDemandForecastActSoap implements Serializable {
-    private String _forecastVersion;
+    private String _forecastVer;
     private double _grossUnits;
     private String _businessUnitNo;
-    private String _year;
+    private String _forecastYear;
     private String _brandName;
     private String _itemId;
     private String _organizationKey;
@@ -23,15 +23,15 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
     private int _marketShareRatio;
     private String _businessUnitName;
     private double _marketShareUnits;
-    private String _month;
+    private String _forecastMonth;
     private double _inventoryUnitChange;
     private String _uncapturedUnitsRatio;
     private String _country;
     private String _forecastType;
-    private double _totalAdjustedDemandUnits;
+    private double _totalDemandUnits;
     private String _brandId;
     private String _isForecast;
-    private double _totalAdjustedDemandAmount;
+    private double _totalDemandAmount;
     private double _uncapturedUnits;
     private double _grossPrice;
     private double _grossAmount;
@@ -51,10 +51,10 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         VwAdjustDemandForecastAct model) {
         VwAdjustDemandForecastActSoap soapModel = new VwAdjustDemandForecastActSoap();
 
-        soapModel.setForecastVersion(model.getForecastVersion());
+        soapModel.setForecastVer(model.getForecastVer());
         soapModel.setGrossUnits(model.getGrossUnits());
         soapModel.setBusinessUnitNo(model.getBusinessUnitNo());
-        soapModel.setYear(model.getYear());
+        soapModel.setForecastYear(model.getForecastYear());
         soapModel.setBrandName(model.getBrandName());
         soapModel.setItemId(model.getItemId());
         soapModel.setOrganizationKey(model.getOrganizationKey());
@@ -62,15 +62,15 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         soapModel.setMarketShareRatio(model.getMarketShareRatio());
         soapModel.setBusinessUnitName(model.getBusinessUnitName());
         soapModel.setMarketShareUnits(model.getMarketShareUnits());
-        soapModel.setMonth(model.getMonth());
+        soapModel.setForecastMonth(model.getForecastMonth());
         soapModel.setInventoryUnitChange(model.getInventoryUnitChange());
         soapModel.setUncapturedUnitsRatio(model.getUncapturedUnitsRatio());
         soapModel.setCountry(model.getCountry());
         soapModel.setForecastType(model.getForecastType());
-        soapModel.setTotalAdjustedDemandUnits(model.getTotalAdjustedDemandUnits());
+        soapModel.setTotalDemandUnits(model.getTotalDemandUnits());
         soapModel.setBrandId(model.getBrandId());
         soapModel.setIsForecast(model.getIsForecast());
-        soapModel.setTotalAdjustedDemandAmount(model.getTotalAdjustedDemandAmount());
+        soapModel.setTotalDemandAmount(model.getTotalDemandAmount());
         soapModel.setUncapturedUnits(model.getUncapturedUnits());
         soapModel.setGrossPrice(model.getGrossPrice());
         soapModel.setGrossAmount(model.getGrossAmount());
@@ -133,12 +133,12 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         setAdjustedDemandForecastId(pk);
     }
 
-    public String getForecastVersion() {
-        return _forecastVersion;
+    public String getForecastVer() {
+        return _forecastVer;
     }
 
-    public void setForecastVersion(String forecastVersion) {
-        _forecastVersion = forecastVersion;
+    public void setForecastVer(String forecastVer) {
+        _forecastVer = forecastVer;
     }
 
     public double getGrossUnits() {
@@ -157,12 +157,12 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         _businessUnitNo = businessUnitNo;
     }
 
-    public String getYear() {
-        return _year;
+    public String getForecastYear() {
+        return _forecastYear;
     }
 
-    public void setYear(String year) {
-        _year = year;
+    public void setForecastYear(String forecastYear) {
+        _forecastYear = forecastYear;
     }
 
     public String getBrandName() {
@@ -221,12 +221,12 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         _marketShareUnits = marketShareUnits;
     }
 
-    public String getMonth() {
-        return _month;
+    public String getForecastMonth() {
+        return _forecastMonth;
     }
 
-    public void setMonth(String month) {
-        _month = month;
+    public void setForecastMonth(String forecastMonth) {
+        _forecastMonth = forecastMonth;
     }
 
     public double getInventoryUnitChange() {
@@ -261,12 +261,12 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         _forecastType = forecastType;
     }
 
-    public double getTotalAdjustedDemandUnits() {
-        return _totalAdjustedDemandUnits;
+    public double getTotalDemandUnits() {
+        return _totalDemandUnits;
     }
 
-    public void setTotalAdjustedDemandUnits(double totalAdjustedDemandUnits) {
-        _totalAdjustedDemandUnits = totalAdjustedDemandUnits;
+    public void setTotalDemandUnits(double totalDemandUnits) {
+        _totalDemandUnits = totalDemandUnits;
     }
 
     public String getBrandId() {
@@ -285,12 +285,12 @@ public class VwAdjustDemandForecastActSoap implements Serializable {
         _isForecast = isForecast;
     }
 
-    public double getTotalAdjustedDemandAmount() {
-        return _totalAdjustedDemandAmount;
+    public double getTotalDemandAmount() {
+        return _totalDemandAmount;
     }
 
-    public void setTotalAdjustedDemandAmount(double totalAdjustedDemandAmount) {
-        _totalAdjustedDemandAmount = totalAdjustedDemandAmount;
+    public void setTotalDemandAmount(double totalDemandAmount) {
+        _totalDemandAmount = totalDemandAmount;
     }
 
     public double getUncapturedUnits() {

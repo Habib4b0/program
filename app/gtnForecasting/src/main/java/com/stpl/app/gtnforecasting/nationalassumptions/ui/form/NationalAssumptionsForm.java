@@ -182,9 +182,6 @@ public class NationalAssumptionsForm extends CustomComponent {
      *
      * @param dtoValue the dto value
      * @param mode the mode
-     * @param sessionDTO
-     * @throws SystemException
-     * @throws PortalException
      */
     public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws SystemException, PortalException  {
         LOGGER.info("NationalAssumptionsForm Constructor initiated ");

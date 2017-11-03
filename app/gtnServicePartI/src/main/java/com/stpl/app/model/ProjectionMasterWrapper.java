@@ -70,6 +70,9 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
             getProdRelationshipBuilderSid());
         attributes.put("discountType", getDiscountType());
         attributes.put("businessUnit", getBusinessUnit());
+        attributes.put("deductionHierarchySid", getDeductionHierarchySid());
+        attributes.put("dedRelationshipBuilderSid",
+            getDedRelationshipBuilderSid());
 
         return attributes;
     }
@@ -254,6 +257,20 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 
         if (businessUnit != null) {
             setBusinessUnit(businessUnit);
+        }
+
+        String deductionHierarchySid = (String) attributes.get(
+                "deductionHierarchySid");
+
+        if (deductionHierarchySid != null) {
+            setDeductionHierarchySid(deductionHierarchySid);
+        }
+
+        String dedRelationshipBuilderSid = (String) attributes.get(
+                "dedRelationshipBuilderSid");
+
+        if (dedRelationshipBuilderSid != null) {
+            setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
         }
     }
 
@@ -857,6 +874,47 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
     @Override
     public void setBusinessUnit(int businessUnit) {
         _projectionMaster.setBusinessUnit(businessUnit);
+    }
+
+    /**
+    * Returns the deduction hierarchy sid of this projection master.
+    *
+    * @return the deduction hierarchy sid of this projection master
+    */
+    @Override
+    public java.lang.String getDeductionHierarchySid() {
+        return _projectionMaster.getDeductionHierarchySid();
+    }
+
+    /**
+    * Sets the deduction hierarchy sid of this projection master.
+    *
+    * @param deductionHierarchySid the deduction hierarchy sid of this projection master
+    */
+    @Override
+    public void setDeductionHierarchySid(java.lang.String deductionHierarchySid) {
+        _projectionMaster.setDeductionHierarchySid(deductionHierarchySid);
+    }
+
+    /**
+    * Returns the ded relationship builder sid of this projection master.
+    *
+    * @return the ded relationship builder sid of this projection master
+    */
+    @Override
+    public java.lang.String getDedRelationshipBuilderSid() {
+        return _projectionMaster.getDedRelationshipBuilderSid();
+    }
+
+    /**
+    * Sets the ded relationship builder sid of this projection master.
+    *
+    * @param dedRelationshipBuilderSid the ded relationship builder sid of this projection master
+    */
+    @Override
+    public void setDedRelationshipBuilderSid(
+        java.lang.String dedRelationshipBuilderSid) {
+        _projectionMaster.setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
     }
 
     @Override

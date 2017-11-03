@@ -180,7 +180,13 @@ public class MSalesProjection extends ForecastSalesProjection {
             startPeriod.setEnabled(true);
             endPeriod.setEnabled(true);
             populate.setEnabled(true);
-        }
+    }
+    }
+    
+    @Override
+    protected void variableChangeLogic() {
+        return;
+
     }
 
     @Override

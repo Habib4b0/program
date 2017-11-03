@@ -5,65 +5,14 @@ package com.stpl.app.gtnforecasting.lookups;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import static com.stpl.app.utils.Constants.ResourceConstants.*;
+import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.MandatedChartUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.utils.Constants.FrequencyConstants;
-import static com.stpl.app.utils.Constants.ResourceConstants.*;
-import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
-import com.stpl.app.gtnforecasting.utils.MandatedGraphWindow;
-import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.lookups.dto.MPmpyDTO;
-import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
-import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.MandatedChartUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.utils.Constants.FrequencyConstants;
-import static com.stpl.app.utils.Constants.ResourceConstants.*;
 import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.utils.MandatedGraphWindow;
 import com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils;
@@ -94,10 +43,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -700,9 +647,9 @@ public class MPmpyCalculator extends Window {
 
                 public void buttonClick(Button.ClickEvent event) {
 
-                        ExtFilterTable excelTable = new ExtFilterTable();
-                        excelTable.setVisible(false);
-                        tableLayout.addComponent(excelTable);
+                        ExtFilterTable excelFilterTable = new ExtFilterTable();
+                        excelFilterTable.setVisible(false);
+                        tableLayout.addComponent(excelFilterTable);
                         final ExtTreeContainer<MPmpyDTO> tempPMPYContainer = new ExtTreeContainer<>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
                         
                         String frequency = String.valueOf(frequencyDDLB.getValue());
@@ -719,14 +666,14 @@ public class MPmpyCalculator extends Window {
                         
                         tempPMPYContainer.setColumnProperties(excelHeaderDTO.getProperties());
                         loadPMPYTable(true, tempPMPYContainer);
-                        excelTable.setContainerDataSource(tempPMPYContainer);
+                        excelFilterTable.setContainerDataSource(tempPMPYContainer);
                         
-                        excelTable.setVisibleColumns(excelHeaderDTO.getSingleColumns().toArray());
-                        excelTable.setColumnHeaders(excelHeaderDTO.getSingleHeaders().toArray(new String[excelHeaderDTO.getSingleHeaders().size()]));
+                        excelFilterTable.setVisibleColumns(excelHeaderDTO.getSingleColumns().toArray());
+                        excelFilterTable.setColumnHeaders(excelHeaderDTO.getSingleHeaders().toArray(new String[excelHeaderDTO.getSingleHeaders().size()]));
                         ForecastUI.EXCEL_CLOSE=true;
-                        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelTable), Constant.PMPY_CALCULATOR, Constant.PMPY_CALCULATOR, "PMPYCalculator.xls", false);
+                        ExcelExport export = new ExcelExport(new ExtCustomTableHolder(excelFilterTable), Constant.PMPY_CALCULATOR, Constant.PMPY_CALCULATOR, "PMPYCalculator.xls", false);
                         export.export();
-                        tableLayout.removeComponent(excelTable);
+                        tableLayout.removeComponent(excelFilterTable);
 
                     
                 }

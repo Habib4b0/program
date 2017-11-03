@@ -3,7 +3,6 @@ package com.stpl.app.gtnforecasting.dto;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
 
@@ -43,10 +42,16 @@ public class DiscountProjectionDTO extends ExtMapDTO {
      * The product hierarchy Number
      */
     private String productHierarchyNo = StringUtils.EMPTY;
+    
+     /**
+     * The product hierarchy Number
+     */
+    private String deductionHierarchyNo = StringUtils.EMPTY;
 
     private Integer uncheckCount = 0;
 
     private String levelName = StringUtils.EMPTY;
+    private String deductionInclusion = StringUtils.EMPTY;
 
     private Integer ccpCount = 0;
 
@@ -200,6 +205,22 @@ public class DiscountProjectionDTO extends ExtMapDTO {
 
     public void setCcpCountForDiscount(GtnSmallHashMap ccpCountForDiscount) {
         this.ccpCountForDiscount = ccpCountForDiscount;
+    }
+
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
+    }
+
+    public String getDeductionInclusion() {
+        return deductionInclusion;
+    }
+
+    public void setDeductionInclusion(String deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
     }
 
 }

@@ -12,6 +12,7 @@ import static com.stpl.app.utils.Constants.LabelConstants.DISCOUNT2;
 import static com.stpl.app.utils.Constants.LabelConstants.METHODOLOGY;
 import static com.stpl.app.utils.Constants.LabelConstants.PARITY_SETTINGS;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
@@ -50,9 +51,7 @@ import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
@@ -64,8 +63,10 @@ import com.vaadin.ui.themes.ValoTheme;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -83,6 +84,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
+    private static final Logger LOGGER = Logger.getLogger(ForecastDiscountProjection.class);
     /**
      * The forecastTab VerticalLayout.
      */
@@ -93,7 +95,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      */
     @UiField("resultsTableLayout")
     protected VerticalLayout resultsTableLayout;
-   
+    
     /**
      * The viewHlayout HorizontalLayout.
      */
@@ -195,6 +197,10 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /**
      * The adjprograms OptionGroup.
      */
+    
+    @UiField("adjprograms")
+    protected OptionGroup adjprograms;
+    
     @UiField("lblStart")
     protected Label lblStart;
     /**
@@ -207,7 +213,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      */
     @UiField("groupFilterLb")
     protected Label groupFilterLb;
-
+    
     @UiField("variablesForMandated")
     public OptionGroup variablesForMandated;
     /**
@@ -266,8 +272,6 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     /**
      * The adjprograms OptionGroup.
      */
-    @UiField("adjprograms")
-    protected OptionGroup adjprograms;
     /**
      * The adjperiods OptionGroup.
      */
@@ -293,6 +297,61 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      */
     @UiField("generateBtn")
     protected Button generateBtn;
+    /**
+     * The disountPanel Button.
+     */
+    @UiField("disountPanel")
+    protected Panel disountPanel;
+    /**
+     * The customerlevelDdlb Button.
+     */
+    @UiField("customerlevelDdlb")
+    protected ComboBox customerlevelDdlb;
+    /**
+     * The customerlevelDdlb Button.
+     */
+    @UiField("productlevelDdlb")
+    protected ComboBox productlevelDdlb;
+    /**
+     * The deductionlevelDdlb Button.
+     */
+    @UiField("deductionlevelDdlb")
+    protected ComboBox deductionlevelDdlb;
+    /**
+     * The deductionInclusionDdlb Button.
+     */
+    @UiField("deductionInclusionDdlb")
+    protected CustomMenuBar deductionInclusionDdlb;
+    /**
+     * The customerFilterDdlb Button.
+     */
+    @UiField("customerFilterDdlb")
+    protected CustomMenuBar customerFilterDdlb;
+    /**
+     * The productFilterDdlb Button.
+     */
+    @UiField("productFilterDdlb")
+    protected CustomMenuBar productFilterDdlb;
+    /**
+     * The deductionFilterDdlb Button.
+     */
+    @UiField("deductionFilterDdlb")
+    protected CustomMenuBar deductionFilterDdlb;
+    /**
+     * discountSelection HorizontalLayout.
+     */
+    @UiField("discountSelection")
+    protected HorizontalLayout discountSelection;
+    /**
+     * HorizontalLayout.
+     */
+    @UiField("discountProjectionfilterLayout")
+    protected HorizontalLayout discountProjectionfilterLayout;
+    /**
+     * HorizontalLayout.
+     */
+    @UiField("tabsheetDiscount")
+    protected TabSheet tabsheetDiscount;
     /**
      * The editBtn Button.
      */
@@ -368,6 +427,17 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     public OptionGroup projType = new OptionGroup();
     public Label discTypeLb = new Label();
     public OptionGroup discType = new OptionGroup();
+    public Label uomLb = new Label("Unit Of Measure:");
+    public ComboBox uomDdlb = new ComboBox();
+    public Label displayFormatLabel = new Label("Display Format:");
+    public CustomMenuBar displayFormatDdlb = new CustomMenuBar();
+    public Label conversionFactor = new Label("Deduction Conversion:");
+    public ComboBox conversionFactorDdlb = new ComboBox();
+    protected CustomMenuBar.CustomMenuItem deductionInclusionValues;
+    protected CustomMenuBar.CustomMenuItem customerFilterValues;
+    protected CustomMenuBar.CustomMenuItem productFilterValues;
+    protected CustomMenuBar.CustomMenuItem deductionFilterValues;
+    protected CustomMenuBar.CustomMenuItem displayFormatValues;
 
     /**
      * The bean for loading Start Period drop down.
@@ -411,6 +481,19 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     }
 
     public void configureFields() {
+        
+        if (CommonUtil.isValueEligibleForLoading()) {
+            disountPanel.setVisible(false);
+            tabsheetDiscount.addTab(discountSelection, "Display Selection");
+            tabsheetDiscount.addTab(discountProjectionfilterLayout, "Filter Option");
+            tabsheetDiscount.addStyleName(ValoTheme.TABSHEET_FRAMED);
+            tabsheetDiscount.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+            programLevelPanel.setVisible(false);
+            panelNM.setVisible(false);
+        } else {
+            discountSelection.setVisible(false);
+            discountProjectionfilterLayout.setVisible(false);
+        }
         tabSheet.addTab(massUpdateVlayout, "Mass Update");
         tabSheet.addTab(forecastTabVlayout, "Forecast");
         tabSheet.addTab(forecastAdjustmentVlayout, "Adjustment");
@@ -532,6 +615,13 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         expandBtn.addClickListener(buttonClickListener);
         collapseBtn.setData("collapseBtn");
         collapseBtn.addClickListener(buttonClickListener);
+        if (CUSTOM.getConstant().equals(String.valueOf(view.getValue()))) {
+            adjprogramsLb.setVisible(false);
+            adjprograms.setVisible(false);
+        } else {
+            adjprogramsLb.setVisible(false);
+            adjprograms.setVisible(false);
+        }
 
         screenLoad();
 
@@ -545,6 +635,9 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 break;
             case CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED:
                 nonMandatedScreenLoad();
+                break;
+            default:
+                LOGGER.warn("screenName is not valid: " + screenName);
                 break;
                            
             }
@@ -641,6 +734,8 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected abstract void populateBtnClickLogic();
 
     protected abstract void calculateBtnClickLogic();
+    
+    protected abstract void customCalculateBtnClickLogic();
 
     protected abstract void newBtnClickLogic();
 
@@ -648,6 +743,8 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
 
     protected abstract void adjustBtnClickLogic();
 
+    protected abstract void adjustBtnClickLogicCustom();
+    
     protected abstract void excelExportClickLogic();
 
     protected abstract void levelFilterValueChangeLogic(Property.ValueChangeEvent event);
@@ -667,7 +764,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected abstract void resetBtnForTableLogic();
 
     protected abstract void fieldDdlbValueChangeLogic(Property.ValueChangeEvent event);
-
+    
     public void removePropertyValueChangeListeners(AbstractField... field) {
         if (field != null && field.length != 0) {
             for (AbstractField abstractField : field) {
@@ -725,6 +822,9 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 case "fieldDdlb":
                     fieldDdlbValueChangeLogic(event);
                     break;
+                default:
+                LOGGER.warn("data is not valid: " + data);
+                break;
                
             }
 
@@ -737,7 +837,11 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
         String data = String.valueOf(event.getButton().getData());
         switch (data) {
             case "calculateBtn":
-                calculateBtnClickLogic();
+                if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
+                    customCalculateBtnClickLogic();
+                } else {
+                    calculateBtnClickLogic();
+                }
                 break;
             case "populateBtn":
                 populateBtnClickLogic();
@@ -761,13 +865,20 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
                 newBtnClickLogic();
                 break;
             case "adjustBtn":
-                adjustBtnClickLogic();
+                if (CUSTOM.getConstant().equals(String.valueOf(view.getValue())) && CommonUtil.isValueEligibleForLoading()) {
+                    adjustBtnClickLogicCustom();
+                } else {
+                    adjustBtnClickLogic();
+                }
                 break;
             case "expandBtn":
                 expandBtnClickLogic();
                 break;
             case "collapseBtn":
                 collapseBtnClickLogic();
+                break;
+            default:
+                LOGGER.warn("data is not valid: " + data);
                 break;
            
         }

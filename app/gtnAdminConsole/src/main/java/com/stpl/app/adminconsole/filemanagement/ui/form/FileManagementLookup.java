@@ -4,12 +4,38 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 
+import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
-import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementFilterGenerator;
 import com.stpl.app.adminconsole.filemanagement.dto.FileMananagementResultDTO;
@@ -20,18 +46,25 @@ import com.stpl.app.adminconsole.filemanagement.ui.lazyload.ForecastYearContaine
 import com.stpl.app.adminconsole.filemanagement.ui.lazyload.ForecastYearCriteria;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.BCPExcelUtility;
+import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ErrorCodeUtil;
 import com.stpl.app.adminconsole.util.ErrorCodes;
 import com.stpl.app.adminconsole.util.OnDemandFileDownloader;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.ValidationUtils;
 import com.stpl.app.adminconsole.util.converters.DataFormatConverter;
 import com.stpl.app.model.DemandForecast;
 import com.stpl.app.model.ForecastingMaster;
+import com.stpl.app.parttwo.model.AdjustedDemandForecast;
+import com.stpl.app.parttwo.model.CustomerGtsForecast;
+import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
+import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
 import com.stpl.app.service.DemandForecastLocalServiceUtil;
 import com.stpl.app.service.ForecastingMasterLocalServiceUtil;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.CommonUIUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -41,15 +74,16 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
-import com.vaadin.data.Validator;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.event.FieldEvents;
+import com.vaadin.event.ItemClickEvent;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -69,42 +103,11 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
-import com.stpl.app.parttwo.model.AdjustedDemandForecast;
-import com.stpl.app.parttwo.model.CustomerGtsForecast;
-import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
-import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.event.ItemClickEvent;
-import com.vaadin.server.VaadinSession;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.util.logging.Level;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class FileManagementLookup.
@@ -283,7 +286,7 @@ public class FileManagementLookup extends Window {
     SessionDTO sessionDTO;
     @UiField("viewBtn")
     private Button viewBtn;
-    @UiField("searchPanel")
+	@UiField("searchPanel")
     private Panel searchPanel;
 
     @UiField("itemId")
@@ -554,7 +557,8 @@ public class FileManagementLookup extends Window {
     private void addLineBtnLogic() {
         addLine.addClickListener(new ClickListener() {
 
-            public void buttonClick(final ClickEvent event) {
+            @Override
+			public void buttonClick(final ClickEvent event) {
 
                 if (detailsFlag == 'N') {
                     AbstractNotificationUtils.getErrorNotification(CommonUtils.DETAILS_ERROR, CommonUtils.PLEASE_CLICK_RECORD);
@@ -699,7 +703,8 @@ public class FileManagementLookup extends Window {
 
         remove.addClickListener(new ClickListener() {
 
-            public void buttonClick(final ClickEvent event) {
+            @Override
+			public void buttonClick(final ClickEvent event) {
                 Boolean deleteFlag = true;
                 try {
                     List<FileMananagementResultDTO> idList = new ArrayList<>();
@@ -738,7 +743,8 @@ public class FileManagementLookup extends Window {
     private void saveButton() {
         save.addClickListener(new ClickListener() {
 
-            public void buttonClick(final ClickEvent event) {
+            @Override
+			public void buttonClick(final ClickEvent event) {
                 saveButtonLogic();
             }
         });
@@ -748,13 +754,15 @@ public class FileManagementLookup extends Window {
 
         resetBtn.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In reset.addClickListener started");
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, StringConstantUtils.ARE_YOU_SURE_YOU_WANT_TO_RESET
                         + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
 
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     try {
@@ -793,13 +801,15 @@ public class FileManagementLookup extends Window {
 
         custResetBtn.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In Search Criteria RESET addClickListener started");
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, StringConstantUtils.ARE_YOU_SURE_YOU_WANT_TO_RESET
                         + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
 
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     try {
@@ -832,7 +842,8 @@ public class FileManagementLookup extends Window {
 
         populate.addClickListener(new ClickListener() {
 
-            public void buttonClick(final ClickEvent event) {
+            @Override
+			public void buttonClick(final ClickEvent event) {
                 Boolean flag = true;
                 if (fieldName.getValue() == null) {
                     AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, "Please select Field Name");
@@ -1085,13 +1096,14 @@ public class FileManagementLookup extends Window {
 
         LOGGER.debug("configureFields method initiated ");
         resetBtn.setVisible(false);
-        summaryPanel.setVisible(true);
-        searchPanel.setVisible(false);
-        massUpdatePanel.setVisible(true);
-        addLine.setVisible(true);
-        remove.setVisible(true);
-        save.setVisible(true);
-        viewBtn.setVisible(false);
+
+         summaryPanel.setVisible(true);
+            searchPanel.setVisible(false);
+            massUpdatePanel.setVisible(true);
+            addLine.setVisible(true);
+            remove.setVisible(true);
+            save.setVisible(true);
+            viewBtn.setVisible(false);
         if (isDetails) {
             addLine.setEnabled(false);
             remove.setEnabled(false);
@@ -1102,7 +1114,7 @@ public class FileManagementLookup extends Window {
         summaryPanel.addStyleName("excepttable");
         massUpdatePanel.addStyleName("excepttable");
         helperFileType = CommonUtil.getSelectedFileType(fmFileType);
-        fileType.setValue(CommonUtil.getSelectedFileType(fmFileType).getDescription());
+        fileType.setValue(fmFileType.getItemCaption(fmFileType.getValue()));
         country.setValue(fmCountry);
         String businessUnitName = logic.getCompanyMasterName(fmbusinessUnit);
         businessUnit.setValue(businessUnitName);
@@ -1218,7 +1230,8 @@ public class FileManagementLookup extends Window {
 
         massUpdate.addValueChangeListener(new Property.ValueChangeListener() {
 
-            public void valueChange(final Property.ValueChangeEvent event) {
+            @Override
+			public void valueChange(final Property.ValueChangeEvent event) {
                 LOGGER.debug(CommonUtils.LEVELVALUE_LISTENER);
                 if (event != null) {
                     if (String.valueOf(event.getProperty().getValue()).equals(ConstantsUtils.ENABLE)) {
@@ -1241,7 +1254,8 @@ public class FileManagementLookup extends Window {
 
         fieldName.addValueChangeListener(new Property.ValueChangeListener() {
 
-            public void valueChange(final Property.ValueChangeEvent event) {
+            @Override
+			public void valueChange(final Property.ValueChangeEvent event) {
                 LOGGER.debug(CommonUtils.LEVELVALUE_LISTENER);
                 if (event != null) {
                     if (String.valueOf(event.getProperty().getValue()).equals(ConstantsUtils.CAPS_ITEMNO)) {
@@ -1268,7 +1282,8 @@ public class FileManagementLookup extends Window {
 
         itemNoSearch.addClickListener(new CustomTextField.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void click(CustomTextField.ClickEvent event) {
                 final ItemSearchLookup lookUp = new ItemSearchLookup(itemNoSearch, lookupItemName, sessionDTO);
                 try {
@@ -1278,7 +1293,8 @@ public class FileManagementLookup extends Window {
                 }
                 UI.getCurrent().addWindow(lookUp);
                 lookUp.addCloseListener(new Window.CloseListener() {
-                    public void windowClose(final Window.CloseEvent e) {
+                    @Override
+					public void windowClose(final Window.CloseEvent e) {
                         if (!lookUp.isSelected) {
                             detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME).setValue(StringUtils.EMPTY);
                             detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID).setValue(StringUtils.EMPTY);
@@ -1320,7 +1336,8 @@ public class FileManagementLookup extends Window {
     private void searchButton() {
         search.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In searchButton searchButtonClickLogic started");
                 try {
@@ -1401,7 +1418,8 @@ public class FileManagementLookup extends Window {
     private void detailsButton() {
         details.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In detailsButton detailsButtonClickLogic started");
                 try {
@@ -1532,14 +1550,16 @@ public class FileManagementLookup extends Window {
 
         close.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
 
                 if (selectClose == true && saveflag == false) {
                     MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Are you sure you want to close the File Lookup ?\n"
                             + " Any changes you have made will not be saved.", new MessageBoxListener() {
 
-                                @SuppressWarnings("PMD")
+                                @Override
+								@SuppressWarnings("PMD")
                                 public void buttonClicked(final ButtonId buttonId) {
 
                                     if (buttonId.name().equals(ConstantsUtils.YES)) {
@@ -1603,7 +1623,8 @@ public class FileManagementLookup extends Window {
         LOGGER.debug("selectButton method started");
         select.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In select.addClickListener started");
                 try {
@@ -1614,7 +1635,8 @@ public class FileManagementLookup extends Window {
                             MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "File/version has been updated but has not be saved. "
                                     + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
 
-                                        @SuppressWarnings("PMD")
+                                        @Override
+										@SuppressWarnings("PMD")
                                         public void buttonClicked(final ButtonId buttonId) {
 
                                             if (buttonId.name().equals(ConstantsUtils.YES)) {
@@ -1659,13 +1681,15 @@ public class FileManagementLookup extends Window {
 
         reset.addClickListener(new Button.ClickListener() {
 
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void buttonClick(final Button.ClickEvent event) {
                 LOGGER.debug("In reset.addClickListener started");
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, StringConstantUtils.ARE_YOU_SURE_YOU_WANT_TO_RESET
                         + ConstantsUtils.QUESTION_MARK, new MessageBoxListener() {
 
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(ConstantsUtils.YES)) {
                                     try {
@@ -2066,7 +2090,8 @@ public class FileManagementLookup extends Window {
             }
             if (changeFlag) {
                 MessageBox.showPlain(Icon.QUESTION, ConstantsUtils.CONFORMATION, "Save record " + selectFile.getValue() + "?", new MessageBoxListener() {
-                    public void buttonClicked(ButtonId buttonId) {
+                    @Override
+					public void buttonClicked(ButtonId buttonId) {
 
                         if (buttonId.name().equals(ConstantsUtils.YES)) {
                             String finalVersion;
@@ -2333,7 +2358,8 @@ public class FileManagementLookup extends Window {
              * Notifies this listener that the Property's value has changed .
              *
              */
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void valueChange(final Property.ValueChangeEvent event) {
                 LOGGER.debug("In resultsTable resultsItemClick started");
                 try {
@@ -2349,7 +2375,8 @@ public class FileManagementLookup extends Window {
             /**
              * * Invoked when an error occurs.
              */
-            public void error(final com.vaadin.server.ErrorEvent event) {
+            @Override
+			public void error(final com.vaadin.server.ErrorEvent event) {
                 return;
             }
         });
@@ -2462,8 +2489,14 @@ public class FileManagementLookup extends Window {
         detailsFilterTable.setColumnCheckBox(ConstantsUtils.CHECK, true, false);
 
         final ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
-            @Override
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
+				detailstableLogic.setCurrentPage(detailstableLogic.getCurrentPage());
                 checkAll(event.isChecked());
             }
         };
@@ -2482,7 +2515,8 @@ public class FileManagementLookup extends Window {
              * Invoked when an error occurs .
              *
              */
-            @SuppressWarnings("PMD")
+            @Override
+			@SuppressWarnings("PMD")
             public void error(final com.vaadin.server.ErrorEvent event) {
                 return;
             }
@@ -2518,7 +2552,8 @@ public class FileManagementLookup extends Window {
                 resultsTable.setVisibleColumns(CommonUIUtil.getInstance().fileMgmtLookupCustomerColumns);
                 resultsTable.setColumnHeaders(CommonUIUtil.getInstance().fileMgmtLookupCustomerHeader);
                 resultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
-                    @SuppressWarnings("PMD")
+                    @Override
+					@SuppressWarnings("PMD")
                     public void itemClick(final ItemClickEvent event) {
                         FileMananagementResultDTO dto = (FileMananagementResultDTO) event.getItemId();
                         systemId = String.valueOf(dto.getForecastSystemId());
@@ -2608,16 +2643,18 @@ public class FileManagementLookup extends Window {
             /**
              * To create editable fields inside table .
              */
-            public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
+            @Override
+			public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                 final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
                 final Boolean flag = dto.isRecordLockStatus();
                 final String interfaceFlag = dto.getInterfaceFlag();
                 if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
                     if (flag) {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final ExtCustomCheckBox select = new ExtCustomCheckBox();
+							final ExtCustomCheckBox select = new ExtCustomCheckBox();
                             select.setImmediate(true);
                             select.setEnabled(false);
+							setExtCustomCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals(ConstantsUtils.UNITS)) {
@@ -2643,10 +2680,10 @@ public class FileManagementLookup extends Window {
                         }
                     } else {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final CheckBox select = new CheckBox();
+							final CheckBox select = new CheckBox();
                             select.setImmediate(true);
                             select.setEnabled(true);
-
+							setCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals(ConstantsUtils.UNITS)) {
@@ -2654,7 +2691,8 @@ public class FileManagementLookup extends Window {
                             unit.setImmediate(true);
 
                             unit.addBlurListener(new FieldEvents.BlurListener() {
-                                public void blur(FieldEvents.BlurEvent event) {
+                                @Override
+								public void blur(FieldEvents.BlurEvent event) {
                                     LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
                                     String unitValue = unit.getValue();
@@ -2681,7 +2719,8 @@ public class FileManagementLookup extends Window {
                             price.setImmediate(true);
 
                             price.addBlurListener(new FieldEvents.BlurListener() {
-                                public void blur(FieldEvents.BlurEvent event) {
+                                @Override
+								public void blur(FieldEvents.BlurEvent event) {
 
                                     LOGGER.debug(CommonUtils.LEVELVALUE_LISTENER);
                                     String priceValue = price.getValue();
@@ -2717,6 +2756,7 @@ public class FileManagementLookup extends Window {
                         final CheckBox select = new CheckBox();
                         select.setImmediate(true);
                         select.setEnabled(true);
+						setCheckBoxValue(select, itemId);
                         select.addListener(new CheckBox.ValueChangeListener() {
 
                             @Override
@@ -2746,7 +2786,8 @@ public class FileManagementLookup extends Window {
                         unit.setImmediate(true);
 
                         unit.addBlurListener(new FieldEvents.BlurListener() {
-                            public void blur(FieldEvents.BlurEvent event) {
+                            @Override
+							public void blur(FieldEvents.BlurEvent event) {
                                 LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
                                 String unitValue = unit.getValue();
@@ -2773,7 +2814,8 @@ public class FileManagementLookup extends Window {
                         price.setImmediate(true);
 
                         price.addBlurListener(new FieldEvents.BlurListener() {
-                            public void blur(FieldEvents.BlurEvent event) {
+                            @Override
+							public void blur(FieldEvents.BlurEvent event) {
                                 LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
                                 String priceValue = price.getValue();
@@ -2802,7 +2844,8 @@ public class FileManagementLookup extends Window {
                         year1.setImmediate(true);
 
                         year1.addBlurListener(new FieldEvents.BlurListener() {
-                            public void blur(FieldEvents.BlurEvent event) {
+                            @Override
+							public void blur(FieldEvents.BlurEvent event) {
                                 LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
                                 String year = year1.getValue();
@@ -2822,7 +2865,8 @@ public class FileManagementLookup extends Window {
                         month.setImmediate(true);
 
                         month.addBlurListener(new FieldEvents.BlurListener() {
-                            public void blur(FieldEvents.BlurEvent event) {
+                            @Override
+							public void blur(FieldEvents.BlurEvent event) {
                                 LOGGER.debug(CommonUtils.LEVELVALUE_BLURLISTENER);
 
                                 String enteredMonth = month.getValue();
@@ -2855,7 +2899,8 @@ public class FileManagementLookup extends Window {
                              * Called when a Button has been clicked .
                              *
                              */
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void click(CustomTextField.ClickEvent event) {
                                 final ItemSearchLookup lookUp = new ItemSearchLookup(itemNoSearch, itemName, sessionDTO);
                                 try {
@@ -2865,7 +2910,8 @@ public class FileManagementLookup extends Window {
                                 }
                                 UI.getCurrent().addWindow(lookUp);
                                 lookUp.addCloseListener(new Window.CloseListener() {
-                                    public void windowClose(final Window.CloseEvent e) {
+                                    @Override
+									public void windowClose(final Window.CloseEvent e) {
                                         if (lookUp.isSelected) {
                                             detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NO).setValue(itemNoSearch.getValue());
                                         } else {
@@ -2888,7 +2934,8 @@ public class FileManagementLookup extends Window {
                              * Called when a Button has been clicked .
                              *
                              */
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void click(CustomTextField.ClickEvent event) {
                                 final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName, sessionDTO);
                                 try {
@@ -2898,7 +2945,8 @@ public class FileManagementLookup extends Window {
                                 }
                                 UI.getCurrent().addWindow(lookUp);
                                 lookUp.addCloseListener(new Window.CloseListener() {
-                                    public void windowClose(final Window.CloseEvent e) {
+                                    @Override
+									public void windowClose(final Window.CloseEvent e) {
                                         if (lookUp.isSelected) {
                                             detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME).setValue(lookupItemName.getValue().toString());
                                         } else {
@@ -2935,16 +2983,18 @@ public class FileManagementLookup extends Window {
     public void demandFieldFactory() {
 
         detailsFilterTable.setTableFieldFactory(new DefaultFieldFactory() {
-            public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
+            @Override
+			public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                 final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
                 final Boolean flag = dto.isRecordLockStatus();
                 final String interfaceFlag = dto.getInterfaceFlag();
                 if (ConstantsUtils.CHAR_N.equals(interfaceFlag)) {
                     if (flag) {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final ExtCustomCheckBox select = new ExtCustomCheckBox();
+							final ExtCustomCheckBox select = new ExtCustomCheckBox();
                             select.setImmediate(true);
                             select.setEnabled(false);
+							setExtCustomCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals(StringConstantUtils.FORECAST_TYPE_PROPERTY)) {
@@ -3165,9 +3215,10 @@ public class FileManagementLookup extends Window {
 
                     } else {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final ExtCustomCheckBox select = new ExtCustomCheckBox();
+							final ExtCustomCheckBox select = new ExtCustomCheckBox();
                             select.setImmediate(true);
                             select.setEnabled(true);
+							setExtCustomCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals(StringConstantUtils.FORECAST_TYPE_PROPERTY)) {
@@ -3388,9 +3439,10 @@ public class FileManagementLookup extends Window {
                     }
                 } else {
                     if (propertyId.equals(ConstantsUtils.CHECK)) {
-                        final ExtCustomCheckBox select = new ExtCustomCheckBox();
+						final ExtCustomCheckBox select = new ExtCustomCheckBox();
                         select.setImmediate(true);
                         select.setEnabled(true);
+						setExtCustomCheckBoxValue(select, itemId);
                          select.addClickListener(new ExtCustomCheckBox.ClickListener() {
 
                             @Override
@@ -3450,7 +3502,8 @@ public class FileManagementLookup extends Window {
                              * Called when a Button has been clicked .
                              *
                              */
-                            @SuppressWarnings("PMD")
+                            @Override
+							@SuppressWarnings("PMD")
                             public void click(CustomTextField.ClickEvent event) {
                                 final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName, sessionDTO);
                                 try {
@@ -3460,7 +3513,8 @@ public class FileManagementLookup extends Window {
                                 }
                                 UI.getCurrent().addWindow(lookUp);
                                 lookUp.addCloseListener(new Window.CloseListener() {
-                                    public void windowClose(final Window.CloseEvent e) {
+                                    @Override
+									public void windowClose(final Window.CloseEvent e) {
                                         detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.ITEM_NAME).setValue(lookupItemName.getValue().toString());
                                         detailsFilterTable.getContainerProperty(itemId, StringConstantUtils.ITEM_ID).setValue(lookUp.getItemId());
                                         ((FileMananagementResultDTO) itemId).setItemMasterSid(lookUp.getMasterSid());
@@ -3631,17 +3685,18 @@ public class FileManagementLookup extends Window {
             /**
              * To create editable fields inside table .
              */
-            public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
+            @Override
+			public Field<?> createField(final Container container, final Object itemId, final Object propertyId, final Component uiContext) {
                 final FileMananagementResultDTO dto = (FileMananagementResultDTO) itemId;
                 final Boolean flag = dto.isRecordLockStatus();
                 final String interfaceFlag = dto.getInterfaceFlag();
                 if (interfaceFlag.equals(ConstantsUtils.CHAR_N)) {
                     if (flag) {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final ExtCustomCheckBox select = new ExtCustomCheckBox();
+							final ExtCustomCheckBox select = new ExtCustomCheckBox();
                             select.setImmediate(true);
                             select.setEnabled(false);
-
+							setExtCustomCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals("year")) {
@@ -3754,10 +3809,10 @@ public class FileManagementLookup extends Window {
 
                     } else {
                         if (propertyId.equals(ConstantsUtils.CHECK)) {
-                            final ExtCustomCheckBox select = new ExtCustomCheckBox();
+							final ExtCustomCheckBox select = new ExtCustomCheckBox();
                             select.setImmediate(true);
                             select.setEnabled(true);
-
+							setExtCustomCheckBoxValue(select, itemId);
                             return select;
                         }
                         if (propertyId.equals("year")) {
@@ -3870,9 +3925,10 @@ public class FileManagementLookup extends Window {
                     }
                 } else {
                     if (propertyId.equals(ConstantsUtils.CHECK)) {
-                        final ExtCustomCheckBox select = new ExtCustomCheckBox();
+						final ExtCustomCheckBox select = new ExtCustomCheckBox();
                         select.setImmediate(true);
                         select.setEnabled(true);
+						setExtCustomCheckBoxValue(select, itemId);
                          select.addClickListener(new ExtCustomCheckBox.ClickListener() {
 
                                 @Override
@@ -4013,6 +4069,8 @@ public class FileManagementLookup extends Window {
                 }
                 return field;
             }
+
+
         });
     }
 
@@ -4023,6 +4081,17 @@ public class FileManagementLookup extends Window {
         UI.getCurrent().addWindow(lookUp);
     }
 
+	private void setExtCustomCheckBoxValue(final ExtCustomCheckBox select, final Object itemId) {
+		select.setValue(detailsFilterTable.getColumnCheckBox(ConstantsUtils.CHECK));
+		detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.CHECK)
+				.setValue(detailsFilterTable.getColumnCheckBox(ConstantsUtils.CHECK));
+	}
+
+	private void setCheckBoxValue(final CheckBox select, final Object itemId) {
+		select.setValue(detailsFilterTable.getColumnCheckBox(ConstantsUtils.CHECK));
+		detailsFilterTable.getContainerProperty(itemId, ConstantsUtils.CHECK)
+				.setValue(detailsFilterTable.getColumnCheckBox(ConstantsUtils.CHECK));
+	}
     @UiHandler("searchBtn")
     public void btnSearchLogic(Button.ClickEvent event) {
         String finalVersion;

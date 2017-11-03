@@ -14,21 +14,8 @@ import com.stpl.app.adminconsole.abstractsearch.util.MessageUtil;
 import com.stpl.app.adminconsole.abstractsearch.util.ValidationUtil;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
-import com.stpl.app.adminconsole.customergroup.logic.CustomerGroupLogic;
-import com.stpl.app.adminconsole.customergroup.ui.view.CustomerGroupView;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
-import com.stpl.app.adminconsole.hierarchybuilder.logic.HierarchyBuilderLogic;
-import com.stpl.app.adminconsole.hierarchybuilder.ui.view.HierarchyBuilderAdd;
-
-import com.stpl.app.adminconsole.itemgroup.logic.ItemGroupLogic;
-import com.stpl.app.adminconsole.itemgroup.ui.view.ItemGroupView;
-import com.stpl.app.adminconsole.itemgroup.util.ItemGroupFilterGenerator;
-import com.stpl.app.adminconsole.itemgroup.util.UISecurityUtil;
-import com.stpl.app.adminconsole.relationshipbuilder.logic.RelationBuilderLogic;
-import com.stpl.app.adminconsole.relationshipbuilder.ui.lazyload.HierarchyNameContainer;
-import com.stpl.app.adminconsole.relationshipbuilder.ui.lazyload.HierarchyNameCriteria;
-import com.stpl.app.adminconsole.relationshipbuilder.ui.view.RelationshipBuilderView;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
@@ -47,7 +34,6 @@ import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import org.apache.commons.lang.StringUtils;
@@ -75,7 +61,6 @@ import java.util.ResourceBundle;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 import de.steinwedel.messagebox.ButtonId;
@@ -85,8 +70,6 @@ import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
@@ -257,17 +240,12 @@ public class AbstractSearchForm extends CustomComponent {
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
-    CustomerGroupLogic customerGroupLogic = new CustomerGroupLogic();
-    ItemGroupLogic itemGroupLogic = new ItemGroupLogic();
-    HierarchyBuilderLogic hierarchyBuilderLogic = new HierarchyBuilderLogic();
-    RelationBuilderLogic relationBuilderLogic = new RelationBuilderLogic();
     DiscountLogic discountLogic = new DiscountLogic();
     private String moduleName = StringUtils.EMPTY;
     final CommonUtils commonsUtil = new CommonUtils();
     public static final String NAME = ConstantsUtils.EMPTY;
     public static final String ERROR_MSG = "No Record has been selected.  Please select a Record and try again.";
     CommonUtil common = new CommonUtil();
-    private RelationBuilderLogic logic = new RelationBuilderLogic();
     /**
      * The ErrorLabel.
      */
@@ -352,7 +330,6 @@ public class AbstractSearchForm extends CustomComponent {
 
             configureLayout(moduleName);
             fieldValidation(moduleName);
-            loadComponents(moduleName);
             for (java.lang.reflect.Field field : this.getClass().getDeclaredFields()) {
                 if (field.get(this) instanceof Label && ((Label) field.get(this)).isVisible()) {
                     setLabelName(field.get(this), field.getName() + "_" + moduleName);
@@ -408,7 +385,6 @@ public class AbstractSearchForm extends CustomComponent {
         resultTable.setComponentError(null);
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
-        resultTable.setFilterGenerator(getFilterGenerator(moduleName));
         resultTable.setValidationVisible(false);
         resultTable.addStyleName("filterbar");
 
@@ -510,11 +486,7 @@ public class AbstractSearchForm extends CustomComponent {
     }
 
     public String securityName() {
-        SecuritymoduleName.put(ConstantsUtils.ITEM_GROUP_MASTER, UISecurityUtil.ITEM_GROUP_MASTER);
-        SecuritymoduleName.put(ConstantsUtils.RELATIONSHIP_BUILDER, UISecurityUtil.RELATIONSHIP_BUILDER);
-        SecuritymoduleName.put(ConstantsUtils.CUSTOMER_GROUP_MASTER, UISecurityUtil.CUSTOMER_GROUP_MASTER);
-        SecuritymoduleName.put(ConstantsUtils.HIERARCHY_DEF, UISecurityUtil.HIERARCHY_DEF);
-        SecuritymoduleName.put(ConstantsUtils.DEDUCTION_GROUPING, UISecurityUtil.DEDUCTION_GROUPING);
+        SecuritymoduleName.put(ConstantsUtils.DEDUCTION_GROUPING, "Deduction Grouping");
 
         return SecuritymoduleName.get(moduleName);
 
@@ -568,122 +540,7 @@ public class AbstractSearchForm extends CustomComponent {
 
     private void configureLayout(String moduleName) throws PortalException, SystemException {
 
-        if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equals(moduleName)) {
-            label4.setVisible(false);
-            combo1.setVisible(false);
-            label5.setVisible(false);
-            combo2.setVisible(false);
-            label6.setVisible(false);
-            option1.setVisible(false);
-            label7.setVisible(false);
-            text4.setVisible(false);
-            label8.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            text6.setVisible(false);
-            label10.setVisible(false);
-            date1.setVisible(false);
-            label11.setVisible(false);
-            date2.setVisible(false);
-            label12.setVisible(false);
-            option2.setVisible(false);
-            label13.setVisible(false);
-            date3.setVisible(false);
-            label14.setVisible(false);
-            date4.setVisible(false);
-            label15.setVisible(false);
-            combo3.setVisible(false);
-            label16.setVisible(false);
-            text7.setVisible(false);
-            label17.setVisible(false);
-            text8.setVisible(false);
-            autoUpdateBtn.setVisible(false);
-            processTrackingBtn.setVisible(false);
-            saveBtn.setVisible(false);
-            resetButton.setVisible(false);
-        } else if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-            label5.setVisible(false);
-            combo2.setVisible(false);
-            label6.setVisible(false);
-            option1.setVisible(false);
-            label7.setVisible(false);
-            text4.setVisible(false);
-            label8.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            text6.setVisible(false);
-            label10.setVisible(false);
-            date1.setVisible(false);
-            label11.setVisible(false);
-            date2.setVisible(false);
-            label12.setVisible(false);
-            option2.setVisible(false);
-            label13.setVisible(false);
-            date3.setVisible(false);
-            label14.setVisible(false);
-            date4.setVisible(false);
-            label15.setVisible(false);
-            combo3.setVisible(false);
-            label16.setVisible(false);
-            text7.setVisible(false);
-            label17.setVisible(false);
-            text8.setVisible(false);
-            autoUpdateBtn.setVisible(false);
-            processTrackingBtn.setVisible(false);
-            saveBtn.setVisible(false);
-            resetButton.setVisible(false);
-        } else if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
-            label2.setVisible(false);
-            text2.setVisible(false);
-            label3.setVisible(false);
-            text3.setVisible(false);
-            label4.setVisible(false);
-            combo1.setVisible(false);
-            label5.setVisible(false);
-            combo2.setVisible(false);
-            label9.setVisible(false);
-            text6.setVisible(false);
-            label12.setVisible(false);
-            option2.setVisible(false);
-            label13.setVisible(false);
-            date3.setVisible(false);
-            label14.setVisible(false);
-            date4.setVisible(false);
-            label16.setVisible(false);
-            text7.setVisible(false);
-            label17.setVisible(false);
-            text8.setVisible(false);
-            autoUpdateBtn.setVisible(false);
-            processTrackingBtn.setVisible(false);
-            saveBtn.setVisible(false);
-            resetButton.setVisible(false);
-            copyBtn.setVisible(false);
-        } else if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-            checkSecurity();
-            label3.setVisible(false);
-            text3.setVisible(false);
-            label2.setVisible(false);
-            text2.setVisible(false);
-            label5.setVisible(false);
-            combo2.setVisible(false);
-            label6.setVisible(false);
-            option1.setVisible(false);
-            label8.setVisible(false);
-            text5.setVisible(false);
-            label9.setVisible(false);
-            text6.setVisible(false);
-            label15.setVisible(false);
-            combo3.setVisible(false);
-            label16.setVisible(false);
-            text7.setVisible(false);
-            label17.setVisible(false);
-            text8.setVisible(false);
-            autoUpdateBtn.setVisible(false);
-            processTrackingBtn.setVisible(false);
-            saveBtn.setVisible(false);
-            resetButton.setVisible(false);
-            copyBtn.setVisible(true);
-        } else if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
+        if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
             label4.setVisible(false);
             combo1.setVisible(false);
             label5.setVisible(false);
@@ -724,32 +581,6 @@ public class AbstractSearchForm extends CustomComponent {
     public void btnAddLogic() {
         try {
             sessionDTO.setMode(ConstantsUtils.ADD);
-            if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setSystemId(0);
-                sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
-                getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
-            }
-            if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setSystemId(0);
-                sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                sessionDTO.setMode(ConstantsUtils.ADD);
-                sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
-                sessionDTO.setVersionNo(versionNo);
-                getUI().getNavigator().navigateTo(ItemGroupView.NAME);
-            }
-            if (ConstantsUtils.HIERARCHY_DEF.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setMode(ConstantsUtils.ADD);
-                getUI().getNavigator().navigateTo(HierarchyBuilderAdd.NAME);
-            }
-            if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-                sessionDTO.setSystemId(0);
-                sessionDTO.setSelectedHierarchySessionId(0);
-                sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                sessionDTO.setMode(ConstantsUtils.ADD);
-                sessionDTO.setVersionNo(versionNo);
-                getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
-            }
             if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
                 sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
                 getUI().getNavigator().navigateTo(DiscountAddView.NAME);
@@ -761,36 +592,6 @@ public class AbstractSearchForm extends CustomComponent {
 
     public void editLogic() {
         sessionDTO.setMode(ConstantsUtils.EDIT);
-        SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-        if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-            sessionDTO.setFromViewPage(ConstantsUtils.OPTION_NO);
-            sessionDTO.setLogic("edit");
-            getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
-        }
-        if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-
-            versionNo = event.getVersionNo();
-            sessionDTO.setFromViewPage(ConstantsUtils.EDIT);
-            sessionDTO.setVersionNo(versionNo);
-            sessionDTO.setMode(ConstantsUtils.EDIT);
-            sessionDTO.setLogic("edit");
-            getUI().getNavigator().navigateTo(ItemGroupView.NAME);
-        }
-        if (ConstantsUtils.HIERARCHY_DEF.equalsIgnoreCase(moduleName)) {
-            sessionDTO.setMode(ConstantsUtils.EDIT);
-            sessionDTO.setFromViewPage("Yes");
-            getUI().getNavigator().navigateTo(HierarchyBuilderAdd.NAME);
-        }
-        if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-            versionNo = event.getVersionNo();
-            sessionDTO.setFromViewPage(ConstantsUtils.EDIT);
-            sessionDTO.setMode(ConstantsUtils.EDIT);
-            sessionDTO.setSystemId(event.getRbSystemId());
-            sessionDTO.setVersionNo(versionNo);
-            VaadinSession.getCurrent().setAttribute("hierarchyVersion", event.getHierarchyVersionNo());
-            sessionDTO.setHierarchyVersion(event.getHierarchyVersionNo());
-            getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
-        }
         if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
             sessionDTO.setFromViewPage(ConstantsUtils.EDIT);
             sessionDTO.setLogic("edit");
@@ -800,56 +601,11 @@ public class AbstractSearchForm extends CustomComponent {
 
     private void viewLogic() {
         sessionDTO.setMode(ConstantsUtils.VIEW);
-        if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-            sessionDTO.setFromViewPage(ConstantsUtils.YES);
-            sessionDTO.setLogic("view");
-            getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
-        }
-        if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-            sessionDTO.setFromViewPage(ConstantsUtils.SMALL_YES);
-
-            sessionDTO.setLogic("view");
-            getUI().getNavigator().navigateTo(ItemGroupView.NAME);
-        }
-        if (ConstantsUtils.HIERARCHY_DEF.equalsIgnoreCase(moduleName)) {
-            sessionDTO.setFromViewPage("Yes");
-            getUI().getNavigator().navigateTo(HierarchyBuilderAdd.NAME);
-        }
-        if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-            SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-            sessionDTO.setFromViewPage("Yes");
-            sessionDTO.setMode(ConstantsUtils.VIEW);
-            sessionDTO.setHierarchyVersion(event.getHierarchyVersionNo());
-            sessionDTO.setVersionNo(event.getVersionNo());
-            getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
-        }
         if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
             sessionDTO.setLogic("view");
             sessionDTO.setVersionNo(versionNo);
             getUI().getNavigator().navigateTo(DiscountAddView.NAME);
         }
-    }
-
-    private void loadComponents(String moduleName) throws SystemException, PortalException{
-        if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-            combo1.addItem(ConstantsUtils.SELECT_ONE);
-            combo1 = CommonUtils.getCompany(combo1);
-            combo1.setNullSelectionAllowed(true);
-            combo1.setNullSelectionItemId(ConstantsUtils.SELECT_ONE);
-            combo1.select(ConstantsUtils.SELECT_ONE);
-        } else if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
-            commonsUtil.loadComboBox(combo3, ConstantsUtils.HIER_CATEGORY);
-        } else if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-            final LazyContainer hierarchyNameContainer = new LazyContainer(HelperDTO.class, new HierarchyNameContainer(null), new HierarchyNameCriteria());
-            commonsUtil.loadLazyComboBox(combo1, hierarchyNameContainer);
-        }
-    }
-    
-    private ExtFilterGenerator getFilterGenerator(String moduleName) {
-        if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-            return new ItemGroupFilterGenerator();
-        }
-        return null;
     }
 
     private Object[] getColumns(boolean isColumns, String key) {
@@ -903,35 +659,6 @@ public class AbstractSearchForm extends CustomComponent {
 
                                     sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
                                     int systemId = sessionDTO.getSystemId();
-
-                                    if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equals(moduleName)) {
-                                        SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-                                        versionNo = event.getVersionNo();
-                                        final String deletedCustomerGroupName = customerGroupLogic.deleteCustomerGroup(systemId, versionNo);
-                                        if (deletedCustomerGroupName != null && !ConstantsUtils.EMPTY.equals(deletedCustomerGroupName)) {
-                                            /*GAL-802*/ CommonUIUtils.getMessageNotification(searchForm.getCompanyGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                        }
-
-                                    }
-                                    if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-                                        final String deletedItemGroupName = itemGroupLogic.deleteItemGroup(systemId);
-
-                                        if (deletedItemGroupName != null && !ConstantsUtils.EMPTY.equals(deletedItemGroupName)) {
-                                            CommonUIUtils.getMessageNotification(searchForm.getItemGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                        }
-                                    }
-                                    if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
-                                        final String deletedHrName = hierarchyBuilderLogic.deleteHierarchy(systemId);
-                                        if (deletedHrName != null && !ConstantsUtils.EMPTY.equals(deletedHrName)) {
-                                            CommonUIUtils.getMessageNotification(searchForm.getHierarchyName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                        }
-                                    }
-                                    if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-                                        final String deletedRbName = relationBuilderLogic.deleteRelationship(systemId);
-                                        if (deletedRbName != null && !ConstantsUtils.EMPTY.equals(deletedRbName)) {
-                                            /*GAL-808*/ CommonUIUtils.getMessageNotification(searchForm.getRelationshipName() + CommonUtils.SUCCESSFULLY_DELETED);
-                                        }
-                                    }
                                     if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
                                         final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);
                                         if (deletedDeductionGroupName != null && !ConstantsUtils.EMPTY.equals(deletedDeductionGroupName)) {
@@ -1140,31 +867,6 @@ public class AbstractSearchForm extends CustomComponent {
             public void buttonClick(Button.ClickEvent event) {
                 try {
                     sessionDTO.setMode(ConstantsUtils.ADD);
-                    if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                        sessionDTO.setSystemId(0);
-                        sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                        getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
-                    }
-                    if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                        sessionDTO.setSystemId(0);
-                        sessionDTO.setSelectedItems(new ArrayList());
-                        sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                        sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
-                        sessionDTO.setVersionNo(versionNo);
-                        getUI().getNavigator().navigateTo(ItemGroupView.NAME);
-                    }
-                    if (ConstantsUtils.HIERARCHY_DEF.equalsIgnoreCase(moduleName)) {
-                        sessionDTO.setMode(ConstantsUtils.ADD);
-                        getUI().getNavigator().navigateTo(HierarchyBuilderAdd.NAME);
-                    }
-                    if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-                        sessionDTO.setSystemId(0);
-                        sessionDTO.setSelectedHierarchySessionId(0);
-                        sessionDTO.setFromViewPage(ConstantsUtils.ADD);
-                        sessionDTO.setMode(ConstantsUtils.ADD);
-                        sessionDTO.setVersionNo(versionNo);
-                        getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
-                    }
                     if (ConstantsUtils.DEDUCTION_GROUPING.equalsIgnoreCase(moduleName)) {
                         sessionDTO.setSystemId(0);
                         sessionDTO.setLogic(ConstantsUtils.ADD_LOWER_CASE);
@@ -1194,29 +896,6 @@ public class AbstractSearchForm extends CustomComponent {
                         sessionDTO.setMode(ConstantsUtils.EDIT);
                         sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
                         sessionDTO.setVersionNo(searchForm.getVersionNo());
-                        if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-                            final int systemId = sessionDTO.getSystemId();
-                            boolean flag = relationBuilderLogic.relationshipIsUsed(systemId);
-                            boolean isRelationCurrentlyUsing = relationBuilderLogic.relationshipIsCurentlyInUse(sessionDTO.getSystemId());
-                            if(flag) {
-                                MessageBox.showPlain(Icon.ERROR, "Edit", "Cannot Edit the relationship which is already associated with existing projection", ButtonId.OK);
-                            } else if (isRelationCurrentlyUsing) {
-                                MessageBox.showPlain(Icon.ERROR, "Edit", "This relationship is currently being used in a projection. Please try again after sometime.", ButtonId.OK);
-                            } else {
-                                if (searchForm.isRecordLockStatus()) {
-                                    if (itemStatusCheck()) {
-                                        editLogic();
-                                        resultTable.unselect(resultTable.getValue());
-                                    } else {
-                                        AbstractNotificationUtils.getInfoNotification("Access Denied", "You do not have permission to edit this record");
-                                    }
-                                } else {
-                                    editLogic();
-                                    resultTable.unselect(resultTable.getValue());
-                                }
-
-                            } 
-                        } else {
                             if (searchForm.isRecordLockStatus()) {
                                 if (itemStatusCheck()) {
                                     editLogic();
@@ -1228,7 +907,6 @@ public class AbstractSearchForm extends CustomComponent {
                                 editLogic();
                                 resultTable.unselect(resultTable.getValue());
                             }
-                        }
                     }
                 } catch (Exception e) {
                     LOGGER.error(e);
@@ -1291,28 +969,6 @@ public class AbstractSearchForm extends CustomComponent {
                                             sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
                                             sessionDTO.setVersionNo(searchForm.getVersionNo());
                                             sessionDTO.setLogic("copy");
-                                            if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                                                sessionDTO.setMode(ConstantsUtils.ADD);
-                                                sessionDTO.setFromViewPage(ConstantsUtils.COPY);
-                                                getUI().getNavigator().navigateTo(CustomerGroupView.NAME);
-                                            }
-                                            if (ConstantsUtils.ITEM_GROUP_MASTER.equalsIgnoreCase(moduleName)) {
-                                                sessionDTO.setMode(ConstantsUtils.ADD);
-                                                sessionDTO.setFromViewPage("copy");
-                                                getUI().getNavigator().navigateTo(ItemGroupView.NAME);
-                                            }
-                                              if (ConstantsUtils.RELATIONSHIP_BUILDER.equalsIgnoreCase(moduleName)) {
-                                                  SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-            versionNo = event.getVersionNo();
-            sessionDTO.setFromViewPage(ConstantsUtils.EDIT);
-            sessionDTO.setMode(ConstantsUtils.COPY);
-            sessionDTO.setSystemId(event.getRbSystemId());
-            sessionDTO.setVersionNo(versionNo);
-            VaadinSession.getCurrent().setAttribute("hierarchyVersion", event.getHierarchyVersionNo());
-            sessionDTO.setHierarchyVersion(event.getHierarchyVersionNo());
-            getUI().getNavigator().navigateTo(RelationshipBuilderView.NAME);
-        }
-
                                         } catch (Exception e) {
                                             LOGGER.error(e);
                                         }
@@ -1337,19 +993,7 @@ public class AbstractSearchForm extends CustomComponent {
                     MessageBox.showPlain(Icon.INFO, ConstantsUtils.ERROR, ERROR_MSG, ButtonId.OK);
                 } else {
                     final SearchResultsDTO searchForm = (SearchResultsDTO) resultTable.getValue();
-                    if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-                        boolean flag = logic.relationshipIsUsed(Integer.valueOf(searchForm.getSystemID()));
-                        boolean isRelationCurrentlyUsing = logic.relationshipIsCurentlyInUse(sessionDTO.getSystemId());
-                        if(flag){
-                            MessageBox.showPlain(Icon.ERROR, "Delete", "Cannot Delete the relationship which is already associated with existing projection", ButtonId.OK); 
-                        } else if (isRelationCurrentlyUsing) {
-                            MessageBox.showPlain(Icon.ERROR, "Delete", "This relationship is currently being used in a projection. Please try again after sometime.", ButtonId.OK);
-                        } else {
-                            deleteLogic(searchForm);
-                        }
-                    } else {
-                        deleteLogic(searchForm);
-                    }
+                    deleteLogic(searchForm);
                 }
                 LOGGER.debug("deleteButton method ENDED ");
             }
@@ -1386,35 +1030,6 @@ public class AbstractSearchForm extends CustomComponent {
 
                         sessionDTO.setSystemId(Integer.valueOf(searchForm.getSystemID()));
                         int systemId = sessionDTO.getSystemId();
-
-                        if (ConstantsUtils.CUSTOMER_GROUP_MASTER.equals(moduleName)) {
-                            SearchResultsDTO event = (SearchResultsDTO) resultTable.getValue();
-                            versionNo = event.getVersionNo();
-                            final String deletedCustomerGroupName = customerGroupLogic.deleteCustomerGroup(systemId, versionNo);
-                            if (deletedCustomerGroupName != null && !ConstantsUtils.EMPTY.equals(deletedCustomerGroupName)) {
-                                /*GAL-802*/ CommonUIUtils.getMessageNotification(searchForm.getCompanyGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                            }
-
-                        }
-                        if (ConstantsUtils.ITEM_GROUP_MASTER.equals(moduleName)) {
-                            final String deletedItemGroupName = itemGroupLogic.deleteItemGroup(systemId);
-
-                            if (deletedItemGroupName != null && !ConstantsUtils.EMPTY.equals(deletedItemGroupName)) {
-                                CommonUIUtils.getMessageNotification(searchForm.getItemGroupName() + CommonUtils.SUCCESSFULLY_DELETED);
-                            }
-                        }
-                        if (ConstantsUtils.HIERARCHY_DEF.equals(moduleName)) {
-                            final String deletedHrName = hierarchyBuilderLogic.deleteHierarchy(systemId);
-                            if (deletedHrName != null && !ConstantsUtils.EMPTY.equals(deletedHrName)) {
-                                CommonUIUtils.getMessageNotification(searchForm.getHierarchyName() + CommonUtils.SUCCESSFULLY_DELETED);
-                            }
-                        }
-                        if (ConstantsUtils.RELATIONSHIP_BUILDER.equals(moduleName)) {
-                            final String deletedRbName = relationBuilderLogic.deleteRelationship(systemId);
-                            if (deletedRbName != null && !ConstantsUtils.EMPTY.equals(deletedRbName)) {
-                                /*GAL-808*/ CommonUIUtils.getMessageNotification(searchForm.getRelationshipName() + CommonUtils.SUCCESSFULLY_DELETED);
-                            }
-                        }
                         if (ConstantsUtils.DEDUCTION_GROUPING.equals(moduleName)) {
                             final String deletedDeductionGroupName = discountLogic.deletedeductionGroup(systemId);
                             if (deletedDeductionGroupName != null && !ConstantsUtils.EMPTY.equals(deletedDeductionGroupName)) {
@@ -1435,22 +1050,6 @@ public class AbstractSearchForm extends CustomComponent {
                 }
             }
         }, ButtonId.YES, ButtonId.NO);
-    }
-                
-
-    void checkSecurity() throws PortalException, SystemException {
-        try {
-            final StplSecurity stplSecurity = new StplSecurity();
-            final String userId = sessionDTO.getUserId();
-            final Map<String, AppPermission> fieldItemHM = stplSecurity
-                    .getFieldOrColumnPermission(userId, UISecurityUtil.RELATIONSHIP_BUILDER, false);
-            String mode = sessionDTO.getMode();
-            List<Object> resultList = commonUtilSecurity.getFieldsForSecurity(UISecurityUtil.RELATIONSHIP_BUILDER, "Index Screen");
-            commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-            java.util.logging.Logger.getLogger(AbstractSearchForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void removeOnViewChange() {

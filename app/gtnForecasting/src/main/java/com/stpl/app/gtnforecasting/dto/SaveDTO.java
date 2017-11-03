@@ -18,6 +18,7 @@ public class SaveDTO {
     private String hirarechyNo = StringUtils.EMPTY;
     private String customerHierarchyNo = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
+    private String deductionHierarchyNo = StringUtils.EMPTY;
     private int treeLevelNo = 0;
     private String hierarchyIndicator = StringUtils.EMPTY;
     private String group = StringUtils.EMPTY;
@@ -154,6 +155,14 @@ public class SaveDTO {
 
     public void setTable(String table) {
         this.table = table;
+    }
+
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
     }
 
     

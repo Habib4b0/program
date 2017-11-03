@@ -139,10 +139,10 @@ public abstract class ForecastSalesProjectionResults extends CustomComponent imp
      */
     public ForecastSalesProjectionResults() {
      
-        VerticalLayout layout = new VerticalLayout();
-            layout.addComponent(Clara.create(getClass().getResourceAsStream("/salesProjectionResults.xml"), this));
+        VerticalLayout verticaLayout = new VerticalLayout();
+            verticaLayout.addComponent(Clara.create(getClass().getResourceAsStream("/salesProjectionResults.xml"), this));
             Panel panel = new Panel();
-            panel.setContent(layout);
+            panel.setContent(verticaLayout);
             setCompositionRoot(panel);
             configureField();
         

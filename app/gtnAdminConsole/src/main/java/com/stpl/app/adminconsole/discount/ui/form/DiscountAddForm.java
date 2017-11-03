@@ -11,7 +11,6 @@ import com.stpl.app.adminconsole.discount.dto.DiscountSearchDTO;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountSearchView;
-import com.stpl.app.adminconsole.itemgroup.util.UISecurityUtil;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -537,8 +536,8 @@ public class DiscountAddForm extends CustomComponent implements View {
             addResultsTable();
             final StplSecurity stplSecurity = new StplSecurity();
             final String userId = sessionDTO.getUserId();
-            final Map<String, AppPermission> fieldDeductionHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
-            final Map<String, AppPermission> functionDeductionHM = stplSecurity.getBusinessFunctionPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
+            final Map<String, AppPermission> fieldDeductionHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.DEDUCTION_GROUPING);
+            final Map<String, AppPermission> functionDeductionHM = stplSecurity.getBusinessFunctionPermission(userId, CommonUtil.DEDUCTION_GROUPING);
             setFieldSecurity(fieldDeductionHM);
             setButtonSecurity(functionDeductionHM);
             addResultsColumnTable();
@@ -569,9 +568,9 @@ public class DiscountAddForm extends CustomComponent implements View {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
-        List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.DEDUCTION_GROUPING, "Functional  List view");
+        List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
         Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         availableRebate.setVisibleColumns(tableResultCustom.getObjResult());
@@ -630,9 +629,9 @@ public class DiscountAddForm extends CustomComponent implements View {
 
         final StplSecurity stplSecurity = new StplSecurity();
         final String userId = sessionDTO.getUserId();
-        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, UISecurityUtil.DEDUCTION_GROUPING);
+        final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
-        List<Object> resultList = commonUtil.getFieldsForSecurity(UISecurityUtil.DEDUCTION_GROUPING, "Functional  List view");
+        List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
         Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         selectedRebate.setVisibleColumns(tableResultCustom.getObjResult());
@@ -1260,7 +1259,7 @@ public class DiscountAddForm extends CustomComponent implements View {
         CommonUtil common = new CommonUtil();
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = common.getFieldsForSecurity(UISecurityUtil.DEDUCTION_GROUPING, "Functional Screen");
+            List<Object> resultList = common.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional Screen");
             commonSecurity.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
             commonSecurity.removeComponentOnPermission(resultList, searchCssLayout, fieldItemHM, mode);
         } catch (Exception ex) {

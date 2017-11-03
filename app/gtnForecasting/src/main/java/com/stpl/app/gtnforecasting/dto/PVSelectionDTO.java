@@ -23,6 +23,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String level;
     private String projectionPeriodOrder;
     private String discountLevel;
+    private String discountLevelName;
     private String fromDate;
     private String currentProjectionName;
     public List<Integer> projIdList = new ArrayList<>();
@@ -41,6 +42,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private boolean valueFlag;
     public String productHierarchyNo;
     public String customerHierarchyNo;
+    public String deductionHierarchyNo;
     public String currentOrPrior;
     public boolean islevelFiler;
     public boolean isChildFlag;
@@ -72,10 +74,13 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private boolean isNetSales;
     private String varIndicator = StringUtils.EMPTY;
     private Map<String, Object> headerMap = new HashMap<>();
-    private String graphHeader= StringUtils.EMPTY;
+    private String graphHeader = StringUtils.EMPTY;
     private boolean RPU = false;
     private String discountGroupName = StringUtils.EMPTY;
+
     private Integer groupParent = 0;
+
+    private String salesInclusion = StringUtils.EMPTY;
     /**
      * Combination variables
      */
@@ -95,28 +100,28 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
      * The Var gts.
      */
     private boolean varGTS;
-    
-     /**
+
+    /**
      * The Var gts.
      */
     private boolean varExFacSales;
-     /**
+    /**
      * The Var gts.
      */
     private boolean varDemandSales;
-     /**
+    /**
      * The Var gts.
      */
     private boolean varInvSales;
-     /**
+    /**
      * The Var gts.
      */
     private boolean varPerExFacSales;
-      /**
+    /**
      * The Var gts.
      */
     private boolean varPerDemandSales;
-     /**
+    /**
      * The Var gts.
      */
     private boolean varPerInvSales;
@@ -145,27 +150,29 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
      * The var net sales.
      */
     private boolean varNetSales;
-    
+
     private boolean varRPU;
-    
+
     private boolean varCOGC;
-    
+
     private boolean varNetProfit;
-    
+
     private boolean netSalesExFactory;
-    
+
     private boolean discountPerExFactory;
-    
+
     private boolean netExFactorySales;
-    
+
     private boolean netExFactorySalesPerExFactory;
-    
-    private int levelNo=0;
-    
-    private Map<Integer,List<Object>> yearwiseColumns= new HashMap<>();
+
+    private int levelNo = 0;
+
+    private Map<Integer, List<Object>> yearwiseColumns = new HashMap<>();
     private String comparisonBasis;
-    
-       public int getLevelNo() {
+    Map<String, Integer> discountNameMap = new HashMap<>();
+    private boolean conversionNeeded = false;
+
+    public int getLevelNo() {
         return levelNo;
     }
 
@@ -694,11 +701,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.discountGroupName = discountGroupName;
     }
 
-    public Map<Integer,List<Object>> getYearwiseColumns() {
+    public Map<Integer, List<Object>> getYearwiseColumns() {
         return yearwiseColumns;
     }
 
-    public void setYearwiseColumns(Map<Integer,List<Object>> yearwiseColumns) {
+    public void setYearwiseColumns(Map<Integer, List<Object>> yearwiseColumns) {
         this.yearwiseColumns = yearwiseColumns;
     }
 
@@ -712,7 +719,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public String getMandatedView() {
         return mandatedView;
-}
+    }
 
     public void setMandatedView(String mandatedView) {
         this.mandatedView = mandatedView;
@@ -756,6 +763,50 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     public void setNetExFactorySalesPerExFactory(boolean netExFactorySalesPerExFactory) {
         this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
+    }
+
+    public String getDeductionHierarchyNo() {
+        return deductionHierarchyNo;
+    }
+
+    public void setDeductionHierarchyNo(String deductionHierarchyNo) {
+        this.deductionHierarchyNo = deductionHierarchyNo;
+    }
+
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
+
+    public String getDiscountLevelName() {
+        return discountLevelName;
+    }
+
+    public void setDiscountLevelName(String discountLevelName) {
+        this.discountLevelName = discountLevelName;
+    }
+    
+       public Map<String, Integer> getDiscountNameMap() {
+        return discountNameMap;
+    }
+
+    public void setDiscountNameMap(Map<String, Integer> discountNameMap) {
+        this.discountNameMap = discountNameMap;
+    }
+    
+    public void addDiscountNameMap(String field, Integer value) {
+        this.discountNameMap.put(field, value);
+    }
+
+    public boolean isConversionNeeded() {
+        return conversionNeeded;
+    }
+
+    public void setConversionNeeded(boolean conversionNeeded) {
+        this.conversionNeeded = conversionNeeded;
     }
     
 }

@@ -1,6 +1,7 @@
 package com.stpl.app.gtnforecasting.bpm.service;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,7 +52,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
 
         // First try loading from the current directory
         try {
-            File f = new File(path + filePath1);
+            File f = CommonUtil.getFilePath(path + filePath1);
             is = new FileInputStream(f);
         } catch (Exception e) {
             LOGGER.error(e);

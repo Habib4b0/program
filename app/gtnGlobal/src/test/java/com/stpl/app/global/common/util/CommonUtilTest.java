@@ -21,6 +21,9 @@ public class CommonUtilTest {
     
     private static final Logger LOGGER = Logger.getLogger(CommonUtilTest.class);
     
+    /** The Constant COMPANYFAMILYPLANNAME. */
+    public static final String COMPANYFAMILYPLANNAME= "companyFamilyPlanName";
+    
     public CommonUtilTest() {
     }
     
@@ -171,7 +174,7 @@ public class CommonUtilTest {
     @Test
     public void testGetDeleteMessage() {
         LOGGER.debug("getDeleteMessage");
-       String recordName = com.stpl.app.global.cfp.util.FieldNameUtils.COMPANYFAMILYPLANNAME;
+       String recordName = COMPANYFAMILYPLANNAME;
 
         CommonUtil instance = CommonUtil.getInstance();
         String expResult = "Are you sure you want to delete record  companyFamilyPlanName?";

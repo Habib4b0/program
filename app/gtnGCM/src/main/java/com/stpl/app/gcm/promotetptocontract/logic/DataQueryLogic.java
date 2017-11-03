@@ -73,9 +73,8 @@ public class DataQueryLogic {
                     queryString.append("')");
                 }
                 if (parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE) != null && !Constants.NULL.equals(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE))) {
-                    queryString.append(" AND CM.COMPANY_TYPE in (select HT.HELPER_TABLE_SID from HELPER_TABLE HT where HT.DESCRIPTION='");
+                    queryString.append(" AND CM.COMPANY_TYPE =");
                     queryString.append(String.valueOf(parameters.get(StringConstantsUtil.CONTRACT_HOLDER_TYPE)));
-                    queryString.append("')");
                 }
             }
             LOGGER.debug("Contract Holder Query---->" + queryString.toString());

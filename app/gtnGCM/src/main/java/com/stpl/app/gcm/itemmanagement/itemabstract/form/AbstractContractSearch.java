@@ -754,17 +754,20 @@ public abstract class AbstractContractSearch extends CustomComponent {
         return binder;
     }
 
-    public void searchButtonLogic() throws FieldGroup.CommitException {
+    public void searchButtonLogic(boolean isSearch) throws FieldGroup.CommitException {
         ItemManagementLookup.waitForSave(selection);
         selection.setReset(true);
         binder.commit();
         List input = getInput();
         resetCheckRecord();
-        if (!contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, input)) {
+        boolean isRecordAvailable=contractSelectionTableLogic.loadSetData(selection, true, selectedItemList, input);
+        if(isSearch){
+        if (!isRecordAvailable) {
             AbstractNotificationUtils.getErrorNotification("No Matching Records",
                     "There were no records matching the search criteria.  Please try again.");
-        } else {
+        } else  {
             Notification.show("Search Completed");
+        }
         }
     }
 
@@ -929,7 +932,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                                     ItemQueries.itemUpdate(input, "Submitting the contract For UPdate");
                                     updateSubmittedContract();
                                     binder.commit();
-                                    searchButtonLogic();
+                                    searchButtonLogic(false);
                                     selection.getLookup().changeTab();
                                     isSubmit = true;
                                 } catch (Exception ex) {

@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#47;01&#47;13 11:26:30.436</created_date>
+  <created_date>2013&#x2f;01&#x2f;13 11&#x3a;26&#x3a;30.436</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;01&#47;13 11:26:30.436</modified_date>
+  <modified_date>2013&#x2f;01&#x2f;13 11&#x3a;26&#x3a;30.436</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -95,13 +102,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -117,12 +124,32 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>MASTER UNIQUE</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>IVLD_ITEM_UOM</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Audit Inbound</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Inbound</from><to>MASTER SORT</to><enabled>Y</enabled> </hop>  <hop> <from>MASTER SORT</from><to>MASTER UNIQUE</to><enabled>Y</enabled> </hop>  <hop> <from>MASTER UNIQUE</from><to>CHECK_ITEM_ID_IN_ITEM_MASTER</to><enabled>Y</enabled> </hop>  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>Invalid Reason-Item Id</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason-Item Id</from><to>ITEM_ID_NOT_IN_ITEM_MASTER</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason-UNIQUE KEY</from><to>UNIQUE_KEY_INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>HELPER_TABLE_STATUS</to><enabled>Y</enabled> </hop>  <hop> <from>HELPER_TABLE_STATUS</from><to>PRIMARY_UOM_HELPER_TABLE</to><enabled>Y</enabled> </hop>  <hop> <from>PRIMARY_UOM_HELPER_TABLE</from><to>SECONDARY_UOM_HELPER_TABLE 2</to><enabled>Y</enabled> </hop>  <hop> <from>SECONDARY_UOM_HELPER_TABLE 2</from><to>Table output</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Invalid Reason-UNIQUE KEY</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>MASTER UNIQUE</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
+  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason</from><to>IVLD_ITEM_UOM</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case</from><to>Audit Inbound</to><enabled>Y</enabled> </hop>
+  <hop> <from>Audit Inbound</from><to>MASTER SORT</to><enabled>Y</enabled> </hop>
+  <hop> <from>MASTER SORT</from><to>MASTER UNIQUE</to><enabled>Y</enabled> </hop>
+  <hop> <from>MASTER UNIQUE</from><to>CHECK_ITEM_ID_IN_ITEM_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>Invalid Reason-Item Id</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason-Item Id</from><to>ITEM_ID_NOT_IN_ITEM_MASTER</to><enabled>Y</enabled> </hop>
+  <hop> <from>Invalid Reason-UNIQUE KEY</from><to>UNIQUE_KEY_INVALID</to><enabled>Y</enabled> </hop>
+  <hop> <from>CHECK_ITEM_ID_IN_ITEM_MASTER</from><to>HELPER_TABLE_STATUS</to><enabled>Y</enabled> </hop>
+  <hop> <from>HELPER_TABLE_STATUS</from><to>PRIMARY_UOM_HELPER_TABLE</to><enabled>Y</enabled> </hop>
+  <hop> <from>PRIMARY_UOM_HELPER_TABLE</from><to>SECONDARY_UOM_HELPER_TABLE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>SECONDARY_UOM_HELPER_TABLE 2</from><to>Table output</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table output</from><to>Invalid Reason-UNIQUE KEY</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>A-INVALID1</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -248,6 +275,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -265,19 +293,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -298,6 +326,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -314,6 +343,7 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -325,6 +355,7 @@
         <nullif>ITEM_UOM_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -340,6 +371,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -356,6 +388,7 @@
         <nullif>A</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Locked_Status</name>
@@ -367,6 +400,7 @@
         <nullif>1</nullif>
         <length>5</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -378,6 +412,7 @@
         <nullif>E04</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_FIELD</name>
@@ -389,6 +424,7 @@
         <nullif>ITEM_CONVERSION_ID</nullif>
         <length>20</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>STATUS_LIST_NAME</name>
@@ -400,6 +436,7 @@
         <nullif>STATUS</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>UOM_LIST_NAME</name>
@@ -411,6 +448,7 @@
         <nullif>UOM</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -426,6 +464,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -467,6 +506,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -514,6 +554,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -639,6 +680,7 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -760,6 +802,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -776,6 +819,7 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -787,6 +831,7 @@
         <nullif>E05</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -802,6 +847,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -818,6 +864,7 @@
         <nullif>Invalid Item Id</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE_1</name>
@@ -829,6 +876,7 @@
         <nullif>E05</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_FIELD_ITEMID</name>
@@ -840,6 +888,7 @@
         <nullif>ITEM_ID</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -855,6 +904,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -871,6 +921,7 @@
         <nullif>Duplicate Record</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE_1</name>
@@ -882,6 +933,7 @@
         <nullif>E04</nullif>
         <length>10</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_FIELD</name>
@@ -893,6 +945,7 @@
         <nullif>ITEM_ID,PRIMARY_UOM_CODE,SECONDARY_UOM_CODE</nullif>
         <length>40</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -908,12 +961,13 @@
     <type>SortRows</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -925,6 +979,7 @@
         <name>ITEM_UOM_CONVERSION_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -940,6 +995,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -964,6 +1020,7 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -996,6 +1053,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1043,6 +1101,7 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1086,10 +1145,11 @@
     </step>
 
   <step>
-    <name>Switch &#47; Case</name>
+    <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1117,34 +1177,14 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>SELECT
-  ITEM_UOM_CONVERSION_ID
-, ITEM_ID
-, ITEM_NO
-, ITEM_NAME
-, PRIMARY_UOM_BASELINE_FACTOR
-, PRIMARY_UOM_CODE
-, PRIMARY_UOM_NAME
-, SECONDARY_UOM_CONVERSION_FACTOR
-, SECONDARY_UOM_CODE
-, SECONDARY_UOM_NAME
-, STATUS
-, UPLOAD_DATE
-, MODIFIED_BY
-, MODIFIED_DATE
-, CREATED_BY
-, CREATED_DATE
-, ADD_CHG_DEL_INDICATOR
-, BATCH_ID
-, SOURCE
-FROM STAG_ITEM_UOM
-</sql>
+    <sql>SELECT&#xa;  ITEM_UOM_CONVERSION_ID&#xa;, ITEM_ID&#xa;, ITEM_NO&#xa;, ITEM_NAME&#xa;, PRIMARY_UOM_BASELINE_FACTOR&#xa;, PRIMARY_UOM_CODE&#xa;, PRIMARY_UOM_NAME&#xa;, SECONDARY_UOM_CONVERSION_FACTOR&#xa;, SECONDARY_UOM_CODE&#xa;, SECONDARY_UOM_NAME&#xa;, STATUS&#xa;, UPLOAD_DATE&#xa;, MODIFIED_BY&#xa;, MODIFIED_DATE&#xa;, CREATED_BY&#xa;, CREATED_DATE&#xa;, ADD_CHG_DEL_INDICATOR&#xa;, BATCH_ID&#xa;, SOURCE&#xa;FROM STAG_ITEM_UOM&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1163,6 +1203,7 @@ FROM STAG_ITEM_UOM
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1262,6 +1303,10 @@ FROM STAG_ITEM_UOM
           <column_name>UPLOAD_DATE</column_name>
           <stream_name>UPLOAD_DATE</stream_name>
         </field>
+        <field>
+          <column_name>ITEM_UOM_CONVERSION_ID</column_name>
+          <stream_name>ITEM_UOM_CONVERSION_ID</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1276,6 +1321,7 @@ FROM STAG_ITEM_UOM
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1473,4 +1519,5 @@ FROM STAG_ITEM_UOM
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

@@ -463,8 +463,8 @@ public class ParityLookup extends Window {
                         int curryear = now.get(Calendar.YEAR);
                         String splitPeriodYear = String.valueOf(period).replace("ParityReference", StringUtils.EMPTY).replace(Constant.Q_SMALL, StringUtils.EMPTY);
                         final String year = splitPeriodYear.substring(splitPeriodYear.length() - String.valueOf(curryear).length());
-                        final String period = splitPeriodYear.substring(0, splitPeriodYear.length() - String.valueOf(curryear).length());
-                        String[] periodList = sdpLogic.getYearAndPeriod(period.toString(), year);
+                        final String periodyear = splitPeriodYear.substring(0, splitPeriodYear.length() - String.valueOf(curryear).length());
+                        String[] periodList = sdpLogic.getYearAndPeriod(periodyear.toString(), year);
                         List returnList = sdpLogic.callParityProcedure(dtoList, periodList, sessionDto);
                         if(!returnList.isEmpty() && returnList.size()>0){
                         parityNDCInsert((List<LookUpDTO>) returnList.get(0), (List<String>) returnList.get(1));

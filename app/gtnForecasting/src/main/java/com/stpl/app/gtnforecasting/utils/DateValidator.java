@@ -9,7 +9,6 @@ import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.vaadin.data.Validator;
 import com.vaadin.data.validator.AbstractValidator;
 import com.vaadin.ui.PopupDateField;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc

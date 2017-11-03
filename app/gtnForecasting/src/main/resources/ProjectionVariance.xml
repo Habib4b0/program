@@ -2,11 +2,12 @@
 
 <Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:p="urn:vaadin:parent" xmlns:b="urn:import:org.asi.ui.customtextfield" xmlns:c="urn:import:org.asi.ui.custommenubar">
     <VerticalLayout margin="true" spacing="true">
-        <Panel caption="Projection Variance Selection" margin="true"
+           <TabSheet id="tabsheetVariance" immediate="true" margin="true" spacing ="true"/> 
+        <Panel id="panelVariance" caption="Projection Variance Selection" margin="true"
                spacing="false" width="100%"  styleName="adjustCaption">
-            <VerticalLayout styleName = "width-auto"  margin="true" >
+            <VerticalLayout id="displaySelectionLayout" styleName = "width-auto"  margin="true" >
                 <!--<GridLayout rows="2" columns="1" margin="false" spacing="false">-->
-                    <GridLayout spacing="true" rows="2" columns="13" styleName = "forecast-tab" >
+                    <GridLayout spacing="true" rows="3" columns="15" styleName = "forecast-tab" >
                         <Label caption="Comparison: " contentMode="HTML" />
                         <b:CustomTextField id="comparison" styleName="searchText" 
                                            immediate="true" enable="true" />
@@ -29,7 +30,9 @@
                         <Label caption="From:" contentMode="HTML" width="80px" />
                         <ComboBox id="fromDate" nullSelectionAllowed="true"
                                   immediate="true" styleName="comboxsize"/>
-
+                        <Label  caption="Display Format:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="displayFormatDdlb" styleName="custommenumulticheck" width = "200px" />
+                        
                         <Label caption="Frequency:" contentMode="HTML" />
                         <ComboBox id="frequency" nullSelectionAllowed="false"
                                   immediate="true" styleName="comboxsize"/>
@@ -50,19 +53,36 @@
                         <Label caption="To: " contentMode="HTML" width="80px" />
                         <ComboBox id="toDate" nullSelectionAllowed="true"
                                   immediate="true" styleName="comboxsize"/>
+                        
+                        <Label id="UomLb" caption="Unit of Measure:" contentMode="HTML"  width = "165px"  />
+                          <ComboBox id="UomDdlb" nullSelectionAllowed="true"
+                                  immediate="true" styleName="comboxsize"/>
+                              <Label caption="Conversion Factor" contentMode="HTML" />
+                        <ComboBox id="conversionFactorDdlb" nullSelectionAllowed="false"
+                                  immediate="true" styleName="comboxsize"/>
                     </GridLayout>
-<!--                    <VerticalLayout styleName = "width-auto">
-                        <GridLayout rows="1" columns="5" margin="false" spacing="false" styleName = "forecast-tab" >
-                            <Label caption="Variable Category: " contentMode="HTML" width="130px" styleName="labelresultalign"/>
-                            <OptionGroup id="variableCategory" multiSelect="true" enabled="true" />
-                            <Label caption="" contentMode="HTML" width="20px" />
-                            <Label caption="Variables: " contentMode="HTML" />
-                            <OptionGroup id="variables" multiSelect="true" enabled="true" />
-                        </GridLayout>
-                    </VerticalLayout>-->
-                <!--</GridLayout>-->
             </VerticalLayout>
         </Panel>
+         <VerticalLayout id="filterOptionLayout" styleName = "width-auto"  margin="true" >
+                    <GridLayout id="GridLayoutFilter" spacing="true" margin="false" immediate="true" rows="2" columns="8" >
+                        <Label value="Customer Level: " contentMode="HTML"  />
+                        <ComboBox id="customerlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true"/>
+                         <Label caption="Product Level:" contentMode="HTML"  />
+                         <ComboBox id="productlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                         <Label caption="Deduction Level:" contentMode="HTML"  />
+                         <ComboBox id="deductionlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                         <Label  caption="Sales Inclusion:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="salesInclusionDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label caption="Customer Filter:" contentMode="HTML"  />
+                         <c:CustomMenuBar id="customerFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label id="ProductFilter" caption="Product Filter:" contentMode="HTML" />
+                         <c:CustomMenuBar id="productFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                        <Label id="DeductionFilter" caption="Deduction Filter:" contentMode="HTML" />
+                         <c:CustomMenuBar id="deductionFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                         <Label  caption="Deduction Inclusion:" contentMode="HTML"  />
+                        <c:CustomMenuBar id="deductionInclusionDdlb" styleName="custommenumulticheck" width = "200px" />
+                    </GridLayout>          
+            </VerticalLayout>
         <Panel  styleName = "forecast-tab" >
             <VerticalLayout spacing="true" styleName = "width-auto"  margin="true"  >
                 <GridLayout columns="15" rows="1" margin="false" spacing="true" styleName="adjustCaption">

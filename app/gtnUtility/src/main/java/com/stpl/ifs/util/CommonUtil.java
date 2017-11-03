@@ -6,6 +6,7 @@
 package com.stpl.ifs.util;
 
 import com.stpl.ifs.util.constants.GlobalConstants;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;
@@ -94,5 +95,13 @@ public class CommonUtil {
         criteria = criteria.replace(GlobalConstants.getPercent(), GlobalConstants.getPercentForEscape());
         criteria = GlobalConstants.getPercent() + criteria + GlobalConstants.getPercent();
         return criteria;
+    }
+    
+    public static File getFilePath(String filename) {
+        return new File(filename);
+    }
+
+    public static File getFile(File directory, String fileName) {
+        return new File(directory, fileName);
     }
 }

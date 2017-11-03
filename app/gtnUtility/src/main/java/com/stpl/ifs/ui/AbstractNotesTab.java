@@ -144,14 +144,12 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
     protected String fileUploadPath;
     private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<Integer, Boolean>();
     public List<NotesDTO> removeDetailsList = new ArrayList<NotesDTO>();
-    protected String moduleName;
 
     /**
      * constructor for additional information
      *
      */
     public AbstractNotesTab(final FieldGroup binder, final String moduleName) {
-        this.moduleName = moduleName;
         this.binder = binder;
         this.fileName = "Notes_History_" + moduleName.replace(" ", "");
 

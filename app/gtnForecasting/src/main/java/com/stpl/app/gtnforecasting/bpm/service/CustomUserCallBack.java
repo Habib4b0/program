@@ -1,6 +1,5 @@
 package com.stpl.app.gtnforecasting.bpm.service;
 
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.MedicaidNdcPopUp;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;
 import java.util.HashMap;

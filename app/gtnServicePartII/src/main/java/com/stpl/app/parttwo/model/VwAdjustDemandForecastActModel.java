@@ -44,19 +44,19 @@ public interface VwAdjustDemandForecastActModel extends BaseModel<VwAdjustDemand
     public void setPrimaryKey(int primaryKey);
 
     /**
-     * Returns the forecast version of this vw adjust demand forecast act.
+     * Returns the forecast ver of this vw adjust demand forecast act.
      *
-     * @return the forecast version of this vw adjust demand forecast act
+     * @return the forecast ver of this vw adjust demand forecast act
      */
     @AutoEscape
-    public String getForecastVersion();
+    public String getForecastVer();
 
     /**
-     * Sets the forecast version of this vw adjust demand forecast act.
+     * Sets the forecast ver of this vw adjust demand forecast act.
      *
-     * @param forecastVersion the forecast version of this vw adjust demand forecast act
+     * @param forecastVer the forecast ver of this vw adjust demand forecast act
      */
-    public void setForecastVersion(String forecastVersion);
+    public void setForecastVer(String forecastVer);
 
     /**
      * Returns the gross units of this vw adjust demand forecast act.
@@ -88,19 +88,19 @@ public interface VwAdjustDemandForecastActModel extends BaseModel<VwAdjustDemand
     public void setBusinessUnitNo(String businessUnitNo);
 
     /**
-     * Returns the year of this vw adjust demand forecast act.
+     * Returns the forecast year of this vw adjust demand forecast act.
      *
-     * @return the year of this vw adjust demand forecast act
+     * @return the forecast year of this vw adjust demand forecast act
      */
     @AutoEscape
-    public String getYear();
+    public String getForecastYear();
 
     /**
-     * Sets the year of this vw adjust demand forecast act.
+     * Sets the forecast year of this vw adjust demand forecast act.
      *
-     * @param year the year of this vw adjust demand forecast act
+     * @param forecastYear the forecast year of this vw adjust demand forecast act
      */
-    public void setYear(String year);
+    public void setForecastYear(String forecastYear);
 
     /**
      * Returns the brand name of this vw adjust demand forecast act.
@@ -206,19 +206,19 @@ public interface VwAdjustDemandForecastActModel extends BaseModel<VwAdjustDemand
     public void setMarketShareUnits(double marketShareUnits);
 
     /**
-     * Returns the month of this vw adjust demand forecast act.
+     * Returns the forecast month of this vw adjust demand forecast act.
      *
-     * @return the month of this vw adjust demand forecast act
+     * @return the forecast month of this vw adjust demand forecast act
      */
     @AutoEscape
-    public String getMonth();
+    public String getForecastMonth();
 
     /**
-     * Sets the month of this vw adjust demand forecast act.
+     * Sets the forecast month of this vw adjust demand forecast act.
      *
-     * @param month the month of this vw adjust demand forecast act
+     * @param forecastMonth the forecast month of this vw adjust demand forecast act
      */
-    public void setMonth(String month);
+    public void setForecastMonth(String forecastMonth);
 
     /**
      * Returns the inventory unit change of this vw adjust demand forecast act.
@@ -280,18 +280,18 @@ public interface VwAdjustDemandForecastActModel extends BaseModel<VwAdjustDemand
     public void setForecastType(String forecastType);
 
     /**
-     * Returns the total adjusted demand units of this vw adjust demand forecast act.
+     * Returns the total demand units of this vw adjust demand forecast act.
      *
-     * @return the total adjusted demand units of this vw adjust demand forecast act
+     * @return the total demand units of this vw adjust demand forecast act
      */
-    public double getTotalAdjustedDemandUnits();
+    public double getTotalDemandUnits();
 
     /**
-     * Sets the total adjusted demand units of this vw adjust demand forecast act.
+     * Sets the total demand units of this vw adjust demand forecast act.
      *
-     * @param totalAdjustedDemandUnits the total adjusted demand units of this vw adjust demand forecast act
+     * @param totalDemandUnits the total demand units of this vw adjust demand forecast act
      */
-    public void setTotalAdjustedDemandUnits(double totalAdjustedDemandUnits);
+    public void setTotalDemandUnits(double totalDemandUnits);
 
     /**
      * Returns the brand ID of this vw adjust demand forecast act.
@@ -324,18 +324,18 @@ public interface VwAdjustDemandForecastActModel extends BaseModel<VwAdjustDemand
     public void setIsForecast(String isForecast);
 
     /**
-     * Returns the total adjusted demand amount of this vw adjust demand forecast act.
+     * Returns the total demand amount of this vw adjust demand forecast act.
      *
-     * @return the total adjusted demand amount of this vw adjust demand forecast act
+     * @return the total demand amount of this vw adjust demand forecast act
      */
-    public double getTotalAdjustedDemandAmount();
+    public double getTotalDemandAmount();
 
     /**
-     * Sets the total adjusted demand amount of this vw adjust demand forecast act.
+     * Sets the total demand amount of this vw adjust demand forecast act.
      *
-     * @param totalAdjustedDemandAmount the total adjusted demand amount of this vw adjust demand forecast act
+     * @param totalDemandAmount the total demand amount of this vw adjust demand forecast act
      */
-    public void setTotalAdjustedDemandAmount(double totalAdjustedDemandAmount);
+    public void setTotalDemandAmount(double totalDemandAmount);
 
     /**
      * Returns the uncaptured units of this vw adjust demand forecast act.

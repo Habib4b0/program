@@ -5,6 +5,7 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -12,6 +13,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.util.AbstractContainer;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
@@ -43,6 +45,12 @@ public abstract class AbstractCustomTreeView extends Window {
      */
     @UiField("productTable")
     protected Table productTable;
+    
+     /**
+     * The deduction table.
+     */
+    @UiField("deductionTable")
+    protected Table deductionTable;
 
     /**
      * The tree table.
@@ -59,6 +67,11 @@ public abstract class AbstractCustomTreeView extends Window {
      * The product container.
      */
     protected BeanItemContainer<?> productContainer = null;
+    
+     /**
+     * The deduction container.
+     */
+    protected BeanItemContainer<?> deductionContainer = null;
 
     /**
      * The treecontainer.
@@ -82,21 +95,19 @@ public abstract class AbstractCustomTreeView extends Window {
     private Button addProduct;
     @UiField("removeProduct")
     private Button removeProduct;
+    @UiField("addDeduction")
+    private Button addDeduction;
+    @UiField("removeDeduction")
+    private Button removeDeduction;
     @UiField("save")
     private Button save;
     @UiField("select")
     private Button select;
     @UiField("close")
     private Button close;
+    @UiField("deductionLayout")
+    private HorizontalLayout deductionLayout;
     boolean saveFlag = false;
-
-    /**
-     * Instantiates a new abstract custom tree view.
-     */
-    public AbstractCustomTreeView() {
-
-        super("Custom Tree look Up");
-    }
 
     /**
      * Inits the.
@@ -151,6 +162,21 @@ public abstract class AbstractCustomTreeView extends Window {
         customerTable.setHeight(StringConstantsUtil.TWO_TEN_PX);
         customerTable.setWidth(StringConstantsUtil.TWO_TEN_PX);
         loadCustomers();
+        if (!CommonUtils.isValueEligibleForLoading()) {
+            deductionLayout.setVisible(false);
+        } else {
+            deductionLayout.setVisible(true);
+            deductionTable.setContainerDataSource(getDeductionsContainer());
+            deductionTable.setVisibleColumns(custIdTransferColumns);
+            deductionTable.setColumnHeaders(custIdTransferHeader);
+            deductionTable.setSizeFull();
+            deductionTable.setSizeUndefined();
+            deductionTable.setSelectable(true);
+            deductionTable.setPageLength(NumericConstants.TEN);
+            deductionTable.setHeight(StringConstantsUtil.TWO_TEN_PX);
+            deductionTable.setWidth(StringConstantsUtil.TWO_TEN_PX);
+            loadDeductions();
+        }
 
         save.addClickListener(new Button.ClickListener() {
 
@@ -228,6 +254,22 @@ public abstract class AbstractCustomTreeView extends Window {
             }
 
         });
+        
+         addDeduction.addClickListener(new Button.ClickListener() {
+
+            public void buttonClick(Button.ClickEvent event) {
+                customTreeAddDeductionLogic();
+            }
+
+        });
+
+        removeDeduction.addClickListener(new Button.ClickListener() {
+
+            public void buttonClick(Button.ClickEvent event) {
+                customTreeRemoveDeductionLogic();
+            }
+
+        });
 
         addCustomer.addClickListener(new Button.ClickListener() {
 
@@ -257,6 +299,12 @@ public abstract class AbstractCustomTreeView extends Window {
      *
      */
     protected abstract void loadProducts();
+    
+    /**
+     * Load deductions.
+     *
+     */
+    protected abstract void loadDeductions();
 
     /**
      * Load Customers.
@@ -294,6 +342,11 @@ public abstract class AbstractCustomTreeView extends Window {
      * Custom tree add product logic.
      */
     protected abstract void customTreeAddProductLogic();
+    
+     /**
+     * Custom tree add deduction logic.
+     */
+    protected abstract void customTreeAddDeductionLogic();
 
     /**
      * Custom tree remove customer logic.
@@ -304,6 +357,11 @@ public abstract class AbstractCustomTreeView extends Window {
      * Custom tree remove product logic.
      */
     protected abstract void customTreeRemoveProductLogic();
+    
+     /**
+     * Custom tree remove deduction logic.
+     */
+    protected abstract void customTreeRemoveDeductionLogic();
 
     /**
      * Load Custom view master data.
@@ -325,6 +383,13 @@ public abstract class AbstractCustomTreeView extends Window {
      * @return the abstract container
      */
     protected abstract AbstractContainer getCustomersContainer();
+    
+       /**
+     * Gets Deduction container.
+     *
+     * @return the abstract container
+     */
+    protected abstract AbstractContainer getDeductionsContainer();
 
     /**
      * Gets CustomTree container.

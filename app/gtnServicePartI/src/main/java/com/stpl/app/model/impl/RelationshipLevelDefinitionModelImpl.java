@@ -54,9 +54,10 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
             { "HIERARCHY_NO", Types.VARCHAR },
             { "RELATIONSHIP_LEVEL_SID", Types.INTEGER },
             { "FLAG", Types.VARCHAR },
-            { "LEVEL_NAME", Types.VARCHAR }
+            { "LEVEL_NAME", Types.VARCHAR },
+            { "PARENT_HIERARCHY_NO", Types.VARCHAR }
         };
-    public static final String TABLE_SQL_CREATE = "create table RELATIONSHIP_LEVEL_DEFINITION (RELATIONSHIP_LEVEL_VALUES VARCHAR(75) null,HIERARCHY_LEVEL_DEFINITION_SID INTEGER,PARENT_NODE VARCHAR(75) null,VERSION_NO INTEGER,RELATIONSHIP_BUILDER_SID INTEGER,MODIFIED_DATE DATE null,CREATED_BY INTEGER,CREATED_DATE DATE null,LEVEL_NO VARCHAR(75) null,MODIFIED_BY INTEGER,HIERARCHY_NO VARCHAR(75) null,RELATIONSHIP_LEVEL_SID INTEGER not null primary key IDENTITY,FLAG VARCHAR(75) null,LEVEL_NAME VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table RELATIONSHIP_LEVEL_DEFINITION (RELATIONSHIP_LEVEL_VALUES VARCHAR(75) null,HIERARCHY_LEVEL_DEFINITION_SID INTEGER,PARENT_NODE VARCHAR(75) null,VERSION_NO INTEGER,RELATIONSHIP_BUILDER_SID INTEGER,MODIFIED_DATE DATE null,CREATED_BY INTEGER,CREATED_DATE DATE null,LEVEL_NO VARCHAR(75) null,MODIFIED_BY INTEGER,HIERARCHY_NO VARCHAR(75) null,RELATIONSHIP_LEVEL_SID INTEGER not null primary key IDENTITY,FLAG VARCHAR(75) null,LEVEL_NAME VARCHAR(75) null,PARENT_HIERARCHY_NO VARCHAR(75) null)";
     public static final String TABLE_SQL_DROP = "drop table RELATIONSHIP_LEVEL_DEFINITION";
     public static final String ORDER_BY_JPQL = " ORDER BY relationshipLevelDefinition.relationshipLevelSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID ASC";
@@ -90,6 +91,7 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
     private int _relationshipLevelSid;
     private String _flag;
     private String _levelName;
+    private String _parentHierarchyNo;
     private RelationshipLevelDefinition _escapedModel;
 
     public RelationshipLevelDefinitionModelImpl() {
@@ -144,6 +146,7 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
         attributes.put("relationshipLevelSid", getRelationshipLevelSid());
         attributes.put("flag", getFlag());
         attributes.put("levelName", getLevelName());
+        attributes.put("parentHierarchyNo", getParentHierarchyNo());
 
         return attributes;
     }
@@ -236,6 +239,12 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
 
         if (levelName != null) {
             setLevelName(levelName);
+        }
+
+        String parentHierarchyNo = (String) attributes.get("parentHierarchyNo");
+
+        if (parentHierarchyNo != null) {
+            setParentHierarchyNo(parentHierarchyNo);
         }
     }
 
@@ -404,6 +413,20 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
     }
 
     @Override
+    public String getParentHierarchyNo() {
+        if (_parentHierarchyNo == null) {
+            return StringPool.BLANK;
+        } else {
+            return _parentHierarchyNo;
+        }
+    }
+
+    @Override
+    public void setParentHierarchyNo(String parentHierarchyNo) {
+        _parentHierarchyNo = parentHierarchyNo;
+    }
+
+    @Override
     public RelationshipLevelDefinition toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (RelationshipLevelDefinition) ProxyUtil.newProxyInstance(_classLoader,
@@ -431,6 +454,7 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
         relationshipLevelDefinitionImpl.setRelationshipLevelSid(getRelationshipLevelSid());
         relationshipLevelDefinitionImpl.setFlag(getFlag());
         relationshipLevelDefinitionImpl.setLevelName(getLevelName());
+        relationshipLevelDefinitionImpl.setParentHierarchyNo(getParentHierarchyNo());
 
         relationshipLevelDefinitionImpl.resetOriginalValues();
 
@@ -563,12 +587,20 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
             relationshipLevelDefinitionCacheModel.levelName = null;
         }
 
+        relationshipLevelDefinitionCacheModel.parentHierarchyNo = getParentHierarchyNo();
+
+        String parentHierarchyNo = relationshipLevelDefinitionCacheModel.parentHierarchyNo;
+
+        if ((parentHierarchyNo != null) && (parentHierarchyNo.length() == 0)) {
+            relationshipLevelDefinitionCacheModel.parentHierarchyNo = null;
+        }
+
         return relationshipLevelDefinitionCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(29);
+        StringBundler sb = new StringBundler(31);
 
         sb.append("{relationshipLevelValues=");
         sb.append(getRelationshipLevelValues());
@@ -598,6 +630,8 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
         sb.append(getFlag());
         sb.append(", levelName=");
         sb.append(getLevelName());
+        sb.append(", parentHierarchyNo=");
+        sb.append(getParentHierarchyNo());
         sb.append("}");
 
         return sb.toString();
@@ -605,7 +639,7 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(46);
+        StringBundler sb = new StringBundler(49);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.RelationshipLevelDefinition");
@@ -666,6 +700,10 @@ public class RelationshipLevelDefinitionModelImpl extends BaseModelImpl<Relation
         sb.append(
             "<column><column-name>levelName</column-name><column-value><![CDATA[");
         sb.append(getLevelName());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>parentHierarchyNo</column-name><column-value><![CDATA[");
+        sb.append(getParentHierarchyNo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -50,7 +50,9 @@ import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import java.util.HashMap;
 
 /**
  * The Class CommonUtils.
@@ -99,6 +101,7 @@ public class CommonUtils {
     public static Map<String,Integer> userIdMap=new ConcurrentHashMap<>(); 
     public static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
     public static String GROWTH ="([0-9|\\.|\\,])*";
+    public static String perOfWac ="\"^\\d+(\\.\\d+)*%$\"";
     
     public static String GROWTH_VAL_MSG ="Growth can contain only digits";
     
@@ -654,5 +657,26 @@ public class CommonUtils {
             code = Integer.valueOf(result.get(ZERO).toString());
         }
         return code;
+    }
+    
+    public static Map<String, String> getPriceTypeNameDynamic(String screenName, String queryName) {
+        List<Object[]> phsWSList;
+        Map<String, String> priceType = new HashMap<>();
+        try {
+            String customSql = SQlUtil.getQuery(queryName);
+            customSql = customSql.replace("SCREEN_NAME", screenName);
+            phsWSList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+            for (int i = 0; i < phsWSList.size(); i++) {
+                Object[] obj = phsWSList.get(i);
+                priceType.put(String.valueOf(obj[1]), String.valueOf(obj[0]));
+            }
+        } catch (Exception ex) {
+            LOGGER.error(ex.getMessage());
+        }
+        return priceType;
+    }
+    
+    public static String getGroupName(String groupName) {
+        return StringUtils.isBlank(groupName) || "null".equals(groupName) ? StringUtils.EMPTY : groupName;
     }
 }

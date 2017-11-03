@@ -305,7 +305,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultsTableLayout.addComponent(tableLogic.createControls());
         resultTable.addStyleName(Constant.FILTER_TABLE);
         resultTable.addStyleName("table-header-center");
-
+        
         resultTable.setSortEnabled(true);
         resultTable.setFilterGenerator(new ExtFilterGenerator() {
 
@@ -331,7 +331,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
 
                     List<HelperDTO> result = CommonUtils.getTherapeuticClass();
                     result.remove(0);
-                    if (result.size() > 0) {
+                    if (!result.isEmpty()) {
                         therapClass.setContainerDataSource(new IndexedContainer(result));
                     }
 
@@ -828,8 +828,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
         resultTable.setWidth("100%");
-        resultTable.setHeight("100%");
-        resultTable.setSizeFull();
+        resultTable.setHeight("420px");
         resultTable.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
@@ -882,10 +881,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 String msg = StringUtils.EMPTY;
                 if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                     // Save the Projection
-                    List<DataSelectionDTO> selectedProducts = new ArrayList<>();
+                    List<DataSelectionDTO> selProducts = new ArrayList<>();
                     for (int i = 0; i < selectedProductBean.size(); i++) {
                         DataSelectionDTO dataSelectionDto = (DataSelectionDTO) selectedProductBean.getIdByIndex(i);
-                        selectedProducts.add(dataSelectionDto);
+                        selProducts.add(dataSelectionDto);
                     }
                     try {
                         dataSelectionBinder.commit();
@@ -894,7 +893,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                     }
                     Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                         thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
-                    msg = logic.saveProjection(values, selectedProducts, false,sessionDTO);
+                    msg = logic.saveProjection(values, selProducts, false,sessionDTO);
                     if (!Constant.FAIL.equalsIgnoreCase(msg)) {
                         VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, Integer.parseInt(msg));
                         VaadinSession.getCurrent().setAttribute(Constant.MODE, Constant.ADD_FULL_SMALL);
@@ -975,7 +974,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      */
     private void loadTherapeuticClass() {
         List<HelperDTO> result = CommonUtils.getTherapeuticClass();
-        if (result != null && result.size() > 0) {
+        if (result != null && !result.isEmpty()) {
             therapeuticClass.setContainerDataSource(new IndexedContainer(result));
         }
     }
@@ -1043,11 +1042,11 @@ public class DataSelectionIndex extends CustomComponent implements View {
             String msg = StringUtils.EMPTY;
             if (modeOption.getValue() != null && Constant.ADD_SMALL.equals(modeOption.getValue())) {
                 // Save the Projection
-                List<DataSelectionDTO> selectedProducts = new ArrayList<>();
+                List<DataSelectionDTO> productSelected = new ArrayList<>();
                 for (int i = 0; i < selectedProductBean.size(); i++) {
                     DataSelectionDTO ccpDTO = (DataSelectionDTO) selectedProductBean
                             .getIdByIndex(i);
-                    selectedProducts.add(ccpDTO);
+                    productSelected.add(ccpDTO);
                 }
                 try {
                     dataSelectionBinder.commit();
@@ -1057,7 +1056,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 Object[] values = {projectionName.getValue() == null ? StringUtils.EMPTY : projectionName.getValue(), companyValueId == null ? 0 : companyValueId,
                     thearupeticValueId, productGroupId,String.valueOf(businessUnit.getValue())};
                 try {
-                    msg = logic.saveProjection(values, selectedProducts, false,sessionDTO);
+                    msg = logic.saveProjection(values, productSelected, false,sessionDTO);
                 } catch (Exception ex) {
                     LOGGER.error(ex);
                 }
@@ -1100,10 +1099,10 @@ public class DataSelectionIndex extends CustomComponent implements View {
                         (DataSelectionDTO) id);
             }
             int projectionSysId = ((DataSelectionDTO) targetItem.getBean()).getProjectionId();
-            String projection = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
+             String projectionName = ((DataSelectionDTO) targetItem.getBean()).getProjectionName();
             modifiedDate = ((DataSelectionDTO) targetItem.getBean()).getModifiedDate();
             projectionId.setValue(String.valueOf(projectionSysId));
-            sessionDTO.setProjectionName(projection);
+            sessionDTO.setProjectionName(projectionName);
         } else {
             projectionId.setValue(null);
             sessionDTO.setProjectionName(StringUtils.EMPTY);

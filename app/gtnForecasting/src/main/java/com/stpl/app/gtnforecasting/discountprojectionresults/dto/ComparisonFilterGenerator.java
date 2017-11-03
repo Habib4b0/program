@@ -76,7 +76,7 @@ public class ComparisonFilterGenerator implements ExtFilterGenerator {
                     contractType.setItemCaption(0, SELECT_ONE);
                     contractType.setValue(SELECT_ONE);
                      contractType.setImmediate(true);
-                    if (list != null && list.size() > 0) {
+                    if (list != null && !list.isEmpty()) {
                         for (int i = 0; i < list.size(); i++) {
                             Object[] obj = (Object[]) list.get(i);
                             contractType.addItem(obj[0] == null ? StringUtils.EMPTY : obj[0].toString() + "~" + Constant.MANDATED_DISCOUNT);

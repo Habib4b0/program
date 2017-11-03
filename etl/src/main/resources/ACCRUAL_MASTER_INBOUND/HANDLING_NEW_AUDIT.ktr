@@ -114,7 +114,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>AUDIT</from><to>FINAL AUDIT GENERATION</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Set Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>MAIL </to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>N</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL </from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL </from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3 2</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>AUDIT</from><to>FINAL AUDIT GENERATION</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Set Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>N</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>MAIL </to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Database join</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL </from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL </from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>AUDIT</name>
     <type>ExecSQL</type>
@@ -177,7 +177,7 @@
     <name>AUDIT_STATUS_UPDATE 2</name>
     <type>Update</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -376,6 +376,24 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     </step>
 
   <step>
+    <name>Dummy (do nothing) 3 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>769</xloc>
+      <yloc>475</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>FINAL AUDIT GENERATION</name>
     <type>DBJoin</type>
     <description/>
@@ -562,7 +580,7 @@ SELECT REASON_FOR_FAILURE,
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing) 3 2</send_true_to>
+<send_true_to>OUTBOUND PROCESSED</send_true_to>
 <send_false_to>Dummy (do nothing) 3</send_false_to>
     <compare>
 <condition>
@@ -715,500 +733,404 @@ SELECT REASON_FOR_FAILURE,
     </file>
     <fields>
       <field>
-        <name>ACTUAL_INTFID</name>
-        <type>-</type>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
+        <type>Integer</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_INTFID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>18</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACTUAL_ID</name>
-        <type>-</type>
+        <name>SALES_MASTER_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>CONTRACT_ID</name>
-        <type>-</type>
+        <name>GL_ACCOUNT</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>UPLOAD_DATE</name>
-        <type>-</type>
+        <name>COMPANY_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROVISION_ID</name>
-        <type>-</type>
+        <name>COMPANY_NO</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACCRUAL_ACTUAL_START_DATE</name>
-        <type>-</type>
+        <name>COMP_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACCRUAL_ACTUAL_END_DATE</name>
-        <type>-</type>
+        <name>COMPANY_COST_CENTER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SETTLEMENT_METHOD_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>CASH_PAID_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>AMOUNT</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>QUANTITY</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>QUANTITY_INCLUSION</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SETTLEMENT_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>INVOICE_LINE_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_ID</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ACCT_IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_NO</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_NAME</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>100</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ANALYSIS_CODE</name>
-        <type>-</type>
+        <name>ACCT_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>IS_ACTIVE</name>
-        <type>-</type>
+        <name>ITEM_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>COM_DIV_MKT_BRAND_PROD_KEY</name>
-        <type>-</type>
+        <name>ITEM_NO</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PARENTCOM_DIVMKT_BRAND_PRODKEY</name>
-        <type>-</type>
+        <name>ITEM_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PRICE_ADJUSTMENT_NAME</name>
-        <type>-</type>
+        <name>CONTRACT_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>PRICE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>RECORD_SEQUENCE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SENT_OUT</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ACCRUAL_PROCESSED</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>DIVISION_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>MARKET_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>BRAND_ID</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>SALES_AMOUNT</name>
-        <type>-</type>
+        <name>CATEGORY_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ORGANIZATION_KEY</name>
-        <type>-</type>
+        <name>PROVISION_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>MANDATED_DISCOUNT_AMOUNT</name>
-        <type>-</type>
+        <name>ACCRUAL_TYPE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROVISION_CLAIM_INDICATOR</name>
-        <type>-</type>
+        <name>ACCRUAL_PERIOD_START_DATE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROGRAM_STATE_CODE</name>
-        <type>-</type>
+        <name>ACCRUAL_PERIOD_END_DATE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>DISPENSED_DATE</name>
-        <type>-</type>
+        <name>DEDUCTION_AMOUNT</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>CLAIM_INDICATOR</name>
-        <type>-</type>
+        <name>SUB_LEDGER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SUB_LEDGER_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>DOCUMENT_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>POSTING_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RECORD_CREATED_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>CREATED_BY</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>CREATED_DATE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1220,43 +1142,19 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MODIFIED_BY</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>MODIFIED_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>BATCH_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SOURCE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1268,31 +1166,31 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ADD_CHG_DEL_INDICATOR</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>10</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>REASON_FOR_FAILURE</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>1000</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>INTF_INSERTED_DATE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1304,43 +1202,43 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ERROR_CODE</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ERROR_FIELD</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>IVLD_ACTUAL_MASTER_SID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>500</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>REPROCESSED_FLAG</name>
-        <type>-</type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CHECK_RECORD</name>
+        <type>Boolean</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1348,6 +1246,306 @@ SELECT REASON_FOR_FAILURE,
         <nullif/>
         <trim_type>none</trim_type>
         <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_COMPANY_MASTER_SID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>GL_COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>PROGRAM_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ITEM_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>POSTING_INDICATOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRACT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BRAND_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRACT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BU_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_SCHEDULE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SALES_AMOUNT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>QUANTITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC5</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC6</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -1900,500 +2098,404 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     </file>
     <fields>
       <field>
-        <name>ACTUAL_INTFID</name>
-        <type>-</type>
+        <name>IVLD_ACCRUAL_INBOUND_SID</name>
+        <type>Integer</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_INTFID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>18</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACTUAL_ID</name>
-        <type>-</type>
+        <name>SALES_MASTER_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>CONTRACT_ID</name>
-        <type>-</type>
+        <name>GL_ACCOUNT</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>UPLOAD_DATE</name>
-        <type>-</type>
+        <name>COMPANY_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROVISION_ID</name>
-        <type>-</type>
+        <name>COMPANY_NO</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACCRUAL_ACTUAL_START_DATE</name>
-        <type>-</type>
+        <name>COMP_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ACCRUAL_ACTUAL_END_DATE</name>
-        <type>-</type>
+        <name>COMPANY_COST_CENTER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ITEM_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SETTLEMENT_METHOD_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>CASH_PAID_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>AMOUNT</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>QUANTITY</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>QUANTITY_INCLUSION</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SETTLEMENT_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>INVOICE_LINE_NO</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_ID</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ACCT_IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_NO</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ACCOUNT_NAME</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>100</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ANALYSIS_CODE</name>
-        <type>-</type>
+        <name>ACCT_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>IS_ACTIVE</name>
-        <type>-</type>
+        <name>ITEM_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>COM_DIV_MKT_BRAND_PROD_KEY</name>
-        <type>-</type>
+        <name>ITEM_NO</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PARENTCOM_DIVMKT_BRAND_PRODKEY</name>
-        <type>-</type>
+        <name>ITEM_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PRICE_ADJUSTMENT_NAME</name>
-        <type>-</type>
+        <name>CONTRACT_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>PRICE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>RECORD_SEQUENCE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SENT_OUT</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>ACCRUAL_PROCESSED</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>DIVISION_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>MARKET_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>BRAND_ID</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>SALES_AMOUNT</name>
-        <type>-</type>
+        <name>CATEGORY_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>ORGANIZATION_KEY</name>
-        <type>-</type>
+        <name>PROVISION_ID</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>MANDATED_DISCOUNT_AMOUNT</name>
-        <type>-</type>
+        <name>ACCRUAL_TYPE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROVISION_CLAIM_INDICATOR</name>
-        <type>-</type>
+        <name>ACCRUAL_PERIOD_START_DATE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>PROGRAM_STATE_CODE</name>
-        <type>-</type>
+        <name>ACCRUAL_PERIOD_END_DATE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>DISPENSED_DATE</name>
-        <type>-</type>
+        <name>DEDUCTION_AMOUNT</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
-        <name>CLAIM_INDICATOR</name>
-        <type>-</type>
+        <name>SUB_LEDGER</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SUB_LEDGER_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>DOCUMENT_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>POSTING_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>RECORD_CREATED_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BATCH_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SOURCE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>CREATED_BY</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>CREATED_DATE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2405,43 +2507,19 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       </field>
       <field>
         <name>MODIFIED_BY</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>MODIFIED_DATE</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>BATCH_ID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>SOURCE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2453,31 +2531,31 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       </field>
       <field>
         <name>ADD_CHG_DEL_INDICATOR</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>10</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>REASON_FOR_FAILURE</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>1000</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>INTF_INSERTED_DATE</name>
-        <type>-</type>
+        <type>Date</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2489,43 +2567,43 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
       </field>
       <field>
         <name>ERROR_CODE</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>200</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>ERROR_FIELD</name>
-        <type>-</type>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
         <group/>
         <nullif/>
         <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>IVLD_ACTUAL_MASTER_SID</name>
-        <type>-</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
+        <length>500</length>
         <precision>-1</precision>
       </field>
       <field>
         <name>REPROCESSED_FLAG</name>
-        <type>-</type>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CHECK_RECORD</name>
+        <type>Boolean</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2533,6 +2611,306 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
         <nullif/>
         <trim_type>none</trim_type>
         <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>GL_COMPANY_MASTER_SID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>9</length>
+        <precision>0</precision>
+      </field>
+      <field>
+        <name>GL_COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>PROGRAM_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ITEM_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>POSTING_INDICATOR</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRACT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BRAND_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>CONTRACT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>200</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>COMPANY_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BU_IDENT_CODE_QUALIFIER</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>BUSINESS_UNIT_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_CATEGORY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_SCHEDULE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_PROGRAM_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>25</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>SALES_AMOUNT</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>QUANTITY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>50</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC1</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC2</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC3</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC4</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC5</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>ACCRUAL_UDC6</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>100</length>
         <precision>-1</precision>
       </field>
     </fields>
@@ -2832,24 +3210,6 @@ WHERE  received_record_count IS NULL
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>651</xloc>
       <yloc>1093</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Dummy (do nothing) 3 2</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>769</xloc>
-      <yloc>475</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

@@ -35,7 +35,7 @@ public class NewDiscountSelectedTableLogic extends PageTableLogic {
     @Override
     public int getCount() {
         if (generate) {
-            return DiscountLogic.getCountForNewDiscountSelectedItems(binderDto, sessionDTO, true,false);
+           return DiscountLogic.getCountForNewDiscountSelectedItems(binderDto, sessionDTO, true,false);
         }
         return 0;
     }

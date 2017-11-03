@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 12:46:49.607</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 12&#x3a;46&#x3a;49.607</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 12:46:49.607</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 12&#x3a;46&#x3a;49.607</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -85,7 +85,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RS_VALIDATIONS.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RS_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,7 +93,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -104,6 +104,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -153,7 +154,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RS_DATAFETCH.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RS_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -172,6 +173,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -214,81 +216,7 @@
       <name>HELPER TABLE</name>
       <description/>
       <type>SQL</type>
-      <sql>INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_SCHEDULE_STATUS,&apos;STATUS&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(REBATE_SCHEDULE_STATUS)!=&apos;NULL&apos; or REBATE_SCHEDULE_STATUS IS NOT NULL ) AND REBATE_SCHEDULE_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_SCHEDULE_TYPE,&apos;RS_TYPE&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(REBATE_SCHEDULE_TYPE)!=&apos;NULL&apos; or REBATE_SCHEDULE_TYPE IS NOT NULL ) AND REBATE_SCHEDULE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_TYPE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_SCHEDULE_CATEGORY,&apos;RS_CATEGORY&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(REBATE_SCHEDULE_CATEGORY)!=&apos;NULL&apos; or REBATE_SCHEDULE_CATEGORY IS NOT NULL ) AND REBATE_SCHEDULE_CATEGORY NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_CATEGORY&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT TRADE_CLASS,&apos;RS_TRADE_CLASS&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(TRADE_CLASS)!=&apos;NULL&apos; or TRADE_CLASS IS NOT NULL ) AND TRADE_CLASS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_TRADE_CLASS&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_SCHEDULE_DESIGNATION,&apos;RS_DESIGNATION&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_SCHEDULE_DESIGNATION)!=&apos;NULL&apos; or REBATE_SCHEDULE_DESIGNATION IS NOT NULL ) AND REBATE_SCHEDULE_DESIGNATION NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_DESIGNATION&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT VALIDATION_PROFILE,&apos;RS_VALIDATION_PROFILE&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(VALIDATION_PROFILE)!=&apos;NULL&apos; or VALIDATION_PROFILE IS NOT NULL ) AND VALIDATION_PROFILE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_VALIDATION_PROFILE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_PLAN_LEVEL,&apos;REBATE_PLAN_LEVEL&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(REBATE_PLAN_LEVEL)!=&apos;NULL&apos; or REBATE_PLAN_LEVEL IS NOT NULL ) AND REBATE_PLAN_LEVEL NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_PLAN_LEVEL&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_RULE_ASSOCIATION,&apos;RS_RBT_RULE_ASSOCN&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_RULE_ASSOCIATION)!=&apos;NULL&apos; or REBATE_RULE_ASSOCIATION IS NOT NULL ) AND REBATE_RULE_ASSOCIATION NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_RBT_RULE_ASSOCN&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PAYMENT_METHOD,&apos;PAYMENT_METHOD&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(PAYMENT_METHOD)!=&apos;NULL&apos; or PAYMENT_METHOD IS NOT NULL )AND PAYMENT_METHOD NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PAYMENT_METHOD&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_FREQUENCY,&apos;REBATE_FREQUENCY&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_FREQUENCY)!=&apos;NULL&apos; or REBATE_FREQUENCY IS NOT NULL ) AND REBATE_FREQUENCY NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_FREQUENCY&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_PROCESSING_TYPE,&apos;REBATE_PROCESSING_TYPE&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_PROCESSING_TYPE)!=&apos;NULL&apos; or REBATE_PROCESSING_TYPE IS NOT NULL ) AND REBATE_PROCESSING_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_PROCESSING_TYPE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PAYMENT_FREQUENCY,&apos;PAYMENT_FREQUENCY&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(PAYMENT_FREQUENCY)!=&apos;NULL&apos; or PAYMENT_FREQUENCY IS NOT NULL ) AND PAYMENT_FREQUENCY NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PAYMENT_FREQUENCY&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PAYMENT_TERMS,&apos;PAYMENT_TERMS&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(PAYMENT_TERMS)!=&apos;NULL&apos; or PAYMENT_TERMS IS NOT NULL ) AND PAYMENT_TERMS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PAYMENT_TERMS&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT CALENDAR,&apos;RS_CALENDAR&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(CALENDAR)!=&apos;NULL&apos; or CALENDAR IS NOT NULL ) AND CALENDAR NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_CALENDAR&apos;)
-
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_PROGRAM_TYPE,&apos;REBATE_PROGRAM_TYPE&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_PROGRAM_TYPE)!=&apos;NULL&apos; or REBATE_PROGRAM_TYPE IS NOT NULL ) AND REBATE_PROGRAM_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_PROGRAM_TYPE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT ATTACHED_STATUS,&apos;STATUS&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(ATTACHED_STATUS)!=&apos;NULL&apos; or ATTACHED_STATUS IS NOT NULL ) AND ATTACHED_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT REBATE_RULE_TYPE,&apos;REBATE_RULE_TYPE&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(REBATE_RULE_TYPE)!=&apos;NULL&apos; or REBATE_RULE_TYPE IS NOT NULL ) AND REBATE_RULE_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;REBATE_RULE_TYPE&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT STATE,&apos;STATE&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(STATE)!=&apos;NULL&apos; or STATE IS NOT NULL ) AND STATE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATE&apos;)
-
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC1,&apos;RS_UDC1&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(UDC1)!=&apos;NULL&apos; or UDC1 IS NOT NULL ) AND UDC1 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC1&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC2,&apos;RS_UDC2&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(UDC2)!=&apos;NULL&apos; or UDC2 IS NOT NULL ) AND UDC2 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC2&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC3,&apos;RS_UDC3&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(UDC3)!=&apos;NULL&apos; or UDC3 IS NOT NULL ) AND UDC3 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC3&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC4,&apos;RS_UDC4&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(UDC4)!=&apos;NULL&apos; or UDC4 IS NOT NULL ) AND UDC4 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC4&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC5,&apos;RS_UDC5&apos;,-1 FROM STAG_REBATE_SCHEDULE 
-WHERE (upper(UDC5)!=&apos;NULL&apos; or UDC5 IS NOT NULL ) AND UDC5 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC5&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC6,&apos;RS_UDC6&apos;,-1 FROM STAG_REBATE_SCHEDULE
-WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC6&apos;)
-
-</sql>
+      <sql>INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_SCHEDULE_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;REBATE_SCHEDULE_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_SCHEDULE_STATUS IS NOT NULL &#x29; AND REBATE_SCHEDULE_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_SCHEDULE_TYPE,&#x27;RS_TYPE&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;REBATE_SCHEDULE_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_SCHEDULE_TYPE IS NOT NULL &#x29; AND REBATE_SCHEDULE_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_SCHEDULE_CATEGORY,&#x27;RS_CATEGORY&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;REBATE_SCHEDULE_CATEGORY&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_SCHEDULE_CATEGORY IS NOT NULL &#x29; AND REBATE_SCHEDULE_CATEGORY NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_CATEGORY&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT TRADE_CLASS,&#x27;RS_TRADE_CLASS&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;TRADE_CLASS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or TRADE_CLASS IS NOT NULL &#x29; AND TRADE_CLASS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_TRADE_CLASS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_SCHEDULE_DESIGNATION,&#x27;RS_DESIGNATION&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_SCHEDULE_DESIGNATION&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_SCHEDULE_DESIGNATION IS NOT NULL &#x29; AND REBATE_SCHEDULE_DESIGNATION NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_DESIGNATION&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT VALIDATION_PROFILE,&#x27;RS_VALIDATION_PROFILE&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;VALIDATION_PROFILE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or VALIDATION_PROFILE IS NOT NULL &#x29; AND VALIDATION_PROFILE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_VALIDATION_PROFILE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_PLAN_LEVEL,&#x27;REBATE_PLAN_LEVEL&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;REBATE_PLAN_LEVEL&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_PLAN_LEVEL IS NOT NULL &#x29; AND REBATE_PLAN_LEVEL NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_PLAN_LEVEL&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_RULE_ASSOCIATION,&#x27;RS_RBT_RULE_ASSOCN&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_RULE_ASSOCIATION&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_RULE_ASSOCIATION IS NOT NULL &#x29; AND REBATE_RULE_ASSOCIATION NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_RBT_RULE_ASSOCN&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT PAYMENT_METHOD,&#x27;PAYMENT_METHOD&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;PAYMENT_METHOD&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or PAYMENT_METHOD IS NOT NULL &#x29;AND PAYMENT_METHOD NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;PAYMENT_METHOD&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_FREQUENCY,&#x27;REBATE_FREQUENCY&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_FREQUENCY&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_FREQUENCY IS NOT NULL &#x29; AND REBATE_FREQUENCY NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_FREQUENCY&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_PROCESSING_TYPE,&#x27;REBATE_PROCESSING_TYPE&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_PROCESSING_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_PROCESSING_TYPE IS NOT NULL &#x29; AND REBATE_PROCESSING_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_PROCESSING_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT PAYMENT_FREQUENCY,&#x27;PAYMENT_FREQUENCY&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;PAYMENT_FREQUENCY&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or PAYMENT_FREQUENCY IS NOT NULL &#x29; AND PAYMENT_FREQUENCY NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;PAYMENT_FREQUENCY&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT PAYMENT_TERMS,&#x27;PAYMENT_TERMS&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;PAYMENT_TERMS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or PAYMENT_TERMS IS NOT NULL &#x29; AND PAYMENT_TERMS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;PAYMENT_TERMS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT CALENDAR,&#x27;RS_CALENDAR&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;CALENDAR&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or CALENDAR IS NOT NULL &#x29; AND CALENDAR NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_CALENDAR&#x27;&#x29;&#xa;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_PROGRAM_TYPE,&#x27;REBATE_PROGRAM_TYPE&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_PROGRAM_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_PROGRAM_TYPE IS NOT NULL &#x29; AND REBATE_PROGRAM_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT ATTACHED_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;ATTACHED_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or ATTACHED_STATUS IS NOT NULL &#x29; AND ATTACHED_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT REBATE_RULE_TYPE,&#x27;REBATE_RULE_TYPE&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;REBATE_RULE_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or REBATE_RULE_TYPE IS NOT NULL &#x29; AND REBATE_RULE_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;REBATE_RULE_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT STATE,&#x27;STATE&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;STATE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or STATE IS NOT NULL &#x29; AND STATE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATE&#x27;&#x29;&#xa;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC1,&#x27;RS_UDC1&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;UDC1&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC1 IS NOT NULL &#x29; AND UDC1 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC1&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC2,&#x27;RS_UDC2&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;UDC2&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC2 IS NOT NULL &#x29; AND UDC2 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC2&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC3,&#x27;RS_UDC3&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;UDC3&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC3 IS NOT NULL &#x29; AND UDC3 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC3&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC4,&#x27;RS_UDC4&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;UDC4&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC4 IS NOT NULL &#x29; AND UDC4 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC4&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC5,&#x27;RS_UDC5&#x27;,-1 FROM STAG_REBATE_SCHEDULE &#xa;WHERE &#x28;upper&#x28;UDC5&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC5 IS NOT NULL &#x29; AND UDC5 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC5&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC6,&#x27;RS_UDC6&#x27;,-1 FROM STAG_REBATE_SCHEDULE&#xa;WHERE &#x28;upper&#x28;UDC6 &#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC6  IS NOT NULL &#x29; AND UDC6 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;RS_UDC6&#x27;&#x29;&#xa;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -304,14 +232,7 @@ WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SE
       <name>STATE_SUPP UPDATE</name>
       <description/>
       <type>SQL</type>
-      <sql>
-UPDATE STAG_REBATE_SCHEDULE
-SET    REBATE_SCHEDULE_CATEGORY = CASE
-                                    WHEN REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos; THEN &apos;STATE_SUPP&apos;
-                                    ELSE REBATE_SCHEDULE_CATEGORY
-                                  END
-WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos; 
-</sql>
+      <sql>&#xa;UPDATE STAG_REBATE_SCHEDULE&#xa;SET    REBATE_SCHEDULE_CATEGORY &#x3d; CASE&#xa;                                    WHEN REBATE_SCHEDULE_CATEGORY LIKE &#x27;&#x25;supp&#x25;&#x27; THEN &#x27;STATE_SUPP&#x27;&#xa;                                    ELSE REBATE_SCHEDULE_CATEGORY&#xa;                                  END&#xa;WHERE  REBATE_SCHEDULE_CATEGORY LIKE &#x27;&#x25;supp&#x25;&#x27; &#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -329,7 +250,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -343,8 +264,10 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -359,7 +282,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -373,8 +296,10 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -387,7 +312,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <name>Duplicate Record</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE IVLD_REBATE_SCHEDULE SET ERROR_CODE=&apos;E04&apos; WHERE REASON_FOR_FAILURE =&apos;Duplicate Record&apos;</sql>
+      <sql>UPDATE IVLD_REBATE_SCHEDULE SET ERROR_CODE&#x3d;&#x27;E04&#x27; WHERE REASON_FOR_FAILURE &#x3d;&#x27;Duplicate Record&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -405,7 +330,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -424,6 +349,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -437,7 +363,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -456,6 +382,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -469,7 +396,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -488,6 +415,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -501,7 +429,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -520,6 +448,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -531,10 +460,7 @@ WHERE  REBATE_SCHEDULE_CATEGORY LIKE &apos;%supp%&apos;
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -547,14 +473,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;RE
       <yloc>22</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (3)</name>
+      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -567,13 +489,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <yloc>2122</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2)</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -591,7 +510,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -610,6 +529,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -621,159 +541,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>
-TRUNCATE TABLE STAG_REBATE_SCHEDULE
-
-
-INSERT INTO STAG_REBATE_SCHEDULE(
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,FORMULA_METHOD_ID
-,CFP_ID
-,IFP_ID
-,[ITEM-NAME]
-,[ITEM-START_DATE]
-,REBATE_SCHEDULE_INTFID
-
-
-) 
-SELECT
- REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,isnull(CREATED_DATE,getdate())
-,MODIFIED_BY
-,isnull(MODIFIED_DATE,getdate())
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,FORMULA_METHOD_ID
-,COMPANY_FAMILY_PLAN_ID
-,ITEM_FAMILY_PLAN_ID
-,ITEM_NAME
-,ITEM_START_DATE
-,REBATE_SCHEDULE_INTERFACE_ID
-
-FROM ${STAGING_DB}..REBATE_SCHEDULE_INTERFACE
-
-</sql>
+      <sql>&#xa;TRUNCATE TABLE STAG_REBATE_SCHEDULE&#xa;&#xa;&#xa;INSERT INTO STAG_REBATE_SCHEDULE&#x28;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,FORMULA_METHOD_ID&#xa;,CFP_ID&#xa;,IFP_ID&#xa;,&#x5b;ITEM-NAME&#x5d;&#xa;,&#x5b;ITEM-START_DATE&#x5d;&#xa;,REBATE_SCHEDULE_INTFID&#xa;&#xa;&#xa;&#x29; &#xa;SELECT&#xa; REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,FORMULA_METHOD_ID&#xa;,COMPANY_FAMILY_PLAN_ID&#xa;,ITEM_FAMILY_PLAN_ID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,REBATE_SCHEDULE_INTERFACE_ID&#xa;&#xa;FROM &#x24;&#x7b;STAGING_DB&#x7d;..REBATE_SCHEDULE_INTERFACE&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -789,163 +557,7 @@ FROM ${STAGING_DB}..REBATE_SCHEDULE_INTERFACE
       <name>ITEM VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,ITEM_NAME
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-
-)
-
-SELECT
-
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,&apos;Invalid ItemId&apos;
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,[ITEM-NAME]
-,[ITEM-START_DATE]
-,CFP_ID
-,IFP_ID
-
-
-       FROM STAG_REBATE_SCHEDULE  A 
-WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)</sql>
+      <sql>&#xa;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;SELECT&#xa;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,&#x27;Invalid ItemId&#x27;&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,&#x5b;ITEM-NAME&#x5d;&#xa;,&#x5b;ITEM-START_DATE&#x5d;&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#xa;       FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE NOT EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -961,180 +573,7 @@ WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B
       <name>CONTRACT VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,ITEM_NAME
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-
-)
-
-select 
- A.REBATE_SCHEDULE_ID
-,A.REBATE_SCHEDULE_NO
-,A.REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_TYPE
-,A.REBATE_PROGRAM_TYPE
-,A.REBATE_SCHEDULE_CATEGORY
-,A.TRADE_CLASS
-,A.REBATE_SCHEDULE_DESIGNATION
-,A.PARENT_REBATE_SCHEDULE_ID
-,A.PARENT_REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_STATUS
-,A.REBATE_SCHEDULE_TRANS_REF_ID
-,A.REBATE_SCHEDULE_TRANS_REF_NO
-,A.REBATE_SCHEDULE_TRANS_REF_NAME
-,A.PAYMENT_METHOD
-,A.PAYMENT_FREQUENCY
-,A.PAYMENT_TERMS
-,A.REBATE_FREQUENCY
-,A.CALENDAR
-,A.REBATE_PROCESSING_TYPE
-,A.VALIDATION_PROFILE
-,A.REBATE_RULE_TYPE
-,A.REBATE_RULE_ASSOCIATION
-,A.REBATE_PLAN_LEVEL
-,A.INTEREST_BEARING_INDICATOR
-,A.INTEREST_BEARING_BASIS
-,A.PAYMENT_GRACE_PERIOD
-,A.MAKE_PAYABLE_TO
-,A.ADDRESS_1
-,A.ADDRESS_2
-,A.CITY
-,A.STATE
-,A.ZIP_CODE
-,A.ITEM_ID
-,A.IDENTIFIER_CODE_QUALIFIER
-,A.ITEM_NO
-,A.ATTACHED_STATUS
-,A.ATTACHED_DATE
-,A.ITEM_END_DATE
-,A.FORMULA_TYPE
-,A.FORMULA_ID
-,A.FORMULA_NO
-,A.FORMULA_NAME
-,A.REBATE_PLAN_ID
-,A.REBATE_AMOUNT
-,A.ITEM_REBATE_START_DATE
-,A.ITEM_REBATE_END_DATE
-,A.BUNDLE_NO
-,A.INTERNAL_NOTES
-,A.CONTRACT_ID
-,A.PRICE_SCHEDULE_ID
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.ADD_CHG_DEL_INDICATOR
-,A.BATCH_ID
-,A.SOURCE
-,&apos;Invalid ContractId&apos;
-,A.FORMULA_METHOD_ID
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
-,A.REBATE_SCHEDULE_INTFID
-,A.[ITEM-NAME]
-,A.[ITEM-START_DATE]
-,A.CFP_ID
-,A.IFP_ID
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa; A.REBATE_SCHEDULE_ID&#xa;,A.REBATE_SCHEDULE_NO&#xa;,A.REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_TYPE&#xa;,A.REBATE_PROGRAM_TYPE&#xa;,A.REBATE_SCHEDULE_CATEGORY&#xa;,A.TRADE_CLASS&#xa;,A.REBATE_SCHEDULE_DESIGNATION&#xa;,A.PARENT_REBATE_SCHEDULE_ID&#xa;,A.PARENT_REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_STATUS&#xa;,A.REBATE_SCHEDULE_TRANS_REF_ID&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NO&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,A.PAYMENT_METHOD&#xa;,A.PAYMENT_FREQUENCY&#xa;,A.PAYMENT_TERMS&#xa;,A.REBATE_FREQUENCY&#xa;,A.CALENDAR&#xa;,A.REBATE_PROCESSING_TYPE&#xa;,A.VALIDATION_PROFILE&#xa;,A.REBATE_RULE_TYPE&#xa;,A.REBATE_RULE_ASSOCIATION&#xa;,A.REBATE_PLAN_LEVEL&#xa;,A.INTEREST_BEARING_INDICATOR&#xa;,A.INTEREST_BEARING_BASIS&#xa;,A.PAYMENT_GRACE_PERIOD&#xa;,A.MAKE_PAYABLE_TO&#xa;,A.ADDRESS_1&#xa;,A.ADDRESS_2&#xa;,A.CITY&#xa;,A.STATE&#xa;,A.ZIP_CODE&#xa;,A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.ITEM_END_DATE&#xa;,A.FORMULA_TYPE&#xa;,A.FORMULA_ID&#xa;,A.FORMULA_NO&#xa;,A.FORMULA_NAME&#xa;,A.REBATE_PLAN_ID&#xa;,A.REBATE_AMOUNT&#xa;,A.ITEM_REBATE_START_DATE&#xa;,A.ITEM_REBATE_END_DATE&#xa;,A.BUNDLE_NO&#xa;,A.INTERNAL_NOTES&#xa;,A.CONTRACT_ID&#xa;,A.PRICE_SCHEDULE_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,&#x27;Invalid ContractId&#x27;&#xa;,A.FORMULA_METHOD_ID&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;,A.REBATE_SCHEDULE_INTFID&#xa;,A.&#x5b;ITEM-NAME&#x5d;&#xa;,A.&#x5b;ITEM-START_DATE&#x5d;&#xa;,A.CFP_ID&#xa;,A.IFP_ID&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1150,183 +589,7 @@ WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B
       <name>CFP VALIDATION </name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,ITEM_NAME
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-
-)
-
-select
-
-A.REBATE_SCHEDULE_ID
-,A.REBATE_SCHEDULE_NO
-,A.REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_TYPE
-,A.REBATE_PROGRAM_TYPE
-,A.REBATE_SCHEDULE_CATEGORY
-,A.TRADE_CLASS
-,A.REBATE_SCHEDULE_DESIGNATION
-,A.PARENT_REBATE_SCHEDULE_ID
-,A.PARENT_REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_STATUS
-,A.REBATE_SCHEDULE_TRANS_REF_ID
-,A.REBATE_SCHEDULE_TRANS_REF_NO
-,A.REBATE_SCHEDULE_TRANS_REF_NAME
-,A.PAYMENT_METHOD
-,A.PAYMENT_FREQUENCY
-,A.PAYMENT_TERMS
-,A.REBATE_FREQUENCY
-,A.CALENDAR
-,A.REBATE_PROCESSING_TYPE
-,A.VALIDATION_PROFILE
-,A.REBATE_RULE_TYPE
-,A.REBATE_RULE_ASSOCIATION
-,A.REBATE_PLAN_LEVEL
-,A.INTEREST_BEARING_INDICATOR
-,A.INTEREST_BEARING_BASIS
-,A.PAYMENT_GRACE_PERIOD
-,A.MAKE_PAYABLE_TO
-,A.ADDRESS_1
-,A.ADDRESS_2
-,A.CITY
-,A.STATE
-,A.ZIP_CODE
-,A.ITEM_ID
-,A.IDENTIFIER_CODE_QUALIFIER
-,A.ITEM_NO
-,A.ATTACHED_STATUS
-,A.ATTACHED_DATE
-,A.ITEM_END_DATE
-,A.FORMULA_TYPE
-,A.FORMULA_ID
-,A.FORMULA_NO
-,A.FORMULA_NAME
-,A.REBATE_PLAN_ID
-,A.REBATE_AMOUNT
-,A.ITEM_REBATE_START_DATE
-,A.ITEM_REBATE_END_DATE
-,A.BUNDLE_NO
-,A.INTERNAL_NOTES
-,A.CONTRACT_ID
-,A.PRICE_SCHEDULE_ID
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.ADD_CHG_DEL_INDICATOR
-,A.BATCH_ID
-,A.SOURCE
-,&apos;Invalid CompanyFamilyPlanId&apos;
-,A.FORMULA_METHOD_ID
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
-,A.REBATE_SCHEDULE_INTFID
-,A.[ITEM-NAME]
-,A.[ITEM-START_DATE]
-,A.CFP_ID
-,A.IFP_ID
-
-
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select&#xa;&#xa;A.REBATE_SCHEDULE_ID&#xa;,A.REBATE_SCHEDULE_NO&#xa;,A.REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_TYPE&#xa;,A.REBATE_PROGRAM_TYPE&#xa;,A.REBATE_SCHEDULE_CATEGORY&#xa;,A.TRADE_CLASS&#xa;,A.REBATE_SCHEDULE_DESIGNATION&#xa;,A.PARENT_REBATE_SCHEDULE_ID&#xa;,A.PARENT_REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_STATUS&#xa;,A.REBATE_SCHEDULE_TRANS_REF_ID&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NO&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,A.PAYMENT_METHOD&#xa;,A.PAYMENT_FREQUENCY&#xa;,A.PAYMENT_TERMS&#xa;,A.REBATE_FREQUENCY&#xa;,A.CALENDAR&#xa;,A.REBATE_PROCESSING_TYPE&#xa;,A.VALIDATION_PROFILE&#xa;,A.REBATE_RULE_TYPE&#xa;,A.REBATE_RULE_ASSOCIATION&#xa;,A.REBATE_PLAN_LEVEL&#xa;,A.INTEREST_BEARING_INDICATOR&#xa;,A.INTEREST_BEARING_BASIS&#xa;,A.PAYMENT_GRACE_PERIOD&#xa;,A.MAKE_PAYABLE_TO&#xa;,A.ADDRESS_1&#xa;,A.ADDRESS_2&#xa;,A.CITY&#xa;,A.STATE&#xa;,A.ZIP_CODE&#xa;,A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.ITEM_END_DATE&#xa;,A.FORMULA_TYPE&#xa;,A.FORMULA_ID&#xa;,A.FORMULA_NO&#xa;,A.FORMULA_NAME&#xa;,A.REBATE_PLAN_ID&#xa;,A.REBATE_AMOUNT&#xa;,A.ITEM_REBATE_START_DATE&#xa;,A.ITEM_REBATE_END_DATE&#xa;,A.BUNDLE_NO&#xa;,A.INTERNAL_NOTES&#xa;,A.CONTRACT_ID&#xa;,A.PRICE_SCHEDULE_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,&#x27;Invalid CompanyFamilyPlanId&#x27;&#xa;,A.FORMULA_METHOD_ID&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;,A.REBATE_SCHEDULE_INTFID&#xa;,A.&#x5b;ITEM-NAME&#x5d;&#xa;,A.&#x5b;ITEM-START_DATE&#x5d;&#xa;,A.CFP_ID&#xa;,A.IFP_ID&#xa;&#xa;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM CFP_MODEL  B &#xa;           WHERE A.CFP_ID&#x3d;B.CFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1342,186 +605,7 @@ WHERE not  EXISTS (SELECT 1 FROM CFP_MODEL  B
       <name>IFP VALIDATION </name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,ITEM_NAME
-,REBATE_SCHEDULE_INTFID
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-)
-
-select
-
- A.REBATE_SCHEDULE_ID
-,A.REBATE_SCHEDULE_NO
-,A.REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_TYPE
-,A.REBATE_PROGRAM_TYPE
-,A.REBATE_SCHEDULE_CATEGORY
-,A.TRADE_CLASS
-,A.REBATE_SCHEDULE_DESIGNATION
-,A.PARENT_REBATE_SCHEDULE_ID
-,A.PARENT_REBATE_SCHEDULE_NAME
-,A.REBATE_SCHEDULE_STATUS
-,A.REBATE_SCHEDULE_TRANS_REF_ID
-,A.REBATE_SCHEDULE_TRANS_REF_NO
-,A.REBATE_SCHEDULE_TRANS_REF_NAME
-,A.PAYMENT_METHOD
-,A.PAYMENT_FREQUENCY
-,A.PAYMENT_TERMS
-,A.REBATE_FREQUENCY
-,A.CALENDAR
-,A.REBATE_PROCESSING_TYPE
-,A.VALIDATION_PROFILE
-,A.REBATE_RULE_TYPE
-,A.REBATE_RULE_ASSOCIATION
-,A.REBATE_PLAN_LEVEL
-,A.INTEREST_BEARING_INDICATOR
-,A.INTEREST_BEARING_BASIS
-,A.PAYMENT_GRACE_PERIOD
-,A.MAKE_PAYABLE_TO
-,A.ADDRESS_1
-,A.ADDRESS_2
-,A.CITY
-,A.STATE
-,A.ZIP_CODE
-,A.ITEM_ID
-,A.IDENTIFIER_CODE_QUALIFIER
-,A.ITEM_NO
-,A.ATTACHED_STATUS
-,A.ATTACHED_DATE
-,A.ITEM_END_DATE
-,A.FORMULA_TYPE
-,A.FORMULA_ID
-,A.FORMULA_NO
-,A.FORMULA_NAME
-,A.REBATE_PLAN_ID
-,A.REBATE_AMOUNT
-,A.ITEM_REBATE_START_DATE
-,A.ITEM_REBATE_END_DATE
-,A.BUNDLE_NO
-,A.INTERNAL_NOTES
-,A.CONTRACT_ID
-,A.PRICE_SCHEDULE_ID
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.ADD_CHG_DEL_INDICATOR
-,A.BATCH_ID
-,A.SOURCE
-,&apos;Invalid ItemFamilyPlanId&apos;
-,A.FORMULA_METHOD_ID
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
-,A.[ITEM-NAME]
-,A.REBATE_SCHEDULE_INTFID
-,A.[ITEM-START_DATE]
-,A.CFP_ID
-,A.IFP_ID
-
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and EXISTS &#x28;SELECT 1 FROM CFP_MODEL  B &#xa;           WHERE A.CFP_ID&#x3d;B.CFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,ITEM_NAME&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#x29;&#xa;&#xa;select&#xa;&#xa; A.REBATE_SCHEDULE_ID&#xa;,A.REBATE_SCHEDULE_NO&#xa;,A.REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_TYPE&#xa;,A.REBATE_PROGRAM_TYPE&#xa;,A.REBATE_SCHEDULE_CATEGORY&#xa;,A.TRADE_CLASS&#xa;,A.REBATE_SCHEDULE_DESIGNATION&#xa;,A.PARENT_REBATE_SCHEDULE_ID&#xa;,A.PARENT_REBATE_SCHEDULE_NAME&#xa;,A.REBATE_SCHEDULE_STATUS&#xa;,A.REBATE_SCHEDULE_TRANS_REF_ID&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NO&#xa;,A.REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,A.PAYMENT_METHOD&#xa;,A.PAYMENT_FREQUENCY&#xa;,A.PAYMENT_TERMS&#xa;,A.REBATE_FREQUENCY&#xa;,A.CALENDAR&#xa;,A.REBATE_PROCESSING_TYPE&#xa;,A.VALIDATION_PROFILE&#xa;,A.REBATE_RULE_TYPE&#xa;,A.REBATE_RULE_ASSOCIATION&#xa;,A.REBATE_PLAN_LEVEL&#xa;,A.INTEREST_BEARING_INDICATOR&#xa;,A.INTEREST_BEARING_BASIS&#xa;,A.PAYMENT_GRACE_PERIOD&#xa;,A.MAKE_PAYABLE_TO&#xa;,A.ADDRESS_1&#xa;,A.ADDRESS_2&#xa;,A.CITY&#xa;,A.STATE&#xa;,A.ZIP_CODE&#xa;,A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.ITEM_END_DATE&#xa;,A.FORMULA_TYPE&#xa;,A.FORMULA_ID&#xa;,A.FORMULA_NO&#xa;,A.FORMULA_NAME&#xa;,A.REBATE_PLAN_ID&#xa;,A.REBATE_AMOUNT&#xa;,A.ITEM_REBATE_START_DATE&#xa;,A.ITEM_REBATE_END_DATE&#xa;,A.BUNDLE_NO&#xa;,A.INTERNAL_NOTES&#xa;,A.CONTRACT_ID&#xa;,A.PRICE_SCHEDULE_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,&#x27;Invalid ItemFamilyPlanId&#x27;&#xa;,A.FORMULA_METHOD_ID&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;,A.&#x5b;ITEM-NAME&#x5d;&#xa;,A.REBATE_SCHEDULE_INTFID&#xa;,A.&#x5b;ITEM-START_DATE&#x5d;&#xa;,A.CFP_ID&#xa;,A.IFP_ID&#xa;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM IFP_MODEL  B &#xa;           WHERE A.IFP_ID&#x3d;B.IFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1537,184 +621,7 @@ WHERE not  EXISTS (SELECT 1 FROM IFP_MODEL  B
       <name>PS VALIDATION </name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   AND EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,ITEM_NAME
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-)
-
-select
- a.REBATE_SCHEDULE_ID
-,a.REBATE_SCHEDULE_NO
-,a.REBATE_SCHEDULE_NAME
-,a.REBATE_SCHEDULE_TYPE
-,a.REBATE_PROGRAM_TYPE
-,a.REBATE_SCHEDULE_CATEGORY
-,a.TRADE_CLASS
-,a.REBATE_SCHEDULE_DESIGNATION
-,a.PARENT_REBATE_SCHEDULE_ID
-,a.PARENT_REBATE_SCHEDULE_NAME
-,a.REBATE_SCHEDULE_STATUS
-,a.REBATE_SCHEDULE_TRANS_REF_ID
-,a.REBATE_SCHEDULE_TRANS_REF_NO
-,a.REBATE_SCHEDULE_TRANS_REF_NAME
-,a.PAYMENT_METHOD
-,a.PAYMENT_FREQUENCY
-,a.PAYMENT_TERMS
-,a.REBATE_FREQUENCY
-,a.CALENDAR
-,a.REBATE_PROCESSING_TYPE
-,a.VALIDATION_PROFILE
-,a.REBATE_RULE_TYPE
-,a.REBATE_RULE_ASSOCIATION
-,a.REBATE_PLAN_LEVEL
-,a.INTEREST_BEARING_INDICATOR
-,a.INTEREST_BEARING_BASIS
-,a.PAYMENT_GRACE_PERIOD
-,a.MAKE_PAYABLE_TO
-,a.ADDRESS_1
-,a.ADDRESS_2
-,a.CITY
-,a.STATE
-,a.ZIP_CODE
-,a.ITEM_ID
-,a.IDENTIFIER_CODE_QUALIFIER
-,a.ITEM_NO
-,a.ATTACHED_STATUS
-,a.ATTACHED_DATE
-,a.ITEM_END_DATE
-,a.FORMULA_TYPE
-,a.FORMULA_ID
-,a.FORMULA_NO
-,a.FORMULA_NAME
-,a.REBATE_PLAN_ID
-,a.REBATE_AMOUNT
-,a.ITEM_REBATE_START_DATE
-,a.ITEM_REBATE_END_DATE
-,a.BUNDLE_NO
-,a.INTERNAL_NOTES
-,a.CONTRACT_ID
-,a.PRICE_SCHEDULE_ID
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,&apos;Invalid PriceScheduleId&apos;
-,a.FORMULA_METHOD_ID
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
-,a.REBATE_SCHEDULE_INTFID
-,a.[ITEM-NAME]
-,a.[ITEM-START_DATE]
-,a.CFP_ID
-,a.IFP_ID
-
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM ps_MODEL  B 
-           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and EXISTS &#x28;SELECT 1 FROM CFP_MODEL  B &#xa;           WHERE A.CFP_ID&#x3d;B.CFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   AND EXISTS &#x28;SELECT 1 FROM IFP_MODEL  B &#xa;           WHERE A.IFP_ID&#x3d;B.IFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#x29;&#xa;&#xa;select&#xa; a.REBATE_SCHEDULE_ID&#xa;,a.REBATE_SCHEDULE_NO&#xa;,a.REBATE_SCHEDULE_NAME&#xa;,a.REBATE_SCHEDULE_TYPE&#xa;,a.REBATE_PROGRAM_TYPE&#xa;,a.REBATE_SCHEDULE_CATEGORY&#xa;,a.TRADE_CLASS&#xa;,a.REBATE_SCHEDULE_DESIGNATION&#xa;,a.PARENT_REBATE_SCHEDULE_ID&#xa;,a.PARENT_REBATE_SCHEDULE_NAME&#xa;,a.REBATE_SCHEDULE_STATUS&#xa;,a.REBATE_SCHEDULE_TRANS_REF_ID&#xa;,a.REBATE_SCHEDULE_TRANS_REF_NO&#xa;,a.REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,a.PAYMENT_METHOD&#xa;,a.PAYMENT_FREQUENCY&#xa;,a.PAYMENT_TERMS&#xa;,a.REBATE_FREQUENCY&#xa;,a.CALENDAR&#xa;,a.REBATE_PROCESSING_TYPE&#xa;,a.VALIDATION_PROFILE&#xa;,a.REBATE_RULE_TYPE&#xa;,a.REBATE_RULE_ASSOCIATION&#xa;,a.REBATE_PLAN_LEVEL&#xa;,a.INTEREST_BEARING_INDICATOR&#xa;,a.INTEREST_BEARING_BASIS&#xa;,a.PAYMENT_GRACE_PERIOD&#xa;,a.MAKE_PAYABLE_TO&#xa;,a.ADDRESS_1&#xa;,a.ADDRESS_2&#xa;,a.CITY&#xa;,a.STATE&#xa;,a.ZIP_CODE&#xa;,a.ITEM_ID&#xa;,a.IDENTIFIER_CODE_QUALIFIER&#xa;,a.ITEM_NO&#xa;,a.ATTACHED_STATUS&#xa;,a.ATTACHED_DATE&#xa;,a.ITEM_END_DATE&#xa;,a.FORMULA_TYPE&#xa;,a.FORMULA_ID&#xa;,a.FORMULA_NO&#xa;,a.FORMULA_NAME&#xa;,a.REBATE_PLAN_ID&#xa;,a.REBATE_AMOUNT&#xa;,a.ITEM_REBATE_START_DATE&#xa;,a.ITEM_REBATE_END_DATE&#xa;,a.BUNDLE_NO&#xa;,a.INTERNAL_NOTES&#xa;,a.CONTRACT_ID&#xa;,a.PRICE_SCHEDULE_ID&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,&#x27;Invalid PriceScheduleId&#x27;&#xa;,a.FORMULA_METHOD_ID&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;,a.REBATE_SCHEDULE_INTFID&#xa;,a.&#x5b;ITEM-NAME&#x5d;&#xa;,a.&#x5b;ITEM-START_DATE&#x5d;&#xa;,a.CFP_ID&#xa;,a.IFP_ID&#xa;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM ps_MODEL  B &#xa;           WHERE A.PRICE_SCHEDULE_ID&#x3d;B.PS_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1730,187 +637,7 @@ WHERE not  EXISTS (SELECT 1 FROM ps_MODEL  B
       <name>RP VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
-DROP TABLE #temp
-
-SELECT * into #temp             FROM STAG_REBATE_SCHEDULE  A 
-WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
-           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   and EXISTS (SELECT 1 FROM CFP_MODEL  B 
-           WHERE A.CFP_ID=B.CFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		   AND EXISTS (SELECT 1 FROM IFP_MODEL  B 
-           WHERE A.IFP_ID=B.IFP_ID and b.INBOUND_STATUS=&apos;A&apos;)
-		    and EXISTS (SELECT 1 FROM ps_MODEL  B 
-           WHERE A.PRICE_SCHEDULE_ID=B.PS_ID and b.INBOUND_STATUS=&apos;A&apos;)
-INSERT INTO IVLD_REBATE_SCHEDULE
-(
-
-REBATE_SCHEDULE_ID
-,REBATE_SCHEDULE_NO
-,REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_TYPE
-,REBATE_PROGRAM_TYPE
-,REBATE_SCHEDULE_CATEGORY
-,TRADE_CLASS
-,REBATE_SCHEDULE_DESIGNATION
-,PARENT_REBATE_SCHEDULE_ID
-,PARENT_REBATE_SCHEDULE_NAME
-,REBATE_SCHEDULE_STATUS
-,REBATE_SCHEDULE_TRANS_REF_ID
-,REBATE_SCHEDULE_TRANS_REF_NO
-,REBATE_SCHEDULE_TRANS_REF_NAME
-,PAYMENT_METHOD
-,PAYMENT_FREQUENCY
-,PAYMENT_TERMS
-,REBATE_FREQUENCY
-,CALENDAR
-,REBATE_PROCESSING_TYPE
-,VALIDATION_PROFILE
-,REBATE_RULE_TYPE
-,REBATE_RULE_ASSOCIATION
-,REBATE_PLAN_LEVEL
-,INTEREST_BEARING_INDICATOR
-,INTEREST_BEARING_BASIS
-,PAYMENT_GRACE_PERIOD
-,MAKE_PAYABLE_TO
-,ADDRESS_1
-,ADDRESS_2
-,CITY
-,STATE
-,ZIP_CODE
-,ITEM_ID
-,IDENTIFIER_CODE_QUALIFIER
-,ITEM_NO
-,ATTACHED_STATUS
-,ATTACHED_DATE
-,ITEM_END_DATE
-,FORMULA_TYPE
-,FORMULA_ID
-,FORMULA_NO
-,FORMULA_NAME
-,REBATE_PLAN_ID
-,REBATE_AMOUNT
-,ITEM_REBATE_START_DATE
-,ITEM_REBATE_END_DATE
-,BUNDLE_NO
-,INTERNAL_NOTES
-,CONTRACT_ID
-,PRICE_SCHEDULE_ID
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,REASON_FOR_FAILURE
-,FORMULA_METHOD_ID
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REBATE_SCHEDULE_INTFID
-,ITEM_NAME
-,ITEM_START_DATE
-,CFP_ID
-,IFP_ID
-
-)
-
-select
-a.REBATE_SCHEDULE_ID
-,a.REBATE_SCHEDULE_NO
-,a.REBATE_SCHEDULE_NAME
-,a.REBATE_SCHEDULE_TYPE
-,a.REBATE_PROGRAM_TYPE
-,a.REBATE_SCHEDULE_CATEGORY
-,a.TRADE_CLASS
-,a.REBATE_SCHEDULE_DESIGNATION
-,a.PARENT_REBATE_SCHEDULE_ID
-,a.PARENT_REBATE_SCHEDULE_NAME
-,a.REBATE_SCHEDULE_STATUS
-,a.REBATE_SCHEDULE_TRANS_REF_ID
-,a.REBATE_SCHEDULE_TRANS_REF_NO
-,a.REBATE_SCHEDULE_TRANS_REF_NAME
-,a.PAYMENT_METHOD
-,a.PAYMENT_FREQUENCY
-,a.PAYMENT_TERMS
-,a.REBATE_FREQUENCY
-,a.CALENDAR
-,a.REBATE_PROCESSING_TYPE
-,a.VALIDATION_PROFILE
-,a.REBATE_RULE_TYPE
-,a.REBATE_RULE_ASSOCIATION
-,a.REBATE_PLAN_LEVEL
-,a.INTEREST_BEARING_INDICATOR
-,a.INTEREST_BEARING_BASIS
-,a.PAYMENT_GRACE_PERIOD
-,a.MAKE_PAYABLE_TO
-,a.ADDRESS_1
-,a.ADDRESS_2
-,a.CITY
-,a.STATE
-,a.ZIP_CODE
-,a.ITEM_ID
-,a.IDENTIFIER_CODE_QUALIFIER
-,a.ITEM_NO
-,a.ATTACHED_STATUS
-,a.ATTACHED_DATE
-,a.ITEM_END_DATE
-,a.FORMULA_TYPE
-,a.FORMULA_ID
-,a.FORMULA_NO
-,a.FORMULA_NAME
-,a.REBATE_PLAN_ID
-,a.REBATE_AMOUNT
-,a.ITEM_REBATE_START_DATE
-,a.ITEM_REBATE_END_DATE
-,a.BUNDLE_NO
-,a.INTERNAL_NOTES
-,a.CONTRACT_ID
-,a.PRICE_SCHEDULE_ID
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,&apos;Invalid RebatePlanId&apos;
-,a.FORMULA_METHOD_ID
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
-,a.REBATE_SCHEDULE_INTFID
-,a.[ITEM-NAME]
-,a.[ITEM-START_DATE]
-,a.CFP_ID
-,a.IFP_ID
-
-
-
- from #temp  a
-WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B 
-           WHERE A.REBATE_PLAN_ID=B.REBATE_PLAN_ID and b.INBOUND_STATUS=&apos;A&apos;)
-
-
-
-
-
-
-
-</sql>
+      <sql>&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_REBATE_SCHEDULE  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   and EXISTS &#x28;SELECT 1 FROM CFP_MODEL  B &#xa;           WHERE A.CFP_ID&#x3d;B.CFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		   AND EXISTS &#x28;SELECT 1 FROM IFP_MODEL  B &#xa;           WHERE A.IFP_ID&#x3d;B.IFP_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;		    and EXISTS &#x28;SELECT 1 FROM ps_MODEL  B &#xa;           WHERE A.PRICE_SCHEDULE_ID&#x3d;B.PS_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;INSERT INTO IVLD_REBATE_SCHEDULE&#xa;&#x28;&#xa;&#xa;REBATE_SCHEDULE_ID&#xa;,REBATE_SCHEDULE_NO&#xa;,REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_TYPE&#xa;,REBATE_PROGRAM_TYPE&#xa;,REBATE_SCHEDULE_CATEGORY&#xa;,TRADE_CLASS&#xa;,REBATE_SCHEDULE_DESIGNATION&#xa;,PARENT_REBATE_SCHEDULE_ID&#xa;,PARENT_REBATE_SCHEDULE_NAME&#xa;,REBATE_SCHEDULE_STATUS&#xa;,REBATE_SCHEDULE_TRANS_REF_ID&#xa;,REBATE_SCHEDULE_TRANS_REF_NO&#xa;,REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,PAYMENT_METHOD&#xa;,PAYMENT_FREQUENCY&#xa;,PAYMENT_TERMS&#xa;,REBATE_FREQUENCY&#xa;,CALENDAR&#xa;,REBATE_PROCESSING_TYPE&#xa;,VALIDATION_PROFILE&#xa;,REBATE_RULE_TYPE&#xa;,REBATE_RULE_ASSOCIATION&#xa;,REBATE_PLAN_LEVEL&#xa;,INTEREST_BEARING_INDICATOR&#xa;,INTEREST_BEARING_BASIS&#xa;,PAYMENT_GRACE_PERIOD&#xa;,MAKE_PAYABLE_TO&#xa;,ADDRESS_1&#xa;,ADDRESS_2&#xa;,CITY&#xa;,STATE&#xa;,ZIP_CODE&#xa;,ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,ITEM_END_DATE&#xa;,FORMULA_TYPE&#xa;,FORMULA_ID&#xa;,FORMULA_NO&#xa;,FORMULA_NAME&#xa;,REBATE_PLAN_ID&#xa;,REBATE_AMOUNT&#xa;,ITEM_REBATE_START_DATE&#xa;,ITEM_REBATE_END_DATE&#xa;,BUNDLE_NO&#xa;,INTERNAL_NOTES&#xa;,CONTRACT_ID&#xa;,PRICE_SCHEDULE_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,FORMULA_METHOD_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REBATE_SCHEDULE_INTFID&#xa;,ITEM_NAME&#xa;,ITEM_START_DATE&#xa;,CFP_ID&#xa;,IFP_ID&#xa;&#xa;&#x29;&#xa;&#xa;select&#xa;a.REBATE_SCHEDULE_ID&#xa;,a.REBATE_SCHEDULE_NO&#xa;,a.REBATE_SCHEDULE_NAME&#xa;,a.REBATE_SCHEDULE_TYPE&#xa;,a.REBATE_PROGRAM_TYPE&#xa;,a.REBATE_SCHEDULE_CATEGORY&#xa;,a.TRADE_CLASS&#xa;,a.REBATE_SCHEDULE_DESIGNATION&#xa;,a.PARENT_REBATE_SCHEDULE_ID&#xa;,a.PARENT_REBATE_SCHEDULE_NAME&#xa;,a.REBATE_SCHEDULE_STATUS&#xa;,a.REBATE_SCHEDULE_TRANS_REF_ID&#xa;,a.REBATE_SCHEDULE_TRANS_REF_NO&#xa;,a.REBATE_SCHEDULE_TRANS_REF_NAME&#xa;,a.PAYMENT_METHOD&#xa;,a.PAYMENT_FREQUENCY&#xa;,a.PAYMENT_TERMS&#xa;,a.REBATE_FREQUENCY&#xa;,a.CALENDAR&#xa;,a.REBATE_PROCESSING_TYPE&#xa;,a.VALIDATION_PROFILE&#xa;,a.REBATE_RULE_TYPE&#xa;,a.REBATE_RULE_ASSOCIATION&#xa;,a.REBATE_PLAN_LEVEL&#xa;,a.INTEREST_BEARING_INDICATOR&#xa;,a.INTEREST_BEARING_BASIS&#xa;,a.PAYMENT_GRACE_PERIOD&#xa;,a.MAKE_PAYABLE_TO&#xa;,a.ADDRESS_1&#xa;,a.ADDRESS_2&#xa;,a.CITY&#xa;,a.STATE&#xa;,a.ZIP_CODE&#xa;,a.ITEM_ID&#xa;,a.IDENTIFIER_CODE_QUALIFIER&#xa;,a.ITEM_NO&#xa;,a.ATTACHED_STATUS&#xa;,a.ATTACHED_DATE&#xa;,a.ITEM_END_DATE&#xa;,a.FORMULA_TYPE&#xa;,a.FORMULA_ID&#xa;,a.FORMULA_NO&#xa;,a.FORMULA_NAME&#xa;,a.REBATE_PLAN_ID&#xa;,a.REBATE_AMOUNT&#xa;,a.ITEM_REBATE_START_DATE&#xa;,a.ITEM_REBATE_END_DATE&#xa;,a.BUNDLE_NO&#xa;,a.INTERNAL_NOTES&#xa;,a.CONTRACT_ID&#xa;,a.PRICE_SCHEDULE_ID&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,&#x27;Invalid RebatePlanId&#x27;&#xa;,a.FORMULA_METHOD_ID&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;,a.REBATE_SCHEDULE_INTFID&#xa;,a.&#x5b;ITEM-NAME&#x5d;&#xa;,a.&#x5b;ITEM-START_DATE&#x5d;&#xa;,a.CFP_ID&#xa;,a.IFP_ID&#xa;&#xa;&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM REBATE_PLAN_MASTER  B &#xa;           WHERE A.REBATE_PLAN_ID&#x3d;B.REBATE_PLAN_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1926,8 +653,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <name>PRC_CCP_POPULATION</name>
       <description/>
       <type>SQL</type>
-      <sql> exec PRC_CCP_POPULATION
-</sql>
+      <sql> exec PRC_CCP_POPULATION&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1945,7 +671,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1964,6 +690,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1977,7 +704,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1991,8 +718,10 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -2007,7 +736,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2026,6 +755,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2037,7 +767,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -2053,7 +783,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;RS_VALIDATIONS_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RS_VALIDATIONS_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2061,7 +791,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -2072,6 +802,7 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2080,13 +811,10 @@ WHERE not  EXISTS (SELECT 1 FROM REBATE_PLAN_MASTER  B
       <yloc>1469</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2102,29 +830,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @SQL        VARCHAR(MAX),
-        @TABLE_NAME VARCHAR(100)=&apos;SNAP_REBATE_SCHEDULE&apos;,
-        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-		,@var1 varchar(2)=&apos;&lt;&apos;
-
-
-SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
-
-SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
-
-
-exec( @SQL)
-
-SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;))
-
-exec( @SQL) 
-</sql>
+      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_REBATE_SCHEDULE&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2142,7 +848,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2161,6 +867,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2172,7 +879,7 @@ exec( @SQL)
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -2188,7 +895,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2207,6 +914,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2238,7 +946,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -2260,7 +968,7 @@ exec( @SQL)
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2274,8 +982,10 @@ exec( @SQL)
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -2290,7 +1000,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -2307,12 +1017,12 @@ exec( @SQL)
       <yloc>397</yloc>
       </entry>
     <entry>
-      <name>MAIL (2) 2</name>
+      <name>MAIL &#x28;2&#x29; 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2331,6 +1041,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2344,7 +1055,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -2366,7 +1077,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -2383,13 +1094,10 @@ exec( @SQL)
       <yloc>720</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2402,13 +1110,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <yloc>1011</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2419,6 +1124,39 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <nr>0</nr>
       <xloc>2109</xloc>
       <yloc>531</yloc>
+      </entry>
+    <entry>
+      <name>UNLOCK</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1289</xloc>
+      <yloc>1819</yloc>
       </entry>
   </entries>
   <hops>
@@ -2523,7 +1261,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2532,7 +1270,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2541,7 +1279,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2550,7 +1288,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2661,7 +1399,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <to>TRUNCATE STAG TABLE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -2765,7 +1503,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
+      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -2784,7 +1522,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2829,7 +1567,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2838,7 +1576,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2964,7 +1702,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL (2) 2</to>
+      <to>MAIL &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2972,8 +1710,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2991,7 +1729,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3008,7 +1746,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3017,7 +1755,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3026,8 +1764,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3036,7 +1774,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3045,7 +1783,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3054,7 +1792,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3063,7 +1801,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3071,7 +1809,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3081,7 +1819,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3089,7 +1827,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3106,7 +1844,26 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>PRC_CCP_POPULATION</from>
+      <to>UNLOCK</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>UNLOCK</from>
+      <to>TRUNCATE STAG TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
+
 </job>

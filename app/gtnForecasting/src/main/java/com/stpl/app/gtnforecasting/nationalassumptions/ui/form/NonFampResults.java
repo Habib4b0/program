@@ -4,6 +4,20 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
+import com.stpl.addons.tableexport.ExcelExport;
+import com.stpl.app.gtnforecasting.nationalassumptions.dto.NationalAssumptionsFilterGenerator;
+import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
+import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
+import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.NonFampTableLogic;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticContainer;
+import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
+import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
+import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
@@ -19,38 +33,6 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PROJECTIONS;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.gtnforecasting.nationalassumptions.dto.NationalAssumptionsFilterGenerator;
-import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.NonFampTableLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterCriteria;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticContainer;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
-import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
-import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -79,6 +61,20 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class NonFampResults.
@@ -380,8 +376,7 @@ public class NonFampResults extends Window {
     @UiHandler("nfResetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -471,7 +466,7 @@ public class NonFampResults extends Window {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
+        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -514,8 +509,7 @@ public class NonFampResults extends Window {
                 ndcLink.addClickListener(new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
-                    @Override
-					public void buttonClick(final Button.ClickEvent event) {
+                    public void buttonClick(final Button.ClickEvent event) {
                         ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                         HelperDTO ndcDto = new HelperDTO();
                         ndcDto.setId(tableDto.getItemMasterSid());
@@ -642,7 +636,6 @@ public class NonFampResults extends Window {
         if (resultBeanContainer.size() > 0) {
             loadExcelResultTable();
         }
-		NationalAssumptionsUI.EXCEL_CLOSE = true;
         ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.NON_FAMP_RESULTS, Constant.NON_FAMP_RESULTS, "Non-FAMP_Results.xls", false);
         exp.export();
         tableVerticalLayout.removeComponent(exceltable);
@@ -676,8 +669,8 @@ public class NonFampResults extends Window {
     }
 
     public void loadDataToContainer(List<TableDTO> resultList) {
-        for (TableDTO dto : resultList) {
-            excelResultBeanContainer.addBean(dto);
+        for (TableDTO tableDto : resultList) {
+            excelResultBeanContainer.addBean(tableDto);
         }
     }
 

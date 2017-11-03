@@ -30,10 +30,11 @@ public class HelperTableCacheModel implements CacheModel<HelperTable>,
     public int helperTableSid;
     public int modifiedBy;
     public long modifiedDate;
+    public String aliasName;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(17);
+        StringBundler sb = new StringBundler(19);
 
         sb.append("{createdDate=");
         sb.append(createdDate);
@@ -51,6 +52,8 @@ public class HelperTableCacheModel implements CacheModel<HelperTable>,
         sb.append(modifiedBy);
         sb.append(", modifiedDate=");
         sb.append(modifiedDate);
+        sb.append(", aliasName=");
+        sb.append(aliasName);
         sb.append("}");
 
         return sb.toString();
@@ -91,6 +94,12 @@ public class HelperTableCacheModel implements CacheModel<HelperTable>,
             helperTableImpl.setModifiedDate(new Date(modifiedDate));
         }
 
+        if (aliasName == null) {
+            helperTableImpl.setAliasName(StringPool.BLANK);
+        } else {
+            helperTableImpl.setAliasName(aliasName);
+        }
+
         helperTableImpl.resetOriginalValues();
 
         return helperTableImpl;
@@ -106,6 +115,7 @@ public class HelperTableCacheModel implements CacheModel<HelperTable>,
         helperTableSid = objectInput.readInt();
         modifiedBy = objectInput.readInt();
         modifiedDate = objectInput.readLong();
+        aliasName = objectInput.readUTF();
     }
 
     @Override
@@ -131,5 +141,11 @@ public class HelperTableCacheModel implements CacheModel<HelperTable>,
         objectOutput.writeInt(helperTableSid);
         objectOutput.writeInt(modifiedBy);
         objectOutput.writeLong(modifiedDate);
+
+        if (aliasName == null) {
+            objectOutput.writeUTF(StringPool.BLANK);
+        } else {
+            objectOutput.writeUTF(aliasName);
+        }
     }
 }

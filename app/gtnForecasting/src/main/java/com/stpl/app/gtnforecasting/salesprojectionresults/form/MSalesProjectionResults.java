@@ -13,7 +13,6 @@ import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.Utility;
 import com.stpl.app.gtnforecasting.salesprojectionresults.dto.ComparisonFilterGenerator;
-import com.stpl.app.gtnforecasting.salesprojectionresults.logic.MSalesProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
 import com.stpl.app.gtnforecasting.salesprojectionresults.logic.tablelogic.MSalesProjectionResultsTableLogic;

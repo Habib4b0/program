@@ -142,7 +142,7 @@ public class MandatedChartUtils {
         if ("Projection Variance".equals(screenName)) {
             xAxis.setCategories(rightDto.getDoubleProjectedColumns().toArray(new String[rightDto.getDoubleProjectedColumns().size()]));
 
-            if (dto != null && dto.size() > 0) {
+            if (dto != null && !dto.isEmpty()) {
                 List<ProjectionVarianceDTO> pvdto = (List<ProjectionVarianceDTO>) dto;
                 for (ProjectionVarianceDTO pDto : pvdto) {
                     ListSeries listSeries = new ListSeries();
@@ -167,7 +167,7 @@ public class MandatedChartUtils {
         } else if ("PMPYCalculator".equals(screenName)) {
 
             xAxis.setCategories(rightDto.getSingleColumns().toArray(new String[rightDto.getSingleColumns().size()]));
-            if (dto != null && dto.size() > 0) {
+            if (dto != null && !dto.isEmpty()) {
                 List<MPmpyDTO> pmpyDTOList = (List<MPmpyDTO>) dto;
 
                 for (MPmpyDTO pmpyDTO : pmpyDTOList) {
@@ -191,7 +191,7 @@ public class MandatedChartUtils {
 
                 xAxis.setCategories(visHeaders);
 
-                if (dto != null && dto.size() > 0) {
+                if (dto != null && !dto.isEmpty()) {
                     if (Constant.SALES_PROJECTION_RESULTS.equals(screenName)) {
                         List<SalesProjectionResultsDTO> salesdto = (List<SalesProjectionResultsDTO>) dto;
 

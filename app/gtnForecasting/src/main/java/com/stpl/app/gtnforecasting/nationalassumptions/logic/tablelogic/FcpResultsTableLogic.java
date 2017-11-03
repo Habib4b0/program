@@ -8,7 +8,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Container;

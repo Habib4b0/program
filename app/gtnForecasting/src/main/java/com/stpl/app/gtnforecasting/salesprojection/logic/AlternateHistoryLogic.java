@@ -21,11 +21,8 @@ import static com.stpl.app.utils.Constants.LabelConstants;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import com.stpl.app.utils.QueryUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
@@ -443,7 +440,7 @@ public class AlternateHistoryLogic {
 
         list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, sessionDto.getCurrentTableNames()));
 
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             Object obj = list.get(0);
             String countValue = String.valueOf(obj);
             count = Integer.valueOf(countValue);
@@ -649,7 +646,7 @@ public class AlternateHistoryLogic {
             sql = sql.replace("@?END_INDEX", StringUtils.EMPTY + offset);            
             List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(sql, session.getCurrentTableNames()));
 
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             int count = list.size();
             String currentccpId = StringUtils.EMPTY;
             for (int i = 0; i < count; i++) {
@@ -937,7 +934,7 @@ public class AlternateHistoryLogic {
 
         totalLevelList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(totalQuery, session.getCurrentTableNames()));
         list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
-            if ((!addToQueue) && (totalLevelList != null && totalLevelList.size() > 0 && start == 0)) {
+            if ((!addToQueue) && (totalLevelList != null && !totalLevelList.isEmpty() && start == 0)) {
                 int count = totalLevelList.size();
                 for (int i = 0; i < count; i++) {
                     Object[] obj = (Object[]) totalLevelList.get(i);
@@ -966,7 +963,7 @@ public class AlternateHistoryLogic {
             }
 
         allocationList.addAll(totalList);
-        if (list != null && list.size() > 0) {
+        if (list != null && !list.isEmpty()) {
             int count = list.size();
             String currentProjDetailsSID = null;
             for (int i = 0; i < count; i++) {
@@ -1169,7 +1166,7 @@ public class AlternateHistoryLogic {
                 + "        OR Sum(AM.SALES_AMOUNT) IS NULL";
         List<Integer> list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, session.getCurrentTableNames()));
         
-        if (list != null && list.size() > 0) {
+        if (list != null && list.isEmpty()) {
             LOGGER.debug("--list size---->>>>" + list.size());
             StringBuilder ccps = new StringBuilder(StringUtils.EMPTY);
 

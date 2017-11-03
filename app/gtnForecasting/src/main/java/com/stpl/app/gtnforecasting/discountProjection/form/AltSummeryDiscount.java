@@ -22,7 +22,6 @@ import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.AHSummeryDiscountTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
@@ -53,7 +52,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
 import static com.stpl.app.utils.Constants.LabelConstants.DESCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -948,7 +946,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
                     customDetailsList, true, isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, false, false, customViewDetails, false, false, StringUtils.EMPTY, 
                     relationshipBuilderSid, true,Collections.EMPTY_LIST,true,StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,
-                    new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods());
+                    new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(list, null, true);
         } catch (Exception e) {
             LOGGER.error(e);
@@ -1053,7 +1051,7 @@ public class AltSummeryDiscount extends CustomComponent {
                     true, discountTableLogic.getDiscountList(), projectionSelection.getYear(),
                     customDetailsList, true, isCustomHierarchy, excelHeader, 0, NumericConstants.THOUSAND, false, false, customViewDetails, false, false, 
                     StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST,false,StringUtils.EMPTY, StringUtils.EMPTY,
-                    Collections.EMPTY_LIST,new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods());
+                    Collections.EMPTY_LIST,new HashMap<String,String>(), projectionSelection.getForecastConfigPeriods(),projectionSelection);
             loadDataToContainer(levelList, dto, true);
             excelTable.setCollapsed(dto, false);
 
@@ -1456,14 +1454,14 @@ public class AltSummeryDiscount extends CustomComponent {
             Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
             for (String e : checkedDoubleHeaders.keySet()) {
                 List a = checkedDoubleHeaders.get(e);
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
                     checkedList.addAll(a);
                 }
             }
-            if (checkedList.size() > 0) {
+            if (!checkedList.isEmpty()) {
                 isOne = false;
             }
 

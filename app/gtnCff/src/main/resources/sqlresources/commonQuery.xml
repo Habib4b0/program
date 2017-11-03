@@ -351,6 +351,7 @@ ORDER BY
     PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel,
     PM.CUSTOMER_HIER_VERSION_NO,PM.PRODUCT_HIER_VERSION_NO,PM.COMPANY_MASTER_SID,
     PM.BUSINESS_UNIT  businessUnit
+    ,PM.DEDUCTION_HIERARCHY_SID dedHierSid,PM.DED_RELATIONSHIP_BULDER_SID dedRelSid
 FROM
     dbo.CFF_MASTER PM JOIN HIERARCHY_DEFINITION HDC
         ON HDC.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID JOIN HIERARCHY_DEFINITION HDP
@@ -474,7 +475,9 @@ SET
     ACTIVE_FROM_DATE = GETDATE(),
     CUST_RELATIONSHIP_BUILDER_SID = @CUST_RELATIONSHIP_BUILDER_SID,
     PROD_RELATIONSHIP_BUILDER_SID = @PROD_RELATIONSHIP_BUILDER_SID,
-    BUSINESS_UNIT=@BUSINESS_UNIT
+    BUSINESS_UNIT=@BUSINESS_UNIT,
+    DEDUCTION_HIERARCHY_SID = @DEDUCTION_HIERARCHY_SID,
+    DED_RELATIONSHIP_BULDER_SID = @DED_RELATIONSHIP_BULDER_SID
 WHERE
     CFF_MASTER_SID = '?'
      ]]>
@@ -1073,7 +1076,8 @@ ORDER  BY PROJECTION_MASTER_SID
                     @NM_RS_COUNT     INT=0, 
                     @NM_PPA_COUNT    INT=0, 
                     @M_COUNT         INT=0,
-                    @CCP_IDS VARCHAR(MAX) = '?'
+                    @CCP_IDS VARCHAR(MAX) = '?',
+                    @RS_IDS VARCHAR(MAX) = '?'
             INSERT INTO @TEMP 
             SELECT DISTINCT FORECASTING_TYPE 
             FROM   PROJECTION_MASTER PM 
@@ -1111,6 +1115,7 @@ ORDER  BY PROJECTION_MASTER_SID
                                     ON CFF.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID 
                                        AND CFF.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
                                        ?
+                                       AND NMDP.RS_CONTRACT_SID IN (SELECT TOKEN FROM UDF_SPLITSTRING(@RS_IDS,','))
                                   JOIN RS_MODEL RM 
                                     ON RM.RS_MODEL_SID = NMDP.RS_MODEL_SID 
                            WHERE  NMDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID 
@@ -1620,5 +1625,333 @@ WHERE  RN = 1
    ]]>
         </query> 
     </entity> 
+    
+      <entity id="DEDUCTION_LEVEL_NO">
+        <query>
+            <![CDATA[   
+                select
+      *
+ from
+      (
+              select
+                      LEVEL_NO,
+                      dense_rank() 
+                      OVER(                  
+                      order by
+                              CAST(LEVEL_NO AS INT)asc
+                      ) rn
+              from
+                      dbo.RELATIONSHIP_LEVEL_DEFINITION
+              where
+                      RELATIONSHIP_BUILDER_SID = ?
+      ) A
+ where
+     a.rn =1
+   
+   ]]>
+        </query>
+    </entity>
+    
+      <entity  id="DeductionRelationshipId">
+         <query> 
+        <![CDATA[            
+        select
+	RELATIONSHIP_BUILDER_SID,
+	HIERARCHY_DEFINITION_SID
+from
+	dbo.RELATIONSHIP_BUILDER
+where
+	DEDUCTION_RELATION = ?;
+         ]]>        
+    </query>
+    </entity> 
+    
+     <entity id="relation-ship-level-details">
+        <query>
+            <![CDATA[
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    convert(int,RLD.LEVEL_NO) as TREE_LEVEL_NO,
+                    '?' as HIERARCHY_INDICATOR,
+                    RLD.LEVEL_NAME,
+                    RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                FROM
+                    CFF_MASTER CFF
+                JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+                    RLD.RELATIONSHIP_BUILDER_SID = CFF.?
+                WHERE
+                    CFF.CFF_MASTER_SID = ?
+                    AND RLD.LEVEL_NO >= ?
+                    order by convert(int, RLD.level_no) ;
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="discount-join">
+        <query>
+            <![CDATA[
+                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID ?DEDJOIN 
+            ]]>
+        </query>
+    </entity>
+    
+                                                                                  
+    <entity id="sales-filter-customer">
+        <query>
+            <![CDATA[
+SELECT HLD.FIELD_NAME,HLD.TABLE_NAME FROM dbo.CFF_MASTER PM 
+ JOIN  HIERARCHY_LEVEL_DEFINITION HLD on HLD.HIERARCHY_DEFINITION_SID=PM.CUSTOMER_HIERARCHY_SID 
+WHERE CFF_MASTER_SID=@PROJECTION_MASTER_SID AND HLD.LEVEL_NO=@LEVEL    
+            ]]>
+        </query>
+    </entity>       
+                              
+    <entity id="sales-filter-product">
+        <query>
+            <![CDATA[
+SELECT HLD.FIELD_NAME,HLD.TABLE_NAME FROM dbo.CFF_MASTER PM 
+ JOIN  HIERARCHY_LEVEL_DEFINITION HLD on HLD.HIERARCHY_DEFINITION_SID=PM.PRODUCT_HIERARCHY_SID 
+WHERE CFF_MASTER_SID=@PROJECTION_MASTER_SID AND HLD.LEVEL_NO=@LEVEL    
+            ]]>
+        </query>
+    </entity>     
+                                
+    <entity id="primary-Key">
+        <query>
+            <![CDATA[
+SELECT  DISTINCT PRIMARY_KEY_COLUMN_NAME FROM dbo.HIERARCHY_SINGLE_COLUMN_RELATION WHERE ACTUAL_TABLE_NAME='@TABLENAME'
+            ]]>
+        </query>
+    </entity>           
+                                 
+                          
+    <entity id="user-defined-join">
+        <query>
+            <![CDATA[
+SELECT LEVEL_VALUE_REFERENCE FROM dbo.HIERARCHY_LEVEL_DEFINITION HLD 
+JOIN dbo.CFF_MASTER  PM ON PM.@HIERARCHY_SID=HLD.HIERARCHY_DEFINITION_SID WHERE PM.CFF_MASTER_SID=@PROJECTION_MASTER_SID AND HLD.LEVEL_NO=@LEVEL
+            ]]>
+        </query>
+    </entity>         
+                            
+    <entity id="user-defined-level-values">
+        <query>
+            <![CDATA[
+SELECT
+	DISTINCT 
+	HLV.LEVEL_VALUES,HLV.HIERARCHY_LEVEL_VALUES_SID
+FROM
+	RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
+JOIN dbo.HIERARCHY_LEVEL_VALUES as HLV on
+	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+	and RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES=HLV.HIERARCHY_LEVEL_VALUES_SID
+JOIN dbo.CFF_MASTER PM ON PM.CUST_RELATIONSHIP_BUILDER_SID=RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID
+	WHERE RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO = @LEVEL AND PM.CFF_MASTER_SID=@PROJECTION_MASTER_SID
+            ]]>
+        </query>
+    </entity>   
+                                  
+    <entity id="uom-dropdown-loading">
+        <query>
+            <![CDATA[
+                  DECLARE @CFF_MASTER_SID INT = ?CFFMASTERSID
+                  SELECT DISTINCT HT.DESCRIPTION
+                  FROM CFF_DETAILS CD
+                  JOIN CCP_DETAILS CD1 ON CD.CCP_DETAILS_SID = CD1.CCP_DETAILS_SID
+                  JOIN ITEM_UOM IU ON IU.ITEM_MASTER_SID = CD1.ITEM_MASTER_SID
+                  JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = IU.SECONDARY_UOM_CODE
+                  WHERE CFF_MASTER_SID = @CFF_MASTER_SID 
+            ]]>
+        </query>
+    </entity>                                 
+    <entity id="update-Customer">
+        <query>
+            <![CDATA[
+                    IF OBJECT_ID('TEMPDB..#CUSTOMER') IS NOT NULL
+DROP TABLE #CUSTOMER
+CREATE TABLE #CUSTOMER (HIERARCHY_NO VARCHAR(8000))
+ 
+INSERT INTO #CUSTOMER (HIERARCHY_NO)
+SELECT HIERARCHY_NO
+FROM RELATIONSHIP_LEVEL_DEFINITION
+WHERE RELATIONSHIP_LEVEL_VALUES IN (
+              @RELATIONSIDS
+              )
+       AND RELATIONSHIP_BUILDER_SID = @BUILDERSID  
+ 
+
+            ]]>
+        </query>
+    </entity>                                 
+    <entity id="update-Product">
+        <query>
+            <![CDATA[
+                    IF OBJECT_ID('TEMPDB..#PRODUCT') IS NOT NULL
+                    DROP TABLE #PRODUCT
+
+                    CREATE TABLE #PRODUCT (HIERARCHY_NO VARCHAR(8000))
+
+                    INSERT INTO #PRODUCT (HIERARCHY_NO)
+                    SELECT HIERARCHY_NO
+                    FROM RELATIONSHIP_LEVEL_DEFINITION
+                    WHERE RELATIONSHIP_LEVEL_VALUES IN (
+                                  @RELATIONSIDS
+                                  )
+                    AND RELATIONSHIP_BUILDER_SID = @BUILDERSID   
+            ]]>
+        </query>
+    </entity>                                 
+    <entity id="update-Filter-CCP">
+        <query>
+            <![CDATA[
+                    UPDATE SPM
+                    SET SPM.FILTER_CCPD = 1 FROM ST_CCP_HIERARCHY ST
+            ]]>
+        </query>
+    </entity>   
+                                  
+    <entity id="product-dynamic-filter">
+        <query>
+            <![CDATA[
+                  IF OBJECT_ID('TEMPDB..#HIER_PRODUCT') IS NOT NULL
+            DROP TABLE #HIER_PRODUCT
+
+
+            CREATE TABLE #HIER_PRODUCT
+            (
+            HIERARCHY_NO VARCHAR(1000)
+            )
+            INSERT #HIER_PRODUCT
+            (
+            HIERARCHY_NO
+            )
+
+            SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_LEVEL_VALUES IN
+            (
+            @LEVELVALUES
+            )
+            and RELATIONSHIP_BUILDER_SID=@RELBUILDSID 
+            ]]>
+        </query>
+    </entity>           
+                          
+    <entity id="customer-dynamic-filter">
+        <query>
+            <![CDATA[
+                  IF OBJECT_ID('TEMPDB..#HIER_CUST') IS NOT NULL
+                DROP TABLE #HIER_CUST
+ 
+ 
+                CREATE TABLE #HIER_CUST
+                (
+               HIERARCHY_NO VARCHAR(1000)
+                )
+              INSERT #HIER_CUST
+              (
+              HIERARCHY_NO
+              )
+
+              SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_LEVEL_VALUES IN
+              (
+              @LEVELVALUES
+              )
+                and RELATIONSHIP_BUILDER_SID=@RELBUILDSID 
+ 
+ 
+            ]]>
+        </query>
+    </entity>         
+    <entity id="deduction-dynamic-filter">
+        <query>
+            <![CDATA[
+                  IF OBJECT_ID('TEMPDB..#HIER_DEDUCTION_PROD') IS NOT NULL
+                DROP TABLE #HIER_DEDUCTION_PROD
+
+
+                CREATE TABLE #HIER_DEDUCTION_PROD
+                (
+                HIERARCHY_NO VARCHAR(1000)
+                )
+              INSERT #HIER_DEDUCTION_PROD
+              (
+              HIERARCHY_NO
+              )
+
+              SELECT HIERARCHY_NO FROM RELATIONSHIP_LEVEL_DEFINITION WHERE RELATIONSHIP_LEVEL_VALUES IN
+              (
+              @DEDLEVELVALUES
+              )
+              and RELATIONSHIP_BUILDER_SID=@DEDRELBUILDSID
+              
+              
+            ]]>
+        </query>
+    </entity>         
+                            
+    <entity id="deduction-loading">
+        <query>
+            <![CDATA[
+            
+                  SELECT distinct LEVEL_NO,LEVEL_NAME FROM dbo.HIERARCHY_LEVEL_DEFINITION HLD 
+                  JOIN dbo.CFF_MASTER PM ON PM.DEDUCTION_HIERARCHY_SID=HLD.HIERARCHY_DEFINITION_SID WHERE PM.CFF_MASTER_SID=@PROJID
+ 
+ 
+            ]]>
+        </query>
+    </entity>    
+    
+     <entity id="discount-join-filter">
+        <query>
+            <![CDATA[
+                JOIN ST_CCP_DEDUCTION_HIERARCHY SPM ON SPM.CCP_DETAILS_SID = CH.CCP_DETAILS_SID WHERE FILTER_CCPD=1
+            ]]>
+        </query>
+    </entity>
+    
+    
+    <entity id="getCffDiscountExpandDeductionCount">
+        <query>
+             <![CDATA[ 
+
+            DECLARE @TEMP TABLE 
+              ( 
+                 TYPE VARCHAR(100) 
+              ) 
+            DECLARE @CFF_MASTER_SID  INT =?, 
+                    @IS_NON_MANDATED BIT=0, 
+                    @IS_MANDATED     BIT=0, 
+                    @NM_RS_COUNT     INT=0, 
+                    @NM_PPA_COUNT    INT=0, 
+                    @M_COUNT         INT=0,
+                    @CCP_IDS VARCHAR(MAX) = '?',
+                    @RS_IDS VARCHAR(MAX) = '?'
+            SELECT COUNT(DISTINCT @RS_SELECTION)
+     FROM ST_CCP_DEDUCTION_HIERARCHY ST
+
+     JOIN RS_CONTRACT RS ON RS.RS_CONTRACT_SID = ST.RS_CONTRACT_SID
+       AND ST.FILTER_CCPD = 1
+       @UDCJOIN
+       @HELPERTABLEJOIN
+       WHERE EXISTS(SELECT 1 FROM UDF_SPLITSTRING(@CCP_IDS,',') B WHERE B.TOKEN=ST.CCP_DETAILS_SID)
+       AND EXISTS(SELECT 1 FROM UDF_SPLITSTRING(@RS_IDS,',') B WHERE B.TOKEN=ST.RS_CONTRACT_SID)
+
+                      ]]>
+        </query>
+    </entity>
+    
+    <entity id="get-file-type-query">
+        <query>
+            <![CDATA[
+        select
+	HT.DESCRIPTION
+        from
+	dbo.FILE_MANAGEMENT FT
+        JOIN dbo.HELPER_TABLE HT on
+	FT.FILE_TYPE = HT.HELPER_TABLE_SID
+        where
+	TO_PERIOD is null
+            ]]>
+        </query>
+    </entity>
     
 </sql>

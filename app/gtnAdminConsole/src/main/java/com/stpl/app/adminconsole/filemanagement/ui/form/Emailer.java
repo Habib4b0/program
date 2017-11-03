@@ -4,8 +4,10 @@
  */
 
 package com.stpl.app.adminconsole.filemanagement.ui.form;
+import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
 import static com.stpl.app.adminconsole.filemanagement.ui.form.Emailer.properties;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -64,6 +66,41 @@ public class Emailer {
             LOGGER.debug("Mail sent succesfully.!");
         } catch (Exception e) {
             LOGGER.error(e);
+            ret = "error";
+        }
+        return ret;
+    }
+    
+    public static String sendMailonFileActivation(boolean htmlText , List<FileManagementDTO> processList) {
+        String ret = "success";
+        try {
+            for (final FileManagementDTO fileManagementDTO : processList) {
+
+                LOGGER.debug("Sending Mail....");
+                Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(FROM, GlobalConstants.getSupportPassword());
+                    }
+                });
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(FROM));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(fileManagementDTO.getSuccessTo()));
+                if (!fileManagementDTO.getSuccessCC().isEmpty()) {
+                    message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(fileManagementDTO.getSuccessCC(), false));
+                }
+                message.setSubject(fileManagementDTO.getSuccessSubject());
+                if (!htmlText) {
+                    message.setText(fileManagementDTO.getSuccessText());
+                } else {
+                    message.setContent(fileManagementDTO.getSuccessText(), "text/html");
+                }
+                Transport.send(message);
+                LOGGER.debug("Mail sent succesfully.!");
+            }
+        } catch (Exception e) {
+            LOGGER.error(e);
+            e.printStackTrace();
             ret = "error";
         }
         return ret;

@@ -21,8 +21,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -309,19 +307,19 @@ public class PPAProjectionLogic {
     public List<PPAProjectionDTO> configureLevels(int start, int offset, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO ridhtdto) {
         List finalList = new ArrayList();
         Set<String> hirarechyNos = new HashSet<>();
-        CommonLogic commonLogic = new CommonLogic();
+        CommonLogic commLogic = new CommonLogic();
         List<PPAProjectionDTO> resultList = new ArrayList<>();
         Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
         if (projSelDTO.isIsCustomHierarchy()) {
 
-            String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
-            List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);
+            String hierarchyIndicator = commLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
+            List<String> hierarchyNoList = commLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);
             for (String hierarchyNo : hierarchyNoList) {
                 resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));
             }
 
         } else {
-            List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
+            List<String> hierarchyNoList = commLogic.getHiearchyNoAsList(projSelDTO, start, offset);
             for (String hierarchyNo : hierarchyNoList) {
                hirarechyNos.add(hierarchyNo);
                 resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), relationshipLevelDetailsMap.get(hierarchyNo),ridhtdto));

@@ -30,12 +30,10 @@ import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.vaadin.data.Property;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.ExtCustomTable;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;

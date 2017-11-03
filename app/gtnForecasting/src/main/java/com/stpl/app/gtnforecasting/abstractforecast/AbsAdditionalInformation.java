@@ -2,7 +2,6 @@ package com.stpl.app.gtnforecasting.abstractforecast;
 
 import com.stpl.app.gtnforecasting.additionalinformation.logic.NotesTabLogic;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
@@ -55,6 +54,7 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
+import com.stpl.ifs.util.CommonUtil;
 
 /**
  *
@@ -103,11 +103,11 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
     protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
-    private File logo = new File(basepath + "/WEB-INF/images/company_logo.png");
+    private final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
-    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
+    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
     protected String fileName;
     private String NOTES_HISTORY = "Notes History";
     protected File filePath;
@@ -128,7 +128,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The file path.
      */
-    public final File filePathForLink = new File(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
+    public final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
     public List<String> notesList = new ArrayList<>();
     public List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;
@@ -277,7 +277,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
-                        fileUpload = new File(fileUploadPath + value);
+                        fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
                             String replace = name.replace("\\", ",");
@@ -507,12 +507,12 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         try {
             ExportWord exportWord = new ExportWord(filePath, wordFile);
             exportWord.export(internalNotes.getValue());
-            Resource wordResOnEdit = new FileResource(new File(filePath + File.separator + fileName + ExportWord.DOC_EXT));
+            Resource wordResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportWord.DOC_EXT));
             wordDownloader.setFileDownloadResource(wordResOnEdit);
 
             ExportPdf exportPdf = new ExportPdf(NOTES_HISTORY, filePath, logo, pdfFile);
             exportPdf.export(internalNotes.getValue());
-            Resource pdfResOnEdit = new FileResource(new File(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
+            Resource pdfResOnEdit = new FileResource(CommonUtil.getFilePath(filePath + File.separator + fileName + ExportPdf.PDF_EXT));
             pdfDownloader.setFileDownloadResource(pdfResOnEdit);
 
         } catch (Exception ex) {

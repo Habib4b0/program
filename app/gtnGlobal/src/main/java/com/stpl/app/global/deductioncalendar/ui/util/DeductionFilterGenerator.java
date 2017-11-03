@@ -6,7 +6,6 @@ package com.stpl.app.global.deductioncalendar.ui.util;
 
 import com.stpl.app.global.abstractsearch.util.UIUtils;
 import com.stpl.app.global.common.util.CommonUtil;
-import com.stpl.app.global.rebateplan.util.RPFilterGenerator;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.SystemException;
@@ -25,7 +24,7 @@ import org.jboss.logging.Logger;
  */
 public class DeductionFilterGenerator implements ExtFilterGenerator {
 
-    private static Logger LOGGER = Logger.getLogger(RPFilterGenerator.class);
+    private static Logger LOGGER = Logger.getLogger(DeductionFilterGenerator.class);
 
     private final CommonUtil commonUtil = CommonUtil.getInstance();
 

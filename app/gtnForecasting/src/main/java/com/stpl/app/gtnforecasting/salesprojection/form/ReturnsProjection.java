@@ -32,7 +32,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_HIERARCHY;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import java.util.Arrays;
@@ -219,6 +218,12 @@ public class ReturnsProjection extends ForecastSalesProjection {
     @Override
     protected void massUpdateLogic() {
         return;
+    }
+    
+    @Override
+    protected void variableChangeLogic() {
+        return;
+
     }
 
     @Override

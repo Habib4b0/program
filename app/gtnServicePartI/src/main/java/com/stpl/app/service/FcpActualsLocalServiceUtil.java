@@ -3,7 +3,6 @@ package com.stpl.app.service;
 import com.stpl.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.stpl.portal.kernel.util.ReferenceRegistry;
 import com.stpl.portal.service.InvokableLocalService;
-import org.jboss.logging.Logger;
 
 /**
  * Provides the local service utility for FcpActuals. This utility wraps
@@ -21,7 +20,6 @@ import org.jboss.logging.Logger;
  */
 public class FcpActualsLocalServiceUtil {
     private static FcpActualsLocalService _service;
-    private static final Logger LOGGER = Logger.getLogger(FcpActualsLocalServiceUtil.class);
 
     /*
      * NOTE FOR DEVELOPERS:
@@ -265,24 +263,20 @@ public class FcpActualsLocalServiceUtil {
     }
 
     public static java.lang.Object executeSelectQuery(java.lang.String query) {
-        LOGGER.debug(query);
         return getService().executeSelectQuery(query);
     }
 
     public static java.lang.Object executeBulkUpdateQuery(
         java.lang.String query) {
-        LOGGER.debug(query);
         return getService().executeBulkUpdateQuery(query);
     }
 
     public static java.lang.Object executeUpdateQuery(
         java.util.List<java.lang.StringBuilder> queryList) {
-        LOGGER.debug(queryList.toString());
         return getService().executeUpdateQuery(queryList);
     }
 
     public static java.lang.Object executeUpdateQuery(java.lang.String query) {
-        LOGGER.debug(query);
         return getService().executeUpdateQuery(query);
     }
 

@@ -20,13 +20,13 @@ public class ConstantsUtil {
     /**
      * The session id.
      */
-    public final static String SESSION_ID = "sessionId";
+    public static final String SESSION_ID = "sessionId";
     
     public static final String DOLLAR_OR = "^.|.$";
     /**
      * The WorkFlowStatus list name.
      */
-    public final static String WORKFLOW_STATUS = "WorkFlowStatus";
+    public static final String WORKFLOW_STATUS = "WorkFlowStatus";
     /**
      * The annual.
      */
@@ -48,7 +48,7 @@ public class ConstantsUtil {
     /**
      * The user id.
      */
-    public final static String USER_ID = "userId";
+    public static final String USER_ID = "userId";
     /**
      * The SELECT_ONE.
      */
@@ -60,19 +60,19 @@ public class ConstantsUtil {
     /**
      * The LOCKED_STATUS.
      */
-    public final static String LOCKED_STATUS = "LOCKED_STATUS";
+    public static final String LOCKED_STATUS = "LOCKED_STATUS";
     /**
      * The description.
      */
-    public final static String DESCRIPTION = "description";
+    public static final String DESCRIPTION = "description";
     /**
      * The Show all.
      */
-    public final static String SHOW_ALL = "Show all";
+    public static final String SHOW_ALL = "Show all";
     /**
      * The list name.
      */
-    public final static String LIST_NAME = "listName";
+    public static final String LIST_NAME = "listName";
     /**
      * The Constant ZERO_NUM.
      */
@@ -80,11 +80,11 @@ public class ConstantsUtil {
     /**
      * The null.
      */
-    public final static String NULL = "null";
+    public static final String NULL = "null";
     /**
      * The counter value
      */
-    public static String COUNTER_VALUE = "counterValue";
+    public static final String COUNTER_VALUE = "counterValue";
     /**
      * The Constant ERROR.
      */
@@ -108,20 +108,20 @@ public class ConstantsUtil {
     /**
      * The date format.
      */
-    public final static String DATE_FORMAT = "MM/dd/yyyy";
+    public static final String DATE_FORMAT = "MM/dd/yyyy";
     /**
      * The date format.
      */
-    public final static String DATE_FIEILD_CENTER = "dateFieldCenter";
+    public static final String DATE_FIEILD_CENTER = "dateFieldCenter";
     /**
      * The date des.
      */
-    public final static String DATE_DES = "Date";
+    public static final String DATE_DES = "Date";
     /**
      * The quote.
      */
-    public final static String QUOTE = "\"";
-    public static String EMPTY = "";
+    public static final String QUOTE = "\"";
+    public static final String EMPTY = "";
     public static final String FORECAST_YEAR = "forecastYear";
     public static final String CFF_MASTER = "CFF_MASTER";
     public static final String CFF_APPROVE_MASTER = "CFF_APPROVAL_DETAILS";
@@ -130,7 +130,7 @@ public class ConstantsUtil {
     public static final String ACCRUAL = "Accrual";
     public static final String OPEN_PARANTHESIS = "(";
     public static final String CLOSE_PARANTHESIS = ")";
-    public static String COMMA=",";
+    public static final String COMMA=",";
     public static final String DETAIL = "Detail";
     public static final String NET_EXFACT_SALES = "Net Ex-Factory Sales";
     public static final String NET_EXFACT_SALES_PER_EXFACT = "Net Ex-Factory Sales as % of Ex-Factory Sales";
@@ -147,6 +147,9 @@ public class ConstantsUtil {
     public static final String NET_EXFACT_SALES_PER_EXFACT_COLUMN_PER_CHANGE = "NEFSPEFPerChange";
     public static final String NET_EXFACT_SALES_PER_EXFACT_HEADER_PER_CHANGE = "Net Ex-Factory Sales as % of Ex-Factory Sales %Change";
     public static final String TOTAL_DISCOUNT = "Total Discount";
+    public static final String HT_DESCRIPTION = "HT.DESCRIPTION";
+    public static final String UNION_ALL = " UNION ALL ";
+    public static final String RS_ID_REPLACE = "?RBSID";
     
 
     public enum PVVariables {

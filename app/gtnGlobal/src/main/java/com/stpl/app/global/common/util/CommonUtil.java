@@ -7,11 +7,10 @@ package com.stpl.app.global.common.util;
 
 import com.stpl.app.global.abstractsearch.util.ConstantUtil;
 import com.stpl.app.global.abstractsearch.util.ValidationUtil;
-import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
-import com.stpl.app.global.priceschedule.util.UIUtils;
+import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
-import com.stpl.domain.global.item.ItemDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -53,7 +52,9 @@ public class CommonUtil {
     HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     private static Logger logger = Logger.getLogger(CommonUtil.class);
-    private static final ItemDAO DAO = new ItemSearchLogicDAOImpl();
+    final static CommonDao DAO = CommonDaoImpl.getInstance();
+    
+    public static final String PRICE_TOLERANCE_FRERQUENCY = "PRICE_TOLERANCE_FREQUENCY";
     /**
      *  
      *      * The list name bundle.      
@@ -140,7 +141,7 @@ public class CommonUtil {
         }
         resultContainer.addAll(helperList);
         select.setContainerDataSource(resultContainer);
-        if(listName.equals(UIUtils.PRICE_TOLERANCE_FRERQUENCY)){
+        if(listName.equals(PRICE_TOLERANCE_FRERQUENCY)){
         int hsid = HelperListUtil.getInstance().getIdByDesc(listName, "Annually");
         resultContainer.removeItem(helperListUtil.getIdHelperDTOMap().get(hsid));
         }

@@ -5,10 +5,13 @@
 package com.stpl.app.adminconsole.util;
 
 import com.stpl.app.adminconsole.abstractsearch.util.ValidationUtil;
+import com.stpl.app.adminconsole.dao.CommonDAO;
 import com.stpl.app.adminconsole.dao.FileManagementLogicDAO;
+import com.stpl.app.adminconsole.dao.impl.CommonDAOImpl;
 import com.stpl.app.adminconsole.dao.impl.FileManagementLogicDAOImpl;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.HelperTable;
+import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
@@ -16,6 +19,7 @@ import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
@@ -41,6 +45,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
@@ -66,6 +71,8 @@ public class CommonUtils {
     public static final char CHAR_ASTERISK = '*';
 
     final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
+    
+    static CommonDAO commonDao = new CommonDAOImpl();
 
     private static CommonUtils object;
     /**
@@ -90,6 +97,11 @@ public class CommonUtils {
     public final static String ENTERED_FUTUREPERIOD = "The entered Future period is beyond the GTS file. All periods beyond the GTS file will display zeros in the Forecast";
     public final static String MODIFIED_DATE = "modifiedDate";
     public final static String CREATED_DATE = "createdDate";
+    public static final String VERSION = "version";
+    public static final String FROM_PERIOD = "fromPeriod";
+    public static final String FORECAST_NAME = "forecastName";
+    public static final String TO_PERIOD = "toPeriod";
+    public static final String COUNTRY = "country";
     /**
      * The Constant MMDDYYYY.
      */
@@ -663,5 +675,29 @@ public class CommonUtils {
     }
     public static HashMap<Long, String> getUserMap() {
         return userMap;
+    }
+    /**
+     * Gets the hierarchy info.
+     *
+     * @return the hierarchy info
+     * @throws com.stpl.portal.kernel.exception.SystemException
+     */
+    public static Map getHierarchyInfo() throws SystemException {
+        LOGGER.debug("Entering getHierarchyInfo ");
+        List<Object[]> resultList;
+        final HashMap results = new HashMap();
+        final DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+        final ProjectionList projList = ProjectionFactoryUtil.projectionList();
+        projList.add(ProjectionFactoryUtil.property("hierarchyDefinitionSid"));
+        projList.add(ProjectionFactoryUtil.property("hierarchyName"));
+
+        companyDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projList));
+        resultList = commonDao.getHierachyDefinitionList(companyDynamicQuery);
+        for (int i = 0; i < resultList.size(); i++) {
+            final Object[] obj = resultList.get(i);
+            results.put(String.valueOf(obj[0]), String.valueOf(obj[1]));
+        }
+        LOGGER.debug("getHierarchyInfo return HashMap results size:" + results.size());
+        return results;
     }
 }

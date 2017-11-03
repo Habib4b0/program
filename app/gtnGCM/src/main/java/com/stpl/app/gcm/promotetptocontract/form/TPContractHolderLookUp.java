@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gcm.promotetptocontract.form;
 
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.gcm.promotetptocontract.dto.ContractHolderDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
@@ -143,7 +142,7 @@ public class TPContractHolderLookUp extends Window {
         contractHolderType.setNullSelectionAllowed(true);
         contractHolderType.setNullSelectionItemId(ddlbDefaultValue);
 
-        loadContractHolderType();
+        loadContractHolderType(contractHolderType);
         
         selectBtn.addClickListener(new Button.ClickListener() {
             public void buttonClick(Button.ClickEvent event) {
@@ -173,7 +172,7 @@ public class TPContractHolderLookUp extends Window {
                         contractHolderName.setValue(StringUtils.EMPTY);
                         contractHolderStatus.setValue(Constants.SELECT_ONE);
                         contractHolderType.setValue(ddlbDefaultValue);
-                        loadContractHolderType();                        
+                        loadContractHolderType(contractHolderType);                        
                     }
                 }.getConfirmationMessage("Reset Confirmation", "Are you sure you want to reset the page to default/previous values?");
 
@@ -228,8 +227,8 @@ public class TPContractHolderLookUp extends Window {
         LOGGER.debug("btnSearchLogic ends");
     }
 
-    private void loadContractHolderType() {
-        logic.LazyLoadDdlb(contractHolderType, "getCompanyTypeCountForPromoteTpToCh", "getCompanyTypeForPromoteTpToCh");
+    private void loadContractHolderType(ComboBox contractHolderType) {
+        logic.loadDdlb("getCompanyTypeForContact",contractHolderType);
     }
 
     @UiHandler("selectBtnCHL")

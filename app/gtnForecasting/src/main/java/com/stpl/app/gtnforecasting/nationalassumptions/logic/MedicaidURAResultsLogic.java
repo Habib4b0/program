@@ -25,7 +25,8 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -34,7 +35,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -65,14 +65,24 @@ public class MedicaidURAResultsLogic {
      */
     private static final DecimalFormat NUM_TWO = new DecimalFormat("0.00");
 
+    public static final String MEDICAID_URA_AMP = "MEDICAID_URA_AMP";
+    public static final String MEDICAID_URA_BEST_PRICE = "MEDICAID_URA_BEST_PRICE";
+    public static final String FORECAST = "Forecast ";
+    public static final String HISTORICAL = "Historical ";
+    public static final String MEDICAID_URA_BASIC_URA = "MEDICAID_URA_BASIC_URA";
+    public static final String MEDICAID_URA_CPI_URA = "MEDICAID_URA_CPI_URA";
+    public static final String MEDICAID_URA_CPI_U = "MEDICAID_URA_CPI_U";
+    public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
+
     private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
+    public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String CPI_U = "CPI-U";
-    
+
     MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
 
-    public List<TableDTO> getConfiguredMedicaidResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO session) {
+    public List<TableDTO> getConfiguredMedicaidResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
         if (projSelDTO.getActualsOrProjections().equals(BOTH.getConstant()) || projSelDTO.getActualsOrProjections().equals(ACTUALS.getConstant())) {
             projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
@@ -84,11 +94,11 @@ public class MedicaidURAResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
             String parentSid = parentDto.getNdc9();
-            resultList = getMedicaidChildren(start, offset, projSelDTO, parentSid,session);
+            resultList = getMedicaidChildren(start, offset, projSelDTO, parentSid, session);
         } else {
             projSelDTO.setIsProjectionTotal(true);
             projSelDTO.setIsTotal(true);
@@ -193,7 +203,7 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getMedicaidChild(ProjectionSelectionDTO projSelDTO, String parentSid,SessionDTO session) {
+    public List<TableDTO> getMedicaidChild(ProjectionSelectionDTO projSelDTO, String parentSid, SessionDTO session) {
         LOGGER.debug("getMedicaidChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         try {
@@ -208,7 +218,7 @@ public class MedicaidURAResultsLogic {
                 projDTOList = getCustMedicaidChild(medicaidList, projSelDTO);
             }
             if (projSelDTO.getPivotView().contains(PRICE_TYPE.getConstant())) {
-                projDTOList = getPriceTypeChild(projSelDTO, parentSid,session);
+                projDTOList = getPriceTypeChild(projSelDTO, parentSid, session);
 
             }
         } catch (Exception e) {
@@ -218,7 +228,7 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getPriceTypeChild(ProjectionSelectionDTO projSelDTO, String parentSid,SessionDTO session) {
+    public List<TableDTO> getPriceTypeChild(ProjectionSelectionDTO projSelDTO, String parentSid, SessionDTO session) {
         LOGGER.debug("getPriceTypeChild method started ");
         List<TableDTO> projDTOList = new ArrayList<>();
         List<Object[]> medicaidList = null;
@@ -244,18 +254,22 @@ public class MedicaidURAResultsLogic {
             for (Object list1 : list) {
                 TableDTO medicaidDTO = new TableDTO();
                 final Object[] obj = (Object[]) list1;
-                String itemDesc=obj[1]==null?"":""+obj[1];
-                String value = "" ;
-                if(StringUtils.isNotBlank(itemDesc)){
-                    value +=itemDesc+", ";
+                String itemDesc = obj[1] == null ? "" : "" + obj[1];
+                String value = "";
+                if (StringUtils.isNotBlank(itemDesc)) {
+                    value += itemDesc + "- ";
                 }
                 value += obj[0];
 
-                String ndc9 = StringUtils.EMPTY + obj[0];
+                String ndc9 = StringUtils.EMPTY + obj[2];
                 medicaidDTO.setGroup(value);
                 medicaidDTO.setParent(1);
                 medicaidDTO.setNdc9(ndc9);
                 medicaidDTO.setItemMasterSid(Integer.valueOf(String.valueOf(obj[2])));
+                medicaidDTO.setNewFormulation(String.valueOf(obj[5]));
+                medicaidDTO.setNewFormulationItemId(String.valueOf(obj[6]));
+                medicaidDTO.setBaeselineAmp(String.valueOf(obj[7]));
+                medicaidDTO.setBaeselineCpi(String.valueOf(obj[8]));
                 projDTOList.add(medicaidDTO);
             }
 
@@ -265,6 +279,7 @@ public class MedicaidURAResultsLogic {
 
     public List<TableDTO> getCustMedicaidChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO) {
         List<TableDTO> projDTOList = new ArrayList<>();
+        Map<String,String> priceTypeList = projSelDTO.getLoadUraPriceMap();
         boolean wac = false;
         boolean amp = false;
         boolean bestPrice = false;
@@ -299,31 +314,45 @@ public class MedicaidURAResultsLogic {
             }
         }
         if (wac) {
-            List<TableDTO> wacList = getCustomizedMedicaidChild(list, projSelDTO, Constant.WAC);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(Constant.WAC);
+            List<TableDTO> wacList = getCustomizedMedicaidChild(list, projSelDTO, Constant.WAC, gtsDTO);
             projDTOList.addAll(wacList);
         }
         if (amp) {
-            List<TableDTO> ampList = getCustomizedMedicaidChild(list, projSelDTO, Constant.AMP);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(Constant.AMP);
+            List<TableDTO> ampList = getCustomizedMedicaidChild(list, projSelDTO, Constant.AMP, gtsDTO);
             projDTOList.addAll(ampList);
         }
         if (bestPrice) {
-            List<TableDTO> bpList = getCustomizedMedicaidChild(list, projSelDTO, Constant.BEST_PRICE_LOWERCASE);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
+            List<TableDTO> bpList = getCustomizedMedicaidChild(list, projSelDTO, Constant.BEST_PRICE_LOWERCASE, gtsDTO);
             projDTOList.addAll(bpList);
         }
         if (lowestNmPrice) {
-            List<TableDTO> lowestNpList = getCustomizedMedicaidChild(list, projSelDTO, "Lowest Commercial Net Price");
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup("Lowest Commercial Net Price");
+            List<TableDTO> lowestNpList = getCustomizedMedicaidChild(list, projSelDTO, "Lowest Commercial Net Price", gtsDTO);
             projDTOList.addAll(lowestNpList);
         }
         if (basicUra) {
-            List<TableDTO> uraList = getCustomizedMedicaidChild(list, projSelDTO, Constant.BASIC_URA1);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_BASIC_URA)));
+            List<TableDTO> uraList = getCustomizedMedicaidChild(list, projSelDTO, Constant.BASIC_URA1, gtsDTO);
             projDTOList.addAll(uraList);
         }
         if (cpiUra) {
-            List<TableDTO> cpiList = getCustomizedMedicaidChild(list, projSelDTO, Constant.CPIURA);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_CPI_URA)));
+            List<TableDTO> cpiList = getCustomizedMedicaidChild(list, projSelDTO, Constant.CPIURA, gtsDTO);
             projDTOList.addAll(cpiList);
         }
         if (totalUra) {
-            List<TableDTO> totalUraList = getCustomizedMedicaidChild(list, projSelDTO, Constant.TOTAL_URA_LABEL);
+            TableDTO gtsDTO = new TableDTO();
+            gtsDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)));
+            List<TableDTO> totalUraList = getCustomizedMedicaidChild(list, projSelDTO, Constant.TOTAL_URA_LABEL, gtsDTO);
             projDTOList.addAll(totalUraList);
         }
 
@@ -338,15 +367,11 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getCustomizedMedicaidChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO, String groupIndicator) {
+    public List<TableDTO> getCustomizedMedicaidChild(List<Object[]> list, ProjectionSelectionDTO projSelDTO, String groupIndicator, TableDTO gtsDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projections = projSelDTO.getActualsOrProjections();
         List<TableDTO> projDTOList = new ArrayList<>();
-        TableDTO gtsDTO = new TableDTO();
         gtsDTO.setParent(0);
-
-        gtsDTO.setGroup(groupIndicator);
-
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
@@ -362,41 +387,41 @@ public class MedicaidURAResultsLogic {
                     String source = StringUtils.EMPTY + obj[NumericConstants.SEVEN];
                     if (PERCENTAGE.getConstant().equalsIgnoreCase(projSelDTO.getVariables())) {
                         if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + ACTUALS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                                value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                         if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                    value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + PROJECTIONS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                     } else {
                         if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                column = commonColumn + ACTUALS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                    value = CommonUtils.getFormattedValue(CUR_ZERO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + ACTUALS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                                value = CommonUtils.getFormattedValue(CUR_ZERO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                         if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                column = commonColumn + PROJECTIONS.getConstant();
-                                if (projSelDTO.hasColumn(column)) {
-                                    String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                    value = CommonUtils.getFormattedValue(CUR_ZERO, value);
-                                    gtsDTO.addStringProperties(column, value);
-                                    columnList.remove(column);
-                                }
+                            column = commonColumn + PROJECTIONS.getConstant();
+                            if (projSelDTO.hasColumn(column)) {
+                                String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                value = CommonUtils.getFormattedValue(CUR_ZERO, value);
+                                gtsDTO.addStringProperties(column, value);
+                                columnList.remove(column);
+                            }
                         }
                     }
                 }
@@ -466,43 +491,42 @@ public class MedicaidURAResultsLogic {
 
                                 if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
 
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                            value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
 
-
-                                    if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = CommonUtils.getFormattedValue(PER_TWO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = CommonUtils.getFormattedValue(PER_TWO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
                                     }
+                                }
                             } else {
                                 if ((ACTUALS_CAPS.getConstant().equals(source)) && (projections.contains(ACTUALS.getConstant()))) {
-                                        column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
-                                            value = CommonUtils.getFormattedValue(CUR_ZERO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = actualColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.TWO];
+                                        value = CommonUtils.getFormattedValue(CUR_ZERO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                                 if ((PROJ_CAPS.getConstant().equals(source)) && (projections.contains(PROJECTIONS.getConstant()))) {
-                                        column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
-                                        if (projSelDTO.hasColumn(column)) {
-                                            String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
-                                            value = CommonUtils.getFormattedValue(CUR_ZERO, value);
-                                            tableDTO.addStringProperties(column, value);
-                                            columnList.remove(column);
-                                        }
+                                    column = projColumns.get(String.valueOf(obj[NumericConstants.SIX]));
+                                    if (projSelDTO.hasColumn(column)) {
+                                        String value = StringUtils.EMPTY + obj[NumericConstants.THREE];
+                                        value = CommonUtils.getFormattedValue(CUR_ZERO, value);
+                                        tableDTO.addStringProperties(column, value);
+                                        columnList.remove(column);
+                                    }
                                 }
                             }
                             for (String columns : columnList) {
@@ -520,20 +544,20 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getMedicaidChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, String parentSid,SessionDTO session) {
+    public List<TableDTO> getMedicaidChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, String parentSid, SessionDTO session) {
         LOGGER.debug("getMedicaidChildren start=" + start + "   offset=" + offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if ((projSelDTO.getPivotView().contains(PERIOD.getConstant())) && neededRecord > 0) {
-            List<TableDTO> resultList = getMedicaidChild(projSelDTO, parentSid,session);
+            List<TableDTO> resultList = getMedicaidChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
             }
         } else if ((projSelDTO.getPivotView().contains(PRICE_TYPE.getConstant())) && neededRecord > 0) {
-            List<TableDTO> resultList = getPriceTypeChild(projSelDTO, parentSid,session);
+            List<TableDTO> resultList = getPriceTypeChild(projSelDTO, parentSid, session);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -543,7 +567,7 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getConfiguredMedicaidWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO sessionDTO) {
+    public List<TableDTO> getConfiguredMedicaidWorkSheetResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
         List<TableDTO> resultList;
 
         projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
@@ -556,10 +580,9 @@ public class MedicaidURAResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
-            int parentSid = parentDto.getItemMasterSid();
             resultList = getMedicaidWorksheetChildren(start, offset, projSelDTO, sessionDTO);
         } else {
             projSelDTO.setIsProjectionTotal(true);
@@ -568,7 +591,7 @@ public class MedicaidURAResultsLogic {
             projSelDTO.setLevelNo(0);
             projSelDTO.setGroup(StringUtils.EMPTY);
 
-            resultList = getMedicaidWorksheetResults(start, offset, projSelDTO,sessionDTO);
+            resultList = getMedicaidWorksheetResults(start, offset, projSelDTO, sessionDTO);
 
         }
 
@@ -579,7 +602,7 @@ public class MedicaidURAResultsLogic {
         int count = 0;
 
         projSelDTO.setActualsOrProjections(Constant.ACTUALS_AND_PROJECTIONS);
-
+        Map<String,String> priceTypeList = projSelDTO.getLoadUraPriceMap();
         if (parentId instanceof TableDTO) {
             TableDTO parentDto = (TableDTO) parentId;
             projSelDTO.setLevelNo(parentDto.getLevelNo());
@@ -589,7 +612,7 @@ public class MedicaidURAResultsLogic {
             projSelDTO.setHierarchyIndicator(parentDto.getHierarchyIndicator());
             projSelDTO.setIsProjectionTotal(parentDto.getProjectionTotal() == 1);
             projSelDTO.setTreeLevelNo(parentDto.getTreeLevelNo());
-            projSelDTO.setGroup(parentDto.getGroup());
+            projSelDTO.setGroup(parentDto.getPriceType());
             projSelDTO.setIsTotal(parentDto.getOnExpandTotalRow() == 1);
 
             if (Constant.BEST_PRICE_LOWERCASE.equalsIgnoreCase(parentDto.getGroup()) || Constant.CPIURA.equalsIgnoreCase(parentDto.getGroup())) {
@@ -598,7 +621,7 @@ public class MedicaidURAResultsLogic {
             if (Constant.AMP.equalsIgnoreCase(parentDto.getGroup())) {
                 count += NumericConstants.THREE;
             }
-            if (Constant.BASIC_URA1.equalsIgnoreCase(projSelDTO.getGroup()) || CPI_U.equalsIgnoreCase(projSelDTO.getGroup()) || Constant.TOTAL_URA_LABEL.equalsIgnoreCase(projSelDTO.getGroup())) {
+            if (Constant.BASIC_URA1.equalsIgnoreCase(projSelDTO.getGroup()) || CPI_U.equalsIgnoreCase(projSelDTO.getGroup()) || projSelDTO.getGroup().equals(getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)))) {
                 count += NumericConstants.TWO;
             }
 
@@ -614,14 +637,14 @@ public class MedicaidURAResultsLogic {
         return count;
     }
 
-    public List<TableDTO> getMedicaidWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO sessionDTO) {
+    public List<TableDTO> getMedicaidWorksheetResults(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
         LOGGER.debug("getMedicaidResults start=" + start + "    offset=" + offset);
         int neededRecord = offset;
         int started = start;
         List<TableDTO> projDTOList = new ArrayList<>();
 
         if (neededRecord > 0) {
-            List<TableDTO> resultList = getMedicaidWorksheet(projSelDTO,sessionDTO);
+            List<TableDTO> resultList = getMedicaidWorksheet(projSelDTO, sessionDTO);
             for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
                 projDTOList.add(resultList.get(k));
                 neededRecord--;
@@ -631,7 +654,7 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getMedicaidWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO,SessionDTO sessionDTO) {
+    public List<TableDTO> getMedicaidWorksheetChildren(int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
         LOGGER.debug("getMedicaidChildren start=" + start + "  offset=" + offset);
         int neededRecord = offset;
         int started = start;
@@ -648,22 +671,22 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getMedicaidWorksheetChild(ProjectionSelectionDTO projSelDTO,SessionDTO sessionDTO) {
+    public List<TableDTO> getMedicaidWorksheetChild(ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
         LOGGER.debug("getMedicaidChild method started ");
 
         List<TableDTO> projDTOList = new ArrayList<>();
+        Map<String,String> priceTypeList = projSelDTO.getLoadUraPriceMap();
         try {
-
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
-            projDTOList = getCustMedicaidWorksheetChild(projSelDTO, medicaidList);
-        } catch (Exception e) {
+            projDTOList = getCustMedicaidWorksheetChild(projSelDTO, medicaidList, priceTypeList);
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getMedicaidChild method ends ");
         return projDTOList;
     }
 
-    public List<TableDTO> getCustMedicaidWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> medicaidList) {
+    public List<TableDTO> getCustMedicaidWorksheetChild(ProjectionSelectionDTO projSelDTO, List<Object[]> medicaidList, Map<String, String> priceTypeList) {
         List<TableDTO> projDTOList = new ArrayList<>();
 
         boolean amp = false;
@@ -672,6 +695,7 @@ public class MedicaidURAResultsLogic {
         boolean cpi = false;
         boolean cpiUra = false;
         boolean totalUra = false;
+        List<String> priceList = projSelDTO.getPriceTypeList();
 
         if (Constant.AMP.equalsIgnoreCase(projSelDTO.getGroup())) {
             amp = true;
@@ -688,81 +712,81 @@ public class MedicaidURAResultsLogic {
         if (Constant.CPIURA.equalsIgnoreCase(projSelDTO.getGroup())) {
             cpiUra = true;
         }
-        if (Constant.TOTAL_URA_LABEL.equalsIgnoreCase(projSelDTO.getGroup())) {
+        if (priceList.contains(Constant.TOTAL_URA_LABEL) && projSelDTO.getGroup().equals(getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)))) {
             totalUra = true;
         }
 
         if (amp) {
 
             TableDTO histAmp = new TableDTO();
-            histAmp.setGroup("Historical AMP");
+            histAmp.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_AMP)));
             histAmp.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histAmp, AMP.getConstant(), CUR_FOUR));
 
             TableDTO forecastAmpDTO = new TableDTO();
-            forecastAmpDTO.setGroup("Forecast AMP");
+            forecastAmpDTO.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_AMP)));
             forecastAmpDTO.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastAmpDTO, AMP.getConstant(), CUR_FOUR));
 
             TableDTO adjustmentAmpDTO = new TableDTO();
-            adjustmentAmpDTO.setGroup(Constant.ADJUSTMENT_AMP);
+            adjustmentAmpDTO.setGroup("Override " + getGroupName(priceTypeList.get(MEDICAID_URA_AMP)));
             adjustmentAmpDTO.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(medicaidList, projSelDTO, adjustmentAmpDTO, AMP.getConstant(), CUR_FOUR));
 
         }
         if (bestPrice) {
             TableDTO histBestPrice = new TableDTO();
-            histBestPrice.setGroup("Historical Best Price");
+            histBestPrice.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
             histBestPrice.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histBestPrice, BEST_PRICE_CAPS.getConstant(), CUR_FOUR));
 
             TableDTO forecastBestPrice = new TableDTO();
-            forecastBestPrice.setGroup("Forecast Best Price");
+            forecastBestPrice.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
             forecastBestPrice.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastBestPrice, BEST_PRICE_CAPS.getConstant(), CUR_FOUR));
 
             TableDTO lowNMBestPrice = new TableDTO();
-            lowNMBestPrice.setGroup("Lowest Commercial Best Price");
+            lowNMBestPrice.setGroup("Lowest Commercial " + getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
             lowNMBestPrice.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, lowNMBestPrice, "Lowest Commercial Best Price", CUR_FOUR));
 
             TableDTO adjBestPrice = new TableDTO();
-            adjBestPrice.setGroup(Constant.ADJUSTMENT_BEST_PRICE);
+            adjBestPrice.setGroup("Override " + getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
             adjBestPrice.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(medicaidList, projSelDTO, adjBestPrice, BEST_PRICE_CAPS.getConstant(), CUR_FOUR));
         }
         if (ura) {
             TableDTO histUra = new TableDTO();
-            histUra.setGroup("Historical Basic URA");
+            histUra.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_BASIC_URA)));
             histUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histUra, Constant.BASIC_URA, CUR_FOUR));
 
             TableDTO forecastUra = new TableDTO();
-            forecastUra.setGroup("Forecast Basic URA");
+            forecastUra.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_BASIC_URA)));
             forecastUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastUra, Constant.BASIC_URA, CUR_FOUR));
 
         }
         if (cpi) {
             TableDTO histCpi = new TableDTO();
-            histCpi.setGroup("Historical CPI-U");
+            histCpi.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_CPI_U)));
             histCpi.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histCpi, CPI_U, CUR_FOUR));
 
             TableDTO forecastCpi = new TableDTO();
-            forecastCpi.setGroup("Forecast CPI-U");
+            forecastCpi.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_CPI_U)));
             forecastCpi.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastCpi, CPI_U, CUR_FOUR));
 
         }
         if (cpiUra) {
             TableDTO histCpiUra = new TableDTO();
-            histCpiUra.setGroup("Historical CPI URA");
+            histCpiUra.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_CPI_URA)));
             histCpiUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histCpiUra, Constant.CPIURA, CUR_FOUR));
 
             TableDTO forecastCpiUra = new TableDTO();
-            forecastCpiUra.setGroup("Forecast CPI URA");
+            forecastCpiUra.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_CPI_URA)));
             forecastCpiUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastCpiUra, Constant.CPIURA, CUR_FOUR));
 
@@ -772,18 +796,18 @@ public class MedicaidURAResultsLogic {
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, adjCpiAlt, "Adjustment CPI (Alt)", CUR_FOUR));
 
             TableDTO adjCpi = new TableDTO();
-            adjCpi.setGroup(ADJUSTMENT_CPI);
+            adjCpi.setGroup(OVERRIDE_CPI_URA);
             adjCpi.setParent(0);
             projDTOList.addAll(getWorksheetOverrideData(medicaidList, projSelDTO, adjCpi, CPI_U, CUR_FOUR));
         }
         if (totalUra) {
             TableDTO histTotalUra = new TableDTO();
-            histTotalUra.setGroup("Historical Total URA");
+            histTotalUra.setGroup(HISTORICAL + getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)));
             histTotalUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, histTotalUra, Constant.TOTAL_URA, CUR_FOUR));
 
             TableDTO forecastTotalUra = new TableDTO();
-            forecastTotalUra.setGroup("Forecast Total URA");
+            forecastTotalUra.setGroup(FORECAST + getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)));
             forecastTotalUra.setParent(0);
             projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, forecastTotalUra, Constant.TOTAL_URA, CUR_FOUR));
 
@@ -791,74 +815,82 @@ public class MedicaidURAResultsLogic {
         return projDTOList;
     }
 
-    public List<TableDTO> getMedicaidWorksheet(ProjectionSelectionDTO projSelDTO,SessionDTO sessionDTO) {
+    public List<TableDTO> getMedicaidWorksheet(ProjectionSelectionDTO projSelDTO, SessionDTO sessionDTO) {
         LOGGER.debug("getMedicaidWorksheet method started ");
-
         List<TableDTO> projDTOList = new ArrayList<>();
-
+        Map<String,String> priceTypeList = projSelDTO.getLoadUraPriceMap();
         try {
             List<Object[]> medicaidList = queryUtil.loadMedicaidWorksheet(sessionDTO, projSelDTO.getNdc9(), projSelDTO.isAdjust());
-            projDTOList = getCustomizedMedicaidWorksheet(projSelDTO, medicaidList);
-        } catch (Exception e) {
+            projDTOList = getCustomizedMedicaidWorksheet(projSelDTO, medicaidList, priceTypeList);
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getMedicaidWorksheet method ends ");
         return projDTOList;
     }
 
-    public List<TableDTO> getCustomizedMedicaidWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> medicaidList) {
+    public List<TableDTO> getCustomizedMedicaidWorksheet(ProjectionSelectionDTO projSelDTO, List<Object[]> medicaidList, Map<String, String> priceTypeList) {
 
         List<TableDTO> projDTOList = new ArrayList<>();
 
         TableDTO ampDTO = new TableDTO();
-        ampDTO.setGroup(Constant.AMP);
+        ampDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_AMP)));
+        ampDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_AMP)));
         ampDTO.setParent(1);
         projDTOList.addAll(getBpWorksheetData(medicaidList, projSelDTO, ampDTO, AMP.getConstant(), CUR_FOUR));
 
         TableDTO bestPriceDTO = new TableDTO();
-        bestPriceDTO.setGroup(Constant.BEST_PRICE_LOWERCASE);
+        bestPriceDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
+        bestPriceDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_BEST_PRICE)));
         bestPriceDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, bestPriceDTO, BEST_PRICE_CAPS.getConstant(), CUR_FOUR));
 
         TableDTO baseUraDTO = new TableDTO();
-        baseUraDTO.setGroup(Constant.BASIC_URA1);
+        baseUraDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_BASIC_URA)));
+        baseUraDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_BASIC_URA)));
         baseUraDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, baseUraDTO, Constant.BASIC_URA, CUR_FOUR));
 
         TableDTO cpiUDTO = new TableDTO();
-        cpiUDTO.setGroup(CPI_U);
+        cpiUDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_CPI_U)));
+        cpiUDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_CPI_U)));
         cpiUDTO.setParent(1);
         projDTOList.addAll(getBpWorksheetData(medicaidList, projSelDTO, cpiUDTO, CPI_U, CUR_FOUR));
 
         TableDTO cpiDTO = new TableDTO();
-        cpiDTO.setGroup(Constant.CPIURA);
+        cpiDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_CPI_URA)));
+        cpiDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_CPI_URA)));
         cpiDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, cpiDTO, Constant.CPIURA, CUR_FOUR));
 
         TableDTO totalUraDTO = new TableDTO();
-        totalUraDTO.setGroup(Constant.TOTAL_URA_LABEL);
+        totalUraDTO.setGroup(getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)));
+        totalUraDTO.setPriceType(getGroupName(priceTypeList.get(MEDICAID_URA_TOTAL_URA)));
         totalUraDTO.setParent(1);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, totalUraDTO, Constant.TOTAL_URA, CUR_FOUR));
 
         TableDTO wacDTO = new TableDTO();
-        wacDTO.setGroup("WAC (CMS Unit Price)");
+        wacDTO.setGroup(getGroupName(priceTypeList.get("MEDICAID_URA_WAC_CMS_UNIT")));
+        wacDTO.setPriceType(getGroupName(priceTypeList.get("MEDICAID_URA_WAC_CMS_UNIT")));
         wacDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, wacDTO, Constant.WAC, CUR_FOUR));
 
         TableDTO wacIncreaseDTO = new TableDTO();
-        wacIncreaseDTO.setGroup("WAC Increase % ");
+        wacIncreaseDTO.setGroup(getGroupName(priceTypeList.get("MEDICAID_URA_WAC_INCREASE")));
+        wacIncreaseDTO.setPriceType(getGroupName(priceTypeList.get("MEDICAID_URA_WAC_INCREASE")));
         wacIncreaseDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, wacIncreaseDTO, "WAC INCREASE %", PER_TWO));
 
         TableDTO cmsUnitsDTO = new TableDTO();
-        cmsUnitsDTO.setGroup("CMS Units");
+        cmsUnitsDTO.setGroup(getGroupName(priceTypeList.get("MEDICAID_URA_CMS_UNIT")));
+        cmsUnitsDTO.setPriceType(getGroupName(priceTypeList.get("MEDICAID_URA_CMS_UNIT")));
         cmsUnitsDTO.setParent(0);
         projDTOList.addAll(getWorksheetData(medicaidList, projSelDTO, cmsUnitsDTO, "CMS UNITS", NUM_TWO));
 
         return projDTOList;
     }
 
-    public String medicaidProcSetupDataCook(SessionDTO session, String priceBasis) throws NamingException, SQLException  {
+    public String medicaidProcSetupDataCook(SessionDTO session, String priceBasis) throws NamingException, SQLException {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -912,7 +944,8 @@ public class MedicaidURAResultsLogic {
                                 medicaidDTO.addStringProperties(column, DASH.getConstant());
                             } else {
                                 String value = StringUtils.EMPTY + obj[1];
-                                if (medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || medicaidDTO.getGroup().equals(ADJUSTMENT_CPI)) {
+                                if (medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || medicaidDTO.getGroup().equals(ADJUSTMENT_CPI) 
+                                        || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_AMP) || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE) || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
                                     value = StringUtils.EMPTY;
                                 }
                                 value = CommonUtils.getFormattedValue(format, value);
@@ -991,7 +1024,7 @@ public class MedicaidURAResultsLogic {
         return count;
     }
 
-    public String workSheetSetupCook(int itemMasterSid, String priceType, String workSheet, String ndc9,SessionDTO session) throws NamingException, SQLException  {
+    public String workSheetSetupCook(int itemMasterSid, String priceType, String workSheet, String ndc9, SessionDTO session) throws NamingException, SQLException {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -1139,7 +1172,8 @@ public class MedicaidURAResultsLogic {
                                 medicaidDTO.addStringProperties(column, DASH.getConstant());
                             } else {
                                 String value = StringUtils.EMPTY + obj[1];
-                                if (medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || medicaidDTO.getGroup().equals(ADJUSTMENT_CPI)) {
+                                if (medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_AMP) || medicaidDTO.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || medicaidDTO.getGroup().equals(ADJUSTMENT_CPI)
+                                        || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_AMP) || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE) || medicaidDTO.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
                                     value = StringUtils.EMPTY;
                                 }
                                 value = CommonUtils.getFormattedValue(format, value);
@@ -1196,6 +1230,10 @@ public class MedicaidURAResultsLogic {
 
         projDTOList.add(medicaidDTO);
         return projDTOList;
+    }
+    
+    public String getGroupName(String groupName) {
+        return StringUtils.isBlank(groupName) || "null".equals(groupName) ? StringUtils.EMPTY : groupName;
     }
 
 }

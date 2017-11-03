@@ -14,7 +14,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.TextField;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;

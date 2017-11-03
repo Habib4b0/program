@@ -13,6 +13,7 @@ import com.stpl.app.utils.FileUploader;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.StringLengthValidator;
@@ -96,7 +97,7 @@ public class WorkFlowNotesLookup extends Window {
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
-    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(new File("tst")));
+    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
     protected String fileName;
     protected String fileUploadPath;
     public List<NotesDTO> removeDetailsList = new ArrayList<>();
@@ -173,7 +174,7 @@ public class WorkFlowNotesLookup extends Window {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
-                        fileUpload = new File(fileUploadPath + value);
+                        fileUpload = CommonUtil.getFilePath(fileUploadPath + value);
                         String name = fileUpload.getAbsolutePath();
                         if (name.contains("\\")) {
                             String replace = name.replace("\\", ",");
@@ -306,10 +307,10 @@ public class WorkFlowNotesLookup extends Window {
                 Date date = new Date();
                 long value = date.getTime();
                 sb.insert(sb.lastIndexOf("."), "_" + value);
-                File destFileUpload = new File(fileUploadPath + event.getFilename());
+                File destFileUpload = CommonUtil.getFilePath(fileUploadPath + event.getFilename());
                 NotesDTO attachmentDTO = new NotesDTO();
                 String name = file + sb.substring(sb.indexOf("."));
-                File renameFileUpload = new File(fileUploadPath + name);
+                File renameFileUpload = CommonUtil.getFilePath(fileUploadPath + name);
                 destFileUpload.renameTo(renameFileUpload);
                 if (!StringUtils.isBlank(file)) {
                     attachmentDTO.setDocumentName(name);
@@ -422,7 +423,7 @@ public class WorkFlowNotesLookup extends Window {
             }
             tableBean = (NotesDTO) targetItem.getBean();
             if (event.isDoubleClick()) {
-                File uploadedFile = new File(tableBean.getDocumentFullPath());
+                File uploadedFile = CommonUtil.getFilePath(tableBean.getDocumentFullPath());
                 Resource res = new FileResource(uploadedFile);
                 fileDownloader.setFileDownloadResource(res);
                 downloadFile(uploadedFile);

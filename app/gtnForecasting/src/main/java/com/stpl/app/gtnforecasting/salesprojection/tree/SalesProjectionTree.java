@@ -89,6 +89,11 @@ public class SalesProjectionTree {
         query = query.replace("[?PROD_RELATIONSHIP_BUILDER_SID]", projSelDTO.getSessionDTO().getProdRelationshipBuilderSid());
         query = query.replace("[?Custom_View_Master_SID]", String.valueOf(projSelDTO.getCustomId()));
         query = query.replace("[?UserGroup]","");
+        if (!projSelDTO.getCustomerLevelFilter().isEmpty() || !projSelDTO.getProductLevelFilter().isEmpty()) {
+            query = query.replace("[?FILTERCCP]"," AND PPA.FILTER_CCP=1");
+        }else{
+             query = query.replace("[?FILTERCCP]",StringUtils.EMPTY);
+        }
         return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
 
     }
@@ -107,19 +112,12 @@ public class SalesProjectionTree {
                 salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
                 buildMap.put(hiearachy, salesNode);
             } else {
-                String[] parentHierarrchy = parentHierarchy.split("~");
-                SalesProjectionNodeCustom parent;
-                String secondParent = "";
-                if (parentHierarrchy.length > 1) {
-                    secondParent = parentHierarrchy[parentHierarrchy.length - 2];
-                }
-
-                parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarrchy[parentHierarrchy.length - 1]+secondParent);
+                SalesProjectionNodeCustom parent = (SalesProjectionNodeCustom) buildMap.get(parentHierarchy);
                 salesNode.addParentNode(parent);
                 parent.addChild(salesNode);
-                salesNode.setHierarchyIndicator(String.valueOf(object[3]));
+                salesNode.setHierarchyIndicator(String .valueOf(object[3]));
                 salesNode.setLevel(Integer.valueOf(String.valueOf(object[2])));
-                buildMap.put(hiearachy + salesNode.getParentNode().getHierachyNo(), salesNode);
+                buildMap.put(parentHierarchy+"~"+hiearachy, salesNode);
             }
         }
         return apexNode;

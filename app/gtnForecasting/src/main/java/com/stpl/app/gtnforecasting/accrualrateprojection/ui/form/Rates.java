@@ -409,28 +409,28 @@ public class Rates extends CustomComponent {
      */
     private void configureOnEditOrView() {
 
-        Map<Object, Object> map = DSLogic.getProjectionSelection(session.getProjectionId(), "Rate");
-        if (map != null && !map.isEmpty()) {
+        Map<Object, Object> editviewMap = DSLogic.getProjectionSelection(session.getProjectionId(), "Rate");
+        if (editviewMap != null && !editviewMap.isEmpty()) {
             Object value;
-            value = map.get(Constant.HISTORY_CAPS);
+            value = editviewMap.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 historyDdlb.setValue(String.valueOf(value));
                 historyDdlb.setImmediate(true);
             }
-            value = map.get(Constant.RATE_BASIS);
+            value = editviewMap.get(Constant.RATE_BASIS);
             if (value != null) {
                 rateBasisDdlb.setValue(String.valueOf(value));
             }
             this.map.put(Constant.RATE_BASIS, rateBasisDdlb.getValue());
-            value = map.get(Constant.VARIABLES);
+            value = editviewMap.get(Constant.VARIABLES);
             if (value != null) {
                 variables.setValue(String.valueOf(value));
             }
-            value = map.get("FromDDLB");
+            value = editviewMap.get("FromDDLB");
             if (value != null) {
                 fromDdlb.setValue(String.valueOf(value));
             }
-            value = map.get("ToDDLB");
+            value = editviewMap.get("ToDDLB");
             if (value != null) {
                 toDdlb.setValue(String.valueOf(value));
             }
@@ -441,16 +441,16 @@ public class Rates extends CustomComponent {
     }
 
     public void saveTabSelection() {
-        Map map = new HashMap();
-        map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
-        map.put(Constant.RATE_BASIS, String.valueOf(rateBasisDdlb.getValue()));
-        map.put(Constant.VARIABLES, String.valueOf(variables.getValue()));
-        map.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
-        map.put("ToDDLB", String.valueOf(toDdlb.getValue()));
+        Map selectionMap = new HashMap();
+        selectionMap.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
+        selectionMap.put(Constant.RATE_BASIS, String.valueOf(rateBasisDdlb.getValue()));
+        selectionMap.put(Constant.VARIABLES, String.valueOf(variables.getValue()));
+        selectionMap.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
+        selectionMap.put("ToDDLB", String.valueOf(toDdlb.getValue()));
 
         String actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? Constant.UPDATE_SMALL : "Save";
 
-        dsLogic.saveScreenSelection(session.getProjectionId(), map, "Rate", actionValue);
+        dsLogic.saveScreenSelection(session.getProjectionId(), selectionMap, "Rate", actionValue);
     }
 
     private void callRatesInsertProcedure() {

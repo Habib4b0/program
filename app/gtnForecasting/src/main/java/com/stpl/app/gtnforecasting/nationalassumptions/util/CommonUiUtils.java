@@ -7,6 +7,7 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDT
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.*;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.HeaderConstants.*;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -28,36 +29,36 @@ public class CommonUiUtils {
     /**
      * The Constant ATTACHMENT_COLUMNS.
      */
-    public final Object[] attachmentColumns = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
+    public static final Object[] attachmentColumns = new Object[]{DOCUMENT_NAME.getConstant(), DATE_ADDED.getConstant(), USER_NAME.getConstant()};
     /**
      * The Constant ATTACHMENT_HEADER.
      */
-    public final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
+    public static final String[] attachmentHeader = new String[]{"Document Name", "Date Added", "User Name"};
 
     /**
      * The Constant VISIBLECOLUMN.
      */
-    public final Object[] visibleColumn = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
+    public static final Object[] visibleColumn = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME};
 
     /**
      * The Constant VISIBLEHEADER.
      */
-    public final String[] visibleHeader = new String[]{"Product No", "Product Name"};
+    public static final String[] visibleHeader = new String[]{"Product No", "Product Name"};
 
     /**
      * The Constant VISIBLESEARCHCOLUMN.
      */
-    public final Object[] visibleSearchColumn = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
+    public static final Object[] visibleSearchColumn = new Object[]{Constant.PROJECTION_NAME, "company", "productGroup", "therapeuticClass", "createdDateSearch", "modifiedDateSearch", "createdBy","businessUnitName"};
 
     /**
      * The Constant VISIBLESEARCHHEADER.
      */
-    public final String[] visibleSearchHeader = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
+    public static final String[] visibleSearchHeader = new String[]{"Name", Constant.COMPANY_SMALL, "Product Group", "Therapeutic Class", "Created Date", "Modified Date", "Created By","Business Unit"};
 
     /**
      * The Constant PRODUCTGROUPCOLUMN.
      */
-    public final Object[] productGroupColumn = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
+    public static final Object[] productGroupColumn = new Object[]{"productGroupName", "productGroup", "productGroupDescription", "company"};
 
     /**
      * The PRODUCTGROUPHEADER.
@@ -67,56 +68,57 @@ public class CommonUiUtils {
     /**
      * The Constant BASELINE_PERIOD_COLUMNS.
      */
-    public final Object[] baselinePeriodColumns = new Object[]{Constant.CHECK, "period", "type"};
+    public static final Object[] baselinePeriodColumns = new Object[]{Constant.CHECK, "period", "type"};
 
     /**
      * The Constant BASELINE_PERIOD_HEADER.
      */
-    public final String[] baselinePeriodHeader = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
+    public static final String[] baselinePeriodHeader = new String[]{StringUtils.EMPTY, "Period", StringUtils.EMPTY};
 
     /**
      * The Constant PERIOD_TYPES_COLUMNS.
      */
-    public final Object[] periodTypeColumns = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
+    public static final Object[] periodTypeColumns = new Object[]{"priceType", "baselineMethodology", "basePeriod", "forecastMethodology", "priceBasis", "growthRate", "rollingPeriod", "startPeriod",
         "endPeriod", "symbol"};
 
+    public static final String GROWTH_RATE = CommonUtil.isValueEligibleForLoading() ? "Rate" : "Growth Rate";
     /**
      * The Constant PERIOD_TYPES_HEADER.
      */
-    public final String[] periodTypesHeader = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", "Growth Rate", "Actuals Period", "Start Period",
+    public static final String[] periodTypesHeader = new String[]{"Price Type", "Baseline Methodology", "Actuals Period", "Forecast Methodology", "Price Basis", GROWTH_RATE ,"Actuals Period", "Start Period",
         "End Period", StringUtils.EMPTY};
 
     /**
      * The Constant CPI_COLUMNS.
      */
-    public final Object[] cpiColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
+    public static final Object[] cpiColumns = new Object[]{Constant.PRODUCT_NO, Constant.PRODUCT_NAME, "productDescription"};
 
     /**
      * The Constant CPI_HEADER.
      */
-    public final String[] cpiHeader = new String[]{"Product#", "Product Name", "Product Description"};
+    public static final String[] cpiHeader = new String[]{"Product#", "Product Name", "Product Description"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public final Object[] newNdcColumns = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
+    public static final Object[] newNdcColumns = new Object[]{"ndc9", "wac", "baseYearAMP", "baseYearCPI", "forecastAMP",
         "forecastBestPrice"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public final String[] newNdcHeader = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
+    public static final String[] newNdcHeader = new String[]{"NDC Number", Constant.WAC, "Base Year AMP", "Base Year CPI", "Forecast AMP",
         "Forecast Best Price"};
 
     /**
      * The Constant NEW_NDC_COLUMNS.
      */
-    public final Object[] federalNDCColumns = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
+    public static final Object[] federalNDCColumns = new Object[]{Constant.ITEM_NO, "wac", "nonFamp", "fssOGA"};
 
     /**
      * The Constant NEW_NDC_HEADER.
      */
-    public final String[] federalNdcHeader = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
+    public static final String[] federalNdcHeader = new String[]{"NDC Number", Constant.WAC, "Non-FAMP", "FSS(OGA)"};
 
     public static String getMonthForInt(int num) {
         String month = "wrong";
@@ -250,12 +252,12 @@ public class CommonUiUtils {
         return projSelDTO;
     }
 
-    public static CustomTableHeaderDTO getRightTableColumns(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
+    public static CustomTableHeaderDTO getRightTableColumns(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO,String screenName) {
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        return getCalculatedColumns(tableHeaderDTO, projSelDTO, fullHeaderDTO);
+        return getCalculatedColumns(tableHeaderDTO, projSelDTO, fullHeaderDTO, screenName);
     }
 
-    public static CustomTableHeaderDTO getCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
+    public static CustomTableHeaderDTO getCalculatedColumns(CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO,String screenName) {
         LOGGER.debug("inside getCalculatedColumns ");
         String projOrder = projSelDTO.getProjectionOrder();
         String projections = projSelDTO.getActualsOrProjections();
@@ -311,7 +313,19 @@ public class CommonUiUtils {
             List priceTypeColumns = projSelDTO.getPriceTypeList();
             int size = priceTypeColumns.size();
             for (int i = 0; i < size; i++) {
-                String commonHeader = String.valueOf(priceTypeColumns.get(i));
+                String commonHeader;
+                switch (screenName) {
+                    case "URA":
+                        commonHeader = projSelDTO.getLoadPriceActualMap().get(String.valueOf(priceTypeColumns.get(i)));
+                        break;
+                    case Constant.PHS:
+                        commonHeader = projSelDTO.getLoadPhsPriceActualMap().get(String.valueOf(priceTypeColumns.get(i)));
+                        break;
+                    default:
+                        commonHeader = String.valueOf(priceTypeColumns.get(i));
+                        break;
+                }
+
                 String commonColumn = String.valueOf(priceTypeColumns.get(i)).replace(" ", StringUtils.EMPTY).replace("-", StringUtils.EMPTY).toLowerCase();
 
                 List<Object> dmap = new ArrayList<>();

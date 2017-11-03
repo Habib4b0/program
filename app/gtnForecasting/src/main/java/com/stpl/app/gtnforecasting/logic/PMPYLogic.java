@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.logic;
 
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

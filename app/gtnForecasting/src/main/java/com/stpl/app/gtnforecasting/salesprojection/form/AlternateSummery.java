@@ -1579,7 +1579,7 @@ public class AlternateSummery extends CustomComponent {
      */
     protected void loadDataToContainer(List<SalesRowDto> resultList, Object parentId) {
         try {
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 for (SalesRowDto dto : resultList) {
                     excelContainer.addBean(dto);
                     if (parentId != null) {
@@ -1706,14 +1706,14 @@ public class AlternateSummery extends CustomComponent {
             Map<String, List<String>> checkedDoubleHeaders = tripleHeaderForCheckedDoubleHeader.get(d);
             for (String e : checkedDoubleHeaders.keySet()) {
                 List a = checkedDoubleHeaders.get(e);
-                if (checkedList.size() > 0 && a.size() > 0 && !isOne) {
+                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
                     ismultipleDiscount = true;
                     break;
                 } else {
                     checkedList.addAll(a);
                 }
             }
-            if (checkedList.size() > 0) {
+            if (!checkedList.isEmpty()) {
                 isOne = false;
             }
         }

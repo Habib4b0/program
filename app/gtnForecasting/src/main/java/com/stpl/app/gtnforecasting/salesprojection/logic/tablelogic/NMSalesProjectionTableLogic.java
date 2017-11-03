@@ -273,7 +273,7 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
 
     private List<SalesRowDto> getSalesDataForCustom(Set<TreeNode> nodeSet) {
         CommonLogic logic = new CommonLogic();
-        String insertQuery = logic.insertAvailableHierarchyNoForCustomExpand(nodeSet);
+        String insertQuery = logic.insertAvailableHierarchyNoForCustomExpand(nodeSet,projSelDTO);
         SalesLogic saleLogic = new SalesLogic();
         return saleLogic.getSalesResults(projSelDTO, 0, nodeSet.size(), insertQuery);
     }

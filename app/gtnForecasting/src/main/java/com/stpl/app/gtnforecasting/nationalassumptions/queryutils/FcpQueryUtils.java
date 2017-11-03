@@ -9,6 +9,7 @@ import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -33,7 +34,7 @@ public class FcpQueryUtils {
     private static final NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
 
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
-    
+
     public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     /**
      * The Constant LOGGER.
@@ -94,14 +95,14 @@ public class FcpQueryUtils {
         input.put("?PT", priceType);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getFcpPercentageForView":"getFcpPercentage");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpPercentageForView" : "getFcpPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode)?"getFcpAmountForView":"getFcpAmount");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpAmountForView" : "getFcpAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }
-        fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
+        fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return fcpList;
 
@@ -123,19 +124,19 @@ public class FcpQueryUtils {
         input.put("?LID", query);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampPercentageForView":"getNonFampPercentage");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampPercentageForView" : "getNonFampPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ?"getNonFampAmountForView":"getNonFampAmount");
+            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampAmountForView" : "getNonFampAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }
 
-        fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql,session.getCurrentTableNames()));
+        fcpList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         return fcpList;
     }
 
-    public void saveNotes(Map<String, String> editedValues, int projId, int itemSid, String pricetype,SessionDTO session) throws PortalException, SystemException {
+    public void saveNotes(Map<String, String> editedValues, int projId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
         if (!editedValues.isEmpty()) {
@@ -163,26 +164,22 @@ public class FcpQueryUtils {
                         finalvalue = value;
                         if (value == 0) {
                             // Added for CEL-370 CR
-                            if(pricetype.equals("QFSS")){
+                            if (pricetype.equals("QFSS")) {
                                 queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT =").append(Constant.NULL_CAPS).append(" , ADJUSTMENT_PRICE=").append(Constant.NULL_CAPS);
                             } else {
-                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT= ").append(Constant.NULL_CAPS);
+                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT= ").append(Constant.NULL_CAPS);
                             }
+                        } else if (pricetype.equals("QFSS")) {
+                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ")
+                                    .append(" , ADJUSTMENT_PRICE='").append(finalvalue).append("' ");
                         } else {
-                            if(pricetype.equals("QFSS")){
-                                queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ")
-                                        .append(" , ADJUSTMENT_PRICE=ISNULL(PROJECTION_PRICE,0)+'").append(finalvalue).append("' ");
-                            } else {
                             queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
-                        }
+                    } else if (pricetype.equals("QFSS")) {
+                        queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS)
+                                .append(" , ADJUSTMENT_PRICE=").append(Constant.NULL_CAPS);
                     } else {
-                        if(pricetype.equals("QFSS")){
-                            queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS)
-                                    .append(" , ADJUSTMENT_PRICE=ISNULL(PROJECTION_PRICE,0)+").append(Constant.NULL_CAPS);
-                        } else {
                         queryBuilder1.append(" UPDATE dbo.ST_FCP_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
-                    }
                     }
                 } else if (rowId.equals(Constant.NOTES)) {
 
@@ -211,7 +208,7 @@ public class FcpQueryUtils {
         }
     }
 
-    public String[] getTextValue(String propertyId, int itemSid, String pricetype,SessionDTO session) throws PortalException, SystemException {
+    public String[] getTextValue(String propertyId, int itemSid, String pricetype, SessionDTO session) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         StringBuilder queryBuilder1 = null;
 
@@ -318,7 +315,7 @@ public class FcpQueryUtils {
         return fcpList;
     }
 
-    public void updateAdjustment(int itemSid, String queryName,SessionDTO sessionDTO) throws PortalException, SystemException {
+    public void updateAdjustment(int itemSid, String queryName, SessionDTO sessionDTO) throws PortalException, SystemException {
         List<StringBuilder> queryList = new ArrayList<>();
         Map<String, Object> input = new HashMap<>();
 
@@ -332,5 +329,21 @@ public class FcpQueryUtils {
 
         DAO.executeUpdateQuery(QueryUtil.replaceTableNames(customSql, sessionDTO.getCurrentTableNames()));
         queryList.clear();
+    }
+
+    public Map<String, String> getFcpPriceTypeNameDynamic(String screenName) throws PortalException, SystemException {
+
+        List<Object[]> phsWSList;
+        Map<String, String> priceType = new HashMap<>();
+
+        String customSql = SQlUtil.getQuery("Medicaid_Ura_Worsheet_Helper_table");
+        customSql = customSql.replace("SCREEN_NAME", screenName);
+        phsWSList = (List<Object[]>) DAO.executeSelectQuery(customSql);
+        for (int i = 0; i < phsWSList.size(); i++) {
+            Object[] obj = phsWSList.get(i);
+            priceType.put(String.valueOf(obj[1]), String.valueOf(obj[0]));
+        }
+
+        return priceType;
     }
 }

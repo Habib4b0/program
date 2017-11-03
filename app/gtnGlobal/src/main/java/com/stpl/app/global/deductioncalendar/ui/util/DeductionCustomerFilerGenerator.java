@@ -6,7 +6,7 @@
 package com.stpl.app.global.deductioncalendar.ui.util;
 
 import com.stpl.app.global.common.util.CommonUtil;
-import com.stpl.app.global.company.util.UIUtils;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.data.Container;
@@ -86,42 +86,42 @@ public class DeductionCustomerFilerGenerator implements ExtFilterGenerator {
             }else if(ConstantsUtils.UDC1.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC1, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC1, true);
                 return comboBox;
             }else if(ConstantsUtils.UDC2.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC2, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC2, true);
                 return comboBox;
             }else if(ConstantsUtils.UDC3.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC3, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC3, true);
                 return comboBox;
             }else if(ConstantsUtils.UDC4.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC4, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC4, true);
                 return comboBox;
             }else if(ConstantsUtils.UDC5.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC5, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC5, true);
                 return comboBox;
             }else if(ConstantsUtils.UDC6.equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.UDC6, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.UDC6, true);
                 return comboBox;
             }else if("organisationKey".equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.ORGANIZATION_KEY, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.ORGANIZATION_KEY, true);
                 return comboBox;
             }else if("customerGroup".equals(propertyId)){
                 comboBox = new ComboBox();
                 comboBox.setImmediate(true);
-                commonMsg.loadComboBox(comboBox, UIUtils.COMPANY_GROUP, true);
+                commonMsg.loadComboBox(comboBox, CommonUIUtils.COMPANY_GROUP, true);
                 return comboBox;
             }
         } catch (Exception ex) {

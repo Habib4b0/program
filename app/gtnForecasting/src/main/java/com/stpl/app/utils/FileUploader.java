@@ -6,6 +6,7 @@
 package com.stpl.app.utils;
 
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
+import com.stpl.ifs.util.CommonUtil;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload.Receiver;
@@ -41,12 +42,11 @@ public class FileUploader implements Receiver {
         try {
 
             if (!filename.isEmpty() && !"null".equals(FILE_PATH)) {
-
-                File dir = new File(FILE_PATH + moduleName);
+                File dir = CommonUtil.getFilePath(FILE_PATH + moduleName);
                 if (!dir.exists()) {
                     dir.mkdirs();
                 }
-                file = new File(dir, filename);
+                file = CommonUtil.getFile(dir, filename);
                 if (file.exists()) {
                     file.delete();
                 }

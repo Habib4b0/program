@@ -1324,6 +1324,97 @@ FROM   AUDIT_MASTER_INBOUND A
       <xloc>592</xloc>
       <yloc>467</yloc>
       </entry>
+    <entry>
+      <name>RECEIVED_COUNT 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>
+UPDATE IVLD_ACCRUAL_INBOUND SET REASON_FOR_FAILURE=&apos;Item ID and Brand Id is NULL&apos;
+WHERE REASON_FOR_FAILURE=&apos;Invalid Field Length&apos; AND  ERROR_FIELD=&apos;ITEM_ID,BRAND_ID&apos;</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>772</xloc>
+      <yloc>780</yloc>
+      </entry>
+    <entry>
+      <name>SQL 3</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @batch_id VARCHAR(20)= (SELECT TOP 1 batch_id
+   FROM   IVLD_ACCRUAL_INBOUND
+   ORDER  BY INTF_INSERTED_DATE DESC)
+--UPDATE IVLD_ACCRUAL_INBOUND
+--SET    ERROR_FIELD = Substring(
+--CASE WHEN ACCRUAL_ID IS NULL THEN &apos;,ACCRUAL_ID&apos; ELSE &apos;&apos; END + 
+--CASE WHEN GL_ACCOUNT IS NULL THEN &apos;,GL_ACCOUNT&apos; ELSE &apos;&apos; END + 
+--CASE WHEN COMPANY_ID IS NULL THEN &apos;,COMPANY_ID&apos; ELSE &apos;&apos; END + 
+--CASE WHEN COMPANY_NO IS NULL THEN &apos;,COMPANY_NO&apos; ELSE &apos;&apos; END + 
+--CASE WHEN COMPANY_COST_CENTER IS NULL THEN &apos;,COMPANY_COST_CENTER&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN ACCOUNT_ID IS NULL THEN &apos;,ACCOUNT_ID&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN ITEM_ID IS NULL THEN &apos;,ITEM_ID&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN CONTRACT_ID IS NULL THEN &apos;,CONTRACT_ID&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN PROVISION_ID IS NULL THEN &apos;,PROVISION_ID&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN ACCRUAL_PERIOD_START_DATE IS NULL THEN &apos;,ACCRUAL_PERIOD_START_DATE&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN ACCRUAL_PERIOD_END_DATE IS NULL THEN &apos;,ACCRUAL_PERIOD_END_DATE&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN SUB_LEDGER IS NULL THEN &apos;,SUB_LEDGER&apos; ELSE &apos;&apos; END
+--+ CASE WHEN SUB_LEDGER_TYPE IS NULL THEN &apos;,SUB_LEDGER_TYPE&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN DOCUMENT_TYPE IS NULL THEN &apos;,SALES_AMOUNT&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN BATCH_ID IS NULL THEN &apos;,SALES_AMOUNT&apos; ELSE &apos;&apos; END 
+--+ CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
+--WHERE  BATCH_ID = @batch_id
+--       AND ERROR_CODE = &apos;E01&apos;
+
+UPDATE IVLD_ACCRUAL_INBOUND
+SET    ERROR_FIELD = CASE WHEN Isdate(ACCRUAL_PERIOD_START_DATE)=0 AND ACCRUAL_PERIOD_START_DATE IS NOT NULL THEN &apos;ACCRUAL_PERIOD_START_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(ACCRUAL_PERIOD_END_DATE)=0 AND ACCRUAL_PERIOD_END_DATE IS NOT NULL THEN &apos;,ACCRUAL_PERIOD_END_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(POSTING_DATE)=0 AND POSTING_DATE IS NOT NULL THEN &apos;,POSTING_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(RECORD_CREATED_DATE)=0 AND RECORD_CREATED_DATE IS NOT NULL THEN &apos;,RECORD_CREATED_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(CREATED_DATE)=0 AND CREATED_DATE IS NOT NULL THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END + CASE WHEN Isdate(MODIFIED_DATE)=0 AND MODIFIED_DATE IS NOT NULL THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END
+WHERE  ( Isdate(ACCRUAL_PERIOD_START_DATE) = 0
+         AND ACCRUAL_PERIOD_START_DATE IS NOT NULL )
+        OR ( Isdate(ACCRUAL_PERIOD_END_DATE) = 0
+             AND ACCRUAL_PERIOD_END_DATE IS NOT NULL )
+        OR ( Isdate(POSTING_DATE) = 0
+             AND POSTING_DATE IS NOT NULL )
+        OR ( Isdate(GL_DATE) = 0
+             AND GL_DATE IS NOT NULL )
+        OR ( Isdate(RECORD_CREATED_DATE) = 0
+             AND RECORD_CREATED_DATE IS NOT NULL )
+        OR ( Isdate(CREATED_DATE) = 0
+             AND CREATED_DATE IS NOT NULL )
+        OR ( Isdate(MODIFIED_DATE) = 0
+             AND MODIFIED_DATE IS NOT NULL )
+           AND BATCH_ID = @batch_id
+           AND ERROR_CODE = &apos;E03&apos;
+           AND ERROR_FIELD = &apos;ACCRUAL_PERIOD_START_DATE&apos; 
+
+update IVLD_ACCRUAL_INBOUND
+set ERROR_FIELD=
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_AMOUNT ))=0  and DEDUCTION_AMOUNT is not null THEN &apos;DEDUCTION_AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),SALES_AMOUNT ))=0  and SALES_AMOUNT is not null THEN &apos;SALES_AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY ))=0 and QUANTITY is not null THEN &apos;,QUANTITY&apos; ELSE &apos;&apos; END 
+ 
+WHERE 
+   ((isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_AMOUNT )) = 0 and DEDUCTION_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),SALES_AMOUNT) ) = 0 and SALES_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY) ) = 0 and QUANTITY is not null))
+
+ 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;SALES_AMOUNT&apos;
+</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>844</xloc>
+      <yloc>908</yloc>
+      </entry>
   </entries>
   <hops>
     <hop>
@@ -1751,6 +1842,24 @@ FROM   AUDIT_MASTER_INBOUND A
     </hop>
     <hop>
       <from>Transformation</from>
+      <to>RECEIVED_COUNT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>RECEIVED_COUNT 2</from>
+      <to>SQL 3</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SQL 3</from>
       <to>Simple evaluation 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

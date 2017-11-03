@@ -112,7 +112,7 @@ public class PRChart {
 
         if (projSelDTO.getPivotView().equals(PERIOD.getConstant())) {
             xAxis.setCategories(visHeaders);
-            if (dto != null && dto.size() > 0) {
+            if (dto != null && !dto.isEmpty()) {
                 for (ProjectionResultsDTO pDto : dto) {
                     ListSeries listSeries = new ListSeries();
                     listSeries.setName(pDto.getGroup());

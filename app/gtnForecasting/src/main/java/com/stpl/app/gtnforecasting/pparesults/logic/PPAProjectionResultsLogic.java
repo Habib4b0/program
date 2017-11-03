@@ -769,6 +769,8 @@ public class PPAProjectionResultsLogic {
             case Constant.BRAND:
                 query = CustomSQLUtil.get("brand-ddlb");
                 break;
+            default:
+                break;
 
         }
         query = query.replace(Constant.PROJID_AT_SMALL, String.valueOf(projectionId));
@@ -791,6 +793,8 @@ public class PPAProjectionResultsLogic {
                         value = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + value + "'");
                         break;
+                    default:
+                        break;
 
                 }
             }
@@ -804,6 +808,8 @@ public class PPAProjectionResultsLogic {
                     break;
                 case Constant.BRAND:
                     query = query.replace("AND BM.BRAND_NAME LIKE @FILTER", StringUtils.EMPTY);
+                    break;
+                default:
                     break;
             }
         }
@@ -834,6 +840,8 @@ public class PPAProjectionResultsLogic {
             case Constant.BRAND:
                 query = CustomSQLUtil.get("brand-ddlb");
                 break;
+            default:
+                break;
 
         }
         query = query + "OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + end + Constant.ROWS_ONLY_SPACE;
@@ -857,6 +865,8 @@ public class PPAProjectionResultsLogic {
                         searchFilter = Constant.PERCENT + filter + Constant.PERCENT;
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
+                    default:
+                        break;
 
                 }
             }
@@ -870,6 +880,8 @@ public class PPAProjectionResultsLogic {
                     break;
                 case Constant.BRAND:
                     query = query.replace("AND BM.BRAND_NAME LIKE @FILTER", StringUtils.EMPTY);
+                    break;
+                default:
                     break;
             }
         }
@@ -917,6 +929,8 @@ public class PPAProjectionResultsLogic {
                         query = query.replace("AND IM.ITEM_NO LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
+                    default:
+                        break;
 
                 }
             }
@@ -927,6 +941,8 @@ public class PPAProjectionResultsLogic {
                     break;
                 case Constant.ITEM_NAME_SMALL_PROPERY:
                     query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
+                    break;
+                default:
                     break;
 
             }
@@ -953,6 +969,8 @@ public class PPAProjectionResultsLogic {
             case Constant.ITEM_NAME_SMALL_PROPERY:
                 query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
                 break;
+            default:
+                break;
         }
 
         if (ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId() != 0) {
@@ -973,6 +991,8 @@ public class PPAProjectionResultsLogic {
                         query = query.replace("AND IM.ITEM_NO LIKE @FILTER", StringUtils.EMPTY);
                         query = query.replace(Constant.FILTERR, "'" + searchFilter + "'");
                         break;
+                    default:
+                        break;
                 }
             }
         } else {
@@ -982,6 +1002,8 @@ public class PPAProjectionResultsLogic {
                     break;
                 case Constant.ITEM_NAME_SMALL_PROPERY:
                     query = query.replace(Constant.AND_IMITEM_NO_LIKE_FILTER_AND_IMITEM_NAME, StringUtils.EMPTY);
+                    break;
+                default:
                     break;
 
             }
@@ -1257,7 +1279,6 @@ public class PPAProjectionResultsLogic {
     }
 
     String[] calcWacPriceChange(String rsId, String periodSid, String year, String frequencyValue) {
-        long start;
         String[] wac_price = new String[]{ConstantsUtils.ZERO, ConstantsUtils.ZERO};
 
         try {

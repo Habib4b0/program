@@ -5,10 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.executeSelectQuery;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.getRelationshipLevels;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.resetDdlb;
@@ -35,10 +32,10 @@ public class Utility {
     public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(Utility.class);
 
     public static void loadHierarchyList(final SessionDTO session) {
-        int ProducthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
-        session.setProductHierarchyList(CommonLogic.getProductHierarchy(session.getProjectionId(), ProducthierarchyLevelNo, session.getProdRelationshipBuilderSid()));
-        int CustomerhierarchyLevelNo = CommonUtils.isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
-        session.setCustomerHierarchyList(CommonLogic.getCustomerHierarchy(session.getProjectionId(), CustomerhierarchyLevelNo, session.getCustRelationshipBuilderSid()));
+        int producthierarchyLevelNo = CommonUtils.isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+        session.setProductHierarchyList(CommonLogic.getProductHierarchy(session.getProjectionId(), producthierarchyLevelNo, session.getProdRelationshipBuilderSid()));
+        int customerhierarchyLevelNo = CommonUtils.isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        session.setCustomerHierarchyList(CommonLogic.getCustomerHierarchy(session.getProjectionId(), customerhierarchyLevelNo, session.getCustRelationshipBuilderSid()));
     }
 
     //Used to just load the level 
@@ -97,7 +94,7 @@ public class Utility {
                             if ((String.valueOf(obj[NumericConstants.TWO]).trim().equals(String.valueOf(ob.getHierarchyId()).trim())) && (obj.length > 1)) {
                                     Leveldto dto = new Leveldto();
                                     dto.setHierarchyId(ob.getHierarchyId());
-                                    dto.setLevelNo(Integer.valueOf(String.valueOf(obj[1])));
+                                    dto.setLevelNo(Integer.valueOf(String.valueOf((obj[1].toString()).trim())));
                                     dto.setLevel(String.valueOf(obj[0]));
                                     dto.setTreeLevelNo(ob.getLevelNo());
                                     dto.setHierarchyIndicator(ob.getHierarchyIndicator());
@@ -118,7 +115,7 @@ public class Utility {
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 int maxLevel = currentHierarchy.size() - 1;
                 for (int i = 0; i < currentHierarchy.size(); i++) {
-                    Leveldto levelDto = (Leveldto) currentHierarchy.get(i);
+                    Leveldto levelDto = currentHierarchy.get(i);
                     int level = view.equals(Constant.CUSTOM_LABEL) ? levelDto.getTreeLevelNo() : levelDto.getCount();
                     if (!isExpCol || level <= maxLevel) {
                         Object itemId = null;
@@ -126,6 +123,36 @@ public class Utility {
                         ddlb.addItem(itemId);
                         ddlb.setItemCaption(itemId, Constant.LEVEL + levelDto.getTreeLevelNo() + " - " + levelDto.getLevel());
                     }
+                }
+            }
+        }
+    }
+    public static void loadDdlbForLevelFilterOption(ComboBox ddlb, List<Leveldto> currentHierarchy, String view) {
+        if (ddlb != null) {
+            resetDdlb(ddlb);
+            if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+                int maxLevel = currentHierarchy.size();
+                for (int i = 0; i < currentHierarchy.size(); i++) {
+                    Leveldto levelDto = currentHierarchy.get(i);
+                    int level = view.equals(Constant.CUSTOM_LABEL) ? levelDto.getTreeLevelNo() : levelDto.getCount();
+                    if (level <= maxLevel) {
+                        Object itemId = null;
+                        itemId = levelDto.getTreeLevelNo();
+                        ddlb.addItem(itemId);
+                        ddlb.setItemCaption(itemId,levelDto.getLevel());
+                    }
+                }
+            }
+        }
+    }
+    public static void loadDdlbForDeduction(ComboBox ddlb, List<String[]> currentHierarchy) {
+        if (ddlb != null) {
+            resetDdlb(ddlb);
+            if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
+                for (int i = 0; i < currentHierarchy.size(); i++) {
+                    Object[] levelValues = currentHierarchy.get(i);
+                    ddlb.addItem(Integer.parseInt(String.valueOf(levelValues[0])));
+                    ddlb.setItemCaption(Integer.parseInt(String.valueOf(levelValues[0])), String.valueOf(levelValues[1]));
                 }
             }
         }
@@ -141,7 +168,7 @@ public class Utility {
             resetDdlb(ddlb);
             if (currentHierarchy != null && !currentHierarchy.isEmpty()) {
                 for (int i = 0; i < currentHierarchy.size(); i++) {
-                    Leveldto levelDto = (Leveldto) currentHierarchy.get(i);
+                    Leveldto levelDto = currentHierarchy.get(i);
                     Object itemId = null;
                     itemId = levelDto.getTreeLevelNo() + "~" + levelDto.getHierarchyIndicator();
                     ddlb.addItem(itemId);

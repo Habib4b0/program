@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.gtnforecasting.projectionvariance.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
@@ -2043,7 +2042,6 @@ public class MProjectionVarianceLogic {
         int neededRecord = offset;
         int started = start;
         int maxRecord = pvsdto.getPeriodList().size() + 1;
-        ProjectionVarianceDTO parentDto;
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         if (started < maxRecord) {
             if (pivotTotalList.isEmpty()) {
@@ -2060,7 +2058,6 @@ public class MProjectionVarianceLogic {
                 }
             } else {
                 if (parent instanceof ProjectionVarianceDTO) {
-                    parentDto = (ProjectionVarianceDTO) parent;
                     List<ProjectionVarianceDTO> dto = getDetailsPivotVariance(pvsdto);
                     for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
                         projDTOList.add(dto.get(i));
@@ -2127,7 +2124,6 @@ public class MProjectionVarianceLogic {
             for (Integer projId : pvsdto.getProjectionMap().keySet()) {
                 priorProjIdList.add(projId);
             }
-            List<String> listStr = new ArrayList<>();
             List<ProjectionVarianceDTO> projDTOList = getCustomizedPivotDetailResults(pivotTotalList, currentPivotDetails, priorProjIdList, pvsdto, pvsdto, programCodequeryList);
             if (pvsdto.getProjectionPeriodOrder().equals(Constant.DESCENDING)) {
                 Collections.reverse(projDTOList);
@@ -2298,7 +2294,7 @@ public class MProjectionVarianceLogic {
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);
-                final Object[] gtsRow = gtsList.size() > 0 ? (Object[]) gtsList.get(i) : new Object[0];
+                final Object[] gtsRow = !gtsList.isEmpty() ? (Object[]) gtsList.get(i) : new Object[0];
                 int year = Integer.valueOf(String.valueOf(row[0]));
                 int period = Integer.valueOf(String.valueOf(row[1]));
                 List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, year, period);

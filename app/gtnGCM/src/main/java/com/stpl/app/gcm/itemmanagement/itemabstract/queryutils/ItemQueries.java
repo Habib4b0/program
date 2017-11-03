@@ -730,4 +730,8 @@ public class ItemQueries {
         }
         return false;
     }
+
+    public static List<Object[]> execute(String query) {
+      return (List<Object[]>) ITEMDAO.executeSelect(query);
+    }
 }

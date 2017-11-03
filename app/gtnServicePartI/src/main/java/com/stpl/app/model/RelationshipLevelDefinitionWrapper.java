@@ -55,6 +55,7 @@ public class RelationshipLevelDefinitionWrapper
         attributes.put("relationshipLevelSid", getRelationshipLevelSid());
         attributes.put("flag", getFlag());
         attributes.put("levelName", getLevelName());
+        attributes.put("parentHierarchyNo", getParentHierarchyNo());
 
         return attributes;
     }
@@ -147,6 +148,12 @@ public class RelationshipLevelDefinitionWrapper
 
         if (levelName != null) {
             setLevelName(levelName);
+        }
+
+        String parentHierarchyNo = (String) attributes.get("parentHierarchyNo");
+
+        if (parentHierarchyNo != null) {
+            setParentHierarchyNo(parentHierarchyNo);
         }
     }
 
@@ -449,6 +456,26 @@ public class RelationshipLevelDefinitionWrapper
     @Override
     public void setLevelName(java.lang.String levelName) {
         _relationshipLevelDefinition.setLevelName(levelName);
+    }
+
+    /**
+    * Returns the parent hierarchy no of this relationship level definition.
+    *
+    * @return the parent hierarchy no of this relationship level definition
+    */
+    @Override
+    public java.lang.String getParentHierarchyNo() {
+        return _relationshipLevelDefinition.getParentHierarchyNo();
+    }
+
+    /**
+    * Sets the parent hierarchy no of this relationship level definition.
+    *
+    * @param parentHierarchyNo the parent hierarchy no of this relationship level definition
+    */
+    @Override
+    public void setParentHierarchyNo(java.lang.String parentHierarchyNo) {
+        _relationshipLevelDefinition.setParentHierarchyNo(parentHierarchyNo);
     }
 
     @Override

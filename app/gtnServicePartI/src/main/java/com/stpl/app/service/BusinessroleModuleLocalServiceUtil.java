@@ -3,7 +3,6 @@ package com.stpl.app.service;
 import com.stpl.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.stpl.portal.kernel.util.ReferenceRegistry;
 import com.stpl.portal.service.InvokableLocalService;
-import org.jboss.logging.Logger;
 
 /**
  * Provides the local service utility for BusinessroleModule. This utility wraps
@@ -21,7 +20,6 @@ import org.jboss.logging.Logger;
  */
 public class BusinessroleModuleLocalServiceUtil {
     private static BusinessroleModuleLocalService _service;
-    private static final Logger LOGGER = Logger.getLogger(BusinessroleModuleLocalServiceUtil.class);
 
     /*
      * NOTE FOR DEVELOPERS:
@@ -283,7 +281,6 @@ public class BusinessroleModuleLocalServiceUtil {
 
     public static java.lang.Object executeSelectQuery(java.lang.String query,
         java.lang.Object udc1) {
-        LOGGER.debug(query);
         return getService().executeSelectQuery(query, udc1);
     }
 

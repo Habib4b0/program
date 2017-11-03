@@ -1,10 +1,10 @@
 package com.stpl.app.global.abstractsearch.util;
 
-import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
+import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.app.util.HelperDTO;
-import com.stpl.domain.global.item.ItemDAO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -104,7 +104,7 @@ public class CommonUtils {
      * @return String - The description for the specific listtype id
      */
     public static final CommonUtils commonUtils = new CommonUtils();
-    private static final ItemDAO DAO = new ItemSearchLogicDAOImpl();
+    final static CommonDao DAO = CommonDaoImpl.getInstance();
         
     /**
      * To get the combo box select.

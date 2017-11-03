@@ -29,8 +29,6 @@ import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinService;
 import java.io.IOException;
 import java.sql.Connection;
@@ -40,11 +38,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.naming.NamingException;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -437,7 +432,7 @@ public class WorkflowLogic {
         try {
             resultList = HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
 
-            if (resultList.size() > 0) {
+            if (!resultList.isEmpty()) {
                 HelperTable helperTable = resultList.get(0);
                 helperTableId = helperTable.getHelperTableSid();
             }

@@ -1,57 +1,5 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SPACE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.URA_RESULTS_SCREEN;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ACTUALS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMOUNT;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ASCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AVERAGE_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BASIC_URA;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEGINNING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEST_PRICE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BOTH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.CPI_URA_SPACE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DAY_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DESCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ENDING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MEDICAID_URA;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MID_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NM_NET_PRICE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERCENTAGE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERIOD;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PIVOT_VIEW;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TYPE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PROJECTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SALES_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.TOTAL_URA;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -63,7 +11,6 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.MedicaidURAResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.MedicaidURAResultsTableLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
@@ -72,6 +19,12 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCo
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.URA_RESULTS_SCREEN;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -105,6 +58,23 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class MedicaidURA.
@@ -292,6 +262,14 @@ public class MedicaidURA extends CustomComponent implements View {
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
     Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
     SessionDTO sessionDTO;
+    public static final String MEDICAID_URA_WORSHEET_HELPER_TABLE = "Medicaid_Ura_Worsheet_Helper_table";
+    public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
+    public static final String MEDICAID_URA_CPI_URA = "MEDICAID_URA_CPI_URA";
+    public static final String MEDICAID_URA_BASIC_URA = "MEDICAID_URA_BASIC_URA";
+    public static final String MEDICAID_URA_BEST_PRICE = "MEDICAID_URA_BEST_PRICE";
+    public static final String LOWEST_COMMERCIAL_NET_PRICE = "Lowest Commercial Net Price";
+    private final Map<String,String> priceTypeReplaceMap = new HashMap();
+    private final Map<String,String> loadPriceActualMap = new HashMap();
 
     /**
      * /**
@@ -318,8 +296,7 @@ public class MedicaidURA extends CustomComponent implements View {
      *
      * @return the caption
      */
-    @Override
-	public String getCaption() {
+    public String getCaption() {
         LOGGER.debug("Inside MedicaidURA getCaption");
 
         return MEDICAID_URA_RESULTS;
@@ -358,14 +335,7 @@ public class MedicaidURA extends CustomComponent implements View {
         view.addItem(PERIOD.getConstant());
         view.addItem(PRICE_TYPE.getConstant());
         view.setValue(PERIOD.getConstant());
-
-        priceType.addItem(Constant.WAC);
-        priceType.addItem(Constant.AMP);
-        priceType.addItem(Constant.BEST_PRICE_LOWERCASE);
-        priceType.addItem("Lowest Commercial Net Price");
-        priceType.addItem("Basic URA");
-        priceType.addItem(Constant.CPIURA);
-        priceType.addItem("Total URA");
+        loadPriceTypes();
         priceBasisDdlb.addItem(SELECT_ONE.getConstant());
         priceBasisDdlb.addItem(AVERAGE_QUARTER_WAC.getConstant());
         priceBasisDdlb.addItem(BEGINNING_QUARTER_WAC.getConstant());
@@ -553,8 +523,7 @@ public class MedicaidURA extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -617,11 +586,11 @@ public class MedicaidURA extends CustomComponent implements View {
             List<String> selectedPrice = new ArrayList<>();
             for (Object itemId : itemIds) {
                 if (priceType.isSelected(itemId)) {
-                    selectedPrice.add(String.valueOf(itemId));
+                    selectedPrice.add(priceTypeReplaceMap.get(String.valueOf(itemId)));
                 }
             }
-            int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-            projectionDTO.setProjectionId(projectionId);
+            int projId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+            projectionDTO.setProjectionId(projId);
             projectionDTO.setPriceTypeList(selectedPrice);
             projectionDTO.setFrequency(QUARTERLY.getConstant());
             projectionDTO.setHistoryNum(historyNum);
@@ -691,7 +660,7 @@ public class MedicaidURA extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
+        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, "URA");
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -735,8 +704,7 @@ public class MedicaidURA extends CustomComponent implements View {
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
-                        @Override
-						public void buttonClick(final Button.ClickEvent event) {
+                        public void buttonClick(final Button.ClickEvent event) {
                             ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                             worksheetProjDto.setNdc9(tableDto.getNdc9());
                             worksheetProjDto.setAdjust(false);
@@ -745,6 +713,10 @@ public class MedicaidURA extends CustomComponent implements View {
                             ndcDto.setDescription(tableDto.getGroup());                            
                             worksheetProjDto.setNdcSid(ndcDto);
                             worksheetProjDto.setNdcWSdto(ndcDto);
+                            worksheetProjDto.setNewFormulation(tableDto.getNewFormulation());
+                            worksheetProjDto.setNewFormulationItemId(tableDto.getNewFormulationItemId());
+                            worksheetProjDto.setBaeselineAmp(tableDto.getBaeselineAmp());
+                            worksheetProjDto.setBaeselineCpi(tableDto.getBaeselineCpi());
                             HelperDTO brandResultsDto = (HelperDTO) brandDdlb.getValue();
                             if (Constant.SELECT_ONE.equals(brandResultsDto.getDescription())) {
                                 HelperDTO brand = commonLogic.getBrandForMedicaid(tableDto.getNdc9());
@@ -874,7 +846,6 @@ public class MedicaidURA extends CustomComponent implements View {
                 loadExcelResultTable();
 
             }
-			NationalAssumptionsUI.EXCEL_CLOSE = true;
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), MEDICAID_URA_RESULTS, MEDICAID_URA_RESULTS, "Medicaid_URA_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
@@ -940,8 +911,7 @@ public class MedicaidURA extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
-    @Override
-	public void enter(ViewChangeEvent event) {
+    public void enter(ViewChangeEvent event) {
         return;
     }
 
@@ -1068,9 +1038,9 @@ public class MedicaidURA extends CustomComponent implements View {
                         priceType.select(CPI_URA_SPACE.getConstant());
                         cpiURAFlag = true;
                     }
-                    if (tempValue.equals(TOTAL_URA.getConstant())) {
+                    if (tempValue.equals(projectionDTO.getLoadUraPriceMap().get(MEDICAID_URA_TOTAL_URA))) {
 
-                        priceType.select(TOTAL_URA.getConstant());
+                        priceType.select(projectionDTO.getLoadUraPriceMap().get(MEDICAID_URA_TOTAL_URA));
                         totalURAFlag = true;
                     }
 
@@ -1212,6 +1182,51 @@ public class MedicaidURA extends CustomComponent implements View {
         expand.setTabIndex(NumericConstants.FOURTEEN);
         collapse.setTabIndex(NumericConstants.FIFTEEN);
         form.tabOrder(NumericConstants.FIFTEEN);
+    }
+    
+    private void loadPriceTypes() {
+        Map<String, String> priceTypeMap = CommonUtils.getPriceTypeNameDynamic("MEDICAID_URA", MEDICAID_URA_WORSHEET_HELPER_TABLE);
+        projectionDTO.setLoadUraPriceMap(priceTypeMap);
+        loadPriceTypeReplaceMap(priceTypeMap);
+        loadPriceActualMap(priceTypeMap);
+        projectionDTO.setLoadPriceActualMap(loadPriceActualMap);
+        priceType.addItem(Constant.WAC);
+        priceType.addItem(Constant.AMP);
+        if (!StringUtils.isBlank(medResLogic.getGroupName(priceTypeMap.get(MEDICAID_URA_BEST_PRICE)))) {
+            priceType.addItem(medResLogic.getGroupName(priceTypeMap.get(MEDICAID_URA_BEST_PRICE)));
+        }
+        priceType.addItem(LOWEST_COMMERCIAL_NET_PRICE);
+        if (!StringUtils.isBlank(medResLogic.getGroupName(priceTypeMap.get(MEDICAID_URA_BASIC_URA)))) {
+            priceType.addItem(priceTypeMap.get(MEDICAID_URA_BASIC_URA));
+        }
+
+        if (!StringUtils.isBlank(medResLogic.getGroupName(priceTypeMap.get(MEDICAID_URA_CPI_URA)))) {
+            priceType.addItem(priceTypeMap.get(MEDICAID_URA_CPI_URA));
+        }
+
+        if (!StringUtils.isBlank(medResLogic.getGroupName(priceTypeMap.get(MEDICAID_URA_TOTAL_URA)))) {
+            priceType.addItem(priceTypeMap.get(MEDICAID_URA_TOTAL_URA));
+        }
+    }
+    
+    private void loadPriceTypeReplaceMap(final Map<String, String> priceTypeMap) {
+        priceTypeReplaceMap.put(Constant.WAC, Constant.WAC);
+        priceTypeReplaceMap.put(Constant.AMP, Constant.AMP);
+        priceTypeReplaceMap.put(priceTypeMap.get(MEDICAID_URA_BEST_PRICE), Constant.BEST_PRICE_LOWERCASE);
+        priceTypeReplaceMap.put(LOWEST_COMMERCIAL_NET_PRICE, LOWEST_COMMERCIAL_NET_PRICE);
+        priceTypeReplaceMap.put(priceTypeMap.get(MEDICAID_URA_BASIC_URA), "Basic URA");
+        priceTypeReplaceMap.put(priceTypeMap.get(MEDICAID_URA_CPI_URA), Constant.CPIURA);
+        priceTypeReplaceMap.put(priceTypeMap.get(MEDICAID_URA_TOTAL_URA), "Total URA");
+    }
+    
+    private void loadPriceActualMap(final Map<String, String> priceTypeMap) {
+        loadPriceActualMap.put(Constant.WAC, Constant.WAC);
+        loadPriceActualMap.put(Constant.AMP, Constant.AMP);
+        loadPriceActualMap.put(Constant.BEST_PRICE_LOWERCASE, priceTypeMap.get(MEDICAID_URA_BEST_PRICE));
+        loadPriceActualMap.put(LOWEST_COMMERCIAL_NET_PRICE, LOWEST_COMMERCIAL_NET_PRICE);
+        loadPriceActualMap.put("Basic URA", priceTypeMap.get(MEDICAID_URA_BASIC_URA));
+        loadPriceActualMap.put(Constant.CPIURA, priceTypeMap.get(MEDICAID_URA_CPI_URA));
+        loadPriceActualMap.put("Total URA", priceTypeMap.get(MEDICAID_URA_TOTAL_URA));
     }
 
 }

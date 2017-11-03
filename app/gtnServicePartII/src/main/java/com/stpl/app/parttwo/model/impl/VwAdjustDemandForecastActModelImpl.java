@@ -40,10 +40,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
      */
     public static final String TABLE_NAME = "VW_ADJUST_DEMAND_FORECAST_ACT";
     public static final Object[][] TABLE_COLUMNS = {
-            { "FORECAST_VERSION", Types.VARCHAR },
+            { "FORECAST_VER", Types.VARCHAR },
             { "GROSS_UNITS", Types.DOUBLE },
             { "BUSINESS_UNIT_NO", Types.VARCHAR },
-            { "YEAR", Types.VARCHAR },
+            { "FORECAST_YEAR", Types.VARCHAR },
             { "BRAND_NAME", Types.VARCHAR },
             { "ITEM_ID", Types.VARCHAR },
             { "ORGANIZATION_KEY", Types.VARCHAR },
@@ -51,15 +51,15 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             { "MARKET_SHARE_RATIO", Types.INTEGER },
             { "BUSINESS_UNIT_NAME", Types.VARCHAR },
             { "MARKET_SHARE_UNITS", Types.DOUBLE },
-            { "MONTH", Types.VARCHAR },
+            { "FORECAST_MONTH", Types.VARCHAR },
             { "INVENTORY_UNIT_CHANGE", Types.DOUBLE },
             { "UNCAPTURED_UNITS_RATIO", Types.VARCHAR },
             { "COUNTRY", Types.VARCHAR },
             { "FORECAST_TYPE", Types.VARCHAR },
-            { "TOTAL_ADJUSTED_DEMAND_UNITS", Types.DOUBLE },
+            { "TOTAL_DEMAND_UNITS", Types.DOUBLE },
             { "BRAND_ID", Types.VARCHAR },
             { "IS_FORECAST", Types.VARCHAR },
-            { "TOTAL_ADJUSTED_DEMAND_AMOUNT", Types.DOUBLE },
+            { "TOTAL_DEMAND_AMOUNT", Types.DOUBLE },
             { "UNCAPTURED_UNITS", Types.DOUBLE },
             { "GROSS_PRICE", Types.DOUBLE },
             { "GROSS_AMOUNT", Types.DOUBLE },
@@ -72,7 +72,7 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             { "FORECAST_NAME", Types.VARCHAR },
             { "MARKET_SIZE_UNITS", Types.DOUBLE }
         };
-    public static final String TABLE_SQL_CREATE = "create table VW_ADJUST_DEMAND_FORECAST_ACT (FORECAST_VERSION VARCHAR(75) null,GROSS_UNITS DOUBLE,BUSINESS_UNIT_NO VARCHAR(75) null,YEAR VARCHAR(75) null,BRAND_NAME VARCHAR(75) null,ITEM_ID VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,SOURCE VARCHAR(75) null,MARKET_SHARE_RATIO INTEGER,BUSINESS_UNIT_NAME VARCHAR(75) null,MARKET_SHARE_UNITS DOUBLE,MONTH VARCHAR(75) null,INVENTORY_UNIT_CHANGE DOUBLE,UNCAPTURED_UNITS_RATIO VARCHAR(75) null,COUNTRY VARCHAR(75) null,FORECAST_TYPE VARCHAR(75) null,TOTAL_ADJUSTED_DEMAND_UNITS DOUBLE,BRAND_ID VARCHAR(75) null,IS_FORECAST VARCHAR(75) null,TOTAL_ADJUSTED_DEMAND_AMOUNT DOUBLE,UNCAPTURED_UNITS DOUBLE,GROSS_PRICE DOUBLE,GROSS_AMOUNT DOUBLE,BATCH_ID VARCHAR(75) null,ADJUSTED_DEMAND_FORECAST_ID INTEGER not null primary key,ITEM_NAME VARCHAR(75) null,NET_SALES_PRICE DOUBLE,NET_SALES_AMOUNT DOUBLE,SEGMENT VARCHAR(75) null,FORECAST_NAME VARCHAR(75) null,MARKET_SIZE_UNITS DOUBLE)";
+    public static final String TABLE_SQL_CREATE = "create table VW_ADJUST_DEMAND_FORECAST_ACT (FORECAST_VER VARCHAR(75) null,GROSS_UNITS DOUBLE,BUSINESS_UNIT_NO VARCHAR(75) null,FORECAST_YEAR VARCHAR(75) null,BRAND_NAME VARCHAR(75) null,ITEM_ID VARCHAR(75) null,ORGANIZATION_KEY VARCHAR(75) null,SOURCE VARCHAR(75) null,MARKET_SHARE_RATIO INTEGER,BUSINESS_UNIT_NAME VARCHAR(75) null,MARKET_SHARE_UNITS DOUBLE,FORECAST_MONTH VARCHAR(75) null,INVENTORY_UNIT_CHANGE DOUBLE,UNCAPTURED_UNITS_RATIO VARCHAR(75) null,COUNTRY VARCHAR(75) null,FORECAST_TYPE VARCHAR(75) null,TOTAL_DEMAND_UNITS DOUBLE,BRAND_ID VARCHAR(75) null,IS_FORECAST VARCHAR(75) null,TOTAL_DEMAND_AMOUNT DOUBLE,UNCAPTURED_UNITS DOUBLE,GROSS_PRICE DOUBLE,GROSS_AMOUNT DOUBLE,BATCH_ID VARCHAR(75) null,ADJUSTED_DEMAND_FORECAST_ID INTEGER not null primary key,ITEM_NAME VARCHAR(75) null,NET_SALES_PRICE DOUBLE,NET_SALES_AMOUNT DOUBLE,SEGMENT VARCHAR(75) null,FORECAST_NAME VARCHAR(75) null,MARKET_SIZE_UNITS DOUBLE)";
     public static final String TABLE_SQL_DROP = "drop table VW_ADJUST_DEMAND_FORECAST_ACT";
     public static final String ORDER_BY_JPQL = " ORDER BY vwAdjustDemandForecastAct.adjustedDemandForecastId ASC";
     public static final String ORDER_BY_SQL = " ORDER BY VW_ADJUST_DEMAND_FORECAST_ACT.ADJUSTED_DEMAND_FORECAST_ID ASC";
@@ -92,10 +92,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     private static Class<?>[] _escapedModelInterfaces = new Class[] {
             VwAdjustDemandForecastAct.class
         };
-    private String _forecastVersion;
+    private String _forecastVer;
     private double _grossUnits;
     private String _businessUnitNo;
-    private String _year;
+    private String _forecastYear;
     private String _brandName;
     private String _itemId;
     private String _organizationKey;
@@ -103,15 +103,15 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     private int _marketShareRatio;
     private String _businessUnitName;
     private double _marketShareUnits;
-    private String _month;
+    private String _forecastMonth;
     private double _inventoryUnitChange;
     private String _uncapturedUnitsRatio;
     private String _country;
     private String _forecastType;
-    private double _totalAdjustedDemandUnits;
+    private double _totalDemandUnits;
     private String _brandId;
     private String _isForecast;
-    private double _totalAdjustedDemandAmount;
+    private double _totalDemandAmount;
     private double _uncapturedUnits;
     private double _grossPrice;
     private double _grossAmount;
@@ -162,10 +162,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     public Map<String, Object> getModelAttributes() {
         Map<String, Object> attributes = new HashMap<String, Object>();
 
-        attributes.put("forecastVersion", getForecastVersion());
+        attributes.put("forecastVer", getForecastVer());
         attributes.put("grossUnits", getGrossUnits());
         attributes.put("businessUnitNo", getBusinessUnitNo());
-        attributes.put("year", getYear());
+        attributes.put("forecastYear", getForecastYear());
         attributes.put("brandName", getBrandName());
         attributes.put("itemId", getItemId());
         attributes.put("organizationKey", getOrganizationKey());
@@ -173,16 +173,15 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         attributes.put("marketShareRatio", getMarketShareRatio());
         attributes.put("businessUnitName", getBusinessUnitName());
         attributes.put("marketShareUnits", getMarketShareUnits());
-        attributes.put("month", getMonth());
+        attributes.put("forecastMonth", getForecastMonth());
         attributes.put("inventoryUnitChange", getInventoryUnitChange());
         attributes.put("uncapturedUnitsRatio", getUncapturedUnitsRatio());
         attributes.put("country", getCountry());
         attributes.put("forecastType", getForecastType());
-        attributes.put("totalAdjustedDemandUnits", getTotalAdjustedDemandUnits());
+        attributes.put("totalDemandUnits", getTotalDemandUnits());
         attributes.put("brandId", getBrandId());
         attributes.put("isForecast", getIsForecast());
-        attributes.put("totalAdjustedDemandAmount",
-            getTotalAdjustedDemandAmount());
+        attributes.put("totalDemandAmount", getTotalDemandAmount());
         attributes.put("uncapturedUnits", getUncapturedUnits());
         attributes.put("grossPrice", getGrossPrice());
         attributes.put("grossAmount", getGrossAmount());
@@ -200,10 +199,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
 
     @Override
     public void setModelAttributes(Map<String, Object> attributes) {
-        String forecastVersion = (String) attributes.get("forecastVersion");
+        String forecastVer = (String) attributes.get("forecastVer");
 
-        if (forecastVersion != null) {
-            setForecastVersion(forecastVersion);
+        if (forecastVer != null) {
+            setForecastVer(forecastVer);
         }
 
         Double grossUnits = (Double) attributes.get("grossUnits");
@@ -218,10 +217,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             setBusinessUnitNo(businessUnitNo);
         }
 
-        String year = (String) attributes.get("year");
+        String forecastYear = (String) attributes.get("forecastYear");
 
-        if (year != null) {
-            setYear(year);
+        if (forecastYear != null) {
+            setForecastYear(forecastYear);
         }
 
         String brandName = (String) attributes.get("brandName");
@@ -266,10 +265,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             setMarketShareUnits(marketShareUnits);
         }
 
-        String month = (String) attributes.get("month");
+        String forecastMonth = (String) attributes.get("forecastMonth");
 
-        if (month != null) {
-            setMonth(month);
+        if (forecastMonth != null) {
+            setForecastMonth(forecastMonth);
         }
 
         Double inventoryUnitChange = (Double) attributes.get(
@@ -298,11 +297,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             setForecastType(forecastType);
         }
 
-        Double totalAdjustedDemandUnits = (Double) attributes.get(
-                "totalAdjustedDemandUnits");
+        Double totalDemandUnits = (Double) attributes.get("totalDemandUnits");
 
-        if (totalAdjustedDemandUnits != null) {
-            setTotalAdjustedDemandUnits(totalAdjustedDemandUnits);
+        if (totalDemandUnits != null) {
+            setTotalDemandUnits(totalDemandUnits);
         }
 
         String brandId = (String) attributes.get("brandId");
@@ -317,11 +315,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             setIsForecast(isForecast);
         }
 
-        Double totalAdjustedDemandAmount = (Double) attributes.get(
-                "totalAdjustedDemandAmount");
+        Double totalDemandAmount = (Double) attributes.get("totalDemandAmount");
 
-        if (totalAdjustedDemandAmount != null) {
-            setTotalAdjustedDemandAmount(totalAdjustedDemandAmount);
+        if (totalDemandAmount != null) {
+            setTotalDemandAmount(totalDemandAmount);
         }
 
         Double uncapturedUnits = (Double) attributes.get("uncapturedUnits");
@@ -393,17 +390,17 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     }
 
     @Override
-    public String getForecastVersion() {
-        if (_forecastVersion == null) {
+    public String getForecastVer() {
+        if (_forecastVer == null) {
             return StringPool.BLANK;
         } else {
-            return _forecastVersion;
+            return _forecastVer;
         }
     }
 
     @Override
-    public void setForecastVersion(String forecastVersion) {
-        _forecastVersion = forecastVersion;
+    public void setForecastVer(String forecastVer) {
+        _forecastVer = forecastVer;
     }
 
     @Override
@@ -431,17 +428,17 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     }
 
     @Override
-    public String getYear() {
-        if (_year == null) {
+    public String getForecastYear() {
+        if (_forecastYear == null) {
             return StringPool.BLANK;
         } else {
-            return _year;
+            return _forecastYear;
         }
     }
 
     @Override
-    public void setYear(String year) {
-        _year = year;
+    public void setForecastYear(String forecastYear) {
+        _forecastYear = forecastYear;
     }
 
     @Override
@@ -535,17 +532,17 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     }
 
     @Override
-    public String getMonth() {
-        if (_month == null) {
+    public String getForecastMonth() {
+        if (_forecastMonth == null) {
             return StringPool.BLANK;
         } else {
-            return _month;
+            return _forecastMonth;
         }
     }
 
     @Override
-    public void setMonth(String month) {
-        _month = month;
+    public void setForecastMonth(String forecastMonth) {
+        _forecastMonth = forecastMonth;
     }
 
     @Override
@@ -601,13 +598,13 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     }
 
     @Override
-    public double getTotalAdjustedDemandUnits() {
-        return _totalAdjustedDemandUnits;
+    public double getTotalDemandUnits() {
+        return _totalDemandUnits;
     }
 
     @Override
-    public void setTotalAdjustedDemandUnits(double totalAdjustedDemandUnits) {
-        _totalAdjustedDemandUnits = totalAdjustedDemandUnits;
+    public void setTotalDemandUnits(double totalDemandUnits) {
+        _totalDemandUnits = totalDemandUnits;
     }
 
     @Override
@@ -639,13 +636,13 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     }
 
     @Override
-    public double getTotalAdjustedDemandAmount() {
-        return _totalAdjustedDemandAmount;
+    public double getTotalDemandAmount() {
+        return _totalDemandAmount;
     }
 
     @Override
-    public void setTotalAdjustedDemandAmount(double totalAdjustedDemandAmount) {
-        _totalAdjustedDemandAmount = totalAdjustedDemandAmount;
+    public void setTotalDemandAmount(double totalDemandAmount) {
+        _totalDemandAmount = totalDemandAmount;
     }
 
     @Override
@@ -788,10 +785,10 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     public Object clone() {
         VwAdjustDemandForecastActImpl vwAdjustDemandForecastActImpl = new VwAdjustDemandForecastActImpl();
 
-        vwAdjustDemandForecastActImpl.setForecastVersion(getForecastVersion());
+        vwAdjustDemandForecastActImpl.setForecastVer(getForecastVer());
         vwAdjustDemandForecastActImpl.setGrossUnits(getGrossUnits());
         vwAdjustDemandForecastActImpl.setBusinessUnitNo(getBusinessUnitNo());
-        vwAdjustDemandForecastActImpl.setYear(getYear());
+        vwAdjustDemandForecastActImpl.setForecastYear(getForecastYear());
         vwAdjustDemandForecastActImpl.setBrandName(getBrandName());
         vwAdjustDemandForecastActImpl.setItemId(getItemId());
         vwAdjustDemandForecastActImpl.setOrganizationKey(getOrganizationKey());
@@ -799,15 +796,15 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         vwAdjustDemandForecastActImpl.setMarketShareRatio(getMarketShareRatio());
         vwAdjustDemandForecastActImpl.setBusinessUnitName(getBusinessUnitName());
         vwAdjustDemandForecastActImpl.setMarketShareUnits(getMarketShareUnits());
-        vwAdjustDemandForecastActImpl.setMonth(getMonth());
+        vwAdjustDemandForecastActImpl.setForecastMonth(getForecastMonth());
         vwAdjustDemandForecastActImpl.setInventoryUnitChange(getInventoryUnitChange());
         vwAdjustDemandForecastActImpl.setUncapturedUnitsRatio(getUncapturedUnitsRatio());
         vwAdjustDemandForecastActImpl.setCountry(getCountry());
         vwAdjustDemandForecastActImpl.setForecastType(getForecastType());
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandUnits(getTotalAdjustedDemandUnits());
+        vwAdjustDemandForecastActImpl.setTotalDemandUnits(getTotalDemandUnits());
         vwAdjustDemandForecastActImpl.setBrandId(getBrandId());
         vwAdjustDemandForecastActImpl.setIsForecast(getIsForecast());
-        vwAdjustDemandForecastActImpl.setTotalAdjustedDemandAmount(getTotalAdjustedDemandAmount());
+        vwAdjustDemandForecastActImpl.setTotalDemandAmount(getTotalDemandAmount());
         vwAdjustDemandForecastActImpl.setUncapturedUnits(getUncapturedUnits());
         vwAdjustDemandForecastActImpl.setGrossPrice(getGrossPrice());
         vwAdjustDemandForecastActImpl.setGrossAmount(getGrossAmount());
@@ -872,12 +869,12 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     public CacheModel<VwAdjustDemandForecastAct> toCacheModel() {
         VwAdjustDemandForecastActCacheModel vwAdjustDemandForecastActCacheModel = new VwAdjustDemandForecastActCacheModel();
 
-        vwAdjustDemandForecastActCacheModel.forecastVersion = getForecastVersion();
+        vwAdjustDemandForecastActCacheModel.forecastVer = getForecastVer();
 
-        String forecastVersion = vwAdjustDemandForecastActCacheModel.forecastVersion;
+        String forecastVer = vwAdjustDemandForecastActCacheModel.forecastVer;
 
-        if ((forecastVersion != null) && (forecastVersion.length() == 0)) {
-            vwAdjustDemandForecastActCacheModel.forecastVersion = null;
+        if ((forecastVer != null) && (forecastVer.length() == 0)) {
+            vwAdjustDemandForecastActCacheModel.forecastVer = null;
         }
 
         vwAdjustDemandForecastActCacheModel.grossUnits = getGrossUnits();
@@ -890,12 +887,12 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             vwAdjustDemandForecastActCacheModel.businessUnitNo = null;
         }
 
-        vwAdjustDemandForecastActCacheModel.year = getYear();
+        vwAdjustDemandForecastActCacheModel.forecastYear = getForecastYear();
 
-        String year = vwAdjustDemandForecastActCacheModel.year;
+        String forecastYear = vwAdjustDemandForecastActCacheModel.forecastYear;
 
-        if ((year != null) && (year.length() == 0)) {
-            vwAdjustDemandForecastActCacheModel.year = null;
+        if ((forecastYear != null) && (forecastYear.length() == 0)) {
+            vwAdjustDemandForecastActCacheModel.forecastYear = null;
         }
 
         vwAdjustDemandForecastActCacheModel.brandName = getBrandName();
@@ -942,12 +939,12 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
 
         vwAdjustDemandForecastActCacheModel.marketShareUnits = getMarketShareUnits();
 
-        vwAdjustDemandForecastActCacheModel.month = getMonth();
+        vwAdjustDemandForecastActCacheModel.forecastMonth = getForecastMonth();
 
-        String month = vwAdjustDemandForecastActCacheModel.month;
+        String forecastMonth = vwAdjustDemandForecastActCacheModel.forecastMonth;
 
-        if ((month != null) && (month.length() == 0)) {
-            vwAdjustDemandForecastActCacheModel.month = null;
+        if ((forecastMonth != null) && (forecastMonth.length() == 0)) {
+            vwAdjustDemandForecastActCacheModel.forecastMonth = null;
         }
 
         vwAdjustDemandForecastActCacheModel.inventoryUnitChange = getInventoryUnitChange();
@@ -977,7 +974,7 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             vwAdjustDemandForecastActCacheModel.forecastType = null;
         }
 
-        vwAdjustDemandForecastActCacheModel.totalAdjustedDemandUnits = getTotalAdjustedDemandUnits();
+        vwAdjustDemandForecastActCacheModel.totalDemandUnits = getTotalDemandUnits();
 
         vwAdjustDemandForecastActCacheModel.brandId = getBrandId();
 
@@ -995,7 +992,7 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
             vwAdjustDemandForecastActCacheModel.isForecast = null;
         }
 
-        vwAdjustDemandForecastActCacheModel.totalAdjustedDemandAmount = getTotalAdjustedDemandAmount();
+        vwAdjustDemandForecastActCacheModel.totalDemandAmount = getTotalDemandAmount();
 
         vwAdjustDemandForecastActCacheModel.uncapturedUnits = getUncapturedUnits();
 
@@ -1050,14 +1047,14 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
     public String toString() {
         StringBundler sb = new StringBundler(63);
 
-        sb.append("{forecastVersion=");
-        sb.append(getForecastVersion());
+        sb.append("{forecastVer=");
+        sb.append(getForecastVer());
         sb.append(", grossUnits=");
         sb.append(getGrossUnits());
         sb.append(", businessUnitNo=");
         sb.append(getBusinessUnitNo());
-        sb.append(", year=");
-        sb.append(getYear());
+        sb.append(", forecastYear=");
+        sb.append(getForecastYear());
         sb.append(", brandName=");
         sb.append(getBrandName());
         sb.append(", itemId=");
@@ -1072,8 +1069,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getBusinessUnitName());
         sb.append(", marketShareUnits=");
         sb.append(getMarketShareUnits());
-        sb.append(", month=");
-        sb.append(getMonth());
+        sb.append(", forecastMonth=");
+        sb.append(getForecastMonth());
         sb.append(", inventoryUnitChange=");
         sb.append(getInventoryUnitChange());
         sb.append(", uncapturedUnitsRatio=");
@@ -1082,14 +1079,14 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getCountry());
         sb.append(", forecastType=");
         sb.append(getForecastType());
-        sb.append(", totalAdjustedDemandUnits=");
-        sb.append(getTotalAdjustedDemandUnits());
+        sb.append(", totalDemandUnits=");
+        sb.append(getTotalDemandUnits());
         sb.append(", brandId=");
         sb.append(getBrandId());
         sb.append(", isForecast=");
         sb.append(getIsForecast());
-        sb.append(", totalAdjustedDemandAmount=");
-        sb.append(getTotalAdjustedDemandAmount());
+        sb.append(", totalDemandAmount=");
+        sb.append(getTotalDemandAmount());
         sb.append(", uncapturedUnits=");
         sb.append(getUncapturedUnits());
         sb.append(", grossPrice=");
@@ -1126,8 +1123,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append("</model-name>");
 
         sb.append(
-            "<column><column-name>forecastVersion</column-name><column-value><![CDATA[");
-        sb.append(getForecastVersion());
+            "<column><column-name>forecastVer</column-name><column-value><![CDATA[");
+        sb.append(getForecastVer());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>grossUnits</column-name><column-value><![CDATA[");
@@ -1138,8 +1135,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getBusinessUnitNo());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>year</column-name><column-value><![CDATA[");
-        sb.append(getYear());
+            "<column><column-name>forecastYear</column-name><column-value><![CDATA[");
+        sb.append(getForecastYear());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>brandName</column-name><column-value><![CDATA[");
@@ -1170,8 +1167,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getMarketShareUnits());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>month</column-name><column-value><![CDATA[");
-        sb.append(getMonth());
+            "<column><column-name>forecastMonth</column-name><column-value><![CDATA[");
+        sb.append(getForecastMonth());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>inventoryUnitChange</column-name><column-value><![CDATA[");
@@ -1190,8 +1187,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getForecastType());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>totalAdjustedDemandUnits</column-name><column-value><![CDATA[");
-        sb.append(getTotalAdjustedDemandUnits());
+            "<column><column-name>totalDemandUnits</column-name><column-value><![CDATA[");
+        sb.append(getTotalDemandUnits());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>brandId</column-name><column-value><![CDATA[");
@@ -1202,8 +1199,8 @@ public class VwAdjustDemandForecastActModelImpl extends BaseModelImpl<VwAdjustDe
         sb.append(getIsForecast());
         sb.append("]]></column-value></column>");
         sb.append(
-            "<column><column-name>totalAdjustedDemandAmount</column-name><column-value><![CDATA[");
-        sb.append(getTotalAdjustedDemandAmount());
+            "<column><column-name>totalDemandAmount</column-name><column-value><![CDATA[");
+        sb.append(getTotalDemandAmount());
         sb.append("]]></column-value></column>");
         sb.append(
             "<column><column-name>uncapturedUnits</column-name><column-value><![CDATA[");

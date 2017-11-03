@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Panel xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" id="mainPanel"  xmlns:b="urn:import:org.asi.ui.customtextfield" 
-  xmlns:c="urn:import:org.asi.ui.customcombobox" >
+  xmlns:c="urn:import:org.asi.ui.customcombobox" xmlns:d="urn:import:org.asi.ui.custommenubar">
 
     <VerticalLayout spacing="true" margin="true" immediate="true" >
+        <TabSheet id="tabsheet1" immediate="true" margin="true" spacing ="true"/> 
         <Panel id="salesProjectionSelection" caption="Sales Projection Selection" width="100%" styleName = "forecast-tab">
-            <VerticalLayout styleName = "width-auto" margin="true">
+            <VerticalLayout id="salesProjectionSelectionLayout" styleName = "width-auto" margin="true">
                 <HorizontalLayout spacing="false" margin="false" immediate="true"  styleName="adjustCaption">
-                    <GridLayout id="GridLayoutProjection" spacing="true" margin="false" immediate="true" rows="2" columns="6" >
+                    <GridLayout id="GridLayoutProjection" spacing="true" margin="false" immediate="true" rows="2" columns="8" >
                         <Label value="Frequency: " contentMode="HTML" width="80px" />
                         <ComboBox id="nmFrequencyDdlb" immediate="true" />
                          <Label caption="Actuals/Projections:" contentMode="HTML" width="127px" />
                         <OptionGroup id="ActualsProjections" enabled="true"  />
                         <Label id="projPeriodOrdr" caption="Projection Period Order:" contentMode="HTML" width="165px" />
                         <OptionGroup id="proPeriodOrd" enabled="true"  />
+                        <Label  caption="Display Format:" contentMode="HTML"  />
+                        <d:CustomMenuBar id="displayFormatDdlb" styleName="custommenumulticheck" width = "200px" />
                         <Label caption="History: " contentMode="HTML" styleName="labelresultalign"/>
                         <ComboBox id="historyDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
                         <Label id="Variables" caption="Variables:" contentMode="HTML" styleName="labelresultalign"/>
                         <OptionGroup  multiSelect="true" id="variables" enabled="true"  />
+                        <Label id="unitOfMeasure" caption="Unit Of Measure:" contentMode="HTML" styleName="labelresultalign"/>
+                        <ComboBox id="unitOfMeasureDdlb" immediate="true" />
+                         <Label id="conversionFactor" caption="Currency Format:" contentMode="HTML" styleName="labelresultalign"/>
+                        <ComboBox id="conversionFactorDdlb" immediate="true" />
                     </GridLayout>          
                     <Panel caption="Alternate History" id="alternateHistoryPanel">
                           <VerticalLayout styleName = "width-auto" margin="false" height="45px">      
@@ -34,6 +41,22 @@
 			</HorizontalLayout>                        
                     </VerticalLayout>
                     </Panel>
+                    <VerticalLayout id="salesProjectionfilterLayout" styleName = "width-auto" margin="true">
+                        <HorizontalLayout spacing="false" margin="false" immediate="true"  styleName="adjustCaption">
+                    <GridLayout id="GridLayoutFilter" spacing="true" margin="false" immediate="true" rows="2" columns="6" >
+                                <Label value="Customer Level: " contentMode="HTML"  />
+                                <ComboBox id="customerlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true"/>
+                                <Label caption="Product Level:" contentMode="HTML"  />
+                                <ComboBox id="productlevelDdlb" enabled="true"  styleName="comboxsize" nullSelectionAllowed = "true" />
+                                <Label  caption="Sales Inclusion:" contentMode="HTML"  />
+                                <d:CustomMenuBar id="salesInclusionDdlb" styleName="custommenumulticheck" width = "200px" />
+                                <Label caption="Customer Filter:" contentMode="HTML"  />
+                                <d:CustomMenuBar id="customerFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                                <Label id="Product Filter" caption="Product Filter:" contentMode="HTML" />
+                                <d:CustomMenuBar id="productFilterDdlb" styleName="custommenumulticheck" width = "200px" />
+                            </GridLayout>          
+                        </HorizontalLayout>                        
+                    </VerticalLayout>
        <Panel id="channelSalesAllocationSelection" caption="Sales Allocation Selection"  margin="true" immediate="true">
               <VerticalLayout styleName = "width-auto"  margin="true">  
                 <GridLayout spacing="false" immediate="true" rows="2" columns="6" styleName="adjustCaption">

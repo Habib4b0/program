@@ -34,7 +34,7 @@ import org.jboss.logging.Logger;
  */
 public class ResponsiveUtils {
 
-    private final static Logger LOGGER = Logger.getLogger(com.stpl.app.global.company.util.CommonUtils.class);
+    private final static Logger LOGGER = Logger.getLogger(ResponsiveUtils.class);
    
     public static Label makeLabel(String value, boolean isMandatory) {
         StringBuilder sb = new StringBuilder(StringUtils.EMPTY);

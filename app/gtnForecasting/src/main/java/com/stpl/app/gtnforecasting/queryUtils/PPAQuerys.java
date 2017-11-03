@@ -12,9 +12,7 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 

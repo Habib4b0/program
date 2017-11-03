@@ -31,7 +31,7 @@ public class PVQueryUtils {
     
     public String getCCPQuery(PVSelectionDTO projSelDTO, int projectionId) {
         String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " (SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
+        return " (SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
                 + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from "
                 + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
@@ -53,12 +53,11 @@ public class PVQueryUtils {
                 + " ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID"
                 + " AND PCH2.PROJECTION_MASTER_SID  = " + projectionId
                 + " WHERE RLD2.LEVEL_NO =" + projSelDTO.getLevelNo() + ")) CCP ";
-        return ccpQuery;
     }
 
     public String getCCPGeneralQuery(PVSelectionDTO projSelDTO, int projectionId) {
         String viewtable = CommonLogic.getViewTableName(projSelDTO.getHierarchyIndicator());
-        String ccpQuery = " SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
+        return " SELECT LCCP.RELATIONSHIP_LEVEL_SID, LCCP.CCP_DETAILS_SID, LCCP.HIERARCHY_NO from "
                 + "(SELECT CCPMAP.CCP_DETAILS_SID, HLD.HIERARCHY_NO, HLD.RELATIONSHIP_LEVEL_SID from "
                 + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
@@ -80,12 +79,10 @@ public class PVQueryUtils {
                 + " ON PCH2.RELATIONSHIP_LEVEL_SID=RLD2.RELATIONSHIP_LEVEL_SID"
                 + " AND PCH2.PROJECTION_MASTER_SID=" + projectionId
                 + " WHERE RLD2.LEVEL_NO=" + projSelDTO.getLevelNo() + ") ";
-        return ccpQuery;
     }
 
     public String getUserSessionQueryCondition(int userId, int sessionId, String table) {
-        String user = StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
-        return user;
+    	return StringConstantsUtil.SMALL_AND + table + ".USER_ID=" + userId + StringConstantsUtil.SMALL_AND + table + ".SESSION_ID=" + sessionId + " ";
     }
 
     public String getProjectionResultsPivotQuery(PVSelectionDTO projSelDTO, boolean isPriorDiscount) {
@@ -96,8 +93,7 @@ public class PVQueryUtils {
         String totalDiscountQuery = getProjectionResultsDiscountsQuery(projSelDTO, isPriorDiscount);
         String salesQuery = getSalesQuery(getProjectionResultsSalesQuery(projSelDTO));
         String ppaQuery = getPPAQuery(getPPAProjectionResultsQuery(projSelDTO));
-        String customQuery = selectClause + "  from " + getPivotSelectQuery(totalDiscountQuery, salesQuery, ppaQuery);
-        return customQuery;
+        return selectClause + "  from " + getPivotSelectQuery(totalDiscountQuery, salesQuery, ppaQuery);
     }
 
     public String getPVMainDiscountDolQuery(PVSelectionDTO projSelDTO) {
@@ -325,8 +321,8 @@ public class PVQueryUtils {
     public String getPivotSelectQuery(String query1, String query2, String query3) {
         String finalWhereCond = " on TODIS.YEARS=SALEPPA.YEARS AND TODIS.PERIODS=SALEPPA.PERIODS";
         String finalWhereCond1 = " ON TODIS.YEARS=PPA.YEARS AND TODIS.PERIODS=PPA.PERIODS";
-        String selectClause = " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n " + finalWhereCond + " FULL JOIN (\n" + query3 + "\n) PPA" + finalWhereCond1;
-        return selectClause;
+        return " (\n" + query1 + "\n) TODIS FULL JOIN (\n" + query2 + "\n) SALEPPA \n " + finalWhereCond + " FULL JOIN (\n" + query3 + "\n) PPA" + finalWhereCond1;
+        
     }
 
     public String getPivotMainWhereCond(String table) {
@@ -334,7 +330,7 @@ public class PVQueryUtils {
     }
 
     public String getPivotSelectClause() {
-        String selectClause = " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
+    	return " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"
                 + " CASE WHEN SALEPPA.sales_projection_sales = 0 THEN 0 ELSE (((Isnull(TODIS.projection_sales, 0)) +ISNULL(PPA.SALES_PPA,0) + ISNULL(SALEPPA.PROJECTED_RATE, 0)) / NULLIF(SALEPPA.sales_projection_sales,0))*100 END AS TOTAL_PROJECTION_RATE, "
                 + " (Isnull(TODIS.projection_sales, 0) +ISNULL(PPA.SALES_PPA,0) + ISNULL(SALEPPA.RETURNS_PROJECTED, 0)) AS TOTAL_PROJECTION_DOLAR,"
@@ -342,11 +338,10 @@ public class PVQueryUtils {
                 + " CASE WHEN SALEPPA.projection_units = 0 THEN 0 ELSE(IsNull((IsNull(TODIS.projection_sales, 0) +ISNULL(PPA.SALES_RPU,0) +IsNull(SALEPPA.RETURNS_PROJECTED, 0)) / NULLIF(SALEPPA.PROJECTION_UNITS, 0), 0)) END AS RPU,\n"
                 + " COGS_PROJECTED = ISNULL(SALEPPA.COGS_PROJECTED, 0),\n"
                 + " NET_PROFIT_PROJECTED = ((Isnull(SALEPPA.SALES_PROJECTION_SALES, 0) - (Isnull(TODIS.PROJECTION_SALES, 0)+ ISNULL(PPA.SALES_PPA, 0))) - ISNULL(SALEPPA.COGS_PROJECTED, 0))";
-        return selectClause;
     }
 
     public String getPivotMainSelectClause(String projName) {
-        String selectClause = " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
+    	return " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
                 + " " + projName + ".CONTRACT_PROJECTION_UNITS as " + projName + "CONTRACT_PROJECTION_UNITS,"
                 + " " + projName + ".TOTAL_PROJECTION_RATE AS " + projName + "TOTAL_PROJECTION_RATE, "
                 + " " + projName + ".TOTAL_PROJECTION_DOLAR as " + projName + "TOTAL_PROJECTION_DOLAR,"
@@ -354,7 +349,7 @@ public class PVQueryUtils {
                 + " " + projName + ".RPU AS " + projName + "RPU, "
                 + " " + projName + ".COGS_PROJECTED AS " + projName + "COGC, "
                 + " " + projName + ".NET_PROFIT_PROJECTED AS " + projName + "NET_PROFIT ";
-        return selectClause;
+        
     }
 
     public String getProjectionResultsDiscountsQuery(PVSelectionDTO projSelDTO, boolean isPriorDiscount) {
@@ -436,8 +431,8 @@ public class PVQueryUtils {
         }
         customSql += "where  A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -518,7 +513,7 @@ public class PVQueryUtils {
                 + "  )A"
                 + "  group by  " + groupBy;
 
-        String futureQuery = selectClause
+        return selectClause
                 + " (A1.PROJECTION_SALES) "
                 + " ,(A1.PROJECTION_UNITS)"
                 + " , TR.PROJECTED_RATE\n"
@@ -526,7 +521,7 @@ public class PVQueryUtils {
                 + " , U.ITEM_PRICE"
                 + " from  "
                 + salesTable + " A1 " + customSql;
-        return futureQuery;
+
     }
 
     public String getPPAProjectionResultsQuery(PVSelectionDTO projSelDTO) {
@@ -583,16 +578,15 @@ public class PVQueryUtils {
                 + "  )AA"
                 + " group by  YEARS,PERIODS";
 
-        String futureQuery = selectClause
+        return selectClause
                 + " A1.PROJECTION_SALES "
                 + " ,A1.PROJECTION_RATE\n"
                 + "  from  "
                 + salesTable + " A1 " + customSql;
-        return futureQuery;
     }
 
     public String getSalesQuery(final String salesInnerJoin) {
-        String query = "SELECT YEARS\n"
+    	return "SELECT YEARS\n"
                 + " , PERIODS\n"
                 + " , Sum(projection_sales) AS SALES_PROJECTION_SALES\n"
                 + "  , Sum(projection_units) AS PROJECTION_UNITS\n"
@@ -600,21 +594,18 @@ public class PVQueryUtils {
                 + " , PROJECTED_RATE = Avg(PROJECTED_RATE)\n"
                 + " , RETURNS_PROJECTED = Sum(PROJECTION_SALES) * Avg(PROJECTED_RATE)\n"
                 + " FROM ( " + salesInnerJoin;
-        return query;
     }
 
     public String getPPAQuery(final String salesInnerJoin) {
-        String query = "SELECT AA.YEARS\n"
+    	return "SELECT AA.YEARS\n"
                 + " , AA.PERIODS\n"
                 + " , SUM(AA.PROJECTION_SALES) AS SALES_PPA \n"
                 + "  ,  SUM(AA.PROJECTION_RATE) AS SALES_RPU \n"
                 + " FROM ( " + salesInnerJoin;
-        return query;
     }
 
-    public String getCCPWhereConditionQuery(String projectionDetails, String CCP) {
-        String ccpWhereCond = StringConstantsUtil.SMALL_AND + CCP + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
-        return ccpWhereCond;
+    public String getCCPWhereConditionQuery(String projectionDetails, String ccp) {
+    	return StringConstantsUtil.SMALL_AND + ccp + ".CCP_DETAILS_SID=" + projectionDetails + ".CCP_DETAILS_SID ";
     }
 
     public String getProjectionResultsDiscountsPivotQuery(PVSelectionDTO projSelDTO) {
@@ -634,9 +625,9 @@ public class PVQueryUtils {
     public String getComparisonSearch(String workflowStatus, String marketType, String brand,
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to, String notSearchProjId) {
-        String QUOTES = "'";
-        String ASTERIK = "*";
-        String PERCENT = "%";
+        String quotes = "'";
+        String asterik = "*";
+        String percent = "%";
         String marketTypeVal;
         String brandVal;
         String projNameVal;
@@ -660,63 +651,63 @@ public class PVQueryUtils {
             if (marketType == null || marketType.equals(StringUtils.EMPTY)) {
                 marketTypeVal = "'%'";
             } else {
-                marketTypeVal = marketType.replace(ASTERIK, PERCENT);
-                marketTypeVal = QUOTES + marketTypeVal + QUOTES;
+                marketTypeVal = marketType.replace(asterik, percent);
+                marketTypeVal = quotes + marketTypeVal + quotes;
             }
             customSql.append("( HT.list_name = 'CONTRACT_TYPE' AND HT.DESCRIPTION LIKE " + marketTypeVal + ")");
             if (brand == null || brand.equals(StringUtils.EMPTY)) {
                 brandVal = "'%'";
             } else {
-                brandVal = brand.replace(ASTERIK, PERCENT);
-                brandVal = QUOTES + brandVal + QUOTES;
+                brandVal = brand.replace(asterik, percent);
+                brandVal = quotes + brandVal + quotes;
             }
             customSql.append("  AND (BM.BRAND_NAME LIKE " + brandVal + " or BM.BRAND_NAME is null)");
             if (projName == null || projName.equals(StringUtils.EMPTY)) {
                 projNameVal = "'%'";
             } else {
-                projNameVal = projName.replace(ASTERIK, PERCENT);
-                projNameVal = QUOTES + projNameVal + QUOTES;
+                projNameVal = projName.replace(asterik, percent);
+                projNameVal = quotes + projNameVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " + projNameVal + " or PM.PROJECTION_NAME is null)");
             if (contHldr == null || contHldr.equals(StringUtils.EMPTY)) {
                 contHldrVal = "'%'";
             } else {
-                contHldrVal = contHldr.replace(ASTERIK, PERCENT);
-                contHldrVal = QUOTES + contHldrVal + QUOTES;
+                contHldrVal = contHldr.replace(asterik, percent);
+                contHldrVal = quotes + contHldrVal + quotes;
             }
             customSql.append("AND (C.CONTRACT_NO LIKE " + contHldrVal + " or C.CONTRACT_NO is null)");
             if (ndcName == null || ndcName.equals(StringUtils.EMPTY)) {
                 ndcNameVal = "'%'";
             } else {
-                ndcNameVal = ndcName.replace(ASTERIK, PERCENT);
-                ndcNameVal = QUOTES + ndcNameVal + QUOTES;
+                ndcNameVal = ndcName.replace(asterik, percent);
+                ndcNameVal = quotes + ndcNameVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NAME LIKE " + ndcNameVal + " or IM.ITEM_NAME is null)");
             if (ndcNo == null || ndcNo.equals(StringUtils.EMPTY)) {
                 ndcNoVal = "'%'";
             } else {
-                ndcNoVal = ndcNo.replace(ASTERIK, PERCENT);
-                ndcNoVal = QUOTES + ndcNoVal + QUOTES;
+                ndcNoVal = ndcNo.replace(asterik, percent);
+                ndcNoVal = quotes + ndcNoVal + quotes;
             }
             customSql.append("AND (IM.ITEM_NO LIKE " + ndcNoVal + "or IM.ITEM_NO is null)");
             if (contract == null || contract.equals(StringUtils.EMPTY)) {
                 contractVal = "'%'";
             } else {
-                contractVal = contract.replace(ASTERIK, PERCENT);
-                contractVal = QUOTES + contractVal + QUOTES;
+                contractVal = contract.replace(asterik, percent);
+                contractVal = quotes + contractVal + quotes;
             }
             customSql.append("AND (CM.COMPANY_NO LIKE " + contractVal + "or CM.COMPANY_NO is null)");
             if (desc == null || desc.equals(StringUtils.EMPTY)) {
                 descVal = "'%'";
             } else {
-                descVal = desc.replace(ASTERIK, PERCENT);
-                descVal = QUOTES + descVal + QUOTES;
+                descVal = desc.replace(asterik, percent);
+                descVal = quotes + descVal + quotes;
             }
             customSql.append("AND (PM.PROJECTION_NAME LIKE " + descVal + "or PM.PROJECTION_NAME is null)");
             if (isProjectionStatus) {
                 customSql.append("and pm.is_approved not in ('Y','C','A','R')");
             } else {
-                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + QUOTES + workflowStatus + QUOTES);
+                customSql.append("AND HT1.list_name = 'WorkFlowStatus' and ht1.description = " + quotes + workflowStatus + quotes);
             }
             if (from != null && !"null".equals(from) && !StringUtils.isEmpty(from)
                     && to != null && !"null".equals(to) && !StringUtils.isEmpty(to)) {
@@ -841,8 +832,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -1067,7 +1058,7 @@ public class PVQueryUtils {
                 + "AND PD.PROJECTION_MASTER_SID=" + projSelDTO.getProjectionId();
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
         ccpQuery += " ) CCPMAP,\n"
                 + " (SELECT RLD1.HIERARCHY_NO, RLD1.RELATIONSHIP_LEVEL_SID \n"
@@ -1096,10 +1087,10 @@ public class PVQueryUtils {
 
         if (projSelDTO.getHierarchyIndicator().equals("C")) {
 
-            customerLevelNo = "" + projSelDTO.getTreeLevelNo();
+            customerLevelNo = "" + Integer.toString(projSelDTO.getTreeLevelNo());
         } else if (projSelDTO.getHierarchyIndicator().equals("P")) {
 
-            productLevelNo = "" + projSelDTO.getTreeLevelNo();
+            productLevelNo = "" +  Integer.toString(projSelDTO.getTreeLevelNo());
         }
         String ccpQuery = " SELECT distinct HLD" + projSelDTO.getHierarchyIndicator() + ".RELATIONSHIP_LEVEL_SID, CCPMAP" + projSelDTO.getHierarchyIndicator() + ".CCP_DETAILS_SID, HLD" + projSelDTO.getHierarchyIndicator() + ".HIERARCHY_NO FROM \n"
                 + " (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID \n"
@@ -1109,7 +1100,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
 
         ccpQuery += " ) CCPMAPC \n"
@@ -1121,7 +1112,7 @@ public class PVQueryUtils {
 
         if (projSelDTO.isIsCustomHierarchy() || !projSelDTO.getHierarchyIndicator().equals("P")) {
             String userGroup = projSelDTO.getGroupFilter();
-            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), false);
+            ccpQuery += " " + CommonLogic.getGroupFilterQuery(userGroup, projSelDTO.getUserId(), projSelDTO.getSessionId(), false);
         }
 
         ccpQuery += " ) CCPMAPP \n"
@@ -1156,7 +1147,7 @@ public class PVQueryUtils {
     }
 
     public String getCCPTempTableQuery() {
-        String tableQuery = "DECLARE @CCP TABLE\n"
+    	return "DECLARE @CCP TABLE\n"
                 + "  (\n"
                 + "     RELATIONSHIP_LEVEL_SID INT,\n"
                 + "     CCP_DETAILS_SID        INT,\n"
@@ -1164,7 +1155,6 @@ public class PVQueryUtils {
                 + "  ) \n"
                 + " INSERT INTO @CCP\n"
                 + "            (RELATIONSHIP_LEVEL_SID,CCP_DETAILS_SID,HIERARCHY_NO) \n";
-        return tableQuery;
     }
 
     /**
@@ -1207,11 +1197,10 @@ public class PVQueryUtils {
      * @return String
      */
     public String getMainSelectClause(String projName) {
-        String selectClause = " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
+    	return " " + projName + ".CONTRACT_PROJECTION_SALES as " + projName + "CONTRACT_PROJECTION_SALES,"
                 + " " + projName + ".CONTRACT_PROJECTION_UNITS as " + projName + "CONTRACT_PROJECTION_UNITS,"
                 + " " + projName + ".TOTAL_PROJECTION_RATE AS " + projName + "TOTAL_PROJECTION_RATE, "
                 + " " + projName + ".TOTAL_PROJECTION_DOLAR as " + projName + "TOTAL_PROJECTION_DOLAR ";
-        return selectClause;
     }
 
     /**
@@ -1227,8 +1216,7 @@ public class PVQueryUtils {
         selectClause += getProjVarianceSelectClause();
         String totalDiscountQuery = getProjVarianceDiscountQuery(projSelDTO);
         String salesQuery = getProjVariancesSalesQuery(projSelDTO);
-        String customQuery = selectClause + " from " + getProjVarSelectQuery(totalDiscountQuery, salesQuery);
-        return customQuery;
+        return selectClause + " from " + getProjVarSelectQuery(totalDiscountQuery, salesQuery);
     }
 
     /**
@@ -1240,8 +1228,7 @@ public class PVQueryUtils {
      */
     public String getProjVarSelectQuery(String query1, String query2) {
         String finalWhereCond = " on TODIS.YEARS=SALEPPA.YEARS AND TODIS.PERIODS=SALEPPA.PERIODS";
-        String selectClause = " (\n" + query1 + "\n) TODIS FULL OUTER JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
-        return selectClause;
+        return " (\n" + query1 + "\n) TODIS FULL OUTER JOIN (\n" + query2 + "\n) SALEPPA \n" + finalWhereCond;
     }
 
     /**
@@ -1260,11 +1247,10 @@ public class PVQueryUtils {
      * @return
      */
     public String getProjVarianceSelectClause() {
-        String selectClause = " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
+    	return " SALEPPA.SALES_PROJECTION_SALES as CONTRACT_PROJECTION_SALES,"
                 + "SALEPPA.PROJECTION_UNITS as CONTRACT_PROJECTION_UNITS,"
                 + " CASE WHEN SALEPPA.SALES_PROJECTION_SALES = 0 THEN 0 ELSE ((Isnull(TODIS.PROJECTION_SALES, 0)) /SALEPPA.SALES_PROJECTION_SALES) * 100 END  AS TOTAL_PROJECTION_RATE, "
                 + "(Isnull(TODIS.PROJECTION_SALES, 0)) as TOTAL_PROJECTION_DOLAR ";
-        return selectClause;
     }
 
     /**
@@ -1340,8 +1326,8 @@ public class PVQueryUtils {
         }
         customSql += "where A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID and B.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A");
         }
         if (!projSelDTO.isIsTotal()) {
             customSql += "and  B.RS_MODEL_SID= J.RS_MODEL_SID ";
@@ -1351,9 +1337,8 @@ public class PVQueryUtils {
                 + ccpWhereCond + "and A.PERIOD_SID = I.PERIOD_SID " + periodFilter
                 + whereClause + " group by  " + groupBy;
 
-        String futureQuery = selectClause + " 0 as ACTUAL_SALES, sum(A.PROJECTION_SALES) as PROJECTION_SALES from "
+        return selectClause + " 0 as ACTUAL_SALES, sum(A.PROJECTION_SALES) as PROJECTION_SALES from "
                 + table + " A," + customSql;
-        return futureQuery;
     }
 
     /**
@@ -1417,8 +1402,8 @@ public class PVQueryUtils {
                 + "where A1.PROJECTION_DETAILS_SID = B1.PROJECTION_DETAILS_SID "
                 + "and B1.PROJECTION_DETAILS_SID = E.PROJECTION_DETAILS_SID ";
         if (projSelDTO.getCurrentOrPrior().equalsIgnoreCase("C")) {
-            customSql += getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "B1")
-                    + getUserSessionQueryCondition(Integer.valueOf(projSelDTO.getUserId()), Integer.valueOf(projSelDTO.getSessionId()), "A1");
+            customSql += getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "B1")
+                    + getUserSessionQueryCondition(projSelDTO.getUserId(), projSelDTO.getSessionId(), "A1");
         }
         customSql += " and  E.PROJECTION_MASTER_SID = " + projSelDTO.getProjectionId()
                 + ccpWhereCond
@@ -1426,18 +1411,17 @@ public class PVQueryUtils {
                 + periodFilter
                 + whereClause
                 + " group by " + groupBy;
-        String futureQuery = selectClause
+        return selectClause
                 + " 0 as SALES_ACTUAL_SALES, sum(A1.CONTRACT_SALES) as SALES_PROJECTION_SALES, "
                 + " 0 as ACTUAL_UNITS, sum(A1.CONTRACT_UNITS) as PROJECTION_UNITS "
                 + " from "
                 + salesTable + " A1," + customSql;
 
-        return futureQuery;
     }
 
     public static String getFinalQueryForCOGS(PVSelectionDTO pvsDTO) {
         String periodFilter = CommonLogic.getPeriodRestrictionQuery(pvsDTO);
-        String query = " FULL JOIN ( SELECT ITEM_PRICE = COALESCE(AVG(ITEM_PRICE), 0)\n"
+        return " FULL JOIN ( SELECT ITEM_PRICE = COALESCE(AVG(ITEM_PRICE), 0)\n"
                 + "  , I.YEAR\n"
                 + "  , I.QUARTER\n"
                 + "  FROM [DBO].[UDF_ITEM_PRICING](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'UN') U\n"
@@ -1448,6 +1432,6 @@ public class PVQueryUtils {
                 + "  ) COGS\n"
                 + "  ON SALEPPA.YEARS = COGS.YEAR\n"
                 + "  AND SALEPPA.PERIODS = COGS.QUARTER";
-        return query;
+        
     }
 }

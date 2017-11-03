@@ -159,6 +159,21 @@ public interface HelperTableModel extends BaseModel<HelperTable> {
      */
     public void setModifiedDate(Date modifiedDate);
 
+    /**
+     * Returns the alias name of this helper table.
+     *
+     * @return the alias name of this helper table
+     */
+    @AutoEscape
+    public String getAliasName();
+
+    /**
+     * Sets the alias name of this helper table.
+     *
+     * @param aliasName the alias name of this helper table
+     */
+    public void setAliasName(String aliasName);
+
     @Override
     public boolean isNew();
 

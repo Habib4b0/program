@@ -58,7 +58,6 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.FieldEvents;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Sizeable;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.VaadinSession;
@@ -618,7 +617,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                 checkCustomerFlag = queryList.size() == itemDto.getParentCcpDetailIdList().size();
                                 int[] levelNo = new int[2];
                                 if (itemDto.getSupplementalLevelNo() == 5) {
-                                    if (queryList != null && queryList.size() > 0) {
+                                    if (queryList != null && !queryList.isEmpty()) {
                                         int ndcCount = 0;
                                         for (Object queryList1 : queryList) {
                                             Object[] ob = (Object[]) queryList1;
@@ -1223,15 +1222,12 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 endQuater = Integer.valueOf(endPeriod.getValue().toString().charAt(1) - NumericConstants.FORTY_EIGHT);
                 endYear = Integer.valueOf(endPeriod.getValue().toString().substring(NumericConstants.THREE, NumericConstants.SEVEN));
             }
-            final int ed = endYear;
-            final int edQ = endQuater;
 
-            String columnName = getColumnName(fieldDdlb.getValue());
+            String columnNameforField = getColumnName(fieldDdlb.getValue());
             boolean flag = false;
-            final String columnsFlag = columnName;
-            if (columnName.equalsIgnoreCase(ACCESS.getConstant()) || columnName.equalsIgnoreCase(METHODOLOGY.getConstant())) {
+            if (columnNameforField.equalsIgnoreCase(ACCESS.getConstant()) || columnNameforField.equalsIgnoreCase(METHODOLOGY.getConstant())) {
                 selectedValue = String.valueOf(valueDdlb.getValue());
-            } else if (columnName.equalsIgnoreCase(PARITY.getConstant())) {
+            } else if (columnNameforField.equalsIgnoreCase(PARITY.getConstant())) {
                 selectedValue = Constant.YES.equalsIgnoreCase(valueOption.getValue().toString()) ? Constant.STRING_ONE : Constant.DASH;
             } else if (parityFlag) {
 
@@ -1266,7 +1262,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     String lookUpValue = StringUtils.EMPTY;
                     List<String> emptyNdcList = returnList.get(1);
                     String emptyValue = StringUtils.EMPTY;
-                    if (emptyNdcList.size() > 0) {
+                    if (!emptyNdcList.isEmpty()) {
                         for (int k = 0; k < emptyNdcList.size(); k++) {
                             if (k != 0 && !emptyValue.equals(emptyNdcList.get(k))) {
                                 lookUpValue += ",";
@@ -1279,7 +1275,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     List<List> emptyQuarList = returnList.get(NumericConstants.TWO);
                     final String[] quaterName = new String[emptyQuarList.size()];
 
-                    if (emptyQuarList.size() > 0) {
+                    if (!emptyQuarList.isEmpty()) {
 
                         for (int q = 0; q < emptyQuarList.size(); q++) {
 
@@ -1381,7 +1377,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     }
                 }
 
-                if (checkedDto.size() > 0) {
+                if (!checkedDto.isEmpty()) {
                     boolean checkFlag = false;
                     for (DiscountProjectionDTO supplementalDiscountDTO : checkedDto) {
                         tableLogic.setRefresh(false);
@@ -1427,7 +1423,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
         }
 
-        if (checkedDto.size() > 0) {
+        if (!checkedDto.isEmpty()) {
             for (DiscountProjectionDTO supplementalDiscountDTO : checkedDto) {
                 supplementalDiscountProjectionLogic.populateValues(supplementalDiscountDTO, selectedValue, columnName, session);
             }
@@ -1717,7 +1713,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * @return
      */
     public boolean getSubmitFlag() {
-        if (resultBeanContainer.getItemIds().size() > 0) {
+        if (!resultBeanContainer.getItemIds().isEmpty()) {
             return true;
         } else {
             return false;
@@ -1746,5 +1742,15 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             setButtonSecurity();
             canLoad = false;
         }
+    }
+
+    @Override
+    protected void customCalculateBtnClickLogic() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void adjustBtnClickLogicCustom() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

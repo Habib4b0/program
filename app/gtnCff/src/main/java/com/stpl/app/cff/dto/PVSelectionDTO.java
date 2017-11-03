@@ -24,7 +24,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String discountLevel;
     private String fromDate;
     private String currentProjectionName;
-    public List<Integer> projIdList = new ArrayList<>();
+    private List<Integer> projIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
     private String variableCategory;
     private String variables;
@@ -38,14 +38,14 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private boolean isFlag;
     private boolean discountFlag = false;
     private boolean valueFlag;
-    public String productHierarchyNo;
-    public String customerHierarchyNo;
-    public String currentOrPrior;
-    public boolean islevelFiler;
-    public boolean isChildFlag;
-    public boolean isPrior = false;
-    public int currentProjId;
-    public String screenName;
+    private String productHierarchyNo;
+    private String customerHierarchyNo;
+    private String currentOrPrior;
+    private boolean islevelFiler;
+    private boolean isChildFlag;
+    private boolean isPrior = false;
+    private int currentProjId;
+    private String screenName;
     private int currentProjectionID;
     int customCount = 0;
     private List<String> programCodeNameList = new ArrayList<>();
@@ -73,7 +73,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String varIndicator = StringUtils.EMPTY;
     private Map<String, Object> headerMap = new HashMap<>();
     private String graphHeader = StringUtils.EMPTY;
-    private boolean RPU = false;
+    private boolean rpu = false;
     private String discountGroupName = StringUtils.EMPTY;
     private int excelFilterLevelNo=0;
     private boolean netExFactorySales;
@@ -155,8 +155,6 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     private boolean varNetProfit;
 
-    private int levelNo = 0;
-
     private boolean varExFacCustomer;
     private boolean varAdjDemand;
     private boolean varIwDetails;
@@ -166,14 +164,16 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private String comparisonBasis;
     private boolean netSalesExFactory;
     private boolean discountPerExFactory;
-
-    public int getLevelNo() {
-        return levelNo;
-    }
-
-    public void setLevelNo(int levelNo) {
-        this.levelNo = levelNo;
-    }
+    private boolean isproductFirst = false;
+    private boolean isdeductionFirst = false;
+    private boolean iscustomerFirst = false;
+    private List<String> customerLevelFilter = new ArrayList<>();
+    private List<String> productLevelFilter = new ArrayList<>();
+    private List<String> deductionLevelFilter = new ArrayList<>();
+    private List<String> deductionLevelCaptions = new ArrayList<>();
+    private String deductionLevelValues;
+    private String uomCode = StringUtils.EMPTY;
+    private boolean conversionNeeded = false;
 
     public int getProjectionNo() {
         return projectionNo;
@@ -183,10 +183,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.projectionNo = projectionNo;
     }
 
+    @Override
     public String getLevel() {
         return level;
     }
-
+    
+    @Override
     public void setLevel(String level) {
         this.level = level;
     }
@@ -199,10 +201,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.projectionPeriodOrder = projectionPeriodOrder;
     }
 
+    @Override
     public String getDiscountLevel() {
         return discountLevel;
     }
 
+    @Override
     public void setDiscountLevel(String discountLevel) {
         this.discountLevel = discountLevel;
     }
@@ -264,10 +268,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.rightHeader = rightHeader;
     }
 
+    @Override
     public Integer getParent() {
         return parent;
     }
 
+    @Override
     public void setParent(Integer parent) {
         this.parent = parent;
     }
@@ -520,18 +526,22 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.graphHeader = graphHeader;
     }
 
+    @Override
     public String getScreenName() {
         return screenName;
     }
 
+    @Override
     public void setScreenName(String screenName) {
         this.screenName = screenName;
     }
 
+    @Override
     public List<String> getPivotList() {
         return pivotList;
     }
 
+    @Override
     public void setPivotList(List<String> pivotList) {
         this.pivotList = pivotList;
     }
@@ -673,11 +683,11 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     }
 
     public boolean isRPU() {
-        return RPU;
+        return rpu;
     }
 
-    public void setRPU(boolean RPU) {
-        this.RPU = RPU;
+    public void setRPU(boolean rpu) {
+        this.rpu = rpu;
     }
 
     public String getDiscountGroupName() {
@@ -688,18 +698,22 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.discountGroupName = discountGroupName;
     }
 
+    @Override
     public String getProductHierarchyNo() {
         return productHierarchyNo;
     }
 
+    @Override
     public void setProductHierarchyNo(String productHierarchyNo) {
         this.productHierarchyNo = productHierarchyNo;
     }
 
+    @Override
     public String getCustomerHierarchyNo() {
         return customerHierarchyNo;
     }
 
+    @Override
     public void setCustomerHierarchyNo(String customerHierarchyNo) {
         this.customerHierarchyNo = customerHierarchyNo;
     }
@@ -752,10 +766,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.varPerIwDetails = varPerIwDetails;
     }
 
+    @Override
     public Map<String, String> getPivotHeaderMap() {
         return pivotHeaderMap;
     }
 
+    @Override
     public void setPivotHeaderMap(Map<String, String> pivotHeaderMap) {
         this.pivotHeaderMap = pivotHeaderMap;
     }
@@ -824,4 +840,86 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
     }
 
+    public boolean isIsproductFirst() {
+        return isproductFirst;
+    }
+
+    public void setIsproductFirst(boolean isproductFirst) {
+        this.isproductFirst = isproductFirst;
+    }
+
+    public boolean isIsdeductionFirst() {
+        return isdeductionFirst;
+    }
+
+    public void setIsdeductionFirst(boolean isdeductionFirst) {
+        this.isdeductionFirst = isdeductionFirst;
+    }
+
+    public boolean isIscustomerFirst() {
+        return iscustomerFirst;
+    }
+
+    public void setIscustomerFirst(boolean iscustomerFirst) {
+        this.iscustomerFirst = iscustomerFirst;
+    }
+
+    public List<String> getCustomerLevelFilter() {
+        return customerLevelFilter;
+    }
+
+    public void setCustomerLevelFilter(List<String> customerLevelFilter) {
+        this.customerLevelFilter = customerLevelFilter;
+    }
+
+    public List<String> getProductLevelFilter() {
+        return productLevelFilter;
+    }
+
+    public void setProductLevelFilter(List<String> productLevelFilter) {
+        this.productLevelFilter = productLevelFilter;
+    }
+
+    public List<String> getDeductionLevelFilter() {
+        return deductionLevelFilter;
+    }
+
+    public void setDeductionLevelFilter(List<String> deductionLevelFilter) {
+        this.deductionLevelFilter = deductionLevelFilter;
+    }
+
+    public List<String> getDeductionLevelCaptions() {
+        return deductionLevelCaptions;
+    }
+
+    public void setDeductionLevelCaptions(List<String> deductionLevelCaptions) {
+        this.deductionLevelCaptions = deductionLevelCaptions;
+    }
+
+    public String getUomCode() {
+        return uomCode;
+    }
+
+    public void setUomCode(String uomCode) {
+        this.uomCode = uomCode;
+    }
+
+    public String getDeductionLevelValues() {
+        return deductionLevelValues;
+    }
+
+    public void setDeductionLevelValues(String deductionLevelValues) {
+        this.deductionLevelValues = deductionLevelValues;
+    }
+    public boolean isConversionNeeded() {
+        return conversionNeeded;
+    }
+
+    public void setConversionNeeded(boolean conversionNeeded) {
+        this.conversionNeeded = conversionNeeded;
+    }
+
+ 
+    
+    
     }

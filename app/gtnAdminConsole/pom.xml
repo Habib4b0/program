@@ -243,6 +243,11 @@
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>gtnHierarchyRouteBuilder</groupId>
+            <artifactId>gtnHierarchyRouteBuilder</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${artifactId}</finalName>

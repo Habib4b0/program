@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.additionalinformation.logic;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.PROJECTION_ID;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.AdditionalNotes;
@@ -19,9 +18,6 @@ import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.server.FileDownloader;
-import com.vaadin.server.FileResource;
-import com.vaadin.server.Resource;
 import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

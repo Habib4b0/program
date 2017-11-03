@@ -152,7 +152,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
     private List<DiscountProjectionDTO> loadLevelData(Object parentId, int start, int offset) {
         LOGGER.debug("inside discount projection loadData method ");
-        DiscountProjectionLogic logic = new DiscountProjectionLogic();
+        DiscountProjectionLogic dpLogic = new DiscountProjectionLogic();
         List list = new ArrayList();
 
         try {
@@ -197,7 +197,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
                     }
                 }
                 if (Constant.VARIABLE.equalsIgnoreCase(alternateProjectionSelection.getVariableView())) {
-                    alternateProjectionSelection.setAlternatePivotList(dto.getAlternatePivotList().size() > 0 ? dto.getAlternatePivotList() : Collections.EMPTY_LIST);
+                    alternateProjectionSelection.setAlternatePivotList(!dto.getAlternatePivotList().isEmpty() ? dto.getAlternatePivotList() : Collections.EMPTY_LIST);
                 }
                 alternateProjectionSelection.setIsTotal(false);
 
@@ -267,14 +267,14 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
             if (alternateProjectionSelection.isIsFilter()) {
                 alternateProjectionSelection.setIsTotal(false);
             }
-            boolean filterFalg = alternateProjectionSelection.getAlternatePivotList().size() > 0;
+            boolean filterFalg = !alternateProjectionSelection.getAlternatePivotList().isEmpty();
             if ((levelNumber != 0 && treeLevelNo != 0) || filterFalg) {
-                list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
+                list = dpLogic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, start, offset, false, isParentChecked, customViewDetails, 
                         false, false, StringUtils.EMPTY, relationshipBuilderSid, true, alternateProjectionSelection.getAlternatePivotList(), 
                         alternateProjectionSelection.isIsTotal(), alternateProjectionSelection.getVariableView(),alternateProjectionSelection.getDetailsSid(),
-                        alternateProjectionSelection.getPeriodList(),alternateProjectionSelection.getPeriodListMap(),new ArrayList<String>());
+                        alternateProjectionSelection.getPeriodList(),alternateProjectionSelection.getPeriodListMap(),new ArrayList<String>(),projectionSelection);
             }
             alternateProjectionSelection.setIsTotal(false);
 
@@ -296,7 +296,7 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         }
         LOGGER.debug("inside discount projection getCount method");
         List list = null;
-        DiscountProjectionLogic logic = new DiscountProjectionLogic();
+        DiscountProjectionLogic discountLogic = new DiscountProjectionLogic();
         try {
             int levelNumber = 0;
             String hierarchyNo = StringUtils.EMPTY;
@@ -402,11 +402,11 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
             if (levelNumber != 0 && treeLevelNo != 0) {
                 setMaxExpandLevelNo(treeLevelNo);
-                list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
+                list = discountLogic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, 0, 0,
                         true, false, customViewDetails, false, false, StringUtils.EMPTY, relationshipBuilderSid, true,Collections.EMPTY_LIST, 
-                        false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>());
+                        false, StringUtils.EMPTY, StringUtils.EMPTY,Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
             }
             if (alternateProjectionSelection.isIsTotal() && !alternateProjectionSelection.isIsFilter()) {
                 alternatePivotCount += 1;
@@ -574,13 +574,13 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         customDetailsList.add(0);
         customDetailsList.add(StringUtils.EMPTY);
         customDetailsList.add(0);
-        boolean isCustomHierarchy = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
+        boolean isCustom = Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-                customDetailsList, true, isCustomHierarchy, rightDto, 0, 0, false, false, customViewDetails, false,
+                customDetailsList, true, isCustom, rightDto, 0, 0, false, false, customViewDetails, false,
                 true, hierarchyNumbers, relationshipBuilderSid, true, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY,
-                Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>());
+                Collections.EMPTY_LIST,new HashMap<String,String>(), new ArrayList<String>(),projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {
             bulkDataMap.put(tempMap.get(dto.getHierarchyNo()), dto);

@@ -19,6 +19,7 @@ import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
+import com.stpl.app.model.HierarchyDefinition;
 import com.stpl.app.model.WorkflowProfile;
 import static com.stpl.app.security.StplSecurity.userMap;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -29,12 +30,21 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -247,7 +257,7 @@ public class ProcessSchedulerLogic {
             LOGGER.debug("Script Name==========================>" + scriptName);
             String jbossHome = System.getProperty("jboss.home.dir");
             if (!"null".equals(jbossHome)) {
-                String ftppath[] = jbossHome.split("jboss-7.1.1");
+                String[] ftppath = jbossHome.split("jboss-7.1.1");
                 if (ftppath.length != 0) {
                     java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
                     ftpProperties.setScripts(prop.getProperty("scripts"));
@@ -271,6 +281,12 @@ public class ProcessSchedulerLogic {
             pb.redirectErrorStream(true); // use this to capture messages sent to stderr
             Process shell = pb.start();
             InputStream shellIn = shell.getInputStream(); // this captures the output from the command
+            BufferedReader in = new BufferedReader(new InputStreamReader(shellIn));
+			StringBuilder urlString = new StringBuilder("");
+			String current;
+			while ((current = in.readLine()) != null) {
+				urlString.append(current);
+			}
 
             // close the stream
             try {
@@ -286,6 +302,34 @@ public class ProcessSchedulerLogic {
         LOGGER.debug("runShellScript===================>ends");
         return true;
     }
+    
+    
+    
+    
+    public void runShellScript1(String scriptUrl) {
+		LOGGER.info("Entering runShellScript with " + scriptUrl);
+		try {
+			URL url = new URL(scriptUrl);
+			URLConnection urlConnection = url.openConnection();
+			HttpURLConnection connection = null;
+			if (urlConnection instanceof HttpURLConnection) {
+				connection = (HttpURLConnection) urlConnection;
+			} else {
+				LOGGER.info("Please enter an HTTP URL.");
+				return;
+			}
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			StringBuilder urlString = new StringBuilder("");
+			String current;
+			while ((current = in.readLine()) != null) {
+				urlString.append(current);
+			}
+			in.close();
+			LOGGER.info(urlString.toString());
+		} catch (Exception e) {
+			LOGGER.error("Exception while running script.", e);
+		}
+	}
 
     public static FtpProperties getFtpBundleValue() {
         LOGGER.debug("getFtpBundleValue===================>starts");
@@ -293,7 +337,7 @@ public class ProcessSchedulerLogic {
         try {
             String jbossHome = System.getProperty("jboss.home.dir");
             if (!"null".equals(jbossHome)) {
-                String ftppath[] = jbossHome.split("jboss-7.1.1");
+                String[] ftppath = jbossHome.split("jboss-7.1.1");
                 if (ftppath.length != 0) {
                     LOGGER.info(ftppath[0] + FTP_PROPERTIES_PATH);
                     java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
@@ -982,5 +1026,73 @@ public void callSriptForArp(String userId, String sessionId){
             return String.valueOf(status.get(0)).equalsIgnoreCase("Y");
         }
         return false;
+    }
+    
+    /**
+     * get count for hierarchy name
+     *
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static int getLazyHierarchyNameCount(final String filterText) throws SystemException {
+        final String filterText1 = StringUtils.trimToEmpty(filterText) + "%";
+        LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText1);
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+        dynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.HIERARCHY_DEFINITION_ID));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterText1));
+        dynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.HIERARCHY_NAME, StringUtils.EMPTY)));
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.HIERARCHY_NAME));
+        final List<Object[]> list = dao.getHierachyDefinitionList(dynamicQuery);
+        return Integer.parseInt(String.valueOf(list.get(0)));
+    }
+    
+    
+    /**
+     * getting results for CompanyQualifierName
+     *
+     * @param start
+     * @param end
+     * @param filteredText
+     * @param filterText
+     * @return
+     * @throws PortalException
+     * @throws SystemException
+     */
+    public static List<HelperDTO> getLazyHierarchyNameResults(final int start, final int end, final String filteredText) throws SystemException {
+        final String filterText = StringUtils.trimToEmpty(filteredText) + "%";
+        LOGGER.debug("Entering getLazyHierarchyNameResults method with filterText" + filterText);
+        final List<HelperDTO> list = new ArrayList<>();
+
+        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HierarchyDefinition.class);
+        dynamicQuery.setLimit(start, end);
+        final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_DEFINITION_ID));
+        projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.HIERARCHY_NAME));
+        dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(projectionList));
+        dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.HIERARCHY_NAME));
+        dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.HIERARCHY_NAME, filterText));
+        dynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(ConstantsUtils.HIERARCHY_NAME, StringUtils.EMPTY)));
+        dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(ConstantsUtils.HIERARCHY_NAME));
+        final List<Object[]> returnList = dao.getHierachyDefinitionList(dynamicQuery);
+
+        HelperDTO dto;
+        if (start == ConstantsUtils.ZERO_NUM) {
+            dto = new HelperDTO(ConstantsUtils.SELECT_ONE);
+            list.add(dto);
+        }
+        for (final Iterator<Object[]> iterator = returnList.iterator(); iterator.hasNext();) {
+            final Object[] value = iterator.next();
+            dto = new HelperDTO(StringUtils.EMPTY);
+            dto.setId(value[0] == null ? 0 : Integer.valueOf(value[0].toString()));
+            dto.setDescription(value[1] == null ? StringUtils.EMPTY : value[1].toString());
+            if (!StringUtils.EMPTY.equals(dto.getDescription())) {
+                list.add(dto);
+            }
+        }
+
+        LOGGER.debug("return getLazyHierarchyNameResults size -" + list.size());
+        return list;
     }
 }

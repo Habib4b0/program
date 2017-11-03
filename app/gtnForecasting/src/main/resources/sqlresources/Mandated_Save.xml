@@ -577,4 +577,110 @@ and open the template in the editor.
                  ]]>
         </query>
     </entity>  
+    <entity id="getMedicaidLevelFilter">
+        <query>        
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,        
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID
+SELECT A.NDC9,
+       A.ITEM_DESC,
+       A.ITEM_MASTER_SID,
+       A.NEW_FORMULATION,
+       B.ITEM_NAME,
+       A.BASELINE_AMP,
+       A.BASE_CPI,
+      
+	 FROM  (
+SELECT IM.NDC9,
+       IM.ITEM_DESC,
+       IM.ITEM_MASTER_SID,
+       IM.NEW_FORMULATION,
+       IM.BASELINE_AMP,
+       IM.BASE_CPI
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL )  ) A left join
+			   ITEM_MASTER B ON A.NEW_FORMULATION =B.ITEM_ID
+
+            
+ ]]>
+
+    </query>
+    </entity> 
+    
+     <entity id="getMedicaidParent">
+        <query> 
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+       @TH_CLASS varchar(50)=?TID,
+        @OFFSET   INT=?OFFSET,
+        @LIMIT   INT=?LIMIT
+        
+      
+
+ SELECT B.ITEM_NO ,
+       B.ITEM_NAME,
+       A.NDC9,
+       A.ITEM_DESC,
+       A.ROWNUM,
+       A.NEW_FORMULATION,
+       B.ITEM_NAME,
+       A.BASELINE_AMP,
+       A.BASE_CPI
+         
+        FROM  (
+         
+SELECT NDC9,
+       ITEM_DESC,
+       ROWNUM,
+       NEW_FORMULATION ,
+       BASELINE_AMP,
+       BASE_CPI
+FROM   (SELECT IM.NDC9,
+               ITEM_DESC=CASE
+                           WHEN COUNT(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                           ELSE MAX(ITEM_DESC)
+                         END,
+               ROW_NUMBER()
+                 OVER (
+                   ORDER BY IM.NDC9) AS ROWNUM
+                   ,IM.NEW_FORMULATION ,IM.BASELINE_AMP,
+       IM.BASE_CPI
+        FROM   NA_PROJ_MASTER PM,
+               NA_PROJ_DETAILS PD,
+               ITEM_MASTER IM
+        WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+               AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                      OR @NA_PROJ_MASTER_SID IS NULL )
+               AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                      OR @BRAND_MASTER_SID IS NULL )
+               AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+                      OR @TH_CLASS IS NULL )
+        GROUP  BY IM.NDC9,IM.NEW_FORMULATION,BASELINE_AMP,    BASE_CPI )A
+WHERE  ROWNUM >= @OFFSET
+       AND ROWNUM < @OFFSET + @LIMIT
+) A  JOIN
+                        ITEM_MASTER B ON A.NDC9 =CONVERT(VARCHAR(100),B.ITEM_MASTER_SID)
+ ]]>
+
+   </query>
+    </entity> 
+     <entity id="Medicaid_Ura_Worsheet_Helper_table">
+        <query> 
+                <![CDATA[            
+        SELECT DESCRIPTION,LIST_NAME FROM HELPER_TABLE WHERE LIST_NAME LIKE '%SCREEN_NAME%'    ORDER BY HELPER_TABLE_SID             
+                 ]]>
+        </query>
+    </entity>  
+    
     </sql>

@@ -572,7 +572,7 @@ public class ARMConstants {
     }
 
     public static String getDemandAccrualReforecast() {
-        return properties.getProperty("DEMAND_REFORECAST_HEADER");
+        return properties.getProperty("DEMAND_ACCRUAL_REFORECAST");
     }
 
     public static String getTotalDemandAccrual() {
@@ -640,7 +640,7 @@ public class ARMConstants {
     }
 
     public static String getDemandPaymentReconVariable() {
-        return properties.getProperty("PAYMENT_TRUP_UP");
+        return properties.getProperty("DEMAND_PAYMENTS_RECON_VARIABLE");
     }
 
     public static String getDate() {
@@ -776,7 +776,7 @@ public class ARMConstants {
     }
 
     public static String getDemandPaymenttrueupHeader() {
-        return properties.getProperty("PAYMENT_TRUP_UP");
+        return properties.getProperty("DEMAND_PAYMENT_TRUEUP_HEADER");
     }
 
     public static String getOctalValue() {
@@ -790,8 +790,4 @@ public class ARMConstants {
         return properties.getProperty("DEMAND_PAYMENTS_RECON_VAR");
     }
     
-     public static String getDeductionContractCustomer() {
-        return properties.getProperty("DEDUCTION_CONTRACT_CUSTOMER");
-    }
-
 }

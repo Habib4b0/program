@@ -3799,6 +3799,9 @@
 				<column name="MODIFIED_DATE" />
 				<temporal>TIMESTAMP</temporal>
 			</basic>
+			<basic name="aliasName">
+				<column name="ALIAS_NAME" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -10312,6 +10315,12 @@
 			<basic name="businessUnit">
 				<column name="BUSINESS_UNIT" />
 			</basic>
+			<basic name="deductionHierarchySid">
+				<column name="DEDUCTION_HIERARCHY_SID" />
+			</basic>
+			<basic name="dedRelationshipBuilderSid">
+				<column name="DED_RELATIONSHIP_BULDER_SID" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -11207,6 +11216,9 @@
 				<column name="MODIFIED_DATE" />
 				<temporal>TIMESTAMP</temporal>
 			</basic>
+			<basic name="deductionRelation">
+				<column name="DEDUCTION_RELATION" />
+			</basic>
 			<basic name="relationshipType">
 				<column name="RELATIONSHIP_TYPE" />
 			</basic>
@@ -11263,6 +11275,9 @@
 			</basic>
 			<basic name="levelName">
 				<column name="LEVEL_NAME" />
+			</basic>
+			<basic name="parentHierarchyNo">
+				<column name="PARENT_HIERARCHY_NO" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />

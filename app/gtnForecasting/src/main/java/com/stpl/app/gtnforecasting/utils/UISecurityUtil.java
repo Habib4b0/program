@@ -7,11 +7,7 @@ import java.util.Map;
 
 
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

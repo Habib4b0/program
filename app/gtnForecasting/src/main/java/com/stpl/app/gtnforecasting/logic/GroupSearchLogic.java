@@ -4,7 +4,6 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
@@ -57,9 +56,9 @@ public class GroupSearchLogic extends PageTableLogic {
 
     @Override
     public Object configureContainer(Object object, Container container) {
-        GroupDTO dto = (GroupDTO) object;
-        ((BeanItemContainer<GroupDTO>) container).addBean(dto);
-        return dto;
+        GroupDTO groupdto = (GroupDTO) object;
+        ((BeanItemContainer<GroupDTO>) container).addBean(groupdto);
+        return groupdto;
     }
 
     public boolean fireSetData(GroupDTO dto, final boolean isCustomGroup, boolean isReset) {

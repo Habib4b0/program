@@ -6,15 +6,10 @@
 package com.stpl.app.gtnforecasting.logic;
 
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.util.StringUtil;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import oracle.jrockit.jfr.tools.ConCatRepository;
 
 /**
  *

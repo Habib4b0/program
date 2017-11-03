@@ -281,7 +281,7 @@ public class FileManagementLogic {
      * @throws Exception the exception
      */
     public String saveFileMgtHist(final FileMananagementResultDTO fileMgtDTO, final HelperDTO fileType, final SessionDTO sessionDTO) throws SystemException {
-        final String userId = (String) sessionDTO.getUserId();
+        final String userId = sessionDTO.getUserId();
         LOGGER.debug("saveFileMgtHist started with P1:FileMananagementResultDTO fileMgtDTO and P2:String fileType=" + fileType);
         FileManagement fileManagement = FileManagementLocalServiceUtil.createFileManagement(0);
         fileManagement.setForecastName(fileMgtDTO.getFileName());
@@ -492,9 +492,9 @@ public class FileManagementLogic {
                     master.setRecordLockStatus(false);
                     Date date = new Date();
                     master.setForecastDate(beanItem.getStartDate());
-                    master.setUnits(Double.valueOf(beanItem.getUnits().toString().replace("$", ConstantsUtils.EMPTY)));
-                    master.setPrice(Double.valueOf(beanItem.getPrice().toString().replace("$", ConstantsUtils.EMPTY)));
-                    master.setDollars(Double.valueOf(beanItem.getDollars().toString().replace("$", ConstantsUtils.EMPTY)));
+                    master.setUnits(Double.valueOf(beanItem.getUnits().replace("$", ConstantsUtils.EMPTY)));
+                    master.setPrice(Double.valueOf(beanItem.getPrice().replace("$", ConstantsUtils.EMPTY)));
+                    master.setDollars(Double.valueOf(beanItem.getDollars().replace("$", ConstantsUtils.EMPTY)));
                     master.setSource(source);
                     master.setCountry(country);
                     master.setForecastVer(version);
@@ -1240,7 +1240,7 @@ public class FileManagementLogic {
             if (!isCount) {
                 loadMonthMap();
                 for (int i = 0; i < resultsList.size(); i++) {
-                    final Object obj[] = (Object[]) resultsList.get(i);
+                    final Object[] obj = (Object[]) resultsList.get(i);
                     final FileMananagementResultDTO fmDTO = new FileMananagementResultDTO();
                     fmDTO.setFileName(String.valueOf(obj[0]));
                     if (!ConstantsUtils.NULL.equals(String.valueOf(obj[1]))) {

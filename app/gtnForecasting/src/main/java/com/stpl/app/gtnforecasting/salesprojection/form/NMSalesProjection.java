@@ -21,6 +21,7 @@ import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
@@ -56,8 +57,15 @@ import org.asi.container.ExtTreeContainer;
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.vaadin.data.Property;
+import com.vaadin.ui.themes.ValoTheme;
 import java.util.Arrays;
+import java.util.Iterator;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.jboss.logging.Logger;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import java.util.Collections;
 
 /**
  * Commercial Sales Projection
@@ -73,9 +81,36 @@ public class NMSalesProjection extends ForecastSalesProjection {
     List<String> projectedPeriodList = new ArrayList();
     private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic mSalesProjectionTableLogic;
-
+    protected String ALL = "ALL";
+    public static final String SID = "SID";
+  
+    public static final String SELECT_ALL_LABEL = "Select All";
+    protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+            generateProductToBeLoaded=(List) commonLogic.getFilterValues(productFilterValues).get(SID);
+            loadCustomerLevelFilter(String.valueOf(customerlevelDdlb.getValue()));
+        }
+    };
+   
+    protected CustomMenuBar.SubMenuCloseListener cutomerListener = new CustomMenuBar.SubMenuCloseListener() {
+        @Override
+        public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
+             generateCustomerToBeLoaded=(List) commonLogic.getFilterValues(customerFilterValues).get(SID);
+            loadProductLevelFilter(String.valueOf(productlevelDdlb.getValue()));
+        }
+    };
     public NMSalesProjection(SessionDTO session, String screenName) {
         super(session, screenName);
+        if (CommonUtil.isValueEligibleForLoading()) {
+            loadSalesInclusion();
+            loadDisplayFormatDdlb();
+            CommonUtil commonUtils = CommonUtil.getInstance();
+            commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
+        }
+        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
+            super.setProjectionSelection(false);
+        }
         init();
     }
 
@@ -84,7 +119,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
      */
     public void init() {
         LOGGER.debug("Inside NMSalesProjection Screen " + session.getUserId());
-        projectionDTO.setSessionDTO(session);
         configureProjectionDTO();
         Utility.loadHierarchyList(session);
         generateBtnLogic(null);
@@ -204,7 +238,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             startPeriod.setEnabled(true);
             endPeriod.setEnabled(true);
             populate.setEnabled(true);
-        }
+    }
     }
 
     @Override
@@ -260,7 +294,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void fieldDdlbLogic() {
-        if (Constant.ACCOUNT_GROWTH.equals(fieldDdlb.getValue()) || Constant.PRODUCT_GROWTH.equals(fieldDdlb.getValue()) || Constant.SELECT_ONE.equals(fieldDdlb.getValue()) || Constant.NULL.equals(String.valueOf(fieldDdlb.getValue()))) {
+        if (Constant.ACCOUNT_GROWTH.equals(fieldDdlb.getValue()) || Constant.PRODUCT_GROWTH.equals(fieldDdlb.getValue()) || Constant.MASS_UPDATE_SALES.equals(fieldDdlb.getValue()) || Constant.MASS_UPDATE_UNIT_VOLUME.equals(fieldDdlb.getValue())|| Constant.SELECT_ONE.equals(fieldDdlb.getValue()) || Constant.NULL.equals(String.valueOf(fieldDdlb.getValue()))) {
             startPeriod.setVisible(true);
             endPeriod.setVisible(true);
             lblStart.setVisible(true);
@@ -301,6 +335,24 @@ public class NMSalesProjection extends ForecastSalesProjection {
         variables.addItem(Constant.PRODUCT_GROWTH);
         variables.addItem(Constant.ACCOUNT_GROWTH);
         variables.select(Constant.SALES_SMALL);
+        unitOfMeasureDdlb.select("EACH");
+         loadDisplayFormatDdlb();
+        if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
+            super.setProjectionSelection(true);
+            loadSalesInclusion();
+        } else {
+            resetForAdd();
+        }
+    }
+
+    public void resetForAdd() throws IllegalStateException {
+        CommonLogic.unCheckMultiSelect(productFilterValues);
+        CommonLogic.unCheckMultiSelect(customerFilterValues);
+        productlevelDdlb.select(Constant.SELECT_ONE);
+        customerlevelDdlb.select(Constant.SELECT_ONE);
+        projectionDTO.setProductLevelFilter(Collections.EMPTY_LIST);
+        projectionDTO.setCustomerLevelFilter(Collections.EMPTY_LIST);
+        loadSalesInclusion();
     }
 
     @Override
@@ -383,6 +435,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
     @Override
     protected void generateBtnLogic(Button.ClickEvent event) {
         try {
+            projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
+            projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
                 generated = true;
@@ -483,31 +537,61 @@ public class NMSalesProjection extends ForecastSalesProjection {
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         tableLayout.addComponent(controlLayout);
     }
+    
+   
+    protected List getCheckedSalesInclusionValues() {
+        List<String> results = new ArrayList<>();
+        if (salesInclusionValues != null && salesInclusionValues.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> items = salesInclusionValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
+                if (customMenuItem1.isChecked()) {
+                    results.add(customMenuItem1.getMenuItem().getCaption());
+                }
+            }
+        }
+        return results;
+    }
 
     /**
      * Contains the generate logic.
      */
     private void generateLogic() {
-        projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(view.getValue()) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
-        if ((PRODUCT.getConstant()).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, true);
-            Utility.loadLevelValue(level, levelFilter, null, session.getProductHierarchyList(), view.getValue().toString());
-        } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-            if (customId != 0) {
-                Utility.loadLevelValue(level, levelFilter, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
-                Leveldto levelDTO = (Leveldto) session.getCustomHierarchyMap().get(customId).get(0);
-                projectionDTO.setHierarchyIndicator(levelDTO.getHierarchyIndicator());
+            projectionDTO.setHierarchyIndicator(Constant.CUSTOMER_SMALL.equals(view.getValue()) ? Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY : Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY);
+            if ((PRODUCT.getConstant()).equals(view.getValue())) {
+                leftTable.setColumnCollapsingAllowed(true);
+                leftTable.setColumnCollapsed(Constant.GROUP, true);
+                Utility.loadLevelValue(level, levelFilter, null, session.getProductHierarchyList(), view.getValue().toString());
+            } else if ((Constant.CUSTOM_LABEL).equals(view.getValue())) {
+                leftTable.setColumnCollapsingAllowed(true);
+                leftTable.setColumnCollapsed(Constant.GROUP, false);
+                if (customId != 0) {
+                    Utility.loadLevelValue(level, levelFilter, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
+                    Leveldto levelDTO = (Leveldto) session.getCustomHierarchyMap().get(customId).get(0);
+                    projectionDTO.setHierarchyIndicator(levelDTO.getHierarchyIndicator());
+                }
+            } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
+                leftTable.setColumnCollapsingAllowed(true);
+                leftTable.setColumnCollapsed(Constant.GROUP, false);
+                Utility.loadLevelValue(level, levelFilter, null, session.getCustomerHierarchyList(), view.getValue().toString());
             }
-        } else if ((Constant.CUSTOMER_SMALL).equals(view.getValue())) {
-            leftTable.setColumnCollapsingAllowed(true);
-            leftTable.setColumnCollapsed(Constant.GROUP, false);
-            Utility.loadLevelValue(level, levelFilter, null, session.getCustomerHierarchyList(), view.getValue().toString());
+            CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
+            loadAllFilters();
+            mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         }
-        CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
-        mSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
+
+    public void loadAllFilters() {
+        List<String> checkedValues = getCheckedSalesInclusionValues();
+        projectionDTO.getSessionDTO().setSalesInclusion(ALL);
+        if (checkedValues.size() == 1) {
+            projectionDTO.getSessionDTO().setSalesInclusion(checkedValues.get(0).equalsIgnoreCase("Yes") ? "1" : "0");
+        }
+        projectionDTO.setCustomerLevelFilter(getCustomerFilterValues());
+        projectionDTO.setProductLevelFilter(getProductFilterValues());
+        projectionDTO.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
+	projectionDTO.setDisplayFormat(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues));
+        projectionDTO.setConversionFactor(conversionFactorDdlb.getValue());
+        CommonLogic.updateForFilter(projectionDTO,"SALES",false);
     }
 
     /**
@@ -565,11 +649,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
     }
 
     private void configureGroupDDLB() {
-        methodology.addItem(Constant.CUSTOMER_GTS);
-        if (CommonUtil.isValueEligibleForLoading()) {
-            methodology.addItem(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND);
-        }        
         fieldDdlb.addItem(Constant.GROUPFCAPS);
+        fieldDdlb.removeItem(Constant.GROUPFCAPS);
         groupBean.removeAllItems();
         groupBean.addBean(Constant.SHOW_ALL_GROUPS);
         GroupFilter.initSalesMap(session);
@@ -583,6 +664,24 @@ public class NMSalesProjection extends ForecastSalesProjection {
         valueDdlb.setNullSelectionItemId(Constant.SELECT_ONE);
         valueDdlb.select(Constant.SELECT_ONE);
         valueDdlb.setTextInputAllowed(true);
+        
+          if (CommonUtil.isValueEligibleForLoading()) {
+            salesProjectionSelection.setVisible(false);
+            tabsheet1.addTab(salesProjectionSelectionLayout,"Display Selection");
+            tabsheet1.addTab(salesProjectionfilterLayout,"Filter Options");
+            tabsheet1.addStyleName(ValoTheme.TABSHEET_FRAMED);
+            tabsheet1.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+            loadProductLevel();
+            loadCustomerLevel();
+            loadCustomerLevelFilter(StringUtils.EMPTY);
+            loadProductLevelFilter(StringUtils.EMPTY);
+            commonLogic.loadUnitOfMeasureDdlb(unitOfMeasureDdlb,session);
+        } else {
+            unitOfMeasureDdlb.setVisible(false);
+            unitOfMeasure.setVisible(false);
+            tabsheet1.setVisible(false);
+            salesProjectionfilterLayout.setVisible(false);
+        }
     }
 
     public void securityForButton() {
@@ -610,6 +709,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 populate.setVisible(Boolean.FALSE);
                 adjust.setVisible(Boolean.FALSE);
             }
+            
+            if ((functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT) != null && ((AppPermission) functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT)).isFunctionFlag())) {
+                totalLivesLayout.setVisible(true);
+            } else {
+                totalLivesLayout.setVisible(false);
+            }
 
         } catch (PortalException ex) {
             LOGGER.error(ex);
@@ -627,6 +732,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
             map.put("Actuals/Projections", actualsProjections.getValue().toString());
             map.put(Constant.PERIOD_ORDER, proPeriodOrd.getValue().toString());
             map.put(Constant.VARIABLES, variables.getValue().toString());
+            map.put(Constant.DISPLAY_FORMAT_SAVE, StringUtils.join(CommonUtil.getDisplayFormatSelectedValues(displayFormatValues), CommonUtil.COMMA));
+            map.put(Constant.CUSTOMER_LEVEL_DDLB, customerlevelDdlb.getValue());
+            map.put(Constant.CUSTOMER_LEVEL_VALUE, StringUtils.join(getCustomerFilterValues(), CommonUtil.COMMA));
+            map.put(Constant.PRODUCT_LEVEL_DDLB, productlevelDdlb.getValue());
+            map.put(Constant.PRODUCT_LEVEL_VALUE, StringUtils.join(getProductFilterValues(), CommonUtil.COMMA));
             sprCommonLogic.saveNMSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION);
         } catch (Exception ex) {
             LOGGER.error(ex);
@@ -647,4 +757,140 @@ public class NMSalesProjection extends ForecastSalesProjection {
         return mSalesProjectionTableLogic;
     }
 
+    @Override
+    protected void variableChangeLogic() {
+        if ((Constant.ACTUAL).equals(variable.getValue())) {
+            allocMethodology.setEnabled(false);
+            allocMethodology.setValue(Constant.SELECT_ONE);
+            adjustment.setEnabled(false);
+            adjustment.setValue("0");
+        } else {
+            allocMethodology.setEnabled(true);
+            adjustment.setEnabled(true);
+            adjustment.setValue(StringUtils.EMPTY);
+        }
+    }
+    
+    
+    private void loadProductLevel()  {
+
+        int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.valueOf(session.getProductLevelNumber()) : 0;
+        currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid());
+        Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
+        productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                generateProductToBeLoaded = Collections.EMPTY_LIST;
+                if (event.getProperty().getValue() != null) {
+                    String productlevelDdlbValue = productlevelDdlb.getItemCaption(String.valueOf(event.getProperty().getValue()));
+                    loadProductLevelFilter(productlevelDdlbValue);
+                } else {
+                    loadProductLevelFilter(StringUtils.EMPTY);
+                }
+            }
+        });
+    }
+     private void loadProductLevelFilter(String levelNo) {
+        List<Object[]> productLevelFilter = new ArrayList<>();
+
+        productFilterDdlb.removeSubMenuCloseListener(productListener);
+        productFilterDdlb.removeItems();
+        productFilterValues = productFilterDdlb.addItem("-Select Level-", null);
+        
+        if (!levelNo.isEmpty()) {
+            productLevelFilter.add(0, new Object[]{0, SELECT_ALL});
+            productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateCustomerToBeLoaded,new ArrayList<>()));
+            CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
+        }
+        productFilterDdlb.setScrollable(true);
+        productFilterDdlb.setPageLength(NumericConstants.TEN);
+        CommonLogic.loadMenuBar(generateProductToBeLoaded, productFilterValues);
+        productFilterDdlb.addSubMenuCloseListener(productListener);
+    }
+    public static final String SELECT_ALL = "Select All";
+
+    private void loadCustomerLevel() {
+        int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.valueOf(session.getCustomerLevelNumber()) : 0;
+        currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid());
+        Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
+        
+        customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
+            public void valueChange(Property.ValueChangeEvent event) {
+                generateCustomerToBeLoaded = Collections.EMPTY_LIST;
+                if (event.getProperty().getValue() != null) {
+                    String customerlevelDdlbValue = String.valueOf(customerlevelDdlb.getValue());
+                    loadCustomerLevelFilter(customerlevelDdlbValue);
+                } else {
+                    loadCustomerLevelFilter(StringUtils.EMPTY);
+                }
+            }
+        });
+    }
+    private void loadCustomerLevelFilter(String levelNo) {
+        List<Object[]> customerLevelFilter = new ArrayList<>();
+        customerFilterDdlb.removeSubMenuCloseListener(cutomerListener);
+        customerFilterDdlb.removeItems();
+        customerFilterValues = customerFilterDdlb.addItem("-Select Level-", null);
+        if (!levelNo.isEmpty()) {
+            customerLevelFilter.add(0, new Object[]{0, SELECT_ALL});
+            customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionDTO,(List)generateProductToBeLoaded,new ArrayList<>()));
+            CommonLogic.loadCustomMenuBar(customerLevelFilter,customerFilterValues);
+        }
+        customerFilterDdlb.setScrollable(true);
+        customerFilterDdlb.setPageLength(NumericConstants.TEN);
+        CommonLogic.loadMenuBar(generateCustomerToBeLoaded, customerFilterValues);
+        customerFilterDdlb.addSubMenuCloseListener(cutomerListener);
+    }
+    
+    protected List getCustomerFilterValues() {
+        List<Object> customerList = new ArrayList<>();
+        if (customerFilterValues != null && customerFilterValues.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> items = customerFilterValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
+                if (customMenuItem1.isChecked() && !String.valueOf(customMenuItem1.getMenuItem().getWindow()).equals("0")) {
+                    customerList.add(customMenuItem1.getMenuItem().getWindow());
+                }
+            }
+        }
+        return customerList;
+    }
+    
+    protected List getProductFilterValues() {
+        List<Object> productList = new ArrayList<>();
+        if (productFilterValues != null && productFilterValues.getSize() > 0) {
+            List<CustomMenuBar.CustomMenuItem> items = productFilterValues.getChildren();
+            for (Iterator<CustomMenuBar.CustomMenuItem> it = items.iterator(); it.hasNext();) {
+                CustomMenuBar.CustomMenuItem customMenuItem1 = it.next();
+                if (customMenuItem1.isChecked() && !String.valueOf(customMenuItem1.getMenuItem().getWindow()).equals("0")) {
+                    productList.add(customMenuItem1.getMenuItem().getWindow());
+                }
+            }
+        }
+        return productList;
+    }
+
+    private void loadSalesInclusion() throws IllegalStateException {
+        String[] variablesalesInclusion= {"Yes", "No"};
+        salesInclusionDdlb.removeItems();
+        salesInclusionValues = salesInclusionDdlb.addItem("-Select Values-", null);
+        CustomMenuBar.CustomMenuItem[] salesInclusionCustomItem = new CustomMenuBar.CustomMenuItem[variablesalesInclusion.length];
+        for (int i = 0; i < variablesalesInclusion.length; i++) {
+            salesInclusionCustomItem[i] = salesInclusionValues.addItem(variablesalesInclusion[i].trim(), null);
+            salesInclusionCustomItem[i].setCheckable(true);
+            salesInclusionCustomItem[i].setItemClickable(true);
+            salesInclusionCustomItem[i].setItemClickNotClosable(true);
+            
+        }
+    }
+    
+      private void loadDisplayFormatDdlb() throws IllegalStateException {
+        List<Object[]> displayFormatFilter = new ArrayList<>();
+        displayFormatFilter.addAll(commonLogic.displayFormatValues());
+        displayFormatValues = displayFormatDdlb.addItem("-Select Values-", null);
+        commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
+        displayFormatDdlb.setScrollable(true);
+    }
+      
 }

@@ -4,59 +4,6 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.DESCRIPTION;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SPACE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUAL;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUALLY;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.FCP_RESULTS_SCREEN;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ACTUALS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AMOUNT;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ASCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.AVERAGE_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BEGINNING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.BOTH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.CPI_URA;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DAY_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.DESCENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ENDING_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.FCP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.FCP_RESULTS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.FSS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.MID_QUARTER_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NON_FAMP;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERCENTAGE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERIOD;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PIVOT_VIEW;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TYPE;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PROJECTIONS;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SALES_WEIGHTED_WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.WAC;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.NamingException;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.container.ExtContainer;
-import org.asi.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NationalAssumptionsFilterGenerator;
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProjectionSelectionDTO;
@@ -64,7 +11,6 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.TableDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.FcpResultsLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.tablelogic.FcpResultsTableLogic;
-import com.stpl.app.gtnforecasting.nationalassumptions.ui.NationalAssumptionsUI;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandContainer;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.BrandCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.NdcFilterContainer;
@@ -73,6 +19,12 @@ import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCo
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad.TherapeuticCriteria;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.IndicatorConstants.FCP_RESULTS_SCREEN;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -106,6 +58,24 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.Reindeer;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.naming.NamingException;
+import org.apache.commons.lang.StringUtils;
+import org.asi.container.ExtContainer;
+import org.asi.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class FcpResults.
@@ -537,8 +507,7 @@ public class FcpResults extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
-            @Override
-			public void noMethod() {
+            public void noMethod() {
                 // do nothing
             }
 
@@ -593,7 +562,6 @@ public class FcpResults extends CustomComponent implements View {
             if (resultBeanContainer.size() > 0) {
                 loadExcelResultTable();
             }
-			NationalAssumptionsUI.EXCEL_CLOSE = true;
             ExcelExport exp = new ExcelExport(new ExtCustomTableHolder(exceltable), Constant.FCP_RESULTS, Constant.FCP_RESULTS, "FCP_Results.xls", false);
             exp.export();
             tableVerticalLayout.removeComponent(exceltable);
@@ -646,7 +614,7 @@ public class FcpResults extends CustomComponent implements View {
         tableLogic.setPageLength(NumericConstants.HUNDRED);
         fullHeader = new CustomTableHeaderDTO();
         leftHeader = CommonUiUtils.getLeftTableColumns(fullHeader);
-        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader);
+        rightHeader = CommonUiUtils.getRightTableColumns(projectionDTO, fullHeader, StringUtils.EMPTY);
         resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
         resultBeanContainer.setColumnProperties(fullHeader.getProperties());
         tableLogic.setContainerDataSource(resultBeanContainer);
@@ -771,8 +739,8 @@ public class FcpResults extends CustomComponent implements View {
                selectedPrice.add(Constant.FSS_OGA_DISCOUNT);
            }
 
-            int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-            projectionDTO.setProjectionId(projectionId);
+            int projId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
+            projectionDTO.setProjectionId(projId);
             projectionDTO.setPriceTypeList(selectedPrice);
             projectionDTO.setFrequency(ANNUALLY.getConstant());
             projectionDTO.setHistoryNum(historyNum);
@@ -810,8 +778,7 @@ public class FcpResults extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
-    @Override
-	public void enter(ViewChangeEvent event) {
+    public void enter(ViewChangeEvent event) {
         return;
     }
 
@@ -915,11 +882,11 @@ public class FcpResults extends CustomComponent implements View {
         } else if (priceBasis.equals("Mid-Quarter WAC")) {
             priceBasis = "MQWAC";
         }
-        int projectionId = sessionDTO.getProjectionId();
+        int projectId = sessionDTO.getProjectionId();
         Integer sessionId = Integer.valueOf(sessionDTO.getUserId());
         Long userId = Long.valueOf(sessionDTO.getSessionId());
 
-        projectionDTO.setProjectionId(projectionId);
+        projectionDTO.setProjectionId(projectId);
         projectionDTO.setUserId(userId.intValue());
         projectionDTO.setSessionId(sessionId);
         fcpLogic.fcpSetupCook(sessionDTO, priceBasis);

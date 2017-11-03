@@ -5,8 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-// TODO: Auto-generated Javadoc
-import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,8 +12,12 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+
+// TODO: Auto-generated Javadoc
+import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  * The Class Constant.
@@ -680,6 +682,8 @@ public class Constant {
     public static final String UNITS_SMALL = "Units";
     public static final String PRODUCT_GROWTH = "Product Growth";
     public static final String ACCOUNT_GROWTH = "Account Growth";
+    public static final String MASS_UPDATE_SALES = "Sales";
+    public static final String MASS_UPDATE_UNIT_VOLUME = "Unit Volume";
     public static final String PROJECTED_RETURN_PER = "Projected Return %";
     public static final String PROJECTED_RPU = "Projected RPU";
     public static final String PROJECTED_RETURN_AMT = "Projected Return Amount";
@@ -763,6 +767,7 @@ public class Constant {
     public static final String SEARCH_TEXT = "searchText";
     public static final String FORECAST = "Forecast";
     public static final String ADJUSTMENT = "Adjustment";
+    public static final String OVERRIDE = "Override";
     public static final String POPUPCONTENTCOMBOSIZE = "popupContentComboSize";
     public static final String OPTION_GROUP_WIDTH = "optiongroupwidth";
     public static final String ADD_FULL_SMALL = "add";
@@ -807,6 +812,7 @@ public class Constant {
     public static final String DISCOUNT_LOWER_CASE = "discount";
     public static final String INDICATOR_LOGIC_CUSTOMER_HIERARCHY = "C";
     public static final String INDICATOR_LOGIC_PRODUCT_HIERARCHY = "P";
+    public static final String INDICATOR_LOGIC_DEDUCTION_HIERARCHY = "D";
     public static final String SUPPLEMENTAL = "Supplemental";
     public static final String COMMERCIAL_SUPPLEMENTAL_DISCOUNT = "Commercial Supplemental Disocunt";
     public static final String ACTUAL_CAPS = "ACTUAL";
@@ -863,6 +869,7 @@ public class Constant {
     public static final String FSS_OGA_DISCOUNT = "FSS (OGA) Discount";
     public static final String FSS_OGA_DISCOUNT1 = "FSS (OGA) Discount";
     public static final String AMP = "AMP";
+    public static final String PHS = "PHS";
     public static final String BEST_PRICE = "BEST PRICE";
     public static final String CPIURA = "CPI URA";
     public static final String ANNUAL_FSS = "Annual FSS";
@@ -893,9 +900,10 @@ public class Constant {
     public static final String RATE = "RATE";
     public static final String TOTAL_DISCOUNT_DOLLAR = "totDisDol";
     public static final String TOTAL_RPU = "totalRPU";
-    public static final String Total_RPU = "Total RPU";
+    public static final String TOTAL_RPU_CAPS = "Total RPU";
+    public static final String MARKET_TYPE_LABEL = "Market Type";
     public static final String TOT_DIS_PER = "totDisPer";
-    public static final String SALES_ = "Sales-";
+    public static final String SALES_WITH_HYPHEN = "Sales-";
     public static final String PPA = "PPA-";
     public static final String CURRENT = "Current";
     public static final String COMPONENT = "Component";
@@ -913,7 +921,7 @@ public class Constant {
     public static final String DISCOUNT_PER_OF_EX_FACTORY_HEADER = "Discount % of Ex-Factory";
     public static final String NET_SALES_PER_OF_EX_FACTORY = "netSalesExFac";
     public static final String NET_SALES_PER_OF_EX_FACTORY_HEADER = "Net Sales % of Ex-Factory";
-    
+
     /**
      * The UNITS_CAPS.
      */
@@ -921,7 +929,7 @@ public class Constant {
     public static final String PROJECTED_UNITS = "Projected Units";
     public static final String ACTUAL_UNITS = "Actual Units";
     public static final String AND = "AND";
-    public static final String ITEM="Item";
+    public static final String ITEM = "Item";
     public static final String PERC_OF_ADJUSTED_DEMAND = "% of Adjusted Demand";
     public static final String MERGE_QUERY = "Merge Query";
     public static final String CURRENT_TABLE_NAMES = "CurrentTableNames";
@@ -939,19 +947,19 @@ public class Constant {
     public static final String PROJ_HIERARCHY_INSERT = "PROJ_HIERARCHY_INSERT";
     public static final String FILE_INSERT = "FILE_INSERT";
     public static final String ALL_SALES_GROUP = "All Sales Groups";
-    public static final String SALESWITHMINUS="Sales-";
+    public static final String SALESWITHMINUS = "Sales-";
     public static final String NA_FILE_INSERT = "NA_FILE_INSERT";
-    public  static  final String PRC_PPA_GENERATE_CALL="PRC_PPA_GENERATE_CALL";
-    public  static  final String PRC_PPA_UPDATE_STMT_CALL="PRC_PPA_UPDATE_STMT_CALL";
-    public static final  String PRC_CONTRACT_DETAILS_REBATE="PRC_CONTRACT_DETAILS_REBATE";
-    public static final  String CALL_PRC_CONTRACT_DETAILS_REBATE="CALL_PRC_CONTRACT_DETAILS_REBATE";
-    public static final  String ALL_DISCOUNT_GROUP="All Discount Groups";
+    public static final String PRC_PPA_GENERATE_CALL = "PRC_PPA_GENERATE_CALL";
+    public static final String PRC_PPA_UPDATE_STMT_CALL = "PRC_PPA_UPDATE_STMT_CALL";
+    public static final String PRC_CONTRACT_DETAILS_REBATE = "PRC_CONTRACT_DETAILS_REBATE";
+    public static final String CALL_PRC_CONTRACT_DETAILS_REBATE = "CALL_PRC_CONTRACT_DETAILS_REBATE";
+    public static final String ALL_DISCOUNT_GROUP = "All Discount Groups";
     public static final String ACTUALS_AND_PROJECTIONS = "Actuals and Projections";
     public static final String PHS_RESULTS = "PHS Results";
     public static final String PERC_OF_EX_FACTORY_SEASONAL_TREND = "% OF Ex-Factory - Seasonal Trend";
 
     /**
-     * set height for 390px 
+     * set height for 390px
      */
     public static final String PX_390 = "390px";
     public static final String FOUR_EIGHT_ONE_PX = "481px";
@@ -1255,6 +1263,7 @@ public class Constant {
     public static final String CURRENCY_TWO_DECIMAL = "currencyTwoDecimal";
     public static final String PERCENT_ONE_DECIMAL = "percentOneDecimal";
     public static final String TOTAL_DISCOUNT_PER_PROJECTEDPERCENTAGE = "totaldiscountperprojectedpercentage";
+    public static final String HIERARCHY_SID_AT = "@HIERARCHY_SID";
     public static final String ONE_DECIMAL = "oneDecimal";
     public static final String PERCENT_TWO_DECIMAL = "percentTwoDecimal";
     public static final String DISCOUNT_DOL = "discountDol";
@@ -1335,17 +1344,24 @@ public class Constant {
     public static final String MEDICAID_URA_WORKSHEET = "Medicaid URA Worksheet";
     public static final String IS_CREATED = "isCreated";
     public static final String INVALID_GROWTH_RATE = "Invalid Growth Rate";
+    public static final String INVALID_WAC_RATE = "Numeric Value";
     public static final String GROWTH_RATE_IN_PERCENT = "Please enter Growth Rate in Percent with 4 decimal places.";
+    public static final String WAC_RATE_IN_PERCENT = "Please enter a numeric value in the ‘% of WAC’ text box.";
     public static final String SPECIAL_STRING_REGEX = "^(0*100{1,1}\\.?((?<=\\.)0*)?%?$)|(^0*\\d{0,2}\\.?((?<=\\.)\\d{4})?%?)$";
+    public static final String WAC_SPECIAL_STRING_REGEX = "^(0*100{1,1}\\.?((?<=\\.)0*)?%?$)|(^0*\\d{0,8}\\.?((?<=\\.)\\d{2})?%?)$";
     public static final String NINE_THOUSAND_PX = "900px";
     public static final String NO_GROWTH_RATE = "No Growth Rate";
+    public static final String NO_WAC_RATE = "No % of WAC Entered";
     public static final String PLEASE_SELECT_A_PRICE_BASIS = "Please select a Price Basis.";
+    public static final String PLEASE_SELECT_A_PRICE_TREND = "Please select a value from the Price Trending field.";
     public static final String PLEASE_SELECT_A_START_PERIOD = "Please select a start period that occurs before the selected end period.";
     public static final String PLEASE_ENTER_IN_A_GROWTH_RATE = "Please enter in a Growth rate %.";
+    public static final String PLEASE_ENTER_IN_A_WAC_RATE = "Please enter a value in the ‘% of WAC’ text box.";
     public static final String WARNING = "Warning";
     public static final String NO_FREQUENCY_SELECTED = "No Frequency Selected";
     public static final String PLEASE_SELECT_A_FREQUENCY = "Please select a Frequency.";
     public static final String NO_PRICE_BASIS_SELECTED = "No Price Basis Selected";
+    public static final String NO_PRICE_TREND_SELECTED = "No Price Trending price basis Selected";
     public static final String NATIONAL_ASSUMPTIONS_SCREEN = "National Assumptions";
     public static final String UPDATE_CONFIRMATION_ALERT = "Update confirmation";
     public static final String NATIONAL_ASSUMPTION_SCREEN_NAME = "National Assumption";
@@ -1581,15 +1597,57 @@ public class Constant {
     public static final String NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN = "No record was selected.  Please try again.";
     public static final String SELECT_RECORD = "Select Record";
     public static final String ADJUSTMENT_FSS = "Adjustment FSS";
+    public static final String OVERRIDE_FSS = "Override FSS";
     public static final String QNON_FAMP = "QNON-FAMP";
     public static final String ADJUSTMENT_NON_FAMP = "Adjustment Non-FAMP";
+    public static final String OVERRIDE_NON_FAMP = "Override Non-FAMP";
     public static final String DISPLAY_VALUE = "displayValue";
     public static final String SELECT_RECORD1 = "Select Record";
     public static final String SPACE_AND_SMALL = " and";
     public static final String SPACE_WHERE_SMALL = " where ";
     public static final String ORDER_BYPRODUCT_GROUP_NAME = "orderBy~productGroupName";
     public static final String ORDER_BYPRODUCT_GROUP_DESCRIPTION = "orderBy~productGroupDescription";
-    
+    public static final String A = "A";
+    public static final String GROUP_VALUE_VERIFICATION = "The group value entered conflicted with the group filter. Kindly Click Refresh button before proceeding this operation";
+    public static final String CALCULATION_COMPLETE = "Calculation Complete";
+    public static final String FIELD_ERROR = "Field Error";
+    public static final String HISTORIC_PERIOD_SELECTION = "Please select a historic period to use as a baseline for each of the selected discounts.";
+    public static final String HISTORIC_PERIOD_SELECTION_FOR_SELECTED_DISCOUNTS = "Please select only one period to use as a baseline for each discount selected.";
+    public static final String VARIABLE_TYPE_SELECTION = "Please select variable type across the baseline periods.";
+    public static final String VARIABLE_TYPE_SELECTION_CONFIRMATION = "No variable types selected";
+    public static final String ADJUSTMENT_CONFIRMATION = "Please select which periods need to be included in the adjustment for each of the selected discounts.";
+    public static final String INCREMENTAL_ADJUSTMENT_CONFIRMATION = "Confirm Incremental adjustment";
+    public static final String CONTINUE_CONFIRMATION = ". Are you sure you want to continue?";
+    public static final String CUSTOM = "Custom";
+    public static final String CHECK_RECORD_REFERENCE = "@CHECK_RECORD";
+    public static final String HIERARCHY_COLUMN = "@HIERARCHY_COLUMN";
+    public static final String PROGRAMS_REF = "@PROGRAMS";
+    public static final String PROGJOIN = "@PROGJOIN";
+    public static final String HELPERTABLE_DESC = "HT.DESCRIPTION";
+    public static final String INVALID_STRUCTURE = "Invalid Structure";
+    public static final String CANNOT_ADD = "You cannot add " ;
+    public static final String CHILD_TO = " as a child to " ;
+    public static final String TABLE_RELATION_SHIP_LEVEL_DEFINITION = "RELATIONSHIP_LEVEL_DEFINITION";
+    public static final String CUSTOMER_HIERARCHY = "Customer Hierarchy";
+    public static final String DISPLAY_FORMAT_SAVE="DisplayFormat";
+    public static final String DEDUCTION_DYNAMIC_FILTER="deduction-dynamic-filter";
+    public static final String DEDUCTION_SID = "@DEDRELBUILDSID";
+    public static final String WHERE_FIRST_CAP = "Where";
+    public static final String CUSTOMER_LEVEL_DDLB="CustomerLevel";
+    public static final String CUSTOMER_LEVEL_VALUE="CustomerLevelValue";
+    public static final String PRODUCT_LEVEL_DDLB="ProductLevel";
+    public static final String PRODUCT_LEVEL_VALUE="ProductLevelValue";
+    public static final String DEDUCTION_LEVEL_DDLB="DeductionLevel";
+    public static final String DEDUCTION_LEVEL_VALUE="DeductionLevelValue";
+    public static final String PHS_AMP = "PHS_AMP";
+    public static final String PHS_TOTAL_URA = "PHS_TOTAL_URA";
+    public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
+    public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No_Conversion";
+    public static final String CLOSE_CONFIRMATION = "Close Confirmation";
+    public static final String HYPHEN =  "- ";
+    public static final String OVERRIDE_AMP = "Override AMP";
+    public static final String OVERRIDE_BEST_PRICE = "Override Best Price";
+    public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     /**
      * Enum for Frequency constants
      */
@@ -2314,7 +2372,7 @@ public class Constant {
         NET_EX_FACTORY_SALES_PER_EX_FACTORY(NET_EXFACT_SALES_PER_EXFACT),
         VAR_COGS("COGS"),
         VAR_NET_PROFITE("Net Profit");
-        
+
         private String constant;
 
         private PVVariables(String constant) {
@@ -2335,7 +2393,7 @@ public class Constant {
         }
     }
     public static final String NET_SALES1 = "Net Sales";
-    
+
     
     public enum PVVariableCategory {
 
@@ -2372,7 +2430,7 @@ public class Constant {
         REBATE_PER_UNIT("Rebate Per Unit"),
         DISCOUNT_AMT(DISCOUNT_AMOUNT_LABEL),
         PER_EX_FACTORY(PERCOFEXFACTORY);
-       
+
         private String constant;
 
         private DPRVariables(String constant) {
@@ -2530,4 +2588,4 @@ public class Constant {
         }
         return PPA_HELPER_TABLE_IDENTIFRIER;
     }
-}
+        }

@@ -338,10 +338,10 @@ public class FederalNdcPopup extends CustomComponent {
 
     void saveAll() throws SystemException, PortalException {
         final List<NewNdcDTO> newNDCList = federalBean.getItemIds();
-        for (NewNdcDTO newNdcDTO : newNDCList) {
-            String customSQL="SELECT * from ST_FEDERAL_NEW_NDC where ITEM_MASTER_SID="+ newNdcDTO.getItemMasterSid();
+        for (NewNdcDTO ndcDTO : newNDCList) {
+            String customSQL="SELECT * from ST_FEDERAL_NEW_NDC where ITEM_MASTER_SID="+ ndcDTO.getItemMasterSid();
             List list = HelperTableLocalServiceUtil.executeSelectQuery( QueryUtil.replaceTableNames(customSQL, sessionDTO.getCurrentTableNames()));
-            nationalAssumptionLogic.saveFedralNdcPopUp(sessionDTO, list, newNdcDTO);
+            nationalAssumptionLogic.saveFedralNdcPopUp(sessionDTO, list, ndcDTO);
         }
 
     }

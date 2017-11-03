@@ -3,7 +3,7 @@ package org.r2.etl.common.controller;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
-import org.bpi.di.core.exception.EtlException;
+//import org.bpi.di.core.exception.EtlException;
 import org.r2.etl.common.action.R2ETL;
 import org.r2.etl.common.util.CommonUtils;
 import org.r2.etl.common.util.Constants;

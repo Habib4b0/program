@@ -268,14 +268,13 @@ public class CDRLogic {
                         stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(betweenFilter.getPropertyId().toString())).append(" <= '").append(dateFormat.format(endValue)).append("' ");
                     }
                 } else if (filter instanceof Compare) {
-                    SimpleStringFilter stringFilter = (SimpleStringFilter) filter;
                     Compare compare = (Compare) filter;
                     Compare.Operation operation = compare.getOperation();
                     Date value = (Date) compare.getValue();
                     if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" >= '").append(dateFormat.format(value)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(compare.getPropertyId().toString())).append(" >= '").append(dateFormat.format(value)).append("' ");
                     } else {
-                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(stringFilter.getPropertyId().toString())).append(" <= '").append(dateFormat.format(value)).append("' ");
+                        stringBuilder.append(ConstantsUtils.AND).append(constantProperties.getString(compare.getPropertyId().toString())).append(" <= '").append(dateFormat.format(value)).append("' ");
                     }
                 }
 

@@ -132,7 +132,7 @@ public class SPRChart {
         plot.setBorderWidth(0);
         if (projSelDTO.getPivotView().equals(PERIOD.getConstant())) {
             xAxis.setCategories(visHeaders);
-            if (dto != null && dto.size() > 0) {
+            if (dto != null && !dto.isEmpty()) {
                 for (SalesProjectionResultsDTO pDto : dto) {
                     ListSeries listSeries = new ListSeries();
                     listSeries.setName(pDto.getLevelValue());

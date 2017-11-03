@@ -294,6 +294,9 @@ public class Details extends CustomComponent {
                 accrualRateProjectionLogic.loadProducts(comboBox, customerDdlb.getValue(), filterValue, accrualRateSelectionDTO.getProjectionId(), AccrualRateUtils.VIEW.equalsIgnoreCase(session.getAction()), session.getCurrentTableNames());
                 comboBox.select(null);
                 break;
+            default:
+                LOGGER.warn("ddlbName is not valid: " + ddlbName);
+                break;
         }
 
     }
@@ -495,15 +498,15 @@ public class Details extends CustomComponent {
     }
 
     public void saveTabSelection() {
-        Map map = new HashMap();
+        Map selectionMap = new HashMap();
         String actionValue;
-        map.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
-        map.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
-        map.put(Constant.CUSTOMER_SMALL, String.valueOf(customerDdlb.getValue()));
-        map.put(Constant.BRAND_CAPS, String.valueOf(brandDdlb.getValue()));
-        map.put(Constant.PRODUCT_LABEL, String.valueOf(productDdlb.getValue()));
-        map.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
-        map.put("TODDLB", String.valueOf(toDdlb.getValue()));
+        selectionMap.put(Constant.FREQUENCY_SMALL, String.valueOf(frequencyDdlb.getValue()));
+        selectionMap.put(Constant.HISTORY_CAPS, String.valueOf(historyDdlb.getValue()));
+        selectionMap.put(Constant.CUSTOMER_SMALL, String.valueOf(customerDdlb.getValue()));
+        selectionMap.put(Constant.BRAND_CAPS, String.valueOf(brandDdlb.getValue()));
+        selectionMap.put(Constant.PRODUCT_LABEL, String.valueOf(productDdlb.getValue()));
+        selectionMap.put("FromDDLB", String.valueOf(fromDdlb.getValue()));
+        selectionMap.put("TODDLB", String.valueOf(toDdlb.getValue()));
         String varValue = StringUtils.EMPTY;
         actionValue = (Constant.EDIT_CAPS.equalsIgnoreCase(session.getAction()) || Constant.VIEW_CAPS.equalsIgnoreCase(session.getAction())) ? "Update" : "Save";
 
@@ -514,39 +517,39 @@ public class Details extends CustomComponent {
                 varValue += "," + variables;
             }
         }
-        map.put(Constant.VARIABLES, varValue);
-        dsLogic.saveScreenSelection(session.getProjectionId(), map, Constant.DETAILS, actionValue);
+        selectionMap.put(Constant.VARIABLES, varValue);
+        dsLogic.saveScreenSelection(session.getProjectionId(), selectionMap, Constant.DETAILS, actionValue);
     }
 
     private void configureOnEditOrView() {
-        Map<Object, Object> map = null;
+        Map<Object, Object> editviewMap = null;
 
-        map = dsLogic.getProjectionSelection(session.getProjectionId(), Constant.DETAILS);
-        if (map != null && !map.isEmpty()) {
-            Object value = map.get(Constant.FREQUENCY_SMALL);
+        editviewMap = dsLogic.getProjectionSelection(session.getProjectionId(), Constant.DETAILS);
+        if (editviewMap != null && !editviewMap.isEmpty()) {
+            Object value = editviewMap.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
-                frequencyDdlb.setValue(map.get(Constant.FREQUENCY_SMALL));
+                frequencyDdlb.setValue(editviewMap.get(Constant.FREQUENCY_SMALL));
                 frequencyDdlb.setImmediate(true);
             }
-            value = map.get(Constant.HISTORY_CAPS);
+            value = editviewMap.get(Constant.HISTORY_CAPS);
             if (value != null) {
                 historyDdlb.setValue(String.valueOf(value));
                 historyDdlb.setImmediate(true);
             }
-            value = map.get(Constant.CUSTOMER_SMALL);
+            value = editviewMap.get(Constant.CUSTOMER_SMALL);
             if (value != null) {
                 customerDdlb.setValue(String.valueOf(value));
             }
-            value = map.get(Constant.PRODUCT_LABEL);
+            value = editviewMap.get(Constant.PRODUCT_LABEL);
             if (value != null) {
                 productDdlb.setValue(String.valueOf(value));
             }
-            value = map.get(Constant.BRAND_CAPS);
+            value = editviewMap.get(Constant.BRAND_CAPS);
             if (value != null) {
                 brandDdlb.setValue(String.valueOf(value));
             }
 
-            value = map.get(Constant.VARIABLES);
+            value = editviewMap.get(Constant.VARIABLES);
             if (value != null) {
                 String val = value.toString();
 
@@ -567,11 +570,11 @@ public class Details extends CustomComponent {
                     }
                 }
             }
-            value = map.get("FromDDLB");
+            value = editviewMap.get("FromDDLB");
             if (value != null) {
                 fromDdlb.setValue(String.valueOf(value));
             }
-            value = map.get("TODDLB");
+            value = editviewMap.get("TODDLB");
             if (value != null) {
                 toDdlb.setValue(String.valueOf(value));
             }

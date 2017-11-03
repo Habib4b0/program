@@ -15,7 +15,6 @@ import com.stpl.app.global.deductioncalendar.logic.SelectionLogic;
 import com.stpl.app.global.deductioncalendar.logic.tablelogic.SelectionTableLogic;
 import com.stpl.app.global.deductioncalendar.ui.util.DeductionCustomerFilerGenerator;
 import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
-import com.stpl.app.global.ifp.logic.IFPLogic;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
@@ -184,7 +183,7 @@ public class CustomerSelection extends CustomComponent {
     
     CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     
-    IFPLogic ifpLogic = new IFPLogic();
+    com.stpl.app.util.CommonUIUtils commonUIUtils = new com.stpl.app.util.CommonUIUtils();
     
     SessionDTO sessionDTO;
     
@@ -254,7 +253,7 @@ public class CustomerSelection extends CustomComponent {
             final Map<String, AppPermission> fieldIfpHM = stplSecurity.getFieldOrColumnPermission(userId, ConstantsUtils.DEDUCTION_CALENDAR+ConstantsUtils.COMMA+ConstantsUtils.CUSTOMER_SELECTION,false);
             String mode = sessionDTO.getMode();
 
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
             Object[] objColumn = headerUtils.customerColumns;
 
             TableResultCustom tableResultCustom = commonSecurityLogic.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode.equals("Copy")?"Edit":mode);
@@ -844,7 +843,7 @@ public class CustomerSelection extends CustomComponent {
      private void getResponsiveFirstTab(final Map<String, AppPermission> fieldItemHM) {
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = ifpLogic.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
+            List<Object> resultList = commonUIUtils.getFieldsForSecurity(ConstantsUtils.DEDUCTION_CALENDAR, ConstantsUtils.CUSTOMER_SELECTION);
 
             commonSecurityLogic.removeComponentOnPermission(resultList, cssLayout2, fieldItemHM,mode.equals("Copy")?"Edit":mode);
         } catch (Exception ex) {

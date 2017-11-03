@@ -37,7 +37,7 @@ public class ValidationUtil {
      */
     public static String getMC(final String key) {
         try {
-            if (key != null && resouceBundle.containsKey(key)) {
+            if (key !=null && resouceBundle.containsKey(key)) {
                 return resouceBundle.getString(key);
             }
             return "";

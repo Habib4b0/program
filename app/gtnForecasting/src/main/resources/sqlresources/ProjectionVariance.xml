@@ -94,4 +94,15 @@ WHERE ?='?%'
             ]]>
         </query>
     </entity>
+    <entity id="total-Head">
+        <query>
+            <![CDATA[
+               SELECT COUNT(DISTINCT @SELECTCOLUMN)
+FROM ST_NM_DISCOUNT_PROJ_MASTER ST
+JOIN #SELECTED_HIERARCHY_NO SH ON SH.CCP_DETAILS_SID=ST.CCP_DETAILS_SID
+JOIN RS_CONTRACT RS ON RS.RS_CONTRACT_SID = ST.RS_CONTRACT_SID
+       AND ST.PV_FILTERS = 1 @JOINQUERY
+            ]]>
+        </query>
+    </entity>
 </sql>

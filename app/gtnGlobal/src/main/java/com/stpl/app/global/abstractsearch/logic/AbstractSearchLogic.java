@@ -8,22 +8,13 @@ package com.stpl.app.global.abstractsearch.logic;
 import com.stpl.app.global.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.global.abstractsearch.ui.AbstractSearchForm;
 import com.stpl.app.global.abstractsearch.util.ConstantUtil;
-import com.stpl.app.global.cfp.logic.CFPSearchLogic;
-import com.stpl.app.global.company.logic.CompanySearchLogic;
 import com.stpl.app.global.compliancededuction.logic.CDRLogic;
 import com.stpl.app.global.deductioncalendar.logic.DeductionCalendarLogic;
-import com.stpl.app.global.ifp.logic.IFPLogic;
-import com.stpl.app.global.item.logic.ItemSearchLogic;
-import com.stpl.app.global.netsalesformula.logic.NsfLogic;
-import com.stpl.app.global.priceschedule.logic.PSLogic;
-import com.stpl.app.global.rebateplan.logic.RebatePlanSearchLogic;
-import com.stpl.app.global.rebateschedule.logic.RebateScheduleLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.ConstantsUtils;
 import static com.stpl.app.util.ConstantsUtils.QUOTE;
 import static com.stpl.app.util.ConstantsUtils.TAB;
 import com.stpl.app.util.ExcelExportUtil;
-import com.stpl.app.util.HelperDTO;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
@@ -135,18 +126,6 @@ public class AbstractSearchLogic {
 
         try {
             if (end != 0) {
-                if (ConstantUtil.COMPANY_MAST.equals(moduleName)) {
-                    
-                        SearchResultsDTO searchResultsDTO;
-                        final List<SearchResultsDTO> searchList = (List<SearchResultsDTO>) new CompanySearchLogic().getResultsForCompany(binder, start, end, columns, null,false);
-                        List printableDto= new ArrayList<>();
-                        for (int rowCount = 0; rowCount < searchList.size(); rowCount++) {
-                            searchResultsDTO = (SearchResultsDTO) searchList.get(rowCount);
-                            printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("companyExcelHeader").split(",")));
-                         }                    
-                        printCsv(printableDto,printWriter);          
-                                        
-                }
                 if (ConstantUtil.DEDUCTION_CALENDAR.equals(moduleName)) {
                         
                         SearchResultsDTO searchResultsDTO;
@@ -160,54 +139,6 @@ public class AbstractSearchLogic {
                         printCsv(printableDto,printWriter);                         
                     
                 }
-                if (ConstantUtil.ITEM_FAMILY_PLAN.equals(moduleName)) {
-                    
-                        SearchResultsDTO searchResultsDTO;
-                        final List<SearchResultsDTO> reultList = new IFPLogic().getResultsForIFP(binder, start, end, columns, null);
-                        List printableDto= new ArrayList<>();
-                        for (int rowCount = 0; rowCount < reultList.size(); rowCount++) {
-                            searchResultsDTO = (SearchResultsDTO) reultList.get(rowCount);
-                            printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("ifpExcelHeader").split(",")));
-                         }                    
-                        printCsv(printableDto,printWriter);  
-                   
-                }
-                if (ConstantUtil.PRICE_SCHEDULE_MASTER.equals(moduleName)) {
-                        SearchResultsDTO searchResultsDTO;
-                        final List<SearchResultsDTO> resultList = new PSLogic().getResultsForPS(binder, start, end, columns, null);
-                        List printableDto= new ArrayList<>();
-                        for (int rowCount = 0; rowCount < resultList.size(); rowCount++) {
-                            searchResultsDTO = (SearchResultsDTO) resultList.get(rowCount);
-                            printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("psExcelHeader").split(",")));
-                         }                    
-                        printCsv(printableDto,printWriter);                   
-                }
-                if (ConstantUtil.REBATE_SCHEDULE_MASTER.equals(moduleName)) {
-
-                        SearchResultsDTO searchResultsDTO;
-                        final List list = (List) new RebateScheduleLogic().getCountAndResultsForRS(binder, start, end, columns, false, null, false);
-                         List<SearchResultsDTO> resultList = new RebateScheduleLogic().getCustomizedSearchForHelper(list);
-                        List printableDto= new ArrayList<>();
-                        for (int rowCount = 0; rowCount < resultList.size(); rowCount++) {
-                            searchResultsDTO = (SearchResultsDTO) resultList.get(rowCount);
-                            printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("rsExcelHeader").split(",")));
-                         }                    
-                        printCsv(printableDto,printWriter);
-                    
-                }
-                if (ConstantUtil.REBATE_PLAN.equals(moduleName)) {
-                    
-                    SearchResultsDTO searchResultsDTO;
-                    final List<SearchResultsDTO> reultList = new RebatePlanSearchLogic().getRebatePlanResults(binder, start, end, columns, null);
-                    List printableDto= new ArrayList<>();
-                    for (int rowCount = 0; rowCount < reultList.size(); rowCount++) {
-                        searchResultsDTO = (SearchResultsDTO) reultList.get(rowCount);
-                        printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("rpExcelHeader").split(",")));
-                     }                    
-                    printCsv(printableDto,printWriter);                     
-                }              
-                
-                
                  if (ConstantUtil.COMPLIANCE_DEDUCTION_RULES.equals(moduleName)) {
                      
                     SearchResultsDTO searchResultsDTO;
@@ -219,44 +150,6 @@ public class AbstractSearchLogic {
                      }                    
                     printCsv(printableDto,printWriter);                     
                     
-                }
-                
-                
-                if (ConstantUtil.ITEM_MASTER.equals(moduleName)) {
-                    
-                    SearchResultsDTO searchResultsDTO;
-                   final List<SearchResultsDTO> itemlist = new ItemSearchLogic().getResultsForSearch(binder, start, end, columns, null);
-                    List printableDto= new ArrayList<>();
-                    for (int rowCount = 0; rowCount < itemlist.size(); rowCount++) {
-                        searchResultsDTO = (SearchResultsDTO) itemlist.get(rowCount);
-                        printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("itemExcelHeader").split(",")));
-                     }
-                    
-                    printCsv(printableDto,printWriter);
-                    
-                }
-                if (ConstantUtil.COMPANY_FAMILY_PLAN.equals(moduleName)) {
-                    
-                    SearchResultsDTO searchResultsDTO;
-                     final List<SearchResultsDTO> cfpList = new CFPSearchLogic().getResultsForCFP(binder, start, end, columns, null);
-                    List printableDto= new ArrayList<>();
-                    for (int rowCount = 0; rowCount < cfpList.size(); rowCount++) {
-                        searchResultsDTO = (SearchResultsDTO) cfpList.get(rowCount);
-                        printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("cfpExcelHeader").split(",")));
-                     }
-                    
-                    printCsv(printableDto,printWriter);
-                }
-                 if (ConstantUtil.NET_SALES_FORMULA.equals(moduleName)) {
-                    SearchResultsDTO searchResultsDTO;
-                    final List<SearchResultsDTO> nsfList = new NsfLogic().loadNsfResults(binder, start, end, columns, null);
-                    List<String> printableDto= new ArrayList();
-                    for (int rowCount = 0; rowCount < nsfList.size(); rowCount++) {
-                        searchResultsDTO = (SearchResultsDTO) nsfList.get(rowCount);
-                        printableDto.add(getStringRows(searchResultsDTO,excelProperties.getString("nsfExcelHeader").split(",")));
-                     }
-                    
-                    printCsv(printableDto,printWriter);
                 }
             }
         } catch (Exception e) {
@@ -340,36 +233,12 @@ public class AbstractSearchLogic {
     public int getCountBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException, ParseException, PortalException {
         int count;
         switch (moduleName) {
-            case ConstantUtil.COMPANY_MAST:
-                count = (Integer) loadCompanyMasterLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.ITEM_MASTER:
-                count = (Integer) loadItemMasterLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.COMPANY_FAMILY_PLAN:
-                count = (Integer) loadCompanyFamilyPlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.ITEM_FAMILY_PLAN:
-                count = (Integer) loadItemFamilyPlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.PRICE_SCHEDULE_MASTER:
-                count = (Integer) loadPriceScheduleLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.REBATE_SCHEDULE_MASTER:
-                count = (Integer) loadRebateScheduleLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.REBATE_PLAN:
-                count = (Integer) loadRebatePlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   
                 count = (Integer) loadCDRLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
                  break;
             case ConstantUtil.DEDUCTION_CALENDAR:   
                 count = (Integer) loadDeductionCalendarLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);  
                 break;
-            case ConstantUtil.NET_SALES_FORMULA:   
-                count = (Integer) loadNsfLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                 break;
             default:
                 count = 0;
                 break;
@@ -395,271 +264,17 @@ public class AbstractSearchLogic {
     public List getSearchResultsBasedOnModules(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException, ParseException {
         List list;
         switch (moduleName) {
-            case ConstantUtil.COMPANY_MAST:
-                list = (List) loadCompanyMasterLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.ITEM_MASTER:
-                list = (List) loadItemMasterLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.COMPANY_FAMILY_PLAN:
-                list = (List) loadCompanyFamilyPlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.ITEM_FAMILY_PLAN:
-                list = (List) loadItemFamilyPlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.PRICE_SCHEDULE_MASTER:
-                list = (List) loadPriceScheduleLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.REBATE_SCHEDULE_MASTER:
-                list = (List) loadRebateScheduleLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
-            case ConstantUtil.REBATE_PLAN:
-                list = (List) loadRebatePlanLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                break;
             case ConstantUtil.COMPLIANCE_DEDUCTION_RULES:   
                 list = (List) loadCDRLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);    
                 break;
             case ConstantUtil.DEDUCTION_CALENDAR:   
                 list = (List) loadDeductionCalendarLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);
-                 break;
-            case ConstantUtil.NET_SALES_FORMULA:
-                list = (List) loadNsfLogic(binder, obj, start, offset, isCount, columns, filterSet, moduleName);    
-                break;
+                 break;            
             default:
                 list = new ArrayList();
                 break;
         }
         return list;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getCountForSearch(...) of CompanySearchLogic to get the count
-     * and getResultsForCompany(...) to get the results.
-     *
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @return
-     * @throws Exception
-     */
-    private Object loadCompanyMasterLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException, ParseException {
-
-        Object object;
-        CompanySearchLogic companySearchLogic = new CompanySearchLogic();
-        if (isCount) {
-            object = companySearchLogic.getResultsForCompany(binder, start, start + offset, columns, filterSet,true);
-        } else {
-            object = companySearchLogic.getResultsForCompany(binder, start, start + offset, columns, filterSet,false);
-            final HelperDTO helperDTO = (HelperDTO) (binder.getField("combo6").getValue());
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription()) && !ConstantUtil.SELECT_ONE.equals(helperDTO.getDescription())) {
-                obj.setTableDefaultConfig1(ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName) ? moduleName + "W" : moduleName);
-            } else {
-                obj.setTableDefaultConfig1(ConstantUtil.COMPANY_MAST.equalsIgnoreCase(moduleName) ? moduleName + "WO" : moduleName);
-            }
-
-        }
-        return object;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getCountForSearch(...) of ItemSearchLogic to get the count and
-     * getResultsForSearch(...) to get the results.
-     *
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception
-     */
-    public Object loadItemMasterLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException {
-        Object object;
-        ItemSearchLogic itemSearchLogic = new ItemSearchLogic();
-        if (isCount) {
-            object = (Integer) itemSearchLogic.getCountForSearch(binder, filterSet);
-        } else {
-
-            object = itemSearchLogic.getResultsForSearch(binder, start, start + offset, columns, filterSet);
-            final HelperDTO helperDTO = (HelperDTO) (binder.getField(ConstantsUtils.COMBO5).getValue());
-            if (helperDTO != null && StringUtils.isNotBlank(helperDTO.getDescription()) && !ConstantUtil.SELECT_ONE.equals(helperDTO.getDescription())) {
-                obj.setTableDefaultConfig1(ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName) ? moduleName + "W" : moduleName);
-            } else {
-                obj.setTableDefaultConfig1(ConstantUtil.ITEM_MASTER.equalsIgnoreCase(moduleName) ? moduleName + "WO" : moduleName);
-            }
-
-        }
-
-        return object;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getCFPResults(...) of CFPSearchLogic to get the count and
-     * getResultsForCFP(...) to get the results.
-     *
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception
-     */
-    private Object loadCompanyFamilyPlanLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws PortalException, SystemException, ParseException {
-
-        Object object;
-        CFPSearchLogic cfpSearchLogic = new CFPSearchLogic();
-        if (isCount) {
-            Object listSize = ((List) cfpSearchLogic.getCFPResults(binder, filterSet, null, false, 0, 0, ConstantsUtils.COUNT)).get(0);
-            object = Integer.valueOf(String.valueOf(listSize));
-        } else {
-            object = cfpSearchLogic.getResultsForCFP(binder, start, offset, columns, filterSet);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
-
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getIFPCountForSearch(...) of IFPLogic to get the count and
-     * getResultsForIFP(...) to get the results.
-     *      
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception 
-     */
-    private Object loadItemFamilyPlanLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException, PortalException{
-        Object object;
-        IFPLogic ifpLogic = new IFPLogic();
-        if (isCount) {
-            object = (Integer) ifpLogic.getIFPCountForSearch(binder, filterSet);
-        } else {
-            object = ifpLogic.getResultsForIFP(binder, start, offset, columns, filterSet);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getCountForPS(...) of PSLogic to get the count and
-     * getResultsForPS(...) to get the results.
-     *     
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception 
-     */
-    private Object loadPriceScheduleLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws ParseException {
-
-        Object object;
-        PSLogic psLogic = new PSLogic();
-        if (isCount) {
-            object = (Integer) psLogic.getCountForPS(binder, filterSet);
-
-        } else {
-            object = psLogic.getResultsForPS(binder, start, offset, columns, filterSet);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getCountAndResultsForRS(...) of RebateScheduleLogic to get the
-     * results.
-     *
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception
-     */
-    private Object loadRebateScheduleLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException  {
-
-        Object object;
-        RebateScheduleLogic rebateScheduleLogic = new RebateScheduleLogic();
-        if (isCount) {
-            object = (Integer) rebateScheduleLogic.getCountAndResultsForRS(binder, 0, 0, columns, false, filterSet, true);
-        } else {
-            List resultList = (List) rebateScheduleLogic.getCountAndResultsForRS(binder, start, offset, columns, false, filterSet, false);
-            object = rebateScheduleLogic.getCustomizedSearchForHelper(resultList);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
-    }
-
-    /**
-     * Method retrieves the total count based on search criteria and retrieves
-     * the data based on the search criteria,total count,start index and offset.
-     * Calls the getDynamicQueryForSearch(...) of RebatePlanSearchLogic to get
-     * the count and getResultsForSearch(...) to get the results.
-     *
-     * @param binder
-     * @param obj
-     * @param start
-     * @param offset
-     * @param isCount
-     * @param columns
-     * @param filterSet
-     * @param moduleName
-     * @return
-     * @throws Exception
-     */
-    private Object loadRebatePlanLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) throws SystemException, ParseException {
-        Object object;
-        RebatePlanSearchLogic rebatePlanSearchLogic = new RebatePlanSearchLogic();
-        if (isCount) {
-            object = rebatePlanSearchLogic.getRebatePlanResultsCount(binder, filterSet);
-
-        } else {            
-            object = rebatePlanSearchLogic.getRebatePlanResults(binder, start, start + offset, columns, filterSet);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
     }
 
     private Object loadCDRLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) {
@@ -689,17 +304,4 @@ public class AbstractSearchLogic {
 
         return object;
     }
-    private Object loadNsfLogic(ErrorfulFieldGroup binder, AbstractSearchForm obj, int start, int offset, final boolean isCount, final List<SortByColumn> columns, final Set<Container.Filter> filterSet, final String moduleName) {
-        Object object;
-        NsfLogic nsfLogic = new NsfLogic();
-        if (isCount) {
-            object = (Integer) nsfLogic.getNsfCount(binder, filterSet);
-
-        } else {
-            object = nsfLogic.loadNsfResults(binder, start, start + offset, columns, filterSet);
-            obj.setTableDefaultConfig1(moduleName);
-        }
-
-        return object;
-    }
-}
+ }

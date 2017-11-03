@@ -483,7 +483,8 @@ public class DeductionDetails extends CustomComponent {
                             boolean check = checkBox.getValue();
                             int updatedRecordsNo = 0;
                             getBeanFromId(itemId).addBooleanProperties(propertyId, check);
-                            if ("Total".equalsIgnoreCase(getBeanFromId(itemId).getGroup())) {
+                            if ("Total".equalsIgnoreCase(getBeanFromId(itemId).getGroup()) || 
+                                    String.valueOf(filterDdlb.getItemCaption(filterDdlb.getValue())).equalsIgnoreCase(getBeanFromId(itemId).getGroup())) {
                                 updatedRecordsNo = logic.checkTempTable(check, sessionDTO);
                                 if (check) {
                                     checkAll = true;
@@ -492,7 +493,7 @@ public class DeductionDetails extends CustomComponent {
                                 }
                                 leftTable.setColumnCheckBox(ConstantsUtils.CHECK, true, checkAll);
                             } else {
-                                updatedRecordsNo = logic.checkTempTable(detailsDto, check, getBeanFromId(itemId), String.valueOf(filterDdlb.getValue()), sessionDTO);
+                               updatedRecordsNo = logic.checkTempTable(detailsDto, check, getBeanFromId(itemId), String.valueOf(filterDdlb.getValue()), sessionDTO);
                             }
                             final String tableHierarchyNo = tableLogic.getTreeLevelonCurrentPage(itemId);
                             updateCheckForParentLevels(itemId, updatedRecordsNo, check);
@@ -916,7 +917,7 @@ public class DeductionDetails extends CustomComponent {
                 TableDTO tempDto = (TableDTO) tempId;
                 LOGGER.debug(tempDto.getLevelNo() + " " + tempDto.getGroup() + " Parent Uncheck count before " + tempDto.getUncheckCount());
                 if (checkValue) {
-                    tempDto.setUncheckCount(tempDto.getUncheckCount() - newRecordsCount);
+                    tempDto.setUncheckCount(0);
                 } else {
                     tempDto.setUncheckCount(tempDto.getUncheckCount() + newRecordsCount);
                 }

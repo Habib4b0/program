@@ -5,22 +5,22 @@
     <extended_description/>
     <job_version/>
     <job_status>0</job_status>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#47;07&#47;05 16:31:58.840</created_date>
+  <created_date>2013&#x2f;07&#x2f;05 16&#x3a;31&#x3a;58.840</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#47;07&#47;05 16:31:58.840</modified_date>
+  <modified_date>2013&#x2f;07&#x2f;05 16&#x3a;31&#x3a;58.840</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -37,13 +37,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -66,7 +66,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CUSTOMER_GTS_FORECAST_VALIDATIONS.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CUSTOMER_GTS_FORECAST_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -94,7 +94,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -105,6 +105,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -154,7 +155,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CUSTOMER_GTS_FORECAST_DATAFETCH.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CUSTOMER_GTS_FORECAST_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -173,6 +174,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -217,7 +219,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -231,8 +233,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -247,7 +251,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -261,8 +265,10 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -277,7 +283,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -296,6 +302,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -309,7 +316,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -328,6 +335,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -341,7 +349,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -360,6 +368,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -373,7 +382,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -392,6 +401,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -405,7 +415,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;REPROCESSING_INVALID_DATA.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -424,6 +434,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -435,23 +446,7 @@
       <name>GTS_FORECAST_HELPER_TABLE</name>
       <description/>
       <type>SQL</type>
-      <sql>INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC1,&apos;CUSTOMER_GTS_UDC1&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST 
-WHERE (upper(UDC1)!=&apos;NULL&apos; or UDC1 IS NOT NULL ) AND UDC1 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC1&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC2,&apos;CUSTOMER_GTS_UDC2&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST
-WHERE (upper(UDC2)!=&apos;NULL&apos; or UDC2 IS NOT NULL ) AND UDC2 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC2&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC3,&apos;CUSTOMER_GTS_UDC3&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST 
-WHERE (upper(UDC3)!=&apos;NULL&apos; or UDC3 IS NOT NULL ) AND UDC3 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC3&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC4,&apos;CUSTOMER_GTS_UDC4&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST 
-WHERE (upper(UDC4)!=&apos;NULL&apos; or UDC4 IS NOT NULL ) AND UDC4 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC4&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC5,&apos;CUSTOMER_GTS_UDC5&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST 
-WHERE (upper(UDC5)!=&apos;NULL&apos; or UDC5 IS NOT NULL ) AND UDC5 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC5&apos;)
-
-INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC6,&apos;CUSTOMER_GTS_UDC6&apos;,-1 FROM STAG_CUSTOMER_GTS_FORECAST
-WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CUSTOMER_GTS_UDC6&apos;)</sql>
+      <sql>INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC1,&#x27;CUSTOMER_GTS_UDC1&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST &#xa;WHERE &#x28;upper&#x28;UDC1&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC1 IS NOT NULL &#x29; AND UDC1 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC1&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC2,&#x27;CUSTOMER_GTS_UDC2&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST&#xa;WHERE &#x28;upper&#x28;UDC2&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC2 IS NOT NULL &#x29; AND UDC2 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC2&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC3,&#x27;CUSTOMER_GTS_UDC3&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST &#xa;WHERE &#x28;upper&#x28;UDC3&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC3 IS NOT NULL &#x29; AND UDC3 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC3&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC4,&#x27;CUSTOMER_GTS_UDC4&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST &#xa;WHERE &#x28;upper&#x28;UDC4&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC4 IS NOT NULL &#x29; AND UDC4 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC4&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC5,&#x27;CUSTOMER_GTS_UDC5&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST &#xa;WHERE &#x28;upper&#x28;UDC5&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC5 IS NOT NULL &#x29; AND UDC5 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC5&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT UDC6,&#x27;CUSTOMER_GTS_UDC6&#x27;,-1 FROM STAG_CUSTOMER_GTS_FORECAST&#xa;WHERE &#x28;upper&#x28;UDC6 &#x29;&#x21;&#x3d;&#x27;NULL&#x27; or UDC6  IS NOT NULL &#x29; AND UDC6 NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CUSTOMER_GTS_UDC6&#x27;&#x29;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -467,10 +462,7 @@ WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SE
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -483,13 +475,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;CU
       <yloc>153</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (3)</name>
+      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -502,13 +491,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <yloc>2507</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2)</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -526,7 +512,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -545,6 +531,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -556,92 +543,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>
-TRUNCATE TABLE STAG_CUSTOMER_GTS_FORECAST
-
-
-INSERT INTO STAG_CUSTOMER_GTS_FORECAST(
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-
-) 
-SELECT 
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-FROM ${STAGING_DB}..CUSTOMER_GTS_FORECAST_INTF
--- FROM BPIGTN_GAL_STAGING_LOAD..CUSTOMER_GTS_FORECAST_INTF</sql>
+      <sql>&#xa;TRUNCATE TABLE STAG_CUSTOMER_GTS_FORECAST&#xa;&#xa;&#xa;INSERT INTO STAG_CUSTOMER_GTS_FORECAST&#x28;&#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;&#xa;&#x29; &#xa;SELECT &#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;FROM &#x24;&#x7b;STAGING_DB&#x7d;..CUSTOMER_GTS_FORECAST_INTF&#xa;-- FROM BPIGTN_GAL_STAGING_LOAD..CUSTOMER_GTS_FORECAST_INTF</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -657,100 +559,7 @@ FROM ${STAGING_DB}..CUSTOMER_GTS_FORECAST_INTF
       <name>INVALID_INDICATOR</name>
       <description/>
       <type>SQL</type>
-      <sql>		
-		
-INSERT INTO IVLD_CUSTOMER_GTS_FORECAST(
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REASON_FOR_FAILURE
-
-
-
-)		
-		
-SELECT
-A.CUSTOMER_GTS_FORECAST_INTF_ID
-,A.FORECAST_YEAR
-,A.FORECAST_MONTH
-,A.ITEM_ID
-,A.COMPANY_ID
-,A.UNITS
-,A.PRICE_TYPE
-,A.PRICE
-,A.SALES_AMOUNT
-,A.SALES_INCLUSION
-,A.DEDUCTION_ID
-,A.DEDUCTION_CATEGORY
-,A.DEDUCTION_TYPE
-,A.DEDUCTION_PROGRAM_TYPE
-,A.ADJUSTMENT_CODE
-,A.DEDUCTION_RATE
-,A.DEDUCTION_AMOUNT
-,A.DEDUCTION_INCLUSION
-,A.FORECAST_VALUE_TYPE
-,A.BRAND
-,A.SEGMENT
-,A.ADD_CHG_DEL_INDICATOR
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.BATCH_ID
-,A.SOURCE
-,A.FORECAST_VER
-,A.COUNTRY
-,A.FORECAST_NAME
-,A.FORECAST_DATE
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
-,&apos;Invalid Indicator&apos;
-
-FROM STAG_CUSTOMER_GTS_FORECAST A 
-     --  INNER JOIN COMPANY_MASTER B 
-     --         ON A.COMPANY_ID = B.COMPANY_ID                
-	 --  INNER JOIN ITEM_MASTER C 
-       --       ON A.ITEM_ID = C.ITEM_ID 	
-	   where a.ADD_CHG_DEL_INDICATOR &lt;&gt;&apos;A&apos;</sql>
+      <sql>		&#xa;		&#xa;INSERT INTO IVLD_CUSTOMER_GTS_FORECAST&#x28;&#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#xa;&#xa;&#x29;		&#xa;		&#xa;SELECT&#xa;A.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,A.FORECAST_YEAR&#xa;,A.FORECAST_MONTH&#xa;,A.ITEM_ID&#xa;,A.COMPANY_ID&#xa;,A.UNITS&#xa;,A.PRICE_TYPE&#xa;,A.PRICE&#xa;,A.SALES_AMOUNT&#xa;,A.SALES_INCLUSION&#xa;,A.DEDUCTION_ID&#xa;,A.DEDUCTION_CATEGORY&#xa;,A.DEDUCTION_TYPE&#xa;,A.DEDUCTION_PROGRAM_TYPE&#xa;,A.ADJUSTMENT_CODE&#xa;,A.DEDUCTION_RATE&#xa;,A.DEDUCTION_AMOUNT&#xa;,A.DEDUCTION_INCLUSION&#xa;,A.FORECAST_VALUE_TYPE&#xa;,A.BRAND&#xa;,A.SEGMENT&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,A.FORECAST_VER&#xa;,A.COUNTRY&#xa;,A.FORECAST_NAME&#xa;,A.FORECAST_DATE&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;,&#x27;Invalid Indicator&#x27;&#xa;&#xa;FROM STAG_CUSTOMER_GTS_FORECAST A &#xa;     --  INNER JOIN COMPANY_MASTER B &#xa;     --         ON A.COMPANY_ID &#x3d; B.COMPANY_ID                &#xa;	 --  INNER JOIN ITEM_MASTER C &#xa;       --       ON A.ITEM_ID &#x3d; C.ITEM_ID 	&#xa;	   where a.ADD_CHG_DEL_INDICATOR &#x3c;&#x3e;&#x27;A&#x27;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -766,159 +575,7 @@ FROM STAG_CUSTOMER_GTS_FORECAST A
       <name>Duplicate record in Staging</name>
       <description/>
       <type>SQL</type>
-      <sql>
-;WITH cte AS ( 
-
-
-SELECT 
-
-A.CUSTOMER_GTS_FORECAST_INTF_ID
-,A.FORECAST_YEAR
-,A.FORECAST_MONTH
-,A.ITEM_ID
-,A.COMPANY_ID
-,A.UNITS
-,A.PRICE_TYPE
-,A.PRICE
-,A.SALES_AMOUNT
-,A.SALES_INCLUSION
-,A.DEDUCTION_ID
-,A.DEDUCTION_CATEGORY
-,A.DEDUCTION_TYPE
-,A.DEDUCTION_PROGRAM_TYPE
-,A.ADJUSTMENT_CODE
-,A.DEDUCTION_RATE
-,A.DEDUCTION_AMOUNT
-,A.DEDUCTION_INCLUSION
-,A.FORECAST_VALUE_TYPE
-,A.BRAND
-,A.SEGMENT
-,A.ADD_CHG_DEL_INDICATOR
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.BATCH_ID
-,A.SOURCE
-,A.FORECAST_VER
-,A.COUNTRY
-,A.FORECAST_NAME
-,A.FORECAST_DATE
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
---,A.Reason_For_Failure
---,A.ERROR_CODE
-
- 
-,ROW_NUMBER() OVER(PARTITION BY 
-FORECAST_YEAR
-,FORECAST_MONTH
-,COMPANY_ID
-,ITEM_ID
-,ADD_CHG_DEL_INDICATOR
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,FORECAST_NAME
-,COUNTRY 
-ORDER BY COMPANY_ID)&apos;RowRank&apos;
-        FROM     STAG_CUSTOMER_GTS_FORECAST A 
-       where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
-			    )
-
-insert into IVLD_CUSTOMER_GTS_FORECAST(
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REASON_FOR_FAILURE
-,ERROR_CODE
-
-)
-select 
- CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,&apos;Duplicate record in Staging&apos;
-,&apos;E04&apos;
-  FROM cte 
-WHERE RowRank &gt; 1
-
-
-</sql>
+      <sql>&#xa;&#x3b;WITH cte AS &#x28; &#xa;&#xa;&#xa;SELECT &#xa;&#xa;A.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,A.FORECAST_YEAR&#xa;,A.FORECAST_MONTH&#xa;,A.ITEM_ID&#xa;,A.COMPANY_ID&#xa;,A.UNITS&#xa;,A.PRICE_TYPE&#xa;,A.PRICE&#xa;,A.SALES_AMOUNT&#xa;,A.SALES_INCLUSION&#xa;,A.DEDUCTION_ID&#xa;,A.DEDUCTION_CATEGORY&#xa;,A.DEDUCTION_TYPE&#xa;,A.DEDUCTION_PROGRAM_TYPE&#xa;,A.ADJUSTMENT_CODE&#xa;,A.DEDUCTION_RATE&#xa;,A.DEDUCTION_AMOUNT&#xa;,A.DEDUCTION_INCLUSION&#xa;,A.FORECAST_VALUE_TYPE&#xa;,A.BRAND&#xa;,A.SEGMENT&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,A.FORECAST_VER&#xa;,A.COUNTRY&#xa;,A.FORECAST_NAME&#xa;,A.FORECAST_DATE&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;--,A.Reason_For_Failure&#xa;--,A.ERROR_CODE&#xa;&#xa; &#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa;FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,COMPANY_ID&#xa;,ITEM_ID&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,FORECAST_NAME&#xa;,COUNTRY &#xa;ORDER BY COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;        FROM     STAG_CUSTOMER_GTS_FORECAST A &#xa;       where a.ADD_CHG_DEL_INDICATOR &#x3d;&#x27;A&#x27;&#xa;			    &#x29;&#xa;&#xa;insert into IVLD_CUSTOMER_GTS_FORECAST&#x28;&#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REASON_FOR_FAILURE&#xa;,ERROR_CODE&#xa;&#xa;&#x29;&#xa;select &#xa; CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,&#x27;Duplicate record in Staging&#x27;&#xa;,&#x27;E04&#x27;&#xa;  FROM cte &#xa;WHERE RowRank &#x3e; 1&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -934,159 +591,7 @@ WHERE RowRank &gt; 1
       <name>validation</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       left JOIN COMPANY_MASTER B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       left JOIN ITEM_MASTER C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       
-WHERE (C.ITEM_ID   is null or  B.COMPANY_ID is null )
-and a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; 
-)
-
-
-
- INSERT INTO IVLD_CUSTOMER_GTS_FORECAST(
- 
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
---REASON_FOR_FAILURE
-
-)
-
-select 
- a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
-  FROM cte A
-WHERE RowRank = 1</sql>
+      <sql>&#xa;&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       left JOIN COMPANY_MASTER B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       left JOIN ITEM_MASTER C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       &#xa;WHERE &#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;and a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; &#xa;&#x29;&#xa;&#xa;&#xa;&#xa; INSERT INTO IVLD_CUSTOMER_GTS_FORECAST&#x28;&#xa; &#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;--REASON_FOR_FAILURE&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa; a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;  FROM cte A&#xa;WHERE RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1102,19 +607,7 @@ WHERE RowRank = 1</sql>
       <name>validation_update</name>
       <description/>
       <type>SQL</type>
-      <sql>update a set 
-REASON_FOR_FAILURE=
- CASE 
-         WHEN b.company_id IS NULL THEN &apos;Invalid Organizationkey&apos; 
-         WHEN c.item_id IS NULL THEN &apos;Invalid ItemId&apos; 
-       
-       END 
-FROM   IVLD_CUSTOMER_GTS_FORECAST a 
-       LEFT JOIN company_master B 
-              ON A.company_id = B.company_id 
-       LEFT JOIN item_master C 
-              ON A.item_id = C.item_id 
-		where a.REASON_FOR_FAILURE is null</sql>
+      <sql>update a set &#xa;REASON_FOR_FAILURE&#x3d;&#xa; CASE &#xa;         WHEN b.company_id IS NULL THEN &#x27;Invalid Organizationkey&#x27; &#xa;         WHEN c.item_id IS NULL THEN &#x27;Invalid ItemId&#x27; &#xa;       &#xa;       END &#xa;FROM   IVLD_CUSTOMER_GTS_FORECAST a &#xa;       LEFT JOIN company_master B &#xa;              ON A.company_id &#x3d; B.company_id &#xa;       LEFT JOIN item_master C &#xa;              ON A.item_id &#x3d; C.item_id &#xa;		where a.REASON_FOR_FAILURE is null</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1130,165 +623,7 @@ FROM   IVLD_CUSTOMER_GTS_FORECAST a
       <name>Sales_Inclusion</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN COMPANY_MASTER B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN ITEM_MASTER C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and not (
- (SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
-)
-
-
-
- INSERT INTO IVLD_CUSTOMER_GTS_FORECAST(
- 
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REASON_FOR_FAILURE
-
-
-)
-
-select 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
-,&apos;Sales_Inclusion not Provided&apos;
-
-  FROM cte A
-WHERE RowRank = 1</sql>
+      <sql>&#xa;&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN COMPANY_MASTER B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN ITEM_MASTER C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       &#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and not &#x28;&#xa; &#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa;&#x29;&#xa;&#xa;&#xa;&#xa; INSERT INTO IVLD_CUSTOMER_GTS_FORECAST&#x28;&#xa; &#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;,&#x27;Sales_Inclusion not Provided&#x27;&#xa;&#xa;  FROM cte A&#xa;WHERE RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1304,165 +639,7 @@ WHERE RowRank = 1</sql>
       <name>Deduction_Inclusion</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN COMPANY_MASTER B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN ITEM_MASTER C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and  ((SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
- and not ((DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null ) or (DEDUCTION_AMOUNT is null))
-)
-
-
-
- INSERT INTO IVLD_CUSTOMER_GTS_FORECAST(
- 
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,REASON_FOR_FAILURE
-
-
-)
-
-select 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
-,&apos;Deduction_Inclusion not Provided&apos;
-
-  FROM cte A
-WHERE RowRank = 1</sql>
+      <sql>&#xa;&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN COMPANY_MASTER B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN ITEM_MASTER C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       &#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and  &#x28;&#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa; and not &#x28;&#x28;DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null &#x29; or &#x28;DEDUCTION_AMOUNT is null&#x29;&#x29;&#xa;&#x29;&#xa;&#xa;&#xa;&#xa; INSERT INTO IVLD_CUSTOMER_GTS_FORECAST&#x28;&#xa; &#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;,&#x27;Deduction_Inclusion not Provided&#x27;&#xa;&#xa;  FROM cte A&#xa;WHERE RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1478,203 +655,7 @@ WHERE RowRank = 1</sql>
       <name>MASTER_INSERT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-IF OBJECT_ID(&apos;TEMPDB..#item&apos;) IS NOT NULL
-DROP TABLE #item
-
-	SELECT a.ITEM_ID,
-		   im.item_master_sid,im.ORGANIZATION_KEY
-INTO   #item
-	FROM   (SELECT DISTINCT item_id
-			FROM   STAG_CUSTOMER_GTS_FORECAST) a
-		   JOIN item_master im
-			 ON im.item_id = a.item_id
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#company&apos;) IS NOT NULL
-DROP TABLE #company
-	SELECT a.COMPANY_ID, im.COMPANY_MASTER_SID
-		   
-INTO   #company
-	FROM   (SELECT DISTINCT COMPANY_ID
-			FROM   STAG_CUSTOMER_GTS_FORECAST) a
-		   JOIN COMPANY_master im
-			 ON im.COMPANY_ID = a.COMPANY_ID
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
-,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID
-,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID
-,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID
-,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY
-,b.COMPANY_MASTER_SID
-,c.ITEM_MASTER_SID
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN #company B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN #item C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.DEDUCTION_PROGRAM_TYPE
-			  AND D.LIST_NAME=&apos;REBATE_PROGRAM_TYPE&apos;	
-	   left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.DEDUCTION_CATEGORY
-	   	      AND E.LIST_NAME=&apos;RS_CATEGORY&apos;
-	   left join HELPER_TABLE F 
-	          ON F.DESCRIPTION=A.DEDUCTION_TYPE
-	   	      AND F.LIST_NAME=&apos;RS_TYPE&apos;
-
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and  ((SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
- and ((DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null ) or (DEDUCTION_AMOUNT is null))
-
-AND NOT exists(select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,
- FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where 
-A.FORECAST_YEAR			=B.FORECAST_YEAR
-AND A.FORECAST_MONTH		=B.FORECAST_MONTH
-AND A.ITEM_ID				=B.ITEM_ID
-AND A.COMPANY_ID			=B.COMPANY_ID
-AND A.ADD_CHG_DEL_INDICATOR	=B.ADD_CHG_DEL_INDICATOR
-AND A.BATCH_ID				=B.BATCH_ID
-AND A.SOURCE				=B.SOURCE
-AND A.FORECAST_VER			=B.FORECAST_VER
-AND A.COUNTRY				=B.COUNTRY
-AND A.FORECAST_NAME         =B.FORECAST_NAME
-
-)
-
-)
-insert into CUSTOMER_GTS_FORECAST
-(
- ADD_CHG_DEL_INDICATOR
-,ADJUSTMENT_CODE
-,BATCH_ID
-,BRAND
-,COMPANY_ID
-,COMPANY_MASTER_SID
-,COUNTRY
-,CREATED_BY
-,CUSTOMER_GTS_FORECAST_INTF_ID
-,DEDUCTION_AMOUNT
-,DEDUCTION_CATEGORY
-,DEDUCTION_ID
-,DEDUCTION_INCLUSION
-,DEDUCTION_PROGRAM_TYPE
-,DEDUCTION_RATE
-,DEDUCTION_TYPE
-,FORECAST_DATE
-,FORECAST_MONTH
-,FORECAST_NAME
-,FORECAST_VALUE_TYPE
-,FORECAST_VER
-,FORECAST_YEAR
-,INBOUND_STATUS
-,ITEM_ID
-,ITEM_MASTER_SID
-,PRICE
-,PRICE_TYPE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,SEGMENT
-,SOURCE
-,UNITS
-,BUSINESS_UNIT
-
-)
-
-
-select 
-
-a.ADD_CHG_DEL_INDICATOR
-,a.ADJUSTMENT_CODE
-,a.BATCH_ID
-,a.BRAND
-,a.COMPANY_ID
-,a.COMPANY_MASTER_SID
-,a.COUNTRY
-,a.CREATED_BY
-,a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_CATEGORY_SID
-,a.DEDUCTION_ID
-,a.DEDUCTION_INCLUSION
-,a.DEDUCTION_PROGRAM_TYPE_SID
-,a.DEDUCTION_RATE
-,a.DEDUCTION_TYPE_SID
-,a.FORECAST_DATE
-,a.FORECAST_MONTH
-,a.FORECAST_NAME
-,a.FORECAST_VALUE_TYPE
-,a.FORECAST_VER
-,a.FORECAST_YEAR
-,&apos;A&apos;
-,a.ITEM_ID
-,a.ITEM_MASTER_SID
-,a.PRICE
-,a.PRICE_TYPE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.SEGMENT
-,a.SOURCE
-,a.UNITS
-,a.NEW_ORGANIZATION_KEY
-
-FROM cte A
-WHERE RowRank = 1</sql>
+      <sql>&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;item&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;item&#xa;&#xa;	SELECT a.ITEM_ID,&#xa;		   im.item_master_sid,im.ORGANIZATION_KEY&#xa;INTO   &#x23;item&#xa;	FROM   &#x28;SELECT DISTINCT item_id&#xa;			FROM   STAG_CUSTOMER_GTS_FORECAST&#x29; a&#xa;		   JOIN item_master im&#xa;			 ON im.item_id &#x3d; a.item_id&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;company&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;company&#xa;	SELECT a.COMPANY_ID, im.COMPANY_MASTER_SID&#xa;		   &#xa;INTO   &#x23;company&#xa;	FROM   &#x28;SELECT DISTINCT COMPANY_ID&#xa;			FROM   STAG_CUSTOMER_GTS_FORECAST&#x29; a&#xa;		   JOIN COMPANY_master im&#xa;			 ON im.COMPANY_ID &#x3d; a.COMPANY_ID&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID&#xa;,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID&#xa;,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID&#xa;,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY&#xa;,b.COMPANY_MASTER_SID&#xa;,c.ITEM_MASTER_SID&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN &#x23;company B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN &#x23;item C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.DEDUCTION_PROGRAM_TYPE&#xa;			  AND D.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;	&#xa;	   left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.DEDUCTION_CATEGORY&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xa;	   left join HELPER_TABLE F &#xa;	          ON F.DESCRIPTION&#x3d;A.DEDUCTION_TYPE&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xa;&#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and  &#x28;&#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa; and &#x28;&#x28;DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null &#x29; or &#x28;DEDUCTION_AMOUNT is null&#x29;&#x29;&#xa;&#xa;AND NOT exists&#x28;select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,&#xa; FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where &#xa;A.FORECAST_YEAR			&#x3d;B.FORECAST_YEAR&#xa;AND A.FORECAST_MONTH		&#x3d;B.FORECAST_MONTH&#xa;AND A.ITEM_ID				&#x3d;B.ITEM_ID&#xa;AND A.COMPANY_ID			&#x3d;B.COMPANY_ID&#xa;AND A.ADD_CHG_DEL_INDICATOR	&#x3d;B.ADD_CHG_DEL_INDICATOR&#xa;AND A.BATCH_ID				&#x3d;B.BATCH_ID&#xa;AND A.SOURCE				&#x3d;B.SOURCE&#xa;AND A.FORECAST_VER			&#x3d;B.FORECAST_VER&#xa;AND A.COUNTRY				&#x3d;B.COUNTRY&#xa;AND A.FORECAST_NAME         &#x3d;B.FORECAST_NAME&#xa;&#xa;&#x29;&#xa;&#xa;&#x29;&#xa;insert into CUSTOMER_GTS_FORECAST&#xa;&#x28;&#xa; ADD_CHG_DEL_INDICATOR&#xa;,ADJUSTMENT_CODE&#xa;,BATCH_ID&#xa;,BRAND&#xa;,COMPANY_ID&#xa;,COMPANY_MASTER_SID&#xa;,COUNTRY&#xa;,CREATED_BY&#xa;,CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_INCLUSION&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_TYPE&#xa;,FORECAST_DATE&#xa;,FORECAST_MONTH&#xa;,FORECAST_NAME&#xa;,FORECAST_VALUE_TYPE&#xa;,FORECAST_VER&#xa;,FORECAST_YEAR&#xa;,INBOUND_STATUS&#xa;,ITEM_ID&#xa;,ITEM_MASTER_SID&#xa;,PRICE&#xa;,PRICE_TYPE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,SEGMENT&#xa;,SOURCE&#xa;,UNITS&#xa;,BUSINESS_UNIT&#xa;&#xa;&#x29;&#xa;&#xa;&#xa;select &#xa;&#xa;a.ADD_CHG_DEL_INDICATOR&#xa;,a.ADJUSTMENT_CODE&#xa;,a.BATCH_ID&#xa;,a.BRAND&#xa;,a.COMPANY_ID&#xa;,a.COMPANY_MASTER_SID&#xa;,a.COUNTRY&#xa;,a.CREATED_BY&#xa;,a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_CATEGORY_SID&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.DEDUCTION_PROGRAM_TYPE_SID&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_TYPE_SID&#xa;,a.FORECAST_DATE&#xa;,a.FORECAST_MONTH&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_YEAR&#xa;,&#x27;A&#x27;&#xa;,a.ITEM_ID&#xa;,a.ITEM_MASTER_SID&#xa;,a.PRICE&#xa;,a.PRICE_TYPE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.SEGMENT&#xa;,a.SOURCE&#xa;,a.UNITS&#xa;,a.NEW_ORGANIZATION_KEY&#xa;&#xa;FROM cte A&#xa;WHERE RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1690,185 +671,7 @@ WHERE RowRank = 1</sql>
       <name>UDSC_INSERT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-;WITH cte AS ( 
-SELECT 
---a.CUSTOMER_GTS_FORECAST_INTF_ID
---,a.FORECAST_YEAR
---,a.FORECAST_MONTH
---,a.ITEM_ID
---,a.COMPANY_ID
---,a.UNITS
---,a.PRICE_TYPE
---,a.PRICE
---,a.SALES_AMOUNT
---,a.SALES_INCLUSION
---,a.DEDUCTION_ID
---,a.DEDUCTION_CATEGORY
---,a.DEDUCTION_TYPE
---,a.DEDUCTION_PROGRAM_TYPE
---,a.ADJUSTMENT_CODE
---,a.DEDUCTION_RATE
---,a.DEDUCTION_AMOUNT
---,a.DEDUCTION_INCLUSION
---,a.FORECAST_VALUE_TYPE
---,a.BRAND
---,a.SEGMENT
---,a.ADD_CHG_DEL_INDICATOR
---,a.CREATED_BY
---,a.CREATED_DATE
---,a.MODIFIED_BY
---,a.MODIFIED_DATE
---,a.BATCH_ID
---,a.SOURCE
---,a.FORECAST_VER
---,a.COUNTRY
---,a.FORECAST_NAME
---,a.FORECAST_DATE
---,a.UDC1
---,a.UDC2
---,a.UDC3
---,a.UDC4
---,a.UDC5
---,a.UDC6
---,a.Reason_For_Failure
---,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID
---,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID
---,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID
---,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY
---,b.COMPANY_MASTER_SID
---,c.ITEM_MASTER_SID
-
- g.HELPER_TABLE_SID as new_udc1_code
-,h.HELPER_TABLE_SID as new_udc2_code
-,i.HELPER_TABLE_SID as new_udc3_code
-,j.HELPER_TABLE_SID as new_udc4_code
-,k.HELPER_TABLE_SID as new_udc5_code
-,l.HELPER_TABLE_SID as new_udc6_code
-
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN COMPANY_MASTER B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN ITEM_MASTER C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.DEDUCTION_PROGRAM_TYPE
-			  AND D.LIST_NAME=&apos;REBATE_PROGRAM_TYPE&apos;	
-	   left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.DEDUCTION_CATEGORY
-	   	      AND E.LIST_NAME=&apos;RS_CATEGORY&apos;
-	   left join HELPER_TABLE F 
-	          ON F.DESCRIPTION=A.DEDUCTION_TYPE
-	   	      AND F.LIST_NAME=&apos;RS_TYPE&apos;
-
-			   left join HELPER_TABLE G 
-	          ON G.DESCRIPTION=A.UDC1
-	   	      AND G.LIST_NAME=&apos;CUSTOMER_GTS_UDC1&apos;
-			   left join HELPER_TABLE H 
-	          ON H.DESCRIPTION=A.UDC2
-	   	      AND H.LIST_NAME=&apos;CUSTOMER_GTS_UDC2&apos;
-			   left join HELPER_TABLE I 
-	          ON I.DESCRIPTION=A.UDC3
-	   	      AND I.LIST_NAME=&apos;CUSTOMER_GTS_UDC3&apos;
-			   left join HELPER_TABLE J 
-	          ON J.DESCRIPTION=A.UDC4
-	   	      AND J.LIST_NAME=&apos;CUSTOMER_GTS_UDC4&apos;
-			   left join HELPER_TABLE K 
-	          ON K.DESCRIPTION=A.UDC5
-	   	      AND K.LIST_NAME=&apos;CUSTOMER_GTS_UDC5&apos;
-			   left join HELPER_TABLE L 
-	          ON L.DESCRIPTION=A.UDC6
-	   	      AND L.LIST_NAME=&apos;CUSTOMER_GTS_UDC6&apos;
-			
-
-
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and  ((SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
- and ((DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null ) or (DEDUCTION_AMOUNT is null))
- AND NOT exists(select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,
- FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where 
-A.FORECAST_YEAR			=B.FORECAST_YEAR
-AND A.FORECAST_MONTH		=B.FORECAST_MONTH
-AND A.ITEM_ID				=B.ITEM_ID
-AND A.COMPANY_ID			=B.COMPANY_ID
-AND A.ADD_CHG_DEL_INDICATOR	=B.ADD_CHG_DEL_INDICATOR
-AND A.BATCH_ID				=B.BATCH_ID
-AND A.SOURCE				=B.SOURCE
-AND A.FORECAST_VER			=B.FORECAST_VER
-AND A.COUNTRY				=B.COUNTRY
-AND A.FORECAST_NAME         =B.FORECAST_NAME
-
-)
-)
-
-insert into UDCS
-(
-UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,MASTER_SID
-,MASTER_TYPE
-
-
-)
-
-
-select 
-
-a.new_udc1_code
-,a.new_udc2_code
-,a.new_udc3_code
-,a.new_udc4_code
-,a.new_udc5_code
-,a.new_udc6_code
-,b.CUSTOMER_GTS_FORECAST_SID
-,&apos;CUSTOMER_GTS_FORECAST&apos;
-
-
-FROM cte A left join CUSTOMER_GTS_FORECAST b on
-    a.FORECAST_YEAR			  =	 b.FORECAST_YEAR			
-and a.FORECAST_MONTH		  =	 b.FORECAST_MONTH		
-and a.COMPANY_ID			  =	 b.COMPANY_ID			
-and a.ITEM_ID				  =	 b.ITEM_ID				
-and a.ADD_CHG_DEL_INDICATOR	  =	 b.ADD_CHG_DEL_INDICATOR	
-and a.BATCH_ID				  =	 b.BATCH_ID				
-and a.SOURCE				  =	 b.SOURCE				
-and a.FORECAST_VER			  =	 b.FORECAST_VER			
-and a.FORECAST_NAME			  =	 b.FORECAST_NAME			
-and a.COUNTRY                 =  b.COUNTRY               
-
-
-
-WHERE a.RowRank = 1</sql>
+      <sql>&#xa;&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;--a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;--,a.FORECAST_YEAR&#xa;--,a.FORECAST_MONTH&#xa;--,a.ITEM_ID&#xa;--,a.COMPANY_ID&#xa;--,a.UNITS&#xa;--,a.PRICE_TYPE&#xa;--,a.PRICE&#xa;--,a.SALES_AMOUNT&#xa;--,a.SALES_INCLUSION&#xa;--,a.DEDUCTION_ID&#xa;--,a.DEDUCTION_CATEGORY&#xa;--,a.DEDUCTION_TYPE&#xa;--,a.DEDUCTION_PROGRAM_TYPE&#xa;--,a.ADJUSTMENT_CODE&#xa;--,a.DEDUCTION_RATE&#xa;--,a.DEDUCTION_AMOUNT&#xa;--,a.DEDUCTION_INCLUSION&#xa;--,a.FORECAST_VALUE_TYPE&#xa;--,a.BRAND&#xa;--,a.SEGMENT&#xa;--,a.ADD_CHG_DEL_INDICATOR&#xa;--,a.CREATED_BY&#xa;--,a.CREATED_DATE&#xa;--,a.MODIFIED_BY&#xa;--,a.MODIFIED_DATE&#xa;--,a.BATCH_ID&#xa;--,a.SOURCE&#xa;--,a.FORECAST_VER&#xa;--,a.COUNTRY&#xa;--,a.FORECAST_NAME&#xa;--,a.FORECAST_DATE&#xa;--,a.UDC1&#xa;--,a.UDC2&#xa;--,a.UDC3&#xa;--,a.UDC4&#xa;--,a.UDC5&#xa;--,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;--,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID&#xa;--,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID&#xa;--,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID&#xa;--,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY&#xa;--,b.COMPANY_MASTER_SID&#xa;--,c.ITEM_MASTER_SID&#xa;&#xa; g.HELPER_TABLE_SID as new_udc1_code&#xa;,h.HELPER_TABLE_SID as new_udc2_code&#xa;,i.HELPER_TABLE_SID as new_udc3_code&#xa;,j.HELPER_TABLE_SID as new_udc4_code&#xa;,k.HELPER_TABLE_SID as new_udc5_code&#xa;,l.HELPER_TABLE_SID as new_udc6_code&#xa;&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN COMPANY_MASTER B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN ITEM_MASTER C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.DEDUCTION_PROGRAM_TYPE&#xa;			  AND D.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;	&#xa;	   left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.DEDUCTION_CATEGORY&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xa;	   left join HELPER_TABLE F &#xa;	          ON F.DESCRIPTION&#x3d;A.DEDUCTION_TYPE&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xa;&#xa;			   left join HELPER_TABLE G &#xa;	          ON G.DESCRIPTION&#x3d;A.UDC1&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC1&#x27;&#xa;			   left join HELPER_TABLE H &#xa;	          ON H.DESCRIPTION&#x3d;A.UDC2&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC2&#x27;&#xa;			   left join HELPER_TABLE I &#xa;	          ON I.DESCRIPTION&#x3d;A.UDC3&#xa;	   	      AND I.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC3&#x27;&#xa;			   left join HELPER_TABLE J &#xa;	          ON J.DESCRIPTION&#x3d;A.UDC4&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC4&#x27;&#xa;			   left join HELPER_TABLE K &#xa;	          ON K.DESCRIPTION&#x3d;A.UDC5&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC5&#x27;&#xa;			   left join HELPER_TABLE L &#xa;	          ON L.DESCRIPTION&#x3d;A.UDC6&#xa;	   	      AND L.LIST_NAME&#x3d;&#x27;CUSTOMER_GTS_UDC6&#x27;&#xa;			&#xa;&#xa;&#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and  &#x28;&#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa; and &#x28;&#x28;DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null &#x29; or &#x28;DEDUCTION_AMOUNT is null&#x29;&#x29;&#xa; AND NOT exists&#x28;select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,&#xa; FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where &#xa;A.FORECAST_YEAR			&#x3d;B.FORECAST_YEAR&#xa;AND A.FORECAST_MONTH		&#x3d;B.FORECAST_MONTH&#xa;AND A.ITEM_ID				&#x3d;B.ITEM_ID&#xa;AND A.COMPANY_ID			&#x3d;B.COMPANY_ID&#xa;AND A.ADD_CHG_DEL_INDICATOR	&#x3d;B.ADD_CHG_DEL_INDICATOR&#xa;AND A.BATCH_ID				&#x3d;B.BATCH_ID&#xa;AND A.SOURCE				&#x3d;B.SOURCE&#xa;AND A.FORECAST_VER			&#x3d;B.FORECAST_VER&#xa;AND A.COUNTRY				&#x3d;B.COUNTRY&#xa;AND A.FORECAST_NAME         &#x3d;B.FORECAST_NAME&#xa;&#xa;&#x29;&#xa;&#x29;&#xa;&#xa;insert into UDCS&#xa;&#x28;&#xa;UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,MASTER_SID&#xa;,MASTER_TYPE&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;&#xa;select &#xa;&#xa;a.new_udc1_code&#xa;,a.new_udc2_code&#xa;,a.new_udc3_code&#xa;,a.new_udc4_code&#xa;,a.new_udc5_code&#xa;,a.new_udc6_code&#xa;,b.CUSTOMER_GTS_FORECAST_SID&#xa;,&#x27;CUSTOMER_GTS_FORECAST&#x27;&#xa;&#xa;&#xa;FROM cte A left join CUSTOMER_GTS_FORECAST b on&#xa;    a.FORECAST_YEAR			  &#x3d;	 b.FORECAST_YEAR			&#xa;and a.FORECAST_MONTH		  &#x3d;	 b.FORECAST_MONTH		&#xa;and a.COMPANY_ID			  &#x3d;	 b.COMPANY_ID			&#xa;and a.ITEM_ID				  &#x3d;	 b.ITEM_ID				&#xa;and a.ADD_CHG_DEL_INDICATOR	  &#x3d;	 b.ADD_CHG_DEL_INDICATOR	&#xa;and a.BATCH_ID				  &#x3d;	 b.BATCH_ID				&#xa;and a.SOURCE				  &#x3d;	 b.SOURCE				&#xa;and a.FORECAST_VER			  &#x3d;	 b.FORECAST_VER			&#xa;and a.FORECAST_NAME			  &#x3d;	 b.FORECAST_NAME			&#xa;and a.COUNTRY                 &#x3d;  b.COUNTRY               &#xa;&#xa;&#xa;&#xa;WHERE a.RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1884,195 +687,7 @@ WHERE a.RowRank = 1</sql>
       <name>DUPLICATE_RECORD</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
---,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID
---,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID
---,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID
---,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY
---,b.COMPANY_MASTER_SID
---,c.ITEM_MASTER_SID
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN COMPANY_MASTER B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN ITEM_MASTER C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.DEDUCTION_PROGRAM_TYPE
-			  AND D.LIST_NAME=&apos;REBATE_PROGRAM_TYPE&apos;	
-	   left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.DEDUCTION_CATEGORY
-	   	      AND E.LIST_NAME=&apos;RS_CATEGORY&apos;
-	   left join HELPER_TABLE F 
-	          ON F.DESCRIPTION=A.DEDUCTION_TYPE
-	   	      AND F.LIST_NAME=&apos;RS_TYPE&apos;
-
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and  ((SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
- and ((DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null ) or (DEDUCTION_AMOUNT is null))
-
-AND  exists(select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,
- FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where 
-A.FORECAST_YEAR			=B.FORECAST_YEAR
-AND A.FORECAST_MONTH		=B.FORECAST_MONTH
-AND A.ITEM_ID				=B.ITEM_ID
-AND A.COMPANY_ID			=B.COMPANY_ID
-AND A.ADD_CHG_DEL_INDICATOR	=B.ADD_CHG_DEL_INDICATOR
-AND A.BATCH_ID				=B.BATCH_ID
-AND A.SOURCE				=B.SOURCE
-AND A.FORECAST_VER			=B.FORECAST_VER
-AND A.COUNTRY				=B.COUNTRY
-AND A.FORECAST_NAME         =B.FORECAST_NAME
-
-)
-
-)
-insert into ivld_CUSTOMER_GTS_FORECAST
-(
-CUSTOMER_GTS_FORECAST_INTF_ID
-,FORECAST_YEAR
-,FORECAST_MONTH
-,ITEM_ID
-,COMPANY_ID
-,UNITS
-,PRICE_TYPE
-,PRICE
-,SALES_AMOUNT
-,SALES_INCLUSION
-,DEDUCTION_ID
-,DEDUCTION_CATEGORY
-,DEDUCTION_TYPE
-,DEDUCTION_PROGRAM_TYPE
-,ADJUSTMENT_CODE
-,DEDUCTION_RATE
-,DEDUCTION_AMOUNT
-,DEDUCTION_INCLUSION
-,FORECAST_VALUE_TYPE
-,BRAND
-,SEGMENT
-,ADD_CHG_DEL_INDICATOR
-,CREATED_BY
-,CREATED_DATE
-,MODIFIED_BY
-,MODIFIED_DATE
-,BATCH_ID
-,SOURCE
-,FORECAST_VER
-,COUNTRY
-,FORECAST_NAME
-,FORECAST_DATE
-,UDC1
-,UDC2
-,UDC3
-,UDC4
-,UDC5
-,UDC6
-,ERROR_CODE
-,REASON_FOR_FAILURE
-
-)
-
-
-select 
-A.CUSTOMER_GTS_FORECAST_INTF_ID
-,A.FORECAST_YEAR
-,A.FORECAST_MONTH
-,A.ITEM_ID
-,A.COMPANY_ID
-,A.UNITS
-,A.PRICE_TYPE
-,A.PRICE
-,A.SALES_AMOUNT
-,A.SALES_INCLUSION
-,A.DEDUCTION_ID
-,A.DEDUCTION_CATEGORY
-,A.DEDUCTION_TYPE
-,A.DEDUCTION_PROGRAM_TYPE
-,A.ADJUSTMENT_CODE
-,A.DEDUCTION_RATE
-,A.DEDUCTION_AMOUNT
-,A.DEDUCTION_INCLUSION
-,A.FORECAST_VALUE_TYPE
-,A.BRAND
-,A.SEGMENT
-,A.ADD_CHG_DEL_INDICATOR
-,A.CREATED_BY
-,A.CREATED_DATE
-,A.MODIFIED_BY
-,A.MODIFIED_DATE
-,A.BATCH_ID
-,A.SOURCE
-,A.FORECAST_VER
-,A.COUNTRY
-,A.FORECAST_NAME
-,A.FORECAST_DATE
-,A.UDC1
-,A.UDC2
-,A.UDC3
-,A.UDC4
-,A.UDC5
-,A.UDC6
-,&apos;E04&apos;
-,&apos;Duplicate Record&apos;
-
-FROM cte A
-WHERE RowRank = 1</sql>
+      <sql>&#xa;&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;--,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID&#xa;--,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID&#xa;--,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID&#xa;--,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY&#xa;--,b.COMPANY_MASTER_SID&#xa;--,c.ITEM_MASTER_SID&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN COMPANY_MASTER B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN ITEM_MASTER C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.DEDUCTION_PROGRAM_TYPE&#xa;			  AND D.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;	&#xa;	   left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.DEDUCTION_CATEGORY&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xa;	   left join HELPER_TABLE F &#xa;	          ON F.DESCRIPTION&#x3d;A.DEDUCTION_TYPE&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xa;&#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and  &#x28;&#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa; and &#x28;&#x28;DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null &#x29; or &#x28;DEDUCTION_AMOUNT is null&#x29;&#x29;&#xa;&#xa;AND  exists&#x28;select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,&#xa; FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where &#xa;A.FORECAST_YEAR			&#x3d;B.FORECAST_YEAR&#xa;AND A.FORECAST_MONTH		&#x3d;B.FORECAST_MONTH&#xa;AND A.ITEM_ID				&#x3d;B.ITEM_ID&#xa;AND A.COMPANY_ID			&#x3d;B.COMPANY_ID&#xa;AND A.ADD_CHG_DEL_INDICATOR	&#x3d;B.ADD_CHG_DEL_INDICATOR&#xa;AND A.BATCH_ID				&#x3d;B.BATCH_ID&#xa;AND A.SOURCE				&#x3d;B.SOURCE&#xa;AND A.FORECAST_VER			&#x3d;B.FORECAST_VER&#xa;AND A.COUNTRY				&#x3d;B.COUNTRY&#xa;AND A.FORECAST_NAME         &#x3d;B.FORECAST_NAME&#xa;&#xa;&#x29;&#xa;&#xa;&#x29;&#xa;insert into ivld_CUSTOMER_GTS_FORECAST&#xa;&#x28;&#xa;CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,FORECAST_YEAR&#xa;,FORECAST_MONTH&#xa;,ITEM_ID&#xa;,COMPANY_ID&#xa;,UNITS&#xa;,PRICE_TYPE&#xa;,PRICE&#xa;,SALES_AMOUNT&#xa;,SALES_INCLUSION&#xa;,DEDUCTION_ID&#xa;,DEDUCTION_CATEGORY&#xa;,DEDUCTION_TYPE&#xa;,DEDUCTION_PROGRAM_TYPE&#xa;,ADJUSTMENT_CODE&#xa;,DEDUCTION_RATE&#xa;,DEDUCTION_AMOUNT&#xa;,DEDUCTION_INCLUSION&#xa;,FORECAST_VALUE_TYPE&#xa;,BRAND&#xa;,SEGMENT&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,FORECAST_VER&#xa;,COUNTRY&#xa;,FORECAST_NAME&#xa;,FORECAST_DATE&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,ERROR_CODE&#xa;,REASON_FOR_FAILURE&#xa;&#xa;&#x29;&#xa;&#xa;&#xa;select &#xa;A.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,A.FORECAST_YEAR&#xa;,A.FORECAST_MONTH&#xa;,A.ITEM_ID&#xa;,A.COMPANY_ID&#xa;,A.UNITS&#xa;,A.PRICE_TYPE&#xa;,A.PRICE&#xa;,A.SALES_AMOUNT&#xa;,A.SALES_INCLUSION&#xa;,A.DEDUCTION_ID&#xa;,A.DEDUCTION_CATEGORY&#xa;,A.DEDUCTION_TYPE&#xa;,A.DEDUCTION_PROGRAM_TYPE&#xa;,A.ADJUSTMENT_CODE&#xa;,A.DEDUCTION_RATE&#xa;,A.DEDUCTION_AMOUNT&#xa;,A.DEDUCTION_INCLUSION&#xa;,A.FORECAST_VALUE_TYPE&#xa;,A.BRAND&#xa;,A.SEGMENT&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,A.FORECAST_VER&#xa;,A.COUNTRY&#xa;,A.FORECAST_NAME&#xa;,A.FORECAST_DATE&#xa;,A.UDC1&#xa;,A.UDC2&#xa;,A.UDC3&#xa;,A.UDC4&#xa;,A.UDC5&#xa;,A.UDC6&#xa;,&#x27;E04&#x27;&#xa;,&#x27;Duplicate Record&#x27;&#xa;&#xa;FROM cte A&#xa;WHERE RowRank &#x3d; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2088,137 +703,7 @@ WHERE RowRank = 1</sql>
       <name>ADD_COUNT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-IF OBJECT_ID(&apos;TEMPDB..#item&apos;) IS NOT NULL
-DROP TABLE #item
-
-	SELECT a.ITEM_ID,
-		   im.item_master_sid,im.ORGANIZATION_KEY
-INTO   #item
-	FROM   (SELECT DISTINCT item_id
-			FROM   STAG_CUSTOMER_GTS_FORECAST) a
-		   JOIN item_master im
-			 ON im.item_id = a.item_id
-
-
-
-IF OBJECT_ID(&apos;TEMPDB..#company&apos;) IS NOT NULL
-DROP TABLE #company
-	SELECT a.COMPANY_ID, im.COMPANY_MASTER_SID
-		   
-INTO   #company
-	FROM   (SELECT DISTINCT COMPANY_ID
-			FROM   STAG_CUSTOMER_GTS_FORECAST) a
-		   JOIN COMPANY_master im
-			 ON im.COMPANY_ID = a.COMPANY_ID
-;WITH cte AS ( 
-SELECT 
-a.CUSTOMER_GTS_FORECAST_INTF_ID
-,a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.ITEM_ID
-,a.COMPANY_ID
-,a.UNITS
-,a.PRICE_TYPE
-,a.PRICE
-,a.SALES_AMOUNT
-,a.SALES_INCLUSION
-,a.DEDUCTION_ID
-,a.DEDUCTION_CATEGORY
-,a.DEDUCTION_TYPE
-,a.DEDUCTION_PROGRAM_TYPE
-,a.ADJUSTMENT_CODE
-,a.DEDUCTION_RATE
-,a.DEDUCTION_AMOUNT
-,a.DEDUCTION_INCLUSION
-,a.FORECAST_VALUE_TYPE
-,a.BRAND
-,a.SEGMENT
-,a.ADD_CHG_DEL_INDICATOR
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.COUNTRY
-,a.FORECAST_NAME
-,a.FORECAST_DATE
-,a.UDC1
-,a.UDC2
-,a.UDC3
-,a.UDC4
-,a.UDC5
-,a.UDC6
---,a.Reason_For_Failure
-,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID
-,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID
-,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID
-,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY
-,b.COMPANY_MASTER_SID
-,c.ITEM_MASTER_SID
-
-
-,ROW_NUMBER() OVER(PARTITION BY 
- a.FORECAST_YEAR
-,a.FORECAST_MONTH
-,a.COMPANY_ID
-,a.ITEM_ID
-,a.ADD_CHG_DEL_INDICATOR
-,a.BATCH_ID
-,a.SOURCE
-,a.FORECAST_VER
-,a.FORECAST_NAME
-,a.COUNTRY 
- ORDER BY a.COMPANY_ID)&apos;RowRank&apos;
-FROM   STAG_CUSTOMER_GTS_FORECAST A 
-       inner JOIN #company B 
-              ON A.COMPANY_ID = B.COMPANY_ID   
-       inner JOIN #item C 
-              ON A.ITEM_ID = C.ITEM_ID 
-       left join HELPER_TABLE D 
-	          ON D.DESCRIPTION=A.DEDUCTION_PROGRAM_TYPE
-			  AND D.LIST_NAME=&apos;REBATE_PROGRAM_TYPE&apos;	
-	   left join HELPER_TABLE E 
-	          ON E.DESCRIPTION=A.DEDUCTION_CATEGORY
-	   	      AND E.LIST_NAME=&apos;RS_CATEGORY&apos;
-	   left join HELPER_TABLE F 
-	          ON F.DESCRIPTION=A.DEDUCTION_TYPE
-	   	      AND F.LIST_NAME=&apos;RS_TYPE&apos;
-
-WHERE --(C.ITEM_ID   is null or  B.COMPANY_ID is null )
---and
- a.ADD_CHG_DEL_INDICATOR=&apos;A&apos; and  ((SALES_AMOUNT is not null and SALES_INCLUSION is not null ) or (SALES_AMOUNT is null))
- and ((DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null ) or (DEDUCTION_AMOUNT is null))
-
-AND NOT exists(select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,
- FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where 
-A.FORECAST_YEAR			=B.FORECAST_YEAR
-AND A.FORECAST_MONTH		=B.FORECAST_MONTH
-AND A.ITEM_ID				=B.ITEM_ID
-AND A.COMPANY_ID			=B.COMPANY_ID
-AND A.ADD_CHG_DEL_INDICATOR	=B.ADD_CHG_DEL_INDICATOR
-AND A.BATCH_ID				=B.BATCH_ID
-AND A.SOURCE				=B.SOURCE
-AND A.FORECAST_VER			=B.FORECAST_VER
-AND A.COUNTRY				=B.COUNTRY
-AND A.FORECAST_NAME         =B.FORECAST_NAME
-
-)
-
-)  update a
-  
-  set a.ADD_COUNT= b.new_count
-  from AUDIT_MASTER_INBOUND  a
-inner join (select 
-     count(*) as new_count,BATCH_ID
-
-  FROM cte 
-  WHERE RowRank = 1
-  group by BATCH_ID)b
-  on a.BATCH_ID=b.BATCH_ID
-  and a.STATUS=&apos;R&apos;   AND A.APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;item&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;item&#xa;&#xa;	SELECT a.ITEM_ID,&#xa;		   im.item_master_sid,im.ORGANIZATION_KEY&#xa;INTO   &#x23;item&#xa;	FROM   &#x28;SELECT DISTINCT item_id&#xa;			FROM   STAG_CUSTOMER_GTS_FORECAST&#x29; a&#xa;		   JOIN item_master im&#xa;			 ON im.item_id &#x3d; a.item_id&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;company&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;company&#xa;	SELECT a.COMPANY_ID, im.COMPANY_MASTER_SID&#xa;		   &#xa;INTO   &#x23;company&#xa;	FROM   &#x28;SELECT DISTINCT COMPANY_ID&#xa;			FROM   STAG_CUSTOMER_GTS_FORECAST&#x29; a&#xa;		   JOIN COMPANY_master im&#xa;			 ON im.COMPANY_ID &#x3d; a.COMPANY_ID&#xa;&#x3b;WITH cte AS &#x28; &#xa;SELECT &#xa;a.CUSTOMER_GTS_FORECAST_INTF_ID&#xa;,a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.ITEM_ID&#xa;,a.COMPANY_ID&#xa;,a.UNITS&#xa;,a.PRICE_TYPE&#xa;,a.PRICE&#xa;,a.SALES_AMOUNT&#xa;,a.SALES_INCLUSION&#xa;,a.DEDUCTION_ID&#xa;,a.DEDUCTION_CATEGORY&#xa;,a.DEDUCTION_TYPE&#xa;,a.DEDUCTION_PROGRAM_TYPE&#xa;,a.ADJUSTMENT_CODE&#xa;,a.DEDUCTION_RATE&#xa;,a.DEDUCTION_AMOUNT&#xa;,a.DEDUCTION_INCLUSION&#xa;,a.FORECAST_VALUE_TYPE&#xa;,a.BRAND&#xa;,a.SEGMENT&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.COUNTRY&#xa;,a.FORECAST_NAME&#xa;,a.FORECAST_DATE&#xa;,a.UDC1&#xa;,a.UDC2&#xa;,a.UDC3&#xa;,a.UDC4&#xa;,a.UDC5&#xa;,a.UDC6&#xa;--,a.Reason_For_Failure&#xa;,D.HELPER_TABLE_SID AS DEDUCTION_PROGRAM_TYPE_SID&#xa;,E.HELPER_TABLE_SID AS DEDUCTION_CATEGORY_SID&#xa;,F.HELPER_TABLE_SID AS DEDUCTION_TYPE_SID&#xa;,c.ORGANIZATION_KEY as NEW_ORGANIZATION_KEY&#xa;,b.COMPANY_MASTER_SID&#xa;,c.ITEM_MASTER_SID&#xa;&#xa;&#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY &#xa; a.FORECAST_YEAR&#xa;,a.FORECAST_MONTH&#xa;,a.COMPANY_ID&#xa;,a.ITEM_ID&#xa;,a.ADD_CHG_DEL_INDICATOR&#xa;,a.BATCH_ID&#xa;,a.SOURCE&#xa;,a.FORECAST_VER&#xa;,a.FORECAST_NAME&#xa;,a.COUNTRY &#xa; ORDER BY a.COMPANY_ID&#x29;&#x27;RowRank&#x27;&#xa;FROM   STAG_CUSTOMER_GTS_FORECAST A &#xa;       inner JOIN &#x23;company B &#xa;              ON A.COMPANY_ID &#x3d; B.COMPANY_ID   &#xa;       inner JOIN &#x23;item C &#xa;              ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;       left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.DEDUCTION_PROGRAM_TYPE&#xa;			  AND D.LIST_NAME&#x3d;&#x27;REBATE_PROGRAM_TYPE&#x27;	&#xa;	   left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.DEDUCTION_CATEGORY&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;RS_CATEGORY&#x27;&#xa;	   left join HELPER_TABLE F &#xa;	          ON F.DESCRIPTION&#x3d;A.DEDUCTION_TYPE&#xa;	   	      AND F.LIST_NAME&#x3d;&#x27;RS_TYPE&#x27;&#xa;&#xa;WHERE --&#x28;C.ITEM_ID   is null or  B.COMPANY_ID is null &#x29;&#xa;--and&#xa; a.ADD_CHG_DEL_INDICATOR&#x3d;&#x27;A&#x27; and  &#x28;&#x28;SALES_AMOUNT is not null and SALES_INCLUSION is not null &#x29; or &#x28;SALES_AMOUNT is null&#x29;&#x29;&#xa; and &#x28;&#x28;DEDUCTION_AMOUNT is not null and DEDUCTION_INCLUSION is not null &#x29; or &#x28;DEDUCTION_AMOUNT is null&#x29;&#x29;&#xa;&#xa;AND NOT exists&#x28;select FORECAST_YEAR, FORECAST_MONTH, ITEM_ID, COMPANY_ID, ADD_CHG_DEL_INDICATOR, BATCH_ID, SOURCE,&#xa; FORECAST_VER, COUNTRY, FORECAST_NAME from CUSTOMER_GTS_FORECAST b where &#xa;A.FORECAST_YEAR			&#x3d;B.FORECAST_YEAR&#xa;AND A.FORECAST_MONTH		&#x3d;B.FORECAST_MONTH&#xa;AND A.ITEM_ID				&#x3d;B.ITEM_ID&#xa;AND A.COMPANY_ID			&#x3d;B.COMPANY_ID&#xa;AND A.ADD_CHG_DEL_INDICATOR	&#x3d;B.ADD_CHG_DEL_INDICATOR&#xa;AND A.BATCH_ID				&#x3d;B.BATCH_ID&#xa;AND A.SOURCE				&#x3d;B.SOURCE&#xa;AND A.FORECAST_VER			&#x3d;B.FORECAST_VER&#xa;AND A.COUNTRY				&#x3d;B.COUNTRY&#xa;AND A.FORECAST_NAME         &#x3d;B.FORECAST_NAME&#xa;&#xa;&#x29;&#xa;&#xa;&#x29;  update a&#xa;  &#xa;  set a.ADD_COUNT&#x3d; b.new_count&#xa;  from AUDIT_MASTER_INBOUND  a&#xa;inner join &#x28;select &#xa;     count&#x28;&#x2a;&#x29; as new_count,BATCH_ID&#xa;&#xa;  FROM cte &#xa;  WHERE RowRank &#x3d; 1&#xa;  group by BATCH_ID&#x29;b&#xa;  on a.BATCH_ID&#x3d;b.BATCH_ID&#xa;  and a.STATUS&#x3d;&#x27;R&#x27;   AND A.APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2236,7 +721,7 @@ inner join (select
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2255,6 +740,7 @@ inner join (select
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2268,7 +754,7 @@ inner join (select
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2282,8 +768,10 @@ inner join (select
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -2298,7 +786,7 @@ inner join (select
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2317,6 +805,7 @@ inner join (select
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2328,7 +817,7 @@ inner join (select
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;CUSTOMER_GTS_FORECAST_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CUSTOMER_GTS_FORECAST_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -2344,7 +833,7 @@ inner join (select
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SET_STAG_COUNT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2363,6 +852,7 @@ inner join (select
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2389,11 +879,10 @@ inner join (select
       <yloc>413</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2409,161 +898,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <name>CUSTOMER_GTS_FORECAST</name>
       <description/>
       <type>SQL</type>
-      <sql>
---DECLARE @sql nvarchar(max)
---DECLARE @sql1 nvarchar(max)
---DECLARE @TABLE_NAME varchar(100),@columnName varchar(100)=&apos;a&apos;,@columnName1 varchar(100)=&apos;b&apos;
---SET @TABLE_NAME =(SELECT CONCAT(&apos;CUSTOMER_GTS_FORECAST&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
---    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
---    ELSE &apos;SEMI_ANNUAL_2&apos;
---  END))
--- -- select @TABLE_NAME
-
---  IF NOT EXISTS (SELECT &apos;X&apos;
---               FROM   INFORMATION_SCHEMA.TABLES
---               WHERE  TABLE_NAME = @TABLE_NAME
---                      AND TABLE_SCHEMA = &apos;dbo&apos;)
---  BEGIN
---  -- select 1
-
-   
-----DECLARE @TABLE_NAME varchar(100)
-----SET @TABLE_NAME =(SELECT CONCAT(&apos;A&apos;, &apos;_&apos;, YEAR(GETDATE()), &apos;_&apos;, CASE
-----    WHEN MONTH(GETDATE()) &lt;=6 THEN &apos;SEMI_ANNUAL_1&apos;
-----    ELSE &apos;SEMI_ANNUAL_2&apos;
-----  END))
-
---  --DECLARE  @SQL NVARCHAR(MAX), @SQL1 NVARCHAR(MAX)
---  set @sql1=&apos;
-
---	[CUSTOMER_GTS_FORECAST_SID] [int]  NOT NULL,
---	[FORECAST_YEAR] [varchar](5) NOT NULL,
---	[FORECAST_MONTH] [tinyint] NOT NULL,
---	[ITEM_ID] [varchar](50) NOT NULL,
---	[ITEM_MASTER_SID] [int] NOT NULL,
---	[COMPANY_ID] [varchar](50) NOT NULL,
---	[COMPANY_MASTER_SID] [int] NOT NULL,
---	[UNITS] [numeric](22, 6) NOT NULL,
---	[PRICE_TYPE] [varchar](50) NULL,
---	[PRICE] [numeric](22, 6) NULL,
---	[SALES_AMOUNT] [numeric](22, 6) NULL,
---	[SALES_INCLUSION] [varchar](10) NULL,
---	[DEDUCTION_ID] [varchar](50) NULL,
---	[DEDUCTION_CATEGORY] [int] NULL,
---	[DEDUCTION_TYPE] [int] NULL,
---	[DEDUCTION_PROGRAM_TYPE] [int] NULL,
---	[ADJUSTMENT_CODE] [varchar](50) NULL,
---	[DEDUCTION_RATE] [numeric](22, 6) NULL,
---	[DEDUCTION_AMOUNT] [numeric](22, 6) NULL,
---	[DEDUCTION_INCLUSION] [varchar](10) NULL,
---	[FORECAST_VALUE_TYPE] [varchar](50) NULL,
---	[BRAND] [varchar](50) NULL,
---	[BRAND_MASTER_SID] [int] NULL,
---	[SEGMENT] [varchar](100) NULL,
---	[ADD_CHG_DEL_INDICATOR] [varchar](10) NOT NULL,
---	[CREATED_BY] [int] NOT NULL,
---	[CREATED_DATE] [datetime] NOT NULL,
---	[MODIFIED_BY] [int] NOT NULL,
---	[MODIFIED_DATE] [datetime] NOT NULL,
---	[BATCH_ID] [varchar](38) NOT NULL,
---	[SOURCE] [varchar](50) NOT NULL,
---	[FORECAST_VER] [varchar](15) NOT NULL,
---	[COUNTRY] [varchar](25) NOT NULL,
---	[FORECAST_NAME] [varchar](100) NOT NULL,
---	[FORECAST_DATE] [datetime] NULL,
---	[INBOUND_STATUS] [char](1) NULL,
---	[RECORD_LOCK_STATUS] [bit] NOT NULL,
---	[CUSTOMER_GTS_FORECAST_INTF_ID] [numeric](38, 0) NOT NULL,
---	[BUSINESS_UNIT] [int] NULL
---        &apos;
---SET @SQL =&apos;CREATE TABLE &apos;  + @TABLE_NAME + &apos;( &apos;+@sql1+&apos; )&apos;
---exec(  @SQL)
-
-
-
-
-
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from CUSTOMER_GTS_FORECAST&apos;
-
---  exec (@sql)
---   end
-
---   else
-
---   begin
-----select 3
---	  set @sql= &apos;insert into &apos; +@TABLE_NAME+ 
---   &apos; select * from CUSTOMER_GTS_FORECAST&apos;
-
---    exec (@sql)
-
---   end
-
-
-DECLARE @SQL NVARCHAR(MAX)
-       ,@SQL1 NVARCHAR(MAX)
-       ,@TABLE_NAME VARCHAR(100)
-       ,@SQL2 NVARCHAR(MAX)
-
-SELECT @TABLE_NAME = (SELECT CONCAT (&apos;CUSTOMER_GTS_FORECAST&apos;,&apos;_&apos;,YEAR(GETDATE()),&apos;_&apos;,CASE WHEN MONTH(GETDATE()) &lt;= 6 THEN &apos;SEMI_ANNUAL_1&apos; ELSE &apos;SEMI_ANNUAL_2&apos; END))
-
-
-IF NOT EXISTS (
-              SELECT &apos;X&apos;
-              FROM INFORMATION_SCHEMA.TABLES
-              WHERE TABLE_NAME = @TABLE_NAME
-                     AND TABLE_SCHEMA = &apos;DBO&apos;
-              )
-BEGIN
-       SET @SQL1 = &apos;
-SELECT @SQL2=STUFF((
-            SELECT &apos;&apos;,&apos;&apos; + CONCAT(COLUMN_NAME,&apos;&apos; &apos;&apos; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN ( &apos;&apos;char&apos;&apos; ,&apos;&apos;VARCHAR&apos;&apos; )
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,CHARACTER_MAXIMUM_LENGTH
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         WHEN DATA_TYPE = &apos;&apos;numeric&apos;&apos;
-                                                THEN CONCAT (
-                                                              &apos;&apos;(&apos;&apos;
-                                                              ,NUMERIC_PRECISION
-                                                              ,&apos;&apos;,&apos;&apos;,NUMERIC_SCALE
-                                                              ,&apos;&apos;)&apos;&apos;
-                                                              )
-                                         ELSE &apos;&apos;&apos;&apos;
-                                         END
-                                  ,&apos;&apos; &apos;&apos; ,CASE WHEN IS_NULLABLE=&apos;&apos;NO&apos;&apos; THEN &apos;&apos;NOT NULL&apos;&apos; ELSE &apos;&apos;NULL&apos;&apos; END )
-            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME =&apos;&apos;CUSTOMER_GTS_FORECAST&apos;&apos;
-                     order by ORDINAL_POSITION 
-            FOR XML PATH(&apos;&apos;&apos;&apos;)
-            ), 1, 1, &apos;&apos;&apos;&apos;) 
-&apos;
-
-       EXEC SP_EXECUTESQL @SQL1
-              ,N&apos;@SQL2 NVARCHAR(MAX) OUTPUT&apos;
-              ,@SQL2 OUTPUT
-       SET @SQL = &apos;CREATE TABLE &apos; + @TABLE_NAME + &apos;( &apos; + @SQL2 + &apos; )&apos;
-
-       EXEC (@SQL)
-
-       SET @SQL = &apos;INSERT INTO &apos; + @TABLE_NAME + &apos; SELECT * FROM CUSTOMER_GTS_FORECAST&apos;
-
-       EXEC (@SQL)
-END
-ELSE
-BEGIN
-       SET @SQL = &apos;INSERT INTO  &apos; + @TABLE_NAME + &apos; SELECT * FROM CUSTOMER_GTS_FORECAST&apos;
-
-       EXEC (@SQL)
-         
-END
-
-
-
-
-
-</sql>
+      <sql>&#xa;--DECLARE &#x40;sql nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;sql1 nvarchar&#x28;max&#x29;&#xa;--DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;,&#x40;columnName varchar&#x28;100&#x29;&#x3d;&#x27;a&#x27;,&#x40;columnName1 varchar&#x28;100&#x29;&#x3d;&#x27;b&#x27;&#xa;--SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;CUSTOMER_GTS_FORECAST&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;--    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;--    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;--  END&#x29;&#x29;&#xa;-- -- select &#x40;TABLE_NAME&#xa;&#xa;--  IF NOT EXISTS &#x28;SELECT &#x27;X&#x27;&#xa;--               FROM   INFORMATION_SCHEMA.TABLES&#xa;--               WHERE  TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;--                      AND TABLE_SCHEMA &#x3d; &#x27;dbo&#x27;&#x29;&#xa;--  BEGIN&#xa;--  -- select 1&#xa;&#xa;   &#xa;----DECLARE &#x40;TABLE_NAME varchar&#x28;100&#x29;&#xa;----SET &#x40;TABLE_NAME &#x3d;&#x28;SELECT CONCAT&#x28;&#x27;A&#x27;, &#x27;_&#x27;, YEAR&#x28;GETDATE&#x28;&#x29;&#x29;, &#x27;_&#x27;, CASE&#xa;----    WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d;6 THEN &#x27;SEMI_ANNUAL_1&#x27;&#xa;----    ELSE &#x27;SEMI_ANNUAL_2&#x27;&#xa;----  END&#x29;&#x29;&#xa;&#xa;--  --DECLARE  &#x40;SQL NVARCHAR&#x28;MAX&#x29;, &#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;--  set &#x40;sql1&#x3d;&#x27;&#xa;&#xa;--	&#x5b;CUSTOMER_GTS_FORECAST_SID&#x5d; &#x5b;int&#x5d;  NOT NULL,&#xa;--	&#x5b;FORECAST_YEAR&#x5d; &#x5b;varchar&#x5d;&#x28;5&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_MONTH&#x5d; &#x5b;tinyint&#x5d; NOT NULL,&#xa;--	&#x5b;ITEM_ID&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;ITEM_MASTER_SID&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;COMPANY_ID&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;COMPANY_MASTER_SID&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;UNITS&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NOT NULL,&#xa;--	&#x5b;PRICE_TYPE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;PRICE&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;SALES_AMOUNT&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;SALES_INCLUSION&#x5d; &#x5b;varchar&#x5d;&#x28;10&#x29; NULL,&#xa;--	&#x5b;DEDUCTION_ID&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;DEDUCTION_CATEGORY&#x5d; &#x5b;int&#x5d; NULL,&#xa;--	&#x5b;DEDUCTION_TYPE&#x5d; &#x5b;int&#x5d; NULL,&#xa;--	&#x5b;DEDUCTION_PROGRAM_TYPE&#x5d; &#x5b;int&#x5d; NULL,&#xa;--	&#x5b;ADJUSTMENT_CODE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;DEDUCTION_RATE&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;DEDUCTION_AMOUNT&#x5d; &#x5b;numeric&#x5d;&#x28;22, 6&#x29; NULL,&#xa;--	&#x5b;DEDUCTION_INCLUSION&#x5d; &#x5b;varchar&#x5d;&#x28;10&#x29; NULL,&#xa;--	&#x5b;FORECAST_VALUE_TYPE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;BRAND&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NULL,&#xa;--	&#x5b;BRAND_MASTER_SID&#x5d; &#x5b;int&#x5d; NULL,&#xa;--	&#x5b;SEGMENT&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NULL,&#xa;--	&#x5b;ADD_CHG_DEL_INDICATOR&#x5d; &#x5b;varchar&#x5d;&#x28;10&#x29; NOT NULL,&#xa;--	&#x5b;CREATED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;CREATED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_BY&#x5d; &#x5b;int&#x5d; NOT NULL,&#xa;--	&#x5b;MODIFIED_DATE&#x5d; &#x5b;datetime&#x5d; NOT NULL,&#xa;--	&#x5b;BATCH_ID&#x5d; &#x5b;varchar&#x5d;&#x28;38&#x29; NOT NULL,&#xa;--	&#x5b;SOURCE&#x5d; &#x5b;varchar&#x5d;&#x28;50&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_VER&#x5d; &#x5b;varchar&#x5d;&#x28;15&#x29; NOT NULL,&#xa;--	&#x5b;COUNTRY&#x5d; &#x5b;varchar&#x5d;&#x28;25&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_NAME&#x5d; &#x5b;varchar&#x5d;&#x28;100&#x29; NOT NULL,&#xa;--	&#x5b;FORECAST_DATE&#x5d; &#x5b;datetime&#x5d; NULL,&#xa;--	&#x5b;INBOUND_STATUS&#x5d; &#x5b;char&#x5d;&#x28;1&#x29; NULL,&#xa;--	&#x5b;RECORD_LOCK_STATUS&#x5d; &#x5b;bit&#x5d; NOT NULL,&#xa;--	&#x5b;CUSTOMER_GTS_FORECAST_INTF_ID&#x5d; &#x5b;numeric&#x5d;&#x28;38, 0&#x29; NOT NULL,&#xa;--	&#x5b;BUSINESS_UNIT&#x5d; &#x5b;int&#x5d; NULL&#xa;--        &#x27;&#xa;--SET &#x40;SQL &#x3d;&#x27;CREATE TABLE &#x27;  &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27;&#x2b;&#x40;sql1&#x2b;&#x27; &#x29;&#x27;&#xa;--exec&#x28;  &#x40;SQL&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from CUSTOMER_GTS_FORECAST&#x27;&#xa;&#xa;--  exec &#x28;&#x40;sql&#x29;&#xa;--   end&#xa;&#xa;--   else&#xa;&#xa;--   begin&#xa;----select 3&#xa;--	  set &#x40;sql&#x3d; &#x27;insert into &#x27; &#x2b;&#x40;TABLE_NAME&#x2b; &#xa;--   &#x27; select &#x2a; from CUSTOMER_GTS_FORECAST&#x27;&#xa;&#xa;--    exec &#x28;&#x40;sql&#x29;&#xa;&#xa;--   end&#xa;&#xa;&#xa;DECLARE &#x40;SQL NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;SQL1 NVARCHAR&#x28;MAX&#x29;&#xa;       ,&#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#xa;       ,&#x40;SQL2 NVARCHAR&#x28;MAX&#x29;&#xa;&#xa;SELECT &#x40;TABLE_NAME &#x3d; &#x28;SELECT CONCAT &#x28;&#x27;CUSTOMER_GTS_FORECAST&#x27;,&#x27;_&#x27;,YEAR&#x28;GETDATE&#x28;&#x29;&#x29;,&#x27;_&#x27;,CASE WHEN MONTH&#x28;GETDATE&#x28;&#x29;&#x29; &#x3c;&#x3d; 6 THEN &#x27;SEMI_ANNUAL_1&#x27; ELSE &#x27;SEMI_ANNUAL_2&#x27; END&#x29;&#x29;&#xa;&#xa;&#xa;IF NOT EXISTS &#x28;&#xa;              SELECT &#x27;X&#x27;&#xa;              FROM INFORMATION_SCHEMA.TABLES&#xa;              WHERE TABLE_NAME &#x3d; &#x40;TABLE_NAME&#xa;                     AND TABLE_SCHEMA &#x3d; &#x27;DBO&#x27;&#xa;              &#x29;&#xa;BEGIN&#xa;       SET &#x40;SQL1 &#x3d; &#x27;&#xa;SELECT &#x40;SQL2&#x3d;STUFF&#x28;&#x28;&#xa;            SELECT &#x27;&#x27;,&#x27;&#x27; &#x2b; CONCAT&#x28;COLUMN_NAME,&#x27;&#x27; &#x27;&#x27; ,DATA_TYPE ,CASE  WHEN DATA_TYPE IN &#x28; &#x27;&#x27;char&#x27;&#x27; ,&#x27;&#x27;VARCHAR&#x27;&#x27; &#x29;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,CHARACTER_MAXIMUM_LENGTH&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         WHEN DATA_TYPE &#x3d; &#x27;&#x27;numeric&#x27;&#x27;&#xa;                                                THEN CONCAT &#x28;&#xa;                                                              &#x27;&#x27;&#x28;&#x27;&#x27;&#xa;                                                              ,NUMERIC_PRECISION&#xa;                                                              ,&#x27;&#x27;,&#x27;&#x27;,NUMERIC_SCALE&#xa;                                                              ,&#x27;&#x27;&#x29;&#x27;&#x27;&#xa;                                                              &#x29;&#xa;                                         ELSE &#x27;&#x27;&#x27;&#x27;&#xa;                                         END&#xa;                                  ,&#x27;&#x27; &#x27;&#x27; ,CASE WHEN IS_NULLABLE&#x3d;&#x27;&#x27;NO&#x27;&#x27; THEN &#x27;&#x27;NOT NULL&#x27;&#x27; ELSE &#x27;&#x27;NULL&#x27;&#x27; END &#x29;&#xa;            FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME &#x3d;&#x27;&#x27;CUSTOMER_GTS_FORECAST&#x27;&#x27;&#xa;                     order by ORDINAL_POSITION &#xa;            FOR XML PATH&#x28;&#x27;&#x27;&#x27;&#x27;&#x29;&#xa;            &#x29;, 1, 1, &#x27;&#x27;&#x27;&#x27;&#x29; &#xa;&#x27;&#xa;&#xa;       EXEC SP_EXECUTESQL &#x40;SQL1&#xa;              ,N&#x27;&#x40;SQL2 NVARCHAR&#x28;MAX&#x29; OUTPUT&#x27;&#xa;              ,&#x40;SQL2 OUTPUT&#xa;       SET &#x40;SQL &#x3d; &#x27;CREATE TABLE &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27;&#x28; &#x27; &#x2b; &#x40;SQL2 &#x2b; &#x27; &#x29;&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM CUSTOMER_GTS_FORECAST&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;END&#xa;ELSE&#xa;BEGIN&#xa;       SET &#x40;SQL &#x3d; &#x27;INSERT INTO  &#x27; &#x2b; &#x40;TABLE_NAME &#x2b; &#x27; SELECT &#x2a; FROM CUSTOMER_GTS_FORECAST&#x27;&#xa;&#xa;       EXEC &#x28;&#x40;SQL&#x29;&#xa;         &#xa;END&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2581,7 +916,7 @@ END
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -2619,90 +954,7 @@ END
       <name>CUSTOMER_GTS_FORECAST 2</name>
       <description/>
       <type>SQL</type>
-      <sql>
-      INSERT INTO HIST_CUSTOMER_GTS_FORECAST
-                  (CUSTOMER_GTS_FORECAST_SID,
-                   FORECAST_YEAR,
-                   FORECAST_MONTH,
-                   ITEM_ID,
-                   ITEM_MASTER_SID,
-                   COMPANY_ID,
-                   COMPANY_MASTER_SID,
-                   UNITS,
-                   PRICE_TYPE,
-                   PRICE,
-                   SALES_AMOUNT,
-                   SALES_INCLUSION,
-                   DEDUCTION_ID,
-                   DEDUCTION_CATEGORY,
-                   DEDUCTION_TYPE,
-                   DEDUCTION_PROGRAM_TYPE,
-                   ADJUSTMENT_CODE,
-                   DEDUCTION_RATE,
-                   DEDUCTION_AMOUNT,
-                   DEDUCTION_INCLUSION,
-                   FORECAST_VALUE_TYPE,
-                   BRAND,
-                   BRAND_MASTER_SID,
-                   SEGMENT,
-                   ADD_CHG_DEL_INDICATOR,
-                   CREATED_BY,
-                   CREATED_DATE,
-                   MODIFIED_BY,
-                   MODIFIED_DATE,
-                   BATCH_ID,
-                   SOURCE,
-                   FORECAST_VER,
-                   COUNTRY,
-                   FORECAST_NAME,
-                   FORECAST_DATE,
-                   INBOUND_STATUS,
-                   RECORD_LOCK_STATUS,
-                   CUSTOMER_GTS_FORECAST_INTF_ID,
-                   [ACTION_FLAG],
-				   BUSINESS_UNIT)
-      SELECT CUSTOMER_GTS_FORECAST_SID,
-             FORECAST_YEAR,
-             FORECAST_MONTH,
-             ITEM_ID,
-             ITEM_MASTER_SID,
-             COMPANY_ID,
-             COMPANY_MASTER_SID,
-             UNITS,
-             PRICE_TYPE,
-             PRICE,
-             SALES_AMOUNT,
-             SALES_INCLUSION,
-             DEDUCTION_ID,
-             DEDUCTION_CATEGORY,
-             DEDUCTION_TYPE,
-             DEDUCTION_PROGRAM_TYPE,
-             ADJUSTMENT_CODE,
-             DEDUCTION_RATE,
-             DEDUCTION_AMOUNT,
-             DEDUCTION_INCLUSION,
-             FORECAST_VALUE_TYPE,
-             BRAND,
-             BRAND_MASTER_SID,
-             SEGMENT,
-             ADD_CHG_DEL_INDICATOR,
-             CREATED_BY,
-             CREATED_DATE,
-             MODIFIED_BY,
-             MODIFIED_DATE,
-             BATCH_ID,
-             SOURCE,
-             FORECAST_VER,
-             COUNTRY,
-             FORECAST_NAME,
-             FORECAST_DATE,
-             INBOUND_STATUS,
-             RECORD_LOCK_STATUS,
-             CUSTOMER_GTS_FORECAST_INTF_ID,
-             &apos;D&apos;,
-			 BUSINESS_UNIT
-      FROM   CUSTOMER_GTS_FORECAST
-</sql>
+      <sql>&#xa;      INSERT INTO HIST_CUSTOMER_GTS_FORECAST&#xa;                  &#x28;CUSTOMER_GTS_FORECAST_SID,&#xa;                   FORECAST_YEAR,&#xa;                   FORECAST_MONTH,&#xa;                   ITEM_ID,&#xa;                   ITEM_MASTER_SID,&#xa;                   COMPANY_ID,&#xa;                   COMPANY_MASTER_SID,&#xa;                   UNITS,&#xa;                   PRICE_TYPE,&#xa;                   PRICE,&#xa;                   SALES_AMOUNT,&#xa;                   SALES_INCLUSION,&#xa;                   DEDUCTION_ID,&#xa;                   DEDUCTION_CATEGORY,&#xa;                   DEDUCTION_TYPE,&#xa;                   DEDUCTION_PROGRAM_TYPE,&#xa;                   ADJUSTMENT_CODE,&#xa;                   DEDUCTION_RATE,&#xa;                   DEDUCTION_AMOUNT,&#xa;                   DEDUCTION_INCLUSION,&#xa;                   FORECAST_VALUE_TYPE,&#xa;                   BRAND,&#xa;                   BRAND_MASTER_SID,&#xa;                   SEGMENT,&#xa;                   ADD_CHG_DEL_INDICATOR,&#xa;                   CREATED_BY,&#xa;                   CREATED_DATE,&#xa;                   MODIFIED_BY,&#xa;                   MODIFIED_DATE,&#xa;                   BATCH_ID,&#xa;                   SOURCE,&#xa;                   FORECAST_VER,&#xa;                   COUNTRY,&#xa;                   FORECAST_NAME,&#xa;                   FORECAST_DATE,&#xa;                   INBOUND_STATUS,&#xa;                   RECORD_LOCK_STATUS,&#xa;                   CUSTOMER_GTS_FORECAST_INTF_ID,&#xa;                   &#x5b;ACTION_FLAG&#x5d;,&#xa;				   BUSINESS_UNIT&#x29;&#xa;      SELECT CUSTOMER_GTS_FORECAST_SID,&#xa;             FORECAST_YEAR,&#xa;             FORECAST_MONTH,&#xa;             ITEM_ID,&#xa;             ITEM_MASTER_SID,&#xa;             COMPANY_ID,&#xa;             COMPANY_MASTER_SID,&#xa;             UNITS,&#xa;             PRICE_TYPE,&#xa;             PRICE,&#xa;             SALES_AMOUNT,&#xa;             SALES_INCLUSION,&#xa;             DEDUCTION_ID,&#xa;             DEDUCTION_CATEGORY,&#xa;             DEDUCTION_TYPE,&#xa;             DEDUCTION_PROGRAM_TYPE,&#xa;             ADJUSTMENT_CODE,&#xa;             DEDUCTION_RATE,&#xa;             DEDUCTION_AMOUNT,&#xa;             DEDUCTION_INCLUSION,&#xa;             FORECAST_VALUE_TYPE,&#xa;             BRAND,&#xa;             BRAND_MASTER_SID,&#xa;             SEGMENT,&#xa;             ADD_CHG_DEL_INDICATOR,&#xa;             CREATED_BY,&#xa;             CREATED_DATE,&#xa;             MODIFIED_BY,&#xa;             MODIFIED_DATE,&#xa;             BATCH_ID,&#xa;             SOURCE,&#xa;             FORECAST_VER,&#xa;             COUNTRY,&#xa;             FORECAST_NAME,&#xa;             FORECAST_DATE,&#xa;             INBOUND_STATUS,&#xa;             RECORD_LOCK_STATUS,&#xa;             CUSTOMER_GTS_FORECAST_INTF_ID,&#xa;             &#x27;D&#x27;,&#xa;			 BUSINESS_UNIT&#xa;      FROM   CUSTOMER_GTS_FORECAST&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2718,10 +970,7 @@ END
       <name>FULL LOAD PURGE DAYS</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-DELETE FROM HIST_CUSTOMER_GTS_FORECAST
-WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)
-</sql>
+      <sql>DECLARE &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;DELETE FROM HIST_CUSTOMER_GTS_FORECAST&#xa;WHERE  CONVERT&#x28;DATE, ACTION_DATE&#x29; &#x3c;&#x3d; CONVERT&#x28;DATE, Getdate&#x28;&#x29; - &#x40;NO_OF_DAYS&#x29;&#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2737,29 +986,7 @@ WHERE  CONVERT(DATE, ACTION_DATE) &lt;= CONVERT(DATE, Getdate() - @NO_OF_DAYS)
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @SQL        VARCHAR(MAX),
-        @TABLE_NAME VARCHAR(100)=&apos;SNAP_CUSTOMER_GTS_FORECAST&apos;,
-        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
-		,@var1 varchar(2)=&apos;&lt;&apos;
-
-
-SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
-
-SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
-
-
-exec( @SQL)
-
-SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
-          FROM   SYS.TABLES
-          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
-          FOR XML PATH(&apos;&apos;))
-
-exec( @SQL) 
-</sql>
+      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_CUSTOMER_GTS_FORECAST&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -2777,7 +1004,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2796,6 +1023,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2807,7 +1035,7 @@ exec( @SQL)
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;CUSTOMER_GTS_FORECAST_INTERFACE&#47;Input&#47;</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CUSTOMER_GTS_FORECAST_INTERFACE&#x2f;Input&#x2f;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -2823,7 +1051,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;FULLLOAD.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULLLOAD.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2831,7 +1059,7 @@ exec( @SQL)
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -2842,6 +1070,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2855,7 +1084,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${FULLLOAD}</variablename>
+      <variablename>&#x24;&#x7b;FULLLOAD&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -2895,7 +1124,7 @@ exec( @SQL)
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2914,6 +1143,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -2945,7 +1175,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -2967,7 +1197,7 @@ exec( @SQL)
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -2981,8 +1211,10 @@ exec( @SQL)
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -2997,7 +1229,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -3014,12 +1246,12 @@ exec( @SQL)
       <yloc>463</yloc>
       </entry>
     <entry>
-      <name>MAIL (2) 2</name>
+      <name>MAIL &#x28;2&#x29; 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -3038,6 +1270,7 @@ exec( @SQL)
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -3051,7 +1284,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -3073,7 +1306,7 @@ exec( @SQL)
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${SOURCE_MODE}</variablename>
+      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -3090,13 +1323,10 @@ exec( @SQL)
       <yloc>731</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -3109,13 +1339,10 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <yloc>1066</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT (2) 3 2</name>
+      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;
-
-
-UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CUSTOMER_GTS_FORECAST_INTERFACE&apos;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CUSTOMER_GTS_FORECAST_INTERFACE&#x27;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -3131,7 +1358,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <name>Check if a folder is empty 3</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>${INBOUND_FILE_PATH}&#47;${INTERFACE_NAME_INPUT}</foldername>
+      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;INTERFACE_NAME_INPUT&#x7d;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -3141,6 +1368,39 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <xloc>1026</xloc>
       <yloc>185</yloc>
       </entry>
+    <entry>
+      <name>UNLOCK</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logext>txt</logext>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Error</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1383</xloc>
+      <yloc>2252</yloc>
+      </entry>
   </entries>
   <hops>
     <hop>
@@ -3148,7 +1408,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <to>TRUNCATE STAG TABLE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -3208,7 +1468,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3217,7 +1477,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3226,7 +1486,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3235,7 +1495,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2)</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3504,7 +1764,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (3)</from>
+      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3523,7 +1783,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3550,7 +1810,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3559,7 +1819,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3811,7 +2071,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL (2) 2</to>
+      <to>MAIL &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3819,8 +2079,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 2</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3838,7 +2098,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT (3)</to>
+      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3855,7 +2115,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3864,7 +2124,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2)</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3873,8 +2133,8 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL (2) 2</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <from>MAIL &#x28;2&#x29; 2</from>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3883,7 +2143,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3892,7 +2152,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3901,7 +2161,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3910,7 +2170,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT (2) 3</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3918,7 +2178,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3928,7 +2188,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT (2) 3 2</to>
+      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -3936,7 +2196,7 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT (2) 3 2</from>
+      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -3980,7 +2240,26 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CU
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>VALIDATIONS</from>
+      <to>UNLOCK</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>UNLOCK</from>
+      <to>TRUNCATE STAG TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
+
 </job>

@@ -105,7 +105,7 @@ public class CustomViewLogic {
 
     private void build_executeFinalQuery(List<LevelMapKey> hierarchyList) {
         LOGGER.debug("Building the final query and inserting :");
-        StringBuilder finalQuery = new StringBuilder(SQlUtil.getQuery("INSERT_CUSTOM_RELATIONSHIP_BUILDER"));
+        StringBuilder customQuery = new StringBuilder(SQlUtil.getQuery("INSERT_CUSTOM_RELATIONSHIP_BUILDER"));
         int i = 0;
         for (ListIterator<LevelMapKey> it = hierarchyList.listIterator(); it.hasNext();) {
             LevelMapKey obj = it.next();
@@ -122,10 +122,10 @@ public class CustomViewLogic {
             query = query.replace("[$CUSTOM_VIEW_DETAILS_SID]", String.valueOf(obj.getCustomViewDetailsSid()));
             query = query.replace("[$RELATIONSHIP_LEVEL_VALUES]", levelVal);
             query = query.replace("[$CUSTOM_HIERARCHY_NO]", obj.getHierarchyNo());
-            finalQuery.append(query);
+            customQuery.append(query);
         }
        if (!hierarchyList.isEmpty()) {
-            HelperTableLocalServiceUtil.executeUpdateQuery(finalQuery.toString());
+            HelperTableLocalServiceUtil.executeUpdateQuery(customQuery.toString());
         }
 
     }
@@ -133,7 +133,7 @@ public class CustomViewLogic {
     private void buildAndExecute_customCCP_update() {
         LOGGER.debug("Building the final query and inserting :");
 
-        StringBuilder finalQuery = new StringBuilder(SQlUtil.getQuery("UPDATE_CUSTOM_CCP_MAP"));
+        StringBuilder ccpfinalQuery = new StringBuilder(SQlUtil.getQuery("UPDATE_CUSTOM_CCP_MAP"));
            String selectQuery = "";
         for (ListIterator<LevelMapKey> it = hierarchyList.listIterator(); it.hasNext();) {
             LevelMapKey obj = it.next();
@@ -154,8 +154,8 @@ public class CustomViewLogic {
             }
         }
         if (!hierarchyList.isEmpty()) {
-            finalQuery = new StringBuilder(finalQuery.toString().replace("[$UPDATE_CUSTOM_CCP_MAP_SELECT]", selectQuery));
-            HelperTableLocalServiceUtil.executeUpdateQuery(finalQuery.toString());
+            ccpfinalQuery = new StringBuilder(ccpfinalQuery.toString().replace("[$UPDATE_CUSTOM_CCP_MAP_SELECT]", selectQuery));
+            HelperTableLocalServiceUtil.executeUpdateQuery(ccpfinalQuery.toString());
         }
     }
 

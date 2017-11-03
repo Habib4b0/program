@@ -38,7 +38,7 @@ public class BCPExcelUtility {
     public static String excelExport_bcpUtility(String moduleName, String[] header, String query, String outputFilePath) {
         String os_name = System.getProperty("os.name");
         boolean isWindows = os_name.startsWith("Windows");
-        System.out.println("os_name :" + os_name);
+        LOGGER.debug("os_name :" + os_name);
         Path dataPath = Paths.get("tableData.csv");
         File data = dataPath.toFile();
         if (!data.exists()) {
@@ -55,7 +55,7 @@ public class BCPExcelUtility {
             outputFilePath = "default.csv";
         }
         StandaloneParser credentials = StandaloneParser.getInstance();
-        System.out.println("outputFilePath---" + outputFilePath);
+        LOGGER.debug("outputFilePath---" + outputFilePath);
         Path path = Paths.get(outputFilePath);
         String timeStamp = new Timestamp(new Date().getTime()).toString().replace("-", "").replace(":", "").replace(" ", "").replace(".", "");
         moduleName = moduleName.replace(" ", "") + timeStamp;
@@ -72,7 +72,7 @@ public class BCPExcelUtility {
         folderName += moduleName;
         File dir = new File(folderName);
         try {
-            System.out.println("BCP working directory :" + dir);
+            LOGGER.debug("BCP working directory :" + dir);
             if (!dir.exists()) {
                 dir.mkdirs();
                 dir.setExecutable(true, false);
@@ -99,7 +99,7 @@ public class BCPExcelUtility {
                 command = command.replace("[$USER]", credentials.getUser());
                 command = command.replace("[$PASSWORD]", credentials.isIsPasswordEncrypted() ? getDecryptedPassword(credentials.getPassword()) : credentials.getPassword());
                 exec = Runtime.getRuntime().exec(command,null,dir);
-                System.out.println("command = " + command);
+                LOGGER.debug("command = " + command);
                 
             } else {
                 StringBuilder strb = new StringBuilder();
@@ -131,10 +131,10 @@ public class BCPExcelUtility {
                 builder = new ProcessBuilder(shellFile.getAbsolutePath());
                 builder.directory(dir);
                 exec = builder.start();
-                System.out.println("BCP command :" + builder.command());
+                LOGGER.debug("BCP command :" + builder.command());
             }
             int errors =exec.waitFor();
-            System.out.println("BCP process completed : with errors :" + errors);
+            LOGGER.debug("BCP process completed : with errors :" + errors);
             Path headerFile2 = Paths.get("header.csv");
             List<String> val = new ArrayList();
             if (os_name.startsWith("Windows")) {
@@ -172,9 +172,9 @@ public class BCPExcelUtility {
                 builder.command(shellFile.getAbsolutePath());
 
             }
-            System.out.println("Concat Command :" + builder.command());
+            LOGGER.debug("Concat Command :" + builder.command());
              errors = builder.start().waitFor();
-            System.out.println("Concat process completed : with errors :" + errors);
+            LOGGER.debug("Concat process completed : with errors :" + errors);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

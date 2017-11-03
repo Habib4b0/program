@@ -50,7 +50,6 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,7 +57,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -731,7 +729,7 @@ public class PmpyLogic {
             List<PeriodDTO> tempList = new ArrayList<>();
             PeriodDTO periodDTO = null;
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 periodDTO = new PeriodDTO();
                 if (obj[0] != null) {
                     periodDTO.setQuator(String.valueOf(obj[0]));
@@ -796,7 +794,7 @@ public class PmpyLogic {
         return resultList;
     }
 
-    private List callNmPmpyProcedure(Object inputs[])  {
+    private List callNmPmpyProcedure(Object[] inputs)  {
         List list = null;
         final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
         Connection connection = null;
@@ -850,7 +848,7 @@ public class PmpyLogic {
         return list;
     }
 
-    public void importPMPY(Object inputs[], ProjectionSelectionDTO projectionSelectionDTO) {
+    public void importPMPY(Object[] inputs, ProjectionSelectionDTO projectionSelectionDTO) {
 
         try {
             SalesLogic spLogic = new SalesLogic();

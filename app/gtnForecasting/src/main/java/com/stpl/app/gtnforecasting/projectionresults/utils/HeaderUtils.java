@@ -69,7 +69,7 @@ public class HeaderUtils {
      * The Constant Mandated Projection Results Right Table Headers.
      */
     public final String[] prRightTableOneHeaders = new String[]{
-        Constant.EX_FACTORY_SALES_LABEL, DEMAND_SALES, INVENTORY_WITHDRAWAL_SALES, PERCENT_OF_EX_FACTORY, PERCENT_OF_DEMAND, PERCENT_OF_INVENTORY_WITHDRAWAL, CONTRACT_SALES_WAC_AT, Constant.UNIT_VOLUME, TOTAL_DISCOUNT_PERCENT_AMOUNT, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, Constant.Total_RPU, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, TOTAL_DISCOUNT_AMOUNT_DOLLAR,
+        Constant.EX_FACTORY_SALES_LABEL, DEMAND_SALES, INVENTORY_WITHDRAWAL_SALES, PERCENT_OF_EX_FACTORY, PERCENT_OF_DEMAND, PERCENT_OF_INVENTORY_WITHDRAWAL, CONTRACT_SALES_WAC_AT, Constant.UNIT_VOLUME, TOTAL_DISCOUNT_PERCENT_AMOUNT, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, Constant.TOTAL_RPU_CAPS, Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, TOTAL_DISCOUNT_AMOUNT_DOLLAR,
         Constant.MANDATED_DISCOUNT, Constant.SUPPLEMENTAL_DISCOUNT_LABEL, NET_SALES_LABEL, COST_OF_GOODS_SOLD_COGS, NET_PROFIT};
 
     /**
@@ -787,7 +787,7 @@ public class HeaderUtils {
                 commonHeader = TOTAL_DISCOUNT_PERCENT_AMOUNT;
             } else if (i == NumericConstants.NINE) {
                 commonColumn = Constant.TOTAL_RPU;
-                commonHeader = Constant.Total_RPU;
+                commonHeader = Constant.TOTAL_RPU_CAPS;
             } else if (i == NumericConstants.TEN) {
                 commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
                 commonHeader = TOTAL_DISCOUNT_AMOUNT_DOLLAR;
@@ -901,7 +901,7 @@ public class HeaderUtils {
                 commonHeader = SUPPLEMENTAL_DISCOUNT.getConstant();
             } else if (i == NumericConstants.ELEVEN) {
                 commonColumn = TOT_RPU;
-                commonHeader = Constant.Total_RPU;
+                commonHeader = Constant.TOTAL_RPU_CAPS;
             } else if (i == NumericConstants.TWELVE) {
                 commonColumn = TOT_RPU + MANDATED_DISCOUNT.getConstant().replace(" ", StringUtils.EMPTY).trim();
                 commonHeader = MANDATED_DISCOUNT.getConstant();

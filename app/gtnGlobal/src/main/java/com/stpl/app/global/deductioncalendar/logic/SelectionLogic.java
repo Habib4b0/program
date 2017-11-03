@@ -6,12 +6,10 @@
 package com.stpl.app.global.deductioncalendar.logic;
 
 import com.stpl.app.global.common.util.HelperListUtil;
-import com.stpl.app.global.dao.impl.ItemSearchLogicDAOImpl;
 import com.stpl.app.global.deductioncalendar.ui.util.HeaderUtils;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.util.Constants;
 import static com.stpl.app.util.GeneralCommonUtils.ZERO;
-import com.stpl.domain.global.item.ItemDAO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -27,13 +25,14 @@ import java.util.Map;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import com.stpl.app.global.abstractsearch.util.ConstantUtil;
 import com.stpl.app.global.common.dto.SessionDTO;
-import com.stpl.app.global.company.util.UIUtils;
+import com.stpl.app.global.dao.CommonDao;
+import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.global.deductioncalendar.dto.DeductionDetailsDTO;
 import com.stpl.app.global.deductioncalendar.dto.SelectionDTO;
-import com.stpl.app.global.item.util.CommonUtils;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
+import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.app.util.HelperUtils;
@@ -47,7 +46,6 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.util.BeanItem;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -73,6 +71,8 @@ public class SelectionLogic {
      * The format double.
      */
     private static final DecimalFormat FORMATDECIMAL = new DecimalFormat("###,##0.000000");
+    
+    final static CommonDao DAO = CommonDaoImpl.getInstance();
 
     /**
      *
@@ -149,7 +149,7 @@ public class SelectionLogic {
                 try {
                     String customerTypeValue = String.valueOf(selectionDTO.getCustomerType());
                     if (customerTypeValue != null && !customerTypeValue.equals(ConstantsUtils.NULL)) {
-                        int helperId = getHelperCode(UIUtils.COMPANY_TYPE, customerTypeValue);
+                        int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, customerTypeValue);
                         queryString.append(" AND HT_CT.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
@@ -161,7 +161,7 @@ public class SelectionLogic {
                 try {
                     String customerStatusValue = String.valueOf(selectionDTO.getCustomerStatus());
                     if (customerStatusValue != null && !customerStatusValue.equals(ConstantsUtils.NULL)) {
-                        int helperId = getHelperCode(UIUtils.STATUS, customerStatusValue);
+                        int helperId = getHelperCode(CommonUIUtils.STATUS, customerStatusValue);
                         queryString.append(" AND HT_CS.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
@@ -187,7 +187,7 @@ public class SelectionLogic {
                     String filterValue = String.valueOf(stringFilter.getValue());
                     if (ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.COMPANY_TYPE, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -197,7 +197,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.STATUS, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -217,7 +217,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC1.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC1, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC1, filterValue);
                                 parameters.put(ConstantsUtils.UDC1, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -227,7 +227,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC2.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC2, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC2, filterValue);
                                 parameters.put(ConstantsUtils.UDC2, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -237,7 +237,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC3.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC3, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC3, filterValue);
                                 parameters.put(ConstantsUtils.UDC3, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -247,7 +247,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC4.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC4, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC4, filterValue);
                                 parameters.put(ConstantsUtils.UDC4, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -257,7 +257,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC5.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC5, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC5, filterValue);
                                 parameters.put(ConstantsUtils.UDC5, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -267,7 +267,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.UDC6.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.UDC6, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.UDC6, filterValue);
                                 parameters.put(ConstantsUtils.UDC6, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -277,7 +277,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.ORGANISATION_KEY.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.ORGANIZATION_KEY, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.ORGANIZATION_KEY, filterValue);
                                 parameters.put(ConstantsUtils.ORGANISATION_KEY, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -287,7 +287,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.CUSTOMER_GROUP.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.COMPANY_GROUP, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.COMPANY_GROUP, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_GROUP, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -635,7 +635,6 @@ public class SelectionLogic {
     }
 
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
-        final ItemDAO DAO = new ItemSearchLogicDAOImpl();
         int code = 0;
         final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
@@ -805,11 +804,11 @@ public class SelectionLogic {
                         filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
                     }
                     if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
-                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + filterString + "' ";
-                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_TO + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_FROM + filterString1 + "' ";
                     }
                     if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
-                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery +ConstantsUtils.PACKAGE_SIZE_INTRO_GREATER + filterString + "' ";
                         filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + filterString1 + "' ";
                     }
                     if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
@@ -867,6 +866,115 @@ public class SelectionLogic {
                     if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
                         filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD >= '" + filterString + "' ";
                         filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD <= '" + filterString1 + "' ";
+                    }
+                } else if (filter instanceof Compare) {
+                    Compare stringFilter = (Compare) filter;
+                    Compare.Operation operation = stringFilter.getOperation();
+                    Date value = (Date) stringFilter.getValue();
+                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                        if (ConstantsUtils.ITEM_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + value + "' ";
+                        }
+                        if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_TO + value + "' ";
+                        }
+                        if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery +ConstantsUtils.PACKAGE_SIZE_INTRO_GREATER + value + "' ";
+                        }
+                        if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.acquisition_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.FIRST_SALE_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.first_Sale_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.DISCOUNT_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.discontinuation_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.LAST_LOT_EXP_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.last_Lot_Expiration_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.MARKER_TERMINATION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.market_Termination_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD >= '" + value + "' ";
+                        }
+                    } else {
+                        if (ConstantsUtils.ITEM_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + value + "' ";
+                        }
+                        if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_FROM + value + "' ";
+                        }
+                        if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.acquisition_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.FIRST_SALE_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.first_Sale_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.DISCOUNT_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.discontinuation_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.LAST_LOT_EXP_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.last_Lot_Expiration_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.MARKER_TERMINATION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.market_Termination_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD <= '" + value + "' ";
+                        }
                     }
                 }
             }
@@ -1004,11 +1112,11 @@ public class SelectionLogic {
                         filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
                     }
                     if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
-                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + filterString + "' ";
-                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + filterString1 + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_TO + filterString + "' ";
+                        filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_FROM + filterString1 + "' ";
                     }
                     if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
-                        filterQuery = filterQuery + " AND IM.package_Size_Intro_Date >= '" + filterString + "' ";
+                        filterQuery = filterQuery +ConstantsUtils.PACKAGE_SIZE_INTRO_GREATER + filterString + "' ";
                         filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + filterString1 + "' ";
                     }
                     if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
@@ -1066,6 +1174,115 @@ public class SelectionLogic {
                     if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
                         filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD >= '" + filterString + "' ";
                         filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD <= '" + filterString1 + "' ";
+                    }
+                } else if (filter instanceof Compare) {
+                    Compare stringFilter = (Compare) filter;
+                    Compare.Operation operation = stringFilter.getOperation();
+                    Date value = (Date) stringFilter.getValue();
+                    if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+                        if (ConstantsUtils.ITEM_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_TO + value + "' ";
+                        }
+                        if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_TO + value + "' ";
+                        }
+                        if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery +ConstantsUtils.PACKAGE_SIZE_INTRO_GREATER + value + "' ";
+                        }
+                        if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.acquisition_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.FIRST_SALE_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.first_Sale_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_End_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.DISCOUNT_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.discontinuation_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.LAST_LOT_EXP_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.last_Lot_Expiration_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.MARKER_TERMINATION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.market_Termination_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_Start_Date >= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD >= '" + value + "' ";
+                        }
+                    } else {
+                        if (ConstantsUtils.ITEM_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_START_DATE_FROM + value + "' ";
+                        }
+                        if (ConstantsUtils.ITEM_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + ConstantsUtils.ITEM_MASTER_END_DATE_FROM + value + "' ";
+                        }
+                        if (ConstantsUtils.PACKAGE_SIZE_INTRO_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.package_Size_Intro_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.ACQUISISTION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.acquisition_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.PEDIATRIC_EXCLUSIVE_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.pediatric_Exclusive_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.CLOTTING_FACTOR_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.clotting_Factor_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.AUTHORIZED_GENERIC_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.authorized_Generic_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.FIRST_SALE_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.first_Sale_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_END_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_End_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.DISCOUNT_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.discontinuation_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.LAST_LOT_EXP_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.last_Lot_Expiration_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.MARKER_TERMINATION_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.market_Termination_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.NEW_FORMULATION_START_DATE.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.new_Formulation_Start_Date <= '" + value + "' ";
+                        }
+                        if (ConstantsUtils.BASE_YEAR_CPI.equals(stringFilter.getPropertyId())) {
+                            filterQuery = filterQuery + " AND IM.BASE_CPI_PERIOD <= '" + value + "' ";
+                        }
                     }
                 }
             }
@@ -1155,8 +1372,8 @@ public class SelectionLogic {
                 searchItemForm.setItemName(HelperUtils.getString(obj[NumericConstants.THREE]));
                 searchItemForm.setItemDesc(HelperUtils.getString(obj[NumericConstants.FOUR]));
 
-                searchItemForm.setItemType(CommonUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.FIVE])));
-                searchItemForm.setItemStatus(CommonUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.SIX])));
+                searchItemForm.setItemType(CommonUIUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.FIVE])));
+                searchItemForm.setItemStatus(CommonUIUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.SIX])));
 
                 searchItemForm.setRecordLockStatus(Boolean.parseBoolean(HelperUtils.getString(obj[NumericConstants.SEVEN])));
                 searchItemForm.setItemCode(HelperUtils.getString(obj[NumericConstants.EIGHT]));
@@ -1175,11 +1392,11 @@ public class SelectionLogic {
                 }
                 
                 searchItemForm.setLabelerCode(HelperUtils.getString(obj[NumericConstants.THIRTEEN]));
-                searchItemForm.setForm(obj[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.FOURTEEN]));
-                searchItemForm.setStrength(obj[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.FIFTEEN]));
-                searchItemForm.setPrimaryUOM(obj[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SIXTEEN]));
-                searchItemForm.setSecondaryUOM(obj[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SEVENTEEN]));
-                searchItemForm.setItemClass(CommonUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.EIGHTEEN])));
+                searchItemForm.setForm(obj[NumericConstants.FOURTEEN] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.FOURTEEN]));
+                searchItemForm.setStrength(obj[NumericConstants.FIFTEEN] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.FIFTEEN]));
+                searchItemForm.setPrimaryUOM(obj[NumericConstants.SIXTEEN] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SIXTEEN]));
+                searchItemForm.setSecondaryUOM(obj[NumericConstants.SEVENTEEN] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SEVENTEEN]));
+                searchItemForm.setItemClass(CommonUIUtils.getDescription(HelperUtils.getInteger(obj[NumericConstants.EIGHTEEN])));
 
                 if (obj[NumericConstants.NINETEEN] != null) {
                     searchItemForm.setPediatricExclusiveStartDate((Date) obj[NumericConstants.NINETEEN]);
@@ -1194,7 +1411,7 @@ public class SelectionLogic {
                 searchItemForm.setPsNDC9(HelperUtils.getString(obj[NumericConstants.TWENTY_FOUR]));
                 searchItemForm.setPsNDC8(HelperUtils.getString(obj[NumericConstants.TWENTY_FIVE]));
                 searchItemForm.setTherapeuticClass(obj[NumericConstants.TWENTY_SIX] != null && !StringUtils.isEmpty(obj[NumericConstants.TWENTY_SIX].toString()) && !ConstantsUtils.ZERO.equals(obj[NumericConstants.TWENTY_SIX]) && !ConstantsUtils.SELECT_ONE.equals(obj[NumericConstants.TWENTY_SIX])
-                        ? CommonUtils.getDescription((Integer) obj[NumericConstants.TWENTY_SIX]) : StringUtils.EMPTY);
+                        ? CommonUIUtils.getDescription((Integer) obj[NumericConstants.TWENTY_SIX]) : StringUtils.EMPTY);
 
                                 if (obj[NumericConstants.TWENTY_SEVEN] != null) {
                     searchItemForm.setPackageSizeIntroDate((Date) obj[NumericConstants.TWENTY_SEVEN]);
@@ -1259,12 +1476,12 @@ public class SelectionLogic {
                 }
                 
                 searchItemForm.setBaselineAMP(HelperUtils.getString(obj[NumericConstants.FIFTY_SIX]));
-                searchItemForm.setPsUDC1(obj[NumericConstants.FIFTY_EIGHT] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.FIFTY_EIGHT]));
-                searchItemForm.setPsUDC2(obj[NumericConstants.FIFTY_NINE] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.FIFTY_EIGHT]));
-                searchItemForm.setPsUDC3(obj[NumericConstants.SIXTY] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SIXTY]));
-                searchItemForm.setPsUDC4(obj[NumericConstants.SIXTY_ONE] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SIXTY_ONE]));
-                searchItemForm.setPsUDC5(obj[NumericConstants.SIXTY_TWO] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SIXTY_TWO]));
-                searchItemForm.setPsUDC6(obj[NumericConstants.SIXTY_THREE] == null ? StringUtils.EMPTY : CommonUtils.getDescription((Integer) obj[NumericConstants.SIXTY_THREE]));
+                searchItemForm.setPsUDC1(obj[NumericConstants.FIFTY_EIGHT] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.FIFTY_EIGHT]));
+                searchItemForm.setPsUDC2(obj[NumericConstants.FIFTY_NINE] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.FIFTY_EIGHT]));
+                searchItemForm.setPsUDC3(obj[NumericConstants.SIXTY] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SIXTY]));
+                searchItemForm.setPsUDC4(obj[NumericConstants.SIXTY_ONE] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SIXTY_ONE]));
+                searchItemForm.setPsUDC5(obj[NumericConstants.SIXTY_TWO] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SIXTY_TWO]));
+                searchItemForm.setPsUDC6(obj[NumericConstants.SIXTY_THREE] == null ? StringUtils.EMPTY : CommonUIUtils.getDescription((Integer) obj[NumericConstants.SIXTY_THREE]));
                 searchItemForm.setDisplayBrand(HelperUtils.getString(obj[NumericConstants.SIXTY_FOUR]));
                 searchItemForm.setInnovatorCode(HelperUtils.getString(obj[NumericConstants.SIXTY_FIVE]));
                 searchItemList.add(searchItemForm);
@@ -1354,7 +1571,7 @@ public class SelectionLogic {
         
         String selectedCompanySids = StringUtils.EMPTY;
         if(!idList.isEmpty()){
-            selectedCompanySids = CommonUtils.CollectionToString(idList, false);
+            selectedCompanySids = CommonUIUtils.CollectionToString(idList, false);
         } 
         return selectedCompanySids;
     }
@@ -1419,7 +1636,7 @@ public class SelectionLogic {
                 try {
                     String customerTypeValue = String.valueOf(selectionDTO.getCustomerType());
                     if (customerTypeValue != null && !customerTypeValue.equals(ConstantsUtils.NULL)) {
-                        int helperId = getHelperCode(UIUtils.COMPANY_TYPE, customerTypeValue);
+                        int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, customerTypeValue);
                         queryString.append(" AND HT_CT.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
@@ -1431,7 +1648,7 @@ public class SelectionLogic {
                 try {
                     String customerStatusValue = String.valueOf(selectionDTO.getCustomerStatus());
                     if (customerStatusValue != null && !customerStatusValue.equals(ConstantsUtils.NULL)) {
-                        int helperId = getHelperCode(UIUtils.STATUS, customerStatusValue);
+                        int helperId = getHelperCode(CommonUIUtils.STATUS, customerStatusValue);
                         queryString.append(" AND HT_CS.HELPER_TABLE_SID = ").append(helperId).append(StringUtils.EMPTY);
                     }
                 } catch (Exception ex) {
@@ -1456,7 +1673,7 @@ public class SelectionLogic {
                     String filterValue = String.valueOf(stringFilter.getValue());
                     if (ConstantsUtils.CUSTOMER_TYPE.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.COMPANY_TYPE, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.COMPANY_TYPE, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_TYPE, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);
@@ -1466,7 +1683,7 @@ public class SelectionLogic {
                     }
                     if (ConstantsUtils.CUSTOMER_STATUS.equals(stringFilter.getPropertyId()) && filterValue != null && !filterValue.equals(ConstantsUtils.NULL)) {
                             try {
-                                int helperId = getHelperCode(UIUtils.STATUS, filterValue);
+                                int helperId = getHelperCode(CommonUIUtils.STATUS, filterValue);
                                 parameters.put(ConstantsUtils.CUSTOMER_STATUS, helperId);
                             } catch (PortalException ex) {
                                 LOGGER.error(ex);

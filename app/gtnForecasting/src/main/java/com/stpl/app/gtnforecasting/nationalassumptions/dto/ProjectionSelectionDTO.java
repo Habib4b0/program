@@ -22,72 +22,72 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ProjectionSelectionDTO {
 
-    int projectionId;
-    int userId;
-    int sessionId;
-    int levelNo;
-    int treeLevelNo;
-    int frequencyDivision;
-    int currentYear;
-    int startYear;
-    int endYear;
-    int startPeriod;
-    int endPeriod;
-    int currentPeriod;
-    int startMonth;
-    int endMonth;
-    int startDay;
-    int endDay;
-    String actualsOrProjections;
-    String levelValue;
-    String parentNode;
-    String year;
-    String sales;
-    boolean isTotal;
-    boolean isProjectionTotal;
+    private int projectionId;
+    private int userId;
+    private int sessionId;
+    private int levelNo;
+    private int treeLevelNo;
+    private int frequencyDivision;
+    private int currentYear;
+    private int startYear;
+    private int endYear;
+    private int startPeriod;
+    private int endPeriod;
+    private int currentPeriod;
+    private int startMonth;
+    private int endMonth;
+    private int startDay;
+    private int endDay;
+    private String actualsOrProjections;
+    private String levelValue;
+    private String parentNode;
+    private String year;
+    private String sales;
+    private boolean isTotal;
+    private boolean isProjectionTotal;
     private String hierarchyNo;
     private String hierarchyIndicator;
-    String view;
-    String frequency;
-    String projectionOrder;
-    String history;
-    String projection;
-    String pivotView;
-    String group;
-    int customId;
-    int historyNum;
-    int projectionNum;
-    List<String> levelValueList=new ArrayList<>();
-    List<String> parentNodeList=new ArrayList<>();
-    Date startDate;
-    Date toDate;
-    int ndcLevelNo;
-    List<String> columns=new ArrayList<>();
-    List<String> periodList=new ArrayList<>();
-    List<String> discountProgramsList=new ArrayList<>();
-    Map<String,String> periodListMap=new HashMap<>();
-    boolean isFilter;
-    boolean isCustomHierarchy;
-    List<String> priceTypeList = new ArrayList<>();
-    String variables;
-    int brandMasterId=0;
+    private String view;
+    private String frequency;
+    private String projectionOrder;
+    private String history;
+    private String projection;
+    private String pivotView;
+    private String group;
+    private int customId;
+    private int historyNum;
+    private int projectionNum;
+    private List<String> levelValueList=new ArrayList<>();
+    private List<String> parentNodeList=new ArrayList<>();
+    private Date startDate;
+    private Date toDate;
+    private int ndcLevelNo;
+    private List<String> columns=new ArrayList<>();
+    private List<String> periodList=new ArrayList<>();
+    private List<String> discountProgramsList=new ArrayList<>();
+    private Map<String,String> periodListMap=new HashMap<>();
+    private boolean isFilter;
+    private boolean isCustomHierarchy;
+    private List<String> priceTypeList = new ArrayList<>();
+    private String variables;
+    private int brandMasterId=0;
     private HelperDTO therapeuticSid = new HelperDTO(0, SELECT_ONE.getConstant());
     private HelperDTO brandSid = new HelperDTO(0, SELECT_ONE.getConstant());
     private boolean customFlag;
     private int customLevelNo;
     private String viewName=StringUtils.EMPTY;
     private HelperDTO ndcSid = new HelperDTO(0, SELECT_ONE.getConstant());
-    List<String> pivotList=new ArrayList<>();
-    String ndcParent;
-    Map<String,String[]> notesMap=new HashMap<>();
-    Map<String,String[]> secondRowNotesMap=new HashMap<>();
-    Map<String,String[]> thirdRowNotesMap=new HashMap<>();
-    int histProjYear;
-    int histProjMonth;
-    int histProjPeriod;
-    int pageStart;
-    int pageOffSet;
-    boolean adjust=false;
+    private List<String> pivotList=new ArrayList<>();
+    private String ndcParent;
+    private Map<String,String[]> notesMap=new HashMap<>();
+    private Map<String,String[]> secondRowNotesMap=new HashMap<>();
+    private Map<String,String[]> thirdRowNotesMap=new HashMap<>();
+    private int histProjYear;
+    private int histProjMonth;
+    private int histProjPeriod;
+    private int pageStart;
+    private int pageOffSet;
+    private boolean adjust=false;
     private String ndc9=StringUtils.EMPTY;
     private HelperDTO brand = new HelperDTO(0, SELECT_ONE.getConstant());
     private String ndc9LevelNo=StringUtils.EMPTY;
@@ -96,9 +96,22 @@ public class ProjectionSelectionDTO {
     private HelperDTO brandWSdto = new HelperDTO(0, SELECT_ONE.getConstant());
     // for paged Table
     private List<String> nonFetchableIndex = new ArrayList<>();
-    boolean excel=false;
-    boolean brandSeclected=false;
-        
+    private boolean excel=false;
+    private boolean brandSeclected=false;
+    private String newFormulation = StringUtils.EMPTY;
+    private Map<String,String> loadUraPriceActualMap = new HashMap<>();
+    private Map<String,String> loadUraPriceMap = new HashMap<>();
+    private Map<String,String> loadPhsPriceActualMap = new HashMap<>();
+    private Map<String,String> loadPhsPriceMap = new HashMap<>();
+     
+      private String newFormulationItemId = StringUtils.EMPTY;
+       
+     private String baeselineAmp = StringUtils.EMPTY;
+     
+     private String baeselineCpi = StringUtils.EMPTY;
+     
+     private String priceType = StringUtils.EMPTY;
+     
     public boolean isIsFilter() {
         return isFilter;
     }
@@ -717,4 +730,75 @@ public class ProjectionSelectionDTO {
         this.brandSeclected = brandSeclected;
     }
 
+    public String getNewFormulation() {
+        return newFormulation;
+    }
+
+    public void setNewFormulation(String newFormulation) {
+        this.newFormulation = newFormulation;
+    }
+
+    public String getBaeselineAmp() {
+        return baeselineAmp;
+    }
+
+    public void setBaeselineAmp(String baeselineAmp) {
+        this.baeselineAmp = baeselineAmp;
+    }
+
+    public String getBaeselineCpi() {
+        return baeselineCpi;
+    }
+
+    public void setBaeselineCpi(String baeselineCpi) {
+        this.baeselineCpi = baeselineCpi;
+    }
+
+    public String getNewFormulationItemId() {
+        return newFormulationItemId;
+    }
+
+    public void setNewFormulationItemId(String newFormulationItemId) {
+        this.newFormulationItemId = newFormulationItemId;
+    }
+      public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
+    }
+
+    public Map<String, String> getLoadPriceActualMap() {
+        return loadUraPriceActualMap;
+    }
+
+    public void setLoadPriceActualMap(Map<String, String> loadUraPriceActualMap) {
+        this.loadUraPriceActualMap = loadUraPriceActualMap;
+    }
+
+    public Map<String, String> getLoadUraPriceMap() {
+        return loadUraPriceMap;
+    }
+
+    public void setLoadUraPriceMap(Map<String, String> loadUraPriceMap) {
+        this.loadUraPriceMap = loadUraPriceMap;
+    }
+
+    public Map<String, String> getLoadPhsPriceActualMap() {
+        return loadPhsPriceActualMap;
+    }
+
+    public void setLoadPhsPriceActualMap(Map<String, String> loadPhsPriceActualMap) {
+        this.loadPhsPriceActualMap = loadPhsPriceActualMap;
+    }
+
+    public Map<String, String> getLoadPhsPriceMap() {
+        return loadPhsPriceMap;
+    }
+
+    public void setLoadPhsPriceMap(Map<String, String> loadPhsPriceMap) {
+        this.loadPhsPriceMap = loadPhsPriceMap;
+    }
+    
   }
