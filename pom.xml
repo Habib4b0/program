@@ -61,16 +61,6 @@
 		</profile>
 
 		<profile>
-			<id>Install-WarRelease</id>
-			<modules>
-				<module>app/Release/WarReleasePlugin</module>
-			</modules>
-			<build>
-				<defaultGoal>clean install</defaultGoal>
-			</build>
-		</profile>
-
-		<profile>
 			<id>Release-Build</id>
 			<modules>
 				<module>app/gtnPartI</module>
