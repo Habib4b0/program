@@ -519,7 +519,7 @@ public class FileManagementLogic {
         return latestVersion;
     }
 
-    public String saveForecastDetails(List<FileMananagementResultDTO> itemIds, String source, String country, String version, String forecastName, HelperDTO fileType) {
+    public String saveForecastDetails(List<FileMananagementResultDTO> itemIds, String source, String country, String version, String forecastName, HelperDTO fileType, String businessUnit) {
         LOGGER.debug("Entering Save Forecast Details with File Name" + forecastName + "File Type" + fileType.getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)
                 + StringConstantUtils.SOURCE1 + source + "Country" + country);
         Boolean flag = false;
@@ -558,6 +558,7 @@ public class FileManagementLogic {
                         master.setDollars(Double.valueOf(beanItem.getDollars().toString().replace("$", ConstantsUtils.EMPTY)));
                         master.setSource(source);
                         master.setCountry(country);
+                        master.setBusinessUnit(Integer.valueOf(businessUnit));
                         master.setForecastVer(version);
                         master.setForecastName(forecastName);
                         master.setCreatedDate(new Date());
