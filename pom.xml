@@ -79,7 +79,6 @@
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
-				<module>app/gtnWorkflow</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
 			</modules>
