@@ -84,7 +84,7 @@
 			</modules>
 			<activation>
 				<property>
-					<name>releaseBuild</name>
+					<name>clean install releaseBuild</name>
 				</property>
 			</activation>
 			<properties>
