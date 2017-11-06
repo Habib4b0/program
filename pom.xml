@@ -67,8 +67,6 @@
 				<module>app/gtnPartII</module>
 				<module>app/gtnSharedLibrary</module>
 				<module>app/gtnGlobal</module>
-				<module>app/gtnTransaction</module>
-				<module>app/gtnContract</module>
 				<module>app/gtnSecurity</module>
 				<module>app/gtnForecasting</module>
 				<module>app/gtnAdminConsole</module>
