@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM--PInstall-Dependency</actionName>
+            <displayName>-PInstall-Dependency</displayName>
+            <goals>
+                <goal>-PInstall-Dependency</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM--PRelease-Build</actionName>
+            <displayName>-PRelease-Build</displayName>
+            <goals>
+                <goal>-PRelease-Build</goal>
+            </goals>
+        </action>
+    </actions>
