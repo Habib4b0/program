@@ -534,6 +534,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected CommonLogic commonLogic = new CommonLogic();
     protected List<String> generateProductToBeLoaded=new ArrayList<>();
     protected List<String> generateCustomerToBeLoaded=new ArrayList<>();
+    public static final String SALES_TAB = "Sales";
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -929,6 +930,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
+        session.setTabName(SALES_TAB);
         customTreeViewLogic();
     }
 
@@ -939,6 +941,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
      */
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
+        session.setTabName(SALES_TAB);
         editHierarchyLogic();
 
     }

@@ -8,8 +8,8 @@ public class GtnFrameworkSingleColumnRelationBean {
 	private String mappingColumnName;
 	private String descColumnName;
 	private String primaryKeyColumnName;
-
-	public GtnFrameworkSingleColumnRelationBean(int mastersid, String actualTtableName, String actualColumnName,
+        
+public GtnFrameworkSingleColumnRelationBean(int mastersid, String actualTtableName, String actualColumnName,
 			String referenceTableName, String mappingColumnName, String descColumnName, String primaryKeyColumnName) {
 		super();
 		this.mastersid = mastersid;
@@ -81,18 +81,34 @@ public class GtnFrameworkSingleColumnRelationBean {
 		this.primaryKeyColumnName = primaryKeyColumnName;
 	}
 
-	public String getWhereClauseColumn() {
-		if (descColumnName == null || descColumnName.isEmpty()) {
-			return primaryKeyColumnName;
-		} else {
-			return actualColumnName;
-		}
-	}
+	public String getJoinColumnTable() {
 
-	public String getJoinColumnName() {
-		if (actualTtableName.equals(referenceTableName))
+		if (isDescriptionColumnAvailable())
 			return actualTtableName;
 		return referenceTableName;
+	}
+
+	public String getWhereClauseColumn() {
+		if (isDescriptionColumnAvailable())
+			return primaryKeyColumnName;
+
+		return actualColumnName;
+
+	}
+
+	public String getDescriptionClauseColumn() {
+		if (isDescriptionColumnAvailable())
+			return actualColumnName;
+		return descColumnName;
+	}
+
+	public String getLevelValueColumnName() {
+		String tableAliasName = isDescriptionColumnAvailable() ? actualTtableName : "HELPER_JOIN";
+		return tableAliasName + "." + getDescriptionClauseColumn();
+	}
+
+	public boolean isDescriptionColumnAvailable() {
+		return (descColumnName == null || descColumnName.isEmpty());
 	}
 
 }

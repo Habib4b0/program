@@ -4774,7 +4774,7 @@ public class CommonLogic {
                 String query = fullUserDefinedQuery;
                 boolean isuserDefined="User Defined".equals(userDefined);
                 if (!isuserDefined) {
-                    formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean), maintableName, "C");
+                    formedQuery = queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkQuery, singleColumnRelationBean, maintableName, "C");
                     query = formedQuery;
                 }
                
@@ -4826,7 +4826,7 @@ public class CommonLogic {
                         ? SQlUtil.getQuery("user-defined-level-values").replace(Constant.PROJECTION_MASTER_SID_AT, String.valueOf(projectionId))
                                 .replace(LEVEL_CAPS, type)
                         : queryFormationForLoadingDdlb(fieldName, tableName, primaryKey, gtnFrameworkRouteBean,
-                                gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean), mainTableName, "P");
+                                singleColumnRelationBean, mainTableName, "P");
 
                 query = customerFilter.isEmpty() ? query
                         : (SQlUtil.getQuery("customer-dynamic-filter").replace(LEVEL_VALUES, customerFilter.toString().replace("[", StringUtils.EMPTY).replace("]", StringUtils.EMPTY))
@@ -4942,11 +4942,11 @@ public class CommonLogic {
         return String.valueOf(primaryKeyList.get(0));
     }
 
-    private String queryFormationForLoadingDdlb(String fieldName, String childTableName,String primaryKey ,String joinQuery, String helperJoin,String mainTable,String indicator) {
+    private String queryFormationForLoadingDdlb(String fieldName, String childTableName,String primaryKey ,String joinQuery, GtnFrameworkSingleColumnRelationBean singleColumnRelationBean,String mainTable,String indicator) {
         StringBuilder formedQuery = new StringBuilder();
         String aliasNameField = childTableName + "." + fieldName;
         String keyField = mainTable + "." + primaryKey;
-     
+        String helperJoin = gtnFrameworkHierarchyServiceImpl.addTableJoin(singleColumnRelationBean);
             if (helperJoin.isEmpty()) {
                 formedQuery.append("SELECT distinct ").append(aliasNameField).append(",").append(keyField).append(" FROM ");
                 formedQuery.append(joinQuery);
@@ -4959,7 +4959,8 @@ public class CommonLogic {
                 formedQuery.append(" JOIN dbo.ST_CCP_HIERARCHY AS ST_CCP_HIERARCHY ON ST_CCP_HIERARCHY.CCP_DETAILS_SID");
                 formedQuery.append(" = CCP_DETAILS.CCP_DETAILS_SID");
             } else {
-                formedQuery.append("SELECT distinct ").append("HELPER_JOIN.DESCRIPTION").append(",").append(keyField).append(" FROM ");
+                List<String> columnList = gtnFrameworkHierarchyServiceImpl.getMappingColumns(singleColumnRelationBean);
+                 formedQuery.append("SELECT distinct ").append(columnList.get(0)).append(",").append(columnList.get(1)).append(" FROM ");
                 formedQuery.append(joinQuery);
                 formedQuery.append(helperJoin);
                 if (indicator.equals("C")) {
