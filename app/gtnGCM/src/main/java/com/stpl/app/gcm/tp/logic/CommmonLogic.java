@@ -1859,7 +1859,7 @@ public class CommmonLogic {
                     HelperDTO status = new HelperDTO();
                     status.setId(!String.valueOf(obj[NumericConstants.FORTY]).equals(Constants.NULL) ? Integer.parseInt(String.valueOf(obj[NumericConstants.FORTY])) : 0);
                     status.setDescription(!String.valueOf(obj[NumericConstants.FORTY_THREE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.FORTY_THREE]) : Constants.SELECT_ONE);
-                    dto.setStatus(idHelperDTOMap.get(obj[NumericConstants.FORTY]));
+                    dto.setStatus(status);
                     dto.setCheckRecord(!String.valueOf(obj[NumericConstants.FORTY_ONE]).equals(Constants.NULL) ? String.valueOf(obj[NumericConstants.FORTY_ONE]).equals(Constants.TRUE) : false);
                     dto.setStatusString(String.valueOf(obj[NumericConstants.TWENTY_TWO]));
                     dto.setStatusDescription(new HelperDTO(String.valueOf(obj[NumericConstants.FORTY_TWO])));

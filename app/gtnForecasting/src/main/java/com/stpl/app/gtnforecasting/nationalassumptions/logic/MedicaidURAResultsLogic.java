@@ -257,7 +257,7 @@ public class MedicaidURAResultsLogic {
                 String itemDesc = obj[1] == null ? "" : "" + obj[1];
                 String value = "";
                 if (StringUtils.isNotBlank(itemDesc)) {
-                    value += itemDesc + "- ";
+                    value += itemDesc + Constant.COMMA;
                 }
                 value += obj[0];
 

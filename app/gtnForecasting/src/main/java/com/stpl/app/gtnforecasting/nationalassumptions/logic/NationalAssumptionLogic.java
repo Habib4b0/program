@@ -764,7 +764,7 @@ public class NationalAssumptionLogic {
                 String ndcDescription = value[NumericConstants.TWO] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[NumericConstants.TWO];
                 String ndc = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(ndcDescription)) {
-                    ndc += ndcDescription + Constant.HYPHEN;
+                    ndc += ndcDescription + Constant.COMMA;
                 }
                 ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
                 dto.setDescription(ndc);
@@ -796,7 +796,7 @@ public class NationalAssumptionLogic {
                 String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
                 String ndc9 = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(itemDesc)) {
-                    ndc9 += itemDesc + Constant.HYPHEN;
+                    ndc9 += itemDesc + Constant.COMMA;
                 }
                 ndc9 += value[0];
                 dto.setDescription(ndc9);
@@ -988,7 +988,7 @@ public class NationalAssumptionLogic {
                 String ndcDescription = value[NumericConstants.TWO] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[NumericConstants.TWO];
                 String ndc = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(ndcDescription)) {
-                    ndc += ndcDescription + Constant.HYPHEN;
+                    ndc += ndcDescription + Constant.COMMA;
                 }
                 ndc += StringUtils.EMPTY + value[1] != null ? value[1] : StringUtils.EMPTY;
                 dto.setDescription(ndc);
@@ -1010,7 +1010,7 @@ public class NationalAssumptionLogic {
                 String itemDesc = value[1] == null ? StringUtils.EMPTY : StringUtils.EMPTY + value[1];
                 String ndc9 = StringUtils.EMPTY;
                 if (StringUtils.isNotBlank(itemDesc)) {
-                    ndc9 += itemDesc + Constant.HYPHEN;
+                    ndc9 += itemDesc + Constant.COMMA;
                 }
                 ndc9 += value[0];
                 dto.setDescription(ndc9);
