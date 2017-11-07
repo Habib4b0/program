@@ -149,7 +149,38 @@ WHERE  ( Isdate(CREATED_DATE) = 0
            AND BATCH_ID = @batch_id
            AND ERROR_CODE = &apos;E03&apos;
            AND ERROR_FIELD = &apos;CREATED_DATE&apos; 
-</sql>
+
+
+
+update IVLD_ADJUSTED_DEMAND_FORECAST
+set ERROR_FIELD=
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_AMOUNT ))=0  and GROSS_AMOUNT is not null THEN &apos;GROSS_AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_PRICE ))=0  and GROSS_PRICE is not null THEN &apos;GROSS_PRICE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_UNITS ))=0  and GROSS_UNITS is not null THEN &apos;GROSS_UNITS&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),INVENTORY_UNIT_CHANGE ))=0  and INVENTORY_UNIT_CHANGE is not null THEN &apos;INVENTORY_UNIT_CHANGE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),MARKET_SHARE_UNITS ))=0  and MARKET_SHARE_UNITS is not null THEN &apos;MARKET_SHARE_UNITS&apos; ELSE &apos;&apos; END +
+
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),MARKET_SIZE_UNITS ))=0  and MARKET_SIZE_UNITS is not null THEN &apos;MARKET_SIZE_UNITS&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_SALES_AMOUNT ))=0  and NET_SALES_AMOUNT is not null THEN &apos;NET_SALES_AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_SALES_PRICE ))=0  and NET_SALES_PRICE is not null THEN &apos;NET_SALES_PRICE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TOTAL_DEMAND_AMOUNT ))=0  and TOTAL_DEMAND_AMOUNT is not null THEN &apos;TOTAL_DEMAND_AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TOTAL_DEMAND_UNITS ))=0  and TOTAL_DEMAND_UNITS is not null THEN &apos;TOTAL_DEMAND_UNITS&apos; ELSE &apos;&apos; END +
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UNCAPTURED_UNITS ))=0  and UNCAPTURED_UNITS is not null THEN &apos;UNCAPTURED_UNITS&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_AMOUNT )) = 0 and GROSS_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_PRICE) ) = 0 and GROSS_PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),GROSS_UNITS) ) = 0 and GROSS_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),INVENTORY_UNIT_CHANGE) ) = 0 and INVENTORY_UNIT_CHANGE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),MARKET_SHARE_UNITS) ) = 0 and MARKET_SHARE_UNITS is not null)
+
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),MARKET_SIZE_UNITS) ) = 0 and MARKET_SIZE_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_SALES_AMOUNT) ) = 0 and NET_SALES_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),NET_SALES_PRICE) ) = 0 and NET_SALES_PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TOTAL_DEMAND_AMOUNT) ) = 0 and TOTAL_DEMAND_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TOTAL_DEMAND_UNITS) ) = 0 and TOTAL_DEMAND_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UNCAPTURED_UNITS) ) = 0 and UNCAPTURED_UNITS is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;CREATED_DATE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>

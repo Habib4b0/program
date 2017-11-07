@@ -151,6 +151,18 @@ WHERE      (Isdate(START_DATE) = 0 and START_DATE is not null)
         OR (Isdate(MODIFIED_DATE) = 0 and  MODIFIED_DATE is not null)
         OR (Isdate(END_DATE) = 0  and END_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;START_DATE&apos;
+
+
+update IVLD_ITEM_PRICING
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ITEM_PRICE ))=0  and ITEM_PRICE is not null THEN &apos;ITEM_PRICE&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),ITEM_PRICE )) = 0 and  ITEM_PRICE is not null)
+
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;START_DATE&apos;
+		 
+
 		 
 
 </sql>

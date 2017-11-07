@@ -124,8 +124,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>938</xloc>
-      <yloc>686</yloc>
+      <xloc>931</xloc>
+      <yloc>652</yloc>
       </entry>
     <entry>
       <name>ERROR CODE</name>
@@ -153,7 +153,21 @@ WHERE
     OR (Isdate(CONTRACT_END_DATE) = 0  and CONTRACT_END_DATE is not null)
 
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;CONTRACT_START_DATE&apos;
-		  </sql>
+		  
+update IVLD_BEST_PRICE
+set ERROR_FIELD=
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BEGINNING_WAC_PACKAGE ))=0  and BEGINNING_WAC_PACKAGE is not null THEN &apos;BEGINNING_WAC_PACKAGE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),INITIAL_BEST_PRICE ))=0  and INITIAL_BEST_PRICE is not null THEN &apos;INITIAL_BEST_PRICE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),INITIAL_DISCOUNT ))=0  and INITIAL_DISCOUNT is not null THEN &apos;INITIAL_DISCOUNT&apos; ELSE &apos;&apos; END +
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),SELLING_PRICE ))=0  and SELLING_PRICE is not null THEN &apos;SELLING_PRICE&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),BEGINNING_WAC_PACKAGE )) = 0 and BEGINNING_WAC_PACKAGE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),INITIAL_BEST_PRICE) ) = 0 and INITIAL_BEST_PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),INITIAL_DISCOUNT) ) = 0 and INITIAL_DISCOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),SELLING_PRICE) ) = 0 and SELLING_PRICE is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;CONTRACT_START_DATE&apos;
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
