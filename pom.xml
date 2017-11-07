@@ -76,6 +76,7 @@
 				<module>app/gtnWorkflow</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
+                                <module>app/gtnTransaction</module>
 				<module>app/gtnUtilities</module>
 			</modules>
 			<activation>
