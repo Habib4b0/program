@@ -71,9 +71,10 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
             { "SOURCE", Types.VARCHAR },
             { "FORECAST_MASTER_SID", Types.INTEGER },
             { "FORECASTED_SALES_PERCENT_MONTH", Types.INTEGER },
-            { "INBOUND_STATUS", Types.VARCHAR }
+            { "INBOUND_STATUS", Types.VARCHAR },
+            { "BUSINESS_UNIT", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table FORECASTING_MASTER (FORECAST_VALUE_TYPE VARCHAR(75) null,MODIFIED_BY INTEGER,CREATED_DATE DATE null,PERCENTAGE_ESTIMATE VARCHAR(75) null,ACTUAL_SALES_PERCENTAGE_MONTH INTEGER,NDC VARCHAR(75) null,BATCH_ID VARCHAR(75) null,FORECAST_VER VARCHAR(75) null,COUNTRY VARCHAR(75) null,PRODUCT VARCHAR(75) null,FORECAST_START_DATE DATE null,FORECASTED_SALES_PERCENTAGE VARCHAR(75) null,UNITS DOUBLE,DOLLARS DOUBLE,FORECAST_MONTH VARCHAR(75) null,CREATED_BY INTEGER,SEGMENT VARCHAR(75) null,PRICE DOUBLE,ACTUAL_SALES_PERCENTAGE VARCHAR(75) null,FORECAST_YEAR VARCHAR(75) null,FORECAST_NAME VARCHAR(75) null,FORECAST_DATE DATE null,MODIFIED_DATE DATE null,BRAND VARCHAR(75) null,FORECAST_VALUE VARCHAR(75) null,PERCENTAGE_ESTIMATE_YEAR INTEGER,RECORD_LOCK_STATUS BOOLEAN,SOURCE VARCHAR(75) null,FORECAST_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTED_SALES_PERCENT_MONTH INTEGER,INBOUND_STATUS VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table FORECASTING_MASTER (FORECAST_VALUE_TYPE VARCHAR(75) null,MODIFIED_BY INTEGER,CREATED_DATE DATE null,PERCENTAGE_ESTIMATE VARCHAR(75) null,ACTUAL_SALES_PERCENTAGE_MONTH INTEGER,NDC VARCHAR(75) null,BATCH_ID VARCHAR(75) null,FORECAST_VER VARCHAR(75) null,COUNTRY VARCHAR(75) null,PRODUCT VARCHAR(75) null,FORECAST_START_DATE DATE null,FORECASTED_SALES_PERCENTAGE VARCHAR(75) null,UNITS DOUBLE,DOLLARS DOUBLE,FORECAST_MONTH VARCHAR(75) null,CREATED_BY INTEGER,SEGMENT VARCHAR(75) null,PRICE DOUBLE,ACTUAL_SALES_PERCENTAGE VARCHAR(75) null,FORECAST_YEAR VARCHAR(75) null,FORECAST_NAME VARCHAR(75) null,FORECAST_DATE DATE null,MODIFIED_DATE DATE null,BRAND VARCHAR(75) null,FORECAST_VALUE VARCHAR(75) null,PERCENTAGE_ESTIMATE_YEAR INTEGER,RECORD_LOCK_STATUS BOOLEAN,SOURCE VARCHAR(75) null,FORECAST_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTED_SALES_PERCENT_MONTH INTEGER,INBOUND_STATUS VARCHAR(75) null,BUSINESS_UNIT INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table FORECASTING_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY forecastingMaster.forecastMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY FORECASTING_MASTER.FORECAST_MASTER_SID ASC";
@@ -139,6 +140,7 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
     private int _forecastMasterSid;
     private int _forecastedSalesPercentMonth;
     private String _inboundStatus;
+    private int _businessUnit;
     private long _columnBitmask;
     private ForecastingMaster _escapedModel;
 
@@ -213,6 +215,7 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
         attributes.put("forecastedSalesPercentMonth",
             getForecastedSalesPercentMonth());
         attributes.put("inboundStatus", getInboundStatus());
+        attributes.put("businessUnit", getBusinessUnit());
 
         return attributes;
     }
@@ -410,6 +413,12 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
+        }
+
+        Integer businessUnit = (Integer) attributes.get("businessUnit");
+
+        if (businessUnit != null) {
+            setBusinessUnit(businessUnit);
         }
     }
 
@@ -856,6 +865,16 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
         _inboundStatus = inboundStatus;
     }
 
+    @Override
+    public int getBusinessUnit() {
+        return _businessUnit;
+    }
+
+    @Override
+    public void setBusinessUnit(int businessUnit) {
+        _businessUnit = businessUnit;
+    }
+
     public long getColumnBitmask() {
         return _columnBitmask;
     }
@@ -905,6 +924,7 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
         forecastingMasterImpl.setForecastMasterSid(getForecastMasterSid());
         forecastingMasterImpl.setForecastedSalesPercentMonth(getForecastedSalesPercentMonth());
         forecastingMasterImpl.setInboundStatus(getInboundStatus());
+        forecastingMasterImpl.setBusinessUnit(getBusinessUnit());
 
         forecastingMasterImpl.resetOriginalValues();
 
@@ -1163,12 +1183,14 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
             forecastingMasterCacheModel.inboundStatus = null;
         }
 
+        forecastingMasterCacheModel.businessUnit = getBusinessUnit();
+
         return forecastingMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(63);
+        StringBundler sb = new StringBundler(65);
 
         sb.append("{forecastValueType=");
         sb.append(getForecastValueType());
@@ -1232,6 +1254,8 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
         sb.append(getForecastedSalesPercentMonth());
         sb.append(", inboundStatus=");
         sb.append(getInboundStatus());
+        sb.append(", businessUnit=");
+        sb.append(getBusinessUnit());
         sb.append("}");
 
         return sb.toString();
@@ -1239,7 +1263,7 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(97);
+        StringBundler sb = new StringBundler(100);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ForecastingMaster");
@@ -1368,6 +1392,10 @@ public class ForecastingMasterModelImpl extends BaseModelImpl<ForecastingMaster>
         sb.append(
             "<column><column-name>inboundStatus</column-name><column-value><![CDATA[");
         sb.append(getInboundStatus());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>businessUnit</column-name><column-value><![CDATA[");
+        sb.append(getBusinessUnit());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

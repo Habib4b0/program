@@ -2115,9 +2115,9 @@ public class FileManagementLookup extends Window {
                                         || CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY)
                                         || CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)
                                         || CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL)) {
-                                    msg = logic.saveForecastDetails(insertionItemIds, selectedFile, selectedFileCountry, finalVersion, fileNameList.getValue(), CommonUtil.getSelectedFileType(fmFileType));
+                                    msg = logic.saveForecastDetails(insertionItemIds, selectedFile, selectedFileCountry, finalVersion, fileNameList.getValue(), CommonUtil.getSelectedFileType(fmFileType),fmbusinessUnit);
                                 } else if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
-                                    msg = logic.saveForecastDetails(itemIds, selectedFile, selectedFileCountry, finalVersion, fileNameList.getValue(), CommonUtil.getSelectedFileType(fmFileType));
+                                    msg = logic.saveForecastDetails(itemIds, selectedFile, selectedFileCountry, finalVersion, fileNameList.getValue(), CommonUtil.getSelectedFileType(fmFileType),fmbusinessUnit);
                                 }
 
                                 if (msg.equals("success")) {
