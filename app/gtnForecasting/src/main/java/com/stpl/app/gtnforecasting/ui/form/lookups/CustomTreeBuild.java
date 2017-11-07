@@ -281,11 +281,6 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             } else if (!lvlDTO.getHierarchyIndicator().equals(DEDUCTION_INDICATOR)) {
                 parent = loadTreeItems(lvlDTO, parent);
             }
-            if (parent != null) {
-                treecontainer.setParent(lvlDTO, parent);
-                treeTable.setCollapsed(parent, false);
-            }
-            parent = lvlDTO;
         }
 
     }
