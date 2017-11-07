@@ -1644,7 +1644,7 @@ public class Constant {
     public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
     public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No_Conversion";
     public static final String CLOSE_CONFIRMATION = "Close Confirmation";
-    public static final String HYPHEN =  "- ";
+    public static final String COMMA =  ", ";
     public static final String OVERRIDE_AMP = "Override AMP";
     public static final String OVERRIDE_BEST_PRICE = "Override Best Price";
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
