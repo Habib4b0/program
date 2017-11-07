@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 4.3.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_4_3_0.dtd">
+
+<liferay-portlet-app>
+    <portlet>
+        <portlet-name>ActualsMaster</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>GLBalanceMaster</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+       	<portlet-name>CPI Master</portlet-name>
+       	<instanceable>false</instanceable>       
+       	<ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+       	<portlet-name>GlCostCenterMaster</portlet-name>
+       	<instanceable>false</instanceable>       
+       	<ajaxable>false</ajaxable>
+    </portlet>
+    	
+    <!--  Added by Mani -->
+    <portlet>
+        <portlet-name>SalesMaster</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>AverageShelfLife</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>ItemHierarchy</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <!-- Added by Mani -->
+	<!--  Start of code by Mani -->
+    <portlet>
+        <portlet-name>ForecastSales</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <!--  End of code by Mani -->
+    <portlet>
+        <portlet-name>ItemHierarchyDefinition</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>LotMaster</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>MasterDataAttributeMaster</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>BestPrice</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>FormulaDetails</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>AuditInbound</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>Accrual Details</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>InvalidRecordCount</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Demand</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>InventoryWithdrawalSummary</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>Returns</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>CustomerSales</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>ActualGTSCustomerProduct</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+
+    <portlet>
+        <portlet-name>AccrualRateProjection</portlet-name>
+         <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+
+     <portlet>
+        <portlet-name>ConsolidatedFinancialForecast</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    
+    <portlet>
+        <portlet-name>Global Files Item Pricing</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Global Files Company Identifier</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Global Files Company Parent</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Global Files Company Trade Class</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Global Files Company Master</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Global Files Item Master</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+     <portlet>
+        <portlet-name>ReturnReserveActual</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+    <portlet>
+        <portlet-name>Adjustment Details</portlet-name>
+        <instanceable>false</instanceable>       
+        <ajaxable>false</ajaxable>
+    </portlet>
+</liferay-portlet-app>

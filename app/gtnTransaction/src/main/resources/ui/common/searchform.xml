@@ -1,0 +1,57 @@
+<VerticalLayout spacing="true" id="mainLayout"  xmlns:ef="urn:import:org.asi.ui.extfilteringtable" xmlns:el="urn:import:com.stpl.app.ui.errorhandling">
+    <el:ErrorLabel id="errorMsg" />
+    <!--<Label id="errorMsg" styleName="myerror"/>-->
+    
+    <Panel id= "summaryPanel" caption="Search Criteria Summary">
+        <VerticalLayout id="searchFieldVerticalLayout2" spacing="true"  styleName="bootstrap-search-criteria">
+            <HorizontalLayout id="searchFieldLayout2" margin="true" styleName="responsiveGrid">
+                <CssLayout id="cssLayout2" width="100%" height="100%">     
+                </CssLayout>
+            <GridLayout id = "gridLayout1" rows="2" columns="8" margin="false" spacing="true" visible = "false">
+            </GridLayout>
+            </HorizontalLayout >
+        </VerticalLayout>
+    </Panel>
+    
+    <Panel id= "detailsPanel" caption="Search Criteria">
+          <VerticalLayout id="searchFieldVerticalLayout" spacing="true"  styleName="bootstrap-search-criteria">
+            <HorizontalLayout id="searchFieldLayout" styleName="responsiveGrid">
+                <CssLayout id="cssLayout1" width="100%" height="100%">     
+                </CssLayout>
+            </HorizontalLayout >
+            <HorizontalLayout id="searchFieldLayout1" styleName="responsiveGrid" height="100%">
+                <CssLayout id="cssLayout" width="100%" height="100%">     
+                </CssLayout>
+                <GridLayout id = "gridLayout2" rows="4" columns="8" margin="false" spacing="true" visible = "false">
+                </GridLayout>
+            </HorizontalLayout>
+  
+            <HorizontalLayout id="buttonLayout">
+  
+            </HorizontalLayout> 
+        </VerticalLayout>
+    </Panel>
+        
+    <Panel caption="Results" id = "resultsPanel">
+        <VerticalLayout id="tableLayout">
+            <OptionGroup id= "currenthistory">
+            </OptionGroup>
+            <!--<ef:ExtFilterTable id="filterTable" immediate="true" />--> 
+        </VerticalLayout>
+    </Panel> 
+    <VerticalLayout>
+        <HorizontalLayout>
+            <Button id="generateBtn" Caption="Generate" immediate="true" Visible="false"/>
+            <Button id="excelBtn" />
+        </HorizontalLayout>
+    </VerticalLayout>
+     <VerticalLayout>
+
+    <HorizontalLayout id="invalidButtonLayout">
+        <Button id="reset" caption="RESET" enabled="false" immediate="true" />
+        <Button id="reprocessBtn" caption="REPROCESS" enabled="true" immediate="true" />
+        <Button id="removeBtn" caption="REMOVE" enabled="true" immediate="true" />            
+    </HorizontalLayout> 
+
+     </VerticalLayout>
+</VerticalLayout>
