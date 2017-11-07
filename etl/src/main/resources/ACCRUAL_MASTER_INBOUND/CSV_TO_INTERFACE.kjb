@@ -1402,7 +1402,7 @@ OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),SALES_AMOUNT) ) = 0 and SALES_AMOUNT is 
 OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY) ) = 0 and QUANTITY is not null))
 
  
-and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;SALES_AMOUNT&apos;
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;ACCRUAL_PERIOD_START_DATE&apos;
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

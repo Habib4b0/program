@@ -174,6 +174,16 @@ WHERE      (Isdate(COMPANY_END_DATe) = 0 and COMPANY_END_DATe is not null)
         OR (Isdate(MODIFIED_DATE) = 0 and  MODIFIED_DATE is not null)
         OR (Isdate(LAST_UPDATED_DATE) = 0  and LAST_UPDATED_DATE is not null)
         OR (Isdate(COMPANY_START_DATE) = 0 and  COMPANY_START_DATE is not null) and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;COMPANY_END_DATE&apos;
+
+
+update IVLD_COMPANY_MASTER
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),LIVES ))=0  and LIVES is not null THEN &apos;LIVES&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),LIVES )) = 0 and LIVES is not null)
+
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;COMPANY_END_DATE&apos;
 		 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

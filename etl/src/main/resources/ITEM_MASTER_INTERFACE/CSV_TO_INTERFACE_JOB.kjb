@@ -229,6 +229,31 @@ WHERE  ( Isdate(PACKAGE_SIZE_INTRO_DATE) = 0
            AND BATCH_ID = @batch_id
            AND ERROR_CODE = &apos;E03&apos;
            AND ERROR_FIELD = &apos;PACKAGE_SIZE_INTRO_DATE&apos; 
+
+
+update IVLD_ITEM_MASTER
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ACQUIRED_AMP ))=0  and ACQUIRED_AMP is not null THEN &apos;ACQUIRED_AMP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ACQUIRED_BAMP ))=0  and ACQUIRED_BAMP is not null THEN &apos;ACQUIRED_BAMP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BASE_CPI ))=0  and BASE_CPI is not null THEN &apos;BASE_CPI&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BASELINE_AMP ))=0  and BASELINE_AMP is not null THEN &apos;BASELINE_AMP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),DRA ))=0  and DRA is not null THEN &apos;DRA&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),OBRA_BAMP ))=0  and OBRA_BAMP is not null THEN &apos;OBRA_BAMP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UPPS ))=0  and UPPS is not null THEN &apos;UPPS&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),ACQUIRED_AMP )) = 0 and  ACQUIRED_AMP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ACQUIRED_BAMP) ) = 0 and ACQUIRED_BAMP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),BASE_CPI) ) = 0 and BASE_CPI is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),BASELINE_AMP) ) = 0 and BASELINE_AMP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),DRA) ) = 0 and DRA is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),OBRA_BAMP) ) = 0 and OBRA_BAMP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UPPS) ) = 0 and UPPS is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;        AND ERROR_FIELD = &apos;PACKAGE_SIZE_INTRO_DATE&apos; 
+
+
+
+
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

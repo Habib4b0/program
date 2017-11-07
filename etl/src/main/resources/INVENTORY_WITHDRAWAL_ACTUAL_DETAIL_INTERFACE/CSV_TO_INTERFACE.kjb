@@ -150,7 +150,30 @@ WHERE  ( Isdate(CREATED_DATE) = 0
            AND ERROR_CODE = &apos;E03&apos;
            AND ERROR_FIELD = &apos;CREATED_DATE&apos; 
 
-		 </sql>
+		 
+
+
+update IVLD_INVENTORY_WD_ACTUAL_DT
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_ON_HAND ))=0  and AMOUNT_ON_HAND is not null THEN &apos;AMOUNT_ON_HAND&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_ON_ORDER ))=0  and AMOUNT_ON_ORDER is not null THEN &apos;AMOUNT_ON_ORDER&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_RECEIVED ))=0  and AMOUNT_RECEIVED is not null THEN &apos;AMOUNT_RECEIVED&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_WITHDRAWN ))=0  and AMOUNT_WITHDRAWN is not null THEN &apos;AMOUNT_WITHDRAWN&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY_ON_ORDER ))=0  and QUANTITY_ON_ORDER is not null THEN &apos;QUANTITY_ON_ORDER&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY_RECEIVED ))=0  and QUANTITY_RECEIVED is not null THEN &apos;QUANTITY_RECEIVED&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS_ON_HAND ))=0  and UNITS_ON_HAND is not null THEN &apos;UNITS_ON_HAND&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS_WITHDRAWN ))=0  and UNITS_WITHDRAWN is not null THEN &apos;UNITS_WITHDRAWN&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_ON_HAND )) = 0 and  AMOUNT_ON_HAND is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_ON_ORDER) ) = 0 and AMOUNT_ON_ORDER is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_RECEIVED) ) = 0 and AMOUNT_RECEIVED is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT_WITHDRAWN) ) = 0 and AMOUNT_WITHDRAWN is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY_ON_ORDER) ) = 0 and QUANTITY_ON_ORDER is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY_RECEIVED) ) = 0 and QUANTITY_RECEIVED is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS_ON_HAND) ) = 0 and UNITS_ON_HAND is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS_WITHDRAWN) ) = 0 and UNITS_WITHDRAWN is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;      AND ERROR_FIELD = &apos;CREATED_DATE&apos; </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
