@@ -154,6 +154,26 @@ WHERE  ( Isdate(FORECAST_DATE) = 0
            AND BATCH_ID = @batch_id
            AND ERROR_CODE = &apos;E03&apos;
            AND ERROR_FIELD = &apos;FORECAST_DATE&apos; 
+
+update IVLD_CUSTOMER_GTS_FORECAST
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_AMOUNT ))=0  and DEDUCTION_AMOUNT is not null THEN &apos;DEDUCTION_AMOUNT&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_RATE ))=0  and DEDUCTION_RATE is not null THEN &apos;DEDUCTION_RATE&apos; ELSE &apos;&apos; END +
+   CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE ))=0  and PRICE is not null THEN &apos;PRICE&apos; ELSE &apos;&apos; END +
+    CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),SALES_AMOUNT ))=0  and SALES_AMOUNT is not null THEN &apos;SALES_AMOUNT&apos; ELSE &apos;&apos; END +
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS ))=0  and UNITS is not null THEN &apos;UNITS&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_AMOUNT )) = 0 and DEDUCTION_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),DEDUCTION_RATE) ) = 0 and DEDUCTION_RATE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE) ) = 0 and PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),SALES_AMOUNT) ) = 0 and SALES_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS) ) = 0 and UNITS is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD = &apos;FORECAST_DATE&apos; 
+
+
+
+
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

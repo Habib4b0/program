@@ -137,7 +137,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVENTORY_WD_ACTUAL_MAS_INTF</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVENTORY_WD_ACTUAL_MAS_INTF</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVENTORY_WD_ACTUAL_MAS_INTF</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVENTORY_WD_ACTUAL_MAS_INTF</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVENTORY_WD_ACTUAL_MAS_INTF</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>Replace in string</to><enabled>Y</enabled> </hop>  <hop> <from>Replace in string</from><to>INVENTORY_WD_ACTUAL_MAS_INTF</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -1338,19 +1338,19 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         </field>
         <field>
           <column_name>AMOUNT_ON_HAND</column_name>
-          <stream_name>AMOUNT_ON_HAND</stream_name>
+          <stream_name>AMOUNT_ON_HAND_NEW</stream_name>
         </field>
         <field>
           <column_name>AMOUNT_ON_ORDER</column_name>
-          <stream_name>AMOUNT_ON_ORDER</stream_name>
+          <stream_name>AMOUNT_ON_ORDER_NEW</stream_name>
         </field>
         <field>
           <column_name>AMOUNT_RECEIVED</column_name>
-          <stream_name>AMOUNT_RECEIVED</stream_name>
+          <stream_name>AMOUNT_RECEIVED_NEW</stream_name>
         </field>
         <field>
           <column_name>AMOUNT_WITHDRAWN</column_name>
-          <stream_name>AMOUNT_WITHDRAWN</stream_name>
+          <stream_name>AMOUNT_WITHDRAWN_NEW</stream_name>
         </field>
         <field>
           <column_name>BATCH_ID</column_name>
@@ -1371,6 +1371,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>DAY</column_name>
           <stream_name>DAY</stream_name>
+        </field>
+        <field>
+          <column_name>INVENTORY_WD_ACT_MAS_INTF_ID</column_name>
+          <stream_name>INVENTORY_WD_ACT_MAS_INTF_ID</stream_name>
         </field>
         <field>
           <column_name>ITEM_ID</column_name>
@@ -1402,11 +1406,11 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         </field>
         <field>
           <column_name>QUANTITY_ON_ORDER</column_name>
-          <stream_name>QUANTITY_ON_ORDER</stream_name>
+          <stream_name>QUANTITY_ON_ORDER_NEW</stream_name>
         </field>
         <field>
           <column_name>QUANTITY_RECEIVED</column_name>
-          <stream_name>QUANTITY_RECEIVED</stream_name>
+          <stream_name>QUANTITY_RECEIVED_NEW</stream_name>
         </field>
         <field>
           <column_name>SOURCE</column_name>
@@ -1414,11 +1418,11 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         </field>
         <field>
           <column_name>UNITS_ON_HAND</column_name>
-          <stream_name>UNITS_ON_HAND</stream_name>
+          <stream_name>UNITS_ON_HAND_NEW</stream_name>
         </field>
         <field>
           <column_name>UNITS_WITHDRAWN</column_name>
-          <stream_name>UNITS_WITHDRAWN</stream_name>
+          <stream_name>UNITS_WITHDRAWN_NEW</stream_name>
         </field>
         <field>
           <column_name>WEEK</column_name>
@@ -1427,10 +1431,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>YEAR</column_name>
           <stream_name>YEAR</stream_name>
-        </field>
-        <field>
-          <column_name>INVENTORY_WD_ACT_MAS_INTF_ID</column_name>
-          <stream_name>INVENTORY_WD_ACT_MAS_INTF_ID</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -3125,6 +3125,106 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>75</xloc>
       <yloc>700</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>AMOUNT_ON_HAND</in_stream_name>
+        <out_stream_name>AMOUNT_ON_HAND_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>AMOUNT_ON_ORDER</in_stream_name>
+        <out_stream_name>AMOUNT_ON_ORDER_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>AMOUNT_RECEIVED</in_stream_name>
+        <out_stream_name>AMOUNT_RECEIVED_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>AMOUNT_WITHDRAWN</in_stream_name>
+        <out_stream_name>AMOUNT_WITHDRAWN_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>QUANTITY_ON_ORDER</in_stream_name>
+        <out_stream_name>QUANTITY_ON_ORDER_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>QUANTITY_RECEIVED</in_stream_name>
+        <out_stream_name>QUANTITY_RECEIVED_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>UNITS_ON_HAND</in_stream_name>
+        <out_stream_name>UNITS_ON_HAND_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>UNITS_WITHDRAWN</in_stream_name>
+        <out_stream_name>UNITS_WITHDRAWN_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>720</xloc>
+      <yloc>605</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
