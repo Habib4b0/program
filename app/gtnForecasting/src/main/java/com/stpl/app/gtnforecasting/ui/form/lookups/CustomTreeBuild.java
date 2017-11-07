@@ -37,6 +37,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
     boolean isSelect = false;
     CustomViewMaster customView = null;
     CustomViewLogic relationBuildLogic = new CustomViewLogic();
+    public static final String DEDUCTION_INDICATOR = "D";
     
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CustomTreeBuild.class);
 
@@ -194,7 +195,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             }
         } else {
             String indicator=((Leveldto) treeItemId).getHierarchyIndicator();
-            AbstractNotificationUtils.getErrorNotification("Illegal level", "Level which is selected belogs to " + (indicator.equals("D")?deductionTable.getCaption() : indicator.equals("P") ? productTable.getCaption() : customerTable.getCaption()));
+            AbstractNotificationUtils.getErrorNotification("Illegal level", "Level which is selected belogs to " + (indicator.equals(DEDUCTION_INDICATOR)?deductionTable.getCaption() : indicator.equals("P") ? productTable.getCaption() : customerTable.getCaption()));
         }
 
     }
@@ -275,7 +276,11 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         List<Leveldto> customList = CommonLogic.getCustomTree(customId);
         Leveldto parent = null;
         for (Leveldto lvlDTO : customList) {
-            treecontainer.addItem(lvlDTO);
+             if (!session.getTabName().equals("Sales") && lvlDTO.getHierarchyIndicator().equals(DEDUCTION_INDICATOR)) {
+                parent = loadTreeItems(lvlDTO, parent);
+            } else if (!lvlDTO.getHierarchyIndicator().equals(DEDUCTION_INDICATOR)) {
+                parent = loadTreeItems(lvlDTO, parent);
+            }
             if (parent != null) {
                 treecontainer.setParent(lvlDTO, parent);
                 treeTable.setCollapsed(parent, false);
@@ -283,6 +288,16 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
             parent = lvlDTO;
         }
 
+    }
+    
+      public Leveldto loadTreeItems(Leveldto lvlDTO, Leveldto parent) {
+        treecontainer.addItem(lvlDTO);
+        if (parent != null) {
+            treecontainer.setParent(lvlDTO, parent);
+            treeTable.setCollapsed(parent, false);
+        }
+        parent = lvlDTO;
+        return parent;
     }
 
     /* (non-Javadoc)

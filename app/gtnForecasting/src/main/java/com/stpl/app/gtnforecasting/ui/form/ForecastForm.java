@@ -481,7 +481,7 @@ public class ForecastForm extends AbstractForm {
                         {
                             session.setIsDeductionCustom(false);
                         }
-                        if(tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE)
+                        if(tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE || tabPosition == NumericConstants.EIGHT)
                         {
                             session.setIsDeductionCustom(true);
                         }
