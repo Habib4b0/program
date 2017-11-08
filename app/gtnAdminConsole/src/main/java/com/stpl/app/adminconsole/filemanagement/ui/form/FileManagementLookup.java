@@ -6,11 +6,6 @@ package com.stpl.app.adminconsole.filemanagement.ui.form;
 
 import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,15 +21,12 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.springframework.web.client.RestTemplate;
 import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
@@ -47,12 +39,10 @@ import com.stpl.app.adminconsole.filemanagement.logic.tablelogic.FileResultsTabl
 import com.stpl.app.adminconsole.filemanagement.ui.lazyload.ForecastYearContainer;
 import com.stpl.app.adminconsole.filemanagement.ui.lazyload.ForecastYearCriteria;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
-import com.stpl.app.adminconsole.util.BCPExcelUtility;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.ErrorCodeUtil;
 import com.stpl.app.adminconsole.util.ErrorCodes;
-import com.stpl.app.adminconsole.util.OnDemandFileDownloader;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.ValidationUtils;
 import com.stpl.app.adminconsole.util.converters.DataFormatConverter;
@@ -64,19 +54,9 @@ import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
 import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
 import com.stpl.app.service.DemandForecastLocalServiceUtil;
 import com.stpl.app.service.ForecastingMasterLocalServiceUtil;
-import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsCsvExportBean;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsCsvExportRequest;
-import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
-import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.CommonUIUtils;
+import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
@@ -96,7 +76,6 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
@@ -217,8 +196,6 @@ public class FileManagementLookup extends Window {
 	private HorizontalLayout detailsControlLayout = new HorizontalLayout();
 
 	private ExtPagedTable detailsFilterTable = new ExtPagedTable(detailstableLogic);
-
-	public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
 
 	private TextField selectFile = new TextField();
 
@@ -1427,16 +1404,6 @@ public class FileManagementLookup extends Window {
 			}
 		});
 
-		// Downloader downloader = new Downloader(null, "");
-		// OnDemandFileDownloader ondfd;
-		// try {
-		// ondfd = new OnDemandFileDownloader(downloader);
-		// ondfd.extend(excelExportDetail);
-		// } catch (IOException ex) {
-		// java.util.logging.Logger.getLogger(FileManagementLookup.class.getName()).log(Level.SEVERE,
-		// null, ex);
-		// }
-
 		LOGGER.debug("Ending addItemDetailsTable");
 
 	}
@@ -1815,99 +1782,17 @@ public class FileManagementLookup extends Window {
 							tableLogic.getSortByColumns(), tableLogic.getFilters(), true, false, true));
 					break;
 				}
-				String fileAbsolutePath = getExportFileName(detailsResultDTO.getHelperType().getDescription(),
-						countQuery, dataQuery, Arrays.asList(configureExcelDetailsTable()));
-				sendTheExcelToUser(detailsResultDTO.getHelperType().getDescription(), fileAbsolutePath, true);
+				SessionDTO sessionDto = getSessionDto();
+				String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
+						detailsResultDTO.getHelperType().getDescription(), countQuery, dataQuery,
+						Arrays.asList(configureExcelDetailsTable()), sessionDto.getUserId(), sessionDto.getSessionId());
+				GtnWsCsvExportUtil.sendTheExcelToUser(detailsResultDTO.getHelperType().getDescription(),
+						fileAbsolutePath, true, sessionDto.getUserId(), sessionDto.getSessionId());
 			}
 
 		} catch (Exception ex) {
 			LOGGER.error(ex);
 		}
-	}
-
-	private String getExportFileName(String exportName, String countQuery, String dataQuery, List<String> headerList) {
-		GtnUIFrameworkWebServiceClient wsClient = new GtnUIFrameworkWebServiceClient();
-		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
-		GtnWsCsvExportRequest csvWsRequest = new GtnWsCsvExportRequest();
-		GtnWsCsvExportBean csvExportBean = new GtnWsCsvExportBean();
-		wsRequest.setGtnWsCsvExportRequest(csvWsRequest);
-		csvWsRequest.setGtnWsCsvExportBean(csvExportBean);
-		csvExportBean.setExportName(exportName);
-		csvExportBean.setCountQuery(countQuery);
-		csvExportBean.setDataQuery(dataQuery);
-		csvExportBean.setHeaderList(headerList);
-
-		GtnUIFrameworkWebserviceResponse wsResponse = wsClient.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_CSV_EXPORT_FILE_SERVICE, wsRequest, getGtnWsSecurityToken());
-		return wsResponse.getGtnWsCsvExportResponse().getFileName();
-
-	}
-
-	public GtnUIFrameworkWebserviceResponse callGtnWebServiceUrl(String url, GtnUIFrameworkWebserviceRequest request,
-			GtnWsSecurityToken securityToken) {
-		LOGGER.info("Entering callGtnWebServiceUrl method with url: " + url);
-		GtnUIFrameworkWebServiceClient wsClient = new GtnUIFrameworkWebServiceClient();
-		try {
-			RestTemplate restTemplate = new RestTemplate();
-			wsClient.updateRequestWithSecurityToken(request, securityToken);
-			String response = restTemplate.postForObject(wsClient.getWebServiceEndpoint(url), request, String.class);
-			LOGGER.info("Ending callGtnWebServiceUrl method with status " + response);
-			return new ObjectMapper().readValue(response, GtnUIFrameworkWebserviceResponse.class);
-
-		} catch (Exception e) {
-			e.printStackTrace(System.out);
-			LOGGER.error(e.getMessage());
-			return null;
-		}
-	}
-
-	public GtnWsSecurityToken getGtnWsSecurityToken() {
-
-		GtnWsSecurityToken token = new GtnWsSecurityToken();
-		token.setUserId(getSessionDto().getUserId());
-		token.setSessionId(getSessionDto().getSessionId());
-		return token;
-
-	}
-
-	@SuppressWarnings("deprecation")
-	private void sendTheExcelToUser(String exportFileName, String filePath, boolean isWriteFileInWebService) {
-		String exportFile = exportFileName;
-		TemporaryFileDownloadResource resource;
-		File tempFile = GtnFileNameUtils.getFile(filePath);
-		try {
-			if (Page.getCurrent().getWebBrowser().isFirefox()) {
-				exportFile = exportFile.replace(GtnFrameworkCommonStringConstants.SPACE,
-						GtnFrameworkCommonStringConstants.UNDERSCORE);
-			}
-
-			resource = new TemporaryFileDownloadResource(null,
-					exportFile + GtnFrameworkCommonStringConstants.CSV_EXTENSION, EXCEL_MIME_TYPE, tempFile);
-			UI.getCurrent().getPage().open(resource, GtnFrameworkCommonStringConstants.UNDERSCORE_BLANK, false);
-		} catch (final IOException e) {
-			LOGGER.error(exportFile, e);
-		} finally {
-			deleteTempFile(tempFile.getAbsolutePath(), isWriteFileInWebService);
-		}
-	}
-
-	private void deleteTempFile(String filepath, boolean isWriteFileInWebService) {
-		if (isWriteFileInWebService) {
-			GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest serviceRequest = new GtnUIFrameworkWebserviceRequest();
-			GtnWsGeneralRequest request = new GtnWsGeneralRequest();
-			request.setExtraParameter(filepath);
-			serviceRequest.setGtnWsGeneralRequest(request);
-			GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-					GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-							+ GtnWebServiceUrlConstants.GTN_TEMP_EXCEL_FILE_DELETE,
-					serviceRequest, getGtnWsSecurityToken());
-			GtnWsGeneralResponse generalResponse = response.getGtnWsGeneralResponse();
-			if (!generalResponse.isSucess()) {
-				LOGGER.error("Error while deleting Temp file---", generalResponse.getGtnGeneralException());
-			}
-		}
-
 	}
 
 	public SessionDTO getSessionDto() {
@@ -4565,91 +4450,4 @@ public class FileManagementLookup extends Window {
 		return resultDTO;
 	}
 
-	class Downloader implements OnDemandFileDownloader.OnDemandStreamResource {
-
-		String fileName;
-		String[] header;
-		String query = null;
-		File file;
-
-		public Downloader(String[] header, String query) {
-			this.header = header;
-			this.query = query;
-		}
-
-		public void setHeader(String[] header) {
-			this.header = header;
-		}
-
-		public void setQuery(String query) {
-			this.query = query;
-		}
-
-		@Override
-		public String getFilename() {
-			String dirName = StringUtils.EMPTY;
-			String outputFilePath = StringUtils.EMPTY;
-			try {
-				if (ConstantsUtils.CUSTOMERGTS.equals(detailsResultDTO.getHelperType().getDescription())) {
-					query = String.valueOf(logic.getCustomerSalesResults_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-				} else if (ConstantsUtils.ADJUSTED_DEMAND.equals(detailsResultDTO.getHelperType().getDescription())) {
-					query = String.valueOf(logic.getAdjustedDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-				} else if (ConstantsUtils.DEMAND.equals(detailsResultDTO.getHelperType().getDescription())) {
-					query = String.valueOf(logic.getDemandDetailsResults_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-				} else if (ConstantsUtils.EX_FACTORY_SALES.equals(detailsResultDTO.getHelperType().getDescription())) {
-					query = String.valueOf(logic.getForecastDetails_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-				} else if (ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL
-						.equals(detailsResultDTO.getHelperType().getDescription())) {
-					query = String.valueOf(logic.getInventoryDetailsResults_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, true));
-				} else {
-					query = String.valueOf(logic.getInventorySummaryResults_Excel(detailsResultDTO, 0, 0,
-							tableLogic.getSortByColumns(), tableLogic.getFilters(), false, false, true));
-				}
-				dirName = "FILE_MANAGEMENT_DIR";
-				outputFilePath = "FileManagement.csv";
-				long exportBeginTime = System.currentTimeMillis();
-				String[] bcpHeader = configureExcelDetailsTable();
-				fileName = BCPExcelUtility.excelExport_bcpUtility("FILE_MANAGEMENT", bcpHeader, query, outputFilePath);
-				System.out.println("fileName = " + fileName);
-				long exportEndTime = System.currentTimeMillis();
-				System.out.println("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
-				file = new File(fileName);
-				List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
-				if (fileList == null) {
-					fileList = new ArrayList<>();
-				}
-				String tempFileName = file.getAbsolutePath();
-				tempFileName = tempFileName.substring(0,
-						tempFileName.lastIndexOf(File.separator) + NumericConstants.ONE);
-				fileList.add(tempFileName);
-				VaadinSession.getCurrent().setAttribute(dirName, fileList);
-			} catch (Exception ex) {
-				LOGGER.error(ex);
-			}
-			return file.getName();
-		}
-
-		@Override
-		public InputStream getStream() {
-
-			LOGGER.info("Getting Stream to Export :");
-			try {
-
-				if (file != null) {
-					return new FileInputStream(file);
-				} else {
-					return null;
-				}
-			} catch (FileNotFoundException ex) {
-				LOGGER.error(ex);
-			}
-			return null;
-		}
-
-	}
 }
