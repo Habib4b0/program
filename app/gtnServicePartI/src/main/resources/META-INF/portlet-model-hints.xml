@@ -946,6 +946,7 @@
 		<field name="forecastMasterSid" type="int" />
 		<field name="forecastedSalesPercentMonth" type="int" />
 		<field name="inboundStatus" type="String" />
+		<field name="businessUnit" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ForecastingViewMaster">
 		<field name="createdDate" type="Date" />

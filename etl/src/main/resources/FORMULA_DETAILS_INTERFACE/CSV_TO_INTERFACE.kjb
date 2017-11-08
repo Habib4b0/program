@@ -154,6 +154,29 @@ WHERE
     OR (Isdate(END_DATE) = 0  and END_DATE is not null)
 
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;START_DATE&apos;
+
+
+update IVLD_FORMULA_DETAILS
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_1 ))=0  and CONTRACT_PRICE_1 is not null THEN &apos;CONTRACT_PRICE_1&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_2 ))=0  and CONTRACT_PRICE_2 is not null THEN &apos;CONTRACT_PRICE_2&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_3 ))=0  and CONTRACT_PRICE_3 is not null THEN &apos;CONTRACT_PRICE_3&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),FORMULA_ID ))=0  and FORMULA_ID is not null THEN &apos;FORMULA_ID&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_1 ))=0  and REBATE_PERCENT_1 is not null THEN &apos;REBATE_PERCENT_1&apos; ELSE &apos;&apos; END +
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_2 ))=0  and REBATE_PERCENT_2 is not null THEN &apos;REBATE_PERCENT_2&apos; ELSE &apos;&apos; END +
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_3 ))=0  and REBATE_PERCENT_3 is not null THEN &apos;REBATE_PERCENT_3&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_1 )) = 0 and  CONTRACT_PRICE_1 is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_2) ) = 0 and CONTRACT_PRICE_2 is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),CONTRACT_PRICE_3) ) = 0 and CONTRACT_PRICE_3 is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),FORMULA_ID) ) = 0 and FORMULA_ID is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_1) ) = 0 and REBATE_PERCENT_1 is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_2) ) = 0 and REBATE_PERCENT_2 is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_PERCENT_3) ) = 0 and REBATE_PERCENT_3 is not null)
+
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;START_DATE&apos;
+
 		  </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

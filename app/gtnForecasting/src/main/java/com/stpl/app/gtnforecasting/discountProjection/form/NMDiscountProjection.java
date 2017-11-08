@@ -166,6 +166,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	public static final String DEDUCTION = "DEDUCTION";
 	public static final String PRODUCT1 = "PRODUCT";
 	public static final String CUSTOMER1 = "CUSTOMER";
+        public static final String DISCOUNT = "Discount";
 	private List<String[]> deductionLevel = new ArrayList<>();
 	/* To enable or disable level filter listener */
 	private boolean enableLevelFilterListener = true;
@@ -2514,6 +2515,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	@Override
 	protected void newBtnClickLogic() {
 		LOGGER.debug("newCustomHierarchhy clickEvent method starts");
+                session.setTabName(DISCOUNT);
 		final CustomTreeBuild customTree = new CustomTreeBuild(session);
 		customTree.addCloseListener(new Window.CloseListener() {
 			@Override
@@ -2532,6 +2534,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	@Override
 	protected void editBtnClickLogic() {
 		LOGGER.debug("Entering editHierarchyBtn");
+                   session.setTabName(DISCOUNT);
 		if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
 			final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
 			customTree.addCloseListener(new Window.CloseListener() {

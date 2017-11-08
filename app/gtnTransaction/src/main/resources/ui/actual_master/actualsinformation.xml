@@ -1,0 +1,84 @@
+<VerticalLayout xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent">
+
+    <HorizontalLayout id="hLayout" styleName="responsiveGrid">
+        <CssLayout id="cssLayout" width="100%" height="100%">
+
+            <Label id="accountIdLB" value="Account ID" contentMode="HTML" />
+            <TextField id="accountId" inputPrompt="" />
+            
+            
+            <Label id="actualIdLB" value="Actual ID" contentMode="HTML" />
+            <TextField id="actualId" inputPrompt="" />
+            
+            
+            
+            <Label id="divisionIdLB" value="Division ID" contentMode="HTML" />
+            <TextField id="divisionId" inputPrompt="" />
+            
+            <Label id="provisionIdLB" value="Provision ID" contentMode="HTML" />
+            <TextField id="provisionId" inputPrompt="" />
+            
+            <Label id="itemId" value="Item ID" contentMode="HTML" />
+            <TextField id="itemId" inputPrompt="" />
+            
+            <Label id="itemNoLB" value="Item No" contentMode="HTML" />
+            <TextField id="itemNo" inputPrompt="" />
+            
+            <Label id="itemIdentifierCodeQualifierLB" value="Item Identifier Code Qualifier" contentMode="HTML" />
+            <TextField id="itemIdentifierCodeQualifier" inputPrompt="" />
+            
+            <Label id="programStateCodeLB" value="Program State Code" contentMode="HTML" />
+            <TextField id="programStateCode" inputPrompt="" />
+            
+            <Label id="settlementNoLB" value="Settlement No" contentMode="HTML" />
+            <TextField id="settlementNo" inputPrompt="" />
+             
+            <Label id="accrualActualEndDateLB" value="Accrual Actual End Date"
+                    contentMode="HTML" />
+            <PopupDateField id="accrualActualEndDate" />
+                    
+                    
+            <Label id="organizationKeyLB" value="Organization Key" contentMode="HTML" />
+            <TextField id="organizationKey" inputPrompt="" />
+             
+            <Label id="quantityInclusionLB" value="Quantity Inclusion" contentMode="HTML" />
+            <TextField id="quantityInclusion" inputPrompt="" />
+             
+            <Label id="cashPaidDateLB" value="Cash Paid Date"
+                         contentMode="HTML" />
+            <PopupDateField id="cashPaidDate" />
+                    
+                    
+            <Label id="analysisCodeLB" value="Analysis Code" contentMode="HTML" />
+            <TextField id="analysisCode" inputPrompt="" />
+             
+            <Label id="accrualActualStartDateLB" value="Accrual Actual Start Date"
+                      contentMode="HTML" />
+            <PopupDateField id="accrualActualStartDate" />
+             
+             
+            <Label id="salesAmountLB" value="Sales Amount" contentMode="HTML" />
+            <TextField id="salesAmount" inputPrompt="" />
+             
+             
+            <Label id="quantityLB" value="Quantity" contentMode="HTML" />
+            <TextField id="quantity" inputPrompt="" />
+             
+             
+            <Label id="sentOutLB" value="Sent Out" contentMode="HTML" />
+            <TextField id="sentOut" inputPrompt="" />
+             
+             
+            <Label id="accountNoLB" value="Account No" contentMode="HTML" />
+            <TextField id="accountNo" inputPrompt="" />
+             
+             
+            <Label id="accountNameLB" value="Account Name" contentMode="HTML" />
+            <TextField id="accountName" inputPrompt="" />
+             
+            <Label id="amountLB" value="Account" contentMode="HTML" />
+            <TextField id="amount" inputPrompt="" />
+     
+        </CssLayout>
+    </HorizontalLayout>
+</VerticalLayout>

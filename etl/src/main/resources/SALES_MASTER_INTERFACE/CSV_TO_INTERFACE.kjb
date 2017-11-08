@@ -154,7 +154,26 @@ WHERE      (Isdate(UPLOAD_DATE) = 0 and UPLOAD_DATE is not null)
  OR (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
  OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;UPLOAD_DATE&apos;
-		 </sql>
+		 
+
+
+update IVLD_SALES_MASTER
+set ERROR_FIELD=
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT ))=0  and AMOUNT is not null THEN &apos;AMOUNT&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE ))=0  and PRICE is not null THEN &apos;PRICE&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PROVISION_ID ))=0  and PROVISION_ID is not null THEN &apos;PROVISION_ID&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY ))=0  and QUANTITY is not null THEN &apos;QUANTITY&apos; ELSE &apos;&apos; END +
+CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),RECORD_SEQUENCE ))=0  and RECORD_SEQUENCE is not null THEN &apos;RECORD_SEQUENCE&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT )) = 0 and AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PRICE) ) = 0 and PRICE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PROVISION_ID) ) = 0 and PROVISION_ID is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY) ) = 0 and QUANTITY is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),RECORD_SEQUENCE) ) = 0 and RECORD_SEQUENCE is not null)
+)
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;UPLOAD_DATE&apos;
+
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>

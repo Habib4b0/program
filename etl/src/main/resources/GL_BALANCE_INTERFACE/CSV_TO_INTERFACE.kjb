@@ -153,7 +153,19 @@ WHERE
   OR (Isdate(UPLOAD_DATE) = 0  and UPLOAD_DATE is not null)
    OR (Isdate(INSERTED_DATE) = 0  and INSERTED_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;UPLOAD_DATE&apos;
-		  </sql>
+		  
+
+
+update IVLD_GL_BALANCE
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),BALANCE ))=0  and BALANCE is not null THEN &apos;BALANCE&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),BALANCE )) = 0 and  BALANCE is not null)
+
+
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;UPLOAD_DATE&apos;
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>

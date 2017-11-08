@@ -305,7 +305,7 @@ public class ForecastingMasterPersistenceImpl extends BasePersistenceImpl<Foreca
                 "forecastDate", "modifiedDate", "brand", "forecastValue",
                 "percentageEstimateYear", "recordLockStatus", "source",
                 "forecastMasterSid", "forecastedSalesPercentMonth",
-                "inboundStatus"
+                "inboundStatus", "businessUnit"
             });
     private static ForecastingMaster _nullForecastingMaster = new ForecastingMasterImpl() {
             @Override
@@ -4463,6 +4463,7 @@ public class ForecastingMasterPersistenceImpl extends BasePersistenceImpl<Foreca
         forecastingMasterImpl.setForecastMasterSid(forecastingMaster.getForecastMasterSid());
         forecastingMasterImpl.setForecastedSalesPercentMonth(forecastingMaster.getForecastedSalesPercentMonth());
         forecastingMasterImpl.setInboundStatus(forecastingMaster.getInboundStatus());
+        forecastingMasterImpl.setBusinessUnit(forecastingMaster.getBusinessUnit());
 
         return forecastingMasterImpl;
     }

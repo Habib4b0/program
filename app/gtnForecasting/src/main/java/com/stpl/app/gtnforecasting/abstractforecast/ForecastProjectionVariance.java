@@ -266,6 +266,8 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected CustomMenuBar.CustomMenuItem customerFilterValues;
     protected CustomMenuBar.CustomMenuItem productFilterValues;
     protected CustomMenuBar.CustomMenuItem deductionFilterValues;
+    
+     public static final String VARIANCE = "Variance";
 
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     /**
@@ -344,6 +346,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      * Property file for alert message
      */
     public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    
+    protected List<Object> generateDiscountToBeLoaded = new ArrayList<>();
+    protected List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
+    protected List<Object> generateProductToBeLoaded = new ArrayList<>();
+    protected List<Object> generateCustomerToBeLoaded = new ArrayList<>();
     /**
      * Level filter value change listener
      */
@@ -547,6 +554,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
+         sessionDTO.setTabName(VARIANCE);
         customTreeViewLogic();
     }
 
@@ -557,6 +565,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
+         sessionDTO.setTabName(VARIANCE);
         editHierarchyLogic();
 
     }

@@ -159,6 +159,25 @@ WHERE      (Isdate(SELF_GROWTH_FROM) = 0 and SELF_GROWTH_FROM is not null)
  OR (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
  OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;SELF_GROWTH_FROM&apos;
+
+
+
+update IVLD_REBATE_PLAN
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),FREE_AMOUNT ))=0  and FREE_AMOUNT is not null THEN &apos;FREE_AMOUNT&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_FROM ))=0  and TIER_FROM is not null THEN &apos;TIER_FROM&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_TO ))=0  and TIER_TO is not null THEN &apos;TIER_TO&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_TOLERANCE ))=0  and TIER_TOLERANCE is not null THEN &apos;TIER_TOLERANCE&apos; ELSE &apos;&apos; END+
+  CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_VALUE ))=0  and TIER_VALUE is not null THEN &apos;TIER_VALUE&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),FREE_AMOUNT )) = 0 and  FREE_AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_FROM) ) = 0 and TIER_FROM is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_TO) ) = 0 and TIER_TO is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_TOLERANCE) ) = 0 and TIER_TOLERANCE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),TIER_VALUE) ) = 0 and TIER_VALUE is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;SELF_GROWTH_FROM&apos;
+		 
 		 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

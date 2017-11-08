@@ -1265,6 +1265,7 @@
 		<property name="source" type="com.stpl.portal.dao.orm.hibernate.StringType" column="SOURCE" />
 		<property name="forecastedSalesPercentMonth" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="FORECASTED_SALES_PERCENT_MONTH" />
 		<property name="inboundStatus" type="com.stpl.portal.dao.orm.hibernate.StringType" column="INBOUND_STATUS" />
+		<property name="businessUnit" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BUSINESS_UNIT" />
 	</class>
 	<class name="com.stpl.app.model.impl.ForecastingViewMasterImpl" table="FORECASTING_VIEW_MASTER">
 		<id name="viewId" column="VIEW_ID" type="int">

@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<sql>
+    <entity id="arp-outbound-search-query">
+        <query> 
+            <![CDATA[
+                 DECLARE @USER_ID INT = [?USER_ID],
+                 @SESSION_ID BIGINT = [?SESSION_ID]
+
+
+         INSERT INTO ST_ARP_OUTBOUND (
+        ARP_WORKFLOW_ID
+        ,ITEM_MASTER_SID
+        ,RS_MODEL_SID
+        ,ACCOUNT_TYPE
+        ,ACCOUNT_GROUP
+        ,ACCOUNT_CATEGORY
+        ,RS_CATEGORY
+	,RS_TYPE
+	,REBATE_PROGRAM_TYPE
+        ,user_id
+        ,SESSION_ID
+        )
+SELECT DISTINCT ARP_WORKFLOW_ID,
+                 ARP.ITEM_MASTER_SID,
+                 RS_MODEL_SID,
+                 ACCOUNT_TYPE,
+                 ACCOUNT_GROUP,
+                 ACCOUNT_CATEGORY,
+                 RS_CATEGORY,
+                 RS_TYPE,
+	         REBATE_PROGRAM_TYPE,
+                 USER_ID,
+                 SESSION_ID
+FROM   (SELECT DISTINCT ARP.ARP_WORKFLOW_ID,
+                         ARP.ITEM_MASTER_SID,
+                         ARP.RS_MODEL_SID,
+                         ARP.ACCOUNT_TYPE,
+                         ARP.ACCOUNT,
+                         ARP.ACCOUNT_GROUP,
+                         ARP.ACCOUNT_CATEGORY,
+                         @USER_ID    AS USER_ID,
+                         @SESSION_ID AS SESSION_ID,
+                         PROJECTION_MASTER_SID,
+                         COMPANY_MASTER_SID,
+                         BRAND_MASTER_SID,
+                         RS_CATEGORY,
+                         RS_TYPE,
+                         REBATE_PROGRAM_TYPE,
+                         ARP.ARP_CREATION_DATE
+         FROM   ARP_OUTBOUND ARP
+         WHERE  NOT EXISTS (SELECT 1
+                            FROM   ST_ARP_OUTBOUND P
+                            WHERE  P.ARP_WORKFLOW_ID = ARP.ARP_WORKFLOW_ID
+                                   AND P.ITEM_MASTER_SID = ARP.ITEM_MASTER_SID
+                                   AND ( P.RS_MODEL_SID = ARP.RS_MODEL_SID
+                                          OR P.RS_MODEL_SID IS NULL )
+                                   AND ( P.ACCOUNT_CATEGORY = ARP.ACCOUNT_CATEGORY
+                                          OR P.ACCOUNT_CATEGORY IS NULL )
+                                   AND ( P.ACCOUNT_GROUP = ARP.ACCOUNT_GROUP
+                                          OR P.ACCOUNT_GROUP IS NULL )
+                                   AND  P.ACCOUNT_TYPE = ARP.ACCOUNT_TYPE
+                                   AND (p.RS_TYPE=ARP.RS_TYPE or ARP.RS_TYPE is null or p.RS_TYPE is null)
+				   AND (P.RS_CATEGORY=ARP.RS_CATEGORY or P.RS_CATEGORY is null or ARP.RS_CATEGORY is null)
+				   AND (ARP.REBATE_PROGRAM_TYPE=P.REBATE_PROGRAM_TYPE or ARP.REBATE_PROGRAM_TYPE is null or P.REBATE_PROGRAM_TYPE is null)
+                                          
+                                   AND P.USER_ID = @USER_ID
+                                   AND P.SESSION_ID = @SESSION_ID))ARP
+  [?SEARCH_RESTRICTION]
+
+DECLARE @START_YEAR INT = Year(Getdate())
+DECLARE @END_YEAR INT = (
+              SELECT YEAR(GETDATE())+2
+              )
+DECLARE @COL_LIST AS VARCHAR(MAX) = ''
+DECLARE @QUERY1 AS VARCHAR(MAX) = ''
+DECLARE @QUERY2 AS VARCHAR(MAX) = ''
+DECLARE @CATEGORY VARCHAR(50) = NULL
+DECLARE @PROGRAM VARCHAR(50) = NULL
+DECLARE @QUERY AS VARCHAR(MAX)
+DECLARE @NO_OF_YEARS INT = ABS(@END_YEAR - @START_YEAR)
+       ,@CNTR INT = 1
+
+SET @QUERY = 'SELECT A.PROJECTION_MASTER_SID ,
+                A.ARP_WORKFLOW_ID                       ,
+                A.COMPANY_MASTER_SID     ,
+                A.ITEM_MASTER_SID              ,
+                A.BRAND_MASTER_SID       ,
+                A.ACCOUNT_TYPE,
+                ACCOUNT,
+                a.REBATE_PROGRAM_TYPE,
+                a.RS_TYPE,
+                a.RS_CATEGORY
+                          ,a.account_CATEGORY,
+                          a.ACCOUNT_GROUP
+                          ,a.UOM,
+                ARP_CREATION_DATE      ,
+                ARP_APPROVAL_DATE      ,
+                OUTBOUND_STATUS              ,
+                ORIGINAL_BATCH_ID      ,
+                CHECK_RECORD           ,
+                USER_ID     ,
+                SESSION_ID                   ,
+                ETL_CHECK_RECORD,'
+
+WHILE (@CNTR <= @NO_OF_YEARS + 1)
+BEGIN
+       SET @QUERY += '
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)))-7)
+              END
+AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M1,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M2,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M3
+,
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M4,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M5,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M6,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)))-7)
+              END  AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M7,
+                                                                                                                                            
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + 
+              ' THEN A.AUG END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M8,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M9,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M10,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M11,
+
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30))
+              WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)))-7)
+              END  AS CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M12' + IIF(@CNTR = @NO_OF_YEARS + 1, '', ',')
+       SET @CNTR = @CNTR + 1
+END
+
+SET @QUERY += ' FROM ST_ARP_OUTBOUND S JOIN ARP_OUTBOUND A ON
+                       A.ARP_WORKFLOW_ID   =       S.ARP_WORKFLOW_ID
+                     AND A.ITEM_MASTER_SID   =    S.ITEM_MASTER_SID
+                     AND (A.RS_TYPE=S.RS_TYPE or a.RS_TYPE is null or s.RS_TYPE is null)
+		     AND (A.RS_CATEGORY=S.RS_CATEGORY or a.RS_CATEGORY is null or s.RS_CATEGORY is null)
+		     AND (A.REBATE_PROGRAM_TYPE=S.REBATE_PROGRAM_TYPE or a.REBATE_PROGRAM_TYPE is null or s.REBATE_PROGRAM_TYPE is null)
+                      AND (A.RS_MODEL_SID= S.RS_MODEL_SID AND S.ACCOUNT_TYPE IN(''ACCRUAL DOLLARS'',''ACCRUAL RATE'')  OR (A.RS_MODEL_SID IS NULL)   )
+                      AND A.ACCOUNT_TYPE=S.ACCOUNT_TYPE 
+                      AND (A.ACCOUNT_CATEGORY  = S.ACCOUNT_CATEGORY OR A.ACCOUNT_CATEGORY IS NULL)
+                                           
+                                 AND (A.ACCOUNT_GROUP=S.ACCOUNT_GROUP  OR A.ACCOUNT_GROUP IS NULL)
+
+                AND s.user_id = ' + CAST(@USER_ID AS VARCHAR(100)) + '  AND S.SESSION_ID=' + CAST(@SESSION_ID AS VARCHAR(100)) + 
+       '
+
+
+                GROUP BY
+                  A.PROJECTION_MASTER_SID        ,
+                A.ARP_WORKFLOW_ID                       ,
+                A.COMPANY_MASTER_SID     ,
+                A.ITEM_MASTER_SID              ,
+                A.BRAND_MASTER_SID       ,
+                A.ACCOUNT_TYPE,
+                ACCOUNT,
+                a.REBATE_PROGRAM_TYPE,
+                a.RS_TYPE,
+                a.RS_CATEGORY
+                          ,a.account_CATEGORY,
+                          a.ACCOUNT_GROUP
+                          ,a.UOM
+                ,ARP_CREATION_DATE      ,
+                ARP_APPROVAL_DATE      ,
+                OUTBOUND_STATUS   ,
+                ORIGINAL_BATCH_ID,
+                CHECK_RECORD           ,
+                USER_ID     ,
+                SESSION_ID                   ,
+                ETL_CHECK_RECORD
+               '
+SET @CNTR = 1
+
+WHILE (@CNTR <= @NO_OF_YEARS + 1)
+BEGIN
+       SET @COL_LIST += '
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M1,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M2,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M3,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M4,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M5,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M6,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M7,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M8,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M9,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M10,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M11,
+                CURRENT_YEAR' + CASE 
+                     WHEN @CNTR = 1
+                           THEN ''
+                     ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                     END + '_M12 ' + IIF(@CNTR = @NO_OF_YEARS + 1, '', ',')
+       SET @CNTR = @CNTR + 1
+END
+
+DECLARE @STRING NVARCHAR(MAX)
+
+SET @STRING = 
+       'SELECT DISTINCT A.PROJECTION_MASTER_SID
+                ,A.ARP_WORKFLOW_ID
+                ,PM1.PROJECTION_NAME AS ARP_NAME
+                ,NULL as RS_MODEL_SID
+               ,case when a.account_type=''Accrual Rate'' then A.REBATE_PROGRAM_TYPE
+                           when a.account_type=''Accrual Dollars'' then A.REBATE_PROGRAM_TYPE
+                                           else ''''
+                                           end AS REBATE_PROGRAM_TYPE
+                ,CM1.COMPANY_ID
+                ,CM1.COMPANY_NO
+                ,CM1.COMPANY_NAME
+                ,IM1.ITEM_ID
+                        ,IM1.ITEM_NO
+                        ,IM1.ITEM_NAME
+                        ,BM1.BRAND_ID
+                        ,BM1.BRAND_NAME
+                ,A.ITEM_MASTER_SID
+                ,A.COMPANY_MASTER_SID
+                ,A.BRAND_MASTER_SID
+                ,A.ACCOUNT
+                ,A.ACCOUNT_TYPE
+
+                        ,case when a.account_type=''Accrual Rate'' then A.RS_CATEGORY
+                                      when a.account_type=''Accrual Dollars'' then A.RS_CATEGORY
+                                           else '' ''
+                                           end AS RS_CATEGORY
+                        ,case when a.account_type=''Accrual Rate'' then A.RS_TYPE
+                                       when a.account_type=''Accrual Dollars'' then A.RS_TYPE
+                                           else '' ''
+                                           end AS RS_TYPE
+                        ,USER_ID
+                        ,SESSION_ID
+                        ,ETL_CHECK_RECORD
+                        ,CHECK_RECORD
+                        ,A.ARP_CREATION_DATE
+                        ,A.ARP_APPROVAL_DATE
+                        ,A.OUTBOUND_STATUS
+                        ,A.ORIGINAL_BATCH_ID
+                           ,' 
+       + @COL_LIST + '
+
+                 ,A.UOM,A.ACCOUNT_CATEGORY,ACCOUNT_GROUP
+                FROM (' + @QUERY + ')A INNER JOIN
+                PROJECTION_MASTER PM1
+                ON A.PROJECTION_MASTER_SID=PM1.PROJECTION_MASTER_SID
+                INNER JOIN COMPANY_MASTER CM1 ON A.COMPANY_MASTER_SID = CM1.COMPANY_MASTER_SID
+                INNER JOIN ITEM_MASTER IM1 ON A.ITEM_MASTER_SID = IM1.ITEM_MASTER_SID
+                INNER JOIN BRAND_MASTER BM1 ON A.BRAND_MASTER_SID = BM1.BRAND_MASTER_SID                
+                [?FILTER_CONDITION] 
+                [?SORT_QUERY]  
+
+
+EXEC (@STRING);
+
+           ]]>
+        </query> 
+    </entity>   
+
+    <entity id="arp-outbound-count-query">
+        <query> 
+            <![CDATA[
+                
+IF OBJECT_ID('TEMPDB..#ACCRUAL_PROJ_DETAILS') IS NOT NULL
+       DROP TABLE #ACCRUAL_PROJ_DETAILS
+
+SELECT DISTINCT ARP.PROJECTION_MASTER_SID
+       ,ARP.COMPANY_MASTER_SID
+       ,ARP.ITEM_MASTER_SID
+       ,ARP.BRAND_MASTER_SID
+       ,ARP.ARP_WORKFLOW_ID
+       ,ARP.ACCOUNT_TYPE
+       ,ARP.ACCOUNT
+       ,CASE
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL RATE'
+                     THEN ARP.REBATE_PROGRAM_TYPE
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL DOLLARS'
+                     THEN ARP.REBATE_PROGRAM_TYPE
+              END REBATE_PROGRAM_TYPE
+       ,CASE
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL RATE'
+                     THEN ARP.RS_CATEGORY
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL DOLLARS'
+                     THEN ARP.RS_CATEGORY
+              ELSE NULL
+              END AS RS_CATEGORY
+       ,CASE
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL RATE'
+                     THEN ARP.RS_TYPE
+              WHEN ARP.ACCOUNT_TYPE = 'ACCRUAL DOLLARS'
+                     THEN ARP.RS_TYPE
+              ELSE NULL
+              END AS RS_TYPE
+       ,CASE
+              WHEN ARP.ACCOUNT_TYPE = 'EX-FACTORY SALES UNITS'
+                     THEN 'GROSS UNITS'
+              WHEN ARP.ACCOUNT_TYPE = 'EX-FACTORY SALES DOLLARS'
+                     THEN 'GROSS SALES'
+              ELSE ARP.account_category
+              END AS account_category
+       ,CASE
+              WHEN ARP.ACCOUNT_TYPE = 'EX-FACTORY SALES UNITS'
+                     THEN 'GROSS UNITS'
+              WHEN ARP.ACCOUNT_TYPE = 'EX-FACTORY SALES DOLLARS'
+                     THEN 'GROSS SALES'
+              ELSE ARP.ACCOUNT_GROUP
+              END AS ACCOUNT_GROUP
+       ,ARP.JAN
+       ,ARP.FEB
+       ,ARP.MAR
+       ,ARP.APR
+       ,ARP.MAY
+       ,ARP.JUN
+       ,ARP.JUL
+       ,ARP.AUG
+       ,ARP.SEP
+       ,ARP.OCT
+       ,ARP.NOV
+       ,ARP.ARP_APPROVAL_DATE
+       ,ARP.ARP_CREATION_DATE
+       ,ARP.OUTBOUND_STATUS
+       ,ARP.ORIGINAL_BATCH_ID
+INTO #ACCRUAL_PROJ_DETAILS
+FROM ARP_OUTBOUND ARP
+INNER JOIN PROJECTION_MASTER P ON ARP.PROJECTION_MASTER_SID = P.PROJECTION_MASTER_SID
+INNER JOIN COMPANY_MASTER CM ON ARP.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+INNER JOIN ITEM_MASTER IM ON ARP.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+INNER JOIN BRAND_MASTER BM ON ARP.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+[?SEARCH_RESTRICTION]
+[?FILTER_RESTRICTION]
+
+SELECT COUNT(*)
+FROM (
+       SELECT PROJECTION_MASTER_SID
+              ,COMPANY_MASTER_SID
+              ,ITEM_MASTER_SID
+              ,BRAND_MASTER_SID
+              ,ARP_WORKFLOW_ID
+              ,ACCOUNT_TYPE
+              ,REBATE_PROGRAM_TYPE
+              ,RS_CATEGORY
+              ,RS_TYPE
+              ,ACCOUNT_GROUP
+              ,account_category
+       FROM #ACCRUAL_PROJ_DETAILS
+       GROUP BY PROJECTION_MASTER_SID
+              ,COMPANY_MASTER_SID
+              ,ITEM_MASTER_SID
+              ,BRAND_MASTER_SID
+              ,ARP_WORKFLOW_ID
+              ,ACCOUNT_TYPE
+              ,REBATE_PROGRAM_TYPE
+              ,RS_CATEGORY
+              ,RS_TYPE
+              ,ACCOUNT_GROUP
+              ,account_category
+       ) A
+
+         ]]>
+        </query> 
+    </entity> 
+    
+      
+    <entity id="arp-outbound-insert-query">
+        <query> 
+            <![CDATA[
+INSERT INTO ST_ARP_OUTBOUND (
+       ARP_WORKFLOW_ID
+       ,ITEM_MASTER_SID
+       ,RS_MODEL_SID
+       ,ACCOUNT_TYPE
+       ,ACCOUNT_GROUP
+       ,ACCOUNT_CATEGORY
+       ,user_id
+       ,SESSION_ID
+       )
+SELECT DISTINCT ARP.ARP_WORKFLOW_ID
+       ,ARP.ITEM_MASTER_SID
+       ,ARP.RS_MODEL_sID
+       ,ARP.ACCOUNT_TYPE
+       ,ARP.ACCOUNT_GROUP
+       ,ARP.ACCOUNT_CATEGORY
+       ,@USER_ID AS USER_ID
+       ,@SESSION_ID AS SESSION_ID
+FROM ARP_OUTBOUND ARP
+[?SEARCH_RESTRICTION]
+
+and (ARP.ACCOUNT_TYPE = @ACCOUNT_TYPE
+       OR @ACCOUNT_TYPE IS NULL)
+and not exists (select 1 from ST_ARP_OUTBOUND p
+where p.ARP_WORKFLOW_ID=arp.ARP_WORKFLOW_ID
+and p.ITEM_MASTER_SID=arp.ITEM_MASTER_SID
+and (p.RS_MODEL_SID=arp.RS_MODEL_SID or p.RS_MODEL_SID is null)
+and (p.ACCOUNT_CATEGORY=arp.ACCOUNT_CATEGORY or p.ACCOUNT_CATEGORY is null)
+and (p.ACCOUNT_GROUP=arp.ACCOUNT_CATEGORY or p.ACCOUNT_GROUP is null)
+and p.ACCOUNT_TYPE=arp.ACCOUNT_TYPE
+and @USER_ID=p.user_id
+and @SESSION_ID=p.session_id)
+
+            ]]>
+        </query> 
+    </entity> 
+    
+    
+    <entity id="arp-check-record-update-deduction-rate">
+        <query> 
+            <![CDATA[
+                UPDATE S                    
+                SET
+                    S.CHECK_RECORD = '[?CHECK_RECORD]'
+                FROM
+                ST_ARP_OUTBOUND S
+                WHERE
+                    ITEM_MASTER_SID = [?ITEM_MASTER_SID]
+                    AND ACCOUNT_TYPE = '[?ACCOUNT_TYPE]'
+                    AND ARP_WORKFLOW_ID = '[?ARP_WORKFLOW_ID]'
+                    AND USER_ID = [?USER_ID]
+                    AND SESSION_ID = [?SESSION_ID]
+            ]]>
+        </query> 
+    </entity> 
+                
+    <entity id="arp-check-record-update">
+        <query> 
+            <![CDATA[
+                UPDATE S                    
+                SET
+                    S.CHECK_RECORD = '[?CHECK_RECORD]'
+                FROM
+                    ST_ARP_OUTBOUND S                
+                WHERE
+                    ITEM_MASTER_SID = [?ITEM_MASTER_SID]
+                    AND ACCOUNT_TYPE = '[?ACCOUNT_TYPE]'
+                    AND ARP_WORKFLOW_ID = '[?ARP_WORKFLOW_ID]'
+                    AND USER_ID = [?USER_ID]
+                    AND SESSION_ID = [?SESSION_ID]
+            ]]>
+        </query> 
+    </entity> 
+                
+                
+    <entity id="arp-outbound-excel-query">
+        <query> 
+            <![CDATA[
+            
+               DECLARE  @USER_ID int = [?USER_ID],
+               @SESSION_ID BIGINT= [?SESSION_ID]
+               DECLARE @START_YEAR INT = Year(Getdate())
+               DECLARE @END_YEAR INT = (SELECT YEAR(GETDATE())+2)
+                      
+ 
+ 
+ 
+              DECLARE @COL_LIST  AS VARCHAR(MAX)=''
+                 DECLARE @CATEGORY VARCHAR(50)=NULL
+                 DECLARE @PROGRAM VARCHAR(50)=NULL
+ 
+                 DECLARE @QUERY AS VARCHAR(MAX)
+                 DECLARE @NO_OF_YEARS INT = ABS(@END_YEAR - @START_YEAR),@CNTR INT = 1
+ 
+                 SET @QUERY='SELECT  A.PROJECTION_MASTER_SID ,
+                 A.ARP_WORKFLOW_ID                       ,
+                 A.COMPANY_MASTER_SID,
+                 A.ITEM_MASTER_SID,
+                 A.BRAND_MASTER_SID,
+                 A.ACCOUNT_TYPE,
+                 ACCOUNT,
+                 A.REBATE_PROGRAM_TYPE,
+                 A.RS_TYPE,
+                 A.RS_CATEGORY,
+                 UOM,
+                 A.account_category,
+                 A.ACCOUNT_GROUP,
+                 ARP_CREATION_DATE,
+                 ARP_APPROVAL_DATE,
+                 OUTBOUND_STATUS,
+                 ORIGINAL_BATCH_ID,
+                 CHECK_RECORD,
+                 USER_ID,
+                 SESSION_ID,
+                 ETL_CHECK_RECORD,'
+ 
+                 WHILE(@CNTR<=@NO_OF_YEARS+1)
+BEGIN
+        SET @QUERY += '
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JAN END ),0) AS VARCHAR(30)))-7)
+              END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M1,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.FEB END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M2,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAR END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M3
+,
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.APR END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M4,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.MAY END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M5,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUN END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M6,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)))-4)
+       WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.JUL END ),0) AS VARCHAR(30)))-7)
+               END  AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M7,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.AUG END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) +
+               ' THEN A.AUG END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M8,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.SEP END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M9,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.OCT END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M10,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.NOV END ),0) AS VARCHAR(30)))-7)
+               END AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M11,
+ 
+CASE WHEN A.ACCOUNT_TYPE IN(''Ex-Factory Sales Dollars'',''Accrual dollars'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)), LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)))-4)
+        WHEN A.ACCOUNT_TYPE = ''Accrual Rate'' THEN CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30))
+               WHEN A.ACCOUNT_TYPE IN (''Ex-Factory Sales Units'') THEN LEFT(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)) ,LEN(CAST(ISNULL(SUM(CASE WHEN A.YEAR = ' + CONVERT(VARCHAR(4), @START_YEAR + @CNTR - 1) + ' THEN A.DEC END ),0) AS VARCHAR(30)))-7)
+               END  AS CURRENT_YEAR' + CASE
+                      WHEN @CNTR = 1
+                            THEN ''
+                      ELSE CAST(@CNTR - 1 AS VARCHAR(10))
+                      END + '_M12' + IIF(@CNTR = @NO_OF_YEARS + 1, '', ',')
+        SET @CNTR = @CNTR + 1
+END
+ 
+ 
+              SET @QUERY += '  FROM  ST_ARP_OUTBOUND S JOIN ARP_OUTBOUND A ON
+                       A.ARP_WORKFLOW_ID   =       S.ARP_WORKFLOW_ID
+                     AND A.ITEM_MASTER_SID   =    S.ITEM_MASTER_SID
+                      AND (A.RS_MODEL_SID= S.RS_MODEL_SID AND S.ACCOUNT_TYPE IN(''ACCRUAL DOLLARS'',''ACCRUAL RATE'')  OR (A.RS_MODEL_SID IS NULL)   )
+                      AND A.ACCOUNT_TYPE=S.ACCOUNT_TYPE
+                      AND (A.ACCOUNT_CATEGORY  = S.ACCOUNT_CATEGORY OR A.ACCOUNT_CATEGORY IS NULL)
+ 
+                                 AND (A.ACCOUNT_GROUP=S.ACCOUNT_GROUP  OR A.ACCOUNT_GROUP IS NULL)
+                                 AND (A.RS_TYPE=S.RS_TYPE or a.RS_TYPE is null or s.RS_TYPE is null)
+				 AND (A.RS_CATEGORY=S.RS_CATEGORY or a.RS_CATEGORY is null or s.RS_CATEGORY is null)
+				 AND (A.REBATE_PROGRAM_TYPE=S.REBATE_PROGRAM_TYPE or a.REBATE_PROGRAM_TYPE is null or s.REBATE_PROGRAM_TYPE is null)
+ 
+                AND s.user_id = ' + CAST(@USER_ID AS VARCHAR(100)) + '  AND S.SESSION_ID=' + CAST(@SESSION_ID AS VARCHAR(100)) +
+       '
+ 
+ 
+                 GROUP BY
+                 A.PROJECTION_MASTER_SID,
+                 A.ARP_WORKFLOW_ID,
+                 A.COMPANY_MASTER_SID,
+                 A.ITEM_MASTER_SID,
+                 A.BRAND_MASTER_SID,
+                 A.ACCOUNT_TYPE,
+                 ACCOUNT,
+                 UOM,
+                 A.account_category,
+                 A.ACCOUNT_GROUP,
+                 A.REBATE_PROGRAM_TYPE,
+                 A.RS_TYPE,
+                 A.RS_CATEGORY,
+                 ARP_CREATION_DATE,
+                 ARP_APPROVAL_DATE,
+                 OUTBOUND_STATUS,
+                 ORIGINAL_BATCH_ID,
+                 CHECK_RECORD,
+                 USER_ID,
+                SESSION_ID,
+                 ETL_CHECK_RECORD
+                '
+ 
+                                SET @CNTR=1
+                 WHILE(@CNTR<=@NO_OF_YEARS+1)
+                 BEGIN
+                 SET @COL_LIST+='
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M1, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M1       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M2, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M2       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M3, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M3       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M4, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M4       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M5, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M5       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M6, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M6       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M7, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M7       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M8, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M8       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M9, 0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M9       ,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M10,0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M10,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M11,0) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M11,
+                 isnull(CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M12,0 ) as CURRENT_YEAR'+CASE WHEN @CNTR = 1 THEN '' ELSE CAST(@CNTR-1 AS VARCHAR(10)) END+'_M12 '+ IIF(@CNTR = @NO_OF_YEARS+1,'',',')
+ 
+                 SET @CNTR=@CNTR+1
+                 END
+ 
+ 
+ 
+ 
+                   DECLARE @STRING NVARCHAR(MAX)
+                         SET @STRING = 'SELECT  A.ARP_WORKFLOW_ID
+         , QUOTENAME(PM.PROJECTION_NAME,CHAR(34)) as ARP_NAME
+         , QUOTENAME(CM.COMPANY_ID,CHAR(34)) as COMPANY_ID
+         , QUOTENAME(CM.COMPANY_NO,CHAR(34)) as COMPANY_NO
+         , QUOTENAME(CM.COMPANY_NAME,CHAR(34)) as COMPANY_NAME
+         ,A.ACCOUNT
+          ,'''' as BUSINESS_UNIT_ID
+          ,'''' as BUSINESS_UNIT_NO
+          ,'''' as BUSINESS_UNIT_NAME
+         ,QUOTENAME(IM.ITEM_ID,CHAR(34)) as ITEM_ID
+         ,QUOTENAME(IM.ITEM_NO,CHAR(34)) as ITEM_NO
+         ,QUOTENAME(IM.ITEM_NAME,CHAR(34)) as ITEM_NAME
+         ,QUOTENAME(BM.BRAND_ID,CHAR(34)) as BRAND_ID
+         ,QUOTENAME(BM.BRAND_NAME,CHAR(34)) as BRAND_NAME
+          ,A.ACCOUNT_TYPE
+               ,A.UOM,A.ACCOUNT_CATEGORY,ACCOUNT_GROUP
+                   ,case when a.account_type=''Accrual Rate'' then A.RS_CATEGORY
+                                       when a.account_type=''Accrual Dollars'' then A.RS_CATEGORY
+                                            else '' ''
+                 end AS RS_CATEGORY
+                      ,case when a.account_type=''Accrual Rate'' then A.RS_TYPE
+                                        when a.account_type=''Accrual Dollars'' then A.RS_TYPE
+                                            else '' ''
+                                            end AS RS_TYPE
+        ,case when a.account_type=''Accrual Rate'' then A.REBATE_PROGRAM_TYPE
+                            when a.account_type=''Accrual Dollars'' then A.REBATE_PROGRAM_TYPE
+                                            else ''''
+                                            end AS PROGRAM
+                ,'+@COL_LIST+'
+                 ,CONVERT (VARCHAR(30), A.ARP_CREATION_DATE, 101) AS ARP_CREATION_DATE
+                 ,CONVERT (VARCHAR(30), A.ARP_APPROVAL_DATE, 101) AS ARP_APPROVAL_DATE
+                 ,CASE WHEN A.OUTBOUND_STATUS = 1 THEN ''Y'' ELSE ''N'' END AS OUTBOUND_STATUS
+                 ,A.ORIGINAL_BATCH_ID
+          FROM (' + @QUERY + ')A INNER JOIN
+         PROJECTION_MASTER PM
+         ON A.PROJECTION_MASTER_SID=PM.PROJECTION_MASTER_SID
+         INNER JOIN COMPANY_MASTER CM ON A.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+         INNER JOIN ITEM_MASTER IM ON A.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+         INNER JOIN BRAND_MASTER BM ON A.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+         ORDER BY ARP_WORKFLOW_ID, COMPANY_ID, ITEM_ID,  ACCOUNT_TYPE'
+ 
+      SELECT CONVERT(VARCHAR(MAX), (@STRING));
+
+                 ]]>
+        </query> 
+    </entity> 
+                                                
+</sql>
