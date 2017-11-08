@@ -102,6 +102,10 @@ public class NationalAssumptionLogic {
      */
     private final DecimalFormat PER_FOUR = new DecimalFormat("#0.0000%");
     /**
+     * The Percent Two Decimal Places Format.
+     */
+    private final DecimalFormat PER_TWO = new DecimalFormat("#0.00%");
+    /**
      * The Dollar Four Decimal Places Format.
      */
     private final DecimalFormat CUR_FOUR = new DecimalFormat("$#,##0.0000");
@@ -1084,7 +1088,7 @@ public class NationalAssumptionLogic {
         } else {
             Double newValue = Double.valueOf(value.trim().replace(Constant.PERCENT, StringUtils.EMPTY));
             newValue = newValue / NumericConstants.HUNDRED;
-            value = isGrowth ? PER_FOUR.format(newValue) : PER_FOUR.format(newValue) ;
+            value = isGrowth ? PER_TWO.format(newValue) : PER_TWO.format(newValue) ;
         }
         return value;
     }
@@ -1347,7 +1351,6 @@ public class NationalAssumptionLogic {
     public boolean isAFSSPriceTypeAvailable(String projectionId) {
         try {
             String sql = SQlUtil.getQuery("isAFSS_PriceType_Available").replace("?", projectionId);
-            System.out.println("SQL :::: "+sql);    
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;

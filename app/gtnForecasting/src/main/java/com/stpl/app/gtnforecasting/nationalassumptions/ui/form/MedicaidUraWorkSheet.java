@@ -862,7 +862,6 @@ public class MedicaidUraWorkSheet extends Window {
                         }
                                 if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {
 
-                            System.out.println("projectionDTO.getBaeselineAmp() = " + projectionDTO.getBaeselineAmp());
                             if (tableDto.getGroup().equalsIgnoreCase(Constant.AMP)) {
                                 container.getContainerProperty(itemId, propertyId).setValue(projectionDTO.getBaeselineAmp());
                                 notesField.setTextfieldValue(projectionDTO.getBaeselineAmp());

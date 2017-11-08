@@ -71,6 +71,7 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     private String parentAlternatePivot= StringUtils.EMPTY;
     
     private GtnSmallHashMap ccpCountForDiscount=new GtnSmallHashMap();
+    private String parentHierarchyNo = StringUtils.EMPTY;
     
     public String getGroup() {
         return group;
@@ -207,6 +208,14 @@ public class DiscountProjectionDTO extends ExtMapDTO {
         this.ccpCountForDiscount = ccpCountForDiscount;
     }
 
+    public String getParentHierarchyNo() {
+        return parentHierarchyNo;
+    }
+
+    public void setParentHierarchyNo(String parentHierarchyNo) {
+        this.parentHierarchyNo = parentHierarchyNo;
+    }
+
     public String getDeductionHierarchyNo() {
         return deductionHierarchyNo;
     }
@@ -222,5 +231,5 @@ public class DiscountProjectionDTO extends ExtMapDTO {
     public void setDeductionInclusion(String deductionInclusion) {
         this.deductionInclusion = deductionInclusion;
     }
-
+    
 }
