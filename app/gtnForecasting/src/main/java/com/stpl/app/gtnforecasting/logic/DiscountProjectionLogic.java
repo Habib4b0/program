@@ -183,7 +183,7 @@ public class DiscountProjectionLogic {
         LOGGER.debug(" isCount " + isCount);
         LOGGER.debug(" level no " + levelNo);
         LOGGER.debug(" customTreeLevelNo " + treeLevelNo);
-        LOGGER.info(" Hierarchy No " + hierarchyNo);
+        LOGGER.debug(" Hierarchy No " + hierarchyNo);
         LOGGER.debug(" Hierarchy Indicator " + hierarchyIndicator);
         LOGGER.debug("Start:" + start);
         LOGGER.debug(" history " + history);
@@ -231,7 +231,12 @@ public class DiscountProjectionLogic {
                             discountName = StringUtils.EMPTY;
                             hierarchyNo = String.valueOf(obj[1]);
                             discountDto.setHierarchyNo(String.valueOf(obj[1]));
-                            discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                            if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
+                                String relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
+                                discountDto.setLevelName(session.getHierarchyLevelDetails().get(relValue).get(0).toString());
+                            } else {
+                                discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                            }
                             discountDto.setHierarchyIndicator(hierarchyIndicator);
                             if (isCustom) {
                                 discountDto.setTreeLevelNo(treeLevelNo);
@@ -251,8 +256,12 @@ public class DiscountProjectionLogic {
                             } else {
                                 discountDto.setTreeLevelNo(Integer.valueOf(session.getHierarchyLevelDetails().get(discountDto.getHierarchyNo()).get(NumericConstants.TWO).toString()));
                             }
-
-                            String level = String.valueOf(session.getHierarchyLevelDetails().get(discountDto.getHierarchyNo()).get(1));
+                            String level = "";
+                            if (!Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
+                            level = String.valueOf(session.getHierarchyLevelDetails().get(discountDto.getHierarchyNo()).get(1));
+                            }else{
+                            level = "";
+                            }
                             discountDto.setLevel(level);
                             discountDto.setLevelNo(levelNo);
                             boolean checkValue = isParentChecked;
@@ -269,8 +278,8 @@ public class DiscountProjectionLogic {
 
                         // To handle count for various discounts
                          if (!isCustom) {
-                            if (!discountName.equals(String.valueOf(obj[16]))) {
-                                discountName = String.valueOf(obj[16]);
+                            if (!discountName.equals(String.valueOf(obj[NumericConstants.FOUR]))) {
+                                discountName = String.valueOf(obj[NumericConstants.FOUR]);
 
                                 if (obj[NumericConstants.NINE] != null) {
                                     ccpCountForDiscount.put(discountName, Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
@@ -474,8 +483,8 @@ public class DiscountProjectionLogic {
      * @param massUpdateData
      */
     public void massUpdate(SessionDTO session, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
-              List<String> selectedDiscounts, boolean isProgram,List<String[]> massUpdateData, List<String> selectedPeriods) {
-        queryBuilderAndExecutor.massUpdate(session, frequency, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram,massUpdateData, selectedPeriods);
+              List<String> selectedDiscounts, boolean isProgram,List<String[]> massUpdateData, List<String> selectedPeriods,boolean isCustomHierarchy) {
+        queryBuilderAndExecutor.massUpdate(session, frequency, startAndEndPeriods, selectedField, fieldValue, selectedDiscounts, isProgram,massUpdateData, selectedPeriods,isCustomHierarchy);
     }
 
     /**
@@ -553,7 +562,6 @@ public class DiscountProjectionLogic {
                     } else {
                         discountName = isProgram ? dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[1] : dto.getDiscountName() : dto.getDiscountName().contains("~") ? dto.getDiscountName().split("~")[0] : dto.getDiscountName();
                     }
-                    System.out.println("discountName======" + discountName);
 
                     boolean saveSuccess = queryBuilderAndExecutor.saveDiscountProjectionListView(session, frequency, dto.getPeriodNo(), dto.getYear(), dto.getHierarchyIndicator(),
                             dto.getHirarechyNo(), discountName, String.valueOf(dto.getValue()), isProgram, isCustomHierarchy, customViewDetails);
@@ -1107,8 +1115,7 @@ public class DiscountProjectionLogic {
         return 0;
     }
 
-    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo,
-            final String customerHierarchyNo, final String productHierarchyNo, final String deductionHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup) {
+    public int getDiscountCustomCount(final SessionDTO sessionDTO, final String hierarchyIndicator, final int levelNo,final String customerHierarchyNo, final String productHierarchyNo, final String deductionHierarchyNo, final List<String> discountList, boolean isProgram, final String userGroup) {
         String parentHierarchyIndicator = StringUtils.EMPTY;
         String parentHierarchyNo = StringUtils.EMPTY;
         String parentHierarchyIndicatorDeduction = StringUtils.EMPTY;
@@ -1215,4 +1222,14 @@ public class DiscountProjectionLogic {
         return rebateList;
     }
      
-        } 
+     
+     public String getLevelName(SessionDTO session, String relLevelValue) {
+        String queryAllRebate = StringUtils.EMPTY;
+        List inputList = new ArrayList<>();
+        inputList.add(session.getDedRelationshipBuilderSid());
+        inputList.add(relLevelValue);
+        queryAllRebate = QueryUtils.getQuery(inputList, "GET_LEVEL_NAME");
+        List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(queryAllRebate);
+        return list.get(0).toString();
+    }
+}

@@ -1270,7 +1270,6 @@ public class NonMandatedLogic {
         projectionMaster.setDiscountType(dataSelectionDTO.getDiscountSid());
         projectionMaster.setForecastingType(screenName);
         projectionMaster.setBusinessUnit(dataSelectionDTO.getBusinessUnitSystemId());
-        System.out.println("Inside CommonUtil.isValueEligibleForLoading()--------------");
         Object[] obj = null;
         if (CommonUtil.isValueEligibleForLoading()) {
             obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());

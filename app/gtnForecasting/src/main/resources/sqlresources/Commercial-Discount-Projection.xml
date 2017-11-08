@@ -309,6 +309,7 @@ UNION ALL
             <![CDATA[            
               DECLARE @VAR CHAR(1)='?RS'
             DECLARE @FREQUENCY CHAR(1)='?F'
+            DECLARE @PARENT varchar(1000)='?P'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
               DROP TABLE #PERIOD
@@ -323,9 +324,28 @@ UNION ALL
                             END
             INTO   #PERIOD
             FROM   PERIOD
+            
+            IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL
+                DROP TABLE #PARENT_VALIDATE
+
+                           CREATE TABLE #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID INT,
+                           PARENT_HIERARCHY   VARCHAR(MAX)
+                           )
+                           insert into #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID,
+                           PARENT_HIERARCHY
+                           )
+
+                           SELECT DISTINCT mas.RS_CONTRACT_SID,RLD.PARENT_HIERARCHY_NO FROM
+                           ST_NM_DISCOUNT_PROJ_MASTER MAS
+                           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO=10 AND relationship_builder_sid = @RELVALUE AND RLD.RELATIONSHIP_LEVEL_VALUES=MAS.RS_CONTRACT_SID
    
             @HIERARCHY_QUERY
             
+            @DEDCUSTJOIN            
             IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER') IS NOT NULL
                 DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER
 
@@ -531,7 +551,7 @@ SET @ACTUAL_START_PERIOD = (
           
 
               SELECT CHECK_RECORD
-	,SH.HIERARCHY_NO
+	,concat(@PARENT,SH.HIERARCHY_NO) as HIERARCHY_NO 
 	,SH.YEAR
 	,AD.PERIOD
         ,'' DISCOUNT
@@ -566,12 +586,11 @@ LEFT JOIN #ACTUAL_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
 LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
-LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION RL ON sh.HIERARCHY_NO = rl.HIERARCHY_NO
 
 UNION ALL
 
 SELECT CHECK_RECORD
-	,SH.HIERARCHY_NO
+	,concat(@PARENT,SH.HIERARCHY_NO) as HIERARCHY_NO 
 	,SH.YEAR
 	,AD.PERIOD
         ,'' DISCOUNT
@@ -606,8 +625,7 @@ LEFT JOIN #PROJECTION_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
 LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
-LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION RL ON SH.HIERARCHY_NO = RL.HIERARCHY_NO
-ORDER BY SH.HIERARCHY_NO
+ORDER BY HIERARCHY_NO
 	,YEAR
 	,PERIOD
 	,AP_TABLE_INDICATOR
@@ -674,6 +692,7 @@ ORDER BY SH.HIERARCHY_NO
                                   @RELATIONSIDS
                                   )
                     AND RELATIONSHIP_BUILDER_SID = @BUILDERSID    
+                    AND LEVEL_NO = @LEVNO   
       ]]>
         </query>
     </entity>
@@ -901,6 +920,7 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
         <query> 
          <![CDATA[
             DECLARE @FREQUENCY CHAR(1)='?F'
+            DECLARE @RELVALUE CHAR(1)='?R'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD
@@ -915,6 +935,24 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
             END
             INTO   #PERIOD
             FROM   PERIOD
+            
+             IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL
+                DROP TABLE #PARENT_VALIDATE
+
+                           CREATE TABLE #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID INT,
+                           PARENT_HIERARCHY   VARCHAR(MAX)
+                           )
+                           insert into #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID,
+                           PARENT_HIERARCHY
+                           )
+
+                           SELECT DISTINCT mas.RS_CONTRACT_SID,RLD.PARENT_HIERARCHY_NO FROM
+                           ST_NM_DISCOUNT_PROJ_MASTER MAS
+                           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO=10 AND relationship_builder_sid = @RELVALUE AND RLD.RELATIONSHIP_LEVEL_VALUES=MAS.RS_CONTRACT_SID
             
             ]]>
         </query>
@@ -1018,8 +1056,8 @@ ORDER  BY HIERARCHY_NO OFFSET
     </entity>
     <entity id="discount-selected-hierarchy-Custom">
         <query>
-            <![CDATA[     
-            IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+            <![CDATA[  
+ IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
   DROP TABLE #SELECTED_HIERARCHY_NO
 
 CREATE TABLE #SELECTED_HIERARCHY_NO
@@ -1034,7 +1072,7 @@ INSERT INTO #SELECTED_HIERARCHY_NO
              CCP_DETAILS_SID,
 			 RS_CONTRACT_SID,DEDUCTION_INCLUSION
 			 )
-SELECT HIERARCHY_NO,
+SELECT A.HIERARCHY_NO,
        CH.CCP_DETAILS_SID,
 	    
                 SPM.rs_contract_sid,SPM.DEDUCTION_INCLUSION
@@ -1046,7 +1084,7 @@ WHERE  EXISTS (SELECT 1
                FROM   ST_NM_DISCOUNT_PROJ_MASTER MAS
                       [?SELECTED_HIERARCHY_JOIN]
                         @RSJOIN
-           @USER_GROUP  and SPM.FILTER_CCP=1)
+           @USER_GROUP  and SPM.FILTER_CCP=1 @DEDCUSTJOIN)
 ORDER  BY HIERARCHY_NO OFFSET
 @START ROWS FETCH NEXT @OFFSET ROWS ONLY
   ) a
@@ -1155,9 +1193,27 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
      <entity id="UPDATE_CUSTOM_CHECKRECORD">
         <query> 
             <![CDATA[ 
+             IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL
+                DROP TABLE #PARENT_VALIDATE
+
+                           CREATE TABLE #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID INT,
+                           PARENT_HIERARCHY   VARCHAR(MAX)
+                           )
+                           insert into #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID,
+                           PARENT_HIERARCHY
+                           )
+
+                           SELECT DISTINCT mas.RS_CONTRACT_SID,RLD.PARENT_HIERARCHY_NO FROM
+                           ST_NM_DISCOUNT_PROJ_MASTER MAS
+                           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO=10 AND relationship_builder_sid = @RELVALUE AND RLD.RELATIONSHIP_LEVEL_VALUES=MAS.RS_CONTRACT_SID
+                           
            UPDATE MAS SET CHECK_RECORD = @CHECK_RECORD From ST_NM_DISCOUNT_PROJ_MASTER MAS 
     JOIN ST_CCP_HIERARCHY CCPH ON CCPH.CCP_DETAILS_SID = MAS.CCP_DETAILS_SID
-    WHERE @HIERARCHY_COLUMN LIKE '@HIERARCHY_NO%'  @CUSTOM_VIEW
+    @HIERARCHY_COLUMN @CUSTOM_VIEW
       ]]>
         </query>
     </entity>
@@ -1184,7 +1240,7 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
                          and dpt.rs_contract_sid = MAS.rs_contract_sid
                        JOIN st_ccp_hierarchy CCPH 
                          ON CCPH.ccp_details_sid = DPT.ccp_details_sid 
-                            AND @COLUMN_NAME LIKE '@HIERARCHY_NO%' @CUSTOM_VIEW 
+                            @COLUMN_NAME @CUSTOM_VIEW 
                        JOIN #period I 
                          ON I.period_sid = DPT.period_sid 
                 WHERE  I.year = ?Y  
@@ -1195,6 +1251,23 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
         <entity id="GET_CUSTOM_COUNT">
         <query> 
             <![CDATA[ 
+            IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL
+                DROP TABLE #PARENT_VALIDATE
+
+                           CREATE TABLE #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID INT,
+                           PARENT_HIERARCHY   VARCHAR(MAX)
+                           )
+                           insert into #PARENT_VALIDATE
+                           (
+                           RS_CONTRACT_SID,
+                           PARENT_HIERARCHY
+                           )
+
+                           SELECT DISTINCT mas.RS_CONTRACT_SID,RLD.PARENT_HIERARCHY_NO FROM
+                           ST_NM_DISCOUNT_PROJ_MASTER MAS
+                           JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO=10 AND relationship_builder_sid = @RELVALUE AND RLD.RELATIONSHIP_LEVEL_VALUES=MAS.RS_CONTRACT_SID
     IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
                 CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
@@ -1203,9 +1276,11 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
                 SELECT HIERARCHY_NO
                 FROM   (VALUES  @HIERARCHY_NO )A(HIERARCHY_NO)
                 
-            SELECT COUNT(DISTINCT SHN.HIERARCHY_NO) from  ST_NM_DISCOUNT_PROJ_MASTER MAS
+            SELECT COUNT(DISTINCT @REPLACE) from  ST_NM_DISCOUNT_PROJ_MASTER MAS
             JOIN ST_CCP_HIERARCHY CCPH ON MAS.CCP_DETAILS_SID = CCPH.CCP_DETAILS_SID
-            JOIN #SELECTED_HIERARCHY_NO SHN ON @COLUMN_NAME LIKE SHN.HIERARCHY_NO+'%' @FOR_CUSTOM @CUSTOM
+            @DEDCUSTJOIN
+            JOIN #SELECTED_HIERARCHY_NO SHN ON @COLUMN_NAME @FOR_CUSTOM @CUSTOM
+            @DEDUCTIONJOIN
             AND FILTER_CCP=1
      ]]>
         </query>
@@ -1214,7 +1289,7 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
         <entity id="CUSTOM_JOIN_DEDUCTION">
         <query> 
             <![CDATA[
-            AND @COLUMN LIKE '@HIERARCHY_NO%'  
+             @COLUMN LIKE '@HIERARCHY_NO%'  
                   ]]>
         </query>
     </entity>
@@ -1355,8 +1430,8 @@ WHERE  P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Dat
 			 )
         SELECT a.HIERARCHY_NO,
        CH.CCP_DETAILS_SID,
-	  sr.HIERARCHY_NO,
-                SPM.RS_CONTRACT_SID,SPM.DEDUCTION_INCLUSION,SPM.USER_GROUP
+	  rld.relationship_level_values,
+                SPM.RS_CONTRACT_SID,SPM.DEDUCTION_INCLUSION,SPM.USER_GROUP,RLD.RELATIONSHIP_LEVEL_VALUES
         FROM   (
             SELECT DISTINCT HIERARCHY_NO
         FROM   (VALUES @DEDHIERVALUES 
@@ -1376,6 +1451,7 @@ WHERE  P.PERIOD_DATE BETWEEN Datefromparts(@START_YEAR, @START_MONTH, 1) AND Dat
 		and FILTER_CCP=1 @USER_GROUP
          JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID
          JOIN #SELECTED_REBATE SR ON  SPM.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%'  
+         JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO 
             
             IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER') IS NOT NULL
                 DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER
@@ -1753,7 +1829,7 @@ INSERT INTO #SELECTED_HIERARCHY_NO
 			 )
 SELECT a.HIERARCHY_NO,
        CH.CCP_DETAILS_SID,
-	  sr.HIERARCHY_NO,
+	  rld.relationship_level_values,
                 SPM.RS_CONTRACT_SID,SPM.DEDUCTION_INCLUSION,SPM.USER_GROUP
 FROM   (
 SELECT DISTINCT HIERARCHY_NO
@@ -1776,7 +1852,8 @@ ORDER  BY HIERARCHY_NO OFFSET
         
 	   and FILTER_CCP=1 @USER_GROUP
          JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID
-   JOIN #SELECTED_REBATE SR ON  SPM.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%'  
+   JOIN #SELECTED_REBATE SR ON  SPM.DEDUCTION_HIERARCHY_NO  LIKE SR.HIERARCHY_NO + '%'
+   JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.HIERARCHY_NO = SR.HIERARCHY_NO  
             
             IF Object_id('TEMPDB..#ST_NM_DISCOUNT_PROJ_MASTER ') IS NOT NULL
                 DROP TABLE #ST_NM_DISCOUNT_PROJ_MASTER 
@@ -2083,5 +2160,20 @@ GROUP  BY I.PERIOD,
    ]]>
        </query>
    </entity>
+   
+   <entity id="GET_LEVEL_NAME">
+        <query> 
+            <![CDATA[
+            select
+	Distinct LEVEL_NAME
+from
+	relationship_level_definition
+where
+	relationship_builder_sid = ?
+	and relationship_level_values = ?;
+ 
+                  ]]>
+        </query>
+    </entity>
    
 </sql>
