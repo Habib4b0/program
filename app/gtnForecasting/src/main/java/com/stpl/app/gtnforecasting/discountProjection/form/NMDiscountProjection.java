@@ -5335,7 +5335,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
             List<String> returnList = new ArrayList<>();
             Map<String, List<String>> input = new HashMap<>();
             List<String> defaultNames = Arrays.asList("1.Contract Details", "2.Single Period", "3.Average", "4.Rolling Annual Trend");
-            List<String> exfactNames = Arrays.asList("5.% of Ex-Factory Sales", "9.% of Ex-Factory Sales Seasonal Trend");
+            List<String> exfactNames = Arrays.asList("5.% of Ex-Factory Sales", "9.% OF Ex-Factory - Seasonal Trend");
             List<String> demandNames = Arrays.asList("6.% of Demand");
             List<String> adjDemandNames = Arrays.asList("8.% of Adjusted Demand");
             List<String> inventoryNames = Arrays.asList("7.% of Inventory Withdrawal");
