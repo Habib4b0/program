@@ -7,9 +7,8 @@ rpmversion=1.0
 
 rm -rf  $Build_File_Path/rpmbuild
 mkdir -p $Build_File_Path/rpmbuild/{BUILD,BUILDROOT,RPMS,SOURCES,SPECS,SRPMS,tmp}
-cp $GTNPathName $Build_File_Path/rpmbuild/SOURCES/
 
-spec_path=$Build_File_Path/rpmfiles/GTN_Specs/
+spec_path=$Build_File_Path/rpm/GtnSpecs/
 filename=$(basename "$GTNPathName")
 spec_name="${filename%.*}"
 
@@ -48,17 +47,40 @@ exit 0
 fi
 #do_Custom_File_Changes
 
+parentdir=$spec_name-1.0
+changeddir=${parentdir%-*}$( cat /dev/urandom | tr -dc 'A-Z0-9' | fold -w 5 | head -n 1 )-${parentdir##*-}
 
+if [ -z "$3" ]
+  then
+
+cp $GTNPathName $Build_File_Path/rpmbuild/SOURCES/    
 sed -i 's/SPEC_NAME/'$spec_name'/g' $rpm_build_spec_path
 sed -i 's/SPEC_VERSION/'$rpmversion'/g' $rpm_build_spec_path
 sed -i '0,/SPEC_SOURCE/s//'${GTNPathName##*/}'/' $rpm_build_spec_path
 
+else
+
+cp $GTNPathName $Build_File_Path/rpmbuild/SOURCES/
+unzip $Build_File_Path/rpmbuild/SOURCES/$spec_name.zip > /dev/null
+rm -rf $Build_File_Path/rpmbuild/SOURCES/$spec_name.zip > /dev/null
+mv $spec_name-1.0 $changeddir
+zip -r -0 $Build_File_Path/rpmbuild/SOURCES/$spec_name.zip $changeddir
+rm -rf $changeddir
+
+sed -i 's/SPEC_NAME/'${changeddir%-*}'/g' $rpm_build_spec_path
+sed -i 's/SPEC_VERSION/'${changeddir##*-}'/g' $rpm_build_spec_path
+sed -i '0,/SPEC_SOURCE/s//'${GTNPathName##*/}'/' $rpm_build_spec_path
+
+fi
+
+
+
 rpmbuild --define "_topdir $Build_File_Path/rpmbuild " -bb $rpm_build_spec_path
 
-rm -rf $Build_File_Path/rpmfiles/Output_RPM/$old_rpm*
+rm -rf $Build_File_Path/rpm/Release/$old_rpm*
 
-mkdir -p $Build_File_Path/rpmfiles/Output_RPM/
+mkdir -p $Build_File_Path/rpm/Release/
 
-cp $Build_File_Path/rpmbuild/RPMS/noarch/* $Build_File_Path/rpmfiles/Output_RPM/
+cp $Build_File_Path/rpmbuild/RPMS/noarch/* $Build_File_Path/rpm/Release/
 
-echo RPM File Created Successfully  $Build_File_Path/rpmfiles/Output_RPM/
+echo RPM File Created Successfully  $Build_File_Path/rpm/Release/
