@@ -3747,7 +3747,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             String query;
             Map<String, List<String>> input = new HashMap<>();
             List<String> defaultNames = Arrays.asList("1.Single Period", "2.Average", "3.Rolling Annual Trend");
-            List<String> exfactNames = Arrays.asList("4.% of Ex-Factory Sales", "9.% of Ex-Factory Sales Seasonal Trend");
+            List<String> exfactNames = Arrays.asList("4.% of Ex-Factory Sales", "9.% OF Ex-Factory - Seasonal Trend");
             List<String> demandNames = Arrays.asList("5.% of Demand");
             List<String> adjDemandNames = Arrays.asList("7.% of Adjusted Demand");
             List<String> inventoryNames = Arrays.asList("6.% of Inventory Withdrawal");
