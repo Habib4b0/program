@@ -612,7 +612,7 @@ public class NMSalesProjectionResultsLogic {
             List<String> hierarchyNoList = comm.getHiearchyNoAsList(projSelDTO, start, offset);
             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
-            for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                 SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
                 dto.setLevelNo(Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(NumericConstants.TWO).toString()));
                 dto.setTreeLevelNo(dto.getLevelNo());
@@ -631,7 +631,6 @@ public class NMSalesProjectionResultsLogic {
                 dto.setParent(1);
                 resultList.add(dto);
                 started++;
-                neededRecord--;
             }
         }
         return resultList;
@@ -688,9 +687,8 @@ public class NMSalesProjectionResultsLogic {
                 mayBeAddedRecord = 0;
             }
             List<SalesProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
-            for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+            for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(projectionDtoList.get(k));
-                neededRecord--;
             }
         }
         return projDTOList;
@@ -875,12 +873,11 @@ public class NMSalesProjectionResultsLogic {
                         projectionDtoList = getProjectionPivot(projSelDTO);
                     }
                     projSelDTO.setProjTabName(StringUtils.EMPTY);
-                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                         if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                             projDTOList.add(projectionDtoList.get(k));
                         }
                         started++;
-                        neededRecord--;
                     }
                 }
                 mayBeAdded += projSelDTO.getPeriodList().size();
@@ -2314,9 +2311,8 @@ public class NMSalesProjectionResultsLogic {
                 projSelDTO.setProjTabName("SPR");
                 List<SalesProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
                 projSelDTO.setProjTabName(StringUtils.EMPTY);
-                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));
-                    neededRecord--;
                 }
                 mayBeAdded += projectionDtoList.size();
                 projectionTotalList.clear();// Fix for GAL-4084
@@ -2368,9 +2364,8 @@ public class NMSalesProjectionResultsLogic {
             List<SalesProjectionResultsDTO> projectionDtoList;
 
             projectionDtoList = getProjectionPivot(projSelDTO);
-            for (int k = started; k < projectionDtoList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(projectionDtoList.get(k));
-                neededRecord--;
                 started++;
             }
             mayBeAdded += projectionDtoList.size();
@@ -2456,7 +2451,7 @@ public class NMSalesProjectionResultsLogic {
             if (neededRecord > 0) {
                 List<String> hierarchyNoList = comm.getHiearchyNoAsList(projSelDTO, start, offset);
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+                for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                     SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
                     dto.setLevelNo(Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(2).toString()));
                     dto.setTreeLevelNo(dto.getLevelNo());
@@ -2475,7 +2470,6 @@ public class NMSalesProjectionResultsLogic {
                     dto.setOnExpandTotalRow(1);
                     dto.setParent(1);
                     resultList.add(dto);
-                    neededRecord--;
                 }
 
             }

@@ -7834,6 +7834,7 @@ IF  EXISTS(
                ALTER COLUMN CREATED_DATE datetime
  END
 Go
+
 ------------------------------------IVLD_DEMAND_ACTUAL--------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   INFORMATION_SCHEMA.TABLES
@@ -11177,7 +11178,6 @@ IF NOT EXISTS(SELECT 'X'
   END
 
 GO
-
  -----------------------------------IVLD_RETURN_RATE_FORECAST-----------------------------------------
  
  IF NOT EXISTS (SELECT 'X'
@@ -11222,10 +11222,10 @@ IF NOT EXISTS (SELECT 'X'
       ALTER TABLE [DBO].[IVLD_RETURN_RATE_FORECAST]
         ADD CONSTRAINT [DF_IVLD_RETURN_RATE_FORECAST_INTF_INSERTED_DATE] DEFAULT (GETDATE()) FOR INTF_INSERTED_DATE
   END
-
   
+ GO
   
-  -----------------------------add column in IVLD_RETURN_RATE_FORECAST--------------------------------------------
+-----------------------------add column in IVLD_RETURN_RATE_FORECAST--------------------------------------------
 IF NOT EXISTS (SELECT 1
                FROM   INFORMATION_SCHEMA.COLUMNS
                WHERE  TABLE_NAME = 'IVLD_RETURN_RATE_FORECAST'
@@ -11248,6 +11248,7 @@ IF NOT EXISTS (SELECT 'X'
   END
 
 GO
+
 
 ------------------IVLD_STATISTICS---------------------
 

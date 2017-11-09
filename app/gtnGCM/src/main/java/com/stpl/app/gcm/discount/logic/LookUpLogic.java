@@ -78,7 +78,7 @@ public class LookUpLogic {
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             lookupDTO = new LookupDTO();
             lookupDTO.setCfpId(CommonUtils.getPureValue(String.valueOf(objects[0])));
             lookupDTO.setCfpNo(CommonUtils.getPureValue(String.valueOf(objects[1])));
@@ -104,7 +104,7 @@ public class LookUpLogic {
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             lookupDTO = new LookupDTO();
             lookupDTO.setIfpSystemId(Integer.parseInt(String.valueOf(objects[0])));
             lookupDTO.setIfpId(CommonUtils.getPureValue(String.valueOf(objects[1])));
@@ -131,7 +131,7 @@ public class LookUpLogic {
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             lookupDTO = new LookupDTO();
             lookupDTO.setPsSystemId(Integer.parseInt(String.valueOf(objects[0])));
             lookupDTO.setPsId(CommonUtils.getPureValue(String.valueOf(objects[1])));
@@ -157,7 +157,7 @@ public class LookUpLogic {
         LookupDTO lookupDTO;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             lookupDTO = new LookupDTO();
             lookupDTO.setRsSystemId(Integer.parseInt(String.valueOf(objects[0])));
             lookupDTO.setRsId(CommonUtils.getPureValue(String.valueOf(objects[1])));

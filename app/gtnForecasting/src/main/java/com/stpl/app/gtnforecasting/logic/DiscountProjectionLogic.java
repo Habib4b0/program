@@ -71,7 +71,6 @@ public class DiscountProjectionLogic {
      * The Percent Two Decimal Places Format.
      */
     private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
-    private static final DecimalFormat PERCENTAGE_FORMAT_THREE_DECIMAL = new DecimalFormat("#,##0.000%");
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     QueryUtils utils = new QueryUtils();
     List<String> projectionPeriodList;
@@ -183,7 +182,7 @@ public class DiscountProjectionLogic {
         LOGGER.debug(" isCount " + isCount);
         LOGGER.debug(" level no " + levelNo);
         LOGGER.debug(" customTreeLevelNo " + treeLevelNo);
-        LOGGER.debug(" Hierarchy No " + hierarchyNo);
+        LOGGER.info(" Hierarchy No " + hierarchyNo);
         LOGGER.debug(" Hierarchy Indicator " + hierarchyIndicator);
         LOGGER.debug("Start:" + start);
         LOGGER.debug(" history " + history);
@@ -966,10 +965,9 @@ public class DiscountProjectionLogic {
             if (mayBeAddedRecord < 0) {
                 mayBeAddedRecord = 0;
             }
-            for (int k = mayBeAddedRecord; k < discountProjList.size() && neededRecord > 0; k++) {
+            for (int k = mayBeAddedRecord; k < discountProjList.size() && neededRecord > 0; neededRecord--, k++) {
                 discountProj.add(discountProjList.get(k));
                 started++;
-                neededRecord--;
             }
             return discountProj;
        }catch(Exception e){
@@ -1224,12 +1222,12 @@ public class DiscountProjectionLogic {
      
      
      public String getLevelName(SessionDTO session, String relLevelValue) {
-        String queryAllRebate = StringUtils.EMPTY;
+        String queryAllRebate;
         List inputList = new ArrayList<>();
         inputList.add(session.getDedRelationshipBuilderSid());
         inputList.add(relLevelValue);
         queryAllRebate = QueryUtils.getQuery(inputList, "GET_LEVEL_NAME");
         List<String> list = HelperTableLocalServiceUtil.executeSelectQuery(queryAllRebate);
-        return list.get(0).toString();
+        return list.get(0);
     }
 }

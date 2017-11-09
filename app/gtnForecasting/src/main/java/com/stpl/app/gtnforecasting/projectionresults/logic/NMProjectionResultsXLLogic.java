@@ -48,11 +48,9 @@ public class NMProjectionResultsXLLogic {
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final DecimalFormat UNIT_VOLUME = new DecimalFormat("#,##0");
     private static final DecimalFormat PER = new DecimalFormat("#,##0.00%");
-    private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
     private static final String ZERO = "0";
     private static final String CURRENT = "Projections";
     private static final String ACTUALS = "Actuals";
-    private final int index = 7;
     private final int index_detail_discount = 6;
     private int frequencyDivision;
     private final int baseColumn_levelValue_index = 2;
@@ -62,7 +60,6 @@ public class NMProjectionResultsXLLogic {
     private final int baseColumn_year_index = 4;
     private final int baseColumn_period_discount_index = 5;
     private final int baseColumn_year_discount_index = 4;
-    private final int baseColumn_discount_index = 13;
     private final List<Object[]> procRawList_total = new ArrayList();
     private final List<Object[]> procRawList_detail = new ArrayList();
     private final List<Object[]> procRawList_detail_discount = new ArrayList();

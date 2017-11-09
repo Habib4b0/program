@@ -218,9 +218,8 @@ public class DPRLogic {
                 List<DiscountProjectionResultsDTO> programCodeList;
                 programCodeList = getProgramCodeDiscount(projSelDTO);
                 if (programCodeList != null && !programCodeList.isEmpty()) {
-                    for (int k = start; k < programCodeList.size() && neededRecord > 0; k++) {
+                    for (int k = start; k < programCodeList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(programCodeList.get(k));
-                    neededRecord--;
                     started++;
                 }                   
                 }
@@ -243,9 +242,8 @@ public class DPRLogic {
                 if (maybeAddedRecord < 0) {
                     maybeAddedRecord = 0;
                 }
-                for (int k = maybeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = maybeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     totalDTO.add(projectionDtoList.get(k));
-                    neededRecord--;
                     started++;
                 }
                 mayBeAdded += projectionDtoList.size();
@@ -257,9 +255,8 @@ public class DPRLogic {
 
             } else {
                 projectionDtoList = getCustomizedPivotChildNodes(projectionDtoList, projSelDTO);
-                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));
-                    neededRecord--;
                 }
                 mayBeAdded += projectionDtoList.size();
             }
@@ -795,7 +792,7 @@ public class DPRLogic {
                 List<String> hierarchyNoList = comm.getHiearchyNoAsList(projSelDTO, start, offset);
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
-                for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+                for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                         DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                         dto.setLevelNo(Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(2).toString()));
                         dto.setTreeLevelNo(dto.getLevelNo());
@@ -820,7 +817,6 @@ public class DPRLogic {
                     dto.setOnExpandTotalRow(1);
                         dto.setParent(1);
                         resultList.add(dto);
-                       neededRecord--;
                 }
         }
         }

@@ -552,15 +552,13 @@ public class MedicaidURAResultsLogic {
 
         if ((projSelDTO.getPivotView().contains(PERIOD.getConstant())) && neededRecord > 0) {
             List<TableDTO> resultList = getMedicaidChild(projSelDTO, parentSid, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         } else if ((projSelDTO.getPivotView().contains(PRICE_TYPE.getConstant())) && neededRecord > 0) {
             List<TableDTO> resultList = getPriceTypeChild(projSelDTO, parentSid, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getMedicaidChildren ends");
@@ -645,9 +643,8 @@ public class MedicaidURAResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getMedicaidWorksheet(projSelDTO, sessionDTO);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getMedicaidResults ends");
@@ -662,9 +659,8 @@ public class MedicaidURAResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getMedicaidWorksheetChild(projSelDTO, sessionDTO);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getMedicaidChildren ends");

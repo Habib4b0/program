@@ -113,17 +113,17 @@ private static final Logger LOGGER = Logger.getLogger(ComponentSearchLookUp.clas
     List<String> countFlag = new ArrayList<>();
     List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
-    Object CFP_SEARCH_COLUMNS[] = new Object[]{
+    Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    String CFP_SEARCH_HEADERS[] = new String[]{
+    String[] CFP_SEARCH_HEADERS = new String[]{
         "CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan Id", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
-    Object IFP_SEARCH_COLUMNS[] = new Object[]{
+    Object[] IFP_SEARCH_COLUMNS = new Object[]{
         "componentId", StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, StringConstantsUtil.DESIGNATION_PROPERTY, "planId", "planName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-    String IFP_SEARCH_HEADERS[] = new String[]{
+    String[] IFP_SEARCH_HEADERS = new String[]{
         Constants.IFP_ID, Constants.IFP_NO, Constants.IFP_NAME_LABEL, "IFP Type", "IFP Category", "IFP Designation", "IFP Plan Id", "IFP Plan Name", "IFP Status", "IFP Start Date", "IFP End Date"};
-    Object PS_SEARCH_COLUMNS[] = new Object[]{
+    Object[] PS_SEARCH_COLUMNS = new Object[]{
         StringConstantsUtil.COMPONENT_NO, StringConstantsUtil.COMPONENT_NAME, StringConstantsUtil.COMPONENT_TYPE, Constants.CATEGORY, "tradeClass", StringConstantsUtil.DESIGNATION_PROPERTY, "parentPsId", "parentPsName", StringConstantsUtil.COMPONENT_STATUS_PROPERTY, Constants.START_DATE, Constants.END_DATE};
-    String PS_SEARCH_HEADERS[] = new String[]{
+    String[] PS_SEARCH_HEADERS = new String[]{
         "PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS Id", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
     public ComponentSearchLookUp(final String component, final CustomTextField componentTextField) {

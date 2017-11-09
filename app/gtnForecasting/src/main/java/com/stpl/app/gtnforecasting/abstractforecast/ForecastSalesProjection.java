@@ -533,8 +533,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
     protected CommonLogic commonLogic = new CommonLogic();
     protected List<String> generateProductToBeLoaded=new ArrayList<>();
-    protected List<String> generateCustomerToBeLoaded=new ArrayList<>();
     public static final String SALES_TAB = "Sales";
+    protected List<String> generateCustomerToBeLoaded=new ArrayList<>();
 
     /**
      * Instantiates a new Forecast Sales Projection.
@@ -718,8 +718,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             tabsheet.addTab(adjustmentLayout, Constant.ADJUSTMENT);
 
             channelLayout.setVisible(false);
-            fieldDdlb.addItem(Constant.MASS_UPDATE_SALES);
-            fieldDdlb.addItem(Constant.MASS_UPDATE_UNIT_VOLUME);
+            fieldDdlb.addItem(Constant.SALES_SMALL);
+            fieldDdlb.addItem(Constant.UNIT_VOLUME);
             fieldDdlb.addItem(Constant.ACCOUNT_GROWTH);
             fieldDdlb.addItem(Constant.PRODUCT_GROWTH);
             valueDdlb.setVisible(false);
@@ -2120,10 +2120,10 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     updateVariable = Constant.ACCOUNT_GROWTH;
                 } else if (Constant.PRODUCT_GROWTH.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.PRODUCT_GROWTH;
-                }else if (Constant.MASS_UPDATE_SALES.equals(String.valueOf(fieldDdlb.getValue()))) {
-                    updateVariable = Constant.MASS_UPDATE_SALES;
-                } else if (Constant.MASS_UPDATE_UNIT_VOLUME.equals(String.valueOf(fieldDdlb.getValue()))) {
-                    updateVariable = Constant.MASS_UPDATE_UNIT_VOLUME;
+                }else if (Constant.SALES_SMALL.equals(String.valueOf(fieldDdlb.getValue()))) {
+                    updateVariable = Constant.SALES_SMALL;
+                } else if (Constant.UNIT_VOLUME.equals(String.valueOf(fieldDdlb.getValue()))) {
+                    updateVariable = Constant.UNIT_VOLUME;
                 }else if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                     updateVariable = Constant.GROUPFCAPS;
                 } else {
@@ -3264,14 +3264,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             customerlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value)? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
-                generateCustomerToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.EMPTY_LIST : generateCustomerToBeLoaded;
+                generateCustomerToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateCustomerToBeLoaded;
                 CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
             }
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
             productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
-                generateProductToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.EMPTY_LIST : generateProductToBeLoaded;
+                generateProductToBeLoaded = value.equals(StringUtils.EMPTY) ? Collections.<String>emptyList() : generateProductToBeLoaded;
                 CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
             }
         }

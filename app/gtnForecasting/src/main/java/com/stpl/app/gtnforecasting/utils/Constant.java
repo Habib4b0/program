@@ -682,8 +682,6 @@ public class Constant {
     public static final String UNITS_SMALL = "Units";
     public static final String PRODUCT_GROWTH = "Product Growth";
     public static final String ACCOUNT_GROWTH = "Account Growth";
-    public static final String MASS_UPDATE_SALES = "Sales";
-    public static final String MASS_UPDATE_UNIT_VOLUME = "Unit Volume";
     public static final String PROJECTED_RETURN_PER = "Projected Return %";
     public static final String PROJECTED_RPU = "Projected RPU";
     public static final String PROJECTED_RETURN_AMT = "Projected Return Amount";

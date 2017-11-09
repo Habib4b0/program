@@ -162,7 +162,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO CFPCompanyDto;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             CFPCompanyDto = new ExistingComponentDTO();
             CFPCompanyDto.setCompanyId(String.valueOf(objects[0]));
             CFPCompanyDto.setCompanyNo(String.valueOf(objects[1]));
@@ -200,7 +200,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO CFPCompanyDto;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             CFPCompanyDto = new ExistingComponentDTO();
 
             CFPCompanyDto.setCompanyFamilyPlanId(String.valueOf(objects[0]));
@@ -245,7 +245,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO IFPItemDTO;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             IFPItemDTO = new ExistingComponentDTO();
 
             IFPItemDTO.setItemNo(String.valueOf(objects[0]));
@@ -286,7 +286,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO IFPItemDTO;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             IFPItemDTO = new ExistingComponentDTO();
             IFPItemDTO.setIfpDetailsSystemId(Integer.valueOf(String.valueOf(objects[0])));
             IFPItemDTO.setItemFamilyplanId(String.valueOf(objects[1]));
@@ -336,7 +336,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO PSIFPDTO;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             PSIFPDTO = new ExistingComponentDTO();
 
             PSIFPDTO.setItemNo(String.valueOf(objects[0]));
@@ -391,7 +391,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO PSIFPDTO;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             PSIFPDTO = new ExistingComponentDTO();
 
             PSIFPDTO.setPriceScheduleSystemId(String.valueOf(objects[0]));
@@ -450,7 +450,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO rsIfpDto;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             rsIfpDto = new ExistingComponentDTO();
             rsIfpDto.setRebateScheduleSystemId(Integer.parseInt(String.valueOf(objects[0])));
             rsIfpDto.setRebateScheduleId(String.valueOf(objects[1]));
@@ -487,7 +487,7 @@ public class CopyContractLogic {
         List<ExistingComponentDTO> returnList = new ArrayList<>();
         ExistingComponentDTO rsIfpDto;
         for (int i = 0; i < list.size(); i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             rsIfpDto = new ExistingComponentDTO();
 
             rsIfpDto.setItemNo(String.valueOf(objects[0]));

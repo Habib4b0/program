@@ -97,7 +97,6 @@ public class NMProjectionVarianceLogic {
     /**
      * The Constant RATE.
      */
-    private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
     public static final String SPACE = "       ";
     /**
      * RATE_PER_THREE
@@ -111,13 +110,10 @@ public class NMProjectionVarianceLogic {
     private static final String D = "D";
     public static final String JOINQUERY = "@JOINQUERY";
     private static String CURRENT = "Current";
-    private static String ACTUAL = "Actual";
-    private static String ACCRUAL = "Accrual";
     private static final int COLUMN_COUNT_TOTAL = 75;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
     private CommonLogic commonLogic = new CommonLogic();
     private static String DASH = "-";
-    private static String actualDASH = "-";
     PVQueryUtils queryUtils = new PVQueryUtils();
     ProjectionVarianceDTO valueGTS = new ProjectionVarianceDTO();
     ProjectionVarianceDTO variGTS = new ProjectionVarianceDTO();
@@ -171,8 +167,6 @@ public class NMProjectionVarianceLogic {
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private List chartList;
     private static final CommonDAO commonDao = new CommonDAOImpl();
-    private boolean actualBasis = false;
-    private boolean accrualBasis = false;
 
     public List getChartList() {
         return chartList;
@@ -640,8 +634,6 @@ public class NMProjectionVarianceLogic {
         int maxRecord = -1;
         boolean isDiscountExpand = false;
         pVSelectionDTO.setDiscountFlag(false);
-        actualBasis = (Constant.ACTUALS).equals(pVSelectionDTO.getComparisonBasis());
-        accrualBasis = (Constant.ACCRUALS).equals(pVSelectionDTO.getComparisonBasis());
         if (!pVSelectionDTO.getDiscountLevel().equalsIgnoreCase(TOTAL_DISCOUNT.getConstant())) {
             pVSelectionDTO.setDiscountFlag(true);
         }
@@ -722,9 +714,8 @@ public class NMProjectionVarianceLogic {
                         tobeAddedList.addAll(allList);
                     }
                     setChartList(tobeAddedList);
-                    for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); i++) {
+                    for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
                         projDTOList.add(tobeAddedList.get(i));
-                        neededRecord--;
                     }
                 }
             }
@@ -1213,9 +1204,8 @@ public class NMProjectionVarianceLogic {
                     getTotalDiscountResults(pvsdto);
                 }
                 List<ProjectionVarianceDTO> finalList = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, baseVariables, pivotDiscountList);
-                for (int i = started; (i < finalList.size()) && (neededRecord > 0); i++) {
+                for (int i = started; (i < finalList.size()) && (neededRecord > 0); neededRecord--, i++) {
                     projDTOList.add(finalList.get(i));
-                    neededRecord--;
                 }
             } else if (parent instanceof ProjectionVarianceDTO) {
                 parentDto = (ProjectionVarianceDTO) parent;
@@ -1225,9 +1215,8 @@ public class NMProjectionVarianceLogic {
                 } else {
                     getTotalDiscountResults(pvsdto);
                     List<ProjectionVarianceDTO> dto = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, baseVariables, pivotDiscountList);
-                    for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
+                    for (int i = started; (i < dto.size()) && (neededRecord > 0); neededRecord--, i++) {
                         projDTOList.add(dto.get(i));
-                        neededRecord--;
                     }
                 }
             }
@@ -1567,8 +1556,6 @@ public class NMProjectionVarianceLogic {
         Map<String, String> periodListMap = new HashMap<>(pvsdto.getPeriodListMap());
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         int frequencyDivision = pvsdto.getFrequencyDivision();
-        actualBasis = Constant.ACTUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
-        accrualBasis = Constant.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
         if (results != null && !results.isEmpty()) {
             for (int i = 0; i < results.size(); i++) {
                 final Object[] row = (Object[]) results.get(i);

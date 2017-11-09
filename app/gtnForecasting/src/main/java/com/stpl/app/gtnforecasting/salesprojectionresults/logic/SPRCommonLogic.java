@@ -1531,7 +1531,6 @@ public class SPRCommonLogic {
                     + whereCond;
         }
         customSql += recordNumber;
-        System.out.println("**********************getLevelIndexQuery"+customSql);
         return customSql;
     }
 

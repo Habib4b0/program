@@ -376,7 +376,7 @@ public class DiscountQueryBuilder {
                 levelNo = String.valueOf(session.getSelectedDeductionLevelNo());
                 }
 
-                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,levelNo,isCustomHierarchy);
+                String rebateHiearachyJoin=getRebateJoin(!hierarIndicator.equals("D") ? selectedDiscounts : relValue,session,levelNo);
                 String declareStatement = " DECLARE @START_MONTH INT=" + startMonth + "\n"
                         + " DECLARE @START_YEAR INT=" + startYear + "\n"
                         + " DECLARE @END_MONTH INT=" + endMonth + "\n"
@@ -1015,7 +1015,8 @@ public class DiscountQueryBuilder {
         }
 
         if (isCustomHierarchy) {
-            customSql = customSql.replace(Constant.HIERARCHY_NO, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : "P".equalsIgnoreCase(hierarchyIndicator) ? productHierarchyNo : deductionHierarchyNo);
+            String productOrDedIndicator="P".equalsIgnoreCase(hierarchyIndicator) ? productHierarchyNo : deductionHierarchyNo;
+            customSql = customSql.replace(Constant.HIERARCHY_NO, "C".equalsIgnoreCase(hierarchyIndicator) ? customerHierarchyNo : productOrDedIndicator);
             if (StringUtils.isNotBlank(parentHierarchyNo)) {
                 customSql = customSql.replace("@CUSTOM_VIEW", commonLogic.getColumnNameCustomRel(parentHierarchyIndicator,parentHierarchyNo,session) +" "+ commonLogic.getColumnNameCustomRel(parentHierarchyIndicatorDeduction,parentHierarchyNoDeduction,session));
             }
@@ -1037,7 +1038,7 @@ public class DiscountQueryBuilder {
         return levelNoFromQuery.toString();
     }
 
-    private String getRebateJoin(String deductionSid,SessionDTO session,String levelNo,boolean isCustomHierarchy) {
+    private String getRebateJoin(String deductionSid,SessionDTO session,String levelNo) {
         String joinQuery="    IF OBJECT_ID('TEMPDB..#SELECTED_REBATE') IS NOT NULL\n" +
 "                DROP TABLE #SELECTED_REBATE\n" +
 "                CREATE TABLE #SELECTED_REBATE\n" +
