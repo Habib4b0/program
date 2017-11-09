@@ -1,0 +1,5 @@
+@import "valo";
+
+.stpl {
+  @include valo;
+}

@@ -1,0 +1,850 @@
+/* ----------- Compass Import ----------*/
+@import "compass";
+
+/************ Imports **********/
+
+@import "ace-fonts.css";
+@import "ace.css";
+@import "ace-responsive.css";
+@import "ace-rtl.min.css";
+@import "colorbox.css";
+@import "jquery-ui-1.10.3.custom.css";
+@import "jquery-ui-1.10.3.full.min.css";
+
+@import "chosen.css";
+@import "datepicker.css";
+@import "bootstrap-timepicker.css";
+@import "daterangepicker.css";
+@import "colorpicker.css";
+@import "bootstrap-editable.css";
+@import "select2.css";
+@import "jquery.gritter.css";
+
+@import "dropzone.css";
+@import "fullcalendar.css";
+@import "fullcalendar.print.css";
+@import "prettify.css";
+@import "ui.jqgrid.css";
+@import "custom_responsive.css";
+/* ---------- color schemes import ---------- */
+@import url(color_schemes/purple.css);
+
+@import url(color_schemes/gray.css);
+
+@import url(color_schemes/dark.css);
+
+@import url(color_schemes/default.css);
+
+/*-------------------------------------------------------------------------------------------
+
+INDEX:
+
+0. MIXINS
+
+1. SETUP
+-1.1 Defaults
+
+2. Global STRUCTURE
+-2.1 Wrappers
+-2.2 Navigation
+-2.3 Liferay Defaults
+-2.4 Footer
+-2.5 Logo
+-2.6 Bootstrap Custom
+-2.7 Language Switcher
+
+-3. PORTLETS
+-3.1 Media portlet
+-3.2 media library
+-3.3 Calender
+-3.4 Dockbar
+-3.5 Login
+-3.6 Search 
+
+4. CONTENTS
+-4.1 Spinner preview
+-4.2 Colorpicker 
+-4.3 Grid content
+-4.4 Thumbnails
+-------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*/
+/* -------------------------------------1. SETUP --------------------------------------------*/
+/*-------------------------------------------------------------------------------------------*/
+
+/* ------------1.1 Defaults-------------- */
+.aui{
+	body{
+		&.navbar-fixed {
+			padding-top: 47px;
+		}
+	}
+	.unseen{
+		display: none;
+	}
+	.divider-vertical {
+		display: none !important;	
+	}
+	.clear {
+	  clear: both;
+	}
+	.editable {
+		position: relative;
+	}
+	h1, h2, h3, h4, h5, h6 {
+	  font-weight: normal;
+	}
+	.form-search .btn {
+	  background-color: #6fb3e0 !important;
+	  border-color: #6fb3e0;
+	  &:hover {
+	    background-color: #4f99c6 !important;
+	  }
+	}
+	.header {
+	  margin-bottom: 0;
+	  margin-top: 0;
+	  padding-bottom: 0;
+	  border-bottom: 1px solid #CCC;
+	}
+	
+	.btn-small, .btn {
+	  border-radius: 5px;
+	}
+	.user-info {
+	  color: white;
+	  text-shadow: none;
+	}
+	
+/*-------------------------------------------------------------------------------------------*/
+/* -------------------------------------2. Global STRUCTURE ---------------------------------*/
+/*-------------------------------------------------------------------------------------------*/
+ 
+ /* ------------------2.1 Wrappers ------------------- */
+ 	#wrapper {
+	  padding: 0;
+	}
+	.main-content {
+		margin-left: 211px;
+	}
+	
+	/* --------------------2.2 Navigation --------------*/ 
+	
+	.sidebar{
+		height: auto;
+		width: 210px;
+		&:before {
+			width: 210px;
+		}
+		&.menu-min{
+			.second-i {
+				display: none;
+			}
+		}
+		.first-i{
+			position: absolute;
+		}
+		span.menu-text{
+			padding-left: 12px;
+		}
+		.submenu span.menu-text{
+			padding-left: 0px;
+		}
+		
+		.second-i{
+			float: right;
+		}
+		.dropdown-toggle, .submenu{
+			.second-i{
+				margin-right: 15px;
+			}
+		}
+		.nav-list li.open > .submenu {
+			display: block;
+		}
+	}
+	
+	
+	/* -------------2.3 Liferay Defaults ----------*/
+	
+	
+	.lfr-admin-panel{
+		.nav-collapse .nav > li > a, .aui .nav-collapse .dropdown-menu a {
+			padding: 9px 15px;
+			font-weight: bold;
+			color: #555;
+		}
+	}
+	.portlet-boundary .journal-content-article .header {
+		margin-bottom: 16px;
+		margin-top: 18px;
+		padding-bottom: 4px;
+	}
+	.portlet-boundary .header {
+	  margin: 0;
+	  padding: 0;
+	}
+	.alert-success {
+	  color: #468847;
+	  background-color: #dff0d8;
+	  border-color: #d6e9c6;
+	}
+	
+	.alert-success h4 {
+	  color: #468847;
+	}
+	
+	.alert-danger,
+	.alert-error {
+	  color: #b94a48;
+	  background-color: #f2dede;
+	  border-color: #eed3d7;
+	}
+	
+	.alert-danger h4,
+	.alert-error h4 {
+	  color: #b94a48;
+	}
+	
+	.alert-info {
+	  color: #3a87ad;
+	  background-color: #d9edf7;
+	  border-color: #bce8f1;
+	}
+	
+	.alert-info h4 {
+	  color: #3a87ad;
+	}
+	.breadcrumbs {
+		margin: 0;
+	}
+	.modify-pages .delete-tab{
+		top: 8%; 
+	}
+	/* -------------2.4 Footer ----------*/
+	
+	#footer{
+		bottom: 0;
+		position: absolute; 
+		width: 99%;
+		overflow:hidden;
+		/*border-top: 1px solid #CCC;
+		background-color: #F2F2F2; */
+	}
+	
+	/*-----------2.5 logo ---------*/
+	.site-title{
+		float: left;
+		position: relative;
+		z-index: 1;
+		margin: 0px 0 5px 0;
+		small{
+			color: white;
+			font-weight: 300;
+		}
+		.logo{
+			img{
+				bottom: 3px;
+				left:6px;
+				position: relative;
+			}
+		}
+	}
+	/* -------------2.6 Bootstrap Custom ----------*/
+	
+	/*----------- nav ---------*/
+	.navbar {
+	  margin-bottom: 0;
+	  background: rgb(127,185,239); /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzdmYjllZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyZTg1ZDgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  rgba(127,185,239,1) 0%, rgba(46,133,216,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(127,185,239,1)), color-stop(100%,rgba(46,133,216,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(127,185,239,1) 0%,rgba(46,133,216,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(127,185,239,1) 0%,rgba(46,133,216,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(127,185,239,1) 0%,rgba(46,133,216,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(127,185,239,1) 0%,rgba(46,133,216,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7fb9ef', endColorstr='#2e85d8',GradientType=0 ); /* IE6-8 */ 
+	}
+	.navbar .navbar-brand {
+	  color: #fff;
+	  font-size: 24px;
+	  text-shadow: none;
+	  height: auto;
+	  margin-top: 10px;
+	  font-weight: 200;
+	}
+	
+	a.navbar-brand {
+	  &:hover, &:focus {
+	    color: #fff;
+	    text-decoration: none;
+	    text-shadow: none;
+	  }
+	}
+	
+	/* tabs*/
+	
+	.tabs-left > .nav-tabs {
+	  margin-right: 0;
+	}
+	
+	/* Accordion */
+	.accordion-style2.panel-group .panel-heading .accordion-toggle:hover {
+	  text-decoration: none;
+	}
+	
+	.accordion-style1.panel-group .panel-heading {
+	 	padding: 9px;
+	  margin-bottom: 4px;
+	  .accordion-toggle:hover {
+	    color: #6ea6cc;
+	    background-color: #f1f8fd;
+	  }
+	 
+	}
+	
+	.accordion-style2.panel-group .accordion-style2.panel-group .panel {
+	  border-bottom: 1px dotted #d9d9d9;
+	}
+	
+	.accordion-style1.panel-group {
+	  .panel-heading + .panel-collapse .panel-body {
+	    border-top-color: #cdd8e3!important;
+	  }
+	  .panel-collapse .panel-heading {
+	    background-color: transparent;
+	    margin-bottom: 0;
+	  }
+	}
+	
+	/*--------------2.7 Language Switcher ----------------*/
+
+	#Language-choices {
+		float: right;
+		position: absolute;
+		right: 10px;
+		top: 0;
+		header{
+			display: none;
+		}
+		.portlet-content{
+			padding: 0;
+		} 
+	}
+	
+	
+	
+	
+
+/*-------------------------------------------------------------------------------------*/
+/* -------------------------------------3. PORTLETS ----------------------------------*/
+/*-----------------------------------------------------------------------------------*/
+ 
+
+/* ---------3.1 Media portlet -----------*/
+.portlet-image-gallery-display{
+	.image-thumbnail img {
+	  margin: 2px;
+	  border: 2px solid #333;
+	  padding: 0px;
+	}
+	
+	.active-area-proxy, .entry-display-style .entry-thumbnail, .lfr-api-results, .lfr-translation-manager, .lfr-translation-manager-translation, .lfr-upload-container .cancel-button .modify-pages .delete-tab, .portlet-image-gallery-display .image-thumbnail img, .rule-group-instance-container .rule-group-instance, .select-documents, .select-files {
+	  border-radius: 0px;
+	}
+	
+	.taglib-ratings.stars:hover {
+	  border-radius: 0px;
+	  .liferay-rating-vote {
+	    border-radius: 0px;
+	  }
+	}
+	
+	.tags-search-combobox .field-input-text {
+	  border-radius: 0px;
+	}
+	
+	button {
+	  &.close, &.btn.close {
+	    background: url(images/controls.png) no-repeat -25px 0;
+	    background-position: -25px -25px;
+	    -webkit-appearance: none;
+	    opacity: 1;
+	    border-radius: 60px;
+	    width: 25px;
+	    height: 25px;
+	  }
+	}
+	
+	.close:hover {
+	  opacity: 1;
+	}
+	
+	.btn.close {
+	  &:focus, &:hover, &.active {
+	    opacity: 1;
+	  }
+	}
+	
+	.close:focus {
+	  opacity: 1;
+	}
+	
+	.pagination {
+	  display: none;
+	}
+	
+	.image-gallery-player-content .btn-group .btn, .portlet-body .btn-group .btn, .taglib-search-iterator-page-iterator-top .a {
+	  background-color: #6fb3e0 !important;
+	  border-color: #6fb3e0;
+	  &:hover {
+	    background-color: #4f99c6 !important;
+	  }
+	}
+	
+	.image-icon {
+	  &:hover, &.hover {
+	    background-color: white;
+	  }
+	}
+	
+	.yui3-skin-sam .yui3-widget-mask {
+	  background: url(images/overlay.png) repeat 0 0;
+	  opacity: 0.9;
+	}
+
+}	
+
+	/*----------3.2 media library ------------*/
+	#file_upload {
+	  .upload-target {
+	    -webkit-border-radius: 0;
+	    -moz-border-radius: 0;
+	    border-radius: 0;
+	    border: 1px solid rgba(0, 0, 0, 0.06);
+	    background: rgba(0, 0, 0, 0.03);
+	    padding: 23px;
+	    min-height: 300px;
+	    position: relative;
+	  }
+	  .span6 {
+	    width: 100%;
+	    margin: 0;
+	  }
+	  .upload-target .drag-drop-area {
+	    background-image: none;
+	    font-size: 24px;
+	    text-align: center;
+	    line-height: 32px;
+	    left: 0;
+	    width: 100%;
+	    margin-left: auto;
+	    position: absolute;
+	    top: 50%;
+	    span {
+	      display: inline;
+	      color: #555;
+	      .upload-icon {
+	        opacity: 0.7;
+	        filter: alpha(opacity = 70);
+	        margin-top: 8px;
+	        cursor: pointer;
+	        &:hover {
+	          opacity: 1;
+	          filter: alpha(opacity = 100);
+	        }
+	      }
+	    }
+	  }
+	}
+	
+	
+	
+	/*---------3.3 Calender -----------*/
+	.calendar-portlet{
+		display:none; /*to remove the portlet  components load jumping*/
+	}
+	.scheduler-base-controls .scheduler-base-view-date {
+		font-size: 22px;
+		color: #65A0CE;
+		float: right;
+		padding: 10px 0;
+	}
+	.calendar-portlet .btn.active:after{
+		border-bottom: none;
+	}
+	/*--------3.4 Dockbar ----------*/
+	
+	.dockbar{
+		&.navbar .navbar-inner{
+			min-height: inherit;
+			padding-left:10px;
+			padding-right:0px;	
+		}
+		&.navbar .nav > li.user-avatar > a{
+			padding: 6px 15px 3px;
+		}	
+		&.navbar .nav>li.user-avatar {
+			background: #73bae4 ;
+		}
+		&.navbar .navbar-brand{
+			float: left;
+		}
+		.user-avatar img {
+			margin: -4px 8px 0 0;
+			border-radius: 24px;
+			border: 2px solid #FFF;
+			max-width: 36px !important;
+			width: 36px;
+		}
+		#_145_navAccountControlsNavbarBtn{
+			font-size: 13px;
+			background: #62A8D1 !important;
+		}
+		#_145_navAddControlsNavbarBtn{
+			background: #2E8965 !important;
+		}	
+		.user-full-name{
+			max-width: 100px;
+			display: inline-block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			vertical-align: top;
+			line-height: 15px;
+			position: relative;
+			small{
+				display: block;
+			}
+		}
+		li{
+			line-height: 25px;
+		}
+		&.navbar .nav li.dropdown.open>.dropdown-toggle, &.navbar .nav li.dropdown.active>.dropdown-toggle, &.navbar .nav li.dropdown.open.active>.dropdown-toggle {
+			background-color: inherit;
+			color: #FFF;
+		}
+	}
+	.dockbar-user-notifications{
+		background: #892E65;
+		.user-notification-link{
+			padding: 10px 8px !important;
+			i{
+				font-size: 16px;
+				color: #EEE;
+				display: inline-block;
+				width: 20px;
+				text-align: center;
+			}
+		}
+		.user-notifications-count {
+			-webkit-border-radius: 50%;
+			-moz-border-radius: 50%;
+			-ms-border-radius: 50%;
+			-o-border-radius: 50%;
+			border-radius: 50%;
+			background-color: #D15B47 !important;
+			border-color: #D15B47 !important;
+			padding: 0px 5px;
+			display: inline-block;
+		}	
+	} 
+	
+	/*----------3.5 Login ------------*/
+	.signed-out{
+		.portlet-login{
+			background: #fff;
+			position: fixed;
+			height: 100%;
+			width: 100%;
+			top: 0;
+			right: 0;
+			overflow: scroll;
+			z-index: 999999;
+			.portlet-content{
+			border: 1px solid #d2d2d2;
+    		border-radius: 7px;
+    		padding: 3px 0px;
+    		box-shadow: 0px 7px 7px #ddd;
+			}
+			.portlet-topper{
+				display: none;
+			}
+			form {
+				padding: 0px 25px;
+				margin: 0;
+				.control-group{
+					position : relative;
+					[class*="icon-"]{
+						left: auto;
+						right: 3px;
+						padding: 0 3px;
+						z-index: 2;
+						position: absolute;
+						top: 25px;
+						bottom: 1px;
+						line-height: 28px;
+						display: inline-block;
+						color: #909090;
+						font-size: 16px;
+					}
+				}
+				input[type="text"], input[type="password"]{
+					width: 90.5%;
+					padding-right: 20px;
+				}
+				.span6 {
+					width: 100%;
+					input[type="text"], input[type="password"]{
+						max-width: 90% !important;
+						width: 90%;
+					}
+				}		
+				.sign-in-form .button-holder{
+					position: relative;
+					overflow: visible;
+					.btn-primary{
+						padding: 0 15px;
+						line-height: 24px;
+						border-width: 4px;
+						font-size: 13px;
+						position: absolute;
+						right: 0;
+						top: -45px;	
+						&:active {
+							left: auto;
+						}
+					}		
+				}					
+			}
+			.navigation{
+				background: #e7e7e7;
+				border-top: 2px solid #597597;
+				a {
+					color: #3464a0;
+				}
+				
+			}
+			.header {
+				margin-bottom: 16px;
+				padding-top: 18px;
+				padding-bottom: 4px;
+				border-bottom: 1px solid #CCC;
+				margin: 0px 36px 0;
+			}
+			.portlet{
+				min-width: 10%;
+				max-width:375px;
+				margin: 7% auto;
+                 padding: 10px;
+                 background-color: #fff;
+				.portlet-body{
+					background: #F7F7F7;
+				}
+				
+			}
+		}
+	} 
+	
+	/*----------2.8 Search ----------*/
+	
+	.breadcrumbs .nav-search {
+		right: 101px;
+	}
+	.nav-search
+	{
+		.nav-search-input {
+		  border-color: #6fb3e0;
+		  border-width: 1px;
+		  width: 120px;
+		  height: 18px!important;
+		  -webkit-border-radius: 4px!important;
+		  -moz-border-radius: 4px!important;
+		  border-radius: 4px!important;
+		  font-size: 13px;
+		  color: #666!important;
+		  z-index: 11;
+		  -webkit-transition: width ease .15s;
+		  -moz-transition: width ease .15s;
+		  -o-transition: width ease .15s;
+		  transition: width ease .15s;
+		}
+		form {
+		  margin: 0;
+		  padding: 0;
+		  .control-group {
+		    margin: 0;
+		    padding: 0;
+		    input[type="text"] {
+		      background: white url(../images/search.png) no-repeat 4% center;
+		      background-size: 13px;
+		      padding-left: 23px;
+		      border-color: #6fb3e0;
+		      border-width: 1px;
+		      width: 120px;
+		      height: 18px!important;
+		      -webkit-border-radius: 4px!important;
+		      -moz-border-radius: 4px!important;
+		      border-radius: 4px!important;
+		      font-size: 13px;
+		      color: #858585;
+		      z-index: 11;
+		      -webkit-transition: width ease .15s;
+		      -moz-transition: width ease .15s;
+		      -o-transition: width ease .15s;
+		      transition: width ease .15s;
+		    }
+		    input[type="image"]  {
+			  display: none;
+			}
+		  }
+		}
+	} 
+	
+	/*--------------------------------------------------------------------------------------*/
+	/* ------------------------------------- 4. CONTENTS ----------------------------------*/
+	/*------------------------------------------------------------------------------------*/
+
+	/*----------4.1 Spinner preview -----------*/
+	.spinner-preview {
+		width:100px;
+		height:100px;
+		text-align:center;
+		margin-top:60px;
+	}
+			
+	.dropdown-preview {
+		margin:0 5px;
+		display:inline-block;
+	}
+	.dropdown-preview  > .dropdown-menu {
+		display: block;
+		position: static;
+		margin-bottom: 5px;
+	}
+	.ui-spinner-up, .ui-spinner-down {
+		right: 0;
+	}
+	
+	/*-----------4.2 Colorpicker ------------*/
+	.colorpicker{
+		width: auto;
+	}
+	/*------------4.3 grid content -------------*/
+	
+	.grid-content .main-content, .faq-content .main-content, .gallery-content .main-content {
+	  margin-left: 0;
+	}
+	
+	.grid-content {
+	  .center {
+	    text-align: center;
+	    [class*="col-"] {
+	      float: left;
+	      margin-top: 2px;
+	      margin-bottom: 2px;
+	      padding-top: 4px;
+	      padding-bottom: 4px;
+	      position: relative;
+	      text-overflow: ellipsis;
+	      span {
+	        position: relative;
+	        z-index: 2;
+	        display: inline-block;
+	        overflow: hidden;
+	        text-overflow: ellipsis;
+	        white-space: nowrap;
+	        width: 100%;
+	      }
+	      &:before {
+	        position: absolute;
+	        top: 0;
+	        bottom: 0;
+	        left: 2px;
+	        right: 2px;
+	        content: "";
+	        display: block;
+	        border: 1px solid #DDD;
+	        z-index: 1;
+	      }
+	      &:hover:before {
+	        background-color: #FCE6A6;
+	        border-color: #EFD27A;
+	      }
+	    }
+	  }
+	  .row {
+	    margin-left: 0;
+	  }
+	}
+	
+	.faq-content .row, .gallery-content .row {
+	  margin-left: 0;
+	}
+	
+	.panel-body {
+	  padding: 10px 20px;
+	}
+	
+	.panel-default > .panel-heading {
+	  color: #333;
+	  background-color: #f5f5f5;
+	  border-color: #ddd;
+	}
+	
+	/*--------------4.4 Thumbnails -------------*/
+	ul.ace-thumbnails {
+	  padding: 0;
+	}
+	
+	.ace-thumbnails {
+	  li img {
+	    height: 150px;
+	    width: 150px;
+	  }
+	  > li .tags > .label-holder {
+	    opacity: .92;
+	    filter: alpha(opacity = 92);
+	    display: table;
+	    margin: 1px 0 0 0;
+	    direction: ltr;
+	    text-align: left;
+	  }
+	}
+	.error-container li {
+	  display: block;
+	}
+}
+
+/* custom css by SML */
+.aui .nav > li > a > img {
+	padding-left:5px;
+}
+.portlet-content, .portlet-minimized .portlet-content-container {
+	padding:0px;
+}
+.aui .dockbar #_145_navAddControlsNavbarBtn {
+	background: #658dbf !important;
+}
+
+
+@media (min-width: 460px) and (max-width: 767px) {
+.valo .bootstrap-company-ui .v-layout {
+    
+}
+	 .aui .dockbar.navbar-static-top .collapse .nav-account-controls
+{
+	position:relative !important;
+}
+}
+@media (min-width: 100px) and (max-width: 503px)  {
+.valo .bootstrap-company-ui .v-layout {
+}
+.valo .bootstrap-company-ui .v-label {
+    text-align: left !important;
+}
+	 .aui .dockbar.navbar-static-top .collapse .nav-account-controls
+{
+	position:absolute !important;
+}
+}
