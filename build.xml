@@ -22,7 +22,7 @@
 		<mkdir dir="${DB_Script}" />
 		<mkdir dir="${Application_Build}" />
 		<mkdir dir="${DefaultWar}/ETL_Build/" />
-		<mkdir dir="${DefaultWar}/ETL_Build/Interface_Job/" />
+		<mkdir dir="${DefaultWar}/ETL_Build/Interface_Job/Scripts/" />
 		<mkdir dir="${rpmdir}" />
 	</target>
 
@@ -68,7 +68,7 @@
 		<copy file="etl/EtlConfiguration.properties" tofile="${Application_Build}/EtlConfiguration.properties" />
 		<copy file="etl/ETLProcedureInput.properties" tofile="${Application_Build}/ETLProcedureInput.properties" />
 
-		<copy todir="${DefaultWar}/ETL_Build/Interface_Job/">
+		<copy todir="${DefaultWar}/ETL_Build/Interface_Job/Scripts/">
 			<fileset dir="etl/Scripts" />
 		</copy>
 
