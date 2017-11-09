@@ -715,6 +715,7 @@ public class FileManagementLookup extends Window {
                             idList.add(beanItem);
                         }
                     }
+                    detailsBean.addItem(idList);
                     if (idList.size() > 0) {
                         deleteFlag = false;
                         selectClose = true;
@@ -1819,7 +1820,7 @@ public class FileManagementLookup extends Window {
     }
 
     public void saveButtonLogic() {
-        LOGGER.debug("Enters Inside Save Button Logic");
+        LOGGER.info("Enters Inside Save Button Logic detailsBean size "+detailsBean.size());
         Boolean changeFlag = false;
        
         final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
@@ -1881,10 +1882,11 @@ public class FileManagementLookup extends Window {
                     }
                             }
                         }
-                    
+                    System.out.println("itemIds.size() at 1889= "+itemIds.size());
             for (int i = 0; i < itemIds.size(); i++) {
                 final FileMananagementResultDTO beanItem = itemIds.get(i);
                 if (!beanItem.isRecordLockStatus()) {
+                    System.out.println("Inside if at 1889");
 
                     if (((beanItem.getYear().toString().equals(ConstantsUtils.EMPTY))
                             || (beanItem.getMonth().toString().equals(ConstantsUtils.EMPTY))
@@ -1947,6 +1949,7 @@ public class FileManagementLookup extends Window {
                         AbstractNotificationUtils.getErrorNotification(ConstantsUtils.FIELD_ERROR, StringConstantUtils.PLEASE_ENTER_THE_VALUE_ALL_FIELDS);
                         return;
                     }
+                    System.out.println("beanItem.getForecastSystemId() = "+beanItem.getForecastSystemId());
                     currentSystemId.add(beanItem.getForecastSystemId());
                     if (beanItem.getForecastSystemId() == 0
                             && (CommonUtil.getSelectedFileType(fmFileType).toString().equals(ConstantsUtils.DEMAND)
@@ -1959,6 +1962,7 @@ public class FileManagementLookup extends Window {
                 }
             }
             if (currentSystemId.contains(0)) {
+                System.out.println("Inside if at 1963");
                 changeFlag = true;
             }
             DynamicQuery dynamicQuery;
@@ -1966,13 +1970,16 @@ public class FileManagementLookup extends Window {
             final HashMap savedForecast = new HashMap();
             List<Integer> existingSystemId = new ArrayList<>();
             if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+                System.out.println("Inside if at 1971");
                 dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingMaster.class);
+                System.out.println("versionList.getValue().toString() = "+versionList.getValue().toString());
                 dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.SOURCE, selectedFile));
                 dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.FORECAST_YEAR, String.valueOf(selectedYear)));
                 dynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COUNTRY, country.getValue().toString()));
                 dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_VER, versionList.getValue().toString()));
                 dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.FORECAST_NAME, fileNameList.getValue().toString()));
                 List<ForecastingMaster> listToRemove = ForecastingMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
+                System.out.println("listToRemove= "+listToRemove.size());
                 for (final Iterator<ForecastingMaster> iterator = listToRemove.iterator(); iterator.hasNext();) {
                     final ForecastingMaster itemDetail = iterator.next();
                     existingSystemId.add(itemDetail.getForecastMasterSid());
@@ -2033,6 +2040,8 @@ public class FileManagementLookup extends Window {
             if (!changeFlag) {
                 Collections.sort(existingSystemId);
                 Collections.sort(currentSystemId);
+                System.out.println("existingSystemId = "+existingSystemId);
+                System.out.println("currentSystemId = " + currentSystemId);
                 if (existingSystemId.equals(currentSystemId)) {
                     for (int i = 0; i < itemIds.size(); i++) {
                         final FileMananagementResultDTO beanItem = itemIds.get(i);
@@ -2040,6 +2049,7 @@ public class FileManagementLookup extends Window {
                             if ((beanItem.getPrice().equals(beanItem.getHiddenPrice())
                                     && beanItem.getUnits().equals(beanItem.getHiddenUnits()))
                                     && CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.EX_FACTORY_SALES)) {
+                                System.out.println("Inside if at 2046");
                             } else if (beanItem.getForecastType().equals(beanItem.getHiddenForecastType())
                                     && beanItem.getForcastYear().equals(beanItem.getHiddenForecastYear())
                                     && beanItem.getForecastMonth().equals(beanItem.getHiddenForecastMonth())
@@ -2109,6 +2119,7 @@ public class FileManagementLookup extends Window {
                             }
                             FileManagementLogic logic = new FileManagementLogic();
                             try {
+                                System.out.println("itemIds = "+itemIds.size());
                                 String msg = "fail";
                                 if (CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.DEMAND)
                                         || CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.ADJUSTED_DEMAND)
