@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#x2f;</directory>
+    <directory>&#47;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,11 +34,6 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
-<metrics-log-table><connection/>
-<schema/>
-<table/>
-<timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -67,23 +62,21 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</created_date>
+  <created_date>2015&#47;09&#47;21 12:26:33.734</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#x2f;09&#x2f;21 12&#x3a;26&#x3a;33.734</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
+  <modified_date>2015&#47;09&#47;21 12:26:33.734</modified_date>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>db</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>${BPI_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
+    <database>${BPI_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -102,13 +95,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>${STAGING_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>${STAGING_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -125,13 +118,13 @@
   </connection>
   <connection>
     <name>sys_db</name>
-    <server>&#x24;&#x7b;BPI_SYS_HOST&#x7d;</server>
+    <server>${BPI_SYS_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_SYS_DB&#x7d;</database>
+    <database>${BPI_SYS_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_SYS_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_SYS_PASSWORD&#x7d;</password>
+    <username>${BPI_SYS_USER}</username>
+    <password>${BPI_SYS_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -147,36 +140,12 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>
-  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>
-  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>
-  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field Length</from><to>Invalid Field type</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>
-  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>
-  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>
-  <hop> <from>RETURN_RATE_FORECAST_INTERFACE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Field type</from><to>RETURN_RATE_FORECAST_INTERFACE</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>N</enabled> </hop>
-  <hop> <from>RATE</from><to>INVALID_TABLE 2 2 3 2</to><enabled>N</enabled> </hop>
-  <hop> <from>RETURN_RATE_FORECAST_INTERFACE_ID</from><to>INVALID_TABLE 2 2 3 2</to><enabled>N</enabled> </hop>
-  <hop> <from>RETURN_RATE_FORECAST_INTERFACE_ID</from><to>RATE</to><enabled>N</enabled> </hop>
-  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field type</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>RETURN_RATE_FORECAST_INTERFACE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>N</enabled> </hop>  <hop> <from>RATE</from><to>INVALID_TABLE 2 2 3 2</to><enabled>N</enabled> </hop>  <hop> <from>RETURN_RATE_FORECAST_INTERFACE_ID</from><to>INVALID_TABLE 2 2 3 2</to><enabled>N</enabled> </hop>  <hop> <from>RETURN_RATE_FORECAST_INTERFACE_ID</from><to>RATE</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Field type</from><to>Replace in string</to><enabled>Y</enabled> </hop>  <hop> <from>Replace in string</from><to>RETURN_RATE_FORECAST_INTERFACE</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -194,19 +163,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -227,7 +196,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -244,7 +212,6 @@
         <nullif>Missing Required Field</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Length_description</name>
@@ -256,7 +223,6 @@
         <nullif>Invalid Field Length</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Invalid Field Type_description</name>
@@ -268,7 +234,6 @@
         <nullif>Invalid Field Type</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Record Duplicate_description</name>
@@ -280,7 +245,6 @@
         <nullif>Record Duplicate</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ErrorCode_Numeric</name>
@@ -292,7 +256,6 @@
         <nullif>E03</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ErrorField_Numeric</name>
@@ -304,7 +267,6 @@
         <nullif>RETURN_RATE_FORECAST_INTERFACE_ID</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -320,7 +282,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -337,7 +298,6 @@
         <nullif>R</nullif>
         <length>10</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -349,7 +309,6 @@
         <nullif>RETURN_RATE_FORECAST_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -365,18 +324,17 @@
     <type>CsvInput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;RETURN_RATE_FORECAST_INTERFACE1.csv</filename>
+    <filename>${FILE_LOCAL_PATH}&#47;RETURN_RATE_FORECAST_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
-    <enclosure>&#x22;</enclosure>
+    <separator>${DELIMITER}</separator>
+    <enclosure>&quot;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>N</lazy_conversion>
@@ -575,7 +533,6 @@
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -583,7 +540,9 @@
            </partitioning>
     <connection>sys_db</connection>
     <rowlimit>0</rowlimit>
-    <sql>&#xa;SELECT userid as userid&#xa;FROM user_ where screenname&#x3d;&#x27;etluser&#x27; </sql>
+    <sql>
+SELECT userid as userid
+FROM user_ where screenname=&apos;etluser&apos; </sql>
     <outer_join>Y</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -601,7 +560,6 @@
     <type>GetVariable</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -610,7 +568,7 @@
     <fields>
       <field>
         <name>userid</name>
-        <variable>&#x24;&#x7b;userid&#x7d;</variable>
+        <variable>${userid}</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -634,7 +592,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -748,7 +705,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -862,7 +818,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -972,11 +927,123 @@
     </step>
 
   <step>
+    <name>INVALID_TABLE 2 2 3 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <schema/>
+    <table>IVLD_RETURN_RATE_FORECAST</table>
+    <commit>1000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>RETURN_RATE_FORECAST_INTERFACE_ID</column_name>
+          <stream_name>RETURN_RATE_FORECAST_INTERFACE_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>RATE</column_name>
+          <stream_name>RATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>userid</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Invalid Field Type_description</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>ErrorCode_Numeric</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>ErrorField_Numeric</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>787</xloc>
+      <yloc>762</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>IS_NULLABLE 8</name>
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -984,7 +1051,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>RETURN_RATE_FORECAST_INTERFACE_ID</name>
 <validation_name>RETURN_RATE_FORECAST_INTERFACE_ID</validation_name>
 <max_length/>
@@ -1102,7 +1169,6 @@
     <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1112,7 +1178,6 @@
       <replaceAllMask/>
       <selectFields>Y</selectFields>
       <selectValuesType>N</selectValuesType>
-      <setEmptyStringAll>N</setEmptyStringAll>
     <valuetypes>
       </valuetypes>
     <fields>
@@ -1120,7 +1185,6 @@
         <name>userid</name>
         <value>1</value>
         <mask/>
-        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -1136,7 +1200,6 @@
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1144,7 +1207,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>RETURN_RATE_FORECAST_INTERFACE_ID</name>
 <validation_name>RETURN_RATE_FORECAST_INTERFACE_ID</validation_name>
 <max_length>17</max_length>
@@ -1495,8 +1558,7 @@
     <name>Invalid Field type</name>
     <type>Validator</type>
     <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
+    <distribute>N</distribute>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1504,7 +1566,7 @@
            </partitioning>
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
-<concat_separator>&#x7c;</concat_separator>
+<concat_separator>|</concat_separator>
        <validator_field><name>ITEM_ID</name>
 <validation_name>ITEM_ID</validation_name>
 <max_length>38</max_length>
@@ -1830,7 +1892,6 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1859,11 +1920,38 @@
     </step>
 
   <step>
+    <name>RATE</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>RETURN_RATE_FORECAST_INTERFACE</send_true_to>
+<send_false_to>INVALID_TABLE 2 2 3 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>RATE</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>961</xloc>
+      <yloc>806</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>RETURN_RATE_FORECAST_INTERFACE</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1888,40 +1976,12 @@
     <return_field/>
     <fields>
         <field>
-          <column_name>RETURN_RATE_FORECAST_INTERFACE_ID</column_name>
-          <stream_name>RETURN_RATE_FORECAST_INTERFACE_ID</stream_name>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
         </field>
         <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NAME</column_name>
-          <stream_name>ITEM_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_YEAR</column_name>
-          <stream_name>FORECAST_YEAR</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_MONTH</column_name>
-          <stream_name>FORECAST_MONTH</stream_name>
-        </field>
-        <field>
-          <column_name>RATE</column_name>
-          <stream_name>RATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_NAME</column_name>
-          <stream_name>FORECAST_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VER</column_name>
-          <stream_name>FORECAST_VER</stream_name>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
         </field>
         <field>
           <column_name>CREATED_BY</column_name>
@@ -1932,6 +1992,34 @@
           <stream_name>CREATED_DATE</stream_name>
         </field>
         <field>
+          <column_name>FORECAST_MONTH</column_name>
+          <stream_name>FORECAST_MONTH</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_NAME</column_name>
+          <stream_name>FORECAST_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_VER</column_name>
+          <stream_name>FORECAST_VER</stream_name>
+        </field>
+        <field>
+          <column_name>FORECAST_YEAR</column_name>
+          <stream_name>FORECAST_YEAR</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
           <column_name>MODIFIED_BY</column_name>
           <stream_name>userid</stream_name>
         </field>
@@ -1940,12 +2028,12 @@
           <stream_name>MODIFIED_DATE</stream_name>
         </field>
         <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+          <column_name>RATE</column_name>
+          <stream_name>RATE_NEW</stream_name>
         </field>
         <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
+          <column_name>RETURN_RATE_FORECAST_INTERFACE_ID</column_name>
+          <stream_name>RETURN_RATE_FORECAST_INTERFACE_ID</stream_name>
         </field>
         <field>
           <column_name>SOURCE</column_name>
@@ -1961,11 +2049,38 @@
     </step>
 
   <step>
+    <name>RETURN_RATE_FORECAST_INTERFACE_ID</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>RATE</send_true_to>
+<send_false_to>INVALID_TABLE 2 2 3 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>RETURN_RATE_FORECAST_INTERFACE_ID</leftvalue>
+ <function>REGEXP</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>^[1-9]\d*(\.\d+)?$</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>958</xloc>
+      <yloc>725</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>SNAPSHOT</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2067,7 +2182,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2169,7 +2283,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2267,183 +2380,10 @@
     </step>
 
   <step>
-    <name>INVALID_TABLE 2 2 3 2</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>db</connection>
-    <schema/>
-    <table>IVLD_RETURN_RATE_FORECAST</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>N</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>RETURN_RATE_FORECAST_INTERFACE_ID</column_name>
-          <stream_name>RETURN_RATE_FORECAST_INTERFACE_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_ID</column_name>
-          <stream_name>ITEM_ID</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>ITEM_NAME</column_name>
-          <stream_name>ITEM_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_YEAR</column_name>
-          <stream_name>FORECAST_YEAR</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_MONTH</column_name>
-          <stream_name>FORECAST_MONTH</stream_name>
-        </field>
-        <field>
-          <column_name>RATE</column_name>
-          <stream_name>RATE</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_NAME</column_name>
-          <stream_name>FORECAST_NAME</stream_name>
-        </field>
-        <field>
-          <column_name>FORECAST_VER</column_name>
-          <stream_name>FORECAST_VER</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_BY</column_name>
-          <stream_name>userid</stream_name>
-        </field>
-        <field>
-          <column_name>CREATED_DATE</column_name>
-          <stream_name>CREATED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_BY</column_name>
-          <stream_name>userid</stream_name>
-        </field>
-        <field>
-          <column_name>MODIFIED_DATE</column_name>
-          <stream_name>MODIFIED_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
-          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
-        </field>
-        <field>
-          <column_name>BATCH_ID</column_name>
-          <stream_name>BATCH_ID</stream_name>
-        </field>
-        <field>
-          <column_name>SOURCE</column_name>
-          <stream_name>SOURCE</stream_name>
-        </field>
-        <field>
-          <column_name>REASON_FOR_FAILURE</column_name>
-          <stream_name>Invalid Field Type_description</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_CODE</column_name>
-          <stream_name>ErrorCode_Numeric</stream_name>
-        </field>
-        <field>
-          <column_name>ERROR_FIELD</column_name>
-          <stream_name>ErrorField_Numeric</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>787</xloc>
-      <yloc>762</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>RATE</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>RETURN_RATE_FORECAST_INTERFACE</send_true_to>
-<send_false_to>INVALID_TABLE 2 2 3 2</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>RATE</leftvalue>
- <function>REGEXP</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>&#x5e;&#x5b;1-9&#x5d;&#x5c;d&#x2a;&#x28;&#x5c;.&#x5c;d&#x2b;&#x29;&#x3f;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>961</xloc>
-      <yloc>806</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>RETURN_RATE_FORECAST_INTERFACE_ID</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>RATE</send_true_to>
-<send_false_to>INVALID_TABLE 2 2 3 2</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>RETURN_RATE_FORECAST_INTERFACE_ID</leftvalue>
- <function>REGEXP</function>
- <rightvalue/>
- <value><name>constant</name><type>String</type><text>&#x5e;&#x5b;1-9&#x5d;&#x5c;d&#x2a;&#x28;&#x5c;.&#x5c;d&#x2b;&#x29;&#x3f;&#x24;</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>958</xloc>
-      <yloc>725</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>SNAPSHOT 3 2</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2540,6 +2480,36 @@
       </GUI>
     </step>
 
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>RATE</in_stream_name>
+        <out_stream_name>RATE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>506</xloc>
+      <yloc>566</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>IS_NULLABLE 8</source_step>
@@ -2581,5 +2551,4 @@
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>

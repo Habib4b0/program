@@ -150,7 +150,7 @@ public abstract class AbstractCustomTreeView extends Window {
         treeTable.setColumnHeaders(custIdTransfHeader);
         treeTable.setSelectable(true);
         treeTable.setHeight("680px");
-        treeTable.setWidth("460px");
+        treeTable.setWidth("860px");
         loadCustomTree();
         productTable.setContainerDataSource(getProductsContainer());
         productTable.setVisibleColumns(custIdTransfColumns);

@@ -164,6 +164,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private List<Leveldto> currentHierarchy = new ArrayList<>();
 	public static final String ANULL = "null";
 	public static final String DEDUCTION = "DEDUCTION";
+        public static final String DISCOUNT = "Discount";
 	public static final String PRODUCT1 = "PRODUCT";
 	public static final String CUSTOMER1 = "CUSTOMER";
 	private List<String[]> deductionLevel = new ArrayList<>();
@@ -287,6 +288,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
+        private List<String> checkedParentList;
+
         
         
 	private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
@@ -1596,8 +1599,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			boolean isCustomHierarchy = CommonUtil.isValueEligibleForLoading()
 					? Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)
 					: Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY.equals(hierarchyIndicator);
-
-			if (resultBeanContainer.size() == 0) {
+                        
+                    if (resultBeanContainer.size() == 0) {
 				LOGGER.debug(" Container size is 0");
 				return updatedRecordCount;
 			}
@@ -2059,6 +2062,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	 */
 	private void performMassUpdate(List<Integer> massUpdatePeriods, List<String> checkedDiscountNames,
 			String selectedField, String value, List<String> selectedPeriods) {
+            boolean isCustomHierarchy = "CUSTOM".equalsIgnoreCase(String.valueOf(view.getValue()));
 		if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction())) {
 			for (Object itemId : resultsTable.getLeftFreezeAsTable().getItemIds()) {
 				DiscountProjectionDTO dto = (DiscountProjectionDTO) itemId;
@@ -2069,7 +2073,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			LOGGER.debug("Group-->" + value);
 			logic.massUpdate(session, projectionSelection.getFrequency(), massUpdatePeriods, selectedField, value,
 					checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-					getCheckedRecordsForMassUpdate(), selectedPeriods);
+					getCheckedRecordsForMassUpdate(), selectedPeriods,isCustomHierarchy);
 			loadGroupDdlb();
 			loadGroupFilterDdlb();
 			if (!userGroup.isEmpty()) {
@@ -2084,14 +2088,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			LOGGER.debug("Discount Rate-->" + value);
 			logic.massUpdate(session, projectionSelection.getFrequency(), massUpdatePeriods, selectedField, value,
 					checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-					getCheckedRecordsForMassUpdate(), selectedPeriods);
+					getCheckedRecordsForMassUpdate(), selectedPeriods,isCustomHierarchy);
 			refreshTableData(getCheckedRecordsHierarchyNo());
 		} else if ("RPU".equals(selectedField)) {
 			saveDiscountProjectionListview();
 			LOGGER.debug("RPU-->" + value + "ccpsCount" + ccpsCount);
 			logic.massUpdate(session, projectionSelection.getFrequency(), massUpdatePeriods, selectedField, value,
 					checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-					getCheckedRecordsForMassUpdate(), selectedPeriods);
+					getCheckedRecordsForMassUpdate(), selectedPeriods,isCustomHierarchy);
 			refreshTableData(getCheckedRecordsHierarchyNo());
 		} else if (Constant.DISCOUNT_AMOUNT_LABEL.equals(selectedField)) {
 			ccpsCount = 0;
@@ -2108,14 +2112,14 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			}
 			logic.massUpdate(session, projectionSelection.getFrequency(), massUpdatePeriods, selectedField,
 					String.valueOf(value), checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-					getCheckedRecordsForMassUpdate(), selectedPeriods);
+					getCheckedRecordsForMassUpdate(), selectedPeriods,isCustomHierarchy);
 			refreshTableData(getCheckedRecordsHierarchyNo());
 		} else if ("Growth".equals(selectedField)) {
 			saveDiscountProjectionListview();
 			LOGGER.debug("Growth-->" + value);
 			logic.massUpdate(session, projectionSelection.getFrequency(), massUpdatePeriods, selectedField, value,
 					checkedDiscountNames, PROGRAM.getConstant().equals(level.getValue()),
-					getCheckedRecordsForMassUpdate(), selectedPeriods);
+					getCheckedRecordsForMassUpdate(), selectedPeriods,isCustomHierarchy);
 			refreshTableData(getCheckedRecordsHierarchyNo());
 		}
 
@@ -2513,6 +2517,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	@Override
 	protected void newBtnClickLogic() {
+            session.setTabName(DISCOUNT);
 		LOGGER.debug("newCustomHierarchhy clickEvent method starts");
 		final CustomTreeBuild customTree = new CustomTreeBuild(session);
 		customTree.addCloseListener(new Window.CloseListener() {
@@ -2531,6 +2536,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	@Override
 	protected void editBtnClickLogic() {
+            session.setTabName(DISCOUNT);
 		LOGGER.debug("Entering editHierarchyBtn");
 		if (CommonLogic.editButtonValidation(viewDdlb, customViewList)) {
 			final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
@@ -2880,29 +2886,52 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		return finalHirarechyNo;
 	}
 
-	private List<String[]> getCheckedRecordsForMassUpdate() {
+	   private List<String[]> getCheckedRecordsForMassUpdate() {
+        boolean isCustomHierarchy = "CUSTOM".equalsIgnoreCase(String.valueOf(view.getValue()));
 
-		List<String[]> hierarchyList = new ArrayList<>();
+        List<String[]> hierarchyList = new ArrayList<>();
 
-		for (String tableTreeLevelNo : tableLogic.getAllLevels()) {
-			Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
-			if (itemId == null) {
-				itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
-			}
-			if (itemId != null) {
-				if ((boolean) ((DiscountProjectionDTO) itemId).getProperties().get("checkRecord")
-						&& tableLogic.getAllChildLevels(tableTreeLevelNo).isEmpty()) {
-					String[] dataForMassUpdate = new String[3];
-					dataForMassUpdate[0] = ((DiscountProjectionDTO) itemId).getHierarchyNo();
-					dataForMassUpdate[1] = ((DiscountProjectionDTO) itemId).getHierarchyIndicator();
-					dataForMassUpdate[2] = getPreviousHierachy(tableTreeLevelNo,
-							((DiscountProjectionDTO) itemId).getHierarchyIndicator());
-					hierarchyList.add(dataForMassUpdate);
-				}
-			}
-		}
-		return hierarchyList;
-	}
+        for (String tableTreeLevelNo : tableLogic.getAllLevels()) {
+            Object itemId = tableLogic.getcurrentTreeData(tableTreeLevelNo);
+            if (itemId == null) {
+                itemId = tableLogic.getExpandedTreeValues(tableTreeLevelNo);
+            }
+            if (itemId != null) {
+                if ((boolean) ((DiscountProjectionDTO) itemId).getProperties().get("checkRecord")
+                        && tableLogic.getAllChildLevels(tableTreeLevelNo).isEmpty()) {
+                    if (!isCustomHierarchy) {
+                        String[] dataForMassUpdate = new String[3];
+                        dataForMassUpdate[0] = ((DiscountProjectionDTO) itemId).getHierarchyNo();
+                        dataForMassUpdate[1] = ((DiscountProjectionDTO) itemId).getHierarchyIndicator();
+                        dataForMassUpdate[2] = getPreviousHierachy(tableTreeLevelNo,
+                                ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
+                        hierarchyList.add(dataForMassUpdate);
+                    } else {
+                        String[] dataForMassUpdate = new String[5];
+                        dataForMassUpdate[0] = StringUtils.EMPTY;
+                        dataForMassUpdate[1] = ((DiscountProjectionDTO) itemId).getHierarchyIndicator();
+                        DiscountProjectionDTO dto = getPreviousHierachyCustom(tableTreeLevelNo,
+                                ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
+                        dataForMassUpdate[2] = dto != null ? dto.getHierarchyNo() : StringUtils.EMPTY;
+                        if (dataForMassUpdate[1].equals("D")) {
+                            if (dto != null && dto.getHierarchyIndicator().equals("P")) {
+                                dataForMassUpdate[0] = ((DiscountProjectionDTO) itemId).getCustomerHierarchyNo();
+                            } else if (dto != null && dto.getHierarchyIndicator().equals("C")) {
+                                dataForMassUpdate[0] = ((DiscountProjectionDTO) itemId).getProductHierarchyNo();
+                            }
+                        } else {
+                            dataForMassUpdate[0] = ((DiscountProjectionDTO) itemId).getHierarchyNo();
+                        }
+                        dataForMassUpdate[3] = ((DiscountProjectionDTO) itemId).getLevelNo().toString();
+                        dataForMassUpdate[4] = ((DiscountProjectionDTO) itemId).getHierarchyNo();
+                        hierarchyList.add(dataForMassUpdate);
+                    }
+                }
+            }
+        }
+
+        return hierarchyList;
+    }
 
 	@Override
 	protected void excelExportClickLogic() {
@@ -5088,29 +5117,43 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					projectionSelection.getFrequency(), UiUtils.getDate(), level, projectionSelection.getFromDateDdlb(),
 					projectionSelection.getToDateDdlb(), discountId };
 			List<Object[]> list = CommonLogic.callProcedure("PRC_GROWTH_CALCULATION", procedureInputs);
-			new CumulativeCalculationUtils(list, String.valueOf(projectionSelection.getUserId()),
-					projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
-					tableName);
-		} catch (Exception ex) {
-			LOGGER.error(ex);
-		}
+	           new CumulativeCalculationUtils(list, String.valueOf(projectionSelection.getUserId()),
+                    projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
+                    tableName);
+        } catch (Exception ex) {
+            LOGGER.error(ex);
+        }
 
-	}
+    }
 
-	private String getPreviousHierachy(String hierarchyNo, String hierarchyIndicator) {
-		String parentHierarchy = tableLogic.getParentHierarchyNo(hierarchyNo);
-		Object itemId = tableLogic.getcurrentTreeData(hierarchyNo);
-		if (itemId == null) {
-			itemId = tableLogic.getExpandedTreeValues(hierarchyNo);
-		}
-		if (itemId != null) {
-			if (hierarchyIndicator.equals(((DiscountProjectionDTO) itemId).getHierarchyIndicator())) {
-				return getPreviousHierachy(parentHierarchy, ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
-			}
-			return ((DiscountProjectionDTO) itemId).getHierarchyNo();
-		}
-		return "";
-	}
+    private String getPreviousHierachy(String hierarchyNo, String hierarchyIndicator) {
+        String parentHierarchy = tableLogic.getParentHierarchyNo(hierarchyNo);
+        Object itemId = tableLogic.getcurrentTreeData(hierarchyNo);
+        if (itemId == null) {
+            itemId = tableLogic.getExpandedTreeValues(hierarchyNo);
+        }
+        if (itemId != null) {
+            if (hierarchyIndicator.equals(((DiscountProjectionDTO) itemId).getHierarchyIndicator())) {
+                return getPreviousHierachy(parentHierarchy, ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
+            }
+            return ((DiscountProjectionDTO) itemId).getHierarchyNo();
+        }
+        return "";
+    }
+
+    private DiscountProjectionDTO getPreviousHierachyCustom(String hierarchyNo, String hierarchyIndicator) {
+        String parentHierarchy = tableLogic.getParentHierarchyNo(hierarchyNo);
+        Object itemId = tableLogic.getcurrentTreeData(hierarchyNo);
+        if (itemId == null) {
+            itemId = tableLogic.getExpandedTreeValues(hierarchyNo);
+        } else {
+            if (hierarchyIndicator.equals(((DiscountProjectionDTO) itemId).getHierarchyIndicator())) {
+                return getPreviousHierachyCustom(parentHierarchy, ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
+            }
+            return (DiscountProjectionDTO) itemId;
+        }
+        return null;
+    }
 
 	public ExtTreeContainer<DiscountProjectionDTO> getResultBeanContainer() {
 		return resultBeanContainer;

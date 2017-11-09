@@ -48,9 +48,12 @@ WHERE  ROWNUM >= @OFFSET
 
          FROM  (
 
- SELECT NDC9,
-        ITEM_DESC,
-        ROWNUM,
+ SELECT  A.NDC9,
+        B.ITEM_DESC,
+        ROW_NUMBER() OVER(
+	ORDER BY
+	A.NDC9
+        ) AS ROWNUM,
         NEW_FORMULATION ,
         BASELINE_AMP,
         BASE_CPI
@@ -59,12 +62,7 @@ WHERE  ROWNUM >= @OFFSET
  
  WHEN COUNT(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
                             ELSE MAX(ITEM_DESC)
-                          END,
-                ROW_NUMBER()
-                  OVER (
-                    ORDER BY IM.NDC9) AS ROWNUM
-                    ,IM.NEW_FORMULATION ,IM.BASELINE_AMP,
-        IM.BASE_CPI
+                          END
          FROM   NA_PROJ_MASTER PM,
                 NA_PROJ_DETAILS PD,
                 ITEM_MASTER IM
@@ -76,10 +74,15 @@ WHERE  ROWNUM >= @OFFSET
                        OR @BRAND_MASTER_SID IS NULL )
                 AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
                        OR @TH_CLASS IS NULL )
-         GROUP  BY IM.NDC9,IM.NEW_FORMULATION,BASELINE_AMP,    BASE_CPI )A
+         GROUP  BY IM.NDC9)A      
+JOIN ITEM_MASTER B ON
+       A.NDC9 = CONVERT(
+              VARCHAR(100),
+              B.ITEM_MASTER_SID
+       ))a  
+        
+        
 
- ) A   JOIN
-                         ITEM_MASTER B ON A.NDC9 =CONVERT(VARCHAR(100),B.ITEM_MASTER_SID)  
  ]]>
 
     </sql>
@@ -904,7 +907,7 @@ WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
 B.ITEM_NO,
        B.ITEM_NAME,
        a.NDC9,
-       a.ITEM_DESC,
+       b.ITEM_DESC,
        ROWNUM
 FROM  (SELECT IM.NDC9,
               ITEM_DESC=CASE
@@ -924,7 +927,7 @@ FROM  (SELECT IM.NDC9,
                      OR @BRAND_MASTER_SID IS NULL )
               AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
                      OR @TH_CLASS IS NULL ) AND IM.NDC9 LIKE '?TEXT'
-       GROUP  BY IM.NDC9,IM.NEW_FORMULATION)A
+       GROUP  BY IM.NDC9)A
        
        JOIN ITEM_MASTER B ON
        A.NDC9 = CONVERT(

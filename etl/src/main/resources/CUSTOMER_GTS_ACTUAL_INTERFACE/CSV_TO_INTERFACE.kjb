@@ -155,6 +155,16 @@ WHERE  ( Isdate(INVOICE_DATE) = 0
            AND ERROR_CODE = &apos;E03&apos;
            AND ERROR_FIELD = &apos;INVOICE_DATE&apos; 
 
+
+update IVLD_CUSTOMER_GTS_ACTUAL
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT ))=0  and AMOUNT is not null THEN &apos;AMOUNT&apos; ELSE &apos;&apos; END +
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY ))=0  and QUANTITY is not null THEN &apos;QUANTITY&apos; ELSE &apos;&apos; END 
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT )) = 0 and AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),QUANTITY) ) = 0 and QUANTITY is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD = &apos;INVOICE_DATE&apos; 
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

@@ -137,7 +137,7 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>DEMAND_FORECAST_INTERFACE</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST_INTERFACE</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST_INTERFACE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Audit Status</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>Invalid Field Length</to><enabled>Y</enabled> </hop>  <hop> <from>Memory Group by</from><to>Audit Status</to><enabled>Y</enabled> </hop>  <hop> <from>IS_NULLABLE 8</from><to>INVALID_TABLE 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>INVALID_TABLE 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join</from><to>If field value is null</to><enabled>N</enabled> </hop>  <hop> <from>Add constants</from><to>Database join</to><enabled>N</enabled> </hop>  <hop> <from>If field value is null</from><to>IS_NULLABLE 8</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2</from><to>SNAPSHOT</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 2</from><to>SNAPSHOT 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3</from><to>SNAPSHOT 3</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID_TABLE 2 2 3 2</from><to>SNAPSHOT 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Data Validator</from><to>INVALID_TABLE 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Length</from><to>Invalid Field Type</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>INVALID_TABLE 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST_INTERFACE</from><to>Data Validator</to><enabled>Y</enabled> </hop>  <hop> <from>DEMAND_FORECAST_INTERFACE</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Get Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Get Variables</from><to>IS_NULLABLE 8</to><enabled>N</enabled> </hop>  <hop> <from>Get Variables</from><to>If field value is null</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Field Type</from><to>Replace in string</to><enabled>Y</enabled> </hop>  <hop> <from>Replace in string</from><to>DEMAND_FORECAST_INTERFACE</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>ADD Audit update</name>
     <type>Update</type>
@@ -182,8 +182,8 @@
       </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>325</xloc>
-      <yloc>1000</yloc>
+      <xloc>551</xloc>
+      <yloc>1093</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -246,8 +246,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>315</xloc>
-      <yloc>83</yloc>
+      <xloc>541</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -288,8 +288,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>324</xloc>
-      <yloc>920</yloc>
+      <xloc>550</xloc>
+      <yloc>1013</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -684,8 +684,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>313</xloc>
-      <yloc>15</yloc>
+      <xloc>539</xloc>
+      <yloc>108</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -768,19 +768,19 @@
         </field>
         <field>
           <column_name>GROSS_AMOUNT</column_name>
-          <stream_name>GROSS_AMOUNT</stream_name>
+          <stream_name>GROSS_AMOUNT_NEW</stream_name>
         </field>
         <field>
           <column_name>GROSS_PRICE</column_name>
-          <stream_name>GROSS_PRICE</stream_name>
+          <stream_name>GROSS_PRICE_NEW</stream_name>
         </field>
         <field>
           <column_name>GROSS_UNITS</column_name>
-          <stream_name>GROSS_UNITS</stream_name>
+          <stream_name>GROSS_UNITS_NEW</stream_name>
         </field>
         <field>
           <column_name>INVENTORY_UNIT_CHANGE</column_name>
-          <stream_name>INVENTORY_UNIT_CHANGE</stream_name>
+          <stream_name>INVENTORY_UNIT_CHANGE_NEW</stream_name>
         </field>
         <field>
           <column_name>ITEM_ID</column_name>
@@ -800,11 +800,11 @@
         </field>
         <field>
           <column_name>MARKET_SHARE_UNITS</column_name>
-          <stream_name>MARKET_SHARE_UNITS</stream_name>
+          <stream_name>MARKET_SHARE_UNITS_NEW</stream_name>
         </field>
         <field>
           <column_name>MARKET_SIZE_UNITS</column_name>
-          <stream_name>MARKET_SIZE_UNITS</stream_name>
+          <stream_name>MARKET_SIZE_UNITS_NEW</stream_name>
         </field>
         <field>
           <column_name>MODIFIED_BY</column_name>
@@ -816,11 +816,11 @@
         </field>
         <field>
           <column_name>NET_SALES_AMOUNT</column_name>
-          <stream_name>NET_SALES_AMOUNT</stream_name>
+          <stream_name>NET_SALES_AMOUNT_NEW</stream_name>
         </field>
         <field>
           <column_name>NET_SALES_PRICE</column_name>
-          <stream_name>NET_SALES_PRICE</stream_name>
+          <stream_name>NET_SALES_PRICE_NEW</stream_name>
         </field>
         <field>
           <column_name>ORGANIZATION_KEY</column_name>
@@ -836,15 +836,15 @@
         </field>
         <field>
           <column_name>TOTAL_DEMAND_AMOUNT</column_name>
-          <stream_name>TOTAL_DEMAND_AMOUNT</stream_name>
+          <stream_name>TOTAL_DEMAND_AMOUNT_NEW</stream_name>
         </field>
         <field>
           <column_name>TOTAL_DEMAND_UNITS</column_name>
-          <stream_name>TOTAL_DEMAND_UNITS</stream_name>
+          <stream_name>TOTAL_DEMAND_UNITS_NEW</stream_name>
         </field>
         <field>
           <column_name>UNCAPTURED_UNITS</column_name>
-          <stream_name>UNCAPTURED_UNITS</stream_name>
+          <stream_name>UNCAPTURED_UNITS_NEW</stream_name>
         </field>
         <field>
           <column_name>UNCAPTURED_UNITS_RATIO</column_name>
@@ -853,8 +853,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>332</xloc>
-      <yloc>596</yloc>
+      <xloc>552</xloc>
+      <yloc>790</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -900,8 +900,8 @@
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>247</xloc>
-      <yloc>624</yloc>
+      <xloc>428</xloc>
+      <yloc>743</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -927,8 +927,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </parameter>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>312</xloc>
-      <yloc>166</yloc>
+      <xloc>538</xloc>
+      <yloc>259</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -959,8 +959,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>435</xloc>
-      <yloc>241</yloc>
+      <xloc>661</xloc>
+      <yloc>334</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1140,8 +1140,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>218</xloc>
-      <yloc>360</yloc>
+      <xloc>444</xloc>
+      <yloc>453</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1321,8 +1321,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>214</xloc>
-      <yloc>445</yloc>
+      <xloc>440</xloc>
+      <yloc>538</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1502,8 +1502,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>221</xloc>
-      <yloc>532</yloc>
+      <xloc>447</xloc>
+      <yloc>625</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1683,8 +1683,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>164</xloc>
-      <yloc>653</yloc>
+      <xloc>354</xloc>
+      <yloc>836</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2302,8 +2302,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>312</xloc>
-      <yloc>334</yloc>
+      <xloc>538</xloc>
+      <yloc>427</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2333,8 +2333,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>313</xloc>
-      <yloc>254</yloc>
+      <xloc>539</xloc>
+      <yloc>347</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2848,8 +2848,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>318</xloc>
-      <yloc>428</yloc>
+      <xloc>544</xloc>
+      <yloc>521</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3363,8 +3363,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>322</xloc>
-      <yloc>504</yloc>
+      <xloc>548</xloc>
+      <yloc>597</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3395,8 +3395,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>321</xloc>
-      <yloc>823</yloc>
+      <xloc>547</xloc>
+      <yloc>916</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3564,8 +3564,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>82</xloc>
-      <yloc>373</yloc>
+      <xloc>308</xloc>
+      <yloc>466</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3733,8 +3733,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>102</xloc>
-      <yloc>478</yloc>
+      <xloc>328</xloc>
+      <yloc>571</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3902,8 +3902,8 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>104</xloc>
-      <yloc>558</yloc>
+      <xloc>330</xloc>
+      <yloc>651</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4071,8 +4071,138 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>75</xloc>
-      <yloc>700</yloc>
+      <xloc>237</xloc>
+      <yloc>818</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>GROSS_AMOUNT</in_stream_name>
+        <out_stream_name>GROSS_AMOUNT_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>GROSS_PRICE</in_stream_name>
+        <out_stream_name>GROSS_PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>GROSS_UNITS</in_stream_name>
+        <out_stream_name>GROSS_UNITS_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>INVENTORY_UNIT_CHANGE</in_stream_name>
+        <out_stream_name>INVENTORY_UNIT_CHANGE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>MARKET_SHARE_UNITS</in_stream_name>
+        <out_stream_name>MARKET_SHARE_UNITS_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>MARKET_SIZE_UNITS</in_stream_name>
+        <out_stream_name>MARKET_SIZE_UNITS_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>NET_SALES_AMOUNT</in_stream_name>
+        <out_stream_name>NET_SALES_AMOUNT_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>NET_SALES_PRICE</in_stream_name>
+        <out_stream_name>NET_SALES_PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>TOTAL_DEMAND_AMOUNT</in_stream_name>
+        <out_stream_name>TOTAL_DEMAND_AMOUNT_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>TOTAL_DEMAND_UNITS</in_stream_name>
+        <out_stream_name>TOTAL_DEMAND_UNITS_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>UNCAPTURED_UNITS</in_stream_name>
+        <out_stream_name>UNCAPTURED_UNITS_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>561</xloc>
+      <yloc>680</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

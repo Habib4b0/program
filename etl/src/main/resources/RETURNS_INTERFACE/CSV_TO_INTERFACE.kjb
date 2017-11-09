@@ -144,6 +144,52 @@ SET    ERROR_FIELD = Substring(CASE WHEN RRESERVE_INTERFACE_ID IS NULL THEN &apo
                                + CASE WHEN PCT_50TH IS NULL THEN &apos;,PCT_50TH&apos; ELSE &apos;&apos; END + CASE WHEN PCT_25TH IS NULL THEN &apos;,PCT_25TH&apos; ELSE &apos;&apos; END + CASE WHEN UPPER_LIMIT IS NULL THEN &apos;,UPPER_LIMIT&apos; ELSE &apos;&apos; END + CASE WHEN LOWER_LIMIT IS NULL THEN &apos;,LOWER_LIMIT&apos; ELSE &apos;&apos; END + CASE WHEN SOURCE IS NULL THEN &apos;,SOURCE&apos; ELSE &apos;&apos; END + CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,ADD_CHG_DEL_INDICATOR&apos; ELSE &apos;&apos; END + CASE WHEN BATCH_ID IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
 WHERE  BATCH_ID = @batch_id
        AND ERROR_CODE = &apos;E01&apos; 
+
+
+update IVLD_RETURNS
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ACTUAL_RETURN_RATE ))=0  and ACTUAL_RETURN_RATE is not null THEN &apos;ACTUAL_RETURN_RATE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ADJ_ESTIMATED_RETURN_UNITS ))=0  and ADJ_ESTIMATED_RETURN_UNITS is not null THEN &apos;ADJ_ESTIMATED_RETURN_UNITS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ADJ_VALUE_AT_ORIG_ASP ))=0  and ADJ_VALUE_AT_ORIG_ASP is not null THEN &apos;ADJ_VALUE_AT_ORIG_ASP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ASP ))=0  and ASP is not null THEN &apos;ASP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),CUM_RETURN_UNITS ))=0  and CUM_RETURN_UNITS is not null THEN &apos;CUM_RETURN_UNITS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ESTIMATED_RETURN_UNITS ))=0  and ESTIMATED_RETURN_UNITS is not null THEN &apos;ESTIMATED_RETURN_UNITS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),EXPECTED_RETURN_RATE ))=0  and EXPECTED_RETURN_RATE is not null THEN &apos;EXPECTED_RETURN_RATE&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),LOWER_LIMIT ))=0  and LOWER_LIMIT is not null THEN &apos;LOWER_LIMIT&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),MAXIMUM ))=0  and MAXIMUM is not null THEN &apos;MAXIMUM&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ORIG_SALE_DOLLARS ))=0  and ORIG_SALE_DOLLARS is not null THEN &apos;ORIG_SALE_DOLLARS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),ORIG_SALE_UNITS ))=0  and ORIG_SALE_UNITS is not null THEN &apos;ORIG_SALE_UNITS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_25TH ))=0  and PCT_25TH is not null THEN &apos;PCT_25TH&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_50TH ))=0  and PCT_50TH is not null THEN &apos;PCT_50TH&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_75TH ))=0  and PCT_75TH is not null THEN &apos;PCT_75TH&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),POS_ESTIMATED_RETURN_UNITS ))=0  and POS_ESTIMATED_RETURN_UNITS is not null THEN &apos;POS_ESTIMATED_RETURN_UNITS&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UPPER_LIMIT ))=0  and UPPER_LIMIT is not null THEN &apos;UPPER_LIMIT&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),VALUE_AT_ORIG_ASP ))=0  and VALUE_AT_ORIG_ASP is not null THEN &apos;VALUE_AT_ORIG_ASP&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),WEIGHTED_AVG_MONTHS ))=0  and WEIGHTED_AVG_MONTHS is not null THEN &apos;WEIGHTED_AVG_MONTHS&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),ACTUAL_RETURN_RATE )) = 0 and  ACTUAL_RETURN_RATE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ADJ_ESTIMATED_RETURN_UNITS) ) = 0 and ADJ_ESTIMATED_RETURN_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ADJ_VALUE_AT_ORIG_ASP) ) = 0 and ADJ_VALUE_AT_ORIG_ASP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ASP) ) = 0 and ASP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),CUM_RETURN_UNITS) ) = 0 and CUM_RETURN_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ESTIMATED_RETURN_UNITS) ) = 0 and ESTIMATED_RETURN_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),EXPECTED_RETURN_RATE) ) = 0 and EXPECTED_RETURN_RATE is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),LOWER_LIMIT) ) = 0 and LOWER_LIMIT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),MAXIMUM) ) = 0 and MAXIMUM is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ORIG_SALE_DOLLARS) ) = 0 and ORIG_SALE_DOLLARS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),ORIG_SALE_UNITS) ) = 0 and ORIG_SALE_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_25TH) ) = 0 and PCT_25TH is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_50TH) ) = 0 and PCT_50TH is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),PCT_75TH) ) = 0 and PCT_75TH is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),POS_ESTIMATED_RETURN_UNITS) ) = 0 and POS_ESTIMATED_RETURN_UNITS is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UPPER_LIMIT) ) = 0 and UPPER_LIMIT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),VALUE_AT_ORIG_ASP) ) = 0 and VALUE_AT_ORIG_ASP is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),WEIGHTED_AVG_MONTHS) ) = 0 and WEIGHTED_AVG_MONTHS is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;RRESERVE_INTERFACE_ID&apos;
+		 
+
+
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>

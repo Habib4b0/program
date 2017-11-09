@@ -462,6 +462,7 @@ public class ForecastForm extends AbstractForm {
                 buttonEnableLogic(tabPosition, tabSheet.getComponentCount() - 1);
                 try {
                     if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
+                        session.setTabNameCaption(tabSheet.getTab(tabPosition).getCaption());
                         if (tabPosition == 0) {
                             session.getFutureValue(Constant.DATA_SELECTION_TAB_LOAD,0).get();
                         }
@@ -481,7 +482,7 @@ public class ForecastForm extends AbstractForm {
                         {
                             session.setIsDeductionCustom(false);
                         }
-                        if(tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE)
+                        if(tabPosition == NumericConstants.FOUR || tabPosition == NumericConstants.FIVE || tabPosition == NumericConstants.EIGHT)
                         {
                             session.setIsDeductionCustom(true);
                         }

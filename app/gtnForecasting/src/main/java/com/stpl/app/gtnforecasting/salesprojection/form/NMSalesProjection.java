@@ -566,7 +566,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 leftTable.setColumnCollapsingAllowed(true);
                 leftTable.setColumnCollapsed(Constant.GROUP, false);
                 if (customId != 0) {
-                    Utility.loadLevelValue(level, levelFilter, null, session.getCustomHierarchyMap().get(customId), Constant.CUSTOM_LABEL);
+                    List<Leveldto> hierarchyList = new ArrayList<>();
+                    for (Leveldto leveldto : session.getCustomHierarchyMap().get(customId)) {
+                        if (!"D".equals(leveldto.getHierarchyIndicator())) {
+                            hierarchyList.add(leveldto);
+                        }
+                    }
+                    Utility.loadLevelValue(level, levelFilter, null, hierarchyList, Constant.CUSTOM_LABEL);
                     Leveldto levelDTO = (Leveldto) session.getCustomHierarchyMap().get(customId).get(0);
                     projectionDTO.setHierarchyIndicator(levelDTO.getHierarchyIndicator());
                 }

@@ -9,7 +9,9 @@ import com.stpl.app.gtnforecasting.displayformat.bean.GtnFrameworkDisplayFormatB
 import com.stpl.app.gtnforecasting.displayformat.bean.RelationshipLevelValuesBean;
 import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.RBSID;
 import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.UNION_ALL;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +33,17 @@ public class RelationshipLevelValuesMasterBean {
 	private final StringBuilder finalQry = new StringBuilder();
 	public static final String HT_DESC = "HT.DESCRIPTION";
         public static final String FIELD_VALUE = "?FIELD_VALUE";
+        SessionDTO sessionDTO;
 
 	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
-			String hierarchyNoType) {
+			String hierarchyNoType,SessionDTO sessionDTO) {
 		this.tempList = tempList;
 		this.relationshipBuilderSid = relationshipBuilderSid;
 		this.hierarchyNoType = hierarchyNoType;
 		if (!"D".equals(hierarchyNoType)) {
 			createQuery();
 		} else {
-			createDeductionQuery();
+			createDeductionQuery(sessionDTO);
 		}
 	}
 
@@ -74,9 +77,9 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 
-	private void createDeductionQuery() {
+	private void createDeductionQuery(SessionDTO sessionDTO) {
 		for (int i = 0; i < tempList.size(); i++) {
-			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i)));
+			queryList.add(getDeductionCustomisedQuery((Object[]) tempList.get(i),sessionDTO));
 		}
 	}
 
@@ -95,9 +98,14 @@ public class RelationshipLevelValuesMasterBean {
 		return bean;
 	}
 
-	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject) {
+	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject,SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-		String customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeduction");
+                String customSql = StringUtils.EMPTY;
+                if(sessionDTO.getTabNameCaption().equals(TAB_DISCOUNT_PROJECTION.getConstant())){
+		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
+                }else{
+                customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeduction");
+                }
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
@@ -193,5 +201,5 @@ public class RelationshipLevelValuesMasterBean {
 		}
 		return defaultStr.toString();
 	}
-
-}
+        
+        }

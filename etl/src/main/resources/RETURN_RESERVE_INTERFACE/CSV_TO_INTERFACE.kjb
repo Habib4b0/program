@@ -168,7 +168,23 @@ update IVLD_RETURN_RESERVE set ERROR_FIELD=
 WHERE  (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
  OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
       and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;CREATED_DATE&apos;
-		 </sql>
+		 
+
+
+
+update IVLD_RETURN_RESERVE
+set ERROR_FIELD=
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT ))=0  and AMOUNT is not null THEN &apos;AMOUNT&apos; ELSE &apos;&apos; END+
+ CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS ))=0  and UNITS is not null THEN &apos;UNITS&apos; ELSE &apos;&apos; END
+WHERE 
+((isnumeric(TRY_CONVERT(NUMERIC(22,6),AMOUNT )) = 0 and  AMOUNT is not null)
+OR (isnumeric(TRY_CONVERT(NUMERIC(22,6),UNITS) ) = 0 and UNITS is not null)
+) 
+and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;CREATED_DATE&apos;
+		 
+
+
+</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
