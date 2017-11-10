@@ -1316,9 +1316,8 @@ public class MProjectionVarianceLogic {
                         tobeAddedList.addAll(allList);
                     }
 
-                    for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); i++) {
+                    for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
                         projDTOList.add(tobeAddedList.get(i));
-                        neededRecord--;
                     }
                 }
             }
@@ -2052,16 +2051,14 @@ public class MProjectionVarianceLogic {
                     Collections.reverse(pivotTotalList);
                 }
                 List<ProjectionVarianceDTO> finalList = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList, pvsdto, pvsdto);
-                for (int i = started; (i < finalList.size()) && (neededRecord > 0); i++) {
+                for (int i = started; (i < finalList.size()) && (neededRecord > 0); neededRecord--, i++) {
                     projDTOList.add(finalList.get(i));
-                    neededRecord--;
                 }
             } else {
                 if (parent instanceof ProjectionVarianceDTO) {
                     List<ProjectionVarianceDTO> dto = getDetailsPivotVariance(pvsdto);
-                    for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
+                    for (int i = started; (i < dto.size()) && (neededRecord > 0); neededRecord--, i++) {
                         projDTOList.add(dto.get(i));
-                        neededRecord--;
                     }
                 }
             }

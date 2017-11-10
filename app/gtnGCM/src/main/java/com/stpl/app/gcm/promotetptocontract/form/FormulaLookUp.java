@@ -11,8 +11,6 @@ import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ResponsiveUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -57,9 +55,9 @@ public class FormulaLookUp extends CustomWindow {
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     public CustomTextField componentTextField;
     private BeanItemContainer<FormulaDTO> resultsContainer = new BeanItemContainer<>(FormulaDTO.class);
-    public final Object formulaSearchColumns[] = new Object[]{
+    public final Object[] formulaSearchColumns = new Object[]{
         "formulaId", "formulaNo", "formulaName"};
-    public final String formulaSearchHeaders[] = new String[]{
+    public final String[] formulaSearchHeaders = new String[]{
         "Formula Id", "Formula No", "Formula Name"};
     SelectionDTO selection = new SelectionDTO();
 

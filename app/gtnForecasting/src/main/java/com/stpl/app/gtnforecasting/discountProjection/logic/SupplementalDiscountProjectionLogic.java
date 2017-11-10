@@ -167,9 +167,8 @@ public class SupplementalDiscountProjectionLogic {
 
         List<DiscountProjectionDTO> projDTOList = new ArrayList<>();
         List<DiscountProjectionDTO> nextLevelValueList = configureLevels(neededRecord, projSelDTO);
-        for (int i = started; (i < nextLevelValueList.size()) && (neededRecord > 0); i++) {
+        for (int i = started; (i < nextLevelValueList.size()) && (neededRecord > 0); neededRecord--, i++) {
             projDTOList.add(nextLevelValueList.get(i));
-            neededRecord--;
         }
 
         return projDTOList;

@@ -2261,7 +2261,7 @@ public class DataSelectionLogic {
 		String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
 
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				hierarchyNoType);
+				hierarchyNoType, sessionDTO);
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
@@ -2303,7 +2303,7 @@ public class DataSelectionLogic {
 
 		Map<String, List> resultMap = new HashMap<>();
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				"D");
+				"D", sessionDTO);
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));

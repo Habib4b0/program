@@ -8546,7 +8546,6 @@ IF NOT EXISTS(
         ADD ACCRUAL_UDC6 VARCHAR(100) 
   END
 GO
-
 -------------PRIMARY KEYS--------------------
 IF NOT EXISTS(SELECT 'X'
               FROM   INFORMATION_SCHEMA.TABLE_CONSTRAINTS
@@ -8836,6 +8835,7 @@ IF EXISTS (SELECT 1
   END
 
 GO
+
 
 ---------------------- HIST ACCRUAL MASTER TABLE --------------------------
 IF NOT EXISTS (SELECT 'X'
@@ -9186,6 +9186,7 @@ CLOSE CUR1
 DEALLOCATE CUR1
 
 GO
+
 -----------------------ADDING COLUMN IN HIST_ACCRUAL_MASTER------------------------------------
 IF NOT EXISTS(
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
@@ -9222,6 +9223,7 @@ IF EXISTS (SELECT 1
   END
 
 GO
+
 
 -------------TRIGGER-------------------------
 IF EXISTS (SELECT 'X'
@@ -22038,7 +22040,6 @@ IF EXISTS (SELECT NAME
   END
 
 GO 
-
 -----------------------ADDING COLUMN IN ITEM_UOM------------------------------------
 IF NOT EXISTS(
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
@@ -22089,6 +22090,7 @@ IF NOT EXISTS(SELECT 'X'
   END
 
 GO
+ 
 
 -------------STATISTICS--------------------
 
@@ -22239,7 +22241,6 @@ GO
   END
 
 GO
-
 -----------------------ADDING COLUMN IN HIST_ITEM_UOM------------------------------------
 IF NOT EXISTS(
     SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
@@ -22276,7 +22277,6 @@ IF EXISTS (SELECT 1
   END
 
 GO
- 
 -------------STATISTICS--------------------
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -22738,6 +22738,7 @@ IF NOT EXISTS(SELECT 'X'
   END
 
 GO
+
 ------------------RETURN_RATE_FORECAST_MASTER_STATISTICS---------------------
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
@@ -23210,6 +23211,3 @@ AS
         FROM   DELETED
   END
   GO
-
-
-

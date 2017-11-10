@@ -1945,7 +1945,7 @@ public class CommonLogic {
 		}
 		int size = results.size();
 		for (int i = 0; i < size; i++) {
-			Object arr[] = (Object[]) results.get(i);
+			Object[] arr = (Object[]) results.get(i);
 			HelperDTO dTO = new HelperDTO();
 			dTO.setId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
 			dTO.setDescription(Converters.convertNullToEmpty(arr[1]));

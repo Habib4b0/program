@@ -111,6 +111,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
             super.setProjectionSelection(false);
         }
+
         init();
     }
 
@@ -294,7 +295,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
 
     @Override
     protected void fieldDdlbLogic() {
-        if (Constant.ACCOUNT_GROWTH.equals(fieldDdlb.getValue()) || Constant.PRODUCT_GROWTH.equals(fieldDdlb.getValue()) || Constant.MASS_UPDATE_SALES.equals(fieldDdlb.getValue()) || Constant.MASS_UPDATE_UNIT_VOLUME.equals(fieldDdlb.getValue())|| Constant.SELECT_ONE.equals(fieldDdlb.getValue()) || Constant.NULL.equals(String.valueOf(fieldDdlb.getValue()))) {
+        if (Constant.ACCOUNT_GROWTH.equals(fieldDdlb.getValue()) || Constant.PRODUCT_GROWTH.equals(fieldDdlb.getValue()) || Constant.SALES_SMALL.equals(fieldDdlb.getValue()) || Constant.UNIT_VOLUME.equals(fieldDdlb.getValue())|| Constant.SELECT_ONE.equals(fieldDdlb.getValue()) || Constant.NULL.equals(String.valueOf(fieldDdlb.getValue()))) {
             startPeriod.setVisible(true);
             endPeriod.setVisible(true);
             lblStart.setVisible(true);
@@ -786,7 +787,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                generateProductToBeLoaded = Collections.EMPTY_LIST;
+                generateProductToBeLoaded = Collections.emptyList();
                 if (event.getProperty().getValue() != null) {
                     String productlevelDdlbValue = productlevelDdlb.getItemCaption(String.valueOf(event.getProperty().getValue()));
                     loadProductLevelFilter(productlevelDdlbValue);
@@ -823,7 +824,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                generateCustomerToBeLoaded = Collections.EMPTY_LIST;
+                generateCustomerToBeLoaded = Collections.emptyList();
                 if (event.getProperty().getValue() != null) {
                     String customerlevelDdlbValue = String.valueOf(customerlevelDdlb.getValue());
                     loadCustomerLevelFilter(customerlevelDdlbValue);

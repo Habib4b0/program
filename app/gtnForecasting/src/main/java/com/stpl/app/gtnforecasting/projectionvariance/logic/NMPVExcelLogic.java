@@ -64,7 +64,6 @@ public class NMPVExcelLogic {
     private static final int COLUMN_COUNT_TOTAL = 75;
     private static final int COLUMN_COUNT_DETAIL = 54;
     private final int index = 5;
-    private final int index_detail_discount = 4;
     private int frequencyDivision;
     private final int baseColumn_levelName_index = 0;
     private final int baseColumn_hierarchy_index = 1;
@@ -107,7 +106,6 @@ public class NMPVExcelLogic {
     public static final String PROGRAM_CAT = "Program Category";
     public static final String VARIANCE1 = "VARIANCE";
     Map<String, Map<String, ProjectionVarianceDTO>> pivotDiscountMap = new HashMap<>();
-    private final int total_discount_index = 8;
     private boolean actualBasis = false;
     private boolean accrualBasis = false;
     private static final String VAL = "Value";

@@ -29,6 +29,8 @@ import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -49,6 +51,7 @@ import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
 import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -223,7 +226,6 @@ public class NMSalesProjectionResultsLogic {
 				paramArray[4] = Integer.parseInt(String.valueOf(selections[NumericConstants.SEVEN]));
 				List gtsList = convertResultSetToList(
 						GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
-
 				if (sprList != null && !sprList.isEmpty()) {
 					List<List> list = getRowList(selections);
 					for (int j = 0; j < levelCount.size(); j++) {
@@ -351,64 +353,84 @@ public class NMSalesProjectionResultsLogic {
 	public List<SalesProjectionResultsDTO> getGTSResult(int projectionID, String sessionId, String userId,
 			Object[] selections, String pivotView) {
 		LOGGER.debug("getGTSResult method starts");
-
+		final DataSourceConnection dataSourceConnection = DataSourceConnection.getInstance();
+		Connection connection = null;
+		CallableStatement statement = null;
 		String frequency = String.valueOf(selections[1]);
-		StringBuilder statementBuilder = new StringBuilder("{call ");
-		statementBuilder.append(SalesUtils.PRC_PROJECTION_RESULTS).append(" (?,?,?,?,?)}");
-		Object[] paramArray = new Object[5];
-		paramArray[0] = projectionID;
-		paramArray[1] = frequency;
-		paramArray[2] = StringUtils.EMPTY;
-		paramArray[3] = Integer.parseInt(sessionId);
-		paramArray[4] = Integer.parseInt(userId);
-		List list = new ArrayList<>();
-		try {
-			list = convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
-		} catch (Exception e) {
-			LOGGER.error(e);
-		}
-
 		SalesProjectionResultsDTO gtsDTO = new SalesProjectionResultsDTO();
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();
-		if (!list.isEmpty()) {
-			if ("period".equalsIgnoreCase(pivotView)) {
-				for (int i = 0; i < list.size(); i++) {
-					Object[] obj = (Object[]) list.get(i);
-					String commonColumn;
-					if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
-						commonColumn = Constant.Q + obj[NumericConstants.FOUR] + obj[NumericConstants.FIVE];
-					} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
-						commonColumn = Constant.S + obj[NumericConstants.THREE] + obj[NumericConstants.SIX];
-					} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
-						String monthName = getMonthForInt(
-								Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.FOUR]) - 1);
-						commonColumn = monthName + obj[NumericConstants.SIX];
+		List list = new ArrayList();
+		try {
+			connection = dataSourceConnection.getConnection();
+			if (connection != null) {
+				StringBuilder statementBuilder = new StringBuilder("{call ");
+				statementBuilder.append(SalesUtils.PRC_PROJECTION_RESULTS).append(" (?,?,?,?,?)}");
+				statement = connection.prepareCall(statementBuilder.toString());
+				statement.setObject(1, projectionID); // @BASLINE_PERIODS
+				statement.setObject(NumericConstants.TWO, frequency);
+				statement.setObject(NumericConstants.THREE, StringUtils.EMPTY);
+				statement.setObject(NumericConstants.FOUR, Integer.parseInt(sessionId));
+				statement.setObject(NumericConstants.FIVE, Integer.parseInt(userId));
+				ResultSet rs = statement.executeQuery();
+				list = convertResultSetToList(rs);
+				if (!list.isEmpty()) {
+					if ("period".equalsIgnoreCase(pivotView)) {
+						for (int i = 0; i < list.size(); i++) {
+							Object[] obj = (Object[]) list.get(i);
+							String commonColumn = StringUtils.EMPTY;
+							if (frequency.equalsIgnoreCase(QUARTERLY.getConstant())) {
+								commonColumn = Constant.Q + obj[NumericConstants.FOUR] + obj[NumericConstants.FIVE];
+							} else if (frequency.equalsIgnoreCase(SEMI_ANNUALLY.getConstant())) {
+								commonColumn = Constant.S + obj[NumericConstants.THREE] + obj[NumericConstants.SIX];
+							} else if (frequency.equalsIgnoreCase(MONTHLY.getConstant())) {
+								String monthName = getMonthForInt(
+										Integer.valueOf(StringUtils.EMPTY + obj[NumericConstants.FOUR]) - 1);
+								commonColumn = monthName + obj[NumericConstants.SIX];
+							} else {
+								commonColumn = StringUtils.EMPTY + obj[NumericConstants.SIX];
+							}
+							gtsDTO.setLevelValue("Gross Trade Sales");
+							gtsDTO.addStringProperties(commonColumn + Constant.PROJECTIONS,
+									obj[NumericConstants.TWO] != null
+											&& StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.TWO]))
+													? "$".concat(DOLLAR.format(Double
+															.parseDouble(String.valueOf(obj[NumericConstants.TWO]))))
+													: "-");
+							gtsList.add(gtsDTO);
+						}
 					} else {
-						commonColumn = StringUtils.EMPTY + obj[NumericConstants.SIX];
+						for (int i = 0; i < list.size(); i++) {
+							gtsDTO = new SalesProjectionResultsDTO();
+							Object[] obj = (Object[]) list.get(i);
+							gtsDTO.addStringProperties("gtsProjections", "$".concat(
+									DOLLAR.format(Double.parseDouble(String.valueOf(obj[NumericConstants.TWO])))));
+							gtsList.add(gtsDTO);
+						}
 					}
+				} else {
 					gtsDTO.setLevelValue("Gross Trade Sales");
-					gtsDTO.addStringProperties(commonColumn + Constant.PROJECTIONS, obj[NumericConstants.TWO] != null
-							&& StringUtils.EMPTY.equals(String.valueOf(obj[NumericConstants.TWO]))
-									? "$".concat(
-											DOLLAR.format(
-													Double.parseDouble(String.valueOf(obj[NumericConstants.TWO]))))
-									: "-");
-					gtsList.add(gtsDTO);
-				}
-			} else {
-				for (int i = 0; i < list.size(); i++) {
-					gtsDTO = new SalesProjectionResultsDTO();
-					Object[] obj = (Object[]) list.get(i);
-					gtsDTO.addStringProperties("gtsProjections",
-							"$".concat(DOLLAR.format(Double.parseDouble(String.valueOf(obj[NumericConstants.TWO])))));
 					gtsList.add(gtsDTO);
 				}
 			}
-		} else {
-			gtsDTO.setLevelValue("Gross Trade Sales");
-			gtsList.add(gtsDTO);
+			LOGGER.debug("getGTSResult method ends");
+		} catch (SQLException e) {
+			LOGGER.error(e);
+		} catch (Exception e) {
+			LOGGER.error(e);
+		} finally {
+			try {
+
+				statement.close();
+			} catch (Exception e) {
+				LOGGER.error(e);
+			}
+			try {
+				connection.close();
+
+			} catch (Exception e) {
+				LOGGER.error(e);
+			}
 		}
-		LOGGER.debug("getGTSResult method ends");
 		return gtsList;
 	}
 
@@ -694,7 +716,7 @@ public class NMSalesProjectionResultsLogic {
 			List<String> hierarchyNoList = comm.getHiearchyNoAsList(projSelDTO, start, offset);
 			Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
 
-			for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+			for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
 				SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
 				dto.setLevelNo(Integer.valueOf(
 						relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(NumericConstants.TWO).toString()));
@@ -716,7 +738,6 @@ public class NMSalesProjectionResultsLogic {
 				dto.setParent(1);
 				resultList.add(dto);
 				started++;
-				neededRecord--;
 			}
 		}
 		return resultList;
@@ -781,9 +802,8 @@ public class NMSalesProjectionResultsLogic {
 				mayBeAddedRecord = 0;
 			}
 			List<SalesProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
-			for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+			for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
 				projDTOList.add(projectionDtoList.get(k));
-				neededRecord--;
 			}
 		}
 		return projDTOList;
@@ -978,12 +998,12 @@ public class NMSalesProjectionResultsLogic {
 						projectionDtoList = getProjectionPivot(projSelDTO);
 					}
 					projSelDTO.setProjTabName(StringUtils.EMPTY);
-					for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+					for (int k = mayBeAddedRecord; k < projectionDtoList.size()
+							&& neededRecord > 0; neededRecord--, k++) {
 						if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
 							projDTOList.add(projectionDtoList.get(k));
 						}
 						started++;
-						neededRecord--;
 					}
 				}
 				mayBeAdded += projSelDTO.getPeriodList().size();
@@ -2456,9 +2476,8 @@ public class NMSalesProjectionResultsLogic {
 				projSelDTO.setProjTabName("SPR");
 				List<SalesProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
 				projSelDTO.setProjTabName(StringUtils.EMPTY);
-				for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+				for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
 					projDTOList.add(projectionDtoList.get(k));
-					neededRecord--;
 				}
 				mayBeAdded += projectionDtoList.size();
 				projectionTotalList.clear();// Fix for GAL-4084
@@ -2510,9 +2529,8 @@ public class NMSalesProjectionResultsLogic {
 			List<SalesProjectionResultsDTO> projectionDtoList;
 
 			projectionDtoList = getProjectionPivot(projSelDTO);
-			for (int k = started; k < projectionDtoList.size() && neededRecord > 0; k++) {
+			for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
 				projDTOList.add(projectionDtoList.get(k));
-				neededRecord--;
 				started++;
 			}
 			mayBeAdded += projectionDtoList.size();
@@ -2604,7 +2622,7 @@ public class NMSalesProjectionResultsLogic {
 			if (neededRecord > 0) {
 				List<String> hierarchyNoList = comm.getHiearchyNoAsList(projSelDTO, start, offset);
 				Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-				for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+				for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
 					SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
 					dto.setLevelNo(
 							Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNoList.get(i)).get(2).toString()));
@@ -2627,7 +2645,6 @@ public class NMSalesProjectionResultsLogic {
 					dto.setOnExpandTotalRow(1);
 					dto.setParent(1);
 					resultList.add(dto);
-					neededRecord--;
 				}
 
 			}

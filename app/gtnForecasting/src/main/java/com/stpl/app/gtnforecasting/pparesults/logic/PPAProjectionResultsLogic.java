@@ -67,7 +67,6 @@ public class PPAProjectionResultsLogic {
     private static final String CURRENCY = "$";
     private static final String PERCENTAGE = "%";
     private static final String Q = "Q";
-    private static final String S = "S";
     private static final String M = "M";
     private static final String A = "A";
     String indicater = StringUtils.EMPTY;
@@ -654,9 +653,8 @@ public class PPAProjectionResultsLogic {
             totalList = ppaProjecetionResults(selection.isIsProjectionTotal(), selection, session);
             setChartList(totalList);
             if (started < maxRecord) {
-                for (int k = started; k < totalList.size() && neededRecord > 0; k++) {
+                for (int k = started; k < totalList.size() && neededRecord > 0; neededRecord--, k++) {
                     resultList.add(totalList.get(k));
-                    neededRecord--;
                 }
             }
         }
@@ -693,9 +691,8 @@ public class PPAProjectionResultsLogic {
             }
             setChartList(resultList);
             if (started < maxRecord) {
-                for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+                for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(resultList.get(k));
-                    neededRecord--;
                 }
             }
         }

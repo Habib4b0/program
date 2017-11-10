@@ -2207,11 +2207,11 @@ public class SalesLogic {
      */
     public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, final int startYear, final int endYear, final int startQuarter, final int endQuarter, final String value, final String growth) throws PortalException, SystemException {
 
-        if (growth.equals(Constant.MASS_UPDATE_SALES) || growth.equals(Constant.MASS_UPDATE_UNIT_VOLUME)) {
+        if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
             int frequency = projectionSelectionDTO.getFrequencyDivision();
-            String freq = (frequency == 12 ? "M"
-                    : frequency == 4 ? "Q"
-                            : frequency == 2 ? "S" : "A");
+            String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
+            String monthOrQuarter = frequency == 4 ? "Q" : semiOrAnnualFreq;
+            String freq = (frequency == 12 ? "M" : monthOrQuarter);
            
             List<Object> input = new ArrayList<>();
             input.add(freq+startQuarter +" "+ startYear);
@@ -2219,11 +2219,10 @@ public class SalesLogic {
          
             input.add(value);
             
-            input.add(frequency == 12 ? 'M'
-                    : frequency == 4 ? 'Q'
-                            : frequency == 2 ? 'S' : 'A');
+            input.add(freq);
+
             
-            input.add(growth.equals(Constant.MASS_UPDATE_SALES) ? "PROJECTION_SALES" : "PROJECTION_UNITS");
+            input.add(growth.equals(Constant.SALES_SMALL) ? "PROJECTION_SALES" : "PROJECTION_UNITS");
             com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(input, "mass-update-sales-units", projectionSelectionDTO.getSessionDTO());
             return;
         }
@@ -3770,7 +3769,7 @@ public class SalesLogic {
         if (neededRecord > 0) {
             List<Leveldto> levelList = getConditionalLevelList(projSelDTO.getProjectionId(), start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getSessionDTO());
 
-            for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
                     Leveldto levelDto = levelList.get(i);
 
@@ -3795,7 +3794,6 @@ public class SalesLogic {
                     resultList.add(dto);
                 }
                 started++;
-                neededRecord--;
             }
         }
         return resultList;
@@ -3827,12 +3825,11 @@ public class SalesLogic {
                 projSelDTO.setProjTabName("SPR");
                 projectionDtoList = getProjectionPivot(projSelDTO);
                 projSelDTO.setProjTabName(StringUtils.EMPTY);
-                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                         projDTOList.add(projectionDtoList.get(k));
                     }
                     started++;
-                    neededRecord--;
                 }
             }
             mayBeAdded += projSelDTO.getPeriodList().size();

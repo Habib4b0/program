@@ -1570,7 +1570,6 @@ public class SPRCommonLogic {
 					+ Constant.FROM_SMALL + joinQuery2 + " " + mainJoin + whereCond;
 		}
 		customSql += recordNumber;
-		System.out.println("**********************getLevelIndexQuery" + customSql);
 		return customSql;
 	}
 

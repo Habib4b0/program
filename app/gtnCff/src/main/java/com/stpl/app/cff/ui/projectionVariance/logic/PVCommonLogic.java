@@ -24,14 +24,12 @@ import org.jboss.logging.Logger;
 public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final String ZERO = "0";
     private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
     private static final String CURRENT = "Current";
     private static String ACCRUAL = "Accrual";
     private static String ACTUAL = "Actual";
-    private static String actualDASH = "-";
     private static String accrualDASH = "-";
     public static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
 

@@ -1053,6 +1053,16 @@ IF NOT EXISTS (SELECT 1
   END
 
 GO
+--------------------------------ADDED COLUMN ADD_COPY_INDICATOR--------------------------------------------
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'PS_DETAILS' AND COLUMN_NAME  = 'ADD_COPY_INDICATOR' AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE PS_DETAILS
+        ADD ADD_COPY_INDICATOR CHAR(1)
+  END
+GO
 
 -----------------------------DATATYPE CHANGE STARTS----------------
 -----------------------------DATATYPE CHANGE ENDS----------------
@@ -2248,6 +2258,16 @@ BEGIN
 
 END
 GO
+------------ADDED COLUMN ADD_COPY_INDICATOR -----------------------
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'HIST_PS_DETAILS' AND COLUMN_NAME  = 'ADD_COPY_INDICATOR' AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+                
+      ALTER TABLE HIST_PS_DETAILS
+        ADD ADD_COPY_INDICATOR CHAR(100)
+  END
+GO
 ---------------------------DATATYPE CHANGE ENDS-------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.DEFAULT_CONSTRAINTS
@@ -2440,6 +2460,7 @@ AS
                      NET_RESET_PRICE_FORMULA_ID,
                      SUBSEQUENT_PERIOD_PRICE_TYPE,
 					 PPA_INDEX_NO,
+					 ADD_COPY_INDICATOR,
                      ACTION_FLAG)
         SELECT PS_DETAILS_SID,
                PS_MODEL_SID,
@@ -2497,6 +2518,7 @@ AS
                NET_RESET_PRICE_FORMULA_ID,
                SUBSEQUENT_PERIOD_PRICE_TYPE,
 			   PPA_INDEX_NO,
+			   ADD_COPY_INDICATOR,
                'C'
         FROM   INSERTED
   END
@@ -2578,6 +2600,7 @@ AS
                      NET_RESET_PRICE_FORMULA_ID,
                      SUBSEQUENT_PERIOD_PRICE_TYPE,
 					 PPA_INDEX_NO,
+					 ADD_COPY_INDICATOR,
                      ACTION_FLAG)
         SELECT PS_DETAILS_SID,
                PS_MODEL_SID,
@@ -2635,6 +2658,7 @@ AS
                NET_RESET_PRICE_FORMULA_ID,
                SUBSEQUENT_PERIOD_PRICE_TYPE,
 			   PPA_INDEX_NO,
+			   ADD_COPY_INDICATOR,
                'A'
         FROM   INSERTED
   END
@@ -2716,6 +2740,7 @@ AS
                      NET_RESET_PRICE_FORMULA_ID,
                      SUBSEQUENT_PERIOD_PRICE_TYPE,
 					 PPA_INDEX_NO,
+					 ADD_COPY_INDICATOR,
                      ACTION_FLAG)
         SELECT PS_DETAILS_SID,
                PS_MODEL_SID,
@@ -2773,6 +2798,7 @@ AS
                NET_RESET_PRICE_FORMULA_ID,
                SUBSEQUENT_PERIOD_PRICE_TYPE,
 			   PPA_INDEX_NO,
+			   ADD_COPY_INDICATOR,
                'D'
         FROM   DELETED
   END

@@ -111,9 +111,9 @@ public static final Logger LOGGER = Logger.getLogger(ComponentLookUp.class);
 
     public void configureFields() {
         componentId.focus();
-        Object CFP_SEARCH_COLUMNS[] = new Object[]{
+        Object[] CFP_SEARCH_COLUMNS = new Object[]{
             "componentId", "componentNo", "componentName", "componentStatus", "componentType"};
-        String CFP_SEARCH_HEADERS[] = new String[]{
+        String[] CFP_SEARCH_HEADERS = new String[]{
             component + " ID", component + " No", component + " Name", component + " Status", component + " Type"};
         addTableLayout();
         setFlag();

@@ -107,9 +107,7 @@ public class ProjectionVarianceLogic {
 	private static final String C = "C";
 	private static final String P = "P";
 	private static String CURRENT = "Current";
-	private static String ACTUAL = "Actual";
 	private CommonLogic commonLogic = new CommonLogic();
-	private static String DASH = "-";
 	com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils queryUtils = new com.stpl.app.cff.ui.projectionVariance.queryUtils.PVQueryUtils();
 	ProjectionVarianceDTO valueGTS = new ProjectionVarianceDTO();
 	ProjectionVarianceDTO variGTS = new ProjectionVarianceDTO();
@@ -853,9 +851,8 @@ public class ProjectionVarianceLogic {
 					tobeAddedList.addAll(allList);
 				}
 				setChartList(tobeAddedList);
-				for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); i++) {
+				for (int i = started; (i < tobeAddedList.size()) && (neededRecord > 0); neededRecord--, i++) {
 					projDTOList.add(tobeAddedList.get(i));
-					neededRecord--;
 
 				}
 				pivotDiscountList.clear();
@@ -1484,18 +1481,16 @@ public class ProjectionVarianceLogic {
 				}
 				List<ProjectionVarianceDTO> finalList = getCustomizedPivotTotalResults(pivotTotalList,
 						pivotPriorProjIdList, pvsdto, pivotDiscountList);
-				for (int i = started; (i < finalList.size()) && (neededRecord > 0); i++) {
+				for (int i = started; (i < finalList.size()) && (neededRecord > 0); neededRecord--, i++) {
 					projDTOList.add(finalList.get(i));
-					neededRecord--;
 				}
 			} else if (parent instanceof ProjectionVarianceDTO) {
 				getResultsFromProcedure(pvsdto, Boolean.TRUE);
 				geDiscountResultsFromPrc(pvsdto);
 				List<ProjectionVarianceDTO> dto = getCustomizedPivotTotalResults(pivotTotalList, pivotPriorProjIdList,
 						pvsdto, pivotDiscountList);
-				for (int i = started; (i < dto.size()) && (neededRecord > 0); i++) {
+				for (int i = started; (i < dto.size()) && (neededRecord > 0); neededRecord--, i++) {
 					projDTOList.add(dto.get(i));
-					neededRecord--;
 				}
 			}
 		}
@@ -1555,7 +1550,6 @@ public class ProjectionVarianceLogic {
 	 * @param projectionId
 	 * @param procedureName
 	 * @return
-	 * @throws Exception
 	 */
 	public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId,
 			String userId, String discountId) throws Exception {

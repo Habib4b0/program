@@ -1316,12 +1316,11 @@ public class ProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getDiscountPer(projSelDTO);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
@@ -1356,12 +1355,11 @@ public class ProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getDiscountDollar(projSelDTO);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size();
@@ -1403,12 +1401,11 @@ public class ProjectionResultsLogic {
                     } else {
                         projectionDtoList = getProjectionPivot(projSelDTO);
                     }
-                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                         if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                             projDTOList.add(projectionDtoList.get(k));
                         }
                         started++;
-                        neededRecord--;
                     }
                 }
                 mayBeAdded += projSelDTO.getPeriodList().size();
@@ -1514,7 +1511,7 @@ public class ProjectionResultsLogic {
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), StringUtils.EMPTY, start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getDiscountNoList(),projSelDTO);
-            for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
 
                     Leveldto levelDto = levelList.get(i);
@@ -1538,7 +1535,6 @@ public class ProjectionResultsLogic {
                     resultList.add(dto);
                 }
                 started++;
-                neededRecord--;
             }
         }
         return resultList;

@@ -2001,9 +2001,8 @@ public class MMDPRLogic {
             List<DiscountProjectionResultsDTO> projectionDtoList;
             projectionDtoList = resultList;
             if (started < maxrecord) {
-                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     totalDTO.add(projectionDtoList.get(k));
-                    neededRecord--;
                     started++;
                 }
             }
