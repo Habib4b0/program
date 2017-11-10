@@ -1820,7 +1820,7 @@ public class FileManagementLookup extends Window {
     }
 
     public void saveButtonLogic() {
-        LOGGER.debug("Enters Inside Save Button Logic detailsBean size ");
+        LOGGER.debug("Enters Inside Save Button Logic ");
         Boolean changeFlag = false;
        
         final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
