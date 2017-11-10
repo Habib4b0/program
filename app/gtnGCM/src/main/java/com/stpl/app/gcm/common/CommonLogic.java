@@ -1628,35 +1628,9 @@ public class CommonLogic {
 
 	public boolean callCcpInsertProcedure() {
 		LOGGER.debug("calling CcpInsertProcedure");
-		Connection connection = null;
-		DataSource datasource;
-		CallableStatement statement = null;
-		try {
-			Context initialContext = new InitialContext();
-			datasource = (DataSource) initialContext.lookup(DATA_POOL);
-			if (datasource != null) {
-				connection = datasource.getConnection();
-			} else {
-				LOGGER.debug("Failed to lookup  datasource.");
-			}
-			if (connection != null) {
 
-				LOGGER.debug("Got Connection  " + connection.toString() + ", ");
-				statement = connection.prepareCall("{call PRC_CCP_POPULATION()}");
-				statement.execute();
-			}
-		} catch (Exception ex) {
+		GtnSqlUtil.procedureCallService("{call PRC_CCP_POPULATION()}", new Object[] {});
 
-			LOGGER.error(ex);
-			return false;
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				LOGGER.error(e);
-			}
-		}
 		LOGGER.debug("exiting CcpInsertProcedure");
 		return true;
 	}
@@ -2419,39 +2393,7 @@ public class CommonLogic {
 
 	public static boolean callPromoteProcedure(String sessionId) {
 		LOGGER.debug("calling promoteProcedure");
-		Connection connection = null;
-		DataSource datasource;
-		CallableStatement statement = null;
-		try {
-			Context initialContext = new InitialContext();
-			datasource = (DataSource) initialContext.lookup(DATA_POOL);
-			if (datasource != null) {
-				connection = datasource.getConnection();
-			} else {
-				LOGGER.debug("Failed to lookup datasource.");
-			}
-			if (connection != null) {
-
-				LOGGER.debug("Got Connection " + connection.toString() + ", ");
-				StringBuilder statementBuilder = new StringBuilder("{call PRC_FE_PROMOTE_TP('");
-				statementBuilder.append(sessionId).append("')}");
-				statement = connection.prepareCall(statementBuilder.toString());
-				statement.execute();
-			}
-		} catch (Exception ex) {
-
-			LOGGER.error(ex);
-			return false;
-		} finally {
-			try {
-				statement.close();
-				connection.close();
-			} catch (Exception e) {
-				LOGGER.error(e);
-			}
-		}
-		LOGGER.debug("exiting promoteProcedure");
-		return true;
+		return GtnSqlUtil.procedureCallService("{call PRC_FE_PROMOTE_TP(?)}", new Object[] { sessionId });
 	}
 
 	private String getMarketType(String hierarchyDefinitionSid, String relationshipSid) {
