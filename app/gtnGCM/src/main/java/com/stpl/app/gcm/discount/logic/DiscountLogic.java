@@ -105,7 +105,6 @@ public class DiscountLogic {
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
     public static final char CHAR_PERCENT = '%';
-    private static final DecimalFormat ACTUAL_FORMAT = new DecimalFormat("0.00");
     DateFormat df = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
     HelperListUtil helperlist = HelperListUtil.getInstance();
     public static final String SPACE_OFFSET_SPACE = " OFFSET ";
@@ -146,7 +145,7 @@ public class DiscountLogic {
         RemoveDiscountDto removeDiscountDto;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             removeDiscountDto = new RemoveDiscountDto();
             removeDiscountDto.setContractHolder(Converters.convertNullToEmpty(objects[0]));
             removeDiscountDto.setContractNo(Converters.convertNullToEmpty(objects[1]));
@@ -260,12 +259,12 @@ public class DiscountLogic {
             removeList = discountDAO.getValues(query);
 
             if (removeList.size() > 0) {
-                Object objects[] = (Object[]) removeList.get(0);
+                Object[] objects = (Object[]) removeList.get(0);
                 removeDiscountDto.setProjectionSid(Integer.parseInt(String.valueOf(objects[0])));
                 removeDiscountDto.setForecastingType(String.valueOf(objects[1]));
                 String dateQuery = queryUtils.getForecastDates(removeDiscountDto.getForecastingType().equalsIgnoreCase("Non Mandated") ? "Commercial" : "Government");
                 queryList = discountDAO.getValues(dateQuery);
-                Object objects1[] = (Object[]) queryList.get(0);
+                Object[] objects1 = (Object[]) queryList.get(0);
                 removeDiscountDto.setFromDate((Date) objects1[0]);
                 removeDiscountDto.setToDate((Date) objects1[1]);
                 LOGGER.debug("From" + removeDiscountDto.getFromDate() + "To" + removeDiscountDto.getToDate());
@@ -284,7 +283,7 @@ public class DiscountLogic {
         try {
             String query = queryUtils.getForecastDates(type);
             queryList = discountDAO.getValues(query);
-            Object objects[] = (Object[]) queryList.get(0);
+            Object[] objects = (Object[]) queryList.get(0);
             removeDiscountDto.setFromDate((Date) objects[0]);
             removeDiscountDto.setToDate((Date) objects[1]);
         } catch (Exception e) {
@@ -365,7 +364,7 @@ public class DiscountLogic {
         int size = results.size();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setRsSid(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -386,7 +385,7 @@ public class DiscountLogic {
             }
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setPsSid(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -407,7 +406,7 @@ public class DiscountLogic {
             }
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.CFP.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setCfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -423,7 +422,7 @@ public class DiscountLogic {
             }
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -474,7 +473,7 @@ public class DiscountLogic {
         int size = results.size();
         if (Constants.IndicatorConstants.RS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setItemName(Converters.convertNullToEmpty(arr[1]));
@@ -492,7 +491,7 @@ public class DiscountLogic {
             }
         } else if (Constants.IndicatorConstants.PS_VALUE.toString().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setItemName(Converters.convertNullToEmpty(arr[1]));
@@ -515,7 +514,7 @@ public class DiscountLogic {
             }
         } else if (Constants.IndicatorConstants.IFP.toString().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setItemName(Converters.convertNullToEmpty(arr[1]));
@@ -528,7 +527,7 @@ public class DiscountLogic {
             }
         } else if (Constants.IndicatorConstants.CFP.toString().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setTpNo(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setTpName(Converters.convertNullToEmpty(arr[1]));
@@ -725,7 +724,7 @@ public class DiscountLogic {
         RemoveDiscountDto removeDiscountDto;
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             removeDiscountDto = new RemoveDiscountDto();
             removeDiscountDto.setItemSid(Integer.parseInt(String.valueOf(objects[0])));
             removeDiscountDto.setItemNo(isNull(objects[1]));
@@ -1277,7 +1276,7 @@ public class DiscountLogic {
         int size = results.size();
         if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString()) || searchField.equalsIgnoreCase(Constants.IndicatorConstants.PRICE_SCHEDULE.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setIfpId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -1296,7 +1295,7 @@ public class DiscountLogic {
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
 
                 tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
@@ -1315,7 +1314,7 @@ public class DiscountLogic {
             }
         } else if (searchField.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setInternalId(Integer.parseInt(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setTradingPartnerNo(Converters.convertNullToEmpty(arr[1]));
@@ -1645,7 +1644,7 @@ public class DiscountLogic {
         int size = results.size();
         if (Constants.IndicatorConstants.RS_VALUE.getConstant().equals(newDiscountTabDto.getCategory()) || Constants.IndicatorConstants.PS_VALUE.getConstant().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setSystemId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setId(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
@@ -1678,7 +1677,7 @@ public class DiscountLogic {
             }
         } else if (Constants.IndicatorConstants.IFP.getConstant().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setSystemId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setItemNo(Converters.convertNullToEmpty(arr[1]));
@@ -1703,7 +1702,7 @@ public class DiscountLogic {
             }
         } else if (Constants.IndicatorConstants.CFP.toString().equals(newDiscountTabDto.getCategory())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ContractsDetailsDto tabDto = new ContractsDetailsDto();
                 tabDto.setSystemId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
                 tabDto.setCompanyNo(Converters.convertNullToEmpty(arr[1]));
@@ -1827,7 +1826,7 @@ public class DiscountLogic {
         int size = results.size();
         List<LookupDTO> resultsList = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            Object arr[] = (Object[]) results.get(i);
+            Object[] arr = (Object[]) results.get(i);
             LookupDTO dTo = new LookupDTO();
             if (isRebate) {
                 dTo.setRebatePlanSysId(Converters.convertNullToEmpty(arr[0]));
@@ -1920,7 +1919,7 @@ public class DiscountLogic {
             String actualQuery = queryUtils.getActuals(dto);
             List results;
             results = discountDAO.getRebates(actualQuery);
-            Object arr[] = (Object[]) results.get(0);
+            Object[] arr = (Object[]) results.get(0);
             if (arr[0] != null || arr[0] != null) {
                 actual = true;
             }
@@ -2731,7 +2730,7 @@ public class DiscountLogic {
         }
         int count = list.size();
         for (int i = 0; i < count; i++) {
-            Object objects[] = (Object[]) list.get(i);
+            Object[] objects = (Object[]) list.get(i);
             attachedList.add(Converters.convertNullToEmpty(objects[no]));
         }
         return attachedList;

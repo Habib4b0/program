@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final String ZERO = "0";
     private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);

@@ -595,9 +595,8 @@ public class NMDPRLogic {
                         discountList.add(projSelDTO.getDiscountNameList().get(i));
                     }
                     List<DiscountProjectionResultsDTO> discountDtoList = getPeriodProjectionTotalDiscount(projSelDTO.getProjectionId(), yearList, projSelDTO, discountList);
-                    for (int k = 0; k < discountDtoList.size() && neededRecord > 0; k++) {
+                    for (int k = 0; k < discountDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                         projDTOList.add(discountDtoList.get(k));
-                        neededRecord--;
                     }
                     mayBeAdded += projSelDTO.getDiscountNameList().size();
                 }
@@ -714,9 +713,8 @@ public class NMDPRLogic {
                     discountList.add(projSelDTO.getDiscountNameList().get(i));
                 }
                 discountDtoList = getPeriodHierarchy(projSelDTO, yearList, discountList);
-                for (int k = 0; k < discountDtoList.size() && neededRecord > 0; k++) {
+                for (int k = 0; k < discountDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(discountDtoList.get(k));
-                    neededRecord--;
                 }
                 mayBeAdded += projSelDTO.getDiscountNameList().size();
             }
@@ -937,7 +935,7 @@ public class NMDPRLogic {
         List<DiscountProjectionResultsDTO> resultList = new ArrayList<>();
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), Constant.DISCOUNT_PROJECTION_RESULTS, start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.getGroupFilter(), projSelDTO.getUserId(), projSelDTO.getSessionId(), projSelDTO.getCustRelationshipBuilderSid(), projSelDTO.getProdRelationshipBuilderSid(), false, true, projSelDTO.getDiscountNoList(), projSelDTO);
-            for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
                 Leveldto levelDto = levelList.get(i);
 
                 DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
@@ -973,7 +971,6 @@ public class NMDPRLogic {
                 }
                 discountDTO.setTreeLevelNo(dto.getTreeLevelNo());
                 resultList.add(discountDTO);
-                neededRecord--;
             }
         }
 

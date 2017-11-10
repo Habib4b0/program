@@ -1012,5 +1012,36 @@ SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where LIST_NAME='?' and DESCRIPTIO
          ]]>
 		</query>
 	</entity>
+        
+        <entity id="getRelationshipLevelValuesForDeductionCustom">
+		<query> 
+            <![CDATA[ 
+                SELECT DISTINCT 
+                    RELATIONSHIP_LEVEL_VALUES,
+                    ?HTDESCRIPTION as DESCRIPTION,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES
+                    ?DISPLAYFORMATCOLUMN
+                FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                                  ?UDCJOIN
+                                  join RS_CONTRACT RS ON ?FIELD_VALUE
+                                  ?REBATEJOIN
+                                  JOIN ST_NM_DISCOUNT_PROJ_MASTER ST ON ST.RS_CONTRACT_SID=RS.RS_CONTRACT_SID
+                                  ?HELPERTABLEJOIN
+             where 
+                                 RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                                AND RLD.LEVEL_NO = ?LNO
+
+             GROUP BY   RLD.HIERARCHY_NO,
+                    ?DEDGROUPBY,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES    
+                    ?DEFGRPBY               
+            ]]>
+		</query>
+	</entity>
 
 </sql>

@@ -163,6 +163,7 @@ public class SessionDTO implements Serializable {
     private int selectedDeductionLevelNoPv;
     private int customerLastLevelNo;
     private int productLastLevelNo;
+    private String tabNameCaption = StringUtils.EMPTY;
     private String tabName;
     
                 
@@ -1366,6 +1367,14 @@ public class SessionDTO implements Serializable {
         this.productLastLevelNo = productLastLevelNo;
     }
 
+    public String getTabNameCaption() {
+        return tabNameCaption;
+    }
+
+    public void setTabNameCaption(String tabNameCaption) {
+        this.tabNameCaption = tabNameCaption;
+    }
+    
     public String getTabName() {
         return tabName;
     }

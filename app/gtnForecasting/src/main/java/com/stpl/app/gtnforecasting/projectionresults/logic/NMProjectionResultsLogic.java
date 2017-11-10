@@ -42,7 +42,6 @@ public class NMProjectionResultsLogic {
     /**
      * Percent Three Decimal Format
      */
-    private static final DecimalFormat PER_THREE = new DecimalFormat("#,##0.000%");
     /**
      * The Numeric Zero Decimal Places Format.
      */
@@ -2404,12 +2403,11 @@ public class NMProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getTotalDiscountLevels(projSelDTO, NumericConstants.TWO);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
@@ -2422,12 +2420,11 @@ public class NMProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getTotalDiscountLevels(projSelDTO, NumericConstants.THREE);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
@@ -2440,12 +2437,11 @@ public class NMProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getTotalDiscountLevels(projSelDTO, 1);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
@@ -2458,12 +2454,11 @@ public class NMProjectionResultsLogic {
                             } else {
                                 discountPerDtoList = getTotalDiscountLevels(projSelDTO, NumericConstants.FOUR);
                             }
-                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; k++) {
+                            for (int k = started; k < discountPerDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                                 if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                                     projDTOList.add(discountPerDtoList.get(k));
                                 }
                                 started++;
-                                neededRecord--;
                             }
                         }
                         mayBeAdded = mayBeAdded + projSelDTO.getDiscountNameList().size()+ ppaCount;
@@ -2484,12 +2479,11 @@ public class NMProjectionResultsLogic {
                     } else {
                         projectionDtoList = getProjectionPivot(projSelDTO);
                     }
-                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                    for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                         if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + k)) {
                             projDTOList.add(projectionDtoList.get(k));
                         }
                         started++;
-                        neededRecord--;
                     }
                 }
                 mayBeAdded += projSelDTO.getPeriodList().size();
@@ -5101,27 +5095,25 @@ public class NMProjectionResultsLogic {
                 String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                 Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoForCustomView(projSelDTO, start, offset);                
-               for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+               for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, hierarchyIndicator, projSelDTO.getTreeLevelNo(), relationshipLevelDetailsMap.get(hierarchyNo), hierarchyNoList.size(),i));
                      
                     }
                 started++;
-                neededRecord--;
                    }
                 
             } else {
                 Map<String, List> relationshipLevelDetailsMap =  projSelDTO.getSessionDTO().getHierarchyLevelDetails();
                
                 List<String> hierarchyNoList = commonLogic.getHiearchyNoAsList(projSelDTO, start, offset);
-            for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < hierarchyNoList.size() && neededRecord > 0; neededRecord--, i++) {
                    String hierarchyNo=hierarchyNoList.get(i);
                     if (!projSelDTO.hasNonFetchableIndex(StringUtils.EMPTY + (started + i))) {
                     resultList.add(configureDetailsInDTO(projSelDTO, hierarchyNo, projSelDTO.getHierarchyIndicator(), Integer.valueOf(relationshipLevelDetailsMap.get(hierarchyNo).get(NumericConstants.TWO).toString()), relationshipLevelDetailsMap.get(hierarchyNo),hierarchyNoList.size(),i));
                 }
                     started++;
-                neededRecord--;
                    }
             }
 

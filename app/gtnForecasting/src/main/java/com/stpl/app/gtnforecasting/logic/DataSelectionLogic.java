@@ -2244,7 +2244,7 @@ public class DataSelectionLogic {
 
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
 
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType);
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType,sessionDTO);
         tempList.clear();
         tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
         for (int j = tempList.size() - 1; j >= 0; j--) {
@@ -2281,7 +2281,7 @@ public class DataSelectionLogic {
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
         Map<String, List> resultMap = new HashMap<>();
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, "D");
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, "D",sessionDTO);
         tempList.clear();
         tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
         for (int j = tempList.size() - 1; j >= 0; j--) {
@@ -2297,8 +2297,8 @@ public class DataSelectionLogic {
         }
         return resultMap;
     }
-
-    /**
+    
+     /**
      * Used to check which level is top in selected customer hierarchy either
      * customer or contract It is used for CCP_HIERARCHY_INSERT query formation
      *
