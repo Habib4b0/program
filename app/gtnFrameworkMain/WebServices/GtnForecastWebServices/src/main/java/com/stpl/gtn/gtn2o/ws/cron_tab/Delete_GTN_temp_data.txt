@@ -1,0 +1,11 @@
+ # This script used to delete GTN Temp data (7 days older)  at 18.00 daily 
+ 
+ 1. Edit cron job using crontab -e
+ 2. Append the following line 
+ 
+  00 18 * * * dateToDeleteGTNData=$(date +"\%b_\%d_\%Y" -d "7 days ago") &&  rm -rf  /opt/*/jboss-7.1.1/gtn_data/temp/*/$dateToDeleteGTNData && echo deleting gtn temp data of $dateToDeleteGTNData
+
+ 
+ 3. press esc and type :wq  then press enter to Save 
+ 
+ 4. To check the cron job is added  use  command crontab -l  (lists all cron jobs).

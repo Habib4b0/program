@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 5:05:43 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemIdentifier"
+		table="IVLD_ITEM_IDENTIFIER" schema="dbo">
+		<id name="ivldItemIdentifierSid" type="int">
+			<column name="IVLD_ITEM_IDENTIFIER_SID" />
+			<generator class="native" />
+		</id>
+		<property name="itemIdentifierIntfid" type="string">
+			<column name="ITEM_IDENTIFIER_INTFID" not-null="true" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" not-null="true" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" not-null="true" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" not-null="true" />
+		</property>
+		<property name="identifierCodeQualifierName" type="string">
+			<column name="IDENTIFIER_CODE_QUALIFIER_NAME" not-null="true" />
+		</property>
+		<property name="itemIdentifier" type="string">
+			<column name="ITEM_IDENTIFIER" not-null="true" />
+		</property>
+		<property name="identifierCodeQualifier" type="string">
+			<column name="IDENTIFIER_CODE_QUALIFIER" not-null="true" />
+		</property>
+		<property name="itemStatus" type="string">
+			<column name="ITEM_STATUS" not-null="true" />
+		</property>
+		<property name="identifierStatus" type="int">
+			<column name="IDENTIFIER_STATUS" not-null="true" />
+		</property>
+		<property name="startDate" type="string">
+			<column name="START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="endDate" type="string">
+			<column name="END_DATE" length="23" />
+		</property>
+		<property name="entityCode" type="string">
+			<column name="ENTITY_CODE" length="30" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		 <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="1000" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="500" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+	</class>
+</hibernate-mapping>

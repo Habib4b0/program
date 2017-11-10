@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 2, 2017 4:52:41 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagActualMaster" table="STAG_ACTUAL_MASTER" schema="dbo" >
+        <id name="stagActualMasterSid" type="int">
+            <column name="STAG_ACTUAL_MASTER_SID" />
+            <generator class="native" />
+        </id>
+        <property name="actualIntfid" type="string">
+            <column name="ACTUAL_INTFID"  not-null="true" />
+        </property>
+        <property name="actualId" type="string">
+            <column name="ACTUAL_ID" length="50" not-null="true" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="50" not-null="true" />
+        </property>
+        <property name="uploadDate" type="string">
+            <column name="UPLOAD_DATE" length="23" />
+        </property>
+        <property name="provisionId" type="string">
+            <column name="PROVISION_ID" length="50" not-null="true" />
+        </property>
+        <property name="accrualActualStartDate" type="string">
+            <column name="ACCRUAL_ACTUAL_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="accrualActualEndDate" type="string">
+            <column name="ACCRUAL_ACTUAL_END_DATE" length="23" not-null="true" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="50" not-null="true" />
+        </property>
+        <property name="itemIdentifierCodeQualifier" type="string">
+            <column name="ITEM_IDENTIFIER_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="settlementMethod" type="string">
+            <column name="SETTLEMENT_METHOD" length="50" />
+        </property>
+        <property name="cashPaidDate" type="string">
+            <column name="CASH_PAID_DATE" length="23" not-null="true" />
+        </property>
+        <property name="amount" type="string">
+            <column name="AMOUNT" not-null="true" />
+        </property>
+        <property name="quantity" type="string">
+            <column name="QUANTITY" precision="20" scale="4" not-null="true" />
+        </property>
+        <property name="quantityInclusion" type="string">
+            <column name="QUANTITY_INCLUSION" length="10" not-null="true" />
+        </property>
+        <property name="settlementNo" type="string">
+            <column name="SETTLEMENT_NO" length="100" />
+        </property>
+        <property name="invoiceLineNo" type="string">
+            <column name="INVOICE_LINE_NUMBER" length="100" />
+        </property>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="100" not-null="true" />
+        </property>
+        <property name="acctIdentifierCodeQualifier" type="string">
+            <column name="ACCT_IDENTIFIER_CODE_QUALIFIER" length="100" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="ACCOUNT_NO" length="100" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="ACCOUNT_NAME" length="100" />
+        </property>
+        <property name="analysisCode" type="string">
+            <column name="ANALYSIS_CODE" length="50" />
+        </property>
+        <property name="isActive" type="string">
+            <column name="IS_ACTIVE" length="2" />
+        </property>
+        <property name="comDivMktBrandProdKey" type="string">
+            <column name="COM_DIV_MKT_BRAND_PROD_KEY" length="100" />
+        </property>
+        <property name="parentcomDivmktBrandProdkey" type="string">
+            <column name="PARENTCOM_DIVMKT_BRAND_PRODKEY" length="100" />
+        </property>
+        <property name="priceAdjustmentName" type="string">
+            <column name="PRICE_ADJUSTMENT_NAME" length="100" />
+        </property>
+        <property name="price" type="string">
+            <column name="PRICE" />
+        </property>
+        <property name="recordSequence" type="string">
+            <column name="RECORD_SEQUENCE" length="30" />
+        </property>
+        <property name="sentOut" type="string">
+            <column name="SENT_OUT" length="5" />
+        </property>
+        <property name="accrualProcessed" type="string">
+            <column name="ACCRUAL_PROCESSED" length="5" />
+        </property>
+        <property name="divisionId" type="string">
+            <column name="DIVISION_ID" length="38" />
+        </property>
+        <property name="marketId" type="string">
+            <column name="MARKET_ID" length="38" />
+        </property>
+        <property name="brandId" type="string">
+            <column name="BRAND_ID" length="38" />
+        </property>
+        <property name="claimIndicator" type="string">
+            <column name="CLAIM_INDICATOR" length="50" />
+        </property>
+        <property name="salesAmount" type="string">
+            <column name="SALES_AMOUNT" not-null="true" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="50" not-null="true" />
+        </property>
+        <property name="mandatedDiscountAmount" type="string">
+            <column name="MANDATED_DISCOUNT_AMOUNT" />
+        </property>
+        <property name="provisionClaimIndicator" type="string">
+            <column name="PROVISION_CLAIM_INDICATOR" length="10" />
+        </property>
+        <property name="programStateCode" type="string">
+            <column name="PROGRAM_STATE_CODE" length="10" />
+        </property>
+        <property name="dispensedDate" type="string">
+            <column name="DISPENSED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2017 12:07:46 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.GlCostCenterMaster"
+		table="GL_COST_CENTER_MASTER" schema="dbo">
+		<id name="glCostCenterMasterSid" type="int">
+			<column name="GL_COST_CENTER_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="companyCostCenter" type="string">
+			<column name="COMPANY_COST_CENTER" length="8" not-null="true" />
+		</property>
+		<property name="companyCode" type="string">
+			<column name="COMPANY_CODE" length="5" />
+		</property>
+		<property name="ndc8" type="string">
+			<column name="NDC8" length="100" not-null="true" />
+		</property>
+		<property name="uploadDate" type="timestamp">
+			<column name="UPLOAD_DATE" length="23" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="java.lang.Character">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

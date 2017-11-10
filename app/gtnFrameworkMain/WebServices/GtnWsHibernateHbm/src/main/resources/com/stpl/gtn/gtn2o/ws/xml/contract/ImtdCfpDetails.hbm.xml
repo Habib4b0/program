@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 6, 2017 5:44:11 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.ImtdCfpDetails"
+		table="IMTD_CFP_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="imtdCfpDetailsSid" type="int">
+			<column name="IMTD_CFP_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<property name="cfpModelSid" type="java.lang.Integer">
+			<column name="CFP_MODEL_SID" />
+		</property>
+		<property name="companyMasterSid" type="java.lang.Integer">
+			<column name="COMPANY_MASTER_SID" />
+		</property>
+		<property name="cfpDetailsSid" type="java.lang.Integer">
+			<column name="CFP_DETAILS_SID" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" length="38" />
+		</property>
+		<property name="companyNo" type="string">
+			<column name="COMPANY_NO" length="50" />
+		</property>
+		<property name="companyName" type="string">
+			<column name="COMPANY_NAME" length="100" />
+		</property>
+		<property name="companyType" type="string">
+			<column name="COMPANY_TYPE" length="50" />
+		</property>
+		<property name="companyStartDate" type="timestamp">
+			<column name="COMPANY_START_DATE" length="23" />
+		</property>
+		<property name="companyEndDate" type="timestamp">
+			<column name="COMPANY_END_DATE" length="23" />
+		</property>
+		<property name="companyStatus" type="java.lang.Integer">
+			<column name="COMPANY_STATUS" />
+		</property>
+		<property name="tradingPartnerContractNo" type="string">
+			<column name="TRADING_PARTNER_CONTRACT_NO" length="50" />
+		</property>
+		<property name="cfpDetailsAttachedDate" type="timestamp">
+			<column name="CFP_DETAILS_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsStartDate" type="timestamp">
+			<column name="CFP_DETAILS_START_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsEndDate" type="timestamp">
+			<column name="CFP_DETAILS_END_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsAttachedStatus" type="java.lang.Integer">
+			<column name="CFP_DETAILS_ATTACHED_STATUS" />
+		</property>
+		<property name="cfpDetailsTradeClass" type="string">
+			<column name="CFP_DETAILS_TRADE_CLASS" length="100" />
+		</property>
+		<property name="cfpDetailsTcStartDate" type="timestamp">
+			<column name="CFP_DETAILS_TC_START_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsTcEndDate" type="timestamp">
+			<column name="CFP_DETAILS_TC_END_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsCreatedDate" type="timestamp">
+			<column name="CFP_DETAILS_CREATED_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsCreatedBy" type="string">
+			<column name="CFP_DETAILS_CREATED_BY" length="50" />
+		</property>
+		<property name="cfpDetailsModifiedDate" type="timestamp">
+			<column name="CFP_DETAILS_MODIFIED_DATE" length="23" />
+		</property>
+		<property name="cfpDetailsModifiedBy" type="string">
+			<column name="CFP_DETAILS_MODIFIED_BY" length="50" />
+		</property>
+		<property name="usersSid" type="string">
+			<column name="USERS_SID" length="50" />
+		</property>
+		<property name="sessionId" type="string">
+			<column name="SESSION_ID" length="100" />
+		</property>
+		<property name="imtdCreatedDate" type="timestamp">
+			<column name="IMTD_CREATED_DATE" length="23" />
+		</property>
+		<property name="checkRecord" type="java.lang.Boolean">
+			<column name="CHECK_RECORD" />
+		</property>
+		<property name="operation" type="string">
+			<column name="OPERATION" length="100" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

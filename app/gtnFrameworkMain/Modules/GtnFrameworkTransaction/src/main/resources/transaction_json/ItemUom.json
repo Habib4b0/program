@@ -1,0 +1,300 @@
+[
+   {
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 1,
+		"listViewIndex": 1,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":38
+	},
+	{
+		"columnID": "itemNo",
+		"columnName": "Item No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 2,
+		"listViewIndex": 2,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 3,
+		"listViewIndex": 3,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
+	},
+	{
+		"columnID": "status",
+		"columnName": "Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"loadDescription": true,
+		"viewModeIndex": 4,
+		"listViewIndex": 4,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":20
+	},
+	{
+		"columnID": "primaryUomName",
+		"columnName": "Primary UOM Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "UOM",
+		"loadDescription": true,
+		"viewModeIndex": 13,
+		"listViewIndex": 7,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":20
+	},
+	{
+		"columnID": "secondaryUomName",
+		"columnName": "Secondary UOM Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "UOM",
+		"loadDescription": true,
+		"viewModeIndex": 14,
+		"listViewIndex": 10,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":20
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 17,
+		"listViewIndex": 17,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":38
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",    
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 18,
+		"listViewIndex": 18,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
+	},
+	{
+		"columnID": "primaryUomBaselineFactor",
+		"columnName": "Primary UOM Baseline Factor",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 5,
+		"listViewIndex": 5
+	},
+	{
+		"columnID": "secondaryUomConversionFactor",
+		"columnName": "Secondary UOM Conversion Factor",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 6,
+		"listViewIndex": 8
+	},
+	{
+		"columnID": "uploadDate",
+		"columnName": "Upload Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 7,
+		"listViewIndex": 11
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 8,
+		"listViewIndex": 14
+	},
+	{
+		"columnID": "secondaryUomCode",
+		"columnName": "Secondary UOM Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 10,
+		"listViewIndex": 9
+	},
+	{
+		"columnID": "primaryUomCode",
+		"columnName": "Primary UOM",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 9,
+		"listViewIndex": 6
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 11,
+		"listViewIndex": 12
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 12,
+		"listViewIndex": 15
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 15,
+		"listViewIndex": 13
+	},
+	{
+		"columnID": "inboundStatus",
+		"columnName": "Add Change Delete Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"onlyValidComponent": true,
+		"viewModeIndex": 16,
+		"listViewIndex": 16
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Change Delete Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 16,
+		"viewModeIndex": 16,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 20,
+		"viewModeIndex": 20
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 21,
+		"viewModeIndex": 21
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 22,
+		"viewModeIndex": 22
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true,
+		"listViewIndex": 23,
+		"viewModeIndex": 23
+	},
+	{
+		"columnID": "ivldItemUomSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true,
+		"listViewIndex": 24,
+		"viewModeIndex": 24
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemUomConversionId",
+		"columnName": "Item UOM Conversion ID",    
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 19,
+		"listViewIndex": 19
+	},
+	{
+		"viewModeIndexFlag": true
+	}	
+]

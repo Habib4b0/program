@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 7:31:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.projectionmaster.ProjectionMaster"
+		schema="dbo" table="PROJECTION_MASTER">
+		<id name="projectionMasterSid" type="int">
+			<column name="PROJECTION_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="projectionName" type="string">
+			<column length="100" name="PROJECTION_NAME" />
+		</property>
+		<property name="projectionDescription" type="string">
+			<column length="500" name="PROJECTION_DESCRIPTION" />
+		</property>
+		<property name="forecastingType" type="string">
+			<column length="50" name="FORECASTING_TYPE" />
+		</property>
+		<property name="fromDate" type="timestamp">
+			<column length="23" name="FROM_DATE" not-null="true" />
+		</property>
+		<property name="toDate" type="timestamp">
+			<column length="23" name="TO_DATE" not-null="true" />
+		</property>
+		<property name="discountType" type="java.lang.Integer">
+			<column name="DISCOUNT_TYPE" />
+		</property>
+		<property name="customerHierarchySid" type="java.lang.Integer">
+			<column name="CUSTOMER_HIERARCHY_SID" />
+		</property>
+		<property name="customerHierarchyLevel" type="java.lang.Short">
+			<column name="CUSTOMER_HIERARCHY_LEVEL" />
+		</property>
+		<property name="customerHierVersionNo" type="java.lang.Integer">
+			<column name="CUSTOMER_HIER_VERSION_NO" />
+		</property>
+		<property name="companyGroupSid" type="java.lang.Integer">
+			<column name="COMPANY_GROUP_SID" />
+		</property>
+		<property name="brandType" type="java.lang.Boolean">
+			<column name="BRAND_TYPE" />
+		</property>
+		<property name="customerHierarchyInnerLevel" type="java.lang.Short">
+			<column name="CUSTOMER_HIERARCHY_INNER_LEVEL" />
+		</property>
+		<property name="custRelationshipBuilderSid" type="java.lang.Integer">
+			<column name="CUST_RELATIONSHIP_BUILDER_SID" />
+		</property>
+		<property name="companyMasterSid" type="java.lang.Integer">
+			<column name="COMPANY_MASTER_SID" />
+		</property>
+		<property name="productHierarchySid" type="java.lang.Integer">
+			<column name="PRODUCT_HIERARCHY_SID" />
+		</property>
+		<property name="productHierarchyLevel" type="java.lang.Short">
+			<column name="PRODUCT_HIERARCHY_LEVEL" />
+		</property>
+		<property name="productHierVersionNo" type="java.lang.Integer">
+			<column name="PRODUCT_HIER_VERSION_NO" />
+		</property>
+		<property name="itemGroupSid" type="java.lang.Integer">
+			<column name="ITEM_GROUP_SID" />
+		</property>
+		<property name="productHierarchyInnerLevel" type="java.lang.Short">
+			<column name="PRODUCT_HIERARCHY_INNER_LEVEL" />
+		</property>
+		<property name="prodRelationshipBuilderSid" type="java.lang.Integer">
+			<column name="PROD_RELATIONSHIP_BUILDER_SID" />
+		</property>
+		<property name="saveFlag" type="boolean">
+			<column name="SAVE_FLAG" not-null="true" />
+		</property>
+		<property name="isApproved" type="string">
+			<column length="2" name="IS_APPROVED" />
+		</property>
+		<property name="createdBy" type="java.lang.Integer">
+			<column name="CREATED_BY" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="23" name="CREATED_DATE" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column length="23" name="MODIFIED_DATE" />
+		</property>
+		<property name="businessUnit" type="java.lang.Integer">
+			<column name="BUSINESS_UNIT" />
+		</property>
+		<set fetch="select" inverse="true" lazy="true" name="workflowMasters"
+			table="WORKFLOW_MASTER">
+			<key>
+				<column name="PROJECTION_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowMaster" />
+		</set>
+		<set fetch="select" inverse="true" lazy="true" name="workflowProcessInfos"
+			table="WORKFLOW_PROCESS_INFO">
+			<key>
+				<column name="PROJECTION_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProcessInfo" />
+		</set>
+	</class>
+</hibernate-mapping>

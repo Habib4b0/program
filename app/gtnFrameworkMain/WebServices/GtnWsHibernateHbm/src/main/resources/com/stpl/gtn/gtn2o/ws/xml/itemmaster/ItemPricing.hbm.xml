@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 18, 2017 12:08:28 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemPricing"
+		table="ITEM_PRICING" schema="dbo">
+		<id name="itemPricingSid" type="int">
+			<column name="ITEM_PRICING_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByItemUom"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_UOM" not-null="true" />
+		</many-to-one>
+		<many-to-one name="itemPricingQualifier"
+			class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.ItemPricingQualifier"
+			fetch="select">
+			<column name="ITEM_PRICING_QUALIFIER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="itemMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" fetch="select">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByPricingCodeStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PRICING_CODE_STATUS" not-null="true" />
+		</many-to-one>
+		<property name="itemPrice" type="big_decimal">
+			<column name="ITEM_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="entityCode" type="string">
+			<column name="ENTITY_CODE" length="30" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="endDate" type="timestamp">
+			<column name="END_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

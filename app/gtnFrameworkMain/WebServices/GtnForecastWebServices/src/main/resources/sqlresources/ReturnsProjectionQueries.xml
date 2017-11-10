@@ -1,0 +1,1991 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+
+<sql>
+	<entity id="RETURNS_FORECAST_MASTER">
+		<query> 
+                    <![CDATA[
+            
+
+
+            IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+            DROP TABLE #SELECTED_HIERARCHY_NO
+            CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
+
+            INSERT INTO #SELECTED_HIERARCHY_NO
+            (HIERARCHY_NO)
+            SELECT DISTINCT HIERARCHY_NO
+            FROM  (VALUES ?)A(HIERARCHY_NO)
+
+            DECLARE @data VARCHAR(50)
+            IF Object_id('tempdb..#ITEM') IS NOT NULL
+
+            DROP TABLE #ITEM
+            CREATE TABLE #ITEM(ITEM_MASTER_SID INT,
+                               HIERARCHY_NO VARCHAR(50));
+
+            INSERT INTO #ITEM(HIERARCHY_NO,ITEM_MASTER_SID)
+            SELECT  RLD.HIERARCHY_NO,
+                    RLD.relationship_level_values
+             FROM   relationship_level_definition RLD
+             JOIN #SELECTED_HIERARCHY_NO SH ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+             WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+
+
+            ---------------  Declaring the required variables  ----------------
+                      ---- For  Projection Period Date Variables
+                      DECLARE @FROM_DATE DATETIME = '?',
+                              @TO_DATE   DATETIME = '?'
+                      ---- For  Projection Period Date Variables
+                      DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                              @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1),
+                              @START_PERIOD_SID INT,
+                              @END_PERIOD_SID   INT,
+                              @FORECAST_NAME    VARCHAR(50),
+                              @FORECAST_VERSION VARCHAR(15),
+                              @ITEM_UDT         UDT_ITEM
+
+                      SELECT @START_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = @START_ACTUAL
+
+                      SELECT @END_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = Dateadd(MM, Datediff(MM, 0, @TO_DATE), 0)
+
+                      SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                                   @FORECAST_VERSION = FT.[VERSION]
+                      FROM   FILE_MANAGEMENT FT
+                             INNER JOIN HELPER_TABLE HT
+                                     ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                      WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                               AND FT.FROM_PERIOD IS NOT NULL )
+                             AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                    OR FT.TO_PERIOD IS NULL )
+                             AND HT.LIST_NAME = 'FILE_TYPE'
+                             AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                      ORDER  BY FT.FROM_PERIOD DESC
+
+                      INSERT INTO @ITEM_UDT
+                                  (ITEM_MASTER_SID)
+                      SELECT ITEM_MASTER_SID
+                      FROM   #ITEM
+
+                      IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS
+
+                      CREATE TABLE #TEMP_RETURNS
+                        (
+                           RETURNS_MASTER_SID            INT,
+                           ITEM_MASTER_SID               INT,
+                           BRAND_MASTER_SID              INT,
+                           ORIG_SALE_MONTH               DATETIME,
+                           CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                           ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                           ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                           ASP                           NUMERIC(22, 6),--O
+                           EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                           MAX_EXPIRED_MONTH             DATETIME,
+                           MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                           AUTHORIZED_GENERIC_START_DATE DATETIME,
+                           AUTHORIZED_GENERIC_END_DATE   DATETIME
+                        )
+
+                      INSERT INTO #TEMP_RETURNS
+                                  (RETURNS_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   BRAND_MASTER_SID,
+                                   ORIG_SALE_MONTH,
+                                   CUM_RETURN_UNITS,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   MAX_EXPIRED_MONTH,
+                                   MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                   AUTHORIZED_GENERIC_START_DATE,
+                                   AUTHORIZED_GENERIC_END_DATE)
+                      SELECT A.RETURNS_MASTER_SID,
+                             A.ITEM_MASTER_SID,
+                             A.BRAND_MASTER_SID,
+                             A.ORIG_SALE_MONTH,
+                             A.CUM_RETURN_UNITS,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             A.MAX_EXPIRED_MONTH,
+                             A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                             AUTHORIZED_GENERIC_START_DATE,
+                             AUTHORIZED_GENERIC_END_DATE
+                      FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                     RM.ITEM_MASTER_SID,
+                                     RM.BRAND_MASTER_SID,
+                                     RM.ORIG_SALE_MONTH,
+                                     RM.CUM_RETURN_UNITS,
+                                     RM.ORIG_SALE_UNITS,
+                                     RM.ORIG_SALE_DOLLARS,
+                                     RM.ASP,
+                                     RM.EXPECTED_RETURN_RATE,
+                                     RM.MAX_EXPIRED_MONTH,
+                                     RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     IM.AUTHORIZED_GENERIC_START_DATE,
+                                     IM.AUTHORIZED_GENERIC_END_DATE,
+                                     ROW_NUMBER()
+                                       OVER(
+                                         PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                         ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                              FROM   #ITEM RD
+                                     LEFT JOIN RETURNS_MASTER RM
+                                            ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                     LEFT JOIN ITEM_MASTER IM
+                                            ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                      WHERE  A.RN = 1
+                             AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+
+            ---------------  Returns Master Insert  ----------------
+
+                      IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_MASTER
+
+                      CREATE TABLE #TEMP_RETURNS_MASTER
+                        (
+                           ID                     INT IDENTITY (1, 1) NOT NULL,
+                           ITEM_MASTER_SID    INT,
+                           METHODOLOGY            VARCHAR(50),
+                           METHODOLOGY_START_DATE VARCHAR(50),
+                           METHODOLOGY_END_DATE   VARCHAR(50),
+                           CALCULATION_PERIODS    VARCHAR(4000),
+                           LAG                    INT,
+                           CLOSED_DATE            DATETIME,
+                           LOE_DATE               DATETIME,
+                           UDC1                   BIT,
+                           USER_ID                INT,
+                           SESSION_ID             INT
+                        )
+
+                      INSERT INTO #TEMP_RETURNS_MASTER
+                                  (ITEM_MASTER_SID,
+                                   LAG,
+                                   CLOSED_DATE,
+                                   LOE_DATE,
+                                    UDC1)
+                      SELECT RD.ITEM_MASTER_SID,
+                             A.LAG,
+                             A.CLOSED_DATE,
+                             A.LOE_DATE,
+       CASE
+         WHEN c.MASTER_SID is not null THEN 1
+         ELSE 0
+      END AS UDC1
+                      FROM   #ITEM RD
+                             LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                               Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                               A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                               A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                        FROM   #TEMP_RETURNS A
+                                               JOIN (SELECT A.ITEM_MASTER_SID,
+                                                            Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                     FROM   #TEMP_RETURNS A
+                                                     GROUP  BY A.ITEM_MASTER_SID) B
+                                                 ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                    AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                    ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                    LEFT JOIN 
+		(
+		SELECT  MASTER_SID   FROM UDCS UD
+        JOIN HELPER_TABLE HT
+             ON HT.HELPER_TABLE_SID = UD.UDC1
+			   and  UD.MASTER_TYPE = 'ITEM_MASTER'
+             AND HT.DESCRIPTION in ( 'TIER1' ,'TIER 1') 
+		) C
+		ON C.MASTER_SID=RD.ITEM_MASTER_SID
+		
+                      SELECT I.HIERARCHY_NO,
+                            I.ITEM_MASTER_SID,
+                            NULL AS METHODOLOGY,
+                            NULL AS METHODOLOGY_START_DATE,
+                            NULL AS METHODOLOGY_END_DATE,
+                            NULL AS CALCULATION_PERIODS,
+                            UDC1,
+                            0 AS CHECK_RECORD,
+                            LAG,
+                            CLOSED_DATE,
+                            LOE_DATE
+                      FROM   #TEMP_RETURNS_MASTER TRM
+                      JOIN #ITEM I ON TRM.ITEM_MASTER_SID = I.ITEM_MASTER_SID
+                      ORDER BY I.HIERARCHY_NO;
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="RETURNS_FORECAST_ACTUAL">
+		<query> 
+                    <![CDATA[  
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO)
+                SELECT DISTINCT HIERARCHY_NO
+                FROM  (VALUES ?)A(HIERARCHY_NO)
+
+                DECLARE @data VARCHAR(50)
+                IF Object_id('tempdb..#ITEM') IS NOT NULL
+
+                DROP TABLE #ITEM
+                CREATE TABLE #ITEM(ITEM_MASTER_SID INT,
+                                   HIERARCHY_NO VARCHAR(50));
+
+                INSERT INTO #ITEM(HIERARCHY_NO,ITEM_MASTER_SID)
+                SELECT  RLD.HIERARCHY_NO, 
+                        RLD.relationship_level_values 
+                 FROM   relationship_level_definition RLD 
+                 JOIN #SELECTED_HIERARCHY_NO SH ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+                 WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' ) 
+                    
+            
+            ---------------  Declaring the required variables  ----------------                      
+                      ---- For  Projection Period Date Variables
+                      DECLARE @FROM_DATE DATETIME = '?',
+                              @TO_DATE   DATETIME = '?'
+                      ---- For  Projection Period Date Variables
+                      DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                              @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1),
+                              @START_PERIOD_SID INT,
+                              @END_PERIOD_SID   INT,
+                              @FORECAST_NAME    VARCHAR(50),
+                              @FORECAST_VERSION VARCHAR(15),
+                              @ITEM_UDT         UDT_ITEM
+                        
+                      SELECT @START_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = @START_ACTUAL
+            
+                      SELECT @END_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = Dateadd(MM, Datediff(MM, 0, @TO_DATE), 0)
+            
+                      SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                                   @FORECAST_VERSION = FT.[VERSION]
+                      FROM   FILE_MANAGEMENT FT
+                             INNER JOIN HELPER_TABLE HT
+                                     ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                      WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                               AND FT.FROM_PERIOD IS NOT NULL )
+                             AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                    OR FT.TO_PERIOD IS NULL )
+                             AND HT.LIST_NAME = 'FILE_TYPE'
+                             AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                      ORDER  BY FT.FROM_PERIOD DESC
+            
+                      INSERT INTO @ITEM_UDT
+                                  (ITEM_MASTER_SID)
+                      SELECT ITEM_MASTER_SID
+                      FROM   #ITEM      
+                            
+                      IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS
+            
+                      CREATE TABLE #TEMP_RETURNS
+                        (
+                           RETURNS_MASTER_SID            INT,
+                           ITEM_MASTER_SID               INT,
+                           BRAND_MASTER_SID              INT,
+                           ORIG_SALE_MONTH               DATETIME,
+                           CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                           ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                           ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                           ASP                           NUMERIC(22, 6),--O
+                           EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                           MAX_EXPIRED_MONTH             DATETIME,
+                           MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                           AUTHORIZED_GENERIC_START_DATE DATETIME,
+                           AUTHORIZED_GENERIC_END_DATE   DATETIME
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS
+                                  (RETURNS_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   BRAND_MASTER_SID,
+                                   ORIG_SALE_MONTH,
+                                   CUM_RETURN_UNITS,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   MAX_EXPIRED_MONTH,
+                                   MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                   AUTHORIZED_GENERIC_START_DATE,
+                                   AUTHORIZED_GENERIC_END_DATE)
+                      SELECT A.RETURNS_MASTER_SID,
+                             A.ITEM_MASTER_SID,
+                             A.BRAND_MASTER_SID,
+                             A.ORIG_SALE_MONTH,
+                             A.CUM_RETURN_UNITS,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             A.MAX_EXPIRED_MONTH,
+                             A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                             AUTHORIZED_GENERIC_START_DATE,
+                             AUTHORIZED_GENERIC_END_DATE
+                      FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                     RM.ITEM_MASTER_SID,
+                                     RM.BRAND_MASTER_SID,
+                                     RM.ORIG_SALE_MONTH,
+                                     RM.CUM_RETURN_UNITS,
+                                     RM.ORIG_SALE_UNITS,
+                                     RM.ORIG_SALE_DOLLARS,
+                                     RM.ASP,
+                                     RM.EXPECTED_RETURN_RATE,
+                                     RM.MAX_EXPIRED_MONTH,
+                                     RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     IM.AUTHORIZED_GENERIC_START_DATE,
+                                     IM.AUTHORIZED_GENERIC_END_DATE,
+                                     ROW_NUMBER()
+                                       OVER(
+                                         PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                         ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                              FROM   #ITEM RD
+                                     LEFT JOIN RETURNS_MASTER RM
+                                            ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID                         
+                                     LEFT JOIN ITEM_MASTER IM
+                                            ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                      WHERE  A.RN = 1
+                             AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+            
+                                  
+                                        
+                      IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_MASTER
+            
+                      CREATE TABLE #TEMP_RETURNS_MASTER
+                        (
+                           ID                     INT IDENTITY (1, 1) NOT NULL,
+                           ITEM_MASTER_SID    INT,
+                           METHODOLOGY            VARCHAR(50),
+                           METHODOLOGY_START_DATE VARCHAR(50),
+                           METHODOLOGY_END_DATE   VARCHAR(50),
+                           CALCULATION_PERIODS    VARCHAR(4000),
+                           LAG                    INT,
+                           CLOSED_DATE            DATETIME,
+                           LOE_DATE               DATETIME,
+                           USER_ID                INT,
+                           SESSION_ID             INT
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_MASTER
+                                  (ITEM_MASTER_SID,
+                                   LAG,
+                                   CLOSED_DATE,
+                                   LOE_DATE)
+                      SELECT RD.ITEM_MASTER_SID,
+                             A.LAG,
+                             A.CLOSED_DATE,
+                             A.LOE_DATE
+                      FROM   #ITEM RD
+                             LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                               Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                               A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                               A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                        FROM   #TEMP_RETURNS A
+                                               JOIN (SELECT A.ITEM_MASTER_SID,
+                                                            Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                     FROM   #TEMP_RETURNS A
+                                                     GROUP  BY A.ITEM_MASTER_SID) B
+                                                 ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                    AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                    ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                                                      
+                                                                      
+            ---------------  Returns Projection Insert  ----------------                                                                               
+                                                                      
+                      IF Object_id('tempdb..#TEMP_RETURNS_GTS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_GTS
+            
+                      CREATE TABLE #TEMP_RETURNS_GTS
+                        (
+                           PERIOD_SID          INT,
+                           ITEM_MASTER_SID     INT,
+                           FORECAST_GTS_SALES  NUMERIC(22, 6),
+                           FORECAST_GTS_UNITS  NUMERIC(22, 6),
+                           ACTUAL_GTS_SALES    NUMERIC(22, 6),
+                           ACTUAL_GTS_UNITS    NUMERIC(22, 6)
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_GTS
+                      SELECT U.PERIOD_SID,
+                             U.ITEM_MASTER_SID,
+                             U.FORECAST_GTS_SALES,
+                             U.FORECAST_GTS_UNITS,
+                             U.ACTUAL_GTS_SALES,
+                             U.ACTUAL_GTS_UNITS
+                      FROM   UDF_GTS_WAC(@ITEM_UDT, @START_PERIOD_SID, @END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) U
+                             JOIN #ITEM RD
+                               ON RD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+            
+                      IF Object_id('tempdb..#TEMP_RETURNS_PROJECTION_DETAILS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+            
+                      CREATE TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+                        (
+                           ITEM_MASTER_SID           INT,
+                           PERIOD_SID                    INT,
+                           GROWTH_RATE                   NUMERIC(22, 6),
+                           PROJECTED_RETURN_PERCENT      NUMERIC(22, 6),
+                           PROJECTED_RPU                 NUMERIC(22, 6),
+                           PROJECTED_RETURN_AMOUNT       NUMERIC(22, 6),
+                           PROJECTED_RETURN_UNITS        NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_AMOUNT NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_UNITS  NUMERIC(22, 6),
+                           USER_ID                       INT,
+                           SESSION_ID                    INT,
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_PROJECTION_DETAILS
+                                  (ITEM_MASTER_SID,
+                                   PERIOD_SID,
+                                   ACTIVE_EXFACTORY_SALES_AMOUNT,
+                                   ACTIVE_EXFACTORY_SALES_UNITS,
+                                   USER_ID,
+                                   SESSION_ID)
+                      SELECT A.ITEM_MASTER_SID,
+                             P.PERIOD_SID,
+                             ISNULL(B.FORECAST_GTS_SALES, B.ACTUAL_GTS_SALES),
+                             ISNULL(B.FORECAST_GTS_UNITS, B.ACTUAL_GTS_UNITS),
+                             A.USER_ID,
+                             A.SESSION_ID
+                      FROM   #TEMP_RETURNS_MASTER A
+                             CROSS JOIN PERIOD P
+                             JOIN #TEMP_RETURNS_GTS B
+                               ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                  AND P.PERIOD_SID = B.PERIOD_SID
+                      WHERE  P.PERIOD_DATE BETWEEN @FROM_DATE AND @TO_DATE                                                                       
+                                                                      
+                      IF Object_id('tempdb..#TEMP_RETURNS_ACTUALS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_ACTUALS
+            
+                      CREATE TABLE #TEMP_RETURNS_ACTUALS
+                        (
+                           ITEM_MASTER_SID   INT,
+                           PERIOD_SID            INT,
+                           ACTUAL_RETURN_PERCENT NUMERIC(22, 6),
+                           ACTUAL_RPU            NUMERIC(22, 6),
+                           ACTUAL_RETURN_AMOUNT  NUMERIC(22, 6),
+                           ORIG_SALE_UNITS       NUMERIC(22, 6),
+                           ORIG_SALE_DOLLARS     NUMERIC(22, 6),
+                           CUM_RETURN_UNITS      NUMERIC(22, 6),
+                           ASP                   NUMERIC(22, 6),
+                           EXPECTED_RETURN_RATE  NUMERIC(22, 6),
+                           USER_ID               INT,
+                           SESSION_ID            INT
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_ACTUALS
+                                  (ITEM_MASTER_SID,
+                                   PERIOD_SID,
+                                   ACTUAL_RETURN_PERCENT,
+                                   ACTUAL_RPU,
+                                   ACTUAL_RETURN_AMOUNT,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   CUM_RETURN_UNITS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   USER_ID,
+                                   SESSION_ID)
+                      SELECT B.ITEM_MASTER_SID,
+                             B.PERIOD_SID,
+                             COALESCE(A.CUM_RETURN_UNITS / NULLIF(A.ORIG_SALE_UNITS, 0), 0) * 100                                                                                AS ACTUAL_RETURN_PERCENT,
+                             COALESCE(( ( COALESCE(A.CUM_RETURN_UNITS / NULLIF(A.ORIG_SALE_UNITS, 0), 0) ) * ISNULL(A.ORIG_SALE_DOLLARS, 0) ) / NULLIF(A.ORIG_SALE_UNITS, 0), 0) AS ACTUAL_RPU,
+                             ISNULL(A.CUM_RETURN_UNITS, 0) * ISNULL(A.ASP, 0)                                                                                                    AS ACTUAL_RETURN_AMOUNT,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.CUM_RETURN_UNITS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             B.USER_ID,
+                             B.SESSION_ID
+                      FROM   #TEMP_RETURNS A
+                             RIGHT JOIN (SELECT TRM.ITEM_MASTER_SID,
+                                                P.PERIOD_SID,
+                                                P.PERIOD_DATE,
+                                                TRM.USER_ID,
+                                                TRM.SESSION_ID
+                                         FROM   #TEMP_RETURNS_MASTER TRM
+                                                CROSS JOIN PERIOD P
+                                         WHERE  P.PERIOD_DATE BETWEEN @START_ACTUAL AND @END_ACTUAL)B
+                                     ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                        AND A.ORIG_SALE_MONTH = B.PERIOD_DATE
+            
+            
+                        SELECT
+                            I.HIERARCHY_NO,
+                            TRPD.PERIOD_SID,
+                             I.ITEM_MASTER_SID,
+                             ACTUAL_RETURN_PERCENT,
+                             ACTUAL_RPU,
+                             ACTUAL_RETURN_AMOUNT,
+                             ORIG_SALE_UNITS,
+                             ORIG_SALE_DOLLARS,
+                             CUM_RETURN_UNITS,
+                             ASP,
+                             EXPECTED_RETURN_RATE/100
+                      FROM #ITEM I
+                        LEFT JOIN #TEMP_RETURNS_ACTUALS TRPD  ON TRPD.ITEM_MASTER_SID = I.ITEM_MASTER_SID
+                        ORDER BY I.HIERARCHY_NO,period_sid 
+                   ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_PROJECTION">
+		<query> 
+                    <![CDATA[  
+                    IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                    DROP TABLE #SELECTED_HIERARCHY_NO
+                    CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
+
+                    INSERT INTO #SELECTED_HIERARCHY_NO
+                    (HIERARCHY_NO)
+                    SELECT DISTINCT HIERARCHY_NO
+                    FROM  (VALUES ?)A(HIERARCHY_NO)
+
+                    DECLARE @data VARCHAR(50)
+                    IF Object_id('tempdb..#ITEM') IS NOT NULL
+
+                    DROP TABLE #ITEM
+                    CREATE TABLE #ITEM(ITEM_MASTER_SID INT,
+                                       HIERARCHY_NO VARCHAR(50));
+
+                    INSERT INTO #ITEM(HIERARCHY_NO,ITEM_MASTER_SID)
+                    SELECT  RLD.HIERARCHY_NO, 
+                            RLD.relationship_level_values 
+                     FROM   relationship_level_definition RLD 
+                     JOIN #SELECTED_HIERARCHY_NO SH ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+                     WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' ) 
+                    
+            
+            ---------------  Declaring the required variables  ----------------                      
+                      ---- For  Projection Period Date Variables
+                      DECLARE @FROM_DATE DATETIME = '?',
+                              @TO_DATE   DATETIME = '?'
+                      ---- For  Projection Period Date Variables
+                      DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                              @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1),
+                              @START_PERIOD_SID INT,
+                              @END_PERIOD_SID   INT,
+                              @FORECAST_NAME    VARCHAR(50),
+                              @FORECAST_VERSION VARCHAR(15),
+                              @ITEM_UDT         UDT_ITEM
+            
+            
+                      SELECT @START_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = @START_ACTUAL
+            
+                      SELECT @END_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = Dateadd(MM, Datediff(MM, 0, @TO_DATE), 0)
+            
+                      SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                                   @FORECAST_VERSION = FT.[VERSION]
+                      FROM   FILE_MANAGEMENT FT
+                             INNER JOIN HELPER_TABLE HT
+                                     ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                      WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                               AND FT.FROM_PERIOD IS NOT NULL )
+                             AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                    OR FT.TO_PERIOD IS NULL )
+                             AND HT.LIST_NAME = 'FILE_TYPE'
+                             AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                      ORDER  BY FT.FROM_PERIOD DESC
+            
+                      INSERT INTO @ITEM_UDT
+                                  (ITEM_MASTER_SID)
+                      SELECT ITEM_MASTER_SID
+                      FROM   #ITEM      
+                            
+                      IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS
+            
+                      CREATE TABLE #TEMP_RETURNS
+                        (
+                           RETURNS_MASTER_SID            INT,
+                           ITEM_MASTER_SID               INT,
+                           BRAND_MASTER_SID              INT,
+                           ORIG_SALE_MONTH               DATETIME,
+                           CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                           ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                           ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                           ASP                           NUMERIC(22, 6),--O
+                           EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                           MAX_EXPIRED_MONTH             DATETIME,
+                           MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                           AUTHORIZED_GENERIC_START_DATE DATETIME,
+                           AUTHORIZED_GENERIC_END_DATE   DATETIME
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS
+                                  (RETURNS_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   BRAND_MASTER_SID,
+                                   ORIG_SALE_MONTH,
+                                   CUM_RETURN_UNITS,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   MAX_EXPIRED_MONTH,
+                                   MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                   AUTHORIZED_GENERIC_START_DATE,
+                                   AUTHORIZED_GENERIC_END_DATE)
+                      SELECT A.RETURNS_MASTER_SID,
+                             A.ITEM_MASTER_SID,
+                             A.BRAND_MASTER_SID,
+                             A.ORIG_SALE_MONTH,
+                             A.CUM_RETURN_UNITS,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             A.MAX_EXPIRED_MONTH,
+                             A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                             AUTHORIZED_GENERIC_START_DATE,
+                             AUTHORIZED_GENERIC_END_DATE
+                      FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                     RM.ITEM_MASTER_SID,
+                                     RM.BRAND_MASTER_SID,
+                                     RM.ORIG_SALE_MONTH,
+                                     RM.CUM_RETURN_UNITS,
+                                     RM.ORIG_SALE_UNITS,
+                                     RM.ORIG_SALE_DOLLARS,
+                                     RM.ASP,
+                                     RM.EXPECTED_RETURN_RATE,
+                                     RM.MAX_EXPIRED_MONTH,
+                                     RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     IM.AUTHORIZED_GENERIC_START_DATE,
+                                     IM.AUTHORIZED_GENERIC_END_DATE,
+                                     ROW_NUMBER()
+                                       OVER(
+                                         PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                         ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                              FROM   #ITEM RD
+                                     LEFT JOIN RETURNS_MASTER RM
+                                            ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID                         
+                                     LEFT JOIN ITEM_MASTER IM
+                                            ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                      WHERE  A.RN = 1
+                             AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+            
+                                  
+                                        
+                      IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_MASTER
+            
+                      CREATE TABLE #TEMP_RETURNS_MASTER
+                        (
+                           ID                     INT IDENTITY (1, 1) NOT NULL,
+                           ITEM_MASTER_SID    INT,
+                           METHODOLOGY            VARCHAR(50),
+                           METHODOLOGY_START_DATE VARCHAR(50),
+                           METHODOLOGY_END_DATE   VARCHAR(50),
+                           CALCULATION_PERIODS    VARCHAR(4000),
+                           LAG                    INT,
+                           CLOSED_DATE            DATETIME,
+                           LOE_DATE               DATETIME,
+                           USER_ID                INT,
+                           SESSION_ID             INT
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_MASTER
+                                  (ITEM_MASTER_SID,
+                                   LAG,
+                                   CLOSED_DATE,
+                                   LOE_DATE)
+                      SELECT RD.ITEM_MASTER_SID,
+                             A.LAG,
+                             A.CLOSED_DATE,
+                             A.LOE_DATE
+                      FROM   #ITEM RD
+                             LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                               Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                               A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                               A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                        FROM   #TEMP_RETURNS A
+                                               JOIN (SELECT A.ITEM_MASTER_SID,
+                                                            Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                     FROM   #TEMP_RETURNS A
+                                                     GROUP  BY A.ITEM_MASTER_SID) B
+                                                 ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                    AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                    ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                                                      
+                                                                      
+            ---------------  Returns Projection Insert  ----------------                                                                               
+                                                                      
+                      IF Object_id('tempdb..#TEMP_RETURNS_GTS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_GTS
+            
+                      CREATE TABLE #TEMP_RETURNS_GTS
+                        (
+                           PERIOD_SID          INT,
+                           ITEM_MASTER_SID     INT,
+                           FORECAST_GTS_SALES  NUMERIC(22, 6),
+                           FORECAST_GTS_UNITS  NUMERIC(22, 6),
+                           ACTUAL_GTS_SALES    NUMERIC(22, 6),
+                           ACTUAL_GTS_UNITS    NUMERIC(22, 6)
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_GTS
+                      SELECT U.PERIOD_SID,
+                             U.ITEM_MASTER_SID,
+                             U.FORECAST_GTS_SALES,
+                             U.FORECAST_GTS_UNITS,
+                             U.ACTUAL_GTS_SALES,
+                             U.ACTUAL_GTS_UNITS
+                      FROM   UDF_GTS_WAC(@ITEM_UDT, @START_PERIOD_SID, @END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) U
+                             JOIN #ITEM RD
+                               ON RD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+            
+                      IF Object_id('tempdb..#TEMP_RETURNS_PROJECTION_DETAILS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+            
+                      CREATE TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+                        (
+                           ITEM_MASTER_SID           INT,
+                           PERIOD_SID                    INT,
+                           GROWTH_RATE                   NUMERIC(22, 6),
+                           PROJECTED_RETURN_PERCENT      NUMERIC(22, 6),
+                           PROJECTED_RPU                 NUMERIC(22, 6),
+                           PROJECTED_RETURN_AMOUNT       NUMERIC(22, 6),
+                           PROJECTED_RETURN_UNITS        NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_AMOUNT NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_UNITS  NUMERIC(22, 6),
+                           USER_ID                       INT,
+                           SESSION_ID                    INT,
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_PROJECTION_DETAILS
+                                  (ITEM_MASTER_SID,
+                                   PERIOD_SID,
+                                   ACTIVE_EXFACTORY_SALES_AMOUNT,
+                                   ACTIVE_EXFACTORY_SALES_UNITS,
+                                   USER_ID,
+                                   SESSION_ID)
+                      SELECT A.ITEM_MASTER_SID,
+                             P.PERIOD_SID,
+                             ISNULL(B.FORECAST_GTS_SALES, B.ACTUAL_GTS_SALES),
+                             ISNULL(B.FORECAST_GTS_UNITS, B.ACTUAL_GTS_UNITS),
+                             A.USER_ID,
+                             A.SESSION_ID
+                      FROM   #TEMP_RETURNS_MASTER A
+                             CROSS JOIN PERIOD P
+                             JOIN #TEMP_RETURNS_GTS B
+                               ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                  AND P.PERIOD_SID = B.PERIOD_SID
+                      WHERE  P.PERIOD_DATE BETWEEN @FROM_DATE AND @TO_DATE
+            
+                           
+SELECT I.HIERARCHY_NO,
+       trpd.PERIOD_SID,
+       I.ITEM_MASTER_SID,
+       PROJECTED_RETURN_PERCENT,
+       PROJECTED_RPU,
+       PROJECTED_RETURN_AMOUNT,
+       GROWTH_RATE,
+       PROJECTED_RETURN_UNITS,
+       ACTIVE_EXFACTORY_SALES_AMOUNT,
+       ACTIVE_EXFACTORY_SALES_UNITS
+FROM   #ITEM I
+       LEFT JOIN #TEMP_RETURNS_PROJECTION_DETAILS TRPD
+              ON TRPD.ITEM_MASTER_SID = I.ITEM_MASTER_SID
+ORDER  BY I.HIERARCHY_NO,
+          period_sid 
+                ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_ACTUAL_EDIT">
+		<query>
+     <![CDATA[
+   IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO)
+                SELECT DISTINCT HIERARCHY_NO
+                FROM  (VALUES ?)A(HIERARCHY_NO)
+
+                DECLARE @data VARCHAR(50)
+                IF Object_id('tempdb..#ITEM') IS NOT NULL
+
+                DROP TABLE #ITEM
+                CREATE TABLE #ITEM(ITEM_MASTER_SID INT,
+                                   HIERARCHY_NO VARCHAR(50));
+
+                INSERT INTO #ITEM(HIERARCHY_NO,ITEM_MASTER_SID)
+                SELECT  RLD.HIERARCHY_NO, 
+                        RLD.relationship_level_values 
+                 FROM   relationship_level_definition RLD 
+                 JOIN #SELECTED_HIERARCHY_NO SH ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+                 WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' ) 
+                    
+            
+            ---------------  Declaring the required variables  ----------------                      
+                      ---- For  Projection Period Date Variables
+                      DECLARE @FROM_DATE DATETIME = '?',
+                              @TO_DATE   DATETIME = '?'
+                      ---- For  Projection Period Date Variables
+                      DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                              @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1),
+                              @START_PERIOD_SID INT,
+                              @END_PERIOD_SID   INT,
+                              @FORECAST_NAME    VARCHAR(50),
+                              @FORECAST_VERSION VARCHAR(15),
+                              @ITEM_UDT         UDT_ITEM
+            
+            
+                      SELECT @START_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = @START_ACTUAL
+            
+                      SELECT @END_PERIOD_SID = PERIOD_SID
+                      FROM   PERIOD
+                      WHERE  PERIOD_DATE = Dateadd(MM, Datediff(MM, 0, @TO_DATE), 0)
+            
+                      SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                                   @FORECAST_VERSION = FT.[VERSION]
+                      FROM   FILE_MANAGEMENT FT
+                             INNER JOIN HELPER_TABLE HT
+                                     ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                      WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                               AND FT.FROM_PERIOD IS NOT NULL )
+                             AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                    OR FT.TO_PERIOD IS NULL )
+                             AND HT.LIST_NAME = 'FILE_TYPE'
+                             AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                      ORDER  BY FT.FROM_PERIOD DESC
+            
+                      INSERT INTO @ITEM_UDT
+                                  (ITEM_MASTER_SID)
+                      SELECT ITEM_MASTER_SID
+                      FROM   #ITEM      
+                            
+                      IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS
+            
+                      CREATE TABLE #TEMP_RETURNS
+                        (
+                           RETURNS_MASTER_SID            INT,
+                           ITEM_MASTER_SID               INT,
+                           BRAND_MASTER_SID              INT,
+                           ORIG_SALE_MONTH               DATETIME,
+                           CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                           ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                           ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                           ASP                           NUMERIC(22, 6),--O
+                           EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                           MAX_EXPIRED_MONTH             DATETIME,
+                           MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                           AUTHORIZED_GENERIC_START_DATE DATETIME,
+                           AUTHORIZED_GENERIC_END_DATE   DATETIME
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS
+                                  (RETURNS_MASTER_SID,
+                                   ITEM_MASTER_SID,
+                                   BRAND_MASTER_SID,
+                                   ORIG_SALE_MONTH,
+                                   CUM_RETURN_UNITS,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   MAX_EXPIRED_MONTH,
+                                   MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                   AUTHORIZED_GENERIC_START_DATE,
+                                   AUTHORIZED_GENERIC_END_DATE)
+                      SELECT A.RETURNS_MASTER_SID,
+                             A.ITEM_MASTER_SID,
+                             A.BRAND_MASTER_SID,
+                             A.ORIG_SALE_MONTH,
+                             A.CUM_RETURN_UNITS,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             A.MAX_EXPIRED_MONTH,
+                             A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                             AUTHORIZED_GENERIC_START_DATE,
+                             AUTHORIZED_GENERIC_END_DATE
+                      FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                     RM.ITEM_MASTER_SID,
+                                     RM.BRAND_MASTER_SID,
+                                     RM.ORIG_SALE_MONTH,
+                                     RM.CUM_RETURN_UNITS,
+                                     RM.ORIG_SALE_UNITS,
+                                     RM.ORIG_SALE_DOLLARS,
+                                     RM.ASP,
+                                     RM.EXPECTED_RETURN_RATE,
+                                     RM.MAX_EXPIRED_MONTH,
+                                     RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     IM.AUTHORIZED_GENERIC_START_DATE,
+                                     IM.AUTHORIZED_GENERIC_END_DATE,
+                                     ROW_NUMBER()
+                                       OVER(
+                                         PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                         ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                              FROM   #ITEM RD
+                                     LEFT JOIN RETURNS_MASTER RM
+                                            ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID                         
+                                     LEFT JOIN ITEM_MASTER IM
+                                            ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                      WHERE  A.RN = 1
+                             AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+            
+                                  
+                                        
+                      IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_MASTER
+            
+                      CREATE TABLE #TEMP_RETURNS_MASTER
+                        (
+                           ID                     INT IDENTITY (1, 1) NOT NULL,
+                           ITEM_MASTER_SID    INT,
+                           METHODOLOGY            VARCHAR(50),
+                           METHODOLOGY_START_DATE VARCHAR(50),
+                           METHODOLOGY_END_DATE   VARCHAR(50),
+                           CALCULATION_PERIODS    VARCHAR(4000),
+                           LAG                    INT,
+                           CLOSED_DATE            DATETIME,
+                           LOE_DATE               DATETIME,
+                           USER_ID                INT,
+                           SESSION_ID             INT
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_MASTER
+                                  (ITEM_MASTER_SID,
+                                   LAG,
+                                   CLOSED_DATE,
+                                   LOE_DATE)
+                      SELECT RD.ITEM_MASTER_SID,
+                             A.LAG,
+                             A.CLOSED_DATE,
+                             A.LOE_DATE
+                      FROM   #ITEM RD
+                             LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                               Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                               A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                               A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                        FROM   #TEMP_RETURNS A
+                                               JOIN (SELECT A.ITEM_MASTER_SID,
+                                                            Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                     FROM   #TEMP_RETURNS A
+                                                     GROUP  BY A.ITEM_MASTER_SID) B
+                                                 ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                    AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                    ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                                                      
+                                                                      
+            ---------------  Returns Projection Insert  ----------------                                                                               
+                                                                      
+                      IF Object_id('tempdb..#TEMP_RETURNS_GTS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_GTS
+            
+                      CREATE TABLE #TEMP_RETURNS_GTS
+                        (
+                           PERIOD_SID          INT,
+                           ITEM_MASTER_SID     INT,
+                           FORECAST_GTS_SALES  NUMERIC(22, 6),
+                           FORECAST_GTS_UNITS  NUMERIC(22, 6),
+                           ACTUAL_GTS_SALES    NUMERIC(22, 6),
+                           ACTUAL_GTS_UNITS    NUMERIC(22, 6)
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_GTS
+                      SELECT U.PERIOD_SID,
+                             U.ITEM_MASTER_SID,
+                             U.FORECAST_GTS_SALES,
+                             U.FORECAST_GTS_UNITS,
+                             U.ACTUAL_GTS_SALES,
+                             U.ACTUAL_GTS_UNITS
+                      FROM   UDF_GTS_WAC(@ITEM_UDT, @START_PERIOD_SID, @END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) U
+                             JOIN #ITEM RD
+                               ON RD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+            
+                      IF Object_id('tempdb..#TEMP_RETURNS_PROJECTION_DETAILS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+            
+                      CREATE TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+                        (
+                           ITEM_MASTER_SID           INT,
+                           PERIOD_SID                    INT,
+                           GROWTH_RATE                   NUMERIC(22, 6),
+                           PROJECTED_RETURN_PERCENT      NUMERIC(22, 6),
+                           PROJECTED_RPU                 NUMERIC(22, 6),
+                           PROJECTED_RETURN_AMOUNT       NUMERIC(22, 6),
+                           PROJECTED_RETURN_UNITS        NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_AMOUNT NUMERIC(22, 6),
+                           ACTIVE_EXFACTORY_SALES_UNITS  NUMERIC(22, 6),
+                           USER_ID                       INT,
+                           SESSION_ID                    INT,
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_PROJECTION_DETAILS
+                                  (ITEM_MASTER_SID,
+                                   PERIOD_SID,
+                                   ACTIVE_EXFACTORY_SALES_AMOUNT,
+                                   ACTIVE_EXFACTORY_SALES_UNITS,
+                                   USER_ID,
+                                   SESSION_ID)
+                      SELECT A.ITEM_MASTER_SID,
+                             P.PERIOD_SID,
+                             ISNULL(B.FORECAST_GTS_SALES, B.ACTUAL_GTS_SALES),
+                             ISNULL(B.FORECAST_GTS_UNITS, B.ACTUAL_GTS_UNITS),
+                             A.USER_ID,
+                             A.SESSION_ID
+                      FROM   #TEMP_RETURNS_MASTER A
+                             CROSS JOIN PERIOD P
+                             JOIN #TEMP_RETURNS_GTS B
+                               ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                  AND P.PERIOD_SID = B.PERIOD_SID
+                      WHERE  P.PERIOD_DATE BETWEEN @FROM_DATE AND @TO_DATE                                                                       
+                                                                      
+                      IF Object_id('tempdb..#TEMP_RETURNS_ACTUALS') IS NOT NULL
+                        DROP TABLE #TEMP_RETURNS_ACTUALS
+            
+                      CREATE TABLE #TEMP_RETURNS_ACTUALS
+                        (
+                           ITEM_MASTER_SID   INT,
+                           PERIOD_SID            INT,
+                           ACTUAL_RETURN_PERCENT NUMERIC(22, 6),
+                           ACTUAL_RPU            NUMERIC(22, 6),
+                           ACTUAL_RETURN_AMOUNT  NUMERIC(22, 6),
+                           ORIG_SALE_UNITS       NUMERIC(22, 6),
+                           ORIG_SALE_DOLLARS     NUMERIC(22, 6),
+                           CUM_RETURN_UNITS      NUMERIC(22, 6),
+                           ASP                   NUMERIC(22, 6),
+                           EXPECTED_RETURN_RATE  NUMERIC(22, 6),
+                           USER_ID               INT,
+                           SESSION_ID            INT
+                        )
+            
+                      INSERT INTO #TEMP_RETURNS_ACTUALS
+                                  (ITEM_MASTER_SID,
+                                   PERIOD_SID,
+                                   ACTUAL_RETURN_PERCENT,
+                                   ACTUAL_RPU,
+                                   ACTUAL_RETURN_AMOUNT,
+                                   ORIG_SALE_UNITS,
+                                   ORIG_SALE_DOLLARS,
+                                   CUM_RETURN_UNITS,
+                                   ASP,
+                                   EXPECTED_RETURN_RATE,
+                                   USER_ID,
+                                   SESSION_ID)
+                      SELECT B.ITEM_MASTER_SID,
+                             B.PERIOD_SID,
+                             COALESCE(A.CUM_RETURN_UNITS / NULLIF(A.ORIG_SALE_UNITS, 0), 0) * 100                                                                                AS ACTUAL_RETURN_PERCENT,
+                             COALESCE(( ( COALESCE(A.CUM_RETURN_UNITS / NULLIF(A.ORIG_SALE_UNITS, 0), 0) ) * ISNULL(A.ORIG_SALE_DOLLARS, 0) ) / NULLIF(A.ORIG_SALE_UNITS, 0), 0) AS ACTUAL_RPU,
+                             ISNULL(A.CUM_RETURN_UNITS, 0) * ISNULL(A.ASP, 0)                                                                                                    AS ACTUAL_RETURN_AMOUNT,
+                             A.ORIG_SALE_UNITS,
+                             A.ORIG_SALE_DOLLARS,
+                             A.CUM_RETURN_UNITS,
+                             A.ASP,
+                             A.EXPECTED_RETURN_RATE,
+                             B.USER_ID,
+                             B.SESSION_ID
+                      FROM   #TEMP_RETURNS A
+                             RIGHT JOIN (SELECT TRM.ITEM_MASTER_SID,
+                                                P.PERIOD_SID,
+                                                P.PERIOD_DATE,
+                                                TRM.USER_ID,
+                                                TRM.SESSION_ID
+                                         FROM   #TEMP_RETURNS_MASTER TRM
+                                                CROSS JOIN PERIOD P
+                                         WHERE  P.PERIOD_DATE BETWEEN @START_ACTUAL AND @END_ACTUAL)B
+                                     ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                        AND A.ORIG_SALE_MONTH = B.PERIOD_DATE
+            
+            
+                      SELECT 
+                            I.HIERARCHY_NO,
+                            TRPD.PERIOD_SID,    
+                             I.ITEM_MASTER_SID,                                                    
+                             ACTUAL_RETURN_PERCENT,
+                             ACTUAL_RPU,
+                             ACTUAL_RETURN_AMOUNT,
+                             ORIG_SALE_UNITS,
+                             ORIG_SALE_DOLLARS,
+                             CUM_RETURN_UNITS,
+                             ASP,
+                             EXPECTED_RETURN_RATE/100
+                      FROM #ITEM I
+                        LEFT JOIN #TEMP_RETURNS_ACTUALS TRPD  ON TRPD.ITEM_MASTER_SID = I.ITEM_MASTER_SID
+                        ORDER BY I.HIERARCHY_NO,period_sid; 
+                         ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_PROJECTION_EDIT">
+		<query>
+       <![CDATA[
+ 
+  IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+   DROP TABLE #SELECTED_HIERARCHY_NO
+
+ CREATE TABLE #SELECTED_HIERARCHY_NO
+   (
+      HIERARCHY_NO VARCHAR(50)
+   )
+
+ INSERT INTO #SELECTED_HIERARCHY_NO
+             (HIERARCHY_NO)
+ SELECT DISTINCT HIERARCHY_NO
+ FROM   (VALUES ?)A(HIERARCHY_NO)
+
+ DECLARE @data VARCHAR(50)
+
+ IF Object_id('tempdb..#ITEM') IS NOT NULL
+   DROP TABLE #ITEM
+
+ CREATE TABLE #ITEM
+   (
+      ITEM_MASTER_SID INT,
+      HIERARCHY_NO    VARCHAR(50)
+   );
+
+ INSERT INTO #ITEM
+             (HIERARCHY_NO,
+              ITEM_MASTER_SID)
+ SELECT RLD.HIERARCHY_NO,
+        RLD.relationship_level_values
+ FROM   relationship_level_definition RLD
+        JOIN #SELECTED_HIERARCHY_NO SH
+          ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+ WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+ SELECT DISTINCT 
+         i.HIERARCHY_NO,
+         PERIOD_SID,
+         i.ITEM_MASTER_SID,
+         PROJECTED_RETURN_PERCENT,
+         PROJECTED_RPU,
+         PROJECTED_RETURN_AMOUNT,
+         GROWTH_RATE,
+         PROJECTED_RETURN_UNITS,
+         ACTIVE_EXFACTORY_SALES_AMOUNT,
+         ACTIVE_EXFACTORY_SALES_UNITS
+FROM      RETURNS_PROJ_DETAILS RPM
+	JOIN RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID = ? AND  RPM.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID
+        JOIN #ITEM i
+          ON i.ITEM_MASTER_SID = RD.ITEM_MASTER_SID;
+		   ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_MASTER_EDIT">
+		<query>
+  	   <![CDATA[
+	IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_HIERARCHY_NO
+
+CREATE TABLE #SELECTED_HIERARCHY_NO
+  (
+     HIERARCHY_NO VARCHAR(50)
+  )
+
+INSERT INTO #SELECTED_HIERARCHY_NO
+            (HIERARCHY_NO)
+SELECT DISTINCT HIERARCHY_NO
+FROM   (VALUES ?)A(HIERARCHY_NO)
+DECLARE @data VARCHAR(50)
+
+IF Object_id('tempdb..#ITEM') IS NOT NULL
+  DROP TABLE #ITEM
+
+CREATE TABLE #ITEM
+  (
+     ITEM_MASTER_SID INT,
+     HIERARCHY_NO    VARCHAR(50)
+  );
+
+INSERT INTO #ITEM
+            (HIERARCHY_NO,
+             ITEM_MASTER_SID)
+SELECT RLD.HIERARCHY_NO,
+       RLD.relationship_level_values
+FROM   relationship_level_definition RLD
+       JOIN #SELECTED_HIERARCHY_NO SH
+         ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+SELECT DISTINCT i.HIERARCHY_NO,
+                i.ITEM_MASTER_SID,
+                METHODOLOGY,
+                METHODOLOGY_START_DATE,
+                METHODOLOGY_END_DATE,
+                CALCULATION_PERIODS,
+                           case when methodology='tier 1' and c.MASTER_SID is not null then 1
+                           else 0
+                           end,
+                CHECK_RECORD,
+                LAG,
+                CLOSED_DATE,
+                LOE_DATE
+FROM   RETURNS_PROJ_MASTER RPM
+JOIN RETURNS_DETAILS RD ON  RPM.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID
+       JOIN #ITEM i
+         ON i.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+
+  LEFT JOIN 
+              (
+              SELECT  MASTER_SID   FROM UDCS UD
+              
+        JOIN HELPER_TABLE HT
+             ON HT.HELPER_TABLE_SID = UD.UDC1
+                        and  UD.MASTER_TYPE = 'ITEM_MASTER'
+             AND HT.DESCRIPTION in ( 'TIER1' ,'TIER 1') 
+              ) C
+              ON C.MASTER_SID=i.ITEM_MASTER_SID
+WHERE  RD.PROJECTION_MASTER_SID = ? 
+
+	   ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_ACTUAL_VIEW">
+		<query>
+			     <![CDATA[
+			IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+			   DROP TABLE #SELECTED_HIERARCHY_NO
+			
+			 CREATE TABLE #SELECTED_HIERARCHY_NO
+			   (
+			      HIERARCHY_NO VARCHAR(50)
+			   )
+			
+			 INSERT INTO #SELECTED_HIERARCHY_NO
+			             (HIERARCHY_NO)
+			 SELECT DISTINCT HIERARCHY_NO
+			 FROM   (VALUES  ?)A(HIERARCHY_NO)
+			
+			 DECLARE @data VARCHAR(50)
+			
+			 IF Object_id('tempdb..#ITEM') IS NOT NULL
+			   DROP TABLE #ITEM
+			
+			 CREATE TABLE #ITEM
+			   (
+			      ITEM_MASTER_SID INT,
+			      HIERARCHY_NO    VARCHAR(50)
+			   );
+			
+			 INSERT INTO #ITEM
+			             (HIERARCHY_NO,
+			              ITEM_MASTER_SID)
+			 SELECT RLD.HIERARCHY_NO,
+			        RLD.relationship_level_values
+			 FROM   relationship_level_definition RLD
+			        JOIN #SELECTED_HIERARCHY_NO SH
+			          ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+			 WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+			
+			 SELECT DISTINCT 
+			         i.HIERARCHY_NO,
+			         PERIOD_SID,
+			         i.ITEM_MASTER_SID,
+			         ACTUAL_RETURN_PERCENT,
+			         ACTUAL_RPU,
+			         ACTUAL_RETURN_AMOUNT,
+			         ORIG_SALE_UNITS,
+			         ORIG_SALE_DOLLARS,
+			         CUM_RETURN_UNITS,
+			         ASP,
+			         EXPECTED_RETURN_RATE
+			FROM     RETURNS_ACTUALS RPM
+			JOIN RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID=? AND RPM.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID
+			        JOIN #ITEM i
+			          ON i.ITEM_MASTER_SID = RD.ITEM_MASTER_SID 
+	           ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_PROJECTION_VIEW">
+		<query>
+			       <![CDATA[
+			 
+			  IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+			   DROP TABLE #SELECTED_HIERARCHY_NO
+			
+			 CREATE TABLE #SELECTED_HIERARCHY_NO
+			   (
+			      HIERARCHY_NO VARCHAR(50)
+			   )
+			
+			 INSERT INTO #SELECTED_HIERARCHY_NO
+			             (HIERARCHY_NO)
+			 SELECT DISTINCT HIERARCHY_NO
+			 FROM   (VALUES ?)A(HIERARCHY_NO)
+			
+			 DECLARE @data VARCHAR(50)
+			
+			 IF Object_id('tempdb..#ITEM') IS NOT NULL
+			   DROP TABLE #ITEM
+			
+			 CREATE TABLE #ITEM
+			   (
+			      ITEM_MASTER_SID INT,
+			      HIERARCHY_NO    VARCHAR(50)
+			   );
+			
+			 INSERT INTO #ITEM
+			             (HIERARCHY_NO,
+			              ITEM_MASTER_SID)
+			 SELECT RLD.HIERARCHY_NO,
+			        RLD.relationship_level_values
+			 FROM   relationship_level_definition RLD
+			        JOIN #SELECTED_HIERARCHY_NO SH
+			          ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+			 WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+			
+			 SELECT DISTINCT 
+			         i.HIERARCHY_NO,
+			         PERIOD_SID,
+			         i.ITEM_MASTER_SID,
+			         PROJECTED_RETURN_PERCENT,
+			         PROJECTED_RPU,
+			         PROJECTED_RETURN_AMOUNT,
+			         GROWTH_RATE,
+			         PROJECTED_RETURN_UNITS,
+			         ACTIVE_EXFACTORY_SALES_AMOUNT,
+			         ACTIVE_EXFACTORY_SALES_UNITS
+			FROM      RETURNS_PROJ_DETAILS RPM
+						JOIN RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID = ? AND  RPM.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID
+        				JOIN #ITEM i
+          				ON i.ITEM_MASTER_SID = RD.ITEM_MASTER_SID;
+					   ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_MASTER_VIEW">
+		<query>
+			  	   <![CDATA[
+				IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+  DROP TABLE #SELECTED_HIERARCHY_NO
+
+CREATE TABLE #SELECTED_HIERARCHY_NO
+  (
+     HIERARCHY_NO VARCHAR(50)
+  )
+
+INSERT INTO #SELECTED_HIERARCHY_NO
+            (HIERARCHY_NO)
+SELECT DISTINCT HIERARCHY_NO
+FROM   (VALUES ?)A(HIERARCHY_NO)
+DECLARE @data VARCHAR(50)
+
+IF Object_id('tempdb..#ITEM') IS NOT NULL
+  DROP TABLE #ITEM
+
+CREATE TABLE #ITEM
+  (
+     ITEM_MASTER_SID INT,
+     HIERARCHY_NO    VARCHAR(50)
+  );
+
+INSERT INTO #ITEM
+            (HIERARCHY_NO,
+             ITEM_MASTER_SID)
+SELECT RLD.HIERARCHY_NO,
+       RLD.relationship_level_values
+FROM   relationship_level_definition RLD
+       JOIN #SELECTED_HIERARCHY_NO SH
+         ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+SELECT DISTINCT i.HIERARCHY_NO,
+                i.ITEM_MASTER_SID,
+                METHODOLOGY,
+                METHODOLOGY_START_DATE,
+                METHODOLOGY_END_DATE,
+                CALCULATION_PERIODS,
+                           case when methodology='tier 1' and c.MASTER_SID is not null then 1
+                           else 0
+                           end,
+                CHECK_RECORD,
+                LAG,
+                CLOSED_DATE,
+                LOE_DATE
+FROM   RETURNS_PROJ_MASTER RPM
+JOIN RETURNS_DETAILS RD ON  RPM.RETURNS_DETAILS_SID = RD.RETURNS_DETAILS_SID
+       JOIN #ITEM i
+         ON i.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+
+  LEFT JOIN 
+              (
+              SELECT  MASTER_SID   FROM UDCS UD
+              
+        JOIN HELPER_TABLE HT
+             ON HT.HELPER_TABLE_SID = UD.UDC1
+                        and  UD.MASTER_TYPE = 'ITEM_MASTER'
+             AND HT.DESCRIPTION in ( 'TIER1' ,'TIER 1') 
+              ) C
+              ON C.MASTER_SID=i.ITEM_MASTER_SID
+WHERE  RD.PROJECTION_MASTER_SID = ? 
+
+				   ]]>
+		</query>
+	</entity>
+
+	<entity id="FREQUENCY_DETAILS">
+		<query>
+			  	   <![CDATA[
+					  	 SELECT
+			DISTINCT ht.HELPER_TABLE_SID
+		FROM
+			RETURNS_PROJECTION_SELECTION RPS
+		JOIN dbo.HELPER_TABLE HT ON
+			RPS.FIELD_VALUES = ht.DESCRIPTION
+		WHERE
+			FIELD_NAME = 'Frequency'
+			AND ht.LIST_NAME = 'PAYMENT_FREQUENCY'
+			AND RPS.PROJECTION_MASTER_SID = ?
+			  	      ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_PROJECTION_SELECTION_DETAILS">
+		<query>
+			  	   <![CDATA[
+						  	   SELECT
+				DISTINCT FIELD_VALUES
+			FROM
+				RETURNS_PROJECTION_SELECTION
+			WHERE
+				FIELD_NAME <> 'Frequency'
+				AND PROJECTION_MASTER_SID =?
+			  	   
+			  	      ]]>
+		</query>
+	</entity>
+
+	<entity id="HIERARCHY_NO_DETAILS">
+		<query>
+			  	   <![CDATA[   
+						    
+						    SELECT
+				DISTINCT RLD.HIERARCHY_NO,
+				RLD.LEVEL_NO
+			from
+				dbo.PROJECTION_PROD_HIERARCHY PPH
+			JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+				RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+			WHERE
+				PROJECTION_MASTER_SID =  ?
+			ORDER BY
+				RLD.LEVEL_NO
+			    
+			        ]]>
+		</query>
+	</entity>
+
+	<entity id="EXISTING_VIEW_NAME">
+		<query>
+			  	   <![CDATA[  
+			  	   
+				SELECT
+				FVM.VIEW_NAME
+			FROM
+				FORECASTING_VIEW_MASTER FVM
+			JOIN PROJECTION_MASTER PM ON
+				FVM.PROJECTION_ID = PM.PROJECTION_MASTER_SID
+			WHERE
+				PM.FORECASTING_TYPE = 'Returns'
+			        ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_FORECAST_MASTER_DS_RELOAD">
+		<query>
+                <![CDATA[
+ 
+                        DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                                @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1);
+
+
+                        IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                          DROP TABLE #SELECTED_HIERARCHY_NO
+
+                        CREATE TABLE #SELECTED_HIERARCHY_NO
+                          (
+                             HIERARCHY_NO VARCHAR(50)
+                          )
+
+                        INSERT INTO #SELECTED_HIERARCHY_NO
+                                    (HIERARCHY_NO)
+                        SELECT DISTINCT HIERARCHY_NO
+                        FROM   (VALUES ?)A(HIERARCHY_NO)
+
+                        DECLARE @data VARCHAR(50)
+
+                        IF Object_id('tempdb..#ITEM') IS NOT NULL
+                          DROP TABLE #ITEM
+
+                        CREATE TABLE #ITEM
+                          (
+                             ITEM_MASTER_SID INT,
+                             HIERARCHY_NO    VARCHAR(50)
+                          );
+
+                        INSERT INTO #ITEM
+                                    (HIERARCHY_NO,
+                                     ITEM_MASTER_SID)
+                        SELECT RLD.HIERARCHY_NO,
+                               RLD.relationship_level_values
+                        FROM   relationship_level_definition RLD
+                               JOIN #SELECTED_HIERARCHY_NO SH
+                                 ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+                        WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+
+
+                        IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS
+
+                        CREATE TABLE #TEMP_RETURNS
+                          (
+                             RETURNS_MASTER_SID            INT,
+                             ITEM_MASTER_SID               INT,
+                             BRAND_MASTER_SID              INT,
+                             ORIG_SALE_MONTH               DATETIME,
+                             CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                             ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                             ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                             ASP                           NUMERIC(22, 6),--O
+                             EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                             MAX_EXPIRED_MONTH             DATETIME,
+                             MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                             AUTHORIZED_GENERIC_START_DATE DATETIME,
+                             AUTHORIZED_GENERIC_END_DATE   DATETIME
+                          )
+
+                        INSERT INTO #TEMP_RETURNS
+                                    (RETURNS_MASTER_SID,
+                                     ITEM_MASTER_SID,
+                                     BRAND_MASTER_SID,
+                                     ORIG_SALE_MONTH,
+                                     CUM_RETURN_UNITS,
+                                     ORIG_SALE_UNITS,
+                                     ORIG_SALE_DOLLARS,
+                                     ASP,
+                                     EXPECTED_RETURN_RATE,
+                                     MAX_EXPIRED_MONTH,
+                                     MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     AUTHORIZED_GENERIC_START_DATE,
+                                     AUTHORIZED_GENERIC_END_DATE)
+                        SELECT A.RETURNS_MASTER_SID,
+                               A.ITEM_MASTER_SID,
+                               A.BRAND_MASTER_SID,
+                               A.ORIG_SALE_MONTH,
+                               A.CUM_RETURN_UNITS,
+                               A.ORIG_SALE_UNITS,
+                               A.ORIG_SALE_DOLLARS,
+                               A.ASP,
+                               A.EXPECTED_RETURN_RATE,
+                               A.MAX_EXPIRED_MONTH,
+                               A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                               AUTHORIZED_GENERIC_START_DATE,
+                               AUTHORIZED_GENERIC_END_DATE
+                        FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                       RM.ITEM_MASTER_SID,
+                                       RM.BRAND_MASTER_SID,
+                                       RM.ORIG_SALE_MONTH,
+                                       RM.CUM_RETURN_UNITS,
+                                       RM.ORIG_SALE_UNITS,
+                                       RM.ORIG_SALE_DOLLARS,
+                                       RM.ASP,
+                                       RM.EXPECTED_RETURN_RATE,
+                                       RM.MAX_EXPIRED_MONTH,
+                                       RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                       IM.AUTHORIZED_GENERIC_START_DATE,
+                                       IM.AUTHORIZED_GENERIC_END_DATE,
+                                       Row_number()
+                                         OVER(
+                                           PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                           ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                                FROM   #ITEM RD
+                                       LEFT JOIN RETURNS_MASTER RM
+                                              ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                       LEFT JOIN ITEM_MASTER IM
+                                              ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                        WHERE  A.RN = 1
+                               AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+
+                        IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS_MASTER
+
+                        CREATE TABLE #TEMP_RETURNS_MASTER
+                          (
+                             ID                     INT IDENTITY (1, 1) NOT NULL,
+                             ITEM_MASTER_SID        INT,
+                             METHODOLOGY            VARCHAR(50),
+                             METHODOLOGY_START_DATE VARCHAR(50),
+                             METHODOLOGY_END_DATE   VARCHAR(50),
+                             CALCULATION_PERIODS    VARCHAR(4000),
+                             LAG                    INT,
+                             CLOSED_DATE            DATETIME,
+                             LOE_DATE               DATETIME,
+                             USER_ID                INT,
+                             SESSION_ID             INT
+                          )
+
+                        INSERT INTO #TEMP_RETURNS_MASTER
+                                    (ITEM_MASTER_SID,
+                                     LAG,
+                                     CLOSED_DATE,
+                                     LOE_DATE)
+                        SELECT RD.ITEM_MASTER_SID,
+                               A.LAG,
+                               A.CLOSED_DATE,
+                               A.LOE_DATE
+                        FROM   #ITEM RD
+                               LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                                 Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                                 A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                                 A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                          FROM   #TEMP_RETURNS A
+                                                 JOIN (SELECT A.ITEM_MASTER_SID,
+                                                              Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                       FROM   #TEMP_RETURNS A
+                                                       GROUP  BY A.ITEM_MASTER_SID) B
+                                                   ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                      AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                      ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+
+                        SELECT DISTINCT i.HIERARCHY_NO,
+                                        i.ITEM_MASTER_SID,
+                                        RPM.METHODOLOGY,
+                                        RPM.METHODOLOGY_START_DATE,
+                                        RPM.METHODOLOGY_END_DATE,
+                                        RPM.CALCULATION_PERIODS,
+                                        CASE
+                                          WHEN  RPM.methodology = 'tier 1'
+                                               AND c.MASTER_SID IS NOT NULL THEN 1
+                                          ELSE 0
+                                        END AS TIER_FLAG,
+                                        ISNULL(CHECK_RECORD,'0') AS CHECK_RECORD,
+                                        ISNULL(RPM.LAG,TRM.LAG) AS LAG,
+                                        ISNULL(RPM.CLOSED_DATE,TRM.CLOSED_DATE) AS CLOSED_DATE,
+                                        ISNULL(RPM.LOE_DATE,TRM.LOE_DATE) AS LOE_DATE
+                        FROM   #ITEM i
+                               LEFT JOIN RETURNS_PROJ_MASTER_TEST RPM
+                                      ON i.ITEM_MASTER_SID = rpm.ITEM_MASTER_SID
+                                   LEFT JOIN #TEMP_RETURNS_MASTER TRM 
+                                   ON TRM.ITEM_MASTER_SID=I.ITEM_MASTER_SID
+                               LEFT JOIN (SELECT MASTER_SID
+                                          FROM   UDCS UD
+                                                 JOIN HELPER_TABLE HT
+                                                   ON HT.HELPER_TABLE_SID = UD.UDC1
+                                                      AND UD.MASTER_TYPE = 'ITEM_MASTER'
+                                                      AND HT.DESCRIPTION = 'TIER 1') C
+                                      ON C.MASTER_SID = i.ITEM_MASTER_SID
+                        AND  PROJECTION_MASTER_SID = ?
+                        
+		   ]]>
+		</query>
+	</entity>
+
+
+	<entity id="RETURNS_FORECAST_PROJECTION_DS_RELOAD">
+		<query>
+                <![CDATA[
+
+                        IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                          DROP TABLE #SELECTED_HIERARCHY_NO
+
+                        CREATE TABLE #SELECTED_HIERARCHY_NO
+                          (
+                             HIERARCHY_NO VARCHAR(50)
+                          )
+
+                        INSERT INTO #SELECTED_HIERARCHY_NO
+                                    (HIERARCHY_NO)
+                        SELECT DISTINCT HIERARCHY_NO
+                        FROM   (VALUES ?)A(HIERARCHY_NO)
+
+                        DECLARE @data VARCHAR(50)
+
+                        IF Object_id('tempdb..#ITEM') IS NOT NULL
+                          DROP TABLE #ITEM
+
+                        CREATE TABLE #ITEM
+                          (
+                             ITEM_MASTER_SID INT,
+                             HIERARCHY_NO    VARCHAR(50)
+                          );
+
+                        INSERT INTO #ITEM
+                                    (HIERARCHY_NO,
+                                     ITEM_MASTER_SID)
+                        SELECT RLD.HIERARCHY_NO,
+                               RLD.relationship_level_values
+                        FROM   relationship_level_definition RLD
+                               JOIN #SELECTED_HIERARCHY_NO SH
+                                 ON SH.HIERARCHY_NO = RLD.HIERARCHY_NO
+                        WHERE  RLD.level_name IN ( 'Product', 'Item', 'NDC' )
+
+                        ---------------  Declaring the required variables  ----------------
+                        ---- For  Projection Period Date Variables
+                        DECLARE @FROM_DATE DATETIME = '?',
+                                @TO_DATE   DATETIME = '?'
+                        ---- For  Projection Period Date Variables
+                        DECLARE @START_ACTUAL     DATETIME=(SELECT Dateadd(yy, Datediff(yy, 0, Getdate()) - 3, 0)),
+                                @END_ACTUAL       DATETIME=(SELECT Dateadd(mm, Datediff(mm, 0, Getdate()), 0) - 1),
+                                @START_PERIOD_SID INT,
+                                @END_PERIOD_SID   INT,
+                                @FORECAST_NAME    VARCHAR(50),
+                                @FORECAST_VERSION VARCHAR(15),
+                                @ITEM_UDT         UDT_ITEM
+
+                        SELECT @START_PERIOD_SID = PERIOD_SID
+                        FROM   PERIOD
+                        WHERE  PERIOD_DATE = @START_ACTUAL
+
+                        SELECT @END_PERIOD_SID = PERIOD_SID
+                        FROM   PERIOD
+                        WHERE  PERIOD_DATE = Dateadd(MM, Datediff(MM, 0, @TO_DATE), 0)
+
+                        SELECT TOP 1 @FORECAST_NAME = FT.FORECAST_NAME,
+                                     @FORECAST_VERSION = FT.[VERSION]
+                        FROM   FILE_MANAGEMENT FT
+                               INNER JOIN HELPER_TABLE HT
+                                       ON HT.HELPER_TABLE_SID = FT.FILE_TYPE
+                        WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, Getdate())
+                                 AND FT.FROM_PERIOD IS NOT NULL )
+                               AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, Getdate())
+                                      OR FT.TO_PERIOD IS NULL )
+                               AND HT.LIST_NAME = 'FILE_TYPE'
+                               AND HT.[DESCRIPTION] IN ( 'EX-FACTORY SALES' )
+                        ORDER  BY FT.FROM_PERIOD DESC
+
+                        INSERT INTO @ITEM_UDT
+                                    (ITEM_MASTER_SID)
+                        SELECT ITEM_MASTER_SID
+                        FROM   #ITEM
+
+                        IF Object_id('tempdb..#TEMP_RETURNS') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS
+
+                        CREATE TABLE #TEMP_RETURNS
+                          (
+                             RETURNS_MASTER_SID            INT,
+                             ITEM_MASTER_SID               INT,
+                             BRAND_MASTER_SID              INT,
+                             ORIG_SALE_MONTH               DATETIME,
+                             CUM_RETURN_UNITS              NUMERIC(22, 6),--P
+                             ORIG_SALE_UNITS               NUMERIC(22, 6),--M
+                             ORIG_SALE_DOLLARS             NUMERIC(22, 6),--N
+                             ASP                           NUMERIC(22, 6),--O
+                             EXPECTED_RETURN_RATE          NUMERIC(22, 6),
+                             MAX_EXPIRED_MONTH             DATETIME,
+                             MAX_EXPIRED_MONS_PLUSCUTOFF   DATETIME,
+                             AUTHORIZED_GENERIC_START_DATE DATETIME,
+                             AUTHORIZED_GENERIC_END_DATE   DATETIME
+                          )
+
+                        INSERT INTO #TEMP_RETURNS
+                                    (RETURNS_MASTER_SID,
+                                     ITEM_MASTER_SID,
+                                     BRAND_MASTER_SID,
+                                     ORIG_SALE_MONTH,
+                                     CUM_RETURN_UNITS,
+                                     ORIG_SALE_UNITS,
+                                     ORIG_SALE_DOLLARS,
+                                     ASP,
+                                     EXPECTED_RETURN_RATE,
+                                     MAX_EXPIRED_MONTH,
+                                     MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                     AUTHORIZED_GENERIC_START_DATE,
+                                     AUTHORIZED_GENERIC_END_DATE)
+                        SELECT A.RETURNS_MASTER_SID,
+                               A.ITEM_MASTER_SID,
+                               A.BRAND_MASTER_SID,
+                               A.ORIG_SALE_MONTH,
+                               A.CUM_RETURN_UNITS,
+                               A.ORIG_SALE_UNITS,
+                               A.ORIG_SALE_DOLLARS,
+                               A.ASP,
+                               A.EXPECTED_RETURN_RATE,
+                               A.MAX_EXPIRED_MONTH,
+                               A.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                               AUTHORIZED_GENERIC_START_DATE,
+                               AUTHORIZED_GENERIC_END_DATE
+                        FROM   (SELECT RM.RETURNS_MASTER_SID,
+                                       RM.ITEM_MASTER_SID,
+                                       RM.BRAND_MASTER_SID,
+                                       RM.ORIG_SALE_MONTH,
+                                       RM.CUM_RETURN_UNITS,
+                                       RM.ORIG_SALE_UNITS,
+                                       RM.ORIG_SALE_DOLLARS,
+                                       RM.ASP,
+                                       RM.EXPECTED_RETURN_RATE,
+                                       RM.MAX_EXPIRED_MONTH,
+                                       RM.MAX_EXPIRED_MONS_PLUSCUTOFF,
+                                       IM.AUTHORIZED_GENERIC_START_DATE,
+                                       IM.AUTHORIZED_GENERIC_END_DATE,
+                                       Row_number()
+                                         OVER(
+                                           PARTITION BY RD.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH
+                                           ORDER BY RM.ITEM_MASTER_SID, RM.ORIG_SALE_MONTH ASC) AS RN
+                                FROM   #ITEM RD
+                                       LEFT JOIN RETURNS_MASTER RM
+                                              ON RM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                       LEFT JOIN ITEM_MASTER IM
+                                              ON IM.ITEM_MASTER_SID = RD.ITEM_MASTER_SID) A
+                        WHERE  A.RN = 1
+                               AND A.ORIG_SALE_MONTH BETWEEN @START_ACTUAL AND @END_ACTUAL
+
+                        IF Object_id('tempdb..#TEMP_RETURNS_MASTER') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS_MASTER
+
+                        CREATE TABLE #TEMP_RETURNS_MASTER
+                          (
+                             ID                     INT IDENTITY (1, 1) NOT NULL,
+                             ITEM_MASTER_SID        INT,
+                             METHODOLOGY            VARCHAR(50),
+                             METHODOLOGY_START_DATE VARCHAR(50),
+                             METHODOLOGY_END_DATE   VARCHAR(50),
+                             CALCULATION_PERIODS    VARCHAR(4000),
+                             LAG                    INT,
+                             CLOSED_DATE            DATETIME,
+                             LOE_DATE               DATETIME,
+                             USER_ID                INT,
+                             SESSION_ID             INT
+                          )
+
+                        INSERT INTO #TEMP_RETURNS_MASTER
+                                    (ITEM_MASTER_SID,
+                                     LAG,
+                                     CLOSED_DATE,
+                                     LOE_DATE)
+                        SELECT RD.ITEM_MASTER_SID,
+                               A.LAG,
+                               A.CLOSED_DATE,
+                               A.LOE_DATE
+                        FROM   #ITEM RD
+                               LEFT JOIN (SELECT A.ITEM_MASTER_SID,
+                                                 Round(( Datediff(DD, A.MAX_EXPIRED_MONTH, A.MAX_EXPIRED_MONS_PLUSCUTOFF) / 30.45 ), 1) AS LAG,
+                                                 A.MAX_EXPIRED_MONS_PLUSCUTOFF                                                          AS CLOSED_DATE,
+                                                 A.AUTHORIZED_GENERIC_END_DATE                                                          AS LOE_DATE
+                                          FROM   #TEMP_RETURNS A
+                                                 JOIN (SELECT A.ITEM_MASTER_SID,
+                                                              Max(ORIG_SALE_MONTH) AS LATEST_MONTH
+                                                       FROM   #TEMP_RETURNS A
+                                                       GROUP  BY A.ITEM_MASTER_SID) B
+                                                   ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                                      AND A.ORIG_SALE_MONTH = B.LATEST_MONTH) A
+                                      ON A.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+
+
+
+
+                        --------------  Returns Projection Insert  ----------------
+                        IF Object_id('tempdb..#TEMP_RETURNS_GTS') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS_GTS
+
+                        CREATE TABLE #TEMP_RETURNS_GTS
+                          (
+                             PERIOD_SID         INT,
+                             ITEM_MASTER_SID    INT,
+                             FORECAST_GTS_SALES NUMERIC(22, 6),
+                             FORECAST_GTS_UNITS NUMERIC(22, 6),
+                             ACTUAL_GTS_SALES   NUMERIC(22, 6),
+                             ACTUAL_GTS_UNITS   NUMERIC(22, 6)
+                          )
+
+                        INSERT INTO #TEMP_RETURNS_GTS
+                        SELECT U.PERIOD_SID,
+                               U.ITEM_MASTER_SID,
+                               U.FORECAST_GTS_SALES,
+                               U.FORECAST_GTS_UNITS,
+                               U.ACTUAL_GTS_SALES,
+                               U.ACTUAL_GTS_UNITS
+                        FROM   Udf_gts_wac(@ITEM_UDT, @START_PERIOD_SID, @END_PERIOD_SID, @FORECAST_NAME, @FORECAST_VERSION) U
+                               JOIN #ITEM RD
+                                 ON RD.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+                        IF Object_id('tempdb..#TEMP_RETURNS_PROJECTION_DETAILS') IS NOT NULL
+                          DROP TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+
+                        CREATE TABLE #TEMP_RETURNS_PROJECTION_DETAILS
+                          (
+                             ITEM_MASTER_SID               INT,
+                             PERIOD_SID                    INT,
+                             GROWTH_RATE                   NUMERIC(22, 6),
+                             PROJECTED_RETURN_PERCENT      NUMERIC(22, 6),
+                             PROJECTED_RPU                 NUMERIC(22, 6),
+                             PROJECTED_RETURN_AMOUNT       NUMERIC(22, 6),
+                             PROJECTED_RETURN_UNITS        NUMERIC(22, 6),
+                             ACTIVE_EXFACTORY_SALES_AMOUNT NUMERIC(22, 6),
+                             ACTIVE_EXFACTORY_SALES_UNITS  NUMERIC(22, 6),
+                             USER_ID                       INT,
+                             SESSION_ID                    INT,
+                          )
+
+                        INSERT INTO #TEMP_RETURNS_PROJECTION_DETAILS
+                                    (ITEM_MASTER_SID,
+                                     PERIOD_SID,
+                                     ACTIVE_EXFACTORY_SALES_AMOUNT,
+                                     ACTIVE_EXFACTORY_SALES_UNITS,
+                                     USER_ID,
+                                     SESSION_ID)
+                        SELECT A.ITEM_MASTER_SID,
+                               P.PERIOD_SID,
+                               Isnull(B.FORECAST_GTS_SALES, B.ACTUAL_GTS_SALES),
+                               Isnull(B.FORECAST_GTS_UNITS, B.ACTUAL_GTS_UNITS),
+                               A.USER_ID,
+                               A.SESSION_ID
+                        FROM   #TEMP_RETURNS_MASTER A
+                               CROSS JOIN PERIOD P
+                               JOIN #TEMP_RETURNS_GTS B
+                                 ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                    AND P.PERIOD_SID = B.PERIOD_SID
+                        WHERE  P.PERIOD_DATE BETWEEN @FROM_DATE AND @TO_DATE
+
+
+
+
+                        SELECT DISTINCT i.HIERARCHY_NO,
+                                        I.PERIOD_SID,
+                                        i.ITEM_MASTER_SID,                       
+                                        ISNULL(RPM.PROJECTED_RETURN_PERCENT,	trpd.PROJECTED_RETURN_PERCENT )  AS  PROJECTED_RETURN_PERCENT,
+                                        ISNULL(RPM.PROJECTED_RPU,				trpd.PROJECTED_RPU ) AS PROJECTED_RPU,
+                                        ISNULL(RPM.PROJECTED_RETURN_AMOUNT,		trpd.PROJECTED_RETURN_AMOUNT )	AS PROJECTED_RETURN_AMOUNT,
+                                        ISNULL(RPM.GROWTH_RATE,					trpd.GROWTH_RATE ) AS GROWTH_RATE,
+                                        ISNULL(RPM.PROJECTED_RETURN_UNITS,		trpd.PROJECTED_RETURN_UNITS ) AS PROJECTED_RETURN_UNITS,
+                                        ISNULL(RPM.ACTIVE_EXFACTORY_SALES_AMOUNT,trpd.ACTIVE_EXFACTORY_SALES_AMOUNT) AS ACTIVE_EXFACTORY_SALES_AMOUNT,
+                                        ISNULL(RPM.ACTIVE_EXFACTORY_SALES_UNITS	,trpd.ACTIVE_EXFACTORY_SALES_UNITS ) AS ACTIVE_EXFACTORY_SALES_UNITS
+                        FROM 
+                                (SELECT HIERARCHY_NO,PERIOD_SID,ITEM_MASTER_SID FROM #ITEM CROSS JOIN PERIOD P WHERE P.PERIOD_DATE BETWEEN @FROM_DATE AND @TO_DATE) i 
+                                        left JOIN  RETURNS_PROJ_DETAILS_TEST RPM
+                                 ON i.ITEM_MASTER_SID = rpm.ITEM_MASTER_SID
+                                         and  PROJECTION_MASTER_SID = ? 
+                                         left join #TEMP_RETURNS_PROJECTION_DETAILS trpd
+                                         on TRPD.ITEM_MASTER_SID=i.ITEM_MASTER_SID
+                                         AND RPM.PERIOD_SID=TRPD.PERIOD_SID
+
+		   ]]>
+		</query>
+	</entity>
+
+
+</sql>

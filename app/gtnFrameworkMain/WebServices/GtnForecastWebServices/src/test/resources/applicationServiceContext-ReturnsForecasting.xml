@@ -1,0 +1,174 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+
+	<bean id="gtnWsReturnsEditController"
+		class="com.stpl.gtn.gtn2o.ws.forecast.controller.GtnWsReturnsEditController">
+		<property name="gtnWsReturnsEditIOService" ref="gtnWsReturnsEditIOService"></property>
+
+	</bean>
+
+	<bean id="gtnWsReturnsDualListBoxController"
+		class="com.stpl.gtn.gtn2o.ws.forecast.controller.GtnWsReturnsDualListBoxController">
+		<property name="dualListBoxService" ref="dualListBoxService"></property>
+
+	</bean>
+
+	<bean id="dualListBoxService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.duallistbox.GtnWsReturnsDualListBoxService">
+		<property name="databaseService" ref="databaseService"></property>
+		<property name="serializingService" ref="serializingService"></property>
+		<property name="resourceService" ref="resourceService"></property>
+		<property name="gtnFrameworkSqlQueryEngine" ref="gtnFrameworkSqlQueryEngine"></property>
+	</bean>
+
+	<bean id="serializingService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.duallistbox.GtnWsDualListBoxSerializingService">
+
+	</bean>
+
+	<bean id="gtnWsProjectionSaveController"
+		class="com.stpl.gtn.gtn2o.ws.forecast.controller.GtnWsProjectionSaveController">
+		<property name="fileService" ref="saveFileService"></property>
+
+	</bean>
+
+	<bean id="saveFileService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsSaveIOService">
+		<property name="gtnFrameworkQueryEngineMain" ref="gtnFrameworkQueryEngineMain"></property>
+		<property name="resourceService" ref="resourceService"></property>
+		<property name="databaseService" ref="databaseService"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="fileService" ref="gtnWsReturnsFileIOService"></property>
+
+	</bean>
+
+	<bean id="gtnFrameworkQueryEngineMain"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain">
+
+	</bean>
+	<bean id="returnsExcelLoadService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnReturnsExcelLoadService">
+		<property name="gtnWsReturnsFileIOService" ref="gtnWsReturnsFileIOService"></property>
+		<property name="gtnTreeTableLoadService" ref="gtnTreeTableLoadService"></property>
+
+	</bean>
+	<bean id="excelHeaderService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsExcelHeaderService">
+		<property name="resourceService" ref="resourceService"></property>
+	</bean>
+
+	<bean id="gtnWsReturnsEditIOService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsEditIOService">
+		<property name="gtnWsReturnsFileIOService" ref="gtnWsReturnsFileIOService"></property>
+		<property name="databaseService" ref="databaseService"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnFrameworkSqlQueryEngine" ref="gtnFrameworkSqlQueryEngine"></property>
+	</bean>
+
+	<bean id="resourceService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsResourceService">
+
+	</bean>
+	<bean id="treeService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.tree.GtnWsTreeService">
+
+	</bean>
+	<bean id="databaseService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsDatabaseService">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+
+	</bean>
+	<bean id="gtnWsSqlService" class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsSqlService">
+
+	</bean>
+	<bean id="gtnTreeTableLoadService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.tree.GtnTreeTableLoadService">
+
+	</bean>
+
+	<bean id="gtnWsReturnsFileIOService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsFileIOService">
+		<property name="databaseService" ref="databaseService"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="resourceService" ref="resourceService"></property>
+		<property name="treeService" ref="treeService"></property>
+		<property name="gtnFrameworkSqlQueryEngine" ref="gtnFrameworkSqlQueryEngine"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="default_entity_mode">dynamic-map</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<!-- <property name="mappingResources"> <list> <value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value> 
+			<value>/com/stpl/gtn/gtn2o/ws/xml/Udcs.hbm.xml</value> </list> </property> -->
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
+		<!-- <property name="url" value="jdbc:sqlserver://10.4.48.18:1433;databaseName=ADEMPIERE_RD" 
+			/> -->
+
+		<property name="url"
+			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_GAL_APP_TST" />
+
+		<property name="username" value="bpigtn_dev" />
+		<property name="password" value="vedM\4C~WKZ5s6U*" />
+		<!-- <property name="username" value="app_user" /> -->
+		<!-- <property name="password" value="app_user" /> -->
+		<!-- class="org.springframework.jndi.JndiObjectFactoryBean"> -->
+		<!-- <property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" 
+			/> -->
+		<!-- <property name="lookupOnStartup" value="true"/> -->
+		<!-- <property name="username" value="${jdbc.username}" /> -->
+		<!-- <property name="password" value="${jdbc.password}" /> -->
+	</bean>
+
+	<bean id="gtnWsReturnsWorkflowController"
+		class="com.stpl.gtn.gtn2o.ws.forecast.controller.GtnWsReturnsWorkflowController">
+		<property name="gtnWsReturnsWorkflowIOService" ref="gtnWsReturnsWorkflowIOService"></property>
+
+	</bean>
+
+	<bean id="gtnWsReturnsWorkflowIOService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsWorkflowIOService">
+		<property name="databaseService" ref="databaseService"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+
+	</bean>
+
+	<bean id="gtnWsReturnsRowCheckIOService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsRowCheckIOService">
+		<property name="fileService" ref="gtnWsReturnsFileIOService"></property>
+
+	</bean>
+
+
+	<bean id="checkController"
+		class="com.stpl.gtn.gtn2o.ws.forecast.controller.GtnWsReturnsRowCheckController">
+		<property name="fileService" ref="gtnWsReturnsFileIOService"></property>
+		<property name="gtnWsReturnsRowCheckIOService" ref="gtnWsReturnsRowCheckIOService"></property>
+	</bean>
+
+	<bean id="gtnFrameworkSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+</beans>

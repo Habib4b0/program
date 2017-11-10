@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel"
+		table="RS_MODEL" schema="dbo">
+		<id name="rsModelSid" type="int">
+			<column name="RS_MODEL_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByInterestBearingBasis"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="INTEREST_BEARING_BASIS" />
+		</many-to-one>
+		<many-to-one name="helperTableByPaymentLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PAYMENT_LEVEL" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsTradeClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_TRADE_CLASS" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_TYPE" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByEvaluationRuleLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="EVALUATION_RULE_LEVEL" />
+		</many-to-one>
+		<many-to-one name="helperTableByCalculationRuleLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CALCULATION_RULE_LEVEL" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByInterestBearingIndicator"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="INTEREST_BEARING_INDICATOR" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_CATEGORY" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateRuleType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_RULE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPaymentTerms"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PAYMENT_TERMS" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateFrequency"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_FREQUENCY" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsCalendar"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_CALENDAR" />
+		</many-to-one>
+		<many-to-one name="cdrModelByCalculationRule"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="CALCULATION_RULE" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateProcessingType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_PROCESSING_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsDesignation"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_DESIGNATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByState"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="STATE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPaymentMethod"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PAYMENT_METHOD" />
+		</many-to-one>
+		<many-to-one name="helperTableByEvaluationRuleType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="EVALUATION_RULE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByCalculationLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CALCULATION_LEVEL" />
+		</many-to-one>
+		<many-to-one name="helperTableByRsValidationProfile"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RS_VALIDATION_PROFILE" />
+		</many-to-one>
+		<many-to-one name="helperTableByDeductionInclusion"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="DEDUCTION_INCLUSION" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebatePlanLevel"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_PLAN_LEVEL" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateProgramType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_PROGRAM_TYPE" not-null="true" />
+		</many-to-one>
+		<many-to-one name="cdrModelByEvaluationRuleOrAssociation"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="EVALUATION_RULE_OR_ASSOCIATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByCalculationType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CALCULATION_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPaymentFrequency"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PAYMENT_FREQUENCY" />
+		</many-to-one>
+		<property name="rsId" type="string">
+			<column name="RS_ID" length="50" not-null="true" unique="true" />
+		</property>
+		<property name="rsNo" type="string">
+			<column name="RS_NO" length="50" not-null="true" />
+		</property>
+		<property name="rsName" type="string">
+			<column name="RS_NAME" length="100" />
+		</property>
+		<property name="rsStartDate" type="timestamp">
+			<column name="RS_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="rsEndDate" type="timestamp">
+			<column name="RS_END_DATE" length="23" />
+		</property>
+		<property name="manfCompanyMasterSid" type="java.lang.Integer">
+			<column name="MANF_COMPANY_MASTER_SID" />
+		</property>
+		<property name="parentRsId" type="string">
+			<column name="PARENT_RS_ID" length="50" />
+		</property>
+		<property name="parentRsName" type="string">
+			<column name="PARENT_RS_NAME" length="100" />
+		</property>
+		<property name="rsTransRefId" type="string">
+			<column name="RS_TRANS_REF_ID" length="50" />
+		</property>
+		<property name="rsTransRefNo" type="string">
+			<column name="RS_TRANS_REF_NO" length="50" />
+		</property>
+		<property name="rsTransRefName" type="string">
+			<column name="RS_TRANS_REF_NAME" length="100" />
+		</property>
+		<property name="rebateRuleAssociation" type="string">
+			<column name="REBATE_RULE_ASSOCIATION" length="100" />
+		</property>
+		<property name="paymentGracePeriod" type="string">
+			<column name="PAYMENT_GRACE_PERIOD" length="25" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="makePayableTo" type="string">
+			<column name="MAKE_PAYABLE_TO" length="50" />
+		</property>
+		<property name="address1" type="string">
+			<column name="ADDRESS_1" length="100" />
+		</property>
+		<property name="address2" type="string">
+			<column name="ADDRESS_2" length="100" />
+		</property>
+		<property name="city" type="string">
+			<column name="CITY" length="50" />
+		</property>
+		<property name="zipCode" type="string">
+			<column name="ZIP_CODE" length="50" />
+		</property>
+		<property name="rsAlias" type="string">
+			<column name="RS_ALIAS" length="100" />
+		</property>
+		<property name="formulaMethodId" type="string">
+			<column name="FORMULA_METHOD_ID" length="38" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="rsDetailses" table="RS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="RS_MODEL_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+		<set name="rsContracts" table="RS_CONTRACT" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="RS_MODEL_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContract" />
+		</set>
+	</class>
+</hibernate-mapping>

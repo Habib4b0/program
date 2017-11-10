@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 11:49:22 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwReturnReserve"
+		table="VW_RETURN_RESERVE" schema="dbo">
+		<id name="returnReserveSid" type="int">
+			<column name="RETURN_RESERVE_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="returnReserveIntfId" type="int">
+			<column name="RETURN_RESERVE_INTF_ID" not-null="true" />
+		</property>
+		<property name="year" type="string">
+			<column name="YEAR" not-null="true" />
+		</property>
+		<property name="month" type="string">
+			<column name="MONTH" not-null="true" />
+		</property>
+		<property name="brandMasterSid" type="java.lang.Integer">
+			<column name="BRAND_MASTER_SID" />
+		</property>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" length="50" />
+		</property>
+		<property name="brandName" type="string">
+			<column name="BRAND_NAME" length="50" />
+		</property>
+		<property name="itemMasterSid" type="int">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="50" not-null="true" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="50" />
+		</property>
+		<property name="units" type="double">
+			<column name="UNITS" precision="22" scale="6" />
+		</property>
+		<property name="amount" type="double">
+			<column name="AMOUNT" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="country" type="string">
+			<column name="COUNTRY" length="25" />
+		</property>
+		<property name="buCompanyMasterSid" type="int">
+			<column name="BU_COMPANY_MASTER_SID" not-null="true" />
+		</property>
+		<property name="businessUnit" type="string">
+			<column name="BUSINESS_UNIT" length="50" not-null="true" />
+		</property>
+		<property name="businessUnitName" type="string">
+			<column name="BUSINESS_UNIT_NAME" length="100" not-null="true" />
+		</property>
+		<property name="glCompanyMasterSid" type="int">
+			<column name="GL_COMPANY_MASTER_SID" not-null="true" />
+		</property>
+		<property name="glCompany" type="string">
+			<column name="GL_COMPANY" length="50" not-null="true" />
+		</property>
+		<property name="companyNo" type="string">
+			<column name="COMPANY_NO" length="50" not-null="true" />
+		</property>
+		<property name="companyName" type="string">
+			<column name="COMPANY_NAME" length="100" not-null="true" />
+		</property>
+		<property name="division" type="string">
+			<column name="DIVISION" length="50" not-null="true" />
+		</property>
+		<property name="costCenter" type="string">
+			<column name="COST_CENTER" length="50" not-null="true" />
+		</property>
+		<property name="account" type="string">
+			<column name="ACCOUNT" length="50" not-null="true" />
+		</property>
+		<property name="project" type="string">
+			<column name="PROJECT" length="50" not-null="true" />
+		</property>
+		<property name="future1" type="string">
+			<column name="FUTURE1" length="50" not-null="true" />
+		</property>
+		<property name="future2" type="string">
+			<column name="FUTURE2" length="50" not-null="true" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" length="50" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" length="50" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="string">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="38" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" />
+		</property>
+		<property name="udc1" type="string">
+			<column name="UDC1" />
+		</property>
+		<property name="udc2" type="string">
+			<column name="UDC2" />
+		</property>
+		<property name="udc3" type="string">
+			<column name="UDC3" />
+		</property>
+		<property name="udc4" type="string">
+			<column name="UDC4" />
+		</property>
+		<property name="udc5" type="string">
+			<column name="UDC5" />
+		</property>
+		<property name="udc6" type="string">
+			<column name="UDC6" />
+		</property>
+	</class>
+</hibernate-mapping>

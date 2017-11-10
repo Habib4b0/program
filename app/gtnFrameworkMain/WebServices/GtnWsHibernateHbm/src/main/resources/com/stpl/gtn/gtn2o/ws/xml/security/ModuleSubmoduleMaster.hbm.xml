@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Sep 26, 2017 3:14:30 PM by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  name="com.stpl.gtn.gtn2o.ws.entity.security.ModuleSubmoduleMaster"  schema="dbo"  table="MODULE_SUBMODULE_MASTER" dynamic-update="true">
+        <id name="moduleSubmoduleSid" type="java.lang.Integer">
+            <column name="MODULE_SUBMODULE_SID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="moduleName"  type="string" >
+            <column length="50" name="MODULE_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="submoduleName"  type="string" >
+            <column length="50" name="SUBMODULE_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="category"  type="string" >
+            <column length="15" name="CATEGORY"/>
+        </property>
+        <property generated="never" lazy="false" name="tableName"  type="string" >
+            <column length="100" name="TABLE_NAME"/>
+        </property>
+        <property generated="never" lazy="false" name="createdBy"  type="int" >
+            <column name="CREATED_BY" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="createdDate"  type="timestamp" >
+            <column length="23" name="CREATED_DATE" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="modifiedBy"  type="int" >
+            <column name="MODIFIED_BY" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="modifiedDate"  type="timestamp" >
+            <column length="23" name="MODIFIED_DATE" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="versionNo"  type="int" >
+            <column name="VERSION_NO" not-null="true"/>
+        </property>
+         <property generated="never" lazy="false" name="updateModuleFlag"  type="java.lang.Boolean" >
+            <column name="UPDATE_MODULE_FLAG"/>
+        </property>
+        <set  fetch="select"   name="gtnModuleComponentMasters"  sort="unsorted" table="GTN_MODULE_COMPONENT_MASTER">
+            <key on-delete="noaction">
+                <column name="MODULE_SUBMODULE_MASTER_SID"/>
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.security.GtnModuleComponentMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"  name="gtnUitableComponentDetailses"  sort="unsorted" table="GTN_UITABLE_COMPONENT_DETAILS">
+            <key on-delete="noaction">
+                <column name="MODULE_SUBMODULE_MASTER_SID"/>
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.security.GtnUitableComponentDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

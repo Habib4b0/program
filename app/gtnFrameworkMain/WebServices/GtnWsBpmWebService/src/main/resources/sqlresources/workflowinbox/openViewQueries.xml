@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getbpmOpenViewQuery">
+		<query> 
+            <![CDATA[           
+    
+	select pp.task_id,pp.entity_id from task t join PeopleAssignments_PotOwners pp on pp.task_id=t.id
+
+	
+                    ]]>
+		</query>
+	</entity>
+</sql>

@@ -1,0 +1,562 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "contractId",
+		"columnName": "Contract ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "contractNo",
+		"columnName": "Contract No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "contractName",
+		"columnName": "Contract Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "contractType",
+		"columnName": "Contract Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CONTRACT_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "contractStatus",
+		"columnName": "Contract Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "docType",
+		"columnName": "Document Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "DOCUMENT_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "startDate",
+		"columnName": "Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "startDate",
+		"columnName": "Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "endDate",
+		"columnName": "End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "endDate",
+		"columnName": "End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "docClass",
+		"columnName": "Document Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "DOCUMENT_CLASS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "companyName",
+		"columnName": "Company Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "tradeClass",
+		"columnName": "Trade Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CONTRACT_TRADE_CLASS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "tradingPartnerNo",
+		"columnName": "Trading Partner No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "tradingPartnerName",
+		"columnName": "Trading Partner Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "renegotiationStartDate",
+		"columnName": "Re-Negotiation Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "renegotiationStartDate",
+		"columnName": "Re-Negotiation Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "renegotiationEndDate",
+		"columnName": "Re-Negotiation End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "renegotiationEndDate",
+		"columnName": "Re-Negotiation End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "priceprotectionStartDate",
+		"columnName": "Price Protection Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "priceprotectionStartDate",
+		"columnName": "Price Protection Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "priceprotectionEndDate",
+		"columnName": "Price Protection End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "priceprotectionEndDate",
+		"columnName": "Price Protection End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "insideOwner",
+		"columnName": "Inside Owner",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "insidePhone",
+		"columnName": "Inside Phone",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "insideAuthor",
+		"columnName": "Inside Author",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "insideAdditional",
+		"columnName": "Inside Additional",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "insideAdditionalName",
+		"columnName": "Inside Additional Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "insideAdditionalPhone",
+		"columnName": "Inside Additional Phone",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsideOwner",
+		"columnName": "Outside Owner",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsidePhone",
+		"columnName": "Outside Phone",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsideAuthor",
+		"columnName": "Outside Author",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsideAdditional",
+		"columnName": "Outside Additional",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsideAdditionalName",
+		"columnName": "Outside Additional Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "outsideAdditionalPhone",
+		"columnName": "Outside Additional Phone",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "advanceNoticeDays",
+		"columnName": "Advance Notice Days",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "affiliatedContractInfo",
+		"columnName": "Affiliated Contract Info",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "shippingTerms",
+		"columnName": "Shipping Terms",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "proposalStartDate",
+		"columnName": "Proposal Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "proposalStartDate",
+		"columnName": "Proposal Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "proposalEndDate",
+		"columnName": "Proposal End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "proposalEndDate",
+		"columnName": "Proposal End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "originalStartDate",
+		"columnName": "Original Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "originalStartDate",
+		"columnName": "Original Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "originalEndDate",
+		"columnName": "Original End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "originalEndDate",
+		"columnName": "Original End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "awardStatus",
+		"columnName": "Award Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "lastUpdatedDate",
+		"columnName": "Last Updated Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "lastUpdatedDate",
+		"columnName": "Last Updated Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "priceEscalationClause",
+		"columnName": "Price Escalation Clause",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "exemptFromLowPrice",
+		"columnName": "Exempt From Low Price",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "priceResetIndicator",
+		"columnName": "Price Reset Indicator",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "PRICE_RESET_INDICATOR",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cancellationClause",
+		"columnName": "Cancellation Clause",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "mostFavoredNation",
+		"columnName": "Most Favored Nation",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "category",
+		"columnName": "Category",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "currency",
+		"columnName": "Currency",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "minimumOrder",
+		"columnName": "Minimum Order",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "paymentTerms",
+		"columnName": "Payment Terms",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "PAYMENT_TERMS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "contractHeaderIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

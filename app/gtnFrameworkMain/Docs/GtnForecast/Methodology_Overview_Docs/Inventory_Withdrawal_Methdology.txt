@@ -1,0 +1,70 @@
+Commercial Forecasting:
+
+
+Sales Projection:
+
+	Step 1: Calculate Baseline
+		
+		* Sales Based:
+		
+		Baseline Formula : BASELINE = INVENTORY_WITHDRAWAL_RATIO = SUM(ACTUAL_SALES) / SUM(ACTUAL_INVENTORY_WITHDRAWAL_SALES) 
+		
+		* Units Based:
+		
+		Baseline Formula : BASELINE = INVENTORY_WITHDRAWAL_RATIO = SUM(ACTUAL_UNITS) / SUM(ACTUAL_INVENTORY_WITHDRAWAL_UNITS) 
+
+	Step 2: Projection Calculation (Always calculated in Monthly)
+	
+		* In this methodology, Growth and Cummulative multiplication is not needed.
+
+		* Sales Based:
+		
+		Projection Formula: PROJECTED_SALES = BASELINE * PROJECTED_INVENTORY_WITHDRAWAL_SALES	
+		
+		* Units Based:
+		
+		Projection Formula: PROJECTED_UNITS = BASELINE * PROJECTED_INVENTORY_WITHDRAWAL_UNITS
+		
+	Step 3: Calculate Other Components. (Always calculated in monthly)
+
+			* Once we calculated the selected component,
+			  We derive all the other values based on the selected component using the below formulae.		
+			
+				* Sales Based:
+				
+					PROJECTED_UNITS = PROJECTED_SALES / PRICE
+					
+				* Unit Based:
+						
+					PROJECTED_SALES = PROJECTED_UNITS * PRICE
+
+
+Discount Projection:
+
+	Step 1: Calculate Baseline.
+		
+			* Amount Based:
+			
+				Baseline Formula	: BASELINE = INVENTORY_WITHDRAWAL_RATIO = SUM(ACTUAL_DISCOUNT_AMOUNT) / SUM(ACTUAL_INVENTORY_WITHDRAWAL_SALES)
+
+	Step 2: Projection Calculateion (Calculate Growth and Cummulative Multiplication)
+		
+			* In this methodology, Growth and Cummulative multiplication is not needed.
+					
+			* Amount Based:	
+				
+				Projection Formula	: PROJECTED_AMOUNT = BASELINE * PROJECTED_INVENTORY_WITHDRAWAL_SALES
+			
+	Step 3: Calculate Other Components.(Always calculated in monthly)
+		
+		* Once we calculated the selected component,
+		We derive all the other values based on the selected component using the below formulae.		
+
+			* Amount Based:	
+				
+					PROJECTED_RATE = PROJECTED_AMOUNT / PROJECTED_SALES
+					PROJECTED_RPU  = PROJECTED_AMOUNT / PROJECTED_UNITS
+					
+					
+		Note:
+			PROJECTED_SALES - PROJECTED_SALES calculated in the sales projection.

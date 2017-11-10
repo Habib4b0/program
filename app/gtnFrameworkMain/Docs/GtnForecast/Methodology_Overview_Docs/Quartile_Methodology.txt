@@ -1,0 +1,32 @@
+This Methodology available only in returns.
+
+
+Returns Forecasting:
+
+Step 1: Calculate Baseline.
+
+	* Baseline will be selected in the reverse order from max frequency selected. 
+	  First non zero value will be taken as baseline.
+	  
+	  Example: Selected Baseline Periods:  Q1-2014 = 20, Q2-2014 = 30,Q3-2014 = 0, Q4-2014 = 0
+				Eligible baseline values: Q2-2014 = 30.
+	
+	Baseline Formula  : BASELINE = ACTUAL_RETURN_PERCENT = EXPECTED_RETURN_RATE
+
+Step 2: Projection Calculation
+
+	* In this step, PROJECTED_RETURN_PERCENT will be same as the BASELINE. 
+	* Cummulative Multiplication is not needed in this methodology.
+
+	Projection Formula: PROJECTED_RETURN_PERCENT = BASELINE 
+	
+Step 3: Calculate Other Components. (Always calculated in monthly)
+
+	* In Returns, Since the calculation is only based on PROJECTED_RETURN_PERCENT,
+	  Once we calculated the PROJECTED_RETURN_PERCENT,We derive all the other values based on the PROJECTED_RETURN_PERCENT using the below formulae.
+	
+	PROJECTED_RETURN_AMOUNT =  PROJECTED_RETURN_PERCENT*ACTIVE_EXFACTORY_SALES_AMOUNT
+	
+	PROJECTED_RPU =  PROJECTED_RETURN_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS
+	
+	PROJECTED_RETURN_UNITS = PROJECTED_RETURN_AMOUNT/(ACTIVE_EXFACTORY_SALES_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS)

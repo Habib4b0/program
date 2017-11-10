@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2017 7:42:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagCpi" table="STAG_CPI" schema="dbo">
+        <id name="stagCpiSid" type="int">
+            <column name="STAG_CPI_SID" />
+            <generator class="native" />
+        </id>
+        <property name="cpiIntfid" type="string">
+            <column name="CPI_INTFID" not-null="true" />
+        </property>
+        <property name="indexId" type="string">
+            <column name="INDEX_ID" />
+        </property>
+        <property name="status" type="string">
+            <column name="STATUS" length="20" />
+        </property>
+        <property name="indexType" type="string">
+            <column name="INDEX_TYPE" length="50" />
+        </property>
+        <property name="effectiveDate" type="string">
+            <column name="EFFECTIVE_DATE" length="23" />
+        </property>
+        <property name="indexValue" type="string">
+            <column name="INDEX_VALUE"  />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

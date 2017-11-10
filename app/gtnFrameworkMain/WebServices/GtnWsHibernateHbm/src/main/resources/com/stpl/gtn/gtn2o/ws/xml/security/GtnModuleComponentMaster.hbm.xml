@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Sep 26, 2017 3:14:30 PM by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping  default-lazy="true">
+    <class  name="com.stpl.gtn.gtn2o.ws.entity.security.GtnModuleComponentMaster"  schema="dbo"  table="GTN_MODULE_COMPONENT_MASTER">
+        <id name="gtnModuleComponentMasterSid" type="java.lang.Integer">
+            <column name="GTN_MODULE_COMPONENT_MASTER_SID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.stpl.gtn.gtn2o.ws.entity.security.ModuleSubmoduleMaster" fetch="select" insert="true" name="moduleSubmoduleMaster" >
+            <column name="MODULE_SUBMODULE_MASTER_SID"/>
+        </many-to-one>
+        <property  name="componentId"  type="string" >
+            <column length="500" name="COMPONENT_ID"/>
+        </property>
+        <property  name="componentDesc"  type="string" >
+            <column length="200" name="COMPONENT_DESC"/>
+        </property>
+        <property  name="componentType" optimistic-lock="true" type="string" >
+            <column length="100" name="COMPONENT_TYPE"/>
+        </property>
+        <property  name="screenName" optimistic-lock="true" type="string" >
+            <column length="100" name="SCREEN_NAME"/>
+        </property>
+        <property  name="createdBy" optimistic-lock="true" type="java.lang.Integer" >
+            <column name="CREATED_BY"/>
+        </property>
+        <property  name="createdDate" optimistic-lock="true" type="timestamp" >
+            <column length="23" name="CREATED_DATE"/>
+        </property>
+        <property  name="modifiedBy" optimistic-lock="true" type="java.lang.Integer" >
+            <column name="MODIFIED_BY"/>
+        </property>
+        <property  name="modifiedDate" optimistic-lock="true" type="timestamp" >
+            <column length="23" name="MODIFIED_DATE"/>
+        </property>
+        <set embed-xml="true" fetch="select"  lazy="true" name="gtnUitableComponentDetailses"  table="GTN_UITABLE_COMPONENT_DETAILS" cascade="all">
+            <key on-delete="noaction">
+                <column name="GTN_MODULE_COMPONENT_MASTER_SID"/>
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.security.GtnUitableComponentDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

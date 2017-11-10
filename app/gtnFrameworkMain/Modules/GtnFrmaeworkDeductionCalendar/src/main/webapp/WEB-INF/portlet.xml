@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+	version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+
+	<portlet>
+		<description> Price Schedule Portlet.</description>
+		<portlet-name>PriceSchedule</portlet-name>
+		<display-name>PriceSchedule</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkPriceSchedulePortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>PriceSchedule</title>
+			<short-title>Price Schedule</short-title>
+			<keywords>Price Schedule</keywords>
+		</portlet-info>
+	</portlet>
+
+
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>RebateSchedule</portlet-name>
+		<display-name>RebateSchedule</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkRebateSchedulePortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>RebateSchedule</title>
+			<short-title>Rebate Schedule</short-title>
+			<keywords>Rebate Schedule</keywords>
+		</portlet-info>
+	</portlet>
+
+	<portlet>
+		<description>RebatePlan</description>
+		<portlet-name>RebatePlan</portlet-name>
+		<display-name>RebatePlan</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkRebatePlanPortlet</value>
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+		<portlet-info>
+			<title>RebatePlan</title>
+			<short-title>Rebate Plan Master</short-title>
+			<keywords>Rebate Plan Master</keywords>
+		</portlet-info>
+
+	</portlet>
+
+	<portlet>
+		<description>DeductionCalendar</description>
+		<portlet-name>DeductionCalendar</portlet-name>
+		<display-name>DeductionCalendar</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkDeductionCalendarPortlet</value>
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+		<portlet-info>
+			<title>DeductionCalendar</title>
+			<short-title>Deduction Calendar</short-title>
+			<keywords>Deduction Calendar</keywords>
+		</portlet-info>
+
+	</portlet>
+
+
+	<portlet>
+		<description>Net Sales Formula.</description>
+		<portlet-name>NetSalesFormula</portlet-name>
+		<display-name>NetSalesFormula</display-name>
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkNetSalesFormulaPortlet</value>
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+		<portlet-info>
+			<title>NetSalesFormula</title>
+			<short-title>Net Sales Formula</short-title>
+			<keywords>Net Sales Formula</keywords>
+		</portlet-info>
+
+	</portlet>
+
+
+
+	<portlet>
+		<description>Compliance Deduction Rules.</description>
+		<portlet-name>ComplianceDeductionRules</portlet-name>
+		<display-name>ComplianceDeductionRules</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkComplianceAndDeductionRulesPortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>ComplianceDeductionRules</title>
+			<short-title>Compliance Deduction Rules</short-title>
+			<keywords>Compliance Deduction Rules</keywords>
+		</portlet-info>
+	</portlet>
+
+	<portlet>
+		<description>Relationship Builder.</description>
+		<portlet-name>RelationshipBuilder</portlet-name>
+		<display-name>RelationshipBuilder</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkRelationshipBuilderPortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>RelationshipBuilder</title>
+			<short-title>RelationshipBuilder</short-title>
+			<keywords>Relationship Builder</keywords>
+		</portlet-info>
+	</portlet>
+
+
+</portlet-app>

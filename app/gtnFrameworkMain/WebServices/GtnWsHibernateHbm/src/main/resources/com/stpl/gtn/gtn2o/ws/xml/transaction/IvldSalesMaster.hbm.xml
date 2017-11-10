@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 8, 2017 5:24:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldSalesMaster" table="IVLD_SALES_MASTER" schema="dbo">
+        <id name="ivldSalesMasterSid" type="int">
+            <column name="IVLD_SALES_MASTER_SID" />
+            <generator class="native" />
+        </id>
+        <property name="salesIntfid" type="string">
+            <column name="SALES_INTFID" not-null="true" />
+        </property>
+        <property name="salesId" type="string">
+            <column name="SALES_ID" length="200" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="200" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="200" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="200" />
+        </property>
+        <property name="accountCodeQualifier" type="string">
+            <column name="ACCOUNT_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="parentItemId" type="string">
+            <column name="PARENT_ITEM_ID" length="200" />
+        </property>
+        <property name="parentItemNo" type="string">
+            <column name="PARENT_ITEM_NO" length="200" />
+        </property>
+        <property name="itemUom" type="string">
+            <column name="ITEM_UOM" length="200" />
+        </property>
+        <property name="docType" type="string">
+            <column name="DOC_TYPE" length="200" />
+        </property>
+        <property name="orderNumber" type="string">
+            <column name="ORDER_NUMBER" length="200" />
+        </property>
+        <property name="invoiceNumber" type="string">
+            <column name="INVOICE_NUMBER" length="200" />
+        </property>
+        <property name="invoiceLineNumber" type="string">
+            <column name="INVOICE_LINE_NUMBER" length="200" />
+        </property>
+        <property name="invoiceDate" type="string">
+            <column name="INVOICE_DATE" length="200" />
+        </property>
+        <property name="orderType" type="string">
+            <column name="ORDER_TYPE" length="200" />
+        </property>
+        <property name="orderSubtype" type="string">
+            <column name="ORDER_SUBTYPE" length="200" />
+        </property>
+        <property name="analysisCode" type="string">
+            <column name="ANALYSIS_CODE" length="200" />
+        </property>
+        <property name="priceAdjustmentName" type="string">
+            <column name="PRICE_ADJUSTMENT_NAME" length="200" />
+        </property>
+        <property name="recordSequence" type="string">
+            <column name="RECORD_SEQUENCE" length="200" />
+        </property>
+        <property name="price" type="string">
+            <column name="PRICE" length="200" />
+        </property>
+        <property name="quantity" type="string">
+            <column name="QUANTITY" length="200" />
+        </property>
+        <property name="lotNo" type="string">
+            <column name="LOT_NO" length="200" />
+        </property>
+        <property name="amount" type="string">
+            <column name="AMOUNT" length="200" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="200" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="CONTRACT_NO" length="200" />
+        </property>
+        <property name="accountType" type="string">
+            <column name="ACCOUNT_TYPE" length="200" />
+        </property>
+        <property name="customerSubtype" type="string">
+            <column name="CUSTOMER_SUBTYPE" length="200" />
+        </property>
+        <property name="wholesaleOwnerId" type="string">
+            <column name="WHOLESALE_OWNER_ID" length="200" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="ACCOUNT_NO" length="200" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="ACCOUNT_NAME" length="200" />
+        </property>
+        <property name="identifierCodeQualifier" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="customerCompanyCode" type="string">
+            <column name="CUSTOMER_COMPANY_CODE" length="200" />
+        </property>
+        <property name="isActive" type="string">
+            <column name="IS_ACTIVE" length="200" />
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="200" />
+        </property>
+        <property name="divisionId" type="string">
+            <column name="DIVISION_ID" length="200" />
+        </property>
+        <property name="marketId" type="string">
+            <column name="MARKET_ID" length="200" />
+        </property>
+        <property name="brandId" type="string">
+            <column name="BRAND_ID" length="200" />
+        </property>
+        <property name="uploadDate" type="string">
+            <column name="UPLOAD_DATE" length="200" />
+        </property>
+        <property name="orderReceivedDate" type="string">
+            <column name="ORDER_RECEIVED_DATE" length="200" />
+        </property>
+        <property name="provisionId" type="string">
+            <column name="PROVISION_ID" length="200" />
+        </property>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="2000" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="500" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+    </class>
+</hibernate-mapping>

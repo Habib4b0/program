@@ -1,0 +1,87 @@
+IF EXISTS (SELECT 'X'
+           FROM   INFORMATION_SCHEMA.VIEWS
+           WHERE  TABLE_NAME = 'VW_ADJUST_DEMAND_FORECAST_ACT'
+                  AND TABLE_SCHEMA = 'dbo')
+  BEGIN
+      DROP VIEW [dbo].[VW_ADJUST_DEMAND_FORECAST_ACT]
+  END
+
+GO
+
+CREATE VIEW [dbo].[VW_ADJUST_DEMAND_FORECAST_ACT]
+AS
+  SELECT    ADJUSTED_DEMAND_FORECAST_SID AS ADJUSTED_DEMAND_FORECAST_ID,
+            FORECAST_NAME,
+            FORECAST_TYPE,
+            FORECAST_VER                 AS FORECAST_VERSION,
+            YEAR,
+            MONTH,
+            ADF.ITEM_ID,
+            ITEM_NAME,
+            ADF.BRAND_ID,
+            BRAND_NAME,
+            SEGMENT,
+            MARKET_SIZE_UNITS,
+            MARKET_SHARE_RATIO,
+            MARKET_SHARE_UNITS,
+            UNCAPTURED_UNITS,
+            UNCAPTURED_UNITS_RATIO,
+            TOTAL_DEMAND_UNITS           AS TOTAL_ADJUSTED_DEMAND_UNITS,
+            TOTAL_DEMAND_AMOUNT          AS TOTAL_ADJUSTED_DEMAND_AMOUNT,
+            INVENTORY_UNIT_CHANGE,
+            GROSS_UNITS,
+            GROSS_PRICE,
+            GROSS_AMOUNT,
+            NET_SALES_PRICE,
+            NET_SALES_AMOUNT,
+            CM.COMPANY_NO                BUSINESS_UNIT_NO,
+            CM.COMPANY_NAME              BUSINESS_UNIT_NAME,
+            ADF.BATCH_ID,
+            ADF.SOURCE,
+            ADF.COUNTRY,
+            ADF.ORGANIZATION_KEY,
+            1                            AS IS_FORECAST,
+			(select HELPER_TABLE_SID from HELPER_TABLE where list_name ='FORECAST_TYPE' and description='projections') as ADJ_DEMAND_FORECAST_TYPE_SID
+  FROM      ADJUSTED_DEMAND_FORECAST ADF
+  LEFT JOIN BRAND_MASTER BM ON BM.BRAND_ID = ADF.BRAND_ID
+  LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = ADF.ORGANIZATION_KEY
+  LEFT JOIN ITEM_MASTER IM ON IM.ITEM_ID = ADF.ITEM_ID
+  UNION ALL
+  SELECT    ADJUSTED_DEMAND_ACTUAL_SID AS ADJUSTED_DEMAND_FORECAST_ID,
+            NULL                       FORECAST_NAME,
+            FORECAST_TYPE,
+            NULL                       FORECAST_VER,
+            FORECAST_YEAR              AS YEAR,
+            FORECAST_MONTH             AS MONTH,
+            ADF.ITEM_ID,
+            ITEM_NAME,
+            ADF.BRAND_ID,
+            BRAND_NAME,
+            SEGMENT,
+            MARKET_SIZE_UNITS,
+            MARKET_SHARE_RATIO,
+            MARKET_SHARE_UNITS,
+            NULL                       UNCAPTURED_UNITS,
+            NULL                       UNCAPTURED_UNITS_RATIO,
+            TOTAL_DEMAND_UNITS         AS TOTAL_ADJUSTED_DEMAND_UNITS,
+            TOTAL_DEMAND_AMOUNT        AS TOTAL_ADJUSTED_DEMAND_AMOUNT,
+            NULL                       AS INVENTORY_UNIT_CHANGE,
+            GROSS_UNITS,
+            GROSS_PRICE,
+            GROSS_AMOUNT,
+            NET_SALES_PRICE,
+            NET_SALES_AMOUNT,
+            CM.COMPANY_NO              BUSINESS_UNIT_NO,
+            CM.COMPANY_NAME            BUSINESS_UNIT_NAME,
+            ADF.BATCH_ID,
+            ADF.SOURCE,
+            ADF.COUNTRY,
+            ADF.ORGANIZATION_KEY,
+            0                          AS IS_FORECAST,
+			(select HELPER_TABLE_SID from HELPER_TABLE where list_name ='FORECAST_TYPE' and description='Actuals') as ADJ_DEMAND_FORECAST_TYPE_SID
+  FROM      ADJUSTED_DEMAND_ACTUAL ADF
+  LEFT JOIN BRAND_MASTER BM ON BM.BRAND_ID = ADF.BRAND_ID
+  LEFT JOIN COMPANY_MASTER CM ON CM.COMPANY_ID = ADF.ORGANIZATION_KEY
+  LEFT JOIN ITEM_MASTER IM ON IM.ITEM_ID = ADF.ITEM_ID
+
+GO 

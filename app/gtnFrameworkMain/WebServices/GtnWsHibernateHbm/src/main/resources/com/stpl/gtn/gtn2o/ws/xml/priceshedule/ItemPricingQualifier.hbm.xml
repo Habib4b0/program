@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.priceshedule.ItemPricingQualifier"
+		table="ITEM_PRICING_QUALIFIER" schema="dbo">
+		<id name="itemPricingQualifierSid" type="int">
+			<column name="ITEM_PRICING_QUALIFIER_SID" />
+			<generator class="native" />
+		</id>
+		<property name="pricingQualifier" type="string">
+			<column name="PRICING_QUALIFIER" length="25" not-null="true"
+				unique="true" />
+		</property>
+		<property name="itemPricingQualifierName" type="string">
+			<column name="ITEM_PRICING_QUALIFIER_NAME" length="100" />
+		</property>
+		<property name="effectiveDates" type="string">
+			<column name="EFFECTIVE_DATES" length="10" />
+		</property>
+		<property name="specificEntityCode" type="string">
+			<column name="SPECIFIC_ENTITY_CODE" length="10" />
+		</property>
+		<property name="notes" type="string">
+			<column name="NOTES" length="1000" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="psDetailses" table="PS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ITEM_PRICING_QUALIFIER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.PsDetails" />
+		</set>
+		<set name="psContractDetailses" table="PS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="ITEM_PRICING_QUALIFIER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

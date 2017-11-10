@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 28, 2017 5:44:25 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.filemanagement.FileManagement" table="FILE_MANAGEMENT" schema="dbo" >
+        <id name="fileManagementSid" type="int">
+            <column name="FILE_MANAGEMENT_SID" />
+            <generator class="native" />
+        </id>
+        <property name="version" type="string">
+            <column name="VERSION" length="15" />
+        </property>
+        <many-to-one name="companyMaster" class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" fetch="select">
+            <column name="BUSINESS_UNIT" />
+        </many-to-one>
+        <many-to-one name="helperTable" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="COUNTRY" />
+        </many-to-one>
+        <property name="forecastName" type="string">
+            <column name="FORECAST_NAME" length="50" />
+        </property>
+        <property name="forecastSource" type="string">
+            <column name="FORECAST_SOURCE" length="100" />
+        </property>
+        <property name="fileSource" type="string">
+            <column name="FILE_SOURCE" length="50" />
+        </property>
+        <property name="fromPeriod" type="timestamp">
+            <column name="FROM_PERIOD" length="23" />
+        </property>
+        <property name="toPeriod" type="timestamp">
+            <column name="TO_PERIOD" length="23" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="CREATED_BY" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="int">
+            <column name="MODIFIED_BY" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="versionNo" type="int">
+            <column name="VERSION_NO" not-null="true" />
+        </property>
+        <property name="fileType" type="java.lang.Integer">
+            <column name="FILE_TYPE" />
+        </property>
+        <property name="company" type="java.lang.Integer">
+            <column name="COMPANY" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 30, 2017 5:00:58 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagPriceSchedule" table="STAG_PRICE_SCHEDULE" schema="dbo" >
+        <id name="stagPriceScheduleSid" type="int">
+            <column name="STAG_PRICE_SCHEDULE_SID" />
+            <generator class="native" />
+        </id>
+        <property name="priceScheduleIntfid" type="string">
+            <column name="PRICE_SCHEDULE_INTFID" precision="38" scale="0" not-null="true" />
+        </property>
+        <property name="priceScheduleId" type="string">
+            <column name="PRICE_SCHEDULE_ID" length="38" not-null="true" />
+        </property>
+        <property name="priceScheduleNo" type="string">
+            <column name="PRICE_SCHEDULE_NO" length="50" />
+        </property>
+        <property name="priceScheduleName" type="string">
+            <column name="PRICE_SCHEDULE_NAME" length="100" />
+        </property>
+        <property name="priceScheduleType" type="string">
+            <column name="PRICE_SCHEDULE_TYPE" length="50" />
+        </property>
+        <property name="priceScheduleCategory" type="string">
+            <column name="PRICE_SCHEDULE_CATEGORY" length="50" />
+        </property>
+        <property name="tradeClass" type="string">
+            <column name="TRADE_CLASS" length="100" />
+        </property>
+        <property name="priceScheduleDesignation" type="string">
+            <column name="PRICE_SCHEDULE_DESIGNATION" length="50" />
+        </property>
+        <property name="parentPriceScheduleId" type="string">
+            <column name="PARENT_PRICE_SCHEDULE_ID" length="50" />
+        </property>
+        <property name="parentPriceScheduleName" type="string">
+            <column name="PARENT_PRICES_CHEDULE_NAME" length="100" />
+        </property>
+        <property name="priceScheduleStatus" type="string">
+            <column name="PRICE_SCHEDULE_STATUS" length="20" not-null="true" />
+        </property>
+        <property name="priceScheduleStartDate" type="string">
+            <column name="PRICE_SCHEDULE_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="priceScheduleEndDate" type="string">
+            <column name="PRICE_SCHEDULE_END_DATE" length="23" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="38" not-null="true" />
+        </property>
+        <property name="identifierCodeQualifier" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER" length="20" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="attachedStatus" type="string">
+            <column name="ATTACHED_STATUS" length="20" not-null="true" />
+        </property>
+        <property name="attachedDate" type="string">
+            <column name="ATTACHED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="contractPriceStartDate" type="string">
+            <column name="CONTRACT_PRICE_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="contractPriceEndDate" type="string">
+            <column name="CONTRACT_PRICE_END_DATE" length="23" />
+        </property>
+        <property name="priceType" type="string">
+            <column name="PRICE_TYPE" length="50" not-null="true" />
+        </property>
+        <property name="contractPrice" type="string">
+            <column name="CONTRACT_PRICE" precision="20" scale="6" />
+        </property>
+        <property name="priceRevision" type="string">
+            <column name="PRICE_REVISION" precision="20" scale="6" />
+        </property>
+        <property name="revisionDate" type="string">
+            <column name="REVISION_DATE" length="23" />
+        </property>
+        <property name="priceProtectionStartDate" type="string">
+            <column name="PRICE_PROTECTION_START_DATE" length="23" />
+        </property>
+        <property name="priceProtectionEndDate" type="string">
+            <column name="PRICE_PROTECTION_END_DATE" length="23" />
+        </property>
+        <property name="priceToleranceType" type="string">
+            <column name="PRICE_TOLERANCE_TYPE" length="50" />
+        </property>
+        <property name="priceTolerance" type="string">
+            <column name="PRICE_TOLERANCE" precision="20" scale="6" />
+        </property>
+        <property name="basePrice" type="string">
+            <column name="BASE_PRICE" precision="20" scale="6" />
+        </property>
+        <property name="priceToleranceFrequency" type="string">
+            <column name="PRICE_TOLERANCE_FREQUENCY" length="50" />
+        </property>
+        <property name="priceToleranceInterval" type="string">
+            <column name="PRICE_TOLERANCE_INTERVAL" precision="38" scale="0" />
+        </property>
+        <property name="pricePlanId" type="string">
+            <column name="PRICE_PLAN_ID" length="38" />
+        </property>
+        <property name="pricePlanName" type="string">
+            <column name="PRICE_PLAN_NAME" length="100" />
+        </property>
+        <property name="suggestedPrice" type="string">
+            <column name="SUGGESTED_PRICE" precision="20" scale="6" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="50" not-null="true" />
+        </property>
+        <property name="cfpId" type="string">
+            <column name="CFP_ID" length="50" />
+        </property>
+        <property name="mfpId" type="string">
+            <column name="MFP_ID" length="50" />
+        </property>
+        <property name="ifpId" type="string">
+            <column name="IFP_ID" length="50" not-null="true" />
+        </property>
+        <property name="price" type="string">
+            <column name="PRICE" precision="20" scale="6" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

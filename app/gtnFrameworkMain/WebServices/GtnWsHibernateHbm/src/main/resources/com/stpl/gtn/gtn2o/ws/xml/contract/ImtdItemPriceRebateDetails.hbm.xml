@@ -1,0 +1,352 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Apr 6, 2017 5:44:11 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.contract.ImtdItemPriceRebateDetails"
+		table="IMTD_ITEM_PRICE_REBATE_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="imtdItemPriceRebateSid" type="int">
+			<column name="IMTD_ITEM_PRICE_REBATE_SID" />
+			<generator class="native" />
+		</id>
+		<property name="itemMasterSid" type="java.lang.Integer">
+			<column name="ITEM_MASTER_SID" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="38" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="100" />
+		</property>
+		<property name="itemType" type="java.lang.Integer">
+			<column name="ITEM_TYPE" />
+		</property>
+		<property name="contractMasterSid" type="java.lang.Integer">
+			<column name="CONTRACT_MASTER_SID" />
+		</property>
+		<property name="cfpModelSid" type="java.lang.Integer">
+			<column name="CFP_MODEL_SID" />
+		</property>
+		<property name="ifpModelSid" type="java.lang.Integer">
+			<column name="IFP_MODEL_SID" />
+		</property>
+		<property name="psModelSid" type="java.lang.Integer">
+			<column name="PS_MODEL_SID" />
+		</property>
+		<property name="rebateAmount" type="big_decimal">
+			<column name="REBATE_AMOUNT" precision="22" scale="6" />
+		</property>
+		<property name="rsModelSid" type="java.lang.Integer">
+			<column name="RS_MODEL_SID" />
+		</property>
+		<property name="rebateScheduleType" type="string">
+			<column name="REBATE_SCHEDULE_TYPE" length="25" />
+		</property>
+		<property name="rebateProgramType" type="java.lang.Integer">
+			<column name="REBATE_PROGRAM_TYPE" />
+		</property>
+		<property name="udc1" type="java.lang.Integer">
+			<column name="UDC1" />
+		</property>
+		<property name="udc2" type="java.lang.Integer">
+			<column name="UDC2" />
+		</property>
+		<property name="udc3" type="java.lang.Integer">
+			<column name="UDC3" />
+		</property>
+		<property name="udc4" type="java.lang.Integer">
+			<column name="UDC4" />
+		</property>
+		<property name="udc5" type="java.lang.Integer">
+			<column name="UDC5" />
+		</property>
+		<property name="udc6" type="java.lang.Integer">
+			<column name="UDC6" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="23" />
+		</property>
+		<property name="endDate" type="timestamp">
+			<column name="END_DATE" length="23" />
+		</property>
+		<property name="attachedStatus" type="java.lang.Integer">
+			<column name="ATTACHED_STATUS" />
+		</property>
+		<property name="attachedDate" type="timestamp">
+			<column name="ATTACHED_DATE" length="23" />
+		</property>
+		<property name="contractPriceStartDate" type="timestamp">
+			<column name="CONTRACT_PRICE_START_DATE" length="23" />
+		</property>
+		<property name="contractPriceEndDate" type="timestamp">
+			<column name="CONTRACT_PRICE_END_DATE" length="23" />
+		</property>
+		<property name="priceType" type="java.lang.Integer">
+			<column name="PRICE_TYPE" />
+		</property>
+		<property name="contractPrice" type="big_decimal">
+			<column name="CONTRACT_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="priceRevision" type="big_decimal">
+			<column name="PRICE_REVISION" precision="22" scale="6" />
+		</property>
+		<property name="itemPriceRevisionDate" type="timestamp">
+			<column name="ITEM_PRICE_REVISION_DATE" length="23" />
+		</property>
+		<property name="priceProtectionStartDate" type="timestamp">
+			<column name="PRICE_PROTECTION_START_DATE" length="23" />
+		</property>
+		<property name="priceProtectionEndDate" type="timestamp">
+			<column name="PRICE_PROTECTION_END_DATE" length="23" />
+		</property>
+		<property name="priceToleranceType" type="java.lang.Integer">
+			<column name="PRICE_TOLERANCE_TYPE" />
+		</property>
+		<property name="priceTolerance" type="big_decimal">
+			<column name="PRICE_TOLERANCE" precision="22" scale="6" />
+		</property>
+		<property name="basePrice" type="big_decimal">
+			<column name="BASE_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="priceToleranceFrequency" type="java.lang.Integer">
+			<column name="PRICE_TOLERANCE_FREQUENCY" />
+		</property>
+		<property name="priceToleranceInterval" type="java.lang.Integer">
+			<column name="PRICE_TOLERANCE_INTERVAL" />
+		</property>
+		<property name="pricePlanId" type="string">
+			<column name="PRICE_PLAN_ID" length="38" />
+		</property>
+		<property name="rsDetailsSid" type="java.lang.Integer">
+			<column name="RS_DETAILS_SID" />
+		</property>
+		<property name="psDetailsSid" type="java.lang.Integer">
+			<column name="PS_DETAILS_SID" />
+		</property>
+		<property name="ifpDetailsSid" type="java.lang.Integer">
+			<column name="IFP_DETAILS_SID" />
+		</property>
+		<property name="psStatus" type="java.lang.Integer">
+			<column name="PS_STATUS" />
+		</property>
+		<property name="rsCheckRecord" type="java.lang.Boolean">
+			<column name="RS_CHECK_RECORD" />
+		</property>
+		<property name="rsAttachedStatus" type="java.lang.Integer">
+			<column name="RS_ATTACHED_STATUS" />
+		</property>
+		<property name="rsAttachedDate" type="timestamp">
+			<column name="RS_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="itemRebateStartDate" type="timestamp">
+			<column name="ITEM_REBATE_START_DATE" length="23" />
+		</property>
+		<property name="itemRebateEndDate" type="timestamp">
+			<column name="ITEM_REBATE_END_DATE" length="23" />
+		</property>
+		<property name="rebatePlanSystemId" type="java.lang.Integer">
+			<column name="REBATE_PLAN_SYSTEM_ID" />
+		</property>
+		<property name="totalVolumeCommitment" type="big_decimal">
+			<column name="TOTAL_VOLUME_COMMITMENT" precision="22" scale="6" />
+		</property>
+		<property name="totalDollarCommitment" type="big_decimal">
+			<column name="TOTAL_DOLLAR_COMMITMENT" precision="22" scale="6" />
+		</property>
+		<property name="totalMarketShareCommitmnet" type="big_decimal">
+			<column name="TOTAL_MARKET_SHARE_COMMITMNET" precision="22"
+				scale="6" />
+		</property>
+		<property name="commitmentPeriod" type="string">
+			<column name="COMMITMENT_PERIOD" length="50" />
+		</property>
+		<property name="suggestedPrice" type="big_decimal">
+			<column name="SUGGESTED_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="price" type="big_decimal">
+			<column name="PRICE" precision="22" scale="6" />
+		</property>
+		<property name="recordLockStatus" type="string">
+			<column name="RECORD_LOCK_STATUS" length="20" />
+		</property>
+		<property name="rebateRevisionDate" type="timestamp">
+			<column name="REBATE_REVISION_DATE" length="23" />
+		</property>
+		<property name="bundleNo" type="string">
+			<column name="BUNDLE_NO" length="50" />
+		</property>
+		<property name="formulaMethodId" type="string">
+			<column name="FORMULA_METHOD_ID" length="50" />
+		</property>
+		<property name="formulaId" type="string">
+			<column name="FORMULA_ID" length="38" />
+		</property>
+		<property name="formulaName" type="string">
+			<column name="FORMULA_NAME" length="50" />
+		</property>
+		<property name="usersSid" type="java.lang.Integer">
+			<column name="USERS_SID" />
+		</property>
+		<property name="sessionId" type="string">
+			<column name="SESSION_ID" length="100" />
+		</property>
+		<property name="checkRecord" type="java.lang.Boolean">
+			<column name="CHECK_RECORD" />
+		</property>
+		<property name="imtdCreatedDate" type="timestamp">
+			<column name="IMTD_CREATED_DATE" length="23" />
+		</property>
+		<property name="operation" type="string">
+			<column name="OPERATION" length="100" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="primaryUom" type="java.lang.Integer">
+			<column name="PRIMARY_UOM" />
+		</property>
+		<property name="packageSize" type="string">
+			<column name="PACKAGE_SIZE" length="100" />
+		</property>
+		<property name="deductionCalendarMasterSid" type="java.lang.Integer">
+			<column name="DEDUCTION_CALENDAR_MASTER_SID" />
+		</property>
+		<property name="basePriceDdlb" type="java.lang.Integer">
+			<column name="BASE_PRICE_DDLB" />
+		</property>
+		<property name="rsContractDetailsRebatePlanName" type="string">
+			<column name="RS_CONTRACT_DETAILS_REBATE_PLAN_NAME" length="50" />
+		</property>
+		<property name="rsContractDetailsFormulaNo" type="string">
+			<column name="RS_CONTRACT_DETAILS_FORMULA_NO" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="rsContractDetailsDeductionCalendarNo" type="string">
+			<column name="RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NO"
+				length="50" />
+		</property>
+		<property name="rsContractDetailsDeductionCalendarName" type="string">
+			<column name="RS_CONTRACT_DETAILS_DEDUCTION_CALENDAR_NAME"
+				length="50" />
+		</property>
+		<property name="netSalesFormulaMasterSid" type="java.lang.Integer">
+			<column name="NET_SALES_FORMULA_MASTER_SID" />
+		</property>
+		<property name="rsContractDetailsNetSalesFormulaNo" type="string">
+			<column name="RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NO"
+				length="50" />
+		</property>
+		<property name="rsContractDetailsNetSalesFormulaName" type="string">
+			<column name="RS_CONTRACT_DETAILS_NET_SALES_FORMULA_NAME"
+				length="50" />
+		</property>
+		<property name="formulaType" type="big_decimal">
+			<column name="FORMULA_TYPE" precision="22" scale="6" />
+		</property>
+		<property name="netSalesRule" type="java.lang.Integer">
+			<column name="NET_SALES_RULE" />
+		</property>
+		<property name="evaluationRule" type="java.lang.Integer">
+			<column name="EVALUATION_RULE" />
+		</property>
+		<property name="evaluationRuleBundle" type="string">
+			<column name="EVALUATION_RULE_BUNDLE" length="100" />
+		</property>
+		<property name="calculationRule" type="java.lang.Integer">
+			<column name="CALCULATION_RULE" />
+		</property>
+		<property name="calculationRuleBundle" type="string">
+			<column name="CALCULATION_RULE_BUNDLE" length="100" />
+		</property>
+		<property name="maxIncrementalChange" type="big_decimal">
+			<column name="MAX_INCREMENTAL_CHANGE" precision="22" scale="6" />
+		</property>
+		<property name="resetEligible" type="java.lang.Integer">
+			<column name="RESET_ELIGIBLE" />
+		</property>
+		<property name="resetType" type="java.lang.Integer">
+			<column name="RESET_TYPE" />
+		</property>
+		<property name="resetDate" type="timestamp">
+			<column name="RESET_DATE" length="23" />
+		</property>
+		<property name="resetInterval" type="java.lang.Integer">
+			<column name="RESET_INTERVAL" />
+		</property>
+		<property name="resetFrequency" type="java.lang.Integer">
+			<column name="RESET_FREQUENCY" />
+		</property>
+		<property name="netPriceType" type="java.lang.Integer">
+			<column name="NET_PRICE_TYPE" />
+		</property>
+		<property name="netPriceTypeFormula" type="java.lang.Integer">
+			<column name="NET_PRICE_TYPE_FORMULA" />
+		</property>
+		<property name="priceProtectionPriceType" type="java.lang.Integer">
+			<column name="PRICE_PROTECTION_PRICE_TYPE" />
+		</property>
+		<property name="nep" type="big_decimal">
+			<column name="NEP" precision="22" scale="6" />
+		</property>
+		<property name="nepFormula" type="java.lang.Integer">
+			<column name="NEP_FORMULA" />
+		</property>
+		<property name="brandMasterSid" type="java.lang.Integer">
+			<column name="BRAND_MASTER_SID" />
+		</property>
+		<property name="priceProtectionStatus" type="java.lang.Integer">
+			<column name="PRICE_PROTECTION_STATUS" />
+		</property>
+		<property name="basePriceType" type="java.lang.Integer">
+			<column name="BASE_PRICE_TYPE" />
+		</property>
+		<property name="basePriceEntry" type="big_decimal">
+			<column name="BASE_PRICE_ENTRY" precision="22" scale="6" />
+		</property>
+		<property name="basePriceDate" type="timestamp">
+			<column name="BASE_PRICE_DATE" length="23" />
+		</property>
+		<property name="bestPriceDdlb" type="java.lang.Integer">
+			<column name="BEST_PRICE_DDLB" />
+		</property>
+		<property name="netBasePrice" type="java.lang.Integer">
+			<column name="NET_BASE_PRICE" />
+		</property>
+		<property name="netBasePriceFormulaId" type="java.lang.Integer">
+			<column name="NET_BASE_PRICE_FORMULA_ID" />
+		</property>
+		<property name="subsequentPeriodPriceType" type="java.lang.Integer">
+			<column name="SUBSEQUENT_PERIOD_PRICE_TYPE" />
+		</property>
+		<property name="netSubsequentPeriodPrice" type="java.lang.Integer">
+			<column name="NET_SUBSEQUENT_PERIOD_PRICE" />
+		</property>
+		<property name="netSubsequentPriceFormulaId" type="java.lang.Integer">
+			<column name="NET_SUBSEQUENT_PRICE_FORMULA_ID" />
+		</property>
+		<property name="resetPriceType" type="java.lang.Integer">
+			<column name="RESET_PRICE_TYPE" />
+		</property>
+		<property name="netResetPriceType" type="java.lang.Integer">
+			<column name="NET_RESET_PRICE_TYPE" />
+		</property>
+		<property name="netResetPriceFormulaId" type="java.lang.Integer">
+			<column name="NET_RESET_PRICE_FORMULA_ID" />
+		</property>
+	</class>
+</hibernate-mapping>

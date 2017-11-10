@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sql>
+	<entity id="loadDeductionValue">
+		<query>
+            <![CDATA[
+             DECLARE
+       @PROJECTION INT=?
+            SELECT DISTINCT 
+                   ?
+            FROM   RS_CONTRACT A
+            LEFT JOIN ARM_ADJUSTMENT_DETAILS DS ON A.RS_MODEL_SID=DS.RS_MODEL_SID
+            LEFT JOIN UDCS U ON U.MASTER_SID=A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+            WHERE 
+             DS.PROJECTION_MASTER_SID=@PROJECTION
+             AND CONTRACT_MASTER_SID IN (SELECT DISTINCT CONTRACT_MASTER_SID 
+                                   FROM   ARM_ADJUSTMENT_DETAILS AD 
+                                          JOIN CCP_DETAILS CD 
+                                            ON 
+                                  AD.CCP_DETAILS_SID = CD.CCP_DETAILS_SID 
+                                   WHERE  PROJECTION_MASTER_SID = @PROJECTION) 
+                                   ?
+                       ]]>
+		</query>
+	</entity>
+
+</sql>

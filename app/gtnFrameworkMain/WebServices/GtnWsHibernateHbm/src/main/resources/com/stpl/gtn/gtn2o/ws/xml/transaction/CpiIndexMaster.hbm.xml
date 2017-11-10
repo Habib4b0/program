@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 15, 2017 3:45:55 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.CpiIndexMaster"
+		table="CPI_INDEX_MASTER" schema="dbo">
+		<id name="cpiIndexMasterSid" type="int">
+			<column name="CPI_INDEX_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<many-to-one name="status"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" lazy="false" fetch="select">
+			<column name="STATUS" />
+		</many-to-one>
+		<property name="indexId" type="string">
+			<column name="INDEX_ID" unique="true" />
+		</property>
+		<property name="indexType" type="string">
+			<column name="INDEX_TYPE" length="50" />
+		</property>
+		<property name="effectiveDate" type="timestamp">
+			<column name="EFFECTIVE_DATE" length="23" />
+		</property>
+		<property name="indexValue" type="double">
+			<column name="INDEX_VALUE" precision="22" scale="6"/>
+		</property>
+		<property name="inboundStatus" type="java.lang.Character">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

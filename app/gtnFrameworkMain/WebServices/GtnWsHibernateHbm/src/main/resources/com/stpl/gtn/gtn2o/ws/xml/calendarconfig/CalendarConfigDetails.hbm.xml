@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2017 3:27:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.calendarconfig.CalendarConfigDetails" table="CALENDAR_CONFIG_DETAILS" schema="dbo"
+    optimistic-lock="version">
+        <id name="calendarConfigDetailsSid" type="int">
+            <column name="CALENDAR_CONFIG_DETAILS_SID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="calendarConfigMaster" class="com.stpl.gtn.gtn2o.ws.entity.calendarconfig.CalendarConfigMaster" fetch="select">
+            <column name="CALENDAR_CONFIG_MASTER_SID" not-null="true" />
+        </many-to-one>
+        <property name="holidaysPeriodDate" type="timestamp">
+            <column name="HOLIDAYS_PERIOD_DATE" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

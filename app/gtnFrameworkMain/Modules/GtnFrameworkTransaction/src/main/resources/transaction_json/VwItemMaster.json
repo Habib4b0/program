@@ -1,0 +1,638 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": " ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemNo",
+		"columnName": "Item No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemDesc",
+		"columnName": "Item Desc",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "form",
+		"columnName": "Form",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "FORM",
+		"loadDescription": true
+	},
+	{
+		"columnID": "strength",
+		"columnName": "Strength",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STRENGTH",
+		"loadDescription": true
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "brand",
+		"columnName": "Brand",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "labelerCode",
+		"columnName": "Labeler Code",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "ndc9",
+		"columnName": "NDC9",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "ndc8",
+		"columnName": "NDC8",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemCategory",
+		"columnName": "Item Category",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "ITEM_CATEGORY",
+		"loadDescription": true
+	},
+	{
+		"columnID": "therapeuticClass",
+		"columnName": "Therapeutic Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "THERAPEUTIC_CLASS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "itemType",
+		"columnName": "Item Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "ITEM_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemStartDate",
+		"columnName": "Item Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "itemStatus",
+		"columnName": "Item Status",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemEndDate",
+		"columnName": "Item End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "itemCode",
+		"columnName": "Item Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemClass",
+		"columnName": "Item Class",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "packageSize",
+		"columnName": "Package Size",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "packageSizeCode",
+		"columnName": "Package Size Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "packageSizeIntroDate",
+		"columnName": "Package Size Intro Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "upps",
+		"columnName": "UPPS",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "manufacturerId",
+		"columnName": "Manufacturer ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "manufacturerNo",
+		"columnName": "Manufacturer No",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "manufacturerName",
+		"columnName": "Manufacturer Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "acquisitionDate",
+		"columnName": "Acquisition Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "authorizedGeneric",
+		"columnName": "Authorized Generic",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "authorizedGenericStartDate",
+		"columnName": "Authorized Generic Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "authorizedGenericEndDate",
+		"columnName": "Authorized Generic End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "firstSaleDate",
+		"columnName": "First Sale Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "itemTypeIndication",
+		"columnName": "Item Type Indication",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "marketTerminationDate",
+		"columnName": "Market Termination Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "newFormulationIndicator",
+		"columnName": "New Formulation Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "newFormulation",
+		"columnName": "New Formulation",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "newFormulationStartDate",
+		"columnName": "New Formulation Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "newFormulationEndDate",
+		"columnName": "New Formulation End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "pediatricExclusiveIndicator",
+		"columnName": "Pediatric Exclusive Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "pediatricExclusiveStartDate",
+		"columnName": "Pediatric Exclusive Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "pediatricExclusiveEndDate",
+		"columnName": "Pediatric Exclusive End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "clottingFactorIndicator",
+		"columnName": "Clotting Factor Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "clottingFactorStartDate",
+		"columnName": "Clotting Factor Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "clottingFactorEndDate",
+		"columnName": "Clotting Factor End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "primaryUom",
+		"columnName": "Primary UOM",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "secondaryUom",
+		"columnName": "Secondary UOM",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "shelfLife",
+		"columnName": "Shelf Life",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "shelfLifeType",
+		"columnName": "Shelf Life Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "dualPricingIndicator",
+		"columnName": "Dual Pricing Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemFamilyId",
+		"columnName": "Item Family ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc1",
+		"columnName": "UDC1",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc2",
+		"columnName": "UDC2",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc3",
+		"columnName": "UDC3",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc4",
+		"columnName": "UDC4",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc5",
+		"columnName": "UDC5",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "udc6",
+		"columnName": "UDC6",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "acquiredAmp",
+		"columnName": "Acquired AMP",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "acquiredBamp",
+		"columnName": "Acquired BAMP",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "obraBamp",
+		"columnName": "OBRA BAMP",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "dra",
+		"columnName": "DRA",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "dosesPerUnit",
+		"columnName": "Doses Per Unit",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "discontinuationDate",
+		"columnName": "Discontinuation Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "lastLotExpirationDate",
+		"columnName": "Last Lot Expiration Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "divestitureDate",
+		"columnName": "Divestiture Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "displayBrand",
+		"columnName": "Display Brand",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "nonFederalExpirationDate",
+		"columnName": "Non Federal Expiration Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "baselineAmp",
+		"columnName": "Baseline AMP",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "baseCpiPeriod",
+		"columnName": "Base CPI Period",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "baseCpi",
+		"columnName": "Base CPI",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modfied By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemMasterIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

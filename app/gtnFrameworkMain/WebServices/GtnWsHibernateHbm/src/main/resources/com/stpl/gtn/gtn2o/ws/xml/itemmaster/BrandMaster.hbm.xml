@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.itemmaster.BrandMaster"
+		table="BRAND_MASTER" schema="dbo">
+		<id name="brandMasterSid" type="int">
+			<column name="BRAND_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" length="25" not-null="true" unique="true" />
+		</property>
+		<property name="brandName" type="string">
+			<column name="BRAND_NAME" length="100" />
+		</property>
+		<property name="displayBrand" type="string">
+			<column name="DISPLAY_BRAND" length="100" />
+		</property>
+		<property name="brandDesc" type="string">
+			<column name="BRAND_DESC" length="100" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="itemMasters" table="ITEM_MASTER" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="BRAND_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" />
+		</set>
+		<set name="psDetailses" table="PS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="BRAND_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.PsDetails" />
+		</set>
+		<set name="psContractDetailses" table="PS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="BRAND_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>
