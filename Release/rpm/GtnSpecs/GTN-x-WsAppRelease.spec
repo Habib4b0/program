@@ -33,6 +33,7 @@ echo $RPM_BUILD_ROOT
 echo $RPM_BUILD_DIR
 echo %{prefix}
 
+mkdir -p  $RPM_BUILD_ROOT%{prefix}/conf
 mkdir -p  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/standalone/deployments/
 mkdir -p $RPM_BUILD_ROOT%{prefix}/tempdeploy
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/tempdeploy
@@ -40,6 +41,21 @@ echo %{prefix}
 
 if [ -d "$RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_Server/"  ] ; then
 cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_Server/*   $RPM_BUILD_ROOT%{prefix}/
+cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_User_Configuration/*   $RPM_BUILD_ROOT%{prefix}/conf/
+
+#Moving JBOSS configurations
+
+cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/*  $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/
+
+# Create Log directories
+
+mkdir $RPM_BUILD_ROOT%{prefix}/logs/
+mkdir $RPM_BUILD_ROOT%{prefix}/logs/boot_temp
+mkdir  $RPM_BUILD_ROOT%{prefix}/logs/jboss-as2
+chmod -R 755 $RPM_BUILD_ROOT%{prefix}/*
+
+touch $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/jboss-as-standalone.pid
+chmod -R 777 $RPM_BUILD_ROOT%{prefix}/conf/jboss-as2/*
 cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_War/*  $RPM_BUILD_ROOT%{prefix}/tempdeploy
 chmod -R 777 $RPM_BUILD_ROOT%{prefix}/jboss-7.1.1/*
 else 
@@ -48,7 +64,14 @@ cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_War/* 
 
 fi
 
+%pre 
 
+   if [ -z "$DB_Host" ] 
+    then 
+   echo Required Environment variables not set Plese run . ./Profile_ws.sh
+   exit 1
+   fi
+ 
 %post
 echo given prefix $RPM_INSTALL_PREFIX
 install_path=$RPM_INSTALL_PREFIX
@@ -57,11 +80,10 @@ then
 install_path=%{prefix}
 fi
 chmod -R 755  $install_path/*
+if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then
 chown -R $APP_User:$Chown  $install_path
-if [ -z "$DB_Host" ] 
-then 
-echo "$DB_Host" not set
-else
+fi
+
 
 server_name=$(basename $install_path)
 INPUT=$install_path
@@ -80,19 +102,45 @@ rm -rf $install_path/jboss-7.1.1/standalone/deployments/$currentfile*
 fi
 done
 cp  $install_path/tempdeploy/* $install_path/jboss-7.1.1/standalone/deployments/
+ 
 standalone_xml_path=$install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+if grep -q GTN_FRAMEWORK_BASE_PATH "$install_path/jboss-7.1.1/standalone/configuration/standalone.xml"; then
 chmod 777 $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 sed -i 's/Base_Path/'$base_path'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 sed -i 's/Server_Name/'$server_name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/DB_IP/'$DB_Host'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's/DB_Host/'$DB_Host'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 sed -i 's/DB_User_Name/'$DB_User_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 sed -i 's=DB_Password='$DB_Password'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/APP_TST/'$DB_APP_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/SYS_TST/'$DB_SYS_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
-sed -i 's/BPM_TST/'$DB_BPM_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_APP_DB/'$DB_APP_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_SYS_DB/'$DB_SYS_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's/GTN_RPM_BPM_DB/'$DB_BPM_Name'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
 sed -i 's=GTN_FRAMEWORK_BASE_PATH='$Gtn_Framework_Base_path'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
- fi
-chown -R $APP_User:$Chown  $install_path
+sed -i 's='0.0.0.0'='127.0.0.1'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+sed -i 's='com.stpl.portal'='net.sourceforge.jtds'=g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+
+if [ -z "$PORT_OFFSET" ];
+then 
+PORT_OFFSET=0
+fi
+sed -i 's/PORT_OFFSET/'$PORT_OFFSET'/g' $install_path/jboss-7.1.1/standalone/configuration/standalone.xml
+
+#do_Jboss_Conf
+jboss_env_conf=$install_path/conf/jboss-as2/jboss-as.conf
+chmod 777  $jboss_env_conf
+ sed -i 's/Server_Name/'$server_name'/g' $jboss_env_conf
+ sed -i 's/Base_Path/'$base_path'/g' $jboss_env_conf
+ sed -i 's/CELAPP/'$APP_User'/g' $jboss_env_conf
+
+fi
+rm -rf $install_path/jboss-7.1.1/standalone/deployments/ROOT.war*
+chmod -R 750 $install_path
+chown -R $APP_User:$Chown $install_path
+chown -R $Web_Server_name:etl $install_path/logs
+chown $Web_Server_name:etl $install_path/jboss-7.1.1/
+chown $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/
+chown -R $Web_Server_name:etl $install_path/jboss-7.1.1/standalone/log
+chown $APP_User:etl $install_path
+
 %files
 
  %{prefix}/
