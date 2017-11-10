@@ -155,10 +155,11 @@ rm -rf $install_path/jboss-7.1.1/modules/common/service/parttwo/main/*.index
 fi
 
 # Replacing ETL Properties
+sed -i 's=Server_Path='$install_path'=g' $install_path/etl/Interface_Job/Scripts/*
 
 if [ -e $install_path/etl/Interface_Job/replace_dir_stu.txt ];
 then
-sh $install_path/etl/dir_struct.sh
+sh $install_path/etl/dir_struct.sh $install_path/etl
 rm -rf $install_path/etl/Interface_Job/replace_dir_stu.txt
 fi
 if [ -e $install_path/etl/Interface_Job/replace_etl_prop.txt ];
@@ -187,13 +188,14 @@ fi
 
 
 #  Moving Gtn Framework Wars
-app_file= $install_path/tempdeploy/
+app_file=$install_path/tempdeploy/
 FILES="$install_path/tempdeploy/Gtn*"
 for f in $FILES
 do
-        echo "Processing $f"
+if [ -e $f ] 
+then
+        echo "Deploying $f"
  currentfile=$(basename $f)
-      echo "current file $currentfile"
 if [ -e  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed ];
 then
 mv  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.deployed $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
@@ -203,6 +205,7 @@ sleep 8s
 rm -rf  $install_path/jboss-7.1.1/standalone/deployments/$currentfile.undeployed
 fi
 cp $f $install_path/deploy/ 
+fi
 done
 
 # Moving Gtn Framework wars ends
@@ -211,7 +214,7 @@ done
 if [ -d $app_file ]
 then
 
-declare -a array=("gtnSharedLibrary" "gtnPartI" "gtnPartII" "gtnForecasting" "gtnGlobal" "gtnContract" "gtnAdminConsole" "gtnTransaction" "gtnCff" "gtnWorkflow" "gtnARM" "gtnWorkflow" "gtnSecurity" "gtnGCM" "gtnUtilities" "GtnVaadinWidgetset" "default-theme")
+declare -a array=("gtnSharedLibrary" "gtnPartI" "gtnPartII" "gtnForecasting" "gtnGlobal" "gtnContract" "gtnAdminConsole" "gtnTransaction" "gtnCff" "gtnWorkflow" "gtnARM" "gtnWorkflow" "gtnSecurity" "gtnGCM" "gtnUtilities" "GtnVaadinWidgetset" "default-theme" "vaadin-widgetset.war")
 # get length of an array
 arraylength=${#array[@]}
 # use for loop to read all values and indexes
@@ -316,7 +319,9 @@ for  filename in $x
 do
 DATE=`date +%Y-%m-%d:%H:%M:%S`
 LOGDATE=`date +%Y-%m-%d`
-log_file="$DB_File_Path/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
+log_file="$install_path/logs/$DB_Schema_Name/$DB_Script_Name/Log_"$DB_Script_Name"_$LOGDATE.log"
+mkdir -p "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
+chmod 777 "$install_path/logs/$DB_Schema_Name/$DB_Script_Name"
 #echo $DATE
 echo "$filename.."
 echo "INFO $DATE Executing file $filename...">>$log_file
@@ -346,7 +351,20 @@ done
 done
 rm -rf $install_path/DB_Script/exec_db_marker.txt
 fi
-chown -R $APP_User:$Chown  $install_path
+
+# OWNER GROUP CHANGES
+
+chmod -R 750 $install_path
+chown -R $APP_User:$Chown $install_path
+chown $APP_User:etl $install_path
+chown $APP_User:etl $install_path/etl
+chown -R $APP_User:etl $install_path/etl/staging
+find $install_path/etl -d -name "Input" | xargs chmod 770  2>/dev/null
+find $install_path/etl -d -name "GALDERMA_FILES_UPLOAD" | xargs chmod 770 2>/dev/null
+chown -R $APP_User:etl $install_path/logs
+chown -R $APP_User:etl $install_path/DB_Script
+chown $APP_User:etl $install_path
+
 %files
 %{prefix}/*
 
