@@ -759,6 +759,7 @@ public class ProjectionVarianceLogic {
                     pVSelectionDTO.setIsTotal(false);
                     List<ProjectionVarianceDTO> resultsDto = new ArrayList<>();
                      if (parentDto.getGroup().contains("Discount % of Ex-Factory")) {
+                         pVSelectionDTO.setConversionNeeded(false);
                         if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
                             pVSelectionDTO.setVarIndicator(Constants.VALUE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FOURTEEN, Boolean.TRUE));
@@ -771,16 +772,20 @@ public class ProjectionVarianceLogic {
                         }
                     } else if (parentDto.getGroup().contains(DISCOUNT_DOLLAR)) {
                         if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
+                            pVSelectionDTO.setConversionNeeded(true);
                             pVSelectionDTO.setVarIndicator(Constants.VALUE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.FALSE));
                         } else if (parentDto.getGroup().contains(StringConstantsUtil.VARIANCE_LABEL)) {
+                            pVSelectionDTO.setConversionNeeded(true);
                             pVSelectionDTO.setVarIndicator(Constants.VARIANCE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.FALSE));
                         } else if (parentDto.getGroup().contains(CHANGE1)) {
+                            pVSelectionDTO.setConversionNeeded(false);
                             pVSelectionDTO.setVarIndicator(Constants.CHANGE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.FIVE, Boolean.TRUE));
                         }
                     } else if (parentDto.getGroup().contains(DISCOUNT_PERCENT)) {
+                            pVSelectionDTO.setConversionNeeded(false);
                         if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
                             pVSelectionDTO.setVarIndicator(Constants.VALUE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, Boolean.TRUE));
@@ -792,6 +797,7 @@ public class ProjectionVarianceLogic {
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.EIGHT, Boolean.TRUE));
                         }
                     } else if (parentDto.getGroup().contains("RPU")) {
+                            pVSelectionDTO.setConversionNeeded(false);
                         if (parentDto.getGroup().contains(StringConstantsUtil.VALUE_LABEL)) {
                             pVSelectionDTO.setVarIndicator(Constants.VALUE);
                             resultsDto.addAll(getCustomisedDiscount(list, pVSelectionDTO, NumericConstants.ELEVEN, Boolean.FALSE));
@@ -2000,16 +2006,20 @@ public class ProjectionVarianceLogic {
 
                                     if ((pvsdto.isVarDisAmount())) {
                                         if (pvsdto.isColValue()) {
+                                            pvsdto.setConversionNeeded(true);
                                             customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIVE, discountRow,Boolean.FALSE);
                                         }
                                         if (pvsdto.isColVariance()) {
+                                            pvsdto.setConversionNeeded(true);
                                             customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_VAR + head, Constants.VARIANCE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.FIVE, discountRow,Boolean.FALSE);
                                         }
                                         if (pvsdto.isColPercentage()) {
+                                            pvsdto.setConversionNeeded(false);
                                             customizePivot(StringConstantsUtil.DISCOUNT_AMOUNT_PER + head, Constants.CHANGE, pvsdto, projDTO, columnList, RATE, NumericConstants.FIVE, discountRow,Boolean.FALSE);
                                         }
                                     }
                                     if ((pvsdto.isVarDisRate())) {
+                                        pvsdto.setConversionNeeded(false);
                                         if (pvsdto.isColValue()) {
                                             customizePivot(StringConstantsUtil.DISCOUNT_SALES_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.EIGHT, discountRow,Boolean.FALSE);
                                         }
@@ -2022,6 +2032,7 @@ public class ProjectionVarianceLogic {
                                     }
 
                                     if ((pvsdto.isVarRPU())) {
+                                        pvsdto.setConversionNeeded(false);
                                         if (pvsdto.isColValue()) {
                                             customizePivot(StringConstantsUtil.RPU_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, AMOUNT, NumericConstants.ELEVEN, discountRow,Boolean.FALSE);
                                         }
@@ -2034,6 +2045,7 @@ public class ProjectionVarianceLogic {
                                     }
                                     //discount per of exfactory
                                     if ((pvsdto.isDiscountPerExFactory())) {
+                                        pvsdto.setConversionNeeded(false);
                                         if (pvsdto.isColValue()) {
                                             customizePivot(StringConstantsUtil.DISCOUNT_PER_EX_FACTORY_VALUE + head, Constants.VALUE, pvsdto, projDTO, columnList, RATE, NumericConstants.FOURTEEN, discountRow,Boolean.FALSE);
                                         }
