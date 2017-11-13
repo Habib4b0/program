@@ -1,0 +1,2 @@
+#!/bin/sh
+curl http://10.4.48.46:18001/jenkins/git/notifyCommit?url=https://rajadurai.subramani%40sysbiz.org@scm.sysbiz.org/scm/gal/contract-management.git

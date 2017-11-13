@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/helperTable/HelperTable.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/Udcs.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/CompanyIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/CompanyMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/CompanyParentDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/CompanyQualifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companymaster/CompanyTradeClass.hbm.xml
+				</value>
+
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowInbox.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowProcessInfo.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowProfile.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/projectionmaster/ProjectionMaster.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sysSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="sysDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/User.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/UsersGroups.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/UsersRoles.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/role/Role.hbm.xml</value>
+			</list>
+		</property>
+
+	</bean>
+
+	<bean id="bpmSessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="bpmDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/appDataPool" /> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+	<bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
+			/> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/infraDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+
+	<bean id="bpmDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
+			/> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/bpmDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+
+	<bean id="TestWebService" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsHealthCheck">
+	</bean>
+	<bean id="databaseService"
+		class="com.stpl.gtn.gtn2o.ws.service.GtnWsReturnsDatabaseService">
+		<property name="sysSessionFactory">
+			<ref bean="sysSessionFactory" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+		<property name="bpmSessionFactory">
+			<ref bean="bpmSessionFactory" />
+		</property>
+	</bean>
+	<bean id="gtnWsUserRoleService"
+		class="com.stpl.gtn.gtn2o.ws.service.userrole.GtnWsUserRoleService">
+		<property name="databaseService">
+			<ref bean="databaseService" />
+		</property>
+	</bean>
+	<bean id="userGroupCallback" class="com.stpl.gtn.gtn2o.ws.bpm.service.CustomUserCallBack">
+		<property name="gtnWsUserRoleService">
+			<ref bean="gtnWsUserRoleService" />
+		</property>
+	</bean>
+	<bean id="bpmManagerBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmManagerBean">
+		<property name="userGroupCallback">
+			<ref bean="userGroupCallback" />
+		</property>
+	</bean>
+	<bean id="bpmProcessBean" class="com.stpl.gtn.gtn2o.ws.bpm.service.BpmProcessBean">
+		<property name="bpmManagerBean">
+			<ref bean="bpmManagerBean" />
+		</property>
+
+	</bean>
+</beans>
+
+

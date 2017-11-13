@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 8:45:04 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwItemPricing"
+		table="VW_ITEM_PRICING" schema="dbo">
+		<id name="itemPricingSid" type="int">
+			<column name="ITEM_PRICING_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" />
+		</property>
+		<property name="pricingCodeQualifier" type="string">
+			<column name="PRICING_CODE_QUALIFIER" />
+		</property>
+		<property name="pricingCodeStatus" type="string">
+			<column name="PRICING_CODE_STATUS" />
+		</property>
+		<property name="pricingCodeQualifierName" type="string">
+			<column name="PRICING_CODE_QUALIFIER_NAME" />
+		</property>
+		<property name="itemUom" type="string">
+			<column name="ITEM_UOM" not-null="true" />
+		</property>
+		<property name="itemPrice" type="double">
+			<column name="ITEM_PRICE" precision="22" scale="6"/>
+		</property>
+		<property name="entityCode" type="string">
+			<column name="ENTITY_CODE" length="30" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="endDate" type="timestamp">
+			<column name="END_DATE" length="23" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

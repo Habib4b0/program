@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrDetails" table="CDR_DETAILS"
+		schema="dbo">
+		<id name="cdrDetailsSid" type="int">
+			<column name="CDR_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByComparison"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="COMPARISON" />
+		</many-to-one>
+		<many-to-one name="helperTableByLogicalOperator"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="LOGICAL_OPERATOR" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemGroupMsAssociation"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_GROUP_MS_ASSOCIATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByLineType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="LINE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByOperator"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="OPERATOR" />
+		</many-to-one>
+		<many-to-one name="helperTableByKeyword"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="KEYWORD" />
+		</many-to-one>
+		<many-to-one name="cdrModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="CDR_MODEL_SID" />
+		</many-to-one>
+		<property name="value" type="big_decimal">
+			<column name="VALUE" precision="22" scale="6" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" />
+		</property>
+		<property name="createdBy" type="java.lang.Integer">
+			<column name="CREATED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster"
+		table="REBATE_PLAN_MASTER" schema="dbo">
+		<id name="rebatePlanMasterSid" type="int">
+			<column name="REBATE_PLAN_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByRebateRangeBasedOn"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_RANGE_BASED_ON" not-null="true" />
+		</many-to-one>
+		<many-to-one name="netSalesFormulaMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster"
+			fetch="select">
+			<column name="NET_SALES_FORMULA_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebatePlanStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_PLAN_STATUS" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateBasedOn"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_BASED_ON" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByFormulaType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="FORMULA_TYPE" />
+		</many-to-one>
+		<many-to-one name="cdrModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="CDR_MODEL_SID" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebatePlanType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_PLAN_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByRebateStructure"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="REBATE_STRUCTURE" not-null="true" />
+		</many-to-one>
+		<property name="rebatePlanId" type="string">
+			<column name="REBATE_PLAN_ID" length="50" not-null="true"
+				unique="true" />
+		</property>
+		<property name="rebatePlanNo" type="string">
+			<column name="REBATE_PLAN_NO" length="50" not-null="true" />
+		</property>
+		<property name="rebatePlanName" type="string">
+			<column name="REBATE_PLAN_NAME" length="100" />
+		</property>
+		<property name="rebateRule" type="string">
+			<column name="REBATE_RULE" length="50" />
+		</property>
+		<property name="manfCompanyMasterSid" type="java.lang.Integer">
+			<column name="MANF_COMPANY_MASTER_SID" />
+		</property>
+		<property name="bogoEligible" type="java.lang.Character">
+			<column name="BOGO_ELIGIBLE" length="1" />
+		</property>
+		<property name="selfGrowthIndicator" type="java.lang.Character">
+			<column name="SELF_GROWTH_INDICATOR" length="1" />
+		</property>
+		<property name="selfGrowthReference" type="string">
+			<column name="SELF_GROWTH_REFERENCE" length="50" />
+		</property>
+		<property name="selfGrowthFrom" type="timestamp">
+			<column name="SELF_GROWTH_FROM" length="23" />
+		</property>
+		<property name="selfGrowthTo" type="timestamp">
+			<column name="SELF_GROWTH_TO" length="23" />
+		</property>
+		<property name="marketShareIndicator" type="java.lang.Character">
+			<column name="MARKET_SHARE_INDICATOR" length="1" />
+		</property>
+		<property name="marketShareReference" type="string">
+			<column name="MARKET_SHARE_REFERENCE" length="50" />
+		</property>
+		<property name="marketShareFrom" type="timestamp">
+			<column name="MARKET_SHARE_FROM" length="23" />
+		</property>
+		<property name="marketShareTo" type="timestamp">
+			<column name="MARKET_SHARE_TO" length="23" />
+		</property>
+		<property name="secondaryRebatePlanId" type="string">
+			<column name="SECONDARY_REBATE_PLAN_ID" length="50" />
+		</property>
+		<property name="secondaryRebatePlanNo" type="string">
+			<column name="SECONDARY_REBATE_PLAN_NO" length="50" />
+		</property>
+		<property name="secondaryRebatePlanName" type="string">
+			<column name="SECONDARY_REBATE_PLAN_NAME" length="100" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="rsDetailses" table="RS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="REBATE_PLAN_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+		<set name="rebatePlanTiers" table="REBATE_PLAN_TIER" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="REBATE_PLAN_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanTier" />
+		</set>
+		<set name="rsContractDetailses" table="RS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="REBATE_PLAN_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

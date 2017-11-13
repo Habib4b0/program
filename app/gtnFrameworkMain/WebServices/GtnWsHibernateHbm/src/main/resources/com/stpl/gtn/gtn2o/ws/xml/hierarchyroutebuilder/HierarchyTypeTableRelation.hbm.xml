@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2017 1:33:48 PM by Hibernate Tools 5.2.3.Final -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTypeTableRelation"
+		schema="dbo" table="HIERARCHY_TYPE_TABLE_RELATION">
+		<composite-id
+			class="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTypeTableRelationId"
+			mapped="false" name="id" unsaved-value="undefined">
+			<key-property name="entityId" type="int">
+				<column name="ENTITY_ID" />
+			</key-property>
+			<key-property name="tableName" type="string">
+				<column length="100" name="TABLE_NAME" />
+			</key-property>
+			<key-property name="hierarchyType" type="string">
+				<column length="100" name="HIERARCHY_TYPE" />
+			</key-property>
+		</composite-id>
+	</class>
+</hibernate-mapping>

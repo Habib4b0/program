@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 19, 2017 3:30:05 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldInventoryWdActualDt" table="IVLD_INVENTORY_WD_ACTUAL_DT" schema="dbo">
+        <id name="ivldInventoryWdActualDtSid" type="int">
+            <column name="IVLD_INVENTORY_WD_ACTUAL_DT_SID" />
+            <generator class="native" />
+        </id>
+        <property name="inventoryWdActualDtIntfId" type="string">
+            <column name="INVENTORY_WD_ACTUAL_DT_INTF_ID" not-null="true" />
+        </property>
+        <property name="year" type="string">
+            <column name="YEAR" length="200" />
+        </property>
+        <property name="month" type="string">
+            <column name="MONTH" length="200" />
+        </property>
+        <property name="day" type="string">
+            <column name="DAY" length="200" />
+        </property>
+        <property name="week" type="string">
+            <column name="WEEK" length="200" />
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="200" />
+        </property>
+        <property name="identifierCodeQualifier" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="companyIdentifier" type="string">
+            <column name="COMPANY_IDENTIFIER" length="200" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="200" />
+        </property>
+        <property name="itemIdentifierCodeQualifier" type="string">
+            <column name="ITEM_IDENTIFIER_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="itemIdentifier" type="string">
+            <column name="ITEM_IDENTIFIER" length="200" />
+        </property>
+        <property name="unitsWithdrawn" type="string">
+            <column name="UNITS_WITHDRAWN" length="200" />
+        </property>
+        <property name="amountWithdrawn" type="string">
+            <column name="AMOUNT_WITHDRAWN" length="200" />
+        </property>
+        <property name="unitsOnHand" type="string">
+            <column name="UNITS_ON_HAND" length="200" />
+        </property>
+        <property name="amountOnHand" type="string">
+            <column name="AMOUNT_ON_HAND" length="200" />
+        </property>
+        <property name="quantityOnOrder" type="string">
+            <column name="QUANTITY_ON_ORDER" length="200" />
+        </property>
+        <property name="amountOnOrder" type="string">
+            <column name="AMOUNT_ON_ORDER" length="200" />
+        </property>
+        <property name="quantityReceived" type="string">
+            <column name="QUANTITY_RECEIVED" length="200" />
+        </property>
+        <property name="amountReceived" type="string">
+            <column name="AMOUNT_RECEIVED" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="200" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="50" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="200" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="200" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+    </class>
+</hibernate-mapping>

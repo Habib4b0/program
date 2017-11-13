@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getCalendarConfigurationResults">
+		<query> 
+        <![CDATA[
+            SELECT
+                    CL.CALENDAR_NAME,
+                    CL.CALENDAR_DESCRIPTION,
+                    CL.CALENDAR_YEAR,
+                    usr.lastName + ' ' + usr.middleName + ' ' + usr.firstName  as CREATED_BY_VAL,
+                    CL.CREATED_DATE,
+                    usr1.lastName + ' ' + usr1.middleName + ' ' + usr1.firstName as MODIFIED_BY_VAL,
+                    CL.MODIFIED_DATE,
+                    CL.CALENDAR_CONFIG_MASTER_SID,
+                    CL.DEFAULT_HOLIDAYS,
+                    HC.HELPER_TABLE_SID,
+                    CL.COUNTRY,
+                    CL.CREATED_BY,
+                    CL.MODIFIED_BY
+            FROM
+                    CALENDAR_CONFIG_MASTER CL
+            LEFT JOIN HELPER_TABLE HC ON HC.LIST_NAME='COUNTRY' AND
+                    HC.DESCRIPTION= CL.COUNTRY
+            JOIN ?.dbo.User_ usr ON
+                    usr.UserId = CL.CREATED_BY
+            LEFT JOIN ?.dbo.User_ usr1 ON
+                    usr1.UserId = CL.MODIFIED_BY ?
+            ORDER BY
+                ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getCalendarConfigurationCount">
+		<query> 
+        <![CDATA[
+            SELECT
+                    COUNT(DISTINCT CL.CALENDAR_CONFIG_MASTER_SID)
+            FROM
+                    CALENDAR_CONFIG_MASTER CL
+            LEFT JOIN HELPER_TABLE HC ON HC.LIST_NAME='COUNTRY' AND
+                    HC.DESCRIPTION= CL.COUNTRY
+            JOIN ?.dbo.User_ usr ON
+                    usr.UserId = CL.CREATED_BY
+            LEFT JOIN ?.dbo.User_ usr1 ON
+                    usr1.UserId = CL.MODIFIED_BY ?
+]]>
+		</query>
+	</entity>
+
+</sql>

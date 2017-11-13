@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.security.AuthorizationMatrixProperty>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:builduser</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Update:rajadurai.subramanian</permission>
+      <permission>hudson.model.Run.Delete:builduser</permission>
+      <permission>hudson.model.Run.Delete:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Workspace:builduser</permission>
+      <permission>hudson.model.Item.Workspace:rajadurai.subramanian</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:builduser</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Delete:rajadurai.subramanian</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:builduser</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.ManageDomains:rajadurai.subramanian</permission>
+      <permission>hudson.model.Run.Replay:builduser</permission>
+      <permission>hudson.model.Run.Replay:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Configure:builduser</permission>
+      <permission>hudson.model.Item.Configure:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Cancel:builduser</permission>
+      <permission>hudson.model.Item.Cancel:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Delete:builduser</permission>
+      <permission>hudson.model.Item.Delete:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Read:builduser</permission>
+      <permission>hudson.model.Item.Read:rajadurai.subramanian</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:builduser</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:rajadurai.subramanian</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:builduser</permission>
+      <permission>com.cloudbees.plugins.credentials.CredentialsProvider.Create:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Build:builduser</permission>
+      <permission>hudson.model.Item.Build:rajadurai.subramanian</permission>
+      <permission>hudson.scm.SCM.Tag:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Move:builduser</permission>
+      <permission>hudson.model.Item.Move:rajadurai.subramanian</permission>
+      <permission>hudson.model.Item.Discover:builduser</permission>
+      <permission>hudson.model.Item.Discover:rajadurai.subramanian</permission>
+      <permission>hudson.model.Run.Update:builduser</permission>
+      <permission>hudson.model.Run.Update:rajadurai.subramanian</permission>
+    </hudson.security.AuthorizationMatrixProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>VersionNo</name>
+          <description>Version To Deploy</description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnForecastWebServices</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCalendarConfiguration</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCDR</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCommercialForecasting</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCompanyFamilyPlan</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCompanyGroup</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkCompanyMaster</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkContractDashboard</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkContractHeader</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkEmailConfiguration</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkForecastConfiguration</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkItemFamilyPlan</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkItemGroup</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkItemMaster</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkNetSalesFormula</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkPriceSchedule</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkProcessMonitor</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkProcessScheduler</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkRebatePlan</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkRebateSchedule</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkRelationshipBuilder</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkReturnForecasting</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkTransaction</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrmaeworkDeductionCalendar</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnVaadinWidgetset</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GTNWebServices</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnWsBpmWebService</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkPeriodConfiguration</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+        <hudson.model.BooleanParameterDefinition>
+          <name>GtnFrameworkWorkFlowInbox</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <EnvInjectBuilder plugin="envinject@2.1">
+      <info>
+        <propertiesContent>RELEASE_BUILD_PATH=$JENKINS_HOME/workspace/gtnNewArch/gtnFrameworkSonarBuildRelease/Dist/$VersionNo</propertiesContent>
+      </info>
+    </EnvInjectBuilder>
+    <org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder plugin="conditional-buildstep@1.3.6">
+      <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$Fail" plugin="run-condition@1.0"/>
+      <runCondition class="org.jenkins_ci.plugins.run_condition.core.FileExistsCondition" plugin="run-condition@1.0">
+        <file>$RELEASE_BUILD_PATH</file>
+        <baseDir class="org.jenkins_ci.plugins.run_condition.common.BaseDirectory$ArtifactsDir"/>
+      </runCondition>
+      <conditionalbuilders/>
+    </org.jenkinsci.plugins.conditionalbuildstep.ConditionalBuilder>
+    <hudson.tasks.Shell>
+      <command>#CREATING Default war file.
+cd $WORKSPACE
+mkdir -p Default_War1-1
+cd Default_War1-1
+mkdir -p Application_Build
+cd Application_Build
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#Creating folder structure for webservice
+mkdir -p gtnFrameworkServer1-1
+cd gtnFrameworkServer1-1
+mkdir -p GTN_Framework_War
+cd GTN_Framework_War</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>cd $RELEASE_BUILD_PATH
+ls &gt; $WORKSPACE/fileList.txt
+sed -i -e &apos;s/.war//g&apos; $WORKSPACE/fileList.txt
+while read name
+do
+myvar=$name
+eval &quot;choiceVar=\$$name&quot;
+echo $choiceVar
+if  $choiceVar 
+then 
+if [ -e &quot;$name&quot;.war ] 
+then
+cp $RELEASE_BUILD_PATH/&quot;$name&quot;.war $WORKSPACE/Default_War1-1/Application_Build 
+else
+ echo &quot;File does&apos;t exist terminating the build&quot;
+ return 2
+ fi
+fi
+
+done &lt; $WORKSPACE/fileList.txt</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#creating tar file for Application wars
+tar -czvf Default_War.tar Default_War1-1
+rm -rf Default_War1-1</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#Copying Webservice war files
+if [ -e GtnForecastWebServices.war ] &amp;&amp; $GtnForecastWebServices
+then
+cp $RELEASE_BUILD_PATH/GtnForecastWebServices.war $WORKSPACE/gtnFrameworkServer1-1/GTN_Framework_War 
+fi
+if [ -e GtnWsBpmWebService.war ] &amp;&amp; $GtnWsBpmWebService
+then
+cp $RELEASE_BUILD_PATH/GtnWsBpmWebService.war $WORKSPACE/gtnFrameworkServer1-1/GTN_Framework_War 
+fi
+if [ -e GTNWebServices.war ] &amp;&amp; $GTNWebServices
+then
+cp $RELEASE_BUILD_PATH/GTNWebServices.war $WORKSPACE/gtnFrameworkServer1-1/GTN_Framework_War
+fi
+</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#Creating Webservice tar file
+tar -czvf gtnFrameworkServer.tar gtnFrameworkServer1-1
+rm -rf gtnFrameworkServer1-1</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>#creating rpm file
+cd rpmfiles
+. ./Profile.sh
+./rpmstartscript_env.sh $WORKSPACE/Default_War.tar $WORKSPACE
+rpm -ivh --nodeps --replacefiles --relocate /opt/bpigtn=/opt/bpigtn_allergan_dev $WORKSPACE/rpmfiles/Output_RPM/Default*
+
+
+
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

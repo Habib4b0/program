@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.RsContractDetails"
+		table="RS_CONTRACT_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="rsContractDetailsSid" type="int">
+			<column name="RS_CONTRACT_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="deductionCalendarMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.deductioncalendar.DeductionCalendarMaster"
+			fetch="select">
+			<column name="DEDUCTION_CALENDAR_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="itemMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" fetch="select">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="netSalesFormulaMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster"
+			fetch="select">
+			<column name="NET_SALES_FORMULA_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="rebatePlanMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster"
+			fetch="select">
+			<column name="REBATE_PLAN_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="rsContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContract" fetch="select">
+			<column name="RS_CONTRACT_SID" not-null="true" />
+		</many-to-one>
+		<property name="itemRebateStartDate" type="timestamp">
+			<column name="ITEM_REBATE_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="itemRebateEndDate" type="timestamp">
+			<column name="ITEM_REBATE_END_DATE" length="23" />
+		</property>
+		<property name="formulaId" type="java.lang.Integer">
+			<column name="FORMULA_ID" />
+		</property>
+		<property name="rsContractAttachedStatus" type="java.lang.Integer">
+			<column name="RS_CONTRACT_ATTACHED_STATUS" />
+		</property>
+		<property name="rsContractAttachedDate" type="timestamp">
+			<column name="RS_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="rebateAmount" type="big_decimal">
+			<column name="REBATE_AMOUNT" precision="22" scale="6" />
+		</property>
+		<property name="bundleNo" type="string">
+			<column name="BUNDLE_NO" length="25" />
+		</property>
+		<property name="formulaMethodId" type="string">
+			<column name="FORMULA_METHOD_ID" length="50" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="formulaType" type="big_decimal">
+			<column name="FORMULA_TYPE" precision="22" scale="6" />
+		</property>
+		<property name="netSalesRule" type="java.lang.Integer">
+			<column name="NET_SALES_RULE" />
+		</property>
+		<property name="evaluationRule" type="java.lang.Integer">
+			<column name="EVALUATION_RULE" />
+		</property>
+		<property name="evaluationRuleBundle" type="string">
+			<column name="EVALUATION_RULE_BUNDLE" length="100" />
+		</property>
+		<property name="calculationRule" type="java.lang.Integer">
+			<column name="CALCULATION_RULE" />
+		</property>
+		<property name="calculationRuleBundle" type="string">
+			<column name="CALCULATION_RULE_BUNDLE" length="100" />
+		</property>
+	</class>
+</hibernate-mapping>

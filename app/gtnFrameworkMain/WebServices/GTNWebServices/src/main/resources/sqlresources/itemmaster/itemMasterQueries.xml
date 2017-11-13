@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="item-CPDetailsInsert">
+		<query> 
+        <![CDATA[
+        INSERT INTO CP_DETAILS WITH (TABLOCKX)
+            (COMPANY_MASTER_SID,
+             ITEM_MASTER_SID)
+SELECT COMPANY_MASTER_SID,
+       ITEM_MASTER_SID
+FROM   COMPANY_MASTER CM
+       CROSS JOIN ITEM_MASTER IM
+WHERE  CM.INBOUND_STATUS <> 'D'
+       AND IM.INBOUND_STATUS <> 'D'
+          and ITEM_MASTER_SID = ?
+       AND NOT EXISTS (SELECT 1
+                       FROM   CP_DETAILS CD
+                       WHERE  CD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                              AND CD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID) 
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="itemPricingResult">
+		<query> 
+		<![CDATA[
+		;with CTE as(
+	select
+		IPQ.ITEM_PRICING_QUALIFIER_NAME,
+		IP.ITEM_PRICE,
+		IP.PRICING_CODE_STATUS,
+		IP.ITEM_UOM,
+		IP.START_DATE,
+		IP.END_DATE,
+		IP.ENTITY_CODE,
+		IP."SOURCE",
+		usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as MODIFIED_BY  ,
+		IP.MODIFIED_DATE,
+		usr.firstName + ' ' + usr.middleName + ' ' + usr.lastName as CREATED_BY ,
+		IP.CREATED_DATE,
+		HT_PRICING_STATUS.DESCRIPTION as prcingstatusdesc,
+		HT_UOM.DESCRIPTION as itemUomdesc,
+		IP.ITEM_PRICING_QUALIFIER_SID,
+		IP.ITEM_PRICING_SID
+	from
+		##ITEM_PRICING_TEMP_TABLE IP join dbo.ITEM_PRICING_QUALIFIER IPQ on
+		IPQ.ITEM_PRICING_QUALIFIER_SID = IP.ITEM_PRICING_QUALIFIER_SID left
+	JOIN HELPER_TABLE HT_PRICING_STATUS on
+		IP.PRICING_CODE_STATUS = HT_PRICING_STATUS.HELPER_TABLE_SID left JOIn HELPER_TABLE HT_UOM on
+		IP.ITEM_UOM = HT_UOM.HELPER_TABLE_SID
+		LEFT JOIN ?.dbo.User_ usr ON usr.UserId = IP.CREATED_BY
+        LEFT JOIN ?.dbo.User_ usr1 ON usr1.UserId = IP.MODIFIED_BY 
+	Where
+		IP.INBOUND_STATUS <> 'D'
+)select
+	*
+from
+	CTE
+where
+	ITEM_PRICING_QUALIFIER_NAME is not null  ?  ORDER BY ?
+                    OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+	]]></query>
+	</entity>
+
+	<entity id="itemPricingCount">
+		<query> 
+		<![CDATA[
+		;with CTE as(
+	select
+		IPQ.ITEM_PRICING_QUALIFIER_NAME,
+		IP.ITEM_PRICE,
+		IP.PRICING_CODE_STATUS,
+		IP.ITEM_UOM,
+		IP.START_DATE,
+		IP.END_DATE,
+		IP.ENTITY_CODE,
+		IP."SOURCE",
+		usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as MODIFIED_BY  ,
+		IP.MODIFIED_DATE,
+		usr.firstName + ' ' + usr.middleName + ' ' + usr.lastName as CREATED_BY ,
+		IP.CREATED_DATE,
+		HT_PRICING_STATUS.DESCRIPTION as prcingstatusdesc,
+		HT_UOM.DESCRIPTION as itemUomdesc,
+		IP.ITEM_PRICING_QUALIFIER_SID,
+		IP.ITEM_PRICING_SID
+	from
+		##ITEM_PRICING_TEMP_TABLE IP join dbo.ITEM_PRICING_QUALIFIER IPQ on
+		IPQ.ITEM_PRICING_QUALIFIER_SID = IP.ITEM_PRICING_QUALIFIER_SID left
+	JOIN HELPER_TABLE HT_PRICING_STATUS on
+		IP.PRICING_CODE_STATUS = HT_PRICING_STATUS.HELPER_TABLE_SID left JOIn HELPER_TABLE HT_UOM on
+		IP.ITEM_UOM = HT_UOM.HELPER_TABLE_SID
+		LEFT JOIN ?.dbo.User_ usr ON usr.UserId = IP.CREATED_BY
+        LEFT JOIN ?.dbo.User_ usr1 ON usr1.UserId = IP.MODIFIED_BY 
+	Where
+		IP.INBOUND_STATUS <> 'D'
+)
+	select
+	Count(1)
+from
+	CTE where
+	ITEM_PRICING_QUALIFIER_NAME is not null  ? 
+	]]></query>
+	</entity>
+
+
+	<entity id="createTembTable">
+		<query> 
+		<![CDATA[
+		
+			DECLARE @SQL NVARCHAR(MAX) SELECT
+	@SQL =(
+		SELECT
+			'
+IF OBJECT_ID(''TEMPDB..' + obj + ''') IS NOT NULL BEGIN
+    DROP TABLE ' + obj + '
+END
+'
+		FROM
+			(
+				SELECT
+					obj = name
+				FROM
+					tempdb..sysobjects
+				where
+					crdate < DATEADD(
+						day,
+						- 1,
+						CONVERT(
+							date,
+							SYSDATETIME()
+						)
+					)
+					and name like '##ITEM_PRICING%'
+			) t FOR XML PATH(''),
+			TYPE
+	).value(
+		'.',
+		'NVARCHAR(MAX)'
+	) EXEC(@SQL);
+		
+	IF Object_id('TEMPDB..##ITEM_PRICING_TEMP_TABLE') IS NOT NULL 
+	 DROP TABLE ##ITEM_PRICING_TEMP_TABLE
+	 
+	 Select
+	? ITEM_PRICING_QUALIFIER_SID,
+	ITEM_UOM,
+	ITEM_PRICE,
+	PRICING_CODE_STATUS,
+	ENTITY_CODE,
+	COALESCE(START_DATE, NULL) AS START_DATE,
+	END_DATE,
+	INBOUND_STATUS,
+	RECORD_LOCK_STATUS,
+	BATCH_ID,
+	"SOURCE",
+	CREATED_BY,
+	CREATED_DATE,
+	MODIFIED_BY,
+	MODIFIED_DATE,
+	ITEM_PRICE_PRECISION,
+	ITEM_PRICING_SID = IDENTITY (int, 1,1) into
+		##ITEM_PRICING_TEMP_TABLE
+	from
+		dbo.ITEM_PRICING ?
+	]]></query>
+	</entity>
+
+	<entity id="updateinPricingTempTable">
+		<query> 
+		<![CDATA[
+	UPDATE IP
+SET columnName = ?
+FROM ##ITEM_PRICING_TEMP_TABLE IP 
+where IP.ITEM_PRICING_SID = ?
+	]]></query>
+	</entity>
+
+
+	<entity id="insertInPricingTempTable">
+		<query> 
+		<![CDATA[
+INSERT
+	INTO
+		##ITEM_PRICING_TEMP_TABLE(
+			ITEM_PRICING_QUALIFIER_SID,
+			ITEM_UOM,
+			ITEM_PRICE,
+			PRICING_CODE_STATUS,
+			ENTITY_CODE,
+			START_DATE,
+			END_DATE,
+			INBOUND_STATUS,
+			RECORD_LOCK_STATUS,
+			BATCH_ID,
+			"SOURCE",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			ITEM_PRICE_PRECISION
+		)
+	VALUES(
+		?,
+		?,
+		?,
+		?,
+		?,
+		?,
+		?,
+		'A',
+		0,
+		'',
+		'GTN',
+		?,
+		?,
+		?,
+		?,
+		NULL
+	);]]></query>
+	</entity>
+
+<entity id="insertIntoMainTable">
+		<query> 
+		<![CDATA[
+INSERT
+	INTO
+		ITEM_PRICING(
+			ITEM_MASTER_SID,
+			ITEM_PRICING_QUALIFIER_SID,
+			ITEM_UOM,
+			ITEM_PRICE,
+			PRICING_CODE_STATUS,
+			ENTITY_CODE,
+			START_DATE,
+			END_DATE,
+			INBOUND_STATUS,
+			RECORD_LOCK_STATUS, 
+			BATCH_ID,
+			"SOURCE",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			ITEM_PRICE_PRECISION)
+		SELECT
+		?,
+			ITEM_PRICING_QUALIFIER_SID,
+			ITEM_UOM,
+			ITEM_PRICE,
+			PRICING_CODE_STATUS,
+			ENTITY_CODE,
+			START_DATE,
+			END_DATE,
+			INBOUND_STATUS,
+			RECORD_LOCK_STATUS,
+			BATCH_ID,
+			"SOURCE",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			ITEM_PRICE_PRECISION
+		FROM
+			##ITEM_PRICING_TEMP_TABLE
+			]]></query>
+	</entity>
+	
+	<entity id="deleteOldPricingData">
+		<query> 
+		<![CDATA[
+Delete from ITEM_PRICING where ITEM_MASTER_SID = ?
+]]></query>
+	</entity>
+	
+	<entity id="pricingvalidation">
+		<query> 
+		<![CDATA[
+select count(1) from ##ITEM_PRICING_TEMP_TABLE where  COLUMNNAME = 0	OR  COLUMNNAME	= NULL 
+]]></query>
+	</entity>
+	
+	<entity id="pricingUniqueValidation">
+		<query> 
+		<![CDATA[
+select count(1) from ##ITEM_PRICING_TEMP_TABLE where  ITEM_PRICING_QUALIFIER_SID = ? and ITEM_UOM = ? and PRICING_CODE_STATUS =? and START_DATE = ?
+]]></query>
+	</entity>
+	
+	
+	
+
+
+
+
+
+</sql>

@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 21, 2017 10:34:42 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyMaster"
+		table="VW_COMPANY_MASTER" schema="dbo">
+		<id name="companyMasterSid" type="int">
+			<column name="COMPANY_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" length="50" not-null="true" unique="true" />
+		</property>
+		<property name="companyNo" type="string">
+			<column name="COMPANY_NO" length="50" not-null="true" />
+		</property>
+		<property name="companyName" type="string">
+			<column name="COMPANY_NAME" length="100" not-null="true" />
+		</property>
+		<property name="companyType" type="string">
+			<column name="COMPANY_TYPE" not-null="true" />
+		</property>
+		<property name="companyStatus" type="string">
+			<column name="COMPANY_STATUS" not-null="true" />
+		</property>
+		<property name="companyCategory" type="string">
+			<column name="COMPANY_CATEGORY" />
+		</property>
+		<property name="companyGroup" type="string">
+			<column name="COMPANY_GROUP" />
+		</property>
+		<property name="companyStartDate" type="timestamp">
+			<column name="COMPANY_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="companyEndDate" type="timestamp">
+			<column name="COMPANY_END_DATE" length="23" />
+		</property>
+		<property name="organizationKey" type="string">
+			<column name="ORGANIZATION_KEY" />
+		</property>
+		<property name="lives" type="java.lang.Integer">
+			<column name="LIVES" />
+		</property>
+		<property name="financialSystem" type="string">
+			<column name="FINANCIAL_SYSTEM" length="50" />
+		</property>
+		<property name="address1" type="string">
+			<column name="ADDRESS1" length="100" />
+		</property>
+		<property name="address2" type="string">
+			<column name="ADDRESS2" length="100" />
+		</property>
+		<property name="city" type="string">
+			<column name="CITY" length="50" />
+		</property>
+		<property name="state" type="string">
+			<column name="STATE" />
+		</property>
+		<property name="zipCode" type="string">
+			<column name="ZIP_CODE" length="50" />
+		</property>
+		<property name="country" type="string">
+			<column name="COUNTRY" />
+		</property>
+		<property name="regionCode" type="string">
+			<column name="REGION_CODE" length="50" />
+		</property>
+		<property name="lastUpdatedDate" type="timestamp">
+			<column name="LAST_UPDATED_DATE" length="23" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" not-null="true" />
+		</property>
+		<property name="udc1" type="string">
+			<column name="UDC1" not-null="true" />
+		</property>
+		<property name="udc2" type="string">
+			<column name="UDC2" not-null="true" />
+		</property>
+		<property name="udc3" type="string">
+			<column name="UDC3" not-null="true" />
+		</property>
+		<property name="udc4" type="string">
+			<column name="UDC4" not-null="true" />
+		</property>
+		<property name="udc5" type="string">
+			<column name="UDC5" not-null="true" />
+		</property>
+		<property name="udc6" type="string">
+			<column name="UDC6" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

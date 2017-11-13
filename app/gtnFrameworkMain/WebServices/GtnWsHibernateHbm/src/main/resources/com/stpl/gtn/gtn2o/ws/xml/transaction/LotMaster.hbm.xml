@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 8, 2017 12:52:30 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.LotMaster"
+		table="LOT_MASTER" schema="dbo">
+		<id name="lotMasterSid" type="int">
+			<column name="LOT_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="50" not-null="true" />
+		</property>
+		<property name="lotNo" type="string">
+			<column name="LOT_NO" length="30" not-null="true" />
+		</property>
+		<property name="lastLotSoldDate" type="timestamp">
+			<column name="LAST_LOT_SOLD_DATE" length="23" not-null="true" />
+		</property>
+		<property name="lotExpirationDate" type="timestamp">
+			<column name="LOT_EXPIRATION_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="java.lang.Character">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getProcessSchedulerSchedulerResults">
+		<query> 
+        <![CDATA[
+ SELECT WP.PROCESS_DISPLAY_NAME, WP.ACTIVE_FLAG AS STATUS, WP.START_DATE, WP.END_DATE,\
+                          WP.FREQUENCY, WP.MANUAL_LAST_RUN, WP.MODIFIED_DATE, WP.MODIFIED_BY,WP.PROCESS_SID,WP.SCRIPT_NAME \
+                            FROM WORKFLOW_PROFILE WP \
+                          LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.PROCESS_TYPE 
+                          LEFT JOIN ?.dbo.User_ USR ON USR.userId = WP.MODIFIED_BY WHERE WP.MODIFIED_BY LIKE '%' AND HTF.DESCRIPTION LIKE 'Automatic' OR HTF.DESCRIPTION LIKE 'Both' OR HTF.DESCRIPTION LIKE '-Select One-' OR HTF.DESCRIPTION is null
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getProcessSchedulerManualResults">
+		<query> 
+        <![CDATA[
+ SELECT WP.PROCESS_DISPLAY_NAME, MANUAL_LAST_RUN,SCRIPT_NAME\
+                            FROM WORKFLOW_PROFILE WP \
+                          LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.PROCESS_TYPE 
+                 WHERE HTF.DESCRIPTION LIKE 'Manual' OR HTF.DESCRIPTION LIKE 'Both' OR HTF.DESCRIPTION LIKE '-Select One-' OR HTF.DESCRIPTION is null          
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getProcessSchedulerCount">
+		<query> 
+        <![CDATA[
+SELECT count(*) FROM WORKFLOW_PROFILE WP \
+                          LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.PROCESS_TYPE 
+]]>
+		</query>
+	</entity>
+
+
+
+</sql>

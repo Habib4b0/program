@@ -1,0 +1,472 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "salesId",
+		"columnName": "Sales ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 1,
+		"viewModeIndex": 1
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 2,
+		"viewModeIndex": 3
+	},
+	{
+		"columnID": "itemNo",
+		"columnName": "Item No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 3,
+		"viewModeIndex": 4
+	},
+	{
+		"columnID": "accountId",
+		"columnName": "Account ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 4,
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "accountNo",
+		"columnName": "Account No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 5,
+		"viewModeIndex": 31
+	},
+	{
+		"columnID": "contractId",
+		"columnName": "Contract ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 6,
+		"viewModeIndex": 26
+	},
+	{
+		"columnID": "companyId",
+		"columnName": "Company ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 8,
+		"viewModeIndex": 36
+	},
+	{
+		"columnID": "contractNo",
+		"columnName": "Contract No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 7,
+		"viewModeIndex": 27
+	},
+	{
+		"columnID": "invoiceNumber",
+		"columnName": "Invoice Number",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 9,
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "invoiceDate",
+		"columnName": "Invoice Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"columnAlignment": "CENTER",
+		"listViewIndex": 10,
+		"viewModeIndex": 16
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 11,
+		"viewModeIndex": 2
+	},
+	{
+		"columnID": "parentItemId",
+		"columnName": "Parent Item ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 13,
+		"viewModeIndex": 6
+	},
+	{
+		"columnID": "itemUom",
+		"columnName": "Item UOM",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 15,
+		"viewModeIndex": 8
+	},
+	{
+		"columnID": "docType",
+		"columnName": "Doc Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 16,
+		"viewModeIndex": 9
+	},
+	{
+		"columnID": "orderNumber",
+		"columnName": "Order Number",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 17,
+		"viewModeIndex": 10
+	},
+	{
+		"columnID": "provisionId",
+		"columnName": "Provision ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 18,
+		"viewModeIndex": 11
+	},
+	{
+		"columnID": "orderReceivedDate",
+		"columnName": "Order Received Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"columnAlignment": "CENTER",
+		"listViewIndex": 19,
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "invoiceLineNumber",
+		"columnName": "Invoice Line Number",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 20,
+		"viewModeIndex": 15
+	},
+	{
+		"columnID": "orderType",
+		"columnName": "Order Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 21,
+		"viewModeIndex": 17
+	},
+	{
+		"columnID": "orderSubtype",
+		"columnName": "Order Subtype",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 22,
+		"viewModeIndex": 18
+	},
+	{
+		"columnID": "analysisCode",
+		"columnName": "Analysis Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 23,
+		"viewModeIndex": 19
+	},
+	{
+		"columnID": "priceAdjustmentName",
+		"columnName": "Price Adjustment Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 24,
+		"viewModeIndex": 20
+	},
+	{
+		"columnID": "recordSequence",
+		"columnName": "Record Sequence",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 25,
+		"viewModeIndex": 21
+	},
+	{
+		"columnID": "price",
+		"columnName": "Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 26,
+		"viewModeIndex": 22
+	},
+	{
+		"columnID": "quantity",
+		"columnName": "Quantity",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 27,
+		"viewModeIndex": 23
+	},
+	{
+		"columnID": "lotNo",
+		"columnName": "Lot No",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 28,
+		"viewModeIndex": 24
+	},
+	{
+		"columnID": "amount",
+		"columnName": "Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 29,
+		"viewModeIndex": 25
+	},
+	{
+		"columnID": "customerSubtype",
+		"columnName": "Customer Subtype",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 31,
+		"viewModeIndex": 29
+	},
+	{
+		"columnID": "wholesaleOwnerId",
+		"columnName": "Wholesaler Owner ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 32,
+		"viewModeIndex": 30
+	},
+	{
+		"columnID": "accountName",
+		"columnName": "Account Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 33,
+		"viewModeIndex": 32
+	},
+	{
+		"columnID": "identifierCodeQualifier",
+		"columnName": "Identifier Code Qualifier",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 34,
+		"viewModeIndex": 33
+	},
+	{
+		"columnID": "customerCompanyCode",
+		"columnName": "Customer Company Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 35,
+		"viewModeIndex": 34
+	},
+	{
+		"columnID": "isActive",
+		"columnName": "Is Active",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 36,
+		"viewModeIndex": 35
+	},
+	{
+		"columnID": "divisionId",
+		"columnName": "Division ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 37,
+		"viewModeIndex": 37
+	},
+	{
+		"columnID": "marketId",
+		"columnName": "Market ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 38,
+		"viewModeIndex": 38
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 39,
+		"viewModeIndex": 39
+	},
+	{
+		"columnID": "accountType",
+		"columnName": "Account Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 30,
+		"viewModeIndex": 28
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 40,
+		"viewModeIndex": 40
+	},
+	{
+		"columnID": "itemParentNo",
+		"columnName": "Item Parent No",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 14,
+		"viewModeIndex": 7,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "parentItemNo",
+		"columnName": "Item Parent No",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 14,
+		"viewModeIndex": 7,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemCodeQualifier",
+		"columnName": "Item Code Qualifier",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 12,
+		"viewModeIndex": 5,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "accountCodeQualifier",
+		"columnName": "Item Code Qualifier",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 12,
+		"viewModeIndex": 5,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 41,
+		"viewModeIndex": 41
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 42,
+		"viewModeIndex": 42
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"listViewIndex": 43,
+		"viewModeIndex": 43
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"defaultValue": "N",
+		"listViewIndex": 44,
+		"viewModeIndex": 44
+	},
+	{
+		"columnID": "salesIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true,
+		"listViewIndex": 45,
+		"viewModeIndex": 45
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"viewModeIndexFlag": true
+	}
+]

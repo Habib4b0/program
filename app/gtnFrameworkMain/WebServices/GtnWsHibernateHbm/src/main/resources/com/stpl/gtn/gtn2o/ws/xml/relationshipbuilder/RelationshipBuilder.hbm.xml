@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2017 2:10:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder"
+		table="RELATIONSHIP_BUILDER" schema="dbo" optimistic-lock="version">
+		<id name="relationshipBuilderSid" type="int">
+			<column name="RELATIONSHIP_BUILDER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RELATIONSHIP_TYPE" />
+		</many-to-one>
+		<many-to-one name="hierarchyDefinition"
+			class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyDefinition"
+			fetch="select">
+			<column name="HIERARCHY_DEFINITION_SID" />
+		</many-to-one>
+		<property name="relationshipName" type="string">
+			<column name="RELATIONSHIP_NAME" length="200" />
+		</property>
+		<property name="relationshipDescription" type="string">
+			<column name="RELATIONSHIP_DESCRIPTION" length="200" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="23" />
+		</property>
+		<property name="buildType" type="string">
+			<column name="BUILD_TYPE" length="20" />
+		</property>
+		<property name="versionNo" type="int">
+			<column name="VERSION_NO" not-null="true" />
+		</property>
+		<property name="hierarchyVersion" type="java.lang.Integer">
+			<column name="HIERARCHY_VERSION" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="deductionRelation" type="java.lang.Integer">
+            <column name="DEDUCTION_RELATION" />
+        </property>
+		<set name="relationshipLevelDefinitions" table="RELATIONSHIP_LEVEL_DEFINITION"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="RELATIONSHIP_BUILDER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinition" />
+		</set>
+	</class>
+</hibernate-mapping>

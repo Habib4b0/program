@@ -54,11 +54,11 @@
 	</target>
 
 	<target name="prepareRpmFilesDist">
-		<mkdir dir="${rpmdir}/rpmfiles" />
-		<copy todir="${rpmdir}/rpmfiles">
-			<fileset dir="Release/jenkins_rpm/" />
+		<mkdir dir="${rpmdir}" />
+		<copy todir="${rpmdir}">
+			<fileset dir="Release/rpm/" />
 		</copy>
-		<mkdir dir="${rpmdir}/rpmfiles/Output_RPM" />
+		<mkdir dir="${rpmdir}/Release" />
 	</target>
 
 	<target name="prepareRpmEtlDist">

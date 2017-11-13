@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sql>
+	<entity id="getGtnModuleComponentRoleDetailsQuery">
+		<query> 
+            <![CDATA[           
+            DECLARE @MODULE_SUBMODULE_SID VARCHAR(10)= ?,
+            @GTN_ROLE_MASTER_SID  VARCHAR(10)= ?
+            
+            Select
+				MCM.COMPONENT_DESC,
+				MCM.COMPONENT_TYPE,
+				MCM.SCREEN_NAME,
+				MCRD.IS_VISIBLE,
+				MCRD.IS_EDITABLE,
+				MCM.GTN_MODULE_COMPONENT_MASTER_SID,
+				MCRD.GTN_MODULE_COMPONENT_ROLE_DETAILS_SID
+			FROM
+				GTN_MODULE_COMPONENT_MASTER MCM
+			JOIN MODULE_SUBMODULE_MASTER MSM ON
+				MSM.MODULE_SUBMODULE_SID = MCM.MODULE_SUBMODULE_MASTER_SID
+			JOIN GTN_MODULE_COMPONENT_ROLE_DETAILS MCRD ON
+				MCRD.GTN_COMPONENT_SID = MCM.GTN_MODULE_COMPONENT_MASTER_SID
+			WHERE MSM.MODULE_SUBMODULE_SID=@MODULE_SUBMODULE_SID 
+				AND MCRD.GTN_ROLE_MASTER_SID=@GTN_ROLE_MASTER_SID
+				AND MCRD.IS_TABLE_PROPERTY=0;
+    
+	
+           ]]>
+		</query>
+	</entity>
+	
+	<entity id="getGtnModuleTablePropertyDetailsQuery">
+		<query> 
+            <![CDATA[           
+            DECLARE @MODULE_SUBMODULE_SID VARCHAR(10)= ?,
+            @GTN_ROLE_MASTER_SID  VARCHAR(10)= ?
+            
+            Select
+				MTP.SINGLE_HEADER_VISIBLE_COLUMNS,
+				MCM.COMPONENT_DESC,
+				MCRD.IS_VISIBLE,
+				MCRD.IS_EDITABLE,
+				MTP.GTN_UITABLE_COMPONENT_DETAILS_SID,
+				MCRD.GTN_MODULE_COMPONENT_ROLE_DETAILS_SID
+			FROM
+				GTN_UITABLE_COMPONENT_DETAILS MTP
+			JOIN MODULE_SUBMODULE_MASTER MSM ON
+				MSM.MODULE_SUBMODULE_SID = MTP.MODULE_SUBMODULE_MASTER_SID
+			JOIN GTN_MODULE_COMPONENT_MASTER MCM ON
+				MCM.GTN_MODULE_COMPONENT_MASTER_SID=MTP.GTN_MODULE_COMPONENT_MASTER_SID
+			JOIN GTN_MODULE_COMPONENT_ROLE_DETAILS MCRD ON
+				MCRD.GTN_COMPONENT_SID = MTP.GTN_UITABLE_COMPONENT_DETAILS_SID 
+			WHERE MSM.MODULE_SUBMODULE_SID=@MODULE_SUBMODULE_SID 
+			AND MCRD.GTN_ROLE_MASTER_SID=@GTN_ROLE_MASTER_SID 
+			AND MCRD.IS_TABLE_PROPERTY=1; 
+
+    
+	
+           ]]>
+		</query>
+	</entity>
+	<entity id="getModuleWiseComponentDetailsQuery">
+		<query> 
+            <![CDATA[           
+            
+            DECLARE @USER_ID INT = ?
+			DECLARE @DB VARCHAR(max)= ?
+			DECLARE @SQL VARCHAR(MAX)
+			IF OBJECT_ID(
+			      'TEMPDB.DBO.#SELECTEDROLE',
+			      'U'
+			) IS NOT NULL DROP
+			      TABLE
+			            #SELECTEDROLE CREATE
+			                  TABLE
+			                        #SELECTEDROLE(
+			                              USERGROUPID INT
+			                        )
+			                  SET
+			                        @SQL = CONCAT( '
+			INSERT INTO #SELECTEDROLE (
+			USERGROUPID
+			)
+			SELECT UG.USERGROUPID
+			FROM ', @DB, '..USERGROUP UG
+			JOIN ', @DB, '..USERS_USERGROUPS UUG ON UUG.USERGROUPID = UG.USERGROUPID
+			JOIN ', @DB, '..USER_ USR ON USR.USERID = UUG.USERID
+			JOIN USERGROUP_BUSINESSROLE USB ON USB.USERGROUP_ID = UG.USERGROUPID
+			WHERE USR.USERID = ', @USER_ID, '', '' )
+			EXEC(@SQL) IF Object_id(
+			                              'TEMPDB.DBO.#SELECTEDROLE1',
+			                              'U'
+			                        ) IS NOT NULL DROP
+			                              TABLE
+			                                    #SELECTEDROLE1 SELECT
+			                                          BUSINESSROLE_MASTER_SID INTO
+			                                                #SELECTEDROLE1
+			                                          FROM
+			                                                USERGROUP_BUSINESSROLE
+			                                          WHERE
+			                                                USERGROUP_ID IN(
+			                                                      SELECT
+			                                                            USERGROUPID
+			                                                      FROM
+			                                                            #SELECTEDROLE
+			                                                ) SELECT DISTINCT
+			                                                      	MCM.COMPONENT_ID,
+																	MCM.COMPONENT_TYPE,
+																	MCM.SCREEN_NAME,
+																	MCRD.IS_VISIBLE,
+																	MCRD.IS_EDITABLE,
+																	MCRD.IS_TABLE_PROPERTY,
+																	MSM.SUBMODULE_NAME,
+																	MCM.GTN_MODULE_COMPONENT_MASTER_SID
+			                                                FROM 
+			                                                	MODULE_SUBMODULE_MASTER MSM
+			                                                 JOIN  GTN_MODULE_COMPONENT_MASTER MCM ON 
+			                                                      MSM.MODULE_SUBMODULE_SID = MCM.MODULE_SUBMODULE_MASTER_SID
+			                                                      AND MSM.SUBMODULE_NAME = ?
+			                                                JOIN GTN_MODULE_COMPONENT_ROLE_DETAILS MCRD ON
+			                                                      MCRD.GTN_COMPONENT_SID = MCM.GTN_MODULE_COMPONENT_MASTER_SID
+			                                                      AND MCRD.IS_TABLE_PROPERTY = 0
+			                                                JOIN USERGROUP_BUSINESSROLE usd ON
+			                                                      usd.BUSINESSROLE_MASTER_SID = MCRD.GTN_ROLE_MASTER_SID
+			                                                WHERE
+			                                                      usd.BUSINESSROLE_MASTER_SID IN(
+			                                                            SELECT
+			                                                                  BUSINESSROLE_MASTER_SID
+			                                                            FROM
+			                                                                  #SELECTEDROLE1
+			                                                      ); 
+	
+           ]]>
+		</query>
+	</entity>
+	<entity id="getModuleWiseTablePropertyDetailsQuery">
+		<query> 
+            <![CDATA[           
+            
+            DECLARE @USER_ID INT = ?
+			DECLARE @DB VARCHAR(max)= ?
+			DECLARE @SQL VARCHAR(MAX)
+			IF OBJECT_ID(
+			      'TEMPDB.DBO.#SELECTEDROLE',
+			      'U'
+			) IS NOT NULL DROP
+			      TABLE
+			            #SELECTEDROLE CREATE
+			                  TABLE
+			                        #SELECTEDROLE(
+			                              USERGROUPID INT
+			                        )
+			                  SET
+			                        @SQL = CONCAT( '
+			INSERT INTO #SELECTEDROLE (
+			USERGROUPID
+			)
+			SELECT UG.USERGROUPID
+			FROM ', @DB, '..USERGROUP UG
+			JOIN ', @DB, '..USERS_USERGROUPS UUG ON UUG.USERGROUPID = UG.USERGROUPID
+			JOIN ', @DB, '..USER_ USR ON USR.USERID = UUG.USERID
+			JOIN USERGROUP_BUSINESSROLE USB ON USB.USERGROUP_ID = UG.USERGROUPID
+			WHERE USR.USERID = ', @USER_ID, '', '' )
+			EXEC(@SQL) IF Object_id(
+			                              'TEMPDB.DBO.#SELECTEDROLE1',
+			                              'U'
+			                        ) IS NOT NULL DROP
+			                              TABLE
+			                                    #SELECTEDROLE1 SELECT
+			                                          BUSINESSROLE_MASTER_SID INTO
+			                                                #SELECTEDROLE1
+			                                          FROM
+			                                                USERGROUP_BUSINESSROLE
+			                                          WHERE
+			                                                USERGROUP_ID IN(
+			                                                      SELECT
+			                                                            USERGROUPID
+			                                                      FROM
+			                                                            #SELECTEDROLE
+			                                                ) SELECT
+			                                                      DISTINCT MCM.COMPONENT_ID,
+			                                                      MCM.COMPONENT_DESC,
+			                                                      MCM.SCREEN_NAME,
+			                                                      MCRD.IS_VISIBLE,
+			                                                      MCRD.IS_EDITABLE,
+			                                                      MCRD.IS_TABLE_PROPERTY,
+			                                                      MSM.SUBMODULE_NAME,
+			                                                      MTP.GTN_UITABLE_COMPONENT_DETAILS_SID,
+			                                                      MTP.SINGLE_HEADER_VISIBLE_COLUMNS
+			                                                FROM
+			                                                      GTN_UITABLE_COMPONENT_DETAILS MTP
+			                                                JOIN MODULE_SUBMODULE_MASTER MSM ON
+			                                                      MSM.MODULE_SUBMODULE_SID = MTP.MODULE_SUBMODULE_MASTER_SID
+			                                                JOIN GTN_MODULE_COMPONENT_MASTER MCM ON
+			                                                      MCM.GTN_MODULE_COMPONENT_MASTER_SID = MTP.GTN_MODULE_COMPONENT_MASTER_SID
+			                                                JOIN GTN_MODULE_COMPONENT_ROLE_DETAILS MCRD ON
+			                                                      MCRD.GTN_COMPONENT_SID = MTP.GTN_UITABLE_COMPONENT_DETAILS_SID
+			                                                JOIN USERGROUP_BUSINESSROLE usd ON
+			                                                      usd.BUSINESSROLE_MASTER_SID = MCRD.GTN_ROLE_MASTER_SID
+			                                                WHERE
+			                                                      MCRD.IS_TABLE_PROPERTY = 1
+			                                                      AND MSM.SUBMODULE_NAME = ?
+			                                                      AND usd.BUSINESSROLE_MASTER_SID IN(
+			                                                            SELECT
+			                                                                  BUSINESSROLE_MASTER_SID
+			                                                            FROM
+			                                                                  #SELECTEDROLE1
+			                                                      ) ORDER BY MTP.GTN_UITABLE_COMPONENT_DETAILS_SID;
+	
+           ]]>
+		</query>
+	</entity>
+	
+	<entity id="getModuleUpdateFlagQuery">
+		<query> 
+            <![CDATA[           
+            SELECT UPDATE_MODULE_FLAG From dbo.MODULE_SUBMODULE_MASTER WHERE SUBMODULE_NAME=?;
+           ]]>
+		</query>
+	</entity>
+	
+	<entity id="getModuleUpdateFlagUpdateQuery">
+		<query> 
+            <![CDATA[           
+            UPDATE dbo.MODULE_SUBMODULE_MASTER SET UPDATE_MODULE_FLAG=0 WHERE SUBMODULE_NAME=?;
+           ]]>
+		</query>
+	</entity>
+	
+	<entity id="getComponentUpdateSelectQuery">
+		<query> 
+            <![CDATA[           
+            SELECT MODULE_NAME, SUBMODULE_NAME, UPDATE_MODULE_FLAG, MODULE_SUBMODULE_SID FROM MODULE_SUBMODULE_MASTER ORDER BY MODULE_NAME, SUBMODULE_NAME;
+           ]]>
+		</query>
+	</entity>
+</sql>

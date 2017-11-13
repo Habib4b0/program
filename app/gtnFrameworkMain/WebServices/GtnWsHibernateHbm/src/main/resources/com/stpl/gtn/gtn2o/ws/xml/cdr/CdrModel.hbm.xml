@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" table="CDR_MODEL"
+		schema="dbo">
+		<id name="cdrModelSid" type="int">
+			<column name="CDR_MODEL_SID" />
+			<generator class="native" />
+		</id>
+		<property name="ruleType" type="java.lang.Integer">
+			<column name="RULE_TYPE" />
+		</property>
+		<property name="ruleNo" type="string">
+			<column name="RULE_NO" length="50" />
+		</property>
+		<property name="ruleName" type="string">
+			<column name="RULE_NAME" length="100" />
+		</property>
+		<property name="ruleCategory" type="java.lang.Integer">
+			<column name="RULE_CATEGORY" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" />
+		</property>
+		<property name="createdBy" type="java.lang.Integer">
+			<column name="CREATED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+		<set name="rsModelsForCalculationRule" table="RS_MODEL" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="CALCULATION_RULE" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel" />
+		</set>
+		<set name="rsDetailsesForEvaluationRule" table="RS_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="EVALUATION_RULE" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+		<set name="cdrDetailses" table="CDR_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="CDR_MODEL_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrDetails" />
+		</set>
+		<set name="netSalesFormulaMasters" table="NET_SALES_FORMULA_MASTER"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="CDR_MODEL_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster" />
+		</set>
+		<set name="rsDetailsesForCalculationRule" table="RS_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="CALCULATION_RULE" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+		<set name="rebatePlanMasters" table="REBATE_PLAN_MASTER" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="CDR_MODEL_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster" />
+		</set>
+		<set name="rsModelsForEvaluationRuleOrAssociation" table="RS_MODEL"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="EVALUATION_RULE_OR_ASSOCIATION" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel" />
+		</set>
+		<set name="rsDetailsesForNetSalesRule" table="RS_DETAILS" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="NET_SALES_RULE" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

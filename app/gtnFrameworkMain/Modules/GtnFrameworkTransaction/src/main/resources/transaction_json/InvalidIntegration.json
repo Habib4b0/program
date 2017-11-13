@@ -1,0 +1,33 @@
+[
+ {
+    "columnID": "invalidId",
+    "columnName": "Invalid Record Id",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+    "staticSearchCriterian": "true",
+        "isInvalidComponent":true
+  },
+  {
+    "columnID": "invalidDateFrom",
+    "columnName": "Invalid From",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "date",
+    "staticSearchCriterian": "true",
+    "columnMappingId": "intfInsertedDate",
+	"expressionType" : "GREATER_OR_EQUAL",
+        "isInvalidComponent":true
+  },
+  {
+    "columnID": "invalidDateTo",
+    "columnName": "Invalid To",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "date",
+    "staticSearchCriterian": "true",
+    "columnMappingId": "intfInsertedDate",
+	"expressionType" : "LESS_OR_EQUAL",
+        "isInvalidComponent":true
+  }
+]

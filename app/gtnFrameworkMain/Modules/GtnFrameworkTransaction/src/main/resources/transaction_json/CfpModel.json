@@ -1,0 +1,293 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cfpId",
+		"columnName": "CFP ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "cfpNo",
+		"columnName": "CFP No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "cfpName",
+		"columnName": "CFP Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "helperTableByCfpStatus",
+		"columnName": "CFP Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpStatus",
+		"columnName": "CFP Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cfpStartDate",
+		"columnName": "CFP Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpStartDate",
+		"columnName": "CFP Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cfpEndDate",
+		"columnName": "CFP End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpEndDate",
+		"columnName": "CFP End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "helperTableByCfpType",
+		"columnName": "IFP Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_TYPE",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpType",
+		"columnName": "CFP Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_TYPE",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "helperTableByCfpCategory",
+		"columnName": "CFP Category",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_CATEGORY",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpCategory",
+		"columnName": "CFP Category",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_CATEGORY",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "helperTableByCfpTradeClass",
+		"columnName": "CFP Trade Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_TRADE_CLASS",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpTradeClass",
+		"columnName": "CFP Trade Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_TRADE_CLASS",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cfpDesignation",
+		"columnName": "CFP Designation",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_DESIGNATION",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "cfpDesignation",
+		"columnName": "CFP Designation",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CFP_DESIGNATION",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "parentCfpId",
+		"columnName": "Parent CFP ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "parentCfpName",
+		"columnName": "Parent CFP Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cfpIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

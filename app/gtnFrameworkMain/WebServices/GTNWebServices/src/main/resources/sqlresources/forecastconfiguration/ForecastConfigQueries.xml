@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getForecastConfigurationResults">
+		<query> 
+        <![CDATA[
+; WITH CTE AS(
+	SELECT
+		RN = Row_number() OVER(
+			PARTITION BY BUSINESS_PROCESS_TYPE
+		ORDER BY
+			VERSION_NO DESC
+		),
+		*
+	FROM
+		FORECAST_CONFIG
+),
+FORECAST_CONF AS(
+	SELECT
+		*,
+		CASE
+			WHEN rn = 1 THEN 'Active'
+			ELSE 'Inactive'
+		END AS [Active_Inactive],
+		(
+			CASE
+				WHEN PROCESS_MODE = 1 THEN 'Interval'
+				ELSE 'Period'
+			END
+		) AS MODE,
+		(
+			CASE
+				WHEN PROCESS_TYPE = 1 THEN 'Auto Update'
+				ELSE 'Defined'
+			END
+		) AS PROCESS_TYPE_1
+	FROM
+		CTE
+) SELECT
+	BUSINESS_PROCESS_TYPE = 
+      CASE 
+         WHEN HB.DESCRIPTION like '%Select One%' THEN ''
+         ELSE HB.DESCRIPTION
+      END,
+	FC.PROCESS_TYPE_1,
+	FC.MODE,
+	FC.FROM_DATE,
+	FC.TO_DATE,
+        HIST_FREQ = 
+      CASE 
+         WHEN HHF.DESCRIPTION like '%Select One%' THEN ''
+         ELSE HHF.DESCRIPTION
+      END,
+	FC.HIST_VALUE,
+        PROJ_FREQ=CASE 
+         WHEN HPF.DESCRIPTION like '%Select One%' THEN ''
+         ELSE HPF.DESCRIPTION
+      END,
+	FC.PROJ_VALUE,
+	FC.VERSION_NO,
+	FC.ACTIVE_START_DATE,
+	FC.ACTIVE_END_DATE,
+	usr.lastName + ' ' + usr.middleName + ' ' + usr.firstName as CREATED_BY,
+	FC.Active_Inactive
+FROM
+	FORECAST_CONF FC
+JOIN HELPER_TABLE HB ON
+	FC.BUSINESS_PROCESS_TYPE = HB.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HHF ON
+	FC.HIST_FREQ = HHF.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HPF ON
+	FC.PROJ_FREQ = HPF.HELPER_TABLE_SID
+JOIN ?.dbo.User_ usr ON
+	usr.UserId = FC.CREATED_BY ?
+ORDER BY
+	? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getForecastConfigurationCount">
+		<query> 
+        <![CDATA[
+; WITH CTE AS(
+	SELECT
+		RN = Row_number() OVER(
+			PARTITION BY BUSINESS_PROCESS_TYPE
+		ORDER BY
+			VERSION_NO DESC
+		),
+		*
+	FROM
+		FORECAST_CONFIG
+),
+FORECAST_CONF AS(
+	SELECT
+		*,
+		CASE
+			WHEN rn = 1 THEN 'Active'
+			ELSE 'Inactive'
+		END AS [Active_Inactive],
+		(
+			CASE
+				WHEN PROCESS_MODE = 1 THEN 'Interval'
+				ELSE 'Period'
+			END
+		) AS MODE,
+		(
+			CASE
+				WHEN PROCESS_TYPE = 1 THEN 'Auto Update'
+				ELSE 'Defined'
+			END
+		) AS PROCESS_TYPE_1
+	FROM
+		CTE
+) SELECT
+	COUNT(FC.FORECAST_CONFIG_SID)
+FROM
+	FORECAST_CONF FC
+JOIN HELPER_TABLE HB ON
+	FC.BUSINESS_PROCESS_TYPE = HB.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HHF ON
+	FC.HIST_FREQ = HHF.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HPF ON
+	FC.PROJ_FREQ = HPF.HELPER_TABLE_SID
+JOIN ?.dbo.User_ usr ON
+	usr.UserId = FC.CREATED_BY ?
+]]>
+		</query>
+	</entity>
+
+	<entity id="getFCFileName">
+		<query> 
+        <![CDATA[
+SELECT
+	top 1 forecast_name,
+	version
+FROM
+	dbo.FILE_MANAGEMENT FM
+JOIN dbo.HELPER_TABLE HT ON
+	HT.HELPER_TABLE_SID = FM.FILE_TYPE
+	AND HT.DESCRIPTION like '?'
+	AND LIST_NAME like 'FILE_TYPE'
+order by
+	FM.CREATED_DATE desc;
+]]>
+		</query>
+	</entity>
+	<entity id="updateForecastConfigEndDate">
+		<query> 
+<![CDATA[
+            DECLARE @active_end_date DATETIME =CAST( ? as DATETIME),
+            @business_process_type INT=?
+            
+     UPDATE forecast_config 
+               SET    active_end_date = @active_end_date  
+               WHERE  forecast_config_sid = (SELECT Max(forecast_config_sid)
+                                             FROM   forecast_config 
+                                             WHERE  business_process_type = @business_process_type) 
+        ]]>
+		</query>
+	</entity>
+
+</sql>

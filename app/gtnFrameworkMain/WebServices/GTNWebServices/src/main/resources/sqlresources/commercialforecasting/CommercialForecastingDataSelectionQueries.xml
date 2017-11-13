@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sql>
+
+	<entity id="getCountCommercialForecastingProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT
+                    Count(c.HIERARCHY_DEFINITION_SID) AS HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ? ? ? ? ? 
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getDataCommercialForecastingProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT 
+                    c.HIERARCHY_NAME,
+                    a.LEVEL_NO as HIGH_LEVEL,
+                    b.LEVEL_NO as LOW_LEVEL,
+                    c.CREATED_DATE,
+                    c.MODIFIED_DATE,
+                    c.HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ?
+                    ?
+                    ? ? ?
+                    ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountCommercialForecastingCustomerHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT
+                    Count(c.HIERARCHY_DEFINITION_SID) AS HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Customer Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ? ? ? ? ? 
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getDataCommercialForecastingCustomerHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT 
+                    c.HIERARCHY_NAME,
+                    a.LEVEL_NO as HIGH_LEVEL,
+                    b.LEVEL_NO as LOW_LEVEL,
+                    c.CREATED_DATE,
+                    c.MODIFIED_DATE,
+                    c.HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Customer Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ?
+                    ?
+                    ? ? ?
+                    ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            ]]>
+		</query>
+	</entity>
+	<entity id="getCountCommercialForecastingProdGroupLookUp">
+		<query> 
+            <![CDATA[
+	                    ;WITH CTE_MAIN
+	      AS (SELECT IG.ITEM_GROUP_SID,
+	                 IG.ITEM_GROUP_NO,
+	                 IG.ITEM_GROUP_NAME,
+	                 CM.COMPANY_NAME,
+	                 IG.VERSION_NO,
+	                 IG.ITEM_GROUP_DESCRIPTION,
+	                 IGD.ITEM_MASTER_SID
+	          FROM   ITEM_GROUP IG,
+	                 COMPANY_MASTER CM,
+	                 ITEM_GROUP_DETAILS IGD
+	          WHERE  IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+	                 AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+	                 AND IG.ITEM_GROUP_NO LIKE '?'
+	                 AND IG.ITEM_GROUP_NAME LIKE '?'
+				? ? ? ?
+	                 ),
+	      COUNT_CTE
+	      AS (SELECT ITEM_GROUP_SID,
+	                 CNT
+	          FROM   (SELECT ROW_NUMBER()
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID
+	                             ORDER BY ITEM_GROUP_SID)     RN,
+	                         COUNT(ITEM_MASTER_SID)
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID) CNT,
+	                         ITEM_GROUP_SID,
+	                         ITEM_MASTER_SID
+	                  FROM   CTE_MAIN
+	                   )A
+	          WHERE  RN = 1),
+	      ITM_GROUP
+	      AS (SELECT CNT,
+	                 ITEM_GROUP_SID,
+	                 ITEM_GROUP_NO,
+	                 ITEM_GROUP_NAME,
+	                 COMPANY_NAME,
+	                 VERSION_NO,
+	                 ITEM_GROUP_DESCRIPTION,
+	                 ITEM_MASTER_SID
+	          FROM   (SELECT ROW_NUMBER()
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID
+	                             ORDER BY ITEM_GROUP_SID)     RN,
+	                         COUNT(ITEM_MASTER_SID)
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID) CNT,
+	                         ITEM_GROUP_SID,
+	                         ITEM_GROUP_NO,
+	                         ITEM_GROUP_NAME,
+	                         COMPANY_NAME,
+	                         VERSION_NO,
+	                         ITEM_GROUP_DESCRIPTION,
+	                         ITEM_MASTER_SID
+	                  FROM   CTE_MAIN)A
+	          WHERE  RN = 1)
+	 SELECT COUNT (DISTINCT IG.ITEM_GROUP_SID)
+	 FROM   ITM_GROUP IG
+	        JOIN COUNT_CTE C
+	          ON IG.ITEM_GROUP_SID = C.ITEM_GROUP_SID
+	             AND C.CNT = IG.CNT
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getDataCommercialForecastingProdGroupLookUp">
+		<query> 
+            <![CDATA[
+                    ;WITH CTE_MAIN
+      AS (SELECT IG.ITEM_GROUP_SID,
+                 IG.ITEM_GROUP_NO,
+                 IG.ITEM_GROUP_NAME,
+                 COMPANY_NAME,
+                 IG.VERSION_NO,
+                 IG.ITEM_GROUP_DESCRIPTION,
+                 IGD.ITEM_MASTER_SID
+          FROM   ITEM_GROUP IG,
+                 COMPANY_MASTER CM,
+                 ITEM_GROUP_DETAILS IGD
+          WHERE  IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                 AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+                 AND IG.ITEM_GROUP_NO LIKE '?'
+                 AND IG.ITEM_GROUP_NAME LIKE '?'
+				? ? ? ?
+                 ),
+      COUNT_CTE
+      AS (SELECT ITEM_GROUP_SID,
+                 CNT
+          FROM   (SELECT ROW_NUMBER()
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID
+                             ORDER BY ITEM_GROUP_SID)     RN,
+                         COUNT(ITEM_MASTER_SID)
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID) CNT,
+                         ITEM_GROUP_SID,
+                         ITEM_MASTER_SID
+                  FROM   CTE_MAIN
+                   )A
+          WHERE  RN = 1),
+      ITM_GROUP
+      AS (SELECT CNT,
+                 ITEM_GROUP_SID,
+                 ITEM_GROUP_NO,
+                 ITEM_GROUP_NAME,
+                 COMPANY_NAME,
+                 VERSION_NO,
+                 ITEM_GROUP_DESCRIPTION,
+                 ITEM_MASTER_SID
+          FROM   (SELECT ROW_NUMBER()
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID
+                             ORDER BY ITEM_GROUP_SID)     RN,
+                         COUNT(ITEM_MASTER_SID)
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID) CNT,
+                         ITEM_GROUP_SID,
+                         ITEM_GROUP_NO,
+                         ITEM_GROUP_NAME,
+                         COMPANY_NAME,
+                         VERSION_NO,
+                         ITEM_GROUP_DESCRIPTION,
+                         ITEM_MASTER_SID
+                  FROM   CTE_MAIN)A
+          WHERE  RN = 1)
+		 SELECT DISTINCT  IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME,IG.ITEM_GROUP_DESCRIPTION,COMPANY_NAME,  '' AS SEGMENT,
+                 '' AS SEGMENT_NAME,IG.VERSION_NO, IG.ITEM_GROUP_SID
+	 FROM   ITM_GROUP IG
+	        JOIN COUNT_CTE C
+	          ON IG.ITEM_GROUP_SID = C.ITEM_GROUP_SID
+	             AND C.CNT = IG.CNT
+  ORDER BY ?
+  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCountCommercialForecastingCustGroupLookUp">
+		<query> 
+            <![CDATA[
+	            ;WITH CTE_MAIN
+     AS (SELECT IG.COMPANY_GROUP_SID,
+                IG.COMPANY_GROUP_NO,
+                IG.COMPANY_GROUP_NAME,
+                CM.COMPANY_NAME,
+                IG.VERSION_NO,
+                IG.COMPANY_GROUP_DESCRIPTION,
+                IGD.COMPANY_MASTER_SID
+         FROM   COMPANY_GROUP IG
+                INNER JOIN COMPANY_GROUP_DETAILS IGD
+                        ON IGD.COMPANY_GROUP_SID = IG.COMPANY_GROUP_SID
+                INNER JOIN COMPANY_MASTER CM
+                        ON IGD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+         WHERE  IG.COMPANY_GROUP_NO LIKE '?'
+            AND IG.COMPANY_GROUP_NAME LIKE '?'
+     ? ? ?        
+    ),
+     COUNT_CTE
+     AS (SELECT COMPANY_GROUP_SID,
+                CNT
+         FROM   (SELECT ROW_NUMBER()
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID
+                            ORDER BY COMPANY_GROUP_SID)     RN,
+                        COUNT(COMPANY_MASTER_SID)
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID) CNT,
+                        COMPANY_GROUP_SID,
+                        COMPANY_MASTER_SID
+                 FROM   CTE_MAIN
+                  )A
+         WHERE  RN = 1),
+     ITM_GROUP
+     AS (SELECT CNT,
+                COMPANY_GROUP_SID,
+                COMPANY_GROUP_NO,
+                COMPANY_GROUP_NAME,
+                COMPANY_NAME,
+                VERSION_NO,
+                COMPANY_GROUP_DESCRIPTION
+         FROM   (SELECT ROW_NUMBER()
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID
+                            ORDER BY COMPANY_GROUP_SID)     RN,
+                        COUNT(COMPANY_MASTER_SID)
+                          OVER (
+                            PARTITION BY COMPANY_GROUP_SID) CNT,
+                        COMPANY_GROUP_SID,
+                        COMPANY_GROUP_NO,
+                        COMPANY_GROUP_NAME,
+                        COMPANY_NAME,
+	                        VERSION_NO,
+	                        COMPANY_GROUP_DESCRIPTION
+	                 FROM   CTE_MAIN)A
+	         WHERE  RN = 1)
+	SELECT COUNT (DISTINCT IG.COMPANY_GROUP_SID)
+	FROM   ITM_GROUP IG
+	       JOIN COUNT_CTE C
+	         ON IG.COMPANY_GROUP_SID = C.COMPANY_GROUP_SID
+            AND C.CNT = IG.CNT
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getDataCommercialForecastingCustGroupLookUp">
+		<query> 
+            <![CDATA[
+                   ;WITH CTE_MAIN
+	     AS (SELECT IG.COMPANY_GROUP_SID,
+	                IG.COMPANY_GROUP_NO,
+	                IG.COMPANY_GROUP_NAME,
+	                CM.COMPANY_NAME,
+	                IG.VERSION_NO,
+	                IG.COMPANY_GROUP_DESCRIPTION,
+	                IGD.COMPANY_MASTER_SID
+	         FROM   COMPANY_GROUP IG
+	                INNER JOIN COMPANY_GROUP_DETAILS IGD
+	                        ON IGD.COMPANY_GROUP_SID = IG.COMPANY_GROUP_SID
+	                INNER JOIN COMPANY_MASTER CM
+	                        ON IGD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+	         WHERE  IG.COMPANY_GROUP_NO LIKE '?'
+	            AND IG.COMPANY_GROUP_NAME LIKE '?'
+	             ? ? ?
+	    ),
+	     COUNT_CTE
+	     AS (SELECT COMPANY_GROUP_SID,
+	                CNT
+	         FROM   (SELECT ROW_NUMBER()
+	                          OVER (
+	                            PARTITION BY COMPANY_GROUP_SID
+	                            ORDER BY COMPANY_GROUP_SID)     RN,
+	                        COUNT(COMPANY_MASTER_SID)
+	                          OVER (
+	                            PARTITION BY COMPANY_GROUP_SID) CNT,
+	                        COMPANY_GROUP_SID,
+	                        COMPANY_MASTER_SID
+	                 FROM   CTE_MAIN
+	                  )A
+	         WHERE  RN = 1),
+	     ITM_GROUP
+	     AS (SELECT CNT,
+	                COMPANY_GROUP_SID,
+	                COMPANY_GROUP_NO,
+	                COMPANY_GROUP_NAME,
+	                COMPANY_NAME,
+	                VERSION_NO,
+	                COMPANY_GROUP_DESCRIPTION
+	         FROM   (SELECT ROW_NUMBER()
+	                          OVER (
+	                            PARTITION BY COMPANY_GROUP_SID
+	                            ORDER BY COMPANY_GROUP_SID)     RN,
+	                        COUNT(COMPANY_MASTER_SID)
+	                          OVER (
+	                            PARTITION BY COMPANY_GROUP_SID) CNT,
+	                        COMPANY_GROUP_SID,
+	                        COMPANY_GROUP_NO,
+	                        COMPANY_GROUP_NAME,
+	                        COMPANY_NAME,
+	                        VERSION_NO,
+	                        COMPANY_GROUP_DESCRIPTION
+	                 FROM   CTE_MAIN)A
+	         WHERE  RN = 1)
+	             SELECT DISTINCT  IG.COMPANY_GROUP_NO, IG.COMPANY_GROUP_NAME,IG.COMPANY_GROUP_DESCRIPTION,IG.VERSION_NO, IG.COMPANY_GROUP_SID
+	FROM   ITM_GROUP IG
+	       JOIN COUNT_CTE C
+	         ON IG.COMPANY_GROUP_SID = C.COMPANY_GROUP_SID
+	            AND C.CNT = IG.CNT
+	  ORDER BY ?
+	  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    ]]>
+		</query>
+	</entity>
+
+</sql>

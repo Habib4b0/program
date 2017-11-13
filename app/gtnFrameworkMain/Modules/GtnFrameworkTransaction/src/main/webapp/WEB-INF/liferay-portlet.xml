@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<!DOCTYPE liferay-portlet-app PUBLIC "-//Liferay//DTD Portlet Application 4.3.0//EN" "http://www.liferay.com/dtd/liferay-portlet-app_4_3_0.dtd">
+
+<liferay-portlet-app>
+	<portlet>
+		<portlet-name>LotMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>CpiIndexMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>GlCostCenterMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>AverageShelfLifeMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>GlBalanceMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>AuditMasterInbound</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>SalesMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>ForecastingMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>CustomerGtsActual</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwCustomerGtsForecast</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwCompanyTradeClass</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwReturnReserve</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>ReturnsMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwCompanyParentDetails</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwCompanyIdentifier</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwItemIdentifier</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwItemPricing</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwAdjustDemandForecastAct</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>ActualsMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwCompanyMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwInventoryWdActualProjMas</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>VwItemMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>AccrualMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>InvalidIntegration</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>IfpModel</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>CfpModel</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+
+	<portlet>
+		<portlet-name>VwContractHeader</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>PsModel</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+
+	<portlet>
+		<portlet-name>RebatePlanMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>VwRebateSchedule</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+	
+	<portlet>
+		<portlet-name>Return Rate Forecast</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+	<portlet>
+		<portlet-name>Item Uom</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
+	
+</liferay-portlet-app>
