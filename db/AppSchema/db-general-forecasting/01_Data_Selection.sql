@@ -232,6 +232,100 @@ IF EXISTS (SELECT 1
   END
 
 GO 
+-----------------------------------added columns---------------------------------
+IF NOT EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_CUST_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+              )
+BEGIN
+       ALTER TABLE PROJECTION_MASTER ADD PROJECTION_CUST_VERSION INT
+END
+GO
+ 
+IF NOT EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_PROD_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+              )
+BEGIN
+       ALTER TABLE PROJECTION_MASTER ADD PROJECTION_PROD_VERSION INT
+END
+GO
+ 
+ IF EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_PROD_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+                     AND IS_NULLABLE = 'NO'
+              )
+BEGIN
+       
+       ALTER TABLE PROJECTION_MASTER
+ 
+       ALTER COLUMN PROJECTION_PROD_VERSION INT  NULL
+END
+GO
+
+IF EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_PROD_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+                     AND IS_NULLABLE = 'YES'
+              )
+BEGIN
+       
+              UPDATE PM
+              SET PM.PROJECTION_PROD_VERSION = RM.VERSION_NO
+              FROM PROJECTION_MASTER PM
+              INNER JOIN RELATIONSHIP_BUILDER RM
+                     ON PM.PROD_RELATIONSHIP_BUILDER_SID = RM.RELATIONSHIP_BUILDER_SID
+       
+END
+GO
+ 
+IF EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_CUST_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+                     AND IS_NULLABLE = 'YES'
+              )
+BEGIN
+ ALTER TABLE PROJECTION_MASTER
+ 
+       ALTER COLUMN PROJECTION_CUST_VERSION INT  NULL
+END
+
+IF EXISTS (
+              SELECT 1
+              FROM INFORMATION_SCHEMA.COLUMNS
+              WHERE TABLE_NAME = 'PROJECTION_MASTER'
+                     AND COLUMN_NAME = 'PROJECTION_CUST_VERSION'
+                     AND TABLE_SCHEMA = 'DBO'
+                     AND IS_NULLABLE = 'YES'
+              )
+BEGIN
+      
+              UPDATE PM
+              SET PM.PROJECTION_CUST_VERSION = RM.VERSION_NO
+              FROM PROJECTION_MASTER PM
+              INNER JOIN RELATIONSHIP_BUILDER RM
+                     ON PM.CUST_RELATIONSHIP_BUILDER_SID = RM.RELATIONSHIP_BUILDER_SID
+      
+ 
+END
+GO
+----------------------------------------------------------------------------------
 -------------------------------------------------------------- PROJECTION_DETAILS ------------------------------------------------------------
 IF NOT EXISTS (SELECT 'X'
                FROM   SYS.TABLES
