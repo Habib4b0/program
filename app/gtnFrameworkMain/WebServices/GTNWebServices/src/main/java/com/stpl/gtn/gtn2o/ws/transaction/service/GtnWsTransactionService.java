@@ -289,9 +289,10 @@ public class GtnWsTransactionService {
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
 		}
 		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			Object doubleFilterValues =columns.getFilterValue1().replaceAll("\\*", "%");
-			Type doubleFilterTypes = StandardBasicTypes.STRING ;
-			criteria.add(Restrictions.sqlRestriction(columns.getFieldId() + "  like ? ", doubleFilterValues, doubleFilterTypes));
+                        String columnName = columns.getFieldId();
+			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
+			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
+			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
 		}
 		else {
 			
