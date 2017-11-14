@@ -28,6 +28,10 @@ import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
 @Scope("singleton")
 public class GtnCsvExportService {
 
+	public GtnCsvExportService() {
+		super();
+	}
+
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
