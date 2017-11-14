@@ -193,18 +193,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      * Configure fields.
      */
     private void configureFields() {
-        if(CommonUtils.isValueEligibleForLoading()){
-            pvSelectionDTO.setSessionDTO(sessionDTO);
-            loadCustomerLevel();
-            loadProductLevel();
-            loadDedutionLevel();
-            loadCustomerLevelFilter(StringUtils.EMPTY);
-            loadProductLevelFilter(StringUtils.EMPTY);
-            loadDeductionLevelFilter(StringUtils.EMPTY);
-            loadDeductionInclusion();
-            loadSalesInclusion();
-            uomLoadingTabChange();
-            loadDisplayFormatDdlb();
+        if (sessionDTO.getProjectionId() != 0) {
+            loadAllDdbls();
         }
         configurePermission();
         frequency.addItem(ConstantsUtil.SELECT_ONE);
@@ -249,8 +239,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             setProjectionSelection();
         }
     }
-    
-    
+
+   
     public void uomLoadingTabChange() {
         CommonLogic.loadUnitOfMeasureDdlb(uomDdlb, sessionDTO);
     }
@@ -2115,6 +2105,22 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.setPageLength(NumericConstants.TEN);
+    }
+
+    public void loadAllDdbls() {
+        if (CommonUtils.isValueEligibleForLoading()) {
+            pvSelectionDTO.setSessionDTO(sessionDTO);
+            loadCustomerLevel();
+            loadProductLevel();
+            loadDedutionLevel();
+            loadCustomerLevelFilter(StringUtils.EMPTY);
+            loadProductLevelFilter(StringUtils.EMPTY);
+            loadDeductionLevelFilter(StringUtils.EMPTY);
+            loadDeductionInclusion();
+            loadSalesInclusion();
+            uomLoadingTabChange();
+            loadDisplayFormatDdlb();
+        }
     }
     
 }

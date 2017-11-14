@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <sql>
+
+	<entity id="getNSFItemsCheckAllQuery">
+		<query> 
+            <![CDATA[  
+            UPDATE IMTD_DEDUCTION_DETAILS SET CHECK_RECORD = ? WHERE USERS_SID = ?  AND SESSION_ID = ?    
+           
+ ]]>
+		</query>
+	</entity>
+
 	<entity id="getNsfAddDeclareQuery">
 		<query> 
             <![CDATA[           
@@ -523,7 +533,7 @@
         ]]>
 		</query>
 	</entity>
-	
+
 	<entity id="getNsfDuplicateIndicatorCheckQuery">
 		<query> 
             <![CDATA[

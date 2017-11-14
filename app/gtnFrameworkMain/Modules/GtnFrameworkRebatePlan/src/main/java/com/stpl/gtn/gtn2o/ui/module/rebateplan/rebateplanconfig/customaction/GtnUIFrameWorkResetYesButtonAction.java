@@ -341,7 +341,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getFrom());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getToDesc());
-			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperator());
+			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorDesc());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getValue());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorType());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentOperator1());
@@ -369,10 +369,10 @@ public class GtnUIFrameWorkResetYesButtonAction
 			for (int i = 0; i < splitList.size(); i++) {
 				Character s3 = splitList.get(i);
 				String comma = "";
-				if (i != 0 && i != splitList.size() - 1) {
+				if (i != splitList.size() - 1) {
 					comma = ",";
 				}
-				if (i != 0 && (s3 == '$' || s3 == '%')) {
+				if ((s3 == '$' || s3 == '%')) {
 					sym.append(s3);
 					sym.append(comma);
 				}
@@ -394,7 +394,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		List<String> list = Arrays.asList(value.split(","));
 		int k = 3;
 		for (int j = 0; j < list.size(); j++) {
-
+                        
 			dto.addProperties(String.valueOf(recordHeader.get(k)), list.get(j));
 			dto.addAdditionalProperties(k, list.get(j));
 			k += 3;
@@ -408,7 +408,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 				n += 3;
 			}
 		}
-		int m = 5;
+		int m = 2;
 		for (int i = 0; i < symarray.length; i++) {
 			String a = symarray[i];
 			dto.addProperties(String.valueOf(recordHeader.get(m)), a);
