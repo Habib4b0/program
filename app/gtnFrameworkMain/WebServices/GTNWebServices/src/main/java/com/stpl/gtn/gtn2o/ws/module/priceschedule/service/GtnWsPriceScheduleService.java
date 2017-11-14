@@ -275,10 +275,15 @@ public class GtnWsPriceScheduleService {
 		String imtdPsDetailsUpdateQuery = gtnWsSqlService.getQuery("getImtdPsDetailsUpdateQuery");
 		String updateValue;
 		if (componetMap.get(psUpdateBean.getPropertyId()).getDataType().equals("Date")
-				&& psUpdateBean.getValue() != null) {
+				&& psUpdateBean.getValue() != null  && !psUpdateBean.getValue().equals("NULL")) {
 			String formatedDate = GtnCommonUtil.getFormatedDate(psUpdateBean);
 			updateValue = formatedDate;
-		} else {
+		} 
+                else if(componetMap.get(psUpdateBean.getPropertyId()).getDataType().equals("Date")
+				&& psUpdateBean.getValue().equals("NULL")){
+                    updateValue = "";
+                }
+                else {
 			updateValue = String.valueOf(psUpdateBean.getValue());
 		}
 		String columnName = componetMap.get(psUpdateBean.getPropertyId()).getDbColumnName();
