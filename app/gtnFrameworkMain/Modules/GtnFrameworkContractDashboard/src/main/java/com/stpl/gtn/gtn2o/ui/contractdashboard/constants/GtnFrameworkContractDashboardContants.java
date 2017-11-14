@@ -174,7 +174,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
 	public static final String NEP = "NEP";
 	public static final String PRICE_TOLERENCE = "Price Tolerance";
-	public static final String BASE_PRICE = "Baseline WAC";
+	public static final String BASE_PRICE = "Base Price Type";
 	public static final String HIDDEN_LAYOUT = "hiddenLayout";
 	public static final String HIDDEN_COMPONENT = "cfpContractId";
 	public static final String HIDDEN_FIELD = "hiddenField";

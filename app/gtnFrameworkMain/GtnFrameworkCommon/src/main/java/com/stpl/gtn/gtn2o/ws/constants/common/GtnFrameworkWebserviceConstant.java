@@ -178,7 +178,12 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_NET_B_SUBSEQ_PERIOD_PRICE = "psNetBSubseqPeriodPrice";
 	public static final String PS_NET_RESET_PRICE_FORMULA_NAME = "psNetResetPriceFormulaName";
 	public static final String PS_NET_RESET_PRICE_FORMULA_ID = "psNetResetPriceFormulaId";
-	public static final String NET_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID";
+	public static final String NET_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID";        
+	public static final String PS_NET_RESET_PRICE_FORMULA_ID_ONE = "psNetResetPriceFormulaId1";
+	public static final String PS_NET_SUBSEQUENT_PRICE_FORMULA_ID_ONE = "psNetBSubseqPriceFormulaId1";
+	public static final String PS_NET_BASE_PRICE_FORMULA_ID_ONE = "psNetBasePriceFormulaId1";
+	public static final String PS_NEP_FORMULA_ONE = "psNEPFormula1";
+	public static final String PS_NET_PRICE_TYPE_FORMULA_ONE = "psNetPriceTypeFormula1";
 	public static final String PS_NET_PRICE_TYPE = "psNetPriceType";
 	public static final String PS_NET_RESET_PRICE_TYPE = "psNetResetPriceType";
 	public static final String PS_RESET_PRICE_TYPE = "psResetPriceType";
@@ -200,6 +205,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String PS_NET_B_RESET_PRICE_FORMULA_ID = "NET_RESET_PRICE_FORMULA_ID";
 	public static final String PS_NET_BASE_PRICE_FORMULA_ID = "psNetBasePriceFormulaId";
 	public static final String PS_NET_BASE_PRICE_FORMULA_ID_COLUMN = "NET_BASE_PRICE_FORMULA_ID";
+        public static final String PS_NEP_FORMULA_ID_COLUMN = "NEP_FORMULA";
+        public static final String PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN = "NET_PRICE_TYPE_FORMULA";
 	public static final String PS_NET_BASE_PRICE = "psNetBasePrice";
 	public static final String PS_BASE_PRICE_ENTRY = "psBasePriceEntry";
 	public static final String PS_BASE_PRICE_TYPE = "psBasePriceType";

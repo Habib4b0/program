@@ -64,9 +64,17 @@ public class GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction
 
 		psPriceProtectionTabMassDateFeildLayout.setVisible(false);
 		psPriceProtectionTabMassDropDownLayout.setVisible(false);
-		psPriceProtectionTabBasePriceDdlbLayout
-				.setVisible(GtnFrameworkCommonConstants.BASE_PRICE.equals(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("psPriceProtectionTabMassField").getCaptionFromComboBox()));
+		String massDdlbValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+				"psPriceProtectionTabMassField").getCaptionFromComboBox();
+
+		if (GtnFrameworkCommonConstants.BASE_PRICE_TYPE.equals(massDdlbValue)) {
+			psPriceProtectionTabBasePriceDdlbLayout.setVisible(true);
+			psPriceProtectionTabBasePriceDdlb.setVisible(true);
+			massDdlbValue = psPriceProtectionTabBasePriceDdlb.getCaptionFromComboBox();
+		} else {
+			psPriceProtectionTabBasePriceDdlbLayout.setVisible(false);
+			psPriceProtectionTabBasePriceDdlb.setVisible(false);
+		}
 		psPriceProtectionTabTabmassCustomTextFieldLayout.setVisible(false);
 		psPriceProtectionTabTabmassTextFieldLayout.setVisible(false);
 		psPriceProtectionTabTabmassCustomTextField.setPropertyValue("");
@@ -77,9 +85,8 @@ public class GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction
 		GtnUIFrameworkComponentData componenetData = (GtnUIFrameworkComponentData) psPriceProtectionTabTabmassCustomTextField
 				.getData();
 		componenetData.setCustomData(null);
-		String massDdlbValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getCaptionFromComboBox();
 		if (massDdlbValue != null) {
-			if (GtnFrameworkCommonConstants.BASE_PRICE.equals(massDdlbValue)) {
+			if (GtnFrameworkCommonConstants.BASE_PRICE_TYPE.equals(massDdlbValue)) {
 				psPriceProtectionTabBasePriceDdlb.loadComboBoxComponentValue(null);
 			} else if (massDdlbValue.endsWith("Date")) {
 
