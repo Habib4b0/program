@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.dynamicclasses;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkLoadRuleDetailsAction;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkNsfDeductionTabCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkEnableDisableAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfContractSelectionAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfCopyAction;
@@ -94,6 +95,8 @@ public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnUiFrameworkNsfTabTableResetConfirmationAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkLoadRuleDetailsAction.class.getName(),
 				new GtnFrameworkLoadRuleDetailsAction());
+                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName(),
+				new GtnFrameworkNsfDeductionTabCheckAllAction());
 
 	}
 

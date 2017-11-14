@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.netsales.controller;
 
+import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.netsales.GtnWsNetSalesGeneralResponse;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping(value = "/" + GtnWsNsfUriConstants.NSF_SERVICE)
@@ -220,6 +222,26 @@ public class GtnWsNetSalesFormulaAddController {
 		}
 
 		return gtnResponse;
+	}
+        
+           @PostMapping(value = GtnWsCDRContants.GTN_WS_NSF_CHECK_ALL_SERVICE)
+	public GtnUIFrameworkWebserviceResponse checkAll(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		LOGGER.info("Enter checkAll");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+
+			int checkSuccess = gtnWsNsfService.checkAllItems(gtnWsRequest);
+			gtnResponse.getGtnWsGeneralResponse().setSucess(checkSuccess > 0);
+			return gtnResponse;
+		} catch (GtnFrameworkGeneralException ex) {
+			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
+			LOGGER.error("Exception while Excuting Query", ex);
+			gtnResponse.getGtnWsGeneralResponse().setGtnGeneralException(ex);
+			return gtnResponse;
+		} finally {
+			LOGGER.info("Exit deleteIfp and delete the ifp ");
+		}
 	}
 
 }

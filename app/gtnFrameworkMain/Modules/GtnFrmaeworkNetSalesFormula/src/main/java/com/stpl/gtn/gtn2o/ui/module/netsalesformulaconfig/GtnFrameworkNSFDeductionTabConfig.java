@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnFrameworkNsfDeductionTabCheckAllAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfDeductionMassFieldValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfDeductionPopulateAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.GtnUiFrameworkNsfDeductionsTabAddAction;
@@ -1084,6 +1085,13 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterMap = getSelectedDeductionFilterConfigMap();
 		selectedDeductionsResultTable.setCustomFilterConfigMap(customFilterMap);
 		selectedDeductionsResultTable.setEditableField(createTableFieldFactoryComponents());
+                
+                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig checkAllAction = componentConfigProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		checkAllAction.addActionParameter(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName());
+		actionConfigList.add(checkAllAction);
+                selectedDeductionsResultTable.setColumnCheckActionConfigList(actionConfigList);
 		selectedDeductionsResultTableConfig.setGtnPagedTableConfig(selectedDeductionsResultTable);
 	}
 

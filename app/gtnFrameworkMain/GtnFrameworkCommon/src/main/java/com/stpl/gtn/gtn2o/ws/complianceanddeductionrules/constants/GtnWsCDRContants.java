@@ -49,5 +49,6 @@ public class GtnWsCDRContants {
 	public static final String DC_SERVICE = "deductionCalendar/";
 	public static final String DC_ITEM_ADD_SERVICE = "deductionCalendarItemAdd";
 	public static final String DC_COMPANY_ADD_SERVICE = "deductionCalendarCompanyAdd";
+        public static final String GTN_WS_NSF_CHECK_ALL_SERVICE = "/checkAll";
 
 }
