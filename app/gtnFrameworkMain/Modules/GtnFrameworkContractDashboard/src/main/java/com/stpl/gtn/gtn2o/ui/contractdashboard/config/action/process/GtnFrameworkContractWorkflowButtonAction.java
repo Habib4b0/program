@@ -65,7 +65,13 @@ public class GtnFrameworkContractWorkflowButtonAction implements GtnUIFrameWorkA
 				.setVisible(pendingAndApprover);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnWsContractDashboardContants.CONTRACT_WITHDRAW_BTN)
 				.setVisible(creater && (pending || canceled));
-	}
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnAddLineButtonlayout")
+                                .setVisible(createrAndRejOrWithdrawn);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRemoveLineButtonlayout")
+                                .setVisible(createrAndRejOrWithdrawn);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnCopyLineButtonlayout")
+                                .setVisible(createrAndRejOrWithdrawn);
+    }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
