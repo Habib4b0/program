@@ -1983,10 +1983,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             productFilterDdlb.removeSubMenuCloseListener(productlistener);
             
             productFilterDdlb.removeItems();
-            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
 
             if (!levelNo.isEmpty() ) {
-                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 productLevelFilter.addAll(CommonLogic.getProductLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
             }
@@ -2000,10 +2000,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
             deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
             deductionFilterDdlb.removeItems();
-            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             
             if (!levelNo.isEmpty()) {
-                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 deductionLevelFilter.addAll(CommonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
             }
@@ -2037,9 +2037,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         
             customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
             customerFilterDdlb.removeItems();
-            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             if (!levelNo.isEmpty()) {
-                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 customerLevelFilter.addAll(CommonLogic.getCustomerLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
             }

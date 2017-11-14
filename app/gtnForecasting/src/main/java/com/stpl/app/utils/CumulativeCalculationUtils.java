@@ -182,6 +182,7 @@ public class CumulativeCalculationUtils {
             strb.append("'").append(credentials.isIsPasswordEncrypted() ? getDecryptedPassword(credentials.getPassword()) : credentials.getPassword()).append("'");
             strb.append(">");
             strb.append(logPath);
+            LOGGER.info("bcp ====" +  strb.toString());
             File shellFile = CommonUtil.getFilePath(folderName + File.separator + "exec.sh");
             fileList.add(shellFile.getAbsolutePath());
             try (FileOutputStream outShell = new FileOutputStream(shellFile)) {
