@@ -29,67 +29,68 @@ import com.stpl.gtn.gtn2o.ws.request.netsales.GtnWsNetSalesFormulaGeneralRequest
  * @author Deepika.KrishnaKumar
  */
 public class GtnFrameworkNsfDeductionTabCheckAllAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
-    
-    private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkNsfDeductionTabCheckAllAction.class);
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkNsfDeductionTabCheckAllAction.class);
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-       
-        GtnUIFrameworkNsfInfoBean nsfInfoBean = new GtnUIFrameworkNsfInfoBean();
-       
-         try{
-        nsfInfoBean.setCheckAll(true);
-        GtnUIFrameworkBaseComponent nsfTableBaseComponent = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(componentId);
-        nsfInfoBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-        Object value = nsfTableBaseComponent.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-        nsfInfoBean.setValue(value);
-        updateField(componentId);
-        
-        GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
-        GtnUIFrameworkPagedTableLogic pagedLogic = nsfTableBaseComponent.getLogicFromPagedDataTable();
-        pagedLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
-        GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-        } catch(GtnFrameworkValidationFailedException ex){
-            LOGGER.error("Exception in GtnFramework Nsf Deduction Tab CheckAll Action",ex);
-        }
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-return this;    
-    }
-    
-    public void updateField(String componentId) {
-        GtnUIFrameworkWebserviceRequest updateCheckReocrdRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-        
-        generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
-	generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
-        updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
-        
-        GtnUIFrameworkNsfInfoBean nsfBean = new GtnUIFrameworkNsfInfoBean();
-        nsfBean.setCheckAll(Boolean.TRUE);
-        nsfBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-        
-        nsfBean.setValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+
+		GtnUIFrameworkNsfInfoBean nsfInfoBean = new GtnUIFrameworkNsfInfoBean();
+
+		try {
+			nsfInfoBean.setCheckAll(true);
+			GtnUIFrameworkBaseComponent nsfTableBaseComponent = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(componentId);
+			nsfInfoBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+			Object value = nsfTableBaseComponent
+					.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+			nsfInfoBean.setValue(value);
+			updateField(componentId);
+
+			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
+			GtnUIFrameworkPagedTableLogic pagedLogic = nsfTableBaseComponent.getLogicFromPagedDataTable();
+			pagedLogic.startSearchProcess(gtnUIFrameWorkActionConfig.getFieldValues(), Boolean.TRUE);
+			GtnFrameworkNsfValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+		} catch (GtnFrameworkValidationFailedException ex) {
+			LOGGER.error("Exception in GtnFramework Nsf Deduction Tab CheckAll Action", ex);
+		}
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
+	public void updateField(String componentId) {
+		GtnUIFrameworkWebserviceRequest updateCheckReocrdRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
+
+		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
+		updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
+
+		GtnUIFrameworkNsfInfoBean nsfBean = new GtnUIFrameworkNsfInfoBean();
+		nsfBean.setCheckAll(Boolean.TRUE);
+		nsfBean.setColumnId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+
+		nsfBean.setValue(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId)
 				.getTableColumnCheckboxValue(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
-        GtnWsNetSalesFormulaGeneralRequest gtnWsNsfRequest = new GtnWsNetSalesFormulaGeneralRequest();
-        gtnWsNsfRequest.setnSfInfoBean(nsfBean);
-        updateCheckReocrdRequest.setGtnWsNetSalesGeneralRequest(gtnWsNsfRequest);
-        updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
-        
-        new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				"/" + GtnWsNsfUriConstants.NSF_SERVICE + GtnWsCDRContants.GTN_WS_NSF_CHECK_ALL_SERVICE, updateCheckReocrdRequest,
-				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-        
-    }
-    
-        
-    
+		GtnWsNetSalesFormulaGeneralRequest gtnWsNsfRequest = new GtnWsNetSalesFormulaGeneralRequest();
+		gtnWsNsfRequest.setnSfInfoBean(nsfBean);
+		updateCheckReocrdRequest.setGtnWsNetSalesGeneralRequest(gtnWsNsfRequest);
+		updateCheckReocrdRequest.setGtnWsGeneralRequest(generalWSRequest);
+
+		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				"/" + GtnWsNsfUriConstants.NSF_SERVICE + GtnWsCDRContants.GTN_WS_NSF_CHECK_ALL_SERVICE,
+				updateCheckReocrdRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+	}
+
 }

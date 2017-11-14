@@ -141,7 +141,7 @@ public class GtnFrameworkNSFConstants {
 	private static final String[] RULE_DETAILS_LOOKUP_HEADER = { "Line Type", "Item/Group/Association", "Keyword",
 			"Operator", "Value", "Comparison", "Operator" };
 
-        public static final String VALUE_CHANGE_ALLOWED = "ValueChangeAllowed";
+	public static final String VALUE_CHANGE_ALLOWED = "ValueChangeAllowed";
 	private static final String NET_SALES_RULE_POPUP_RESULT_TABLE = "cDRPopUpsearchResultTable";
 	private static final String NET_SALES_RULE_POPUP_DETAILS_TABLE = "cDRRulePopUpruleDetailsattachResultTable";
 

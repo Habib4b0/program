@@ -1085,13 +1085,13 @@ public class GtnFrameworkNSFDeductionTabConfig {
 		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterMap = getSelectedDeductionFilterConfigMap();
 		selectedDeductionsResultTable.setCustomFilterConfigMap(customFilterMap);
 		selectedDeductionsResultTable.setEditableField(createTableFieldFactoryComponents());
-                
-                List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+
+		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig checkAllAction = componentConfigProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		checkAllAction.addActionParameter(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName());
 		actionConfigList.add(checkAllAction);
-                selectedDeductionsResultTable.setColumnCheckActionConfigList(actionConfigList);
+		selectedDeductionsResultTable.setColumnCheckActionConfigList(actionConfigList);
 		selectedDeductionsResultTableConfig.setGtnPagedTableConfig(selectedDeductionsResultTable);
 	}
 

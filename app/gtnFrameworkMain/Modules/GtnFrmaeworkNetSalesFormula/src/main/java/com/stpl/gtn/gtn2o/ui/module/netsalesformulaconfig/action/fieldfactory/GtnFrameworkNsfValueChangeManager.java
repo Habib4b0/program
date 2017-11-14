@@ -13,14 +13,14 @@ import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
  * @author Deepika.KrishnaKumar
  */
 public class GtnFrameworkNsfValueChangeManager {
-    
-    private GtnFrameworkNsfValueChangeManager(){
-        /**
-         * empty constructor
-         */
-    }
-    
-    public static Boolean isValueChangeAllowed() {
+
+	private GtnFrameworkNsfValueChangeManager() {
+		/**
+		 * empty constructor
+		 */
+	}
+
+	public static Boolean isValueChangeAllowed() {
 		if (GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED) == null) {
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.VALUE_CHANGE_ALLOWED, true);
 		}

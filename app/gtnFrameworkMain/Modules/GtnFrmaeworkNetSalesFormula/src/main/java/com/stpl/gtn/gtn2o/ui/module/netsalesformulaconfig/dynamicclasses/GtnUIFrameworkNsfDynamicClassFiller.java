@@ -95,7 +95,7 @@ public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnUiFrameworkNsfTabTableResetConfirmationAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkLoadRuleDetailsAction.class.getName(),
 				new GtnFrameworkLoadRuleDetailsAction());
-                GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName(),
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName(),
 				new GtnFrameworkNsfDeductionTabCheckAllAction());
 
 	}

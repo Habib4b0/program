@@ -28,9 +28,9 @@ public class GtnUIFrameworkNsfInfoBean {
 	private String netSalesRuleName;
 
 	private Integer systemId;
-        private boolean checkAll;
-        private String columnId;
-        private Object value;
+	private boolean checkAll;
+	private String columnId;
+	private Object value;
 
 	private List<GtnWebServiceSearchCriteria> availableContractSearchCriteriaList;
 
@@ -119,31 +119,33 @@ public class GtnUIFrameworkNsfInfoBean {
 	}
 
 	public List<GtnWebServiceSearchCriteria> getAvailableContractSearchCriteriaList() {
-		return availableContractSearchCriteriaList != null ? new ArrayList<>(availableContractSearchCriteriaList) : availableContractSearchCriteriaList;
+		return availableContractSearchCriteriaList != null ? new ArrayList<>(availableContractSearchCriteriaList)
+				: availableContractSearchCriteriaList;
 	}
 
 	public void setAvailableContractSearchCriteriaList(
 			List<GtnWebServiceSearchCriteria> availableContractSearchCriteriaList) {
-		this.availableContractSearchCriteriaList = (availableContractSearchCriteriaList != null ? new ArrayList<>(availableContractSearchCriteriaList) : availableContractSearchCriteriaList);
+		this.availableContractSearchCriteriaList = (availableContractSearchCriteriaList != null
+				? new ArrayList<>(availableContractSearchCriteriaList) : availableContractSearchCriteriaList);
 	}
-        
-          public boolean isCheckAll() {
-                return checkAll;
-        }
 
-        public void setCheckAll(boolean checkAll) {
-                this.checkAll = checkAll;
-        }
-        
-        public String getColumnId() {
+	public boolean isCheckAll() {
+		return checkAll;
+	}
+
+	public void setCheckAll(boolean checkAll) {
+		this.checkAll = checkAll;
+	}
+
+	public String getColumnId() {
 		return columnId;
 	}
 
 	public void setColumnId(String columnId) {
 		this.columnId = columnId;
 	}
-        
-        public Object getValue() {
+
+	public Object getValue() {
 		return value;
 	}
 

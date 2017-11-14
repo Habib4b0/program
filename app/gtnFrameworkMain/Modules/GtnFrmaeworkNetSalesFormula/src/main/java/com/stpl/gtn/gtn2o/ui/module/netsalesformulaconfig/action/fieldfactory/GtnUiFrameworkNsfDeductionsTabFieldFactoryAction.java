@@ -40,7 +40,7 @@ public class GtnUiFrameworkNsfDeductionsTabFieldFactoryAction
 		GtnFrameworkNSFCommonLogic.updateField(actionParam.getPropertyId(), actionParam.getCurrentValue(), false,
 				systemId, false, "/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_UPDATE_SERVICE,
 				false);
-                 if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
+		if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParam.getTableComponentId())
 					.getLogicFromPagedDataTable().handleCheckBoxOnItem(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 							Boolean.parseBoolean(String.valueOf(actionParam.getCurrentValue())));
@@ -51,5 +51,5 @@ public class GtnUiFrameworkNsfDeductionsTabFieldFactoryAction
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
-        
-		}
+
+}

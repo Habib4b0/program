@@ -223,8 +223,8 @@ public class GtnWsNetSalesFormulaAddController {
 
 		return gtnResponse;
 	}
-        
-           @PostMapping(value = GtnWsCDRContants.GTN_WS_NSF_CHECK_ALL_SERVICE)
+
+	@PostMapping(value = GtnWsCDRContants.GTN_WS_NSF_CHECK_ALL_SERVICE)
 	public GtnUIFrameworkWebserviceResponse checkAll(@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("Enter checkAll");
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
