@@ -331,8 +331,8 @@ public class StringConstantsUtil {
     public static final String DEDLEVELVALUES = "@DEDLEVELVALUES";
     public static final String LEVELVALUES = "@LEVELVALUES";
     public static final String RELBUILDSID = "@RELBUILDSID";
-    public static final String SelectLevel = "-Select Level-";
-    public static final String SelectAll = "Select All";
+    public static final String SELECT_LEVEL = "-Select Level-";
+    public static final String SELECT_ALL = "Select All";
     public static final String UDCJOIN = "@UDCJOIN";
     public static final String HELPERTABLEJOIN = "@HELPERTABLEJOIN";
     public static final String UDC_MASTER_SID = " JOIN UDCS UD ON UD.MASTER_SID=RS.RS_CONTRACT_SID AND UD.MASTER_TYPE='RS_CONTRACT'  ";

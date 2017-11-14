@@ -5075,7 +5075,7 @@ public class CommonLogic {
 
     
         public String getColumnNameCustomRel(final String hierarchyIndicator,final String parentHierarchyNo,SessionDTO sessionDTO) {
-        String columnName= StringUtils.EMPTY;
+        String columnName;
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
             columnName = " AND CCPH.CUST_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"%'";
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {

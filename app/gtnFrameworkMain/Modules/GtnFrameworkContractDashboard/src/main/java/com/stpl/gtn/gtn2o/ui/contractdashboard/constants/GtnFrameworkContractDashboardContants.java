@@ -196,7 +196,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String CDPROCESSVIEW_RTRECORD = "CDProcessView_RTrecord";
         
 	public static final String BASELINE_NET_WAC = "Baseline Net WAC";
-	public static final String BASELINE_PRICE_TYPE = "Base Price Type";
+	public static final String BASELINE_PRICE_TYPE = BASE_PRICE;
 	public static final String NET_BASELINE_WAC_FORMULA = "Net Baseline WAC Formula";
 	public static final String SUBSEQUENT_PERIOD_PRICE_TYPE = "Subsequent Period Price Type";
 	public static final String NET_SUBSEQUEN_PERIOD_PRICE = "Net Subsequent Period Price";
@@ -318,7 +318,7 @@ public class GtnFrameworkContractDashboardContants {
 			getPriceProtectionColumn()[33] };
 	private static final String[] PRICE_PROTECTION_COLUMN_HEADER = { "", RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
 			BRAND2, "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
-			"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
+			"Measurement Price", "NEP", "NEP Formula", BASE_PRICE, "Baseline WAC", "Baseline Net WAC",
 			"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
 			"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 			"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
