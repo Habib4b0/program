@@ -33,24 +33,24 @@ public class GtnFrameworkPsFieldFactoryPopupSelectAction implements
 	public void doAction(String componentId,
 			GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		GtnUIFrameworkComponentConfig selectButtonComponentConfig = GtnUIFrameworkGlobalUI
+		GtnUIFrameworkComponentConfig psSelectButtonComponentConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("netSalesFormulaPopUpViewAddButton").getComponentConfig();
-		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig();
-		selectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
-		List<Object> actionParameter = new ArrayList<>();
-		actionParameter.add(GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
-		actionParameter.add(GtnFrameworkCommonConstants.FORMULA_NAME);
-		actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.FORMULA_NAME));
-		actionParameter.add(Arrays.asList(componentId));
-		selectAction.setActionParameterList(actionParameter);
-		actionConfigList.add(selectAction);
+		List<GtnUIFrameWorkActionConfig> psActionConfigList = new ArrayList<>();
+		GtnUIFrameWorkActionConfig psSelectAction = new GtnUIFrameWorkActionConfig();
+		psSelectAction.setActionType(GtnUIFrameworkActionType.POPUP_SELECT_ACTION);
+		List<Object> psActionParameter = new ArrayList<>();
+		psActionParameter.add(GtnFrameworkCommonConstants.NET_SALES_SEARCH_RESULT_TABLE);
+		psActionParameter.add(GtnFrameworkCommonConstants.FORMULA_NAME);
+		psActionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.FORMULA_NAME));
+		psActionParameter.add(Arrays.asList(componentId));
+		psSelectAction.setActionParameterList(psActionParameter);
+		psActionConfigList.add(psSelectAction);
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(Arrays
 						.asList(GtnFrameworkCommonConstants.NET_SALES_FORMULA_POP_UP_VIEW));
-		actionConfigList.add(closeAction);
-		selectButtonComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+		psActionConfigList.add(closeAction);
+		psSelectButtonComponentConfig.setGtnUIFrameWorkActionConfigList(psActionConfigList);
 	}
 
 	@Override
