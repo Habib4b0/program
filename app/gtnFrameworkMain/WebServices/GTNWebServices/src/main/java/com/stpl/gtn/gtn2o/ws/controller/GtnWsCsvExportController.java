@@ -18,6 +18,10 @@ import com.stpl.gtn.gtn2o.ws.service.GtnCsvExportService;
 @RequestMapping()
 public class GtnWsCsvExportController {
 
+	public GtnWsCsvExportController() {
+		super();
+	}
+
 	@Autowired
 	private GtnCsvExportService gtnCsvExportService;
 
