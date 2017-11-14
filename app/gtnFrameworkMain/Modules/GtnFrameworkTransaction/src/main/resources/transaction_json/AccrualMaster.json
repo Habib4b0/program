@@ -15,7 +15,10 @@
 		"isResultView": false,
 		"componentType": "combobox",
 		"listName": "COMPANY_TYPE",
-		"loadDescription": true
+		"loadDescription": true,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
 	},
 	{
 		"columnID": "companyNo",
@@ -33,7 +36,10 @@
 		"isResultView": false,
 		"componentType": "combobox",
 		"listName": "CompanyOrganizationKey",
-		"loadDescription": true
+		"loadDescription": true,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
 	},
 	{
 		"columnID": "businessUnitNo",
@@ -51,7 +57,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 10,
-		"listViewIndex": 27
+		"listViewIndex": 27,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "accountName", 
@@ -60,7 +69,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 11,
-		"listViewIndex": 28
+		"listViewIndex": 28,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
 	},
 	{
 		"columnID": "source",
@@ -69,7 +81,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 27,
-		"listViewIndex": 51
+		"listViewIndex": 51,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "batchId",
@@ -78,7 +93,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 55,
-		"listViewIndex": 50
+		"listViewIndex": 50,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "itemNo",
@@ -87,7 +105,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 16,
-		"listViewIndex": 12
+		"listViewIndex": 12,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "itemName",
@@ -96,7 +117,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 17,
-		"listViewIndex": 13
+		"listViewIndex": 13,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
 	},
 	{
 		"columnID": "contractId",
@@ -105,7 +129,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 21,
-		"listViewIndex": 30
+		"listViewIndex": 30,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "contractName",
@@ -114,7 +141,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 23,
-		"listViewIndex": 32
+		"listViewIndex": 32,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
 	},
 	{
 		"columnID": "contractNo",
@@ -123,7 +153,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 22,
-		"listViewIndex": 31
+		"listViewIndex": 31,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "accrualId",
@@ -132,7 +165,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 51,
-		"listViewIndex": 47
+		"listViewIndex": 47,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "salesMasterId",
@@ -141,7 +177,10 @@
 		"isResultView": true,
 		"componentType": "combobox",
 		"viewModeIndex": 45,
-		"listViewIndex": 41
+		"listViewIndex": 41,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "categoryId",
@@ -150,7 +189,10 @@
 		"isResultView": true,
 		"componentType": "combobox",
 		"viewModeIndex": 47,
-		"listViewIndex": 43
+		"listViewIndex": 43,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "accrualProgramType",
@@ -160,7 +202,10 @@
 		"componentType": "combobox",
 		"listName": "RS_UDC2",
 		"viewModeIndex": 34,
-		"listViewIndex": 23
+		"listViewIndex": 23,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":25
 	},
 	{
 		"columnID": "accrualType",
@@ -175,7 +220,10 @@
 		"onlyValidComponent": true,
 		"loadDescription": true,
 		"viewModeIndex": 31,
-		"listViewIndex": 33
+		"listViewIndex": 33,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "accrualType",
@@ -199,7 +247,10 @@
 		"isResultView": true,
 		"componentType": "combobox",
 		"viewModeIndex": 50,
-		"listViewIndex": 46
+		"listViewIndex": 46,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "accrualPeriodStartDate",
@@ -209,7 +260,10 @@
 		"componentType": "date",
 		"onlyValidComponent": true,
 		"viewModeIndex": 29,
-		"listViewIndex": 18
+		"listViewIndex": 18,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "accrualPeriodStartDate",
@@ -221,7 +275,10 @@
 		"columnAlignment": "CENTER",
 		"isInvalidComponent": true,
 		"listViewIndex": 18,
-		"viewModeIndex": 29
+		"viewModeIndex": 29,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "accrualPeriodEndDate",
@@ -231,7 +288,10 @@
 		"componentType": "date",
 		"onlyValidComponent": true,
 		"viewModeIndex": 30,
-		"listViewIndex": 19
+		"listViewIndex": 19,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "accrualPeriodEndDate",
@@ -243,7 +303,10 @@
 		"columnAlignment": "CENTER",
 		"viewModeIndex": 30,
 		"listViewIndex": 19,
-		"isInvalidComponent": true
+		"isInvalidComponent": true,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "glDate",
@@ -253,7 +316,10 @@
 		"componentType": "date",
 		"onlyValidComponent": true,
 		"viewModeIndex": 43,
-		"listViewIndex": 20
+		"listViewIndex": 20,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "glDate",
@@ -265,7 +331,10 @@
 		"columnAlignment": "CENTER",
 		"viewModeIndex": 43,
 		"listViewIndex": 20,
-		"isInvalidComponent": true
+		"isInvalidComponent": true,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "postingDate",
@@ -275,7 +344,10 @@
 		"componentType": "date",
 		"onlyValidComponent": true,
 		"viewModeIndex": 44,
-		"listViewIndex": 34
+		"listViewIndex": 34,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "postingDate",
@@ -287,7 +359,10 @@
 		"columnAlignment": "CENTER",
 		"viewModeIndex": 44,
 		"listViewIndex": 34,
-		"isInvalidComponent": true
+		"isInvalidComponent": true,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":8
 	},
 	{
 		"columnID": "glAccount",
@@ -296,7 +371,10 @@
 		"isResultView": true,
 		"componentType": "text",
 		"viewModeIndex": 42,
-		"listViewIndex": 25
+		"listViewIndex": 25,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
 	},
 	{
 		"columnID": "companyCostCenter",

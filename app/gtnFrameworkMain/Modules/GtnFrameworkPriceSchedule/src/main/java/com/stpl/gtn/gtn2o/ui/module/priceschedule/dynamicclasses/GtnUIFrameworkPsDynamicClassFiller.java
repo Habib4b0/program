@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnUIFramewo
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnUIFrameworkPSValidationActionIsRecordSelectedAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPPFieldFactoryDynamicComponentAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPricingTabFieldFactoryAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPsFieldFactoryPopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFramworkPsPriceProtectionResultsFieldFactoryAction;
 
 public class GtnUIFrameworkPsDynamicClassFiller implements GtnUIDynamicObjectFiller {
@@ -89,7 +90,9 @@ public class GtnUIFrameworkPsDynamicClassFiller implements GtnUIDynamicObjectFil
 				new GtnUIFrameWorkTableRecordTypeAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPSPriceProtectionTabAddLineAction.class.getName(),
 				new GtnFrameworkPSPriceProtectionTabAddLineAction());
-
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPsFieldFactoryPopupSelectAction.class.getName(),
+				new GtnFrameworkPsFieldFactoryPopupSelectAction());
+                
 	}
 
 }

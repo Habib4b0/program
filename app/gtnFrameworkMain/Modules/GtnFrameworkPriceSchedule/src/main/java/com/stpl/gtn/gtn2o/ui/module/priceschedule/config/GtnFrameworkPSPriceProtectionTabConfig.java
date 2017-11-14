@@ -26,6 +26,7 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSPricePr
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnFrameworkPSPriceProtectionTabAddLineAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnUIFrameworkPSPopulateCheckAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPPFieldFactoryDynamicComponentAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPsFieldFactoryPopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFramworkPsPriceProtectionResultsFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.constants.GtnFrameworkPSConstants;
 import com.stpl.gtn.gtn2o.ws.bean.search.GtnWsSearchQueryConfigLoaderType;
@@ -467,9 +468,13 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				popupActionParam.add("70%");
 				popupActionParam.add("70%");
 				popupActionConfig.setActionParameterList(popupActionParam);
-				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(popupActionConfig);
+				
 				priceProtectionTabConfig.setGtnTextBoxConfig(new GtnUIFrameworkTextBoxConfig());
-			}
+				GtnUIFrameWorkActionConfig selectAction = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+				selectAction.addActionParameter(GtnFrameworkPsFieldFactoryPopupSelectAction.class.getName());
+				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(popupActionConfig);
+				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(selectAction);
+			 }
 			if (GtnFrameworkCommonConstants.PS_BASE_PRICE_ENTRY.equals(propertyId)) {
 				GtnUIFrameWorkActionConfig pricingTableFieldFactoryFieldFactoryComponentCreateAction = new GtnUIFrameWorkActionConfig();
 				pricingTableFieldFactoryFieldFactoryComponentCreateAction

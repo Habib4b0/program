@@ -715,6 +715,7 @@ public class FileManagementLookup extends Window {
                             idList.add(beanItem);
                         }
                     }
+                    detailsBean.addItem(idList);
                     if (idList.size() > 0) {
                         deleteFlag = false;
                         selectClose = true;
@@ -1819,7 +1820,7 @@ public class FileManagementLookup extends Window {
     }
 
     public void saveButtonLogic() {
-        LOGGER.debug("Enters Inside Save Button Logic");
+        LOGGER.debug("Enters Inside Save Button Logic ");
         Boolean changeFlag = false;
        
         final List<FileMananagementResultDTO> itemIds = detailsBean.getItemIds();
@@ -1881,7 +1882,6 @@ public class FileManagementLookup extends Window {
                     }
                             }
                         }
-                    
             for (int i = 0; i < itemIds.size(); i++) {
                 final FileMananagementResultDTO beanItem = itemIds.get(i);
                 if (!beanItem.isRecordLockStatus()) {
@@ -4176,9 +4176,8 @@ class Downloader implements OnDemandFileDownloader.OnDemandStreamResource {
                 long exportBeginTime = System.currentTimeMillis();
                 String[] bcpHeader = configureExcelDetailsTable();
                 fileName = BCPExcelUtility.excelExport_bcpUtility("FILE_MANAGEMENT", bcpHeader, query, outputFilePath);
-                System.out.println("fileName = " + fileName);
                 long exportEndTime = System.currentTimeMillis();
-                System.out.println("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
+                LOGGER.debug("BCP Export took " + (exportEndTime - exportBeginTime) + " milliseconds");
                 file = new File(fileName);
                 List<String> fileList = (List) VaadinSession.getCurrent().getAttribute(dirName);
                 if (fileList == null) {
