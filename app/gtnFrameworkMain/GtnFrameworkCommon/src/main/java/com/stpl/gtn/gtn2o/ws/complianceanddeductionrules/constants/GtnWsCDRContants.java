@@ -1,11 +1,11 @@
 package com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants;
 
 public class GtnWsCDRContants {
-    private GtnWsCDRContants(){
-        /**
-         * empty constructor
-         */
-    }
+	private GtnWsCDRContants() {
+		/**
+		 * empty constructor
+		 */
+	}
 
 	public static final String NSF_SERVICE = "netSalesFormula";
 	public static final String NS_DELETE_SERVICE = "netSalesDeleteService";
@@ -49,5 +49,6 @@ public class GtnWsCDRContants {
 	public static final String DC_SERVICE = "deductionCalendar/";
 	public static final String DC_ITEM_ADD_SERVICE = "deductionCalendarItemAdd";
 	public static final String DC_COMPANY_ADD_SERVICE = "deductionCalendarCompanyAdd";
+	public static final String GTN_WS_NSF_CHECK_ALL_SERVICE = "/checkAll";
 
 }
