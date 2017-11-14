@@ -43,9 +43,9 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			if (propertyId.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12])) {
 				propertyId = getFieldId(propertyId, actionParam.getItemId(), actionParam.getCurrentValue());
 			}
-				updateField(propertyId, actionParam.getCurrentValue(), Boolean.FALSE,
-						actionParam.getItemId().getPropertyValue("systemId").toString(), componentId,
-						actionParam.getTableComponentId(), actionParam.getItemId());
+			updateField(propertyId, actionParam.getCurrentValue(), Boolean.FALSE,
+					actionParam.getItemId().getPropertyValue("systemId").toString(), componentId,
+					actionParam.getTableComponentId(), actionParam.getItemId());
 		}
 		if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParam.getTableComponentId())
@@ -65,9 +65,9 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 		Object localVarable = value;
 		GtnUIFrameworkWebserviceRequest updateRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-                if((column.equals("psPPStartDate")) && localVarable==null){
-                    localVarable="NULL";
-                }
+		if ((column.equals("psPPStartDate")) && localVarable == null) {
+			localVarable = "NULL";
+		}
 
 		generalWSRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		generalWSRequest.setSessionId(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId").toString());
