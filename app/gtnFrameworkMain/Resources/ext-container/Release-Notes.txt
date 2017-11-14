@@ -1,0 +1,7 @@
+Changes Version from 1.0 to 1.1
+
+1) Logic change in ExtContainer.
+2) Removed the dependancy of ExtListDTO and deleted ExtListDTO class.
+3) Performance Imporvement in ExtContainer.
+	
+

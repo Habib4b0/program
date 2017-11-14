@@ -1,0 +1,186 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails"
+		table="PS_CONTRACT_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="psContractDetailsSid" type="int">
+			<column name="PS_CONTRACT_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="brandMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.BrandMaster" fetch="select">
+			<column name="BRAND_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="helperTableByNetPriceType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_PRICE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPriceToleranceInterval"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PRICE_TOLERANCE_INTERVAL" />
+		</many-to-one>
+		<many-to-one name="helperTableByNetBasePrice"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_BASE_PRICE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPriceToleranceType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PRICE_TOLERANCE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByNetSubsequentPeriodPrice"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_SUBSEQUENT_PERIOD_PRICE" />
+		</many-to-one>
+		<many-to-one name="helperTableByResetEligible"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RESET_ELIGIBLE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPriceToleranceFrequency"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PRICE_TOLERANCE_FREQUENCY" />
+		</many-to-one>
+		<many-to-one name="helperTableByBasePriceType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="BASE_PRICE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsContractAttachedStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_CONTRACT_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByNetResetPriceType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_RESET_PRICE_TYPE" />
+		</many-to-one>
+		<many-to-one name="itemMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" fetch="select">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="itemPricingQualifier"
+			class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.ItemPricingQualifier"
+			fetch="select">
+			<column name="ITEM_PRICING_QUALIFIER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="netSalesFormulaMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster"
+			fetch="select">
+			<column name="NET_PRICE_TYPE_FORMULA" />
+		</many-to-one>
+		<many-to-one name="psContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContract" fetch="select">
+			<column name="PS_CONTRACT_SID" not-null="true" />
+		</many-to-one>
+		<property name="contractPrice" type="big_decimal">
+			<column name="CONTRACT_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="contractPriceStartDate" type="timestamp">
+			<column name="CONTRACT_PRICE_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="contractPriceEndDate" type="timestamp">
+			<column name="CONTRACT_PRICE_END_DATE" length="23" />
+		</property>
+		<property name="basePrice" type="big_decimal">
+			<column name="BASE_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="priceTolerance" type="big_decimal">
+			<column name="PRICE_TOLERANCE" precision="22" scale="6" />
+		</property>
+		<property name="priceProtectionStartDate" type="timestamp">
+			<column name="PRICE_PROTECTION_START_DATE" length="23" />
+		</property>
+		<property name="priceProtectionEndDate" type="timestamp">
+			<column name="PRICE_PROTECTION_END_DATE" length="23" />
+		</property>
+		<property name="priceRevision" type="big_decimal">
+			<column name="PRICE_REVISION" precision="22" scale="6" />
+		</property>
+		<property name="revisionDate" type="timestamp">
+			<column name="REVISION_DATE" length="23" />
+		</property>
+		<property name="suggestedPrice" type="big_decimal">
+			<column name="SUGGESTED_PRICE" precision="22" scale="6" />
+		</property>
+		<property name="price" type="big_decimal">
+			<column name="PRICE" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="psContractAttachedDate" type="timestamp">
+			<column name="PS_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="basePriceEntry" type="big_decimal">
+			<column name="BASE_PRICE_ENTRY" precision="22" scale="6" />
+		</property>
+		<property name="basePriceDate" type="timestamp">
+			<column name="BASE_PRICE_DATE" length="23" />
+		</property>
+		<property name="basePriceDdlb" type="java.lang.Integer">
+			<column name="BASE_PRICE_DDLB" />
+		</property>
+		<property name="netBasePriceFormulaId" type="java.lang.Integer">
+			<column name="NET_BASE_PRICE_FORMULA_ID" />
+		</property>
+		<property name="subsequentPeriodPriceType" type="java.lang.Integer">
+			<column name="SUBSEQUENT_PERIOD_PRICE_TYPE" />
+		</property>
+		<property name="netSubsequentPriceFormulaId" type="java.lang.Integer">
+			<column name="NET_SUBSEQUENT_PRICE_FORMULA_ID" />
+		</property>
+		<property name="resetPriceType" type="java.lang.Integer">
+			<column name="RESET_PRICE_TYPE" />
+		</property>
+		<property name="netResetPriceFormulaId" type="java.lang.Integer">
+			<column name="NET_RESET_PRICE_FORMULA_ID" />
+		</property>
+		<property name="nep" type="big_decimal">
+			<column name="NEP" precision="22" scale="6" />
+		</property>
+		<property name="priceProtectionStatus" type="java.lang.Integer">
+			<column name="PRICE_PROTECTION_STATUS" />
+		</property>
+		<property name="priceProtectionPriceType" type="java.lang.Integer">
+			<column name="PRICE_PROTECTION_PRICE_TYPE" />
+		</property>
+		<property name="nepFormula" type="java.lang.Integer">
+			<column name="NEP_FORMULA" />
+		</property>
+		<property name="maxIncrementalChange" type="big_decimal">
+			<column name="MAX_INCREMENTAL_CHANGE" precision="22" scale="6" />
+		</property>
+		<property name="resetType" type="java.lang.Integer">
+			<column name="RESET_TYPE" />
+		</property>
+		<property name="resetDate" type="timestamp">
+			<column name="RESET_DATE" length="23" />
+		</property>
+		<property name="resetInterval" type="java.lang.Integer">
+			<column name="RESET_INTERVAL" />
+		</property>
+		<property name="resetFrequency" type="java.lang.Integer">
+			<column name="RESET_FREQUENCY" />
+		</property>
+	</class>
+</hibernate-mapping>

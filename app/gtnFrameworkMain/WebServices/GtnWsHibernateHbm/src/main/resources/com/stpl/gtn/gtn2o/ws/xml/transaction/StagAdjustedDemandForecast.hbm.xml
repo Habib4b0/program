@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 2, 2017 4:52:41 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagAdjustedDemandForecast" table="STAG_ADJUSTED_DEMAND_FORECAST" schema="dbo" >
+        <id name="stagAdjustedDemandForecastSid" type="int">
+            <column name="STAG_ADJUSTED_DEMAND_FORECAST_SID" />
+            <generator class="native" />
+        </id>
+        <property name="adjustedDemandForecastIntfId" type="string">
+            <column name="ADJUSTED_DEMAND_FORECAST_INTF_ID"  not-null="true" />
+        </property>
+        <property name="forecastType" type="string">
+            <column name="FORECAST_TYPE" length="50" not-null="true" />
+        </property>
+        <property name="year" type="string">
+            <column name="YEAR" length="5" not-null="true" />
+        </property>
+        <property name="month" type="string">
+            <column name="MONTH" length="25" not-null="true" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="38" not-null="true" />
+        </property>
+        <property name="itemIdentifierCodeQualifier" type="string">
+            <column name="ITEM_IDENTIFIER_CODE_QUALIFIER" length="25" />
+        </property>
+        <property name="itemIdentifier" type="string">
+            <column name="ITEM_IDENTIFIER" length="50" />
+        </property>
+        <property name="brandId" type="string">
+            <column name="BRAND_ID" length="50" />
+        </property>
+        <property name="segment" type="string">
+            <column name="SEGMENT" length="50" />
+        </property>
+        <property name="marketSizeUnits" type="string">
+            <column name="MARKET_SIZE_UNITS"  />
+        </property>
+        <property name="marketShareRatio" type="string">
+            <column name="MARKET_SHARE_RATIO" length="25" />
+        </property>
+        <property name="marketShareUnits" type="string">
+            <column name="MARKET_SHARE_UNITS"  />
+        </property>
+        <property name="uncapturedUnits" type="string">
+            <column name="UNCAPTURED_UNITS"  />
+        </property>
+        <property name="uncapturedUnitsRatio" type="string">
+            <column name="UNCAPTURED_UNITS_RATIO" length="25" />
+        </property>
+        <property name="totalDemandUnits" type="string">
+            <column name="TOTAL_DEMAND_UNITS"  not-null="true" />
+        </property>
+        <property name="totalDemandAmount" type="string">
+            <column name="TOTAL_DEMAND_AMOUNT"  not-null="true" />
+        </property>
+        <property name="inventoryUnitChange" type="string">
+            <column name="INVENTORY_UNIT_CHANGE"  />
+        </property>
+        <property name="grossUnits" type="string">
+            <column name="GROSS_UNITS"  />
+        </property>
+        <property name="grossPrice" type="string">
+            <column name="GROSS_PRICE"  />
+        </property>
+        <property name="grossAmount" type="string">
+            <column name="GROSS_AMOUNT"  />
+        </property>
+        <property name="netSalesPrice" type="string">
+            <column name="NET_SALES_PRICE"  />
+        </property>
+        <property name="netSalesAmount" type="string">
+            <column name="NET_SALES_AMOUNT"  />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" not-null="true" />
+        </property>
+        <property name="forecastName" type="string">
+            <column name="FORECAST_NAME" length="100" not-null="true" />
+        </property>
+        <property name="forecastVer" type="string">
+            <column name="FORECAST_VER" length="15" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="25" not-null="true" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="50" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

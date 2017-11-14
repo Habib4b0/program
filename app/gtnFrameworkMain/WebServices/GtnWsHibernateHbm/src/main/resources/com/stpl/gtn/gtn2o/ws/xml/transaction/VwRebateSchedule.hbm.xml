@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwRebateSchedule" table="VW_REBATE_SCHEDULE" schema="dbo">
+        <id name="rebateScheduleModelSid" type="int">
+            <column name="RS_MODEL_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="rebateScheduleId" type="string">
+            <column name="REBATE_SCHEDULE_ID" length="200" />
+        </property>
+        <property name="rebateScheduleNo" type="string">
+            <column name="REBATE_SCHEDULE_NO" length="200" />
+        </property>
+        <property name="rebateScheduleName" type="string">
+            <column name="REBATE_SCHEDULE_NAME" length="200" />
+        </property>
+        <property name="rebateScheduleType" type="string">
+            <column name="REBATE_SCHEDULE_TYPE" length="200" />
+        </property>
+        <property name="rebateProgramType" type="string">
+            <column name="REBATE_PROGRAM_TYPE" length="200" />
+        </property>
+        <property name="rebateScheduleCategory" type="string">
+            <column name="REBATE_SCHEDULE_CATEGORY" length="200" />
+        </property>
+        <property name="tradeClass" type="string">
+            <column name="TRADE_CLASS" length="200" />
+        </property>
+        <property name="rebateScheduleDesignation" type="string">
+            <column name="REBATE_SCHEDULE_DESIGNATION" length="200" />
+        </property>
+        <property name="parentRebateScheduleId" type="string">
+            <column name="PARENT_REBATE_SCHEDULE_ID" length="200" />
+        </property>
+        <property name="parentRebateScheduleName" type="string">
+            <column name="PARENT_REBATE_SCHEDULE_NAME" length="200" />
+        </property>
+        <property name="rebateScheduleStatus" type="string">
+            <column name="REBATE_SCHEDULE_STATUS" length="200" />
+        </property>
+        <property name="rebateScheduleTransRefId" type="string">
+            <column name="REBATE_SCHEDULE_TRANS_REF_ID" length="200" />
+        </property>
+        <property name="rebateScheduleTransRefNo" type="string">
+            <column name="REBATE_SCHEDULE_TRANS_REF_NO" length="200" />
+        </property>
+        <property name="rebateScheduleTransRefName" type="string">
+            <column name="REBATE_SCHEDULE_TRANS_REF_NAME" length="200" />
+        </property>
+        <property name="udc1" type="string">
+            <column name="UDC1" length="200" />
+        </property>
+        <property name="udc2" type="string">
+            <column name="UDC2" length="200" />
+        </property>
+        <property name="udc3" type="string">
+            <column name="UDC3" length="200" />
+        </property>
+        <property name="udc4" type="string">
+            <column name="UDC4" length="200" />
+        </property>
+        <property name="udc5" type="string">
+            <column name="UDC5" length="200" />
+        </property>
+        <property name="udc6" type="string">
+            <column name="UDC6" length="200" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="50" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="CREATED_BY" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="int">
+            <column name="MODIFIED_BY" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" not-null="true" />
+        </property>
+         <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+         <property name="rsStartDate" type="timestamp">
+            <column name="RS_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="rsEndDate" type="timestamp">
+            <column name="RS_END_DATE" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

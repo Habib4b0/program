@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 2, 2017 3:54:22 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigMaster" table="PERIOD_CONFIG_MASTER" schema="dbo"  optimistic-lock="version">
+        <id name="periodConfigMasterSid" type="int">
+            <column name="PERIOD_CONFIG_MASTER_SID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="companyMasterByCompanyMasterSid" class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" fetch="select">
+            <column name="COMPANY_MASTER_SID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="companyMasterByBuCompanyMasterSid" class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" fetch="select">
+            <column name="BU_COMPANY_MASTER_SID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="helperTable" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="MODULE" not-null="true" />
+        </many-to-one>
+        <property name="businessProcessType" type="int">
+            <column name="BUSINESS_PROCESS_TYPE" not-null="true" />
+        </property>
+        <set name="periodConfigDetailses" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PERIOD_CONFIG_MASTER_SID" not-null="true" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

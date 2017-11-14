@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 10, 2017 3:27:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.calendarconfig.CalendarConfigMaster" table="CALENDAR_CONFIG_MASTER" schema="dbo"
+    optimistic-lock="version">
+        <id name="calendarConfigMasterSid" type="int">
+            <column name="CALENDAR_CONFIG_MASTER_SID" />
+            <generator class="native" />
+        </id>
+        <property name="calendarName" type="string">
+            <column name="CALENDAR_NAME" length="50" />
+        </property>
+        <property name="calendarDescription" type="string">
+            <column name="CALENDAR_DESCRIPTION" length="50" />
+        </property>
+        <property name="calendarYear" type="java.lang.Integer">
+            <column name="CALENDAR_YEAR" />
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="defaultHolidays" type="java.lang.Boolean">
+            <column name="DEFAULT_HOLIDAYS" />
+        </property>
+        <set name="calendarConfigDetailses" table="CALENDAR_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CALENDAR_CONFIG_MASTER_SID" not-null="true" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.calendarconfig.CalendarConfigDetails" />
+        </set>
+    </class>
+</hibernate-mapping>

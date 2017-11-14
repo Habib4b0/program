@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2017 2:10:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyDefinition"
+		table="HIERARCHY_DEFINITION" schema="dbo" optimistic-lock="version">
+		<id name="hierarchyDefinitionSid" type="int">
+			<column name="HIERARCHY_DEFINITION_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="HIERARCHY_TYPE" />
+		</many-to-one>
+		<property name="hierarchyName" type="string">
+			<column name="HIERARCHY_NAME" length="100" />
+		</property>
+		<property name="hierarchyCategory" type="java.lang.Integer">
+			<column name="HIERARCHY_CATEGORY" />
+		</property>
+		<property name="noOfLevels" type="java.lang.Integer">
+			<column name="NO_OF_LEVELS" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="versionNo" type="int">
+			<column name="VERSION_NO" not-null="true" />
+		</property>
+		<set name="relationshipBuilders" table="RELATIONSHIP_BUILDER"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="HIERARCHY_DEFINITION_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder" />
+		</set>
+		<set name="hierarchyLevelDefinitions" table="HIERARCHY_LEVEL_DEFINITION"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="HIERARCHY_DEFINITION_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyLevelDefinition" />
+		</set>
+	</class>
+</hibernate-mapping>

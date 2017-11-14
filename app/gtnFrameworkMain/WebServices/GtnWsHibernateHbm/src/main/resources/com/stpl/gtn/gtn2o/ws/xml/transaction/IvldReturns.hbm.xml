@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 16, 2017 5:37:11 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldReturns" table="IVLD_RETURNS" schema="dbo">
+        <id name="ivldReturnsSid" type="int">
+            <column name="IVLD_RETURNS_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="version" type="string">
+            <column name="VERSION" length="200" />
+        </property>
+        <property name="rreserveInterfaceId" type="string">
+            <column name="RRESERVE_INTERFACE_ID" not-null="true" />
+        </property>
+        <property name="rreserveId" type="string">
+            <column name="RRESERVE_ID" length="200" />
+        </property>
+        <property name="sku" type="string">
+            <column name="SKU" length="200" />
+        </property>
+        <property name="brand" type="string">
+            <column name="BRAND" length="200" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="200" />
+        </property>
+        <property name="origSaleMonth" type="string">
+            <column name="ORIG_SALE_MONTH" length="200" />
+        </property>
+        <property name="origSaleUnits" type="string">
+            <column name="ORIG_SALE_UNITS" length="200" />
+        </property>
+        <property name="origSaleDollars" type="string">
+            <column name="ORIG_SALE_DOLLARS" length="200" />
+        </property>
+        <property name="asp" type="string">
+            <column name="ASP" length="200" />
+        </property>
+        <property name="cumReturnUnits" type="string">
+            <column name="CUM_RETURN_UNITS" length="200" />
+        </property>
+        <property name="actualReturnRate" type="string">
+            <column name="ACTUAL_RETURN_RATE" length="200" />
+        </property>
+        <property name="weightedAvgMonths" type="string">
+            <column name="WEIGHTED_AVG_MONTHS" length="200" />
+        </property>
+        <property name="firstReturn" type="string">
+            <column name="FIRST_RETURN" length="200" />
+        </property>
+        <property name="lastReturn" type="string">
+            <column name="LAST_RETURN" length="200" />
+        </property>
+        <property name="maxExpiredMonth" type="string">
+            <column name="MAX_EXPIRED_MONTH" length="200" />
+        </property>
+        <property name="maxExpiredMonsPluscutoff" type="string">
+            <column name="MAX_EXPIRED_MONS_PLUSCUTOFF" length="200" />
+        </property>
+        <property name="returnComplete" type="string">
+            <column name="RETURN_COMPLETE" length="200" />
+        </property>
+        <property name="calcUsed" type="string">
+            <column name="CALC_USED" length="200" />
+        </property>
+        <property name="origSaleMonthCutOff" type="string">
+            <column name="ORIG_SALE_MONTH_CUT_OFF" length="200" />
+        </property>
+        <property name="expectedReturnRate" type="string">
+            <column name="EXPECTED_RETURN_RATE" length="200" />
+        </property>
+        <property name="estimatedReturnUnits" type="string">
+            <column name="ESTIMATED_RETURN_UNITS" length="200" />
+        </property>
+        <property name="adjEstimatedReturnUnits" type="string">
+            <column name="ADJ_ESTIMATED_RETURN_UNITS" length="200" />
+        </property>
+        <property name="adjValueAtOrigAsp" type="string">
+            <column name="ADJ_VALUE_AT_ORIG_ASP" length="200" />
+        </property>
+        <property name="posEstimatedReturnUnits" type="string">
+            <column name="POS_ESTIMATED_RETURN_UNITS" length="200" />
+        </property>
+        <property name="valueAtOrigAsp" type="string">
+            <column name="VALUE_AT_ORIG_ASP" length="200" />
+        </property>
+        <property name="loadDate" type="string">
+            <column name="LOAD_DATE" length="200" />
+        </property>
+        <property name="pastExpiration" type="string">
+            <column name="PAST_EXPIRATION" length="200" />
+        </property>
+        <property name="within50qrtile" type="string">
+            <column name="WITHIN_50QRTILE" length="200" />
+        </property>
+        <property name="maximum" type="string">
+            <column name="MAXIMUM" length="200" />
+        </property>
+        <property name="pct75th" type="string">
+            <column name="PCT_75TH" length="200" />
+        </property>
+        <property name="pct50th" type="string">
+            <column name="PCT_50TH" length="200" />
+        </property>
+        <property name="pct25th" type="string">
+            <column name="PCT_25TH" length="200" />
+        </property>
+        <property name="upperLimit" type="string">
+            <column name="UPPER_LIMIT" length="200" />
+        </property>
+        <property name="lowerLimit" type="string">
+            <column name="LOWER_LIMIT" length="200" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="1000" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="500" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

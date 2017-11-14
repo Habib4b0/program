@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 23, 2017 12:12:00 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.ContractAliasMaster"
+		schema="dbo" table="CONTRACT_ALIAS_MASTER">
+		<id name="contractAliasMasterSid" type="int">
+			<column name="CONTRACT_ALIAS_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="contracType">
+			<column name="CONTRACT_ALIAS_TYPE" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster"
+			fetch="select" name="contractMaster">
+			<column name="CONTRACT_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<property name="contractAliasNo" type="string">
+			<column length="50" name="CONTRACT_ALIAS_NO" />
+		</property>
+		<property name="contractAliasName" type="string">
+			<column length="100" name="CONTRACT_ALIAS_NAME" />
+		</property>
+		<property name="tpCompanyMasterSid" type="java.lang.Integer">
+			<column name="TP_COMPANY_MASTER_SID" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column length="23" name="START_DATE" />
+		</property>
+		<property name="endDate" type="timestamp">
+			<column length="23" name="END_DATE" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column length="1" name="INBOUND_STATUS" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column length="50" name="BATCH_ID" />
+		</property>
+		<property name="source" type="string">
+			<column length="50" name="SOURCE" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="23" name="CREATED_DATE" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column length="23" name="MODIFIED_DATE" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

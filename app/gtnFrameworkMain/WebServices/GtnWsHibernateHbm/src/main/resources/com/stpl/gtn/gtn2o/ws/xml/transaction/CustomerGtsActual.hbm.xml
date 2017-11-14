@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.CustomerGtsActual"
+		table="CUSTOMER_GTS_ACTUAL" schema="dbo">
+		<id name="customerGtsActualSid" type="int">
+			<column name="CUSTOMER_GTS_ACTUAL_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="salesId" type="string">
+			<column name="SALES_ID" length="50" not-null="true" />
+		</property>
+		<property name="organizationKey" type="string">
+			<column name="ORGANIZATION_KEY" length="100" not-null="true" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="38" not-null="true" />
+		</property>
+		<property name="itemUom" type="string">
+			<column name="ITEM_UOM" length="50" not-null="true" />
+		</property>
+		<property name="orderNumber" type="string">
+			<column name="ORDER_NUMBER" length="50" not-null="true" />
+		</property>
+		<property name="invoiceNumber" type="string">
+			<column name="INVOICE_NUMBER" length="50" not-null="true" />
+		</property>
+		<property name="invoiceLineNumber" type="string">
+			<column name="INVOICE_LINE_NUMBER" length="50" not-null="true" />
+		</property>
+		<property name="invoiceDate" type="timestamp">
+			<column name="INVOICE_DATE" length="23" not-null="true" />
+		</property>
+		<property name="quantity" type="double">
+			<column name="QUANTITY" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="lotNo" type="string">
+			<column name="LOT_NO" length="50" />
+		</property>
+		<property name="amount" type="double">
+			<column name="AMOUNT" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="contractId" type="string">
+			<column name="CONTRACT_ID" length="50" />
+		</property>
+		<property name="accountId" type="string">
+			<column name="ACCOUNT_ID" length="100" not-null="true" />
+		</property>
+		<property name="orderReceivedDate" type="timestamp">
+			<column name="ORDER_RECEIVED_DATE" length="23" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" not-null="true" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="string">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="parentAccountId" type="string">
+			<column name="PARENT_ACCOUNT_ID" length="100" />
+		</property>
+		<property name="customerGtsActualIntfId" type="int">
+			<column name="CUSTOMER_GTS_ACTUAL_INTF_ID" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

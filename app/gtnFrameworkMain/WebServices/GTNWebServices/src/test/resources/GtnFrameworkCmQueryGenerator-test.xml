@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<bean id="frameworkSqlQuery"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="default_entity_mode">dynamic-map</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<!--<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value> -->
+				<!-- <value>/com/stpl/gtn/gtn2o/ws/xml/CompanyGroup.hbm.xml</value> <value>/com/stpl/gtn/gtn2o/ws/xml/CompanyGroupDetails.hbm.xml</value> 
+					<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value> <value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value> 
+					<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml</value> <value>/com/stpl/gtn/gtn2o/ws/xml/CompanyQualifier.hbm.xml</value> 
+					<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyTradeClass.hbm.xml</value> <value>/com/stpl/gtn/gtn2o/ws/xml/MasterDataFiles.hbm.xml</value> 
+					<value>/com/stpl/gtn/gtn2o/ws/xml/Udcs.hbm.xml</value> -->
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_GAL_APP_UNIT" />
+		<property name="username" value="bpigtn_unit" />
+		<property name="password" value="*U6s5ZKW~C4\Mdev" />
+	</bean>
+	<bean id="gtnWsCMasterService"
+		class="com.stpl.gtn.gtn2o.ws.module.companymaster.service.GtnWsCMasterService">
+		<!-- <property name="sessionFactory" ref="sessionFactory"></property> -->
+	</bean>
+	<bean id="queryLogger"
+		class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+	</bean>
+	<bean id="gtnWebServiceAllListConfig" class="com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnSqlQueryEngine" ref="frameworkSqlQuery"></property>
+		
+	</bean>
+</beans>

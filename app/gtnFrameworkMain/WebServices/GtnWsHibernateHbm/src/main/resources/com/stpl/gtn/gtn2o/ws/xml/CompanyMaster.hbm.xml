@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+		optimistic-lock="version" schema="dbo" table="COMPANY_MASTER">
+		<id name="companyMasterSid" type="int">
+			<column name="COMPANY_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByCompanyCategory">
+			<column name="COMPANY_CATEGORY" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByState">
+			<column name="STATE" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByCompanyGroup">
+			<column name="COMPANY_GROUP" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByOrganizationKey">
+			<column name="ORGANIZATION_KEY" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByCompanyType">
+			<column name="COMPANY_TYPE" not-null="true" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByCountry">
+			<column name="COUNTRY" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByCompanyStatus">
+			<column name="COMPANY_STATUS" not-null="true" />
+		</many-to-one>
+		<property name="companyId" type="string">
+			<column length="50" name="COMPANY_ID" not-null="true" unique="true" />
+		</property>
+		<property name="companyNo" type="string">
+			<column length="50" name="COMPANY_NO" not-null="true" />
+		</property>
+		<property name="companyName" type="string">
+			<column length="100" name="COMPANY_NAME" not-null="true" />
+		</property>
+		<property name="companyStartDate" type="timestamp">
+			<column length="23" name="COMPANY_START_DATE" not-null="true" />
+		</property>
+		<property name="companyEndDate" type="timestamp">
+			<column length="23" name="COMPANY_END_DATE" />
+		</property>
+		<property name="lives" type="java.lang.Integer">
+			<column name="LIVES" />
+		</property>
+		<property name="financialSystem" type="string">
+			<column length="50" name="FINANCIAL_SYSTEM" />
+		</property>
+		<property name="address1" type="string">
+			<column length="100" name="ADDRESS1" />
+		</property>
+		<property name="address2" type="string">
+			<column length="100" name="ADDRESS2" />
+		</property>
+		<property name="city" type="string">
+			<column length="50" name="CITY" />
+		</property>
+		<property name="zipCode" type="string">
+			<column length="50" name="ZIP_CODE" />
+		</property>
+		<property name="regionCode" type="string">
+			<column length="50" name="REGION_CODE" />
+		</property>
+		<property name="lastUpdatedDate" type="timestamp">
+			<column length="23" name="LAST_UPDATED_DATE" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column length="4000" name="INTERNAL_NOTES" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column length="1" name="INBOUND_STATUS" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column length="50" name="BATCH_ID" />
+		</property>
+		<property name="source" type="string">
+			<column length="50" name="SOURCE" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="23" name="CREATED_DATE" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column length="23" name="MODIFIED_DATE" not-null="true" />
+		</property>
+		<set fetch="select" inverse="true" lazy="true"
+			name="companyParentDetailsesForPriorParentCmpyMasterSid" table="COMPANY_PARENT_DETAILS">
+			<key>
+				<column name="PRIOR_PARENT_CMPY_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyParentDetails" />
+		</set>
+		<set fetch="select" inverse="true" lazy="true"
+			name="companyParentDetailsesForCompanyMasterSid" table="COMPANY_PARENT_DETAILS">
+			<key>
+				<column name="COMPANY_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyParentDetails" />
+		</set>
+		<set fetch="select" inverse="true" lazy="true" name="companyIdentifiers"
+			table="COMPANY_IDENTIFIER">
+			<key>
+				<column name="COMPANY_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyIdentifier" />
+		</set>
+		<set fetch="select" inverse="true" lazy="true" name="companyTradeClasses"
+			table="COMPANY_TRADE_CLASS">
+			<key>
+				<column name="COMPANY_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyTradeClass" />
+		</set>
+		<set fetch="select" inverse="true" lazy="true"
+			name="companyParentDetailsesForParentCompanyMasterSid" table="COMPANY_PARENT_DETAILS">
+			<key>
+				<column name="PARENT_COMPANY_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyParentDetails" />
+		</set>
+		<set name="cfpContractDetailses" table="CFP_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="COMPANY_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContractDetails" />
+		</set>
+		<set name="contractMastersForContHoldCompanyMasterSid" table="CONTRACT_MASTER"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="CONT_HOLD_COMPANY_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster" />
+		</set>
+		<set name="itemMasters" table="ITEM_MASTER" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ORGANIZATION_KEY" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" />
+		</set>
+		<set name="contractMastersForBunitCompanyMasterSid" table="CONTRACT_MASTER"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="BUNIT_COMPANY_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster" />
+		</set>
+		<set name="contractMastersForManfCompanyMasterSid" table="CONTRACT_MASTER"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="MANF_COMPANY_MASTER_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster" />
+		</set>
+	</class>
+</hibernate-mapping>

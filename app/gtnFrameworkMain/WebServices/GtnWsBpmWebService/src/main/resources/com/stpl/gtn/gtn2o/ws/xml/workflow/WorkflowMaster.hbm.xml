@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 7:31:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowMaster"
+		table="WORKFLOW_MASTER" schema="dbo">
+		<id name="workflowMasterSid" type="int">
+			<column name="WORKFLOW_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="projectionMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.projectionmaster.ProjectionMaster"
+			fetch="select">
+			<column name="PROJECTION_MASTER_SID" />
+		</many-to-one>
+		<property name="workflowId" type="string">
+			<column name="WORKFLOW_ID" length="50" />
+		</property>
+		<property name="workflowStatusId" type="java.lang.Integer">
+			<column name="WORKFLOW_STATUS_ID" />
+		</property>
+		<property name="approvedBy" type="java.lang.Integer">
+			<column name="APPROVED_BY" />
+		</property>
+		<property name="createdBy" type="java.lang.Integer">
+			<column name="CREATED_BY" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" />
+		</property>
+		<property name="accClosureMasterSid" type="java.lang.Integer">
+			<column name="ACC_CLOSURE_MASTER_SID" />
+		</property>
+		<property name="notes" type="string">
+			<column name="NOTES" length="8000" />
+		</property>
+		<property name="noOfApproval" type="java.lang.Integer">
+			<column name="NO_OF_APPROVAL" />
+		</property>
+		<property name="approvalLevel" type="java.lang.Integer">
+			<column name="APPROVAL_LEVEL" />
+		</property>
+		<property name="fileName" type="string">
+			<column name="FILE_NAME" length="260" />
+		</property>
+		<property name="fileSize" type="string">
+			<column name="FILE_SIZE" length="10" />
+		</property>
+		<property name="uploadedBy" type="string">
+			<column name="UPLOADED_BY" length="50" />
+		</property>
+		<property name="uploadedDate" type="timestamp">
+			<column name="UPLOADED_DATE" length="23" />
+		</property>
+		<property name="fileType" type="string">
+			<column name="FILE_TYPE" length="10" />
+		</property>
+		<property name="approvedDate" type="timestamp">
+			<column name="APPROVED_DATE" length="23" />
+		</property>
+		<property name="workflowDescrption" type="string">
+			<column name="WORKFLOW_DESCRPTION" length="200" />
+		</property>
+		<property name="contractMasterSid" type="java.lang.Integer">
+			<column name="CONTRACT_MASTER_SID" />
+		</property>
+		<property name="contractStructure" type="string">
+			<column name="CONTRACT_STRUCTURE" length="100" />
+		</property>
+	</class>
+</hibernate-mapping>

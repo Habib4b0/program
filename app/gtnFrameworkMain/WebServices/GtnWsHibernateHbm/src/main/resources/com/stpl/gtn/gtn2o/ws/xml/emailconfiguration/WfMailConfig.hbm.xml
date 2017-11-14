@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.emailconfiguration.WfMailConfig"
+		table="WF_MAIL_CONFIG" schema="dbo" optimistic-lock="version">
+		<id name="wfMailConfigSid" type="int">
+			<column name="WF_MAIL_CONFIG_SID" />
+			<generator class="native" />
+		</id>
+		<property name="hostName" type="string">
+			<column name="HOST_NAME" length="50" not-null="true" />
+		</property>
+		<property name="emailAddress" type="string">
+			<column name="EMAIL_ADDRESS" length="100" not-null="true" />
+		</property>
+		<property name="password" type="string">
+			<column name="PASSWORD" length="100" not-null="true" />
+		</property>
+		<property name="portNumber" type="string">
+			<column name="PORT_NUMBER" length="50" />
+		</property>
+		<property name="smtpFlag" type="string">
+			<column name="SMTP_FLAG" length="5" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="testMailAddress" type="string">
+			<column name="TEST_MAIL_ADDRESS" length="100" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Oct 9, 2017 7:32:31 PM by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  dynamic-insert="false" dynamic-update="false" mutable="true" name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster" optimistic-lock="version" polymorphism="implicit" schema="dbo" select-before-update="false" table="HIERARCHY_TABLE_MASTER">
+        <id name="masterTableSid" type="java.lang.Integer">
+            <column name="MASTER_TABLE_SID"/>
+            <generator class="identity"/>
+        </id>
+        <property generated="never" lazy="false" name="tableName" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="TABLE_NAME" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="columnName" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="column_name"/>
+        </property>
+        <property generated="never" lazy="false" name="value" optimistic-lock="true" type="string" unique="false">
+            <column length="100" name="value"/>
+        </property>
+    </class>
+</hibernate-mapping>

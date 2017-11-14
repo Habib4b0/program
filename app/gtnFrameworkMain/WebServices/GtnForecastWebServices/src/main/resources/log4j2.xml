@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Configuration status="INFO">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%-5level %c{10} - %msg%n" />
+		</Console>
+		<File name="FileAppend" fileName="../Logs/webservice.log" append="true">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %c{10}  %M - %msg%xEx%n" />
+		</File>
+	</Appenders>
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="FileAppend" />
+		</Root>
+	</Loggers>
+</Configuration>

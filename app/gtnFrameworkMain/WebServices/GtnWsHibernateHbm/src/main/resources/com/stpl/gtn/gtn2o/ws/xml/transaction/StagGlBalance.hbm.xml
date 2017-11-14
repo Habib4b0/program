@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2017 7:42:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagGlBalance" table="STAG_GL_BALANCE" schema="dbo" >
+        <id name="stagGlBalanceSid" type="int">
+            <column name="STAG_GL_BALANCE_SID" />
+            <generator class="native" />
+        </id>
+        <property name="glBalanceIntfid" type="string">
+            <column name="GL_BALANCE_INTFID" not-null="true" />
+        </property>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="100" not-null="true" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="ACCOUNT_NO" length="100" not-null="true" />
+        </property>
+        <property name="balance" type="string">
+            <column name="BALANCE" not-null="true" />
+        </property>
+        <property name="uploadDate" type="string">
+            <column name="UPLOAD_DATE" length="23" not-null="true" />
+        </property>
+        <property name="isActive" type="string">
+            <column name="IS_ACTIVE" length="10" />
+        </property>
+        <property name="insertedDate" type="string">
+            <column name="INSERTED_DATE" length="23" />
+        </property>
+        <property name="year" type="string">
+            <column name="YEAR" length="10" />
+        </property>
+        <property name="period" type="string">
+            <column name="PERIOD" length="2" />
+        </property>
+        <property name="closeIndicator" type="string">
+            <column name="CLOSE_INDICATOR" length="10" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

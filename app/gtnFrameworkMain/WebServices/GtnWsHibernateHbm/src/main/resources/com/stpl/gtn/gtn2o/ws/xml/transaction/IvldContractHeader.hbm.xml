@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2017 7:38:24 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldContractHeader" table="IVLD_CONTRACT_HEADER" schema="dbo">
+        <id name="ivldContractHeaderSid" type="int">
+            <column name="IVLD_CONTRACT_HEADER_SID" />
+            <generator class="native" />
+        </id>
+        <property name="contractHeaderIntfid" type="string">
+            <column name="CONTRACT_HEADER_INTFID" precision="38" scale="0" not-null="true" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="200" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="200" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="CONTRACT_NO" length="200" />
+        </property>
+        <property name="contractName" type="string">
+            <column name="CONTRACT_NAME" length="200" />
+        </property>
+        <property name="contractType" type="string">
+            <column name="CONTRACT_TYPE" length="200" />
+        </property>
+        <property name="contractStatus" type="string">
+            <column name="CONTRACT_STATUS" length="200" />
+        </property>
+        <property name="docType" type="string">
+            <column name="DOC_TYPE" length="200" />
+        </property>
+        <property name="docClass" type="string">
+            <column name="DOC_CLASS" length="200" />
+        </property>
+        <property name="companyIdentCodeQualifier" type="string">
+            <column name="COMPANY_IDENT_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="companyNo" type="string">
+            <column name="COMPANY_NO" length="200" />
+        </property>
+        <property name="companyName" type="string">
+            <column name="COMPANY_NAME" length="200" />
+        </property>
+        <property name="tpIdentifierCodeQualifier" type="string">
+            <column name="TP_IDENTIFIER_CODE_QUALIFIER" length="200" />
+        </property>
+        <property name="tradingPartnerNo" type="string">
+            <column name="TRADING_PARTNER_NO" length="200" />
+        </property>
+        <property name="tradingPartnerName" type="string">
+            <column name="TRADING_PARTNER_NAME" length="200" />
+        </property>
+        <property name="tpContractId" type="string">
+            <column name="TP_CONTRACT_ID" length="200" />
+        </property>
+        <property name="tpContractName" type="string">
+            <column name="TP_CONTRACT_NAME" length="200" />
+        </property>
+        <property name="tradeClass" type="string">
+            <column name="TRADE_CLASS" length="200" />
+        </property>
+        <property name="startDate" type="string">
+            <column name="START_DATE" length="200" />
+        </property>
+        <property name="endDate" type="string">
+            <column name="END_DATE" length="200" />
+        </property>
+        <property name="term" type="string">
+            <column name="TERM" length="200" />
+        </property>
+        <property name="renegotiationStartDate" type="string">
+            <column name="RENEGOTIATION_START_DATE" length="200" />
+        </property>
+        <property name="renegotiationEndDate" type="string">
+            <column name="RENEGOTIATION_END_DATE" length="200" />
+        </property>
+        <property name="priceprotectionStartDate" type="string">
+            <column name="PRICEPROTECTION_START_DATE" length="200" />
+        </property>
+        <property name="priceprotectionEndDate" type="string">
+            <column name="PRICEPROTECTION_END_DATE" length="200" />
+        </property>
+        <property name="advanceNoticeDays" type="string">
+            <column name="ADVANCE_NOTICE_DAYS" length="200" />
+        </property>
+        <property name="insideOwner" type="string">
+            <column name="INSIDE_OWNER" length="200" />
+        </property>
+        <property name="insidePhone" type="string">
+            <column name="INSIDE_PHONE" length="200" />
+        </property>
+        <property name="insideAuthor" type="string">
+            <column name="INSIDE_AUTHOR" length="200" />
+        </property>
+        <property name="insideAdditional" type="string">
+            <column name="INSIDE_ADDITIONAL" length="200" />
+        </property>
+        <property name="insideAdditionalName" type="string">
+            <column name="INSIDE_ADDITIONAL_NAME" length="200" />
+        </property>
+        <property name="insideAdditionalPhone" type="string">
+            <column name="INSIDE_ADDITIONAL_PHONE" length="200" />
+        </property>
+        <property name="outsideOwner" type="string">
+            <column name="OUTSIDE_OWNER" length="200" />
+        </property>
+        <property name="outsidePhone" type="string">
+            <column name="OUTSIDE_PHONE" length="200" />
+        </property>
+        <property name="outsideAuthor" type="string">
+            <column name="OUTSIDE_AUTHOR" length="200" />
+        </property>
+        <property name="outsideAdditional" type="string">
+            <column name="OUTSIDE_ADDITIONAL" length="200" />
+        </property>
+        <property name="outsideAdditionalName" type="string">
+            <column name="OUTSIDE_ADDITIONAL_NAME" length="200" />
+        </property>
+        <property name="outsideAdditionalPhone" type="string">
+            <column name="OUTSIDE_ADDITIONAL_PHONE" length="200" />
+        </property>
+        <property name="affiliatedContractInfo" type="string">
+            <column name="AFFILIATED_CONTRACT_INFO" length="200" />
+        </property>
+        <property name="shippingTerms" type="string">
+            <column name="SHIPPING_TERMS" length="200" />
+        </property>
+        <property name="proposalStartDate" type="string">
+            <column name="PROPOSAL_START_DATE" length="200" />
+        </property>
+        <property name="proposalEndDate" type="string">
+            <column name="PROPOSAL_END_DATE" length="200" />
+        </property>
+        <property name="originalStartDate" type="string">
+            <column name="ORIGINAL_START_DATE" length="200" />
+        </property>
+        <property name="originalEndDate" type="string">
+            <column name="ORIGINAL_END_DATE" length="200" />
+        </property>
+        <property name="awardStatus" type="string">
+            <column name="AWARD_STATUS" length="200" />
+        </property>
+        <property name="lastUpdatedDate" type="string">
+            <column name="LAST_UPDATED_DATE" length="200" />
+        </property>
+        <property name="priceEscalationClause" type="string">
+            <column name="PRICE_ESCALATION_CLAUSE" length="200" />
+        </property>
+        <property name="exemptFromLowPrice" type="string">
+            <column name="EXEMPT_FROM_LOW_PRICE" length="200" />
+        </property>
+        <property name="priceResetIndicator" type="string">
+            <column name="PRICE_RESET_INDICATOR" length="200" />
+        </property>
+        <property name="cancellationClause" type="string">
+            <column name="CANCELLATION_CLAUSE" length="200" />
+        </property>
+        <property name="mostFavoredNation" type="string">
+            <column name="MOST_FAVORED_NATION" length="200" />
+        </property>
+        <property name="category" type="string">
+            <column name="CATEGORY" length="200" />
+        </property>
+        <property name="currency" type="string">
+            <column name="CURRENCY" length="200" />
+        </property>
+        <property name="minimumOrder" type="string">
+            <column name="MINIMUM_ORDER" length="200" />
+        </property>
+        <property name="paymentTerms" type="string">
+            <column name="PAYMENT_TERMS" length="200" />
+        </property>
+        <property name="contractAliasNo" type="string">
+            <column name="CONTRACT_ALIAS_NO" length="200" />
+        </property>
+        <property name="contractAliasName" type="string">
+            <column name="CONTRACT_ALIAS_NAME" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="1000" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="500" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

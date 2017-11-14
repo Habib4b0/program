@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 8, 2017 5:24:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCustomerGtsActual" table="IVLD_CUSTOMER_GTS_ACTUAL" schema="dbo" >
+        <id name="ivldCustomerGtsActualSid" type="int">
+            <column name="IVLD_CUSTOMER_GTS_ACTUAL_SID" />
+            <generator class="native" />
+        </id>
+        <property name="customerGtsActualIntfId" type="string">
+            <column name="CUSTOMER_GTS_ACTUAL_INTF_ID" not-null="true" />
+        </property>
+        <property name="salesId" type="string">
+            <column name="SALES_ID" length="200" />
+        </property>
+        <property name="organizationKey" type="string">
+            <column name="ORGANIZATION_KEY" length="200" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="200" />
+        </property>
+        <property name="itemUom" type="string">
+            <column name="ITEM_UOM" length="200" />
+        </property>
+        <property name="orderNumber" type="string">
+            <column name="ORDER_NUMBER" length="200" />
+        </property>
+        <property name="invoiceNumber" type="string">
+            <column name="INVOICE_NUMBER" length="200" />
+        </property>
+        <property name="invoiceLineNumber" type="string">
+            <column name="INVOICE_LINE_NUMBER" length="200" />
+        </property>
+        <property name="invoiceDate" type="timestamp">
+            <column name="INVOICE_DATE" length="23" />
+        </property>
+        <property name="quantity" type="string">
+            <column name="QUANTITY" length="200" />
+        </property>
+        <property name="lotNo" type="string">
+            <column name="LOT_NO" length="200" />
+        </property>
+        <property name="amount" type="string">
+            <column name="AMOUNT" length="200" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="200" />
+        </property>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="200" />
+        </property>
+        <property name="orderReceivedDate" type="timestamp">
+            <column name="ORDER_RECEIVED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="string">
+            <column name="CREATED_DATE" length="200" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="parentAccountId" type="string">
+            <column name="PARENT_ACCOUNT_ID" length="200" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="200" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="200" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+    </class>
+</hibernate-mapping>

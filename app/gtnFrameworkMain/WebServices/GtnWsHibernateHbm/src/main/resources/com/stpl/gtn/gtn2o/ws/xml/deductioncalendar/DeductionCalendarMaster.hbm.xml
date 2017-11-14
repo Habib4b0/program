@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.deductioncalendar.DeductionCalendarMaster"
+		table="DEDUCTION_CALENDAR_MASTER" schema="dbo" optimistic-lock="version">
+		<id name="deductionCalendarMasterSid" type="int">
+			<column name="DEDUCTION_CALENDAR_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CATEGORY" />
+		</many-to-one>
+		<property name="deductionCalendarNo" type="string">
+			<column name="DEDUCTION_CALENDAR_NO" length="50" />
+		</property>
+		<property name="deductionCalendarName" type="string">
+			<column name="DEDUCTION_CALENDAR_NAME" length="100" />
+		</property>
+		<property name="deductionCalendarDesc" type="string">
+			<column name="DEDUCTION_CALENDAR_DESC" length="250" />
+		</property>
+		<property name="userId" type="java.lang.Integer">
+			<column name="USER_ID" />
+		</property>
+		<property name="additionalNotes" type="string">
+			<column name="ADDITIONAL_NOTES" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="rsContractDetailses" table="RS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="DEDUCTION_CALENDAR_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

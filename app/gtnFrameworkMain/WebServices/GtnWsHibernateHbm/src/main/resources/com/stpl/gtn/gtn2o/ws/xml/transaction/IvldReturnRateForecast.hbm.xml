@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 31, 2017 2:15:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldReturnRateForecast" table="IVLD_RETURN_RATE_FORECAST" schema="dbo">
+        <id name="returnRateForecastSid" type="int">
+            <column name="RETURN_RATE_FORECAST_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="returnRateForecastInterfaceId" type="string">
+            <column name="RETURN_RATE_FORECAST_INTERFACE_ID" length="200" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="200" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="200" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="200" />
+        </property>
+        <property name="forecastYear" type="string">
+            <column name="FORECAST_YEAR" length="200" />
+        </property>
+        <property name="forecastMonth" type="string">
+            <column name="FORECAST_MONTH" length="200" />
+        </property>
+        <property name="rate" type="string">
+            <column name="RATE" length="200" />
+        </property>
+        <property name="forecastName" type="string">
+            <column name="FORECAST_NAME" length="200" />
+        </property>
+        <property name="forecastVer" type="string">
+            <column name="FORECAST_VER" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="1000" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="200" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+    </class>
+</hibernate-mapping>

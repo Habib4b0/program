@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2017 11:37:14 AM by Hibernate Tools 5.2.3.Final -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySingleColumnRelation"
+		schema="dbo" table="HIERARCHY_SINGLE_COLUMN_RELATION">
+		<id name="columnRelationSid" type="java.lang.Integer">
+			<column name="COLUMN_RELATION_SID" />
+			<generator class="identity" />
+		</id>
+		<property generated="never" lazy="false" name="actualTableName"
+			type="string">
+			<column length="100" name="ACTUAL_TABLE_NAME" not-null="true" />
+		</property>
+		<property generated="never" lazy="false" name="actualColumnName"
+			type="string">
+			<column length="100" name="ACTUAL_COLUMN_NAME" not-null="true" />
+		</property>
+		<property generated="never" lazy="false" name="referenceTableName"
+			type="string">
+			<column length="100" name="REFERENCE_TABLE_NAME" not-null="true" />
+		</property>
+		<property generated="never" lazy="false" name="mappingColumnName"
+			type="string">
+			<column length="100" name="MAPPING_COLUMN_NAME" />
+		</property>
+		<property generated="never" lazy="false" name="descColumnName"
+			type="string">
+			<column length="100" name="DESC_COLUMN_NAME" />
+		</property>
+		<property generated="never" lazy="false" name="primaryKeyColumnName"
+			type="string">
+			<column length="100" name="PRIMARY_KEY_COLUMN_NAME" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

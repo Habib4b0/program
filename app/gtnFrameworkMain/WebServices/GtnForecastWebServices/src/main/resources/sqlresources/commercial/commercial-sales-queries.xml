@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+
+<sql>
+	<entity id="COMMERCIAL_SALES_ACTUAL_ADD">
+		<query> 
+            <![CDATA[
+				SELECT CCP_DETAILS_SID,
+				       PERIOD_SID,
+				       SUM(SALES) AS ACTUAL_SALES,
+				       SUM(QUANTITY) AS ACTUAL_UNITS
+				FROM dbo.ACTUALS_DETAILS
+				WHERE CCP_DETAILS_SID IN (109434,
+				                          109460,
+				                          108162,
+				                          107269,
+				                          108619,
+				                          113394,
+				                          110597,
+				                          117026,
+				                          108325,
+				                          113050,
+				                          115513,
+				                          112884,
+				                          113158,
+				                          115941,
+				                          114462,
+				                          113414)
+				  AND QUANTITY_INCLUSION = 'Y'
+				  AND PERIOD_SID IN (596
+									,597
+									,598
+									,599
+									,600)
+				GROUP BY CCP_DETAILS_SID,
+				         PERIOD_SID
+				ORDER BY CCP_DETAILS_SID,
+				         PERIOD_SID;
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="COMMERCIAL_SALES_PROJECTION_ADD">
+		<query> 
+            <![CDATA[
+        		SELECT CCP_DETAILS_SID,
+				       PERIOD_SID,
+				       SUM(SALES) AS ACTUAL_SALES,
+				       SUM(QUANTITY) AS ACTUAL_UNITS
+				FROM dbo.ACTUALS_DETAILS
+				WHERE CCP_DETAILS_SID IN (109434,
+				                          109460,
+				                          108162,
+				                          107269,
+				                          108619,
+				                          113394,
+				                          110597,
+				                          117026,
+				                          108325,
+				                          113050,
+				                          115513,
+				                          112884,
+				                          113158,
+				                          115941,
+				                          114462,
+				                          113414)
+				  AND QUANTITY_INCLUSION = 'Y'
+				GROUP BY CCP_DETAILS_SID,
+				         PERIOD_SID
+				ORDER BY CCP_DETAILS_SID,
+				         PERIOD_SID;
+            ]]>
+		</query>
+	</entity>
+	
+	<entity id="COMMERCIAL_SALES_MASTER_ADD">
+		<query> 
+            <![CDATA[
+        		SELECT CCP_DETAILS_SID,
+				       PERIOD_SID,
+				       SUM(SALES) AS ACTUAL_SALES,
+				       SUM(QUANTITY) AS ACTUAL_UNITS
+				FROM dbo.ACTUALS_DETAILS
+				WHERE CCP_DETAILS_SID IN (109434,
+				                          109460,
+				                          108162,
+				                          107269,
+				                          108619,
+				                          113394,
+				                          110597,
+				                          117026,
+				                          108325,
+				                          113050,
+				                          115513,
+				                          112884,
+				                          113158,
+				                          115941,
+				                          114462,
+				                          113414)
+				  AND QUANTITY_INCLUSION = 'Y'
+				GROUP BY CCP_DETAILS_SID,
+				         PERIOD_SID
+				ORDER BY CCP_DETAILS_SID,
+				         PERIOD_SID;
+            ]]>
+		</query>
+	</entity>
+
+</sql>

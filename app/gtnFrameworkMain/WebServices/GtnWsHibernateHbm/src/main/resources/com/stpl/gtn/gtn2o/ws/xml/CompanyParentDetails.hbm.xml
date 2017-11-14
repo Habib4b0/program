@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyParentDetails"
+		optimistic-lock="version" schema="dbo" table="COMPANY_PARENT_DETAILS">
+		<id name="companyParentDetailsSid" type="int">
+			<column name="COMPANY_PARENT_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select" name="companyMasterByPriorParentCmpyMasterSid">
+			<column name="PRIOR_PARENT_CMPY_MASTER_SID" />
+		</many-to-one>
+		<many-to-one
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select" name="companyMasterByCompanyMasterSid">
+			<column name="COMPANY_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select" name="companyMasterByParentCompanyMasterSid">
+			<column name="PARENT_COMPANY_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<property name="parentStartDate" type="timestamp">
+			<column length="23" name="PARENT_START_DATE" />
+		</property>
+		<property name="parentEndDate" type="timestamp">
+			<column length="23" name="PARENT_END_DATE" />
+		</property>
+		<property name="priorParentStartDate" type="timestamp">
+			<column length="23" name="PRIOR_PARENT_START_DATE" />
+		</property>
+		<property name="lastUpdatedDate" type="timestamp">
+			<column length="23" name="LAST_UPDATED_DATE" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column length="1" name="INBOUND_STATUS" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column length="50" name="BATCH_ID" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column length="50" name="SOURCE" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="23" name="CREATED_DATE" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column length="23" name="MODIFIED_DATE" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Oct 31, 2017 7:22:13 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.AccrualMaster" table="ACCRUAL_MASTER" schema="dbo" catalog="BPIGTN_AGN_APP_UNIT" optimistic-lock="version">
+        <id name="accrualMasterSid" type="int">
+            <column name="ACCRUAL_MASTER_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="accrualId" type="string">
+            <column name="ACCRUAL_ID" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="salesMasterId" type="string">
+            <column name="SALES_MASTER_ID" length="50" not-null="true" />
+        </property>
+        <property name="glCompanyMasterSid" type="java.lang.Integer">
+            <column name="GL_COMPANY_MASTER_SID" />
+        </property>
+        <property name="glCompanyName" type="string">
+            <column name="GL_COMPANY_NAME" length="100" />
+        </property>
+        <property name="glAccount" type="string">
+            <column name="GL_ACCOUNT" length="250" not-null="true" />
+        </property>
+        <property name="companyMasterSid" type="java.lang.Integer">
+            <column name="COMPANY_MASTER_SID" />
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="50" not-null="true" />
+        </property>
+        <property name="companyNo" type="string">
+            <column name="COMPANY_NO" length="50" not-null="true" />
+        </property>
+        <property name="compIdentCodeQualifier" type="string">
+            <column name="COMP_IDENT_CODE_QUALIFIER" length="30" />
+        </property>
+        <property name="companyCostCenter" type="string">
+            <column name="COMPANY_COST_CENTER" length="8" not-null="true" />
+        </property>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="50" not-null="true" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="ACCOUNT_NO" length="50" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="ACCOUNT_NAME" length="100" />
+        </property>
+        <property name="acctIdentCodeQualifier" type="string">
+            <column name="ACCT_IDENT_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="itemMasterSid" type="java.lang.Integer">
+            <column name="ITEM_MASTER_SID" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="50" not-null="true" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="itemIdentCodeQualifier" type="string">
+            <column name="ITEM_IDENT_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="contractMasterSid" type="java.lang.Integer">
+            <column name="CONTRACT_MASTER_SID" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="50" not-null="true" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="CONTRACT_NO" length="50" />
+        </property>
+        <property name="contractName" type="string">
+            <column name="CONTRACT_NAME" length="100" />
+        </property>
+        <property name="brandId" type="string">
+            <column name="BRAND_ID" length="50" />
+        </property>
+        <property name="categoryId" type="string">
+            <column name="CATEGORY_ID" length="50" />
+        </property>
+        <property name="rsModelSid" type="java.lang.Integer">
+            <column name="RS_MODEL_SID" />
+        </property>
+        <property name="provisionId" type="string">
+            <column name="PROVISION_ID" length="50" not-null="true" />
+        </property>
+        <property name="accrualType" type="string">
+            <column name="ACCRUAL_TYPE" length="50" />
+        </property>
+        <property name="accrualPeriodStartDate" type="timestamp">
+            <column name="ACCRUAL_PERIOD_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="accrualPeriodEndDate" type="timestamp">
+            <column name="ACCRUAL_PERIOD_END_DATE" length="23" not-null="true" />
+        </property>
+        <property name="deductionAmount" type="double">
+            <column name="DEDUCTION_AMOUNT" precision="22" scale="6" not-null="true" />
+        </property>
+        <property name="glAmount" type="double">
+            <column name="GL_AMOUNT" precision="22" scale="6" />
+        </property>
+        <property name="subLedger" type="string">
+            <column name="SUB_LEDGER" length="50" not-null="true" />
+        </property>
+        <property name="subLedgerType" type="string">
+            <column name="SUB_LEDGER_TYPE" length="50" not-null="true" />
+        </property>
+        <property name="documentType" type="string">
+            <column name="DOCUMENT_TYPE" length="50" not-null="true" />
+        </property>
+        <property name="postingDate" type="timestamp">
+            <column name="POSTING_DATE" length="23" />
+        </property>
+        <property name="glDate" type="timestamp">
+            <column name="GL_DATE" length="23" />
+        </property>
+        <property name="recordCreatedDate" type="timestamp">
+            <column name="RECORD_CREATED_DATE" length="23" />
+        </property>
+        <property name="inboundStatus" type="string">
+            <column name="INBOUND_STATUS" length="1" />
+        </property>
+        <property name="recordLockStatus" type="boolean">
+            <column name="RECORD_LOCK_STATUS" not-null="true" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="50" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="brandMasterSid" type="java.lang.Integer">
+            <column name="BRAND_MASTER_SID" />
+        </property>
+        <property name="programType" type="string">
+            <column name="PROGRAM_TYPE" length="50" />
+        </property>
+        <property name="programNo" type="string">
+            <column name="PROGRAM_NO" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="postingIndicator" type="java.lang.Boolean">
+            <column name="POSTING_INDICATOR" />
+        </property>
+        <property name="brandName" type="string">
+            <column name="BRAND_NAME" length="50" />
+        </property>
+        <property name="companyName" type="string">
+            <column name="COMPANY_NAME" length="100" />
+        </property>
+        <property name="businessUnitId" type="string">
+            <column name="BUSINESS_UNIT_ID" length="50" not-null="true" />
+        </property>
+        <property name="businessUnitNo" type="string">
+            <column name="BUSINESS_UNIT_NO" length="50" />
+        </property>
+        <property name="buIdentCodeQualifier" type="string">
+            <column name="BU_IDENT_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="businessUnitName" type="string">
+            <column name="BUSINESS_UNIT_NAME" length="100" />
+        </property>
+        <property name="accrualCategory" type="string">
+            <column name="ACCRUAL_CATEGORY" length="25" />
+        </property>
+        <property name="accrualScheduleType" type="string">
+            <column name="ACCRUAL_SCHEDULE_TYPE" length="25" />
+        </property>
+        <property name="accrualProgramType" type="string">
+            <column name="ACCRUAL_PROGRAM_TYPE" length="25" />
+        </property>
+        <property name="salesAmount" type="double">
+            <column name="SALES_AMOUNT" precision="22" scale="6" />
+        </property>
+        <property name="quantity" type="double">
+            <column name="QUANTITY" precision="22" scale="6" />
+        </property>
+        <property name="accrualUdc1" type="string">
+            <column name="ACCRUAL_UDC1" length="100" />
+        </property>
+        <property name="accrualUdc2" type="string">
+            <column name="ACCRUAL_UDC2" length="100" />
+        </property>
+        <property name="accrualUdc3" type="string">
+            <column name="ACCRUAL_UDC3" length="100" />
+        </property>
+        <property name="accrualUdc4" type="string">
+            <column name="ACCRUAL_UDC4" length="100" />
+        </property>
+        <property name="accrualUdc5" type="string">
+            <column name="ACCRUAL_UDC5" length="100" />
+        </property>
+        <property name="accrualUdc6" type="string">
+            <column name="ACCRUAL_UDC6" length="100" />
+        </property>
+        <property name="businessUnitSid" type="int">
+            <column name="BUSINESS_UNIT_SID" not-null="true" />
+        </property>
+        <property name="accrualInboundInterfaceId" type="int">
+            <column name="ACCRUAL_INBOUND_INTERFACE_ID" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

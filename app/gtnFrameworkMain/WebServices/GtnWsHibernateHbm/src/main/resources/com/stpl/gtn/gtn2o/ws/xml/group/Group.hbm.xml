@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 8:16:57 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.user.Group" table="Group_"
+		schema="dbo">
+		<id name="groupId" type="long">
+			<column name="groupId" />
+			<generator class="assigned" />
+		</id>
+		<property name="uuid" type="string">
+			<column name="uuid_" />
+		</property>
+		<property name="companyId" type="java.lang.Long">
+			<column name="companyId" />
+		</property>
+		<property name="creatorUserId" type="java.lang.Long">
+			<column name="creatorUserId" />
+		</property>
+		<property name="classNameId" type="java.lang.Long">
+			<column name="classNameId" />
+		</property>
+		<property name="classPk" type="java.lang.Long">
+			<column name="classPK" />
+		</property>
+		<property name="parentGroupId" type="java.lang.Long">
+			<column name="parentGroupId" />
+		</property>
+		<property name="liveGroupId" type="java.lang.Long">
+			<column name="liveGroupId" />
+		</property>
+		<property name="treePath" type="string">
+			<column name="treePath" />
+		</property>
+		<property name="name" type="string">
+			<column name="name" />
+		</property>
+		<property name="description" type="string">
+			<column name="description" />
+		</property>
+		<property name="type" type="java.lang.Integer">
+			<column name="type_" />
+		</property>
+		<property name="typeSettings" type="string">
+			<column name="typeSettings" />
+		</property>
+		<property name="manualMembership" type="java.lang.Boolean">
+			<column name="manualMembership" />
+		</property>
+		<property name="membershipRestriction" type="java.lang.Integer">
+			<column name="membershipRestriction" />
+		</property>
+		<property name="friendlyUrl" type="string">
+			<column name="friendlyURL" />
+		</property>
+		<property name="site" type="java.lang.Boolean">
+			<column name="site" />
+		</property>
+		<property name="remoteStagingGroupCount" type="java.lang.Integer">
+			<column name="remoteStagingGroupCount" />
+		</property>
+		<property name="active" type="java.lang.Boolean">
+			<column name="active_" />
+		</property>
+	</class>
+</hibernate-mapping>

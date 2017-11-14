@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails"
+		table="RS_DETAILS" schema="dbo">
+		<id name="rsDetailsSid" type="int">
+			<column name="RS_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_RS_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="itemMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" fetch="select">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="ifpModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel" fetch="select">
+			<column name="IFP_MODEL_SID" />
+		</many-to-one>
+		<many-to-one name="rsModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsModel" fetch="select">
+			<column name="RS_MODEL_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="rebatePlanMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster"
+			fetch="select">
+			<column name="REBATE_PLAN_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="cdrModelByNetSalesRule"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="NET_SALES_RULE" />
+		</many-to-one>
+		<many-to-one name="cdrModelByEvaluationRule"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="EVALUATION_RULE" />
+		</many-to-one>
+		<many-to-one name="cdrModelByCalculationRule"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="CALCULATION_RULE" />
+		</many-to-one>
+		<property name="itemRebateStartDate" type="timestamp">
+			<column name="ITEM_REBATE_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="itemRebateEndDate" type="timestamp">
+			<column name="ITEM_REBATE_END_DATE" length="23" />
+		</property>
+		<property name="itemRsAttachedDate" type="timestamp">
+			<column name="ITEM_RS_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="formulaId" type="java.lang.Integer">
+			<column name="FORMULA_ID" />
+		</property>
+		<property name="rebateAmount" type="big_decimal">
+			<column name="REBATE_AMOUNT" precision="22" scale="6" />
+		</property>
+		<property name="bundleNo" type="string">
+			<column name="BUNDLE_NO" length="25" />
+		</property>
+		<property name="formulaMethodId" type="string">
+			<column name="FORMULA_METHOD_ID" length="50" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="formulaType" type="big_decimal">
+			<column name="FORMULA_TYPE" precision="22" scale="6" />
+		</property>
+		<property name="evaluationRuleBundle" type="big_decimal">
+			<column name="EVALUATION_RULE_BUNDLE" precision="22" scale="6" />
+		</property>
+		<property name="calculationRuleBundle" type="big_decimal">
+			<column name="CALCULATION_RULE_BUNDLE" precision="22" scale="6" />
+		</property>
+		<property name="netSalesFormulaMasterSid" type="java.lang.Integer">
+			<column name="NET_SALES_FORMULA_MASTER_SID" />
+		</property>
+		<property name="deductionCalendarMasterSid" type="java.lang.Integer">
+			<column name="DEDUCTION_CALENDAR_MASTER_SID" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 1:16:21 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.forecastconfiguration.ForecastConfig"
+		table="FORECAST_CONFIG" schema="dbo" optimistic-lock="version">
+		<id name="forecastConfigSid" type="int">
+			<column name="FORECAST_CONFIG_SID" />
+			<generator class="native" />
+		</id>
+		<property name="businessProcessType" type="int">
+			<column name="BUSINESS_PROCESS_TYPE" not-null="true" />
+		</property>
+		<property name="processMode" type="boolean">
+			<column name="PROCESS_MODE" not-null="true" />
+		</property>
+		<property name="processType" type="boolean">
+			<column name="PROCESS_TYPE" not-null="true" />
+		</property>
+		<property name="histFreq" type="java.lang.Integer">
+			<column name="HIST_FREQ" />
+		</property>
+		<property name="histValue" type="java.lang.Integer">
+			<column name="HIST_VALUE" />
+		</property>
+		<property name="projFreq" type="java.lang.Integer">
+			<column name="PROJ_FREQ" />
+		</property>
+		<property name="projValue" type="java.lang.Integer">
+			<column name="PROJ_VALUE" />
+		</property>
+		<property name="fromDate" type="timestamp">
+			<column name="FROM_DATE" length="23" />
+		</property>
+		<property name="toDate" type="timestamp">
+			<column name="TO_DATE" length="23" />
+		</property>
+		<property name="versionNo" type="int">
+			<column name="VERSION_NO" not-null="true" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="activeStartDate" type="timestamp">
+			<column name="ACTIVE_START_DATE" length="23" />
+		</property>
+		<property name="activeEndDate" type="timestamp">
+			<column name="ACTIVE_END_DATE" length="23" />
+		</property>
+		<property name="projHistFreq" type="java.lang.Integer">
+			<column name="PROJ_HIST_FREQ" />
+		</property>
+		<property name="projHistValue" type="java.lang.Integer">
+			<column name="PROJ_HIST_VALUE" />
+		</property>
+		<property name="historicalDataIntervalFrom" type="timestamp">
+			<column name="HISTORICAL_DATA_INTERVAL_FROM" length="23" />
+		</property>
+		<property name="historicalDataIntervalTo" type="timestamp">
+			<column name="HISTORICAL_DATA_INTERVAL_TO" length="23" />
+		</property>
+		<property name="historicalTimePeriodFrom" type="timestamp">
+			<column name="HISTORICAL_TIME_PERIOD_FROM" length="23" />
+		</property>
+		<property name="futureTimePeriodFrom" type="timestamp">
+			<column name="FUTURE_TIME_PERIOD_FROM" length="23" />
+		</property>
+	</class>
+</hibernate-mapping>

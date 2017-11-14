@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+               optimistic-lock="version" schema="dbo" table="HELPER_TABLE">
+        <id name="helperTableSid" type="int">
+            <column name="HELPER_TABLE_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="description" type="string">
+            <column length="50" name="DESCRIPTION" />
+        </property>
+        <property name="listName" type="string">
+            <column length="50" name="LIST_NAME" />
+        </property>
+        <property name="refCount" type="big_decimal">
+            <column name="REF_COUNT" precision="38" scale="0" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="CREATED_BY" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column length="23" name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="int">
+            <column name="MODIFIED_BY" not-null="true" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column length="23" name="MODIFIED_DATE" not-null="true" />
+        </property>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc7"
+                     table="UDCS">
+            <key>
+                <column name="UDC7" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyMastersForCompanyCategory" table="COMPANY_MASTER">
+            <key>
+                <column name="COMPANY_CATEGORY" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc6"
+                     table="UDCS">
+            <key>
+                <column name="UDC6" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="companyMastersForState"
+                     table="COMPANY_MASTER">
+            <key>
+                <column name="STATE" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc5"
+                     table="UDCS">
+            <key>
+                <column name="UDC5" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc11"
+                     table="UDCS">
+            <key>
+                <column name="UDC11" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc4"
+                     table="UDCS">
+            <key>
+                <column name="UDC4" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc12"
+                     table="UDCS">
+            <key>
+                <column name="UDC12" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc3"
+                     table="UDCS">
+            <key>
+                <column name="UDC3" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyTradeClassesForPriorTradeClass" table="COMPANY_TRADE_CLASS">
+            <key>
+                <column name="PRIOR_TRADE_CLASS" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyTradeClass" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc2"
+                     table="UDCS">
+            <key>
+                <column name="UDC2" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc9"
+                     table="UDCS">
+            <key>
+                <column name="UDC9" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyMastersForCompanyGroup" table="COMPANY_MASTER">
+            <key>
+                <column name="COMPANY_GROUP" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc1"
+                     table="UDCS">
+            <key>
+                <column name="UDC1" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc8"
+                     table="UDCS">
+            <key>
+                <column name="UDC8" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="udcsesForUdc10"
+                     table="UDCS">
+            <key>
+                <column name="UDC10" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyMastersForOrganizationKey" table="COMPANY_MASTER">
+            <key>
+                <column name="ORGANIZATION_KEY" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="companyIdentifiers"
+                     table="COMPANY_IDENTIFIER">
+            <key>
+                <column name="IDENTIFIER_STATUS" not-null="true" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyIdentifier" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyTradeClassesForCompanyTradeClass" table="COMPANY_TRADE_CLASS">
+            <key>
+                <column name="COMPANY_TRADE_CLASS" not-null="true" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyTradeClass" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyMastersForCompanyType" table="COMPANY_MASTER">
+            <key>
+                <column name="COMPANY_TYPE" not-null="true" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true" name="companyMastersForCountry"
+                     table="COMPANY_MASTER">
+            <key>
+                <column name="COUNTRY" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+        <set fetch="select" inverse="true" lazy="true"
+                     name="companyMastersForCompanyStatus" table="COMPANY_MASTER">
+            <key>
+                <column name="COMPANY_STATUS" not-null="true" />
+            </key>
+            <one-to-many
+                class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster" />
+        </set>
+		
+        
+      <set name="periodConfigDetailsesForFromFrequency" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FROM_FREQUENCY" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForToDefaultFrequerncy" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TO_DEFAULT_FREQUERNCY" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>       
+        <set name="periodConfigDetailsesForToFrequency" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TO_FREQUENCY" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForPeriodView" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PERIOD_VIEW" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForFromDefaultMode" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FROM_DEFAULT_MODE" not-null="true" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForFromDefaultFrequerncy" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FROM_DEFAULT_FREQUERNCY" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForToDefaultMode" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TO_DEFAULT_MODE" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForToMode" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="TO_MODE" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigDetailsesForFromMode" table="PERIOD_CONFIG_DETAILS" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="FROM_MODE" not-null="true" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" />
+        </set>
+        <set name="periodConfigMasters" table="PERIOD_CONFIG_MASTER" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="MODULE" not-null="true" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigMaster" />
+        </set>
+       
+        <set name="fileManagements" table="FILE_MANAGEMENT" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="COUNTRY" />
+            </key>
+            <one-to-many class="com.stpl.gtn.gtn2o.ws.entity.filemanagement.FileManagement" />
+        </set>
+       
+        
+    </class>
+</hibernate-mapping>

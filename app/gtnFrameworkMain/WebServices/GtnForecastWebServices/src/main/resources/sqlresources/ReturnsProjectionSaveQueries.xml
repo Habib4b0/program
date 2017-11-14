@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+
+<sql>
+	<entity id="GET_RELATIONSHIP_LEVEL_DETAILS">
+		<query> 
+		                    <![CDATA[
+		
+				SELECT
+					DISTINCT RLD.RELATIONSHIP_LEVEL_SID
+				FROM
+					PROJECTION_PROD_HIERARCHY PPH
+				JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+					RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+				WHERE
+					RLD.HIERARCHY_NO in(:hireachyids)
+		
+		              ]]>
+		</query>
+	</entity>
+
+	<entity id="PROJECTION_MASTER_INSERT">
+		<query> 
+		                    <![CDATA[
+		                    
+		                    INSERT
+			INTO
+				PROJECTION_MASTER(
+					PROJECTION_NAME,
+					PROJECTION_DESCRIPTION,
+					FORECASTING_TYPE,
+					FROM_DATE,
+					TO_DATE,
+					COMPANY_MASTER_SID,
+					PRODUCT_HIERARCHY_SID,
+					PRODUCT_HIERARCHY_LEVEL,
+					PRODUCT_HIER_VERSION_NO,
+					ITEM_GROUP_SID,
+					PRODUCT_HIERARCHY_INNER_LEVEL,
+					PROD_RELATIONSHIP_BUILDER_SID,
+					SAVE_FLAG,
+					IS_APPROVED,
+					MODIFIED_BY,
+					MODIFIED_DATE,
+					BUSINESS_UNIT,
+					CREATED_BY,
+					CREATED_DATE
+				) 
+		        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?) 
+		                   
+		                      ]]>
+		</query>
+	</entity>
+
+	<entity id="PROJECTION_MASTER_UPDATE">
+		<query> 
+		                    <![CDATA[
+			UPDATE
+			PROJECTION_MASTER
+		SET
+			PROJECTION_NAME = ?,
+			PROJECTION_DESCRIPTION = ?,
+			FORECASTING_TYPE = ?,
+			FROM_DATE = ?,
+			TO_DATE = ?,
+			COMPANY_MASTER_SID = ?,
+			PRODUCT_HIERARCHY_SID = ?,
+			PRODUCT_HIERARCHY_LEVEL = ?,
+			PRODUCT_HIER_VERSION_NO = ?,
+			ITEM_GROUP_SID = ?,
+			PRODUCT_HIERARCHY_INNER_LEVEL = ?,
+			PROD_RELATIONSHIP_BUILDER_SID = ?,
+			SAVE_FLAG = ?,
+			IS_APPROVED = ?,
+			MODIFIED_BY = ?,
+			MODIFIED_DATE = ?,
+			BUSINESS_UNIT = ?
+		WHERE
+			PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+			   ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_PROJECTION_SELECTION_INSERT">
+		<query> 
+		                    <![CDATA[
+		                    INSERT
+			INTO
+				RETURNS_PROJECTION_SELECTION(
+					PROJECTION_MASTER_SID,
+					SCREEN_NAME,
+					FIELD_NAME,
+					FIELD_VALUES
+				)
+			VALUES(?,?,?,?)
+		                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="RETURNS_PROJ_MASTER_TEST_INSERT">
+		<query> 
+              <![CDATA[
+				IF Object_id('TEMPDB..#TEMP_RETURNS_PROJ_MASTER') IS NOT NULL
+				DROP TABLE #TEMP_RETURNS_PROJ_MASTER
+				CREATE TABLE #TEMP_RETURNS_PROJ_MASTER( 
+								PROJECTION_MASTER_SID INT,
+								ITEM_MASTER_SID INT,
+								METHODOLOGY VARCHAR(50),
+								METHODOLOGY_START_DATE VARCHAR(50),
+								METHODOLOGY_END_DATE VARCHAR(50),
+								CALCULATION_PERIODS VARCHAR(4000),
+								CHECK_RECORD BIT,
+								LAG INT,
+								CLOSED_DATE DATETIME,
+								LOE_DATE DATETIME)      
+								
+				INSERT INTO #TEMP_RETURNS_PROJ_MASTER(
+								PROJECTION_MASTER_SID,
+								ITEM_MASTER_SID,
+								METHODOLOGY,
+								METHODOLOGY_START_DATE,
+								METHODOLOGY_END_DATE,
+								CALCULATION_PERIODS,
+								CHECK_RECORD,
+								LAG,
+								CLOSED_DATE,
+								LOE_DATE)	
+								
+				VALUES (?,? , ?, ?, ?, ?, ?, ?, ?, ?)     
+				
+				INSERT INTO RETURNS_PROJ_MASTER(
+										RETURNS_DETAILS_SID,
+										METHODOLOGY,
+										METHODOLOGY_START_DATE,
+										METHODOLOGY_END_DATE,
+										CALCULATION_PERIODS,
+										CHECK_RECORD,
+										LAG,
+										CLOSED_DATE,
+										LOE_DATE
+									) 
+				SELECT
+							RD.RETURNS_DETAILS_SID,			
+							ACT.METHODOLOGY,
+							ACT.METHODOLOGY_START_DATE,
+							ACT.METHODOLOGY_END_DATE,
+							ACT.CALCULATION_PERIODS,
+							ACT.CHECK_RECORD,
+							ACT.LAG,
+							ACT.CLOSED_DATE,
+							ACT.LOE_DATE
+							FROM #TEMP_RETURNS_PROJ_MASTER ACT
+				JOIN dbo.RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID = ACT.PROJECTION_MASTER_SID
+				AND RD.ITEM_MASTER_SID = ACT.ITEM_MASTER_SID;
+              ]]>
+		</query>
+	</entity>
+
+
+	<entity id="RETURNS_DETAILS_INSERT">
+		<query> 
+       		<![CDATA[
+            	INSERT INTO RETURNS_DETAILS(PROJECTION_MASTER_SID, ITEM_MASTER_SID )
+				VALUES (?,?) 
+            ]]>
+		</query>
+	</entity>
+	
+
+	<entity id="RETURNS_PROJ_DETAILS_TEST_INSERT">
+		<query> 
+              <![CDATA[
+	          		IF Object_id('TEMPDB..#TEMP_RETURNS_PROJ_DETAILS') IS NOT NULL
+					DROP TABLE #TEMP_RETURNS_PROJ_DETAILS
+					CREATE TABLE #TEMP_RETURNS_PROJ_DETAILS( 
+									PROJECTION_MASTER_SID INT, 
+									ITEM_MASTER_SID INT, 
+									PERIOD_SID SMALLINT,
+									PROJECTED_RETURN_PERCENT NUMERIC(22, 6),
+									PROJECTED_RPU NUMERIC(22, 6),
+									PROJECTED_RETURN_AMOUNT NUMERIC(22, 6),
+									GROWTH_RATE NUMERIC(22, 6),
+									PROJECTED_RETURN_UNITS NUMERIC(22, 6),
+									ACTIVE_EXFACTORY_SALES_AMOUNT NUMERIC(22, 6),
+									ACTIVE_EXFACTORY_SALES_UNITS NUMERIC(22, 6))      
+									
+					INSERT INTO #TEMP_RETURNS_PROJ_DETAILS(
+									PROJECTION_MASTER_SID, 
+									PERIOD_SID,
+									ITEM_MASTER_SID, 				
+									PROJECTED_RETURN_PERCENT,
+									PROJECTED_RPU ,
+									PROJECTED_RETURN_AMOUNT,
+									GROWTH_RATE,
+									PROJECTED_RETURN_UNITS,
+									ACTIVE_EXFACTORY_SALES_AMOUNT,
+									ACTIVE_EXFACTORY_SALES_UNITS)	
+									
+					VALUES (? ,? , ?, ?, ?, ?, ?, ?, ?, ?)      
+					
+					
+					INSERT INTO RETURNS_PROJ_DETAILS(
+								RETURNS_DETAILS_SID,
+								PERIOD_SID,			
+								PROJECTED_RETURN_PERCENT,
+								PROJECTED_RPU,
+								PROJECTED_RETURN_AMOUNT,
+								GROWTH_RATE,
+								PROJECTED_RETURN_UNITS,
+								ACTIVE_EXFACTORY_SALES_AMOUNT,
+								ACTIVE_EXFACTORY_SALES_UNITS)
+					
+					SELECT
+								RD.RETURNS_DETAILS_SID,
+								ACT.PERIOD_SID,			
+								ACT.PROJECTED_RETURN_PERCENT,
+								ACT.PROJECTED_RPU,
+								ACT.PROJECTED_RETURN_AMOUNT,
+								ACT.GROWTH_RATE,
+								ACT.PROJECTED_RETURN_UNITS,
+								ACT.ACTIVE_EXFACTORY_SALES_AMOUNT,
+								ACT.ACTIVE_EXFACTORY_SALES_UNITS
+								FROM #TEMP_RETURNS_PROJ_DETAILS ACT
+					JOIN dbo.RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID = ACT.PROJECTION_MASTER_SID
+					AND RD.ITEM_MASTER_SID = ACT.ITEM_MASTER_SID;
+               ]]>
+		</query>
+	</entity>
+
+	<entity id="RETURNS_ACTUALS_TEST_INSERT">
+		<query> 
+           	<![CDATA[
+			   	IF Object_id('TEMPDB..#TEMP_ACTUALS_TEST') IS NOT NULL
+				DROP TABLE #TEMP_ACTUALS_TEST
+				CREATE TABLE #TEMP_ACTUALS_TEST( 
+								PROJECTION_MASTER_SID INT, 
+								ITEM_MASTER_SID INT, 
+								PERIOD_SID SMALLINT, 
+								ACTUAL_RETURN_PERCENT NUMERIC( 22, 6 ),
+				          	 	ACTUAL_RPU NUMERIC( 22, 6 ),
+				               	ACTUAL_RETURN_AMOUNT NUMERIC( 22, 6 ),
+				               	ORIG_SALE_UNITS NUMERIC( 22, 6 ),
+				               	ORIG_SALE_DOLLARS NUMERIC( 22, 6 ),
+								CUM_RETURN_UNITS NUMERIC( 22, 6 ),
+								EXPECTED_RETURN_RATE NUMERIC( 22, 6 ),
+								ASP NUMERIC( 22, 6 ) )
+								
+				INSERT INTO #TEMP_ACTUALS_TEST
+				(PROJECTION_MASTER_SID, 
+								PERIOD_SID,  
+								ITEM_MASTER_SID,								
+								ACTUAL_RETURN_PERCENT ,
+				          	 	ACTUAL_RPU,
+				               	ACTUAL_RETURN_AMOUNT,
+				               	ORIG_SALE_UNITS,
+				               	ORIG_SALE_DOLLARS,
+								CUM_RETURN_UNITS,
+								EXPECTED_RETURN_RATE,
+								ASP)
+				VALUES (?,?,?,?,?,?,?,?,?,?,?)
+								
+				INSERT INTO RETURNS_ACTUALS( RETURNS_DETAILS_SID,
+				                             PERIOD_SID,
+				                             ACTUAL_RETURN_PERCENT,
+				                             ACTUAL_RPU,
+				                             ACTUAL_RETURN_AMOUNT,
+				                             ORIG_SALE_UNITS,
+				                             ORIG_SALE_DOLLARS,
+				                             CUM_RETURN_UNITS,
+				                             EXPECTED_RETURN_RATE,
+				                             ASP )
+				SELECT RD.RETURNS_DETAILS_SID,
+				       ACT.PERIOD_SID,
+				       ACT.ACTUAL_RETURN_PERCENT,
+				       ACT.ACTUAL_RPU,
+				       ACT.ACTUAL_RETURN_AMOUNT,
+				       ACT.ORIG_SALE_UNITS,
+				       ACT.ORIG_SALE_DOLLARS,
+				       ACT.CUM_RETURN_UNITS,
+				       ACT.EXPECTED_RETURN_RATE,
+				       ACT.ASP
+				FROM #TEMP_ACTUALS_TEST ACT
+				JOIN RETURNS_DETAILS RD ON RD.PROJECTION_MASTER_SID = ACT.PROJECTION_MASTER_SID
+				AND RD.ITEM_MASTER_SID = ACT.ITEM_MASTER_SID;
+                ]]>
+		</query>
+	</entity>
+	
+	<entity id="RETURNS_DELETE_QUERY">
+		<query> 
+             	<![CDATA[
+						DECLARE @PROJECTION_MASTER_SID INT = ?;
+
+						DELETE RM FROM RETURNS_PROJ_MASTER RM
+						JOIN RETURNS_DETAILS RD ON RD.RETURNS_DETAILS_SID = RM.RETURNS_DETAILS_SID
+						WHERE RD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+						
+						DELETE RM FROM RETURNS_PROJ_DETAILS RM
+						JOIN RETURNS_DETAILS RD ON RD.RETURNS_DETAILS_SID = RM.RETURNS_DETAILS_SID
+						WHERE RD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+						
+						DELETE RM FROM RETURNS_ACTUALS RM
+						JOIN RETURNS_DETAILS RD ON RD.RETURNS_DETAILS_SID = RM.RETURNS_DETAILS_SID
+						WHERE RD.PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+						
+						DELETE FROM RETURNS_PROJECTION_SELECTION WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+						
+						DELETE FROM PROJECTION_PROD_HIERARCHY WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+						
+						DELETE FROM RETURNS_DETAILS WHERE PROJECTION_MASTER_SID = @PROJECTION_MASTER_SID;
+				]]>
+		</query>
+	</entity>
+
+	<entity id="PROJECTION_PROD_HIERARCHY_INSERT">
+		<query> 
+		                    <![CDATA[
+				INSERT
+	INTO
+		PROJECTION_PROD_HIERARCHY(
+			PROJECTION_MASTER_SID,
+			RELATIONSHIP_LEVEL_SID
+		)
+		 VALUES ( ? , ? )
+		                       ]]>
+		</query>
+	</entity>
+
+	<entity id="FORECASTING_VIEW_MASTER_UPDATE">
+		<query> 
+		                    <![CDATA[
+						UPDATE
+				FORECASTING_VIEW_MASTER
+			SET
+				PROJECTION_ID = ?,
+				VIEW_NAME = ?,
+				VIEW_TYPE = ?,
+				MODIFIED_BY = ?,
+				MODIFIED_DATE = ?
+			WHERE
+				PROJECTION_ID='@PROJECTION_ID';
+		                       ]]>
+		</query>
+	</entity>
+
+	<entity id="PROJECTION_MASTER_FOR_VIEW_UPDATE">
+		<query> 
+		                    <![CDATA[
+			
+						UPDATE
+				PROJECTION_MASTER
+			SET
+				PROJECTION_NAME = ?,
+				PROJECTION_DESCRIPTION = ?,
+				FORECASTING_TYPE = ?,
+				FROM_DATE = ?,
+				TO_DATE = ?,
+				COMPANY_MASTER_SID = ?,
+				PRODUCT_HIERARCHY_SID = ?,
+				PRODUCT_HIERARCHY_LEVEL = ?,
+				PRODUCT_HIER_VERSION_NO = ?,
+				ITEM_GROUP_SID = ?,
+				PRODUCT_HIERARCHY_INNER_LEVEL = ?,
+				PROD_RELATIONSHIP_BUILDER_SID = ?,
+				SAVE_FLAG = ?,
+				MODIFIED_BY = ?,
+				MODIFIED_DATE = ?,
+				BUSINESS_UNIT = ?
+			WHERE
+				PROJECTION_MASTER_SID =  @PROJECTION_MASTER_SID
+				
+			    ]]>
+		</query>
+	</entity>
+
+	<entity id="FORECASTING_VIEW_MASTER_INSERT">
+		<query> 
+		                    <![CDATA[
+						
+							INSERT
+				            INTO
+					FORECASTING_VIEW_MASTER(
+						PROJECTION_ID,
+						VIEW_NAME,
+						VIEW_TYPE,
+						CREATED_BY,
+						CREATED_DATE,
+						MODIFIED_BY,
+						MODIFIED_DATE
+					)
+				VALUES ( ? , ? ,? , ?, ?, ?, ? )			
+			    ]]>
+		</query>
+	</entity>
+	<entity id="PROJECTION_MASTER_FOR_VIEW_INSERT">
+		<query> 
+		                    <![CDATA[
+					INSERT
+			INTO
+				PROJECTION_MASTER(
+					PROJECTION_NAME,
+					PROJECTION_DESCRIPTION,
+					FORECASTING_TYPE,
+					FROM_DATE,
+					TO_DATE,
+					COMPANY_MASTER_SID,
+					PRODUCT_HIERARCHY_SID,
+					PRODUCT_HIERARCHY_LEVEL,
+					PRODUCT_HIER_VERSION_NO,
+					ITEM_GROUP_SID,
+					PRODUCT_HIERARCHY_INNER_LEVEL,
+					PROD_RELATIONSHIP_BUILDER_SID,
+					SAVE_FLAG,
+					MODIFIED_BY,
+					MODIFIED_DATE,
+					BUSINESS_UNIT,
+					CREATED_BY,
+					CREATED_DATE
+				)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+		   ]]>
+		</query>
+	</entity>
+</sql> 

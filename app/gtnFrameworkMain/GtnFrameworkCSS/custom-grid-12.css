@@ -1,0 +1,129 @@
+/* for GlobalFiles */
+.gtnGrid-DualList-Buttons.v-csslayout.v-layout.v-widget {
+	margin-top: 99px !important;
+	display: inline-block;
+}
+
+.mass-populate-lyt {
+	padding-bottom: 10px;
+}
+
+.mass-populate-lyt>.v-horizontallayout.gtnFrameworkCol-5.gtnGrid-single-ln-layout-1 .v-widget.v-has-caption.v-caption-on-top
+	{
+	float: right;
+}
+
+.buttonCustomStyle-1 {
+	margin-top: 25px;
+}
+
+.padding-left10 {
+	padding-left: 10%
+}
+
+.iygdsaygkhya {
+	width: 100px;
+	display: inline-block;
+}
+
+.gtnGrid-DualList-Buttons>div {
+	margin-bottom: 19px;
+	display: block;
+}
+
+.v-caption-gtnFrameworkMandatory:after {
+	content: "*";
+	color: #ed473b;
+}
+
+.stpl .bootstrap-bb .profile {
+	min-width: 10px !important;
+}
+
+.v-csslayout.v-layout.v-widget {
+	margin-left: 6px;
+	margin-right: 6px;
+	margin-bottom: 6px !important;
+	margin-top: 6px !important;
+}
+
+.filedRightMargin {
+	height: 30px !important;
+	width: 173px !important;
+	margin-right: 10px !important;
+}
+
+.filters-wrap .filters-panel .v-button {
+	width: 100%;
+}
+
+.buttonCustomStyle {
+	margin-top: 6px !important;
+	margin-bottom: 6px !important;
+	margin-left: 10px !important;
+	margin-right: 10px !important;
+}
+
+.stpl .bootstrap-forecast .v-textfield {
+	height: 30px !important;
+	width: 173px;
+	margin-right: 10px !important;
+}
+
+.stpl .bootstrap-nm .v-filterselect {
+	height: 30px !important;
+	width: 179px;
+	margin-right: 3px !important;
+}
+
+/* For Returns ForesCast */
+.panel-time-period-rtn-for {
+	margin-top: 15px;
+}
+
+.panel-time-period-rtn-for .v-panel-content {
+	padding-top: 12px;
+	padding-bottom: 12px;
+}
+
+.panel-time-period-rtn-for .gtnGrid-single-ln-layout .v-slot .v-caption
+	{
+	text-align: left;
+	padding-left: 10px;
+	width: 60px !important;
+	min-width: 60px !important;
+}
+
+.gtn-massupdate .gtnGrid-single-ln-layout-1 .v-slot .v-widget .v-caption
+	{
+	min-width: 130px !important;
+	width: 130px !important;
+}
+
+.gtn-massupdate>.gtnGrid-single-ln-layout-1 {
+	width: 18%;
+}
+
+.remove-left-spacing-level .v-slot .v-widget .v-caption {
+	width: 100px !important;
+	min-width: 100px !important;
+}
+
+/*For Balance summary Report*/
+.g-2-2-1-grid-custom>.gtnGrid-single-ln-layout.v-csslayout.v-layout.v-widget
+	{
+	display: inline-block;
+	width: 40%;
+}
+
+.g-2-2-1-grid-custom {
+	overflow: visible !important;
+}
+
+.v-slot-cal-3>.v-widget {
+	min-width: 350px;
+}
+
+.gtnGrid-single-ln-layout .v-slot .v-menubar {
+	font-size: 13px;
+}

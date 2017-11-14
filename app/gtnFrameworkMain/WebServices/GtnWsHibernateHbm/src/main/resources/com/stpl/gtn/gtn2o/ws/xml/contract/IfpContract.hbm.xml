@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContract"
+		table="IFP_CONTRACT" schema="dbo" optimistic-lock="version">
+		<id name="ifpContractSid" type="int">
+			<column name="IFP_CONTRACT_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="cfpContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContract" fetch="select">
+			<column name="CFP_CONTRACT_SID" />
+		</many-to-one>
+		<many-to-one name="contractMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster" fetch="select">
+			<column name="CONTRACT_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpDesignation"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_DESIGNATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpContractAttachedStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_CONTRACT_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_CATEGORY" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_STATUS" not-null="true" />
+		</many-to-one>
+		<many-to-one name="ifpModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpModel" fetch="select">
+			<column name="IFP_MODEL_SID" not-null="true" />
+		</many-to-one>
+		<property name="ifpName" type="string">
+			<column name="IFP_NAME" length="100" not-null="true" />
+		</property>
+		<property name="ifpStartDate" type="timestamp">
+			<column name="IFP_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="ifpEndDate" type="timestamp">
+			<column name="IFP_END_DATE" length="23" />
+		</property>
+		<property name="ifpContractAttachedDate" type="timestamp">
+			<column name="IFP_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="parentIfpId" type="string">
+			<column name="PARENT_IFP_ID" length="50" />
+		</property>
+		<property name="parentIfpName" type="string">
+			<column name="PARENT_IFP_NAME" length="100" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="ifpNo" type="string">
+			<column name="IFP_NO" length="50" not-null="true" />
+		</property>
+		<set name="rsContracts" table="RS_CONTRACT" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="IFP_CONTRACT_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContract" />
+		</set>
+		<set name="psContracts" table="PS_CONTRACT" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="IFP_CONTRACT_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContract" />
+		</set>
+		<set name="ifpContractDetailses" table="IFP_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="IFP_CONTRACT_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

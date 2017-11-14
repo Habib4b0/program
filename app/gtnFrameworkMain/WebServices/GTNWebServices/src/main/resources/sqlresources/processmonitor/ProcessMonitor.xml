@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getProcessMonitorResults">
+		<query> 
+        <![CDATA[
+ SELECT  WP.PROCESS_NAME, Case when wp.process_type = 0 then ''  else pt.description end Description, SCM.CALENDAR_NAME, WP.MODIFIED_DATE,USR.firstName + ' ' + USR.middleName + ' ' + USR.lastName as MODIFIED_BY_VAL ,WP.PROCESS_TYPE,WP.PROCESS_SID  ,WP.START_DATE,WP.END_DATE, WP.MANUAL_LAST_RUN,WP.START_HOUR1,WP.START_HOUR2,WP.START_HOUR3,scm.SLA_CALENDAR_MASTER_SID,WP.START_MINUTES1,WP.START_MINUTES2,WP.START_MINUTES3 \
+                FROM WORKFLOW_PROFILE WP \
+                LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.FREQUENCY \
+                LEFT JOIN SLA_CALENDAR_MASTER SCM ON SCM.SLA_CALENDAR_MASTER_SID = WP.SLA_CALENDAR_MASTER_SID \
+                LEFT JOIN HELPER_TABLE PT ON PT.HELPER_TABLE_SID = WP.PROCESS_TYPE \
+                LEFT JOIN ?.dbo.User_ USR ON USR.userId = WP.MODIFIED_BY WHERE WP.MODIFIED_BY LIKE '%'  AND WP.PROCESS_NAME not in (SELECT DESCRIPTION from HELPER_TABLE where LIST_NAME like 'File_Type') ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getProcessMonitorCount">
+		<query> 
+        <![CDATA[
+SELECT COUNT(*)
+                FROM WORKFLOW_PROFILE WP \
+                LEFT JOIN HELPER_TABLE HTF ON HTF.HELPER_TABLE_SID = WP.FREQUENCY \
+                LEFT JOIN SLA_CALENDAR_MASTER SCM ON SCM.SLA_CALENDAR_MASTER_SID = WP.SLA_CALENDAR_MASTER_SID \
+                LEFT JOIN HELPER_TABLE PT ON PT.HELPER_TABLE_SID = WP.PROCESS_TYPE \
+                LEFT JOIN ?.dbo.User_ USR ON USR.userId = WP.MODIFIED_BY WHERE WP.MODIFIED_BY LIKE '%' AND WP.PROCESS_NAME not in (SELECT DESCRIPTION from HELPER_TABLE where LIST_NAME like 'File_Type')
+]]>
+		</query>
+	</entity>
+
+
+
+</sql>
+

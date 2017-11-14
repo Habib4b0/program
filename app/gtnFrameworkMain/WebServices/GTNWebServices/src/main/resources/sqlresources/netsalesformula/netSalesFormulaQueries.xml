@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sql>
+	<entity id="getNsfAddDeclareQuery">
+		<query> 
+            <![CDATA[           
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+    
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getNsfSalesBasisAddQuery">
+		<query> 
+            <![CDATA[           
+            
+         INSERT
+	INTO
+		dbo.IMTD_SALES_BASIS_DETAILS(
+			SALES_BASIS_DETAILS_SID,
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CONTRACT_NO,
+			CONTRACT_NAME,
+			CFP_CONTRACT_DETAILS_SID,
+			CFP_NO,
+			CFP_NAME,
+			CUSTOMER_NO,
+			CUSTOMER_NAME,
+			CDR_MODEL_SID,
+			CHECK_RECORD,
+			INBOUND_STATUS,
+			USERS_SID,
+			SESSION_ID,
+			IMTD_CREATED_DATE,
+			\"OPERATION\",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE
+		) SELECT
+                        0,
+                        0,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        NULL,
+                        0,
+                        'A',
+                        @USERS_ID,
+                        @SESSION_ID,
+                        GETDATE(),
+                        'A',
+                        @USERS_ID,
+                        GETDATE(),
+                        @USERS_ID,
+                        GETDATE();
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getNsfDeductionsTabAddQuery">
+		<query> 
+            <![CDATA[           
+            INSERT
+	INTO
+		IMTD_DEDUCTION_DETAILS(
+			DEDUCTION_DETAILS_SID,
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CONTRACT_NO,
+			CONTRACT_NAME,
+			RS_CONTRACT_SID,
+			DEDUCTION_NO,
+			DEDUCTION_NAME,
+			DEDUCTION_TYPE,
+			DEDUCTION_SUB_TYPE,
+			DEDUCTION_CATEGORY,
+			CDR_MODEL_SID,
+			\"INDICATOR\",
+			RECORD_LOCK_STATUS,
+			CHECK_RECORD,
+			INBOUND_STATUS,
+			USERS_SID,
+			SESSION_ID,
+			IMTD_CREATED_DATE,
+			\"OPERATION\",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE
+		) SELECT 
+                        0,
+                        0,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        ?,
+                        NULL,
+                        NULL,
+                        NULL,
+                        0,
+                        'A',
+                        @USERS_ID,
+                        @SESSION_ID,
+                        GETDATE(),
+                        'A',
+                        @USERS_ID,
+                        GETDATE(),
+                        @USERS_ID,
+                        GETDATE();
+         ]]>
+		</query>
+	</entity>
+	<entity id="getNsfSalesBasisMergeQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NSF_MASTER_SID INT =?,
+            @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+              
+        MERGE SALES_BASIS_DETAILS AS Target
+	USING(
+	SELECT
+		SALES_BASIS_DETAILS_SID,
+		NET_SALES_FORMULA_MASTER_SID,
+		CONTRACT_MASTER_SID,
+		CFP_CONTRACT_DETAILS_SID,
+		CDR_MODEL_SID,
+		INBOUND_STATUS,
+		CHECK_RECORD,
+		CREATED_DATE,
+		CREATED_BY,
+		MODIFIED_BY,
+		MODIFIED_DATE
+	FROM
+		IMTD_SALES_BASIS_DETAILS
+	WHERE
+		USERS_SID = @USERS_ID
+		AND SESSION_ID = @SESSION_ID
+        ) AS Source ON
+(
+	Target.SALES_BASIS_DETAILS_SID = SOURCE.SALES_BASIS_DETAILS_SID
+	and Target.NET_SALES_FORMULA_MASTER_SID = Source.NET_SALES_FORMULA_MASTER_SID
+)
+        WHEN MATCHED THEN UPDATE
+    SET
+	TARGET.CONTRACT_MASTER_SID = SOURCE.CONTRACT_MASTER_SID,
+	TARGET.CFP_CONTRACT_DETAILS_SID = SOURCE.CFP_CONTRACT_DETAILS_SID,
+	TARGET.CDR_MODEL_SID = SOURCE.CDR_MODEL_SID,
+	TARGET.INBOUND_STATUS = SOURCE.INBOUND_STATUS,
+	TARGET.RECORD_LOCK_STATUS = '0',
+	TARGET.MODIFIED_BY = SOURCE.MODIFIED_BY,
+	TARGET.MODIFIED_DATE = CURRENT_TIMESTAMP
+	WHEN NOT MATCHED BY Target THEN INSERT
+		(
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CFP_CONTRACT_DETAILS_SID,
+			CDR_MODEL_SID,
+			INBOUND_STATUS,
+			CREATED_DATE,
+			CREATED_BY,
+			MODIFIED_BY,
+			MODIFIED_DATE
+		)
+	VALUES(
+		@NSF_MASTER_SID,
+		SOURCE.CONTRACT_MASTER_SID,
+		SOURCE.CFP_CONTRACT_DETAILS_SID,
+		SOURCE.CDR_MODEL_SID,
+		SOURCE.INBOUND_STATUS,
+		SOURCE.CREATED_DATE,
+		SOURCE.CREATED_BY,
+		SOURCE.MODIFIED_BY,
+		SOURCE.MODIFIED_DATE
+	);
+        ]]>
+		</query>
+	</entity>
+
+	<entity id="getNsfDeductionsMergeQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NSF_MASTER_SID INT =?,
+            @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+    MERGE DEDUCTION_DETAILS AS TARGET
+	USING(
+	SELECT
+		DEDUCTION_DETAILS_SID,
+		NET_SALES_FORMULA_MASTER_SID,
+		CONTRACT_MASTER_SID,
+		CDR_MODEL_SID,
+		INDICATOR,
+		INBOUND_STATUS,
+		CHECK_RECORD,
+		CREATED_DATE,
+		CREATED_BY,
+		MODIFIED_BY,
+		MODIFIED_DATE,
+		DEDUCTION_TYPE,
+		DEDUCTION_SUB_TYPE,
+		DEDUCTION_CATEGORY,
+		RS_CONTRACT_SID
+	FROM
+		IMTD_DEDUCTION_DETAILS
+	WHERE
+		USERS_SID = @USERS_ID
+		AND SESSION_ID = @SESSION_ID
+        ) AS SOURCE ON
+(
+	TARGET.DEDUCTION_DETAILS_SID = SOURCE.DEDUCTION_DETAILS_SID
+	AND TARGET.NET_SALES_FORMULA_MASTER_SID = SOURCE.NET_SALES_FORMULA_MASTER_SID
+)
+    WHEN MATCHED THEN UPDATE
+    SET
+	TARGET.NET_SALES_FORMULA_MASTER_SID = SOURCE.NET_SALES_FORMULA_MASTER_SID,
+	TARGET.CONTRACT_MASTER_SID = SOURCE.CONTRACT_MASTER_SID,
+	TARGET.CDR_MODEL_SID = SOURCE.CDR_MODEL_SID,
+	TARGET.INDICATOR = SOURCE.INDICATOR,
+	TARGET.INBOUND_STATUS = SOURCE.INBOUND_STATUS,
+	TARGET.CREATED_DATE = SOURCE.CREATED_DATE,
+	TARGET.CREATED_BY = SOURCE.CREATED_BY,
+	TARGET.MODIFIED_BY = SOURCE.MODIFIED_BY,
+	TARGET.MODIFIED_DATE = CURRENT_TIMESTAMP,
+	TARGET.RECORD_LOCK_STATUS = '0',
+	TARGET.DEDUCTION_TYPE = SOURCE.DEDUCTION_TYPE,
+	TARGET.DEDUCTION_SUB_TYPE = SOURCE.DEDUCTION_SUB_TYPE,
+	TARGET.DEDUCTION_CATEGORY = SOURCE.DEDUCTION_CATEGORY,
+	TARGET.RS_CONTRACT_SID = SOURCE.RS_CONTRACT_SID
+	WHEN NOT MATCHED BY TARGET THEN INSERT
+		(
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CDR_MODEL_SID,
+			INDICATOR,
+			INBOUND_STATUS,
+			CREATED_DATE,
+			CREATED_BY,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			DEDUCTION_TYPE,
+			DEDUCTION_SUB_TYPE,
+			DEDUCTION_CATEGORY,
+			RS_CONTRACT_SID
+		)
+	VALUES(
+		@NSF_MASTER_SID,
+		SOURCE.CONTRACT_MASTER_SID,
+		SOURCE.CDR_MODEL_SID,
+		SOURCE.INDICATOR,
+		SOURCE.INBOUND_STATUS,
+		SOURCE.CREATED_DATE,
+		SOURCE.CREATED_BY,
+		SOURCE.MODIFIED_BY,
+		SOURCE.MODIFIED_DATE,
+		SOURCE.DEDUCTION_TYPE,
+		SOURCE.DEDUCTION_SUB_TYPE,
+		SOURCE.DEDUCTION_CATEGORY,
+		SOURCE.RS_CONTRACT_SID
+	);
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfDeleteTempTableDataQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+            delete FROM dbo.IMTD_DEDUCTION_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+            delete FROM dbo.IMTD_SALES_BASIS_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfSalesBasisTempTableInsertQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_MASTER_SID INT=?,
+            @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+            delete FROM dbo.IMTD_SALES_BASIS_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+            
+            INSERT
+	into
+		IMTD_SALES_BASIS_DETAILS(
+			SALES_BASIS_DETAILS_SID,
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CONTRACT_NO,
+			CONTRACT_NAME,
+			CFP_CONTRACT_DETAILS_SID,
+			CFP_NO,
+			CFP_NAME,
+			CUSTOMER_NO,
+			CUSTOMER_NAME,
+			CDR_MODEL_SID,
+			CHECK_RECORD,
+			INBOUND_STATUS,
+			SESSION_ID,
+			IMTD_CREATED_DATE,
+			USERS_SID,
+			"OPERATION",
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE
+		) select
+			SBD.SALES_BASIS_DETAILS_SID,
+			SBD.NET_SALES_FORMULA_MASTER_SID,
+			SBD.CONTRACT_MASTER_SID,
+			CM.CONTRACT_NO,
+			CM.CONTRACT_NAME,
+			SBD.CFP_CONTRACT_DETAILS_SID,
+			CFP.CFP_NO,
+			CFP.CFP_NAME,
+			COMP.COMPANY_NO,
+			COMP.COMPANY_NAME,
+			SBD.CDR_MODEL_SID,
+			0 as CHECK_RECORD,
+			SBD.INBOUND_STATUS,
+			@SESSION_ID as SESSION_ID,
+			CURRENT_TIMESTAMP as IMTD_CREATEDDATE,
+			@USERS_ID as USERS_SID,
+			'U',
+			SBD.CREATED_BY,
+			SBD.CREATED_DATE,
+			SBD.MODIFIED_BY,
+			SBD.MODIFIED_DATE
+		from
+			SALES_BASIS_DETAILS SBD
+		LEFT JOIN CONTRACT_MASTER CM on
+			CM.CONTRACT_MASTER_SID = SBD.CONTRACT_MASTER_SID
+		LEFT JOIN CFP_CONTRACT_DETAILS CFPCD on
+			CFPCD.CFP_CONTRACT_DETAILS_SID = SBD.CFP_CONTRACT_DETAILS_SID
+		LEFT JOIN CFP_CONTRACT CFPC on
+			CFPC.CFP_CONTRACT_SID = CFPCD.CFP_CONTRACT_SID
+		LEFT JOIN CFP_MODEL CFP on
+			CFP.CFP_MODEL_SID = CFPC.CFP_MODEL_SID
+		LEFT JOIN COMPANY_MASTER COMP on
+			COMP.COMPANY_MASTER_SID = CFPCD.COMPANY_MASTER_SID
+		where
+			SBD.NET_SALES_FORMULA_MASTER_SID = @NET_SALES_FORMULA_MASTER_SID
+			AND SBD.INBOUND_STATUS <> 'D';
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfDeductionsTempTableInsertQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_MASTER_SID INT=?,
+            @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+            delete FROM dbo.IMTD_DEDUCTION_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+            
+            INSERT
+	into
+		IMTD_DEDUCTION_DETAILS(
+			DEDUCTION_DETAILS_SID,
+			NET_SALES_FORMULA_MASTER_SID,
+			CONTRACT_MASTER_SID,
+			CONTRACT_NO,
+			CONTRACT_NAME,
+			DEDUCTION_NO,
+			DEDUCTION_NAME,
+			DEDUCTION_TYPE,
+			DEDUCTION_SUB_TYPE,
+			DEDUCTION_CATEGORY,
+			CDR_MODEL_SID,
+			INDICATOR,
+			CHECK_RECORD,
+			INBOUND_STATUS,
+			USERS_SID,
+			SESSION_ID,
+			IMTD_CREATED_DATE,
+			OPERATION,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			RS_CONTRACT_SID
+		) select
+			DD.DEDUCTION_DETAILS_SID,
+			DD.NET_SALES_FORMULA_MASTER_SID,
+			DD.CONTRACT_MASTER_SID,
+			CM.CONTRACT_NO,
+			CM.CONTRACT_NAME,
+			RSC.RS_NO,
+			RSC.RS_NAME,
+			DD.DEDUCTION_TYPE,
+			DD.DEDUCTION_SUB_TYPE,
+			DD.DEDUCTION_CATEGORY,
+			DD.CDR_MODEL_SID,
+			DD."INDICATOR",
+			0 as CHECK_RECORD,
+			DD.INBOUND_STATUS,
+			@USERS_ID as USERS_SID,
+			@SESSION_ID as SESSION_ID,
+			CURRENT_TIMESTAMP as IMTD_CREATED_DATE,
+			'U',
+			DD.CREATED_BY,
+			DD.CREATED_DATE,
+			DD.MODIFIED_BY,
+			DD.MODIFIED_DATE,
+			DD.RS_CONTRACT_SID
+		from
+			DEDUCTION_DETAILS DD
+		LEFT JOIN CONTRACT_MASTER CM on
+			CM.CONTRACT_MASTER_SID = DD.CONTRACT_MASTER_SID
+		LEFT JOIN RS_CONTRACT RSC ON
+			RSC.RS_CONTRACT_SID = DD.RS_CONTRACT_SID
+		where
+			DD.NET_SALES_FORMULA_MASTER_SID = @NET_SALES_FORMULA_MASTER_SID
+			AND DD.INBOUND_STATUS <> 'D';
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfSalesBasisUpdateColumnQuery">
+		<query> 
+            <![CDATA[           
+         	UPDATE IMTD_SALES_BASIS_DETAILS SET [$UPDATE_CLAUSE] = [$UPDATE_CLAUSE_VALUE]  WHERE USERS_SID = ?  AND SESSION_ID = ?  [$WHERE_CLAUSE]
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getSalesBasisPopulateValidationQuery">
+		<query> 
+            <![CDATA[  
+            DECLARE  @USERS_ID VARCHAR(10)= ?,
+            		 @SESSION_ID  VARCHAR(10)= ?
+                     
+         	Select
+	 				count( distinct IMSBD.IMTD_SALES_BASIS_DETAILS_SID )
+			FROM
+				dbo.IMTD_SALES_BASIS_DETAILS IMSBD
+			WHERE
+				IMSBD.USERS_SID = @USERS_ID
+				AND IMSBD.SESSION_ID = @SESSION_ID
+				AND IMSBD.CHECK_RECORD = '1';
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getNsfDeductionsUpdateColumnQuery">
+		<query> 
+            <![CDATA[           
+         	UPDATE IMTD_DEDUCTION_DETAILS  SET [$UPDATE_CLAUSE] = [$UPDATE_CLAUSE_VALUE]  WHERE USERS_SID = ?  AND SESSION_ID = ?  [$WHERE_CLAUSE]
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getDeductionsPopulateValidationQuery">
+		<query> 
+            <![CDATA[  
+            DECLARE  @USERS_ID VARCHAR(10)= ?,
+            		 @SESSION_ID  VARCHAR(10)= ?
+                     
+         	Select
+	 				count( distinct IMDD.IMTD_DEDUCTION_DETAILS_SID )
+			FROM
+				dbo.IMTD_DEDUCTION_DETAILS IMDD
+			WHERE
+				IMDD.USERS_SID = @USERS_ID
+				AND IMDD.SESSION_ID = @SESSION_ID
+				AND IMDD.CHECK_RECORD = '1';
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getSalesBasisRemoveRecordQuery">
+		<query> 
+            <![CDATA[           
+         	 DELETE FROM IMTD_SALES_BASIS_DETAILS WHERE  USERS_SID = ?  AND SESSION_ID = ? AND CHECK_RECORD = '1';
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getDeductionsRemoveRecordQuery">
+		<query> 
+            <![CDATA[           
+         	 DELETE FROM IMTD_DEDUCTION_DETAILS WHERE  USERS_SID = ?  AND SESSION_ID = ? AND CHECK_RECORD = '1';
+ 			]]>
+		</query>
+	</entity>
+	<entity id="getNsfDeleteQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_MASTER_SID INT= ?
+            
+             UPDATE dbo.SALES_BASIS_DETAILS SET INBOUND_STATUS ='D' WHERE NET_SALES_FORMULA_MASTER_SID =@NET_SALES_FORMULA_MASTER_SID;
+             UPDATE dbo.DEDUCTION_DETAILS SET INBOUND_STATUS ='D' WHERE NET_SALES_FORMULA_MASTER_SID =@NET_SALES_FORMULA_MASTER_SID;
+             UPDATE dbo.NET_SALES_FORMULA_MASTER SET INBOUND_STATUS ='D' WHERE NET_SALES_FORMULA_MASTER_SID =@NET_SALES_FORMULA_MASTER_SID;
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfDuplicateCheckQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @NET_SALES_FORMULA_NAME VARCHAR(10)= ?,
+            @NET_SALES_FORMULA_ID VARCHAR(10)= ?,
+            @NET_SALES_FORMULA_NO VARCHAR(10)= ?
+            
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NAME=@NET_SALES_FORMULA_NAME;
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_ID= @NET_SALES_FORMULA_ID;
+             select count(*) from NET_SALES_FORMULA_MASTER where NET_SALES_FORMULA_NO=@NET_SALES_FORMULA_NO;
+        ]]>
+		</query>
+	</entity>
+	
+	<entity id="getNsfDuplicateIndicatorCheckQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE  @USERS_ID VARCHAR(10)= ?,
+            		 @SESSION_ID  VARCHAR(10)= ?
+             select count(*) from IMTD_DEDUCTION_DETAILS  
+             WHERE INDICATOR not in ('+','-') and OPERATION <> 'D' and INBOUND_STATUS <> 'D' and session_ID =@SESSION_ID AND USERS_SID = @USERS_ID;
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfResetSalesBasisTableQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            delete FROM dbo.IMTD_SALES_BASIS_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+        ]]>
+		</query>
+	</entity>
+	<entity id="getNsfResetDeductionTableQuery">
+		<query> 
+            <![CDATA[
+            
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            delete FROM dbo.IMTD_DEDUCTION_DETAILS WHERE USERS_SID= @USERS_ID AND SESSION_ID=@SESSION_ID;
+        ]]>
+		</query>
+	</entity>
+
+</sql>

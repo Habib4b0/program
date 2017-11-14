@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.PsContract"
+		table="PS_CONTRACT" schema="dbo" optimistic-lock="version">
+		<id name="psContractSid" type="int">
+			<column name="PS_CONTRACT_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="cfpContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContract" fetch="select">
+			<column name="CFP_CONTRACT_SID" />
+		</many-to-one>
+		<many-to-one name="contractMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.ContractMaster" fetch="select">
+			<column name="CONTRACT_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_CATEGORY" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsDesignation"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_DESIGNATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByPsContractAttachedStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PS_CONTRACT_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="ifpContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContract" fetch="select">
+			<column name="IFP_CONTRACT_SID" />
+		</many-to-one>
+		<many-to-one name="psModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.PsModel" fetch="select">
+			<column name="PS_MODEL_SID" not-null="true" />
+		</many-to-one>
+		<property name="psName" type="string">
+			<column name="PS_NAME" length="100" />
+		</property>
+		<property name="psStartDate" type="timestamp">
+			<column name="PS_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="psEndDate" type="timestamp">
+			<column name="PS_END_DATE" length="23" />
+		</property>
+		<property name="psContractAttachedDate" type="timestamp">
+			<column name="PS_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="parentPsId" type="string">
+			<column name="PARENT_PS_ID" length="50" />
+		</property>
+		<property name="parentPsName" type="string">
+			<column name="PARENT_PS_NAME" length="100" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="psTradeClass" type="java.lang.Integer">
+			<column name="PS_TRADE_CLASS" />
+		</property>
+		<property name="psNo" type="string">
+			<column name="PS_NO" length="50" />
+		</property>
+		<set name="rsContracts" table="RS_CONTRACT" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="PS_CONTRACT_SID" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContract" />
+		</set>
+		<set name="psContractDetailses" table="PS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="PS_CONTRACT_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>
