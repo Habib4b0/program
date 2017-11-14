@@ -65,7 +65,7 @@ public class GtnWsTransactionReprocessIOService {
 		if (gtnWsTransactionRequest.isReprocessFlag()) {
 			List<String> selectColumns = new ArrayList<>();
 			selectColumns.addAll(selectedColumn);
-			selectColumns.set(selectColumns.indexOf("batchId"), "replace(batchId, 'IVLD_', '')");
+			selectColumns.set(selectColumns.indexOf("batchId"), "'IVLD_' + replace(batchId, 'IVLD_', '')");
 			stagingColumnName = removeUnwantedColumnForStagingtable(selectedColumn, inavlidTableName);
 			invalidColumnName = Arrays.toString(selectColumns.toArray());
 		}

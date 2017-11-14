@@ -422,6 +422,7 @@ public class GtnWsPriceScheduleService {
 
 	public StringBuilder getPopulateQuery(GtnWsCheckAllUpdateBean psPPUpdateBean, GtnWsGeneralRequest generalWSRequest,
 			Map<String, GtnWsColumnDetailsConfig> componetMap, String propertyId, Object value) {
+            
 		StringBuilder psPPUpdateQuery = new StringBuilder(GtnFrameworkWebserviceConstant.UPDATE_IMTD_PS_DETAILS_SET);
 
 		if (psPPUpdateBean.getPropertyValueMap() != null) {
@@ -442,7 +443,6 @@ public class GtnWsPriceScheduleService {
 			}
 
 		} else {
-
 			psPPUpdateQuery.append("").append(componetMap.get(propertyId).getDbColumnName()).append("=");
 
 			psPPUpdateQuery.append("'").append(value).append("'");

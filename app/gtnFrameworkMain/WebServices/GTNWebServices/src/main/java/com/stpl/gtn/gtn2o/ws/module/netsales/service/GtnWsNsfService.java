@@ -485,4 +485,17 @@ public class GtnWsNsfService {
 		}
 
 	}
+
+	public int checkAllItems(GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+
+		String query = gtnWsSqlService.getQuery("getNSFItemsCheckAllQuery");
+		boolean isCheckAll = (boolean) gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean().getValue();
+
+		Object[] params = { isCheckAll ? "1" : "0", gtnWsRequest.getGtnWsGeneralRequest().getUserId(),
+				gtnWsRequest.getGtnWsGeneralRequest().getSessionId() };
+		GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query, params, types);
+
+	}
 }

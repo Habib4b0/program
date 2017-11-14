@@ -368,15 +368,17 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_BASE_PRICE_DDLB,
 				configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.BASE_PRICE_DDLB,
 						GtnFrameworkWebserviceConstant.IMPSD));
-		updatePPColumnDetailsMap.put("psNetResetPriceFormulaId1", configProvider.getColumnIntegerConfig(
+		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_RESET_PRICE_FORMULA_ID_ONE, configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.NET_RESET_PRICE_FORMULA_ID, GtnFrameworkWebserviceConstant.IMPSD));
-		updatePPColumnDetailsMap.put("psNetBSubseqPriceFormulaId1",
-				configProvider.getColumnIntegerConfig(
-						GtnFrameworkWebserviceConstant.PS_NET_B_SUBSEQ_PRICE_FORMULA_ID_COLUMN,
-						GtnFrameworkWebserviceConstant.IMPSD));
-		updatePPColumnDetailsMap.put("psNetBasePriceFormulaId1", configProvider.getColumnIntegerConfig(
+		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_SUBSEQUENT_PRICE_FORMULA_ID_ONE,configProvider.getColumnIntegerConfig(
+						GtnFrameworkWebserviceConstant.PS_NET_B_SUBSEQ_PRICE_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
+		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_BASE_PRICE_FORMULA_ID_ONE, configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.PS_NET_B_RESET_PRICE_FORMULA_ID, GtnFrameworkWebserviceConstant.IMPSD));
-
+		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NEP_FORMULA_ONE,
+						configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.PS_NEP_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
+		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ONE,
+						configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
+                  
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(updatePPColumnDetailsMap);
 		searchQueryConfigMap.put("updatePriceSchedulePriceProtection", gtnWebServiceSearchQueryContext);
 	}
@@ -475,17 +477,18 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				GtnFrameworkWebserviceConstant.USERS_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.SESSION_ID, configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.SESSION_ID, GtnFrameworkWebserviceConstant.IMPSD));
-		psPPColumnDetailsMap.put("psNetResetPriceFormulaId1", configProvider.getColumnIntegerConfig(
+		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_RESET_PRICE_FORMULA_ID_ONE, configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.NET_RESET_PRICE_FORMULA_ID, GtnFrameworkWebserviceConstant.IMPSD));
-		psPPColumnDetailsMap.put("psNetBSubseqPriceFormulaId1",
+		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_SUBSEQUENT_PRICE_FORMULA_ID_ONE,
 				configProvider.getColumnIntegerConfig(
 						GtnFrameworkWebserviceConstant.PS_NET_B_SUBSEQ_PRICE_FORMULA_ID_COLUMN,
 						GtnFrameworkWebserviceConstant.IMPSD));
-		psPPColumnDetailsMap.put("psNetBasePriceFormulaId1",
-				configProvider.getColumnIntegerConfig(
-						GtnFrameworkWebserviceConstant.PS_NET_BASE_PRICE_FORMULA_ID_COLUMN,
-						GtnFrameworkWebserviceConstant.IMPSD));
-
+		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_BASE_PRICE_FORMULA_ID_ONE,
+						configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.PS_NET_BASE_PRICE_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
+		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NEP_FORMULA_ONE,
+						configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.PS_NEP_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
+		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ONE,
+						configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN,GtnFrameworkWebserviceConstant.IMPSD));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();

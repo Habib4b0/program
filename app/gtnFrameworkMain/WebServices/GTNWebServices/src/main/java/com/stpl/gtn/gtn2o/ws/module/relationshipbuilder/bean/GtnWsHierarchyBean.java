@@ -15,81 +15,94 @@ import java.util.List;
  */
 public class GtnWsHierarchyBean {
 
-	public GtnWsHierarchyBean() {
-		/**
-		 * empty constructor
-		 */
-	}
+    public GtnWsHierarchyBean() {
+        /**
+         * empty constructor
+         */
+    }
 
-	private List<String> hierarchyNo;
-	private List<Object> relationshipLevelValues;
-	private String parentHierarchyNo = "";
-	private List<String> parentNode;
-	private int levelNo = 0;
+    private List<String> hierarchyNo;
+    private List<Object> relationshipLevelValues;
+    private String parentHierarchyNo = "";
+    private List<String> parentNode;
+    private int levelNo = 0;
+    private List<Object> parentRelationshipLevelValues;
 
-	public List<String> getHierarchyNo() {
-		return hierarchyNo == null ? hierarchyNo : Collections.unmodifiableList(hierarchyNo);
-	}
+    public List<Object> getParentRelationshipLevelValues() {
+        return parentRelationshipLevelValues == null ? new ArrayList<>()
+                : Collections.unmodifiableList(parentRelationshipLevelValues);
+    }
 
-	public void setHierarchyNo(List<String> hierarchyNo) {
-		this.hierarchyNo = Collections.unmodifiableList(hierarchyNo);
-	}
+    public void addParentRelationshipLevelValues(Object parentRelationLevelValues) {
+        if (parentRelationshipLevelValues == null) {
+            parentRelationshipLevelValues = new ArrayList<>();
+        }
+        parentRelationshipLevelValues.add(parentRelationLevelValues);
+    }
 
-	public List<Object> getRelationshipLevelValues() {
-		return relationshipLevelValues == null ? relationshipLevelValues
-				: Collections.unmodifiableList(relationshipLevelValues);
-	}
+    public List<String> getHierarchyNo() {
+        return hierarchyNo == null ? hierarchyNo : Collections.unmodifiableList(hierarchyNo);
+    }
 
-	public void setRelationshipLevelValues(List<Object> levelValues) {
-		this.relationshipLevelValues = Collections.unmodifiableList(levelValues);
-	}
+    public void setHierarchyNo(List<String> hierarchyNo) {
+        this.hierarchyNo = Collections.unmodifiableList(hierarchyNo);
+    }
 
-	public String getParentHierarchyNo() {
-		return parentHierarchyNo;
-	}
+    public List<Object> getRelationshipLevelValues() {
+        return relationshipLevelValues == null ? relationshipLevelValues
+                : Collections.unmodifiableList(relationshipLevelValues);
+    }
 
-	public void setParentHierarchyNo(String parentHierarchyNo) {
-		this.parentHierarchyNo = parentHierarchyNo;
-	}
+    public void setRelationshipLevelValues(List<Object> levelValues) {
+        this.relationshipLevelValues = Collections.unmodifiableList(levelValues);
+    }
 
-	public List<String> getParentNode() {
-		return parentNode == null ? parentNode : Collections.unmodifiableList(parentNode);
-	}
+    public String getParentHierarchyNo() {
+        return parentHierarchyNo;
+    }
 
-	public void setParentNode(List<String> parentNode) {
-		this.parentNode = Collections.unmodifiableList(parentNode);
-	}
+    public void setParentHierarchyNo(String parentHierarchyNo) {
+        this.parentHierarchyNo = parentHierarchyNo;
+    }
 
-	public int getLevelNo() {
-		return levelNo;
-	}
+    public List<String> getParentNode() {
+        return parentNode == null ? parentNode : Collections.unmodifiableList(parentNode);
+    }
 
-	public void setLevelNo(int levelNo) {
-		this.levelNo = levelNo;
-	}
+    public void setParentNode(List<String> parentNode) {
+        this.parentNode = Collections.unmodifiableList(parentNode);
+    }
 
-	public void addParentNode(String value) {
+    public int getLevelNo() {
+        return levelNo;
+    }
 
-		if (parentNode == null) {
-			parentNode = new ArrayList<>();
-		}
-		parentNode.add(value);
-	}
+    public void setLevelNo(int levelNo) {
+        this.levelNo = levelNo;
+    }
 
-	public void addRelationshipLevelValues(Object value) {
+    public void addParentNode(String value) {
 
-		if (relationshipLevelValues == null) {
-			relationshipLevelValues = new ArrayList<>();
-		}
-		relationshipLevelValues.add(value);
-	}
+        if (parentNode == null) {
+            parentNode = new ArrayList<>();
+        }
+        parentNode.add(value);
+    }
 
-	public void addHierarchyNo(String value) {
+    public void addRelationshipLevelValues(Object value) {
 
-		if (hierarchyNo == null) {
-			hierarchyNo = new ArrayList<>();
-		}
-		hierarchyNo.add(value);
-	}
+        if (relationshipLevelValues == null) {
+            relationshipLevelValues = new ArrayList<>();
+        }
+        relationshipLevelValues.add(value);
+    }
+
+    public void addHierarchyNo(String value) {
+
+        if (hierarchyNo == null) {
+            hierarchyNo = new ArrayList<>();
+        }
+        hierarchyNo.add(value);
+    }
 
 }

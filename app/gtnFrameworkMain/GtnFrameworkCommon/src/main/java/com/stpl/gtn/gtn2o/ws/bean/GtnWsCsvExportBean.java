@@ -5,6 +5,10 @@ import java.util.List;
 
 public class GtnWsCsvExportBean {
 
+	public GtnWsCsvExportBean() {
+		super();
+	}
+
 	private String countQuery;
 	private String dataQuery;
 	private String exportName;
