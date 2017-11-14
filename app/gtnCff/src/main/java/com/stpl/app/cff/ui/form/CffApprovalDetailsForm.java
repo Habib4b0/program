@@ -259,6 +259,9 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                         projectionVariance.uomLoadingTabChange();
                     }
+                    if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction())) {
+                        projectionVariance.loadAllDdbls();
+                    }
 
                     if (event.getTabSheet().getSelectedTab().getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
                         BottomBtnLayout.setVisible(false);
@@ -588,7 +591,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             LOGGER.error(ex);
         }
     }
-    
+
     private void setTabSecurity() {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
