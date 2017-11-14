@@ -845,7 +845,7 @@ NET_RESET_PRICE_FORMULA_NO,
 NET_RESET_PRICE_FORMULA_NAME,
 0 as check_Record,
 operation,
-ADD_COPY_INDICATOR			
+'A' as ADD_COPY_INDICATOR			
 		from
 		
 			Imtd_Ps_Details 

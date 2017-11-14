@@ -5,6 +5,7 @@ import java.util.Set;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -42,10 +43,11 @@ public class GtnFrameworkIfpMoveLeftAction
 		Set<GtnWsRecordBean> dtoSet = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.IFPRIGHT_RESULT_TABLE)
 				.getValueFromMultiSelectPagedDataTable();
+		if (dtoSet == null || dtoSet.isEmpty()) {
+			throw new GtnFrameworkValidationFailedException("Please select an item to remove", componentId);
+		}
+		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 		try {
-			if (dtoSet == null || dtoSet.isEmpty()) {
-				throw new GtnFrameworkValidationFailedException("Please select an item to remove", componentId);
-			} else {
 				for (GtnWsRecordBean gtnWsRecordBean : dtoSet) {
 					String companyMasterSid = String.valueOf(gtnWsRecordBean.getProperties().get(8));
 					GtnIFamilyPlanCommonUpdateBean updateBean = new GtnIFamilyPlanCommonUpdateBean();
@@ -74,7 +76,6 @@ public class GtnFrameworkIfpMoveLeftAction
 						.getVaadinBaseComponent("ifprightResultTable").getLogicFromPagedDataTable();
 
 				logic.startSearchProcess(null, Boolean.TRUE);
-			}
 		} catch (GtnFrameworkValidationFailedException e) {
 			gtnLogger.error(e.getMessage(), e);
 		} finally {
