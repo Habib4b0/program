@@ -60,8 +60,8 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.app.utils.Constants.NumericConstants;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
@@ -71,6 +71,7 @@ import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Between;
@@ -1422,8 +1423,9 @@ public class NMProjectionVarianceLogic {
      * @param projectionId
      * @param procedureName
      * @return
+     * @throws Exception 
      */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) {
+    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -1451,8 +1453,7 @@ public class NMProjectionVarianceLogic {
         	}
 
 
-	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO,
-			int start, int offset) {
+	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, PVSelectionDTO baseVariables, int start, int offset) {
         try {
             LOGGER.info("Inside getConfiguredProjectionVariance");
             List<ProjectionVarianceDTO> list;

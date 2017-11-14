@@ -54,7 +54,6 @@ import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.app.cff.util.Constants.NumericConstants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.HeaderUtils;
@@ -64,6 +63,7 @@ import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
@@ -73,6 +73,7 @@ import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -1484,8 +1485,9 @@ public class ProjectionVarianceLogic {
      * @param projectionId
      * @param procedureName
      * @return
+     * @throws Exception 
      */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) {
+    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
