@@ -80,208 +80,208 @@ public class PMPYCalculatorDTO implements Serializable {
     /**
      * The q1y1 ch.
      */
-    private Double q1y1Ch=new Double(0.0);
+    private Double q1y1Ch=0.0;
 
     /**
      * The q2y1 ch.
      */
-    private Double q2y1Ch=new Double(0.0);
+    private Double q2y1Ch=0.0;
 
     /**
      * The q3y1 ch.
      */
-    private Double q3y1Ch=new Double(0.0);
+    private Double q3y1Ch=0.0;
 
     /**
      * The q4y1 ch.
      */
-    private Double q4y1Ch=new Double(0.0);
+    private Double q4y1Ch=0.0;
 
     /**
      * The q1y2 ch.
      */
-    private Double q1y2Ch=new Double(0.0);
+    private Double q1y2Ch=0.0;
 
     /**
      * The q2y2 ch.
      */
-    private Double q2y2Ch=new Double(0.0);
+    private Double q2y2Ch=0.0;
 
     /**
      * The q3y2 ch.
      */
-    private Double q3y2Ch=new Double(0.0);
+    private Double q3y2Ch=0.0;
 
     /**
      * The q4y2 ch.
      */
-    private Double q4y2Ch=new Double(0.0);
+    private Double q4y2Ch=0.0;
 
     /**
      * The q1y3 ch.
      */
-    private Double q1y3Ch=new Double(0.0);
+    private Double q1y3Ch=0.0;
 
     /**
      * The q2y3 ch.
      */
-    private Double q2y3Ch=new Double(0.0);
+    private Double q2y3Ch=0.0;
 
     /**
      * The q3y3 ch.
      */
-    private Double q3y3Ch=new Double(0.0);
+    private Double q3y3Ch=0.0;
     /**
      * The q4y3 ch.
      */
-    private Double q4y3Ch=new Double(0.0);
+    private Double q4y3Ch=0.0;
 
     /**
      * The y1 ch.
      */
-    private Double y1Ch=new Double(0.0);
+    private Double y1Ch=0.0;
 
     /**
      * The y2 ch.
      */
-    private Double y2Ch=new Double(0.0);
+    private Double y2Ch=0.0;
 
     /**
      * The y3 ch.
      */
-    private Double y3Ch=new Double(0.0);
+    private Double y3Ch=0.0;
 
     /**
      * The s1y1 ch.
      */
-    private Double s1y1Ch=new Double(0.0);
+    private Double s1y1Ch=0.0;
 
     /**
      * The s2y1 ch.
      */
-    private Double s2y1Ch=new Double(0.0);
+    private Double s2y1Ch=0.0;
 
     /**
      * The s1y2 ch.
      */
-    private Double s1y2Ch=new Double(0.0);
+    private Double s1y2Ch=0.0;
 
     /**
      * The s2y2 ch.
      */
-    private Double s2y2Ch=new Double(0.0);
+    private Double s2y2Ch=0.0;
 
     /**
      * The s1y3 ch.
      */
-    private Double s1y3Ch=new Double(0.0);
+    private Double s1y3Ch=0.0;
 
     /**
      * The s2y3 ch.
      */
-    private Double s2y3Ch=new Double(0.0);
+    private Double s2y3Ch=0.0;
 
     /**
      * The q1y1 tp.
      */
-    private Double q1y1Tp=new Double(0.0);
+    private Double q1y1Tp=0.0;
 
     /**
      * The q2y1 tp.
      */
-    private Double q2y1Tp=new Double(0.0);
+    private Double q2y1Tp=0.0;
 
     /**
      * The q3y1 tp.
      */
-    private Double q3y1Tp=new Double(0.0);
+    private Double q3y1Tp=0.0;
     /**
      * The q4y1 tp.
      */
-    private Double q4y1Tp=new Double(0.0);
+    private Double q4y1Tp=0.0;
 
     /**
      * The q1y2 tp.
      */
-    private Double q1y2Tp=new Double(0.0);
+    private Double q1y2Tp=0.0;
 
     /**
      * The q2y2 tp.
      */
-    private Double q2y2Tp=new Double(0.0);
+    private Double q2y2Tp=0.0;
 
     /**
      * The q3y2 tp.
      */
-    private Double q3y2Tp=new Double(0.0);
+    private Double q3y2Tp=0.0;
 
     /**
      * The q4y2 tp.
      */
-    private Double q4y2Tp=new Double(0.0);
+    private Double q4y2Tp=0.0;
 
     /**
      * The q1y3 tp.
      */
-    private Double q1y3Tp=new Double(0.0);
+    private Double q1y3Tp=0.0;
 
     /**
      * The q2y3 tp.
      */
-    private Double q2y3Tp=new Double(0.0);
+    private Double q2y3Tp=0.0;
 
     /**
      * The q3y3 tp.
      */
-    private Double q3y3Tp=new Double(0.0);
+    private Double q3y3Tp=0.0;
 
     /**
      * The q4y3 tp.
      */
-    private Double q4y3Tp=new Double(0.0);
+    private Double q4y3Tp=0.0;
     /**
      * The y1 tp.
      */
-    private Double y1Tp=new Double(0.0);
+    private Double y1Tp=0.0;
 
     /**
      * The y2 tp.
      */
-    private Double y2Tp=new Double(0.0);
+    private Double y2Tp=0.0;
 
     /**
      * The y3 tp.
      */
-    private Double y3Tp=new Double(0.0);
+    private Double y3Tp=0.0;
 
     /**
      * The s1y1 tp.
      */
-    private Double s1y1Tp=new Double(0.0);
+    private Double s1y1Tp=0.0;
     /**
      * The s2y1 tp.
      */
-    private Double s2y1Tp=new Double(0.0);
+    private Double s2y1Tp=0.0;
 
     /**
      * The s1y2 tp.
      */
-    private Double s1y2Tp=new Double(0.0);
+    private Double s1y2Tp=0.0;
 
     /**
      * The s2y2 tp.
      */
-    private Double s2y2Tp=new Double(0.0);
+    private Double s2y2Tp=0.0;
 
     /**
      * The s1y3 tp.
      */
-    private Double s1y3Tp=new Double(0.0);
+    private Double s1y3Tp=0.0;
 
     /**
      * The s2y3 tp.
      */
-    private Double s2y3Tp=new Double(0.0);
+    private Double s2y3Tp=0.0;
 
     /**
      * The pmpy contract holder.

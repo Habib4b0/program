@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFCommonLogic;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.netsales.constants.GtnWsNsfUriConstants;
 
@@ -39,6 +40,11 @@ public class GtnUiFrameworkNsfDeductionsTabFieldFactoryAction
 		GtnFrameworkNSFCommonLogic.updateField(actionParam.getPropertyId(), actionParam.getCurrentValue(), false,
 				systemId, false, "/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_UPDATE_SERVICE,
 				false);
+		if (GtnFrameworkCommonConstants.CHECK_RECORD_ID.equals(actionParam.getPropertyId())) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParam.getTableComponentId())
+					.getLogicFromPagedDataTable().handleCheckBoxOnItem(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
+							Boolean.parseBoolean(String.valueOf(actionParam.getCurrentValue())));
+		}
 	}
 
 	@Override

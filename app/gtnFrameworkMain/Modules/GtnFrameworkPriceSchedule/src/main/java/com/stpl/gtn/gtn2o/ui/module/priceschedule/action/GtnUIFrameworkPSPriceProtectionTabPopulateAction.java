@@ -88,7 +88,7 @@ public class GtnUIFrameworkPSPriceProtectionTabPopulateAction
 
 					checkAllUpdateBean.setValue(psPriceProtectionTabMassDropDown.getIntegerFromField());
 
-				} else if (GtnFrameworkCommonConstants.BASE_PRICE.equals(componentValue)) {
+				} else if (GtnFrameworkCommonConstants.BASE_PRICE_TYPE.equals(componentValue)) {
 					checkAllUpdateBean.setValue(psPriceProtectionTabBasePriceDropDown.getIntegerFromField());
 					getBasePriceValue(psPriceProtectionTabBasePriceDropDown.getCaptionFromComboBox(),
 							checkAllUpdateBean, formatter, psPriceProtectionTabMassDateFeild,
@@ -96,7 +96,6 @@ public class GtnUIFrameworkPSPriceProtectionTabPopulateAction
 				}
 
 			}
-
 			GtnUIFrameworkGlobalUI.updateFieldByMassUpdate(checkAllUpdateBean, "/" + GtnWsCDRContants.PS_SERVICE + "/"
 					+ GtnWsCDRContants.PS_PRICE_PROTECTION_TAB_POPULATE_SERVICE);
 			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
@@ -192,7 +191,8 @@ public class GtnUIFrameworkPSPriceProtectionTabPopulateAction
 		propertyColumMap.put("Price Protection Start Date", "psPPStartDate");
 		propertyColumMap.put("Price Protection End Date", "psPPEndDate");
 		propertyColumMap.put("Price Protection Price Type", "psPPPriceType");
-		propertyColumMap.put("NEP", "psNEP1");
+		propertyColumMap.put("NEP", "psNEP");
+		propertyColumMap.put("Base Price Type", "psBasePriceType");
 		propertyColumMap.put("Baseline WAC", "psBasePriceType");
 		propertyColumMap.put("Price Tolerance Interval", "psToleranceInterval");
 		propertyColumMap.put("Price Tolerance Frequency", "psToleranceFreq");
@@ -209,6 +209,8 @@ public class GtnUIFrameworkPSPriceProtectionTabPopulateAction
 		propertyColumMap.put("Measurement Price", "psPPPriceType");
 		propertyColumMap.put("Net Reset Price Formula", "psNetResetPriceFormulaId1");
 		propertyColumMap.put("Net Reset Price Type", "psNetResetPriceType");
+		propertyColumMap.put("NEP Formula", "psNEPFormula1");
+		propertyColumMap.put("Net Price Type Formula", "psNetPriceTypeFormula1");
 		propertyColumMap.put("Reset Price Type", "psResetPriceType");
 		propertyColumMap.put("Net Subsequent Period Price Formula", "psNetBSubseqPriceFormulaId1");
 		propertyColumMap.put("Net Subsequent Period Price", "psNetBSubseqPeriodPrice");
