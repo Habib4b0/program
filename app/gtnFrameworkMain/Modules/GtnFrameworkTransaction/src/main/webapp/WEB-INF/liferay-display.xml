@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE display PUBLIC "-//Liferay//DTD Display 4.0.0//EN" "http://www.liferay.com/dtd/liferay-display_4_0_0.dtd">
+
+<display>
+
+	<category name="Gtn2oGeneral">
+		<portlet id="LotMaster" />
+		<portlet id="CpiIndexMaster" />
+		<portlet id="GlCostCenterMaster" />
+		<portlet id="AverageShelfLifeMaster" />
+		<portlet id="GlBalanceMaster" />
+		<portlet id="AuditMasterInbound" />
+		<portlet id="SalesMaster" />
+		<portlet id="ForecastingMaster" />
+		<portlet id="CustomerGtsActual" />
+		<portlet id="VwCustomerGtsForecast" />
+		<portlet id="VwCompanyTradeClass" />
+		<portlet id="VwReturnReserve" />
+		<portlet id="ReturnsMaster" />
+		<portlet id="VwCompanyParentDetails" />
+		<portlet id="VwCompanyIdentifier" />
+		<portlet id="VwItemIdentifier" />
+		<portlet id="VwItemPricing" />
+		<portlet id="VwAdjustDemandForecastAct" />
+		<portlet id="ActualsMaster" />
+		<portlet id="VwCompanyMaster" />
+		<portlet id="VwInventoryWdActualProjMas" />
+		<portlet id="VwItemMaster" />
+		<portlet id="AccrualMaster" />
+		<portlet id="InvalidIntegration" />
+		<portlet id="IfpModel" />
+		<portlet id="CfpModel" />
+		<portlet id="VwContractHeader" />
+		<portlet id="PsModel" />
+		<portlet id="RebatePlanMaster" />
+		<portlet id="VwRebateSchedule" />
+		<portlet id="Return Rate Forecast" />
+		<portlet id="Item Uom" />
+	</category>
+
+</display>

@@ -1,0 +1,15 @@
+{
+	"noOfTabs": 2,
+	"tabNameArray": [
+		"Actuals Information",
+		"Additional Information"
+	],
+	"noOfElementsInTabArray": [
+		22,
+		18
+	],
+	"noOfInvalidElementsInTabArray": [
+		22,
+		23
+	]
+}

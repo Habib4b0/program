@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getOpenViewQuery">
+		<query> 
+            <![CDATA[           
+    
+	SELECT PROCESS_INSTANCE_ID FROM WORKFLOW_PROCESS_INFO WPI
+
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getprivateDeleteQuery">
+		<query> 
+            <![CDATA[           
+    
+	UPDATE WORKFLOW_INBOX SET INBOUND_STATUS ='D'
+
+	
+                    ]]>
+		</query>
+	</entity>
+
+</sql>

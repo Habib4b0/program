@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+
+
+<sql>
+
+	<entity id="TimePeriodFromDate">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT Min(period_sid) AS PERIOD_SID,
+	       Concat('Q', QUARTER, ' - ', YEAR)
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY Concat('Q', QUARTER, ' - ', YEAR),
+	          year,
+	          QUARTER
+	ORDER  BY YEAR,
+	          QUARTER,
+	          Concat('Q', QUARTER, ' - ', YEAR) 
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="TimePeriodToDate">
+		<query> 
+            <![CDATA[
+           ;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION = 'Returns'
+         ORDER  BY VERSION_NO DESC)
+	SELECT  TOP 1 Min(period_sid) AS PERIOD_SID,
+	       Concat('Q', QUARTER, ' - ', YEAR)
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY  Concat('Q', QUARTER, ' - ', YEAR),
+	          year,
+	          QUARTER 
+	ORDER  BY PERIOD_SID DESC
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="getDataTimePeriodToDate">
+		<query> 
+            <![CDATA[
+              	;WITH cte
+     AS (SELECT TOP 1 FROM_DATE AS FROM_DATE,
+                      TO_DATE   TO_DATE
+         FROM   forecast_config f
+                JOIN HELPER_TABLE h
+                  ON f.BUSINESS_PROCESS_TYPE = h.HELPER_TABLE_SID
+         WHERE  LIST_NAME LIKE 'BUSINESS_PROCESS_TYPE'
+                AND DESCRIPTION LIKE '?'
+         ORDER  BY VERSION_NO DESC)
+	SELECT Min(period_sid) AS PERIOD_SID,
+	       Concat('Q', QUARTER, ' - ', YEAR)
+	FROM   PERIOD p
+	WHERE  EXISTS (SELECT 1
+	               FROM   cte c
+	               WHERE  p.PERIOD_DATE BETWEEN DATEADD(qq, DATEDIFF(qq, 0, FROM_DATE), 0) AND TO_DATE)
+	GROUP  BY Concat('Q', QUARTER, ' - ', YEAR),
+	          year,
+	          QUARTER
+	HAVING Min(period_sid) > ?
+	ORDER  BY YEAR,
+	          QUARTER,
+	          Concat('Q', QUARTER, ' - ', YEAR) 
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT
+                    Count(c.HIERARCHY_DEFINITION_SID) AS HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ? ? ? ? ? 
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getDataProductHierarchy">
+		<query> 
+            <![CDATA[
+                SELECT 
+                    c.HIERARCHY_NAME,
+                    a.LEVEL_NO as HIGH_LEVEL,
+                    b.LEVEL_NO as LOW_LEVEL,
+                    c.CREATED_DATE,
+                    c.MODIFIED_DATE,
+                    c.HIERARCHY_DEFINITION_SID
+                FROM
+                    dbo.HIERARCHY_LEVEL_DEFINITION A,
+                    HIERARCHY_LEVEL_DEFINITION b,
+                    dbo.HIERARCHY_DEFINITION C
+                WHERE
+                    a.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    AND a.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND c.HIERARCHY_CATEGORY IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.LIST_NAME = 'HIERARCHY_CATEGORY'
+                            AND ht.DESCRIPTION LIKE 'Product Hierarchy'
+                    )
+                    AND b.HIERARCHY_DEFINITION_SID = c.HIERARCHY_DEFINITION_SID
+                    AND a.LEVEL_NO IN(
+                        SELECT
+                            MAX(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = a.HIERARCHY_DEFINITION_SID
+                    )
+                    AND b.LEVEL_NO IN(
+                        SELECT
+                            MIN(h.LEVEL_NO)
+                        FROM
+                            HIERARCHY_LEVEL_DEFINITION h
+                        WHERE
+                            h.HIERARCHY_DEFINITION_SID = b.HIERARCHY_DEFINITION_SID
+                    )
+                    AND c.HIERARCHY_NAME LIKE '?'
+                    AND c.HIERARCHY_TYPE IN(
+                        SELECT
+                            ht.HELPER_TABLE_SID
+                        FROM
+                            dbo.HELPER_TABLE ht
+                        WHERE
+                            ht.DESCRIPTION LIKE '?'
+                    )
+                    ?
+                    ?
+                    ? ? ?
+                    ORDER BY ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+            ]]>
+		</query>
+	</entity>
+	<entity id="getCountProdGroupLookUp">
+		<query> 
+            <![CDATA[
+	                    ;WITH CTE_MAIN
+	      AS (SELECT IG.ITEM_GROUP_SID,
+	                 IG.ITEM_GROUP_NO,
+	                 IG.ITEM_GROUP_NAME,
+	                 CM.COMPANY_NAME,
+	                 IG.VERSION_NO,
+	                 IG.ITEM_GROUP_DESCRIPTION,
+	                 IGD.ITEM_MASTER_SID
+	          FROM   ITEM_GROUP IG,
+	                 COMPANY_MASTER CM,
+	                 ITEM_GROUP_DETAILS IGD
+	          WHERE  IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+	                 AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+	                 AND IG.ITEM_GROUP_NO LIKE '?'
+	                 AND IG.ITEM_GROUP_NAME LIKE '?'
+				? ? ? ?
+	                 ),
+	      COUNT_CTE
+	      AS (SELECT ITEM_GROUP_SID,
+	                 CNT
+	          FROM   (SELECT ROW_NUMBER()
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID
+	                             ORDER BY ITEM_GROUP_SID)     RN,
+	                         COUNT(ITEM_MASTER_SID)
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID) CNT,
+	                         ITEM_GROUP_SID,
+	                         ITEM_MASTER_SID
+	                  FROM   CTE_MAIN
+	                   )A
+	          WHERE  RN = 1),
+	      ITM_GROUP
+	      AS (SELECT CNT,
+	                 ITEM_GROUP_SID,
+	                 ITEM_GROUP_NO,
+	                 ITEM_GROUP_NAME,
+	                 COMPANY_NAME,
+	                 VERSION_NO,
+	                 ITEM_GROUP_DESCRIPTION,
+	                 ITEM_MASTER_SID
+	          FROM   (SELECT ROW_NUMBER()
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID
+	                             ORDER BY ITEM_GROUP_SID)     RN,
+	                         COUNT(ITEM_MASTER_SID)
+	                           OVER (
+	                             PARTITION BY ITEM_GROUP_SID) CNT,
+	                         ITEM_GROUP_SID,
+	                         ITEM_GROUP_NO,
+	                         ITEM_GROUP_NAME,
+	                         COMPANY_NAME,
+	                         VERSION_NO,
+	                         ITEM_GROUP_DESCRIPTION,
+	                         ITEM_MASTER_SID
+	                  FROM   CTE_MAIN)A
+	          WHERE  RN = 1)
+	 SELECT COUNT (DISTINCT IG.ITEM_GROUP_SID)
+	 FROM   ITM_GROUP IG
+	        JOIN COUNT_CTE C
+	          ON IG.ITEM_GROUP_SID = C.ITEM_GROUP_SID
+	             AND C.CNT = IG.CNT
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getDataProdGroupLookUp">
+		<query> 
+            <![CDATA[
+                    ;WITH CTE_MAIN
+      AS (SELECT IG.ITEM_GROUP_SID,
+                 IG.ITEM_GROUP_NO,
+                 IG.ITEM_GROUP_NAME,
+                 COMPANY_NAME,
+                 IG.VERSION_NO,
+                 IG.ITEM_GROUP_DESCRIPTION,
+                 IGD.ITEM_MASTER_SID
+          FROM   ITEM_GROUP IG,
+                 COMPANY_MASTER CM,
+                 ITEM_GROUP_DETAILS IGD
+          WHERE  IG.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                 AND IGD.ITEM_GROUP_SID = IG.ITEM_GROUP_SID
+                 AND IG.ITEM_GROUP_NO LIKE '?'
+                 AND IG.ITEM_GROUP_NAME LIKE '?'
+				? ? ? ?
+                 ),
+      COUNT_CTE
+      AS (SELECT ITEM_GROUP_SID,
+                 CNT
+          FROM   (SELECT ROW_NUMBER()
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID
+                             ORDER BY ITEM_GROUP_SID)     RN,
+                         COUNT(ITEM_MASTER_SID)
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID) CNT,
+                         ITEM_GROUP_SID,
+                         ITEM_MASTER_SID
+                  FROM   CTE_MAIN
+                   )A
+          WHERE  RN = 1),
+      ITM_GROUP
+      AS (SELECT CNT,
+                 ITEM_GROUP_SID,
+                 ITEM_GROUP_NO,
+                 ITEM_GROUP_NAME,
+                 COMPANY_NAME,
+                 VERSION_NO,
+                 ITEM_GROUP_DESCRIPTION,
+                 ITEM_MASTER_SID
+          FROM   (SELECT ROW_NUMBER()
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID
+                             ORDER BY ITEM_GROUP_SID)     RN,
+                         COUNT(ITEM_MASTER_SID)
+                           OVER (
+                             PARTITION BY ITEM_GROUP_SID) CNT,
+                         ITEM_GROUP_SID,
+                         ITEM_GROUP_NO,
+                         ITEM_GROUP_NAME,
+                         COMPANY_NAME,
+                         VERSION_NO,
+                         ITEM_GROUP_DESCRIPTION,
+                         ITEM_MASTER_SID
+                  FROM   CTE_MAIN)A
+          WHERE  RN = 1)
+		 SELECT DISTINCT  IG.ITEM_GROUP_NO, IG.ITEM_GROUP_NAME,IG.ITEM_GROUP_DESCRIPTION,COMPANY_NAME,  '' AS SEGMENT,
+                 '' AS SEGMENT_NAME,IG.VERSION_NO, IG.ITEM_GROUP_SID
+	 FROM   ITM_GROUP IG
+	        JOIN COUNT_CTE C
+	          ON IG.ITEM_GROUP_SID = C.ITEM_GROUP_SID
+	             AND C.CNT = IG.CNT
+  ORDER BY ?
+  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountForecastingReturnsPublicView">
+		<query> 
+            <![CDATA[
+	        Select
+	COUNT(*)
+	from
+		 PROJECTION_MASTER PM
+	LEFT JOIN  FORECASTING_VIEW_MASTER FVM on
+		FVM.projection_Id = PM.projection_Master_Sid
+	LEFT JOIN HIERARCHY_DEFINITION CUST_HD on
+		CUST_HD.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
+	LEFT JOIN HIERARCHY_DEFINITION PROD_HD on
+		PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+	LEFT JOIN COMPANY_GROUP CMG on
+		CMG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+	LEFT JOIN ITEM_GROUP IG on
+		IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+	LEFT JOIN COMPANY_MASTER CM on
+		PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+	LEFT JOIN COMPANY_MASTER CM1 on
+		PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+		 JOIN ?.dbo.User_ usr ON usr.UserId = FVM.CREATED_BY
+	WHERE
+		FVM.view_Type = '?'
+		AND PM.forecasting_Type = '?'
+		AND FVM.VIEW_NAME like '?'		
+		? ? ? ? ? ? ? ? ? ? ? ?
+        ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getDataForecastingReturnsPublicView">
+		<query> 
+            <![CDATA[
+	        SELECT 
+        FVM.VIEW_NAME viewName,
+        PM.PROJECTION_DESCRIPTION description,
+        concat( 'Q', datepart( qq, pm.FROM_DATE ), '-', year( pm.FROM_DATE )) AS fromTimePeriod,
+        concat( 'Q', datepart( qq, PM.TO_DATE ), '-', year( PM.TO_DATE )) AS toTimePeriod,
+        CM.COMPANY_NAME AS company,
+        PROD_HD.HIERARCHY_NAME AS productHierarchy,
+        PM.PRODUCT_HIERARCHY_LEVEL  AS productLevel,
+        ISNULL(IG.ITEM_GROUP_NAME,'') AS productGroup,
+        PM.CREATED_DATE AS createdDate,
+        PM.MODIFIED_DATE AS modifiedDate,
+        CONCAT(usr.LastName ,', ',  usr.firstName)  AS createdName,
+         CM1.COMPANY_NAME AS businessName,
+        PM.PROJECTION_MASTER_SID,
+        PM.PRODUCT_HIERARCHY_SID
+        from
+                PROJECTION_MASTER PM
+        LEFT JOIN FORECASTING_VIEW_MASTER FVM on
+                FVM.projection_Id = PM.projection_Master_Sid
+        LEFT JOIN HIERARCHY_DEFINITION CUST_HD on
+                CUST_HD.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
+        LEFT JOIN HIERARCHY_DEFINITION PROD_HD on
+                PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+        LEFT JOIN COMPANY_GROUP CMG on
+                CMG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+        LEFT JOIN ITEM_GROUP IG on
+                IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+        LEFT JOIN COMPANY_MASTER CM on
+                PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+        LEFT JOIN COMPANY_MASTER CM1 on
+                PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+        JOIN ?.dbo.User_ usr ON usr.UserId = FVM.CREATED_BY
+        WHERE
+                FVM.view_Type = '?'
+                AND PM.forecasting_Type = '?'
+                AND FVM.VIEW_NAME like '?'
+                ? ? ? ? ? ? ? ? ? ? ? ? 
+                ORDER BY ?
+                OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountForecastingReturnsPrivateView">
+		<query> 
+            <![CDATA[
+	 Select
+	COUNT(*)
+	from
+		PROJECTION_MASTER PM
+	LEFT JOIN FORECASTING_VIEW_MASTER FVM on
+		FVM.projection_Id = PM.projection_Master_Sid
+	LEFT JOIN HIERARCHY_DEFINITION CUST_HD on
+		CUST_HD.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
+	LEFT JOIN HIERARCHY_DEFINITION PROD_HD on
+		PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+	LEFT JOIN COMPANY_GROUP CMG on
+		CMG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+	LEFT JOIN ITEM_GROUP IG on
+		IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+	LEFT JOIN COMPANY_MASTER CM on
+		PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+	LEFT JOIN COMPANY_MASTER CM1 on
+		PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+		 JOIN ?.dbo.User_ usr ON usr.UserId = FVM.CREATED_BY
+	WHERE
+	   	FVM.view_Type = '?'
+		AND PM.forecasting_Type = '?'	
+		AND FVM.created_By =?	
+		AND FVM.VIEW_NAME like '?'		
+		? ? ? ? ? ? ? ? ? ? ? ?
+        ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getDataForecastingReturnsPrivateView">
+		<query> 
+            <![CDATA[
+	  SELECT 
+        FVM.VIEW_NAME viewName,
+        PM.PROJECTION_DESCRIPTION description,
+        concat( 'Q', datepart( qq, pm.FROM_DATE ), '-', year( pm.FROM_DATE )) AS fromTimePeriod,
+        concat( 'Q', datepart( qq, PM.TO_DATE ), '-', year( PM.TO_DATE )) AS toTimePeriod,
+        CM.COMPANY_NAME AS company,
+        PROD_HD.HIERARCHY_NAME AS productHierarchy,
+        PM.PRODUCT_HIERARCHY_LEVEL  AS productLevel,
+        ISNULL(IG.ITEM_GROUP_NAME,'') AS productGroup,
+        PM.CREATED_DATE AS createdDate,
+        PM.MODIFIED_DATE AS modifiedDate,
+        CONCAT(usr.LastName ,', ',  usr.firstName)  AS createdName,
+         CM1.COMPANY_NAME AS BUSINESSUNITNAME,
+        PM.PROJECTION_MASTER_SID,
+        PM.PRODUCT_HIERARCHY_SID
+        from
+                PROJECTION_MASTER PM
+        LEFT JOIN FORECASTING_VIEW_MASTER FVM on
+                FVM.projection_Id = PM.projection_Master_Sid
+        LEFT JOIN HIERARCHY_DEFINITION CUST_HD on
+                CUST_HD.HIERARCHY_DEFINITION_SID = PM.CUSTOMER_HIERARCHY_SID
+        LEFT JOIN HIERARCHY_DEFINITION PROD_HD on
+                PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+        LEFT JOIN COMPANY_GROUP CMG on
+                CMG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+        LEFT JOIN ITEM_GROUP IG on
+                IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+        LEFT JOIN COMPANY_MASTER CM on
+                PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+        LEFT JOIN COMPANY_MASTER CM1 on
+                PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+        JOIN ?.dbo.User_ usr ON usr.UserId = FVM.CREATED_BY
+        WHERE
+        
+		FVM.view_Type = '?'
+		AND PM.forecasting_Type = '?'	
+		AND FVM.created_By =?		
+		AND FVM.VIEW_NAME like '?'	 	
+		  ? ? ? ? ? ? ? ? ? ? ? ? 
+        ORDER BY ?
+        OFFSET ? ROWS FETCH NEXT ? ROWS ONLY
+        ]]>
+		</query>
+	</entity>
+
+	<entity id="hierarchy-level-details-query">
+		<query> 
+                <![CDATA[
+                    SELECT DISTINCT
+                        CASE
+                          WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'LEVEL_VALUES'
+                          ELSE CASE
+                              WHEN HLD.TABLE_NAME = JVIEW.REFERENCE_TABLE_NAME OR
+                                JVIEW.REFERENCE_TABLE_NAME = 'HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME
+                              ELSE JVIEW.DESC_COLUMN_NAME
+                            END
+                        END DISPLAY_COLUMN,
+                        CASE
+                          WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'HIERARCHY_LEVEL_VALUES'
+                          ELSE CASE
+                              WHEN HLD.TABLE_NAME = JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME
+                              ELSE JVIEW.REFERENCE_TABLE_NAME
+                            END
+                        END H_TABLE_NAME,
+                        CASE
+                          WHEN HLD.LEVEL_VALUE_REFERENCE = 'User Defined' THEN 'HIERARCHY_LEVEL_VALUES_SID'
+                          ELSE CASE
+                              WHEN JVIEW.MAPPING_COLUMN_NAME IS NULL THEN JVIEW.PRIMARY_KEY_COLUMN_NAME
+                              ELSE JVIEW.MAPPING_COLUMN_NAME
+                            END
+                        END FIELD_NAME,
+                        RLD.LEVEL_NO
+                      FROM RELATIONSHIP_LEVEL_DEFINITION RLD
+                      JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                      JOIN HIERARCHY_DEFINITION HD
+                        ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                      LEFT JOIN vw_helper_list JVIEW
+                        ON JVIEW.ACTUAL_TABLE_NAME = HLD.TABLE_NAME
+                        AND JVIEW.ACTUAL_COLUMN_NAME = HLD.FIELD_NAME
+                      JOIN HELPER_TABLE HT
+                        ON HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+                      ORDER BY RLD.LEVEL_NO;
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="relation-level-details-query">
+		<query> 
+                <![CDATA[
+                    SELECT
+                        RELATIONSHIP_LEVEL_SID,
+                        ?FIELD Value,
+                        LEVEL_NO,
+                        HIERARCHY_NO 
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD 
+                        JOIN
+                           ?TABLE cm 
+                           ON ?IDCOL = rld.RELATIONSHIP_LEVEL_VALUES 
+                           AND LEVEL_NO =?LNO 
+                    WHERE
+                        RELATIONSHIP_BUILDER_SID = ?RBSID
+                ]]>
+		</query>
+	</entity>
+
+	<entity id="relation-level-details-query-item">
+		<query> 
+                <![CDATA[
+                    SELECT
+                        RELATIONSHIP_LEVEL_SID,
+                        ?FIELD Value,
+                        LEVEL_NO,
+                        HIERARCHY_NO,
+                        HT1.DESCRIPTION AS FORM,
+                        HT2.DESCRIPTION AS STRENGTH
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION RLD 
+                        JOIN
+                           ?TABLE CM 
+                           ON ?IDCOL = RLD.RELATIONSHIP_LEVEL_VALUES 
+                           AND LEVEL_NO =?LNO 
+                        JOIN HELPER_TABLE HT1 ON CM.FORM = HT1.HELPER_TABLE_SID
+                        JOIN HELPER_TABLE HT2 ON CM.STRENGTH = HT2.HELPER_TABLE_SID
+                    WHERE
+                        RELATIONSHIP_BUILDER_SID = ?RBSID;
+                ]]>
+		</query>
+	</entity>
+
+	<entity id="getCountForecastingReturnsSearch">
+		<query> 
+            <![CDATA[
+    
+SELECT
+	count( DISTINCT PM.PROJECTION_MASTER_SID ) projectionId
+From
+	PROJECTION_MASTER PM
+JOIN HIERARCHY_DEFINITION HDP ON
+	HDP.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+LEFT JOIN COMPANY_GROUP CG ON
+	CG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+LEFT JOIN ITEM_GROUP IG ON
+	IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+JOIN PROJECTION_PROD_HIERARCHY PPH ON
+        PPH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+        ON RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+JOIN COMPANY_MASTER CM on
+	PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+JOIN COMPANY_MASTER CM1 on
+	PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+	JOIN ?.dbo.User_ usr
+                         ON usr.UserId = PM.CREATED_BY
+WHERE
+	PM.IS_APPROVED not in(
+		'Y',
+		'A'
+	)
+	AND PM.SAVE_FLAG = 'true'
+	AND PM.FORECASTING_TYPE like 'Returns'
+	?
+             ]]>
+		</query>
+	</entity>
+
+	<entity id="getDataForecastingReturnsSearch">
+		<query> 
+            <![CDATA[
+    
+  SELECT DISTINCT
+	PM.PROJECTION_NAME projectionName,
+	PM.PROJECTION_DESCRIPTION description,
+	HDP.HIERARCHY_NAME productHierarchy,
+	PM.PRODUCT_HIERARCHY_LEVEL productLevel,
+	CONCAT(usr.LastName ,', ',  usr.firstName) createdBy,
+	CONVERT(DATETIME,PM.CREATED_DATE,101) createdDate,
+    CONVERT(DATETIME,PM.MODIFIED_DATE,101) lastModifiedDate,
+	CM.COMPANY_NAME company,
+	CM1.COMPANY_NAME AS businessUnitName,
+    PM.BUSINESS_UNIT AS businessUnit,
+	PM.COMPANY_MASTER_SID companySid,
+	PM.ITEM_GROUP_SID prodGrpSid,
+	PM.PRODUCT_HIERARCHY_SID productHierarchySid,
+	PM.PROD_RELATIONSHIP_BUILDER_SID relationshipSid,
+	PM.PRODUCT_HIERARCHY_INNER_LEVEL innerHierarchyLevel,
+	FP.PERIOD_SID fromPeriod,
+    TP.PERIOD_SID toPeriod,
+	PM.PROJECTION_MASTER_SID projectionId
+	
+From
+	PROJECTION_MASTER PM
+JOIN HIERARCHY_DEFINITION HDP ON
+	HDP.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+LEFT JOIN COMPANY_GROUP CG ON
+	CG.COMPANY_GROUP_SID = PM.COMPANY_GROUP_SID
+LEFT JOIN ITEM_GROUP IG ON
+	IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+JOIN PROJECTION_PROD_HIERARCHY PPH ON
+        PPH.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION RLD 
+        ON RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+JOIN COMPANY_MASTER CM on
+	PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+JOIN COMPANY_MASTER CM1 on
+       PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+JOIN dbo.PERIOD FP on
+       FP."YEAR" = YEAR(PM.FROM_DATE) and FP."MONTH" = MONTH(FROM_DATE)
+JOIN dbo.PERIOD TP on
+       TP."YEAR" = YEAR(PM.TO_DATE) and TP."MONTH" = MONTH(TO_DATE)       
+	JOIN ?.dbo.User_ usr
+                         ON usr.UserId = PM.CREATED_BY
+WHERE
+	PM.IS_APPROVED not in(
+		'Y',
+		'A'
+	)
+	AND PM.SAVE_FLAG = 'true'
+	AND PM.FORECASTING_TYPE like 'Returns'
+	?
+	ORDER BY ?  
+	OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+	
+             ]]>
+		</query>
+	</entity>
+
+	<entity id="getBusinessUnitValidation">
+		<query> 
+            <![CDATA[
+	 IF EXISTS((SELECT TOP 1 FORECAST_NAME
+                FROM   FILE_MANAGEMENT FT 
+                    INNER JOIN HELPER_TABLE HT 
+                            ON HT.HELPER_TABLE_SID = FT.FILE_TYPE 
+                            WHERE  ( CONVERT(DATE, FT.FROM_PERIOD) <= CONVERT(DATE, GETDATE()) 
+                            AND FT.FROM_PERIOD IS NOT NULL ) 
+                    AND ( CONVERT(DATE, FT.TO_PERIOD) >= CONVERT(DATE, GETDATE()) 
+                            OR FT.TO_PERIOD IS NULL ) 
+                    AND HT.LIST_NAME = 'FILE_TYPE' 
+                    AND HT.[DESCRIPTION] IN ( 'DEMAND', 'CUSTOMER SALES', 'ADJUSTED DEMAND', 'EX-FACTORY SALES', 'INVENTORY WITHDRAWAL - FORECAST SUMMARY','Inventory Withdrawal - Forecast Detail' )
+                    AND FT.BUSINESS_UNIT = ?
+                    AND FT.COMPANY = ?))
+            SELECT 1
+            ELSE 
+            SELECT 0
+            
+             ]]>
+		</query>
+	</entity>
+
+	<entity id="getPublicPrivateInput">
+		<query> 
+            <![CDATA[
+			SELECT CM.COMPANY_MASTER_SID, 
+			CM1.COMPANY_MASTER_SID AS BUSINESS_UNIT_ID,
+			PM.PROJECTION_NAME,PM.PROJECTION_DESCRIPTION,
+			MIN(FP.PERIOD_SID)  AS fromTimePeriod,
+			MIN(TP.PERIOD_SID)  AS toTimePeriod,
+			HD.HIERARCHY_NAME,
+			PM.PROD_RELATIONSHIP_BUILDER_SID,
+		 PM.PRODUCT_HIERARCHY_LEVEL,
+			    ISNULL(IG.ITEM_GROUP_NAME,''),
+			PM.PRODUCT_HIERARCHY_INNER_LEVEL,
+		FVM.VIEW_NAME,
+		FVM.CREATED_BY,PM.PROJECTION_MASTER_SID
+		FROM	COMPANY_MASTER AS CM
+		JOIN PROJECTION_MASTER AS PM ON
+			PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+		JOIN FORECASTING_VIEW_MASTER AS FVM ON
+			FVM.PROJECTION_ID = PM.PROJECTION_MASTER_SID
+		JOIN COMPANY_MASTER CM1 ON
+			PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID
+		LEFT JOIN ITEM_GROUP IG ON
+			IG.ITEM_GROUP_SID = PM.ITEM_GROUP_SID
+		JOIN HIERARCHY_DEFINITION HD ON
+		HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID
+		JOIN PERIOD FP
+		ON FP.QUARTER = DATEPART(QUARTER,DATEADD(DD, 1, EOMONTH(PM.FROM_DATE, -1))) AND FP.YEAR= DATEPART(YEAR,DATEADD(DD, 1, EOMONTH(PM.FROM_DATE, -1)))
+		JOIN PERIOD TP
+		ON TP.QUARTER = DATEPART(QUARTER,DATEADD(DD, 1, EOMONTH(PM.TO_DATE, -1))) AND TP.YEAR= DATEPART(YEAR,DATEADD(DD, 1, EOMONTH(PM.TO_DATE, -1)))
+		WHERE
+		PM.PROJECTION_MASTER_SID = ?
+		GROUP BY 
+		CM.COMPANY_MASTER_SID,CM1.COMPANY_MASTER_SID,PM.PROJECTION_NAME,PM.PROJECTION_DESCRIPTION,
+		HD.HIERARCHY_NAME,PM.PROD_RELATIONSHIP_BUILDER_SID,PM.PRODUCT_HIERARCHY_LEVEL,
+		IG.ITEM_GROUP_NAME,PM.PRODUCT_HIERARCHY_INNER_LEVEL, FVM.VIEW_NAME,TP.QUARTER,FVM.CREATED_BY,PM.PROJECTION_MASTER_SID
+            
+             ]]>
+		</query>
+	</entity>
+
+</sql>

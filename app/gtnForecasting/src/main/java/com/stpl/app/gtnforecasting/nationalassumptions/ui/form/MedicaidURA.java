@@ -298,7 +298,6 @@ public class MedicaidURA extends CustomComponent implements View {
      */
     public String getCaption() {
         LOGGER.debug("Inside MedicaidURA getCaption");
-
         return MEDICAID_URA_RESULTS;
 
     }

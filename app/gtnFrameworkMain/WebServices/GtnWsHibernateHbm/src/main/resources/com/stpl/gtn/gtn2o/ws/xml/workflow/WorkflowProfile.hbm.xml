@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 7:31:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProfile"
+		table="WORKFLOW_PROFILE" schema="dbo">
+		<id name="processSid" type="int">
+			<column name="PROCESS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PROCESS_TYPE" />
+		</many-to-one>
+		<property name="processName" type="string">
+			<column name="PROCESS_NAME" length="100" not-null="true" />
+		</property>
+		<property name="startDate" type="timestamp">
+			<column name="START_DATE" length="23" />
+		</property>
+		<property name="endDate" type="timestamp">
+			<column name="END_DATE" length="23" />
+		</property>
+		<property name="activeFlag" type="char">
+			<column name="ACTIVE_FLAG" length="1" not-null="true" />
+		</property>
+		<property name="processDisplayName" type="string">
+			<column name="PROCESS_DISPLAY_NAME" length="100" />
+		</property>
+		<property name="startHour" type="java.lang.Byte">
+			<column name="START_HOUR" />
+		</property>
+		<property name="startMinutes" type="java.lang.Byte">
+			<column name="START_MINUTES" />
+		</property>
+		<property name="startHour1" type="java.lang.Byte">
+			<column name="START_HOUR1" />
+		</property>
+		<property name="startHour2" type="java.lang.Byte">
+			<column name="START_HOUR2" />
+		</property>
+		<property name="startHour3" type="java.lang.Byte">
+			<column name="START_HOUR3" />
+		</property>
+		<property name="startMinutes1" type="java.lang.Byte">
+			<column name="START_MINUTES1" />
+		</property>
+		<property name="startMinutes2" type="java.lang.Byte">
+			<column name="START_MINUTES2" />
+		</property>
+		<property name="startMinutes3" type="java.lang.Byte">
+			<column name="START_MINUTES3" />
+		</property>
+		<property name="frequency" type="string">
+			<column name="FREQUENCY" length="50" not-null="true" />
+		</property>
+		<property name="manualLastRun" type="timestamp">
+			<column name="MANUAL_LAST_RUN" length="23" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="validation" type="string">
+			<column name="VALIDATION" length="4000" />
+		</property>
+		<property name="emailNotificationFailureCc" type="string">
+			<column name="EMAIL_NOTIFICATION_FAILURE_CC" length="4000" />
+		</property>
+		<property name="successMailSubject" type="string">
+			<column name="SUCCESS_MAIL_SUBJECT" length="4000" />
+		</property>
+		<property name="successMailBody" type="string">
+			<column name="SUCCESS_MAIL_BODY" length="4000" />
+		</property>
+		<property name="failureMailSubject" type="string">
+			<column name="FAILURE_MAIL_SUBJECT" length="4000" />
+		</property>
+		<property name="failureMailBody" type="string">
+			<column name="FAILURE_MAIL_BODY" length="4000" />
+		</property>
+		<property name="scheduleLastRun" type="timestamp">
+			<column name="SCHEDULE_LAST_RUN" length="23" />
+		</property>
+		<property name="emailNotificationSuccessCc" type="string">
+			<column name="EMAIL_NOTIFICATION_SUCCESS_CC" length="4000" />
+		</property>
+		<property name="emailNotificationSuccessTo" type="string">
+			<column name="EMAIL_NOTIFICATION_SUCCESS_TO" length="4000" />
+		</property>
+		<property name="emailNotificationFailureTo" type="string">
+			<column name="EMAIL_NOTIFICATION_FAILURE_TO" length="4000" />
+		</property>
+		<property name="scriptName" type="string">
+			<column name="SCRIPT_NAME" length="100" />
+		</property>
+		<property name="schemaName" type="string">
+			<column name="SCHEMA_NAME" length="50" not-null="true" />
+		</property>
+		<property name="slaCalendarMasterSid" type="int">
+			<column name="SLA_CALENDAR_MASTER_SID" not-null="true" />
+		</property>
+		<property name="userSid" type="int">
+			<column name="USER_SID" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyQualifier"
+		optimistic-lock="version" schema="dbo" table="COMPANY_QUALIFIER">
+		<id name="companyQualifierSid" type="int">
+			<column name="COMPANY_QUALIFIER_SID" />
+			<generator class="native" />
+		</id>
+		<property name="companyQualifierValue" type="string">
+			<column length="25" name="COMPANY_QUALIFIER_VALUE" not-null="true"
+				unique="true" />
+		</property>
+		<property name="companyQualifierName" type="string">
+			<column length="100" name="COMPANY_QUALIFIER_NAME" not-null="true" />
+		</property>
+		<property name="effectiveDates" type="string">
+			<column length="10" name="EFFECTIVE_DATES" />
+		</property>
+		<property name="notes" type="string">
+			<column length="5000" name="NOTES" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column length="1" name="INBOUND_STATUS" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column length="50" name="BATCH_ID" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column length="50" name="SOURCE" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column length="23" name="CREATED_DATE" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column length="23" name="MODIFIED_DATE" not-null="true" />
+		</property>
+		<set fetch="select" inverse="true" lazy="true" name="companyIdentifiers"
+			table="COMPANY_IDENTIFIER">
+			<key>
+				<column name="COMPANY_QUALIFIER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyIdentifier" />
+		</set>
+	</class>
+</hibernate-mapping>

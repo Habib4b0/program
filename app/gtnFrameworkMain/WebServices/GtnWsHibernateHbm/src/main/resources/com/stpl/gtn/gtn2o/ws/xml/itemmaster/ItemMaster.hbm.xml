@@ -1,0 +1,291 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster"
+		table="ITEM_MASTER" schema="dbo">
+		<id name="itemMasterSid" type="int">
+			<column name="ITEM_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByPackageSize"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PACKAGE_SIZE" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_STATUS" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_TYPE" />
+		</many-to-one>
+		<many-to-one name="brandMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.BrandMaster" fetch="select">
+			<column name="BRAND_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="helperTableBySecondaryUom"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="SECONDARY_UOM" />
+		</many-to-one>
+		<many-to-one name="helperTableByPrimaryUom"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="PRIMARY_UOM" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_CATEGORY" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemTypeIndication"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_TYPE_INDICATION" />
+		</many-to-one>
+		<many-to-one name="helperTableByShelfLifeType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="SHELF_LIFE_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByStrength"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="STRENGTH" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByForm"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="FORM" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByItemClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_CLASS" />
+		</many-to-one>
+		<many-to-one name="companyMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select">
+			<column name="ORGANIZATION_KEY" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByTherapeuticClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="THERAPEUTIC_CLASS" />
+		</many-to-one>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="38" not-null="true" unique="true" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" not-null="true" />
+		</property>
+		<property name="itemCode" type="string">
+			<column name="ITEM_CODE" length="25" not-null="true" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="100" not-null="true" />
+		</property>
+		<property name="itemDesc" type="string">
+			<column name="ITEM_DESC" length="250" />
+		</property>
+		<property name="packageSizeIntroDate" type="timestamp">
+			<column name="PACKAGE_SIZE_INTRO_DATE" length="23" />
+		</property>
+		<property name="upps" type="big_decimal">
+			<column name="UPPS" precision="22" scale="6" />
+		</property>
+		<property name="itemStartDate" type="timestamp">
+			<column name="ITEM_START_DATE" length="23" />
+		</property>
+		<property name="itemEndDate" type="timestamp">
+			<column name="ITEM_END_DATE" length="23" />
+		</property>
+		<property name="manufacturerId" type="string">
+			<column name="MANUFACTURER_ID" length="38" />
+		</property>
+		<property name="labelerCode" type="string">
+			<column name="LABELER_CODE" length="25" />
+		</property>
+		<property name="acquisitionDate" type="timestamp">
+			<column name="ACQUISITION_DATE" length="23" />
+		</property>
+		<property name="authorizedGeneric" type="string">
+			<column name="AUTHORIZED_GENERIC" length="50" />
+		</property>
+		<property name="authorizedGenericStartDate" type="timestamp">
+			<column name="AUTHORIZED_GENERIC_START_DATE" length="23" />
+		</property>
+		<property name="authorizedGenericEndDate" type="timestamp">
+			<column name="AUTHORIZED_GENERIC_END_DATE" length="23" />
+		</property>
+		<property name="firstSaleDate" type="timestamp">
+			<column name="FIRST_SALE_DATE" length="23" />
+		</property>
+		<property name="marketTerminationDate" type="timestamp">
+			<column name="MARKET_TERMINATION_DATE" length="23" />
+		</property>
+		<property name="newFormulationIndicator" type="string">
+			<column name="NEW_FORMULATION_INDICATOR" length="50" />
+		</property>
+		<property name="newFormulation" type="string">
+			<column name="NEW_FORMULATION" length="38" />
+		</property>
+		<property name="newFormulationStartDate" type="timestamp">
+			<column name="NEW_FORMULATION_START_DATE" length="23" />
+		</property>
+		<property name="newFormulationEndDate" type="timestamp">
+			<column name="NEW_FORMULATION_END_DATE" length="23" />
+		</property>
+		<property name="pediatricExclusiveIndicator" type="string">
+			<column name="PEDIATRIC_EXCLUSIVE_INDICATOR" length="50" />
+		</property>
+		<property name="pediatricExclusiveStartDate" type="timestamp">
+			<column name="PEDIATRIC_EXCLUSIVE_START_DATE" length="23" />
+		</property>
+		<property name="pediatricExclusiveEndDate" type="timestamp">
+			<column name="PEDIATRIC_EXCLUSIVE_END_DATE" length="23" />
+		</property>
+		<property name="clottingFactorIndicator" type="string">
+			<column name="CLOTTING_FACTOR_INDICATOR" length="50" />
+		</property>
+		<property name="clottingFactorStartDate" type="timestamp">
+			<column name="CLOTTING_FACTOR_START_DATE" length="23" />
+		</property>
+		<property name="clottingFactorEndDate" type="timestamp">
+			<column name="CLOTTING_FACTOR_END_DATE" length="23" />
+		</property>
+		<property name="shelfLife" type="string">
+			<column name="SHELF_LIFE" length="30" />
+		</property>
+		<property name="dualPricingIndicator" type="string">
+			<column name="DUAL_PRICING_INDICATOR" length="30" />
+		</property>
+		<property name="itemFamilyId" type="string">
+			<column name="ITEM_FAMILY_ID" length="38" />
+		</property>
+		<property name="acquiredAmp" type="big_decimal">
+			<column name="ACQUIRED_AMP" precision="22" scale="6" />
+		</property>
+		<property name="acquiredBamp" type="big_decimal">
+			<column name="ACQUIRED_BAMP" precision="22" scale="6" />
+		</property>
+		<property name="obraBamp" type="big_decimal">
+			<column name="OBRA_BAMP" precision="22" scale="6" />
+		</property>
+		<property name="dra" type="big_decimal">
+			<column name="DRA" precision="22" scale="6" />
+		</property>
+		<property name="dosesPerUnit" type="string">
+			<column name="DOSES_PER_UNIT" length="25" />
+		</property>
+		<property name="discontinuationDate" type="timestamp">
+			<column name="DISCONTINUATION_DATE" length="23" />
+		</property>
+		<property name="lastLotExpirationDate" type="timestamp">
+			<column name="LAST_LOT_EXPIRATION_DATE" length="23" />
+		</property>
+		<property name="divestitureDate" type="timestamp">
+			<column name="DIVESTITURE_DATE" length="23" />
+		</property>
+		<property name="nonFederalExpirationDate" type="timestamp">
+			<column name="NON_FEDERAL_EXPIRATION_DATE" length="23" />
+		</property>
+		<property name="ndc9" type="string">
+			<column name="NDC9" length="25" not-null="true" />
+		</property>
+		<property name="ndc8" type="string">
+			<column name="NDC8" length="100" not-null="true" />
+		</property>
+		<property name="baselineAmp" type="big_decimal">
+			<column name="BASELINE_AMP" precision="22" scale="6" />
+		</property>
+		<property name="altBaselineAmp" type="big_decimal">
+			<column name="ALT_BASELINE_AMP" precision="22" scale="6" />
+		</property>
+		<property name="baseCpiPeriod" type="timestamp">
+			<column name="BASE_CPI_PERIOD" length="23" />
+		</property>
+		<property name="baseCpi" type="big_decimal">
+			<column name="BASE_CPI" precision="22" scale="6" />
+		</property>
+		<property name="altBaseCpi" type="big_decimal">
+			<column name="ALT_BASE_CPI" precision="22" scale="6" />
+		</property>
+		<property name="packageSizeCode" type="string">
+			<column name="PACKAGE_SIZE_CODE" length="25" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="psDetailses" table="PS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.PsDetails" />
+		</set>
+		<set name="itemGroupDetailses" table="ITEM_GROUP_DETAILS" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.itemgroup.ItemGroupDetails" />
+		</set>
+		<set name="ifpDetailses" table="IFP_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.itemfamilyplan.IfpDetails" />
+		</set>
+		<set name="rsDetailses" table="RS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.rebateschedule.RsDetails" />
+		</set>
+		<set name="psContractDetailses" table="PS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails" />
+		</set>
+		<set name="ifpContractDetailses" table="IFP_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContractDetails" />
+		</set>
+		<set name="rsContractDetailses" table="RS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="ITEM_MASTER_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

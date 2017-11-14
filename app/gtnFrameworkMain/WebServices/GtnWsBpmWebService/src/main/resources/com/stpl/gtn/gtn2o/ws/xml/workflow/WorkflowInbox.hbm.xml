@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 7:31:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowInbox"
+		table="WORKFLOW_INBOX" schema="dbo">
+		<id name="workflowInboxSid" type="int">
+			<column name="WORKFLOW_INBOX_SID" />
+			<generator class="native" />
+		</id>
+		<property name="viewName" type="string">
+			<column name="VIEW_NAME" length="50" not-null="true" />
+		</property>
+		<property name="viewType" type="string">
+			<column name="VIEW_TYPE" length="10" not-null="true" />
+		</property>
+		<property name="businessProcess" type="string">
+			<column name="BUSINESS_PROCESS" length="50" not-null="true" />
+		</property>
+		<many-to-one name="companyMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select">
+			<column name="GL_COMPANY_MASTER_SID" />
+		</many-to-one>
+		<property name="workflowId" type="string">
+			<column name="WORKFLOW_ID" length="50" />
+		</property>
+		<property name="workflowName" type="string">
+			<column name="WORKFLOW_NAME" length="50" />
+		</property>
+		<property name="workflowStatus" type="java.lang.Integer">
+			<column name="WORKFLOW_STATUS" />
+		</property>
+		<property name="approvedBy" type="java.lang.Integer">
+			<column name="APPROVED_BY" />
+		</property>
+		<property name="wfCreatedBy" type="java.lang.Integer">
+			<column name="WF_CREATED_BY" />
+		</property>
+		<property name="creationFromDate" type="timestamp">
+			<column name="CREATION_FROM_DATE" length="23" />
+		</property>
+		<property name="creationToDate" type="timestamp">
+			<column name="CREATION_TO_DATE" length="23" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="java.lang.Integer">
+			<column name="MODIFIED_BY" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" />
+		</property>
+		<property name="workflowDescription" type="string">
+			<column name="WORKFLOW_DESCRIPTION" length="50" />
+		</property>
+		<property name="approvedDateFrom" type="timestamp">
+			<column name="APPROVED_DATE_FROM" length="23" />
+		</property>
+		<property name="approvedDateTo" type="timestamp">
+			<column name="APPROVED_DATE_TO" length="23" />
+		</property>
+		<property name="contractId" type="string">
+			<column name="CONTRACT_ID" length="50" />
+		</property>
+		<property name="contractNo" type="string">
+			<column name="CONTRACT_NO" length="50" />
+		</property>
+		<property name="contractName" type="string">
+			<column name="CONTRACT_NAME" length="100" />
+		</property>
+		<property name="contractType" type="java.lang.Integer">
+			<column name="CONTRACT_TYPE" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" length="50" />
+		</property>
+		<property name="companyNo" type="string">
+			<column name="COMPANY_NO" length="50" />
+		</property>
+		<property name="companyName" type="string">
+			<column name="COMPANY_NAME" length="100" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="50" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="100" />
+		</property>
+		<property name="deductionLevel" type="string">
+			<column name="DEDUCTION_LEVEL" length="50" />
+		</property>
+		<property name="deductionValue" type="java.lang.Integer">
+			<column name="DEDUCTION_VALUE" />
+		</property>
+		<property name="businessUnit" type="java.lang.Integer">
+			<column name="BUSINESS_UNIT" />
+		</property>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" length="50" />
+		</property>
+		<property name="brandName" type="string">
+			<column name="BRAND_NAME" length="50" />
+		</property>
+		<property name="glDate" type="timestamp">
+			<column name="GL_DATE" length="23" />
+		</property>
+		<property name="deductionNo" type="string">
+			<column name="DEDUCTION_NO" length="50" />
+		</property>
+		<property name="deductionName" type="string">
+			<column name="DEDUCTION_NAME" length="50" />
+		</property>
+		<property name="adjustmentType" type="string">
+			<column name="ADJUSTMENT_TYPE" length="500" />
+		</property>
+	</class>
+</hibernate-mapping>

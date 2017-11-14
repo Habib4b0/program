@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 2, 2017 3:54:22 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigDetails" table="PERIOD_CONFIG_DETAILS" schema="dbo"  optimistic-lock="version">
+        <id name="periodConfigDetailsSid" type="int">
+            <column name="PERIOD_CONFIG_DETAILS_SID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="helperTableByFromFrequency" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="FROM_FREQUENCY" />
+        </many-to-one>
+        <many-to-one name="helperTableByToDefaultFrequerncy" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="TO_DEFAULT_FREQUERNCY" />
+        </many-to-one>
+        <many-to-one name="helperTableByToFrequency" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="TO_FREQUENCY" />
+        </many-to-one>
+        <many-to-one name="helperTableByPeriodView" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="PERIOD_VIEW" />
+        </many-to-one>
+        <many-to-one name="helperTableByFromDefaultMode" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="FROM_DEFAULT_MODE" not-null="true" />
+        </many-to-one>
+        <many-to-one name="helperTableByFromDefaultFrequerncy" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="FROM_DEFAULT_FREQUERNCY" />
+        </many-to-one>
+        <many-to-one name="helperTableByToDefaultMode" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="TO_DEFAULT_MODE" />
+        </many-to-one>
+        <many-to-one name="helperTableByToMode" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="TO_MODE" />
+        </many-to-one>
+        <many-to-one name="helperTableByFromMode" class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+            <column name="FROM_MODE" not-null="true" />
+        </many-to-one>
+        <many-to-one name="periodConfigMaster" class="com.stpl.gtn.gtn2o.ws.entity.periodconfiguration.PeriodConfigMaster" fetch="select">
+            <column name="PERIOD_CONFIG_MASTER_SID" not-null="true" />
+        </many-to-one>
+        <property name="fromPeriod" type="java.lang.String">
+            <column name="FROM_PERIOD" />
+        </property>
+        <property name="fromPeriodDate" type="timestamp">
+            <column name="FROM_PERIOD_DATE" length="23" />
+        </property>
+        <property name="fromDefaultPeriod" type="java.lang.String">
+            <column name="FROM_DEFAULT_PERIOD" />
+        </property>
+        <property name="fromDefaultPeriodDate" type="timestamp">
+            <column name="FROM_DEFAULT_PERIOD_DATE" length="23" />
+        </property>
+        <property name="toPeriod" type="java.lang.String">
+            <column name="TO_PERIOD" />
+        </property>
+        <property name="toPeriodDate" type="timestamp">
+            <column name="TO_PERIOD_DATE" length="23" />
+        </property>
+        <property name="toDefaultPeriod" type="java.lang.String">
+            <column name="TO_DEFAULT_PERIOD" />
+        </property>
+        <property name="toDefualtPeriodDate" type="timestamp">
+            <column name="TO_DEFUALT_PERIOD_DATE" length="23" />
+        </property>
+        <property name="versionNo" type="java.lang.Integer">
+            <column name="VERSION_NO" />
+        </property>
+        <property name="createdBy" type="int">
+            <column name="CREATED_BY" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

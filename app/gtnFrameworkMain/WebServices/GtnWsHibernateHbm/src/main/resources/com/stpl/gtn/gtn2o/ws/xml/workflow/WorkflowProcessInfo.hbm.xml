@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2017 7:31:27 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowProcessInfo"
+		table="WORKFLOW_PROCESS_INFO" schema="dbo">
+		<id name="workflowProcessInfoSid" type="int">
+			<column name="WORKFLOW_PROCESS_INFO_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="projectionMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.projectionmaster.ProjectionMaster"
+			fetch="select">
+			<column name="PROJECTION_MASTER_SID" />
+		</many-to-one>
+		<property name="processInstanceId" type="java.lang.Integer">
+			<column name="PROCESS_INSTANCE_ID" unique="true" />
+		</property>
+		<property name="accClosureMasterSid" type="java.lang.Integer">
+			<column name="ACC_CLOSURE_MASTER_SID" />
+		</property>
+		<property name="roleid" type="java.lang.Long">
+			<column name="ROLEID" />
+		</property>
+		<property name="contractMasterSid" type="java.lang.Integer">
+			<column name="CONTRACT_MASTER_SID" />
+		</property>
+		<property name="contractStructure" type="string">
+			<column name="CONTRACT_STRUCTURE" length="100" />
+		</property>
+		<property name="cffMasterSid" type="java.lang.Integer">
+			<column name="CFF_MASTER_SID" />
+		</property>
+	</class>
+</hibernate-mapping>

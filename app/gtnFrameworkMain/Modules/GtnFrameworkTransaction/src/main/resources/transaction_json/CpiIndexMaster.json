@@ -1,0 +1,132 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"isInvalidComponent": true,
+		"viewFlag": false
+	},
+	{
+		"columnID": "indexId",
+		"columnName": "Index ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"expressionType": "LIKE"
+	},
+	{
+		"columnID": "status",
+		"columnName": "Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"invalidLoadDescription": true
+	},
+	{
+		"columnID": "indexType",
+		"columnName": "Index Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "effectiveDate",
+		"columnName": "Effective Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "effectiveDate",
+		"columnName": "Effective Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "indexValue",
+		"columnName": "Index Value",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"expressionType": "LIKE"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "cpiIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

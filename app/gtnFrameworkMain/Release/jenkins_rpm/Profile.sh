@@ -1,0 +1,24 @@
+# Note : slash \ should be escaped with 3 slashes \\\
+# Note : = should be escaped with \\ slashes
+export DB_Host=10.4.48.18
+export DB_IP=summa
+export DB_User_Name=bpigtn_agn_tst
+export DB_Password=vedM\\\\4C~WKZ5s6U*
+export DB_APP_Name=BPIGTN_AGN_APP_DEV
+export DB_SYS_Name=BPIGTN_AGN_SYS_DEV
+export DB_BPM_Name=BPIGTN_AGN_BPM_DEV
+export DB_STG_Name=BPIGTN_AGN_STAGING_DEV
+export DB_Migration_User_Name="db_migration"
+export DB_Migration_pwd="cDQ1NXAwcnQK"
+export Gtn_Framework_Base_path=/opt/bpigtn_alg_dev/conf/
+export APP_User=bpigtn_allergan_dev
+export ETL_DB_USER=gtn_agn_etl_prod
+export ETL_DB_PWD=2be98c2b913f985bdef288842daabf6db
+export ETL_DB_PASSPHRASE_PWD=
+export DB_Schema_Name=1
+export DB_Script_Name="1"
+export Web_Service_Url=http://allergan.bpitechnologies.com:8286
+export Chown=bpigtn_allergan_dev
+export ETL_SERVER_NAME=localhost
+export ETL_SERVER_PASSWORD=Rajai@123
+export ETL_SERVER_USER_NAME=jayalakshmi.kabali@sysbiz.org

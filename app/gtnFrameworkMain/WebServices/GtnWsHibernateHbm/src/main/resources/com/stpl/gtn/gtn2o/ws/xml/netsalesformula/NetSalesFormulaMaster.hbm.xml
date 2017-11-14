@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster"
+		table="NET_SALES_FORMULA_MASTER" schema="dbo">
+		<id name="netSalesFormulaMasterSid" type="int">
+			<column name="NET_SALES_FORMULA_MASTER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByNetSalesFormulaCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_SALES_FORMULA_CATEGORY" />
+		</many-to-one>
+		<many-to-one name="cdrModel"
+			class="com.stpl.gtn.gtn2o.ws.entity.cdr.CdrModel" fetch="select">
+			<column name="CDR_MODEL_SID" />
+		</many-to-one>
+		<many-to-one name="helperTableByNetSalesFormulaType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="NET_SALES_FORMULA_TYPE" not-null="true" />
+		</many-to-one>
+		<property name="netSalesFormulaId" type="string">
+			<column name="NET_SALES_FORMULA_ID" length="50" not-null="true" />
+		</property>
+		<property name="netSalesFormulaNo" type="string">
+			<column name="NET_SALES_FORMULA_NO" length="50" not-null="true" />
+		</property>
+		<property name="netSalesFormulaName" type="string">
+			<column name="NET_SALES_FORMULA_NAME" length="100" not-null="true" />
+		</property>
+		<property name="contractSelection" type="string">
+			<column name="CONTRACT_SELECTION" length="50" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<set name="psDetailses" table="PS_DETAILS" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="NET_PRICE_TYPE_FORMULA" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.priceshedule.PsDetails" />
+		</set>
+		<set name="rebatePlanMasters" table="REBATE_PLAN_MASTER" inverse="true"
+			lazy="true" fetch="select">
+			<key>
+				<column name="NET_SALES_FORMULA_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster" />
+		</set>
+		<set name="rsContractDetailses" table="RS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="NET_SALES_FORMULA_MASTER_SID" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.RsContractDetails" />
+		</set>
+		<set name="psContractDetailses" table="PS_CONTRACT_DETAILS"
+			inverse="true" lazy="true" fetch="select">
+			<key>
+				<column name="NET_PRICE_TYPE_FORMULA" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.contract.PsContractDetails" />
+		</set>
+	</class>
+</hibernate-mapping>

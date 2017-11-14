@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldRebatePlan" table="IVLD_REBATE_PLAN" schema="dbo">
+        <id name="ivldRebatePlanSid" type="int">
+            <column name="IVLD_REBATE_PLAN_SID" />
+            <generator class="native" />
+        </id>
+        <property name="rebatePlanIntfid" type="string">
+            <column name="REBATE_PLAN_INTFID" precision="38" scale="0" not-null="true" />
+        </property>
+        <property name="rebatePlanId" type="string">
+            <column name="REBATE_PLAN_ID" length="200" />
+        </property>
+        <property name="rebatePlanNo" type="string">
+            <column name="REBATE_PLAN_NO" length="200" />
+        </property>
+        <property name="rebatePlanName" type="string">
+            <column name="REBATE_PLAN_NAME" length="200" />
+        </property>
+        <property name="rebatePlanStatus" type="string">
+            <column name="REBATE_PLAN_STATUS" length="200" />
+        </property>
+        <property name="rebatePlanType" type="string">
+            <column name="REBATE_PLAN_TYPE" length="200" />
+        </property>
+        <property name="internalNotes" type="string">
+            <column name="INTERNAL_NOTES" length="1000" />
+        </property>
+        <property name="formulaType" type="string">
+            <column name="FORMULA_TYPE" length="200" />
+        </property>
+        <property name="bogoEligible" type="string">
+            <column name="BOGO_ELIGIBLE" length="200" />
+        </property>
+        <property name="selfGrowthIndicator" type="string">
+            <column name="SELF_GROWTH_INDICATOR" length="200" />
+        </property>
+        <property name="selfGrowthReference" type="string">
+            <column name="SELF_GROWTH_REFERENCE" length="200" />
+        </property>
+        <property name="selfGrowthFrom" type="string">
+            <column name="SELF_GROWTH_FROM" length="200" />
+        </property>
+        <property name="selfGrowthTo" type="string">
+            <column name="SELF_GROWTH_TO" length="200" />
+        </property>
+        <property name="marketShareIndicator" type="string">
+            <column name="MARKET_SHARE_INDICATOR" length="200" />
+        </property>
+        <property name="marketShareReference" type="string">
+            <column name="MARKET_SHARE_REFERENCE" length="200" />
+        </property>
+        <property name="marketShareFrom" type="string">
+            <column name="MARKET_SHARE_FROM" length="200" />
+        </property>
+        <property name="marketShareTo" type="string">
+            <column name="MARKET_SHARE_TO" length="200" />
+        </property>
+        <property name="tierFormulaId" type="string">
+            <column name="TIER_FORMULA_ID" length="200" />
+        </property>
+        <property name="tierFormulaNo" type="string">
+            <column name="TIER_FORMULA_NO" length="200" />
+        </property>
+        <property name="tierFormulaName" type="string">
+            <column name="TIER_FORMULA_NAME" length="200" />
+        </property>
+        <property name="rebateStructure" type="string">
+            <column name="REBATE_STRUCTURE" length="200" />
+        </property>
+        <property name="rebateRangeBasedOn" type="string">
+            <column name="REBATE_RANGE_BASED_ON" length="200" />
+        </property>
+        <property name="rebateBasedOn" type="string">
+            <column name="REBATE_BASED_ON" length="200" />
+        </property>
+        <property name="rebateRule" type="string">
+            <column name="REBATE_RULE" length="200" />
+        </property>
+        <property name="rebatePlanTierId" type="string">
+            <column name="REBATE_PLAN_TIER_ID" length="200" />
+        </property>
+        <property name="tierFrom" type="string">
+            <column name="TIER_FROM" length="200" />
+        </property>
+        <property name="tierTo" type="string">
+            <column name="TIER_TO" length="200" />
+        </property>
+        <property name="tierLevel" type="string">
+            <column name="TIER_LEVEL" length="200" />
+        </property>
+        <property name="tierOperator" type="string">
+            <column name="TIER_OPERATOR" length="200" />
+        </property>
+        <property name="tierValue" type="string">
+            <column name="TIER_VALUE" length="200" />
+        </property>
+        <property name="freeAmount" type="string">
+            <column name="FREE_AMOUNT" length="200" />
+        </property>
+        <property name="tierTolerance" type="string">
+            <column name="TIER_TOLERANCE" length="200" />
+        </property>
+        <property name="secondaryRebatePlanId" type="string">
+            <column name="SECONDARY_REBATE_PLAN_ID" length="200" />
+        </property>
+        <property name="secondaryRebatePlanNo" type="string">
+            <column name="SECONDARY_REBATE_PLAN_NO" length="200" />
+        </property>
+        <property name="secondaryRebatePlanName" type="string">
+            <column name="SECONDARY_REBATE_PLAN_NAME" length="200" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="200" />
+        </property>
+        <property name="cfpId" type="string">
+            <column name="CFP_ID" length="200" />
+        </property>
+        <property name="mfpId" type="string">
+            <column name="MFP_ID" length="200" />
+        </property>
+        <property name="ifpId" type="string">
+            <column name="IFP_ID" length="200" />
+        </property>
+        <property name="priceScheduleId" type="string">
+            <column name="PRICE_SCHEDULE_ID" length="200" />
+        </property>
+        <property name="rebateScheduleId" type="string">
+            <column name="REBATE_SCHEDULE_ID" length="200" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="200" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="1000" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="500" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

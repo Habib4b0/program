@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2017 2:10:28 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinition"
+		table="RELATIONSHIP_LEVEL_DEFINITION" schema="dbo" optimistic-lock="version">
+		<id name="relationshipLevelSid" type="int">
+			<column name="RELATIONSHIP_LEVEL_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="hierarchyLevelDefinition"
+			class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyLevelDefinition"
+			fetch="select">
+			<column name="HIERARCHY_LEVEL_DEFINITION_SID" />
+		</many-to-one>
+		<many-to-one name="relationshipBuilder"
+			class="com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder"
+			fetch="select">
+			<column name="RELATIONSHIP_BUILDER_SID" />
+		</many-to-one>
+		<property name="relationshipLevelValues" type="string">
+			<column name="RELATIONSHIP_LEVEL_VALUES" length="50" />
+		</property>
+		<property name="levelNo" type="string">
+			<column name="LEVEL_NO" length="50" />
+		</property>
+		<property name="levelName" type="string">
+			<column name="LEVEL_NAME" length="200" />
+		</property>
+		<property name="parentNode" type="string">
+			<column name="PARENT_NODE" length="100" />
+		</property>
+		<property name="hierarchyNo" type="string">
+			<column name="HIERARCHY_NO" length="50" />
+		</property>
+		<property name="flag" type="string">
+			<column name="FLAG" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="versionNo" type="int">
+			<column name="VERSION_NO" not-null="true" />
+		</property>
+		<property name="parentHierarchyNo" type="string">
+			<column name="PARENT_HIERARCHY_NO" length="8000" />
+		</property>
+	</class>
+</hibernate-mapping>

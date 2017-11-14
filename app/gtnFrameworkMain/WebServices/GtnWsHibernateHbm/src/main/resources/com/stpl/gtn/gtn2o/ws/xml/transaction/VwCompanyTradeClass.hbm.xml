@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2017 7:10:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyTradeClass"
+		table="VW_COMPANY_TRADE_CLASS" schema="dbo">
+		<id name="companyTradeClassSid" type="int">
+			<column name="COMPANY_TRADE_CLASS_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="tradeClassStartDate" type="timestamp">
+			<column name="TRADE_CLASS_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="tradeClassEndDate" type="timestamp">
+			<column name="TRADE_CLASS_END_DATE" length="23" />
+		</property>
+		<property name="companyTradeClass" type="string">
+			<column name="COMPANY_TRADE_CLASS" not-null="true" />
+		</property>
+		<property name="priorTradeClass" type="string">
+			<column name="PRIOR_TRADE_CLASS" />
+		</property>
+		<property name="priorTradeClassStartDate" type="timestamp">
+			<column name="PRIOR_TRADE_CLASS_START_DATE" length="23" />
+		</property>
+		<property name="lastUpdatedDate" type="timestamp">
+			<column name="LAST_UPDATED_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" />
+		</property>
+	</class>
+</hibernate-mapping>

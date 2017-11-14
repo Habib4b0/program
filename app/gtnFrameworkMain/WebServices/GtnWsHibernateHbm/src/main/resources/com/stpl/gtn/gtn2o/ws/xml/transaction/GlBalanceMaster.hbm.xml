@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 12, 2017 1:01:45 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.GlBalanceMaster"
+		table="GL_BALANCE_MASTER" schema="dbo">
+		<id name="glBalanceMasterSid" type="int">
+			<column name="GL_BALANCE_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="accountId" type="string">
+			<column name="ACCOUNT_ID" length="100" not-null="true" />
+		</property>
+		<property name="accountNo" type="string">
+			<column name="ACCOUNT_NO" length="100" not-null="true" />
+		</property>
+		<property name="balance" type="double">
+			<column name="BALANCE" not-null="true"  precision="22" scale="6"/>
+		</property>
+		<property name="uploadDate" type="timestamp">
+			<column name="UPLOAD_DATE" length="23" not-null="true" />
+		</property>
+		<property name="isActive" type="string">
+			<column name="IS_ACTIVE" />
+		</property>
+		<property name="insertedDate" type="timestamp">
+			<column name="INSERTED_DATE" length="23" />
+		</property>
+		<property name="year" type="string">
+			<column name="YEAR" />
+		</property>
+		<property name="period" type="string">
+			<column name="PERIOD" length="3" />
+		</property>
+		<property name="closeIndicator" type="string">
+			<column name="CLOSE_INDICATOR" length="10" />
+		</property>
+		<property name="inboundStatus" type="java.lang.Character">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

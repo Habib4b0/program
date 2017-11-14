@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.companymaster.Udcs"
+		optimistic-lock="version" schema="dbo" table="UDCS">
+		<id name="udcsSid" type="int">
+			<column name="UDCS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc7">
+			<column name="UDC7" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc6">
+			<column name="UDC6" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc5">
+			<column name="UDC5" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc11">
+			<column name="UDC11" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc4">
+			<column name="UDC4" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc12">
+			<column name="UDC12" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc3">
+			<column name="UDC3" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc2">
+			<column name="UDC2" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc9">
+			<column name="UDC9" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc1">
+			<column name="UDC1" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc8">
+			<column name="UDC8" />
+		</many-to-one>
+		<many-to-one class="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
+			fetch="select" name="helperTableByUdc10">
+			<column name="UDC10" />
+		</many-to-one>
+		<property name="masterSid" type="int">
+			<column name="MASTER_SID" not-null="true" />
+		</property>
+		<property name="masterType" type="string">
+			<column length="50" name="MASTER_TYPE" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

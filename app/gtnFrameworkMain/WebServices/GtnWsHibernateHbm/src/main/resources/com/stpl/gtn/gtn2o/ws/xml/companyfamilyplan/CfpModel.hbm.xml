@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.companyfamilyplan.CfpModel"
+		table="CFP_MODEL" schema="dbo">
+		<id name="cfpModelSid" type="int">
+			<column name="CFP_MODEL_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByCfpStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CFP_STATUS" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByCfpTradeClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CFP_TRADE_CLASS" />
+		</many-to-one>
+		<many-to-one name="helperTableByCfpType"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CFP_TYPE" />
+		</many-to-one>
+		<many-to-one name="helperTableByCfpCategory"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CFP_CATEGORY" />
+		</many-to-one>
+		<property name="cfpId" type="string">
+			<column name="CFP_ID" length="50" not-null="true" unique="true" />
+		</property>
+		<property name="cfpNo" type="string">
+			<column name="CFP_NO" length="50" not-null="true" />
+		</property>
+		<property name="cfpName" type="string">
+			<column name="CFP_NAME" length="100" not-null="true" />
+		</property>
+		<property name="cfpDesignation" type="string">
+			<column name="CFP_DESIGNATION" length="50" />
+		</property>
+		<property name="cfpStartDate" type="timestamp">
+			<column name="CFP_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="cfpEndDate" type="timestamp">
+			<column name="CFP_END_DATE" length="23" />
+		</property>
+		<property name="parentCfpId" type="java.lang.Integer">
+			<column name="PARENT_CFP_ID" />
+		</property>
+		<property name="parentCfpName" type="string">
+			<column name="PARENT_CFP_NAME" length="50" />
+		</property>
+		<property name="internalNotes" type="string">
+			<column name="INTERNAL_NOTES" length="4000" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="salesInclusion" type="java.lang.Integer">
+			<column name="SALES_INCLUSION" />
+		</property>
+		<set name="cfpDetailses" table="CFP_DETAILS" inverse="true" lazy="true"
+			fetch="select" cascade="all">
+			<key>
+				<column name="CFP_MODEL_SID" not-null="true" />
+			</key>
+			<one-to-many
+				class="com.stpl.gtn.gtn2o.ws.entity.companyfamilyplan.CfpDetails" />
+		</set>
+		<set name="cfpContracts" table="CFP_CONTRACT" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="CFP_MODEL_SID" not-null="true" />
+			</key>
+			<one-to-many class="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContract" />
+		</set>
+	</class>
+</hibernate-mapping>
