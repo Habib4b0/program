@@ -2025,12 +2025,13 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     || Constant.PROJECTED_RETURN_PER.equals(String.valueOf(fieldDdlb.getValue()))
                     || Constant.PROJECTED_RETURN_AMT.equals(String.valueOf(fieldDdlb.getValue()))
                     || Constant.PROJECTED_RPU.equals(String.valueOf(fieldDdlb.getValue()))
-                    || Constant.GROWTH_RATE.equals(String.valueOf(fieldDdlb.getValue()))) && startPeriod.getValue() == null) {
+                    || Constant.GROWTH_RATE.equals(String.valueOf(fieldDdlb.getValue())))  || Constant.SALES_CAPS.equals(String.valueOf(fieldDdlb.getValue()))
+                    || Constant.UNIT_VOLUME.equals(String.valueOf(fieldDdlb.getValue())) && startPeriod.getValue() == null) {
 
                 if (returnsFlag) {
                     AbstractNotificationUtils.getErrorNotification("No Start Date Selected", "Please select a start date.");
                 } else {
-                    AbstractNotificationUtils.getErrorNotification("No Start Date Selected", "A start date is required for an Account Growth or Product Growth.  Please select a start date and try again.");
+                    AbstractNotificationUtils.getErrorNotification("No Start Date Selected", "A start date is required for an " + String.valueOf(fieldDdlb.getValue()) +".  Please select a start date and try again.");
                 }
             } else if ((valueTxt.getValue() == null || StringUtils.isEmpty(valueTxt.getValue())) && (valueDdlb.getValue() == null || StringUtils.isEmpty(String.valueOf(valueDdlb.getValue()))) || Constant.SELECT_ONE.equals(String.valueOf(valueDdlb.getValue()))) {
                 AbstractNotificationUtils.getErrorNotification("No Value Entered", "Please enter any value to update");
