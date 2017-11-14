@@ -1,0 +1,487 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "companyId",
+		"columnName": "Company ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Forecast Year",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Forecast Month",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "deductionId",
+		"columnName": "Deduction ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "deductionCategory",
+		"columnName": "Deduction Category",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "RS_CATEGORY",
+		"loadDescription": true
+	},
+	{
+		"columnID": "deductionType",
+		"columnName": "Deduction Type",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "RS_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "deductionProgramType",
+		"columnName": "Deduction Program Type",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "REBATE_PROGRAM_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Ver",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 3
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Ver",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 36
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 2
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Forecast Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 23
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Forecast Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 24
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 6
+	},
+	{
+		"columnID": "companyId",
+		"columnName": "Company ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 7
+	},
+	{
+		"columnID": "deductionId",
+		"columnName": "Deduction ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "deductionCategory",
+		"columnName": "Deduction Category",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_CATEGORY",
+		"loadDescription": true,
+		"viewModeIndex": 9
+	},
+	{
+		"columnID": "deductionType",
+		"columnName": "Deduction Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_TYPE",
+		"loadDescription": true,
+		"viewModeIndex": 10
+	},
+	{
+		"columnID": "deductionProgramType",
+		"columnName": "Deduction Program Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "REBATE_PROGRAM_TYPE",
+		"loadDescription": true,
+		"viewModeIndex": 11
+	},
+	{
+		"columnID": "units",
+		"columnName": "Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "priceType",
+		"columnName": "Price Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 21
+	},
+	{
+		"columnID": "price",
+		"columnName": "Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "salesAmount",
+		"columnName": "Sales Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 15
+	},
+	{
+		"columnID": "salesInclusion",
+		"columnName": "Sales Inclusion",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 16
+	},
+	{
+		"columnID": "adjustmentCode",
+		"columnName": "Adjustment Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 17
+	},
+	{
+		"columnID": "deductionRate",
+		"columnName": "Deduction Rate",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 18
+	},
+	{
+		"columnID": "deductionAmount",
+		"columnName": "Deduction Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 19
+	},
+	{
+		"columnID": "deductionInclusion",
+		"columnName": "Deduction Inclusion",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 20
+	},
+	{
+		"columnID": "forecastValueType",
+		"columnName": "Forecast Value Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 22
+	},
+	{
+		"columnID": "brand",
+		"columnName": "Brand",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 5
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 8
+	},
+	{
+		"columnID": "udc1",
+		"columnName": "UDC 1",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 25
+	},
+	{
+		"columnID": "udc2",
+		"columnName": "UDC 2",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 29
+	},
+	{
+		"columnID": "udc3",
+		"columnName": "UDC 3",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 33
+	},
+	{
+		"columnID": "udc4",
+		"columnName": "UDC 4",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 26
+	},
+	{
+		"columnID": "udc5",
+		"columnName": "UDC 5",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 30
+	},
+	{
+		"columnID": "udc6",
+		"columnName": "UDC 6",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 34
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 4
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 37
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 28
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"columnAlignment": "CENTER",
+		"viewModeIndex": 27
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 32
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"columnAlignment": "CENTER",
+		"viewModeIndex": 31
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 35
+	},
+	{
+		"columnID": "forecastDate",
+		"columnName": "Forecast Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"columnAlignment": "CENTER",
+		"viewModeIndex": 1
+	},
+	{
+		"columnID": "customerGtsForecastIntfId",
+		"columnName": "Forecast Interface ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 38,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 38,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 39,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 40,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"viewModeIndex": 41,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "customerGtsForecastIntfId",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"viewModeIndex": 42,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"viewModeIndexFlag": true
+	}
+]

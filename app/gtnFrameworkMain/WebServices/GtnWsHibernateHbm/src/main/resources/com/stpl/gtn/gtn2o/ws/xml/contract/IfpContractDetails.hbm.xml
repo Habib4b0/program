@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContractDetails"
+		table="IFP_CONTRACT_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="ifpContractDetailsSid" type="int">
+			<column name="IFP_CONTRACT_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTableByItemStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="ITEM_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByIfpContractAttachedStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="IFP_CONTRACT_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="ifpContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.IfpContract" fetch="select">
+			<column name="IFP_CONTRACT_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="itemMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster" fetch="select">
+			<column name="ITEM_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<property name="itemStartDate" type="timestamp">
+			<column name="ITEM_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="itemEndDate" type="timestamp">
+			<column name="ITEM_END_DATE" length="23" />
+		</property>
+		<property name="totalVolumeCommitment" type="string">
+			<column name="TOTAL_VOLUME_COMMITMENT" length="50" />
+		</property>
+		<property name="totalDollarCommitment" type="string">
+			<column name="TOTAL_DOLLAR_COMMITMENT" length="50" />
+		</property>
+		<property name="totalMarketshareCommitment" type="string">
+			<column name="TOTAL_MARKETSHARE_COMMITMENT" length="50" />
+		</property>
+		<property name="commitmentPeriod" type="string">
+			<column name="COMMITMENT_PERIOD" length="50" />
+		</property>
+		<property name="ifpContractAttachedDate" type="timestamp">
+			<column name="IFP_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

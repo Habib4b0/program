@@ -42,7 +42,6 @@ import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
@@ -146,7 +145,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SID = "SID";
      
      public static final CommonLogic commonLogic = new CommonLogic();
-     public CommonUtils commonUtils = new CommonUtils();
+     private CommonUtils commonUtils = new CommonUtils();
 
     public ProjectionVariance(SessionDTO sessionDTO, final DataSelectionDTO dataSelectionDTO) {
         super(sessionDTO);

@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2017 7:42:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagCompanyTradeClass" table="STAG_COMPANY_TRADE_CLASS" schema="dbo" >
+        <id name="stagCompanyTradeClassSid" type="int">
+            <column name="STAG_COMPANY_TRADE_CLASS_SID" />
+            <generator class="native" />
+        </id>
+        <property name="tradeClassIntfid" type="string">
+            <column name="TRADE_CLASS_INTFID" not-null="true" />
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="38" not-null="true" />
+        </property>
+        <property name="tradeClassStartDate" type="string">
+            <column name="TRADE_CLASS_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="tradeClassEndDate" type="string">
+            <column name="TRADE_CLASS_END_DATE" length="23" />
+        </property>
+        <property name="tradeClass" type="string">
+            <column name="TRADE_CLASS" length="100" not-null="true" />
+        </property>
+        <property name="priorTradeClass" type="string">
+            <column name="PRIOR_TRADE_CLASS" length="50" />
+        </property>
+        <property name="priorTradeClassStartDate" type="string">
+            <column name="PRIOR_TRADE_CLASS_START_DATE" length="23" />
+        </property>
+        <property name="lastUpdatedDate" type="string">
+            <column name="LAST_UPDATED_DATE" length="23" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

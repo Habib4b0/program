@@ -27,7 +27,6 @@ public class SalesProjectionResultsVariableTree extends SalesProjectionResultsTr
 
     Object[] dataLevel;
     Object[] showData;
-    private static final String CURRENCY = "$";
 
     @Override
     public void buildTree(ProjectionSelectionDTO projSelDTO) {

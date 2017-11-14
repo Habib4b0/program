@@ -1,0 +1,210 @@
+----------------------------------------------------------HELPER TABLE ENTRIES-------------------------------------------------------------------
+
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) VALUES('Actuals',	    'INVEN_TYPE',0)
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) VALUES('Projections',    'INVEN_TYPE',0)
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) VALUES('Details',	    'INVEN_LEVEL',0)
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) VALUES('Summary',	    'INVEN_LEVEL',0)
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+CREATE VIEW [VW_INVENTORY_WD_ACTUAL_PROJ_MAS]  AS 
+SELECT   DISTINCT
+         A.INVENTORY_WD_ACTUAL_PROJ_MAS_SID,
+		 A.YEAR,
+		 A.MONTH,
+		 A.DAY,
+		 A.WEEK,
+		 A.COMPANY_ID,
+         A.COMPANY_NAME,
+		 A.ITEM_ID,
+		 A.ITEM_NAME,
+		 A.UNITS_WITHDRAWN,
+		 A.AMOUNT_WITHDRAWN,
+		 A.UNITS_ON_HAND,
+		 A.AMOUNT_ON_HAND,
+		 A.QUANTITY_ON_ORDER,
+		 A.AMOUNT_ON_ORDER,
+		 A.QUANTITY_RECEIVED,
+		 A.AMOUNT_RECEIVED,
+		 A.PRICE,
+		 A.CREATED_BY,
+		 A.CREATED_DATE,
+		 A.MODIFIED_BY,
+		 A.MODIFIED_DATE,
+		 A.ADD_CHG_DEL_INDICATOR,
+		 A.BATCH_ID,
+		 A.SOURCE,
+		 A.FORECAST_NAME,
+		 A.FORECAST_VER,
+		 A.COUNTRY,
+		 A.ORGANIZATION_KEY,
+		 A.IS_FORECAST,
+		 A.IS_MASTER,
+		 CASE WHEN A.TYPE = 'Actuals' THEN (SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME = 'INVEN_TYPE' AND DESCRIPTION = 'Actuals' )
+		      ELSE (SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME = 'INVEN_TYPE' AND DESCRIPTION = 'Projections' )
+			  END AS INVENTORY_TYPE,
+         CASE WHEN A.LEVEL = 'Details' THEN (SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME = 'INVEN_LEVEL' AND DESCRIPTION = 'Details' )
+		      ELSE (SELECT HELPER_TABLE_SID FROM HELPER_TABLE WHERE LIST_NAME = 'INVEN_LEVEL' AND DESCRIPTION = 'Summary' )
+			  END AS INVENTORY_LEVEL
+
+		 FROM
+(SELECT  IWA.INVENTORY_WD_ACTUAL_MAS_SID AS INVENTORY_WD_ACTUAL_PROJ_MAS_SID,
+         IWA.YEAR,
+         IWA.MONTH,
+         IWA.DAY,
+         IWA.WEEK,
+         COMPANY_ID,
+         COMPANY_NAME,
+         IM.ITEM_ID,
+         IM.ITEM_NAME,
+         IWA.UNITS_WITHDRAWN,
+         IWA.AMOUNT_WITHDRAWN,
+         IWA.UNITS_ON_HAND,
+         IWA.AMOUNT_ON_HAND,
+         IWA.QUANTITY_ON_ORDER,
+         IWA.AMOUNT_ON_ORDER,
+         IWA.QUANTITY_RECEIVED,
+         IWA.AMOUNT_RECEIVED,
+         NULL AS PRICE,
+         IWA.CREATED_BY,
+         IWA.CREATED_DATE,
+         IWA.MODIFIED_BY,
+         IWA.MODIFIED_DATE,
+         IWA.INBOUND_STATUS AS ADD_CHG_DEL_INDICATOR,
+         IWA.BATCH_ID,
+         IWA.SOURCE,
+         NULL AS FORECAST_NAME,
+         NULL AS FORECAST_VER,
+         IWA.COUNTRY,
+         IWA.ORGANIZATION_KEY,
+         0                               AS IS_FORECAST,
+         1                               AS IS_MASTER,
+		 'Actuals'                       AS TYPE,
+		 'Summary'                       AS LEVEL
+  FROM   INVENTORY_WD_ACTUAL_MAS IWA
+         LEFT JOIN COMPANY_MASTER CM
+                ON CM.COMPANY_ID = IWA.ORGANIZATION_KEY
+         LEFT JOIN ITEM_MASTER IM
+                ON IM.ITEM_MASTER_SID = IWA.ITEM_MASTER_SID
+  UNION ALL
+  SELECT IWP.INVENTORY_WD_PROJ_MAS_SID,
+         IWP.YEAR,
+         IWP.MONTH,
+         IWP.DAY,
+         IWP.WEEK,
+         CM.COMPANY_ID,
+         CM.COMPANY_NAME,
+         IM.ITEM_ID,
+         IM.ITEM_NAME,
+         IWP.UNITS_WITHDRAWN,
+         IWP.AMOUNT_WITHDRAWN,
+         NULL AS UNITS_ON_HAND,
+         NULL AS AMOUNT_ON_HAND,
+         NULL AS QUANTITY_ON_ORDER,
+         NULL AS AMOUNT_ON_ORDER,
+         NULL AS QUANTITY_RECEIVED,
+         NULL AS AMOUNT_RECEIVED,
+         IWP.PRICE,
+         IWP.CREATED_BY,
+         IWP.CREATED_DATE,
+         IWP.MODIFIED_BY,
+         IWP.MODIFIED_DATE,
+         IWP.INBOUND_STATUS AS ADD_CHG_DEL_INDICATOR,
+         IWP.BATCH_ID,
+         IWP.SOURCE,
+         IWP.FORECAST_NAME,
+         IWP.FORECAST_VER,
+         IWP.COUNTRY,
+         IWP.ORGANIZATION_KEY,
+         1 AS IS_FORECAST,
+         1 AS IS_MASTER,
+		 'Projections' AS TYPE,
+		 'Summary'     AS LEVEL
+  FROM   INVENTORY_WD_PROJ_MAS IWP
+         LEFT JOIN COMPANY_MASTER CM
+                ON CM.COMPANY_ID = IWP.ORGANIZATION_KEY
+         LEFT JOIN ITEM_MASTER IM
+                ON IM.ITEM_MASTER_SID = IWP.ITEM_MASTER_SID
+  UNION ALL
+  SELECT IWA.INVENTORY_WD_ACTUAL_DT_SID AS INVENTORY_WD_ACTUAL_PROJ_MAS_SID,
+         IWA.YEAR,
+         IWA.MONTH,
+         IWA.DAY,
+         IWA.WEEK,
+         IWA.COMPANY_ID,
+         COMPANY_NAME,
+         IM.ITEM_ID,
+         IM.ITEM_NAME,
+         IWA.UNITS_WITHDRAWN,
+         IWA.AMOUNT_WITHDRAWN,
+         IWA.UNITS_ON_HAND,
+         IWA.AMOUNT_ON_HAND,
+         IWA.QUANTITY_ON_ORDER,
+         IWA.AMOUNT_ON_ORDER,
+         IWA.QUANTITY_RECEIVED,
+         IWA.AMOUNT_RECEIVED,
+         NULL AS PRICE,
+         IWA.CREATED_BY,
+         IWA.CREATED_DATE,
+         IWA.MODIFIED_BY,
+         IWA.MODIFIED_DATE,
+         IWA.INBOUND_STATUS AS ADD_CHG_DEL_INDICATOR,
+         IWA.BATCH_ID,
+         IWA.SOURCE,
+         NULL AS FORECAST_NAME,
+         NULL AS FORECAST_VER, 
+         IWA.COUNTRY,
+         IWA.ORGANIZATION_KEY,
+         0                              AS IS_FORECAST,
+         0                              AS IS_MASTER,
+		 'Actuals'                      AS TYPE,
+		 'Details'                      AS LEVEL
+  FROM   [dbo].[INVENTORY_WD_ACTUAL_DT] IWA
+         LEFT JOIN COMPANY_MASTER CM
+                ON CM.COMPANY_ID = IWA.COMPANY_ID
+         LEFT JOIN ITEM_MASTER IM
+                ON IM.ITEM_MASTER_SID = IWA.ITEM_MASTER_SID
+  UNION ALL
+  SELECT IWP.INVENTORY_WD_PROJ_DT_SID,
+         IWP.YEAR,
+         IWP.MONTH,
+         IWP.DAY,
+         IWP.WEEK,
+         CM.COMPANY_ID,
+         CM.COMPANY_NAME,
+         IM.ITEM_ID,
+         IM.ITEM_NAME,
+         IWP.UNITS_WITHDRAWN,
+         IWP.AMOUNT_WITHDRAWN,
+         NULL AS UNITS_ON_HAND,
+         NULL AS AMOUNT_ON_HAND,
+         NULL AS QUANTITY_ON_ORDER,
+         NULL AS AMOUNT_ON_ORDER,
+         NULL AS QUANTITY_RECEIVED,
+         NULL AS AMOUNT_RECEIVED,
+         IWP.PRICE,
+         IWP.CREATED_BY,
+         IWP.CREATED_DATE,
+         IWP.MODIFIED_BY,
+         IWP.MODIFIED_DATE,
+         IWP.INBOUND_STATUS AS ADD_CHG_DEL_INDICATOR,
+         IWP.BATCH_ID,
+         IWP.SOURCE,
+         IWP.FORECAST_NAME,
+         IWP.FORECAST_VER,
+         IWP.COUNTRY,
+         IWP.ORGANIZATION_KEY,
+         1 AS IS_FORECAST,
+         0 AS IS_MASTER,
+		 'Projections' AS TYPE,
+		 'Details'
+  FROM   INVENTORY_WD_PROJ_DT IWP
+
+         LEFT JOIN COMPANY_MASTER CM
+                ON CM.COMPANY_ID = IWP.COMPANY_ID
+         LEFT JOIN ITEM_MASTER IM
+                ON IM.ITEM_MASTER_SID = IWP.ITEM_MASTER_SID) A 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+

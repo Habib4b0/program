@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.stpl.gtn.gtn20.widgetset</groupId>
+	<artifactId>GtnVaadinWidgetset</artifactId>
+	<name>GtnVaadinWidgetset</name>
+
+	<parent>
+		<groupId>com.stpl.gtn.gtn2o</groupId>
+		<artifactId>Gtn-All-Parent</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+	</properties>
+
+
+	<repositories>
+		<!-- vaadin repos -->
+		<repository>
+			<id>vaadin-addons</id>
+			<url>http://maven.vaadin.com/vaadin-addons</url>
+		</repository>
+	</repositories>
+
+
+
+	<packaging>war</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.stpl.gtn.gtn2o</groupId>
+			<artifactId>GtnFramework</artifactId>
+			<version>${gtnFramework.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>de.steinwedel.vaadin.addon</groupId>
+					<artifactId>messagebox</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+
+
+	<build>
+	<finalName>${project.artifactId}</finalName>
+	<plugins>
+		<plugin>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.1</version>
+		</plugin>
+
+		<plugin>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.6</version>
+		</plugin>
+		<plugin>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-maven-plugin</artifactId>
+			<version>${vaadin.version}</version>
+			<configuration>
+				<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+				<webappDirectory>${basedir}/src/main/webapp/hookcontent/html/VAADIN/widgetsets</webappDirectory>
+				<hostedWebapp>${basedir}/src/main/webapp/hookcontent/html/VAADIN/widgetsets</hostedWebapp>
+				<noServer>true</noServer>
+				<persistentunitcachedir>${basedir}/target/tmp/gwt-unitCache</persistentunitcachedir>
+				<compileReport>true</compileReport>
+				<strict>true</strict>
+			</configuration>
+			<executions>
+				<!-- You are free to mark this as permanently ignored in Eclipse -->
+				<execution>
+					<configuration>
+						<!-- if you don't specify any modules, the plugin will find them -->
+					</configuration>
+					<goals>
+						<goal>resources</goal>
+						<goal>update-widgetset</goal>
+						<goal>compile</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<artifactId>maven-clean-plugin</artifactId>
+			<version>3.0.0</version>
+			<configuration>                 
+				<filesets>                                
+					<fileset>                                      
+						<directory>${basedir}/src/main/webapp/hookcontent/html/VAADIN/widgetsets</directory>
+						<followSymlinks>false</followSymlinks>
+					</fileset>                               
+				</filesets>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+
+</project>

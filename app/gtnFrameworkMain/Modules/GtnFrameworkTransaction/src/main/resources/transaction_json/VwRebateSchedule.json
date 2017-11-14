@@ -1,0 +1,319 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "rebateScheduleId",
+		"columnName": "Rebate Schedule ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "rebateScheduleNo",
+		"columnName": "Rebate Schedule No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "rebateScheduleName",
+		"columnName": "Rebate Schedule Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "rebateScheduleStatus",
+		"columnName": "Rebate Schedule Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "STATUS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "rebateScheduleType",
+		"columnName": "Rebate Schedule Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "rebateProgramType",
+		"columnName": "Rebate Program Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "REBATE_PROGRAM_TYPE",
+		"loadDescription": true
+	},
+	{
+		"columnID": "rebateScheduleCategory",
+		"columnName": "Rebate Schedule Category",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_CATEGORY",
+		"loadDescription": true
+	},
+	{
+		"columnID": "rsStartDate",
+		"columnName": "Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "itemRebateStartDate",
+		"columnName": "Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "rsEndDate",
+		"columnName": "End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "itemRebateEndDate",
+		"columnName": "End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "tradeClass",
+		"columnName": "RS Trade Class",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_TRADE_CLASS",
+		"loadDescription": true
+	},
+	{
+		"columnID": "rebateScheduleDesignation",
+		"columnName": "Rebate Schedule Designation",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_DESIGNATION",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc1",
+		"columnName": "UDC 1",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC1",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc2",
+		"columnName": "UDC 2",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC2",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc3",
+		"columnName": "UDC 3",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC3",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc4",
+		"columnName": "UDC 4",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC4",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc5",
+		"columnName": "UDC 5",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC5",
+		"loadDescription": true
+	},
+	{
+		"columnID": "udc6",
+		"columnName": "UDC 6",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC6",
+		"loadDescription": true
+	},
+	{
+		"columnID": "parentRebateScheduleId",
+		"columnName": "Parent Rebate Schedule ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "rebateScheduleTransRefId",
+		"columnName": "RS Transaction Ref ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "parentRebateScheduleName",
+		"columnName": "Parent Rebate Schedule Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "rebateScheduleTransRefName",
+		"columnName": "RS Transaction Ref Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "rebateScheduleIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

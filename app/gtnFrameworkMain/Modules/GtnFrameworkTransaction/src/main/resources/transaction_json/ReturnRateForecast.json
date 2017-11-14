@@ -1,0 +1,273 @@
+[
+   {
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 1,
+		"viewModeIndex": 1,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Version",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 2,
+		"viewModeIndex": 5,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":15
+	},
+	{
+		"columnID": "rate",
+		"columnName": "Rate",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 6,
+		"viewModeIndex": 3,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":13
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 3,
+		"viewModeIndex": 2,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":38
+	},
+	{
+		"columnID": "itemNo",
+		"columnName": "Item No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 4,
+		"viewModeIndex": 6,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 5,
+		"viewModeIndex": 10,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":100
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 7,
+		"viewModeIndex": 7,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":5
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 8,
+		"viewModeIndex": 11,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":25
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 9,
+		"viewModeIndex": 9,
+		"lengthValidator":true,
+		"minLength":0,
+		"maxLength":50
+	},
+	{
+		"columnID": "returnRateForecastInterfaceId",
+		"columnName": "Return Rate Forecast Interface ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 10,
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 11,
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"listViewIndex": 12,
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"onlyValidComponent": true,
+		"listViewIndex": 13,
+		"viewModeIndex": 15
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"listViewIndex": 14,
+		"viewModeIndex": 16,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true,
+		"listViewIndex": 14,
+		"viewModeIndex": 16
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 16,
+		"viewModeIndex": 4
+	},	
+	{
+		"columnID": "inboundStatus",
+		"columnName": "Add Change Delete Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 15,
+		"viewModeIndex": 8,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Change Delete Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 15,
+		"viewModeIndex": 8,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 17,
+		"listViewIndex": 17
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 18,
+		"listViewIndex": 18
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 19,
+		"listViewIndex": 19
+	},
+	{
+		"columnID": "returnRateForecastSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true,
+		"viewModeIndex": 20,
+		"listViewIndex": 20
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},	
+	{
+		"viewModeIndexFlag": true
+	}
+]

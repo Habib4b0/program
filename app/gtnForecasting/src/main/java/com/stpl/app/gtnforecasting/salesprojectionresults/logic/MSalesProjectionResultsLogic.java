@@ -128,9 +128,8 @@ public class MSalesProjectionResultsLogic {
                 projSelDTO.setProjTabName("SPR");
                 List<SalesProjectionResultsDTO> projectionDtoList = getProjectionPivotTotal(orderedArgs, projSelDTO);
                 projSelDTO.setProjTabName(StringUtils.EMPTY);
-                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = mayBeAddedRecord; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));
-                    neededRecord--;
                 }
                 mayBeAdded += projectionDtoList.size();
             }
@@ -182,9 +181,8 @@ public class MSalesProjectionResultsLogic {
                 List<SalesProjectionResultsDTO> projectionDtoList;
 
                 projectionDtoList = getProjectionPivot(projSelDTO);
-                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; k++) {
+                for (int k = started; k < projectionDtoList.size() && neededRecord > 0; neededRecord--, k++) {
                     projDTOList.add(projectionDtoList.get(k));
-                    neededRecord--;
                     started++;
                 }
                 mayBeAdded += projectionDtoList.size();
@@ -235,7 +233,7 @@ public class MSalesProjectionResultsLogic {
         if (neededRecord > 0) {
             List<Leveldto> levelList = CommonLogic.getConditionalLevelList(projSelDTO.getProjectionId(), start, offset, projSelDTO.getHierarchyIndicator(), projSelDTO.getLevelNo(), projSelDTO.getHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.isIsFilter(), false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO.isFilterDdlb(), projSelDTO.getLevelName());
 
-            for (int i = 0; i < levelList.size() && neededRecord > 0; i++) {
+            for (int i = 0; i < levelList.size() && neededRecord > 0; neededRecord--, i++) {
                 Leveldto levelDto = levelList.get(i);
 
                 SalesProjectionResultsDTO dto = new SalesProjectionResultsDTO();
@@ -257,7 +255,6 @@ public class MSalesProjectionResultsLogic {
                 dto.setOnExpandTotalRow(1);
                 dto.setParent(1);
                 resultList.add(dto);
-                neededRecord--;
             }
         }
         return resultList;

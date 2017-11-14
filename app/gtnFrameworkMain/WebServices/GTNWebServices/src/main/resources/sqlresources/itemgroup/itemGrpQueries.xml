@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getItemGrpAddDeclareQuery">
+		<query> 
+            <![CDATA[           
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+    
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getItemGrpAddQuery">
+		<query> 
+            <![CDATA[           
+            
+         INSERT
+	INTO
+		IMTD_ITEM_GROUP_DETAILS(
+			ITEM_GROUP_SID,
+			ITEM_MASTER_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			IMTD_CREATED_DATE,
+			USERS_ID,
+			SESSION_ID
+		) SELECT
+			?,
+			?,
+			@USERS_ID,
+			GETDATE(),
+			@USERS_ID,
+			GETDATE(),
+			?,
+			GETDATE(),
+			@USERS_ID,
+			@SESSION_ID ;
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getItemGrpRemoveQuery">
+		<query> 
+            <![CDATA[           
+            
+        DELETE FROM IMTD_ITEM_GROUP_DETAILS WHERE  ITEM_MASTER_SID=? AND USERS_ID= ? AND SESSION_ID= ?;
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getItemGrpDetailsUpdateQuery">
+		<query> 
+            <![CDATA[           
+       DECLARE @USERS_SID VARCHAR(100) =?,
+       @SESSION_ID VARCHAR(100) = ?,
+       @ITEM_GROUP_SID  VARCHAR(10) =?
+
+       DELETE FROM ITEM_GROUP_DETAILS WHERE ITEM_GROUP_SID=@ITEM_GROUP_SID
+
+       UPDATE IMTD_ITEM_GROUP_DETAILS SET ITEM_GROUP_SID=@ITEM_GROUP_SID WHERE USERS_ID=@USERS_SID AND SESSION_ID= @SESSION_ID
+
+       INSERT
+	INTO
+		ITEM_GROUP_DETAILS(
+			ITEM_GROUP_SID,
+			ITEM_MASTER_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO
+		) 
+		SELECT
+			ITEM_GROUP_SID,
+			ITEM_MASTER_SID,
+			CREATED_BY,
+            CREATED_DATE,
+			CASE WHEN MODIFIED_BY IS NULL THEN 1 ELSE MODIFIED_BY END,
+			CASE WHEN MODIFIED_DATE IS NULL THEN GETDATE() ELSE MODIFIED_DATE END,
+			VERSION_NO
+		FROM
+			IMTD_ITEM_GROUP_DETAILS
+		WHERE
+			ITEM_GROUP_SID = @ITEM_GROUP_SID
+			AND USERS_ID=@USERS_SID
+			AND SESSION_ID= @SESSION_ID
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+
+	<entity id="getItemGrpDetailsFetchQuery">
+		<query> 
+            <![CDATA[           
+	
+        DECLARE @USERS_ID VARCHAR(10) = ?,
+        @SESSION_ID VARCHAR(10) = ?,
+        @ITEM_GROUP_SID INT = ?
+        
+        DELETE IMTD_ITEM_GROUP_DETAILS WHERE USERS_ID = @USERS_ID AND SESSION_ID = @SESSION_ID;
+INSERT
+	INTO
+		IMTD_ITEM_GROUP_DETAILS(
+			ITEM_GROUP_SID,
+			ITEM_MASTER_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			IMTD_CREATED_DATE,
+			USERS_ID,
+			SESSION_ID
+		)
+SELECT
+	ITEM_GROUP_SID,
+	ITEM_MASTER_SID,
+	CREATED_BY,
+	CREATED_DATE,
+	 MODIFIED_BY,
+	MODIFIED_DATE,
+	VERSION_NO,
+	GETDATE(),
+	@USERS_ID,
+	 @SESSION_ID 
+FROM
+	ITEM_GROUP_DETAILS
+WHERE
+	ITEM_GROUP_SID = @ITEM_GROUP_SID;
+
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getItemGrpDeleteQuery">
+		<query> 
+            <![CDATA[      
+            DECLARE @ITEM_GROUP_SID INT= ?
+                 
+            DELETE FROM DBO.ITEM_GROUP_DETAILS  WHERE ITEM_GROUP_SID=@ITEM_GROUP_SID;
+            DELETE FROM DBO.ITEM_GROUP  WHERE ITEM_GROUP_SID=@ITEM_GROUP_SID;
+
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getItemGrpTempTableDeleteQuery">
+		<query> 
+            <![CDATA[      
+         DELETE FROM IMTD_ITEM_GROUP_DETAILS WHERE  USERS_ID=? AND SESSION_ID=?
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getItemGrpImtdCountValidationQuery">
+		<query> 
+            <![CDATA[      
+
+         SELECT COUNT(*) FROM IMTD_ITEM_GROUP_DETAILS WHERE  USERS_ID=? AND SESSION_ID=?
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getItemGrpAddAllQuery">
+		<query> 
+            <![CDATA[      
+
+       DECLARE @USERS_SID VARCHAR(10) = ?,
+    @SESSION_ID VARCHAR(10) = ?
+    
+     MERGE IMTD_ITEM_GROUP_DETAILS AS T
+            USING(
+            SELECT DISTINCT
+                    IM.ITEM_MASTER_SID 
+                     [$MAIN_QUERY_CLAUSE]
+                    
+                    [$WHERE_CLAUSE]
+    ) AS S ON
+    (
+            S.ITEM_MASTER_SID = T.ITEM_MASTER_SID
+            AND T.USERS_ID = @USERS_SID
+            AND T.SESSION_ID = @SESSION_ID
+    )
+    WHEN MATCHED THEN UPDATE
+    SET
+        MODIFIED_BY = @USERS_SID,
+        MODIFIED_DATE = GETDATE(),
+        VERSION_NO = T.VERSION_NO + 1,
+        IMTD_CREATED_DATE = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN 
+        INSERT
+                
+                        (
+                                ITEM_GROUP_SID,
+                                ITEM_MASTER_SID,
+                                CREATED_BY,
+                                CREATED_DATE,
+                                VERSION_NO,
+                                IMTD_CREATED_DATE,
+                                USERS_ID,
+                                SESSION_ID
+                        ) VALUES(
+                                0,
+                                S.ITEM_MASTER_SID,
+                                @USERS_SID,
+                                GETDATE(),
+                                1,
+                                GETDATE(),
+                                @USERS_SID,
+                                @SESSION_ID );
+                                ;
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getItemGrpSelectedTableCountQuery">
+		<query> 
+            <![CDATA[    
+       SELECT
+	COUNT( DISTINCT IM.ITEM_MASTER_SID )
+FROM
+    IMTD_ITEM_GROUP_DETAILS IMTD 
+JOIN ITEM_MASTER IM ON 
+        IMTD.ITEM_MASTER_SID= IM.ITEM_MASTER_SID
+JOIN BRAND_MASTER BM ON
+	BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+LEFT JOIN UDCS UDC ON
+	IM.ITEM_MASTER_SID = UDC.MASTER_SID
+	AND UDC.MASTER_TYPE = 'ITEM_MASTER'
+LEFT JOIN HELPER_TABLE H_UDC1 ON
+	UDC.UDC1 = H_UDC1.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC2 ON
+	UDC.UDC2 = H_UDC2.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC3 ON
+	UDC.UDC3 = H_UDC3.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC4 ON
+	UDC.UDC4 = H_UDC4.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC5 ON
+	UDC.UDC5 = H_UDC5.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC6 ON
+	UDC.UDC6 = H_UDC6.HELPER_TABLE_SID	
+LEFT JOIN HELPER_TABLE STRENGTH ON
+	IM.STRENGTH = STRENGTH.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_ORG_KEY ON
+	IM.ORGANIZATION_KEY= H_ORG_KEY.HELPER_TABLE_SID
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getItemGrpSelectedTableQuery">
+		<query> 
+            <![CDATA[      
+
+SELECT
+	DISTINCT IM.ITEM_ID,
+	IM.ITEM_NO,
+	IM.ITEM_CODE,
+	IM.ITEM_NAME,
+	IM.ITEM_DESC,
+	IM.ITEM_START_DATE,
+	IM.ITEM_END_DATE,
+	IM.ITEM_STATUS,
+	IM.THERAPEUTIC_CLASS,
+	BM.BRAND_NAME,
+	IM.FORM,
+	STRENGTH.DESCRIPTION as STRENGTH,
+	IM.PACKAGE_SIZE_CODE,
+	IM.PACKAGE_SIZE_INTRO_DATE,
+	IM.UPPS,
+	IM.MANUFACTURER_ID,
+	IM.MANUFACTURER_ID AS MANUFACTURER_NO,
+	IM.MANUFACTURER_ID AS MANUFACTURER_NAME,
+	IM.LABELER_CODE,
+	H_ORG_KEY.DESCRIPTION as ORGANIZATION_KEY,
+	IM.ACQUISITION_DATE,
+	IM.AUTHORIZED_GENERIC,
+	IM.AUTHORIZED_GENERIC_START_DATE,
+	IM.AUTHORIZED_GENERIC_END_DATE,
+	IM.FIRST_SALE_DATE,
+	IM.ITEM_TYPE_INDICATION,
+	IM.ITEM_CLASS,
+	IM.ITEM_TYPE,
+	IM.MARKET_TERMINATION_DATE,
+	IM.NEW_FORMULATION_INDICATOR,
+	IM.NEW_FORMULATION,
+	IM.NEW_FORMULATION_START_DATE,
+	IM.NEW_FORMULATION_END_DATE,
+	IM.PEDIATRIC_EXCLUSIVE_INDICATOR,
+	IM.PEDIATRIC_EXCLUSIVE_START_DATE,
+	IM.PEDIATRIC_EXCLUSIVE_END_DATE,
+	IM.CLOTTING_FACTOR_INDICATOR,
+	IM.CLOTTING_FACTOR_START_DATE,
+	IM.CLOTTING_FACTOR_END_DATE,
+	IM.PRIMARY_UOM,
+	IM.SECONDARY_UOM,
+	IM.SHELF_LIFE,
+	IM.SHELF_LIFE_TYPE,
+	IM.DUAL_PRICING_INDICATOR,
+	IM.ITEM_FAMILY_ID,
+	H_UDC1.DESCRIPTION AS C_UDC1,
+	H_UDC2.DESCRIPTION AS C_UDC2,
+	H_UDC3.DESCRIPTION AS C_UDC3,
+	H_UDC4.DESCRIPTION AS C_UDC4,
+	H_UDC5.DESCRIPTION AS C_UDC5,
+	H_UDC6.DESCRIPTION AS C_UDC6,
+	IM.ACQUIRED_AMP,
+	IM.ACQUIRED_BAMP,
+	IM.OBRA_BAMP,
+	IM.DRA,
+	IM.DOSES_PER_UNIT,
+	IM.DISCONTINUATION_DATE,
+	IM.LAST_LOT_EXPIRATION_DATE,
+	IM.NDC9,
+	IM.NDC8,
+	BM.DISPLAY_BRAND,
+	BM.DISPLAY_BRAND AS INNOVATOR_CODE,
+	IM.BASELINE_AMP,
+	IM.BASE_CPI,
+	IM.ITEM_MASTER_SID
+FROM
+        IMTD_ITEM_GROUP_DETAILS IMTD
+JOIN ITEM_MASTER IM ON 
+        IMTD.ITEM_MASTER_SID= IM.ITEM_MASTER_SID
+JOIN BRAND_MASTER BM ON
+	BM.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+LEFT JOIN UDCS UDC ON
+	IM.ITEM_MASTER_SID = UDC.MASTER_SID
+	AND UDC.MASTER_TYPE = 'ITEM_MASTER'
+LEFT JOIN HELPER_TABLE H_UDC1 ON
+	UDC.UDC1 = H_UDC1.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC2 ON
+	UDC.UDC2 = H_UDC2.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC3 ON
+	UDC.UDC3 = H_UDC3.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC4 ON
+	UDC.UDC4 = H_UDC4.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC5 ON
+	UDC.UDC5 = H_UDC5.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_UDC6 ON
+	UDC.UDC6 = H_UDC6.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE STRENGTH ON
+	IM.STRENGTH = STRENGTH.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE H_ORG_KEY ON
+	IM.ORGANIZATION_KEY= H_ORG_KEY.HELPER_TABLE_SID
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getItemGrpNameDuplicateValidationQuery">
+		<query> 
+            <![CDATA[      
+            DECLARE @ITEM_GROUP_NAME varchar(500)= ?
+
+            SELECT CASE WHEN  ITEM_GROUP_NAME = @ITEM_GROUP_NAME THEN 'ITEM_GROUP_NAME'
+                        ELSE '' END   AS COULMN1
+             FROM ITEM_GROUP WHERE ITEM_GROUP_NAME=@ITEM_GROUP_NAME 
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="itemGroupTempTableClear">
+		<query> 
+            <![CDATA[      
+            DELETE
+FROM
+	IMTD_ITEM_GROUP_DETAILS 
+WHERE
+	USERS_ID = ?
+	AND SESSION_ID = ?
+                    ]]>
+		</query>
+	</entity>
+
+
+
+</sql>

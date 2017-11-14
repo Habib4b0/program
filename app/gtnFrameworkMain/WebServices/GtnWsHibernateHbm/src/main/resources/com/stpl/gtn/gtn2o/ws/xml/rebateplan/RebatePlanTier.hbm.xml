@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanTier"
+		table="REBATE_PLAN_TIER" schema="dbo">
+		<id name="rebatePlanTierSid" type="int">
+			<column name="REBATE_PLAN_TIER_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="helperTable"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="TIER_OPERATOR" not-null="true" />
+		</many-to-one>
+		<many-to-one name="rebatePlanMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.rebateplan.RebatePlanMaster"
+			fetch="select">
+			<column name="REBATE_PLAN_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<property name="rebatePlanTierId" type="string">
+			<column name="REBATE_PLAN_TIER_ID" length="50" not-null="true" />
+		</property>
+		<property name="tierFrom" type="big_decimal">
+			<column name="TIER_FROM" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="tierTo" type="big_decimal">
+			<column name="TIER_TO" precision="22" scale="6" />
+		</property>
+		<property name="tierLevel" type="string">
+			<column name="TIER_LEVEL" length="50" not-null="true" />
+		</property>
+		<property name="tierValue" type="big_decimal">
+			<column name="TIER_VALUE" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="freeAmount" type="big_decimal">
+			<column name="FREE_AMOUNT" precision="22" scale="6" />
+		</property>
+		<property name="tierTolerance" type="big_decimal">
+			<column name="TIER_TOLERANCE" precision="22" scale="6" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="formulaNo" type="string">
+			<column name="FORMULA_NO" length="50" />
+		</property>
+		<property name="formulaName" type="string">
+			<column name="FORMULA_NAME" length="100" />
+		</property>
+		<property name="secondaryRebatePlanNo" type="string">
+			<column name="SECONDARY_REBATE_PLAN_NO" length="50" />
+		</property>
+		<property name="secondaryRebatePlanName" type="string">
+			<column name="SECONDARY_REBATE_PLAN_NAME" length="100" />
+		</property>
+		<property name="secondaryRebatePlanSid" type="java.lang.Integer">
+			<column name="SECONDARY_REBATE_PLAN_SID" />
+		</property>
+	        <property name="itemPricingQualifierSid" type="string">
+			<column name="ITEM_PRICING_QUALIFIER_SID" length="1000" />
+		</property>
+		<many-to-one name="helperTableReturnRateSid"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="RETURN_RATE_SID"  />
+		</many-to-one>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 19, 2017 7:10:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyParentDetails"
+		table="VW_COMPANY_PARENT_DETAILS" schema="dbo">
+		<id name="companyParentDetailsSid" type="int">
+			<column name="COMPANY_PARENT_DETAILS_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="parentCompanyId" type="string">
+			<column name="PARENT_COMPANY_ID" not-null="true" />
+		</property>
+		<property name="priorParentCompanyId" type="string">
+			<column name="PRIOR_PARENT_COMPANY_ID" not-null="true" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" not-null="true" />
+		</property>
+		<property name="parentStartDate" type="timestamp">
+			<column name="PARENT_START_DATE" length="23" />
+		</property>
+		<property name="parentEndDate" type="timestamp">
+			<column name="PARENT_END_DATE" length="23" />
+		</property>
+		<property name="priorParentCmpyMasterSid" type="java.lang.Integer">
+			<column name="PRIOR_PARENT_CMPY_MASTER_SID" />
+		</property>
+		<property name="priorParentStartDate" type="timestamp">
+			<column name="PRIOR_PARENT_START_DATE" length="23" />
+		</property>
+		<property name="lastUpdatedDate" type="timestamp">
+			<column name="LAST_UPDATED_DATE" length="23" />
+		</property>
+		<property name="addChgDelIndicator" type="string">
+			<column name="ADD_CHG_DEL_INDICATOR" length="1" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

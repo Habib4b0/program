@@ -645,7 +645,7 @@ public class OutboundLogic {
                     outboundTableDTO.setVersion(getValidatedStringValue(object[NumericConstants.FIVE]));
                     totalLevel = Integer.parseInt(outboundTableDTO.getNooflevels());
 
-                    for (int j = 1; j <= totalLevel && i < resultsSize; j++) {
+                    for (int j = 1; j <= totalLevel && i < resultsSize; i++, j++) {
                         object = (Object[]) resultList.get(i);
                         String commonColumn = "level" + j;
                         Object levelColumn = commonColumn + "LevelName";
@@ -687,7 +687,6 @@ public class OutboundLogic {
                         value = getValidatedStringValue(object[NumericConstants.SIXTEEN]);
                         levelColumn = commonColumn + "ExclusionCondition";
                         outboundTableDTO.addStringProperties(levelColumn, value);
-                        i++;
                     }
                     OutboundTableResults.add(outboundTableDTO);
                 }

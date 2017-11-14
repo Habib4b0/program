@@ -103,6 +103,7 @@ public class CommonLogic {
     public static final String DEDLEVEL_VALUES = "@DEDLEVELVALUES";
     public static final String DEDUCTION = "DEDUCTION";
     public static final String SALES = "SALES";
+    public static final String INVALID_LEVEL_NO = "Invalid Level No:";
     
     GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
     /**
@@ -4236,7 +4237,7 @@ public class CommonLogic {
     public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
-            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+            throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
         }
 
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
@@ -4268,7 +4269,7 @@ public class CommonLogic {
     public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
-            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+            throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
         }
 
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
@@ -5043,7 +5044,7 @@ public class CommonLogic {
        public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
-            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+            throw new IllegalArgumentException(INVALID_LEVEL_NO + levelNo);
         }
 
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
@@ -5080,8 +5081,8 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
             columnName = "AND CCPH.PROD_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"%'";
         } else {
-            String hierarchyNo = StringUtils.isEmpty(parentHierarchyNo) ? "%" : parentHierarchyNo.contains("~") ? "%"+parentHierarchyNo.replace("~","%")+"%" : "%"+parentHierarchyNo+"%";
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n " +
+            String hierarchyNo = replacePercentHierarchy(parentHierarchyNo);
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and  relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n " +
                 " AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
         }
         return columnName;
@@ -5106,13 +5107,13 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=SHN.HIERARCHY_NO ";
         } else {
-            hierarchyNo = StringUtils.isEmpty(hierarchyNo) ? "%" : hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n " +
+            String parentHierNo = replacePercentHierarchy(hierarchyNo);
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=MAS.RS_CONTRACT_SID\n " +
 "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";
         }
         return columnName;
     }
-    
+
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
         String columnName;
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
@@ -5120,8 +5121,8 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
         } else {
-            hierarchyNo = StringUtils.isEmpty(hierarchyNo) ? "%" : hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
             "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
         }
         return columnName;
@@ -5138,6 +5139,16 @@ public class CommonLogic {
             columnName = " RLD.RELATIONSHIP_LEVEL_VALUES ";
         }
         return columnName;
+    }
+    
+     public String replacePercentHierarchy(String hierarchyNo) {
+         String percentHierarchy;
+        if (StringUtils.isEmpty(hierarchyNo)) {
+            percentHierarchy = "%";
+        } else {
+            percentHierarchy = hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
+        }
+        return percentHierarchy;
     }
 
 }

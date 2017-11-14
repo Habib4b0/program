@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 10:36:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.AccrualDetails" table="ACCRUAL_DETAILS" >
+        <id name="accrualDetailsSid" type="int">
+            <column name="ACCRUAL_DETAILS_SID" />
+            <generator class="assigned"></generator>
+        </id>
+        <property name="accountId" type="string">
+            <column name="ACCOUNT_ID" length="50" not-null="true" />
+        </property>
+        <property name="recordCreatedDate" type="timestamp">
+            <column name="RECORD_CREATED_DATE" precision="23" />
+        </property>
+        <property name="postingIndicator" type="string">
+            <column name="POSTING_INDICATOR" length="50" />
+        </property>
+        <property name="brandName" type="string">
+            <column name="BRAND_NAME" length="50" />
+        </property>
+        <property name="accrualPeriodEndDate" type="timestamp">
+            <column name="ACCRUAL_PERIOD_END_DATE" precision="23" not-null="true"/>
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" precision="23" />
+        </property>
+        <property name="salesMasterId" type="string">
+            <column name="SALES_MASTER_ID" length="50" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="contractMasterSid" type="int">
+            <column name="CONTRACT_MASTER_SID" precision="10" />
+        </property>
+        <property name="documentType" type="string">
+            <column name="DOCUMENT_TYPE" length="50" not-null="true" />
+        </property>
+        <property name="inboundStatus" type="string">
+            <column name="INBOUND_STATUS" length="1" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" />
+        </property>
+        <property name="deductionType" type="string">
+            <column name="DEDUCTION_TYPE" length="50" />
+        </property>
+        <property name="companyMasterSid" type="int">
+            <column name="COMPANY_MASTER_SID" precision="10" />
+        </property>
+        <property name="contractName" type="string">
+            <column name="CONTRACT_NAME" length="100" />
+        </property>
+        <property name="accountNo" type="string">
+            <column name="ACCOUNT_NO" length="50" />
+        </property>
+        <property name="accountName" type="string">
+            <column name="ACCOUNT_NAME" length="100" />
+        </property>
+        <property name="versionNo" type="int">
+            <column name="VERSION_NO" precision="10" />
+        </property>
+        <property name="provisionId" type="string">
+            <column name="PROVISION_ID" length="50" not-null="true" />
+        </property>
+        <property name="companyIdentifierCodeQualifier" type="string">
+            <column name="COMPANY_IDENTIFIER_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="amount" type="double">
+            <column name="AMOUNT" precision="22" scale="6" not-null="true"/>
+        </property>
+        <property name="subLedger" type="string">
+            <column name="SUB_LEDGER" length="50" not-null="true" />
+        </property>
+        <property name="recordLockStatus" type="boolean">
+            <column name="RECORD_LOCK_STATUS" not-null="true" />
+        </property>
+        <property name="itemIdentifierCodeQualifier" type="string">
+            <column name="ITEM_IDENTIFIER_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="companyNo" type="string">
+            <column name="COMPANY_NO" length="50" />
+        </property>
+        <property name="postingStatus" type="string">
+            <column name="POSTING_STATUS" length="1" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="50" />
+        </property>
+        <property name="rsModelSid" type="int">
+            <column name="RS_MODEL_SID" precision="10" />
+        </property>
+        <property name="itemMasterSid" type="int">
+            <column name="ITEM_MASTER_SID" precision="10" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="50" not-null="true"/>
+        </property>
+        <property name="brandMasterSid" type="int">
+            <column name="BRAND_MASTER_SID" precision="10" />
+        </property>
+        <property name="glCompanyMasterSid" type="int">
+            <column name="GL_COMPANY_MASTER_SID" precision="10" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY"  />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" precision="23" />
+        </property>
+        <property name="accrualPeriodStartDate" type="timestamp">
+            <column name="ACCRUAL_PERIOD_START_DATE" precision="23" not-null="true"/>
+        </property>
+        <property name="subLedgerType" type="string">
+            <column name="SUB_LEDGER_TYPE" length="50" not-null="true"/>
+        </property>
+        <property name="programNo" type="string">
+            <column name="PROGRAM_NO" length="50" />
+        </property>
+        <property name="categoryId" type="string">
+            <column name="CATEGORY_ID" length="50" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="deductionSubType" type="string">
+            <column name="DEDUCTION_SUB_TYPE" length="50" />
+        </property>
+        <property name="acctIdentifierCodeQualifier" type="string">
+            <column name="ACCT_IDENTIFIER_CODE_QUALIFIER" length="50" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="50" not-null="true"/>
+        </property>
+        <property name="accrualId" type="string">
+            <column name="ACCRUAL_ID" length="50" not-null="true"/>
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="50" not-null="true"/>
+        </property>
+        <property name="accrualType" type="string">
+            <column name="ACCRUAL_TYPE" length="50" />
+        </property>
+        <property name="brandId" type="string">
+            <column name="BRAND_ID" length="50" />
+        </property>
+        <property name="postingDate" type="timestamp">
+            <column name="POSTING_DATE" precision="23" />
+        </property>
+        <property name="glDate" type="timestamp">
+            <column name="GL_DATE" precision="23" />
+        </property>
+        <property name="companyCostCenter" type="string">
+            <column name="COMPANY_COST_CENTER" length="50" not-null="true"/>
+        </property>
+        <property name="glAccount" type="string">
+            <column name="GL_ACCOUNT" length="50" not-null="true"/>
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="50" not-null="true"/>
+        </property>
+        <property name="programType" type="int">
+            <column name="PROGRAM_TYPE" precision="10" />
+        </property>
+        <property name="contractNo" type="string">
+            <column name="CONTRACT_NO" length="50" />
+        </property>
+        <many-to-one name="accrualTypeSid"
+                     class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" lazy="false" fetch="select">
+            <column name="ACCRUAL_TYPE_SID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

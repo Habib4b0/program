@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 17, 2017 11:10:39 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.ForecastingMaster"
+		table="FORECASTING_MASTER" schema="dbo">
+		<id name="forecastMasterSid" type="int">
+			<column name="FORECAST_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="forecastYear" type="string">
+			<column name="FORECAST_YEAR" />
+		</property>
+		<property name="forecastMonth" type="string">
+			<column name="FORECAST_MONTH" />
+		</property>
+		<property name="ndc" type="string">
+			<column name="NDC" length="50" />
+		</property>
+		<property name="forecastStartDate" type="timestamp">
+			<column name="FORECAST_START_DATE" length="23" />
+		</property>
+		<property name="units" type="double">
+			<column name="UNITS" precision="22" scale="6" />
+		</property>
+		<property name="dollars" type="double">
+			<column name="DOLLARS" precision="22" scale="6" />
+		</property>
+		<property name="forecastValueType" type="string">
+			<column name="FORECAST_VALUE_TYPE" length="50" />
+		</property>
+		<property name="forecastValue" type="string">
+			<column name="FORECAST_VALUE" length="50" />
+		</property>
+		<property name="product" type="string">
+			<column name="PRODUCT" length="50" />
+		</property>
+		<property name="brand" type="string">
+			<column name="BRAND" length="50" />
+		</property>
+		<property name="segment" type="string">
+			<column name="SEGMENT" length="100" />
+		</property>
+		<property name="percentageEstimate" type="string">
+			<column name="PERCENTAGE_ESTIMATE" length="50" />
+		</property>
+		<property name="percentageEstimateYear" type="int">
+			<column name="PERCENTAGE_ESTIMATE_YEAR" />
+		</property>
+		<property name="actualSalesPercentage" type="string">
+			<column name="ACTUAL_SALES_PERCENTAGE" length="50" />
+		</property>
+		<property name="actualSalesPercentageMonth" type="int">
+			<column name="ACTUAL_SALES_PERCENTAGE_MONTH" />
+		</property>
+		<property name="forecastedSalesPercentage" type="string">
+			<column name="FORECASTED_SALES_PERCENTAGE" length="50" />
+		</property>
+		<property name="forecastedSalesPercentMonth" type="int">
+			<column name="FORECASTED_SALES_PERCENT_MONTH" />
+		</property>
+		<property name="forecastVer" type="string">
+			<column name="FORECAST_VER" length="50" />
+		</property>
+		<property name="price" type="double">
+			<column name="PRICE" precision="22" scale="6" />
+		</property>
+		<property name="country" type="string">
+			<column name="COUNTRY" length="50" not-null="true" />
+		</property>
+		<property name="forecastName" type="string">
+			<column name="FORECAST_NAME" length="100" />
+		</property>
+		<property name="forecastDate" type="timestamp">
+			<column name="FORECAST_DATE" length="23" not-null="true" />
+		</property>
+		<property name="inboundStatus" type="string">
+			<column name="INBOUND_STATUS" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="businessUnit" type="java.lang.Integer">
+			<column name="BUSINESS_UNIT" />
+		</property>
+	</class>
+</hibernate-mapping>

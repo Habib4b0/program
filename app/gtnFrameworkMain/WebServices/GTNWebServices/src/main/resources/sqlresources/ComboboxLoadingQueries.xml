@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+<sql>
+	<entity id="loadGlCompany">
+		<query> 
+            <![CDATA[
+                SELECT
+	COMPANY_NAME
+FROM
+	dbo.COMPANY_MASTER cm
+JOIN dbo.HELPER_TABLE ht ON
+	ht.HELPER_TABLE_SID = cm.COMPANY_TYPE
+WHERE
+	ht.DESCRIPTION = 'GLcomp'
+                    ]]>
+		</query>
+	</entity>
+
+
+
+</sql>

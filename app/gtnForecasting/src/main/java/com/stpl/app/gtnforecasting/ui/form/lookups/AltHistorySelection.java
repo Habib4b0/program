@@ -527,10 +527,9 @@ public class AltHistorySelection extends CustomComponent implements View {
                 i++;
             }
             year = year - 1;
-            for (int k = NumericConstants.FOUR; i <= NumericConstants.ELEVEN && k > 0; k--) {
+            for (int k = NumericConstants.FOUR; i <= NumericConstants.ELEVEN && k > 0; i++, k--) {
                 String common = Constant.Q + k + year;
                 dateList.add(common);
-                i++;
             }
         }
         

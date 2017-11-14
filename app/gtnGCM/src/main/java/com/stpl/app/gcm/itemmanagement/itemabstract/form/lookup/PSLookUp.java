@@ -88,9 +88,9 @@ private static final Logger LOGGER = Logger.getLogger(PSLookUp.class);
     List<String> countFlag = new ArrayList<>();
     List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
-    public Object CFP_SEARCH_COLUMNS[] = new Object[]{
+    public Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentNo", "componentName", "componentType", "category", "tradeClass", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    public String CFP_SEARCH_HEADERS[] = new String[]{"PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS ID", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
+    public String[] CFP_SEARCH_HEADERS = new String[]{"PS No", "PS Name", "PS Type", "PS Category", "PS Trade Class", "PS Designation", "Parent PS ID", "Parent PS Name", "PS Status", "PS Start Date", "PS End Date"};
 
     public PSLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;

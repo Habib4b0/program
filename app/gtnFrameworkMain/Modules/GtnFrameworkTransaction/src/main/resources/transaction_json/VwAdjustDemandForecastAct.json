@@ -1,0 +1,1382 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"defaultResultView": true,
+		"combination": 1,
+		"isInvalidComponent": true,
+		"viewFlag": false
+	},
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 2,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 3,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 4,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "adjustedDemandForecastId",
+		"columnName": "Demand Type",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "ADJ_DEMAND_TYPE",
+		"mandatory": true,
+		"messageName": "Mandatory Error",
+		"messageBody": "Please Select a value for Demand Type ddlb",
+		"demandTypeFlag": true
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"defaultResultView": true,
+		"viewModeIndex": 1
+	},
+	{
+		"columnID": "forecastTypeSid",
+		"columnName": "Forecast Type",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "FORECAST_TYPE",
+		"mandatory": true,
+		"messageName": "Mandatory Error",
+		"messageBody": "Please Select a value for Forecast Type"
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Ver",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Ver",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastType",
+		"columnName": "Forecast Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 15,
+		"viewModeOrder": 1
+	},
+	{
+		"columnID": "forecastType",
+		"columnName": "Forecast Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand Name",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 2,
+		"viewModeOrder": 2
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 9,
+		"viewModeOrder": 10
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 16,
+		"viewModeOrder": 17
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 23,
+		"viewModeOrder": 21
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand Name",
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 17,
+		"viewModeOrder": 18
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketSizeUnits",
+		"columnName": "Market Size Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 4,
+		"viewModeOrder": 4
+	},
+	{
+		"columnID": "marketSizeUnits",
+		"columnName": "Market Size Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareRatio",
+		"columnName": "Market Share Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 11,
+		"viewModeOrder": 12
+	},
+	{
+		"columnID": "marketShareRatio",
+		"columnName": "Market Share Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareUnits",
+		"columnName": "Market Share Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 18,
+		"viewModeOrder": 19
+	},
+	{
+		"columnID": "marketShareUnits",
+		"columnName": "Market Share Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "uncapturedUnits",
+		"columnName": "Uncaptured Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"defaultResultView": true,
+		"viewModeIndex": 5
+	},
+	{
+		"columnID": "uncapturedUnitsRatio",
+		"columnName": "Uncaptured Units Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"defaultResultView": true,
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "totalDemandUnits",
+		"columnName": "Total Demand Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"viewFlag": false
+	},
+	{
+		"columnID": "totalDemandUnits",
+		"columnName": "Total Demand Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "totalDemandAmount",
+		"columnName": "Total Demand Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"viewFlag": false
+	},
+	{
+		"columnID": "totalDemandAmount",
+		"columnName": "Total Demand Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "inventoryUnitChange",
+		"columnName": "Inventory Unit Change",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"defaultResultView": true,
+		"viewModeIndex": 27
+	},
+	{
+		"columnID": "grossUnits",
+		"columnName": "Gross Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 20,
+		"viewModeOrder": 8
+	},
+	{
+		"columnID": "grossUnits",
+		"columnName": "Gross Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossPrice",
+		"columnName": "Gross Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 6,
+		"viewModeOrder": 6
+	},
+	{
+		"columnID": "grossPrice",
+		"columnName": "Gross Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossAmount",
+		"columnName": "Gross Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 13,
+		"viewModeOrder": 7
+	},
+	{
+		"columnID": "grossAmount",
+		"columnName": "Gross Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesPrice",
+		"columnName": "Net Sales Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 7,
+		"viewModeOrder": 14
+	},
+	{
+		"columnID": "netSalesPrice",
+		"columnName": "Net Sales Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesAmount",
+		"columnName": "Net Sales Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 14,
+		"viewModeOrder": 15
+	},
+	{
+		"columnID": "netSalesAmount",
+		"columnName": "Net Sales Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "businessUnitNo",
+		"columnName": "Business Unit",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "InventoryOrganizationKey",
+		"loadDescription": true,
+		"combination": 2,
+		"viewFlag": false
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "forecastType",
+		"columnName": "Forecast Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Ver",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"defaultResultView": true,
+		"viewModeIndex": 8
+	},
+	{
+		"columnID": "forecastType",
+		"columnName": "Forecast Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Item ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandId",
+		"columnName": "Brand ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand Name",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"defaultResultView": true,
+		"viewModeIndex": 3,
+		"viewModeOrder": 3
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"defaultResultView": true,
+		"viewModeIndex": 10,
+		"viewModeOrder": 11
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketSizeUnits",
+		"columnName": "Market Size Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketSizeUnits",
+		"columnName": "Market Size Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareRatio",
+		"columnName": "Market Share Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareRatio",
+		"columnName": "Market Share Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareUnits",
+		"columnName": "Market Share Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "marketShareUnits",
+		"columnName": "Market Share Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "uncapturedUnits",
+		"columnName": "Uncaptured Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "uncapturedUnitsRatio",
+		"columnName": "Uncaptured Units Ratio",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "totalDemandUnits",
+		"columnName": "Total Demand Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"defaultResultView": true,
+		"viewModeIndex": 19,
+		"viewModeOrder": 5
+	},
+	{
+		"columnID": "totalDemandUnits",
+		"columnName": "Total Demand Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "totalDemandAmount",
+		"columnName": "Total Demand Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"defaultResultView": true,
+		"viewModeIndex": 26,
+		"viewModeOrder": 13
+	},
+	{
+		"columnID": "totalDemandAmount",
+		"columnName": "Total Demand Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "inventoryUnitChange",
+		"columnName": "Inventory Unit Change",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossUnits",
+		"columnName": "Gross Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossUnits",
+		"columnName": "Gross Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossPrice",
+		"columnName": "Gross Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossPrice",
+		"columnName": "Gross Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossAmount",
+		"columnName": "Gross Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "grossAmount",
+		"columnName": "Gross Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesPrice",
+		"columnName": "Net Sales Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesPrice",
+		"columnName": "Net Sales Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesAmount",
+		"columnName": "Net Sales Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "netSalesAmount",
+		"columnName": "Net Sales Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "InventoryOrganizationKey",
+		"loadDescription": true,
+		"combination": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 21,
+		"viewModeOrder": 16
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 28,
+		"viewModeOrder": 20
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 22,
+		"viewModeOrder": 9
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "InventoryOrganizationKey",
+		"loadDescription": true,
+		"combination": 1,
+		"defaultResultView": true,
+		"viewModeIndex": 29
+	},
+	{
+		"columnID": "organizationKey",
+		"columnName": "Organization Key",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "InventoryOrganizationKey",
+		"loadDescription": true,
+		"combination": 3,
+		"viewFlag": false
+	},
+	{
+		"columnID": "businessUnitNo",
+		"columnName": "Business Unit No",
+		"componentType": "text",
+		"defaultResultView": true,
+		"combination": 1,
+		"viewOnlyColumn": true,
+		"viewModeIndex": 24,
+		"viewModeOrder": 22
+	},
+	{
+		"columnID": "businessUnitNo",
+		"columnName": "Business Unit No",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 2,
+		"viewOnlyColumn": true
+	},
+	{
+		"columnID": "businessUnitNo",
+		"columnName": "Business Unit No",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 3,
+		"viewOnlyColumn": true
+	},
+	{
+		"columnID": "businessUnitNo",
+		"columnName": "Business Unit No",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 4,
+		"viewOnlyColumn": true
+	},
+	{
+		"columnID": "businessUnitName",
+		"columnName": "Business Unit Name",
+		"componentType": "text",
+		"defaultResultView": true,
+		"combination": 1,
+		"viewOnlyColumn": true,
+		"viewModeIndex": 25,
+		"viewModeOrder": 23
+	},
+	{
+		"columnID": "businessUnitName",
+		"columnName": "Business Unit Name",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 2,
+		"viewOnlyColumn": true
+	},
+	{
+		"columnID": "businessUnitName",
+		"columnName": "Business Unit Name",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 3,
+		"viewOnlyColumn": true
+	},
+	{
+		"columnID": "businessUnitName",
+		"columnName": "Business Unit Name",
+		"componentType": "text",
+		"viewFlag": false,
+		"combination": 4
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 1,
+		"defaultResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 30,
+		"viewModeOrder": 24
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 2,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 21
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 3,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 24
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 4,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 23
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 1,
+		"defaultResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 31,
+		"viewModeOrder": 25
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 2,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 22
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 3,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 25
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 4,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 24
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 1,
+		"defaultResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 32,
+		"viewModeOrder": 26
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 2,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 23
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 3,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 26
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 4,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 25
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 1,
+		"defaultResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewModeIndex": 33,
+		"viewModeOrder": 27
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"combination": 2,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 24
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 3,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 27
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"combination": 4,
+		"componentType": "text",
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"defaultValue": "N",
+		"listViewIndex": 26
+	},
+	{
+		"columnID": "demandIntSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 1,
+		"defaultResultView": true,
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true,
+		"viewModeIndex": 34,
+		"viewModeOrder": 28
+	},
+	{
+		"columnID": "demandIntSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 2,
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 25
+	},
+	{
+		"columnID": "demandIntSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 3,
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 28
+	},
+	{
+		"columnID": "demandIntSid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"combination": 4,
+		"isInvalidComponent": true,
+		"viewFlag": false,
+		"listViewIndex": 27
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"totalCombination": 4,
+		"viewModeIndexFlag": true
+	}
+]

@@ -8,12 +8,9 @@ import com.stpl.app.gcm.discount.dao.impl.ContractDetailsDaoImpl;
 import com.stpl.app.gcm.discount.dao.impl.DiscountDaoImpl;
 import com.stpl.app.gcm.discount.dto.ContractsDetailsDto;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
-import com.stpl.app.gcm.globalchange.ui.form.GlobalChangeIndex;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.queryutils.ItemQueries;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
-import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.tp.logic.LoadTabLogic;
 import com.stpl.app.gcm.transfercontract.util.CommonUtil;
 import com.stpl.app.gcm.transfercontract.util.Constant;
@@ -60,7 +57,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1912,7 +1908,7 @@ public class CommonLogic {
         }
         int size = results.size();
         for (int i = 0; i < size; i++) {
-            Object arr[] = (Object[]) results.get(i);
+            Object[] arr = (Object[]) results.get(i);
             HelperDTO dTO = new HelperDTO();
             dTO.setId(Integer.valueOf(Converters.convertNullToEmpty(arr[0])));
             dTO.setDescription(Converters.convertNullToEmpty(arr[1]));

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getWorkflowValidation">
+		<query> 
+        <![CDATA[
+      SELECT VALIDATION FROM WORKFLOW_PROFILE WHERE PROCESS_NAME='?' 
+        ]]>
+
+		</query>
+	</entity>
+</sql>

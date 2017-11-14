@@ -33,7 +33,6 @@ public class RelationshipLevelValuesMasterBean {
 	private final StringBuilder finalQry = new StringBuilder();
 	public static final String HT_DESC = "HT.DESCRIPTION";
         public static final String FIELD_VALUE = "?FIELD_VALUE";
-        SessionDTO sessionDTO;
 
 	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
 			String hierarchyNoType,SessionDTO sessionDTO) {

@@ -92,9 +92,9 @@ private static final Logger LOGGER = Logger.getLogger(RSLookUp.class);
     List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
     public static final String REBATE_PROGRAM_TYPE_HEADER = "REBATE_PROGRAM_TYPE";
-    public Object RS_SEARCH_COLUMNS[] = new Object[]{
+    public Object[] RS_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "rsProgramType", "category", "tradeClass", "designation", "planId", "planName", "componentStatus", Constants.START_DATE, Constants.END_DATE};
-    public String RS_SEARCH_HEADERS[] = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", REBATE_PROGRAM_TYPE_HEADER, "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
+    public String[] RS_SEARCH_HEADERS = new String[]{"REBATE_SCHEDULE ID", "REBATE_SCHEDULE No", "REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_TYPE", REBATE_PROGRAM_TYPE_HEADER, "REBATE_SCHEDULE_CATEGORY", "TRADE_CLASS", "REBATE_SCHEDULE_DESIGNATION", "PARENT_REBATE_SCHEDULE_ID", "PARENT_REBATE_SCHEDULE_NAME", "REBATE_SCHEDULE_STATUS", "REBATE_SCHEDULE_START_DATE", "REBATE_SCHEDULE_END_DATE"};
     
 
     public RSLookUp(final CustomTextField componentTextField) {

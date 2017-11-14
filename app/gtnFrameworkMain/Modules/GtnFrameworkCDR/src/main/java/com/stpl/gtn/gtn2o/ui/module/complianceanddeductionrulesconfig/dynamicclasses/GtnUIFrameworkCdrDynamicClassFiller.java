@@ -1,0 +1,37 @@
+package com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.dynamicclasses;
+
+import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIDynamicObjectFiller;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.customaction.GtnUIFrameworkCDRDeleteConfirmationAction;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.customaction.GtnUIFrameworkCDRLoadAction;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.customaction.GtnUIFrameworkComplianceAndDeductionRulesSaveAction;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRRuleDuplicateCheck;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRSaveConfirmationAction;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRValidationActionDuplicateCheck;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRValidationActionFinalCheck;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRValidationActionIsRecordSelected;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRValidationActionLastOperatorCheck;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRValidationActionMandatoryCheck;
+import com.stpl.gtn.gtn2o.ui.module.complianceanddeductionrulesconfig.validation.GtnUIFrameworkCDRulesValidationActionIsRecordRemoveSelected;
+
+public class GtnUIFrameworkCdrDynamicClassFiller implements GtnUIDynamicObjectFiller{
+
+	@Override
+	public void addDynamicObject() {
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRDeleteConfirmationAction.class.getName(),new GtnUIFrameworkCDRDeleteConfirmationAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRLoadAction.class.getName(),new GtnUIFrameworkCDRLoadAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkComplianceAndDeductionRulesSaveAction.class.getName(),new GtnUIFrameworkComplianceAndDeductionRulesSaveAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRRuleDuplicateCheck.class.getName(),new GtnUIFrameworkCDRRuleDuplicateCheck());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRSaveConfirmationAction.class.getName(),new GtnUIFrameworkCDRSaveConfirmationAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRulesValidationActionIsRecordRemoveSelected.class.getName(),new GtnUIFrameworkCDRulesValidationActionIsRecordRemoveSelected());
+		
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRValidationActionDuplicateCheck.class.getName(),new GtnUIFrameworkCDRValidationActionDuplicateCheck());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRValidationActionFinalCheck.class.getName(),new GtnUIFrameworkCDRValidationActionFinalCheck());	
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRValidationActionIsRecordSelected.class.getName(),new GtnUIFrameworkCDRValidationActionIsRecordSelected());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRValidationActionLastOperatorCheck.class.getName(),new GtnUIFrameworkCDRValidationActionLastOperatorCheck());	
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkCDRValidationActionMandatoryCheck.class.getName(),new GtnUIFrameworkCDRValidationActionMandatoryCheck());
+		
+		
+	}
+
+}

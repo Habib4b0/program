@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/Udcs.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyQualifier.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyTradeClass.hbm.xml</value>
+
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowInbox.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowProcessInfo.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowProfile.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/projectionmaster/ProjectionMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/CfpContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/ContractMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/ItemMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/RsContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/PsContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/IfpContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/CfpContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/PsDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemgroup/ItemGroupDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemfamilyplan/IfpDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateschedule/RsDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/PsContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/IfpContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/RsContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companyfamilyplan/CfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companyfamilyplan/CfpDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemfamilyplan/IfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemgroup/ItemGroup.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/BrandMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/PsModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/ItemPricingQualifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/netsalesformula/NetSalesFormulaMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateplan/RebatePlanMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateplan/RebatePlanTier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/cdr/CdrModel.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateschedule/RsModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/cdr/CdrDetails.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/deductioncalendar/DeductionCalendarMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/emailconfiguration/WfMailConfig.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/periodconfiguration/PeriodConfigDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/periodconfiguration/PeriodConfigMaster.hbm.xml
+				</value>
+                                <value>/com/stpl/gtn/gtn2o/ws/xml/filemanagement/FileManagement.hbm.xml
+				</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="sysSessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="sysDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/User.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/UsersGroups.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/user/UsersRoles.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/role/Role.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+	<bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:jboss/datasources/jdbc/infraDataPool" />
+		<property name="lookupOnStartup" value="true" />
+	</bean>
+
+	<bean id="databaseService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsDatabaseService">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnFrameworkSqlQueryEngine" ref="gtnFrameworkSqlQueryEngine"></property>
+	</bean>
+	<bean id="gtnFrameworkQueryEngineMain"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain">
+	</bean>
+	<bean id="gtnFrameworkSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+	</bean>
+	<bean id="queryLogger"
+		class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+	</bean>
+</beans>
+

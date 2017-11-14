@@ -1,0 +1,288 @@
+[
+  {
+    "columnID": "glCompany",
+    "columnName": "GL Company",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":1
+  },
+  {
+    "columnID": "businessUnit",
+    "columnName": "Business Unit",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":2
+  },
+  {
+    "columnID": "brandId",
+    "columnName": "Brand ID",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":3
+  },
+  {
+    "columnID": "brandName",
+    "columnName": "Brand Name",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":4
+  },
+  {
+    "columnID": "companyId",
+    "columnName": "Company ID",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "text"
+  },
+  {
+    "columnID": "itemId",
+    "columnName": "Item ID",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":5
+  },
+   {
+    "columnID": "itemNo",
+    "columnName": "Item NO",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":6
+  },
+  {
+    "columnID": "companyName",
+    "columnName": "Company Name",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "text"
+  },
+  {
+    "columnID": "itemName",
+    "columnName": "Item Name",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":7
+  },
+  {
+    "columnID": "country",
+    "columnName": "Country",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":13
+  },
+  {
+    "columnID": "businessUnit",
+    "columnName": "Business Unit ID",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "text",
+	"listViewIndex":2
+  },
+  {
+    "columnID": "year",
+    "columnName": "Year",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":9
+  },
+  {
+    "columnID": "month",
+    "columnName": "Month",
+    "isSearchCriteria": true,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":8
+  },
+  {
+    "columnID": "businessUnitName",
+    "columnName": "Business Unit Name",
+    "isSearchCriteria": true,
+    "isResultView": false,
+    "componentType": "text"
+  },
+  
+  {
+    "columnID": "amount",
+    "columnName": "Amount",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":10
+  },
+  {
+    "columnID": "units",
+    "columnName": "Units",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":11
+  },
+  {
+    "columnID": "companyNo",
+    "columnName": "Company Number",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":14
+  },
+  {
+    "columnID": "udc1",
+    "columnName": "UDC 1",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":21
+  },
+  {
+    "columnID": "udc2",
+    "columnName": "UDC 2",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":22
+  },
+  {
+    "columnID": "udc3",
+    "columnName": "UDC 3",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":23
+  },
+  {
+    "columnID": "udc4",
+    "columnName": "UDC 4",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":24
+  },
+  {
+    "columnID": "udc5",
+    "columnName": "UDC 5",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":25
+  },
+  {
+    "columnID": "udc6",
+    "columnName": "UDC 6",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":26
+  },
+  {
+    "columnID": "inboundStatus",
+    "columnName": "ADD CHG DEL INDICATOR",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":27
+  },
+  {
+    "columnID": "createdBy",
+    "columnName": "Created By",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":28
+  },
+  {
+    "columnID": "createdDate",
+    "columnName": "Created Date",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "date",
+	"listViewIndex":29
+  },
+  {
+    "columnID": "modifiedBy",
+    "columnName": "Modified By",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":30
+  },
+  {
+    "columnID": "modifiedDate",
+    "columnName": "Modified Date",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "date",
+	"listViewIndex":31
+  },
+  {
+    "columnID": "division",
+    "columnName": "Division",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":15
+  },
+  {
+    "columnID": "account",
+    "columnName": "Account",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":17
+  },
+  {
+    "columnID": "costCenter",
+    "columnName": "Cost Center",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":16
+  },
+  {
+    "columnID": "project",
+    "columnName": "Project",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":18
+  },
+  {
+    "columnID": "future1",
+    "columnName": "Future 1",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":19
+  },
+  {
+    "columnID": "future2",
+    "columnName": "Future 2",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":20
+  },
+  {
+    "columnID": "source",
+    "columnName": "Source",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":12
+  },
+  {
+    "columnID": "batchId",
+    "columnName": "Batch ID",
+    "isSearchCriteria": false,
+    "isResultView": true,
+    "componentType": "text",
+	"listViewIndex":32
+  }
+]

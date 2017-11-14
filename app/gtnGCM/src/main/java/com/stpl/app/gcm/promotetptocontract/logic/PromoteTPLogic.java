@@ -1349,7 +1349,7 @@ public class PromoteTPLogic {
 
             if (!list.isEmpty()) {
                 for (int i = 0; i < listsize; i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new CurrentContractDTO();
                     dto.setContractHolder(convertNullToEmpty(String.valueOf(obj[0])));
                     dto.setContractNo(convertNullToEmpty(String.valueOf(obj[1])));
@@ -1569,7 +1569,7 @@ public class PromoteTPLogic {
         int size = results.size();
         if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.RS_VALUE.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ComponentInfoDTO tabDto = new ComponentInfoDTO();
                 tabDto.setRsSid(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -1590,7 +1590,7 @@ public class PromoteTPLogic {
             }
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.PS_VALUE.toString())) {
             for (int i = 0; i < size; i++) {
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ComponentInfoDTO tabDto = new ComponentInfoDTO();
                 tabDto.setPsSid(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -1621,7 +1621,7 @@ public class PromoteTPLogic {
         } else if (newDiscountTabDto.getSearchField().contains(Constants.IndicatorConstants.IFP.toString())) {
             for (int i = 0; i < results.size(); i++) {
 
-                Object arr[] = (Object[]) results.get(i);
+                Object[] arr = (Object[]) results.get(i);
                 ComponentInfoDTO tabDto = new ComponentInfoDTO();
                 tabDto.setIfpSystemId(Converters.convertNullToEmpty(arr[0]));
                 tabDto.setId(Converters.convertNullToEmpty(arr[1]));
@@ -1660,7 +1660,7 @@ public class PromoteTPLogic {
         try {
             if (component.equals(ITEM_FAMILY_PLAN_PROPERTY)) {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                     tabDto.setItemName(Converters.convertNullToEmpty(arr[1]));
@@ -1672,7 +1672,7 @@ public class PromoteTPLogic {
                 }
             } else if (component.equals(Constants.PRICE_SCHEDULE)) {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                     tabDto.setMaxIncrementalChange(Converters.convertNullToEmpty(arr[1]));
@@ -1686,7 +1686,7 @@ public class PromoteTPLogic {
                 }
             } else if (component.equals(Constants.REBATE_SCHEDULE)) {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setItemNo(Converters.convertNullToEmpty(arr[0]));
                     tabDto.setItemName(Converters.convertNullToEmpty(arr[1]));
@@ -2589,7 +2589,7 @@ public class PromoteTPLogic {
             int size = results.size();
             try {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setItemMasterId(Converters.convertNullToEmpty(arr[0]));
                     tabDto.setItemNo(Converters.convertNullToEmpty(arr[1]));
@@ -2607,7 +2607,7 @@ public class PromoteTPLogic {
             int size = results.size();
             try {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setItemMasterId(Converters.convertNullToEmpty(arr[1]));
                     tabDto.setItemNo(Converters.convertNullToEmpty(arr[NumericConstants.TWO]));
@@ -2637,7 +2637,7 @@ public class PromoteTPLogic {
             int size = results.size();
             try {
                 for (int i = 0; i < size; i++) {
-                    Object arr[] = (Object[]) results.get(i);
+                    Object[] arr = (Object[]) results.get(i);
                     ComponentInfoDTO tabDto = new ComponentInfoDTO();
                     tabDto.setIfpId(Converters.convertNullToEmpty(arr[0]));
                     tabDto.setIfpName(Converters.convertNullToEmpty(arr[1]));
@@ -3012,7 +3012,7 @@ public class PromoteTPLogic {
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
                 try {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new CurrentContractDTO();
 
                     dto.setContractHolder(String.valueOf(obj[0]));
@@ -3092,7 +3092,7 @@ public class PromoteTPLogic {
             int listsize = list.size();
             if (!list.isEmpty()) {
                 for (int i = 0; i < listsize; i++) {
-                    Object obj[] = (Object[]) list.get(i);
+                    Object[] obj = (Object[]) list.get(i);
                     dto = new CurrentContractDTO();
                     dto.setContractHolder(convertNullToEmpty(String.valueOf(obj[0])));
                     dto.setContractNo(convertNullToEmpty(String.valueOf(obj[1])));
@@ -3128,7 +3128,7 @@ public class PromoteTPLogic {
             int listSize = contList.size();
             if (!contList.isEmpty()) {
                 for (int i = 0; i < listSize; i++) {
-                    Object obj[] = (Object[]) contList.get(i);
+                    Object[] obj = (Object[]) contList.get(i);
                     currentContractDTO = new CurrentContractDTO();
                     currentContractDTO.setContractHolder(convertNullToEmpty(String.valueOf(obj[0])));
                     currentContractDTO.setContractNo(convertNullToEmpty(String.valueOf(obj[1])));
@@ -3395,7 +3395,7 @@ public class PromoteTPLogic {
 
         if (!list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 idDescription = new IdDescriptionDTO(Integer.parseInt(String.valueOf(obj[0])), String.valueOf(obj[1]));
                 resultList.add(idDescription);
             }

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 16, 2017 7:09:04 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.companygroup.CompanyGroupDetails"
+		table="COMPANY_GROUP_DETAILS" schema="dbo">
+		<id name="companyGroupDetailsSid" type="int">
+			<column name="COMPANY_GROUP_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="companyMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select">
+			<column name="COMPANY_MASTER_SID" />
+		</many-to-one>
+		<many-to-one name="companyTradeClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyTradeClass"
+			fetch="select">
+			<column name="COMPANY_TRADECLASS_SID" />
+		</many-to-one>
+		<many-to-one name="companyParentDetails"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyParentDetails"
+			fetch="select">
+			<column name="COMPANY_PARENT_DETAILS_SID" />
+		</many-to-one>
+		<many-to-one name="companyGroup"
+			class="com.stpl.gtn.gtn2o.ws.entity.companygroup.CompanyGroup" fetch="select">
+			<column name="COMPANY_GROUP_SID" />
+		</many-to-one>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="versionNo" type="int">
+			<column name="VERSION_NO" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

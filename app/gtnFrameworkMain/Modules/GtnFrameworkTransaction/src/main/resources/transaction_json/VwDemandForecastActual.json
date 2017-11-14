@@ -1,0 +1,160 @@
+[
+    {
+        "columnID": "forecastType",
+        "columnName": "Forecast Type",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "combobox"
+    },
+     {
+        "columnID": "itemId",
+        "columnName": "Item ID",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "itemName",
+        "columnName": "Item Name",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "brandId",
+        "columnName": "Brand ID",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "brandName",
+        "columnName": "Brand Name",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "segment",
+        "columnName": "Segment",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "year",
+        "columnName": "Year",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "month",
+        "columnName": "Month",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "marketSizeUnits",
+        "columnName": "Market Size Units",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "marketShareRatio",
+        "columnName": "Market Share Ratio",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "marketShareUnits",
+        "columnName": "Market Share Units",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    
+    {
+        "columnID": "totalDemandUnits",
+        "columnName": "Total Demand Units",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "totalDemandAmount",
+        "columnName": "Total Demand Amount",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+     {
+        "columnID": "grossUnits",
+        "columnName": "Gross Units",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "grossPrice",
+        "columnName": "Gross Price",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "grossAmount",
+        "columnName": "Gross Amount",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "netSalesPrice",
+        "columnName": "Net Sales Price",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "netSalesAmount",
+        "columnName": "Net Sales Amount",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "country",
+        "columnName": "Country",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "organizationKey",
+        "columnName": "Organization Key",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "combobox",
+        "listName": "InventoryOrganizationKey",
+        "loadDescription": true
+    },
+    {
+        "columnID": "source",
+        "columnName": "Source",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    },
+    {
+        "columnID": "batchId",
+        "columnName": "Batch ID",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text"
+    }
+   
+]

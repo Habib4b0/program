@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<project name="gtnAntRelease" default="prepareRpmNewArchDist">
+
+	<property name="Dist" location="Dist" />
+	<property name="DistUI" location="Dist/UI" />
+	<property name="DistWS" location="Dist/WS" />
+	<property name="RpmDirStructureUI" location="${DistUI}/RpmDirStructure" />
+	<property name="RpmDirStructureWS" location="${DistWS}/RpmDirStructure" />
+	<property name="Application_BuildUI" location="${RpmDirStructureUI}/Application_Build" />
+	<property name="Application_BuildWS" location="${RpmDirStructureWS}/GTN_Framework_War" />
+	<property name="FrameworkDist" location="app/gtnFrameworkMain/Dist" />
+	<property name="FrameworkDistUI" location="${FrameworkDist}/UI" />
+	<property name="FrameworkDistWS" location="${FrameworkDist}/WS" />	
+	<property name="rpmdirUI" location="${DistUI}/rpm" />
+	<property name="rpmdirWS" location="${DistWS}/rpm" />
+
+	<target name="prepareRpmNewArchDist">
+		<antcall target="createDir" />
+		<antcall target="prepareRpmSeperateWars" />
+		<antcall target="prepareRpmAppDist" />
+		<antcall target="prepareRpmFilesDist" />
+	</target>
+
+	<target name="createDir">
+		<delete dir="${Dist}" />
+		<mkdir dir="${Dist}" />
+		<mkdir dir="${DistUI}" />
+		<mkdir dir="${DistWS}" />
+		<mkdir dir="${RpmDirStructureUI}" />
+		<mkdir dir="${RpmDirStructureWS}" />
+		<mkdir dir="${Application_BuildUI}" />
+		<mkdir dir="${Application_BuildWS}" />
+		<mkdir dir="${rpmdirUI}" />
+		<mkdir dir="${rpmdirWS}" />
+	</target>
+
+	<target name = "prepareRpmSeperateWars">
+		<mkdir dir="${FrameworkDist}" />
+		<delete dir="${FrameworkDistUI}" />
+		<delete dir="${FrameworkDistWS}" />
+		<mkdir dir="${FrameworkDistUI}" />
+		<mkdir dir="${FrameworkDistWS}" />
+		<move todir="${FrameworkDistUI}">
+			<fileset dir="${FrameworkDist}">
+				<include name="**/*.war" />
+				<include name="**/*.jar" />			
+			</fileset>
+		</move>				
+		<move todir="${FrameworkDistWS}">
+			<fileset dir="${FrameworkDistUI}">
+				<include name="GtnForecastWebServices.war" />
+				<include name="GtnWsBpmWebService.war" />
+				<include name="GTNWebServices.war" />				
+			</fileset>
+		</move>
+
+	</target>
+	
+	<target name="prepareRpmAppDist">
+
+		<move todir="${Application_BuildUI}">
+			<fileset dir="${FrameworkDistUI}">
+				<include name="**/*.war" />
+				<include name="**/*.jar" />
+			</fileset>
+		</move>
+		
+		<move todir="${Application_BuildWS}">
+			<fileset dir="${FrameworkDistWS}">
+				<include name="**/*.war" />
+				<include name="**/*.jar" />
+			</fileset>
+		</move>
+		
+		<delete dir="${FrameworkDistUI}" />
+		<delete dir="${FrameworkDistWS}" />
+		
+	</target>
+
+	<target name="prepareRpmFilesDist">
+		<copy todir="${rpmdirUI}">
+			<fileset dir="Release/rpm/" />
+		</copy>
+		<mkdir dir="${rpmdirUI}/Release" />
+		
+		<copy todir="${rpmdirWS}">
+			<fileset dir="Release/rpm/" />
+		</copy>
+		<mkdir dir="${rpmdirWS}/Release" />
+		
+	</target>
+
+</project>

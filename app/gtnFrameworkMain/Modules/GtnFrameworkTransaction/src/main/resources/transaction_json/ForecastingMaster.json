@@ -1,0 +1,298 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "forecastName",
+		"columnName": "Forecast Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 17
+	},
+	{
+		"columnID": "forecastYear",
+		"columnName": "Forecast Year",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 1
+	},
+	{
+		"columnID": "forecastMonth",
+		"columnName": "Forecast Month",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 2
+	},
+	{
+		"columnID": "country",
+		"columnName": "Country",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 20
+	},
+	{
+		"columnID": "ndc",
+		"columnName": "NDC",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 21
+	},
+	{
+		"columnID": "forecastDate",
+		"columnName": "Forecast Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 18,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "forecastStartDate",
+		"columnName": "Forecast Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 22,
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "forecastDate",
+		"columnName": "Forecast Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 18,
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "forecastStartDate",
+		"columnName": "Forecast Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"viewModeIndex": 22,
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "forecastVer",
+		"columnName": "Forecast Version",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 15
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "price",
+		"columnName": "Price",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 16
+	},
+	{
+		"columnID": "forecastValue",
+		"columnName": "Forecast Value",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 5
+	},
+	{
+		"columnID": "dollars",
+		"columnName": "Dollars",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 3
+	},
+	{
+		"columnID": "actualSalesPercentage",
+		"columnName": "Actual Sales Percentage",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 11
+	},
+	{
+		"columnID": "actualSalesPercentageMonth",
+		"columnName": "Actual Sales Percentage Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "percentageEstimate",
+		"columnName": "Percentage Estimate",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 9
+	},
+	{
+		"columnID": "percentageEstimateYear",
+		"columnName": "Percentage Estimate Year",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 10
+	},
+	{
+		"columnID": "units",
+		"columnName": "Units",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 19
+	},
+	{
+		"columnID": "forecastValueType",
+		"columnName": "Forecast Value Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 4
+	},
+	{
+		"columnID": "product",
+		"columnName": "Product",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 6
+	},
+	{
+		"columnID": "forecastedSalesPercentMonth",
+		"columnName": "Forecasted Sales Percentage Month",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "segment",
+		"columnName": "Segment",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 8
+	},
+	{
+		"columnID": "brand",
+		"columnName": "Brand",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 7
+	},
+	{
+		"columnID": "forecastedSalesPercentage",
+		"columnName": "Forecasted Sales Percentage",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 23
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 24,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 25,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"viewModeIndex": 26,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"viewModeIndex": 27,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "forecastIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"viewModeIndex": 28,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"viewModeIndexFlag": true
+	}
+]
