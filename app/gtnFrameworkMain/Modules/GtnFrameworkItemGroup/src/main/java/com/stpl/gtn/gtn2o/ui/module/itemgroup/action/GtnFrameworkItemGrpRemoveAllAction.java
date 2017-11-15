@@ -39,20 +39,20 @@ public class GtnFrameworkItemGrpRemoveAllAction
 			throws GtnFrameworkGeneralException {
 		GtnWsSearchRequest sRequest = new GtnWsSearchRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
-		List<GtnWsRecordBean> selectedItems = GtnUIFrameworkGlobalUI
+		List<GtnWsRecordBean> removeSelectedItems = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.ITEM_GRP_SELECTED_RESULT_TABLE)
 				.getItemsFromDataTable();
 
-		if (selectedItems == null || selectedItems.isEmpty()) {
-			GtnUIFrameWorkActionConfig alertRemoveAllActionConfig = new GtnUIFrameWorkActionConfig();
-			alertRemoveAllActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+		if (removeSelectedItems == null || removeSelectedItems.isEmpty()) {
+			GtnUIFrameWorkActionConfig alertItemRemoveAllActionConfig = new GtnUIFrameWorkActionConfig();
+			alertItemRemoveAllActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 
-			List<Object> alertRemoveAllParamsList = new ArrayList<>();
-			alertRemoveAllParamsList.add(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_ADD_MSG);
-			alertRemoveAllParamsList.add(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_REMOVE_MSG_BODY);
+			List<Object> alertItemRemoveAllParamsList = new ArrayList<>();
+			alertItemRemoveAllParamsList.add(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_ADD_MSG);
+			alertItemRemoveAllParamsList.add(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_REMOVE_MSG_BODY);
 
-			alertRemoveAllActionConfig.setActionParameterList(alertRemoveAllParamsList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertRemoveAllActionConfig);
+			alertItemRemoveAllActionConfig.setActionParameterList(alertItemRemoveAllParamsList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertItemRemoveAllActionConfig);
 		}
 
 		sRequest.setGtnWebServiceSearchCriteriaList(getSearchCriteriaList());
