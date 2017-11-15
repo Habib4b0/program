@@ -27,7 +27,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -48,6 +50,7 @@ import com.stpl.app.adminconsole.processscheduler.util.CommonUtil;
 import com.stpl.app.adminconsole.quartz.QuartzListener;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
+import com.stpl.app.adminconsole.util.GtnWsCallEtlService;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.adminconsole.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
@@ -82,8 +85,9 @@ public class ProcessSchedulerLogic {
 	 * The Constant LOGGER.
 	 */
 	private static final Logger LOGGER = Logger.getLogger(ProcessSchedulerLogic.class);
-	public final static String QUOTE = "\"";
-	public final static String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
+	public static final  String QUOTE = "\"";
+	public static final  String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
+	public static final String JBOSS_HOME_FOLDER="jboss-7.1.1";
 
 	public List getSearchResult(boolean count, int start, int offset, boolean scheduler,
 			final List<SortByColumn> orderByColumns) {
@@ -283,13 +287,14 @@ public class ProcessSchedulerLogic {
 	public void runJob(FtpProperties ftpProperties, String scriptName) {
 		try {
 			LOGGER.debug("Script Name==========================>" + scriptName);
-			String jbossHome = System.getProperty("jboss.home.dir");
+			String jbossHome=getJbossHome();
 			if (!"null".equals(jbossHome)) {
-				String[] ftppath = jbossHome.split("jboss-7.1.1");
+				String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
 				if (ftppath.length != 0) {
 					java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
+					String etlInterfaceUri=buildUrl(scriptName,prop);
 					ftpProperties.setScripts(prop.getProperty("scripts"));
-					runShellScript(ftpProperties.getScripts(), scriptName.trim());
+					runShellScript(etlInterfaceUri);
 				}
 			}
 			LOGGER.debug("runShellScript===================>ends1");
@@ -299,76 +304,19 @@ public class ProcessSchedulerLogic {
 		LOGGER.debug("runJob ends");
 	}
 
-	private boolean runShellScript(String scriptPath, String scriptName) {
-		LOGGER.debug("runShellScript===================>starts");
-		try {
-
-			String cmd = scriptPath + "/" + scriptName; // this is the command
-														// to execute in the
-														// Unix shell
-			// create a process for the shell
-			ProcessBuilder pb = new ProcessBuilder("bash", "-c", cmd);
-			pb.redirectErrorStream(true); // use this to capture messages sent
-											// to stderr
-			Process shell = pb.start();
-			InputStream shellIn = shell.getInputStream(); // this captures the
-															// output from the
-															// command
-			BufferedReader in = new BufferedReader(new InputStreamReader(shellIn));
-			StringBuilder urlString = new StringBuilder("");
-			String current;
-			while ((current = in.readLine()) != null) {
-				urlString.append(current);
-			}
-
-			// close the stream
-			try {
-				shellIn.close();
-			} catch (Exception e) {
-				LOGGER.error(e);
-			}
-			// Instead of "bash" you can use a program or script name (replacing
-			// "-c" and cmd wit
-		} catch (Exception ex) {
-			LOGGER.error(ex);
-			return false;
-		}
-		LOGGER.debug("runShellScript===================>ends");
-		return true;
-	}
-
-	public void runShellScript1(String scriptUrl) {
+	public void runShellScript(String scriptUrl) {
 		LOGGER.info("Entering runShellScript with " + scriptUrl);
-		try {
-			URL url = new URL(scriptUrl);
-			URLConnection urlConnection = url.openConnection();
-			HttpURLConnection connection = null;
-			if (urlConnection instanceof HttpURLConnection) {
-				connection = (HttpURLConnection) urlConnection;
-			} else {
-				LOGGER.info("Please enter an HTTP URL.");
-				return;
-			}
-			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			StringBuilder urlString = new StringBuilder("");
-			String current;
-			while ((current = in.readLine()) != null) {
-				urlString.append(current);
-			}
-			in.close();
-			LOGGER.info(urlString.toString());
-		} catch (Exception e) {
-			LOGGER.error("Exception while running script.", e);
-		}
+		GtnWsCallEtlService  etlService=new GtnWsCallEtlService();
+		etlService.runShellScript(scriptUrl);
 	}
 
 	public static FtpProperties getFtpBundleValue() {
 		LOGGER.debug("getFtpBundleValue===================>starts");
 		FtpProperties ftpProperties = new FtpProperties();
 		try {
-			String jbossHome = System.getProperty("jboss.home.dir");
+			String jbossHome=getJbossHome();
 			if (!"null".equals(jbossHome)) {
-				String[] ftppath = jbossHome.split("jboss-7.1.1");
+				String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
 				if (ftppath.length != 0) {
 					LOGGER.info(ftppath[0] + FTP_PROPERTIES_PATH);
 					java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
@@ -1225,4 +1173,19 @@ public class ProcessSchedulerLogic {
 		LOGGER.debug("return getLazyHierarchyNameResults size -" + list.size());
 		return list;
 	}
+	public String buildUrl(String scriptName, Properties prop) {
+		String interfaceUri = getInterFaceUri(scriptName);
+		String portNo = prop.getProperty("ETL_PORT_NO");
+		return "http://localhost:" + portNo + "/" + interfaceUri;
+	}
+	private String getInterFaceUri(String scriptName) {
+		String jbossHome=getJbossHome();
+		String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
+		java.util.Properties interfaceUriProperties = getPropertyFile(ftppath[0] + "conf/ETL-InterfaceUriConfig/interfaceUrlMapping.properties");
+		return interfaceUriProperties.getProperty(scriptName).trim();
+	}
+	private static String getJbossHome() {
+		return System.getProperty("jboss.home.dir");
+	}
+	
 }
