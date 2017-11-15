@@ -4441,10 +4441,9 @@ public class CommonLogic {
         String values, screensName;
         if (isSales) {
             screensName = "S";
-            if (Constant.SINGLE_PERIOD.equals(methodology) || Constant.AVERAGE.equals(methodology) || Constant.ROLLINGANNUALTREND.equalsIgnoreCase(methodology) || Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(methodology)) {
-                boolean isPercentageExFactory = Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(methodology);
-                session.setFileNameUsedInSales(isPercentageExFactory ? loadFileName(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND) : allocationBasis);
-                Object[] obj = session.getLatestProjectionFileDetails().get(isPercentageExFactory ? loadFileName(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND) : allocationBasis);
+            if (Constant.SINGLE_PERIOD.equals(methodology) || Constant.AVERAGE.equals(methodology) || Constant.ROLLINGANNUALTREND.equalsIgnoreCase(methodology)) {
+                session.setFileNameUsedInSales(loadFileName(allocationBasis));
+                Object[] obj = session.getLatestProjectionFileDetails().get(loadFileName(allocationBasis));
                 if (obj == null) {
                     return;
                 }
