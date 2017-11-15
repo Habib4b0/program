@@ -254,6 +254,12 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public void uomLoadingTabChange() {
         CommonLogic.loadUnitOfMeasureDdlb(uomDdlb, sessionDTO);
     }
+    
+    public void CPDddlbLoading() {
+        loadCustomerLevel();
+        loadProductLevel();
+        loadDedutionLevel();
+    }
 
     /**
      * Comparison lookup listener.

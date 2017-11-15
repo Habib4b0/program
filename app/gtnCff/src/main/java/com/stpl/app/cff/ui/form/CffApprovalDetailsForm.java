@@ -131,6 +131,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
     boolean flag = false;
     CFFLogic cffLogic = new CFFLogic();
     Boolean isApproved = false;
+    boolean filterOptionLoaded=false;
 
     /**
      * scenarioModeling form constructor
@@ -258,8 +259,12 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         Object[] obj = {projId};
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                         projectionVariance.uomLoadingTabChange();
+                        if (sessionDTO.isIsGenerated() && !filterOptionLoaded) {
+                            projectionVariance.CPDddlbLoading();
+                              filterOptionLoaded=true;
+                        }
                     }
-
+                       
                     if (event.getTabSheet().getSelectedTab().getCaption().contentEquals(StringConstantsUtil.DATA_SELECTION_LABEL)) {
                         BottomBtnLayout.setVisible(false);
                     } else {

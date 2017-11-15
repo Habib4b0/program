@@ -1541,7 +1541,7 @@ public class CommonLogic {
         String customSql = selectClause + from + " as HC,"
                 + " RELATIONSHIP_LEVEL_DEFINITION as  RLD "
                 + StringConstantsUtil.CFF_MASTER_WHERE + projectionId
-                + " and HC.RELATIONSHIP_LEVEL_SID= RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + ";";
+                + " and HC.RELATIONSHIP_LEVEL_SID= RLD.RELATIONSHIP_LEVEL_SID AND RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID='" + rbID + "';";
         return customSql;
     }
 
