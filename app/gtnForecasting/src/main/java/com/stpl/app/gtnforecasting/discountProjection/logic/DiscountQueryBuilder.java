@@ -494,7 +494,7 @@ public class DiscountQueryBuilder {
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustomRel(hierarchyIndicator,hierarchyNo,session))
                         .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
             } else if ("RPU".equalsIgnoreCase(refreshName)) {
-                String uomJoin=session.getDiscountUom().equals("EACH")?"":"AND UOM_CODE='"+session.getDiscountUom()+"'";
+                String uomJoin="AND UOM_CODE='"+session.getDiscountUom()+"'";
                 String uomDivJoin=session.getDiscountUom().equals("EACH")?"":"/nullif(uom_value,0)";
                 customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT_RPU").replace("@REFRESHAMT", fieldValue).replace(UOM_JOIN,uomJoin).replace(PERIOD_TABLE, queryPeriod)
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
