@@ -99,20 +99,20 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
-	public String getQuery(List<String> input, String queryName) {
-		StringBuilder sql = new StringBuilder();
+	public String getQueryReplaced(List<String> input, String queryName) {
+		StringBuilder sqlStringBuilder = new StringBuilder();
 		try {
-			sql = new StringBuilder(getQuery(queryName));
+			sqlStringBuilder = new StringBuilder(getQuery(queryName));
 			if (input != null) {
-				for (Object temp : input) {
-					sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+				for (Object tempInput : input) {
+					sqlStringBuilder.replace(sqlStringBuilder.indexOf("?"), sqlStringBuilder.indexOf("?") + 1, String.valueOf(tempInput));
 				}
 			}
 
 		} catch (Exception ex) {
 			LOGGER.error("Exception in getQuery", ex);
 		}
-		return sql.toString();
+		return sqlStringBuilder.toString();
 	}
 
 	public void updateQueryInHierarchy(int hierarchyDefSId, int versionNo)
@@ -150,7 +150,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		List<String> inputlist = new ArrayList<>();
 		inputlist.add(String.valueOf(hierarchyDefSid));
 		inputlist.add(String.valueOf(versionNo));
-		List<Object[]> result = executeQuery(getQuery(inputlist, "getRBHierarchyLevelDefinitionBySid"));
+		List<Object[]> result = executeQuery(getQueryReplaced(inputlist, "getRBHierarchyLevelDefinitionBySid"));
 
 		return gettHierarchyLevelDefinitionListMain(result);
 	}

@@ -115,7 +115,7 @@ public class GtnWsRelationshipBuilderController {
 			String queryName = gtnWsRequest.getGtnWsSearchRequest().isCount() ? "getRelationshipBuilderCount"
 					: "getRelationshipBuilderResults";
 			List<String> inputlist = getSearchInput(gtnWsRequest);
-			List<Object[]> result = executeQuery(logic.getQuery(inputlist, queryName));
+			List<Object[]> result = executeQuery(logic.getQueryReplaced(inputlist, queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 				relationshipBuilderSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
 			} else {
