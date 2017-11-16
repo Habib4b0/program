@@ -5,47 +5,15 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.logic;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
-import com.stpl.app.cff.dao.CommonDAO;
-import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.ALL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VALUE;
 import static com.stpl.app.cff.util.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL_DISCOUNT;
-import static com.stpl.app.cff.util.Constants.LabelConstants.*;
-import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.Converters;
-import com.stpl.app.cff.util.HeaderUtils;
-import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -65,12 +33,47 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import javax.naming.Context;
-import javax.naming.InitialContext;
+
 import javax.sql.DataSource;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.jboss.logging.Logger;
+
+import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
+import com.stpl.app.cff.dao.CommonDAO;
+import com.stpl.app.cff.dao.impl.CommonDAOImpl;
+import com.stpl.app.cff.dto.PVSelectionDTO;
+import com.stpl.app.cff.dto.ProjectionSelectionDTO;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
+import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.Converters;
+import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -1482,8 +1485,9 @@ public class ProjectionVarianceLogic {
      * @param projectionId
      * @param procedureName
      * @return
+     * @throws Exception 
      */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) {
+    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -1497,56 +1501,22 @@ public class ProjectionVarianceLogic {
         } else {
             frequency = StringConstantsUtil.ANNUAL_LABEL;
         }
-        List<Object[]> objectList = new ArrayList<>();
-        try {
-            Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
+
                 StringBuilder statementBuilder = new StringBuilder("{call ");
-                statementBuilder.append(procedureName).append("(?,?,?,?,?)}");
-                statement = connection.prepareCall(statementBuilder.toString());
-                statement.setInt(1, projectionId);
-                statement.setString(NumericConstants.TWO, frequency);
-                statement.setString(NumericConstants.THREE, discountId);
-                statement.setInt(NumericConstants.FOUR, Integer.valueOf(sessionId));
-                statement.setInt(NumericConstants.FIVE, Integer.valueOf(userId));
-                rs = statement.executeQuery();
+		statementBuilder.append(procedureName);
+		statementBuilder.append("(?,?,?,?,?)}");
+		Object[] paramArray = new Object[5];
+		paramArray[0] = projectionId;
+		paramArray[1] = frequency;
+		paramArray[2] = discountId;
+		paramArray[3] = Integer.parseInt(sessionId);
+		paramArray[4] = Integer.parseInt(userId);
+		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+	}
 
-                objectList = convertResultSetToList(rs);
-
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                rs.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                System.gc();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-        }
-        return objectList;
-    }
-
-    public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, int start, int offset) {
-        try {
+	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO,
+			int start, int offset) {
+		try {
             LOGGER.debug("Inside getConfiguredProjectionVariance");
             List<ProjectionVarianceDTO> list;
             list = getProjVariance(projSelDTO, parentId, start, offset);
