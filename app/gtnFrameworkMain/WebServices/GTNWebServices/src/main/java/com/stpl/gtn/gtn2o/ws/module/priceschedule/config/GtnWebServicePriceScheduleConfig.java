@@ -279,7 +279,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 
 		gtnWebServiceSearchQueryContext.setSearchQuery(
 				"  FROM	PS_DETAILS IMPSD JOIN BRAND_MASTER BM ON	BM.BRAND_MASTER_SID = IMPSD.BRAND_MASTER_SID JOIN item_master im on 	im.ITEM_MASTER_SID = impsd.ITEM_MASTER_SID JOIN dbo.HELPER_TABLE HTStatus on	htstatus.HELPER_TABLE_SID = impsd.STATUS JOIN dbo.ITEM_PRICING_QUALIFIER HTPSTYPE on	HTPSTYPE.ITEM_PRICING_QUALIFIER_SID = impsd.ITEM_PRICING_QUALIFIER_SID  ");
-
+                gtnWebServiceSearchQueryContext.setWhereClauseList(Arrays.asList("ADD_COPY_INDICATOR is null"));
 		searchQueryConfigMap.put("priceSchedulePriceView", gtnWebServiceSearchQueryContext);
 
 	}
