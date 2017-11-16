@@ -47,16 +47,16 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	private final Set<String> columnNames = new HashSet<>();
 	private final Map<Integer, String> inclusionExclusionRules = new HashMap<>();
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderHelperLogic.class);
-	
+
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
-	
+
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
-	
+
 	@SuppressWarnings("rawtypes")
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
@@ -73,6 +73,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	public GtnWsRelationshipBuilderHelperLogic() {
 		super();
 	}
+
 	@SuppressWarnings({ "rawtypes" })
 	public String finderImplInLogic(String tableName, String columnName, List hierListValues, boolean isFirst) {
 
@@ -151,8 +152,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 				final String conditionMethod = colArray[2];
 				final String value = colArray[3];
 				otherColumn = otherColumn.replace(REPLACE_STRING, "");
-				gtnFrameworkEntityMasterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName,
-						columnName);
+				gtnFrameworkEntityMasterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 				final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 				if (dto != null) {
@@ -377,8 +377,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<String> getGroupRuleList(String ruleGroup)
-			throws GtnFrameworkGeneralException {
+	public List<String> getGroupRuleList(String ruleGroup) throws GtnFrameworkGeneralException {
 		final List<String> ruleList = new ArrayList<>();
 		final List tempList = new ArrayList<>();
 		try {

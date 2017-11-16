@@ -418,7 +418,7 @@ public class RelationShipFilterLogic {
 
 	private void getWhereQueryForCustomerAndContract(List<Leveldto> selectedCustomerContractList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, GtnFrameworkQueryGeneratorBean queryBean,
-                        int relationVersionNo) {
+			int relationVersionNo) {
 		List<Leveldto> modifiableList = new ArrayList<>(selectedCustomerContractList);
 		Collections.sort(modifiableList);
 		int maxlevelNo = 0;
@@ -461,7 +461,8 @@ public class RelationShipFilterLogic {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Leveldto> getRelationShipValuesByRelationShipBuilderSid(String relationShipBuilderId, int maxlevelNo, int relationVersionNo) {
+	private List<Leveldto> getRelationShipValuesByRelationShipBuilderSid(String relationShipBuilderId, int maxlevelNo,
+			int relationVersionNo) {
 		List<Object> input = new ArrayList<>();
 		input.add(relationShipBuilderId);
 		input.add(maxlevelNo);
@@ -556,8 +557,10 @@ public class RelationShipFilterLogic {
 				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
 				productRelationVersionNo);
 
-		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList, customerRelationVersionNo);
-		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList, productRelationVersionNo);
+		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList,
+				customerRelationVersionNo);
+		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList,
+				productRelationVersionNo);
 		List<String> input = new ArrayList<>();
 		input.add(cusHieNoQuery.toString());
 		input.add(customerHierarchyQuery);
@@ -597,8 +600,10 @@ public class RelationShipFilterLogic {
 		String productHierarchyQuery = getCustomerAndContractHierarchyQuery(selectedProductList,
 				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
 				productRelationVersionNo);
-		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList, customerRelationVersionNo);
-		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList, productRelationVersionNo);
+		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList,
+				customerRelationVersionNo);
+		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList,
+				productRelationVersionNo);
 		List<Object> input = new ArrayList<>();
 		input.add(cusHieNoQuery);
 		input.add(customerHierarchyQuery);
@@ -652,7 +657,8 @@ public class RelationShipFilterLogic {
 				hierarchyLevelDefinitionList, isProduct);
 		queryBean.addSelectClauseBean("TEMP.HIERARCHY_NO", null, Boolean.TRUE, null);
 		getParentHierarchyCondition(queryBean, tempTableName);
-		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean, relationVersionNo);
+		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean,
+				relationVersionNo);
 		return QueryUtils.getQuery(queryBean.generateQuery(), input);
 	}
 
@@ -929,13 +935,12 @@ public class RelationShipFilterLogic {
 		forecastRequest.setCustRelationShipBuilderSid(Integer.parseInt(dto.getCustRelationshipBuilderSid()));
 		forecastRequest.setProjectionHierarchyCustVersionNo(dto.getCustomerHierVersionNo());
 		forecastRequest.setProjectionRelationshipCustVersionNo(dto.getCustomerRelationShipVersionNo());
-		
+
 		forecastRequest.setProdHierarchySid(Integer.parseInt(dto.getProdHierSid()));
 		forecastRequest.setProdRelationShipBuilderSid(Integer.parseInt(dto.getProdRelationshipBuilderSid()));
 		forecastRequest.setProjectionHierarchyProdVersionNo(dto.getProductHierVersionNo());
 		forecastRequest.setProjectionRelationshipProdVersionNo((dto.getProductRelationShipVersionNo()));
-		
-		
+
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWshirarchyInsertRequest(forecastRequest);

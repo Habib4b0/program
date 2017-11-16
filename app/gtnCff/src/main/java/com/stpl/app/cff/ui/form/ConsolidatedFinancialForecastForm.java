@@ -513,21 +513,23 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 					final Map<String, String> tempCustomerDescriptionMap = relationLogic.getLevelValueMap(
 							dataSelectionDto.getCustRelationshipBuilderSid(),
-							Integer.parseInt(dataSelectionDto.getCustomerHierSid()), dataSelectionDto.getCustomerHierVersionNo(),
-                                                        dataSelectionDto.getCustomerRelationShipVersionNo());
+							Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
+							dataSelectionDto.getCustomerHierVersionNo(),
+							dataSelectionDto.getCustomerRelationShipVersionNo());
 					final Map<String, String> tempProductDescriptionMap = relationLogic.getLevelValueMap(
 							dataSelectionDto.getProdRelationshipBuilderSid(),
-							Integer.parseInt(dataSelectionDto.getProdHierSid()), dataSelectionDto.getProductHierVersionNo(),
-                                                        dataSelectionDto.getProductRelationShipVersionNo());
+							Integer.parseInt(dataSelectionDto.getProdHierSid()),
+							dataSelectionDto.getProductHierVersionNo(),
+							dataSelectionDto.getProductRelationShipVersionNo());
 					final int customerSelectedLevel = Integer
 							.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 					final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
 					final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
 							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-                                                                dataSelectionDto.getCustomerHierVersionNo());
+									dataSelectionDto.getCustomerHierVersionNo());
 					final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
 							.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getProdHierSid()),
-                                                                dataSelectionDto.getProductHierVersionNo());
+									dataSelectionDto.getProductHierVersionNo());
 
 					final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 							dataSelectionDto.getProjectionId(), Boolean.TRUE, customerSelectedLevel,
@@ -538,7 +540,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 					relationLogic.ccpHierarchyInsert(sessionDto.getCurrentTableNames(), customerItemIds, productItemIds,
 							customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-                                                        dataSelectionDto.getCustomerRelationShipVersionNo(), dataSelectionDto.getProductRelationShipVersionNo());
+							dataSelectionDto.getCustomerRelationShipVersionNo(),
+							dataSelectionDto.getProductRelationShipVersionNo());
 
 					sessionDto.setCustomerLevelDetails(logic.getLevelValueDetails(sessionDto,
 							dataSelectionDto.getCustRelationshipBuilderSid(), true));
@@ -691,20 +694,21 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 				final Map<String, String> tempCustomerDescriptionMap = relationLogic.getLevelValueMap(
 						dataSelectionDto.getCustRelationshipBuilderSid(),
-						Integer.parseInt(dataSelectionDto.getCustomerHierSid()), dataSelectionDto.getCustomerHierVersionNo(),
-                                                dataSelectionDto.getCustomerRelationShipVersionNo());
+						Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
+						dataSelectionDto.getCustomerHierVersionNo(),
+						dataSelectionDto.getCustomerRelationShipVersionNo());
 				final Map<String, String> tempProductDescriptionMap = relationLogic.getLevelValueMap(
 						dataSelectionDto.getProdRelationshipBuilderSid(),
 						Integer.parseInt(dataSelectionDto.getProdHierSid()), dataSelectionDto.getProductHierVersionNo(),
-                                                dataSelectionDto.getProductRelationShipVersionNo());
+						dataSelectionDto.getProductRelationShipVersionNo());
 				final int customerSelectedLevel = Integer.parseInt(dataSelectionDto.getCustomerHierarchyInnerLevel());
 				final int productSelectedLeve = Integer.parseInt(dataSelectionDto.getProductHierarchyInnerLevel());
-				final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic
-						.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
-                                                        dataSelectionDto.getCustomerHierVersionNo());
-				final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic
-						.getHierarchyLevelDefinition(Integer.parseInt(dataSelectionDto.getProdHierSid()),
-                                                        dataSelectionDto.getProductHierVersionNo());
+				final List<Leveldto> customerHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
+						Integer.parseInt(dataSelectionDto.getCustomerHierSid()),
+						dataSelectionDto.getCustomerHierVersionNo());
+				final List<Leveldto> productHierarchyLevelDefinitionList = relationLogic.getHierarchyLevelDefinition(
+						Integer.parseInt(dataSelectionDto.getProdHierSid()),
+						dataSelectionDto.getProductHierVersionNo());
 
 				final List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(
 						dataSelectionDto.getProjectionId(), Boolean.TRUE, customerSelectedLevel,
@@ -715,7 +719,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), customerItemIds, productItemIds,
 						customerHierarchyLevelDefinitionList, productHierarchyLevelDefinitionList,
-                                                dataSelectionDto.getCustomerRelationShipVersionNo(), dataSelectionDto.getProductRelationShipVersionNo());
+						dataSelectionDto.getCustomerRelationShipVersionNo(),
+						dataSelectionDto.getProductRelationShipVersionNo());
 
 				cffLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(), dataSelectionDto,
 						cffLogic.getCustandProdSelection(sessionDTO.getProjectionId(),
@@ -894,14 +899,14 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 		dataSelectionDto.setProjectionId(dto.getCffMasterSid());
 		dataSelectionDto.setBusinessUnitSystemId(resultList[NumericConstants.TWENTY_TWO] != null
 				? Integer.valueOf(resultList[NumericConstants.TWENTY_TWO].toString()) : 0);
-                dataSelectionDto.setCustomerHierVersionNo(resultList[NumericConstants.TWENTY_FIVE] != null 
-                        ? Integer.valueOf(resultList[NumericConstants.TWENTY_FIVE].toString()) : 0);
-                dataSelectionDto.setProductHierarchyVer(resultList[NumericConstants.TWENTY_SIX] != null 
-                        ? resultList[NumericConstants.TWENTY_SIX].toString() : "0");
-                dataSelectionDto.setCustomerRelationShipVersionNo(resultList[NumericConstants.TWENTY_SEVEN] != null 
-                        ? Integer.valueOf(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
-                dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null 
-                        ? Integer.valueOf(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
+		dataSelectionDto.setCustomerHierVersionNo(resultList[NumericConstants.TWENTY_FIVE] != null
+				? Integer.valueOf(resultList[NumericConstants.TWENTY_FIVE].toString()) : 0);
+		dataSelectionDto.setProductHierarchyVer(resultList[NumericConstants.TWENTY_SIX] != null
+				? resultList[NumericConstants.TWENTY_SIX].toString() : "0");
+		dataSelectionDto.setCustomerRelationShipVersionNo(resultList[NumericConstants.TWENTY_SEVEN] != null
+				? Integer.valueOf(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
+		dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null
+				? Integer.valueOf(resultList[NumericConstants.TWENTY_EIGHT].toString()) : 0);
 
 	}
 

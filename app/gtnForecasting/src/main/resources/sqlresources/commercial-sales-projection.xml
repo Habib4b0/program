@@ -1711,11 +1711,11 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
     WHERE p.PERIOD_SID BETWEEN @START_PERIOD_SID
                   AND @END_PERIOD_SID
           AND SP1.CHECK_RECORD = 1
-
+    
 
    ]]>
 
         </query>
     </entity>
-    
+
 </sql>

@@ -25,10 +25,8 @@ public class GtnAutomaticRelationServiceRunnable implements Runnable {
 	public static void testWebservice() {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-		client.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
-						+ GtnWebServiceUrlConstants.RELATION_WEBSERVICE_TEST,
-				request, getGsnWsSecurityToken());
+		client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+				+ GtnWebServiceUrlConstants.RELATION_WEBSERVICE_TEST, request, getGsnWsSecurityToken());
 	}
 
 	private static GtnWsSecurityToken getGsnWsSecurityToken() {
@@ -57,8 +55,8 @@ public class GtnAutomaticRelationServiceRunnable implements Runnable {
 		request.setAutomaticRelationEequest(relationRequest);
 		GtnUIFrameworkWebserviceResponse newResponse = client
 				.callGtnWebServiceUrl(
-				GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
-						+ GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE,
-				request, getGsnWsSecurityToken());
+						GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+								+ GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE,
+						request, getGsnWsSecurityToken());
 	}
 }

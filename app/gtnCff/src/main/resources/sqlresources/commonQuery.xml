@@ -818,7 +818,7 @@ FROM   (SELECT FILE_MANAGEMENT_SID,
     <entity id="getCFFLevel">
         <query>
              <![CDATA[ 
-             select * from dbo.CFF_APPROVAL_DETAILS WHERE CFF_MASTER_SID='?'
+             select * from dbo.CFF_APPROVAL_DETAILS WHERE CFF_MASTER_SID='?' order by CFF_APPROVAL_DETAILS_SID DESC
                       ]]>
         </query>
     </entity>  
