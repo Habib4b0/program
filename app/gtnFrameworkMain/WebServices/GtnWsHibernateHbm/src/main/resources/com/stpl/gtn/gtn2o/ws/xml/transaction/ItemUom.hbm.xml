@@ -20,7 +20,7 @@
         <property name="itemName" type="string">
             <column name="ITEM_NAME" length="100" />
         </property>
-        <property name="primaryUomBaselineFactor" type="big_decimal">
+        <property name="primaryUomBaselineFactor" type="double">
             <column name="PRIMARY_UOM_BASELINE_FACTOR" precision="22" scale="6" not-null="true" />
         </property>
         <property name="primaryUomCode" type="int">
@@ -29,7 +29,7 @@
         <property name="primaryUomName" type="string">
             <column name="PRIMARY_UOM_NAME" length="20" not-null="true" />
         </property>
-        <property name="secondaryUomConversionFactor" type="big_decimal">
+        <property name="secondaryUomConversionFactor" type="double">
             <column name="SECONDARY_UOM_CONVERSION_FACTOR" precision="22" scale="6" not-null="true" />
         </property>
         <property name="secondaryUomCode" type="int">
@@ -56,7 +56,7 @@
         <property name="createdDate" type="timestamp">
             <column name="CREATED_DATE" length="23" not-null="true" />
         </property>
-        <property name="inboundStatus" type="char">
+        <property name="inboundStatus" type="string">
             <column name="INBOUND_STATUS" length="1" not-null="true" />
         </property>
         <property name="batchId" type="string">
@@ -65,7 +65,7 @@
         <property name="source" type="string">
             <column name="SOURCE" length="50" />
         </property>
-         <property name="itemUomConversionId" type="big_decimal">
+         <property name="itemUomConversionId" type="double">
             <column name="ITEM_UOM_CONVERSION_ID" precision="38" scale="0" not-null="true" />
         </property>
     </class>
