@@ -193,18 +193,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      * Configure fields.
      */
     private void configureFields() {
-        if(CommonUtils.isValueEligibleForLoading()){
-            pvSelectionDTO.setSessionDTO(sessionDTO);
-            loadCustomerLevel();
-            loadProductLevel();
-            loadDedutionLevel();
-            loadCustomerLevelFilter(StringUtils.EMPTY);
-            loadProductLevelFilter(StringUtils.EMPTY);
-            loadDeductionLevelFilter(StringUtils.EMPTY);
-            loadDeductionInclusion();
-            loadSalesInclusion();
-            uomLoadingTabChange();
-            loadDisplayFormatDdlb();
+        if (sessionDTO.getProjectionId() != 0) {
+            loadAllDdbls();
         }
         configurePermission();
         frequency.addItem(ConstantsUtil.SELECT_ONE);
@@ -249,16 +239,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             setProjectionSelection();
         }
     }
-    
-    
+
+   
     public void uomLoadingTabChange() {
         CommonLogic.loadUnitOfMeasureDdlb(uomDdlb, sessionDTO);
-    }
-    
-    public void CPDddlbLoading() {
-        loadCustomerLevel();
-        loadProductLevel();
-        loadDedutionLevel();
     }
 
     /**
@@ -1989,10 +1973,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             productFilterDdlb.removeSubMenuCloseListener(productlistener);
             
             productFilterDdlb.removeItems();
-            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
 
             if (!levelNo.isEmpty() ) {
-                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 productLevelFilter.addAll(CommonLogic.getProductLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
             }
@@ -2006,10 +1990,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
             deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
             deductionFilterDdlb.removeItems();
-            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             
             if (!levelNo.isEmpty()) {
-                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 deductionLevelFilter.addAll(CommonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
             }
@@ -2043,9 +2027,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         
             customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
             customerFilterDdlb.removeItems();
-            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             if (!levelNo.isEmpty()) {
-                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 customerLevelFilter.addAll(CommonLogic.getCustomerLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
             }
@@ -2121,6 +2105,22 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.setPageLength(NumericConstants.TEN);
+    }
+
+    public void loadAllDdbls() {
+        if (CommonUtils.isValueEligibleForLoading()) {
+            pvSelectionDTO.setSessionDTO(sessionDTO);
+            loadCustomerLevel();
+            loadProductLevel();
+            loadDedutionLevel();
+            loadCustomerLevelFilter(StringUtils.EMPTY);
+            loadProductLevelFilter(StringUtils.EMPTY);
+            loadDeductionLevelFilter(StringUtils.EMPTY);
+            loadDeductionInclusion();
+            loadSalesInclusion();
+            uomLoadingTabChange();
+            loadDisplayFormatDdlb();
+        }
     }
     
 }
