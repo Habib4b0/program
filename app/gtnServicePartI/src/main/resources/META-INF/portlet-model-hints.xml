@@ -946,7 +946,6 @@
 		<field name="forecastMasterSid" type="int" />
 		<field name="forecastedSalesPercentMonth" type="int" />
 		<field name="inboundStatus" type="String" />
-		<field name="businessUnit" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ForecastingViewMaster">
 		<field name="createdDate" type="Date" />
@@ -3230,6 +3229,8 @@
 		<field name="businessUnit" type="int" />
 		<field name="deductionHierarchySid" type="String" />
 		<field name="dedRelationshipBuilderSid" type="String" />
+		<field name="projectionCustVersionNo" type="int" />
+		<field name="projectionProdVersionNo" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ProjectionNameConfig">
 		<field name="createdDate" type="Date" />

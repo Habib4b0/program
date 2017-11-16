@@ -1781,7 +1781,6 @@
         <column db-name="FORECAST_MASTER_SID" id-type="identity" name="forecastMasterSid" primary="true" type="int"/>
         <column db-name="FORECASTED_SALES_PERCENT_MONTH" name="forecastedSalesPercentMonth" primary="false" type="int"/>
         <column db-name="INBOUND_STATUS" name="inboundStatus" primary="false" type="String"/>
-        <column db-name="BUSINESS_UNIT" name="businessUnit" primary="false" type="int"/>
         <finder name="ForecastYear" return-type="Collection">
             <finder-column name="forecastYear"></finder-column>
         </finder>
@@ -3298,6 +3297,8 @@
         <column db-name="BUSINESS_UNIT" name="businessUnit" primary="false" type="int"/>
         <column db-name="DEDUCTION_HIERARCHY_SID" name="deductionHierarchySid" primary="false" type="String" convert-null="false"/>
         <column db-name="DED_RELATIONSHIP_BULDER_SID" name="dedRelationshipBuilderSid" primary="false" type="String" convert-null="false"/>
+         <column db-name="PROJECTION_CUST_VERSION" name="projectionCustVersionNo" primary="false" type="int"/>
+        <column db-name="PROJECTION_PROD_VERSION" name="projectionProdVersionNo" primary="false" type="int"/>
     </entity>
     <entity cache-enabled="false" data-source="appDataSource" local-service="true" name="ProjectionProdDetails" remote-service="false" session-factory="appSessionFactory" table="PROJECTION_PROD_DETAILS" tx-manager="appTransactionManager">
         <column db-name="PRODUCT_NAME" name="productName" primary="false" type="String"/>

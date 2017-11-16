@@ -514,4 +514,7 @@ public class UiUtils {
         String formatedDate = splitDate[NumericConstants.TWO] + splitDate[1] + splitDate[0];
         return formatedDate;
     }
+ public static int getDataSelectionFormattedLevelNo(String value) {
+        return value == null && StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
+    }
 }

@@ -22,9 +22,9 @@ public class FileReadWriteService {
 
 	private static final Logger LOGGER = Logger.getLogger(FileReadWriteService.class);
 
-	private List<GtnFrameworkHierarchyQueryBean> getConfigFromJSON(int hierarchyId) {
+	private List<GtnFrameworkHierarchyQueryBean> getConfigFromJSON(int hierarchyId, int hierarchyVersionNo) {
 
-		String fileName = getFileNameByHierarchyId(hierarchyId);
+		String fileName = getFileNameByHierarchyId(hierarchyId, hierarchyVersionNo);
 		List<GtnFrameworkHierarchyQueryBean> rootConfig = null;
 		ObjectMapper mapper = new ObjectMapper();
 		// Convert object to JSON string and save into a file directly
@@ -40,12 +40,12 @@ public class FileReadWriteService {
 
 	}
 
-	public void createJson(Object obj, int hierarchyId) {
+	public void createJson(Object obj, int hierarchyId, int hierarchyVersionNo) {
 
 		String folderName = getFolderName();
 		File folder = new File(folderName);
 		folder.mkdirs();
-		String fileName = getFileNameByHierarchyId(hierarchyId);
+		String fileName = getFileNameByHierarchyId(hierarchyId, hierarchyVersionNo);
 		File file = getProperFile(fileName);
 		ObjectMapper mapper = new ObjectMapper();
 		// Convert object to JSON string and save into a file directly
@@ -72,9 +72,9 @@ public class FileReadWriteService {
 		return file;
 	}
 
-	private String getFileNameByHierarchyId(int hierarchyId) {
+	private String getFileNameByHierarchyId(int hierarchyId, int hierarchyVersionNo) {
 
-		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + ".json";
+		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + "_"+hierarchyVersionNo+".json";
 
 	}
 
@@ -84,8 +84,8 @@ public class FileReadWriteService {
 
 	}
 
-	public GtnFrameworkHierarchyQueryBean getQueryFromFile(int hierarchyId, String hierarchyLevelDefnId) {
-		List<GtnFrameworkHierarchyQueryBean> queryBeanList = getConfigFromJSON(hierarchyId);
+	public GtnFrameworkHierarchyQueryBean getQueryFromFile(int hierarchyId, String hierarchyLevelDefnId, int hierarchyVersionNo) {
+		List<GtnFrameworkHierarchyQueryBean> queryBeanList = getConfigFromJSON(hierarchyId, hierarchyVersionNo);
 		for (GtnFrameworkHierarchyQueryBean gtnFrameworkQueryBean : queryBeanList) {
 			if (gtnFrameworkQueryBean.getHierarchyLevelDefSid() == Integer.parseInt(hierarchyLevelDefnId)) {
 				return gtnFrameworkQueryBean;

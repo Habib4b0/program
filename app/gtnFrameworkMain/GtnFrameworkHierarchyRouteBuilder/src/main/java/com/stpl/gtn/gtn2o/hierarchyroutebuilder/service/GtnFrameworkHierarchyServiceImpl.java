@@ -106,11 +106,7 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		if (!pathList.isEmpty()) {
 			GtnFramworkTableBean leftTableBean = entityMasterBean.getTableBeanUsingTableId(pathList.get(0));
 			if (startIndex == 0) {
-				final StringBuilder query = new StringBuilder();
-				query.append(leftTableBean.getTablename());
-				query.append(GtnFrameworkCommonConstants.AS_WITH_SPACE);
-				query.append(leftTableBean.getTablename());
-				queryBean.setFromTableNameWithAlies(query.toString());
+				queryBean.setFromTableNameWithAlies(leftTableBean.getTablename(), leftTableBean.getTablename());
 			}
 			GtnFramworkTableBean rightTableBean = null;
 			for (int index = startIndex; index < pathList.size() - 1; index++) {
@@ -203,18 +199,18 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	}
 
 	@Override
-	public void creatQueryForMultiLevelHierarchy(List<Integer> tableIdList, GtnFrameworkQueryGeneratorBean queryBean) {
+	public void creatQueryForMultiLevelHierarchy(List<Integer> entityIdList, GtnFrameworkQueryGeneratorBean queryBean) {
 		final Set<Integer> path = new HashSet<>();
-		if (tableIdList.size() > 1) {
-			final GtnFrameworkRouteBean routeBean = getRoutePath(tableIdList.get(0), tableIdList.get(1));
+		if (entityIdList.size() > 1) {
+			final GtnFrameworkRouteBean routeBean = getRoutePath(entityIdList.get(0), entityIdList.get(1));
 			path.addAll(routeBean.getPathList());
 			createQuery(routeBean, queryBean);
 		} else {
-			final GtnFrameworkRouteBean routeBean = getRoutePath(tableIdList.get(0), 0);
+			final GtnFrameworkRouteBean routeBean = getRoutePath(entityIdList.get(0), 0);
 			createQuery(routeBean, queryBean);
 		}
-		for (int i = 2; i < tableIdList.size(); i++) {
-			final GtnFrameworkRouteBean routeBean = getRoutePath(tableIdList.get(i - 1), tableIdList.get(i));
+		for (int i = 2; i < entityIdList.size(); i++) {
+			final GtnFrameworkRouteBean routeBean = getRoutePath(entityIdList.get(i - 1), entityIdList.get(i));
 			final int index = getDistinctPathValue(routeBean.getPathList(), path);
 			if (index != -1) {
 				path.addAll(routeBean.getPathList());
@@ -271,8 +267,8 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 			GtnFrameworkQueryGeneratorBean queryBean) {
 		final List<String> mappingColumn = getMappingColumns(keyBean);
 		if (!mappingColumn.isEmpty()) {
-			queryBean.addSelectClauseBean(mappingColumn.get(0));
-			queryBean.addSelectClauseBean(mappingColumn.get(1));
+			queryBean.addSelectClauseBean(mappingColumn.get(0), null, Boolean.TRUE, null);
+			queryBean.addSelectClauseBean(mappingColumn.get(1), null, Boolean.TRUE, null);
 		}
 	}
 
@@ -293,6 +289,26 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 					GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
 					tableBean.getInboundStatusValue());
 		}
+	}
+
+	@Override
+	public void getInboundRestrictionQueryForAutoUpdate(GtnFrameworkQueryGeneratorBean queryBaen) {
+		for (GtnFrameworkJoinClauseBean joinClauseBean : queryBaen.getJoinClauseConfigList()) {
+			GtnFramworkTableBean tableBean = entityMasterBean
+					.getEntityBeanByTableName(joinClauseBean.getJoinTableName());
+			if (tableBean == null)
+				continue;
+			queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(joinClauseBean.getJoinTableAliesName()), null,
+					GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
+					tableBean.getInboundStatusValue());
+		}
+		GtnFramworkTableBean tableBean = entityMasterBean
+				.getEntityBeanByTableName(queryBaen.getFromTableName());
+		queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(queryBaen.getFromTableAlies()), null,
+				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
+				tableBean.getInboundStatusValue());
+		
+
 	}
 
 }

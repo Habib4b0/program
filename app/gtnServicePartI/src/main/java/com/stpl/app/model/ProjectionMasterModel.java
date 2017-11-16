@@ -492,6 +492,34 @@ public interface ProjectionMasterModel extends BaseModel<ProjectionMaster> {
      */
     public void setDedRelationshipBuilderSid(String dedRelationshipBuilderSid);
 
+    /**
+     * Returns the projection cust version no of this projection master.
+     *
+     * @return the projection cust version no of this projection master
+     */
+    public int getProjectionCustVersionNo();
+
+    /**
+     * Sets the projection cust version no of this projection master.
+     *
+     * @param projectionCustVersionNo the projection cust version no of this projection master
+     */
+    public void setProjectionCustVersionNo(int projectionCustVersionNo);
+
+    /**
+     * Returns the projection prod version no of this projection master.
+     *
+     * @return the projection prod version no of this projection master
+     */
+    public int getProjectionProdVersionNo();
+
+    /**
+     * Sets the projection prod version no of this projection master.
+     *
+     * @param projectionProdVersionNo the projection prod version no of this projection master
+     */
+    public void setProjectionProdVersionNo(int projectionProdVersionNo);
+
     @Override
     public boolean isNew();
 

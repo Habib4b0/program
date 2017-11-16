@@ -503,7 +503,7 @@ public class NonMandatedLogic {
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
 
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
 
                 if (obj[0] != null) {
                     contract.addItem(String.valueOf(obj[0]));
@@ -1270,6 +1270,8 @@ public class NonMandatedLogic {
         projectionMaster.setDiscountType(dataSelectionDTO.getDiscountSid());
         projectionMaster.setForecastingType(screenName);
         projectionMaster.setBusinessUnit(dataSelectionDTO.getBusinessUnitSystemId());
+		projectionMaster.setProjectionCustVersionNo(dataSelectionDTO.getCustomerRelationShipVersionNo());
+		projectionMaster.setProjectionProdVersionNo(dataSelectionDTO.getProductRelationShipVersionNo());
         Object[] obj = null;
         if (CommonUtil.isValueEligibleForLoading()) {
             obj = deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());

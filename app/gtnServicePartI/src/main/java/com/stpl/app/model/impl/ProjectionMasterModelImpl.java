@@ -70,9 +70,11 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
             { "DISCOUNT_TYPE", Types.INTEGER },
             { "BUSINESS_UNIT", Types.INTEGER },
             { "DEDUCTION_HIERARCHY_SID", Types.VARCHAR },
-            { "DED_RELATIONSHIP_BULDER_SID", Types.VARCHAR }
+            { "DED_RELATIONSHIP_BULDER_SID", Types.VARCHAR },
+            { "PROJECTION_CUST_VERSION", Types.INTEGER },
+            { "PROJECTION_PROD_VERSION", Types.INTEGER }
         };
-    public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER,DEDUCTION_HIERARCHY_SID VARCHAR(75) null,DED_RELATIONSHIP_BULDER_SID VARCHAR(75) null)";
+    public static final String TABLE_SQL_CREATE = "create table PROJECTION_MASTER (PRODUCT_HIERARCHY_LEVEL INTEGER,SAVE_FLAG BOOLEAN,PROJECTION_NAME VARCHAR(75) null,TO_DATE DATE null,PROJECTION_MASTER_SID INTEGER not null primary key IDENTITY,FORECASTING_TYPE VARCHAR(75) null,PRODUCT_HIER_VERSION_NO INTEGER,CUSTOMER_HIER_VERSION_NO INTEGER,MODIFIED_DATE DATE null,CUSTOMER_HIERARCHY_LEVEL INTEGER,FROM_DATE DATE null,PRODUCT_HIERARCHY_SID VARCHAR(75) null,CREATED_DATE DATE null,CREATED_BY INTEGER,CUSTOMER_HIERARCHY_SID VARCHAR(75) null,COMPANY_GROUP_SID VARCHAR(75) null,BRAND_TYPE BOOLEAN,MODIFIED_BY INTEGER,PROJECTION_DESCRIPTION VARCHAR(75) null,IS_APPROVED VARCHAR(75) null,ITEM_GROUP_SID VARCHAR(75) null,COMPANY_MASTER_SID VARCHAR(75) null,CUSTOMER_HIERARCHY_INNER_LEVEL INTEGER,PRODUCT_HIERARCHY_INNER_LEVEL INTEGER,CUST_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,PROD_RELATIONSHIP_BUILDER_SID VARCHAR(75) null,DISCOUNT_TYPE INTEGER,BUSINESS_UNIT INTEGER,DEDUCTION_HIERARCHY_SID VARCHAR(75) null,DED_RELATIONSHIP_BULDER_SID VARCHAR(75) null,PROJECTION_CUST_VERSION INTEGER,PROJECTION_PROD_VERSION INTEGER)";
     public static final String TABLE_SQL_DROP = "drop table PROJECTION_MASTER";
     public static final String ORDER_BY_JPQL = " ORDER BY projectionMaster.projectionMasterSid ASC";
     public static final String ORDER_BY_SQL = " ORDER BY PROJECTION_MASTER.PROJECTION_MASTER_SID ASC";
@@ -122,6 +124,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
     private int _businessUnit;
     private String _deductionHierarchySid;
     private String _dedRelationshipBuilderSid;
+    private int _projectionCustVersionNo;
+    private int _projectionProdVersionNo;
     private ProjectionMaster _escapedModel;
 
     public ProjectionMasterModelImpl() {
@@ -196,6 +200,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         attributes.put("deductionHierarchySid", getDeductionHierarchySid());
         attributes.put("dedRelationshipBuilderSid",
             getDedRelationshipBuilderSid());
+        attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
+        attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
 
         return attributes;
     }
@@ -394,6 +400,20 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
         if (dedRelationshipBuilderSid != null) {
             setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
+        }
+
+        Integer projectionCustVersionNo = (Integer) attributes.get(
+                "projectionCustVersionNo");
+
+        if (projectionCustVersionNo != null) {
+            setProjectionCustVersionNo(projectionCustVersionNo);
+        }
+
+        Integer projectionProdVersionNo = (Integer) attributes.get(
+                "projectionProdVersionNo");
+
+        if (projectionProdVersionNo != null) {
+            setProjectionProdVersionNo(projectionProdVersionNo);
         }
     }
 
@@ -724,6 +744,26 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
     }
 
     @Override
+    public int getProjectionCustVersionNo() {
+        return _projectionCustVersionNo;
+    }
+
+    @Override
+    public void setProjectionCustVersionNo(int projectionCustVersionNo) {
+        _projectionCustVersionNo = projectionCustVersionNo;
+    }
+
+    @Override
+    public int getProjectionProdVersionNo() {
+        return _projectionProdVersionNo;
+    }
+
+    @Override
+    public void setProjectionProdVersionNo(int projectionProdVersionNo) {
+        _projectionProdVersionNo = projectionProdVersionNo;
+    }
+
+    @Override
     public ProjectionMaster toEscapedModel() {
         if (_escapedModel == null) {
             _escapedModel = (ProjectionMaster) ProxyUtil.newProxyInstance(_classLoader,
@@ -767,6 +807,8 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         projectionMasterImpl.setBusinessUnit(getBusinessUnit());
         projectionMasterImpl.setDeductionHierarchySid(getDeductionHierarchySid());
         projectionMasterImpl.setDedRelationshipBuilderSid(getDedRelationshipBuilderSid());
+        projectionMasterImpl.setProjectionCustVersionNo(getProjectionCustVersionNo());
+        projectionMasterImpl.setProjectionProdVersionNo(getProjectionProdVersionNo());
 
         projectionMasterImpl.resetOriginalValues();
 
@@ -989,12 +1031,16 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
             projectionMasterCacheModel.dedRelationshipBuilderSid = null;
         }
 
+        projectionMasterCacheModel.projectionCustVersionNo = getProjectionCustVersionNo();
+
+        projectionMasterCacheModel.projectionProdVersionNo = getProjectionProdVersionNo();
+
         return projectionMasterCacheModel;
     }
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(61);
+        StringBundler sb = new StringBundler(65);
 
         sb.append("{productHierarchyLevel=");
         sb.append(getProductHierarchyLevel());
@@ -1056,6 +1102,10 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         sb.append(getDeductionHierarchySid());
         sb.append(", dedRelationshipBuilderSid=");
         sb.append(getDedRelationshipBuilderSid());
+        sb.append(", projectionCustVersionNo=");
+        sb.append(getProjectionCustVersionNo());
+        sb.append(", projectionProdVersionNo=");
+        sb.append(getProjectionProdVersionNo());
         sb.append("}");
 
         return sb.toString();
@@ -1063,7 +1113,7 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(94);
+        StringBundler sb = new StringBundler(100);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ProjectionMaster");
@@ -1188,6 +1238,14 @@ public class ProjectionMasterModelImpl extends BaseModelImpl<ProjectionMaster>
         sb.append(
             "<column><column-name>dedRelationshipBuilderSid</column-name><column-value><![CDATA[");
         sb.append(getDedRelationshipBuilderSid());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>projectionCustVersionNo</column-name><column-value><![CDATA[");
+        sb.append(getProjectionCustVersionNo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>projectionProdVersionNo</column-name><column-value><![CDATA[");
+        sb.append(getProjectionProdVersionNo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

@@ -1265,7 +1265,6 @@
 		<property name="source" type="com.stpl.portal.dao.orm.hibernate.StringType" column="SOURCE" />
 		<property name="forecastedSalesPercentMonth" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="FORECASTED_SALES_PERCENT_MONTH" />
 		<property name="inboundStatus" type="com.stpl.portal.dao.orm.hibernate.StringType" column="INBOUND_STATUS" />
-		<property name="businessUnit" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BUSINESS_UNIT" />
 	</class>
 	<class name="com.stpl.app.model.impl.ForecastingViewMasterImpl" table="FORECASTING_VIEW_MASTER">
 		<id name="viewId" column="VIEW_ID" type="int">
@@ -3759,6 +3758,8 @@
 		<property name="businessUnit" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BUSINESS_UNIT" />
 		<property name="deductionHierarchySid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DEDUCTION_HIERARCHY_SID" />
 		<property name="dedRelationshipBuilderSid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DED_RELATIONSHIP_BULDER_SID" />
+		<property name="projectionCustVersionNo" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="PROJECTION_CUST_VERSION" />
+		<property name="projectionProdVersionNo" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="PROJECTION_PROD_VERSION" />
 	</class>
 	<class name="com.stpl.app.model.impl.ProjectionNameConfigImpl" table="PROJECTION_NAME_CONFIG">
 		<id name="projectionNameConfigSid" column="PROJECTION_NAME_CONFIG_SID" type="int">

@@ -148,7 +148,7 @@ public class DataSelectionLogic {
                 hdto.setModifiedDate(String.valueOf(obj[NumericConstants.SIX].toString()));
                 hdto.setModifiedDateSearch(Converters.parseDate(String.valueOf(obj[NumericConstants.SIX].toString())));
             }
-            hdto.setVersionNo(Integer.parseInt(String.valueOf(obj[NumericConstants.SEVEN].toString())));
+//            
             resultList.add(hdto);
 
         }
@@ -773,7 +773,7 @@ public class DataSelectionLogic {
             resultss = dataSelectionDao.getParentLevels(levelNo, relationshipLevelSid, parameters);
             for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
                 dto = new Leveldto();
-                Object objects[] = (Object[]) resultss.get(loop);
+                Object[] objects = (Object[]) resultss.get(loop);
                 dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
                 dto.setRelationshipLevelValue(String.valueOf(objects[1]));
                 dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
@@ -803,7 +803,7 @@ public class DataSelectionLogic {
 
         try {
             resultss = dataSelectionDao.getParentLevels(levelNo, relationshipLevelSid, parameters);
-            Object objects[] = (Object[]) resultss.get(0);
+            Object[] objects = (Object[]) resultss.get(0);
             dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
             dto.setRelationshipLevelValue(String.valueOf(objects[1]));
             dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
@@ -1180,21 +1180,22 @@ public class DataSelectionLogic {
         }
     }
 
-    public List<Leveldto> getParentLevelsWithHierarchyNo(final String hierarchyNos, final Map<String, String> descriptionMap) {
+    public List<Leveldto> getParentLevelsWithHierarchyNo(final String hierarchyNos, final Map<String, String> descriptionMap, int hierarchyVersion, int relationShipVersion) {
         List resultss;
         List<Leveldto> resultList = null;
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("hierarchyNos", hierarchyNos);
-        parameters.put(Constant.INDICATOR, "getParentLevelsWithHierarchyNo");
+        List<Object> inputs = new ArrayList<>();
+        inputs.add(hierarchyNos);
+        inputs.add(relationShipVersion);
+        inputs.add(hierarchyVersion);
         Leveldto dto;
 
         try {
-            resultss = dataSelectionDao.getParentLevels(0, 0, parameters);
+            resultss = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtils.getQuery(inputs, "getParentLevelsWithHierarchyNo_New"));
 
             if (resultss != null) {
                 resultList = new ArrayList<>();
                 for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-                    Object objects[] = (Object[]) resultss.get(loop);
+                    Object[] objects = (Object[]) resultss.get(loop);
                     dto = new Leveldto();
                     dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
                     dto.setRelationshipLevelValue(String.valueOf(objects[1]));
@@ -1289,47 +1290,56 @@ public class DataSelectionLogic {
         return returnList;
     }
 
-    public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo, final Map<String, String> descriptionMap, Object businessUnit) {
-        List resultss;
-        List<Leveldto> resultList = null;
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put(Constant.HIERARACHY_NO, hierarchyNo);
-        parameters.put("lowestLevelNo", lowestLevelNo);
-        parameters.put(Constant.INDICATOR, "getChildLevelsWithHierarchyNo");
-        if (!String.valueOf(businessUnit).equals("0") && !String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).isEmpty()) {
-            parameters.put(BUSINESS_UNIT_PROPERTY, String.valueOf(businessUnit));
-        }
-        Leveldto dto;
+	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
+			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto, int hierarchyVersion,
+			int relationShipVersion, int subListIndex) {
+		List<Object[]> resultss;
+		List<Leveldto> resultList = null;
+		try {
+			Leveldto dto;
+			List<Object> inputs = new ArrayList<>();
+			inputs.add(hierarchyNo);
+			inputs.add(hierarchyNo);
+			inputs.add(lowestLevelNo);
+			inputs.add(relationShipVersion);
+			inputs.add(hierarchyVersion);
+			String query = StringUtils.EMPTY;
+			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
+					&& !String.valueOf(businessUnit).isEmpty()) {
+				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
+						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
+				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+			} else {
+				query = "getChildLevelsWithHierarchyNo_New";
+				resultss = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtils.getQuery(inputs, query));
+			}
 
-        try {
-            resultss = dataSelectionDao.getChildLevels(parameters);
-
-            if (resultss != null) {
-                resultList = new ArrayList<>();
-                for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-                    Object objects[] = (Object[]) resultss.get(loop);
-                    dto = new Leveldto();
-                    dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
-                    dto.setRelationshipLevelValue(String.valueOf(objects[1]));
-                    dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
-                    dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
-                    dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
-                    dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
-                    dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
-                    dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
-                    dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
-                    dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
-                    if (descriptionMap != null) {
-                        dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
-                    }
-                    resultList.add(dto);
-                }
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return resultList;
-    }
+			if (resultss != null) {
+				resultList = new ArrayList<>();
+				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
+					Object objects[] = resultss.get(loop);
+					dto = new Leveldto();
+					dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
+					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
+					dto.setParentNode(String.valueOf(objects[NumericConstants.TWO]));
+					dto.setLevel(String.valueOf(objects[NumericConstants.THREE]));
+					dto.setLevelValueReference(String.valueOf(objects[NumericConstants.FOUR]));
+					dto.setTableName(String.valueOf(objects[NumericConstants.FIVE]));
+					dto.setFieldName(String.valueOf(objects[NumericConstants.SIX]));
+					dto.setRelationshipLevelSid(Integer.parseInt(String.valueOf(objects[NumericConstants.SEVEN])));
+					dto.setHierarchyNo(String.valueOf(objects[NumericConstants.EIGHT]));
+					dto.setRelationShipBuilderId(String.valueOf(objects[NumericConstants.NINE]));
+					if (descriptionMap != null) {
+						dto.setDisplayValue(descriptionMap.get(String.valueOf(objects[NumericConstants.EIGHT])));
+					}
+					resultList.add(dto);
+				}
+			}
+		} catch (Exception ex) {
+			LOGGER.error(ex);
+		}
+		return resultList;
+	}
 
     public void getEndLevelRelationshipLevels(final List<String> endLevelSids, final String relationshipSid, List<Leveldto> ccList, List<String> availableHierNo) throws SystemException {
         Leveldto dto;
@@ -2118,23 +2128,6 @@ public class DataSelectionLogic {
         return returnValue;
     }
 
-    /**
-     * This method inserts in CCPMAP table for the selected
-     * relationshipBuilderSid
-     *
-     * @param relationshipBuilderSids
-     */
-    public void custCCPMAPInsert(String relationshipBuilderSids, String hierarchySid, String queryName) {
-        LOGGER.debug("Entering custCCPMAPInsert" + relationshipBuilderSids);
-        if (relationshipBuilderSids != null && hierarchySid != null && StringUtils.isNotBlank(relationshipBuilderSids) && StringUtils.isNotBlank(hierarchySid)) {
-            String query = SQlUtil.getQuery(queryName);
-            query = query.replace("@RBS", relationshipBuilderSids);
-            query = query.replace("@HRD", hierarchySid);
-            salesProjectionDAO.executeBulkUpdateQuery(query, null, null);
-        }
-        LOGGER.debug("Ending custCCPMAPInsert");
-    }
-
 
     public static final String FILTER_AT = "@FILTER";
 
@@ -2410,7 +2403,7 @@ public class DataSelectionLogic {
     public int getMaximumLevelNo(Map<String, List> hierarchyDetailsMap, String hierarchyIndicator) {
         int maxLevelNo = 0;
         for (Map.Entry<String, List> entry : hierarchyDetailsMap.entrySet()) {
-            int levelNo = Integer.valueOf(entry.getValue().get(NumericConstants.TWO).toString());
+            int levelNo = Integer.parseInt(entry.getValue().get(NumericConstants.TWO).toString());
             if (maxLevelNo < levelNo && hierarchyIndicator.equals(entry.getValue().get(NumericConstants.FOUR))) {
                 maxLevelNo = levelNo;
             }

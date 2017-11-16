@@ -23,9 +23,9 @@ public class GtnFrameworkFileReadWriteService {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsCallEtlService.class);
 
-	private List<GtnFrameworkHierarchyQueryBean> getConfigFromJSON(int hierarchyId) {
+	private List<GtnFrameworkHierarchyQueryBean> getConfigFromJSON(int hierarchyId, int versionNo) {
 
-		String fileName = getFileNameByHierarchyId(hierarchyId);
+		String fileName = getFileNameByHierarchyId(hierarchyId, versionNo);
 		List<GtnFrameworkHierarchyQueryBean> rootConfig = null;
 		ObjectMapper mapper = new ObjectMapper();
 		// Convert object to JSON string and save into a file directly
@@ -33,8 +33,8 @@ public class GtnFrameworkFileReadWriteService {
 		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 		try {
 			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-			rootConfig = (Arrays
-					.asList(mapper.readValue(GtnFileNameUtils.getFile(fileName), GtnFrameworkHierarchyQueryBean[].class)));
+			rootConfig = (Arrays.asList(
+					mapper.readValue(GtnFileNameUtils.getFile(fileName), GtnFrameworkHierarchyQueryBean[].class)));
 		} catch (JsonGenerationException e) {
 			LOGGER.error(GtnFrameworkCommonConstants.JSON_GENERATION_EXCEPTION_EXCEPTION + e.getMessage());
 		} catch (JsonMappingException e) {
@@ -46,12 +46,12 @@ public class GtnFrameworkFileReadWriteService {
 
 	}
 
-	public void createJson(Object obj, int hierarchyId) {
+	public void createJson(Object obj, int hierarchyId, int versionNo) {
 
 		String folderName = getFolderName();
 		File folder = new File(folderName);
 		folder.mkdirs();
-		String fileName = getFileNameByHierarchyId(hierarchyId);
+		String fileName = getFileNameByHierarchyId(hierarchyId, versionNo);
 		File file = getProperFile(fileName);
 		ObjectMapper mapper = new ObjectMapper();
 		// Convert object to JSON string and save into a file directly
@@ -78,21 +78,22 @@ public class GtnFrameworkFileReadWriteService {
 		return file;
 	}
 
-	private String getFileNameByHierarchyId(int hierarchyId) {
+	private String getFileNameByHierarchyId(int hierarchyId, int versionNo) {
 
-		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + ".json";
+		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + "_" + versionNo + ".json";
 
 	}
 
 	private String getFilePath() {
 
-		return System.getProperty("com.stpl.gtnframework.base.path");
+		return "D:/SriThAr/Allergan/Server";
+		// return System.getProperty("com.stpl.gtnframework.base.path");
 
 	}
 
-	public GtnFrameworkHierarchyQueryBean getQueryFromFile(Integer hierarchyId, int hierarchyLevelDefnId)
-			throws ClassNotFoundException, IOException {
-		List<GtnFrameworkHierarchyQueryBean> queryBeanList = getConfigFromJSON(hierarchyId);
+	public GtnFrameworkHierarchyQueryBean getQueryFromFile(Integer hierarchyId, int hierarchyLevelDefnId,
+			int versionNo) {
+		List<GtnFrameworkHierarchyQueryBean> queryBeanList = getConfigFromJSON(hierarchyId, versionNo);
 		for (GtnFrameworkHierarchyQueryBean gtnFrameworkQueryBean : queryBeanList) {
 			if (gtnFrameworkQueryBean.getHierarchyLevelDefSid() == hierarchyLevelDefnId) {
 				return gtnFrameworkQueryBean;

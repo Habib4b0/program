@@ -52,7 +52,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
     private int _forecastMasterSid;
     private int _forecastedSalesPercentMonth;
     private String _inboundStatus;
-    private int _businessUnit;
     private BaseModel<?> _forecastingMasterRemoteModel;
 
     public ForecastingMasterClp() {
@@ -126,7 +125,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
         attributes.put("forecastedSalesPercentMonth",
             getForecastedSalesPercentMonth());
         attributes.put("inboundStatus", getInboundStatus());
-        attributes.put("businessUnit", getBusinessUnit());
 
         return attributes;
     }
@@ -324,12 +322,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
-        }
-
-        Integer businessUnit = (Integer) attributes.get("businessUnit");
-
-        if (businessUnit != null) {
-            setBusinessUnit(businessUnit);
         }
     }
 
@@ -1035,28 +1027,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
         }
     }
 
-    @Override
-    public int getBusinessUnit() {
-        return _businessUnit;
-    }
-
-    @Override
-    public void setBusinessUnit(int businessUnit) {
-        _businessUnit = businessUnit;
-
-        if (_forecastingMasterRemoteModel != null) {
-            try {
-                Class<?> clazz = _forecastingMasterRemoteModel.getClass();
-
-                Method method = clazz.getMethod("setBusinessUnit", int.class);
-
-                method.invoke(_forecastingMasterRemoteModel, businessUnit);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException(e);
-            }
-        }
-    }
-
     public BaseModel<?> getForecastingMasterRemoteModel() {
         return _forecastingMasterRemoteModel;
     }
@@ -1157,7 +1127,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
         clone.setForecastMasterSid(getForecastMasterSid());
         clone.setForecastedSalesPercentMonth(getForecastedSalesPercentMonth());
         clone.setInboundStatus(getInboundStatus());
-        clone.setBusinessUnit(getBusinessUnit());
 
         return clone;
     }
@@ -1203,7 +1172,7 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(65);
+        StringBundler sb = new StringBundler(63);
 
         sb.append("{forecastValueType=");
         sb.append(getForecastValueType());
@@ -1267,8 +1236,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
         sb.append(getForecastedSalesPercentMonth());
         sb.append(", inboundStatus=");
         sb.append(getInboundStatus());
-        sb.append(", businessUnit=");
-        sb.append(getBusinessUnit());
         sb.append("}");
 
         return sb.toString();
@@ -1276,7 +1243,7 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(100);
+        StringBundler sb = new StringBundler(97);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ForecastingMaster");
@@ -1405,10 +1372,6 @@ public class ForecastingMasterClp extends BaseModelImpl<ForecastingMaster>
         sb.append(
             "<column><column-name>inboundStatus</column-name><column-value><![CDATA[");
         sb.append(getInboundStatus());
-        sb.append("]]></column-value></column>");
-        sb.append(
-            "<column><column-name>businessUnit</column-name><column-value><![CDATA[");
-        sb.append(getBusinessUnit());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");
