@@ -55,7 +55,7 @@
 				<module>app/gtnServicePartII</module>
 				<module>app/gtnServicePartI</module>
 				<module>app/gtnHierarchyRouteBuilder</module>				
-				<module>app/GtnFramworkQueryGenerator</module>
+				
 				<module>app/WarReleasePlugin</module>
 			</modules>
 			<build>
