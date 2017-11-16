@@ -124,16 +124,11 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                 if (treeItemId == null || treeItemId.equals(treeItemId1)) {
 
                     if (isValidTree(table, pitemId.getHierarchyIndicator())) {
-                        if (tlitemId.getHierarchyIndicator().equals(Constants.DEDUCTION_HIERARCHY_INDICATOR) && tlitemId.getLevelNo() > pitemId.getLevelNo()) {
-                            AbstractNotificationUtils.getErrorNotification(Constants.ERROR_NOTIFICATION_INVALID_STRUCTURE, Constants.ERROR_NOTIFICATION_INVALID_ADDITION+ pitemId.getLevel()
-                                    + Constants.ERROR_NOTIFICATION_INVALID_CHILD + tlitemId.getLevel());
-                        } else {
-                            pitemId.setTreeLevelNo(treeTable.getItemIds().size() + 1);
-                            treeTable.addItem(itemId);
-                            table.removeItem(itemId);
-                            treeTable.setParent(itemId, treeItemId1);
-                            treeTable.setCollapsed(treeItemId1, false);
-                        }
+                        pitemId.setTreeLevelNo(treeTable.getItemIds().size() + 1);
+                        treeTable.addItem(itemId);
+                        table.removeItem(itemId);
+                        treeTable.setParent(itemId, treeItemId1);
+                        treeTable.setCollapsed(treeItemId1, false);
                     } else {
                         AbstractNotificationUtils.getErrorNotification(Constants.ERROR_NOTIFICATION_INVALID_STRUCTURE, Constants.ERROR_NOTIFICATION_INVALID_ADDITION + pitemId.getLevel()
                                 + Constants.ERROR_NOTIFICATION_INVALID_CHILD + tlitemId.getLevel());
