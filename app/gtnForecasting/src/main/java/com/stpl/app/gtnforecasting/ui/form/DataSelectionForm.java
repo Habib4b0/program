@@ -3209,10 +3209,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(screenName);
 				tempSession.setProjectionId(projectionIdValue);
-                                tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
-                                tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
-                                tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
-                                tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+				tempSession.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+				tempSession.setProductHierarchyVersion(dto.getProductHierVersionNo());
+				tempSession.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+				tempSession.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -3407,10 +3407,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				session.setProjectionName(dto.getProjectionName());
 				session.setScreenName(screenName);
 				session.setAction(Constant.VIEW);
-                                session.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
-                                session.setProductHierarchyVersion(dto.getProductHierVersionNo());
-                                session.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
-                                session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
+				session.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+				session.setProductHierarchyVersion(dto.getProductHierVersionNo());
+				session.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+				session.setProductRelationVersion(dto.getProductRelationShipVersionNo());
 				customerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()), dto.getCustomerHierVersionNo(),
 						dto.getCustomerRelationShipVersionNo());
@@ -4339,10 +4339,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 						session.setProductDescription(productDescriptionMap);
 						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-                                                session.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
-                                                session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
-                                                session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
-                                                session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
+						session.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
+						session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
+						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
+						session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
 						if (CommonUtil.isValueEligibleForLoading()) {
 							Object[] obj = nmLogic
 									.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
