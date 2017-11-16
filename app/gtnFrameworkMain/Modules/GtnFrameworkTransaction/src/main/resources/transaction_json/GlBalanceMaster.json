@@ -1,180 +1,180 @@
 [
-	{
-		"columnID": "checkRecord",
-		"columnName": "      ",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "boolean",
-		"viewFlag": false,
-		"isInvalidComponent": true
-	},
-	{
-		"columnID": "accountId",
-		"columnName": "Account ID",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 1
-	},
-	{
-		"columnID": "accountNo",
-		"columnName": "Account No",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 2
-	},
-	{
-		"columnID": "balance",
-		"columnName": "Balance",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 3
-	},
-	{
-		"columnID": "uploadDate",
-		"columnName": "Upload Date",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "date",
-		"viewModeIndex": 4,
-		"onlyValidComponent": true
-	},
-	{
-		"columnID": "uploadDate",
-		"columnName": "Upload Date",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "date",
-		"viewModeIndex": 4,
-		"expressionType": "DATE_BETWEEN",
-		"columnAlignment": "CENTER",
-		"isInvalidComponent": true
-	},
-	{
-		"columnID": "insertedDate",
-		"columnName": "Inserted Date",
-		"isSearchCriteria": false,
-		"isResultView": false,
-		"componentType": "date",
-		"viewOnlyColumn": true,
-		"viewModeIndex": 5
-	},
-	{
-		"columnID": "year",
-		"columnName": "Year",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 6
-	},
-	{
-		"columnID": "period",
-		"columnName": "Period",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 7
-	},
-	{
-		"columnID": "closeIndicator",
-		"columnName": "Close Indicator",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"viewModeIndex": 8
-	},
-	{
-		"columnID": "isActive",
-		"columnName": "Status",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "combobox",
-		"listName": "LOCKED_STATUS",
-		"expressionType": "BOOLEAN_SEARCH",
-                "loadDescription": true,
-		"viewModeIndex": 9
-	},
-	{
-		"columnID": "errorCode",
-		"columnName": "Error Code",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"isInvalidComponent": true,
-		"viewModeIndex": 10
-	},
-	{
-		"columnID": "errorField",
-		"columnName": "Error Field",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"isInvalidComponent": true,
-		"viewModeIndex": 11
-	},
-	{
-		"columnID": "reasonForFailure",
-		"columnName": "Reason For Failure",
-		"isSearchCriteria": false,
-		"isResultView": true,
-		"componentType": "text",
-		"isInvalidComponent": true,
-		"viewModeIndex": 12
-	},
-	{
-		"columnID": "batchId",
-		"columnName": "Batch ID",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"isInvalidComponent": true,
-		"viewModeIndex": 13
-	},
-	{
-		"columnID": "reprocessedFlag",
-		"columnName": "Reprocessed Flag",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"isInvalidComponent": true,
-		"defaultValue": "N",
-		"viewModeIndex": 14
-	},
-	{
-		"columnID": "glBalanceIntfid",
-		"columnName": "Invalid Record Id",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"staticSearchCriterian": "true",
-		"isInvalidComponent": true,
-		"viewModeIndex": 15
-	},
-	{
-		"columnID": "invalidDateFrom",
-		"columnName": "Invalid From",
-		"isSearchCriteria": true,
-		"isResultView": false,
-		"componentType": "date",
-		"staticSearchCriterian": "true",
-		"columnMappingId": "intfInsertedDate",
-		"expressionType": "GREATER_OR_EQUAL",
-		"isInvalidComponent": true
-	},
-	{
-		"columnID": "invalidDateTo",
-		"columnName": "Invalid To",
-		"isSearchCriteria": true,
-		"isResultView": false,
-		"componentType": "date",
-		"staticSearchCriterian": "true",
-		"columnMappingId": "intfInsertedDate",
-		"expressionType": "LESS_OR_EQUAL",
-		"isInvalidComponent": true
-	},
-	{
-		"viewModeIndexFlag": true
-	}
+    {
+        "columnID": "checkRecord",
+        "columnName": "      ",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "boolean",
+        "viewFlag": false,
+        "isInvalidComponent": true
+    },
+    {
+        "columnID": "accountId",
+        "columnName": "Account ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 1
+    },
+    {
+        "columnID": "accountNo",
+        "columnName": "Account No",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 2
+    },
+    {
+        "columnID": "balance",
+        "columnName": "Balance",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 3
+    },
+    {
+        "columnID": "uploadDate",
+        "columnName": "Upload Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "viewModeIndex": 4,
+        "onlyValidComponent": true
+    },
+    {
+        "columnID": "uploadDate",
+        "columnName": "Upload Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "viewModeIndex": 4,
+        "expressionType": "DATE_BETWEEN",
+        "columnAlignment": "CENTER",
+        "isInvalidComponent": true
+    },
+    {
+        "columnID": "insertedDate",
+        "columnName": "Inserted Date",
+        "isSearchCriteria": false,
+        "isResultView": false,
+        "componentType": "date",
+        "viewOnlyColumn": true,
+        "viewModeIndex": 5
+    },
+    {
+        "columnID": "year",
+        "columnName": "Year",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 6
+    },
+    {
+        "columnID": "period",
+        "columnName": "Period",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 7
+    },
+    {
+        "columnID": "closeIndicator",
+        "columnName": "Close Indicator",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 8
+    },
+    {
+        "columnID": "isActive",
+        "columnName": "Status",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "combobox",
+        "listName": "LOCKED_STATUS",
+        "expressionType": "BOOLEAN_SEARCH",
+        "loadDescription": true,
+        "viewModeIndex": 9
+    },
+    {
+        "columnID": "errorCode",
+        "columnName": "Error Code",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text",
+        "isInvalidComponent": true,
+        "viewModeIndex": 10
+    },
+    {
+        "columnID": "errorField",
+        "columnName": "Error Field",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text",
+        "isInvalidComponent": true,
+        "viewModeIndex": 11
+    },
+    {
+        "columnID": "reasonForFailure",
+        "columnName": "Reason For Failure",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "text",
+        "isInvalidComponent": true,
+        "viewModeIndex": 12
+    },
+    {
+        "columnID": "batchId",
+        "columnName": "Batch ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "isInvalidComponent": true,
+        "viewModeIndex": 13
+    },
+    {
+        "columnID": "reprocessedFlag",
+        "columnName": "Reprocessed Flag",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "isInvalidComponent": true,
+        "defaultValue": "N",
+        "viewModeIndex": 14
+    },
+    {
+        "columnID": "glBalanceIntfid",
+        "columnName": "Invalid Record Id",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "staticSearchCriterian": "true",
+        "isInvalidComponent": true,
+        "viewModeIndex": 15
+    },
+    {
+        "columnID": "invalidDateFrom",
+        "columnName": "Invalid From",
+        "isSearchCriteria": true,
+        "isResultView": false,
+        "componentType": "date",
+        "staticSearchCriterian": "true",
+        "columnMappingId": "intfInsertedDate",
+        "expressionType": "GREATER_OR_EQUAL",
+        "isInvalidComponent": true
+    },
+    {
+        "columnID": "invalidDateTo",
+        "columnName": "Invalid To",
+        "isSearchCriteria": true,
+        "isResultView": false,
+        "componentType": "date",
+        "staticSearchCriterian": "true",
+        "columnMappingId": "intfInsertedDate",
+        "expressionType": "LESS_OR_EQUAL",
+        "isInvalidComponent": true
+    },
+    {
+        "viewModeIndexFlag": true
+    }
 ]
