@@ -279,15 +279,14 @@ public class GtnWsTransactionService {
 			sb.append("round(");
 			sb.append(columnName);
 			sb.append(",3)=?");
-			sb.append(doubleFilterTypes);
-			sb.append(doubleFilterValues);
+			criteria.add(Restrictions.sqlRestriction(sb.toString(), doubleFilterValues, doubleFilterTypes));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));
 
 		}
 	}
-
+	
 	private void likeCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String value, boolean isUser, boolean isInvalidFilter,String type) {
 		if (isUser) {
@@ -309,8 +308,7 @@ public class GtnWsTransactionService {
 			StringBuilder sb=new StringBuilder();
 			sb.append(columnName);
 			sb.append(" like ?");
-			sb.append(doubleFilterTypes);
-			sb.append(doubleFilterValues);
+			criteria.add(Restrictions.sqlRestriction(sb.toString(), doubleFilterValues, doubleFilterTypes));
 		}
 		else {
 			
