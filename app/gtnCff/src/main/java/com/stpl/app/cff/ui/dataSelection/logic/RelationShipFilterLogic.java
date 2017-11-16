@@ -79,8 +79,8 @@ public class RelationShipFilterLogic {
 	}
 
 	public List<Leveldto> loadAvailableCustomerlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, int relationVersionNo)
-			throws CloneNotSupportedException {
+			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList,
+			int relationVersionNo) throws CloneNotSupportedException {
 		if (selectedHierarchyLevelDto.isUserDefined()) {
 			return getUserDefinedData(selectedHierarchyLevelDto, relationshipSid, relationVersionNo);
 		}
@@ -90,8 +90,8 @@ public class RelationShipFilterLogic {
 
 	@SuppressWarnings("unchecked")
 	public List<Leveldto> getLinkedLevelData(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, int relationVersionNo)
-			throws CloneNotSupportedException {
+			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList,
+			int relationVersionNo) throws CloneNotSupportedException {
 		List<Leveldto> resultList = new ArrayList<>();
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, levelHierarchyLevelDefinitionList, relationVersionNo);
@@ -120,7 +120,8 @@ public class RelationShipFilterLogic {
 	}
 
 	private String getQueryForLinkedLevelCustomer(Leveldto selectedHierarchyLevelDto, int relationshipSid,
-			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList, int relationVersionNo) {
+			List<String> groupFilteredCompanies, List<Leveldto> levelHierarchyLevelDefinitionList,
+			int relationVersionNo) {
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(selectedHierarchyLevelDto,
 				groupFilteredCompanies);
 		List<String> whereQueries = getRelationQueries(relationshipSid, relationVersionNo,
@@ -144,7 +145,8 @@ public class RelationShipFilterLogic {
 		List<Object> relationInput = new ArrayList<>();
 		relationInput.add(relationshipSid);
 		relationInput.add(selectedHierarchyLevelDto.getLevelNo());
-		return (List<Object[]>) CommonQueryUtils.getAppData(relationInput, "selectQueryForLevelLoadingForRelation", null);
+		return (List<Object[]>) CommonQueryUtils.getAppData(relationInput, "selectQueryForLevelLoadingForRelation",
+				null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -175,7 +177,7 @@ public class RelationShipFilterLogic {
 	public List<Leveldto> loadAvailableProductlevel(Leveldto selectedHierarchyLevelDto, int relationshipSid,
 			List<String> groupFilteredItems, List<Leveldto> selectedCustomerContractList, boolean isNdc,
 			List<Leveldto> levelHierarchyLevelDefinitionList, List<Leveldto> customerHierarchyLevelList,
-			 int relationVersionNo, int customerRelationVersionNo, Object businessUnitValue)
+			int relationVersionNo, int customerRelationVersionNo, Object businessUnitValue)
 			throws CloneNotSupportedException {
 
 		if (selectedHierarchyLevelDto.isUserDefined()) {
@@ -197,8 +199,7 @@ public class RelationShipFilterLogic {
 		List<Leveldto> resultList = new ArrayList<>();
 		String finalQuery = buildQueryForLinkedLevelForProduct(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredItems, selectedCustomerContractList, isNdc, levelHierarchyLevelDefinitionList,
-				customerHierarchyLevelList, relationVersionNo, customerRelationVersionNo,
-                                businessUnitValue);
+				customerHierarchyLevelList, relationVersionNo, customerRelationVersionNo, businessUnitValue);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
 		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
@@ -241,11 +242,11 @@ public class RelationShipFilterLogic {
 		List<Set> sidList = getCustomerConractSid(selectedCustomerContractList, customerHierarchyLevelList,
 				customerRelationVersionNo);
 		getWhereQueryForProductLevel(sidList, queryBean);
-                if (!String.valueOf(businessUnitValue).equals("null") && !String.valueOf(businessUnitValue).equals("0")
-					&& !String.valueOf(businessUnitValue).isEmpty()) {
-                    queryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
-                            GtnFrameworkDataType.STRING , String.valueOf(businessUnitValue));
-                }
+		if (!"null".equals(String.valueOf(businessUnitValue)) && !"0".equals(String.valueOf(businessUnitValue))
+				&& !String.valueOf(businessUnitValue).isEmpty()) {
+			queryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
+					GtnFrameworkDataType.STRING, String.valueOf(businessUnitValue));
+		}
 		return CommonQueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
 	}
 
@@ -321,7 +322,7 @@ public class RelationShipFilterLogic {
 		int relationshipSid = Integer.parseInt(selectedCustomerContractList.get(0).getRelationShipBuilderId());
 		List<String> whereQueries = getRelationQueries(relationshipSid, customerRelationVersionNo,
 				customerHierarchyLevelDefinitionList
-				.toArray(new Leveldto[customerHierarchyLevelDefinitionList.size()]));
+						.toArray(new Leveldto[customerHierarchyLevelDefinitionList.size()]));
 		List<Set> finalList = new ArrayList<>();
 		Set<Integer> customerSidSet = new HashSet<>();
 		Set<Integer> contractSidSet = new HashSet<>();
@@ -356,7 +357,7 @@ public class RelationShipFilterLogic {
 
 	private void getWhereQueryForCustomerAndContract(List<Leveldto> selectedCustomerContractList,
 			List<Leveldto> customerHierarchyLevelDefinitionList, GtnFrameworkQueryGeneratorBean queryBean,
-                        int relationVersionNo) {
+			int relationVersionNo) {
 		List<Leveldto> modifiableList = new ArrayList<>(selectedCustomerContractList);
 		Collections.sort(modifiableList);
 		int maxlevelNo = 0;
@@ -399,13 +400,14 @@ public class RelationShipFilterLogic {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Leveldto> getRelationShipValuesByRelationShipBuilderSid(String relationShipBuilderId, int maxlevelNo, int relationVersionNo) {
+	private List<Leveldto> getRelationShipValuesByRelationShipBuilderSid(String relationShipBuilderId, int maxlevelNo,
+			int relationVersionNo) {
 		List<Object> input = new ArrayList<>();
 		input.add(relationShipBuilderId);
 		input.add(maxlevelNo);
 		input.add(relationVersionNo);
-		List<Object[]> resultsDataList = CommonQueryUtils.getAppData(input, "selectRelationQueryByRelationShipandLevelNos",
-				null);
+		List<Object[]> resultsDataList = CommonQueryUtils.getAppData(input,
+				"selectRelationQueryByRelationShipandLevelNos", null);
 		return customizeRelationData(resultsDataList);
 	}
 
@@ -472,8 +474,8 @@ public class RelationShipFilterLogic {
 	 * To insert the selected customer and product hierarchy in CCP_HIERARCHY
 	 * 
 	 * @param tempTableNames
-         * @param selectedCustomerContractList
-         * @param selectedProductList
+	 * @param selectedCustomerContractList
+	 * @param selectedProductList
 	 * @param productHierarchyLevelDefinitionList
 	 * @param customerHierarchyLevelDefinitionList
 	 * @param productRelationVersionNo
@@ -492,8 +494,10 @@ public class RelationShipFilterLogic {
 				productHierarchyLevelDefinitionList, "SELECTED_PROD_HIERARCHY_NO", Boolean.TRUE,
 				productRelationVersionNo);
 
-		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList, customerRelationVersionNo);
-		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList, productRelationVersionNo);
+		StringBuilder cusHieNoQuery = getHieNoQuery(customerHierarchyLevelDefinitionList, selectedCustomerContractList,
+				customerRelationVersionNo);
+		StringBuilder prodHieNoQuery = getHieNoQuery(productHierarchyLevelDefinitionList, selectedProductList,
+				productRelationVersionNo);
 		List<String> input = new ArrayList<>();
 		input.add(cusHieNoQuery.toString());
 		input.add(customerHierarchyQuery);
@@ -543,7 +547,8 @@ public class RelationShipFilterLogic {
 				hierarchyLevelDefinitionList, isProduct);
 		queryBean.addSelectClauseBean("TEMP.HIERARCHY_NO", null, Boolean.TRUE, null);
 		getParentHierarchyCondition(queryBean, tempTableName);
-		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean, relationVersionNo);
+		getWhereQueryForCustomerAndContract(selectedRelationLevelList, hierarchyLevelDefinitionList, queryBean,
+				relationVersionNo);
 		return CommonQueryUtils.getQuery(queryBean.generateQuery(), input);
 	}
 
@@ -637,8 +642,8 @@ public class RelationShipFilterLogic {
 					GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.STRING, relationshipBuilderSID);
 			queryBean.addWhereClauseBean("RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO", null,
 					GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.INTEGER, leveldto.getLevelNo());
-			queryBean.addWhereClauseBean(RELATIONSHIP_BUILD_VERSION, null,
-					GtnFrameworkOperatorType.EQUAL_TO, GtnFrameworkDataType.INTEGER, relationVersionNo);
+			queryBean.addWhereClauseBean(RELATIONSHIP_BUILD_VERSION, null, GtnFrameworkOperatorType.EQUAL_TO,
+					GtnFrameworkDataType.INTEGER, relationVersionNo);
 			queryBeanList.add(queryBean);
 
 		}
@@ -793,14 +798,12 @@ public class RelationShipFilterLogic {
 		relationTableJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
 				GtnFrameworkOperatorType.EQUAL_TO);
-		relationTableJoin.addConditionBean(RELATIONSHIP_BUILD_VERSION, null,
-				GtnFrameworkOperatorType.EQUAL_TO);
-		relationTableJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null,
+		relationTableJoin.addConditionBean(RELATIONSHIP_BUILD_VERSION, null, GtnFrameworkOperatorType.EQUAL_TO);
+		relationTableJoin.addConditionBean(RELATIONSHIP_BUILD_HIERARCHY_NO, null, GtnFrameworkOperatorType.LIKE);
+		GtnFrameworkJoinClauseBean hierarchyTableJoin = finalQueryBean.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN,
+				"HIERARCHY_NO_JOIN", GtnFrameworkJoinType.JOIN);
+		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO+'%'",
 				GtnFrameworkOperatorType.LIKE);
-		GtnFrameworkJoinClauseBean hierarchyTableJoin = finalQueryBean
-				.addJoinClauseBean(RELATIONSHIP_LEVEL_DEFN, "HIERARCHY_NO_JOIN", GtnFrameworkJoinType.JOIN);
-		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN,
-				"RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO+'%'", GtnFrameworkOperatorType.LIKE);
 		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
 		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.LEVEL_NO", null, GtnFrameworkOperatorType.LESSTHAN);
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, null, GtnFrameworkOperatorType.NOT_IN);
