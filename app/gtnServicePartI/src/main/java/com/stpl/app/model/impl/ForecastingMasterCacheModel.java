@@ -53,10 +53,11 @@ public class ForecastingMasterCacheModel implements CacheModel<ForecastingMaster
     public int forecastMasterSid;
     public int forecastedSalesPercentMonth;
     public String inboundStatus;
+    public int businessUnit;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(63);
+        StringBundler sb = new StringBundler(65);
 
         sb.append("{forecastValueType=");
         sb.append(forecastValueType);
@@ -120,6 +121,8 @@ public class ForecastingMasterCacheModel implements CacheModel<ForecastingMaster
         sb.append(forecastedSalesPercentMonth);
         sb.append(", inboundStatus=");
         sb.append(inboundStatus);
+        sb.append(", businessUnit=");
+        sb.append(businessUnit);
         sb.append("}");
 
         return sb.toString();
@@ -273,6 +276,8 @@ public class ForecastingMasterCacheModel implements CacheModel<ForecastingMaster
             forecastingMasterImpl.setInboundStatus(inboundStatus);
         }
 
+        forecastingMasterImpl.setBusinessUnit(businessUnit);
+
         forecastingMasterImpl.resetOriginalValues();
 
         return forecastingMasterImpl;
@@ -311,6 +316,7 @@ public class ForecastingMasterCacheModel implements CacheModel<ForecastingMaster
         forecastMasterSid = objectInput.readInt();
         forecastedSalesPercentMonth = objectInput.readInt();
         inboundStatus = objectInput.readUTF();
+        businessUnit = objectInput.readInt();
     }
 
     @Override
@@ -440,5 +446,7 @@ public class ForecastingMasterCacheModel implements CacheModel<ForecastingMaster
         } else {
             objectOutput.writeUTF(inboundStatus);
         }
+
+        objectOutput.writeInt(businessUnit);
     }
 }

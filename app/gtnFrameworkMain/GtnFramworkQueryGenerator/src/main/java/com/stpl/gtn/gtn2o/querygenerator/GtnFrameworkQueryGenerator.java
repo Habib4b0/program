@@ -141,10 +141,10 @@ public final class GtnFrameworkQueryGenerator {
 				rightKeyJoinValue = new StringBuilder(joinRightTableColumnBean.getAliesName()).append(".")
 						.append(joinRightTableColumnBean.getColumnName());
 			}
-                        if (gtnFrameworkJoinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.IN)
+			if (gtnFrameworkJoinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.IN)
 					|| gtnFrameworkJoinConditionBean.getJoinOperator().equals(GtnFrameworkOperatorType.NOT_IN)) {
 				rightKeyJoinValue.append(")");
-                        }
+			}
 			joinConditions.append(rightKeyJoinValue);
 			if (listSize > 1 && countForAddingAnd != (listSize - 1)) {
 				joinConditions.append(GtnFrameworkQueryGeneratorBean.AND);

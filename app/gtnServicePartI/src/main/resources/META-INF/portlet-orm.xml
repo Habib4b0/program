@@ -3045,6 +3045,9 @@
 			<basic name="inboundStatus">
 				<column name="INBOUND_STATUS" />
 			</basic>
+			<basic name="businessUnit">
+				<column name="BUSINESS_UNIT" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
