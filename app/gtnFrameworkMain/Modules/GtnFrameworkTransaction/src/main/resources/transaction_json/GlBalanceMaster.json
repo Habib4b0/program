@@ -93,6 +93,7 @@
 		"componentType": "combobox",
 		"listName": "LOCKED_STATUS",
 		"expressionType": "BOOLEAN_SEARCH",
+                "loadDescription": true,
 		"viewModeIndex": 9
 	},
 	{
