@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
@@ -53,102 +51,105 @@ import com.vaadin.ui.Window;
  */
 public class UiUtils {
 
-    /**
-     * The Constant LOGGER.
-     */
-    private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(UiUtils.class);
-    /**
-     * Object for resource bundle
-     */
-    private static ResourceBundle resourceBundle;
+	/**
+	 * The Constant LOGGER.
+	 */
+	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(UiUtils.class);
+	/**
+	 * Object for resource bundle
+	 */
+	private static ResourceBundle resourceBundle;
 
-    /**
-     * Private constructor. This class should not be instantiated
-     */
-    private UiUtils() {
-    }
+	/**
+	 * Private constructor. This class should not be instantiated
+	 */
+	private UiUtils() {
+	}
 
-    /**
-     * Creates a panel which has common properties that is used across the
-     * module
-     *
-     * @param caption Panel caption
-     * @return panel
-     */
-    public static Panel addCommonPanel(String caption) {
-        Panel panel = new Panel();
-        panel.setCaption(caption);
-        panel.setSizeFull();
-        return panel;
-    }
+	/**
+	 * Creates a panel which has common properties that is used across the
+	 * module
+	 *
+	 * @param caption
+	 *            Panel caption
+	 * @return panel
+	 */
+	public static Panel addCommonPanel(String caption) {
+		Panel panel = new Panel();
+		panel.setCaption(caption);
+		panel.setSizeFull();
+		return panel;
+	}
 
-    /**
-     * Creates a GridLayout which has common properties that is used across the
-     * module
-     *
-     * @param column No. of columns
-     * @param row No. of rows
-     * @return GridLayout
-     */
-    public static GridLayout addCommonGridLayout(int column, int row) {
-        GridLayout gridLayout = new GridLayout(column, row);
-        gridLayout.setMargin(true);
-        gridLayout.setSpacing(true);
-        return gridLayout;
-    }
+	/**
+	 * Creates a GridLayout which has common properties that is used across the
+	 * module
+	 *
+	 * @param column
+	 *            No. of columns
+	 * @param row
+	 *            No. of rows
+	 * @return GridLayout
+	 */
+	public static GridLayout addCommonGridLayout(int column, int row) {
+		GridLayout gridLayout = new GridLayout(column, row);
+		gridLayout.setMargin(true);
+		gridLayout.setSpacing(true);
+		return gridLayout;
+	}
 
-    /**
-     * Creates start date picker
-     *
-     * @return start date component
-     */
-    public static PopupDateField addStartDate() {
-        PopupDateField startDate = new PopupDateField();
-        startDate.setDateFormat(CommonConstants.DATE_FORMAT.getConstant());
-        return startDate;
-    }
+	/**
+	 * Creates start date picker
+	 *
+	 * @return start date component
+	 */
+	public static PopupDateField addStartDate() {
+		PopupDateField startDate = new PopupDateField();
+		startDate.setDateFormat(CommonConstants.DATE_FORMAT.getConstant());
+		return startDate;
+	}
 
-    /**
-     * Creates date picker Use this for end date field or date field with no
-     * validation
-     *
-     * @return date component
-     */
-    public static PopupDateField addDate() {
-        PopupDateField endDate = new PopupDateField();
-        endDate.setDateFormat(CommonConstants.DATE_FORMAT.getConstant());
-        return endDate;
-    }
+	/**
+	 * Creates date picker Use this for end date field or date field with no
+	 * validation
+	 *
+	 * @return date component
+	 */
+	public static PopupDateField addDate() {
+		PopupDateField endDate = new PopupDateField();
+		endDate.setDateFormat(CommonConstants.DATE_FORMAT.getConstant());
+		return endDate;
+	}
 
-    /**
-     * To create a native select with indexed container
-     *
-     * @param indexedContainer
-     * @return
-     */
-    public static NativeSelect addIndexedNativeSelect(IndexedContainer indexedContainer) {
-        NativeSelect indexedNativeSelect = new NativeSelect();
-        indexedNativeSelect.setContainerDataSource(indexedContainer);
+	/**
+	 * To create a native select with indexed container
+	 *
+	 * @param indexedContainer
+	 * @return
+	 */
+	public static NativeSelect addIndexedNativeSelect(IndexedContainer indexedContainer) {
+		NativeSelect indexedNativeSelect = new NativeSelect();
+		indexedNativeSelect.setContainerDataSource(indexedContainer);
 
-        return indexedNativeSelect;
-    }
+		return indexedNativeSelect;
+	}
 
-    /**
-     * To add an empty space
-     *
-     * @return Label with empty space
-     */
-    public static Label addSpaceLabel() {
-        final Label space = new Label("&nbsp;", ContentMode.HTML);
-        return space;
-    }
+	/**
+	 * To add an empty space
+	 *
+	 * @return Label with empty space
+	 */
+	public static Label addSpaceLabel() {
+		final Label space = new Label("&nbsp;", ContentMode.HTML);
+		return space;
+	}
 
-    /**
-     * To create mode option group for data selection screen
-     *
-     * @return Data selection mode option group
-     */
-    public static OptionGroup dataSelectionMode() {
+	/**
+	 * To create mode option group for data selection screen
+	 *
+	 * @return Data selection mode option group
+	 */
+	public static OptionGroup dataSelectionMode() {
 		OptionGroup mode = new OptionGroup();
 		mode.addItem(MODE_ADD.getConstant());
 		mode.addItem(MODE_SEARCH.getConstant());
@@ -284,22 +285,10 @@ public class UiUtils {
 	 * @param theClass
 	 * @return VerticalLayout or HorizontalLayout or FormLayout
 	 */
-	public static AbstractOrderedLayout getLayout(Class<?> theClass) {
+	public static AbstractOrderedLayout getLayout(AbstractOrderedLayout layout) {
 		resourceBundle = ResourceBundle.getBundle(StringConstantsUtil.CONFIGURATIONS_DEFAULT);
-		AbstractOrderedLayout layout = null;
-		try {
-			layout = (AbstractOrderedLayout) Class.forName(theClass.getName()).newInstance();
-
-			layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
-			layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
-			return layout;
-		} catch (InstantiationException ex) {
-			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ClassNotFoundException ex) {
-			Logger.getLogger(UiUtils.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		layout.setMargin(Boolean.valueOf(resourceBundle.getString("layout_margin")));
+		layout.setSpacing(Boolean.valueOf(resourceBundle.getString("layout_spacing")));
 		return layout;
 	}
 
