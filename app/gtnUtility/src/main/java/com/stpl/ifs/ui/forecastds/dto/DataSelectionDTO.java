@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -210,6 +211,9 @@ public class DataSelectionDTO implements Serializable {
     private Integer businessUnitSystemId;
     private String businessUnitName;
 
+	private int customerRelationShipVersionNo;
+	private int productRelationShipVersionNo;
+
     public Integer getFileEndMonth() {
         return fileEndMonth;
     }
@@ -370,11 +374,27 @@ public class DataSelectionDTO implements Serializable {
         this.productGroup = productGroup;
     }
 
-    /**
-     * Gets the created by.
-     *
-     * @return the created by
-     */
+	public int getCustomerRelationShipVersionNo() {
+		return customerRelationShipVersionNo;
+	}
+
+	public void setCustomerRelationShipVersionNo(int customerRelationShipVersionNo) {
+		this.customerRelationShipVersionNo = customerRelationShipVersionNo;
+	}
+
+	public int getProductRelationShipVersionNo() {
+		return productRelationShipVersionNo;
+	}
+
+	public void setProductRelationShipVersionNo(int productRelationShipVersionNo) {
+		this.productRelationShipVersionNo = productRelationShipVersionNo;
+	}
+
+	/**
+	 * Gets the created by.
+	 *
+	 * @return the created by
+	 */
     public String getCreatedBy() {
         return createdBy;
     }

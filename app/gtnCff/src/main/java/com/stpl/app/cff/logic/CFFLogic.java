@@ -42,6 +42,7 @@ import com.stpl.app.serviceUtils.Constants;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
@@ -922,11 +923,11 @@ public class CFFLogic {
         String query = "INSERT INTO CFF_MASTER (CFF_TYPE, CFF_NAME, ACTIVE_FROM_DATE, ACTIVE_TO_DATE, CFF_OFFICIAL, CUSTOMER_HIERARCHY_SID, CUSTOMER_HIERARCHY_LEVEL,\n"
                 + "    CUSTOMER_HIER_VERSION_NO, COMPANY_GROUP_SID, CUSTOMER_HIERARCHY_INNER_LEVEL, CUST_RELATIONSHIP_BUILDER_SID, COMPANY_MASTER_SID, PRODUCT_HIERARCHY_SID,\n"
                 + "    PRODUCT_HIERARCHY_LEVEL, PRODUCT_HIER_VERSION_NO, ITEM_GROUP_SID, PRODUCT_HIERARCHY_INNER_LEVEL, PROD_RELATIONSHIP_BUILDER_SID, INBOUND_STATUS, CREATED_BY,\n"
-                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT @DEDUCTION_ADDITION ) VALUES ('@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
+                + "    CREATED_DATE, MODIFIED_BY, MODIFIED_DATE,BUSINESS_UNIT, PROJECTION_CUST_VERSION, PROJECTION_PROD_VERSION @DEDUCTION_ADDITION ) VALUES ('@CFF_TYPE','@CFF_NAME',@ACTIVE_FROM_DATE, @ACTIVE_TO_DATE, 0,\n"
                 + "    '@CUSTOMER_HIERARCHY_SID', '@CUSTOMER_HIERARCHY_LEVEL', '@CUSTOMER_HIER_VERSION_NO', @COMPANY_GROUP_SID,\n"
                 + "    '@CUSTOMER_HIERARCHY_INNER_LEVEL', '@CUST_RELATIONSHIP_BUILDER_SID', '@COMPANY_MASTER_SID', '@PRODUCT_HIERARCHY_SID',\n"
                 + "    '@PRODUCT_HIERARCHY_LEVEL', '@PRODUCT_HIER_VERSION_NO', @ITEM_GROUP_SID, '@PRODUCT_HIERARCHY_INNER_LEVEL',\n"
-                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT' @DED_ADD_VALUES ) ";
+                + "    '@PROD_RELATIONSHIP_BUILDER_SID', 'A', '@CREATED_BY', '@CREATED_DATE', '@MODIFIED_BY', '@MODIFIED_DATE','@BUSINESS_UNIT',@PROJCUSTVERSION, @PROJPRODVERSION @DED_ADD_VALUES ) ";
 
         if (isUpdate) {
             List l = new ArrayList();
@@ -960,6 +961,8 @@ public class CFFLogic {
         query = query.replace("@CREATED_DATE", DBDate.format(new Date()));
         query = query.replace("@MODIFIED_DATE", DBDate.format(new Date()));
         query = query.replace("@BUSINESS_UNIT", dataSelectionDTO.getBusinessUnitSystemId() + "");
+        query = query.replace("@PROJCUSTVERSION", dataSelectionDTO.getCustomerRelationShipVersionNo() + StringUtils.EMPTY);
+        query = query.replace("@PROJPRODVERSION", dataSelectionDTO.getProductRelationShipVersionNo() + StringUtils.EMPTY);
         
        
         query = query.replace("@DEDUCTION_ADDITION", CommonUtils.isValueEligibleForLoading() ? " ,DEDUCTION_HIERARCHY_SID,DED_RELATIONSHIP_BULDER_SID " : StringUtils.EMPTY);
@@ -1066,9 +1069,9 @@ public class CFFLogic {
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
                 }
             } else if ("save".equals(indicator)) {
-                for (Leveldto dto : levelList) {
+                for (Leveldto levelListDto : levelList) {
                     cffCustHierarchy.setCffMasterSid(projectionId);
-                    cffCustHierarchy.setRelationshipLevelSid(dto.getRelationshipLevelSid());
+                    cffCustHierarchy.setRelationshipLevelSid(levelListDto.getRelationshipLevelSid());
                     dataSelectionDAO.addProjectionCustHierarchy(cffCustHierarchy);
                 }
             }
@@ -1097,7 +1100,7 @@ public class CFFLogic {
 
     }
 
-    public void saveCcp(final List<Leveldto> customerEndLevels, final String projectionId, final Map<String, String> tempTableNames) {
+    public void saveCcp(final List<Leveldto> customerEndLevels, final String projectionId, final GtnSmallHashMap tempTableNames) {
         if (customerEndLevels != null && !customerEndLevels.isEmpty()) {
             List list = new ArrayList();
             list.add(projectionId);
@@ -1346,7 +1349,7 @@ public class CFFLogic {
      * @param productSelection
      * @param isDataSelectionTab
      */
-    public void ccpHierarchyInsert(final Map<String, String> tempTableNames, DataSelectionDTO dsDTO, final List<Leveldto> customerSelection, final List<Leveldto> productSelection, final String topLevelName, final boolean isDataSelectionTab) {
+    public void ccpHierarchyInsert(final GtnSmallHashMap tempTableNames, DataSelectionDTO dsDTO, final List<Leveldto> customerSelection, final List<Leveldto> productSelection, final String topLevelName, final boolean isDataSelectionTab) {
         List<Object[]> contractList = new ArrayList<>();
         List<Object[]> customerList = new ArrayList<>();
         List<Object[]> productList = new ArrayList<>();
@@ -1462,7 +1465,7 @@ public class CFFLogic {
      * selection tab
      */
     
-    private void callCCPHierarchyInsertion(String[] ccpHierarchyQuery, final Map<String, String> tempTableNames, final String topLevelName, final boolean isDataSelectionTab) {
+    private void callCCPHierarchyInsertion(String[] ccpHierarchyQuery, final GtnSmallHashMap tempTableNames, final String topLevelName, final boolean isDataSelectionTab) {
 
         StringBuilder builder = new StringBuilder();
         if (isDataSelectionTab) {
@@ -1480,7 +1483,7 @@ public class CFFLogic {
         HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(builder.toString(), tempTableNames));
     }
     
-    public void callDeductionCCPHierarchyInsertion(SessionDTO session, final Map<String, String> tempTableNames, final boolean isDataSelectionTab) {
+    public void callDeductionCCPHierarchyInsertion(SessionDTO session, final GtnSmallHashMap tempTableNames, final boolean isDataSelectionTab) {
 
         StringBuilder builder = new StringBuilder();
         if (isDataSelectionTab) {
