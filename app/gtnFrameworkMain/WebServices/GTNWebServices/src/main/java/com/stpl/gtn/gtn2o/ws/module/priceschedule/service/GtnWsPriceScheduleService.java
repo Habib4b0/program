@@ -131,8 +131,8 @@ public class GtnWsPriceScheduleService {
 		GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 
-		List<Object> psCountList = getResultValue("getAddCopyDeleteLineAlertCountQuery",
-				imtdPsDetailsInsertQueryParams, imtdPsDetailsInsertQueryTypes);
+		List<Object> psCountList = getResultValue("getAddCopyDeleteLineAlertCountQuery", imtdPsDetailsInsertQueryParams,
+				imtdPsDetailsInsertQueryTypes);
 
 		if ((Integer) psCountList.get(0) != 0) {
 			msg = "unableToRemove";
@@ -275,9 +275,12 @@ public class GtnWsPriceScheduleService {
 		String imtdPsDetailsUpdateQuery = gtnWsSqlService.getQuery("getImtdPsDetailsUpdateQuery");
 		String updateValue;
 		if (componetMap.get(psUpdateBean.getPropertyId()).getDataType().equals("Date")
-				&& psUpdateBean.getValue() != null) {
+				&& psUpdateBean.getValue() != null && !psUpdateBean.getValue().equals("NULL")) {
 			String formatedDate = GtnCommonUtil.getFormatedDate(psUpdateBean);
 			updateValue = formatedDate;
+		} else if (componetMap.get(psUpdateBean.getPropertyId()).getDataType().equals("Date")
+				&& psUpdateBean.getValue().equals("NULL")) {
+			updateValue = "";
 		} else {
 			updateValue = String.valueOf(psUpdateBean.getValue());
 		}
@@ -417,6 +420,7 @@ public class GtnWsPriceScheduleService {
 
 	public StringBuilder getPopulateQuery(GtnWsCheckAllUpdateBean psPPUpdateBean, GtnWsGeneralRequest generalWSRequest,
 			Map<String, GtnWsColumnDetailsConfig> componetMap, String propertyId, Object value) {
+
 		StringBuilder psPPUpdateQuery = new StringBuilder(GtnFrameworkWebserviceConstant.UPDATE_IMTD_PS_DETAILS_SET);
 
 		if (psPPUpdateBean.getPropertyValueMap() != null) {
@@ -437,7 +441,6 @@ public class GtnWsPriceScheduleService {
 			}
 
 		} else {
-
 			psPPUpdateQuery.append("").append(componetMap.get(propertyId).getDbColumnName()).append("=");
 
 			psPPUpdateQuery.append("'").append(value).append("'");

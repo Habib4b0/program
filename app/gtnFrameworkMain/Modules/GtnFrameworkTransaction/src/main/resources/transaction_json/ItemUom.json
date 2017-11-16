@@ -134,6 +134,8 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
 		"viewModeIndex": 7,
 		"listViewIndex": 11
 	},
@@ -179,6 +181,8 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
 		"viewModeIndex": 12,
 		"listViewIndex": 15
 	},
@@ -188,6 +192,8 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
 		"viewModeIndex": 15,
 		"listViewIndex": 13
 	},

@@ -4,6 +4,10 @@ import com.stpl.gtn.gtn2o.ws.bean.GtnWsCsvExportBean;
 
 public class GtnWsCsvExportResponse {
 
+	public GtnWsCsvExportResponse() {
+		super();
+	}
+
 	private String fileName;
 	private GtnWsCsvExportBean gtnWsCsvExportBean;
 

@@ -372,7 +372,6 @@ EXEC sp_executesql @SQL
 					   ,cs.PERIOD
        FROM  #SALES_FREQUENCY_DATE  T_CCP
               CROSS APPLY (SELECT PERIOD_SID,
-              CROSS APPLY (SELECT PERIOD_SID,
                                   ROLL_PERIOD,
 								  period,
                                    NUMBER_OF_SELECTED_PERIOD= CASE

@@ -218,7 +218,7 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("NEP", "NEP");
 		itemColumnNameMap.put("NEP Formula", "NEPF.NET_SALES_FORMULA_NAME");
 		itemColumnNameMap.put("NEPFormulapopup", "NEPF.NET_SALES_FORMULA_NAME");
-		itemColumnNameMap.put("Baseline WAC", "BASE_PRICE_TYPE");
+		itemColumnNameMap.put("Base Price Type", "BASE_PRICE_TYPE");
 		itemColumnNameMap.put("BasePriceType", "BASE_PRICE_TYPE");
 		itemColumnNameMap.put("BasePriceDdlb", "BASE_PRICE_DDLB");
 		itemColumnNameMap.put("Price Type1", "BASE_PRICE_DDLB");
@@ -263,7 +263,7 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("netBasePriceFormulapopup1", GtnFrameworkCommonConstants.NET_BASE_PRICE_FORMULA_ID);
 		itemColumnNameMap.put("netSubsequentPriceFormulapopup1", GtnFrameworkCommonConstants.NET_SUBSEQUENT_PRICE_FORMULA_ID);
 		itemColumnNameMap.put("netResetPriceTypeFormulapopup1", GtnFrameworkCommonConstants.NET_RESET_PRICE_FORMULA_ID);
-		itemColumnNameMap.put("Net Price Type Formula1", "IMTD.NET_PRICE_TYPE_FORMULA0");
+		itemColumnNameMap.put("Net Price Type Formula1", "IMTD.NET_PRICE_TYPE_FORMULA");
 		itemColumnNameMap.put("NetPriceTypeFormulapopup1", "NET_PRICE_TYPE_FORMULA");
 		itemColumnNameMap.put("RS Status", "RS_ATTACHED_STATUS");
 		itemColumnNameMap.put("attachedStatus", "RS_ATTACHED_STATUS");

@@ -99,7 +99,7 @@ public class RelationshipLevelValuesMasterBean {
 
 	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject,SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-                String customSql = StringUtils.EMPTY;
+                String customSql;
                 if(sessionDTO.getTabNameCaption().equals(TAB_DISCOUNT_PROJECTION.getConstant())){
 		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
                 }else{
