@@ -26,13 +26,6 @@ public class GtnWsAutomaticRelationController {
 		super();
 	}
 
-	@RequestMapping(value = GtnWebServiceUrlConstants.RELATION_WEBSERVICE_TEST, method = RequestMethod.POST)
-	public GtnUIFrameworkWebserviceResponse testRelationShipWebService(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		logger.info(
-				"************************Success(***************************************************************************");
-		return new GtnUIFrameworkWebserviceResponse();
-	}
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse automaticRelationUpdate(

@@ -74,7 +74,7 @@ public class FileReadWriteService {
 
 	private String getFileNameByHierarchyId(int hierarchyId, int hierarchyVersionNo) {
 
-		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + "_"+hierarchyVersionNo+".json";
+		return getFolderName() + "HierachyBuilerQuery" + hierarchyId + "_" + hierarchyVersionNo + ".json";
 
 	}
 
@@ -84,7 +84,8 @@ public class FileReadWriteService {
 
 	}
 
-	public GtnFrameworkHierarchyQueryBean getQueryFromFile(int hierarchyId, String hierarchyLevelDefnId, int hierarchyVersionNo) {
+	public GtnFrameworkHierarchyQueryBean getQueryFromFile(int hierarchyId, String hierarchyLevelDefnId,
+			int hierarchyVersionNo) {
 		List<GtnFrameworkHierarchyQueryBean> queryBeanList = getConfigFromJSON(hierarchyId, hierarchyVersionNo);
 		for (GtnFrameworkHierarchyQueryBean gtnFrameworkQueryBean : queryBeanList) {
 			if (gtnFrameworkQueryBean.getHierarchyLevelDefSid() == Integer.parseInt(hierarchyLevelDefnId)) {

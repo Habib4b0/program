@@ -40,9 +40,8 @@ public final class GtnFrameworkQueryGenerator {
 			for (GtnFrameworkSelectClauseBean gtnFrameworkSelectClauseConfig : selectClauseConfigList) {
 				GtnFrameworkColumnBean columnConfig = gtnFrameworkSelectClauseConfig.getColumnBean();
 				generatedSelectClause.append(columnConfig.getAliesName()).append(".")
-						.append(columnConfig.getColumnName()).append(" as ")
-                                                .append(columnConfig.getAliesName().trim()).append("_")
-						.append(columnConfig.getColumnName().toLowerCase(Locale.ENGLISH));
+						.append(columnConfig.getColumnName()).append(" as ").append(columnConfig.getAliesName().trim())
+						.append("_").append(columnConfig.getColumnName().toLowerCase(Locale.ENGLISH));
 				if (listSize > 1 && countForAddingComma != (listSize - 1)) {
 					generatedSelectClause.append(",");
 				}

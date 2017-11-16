@@ -52,22 +52,22 @@ public class GtnWsRelationshipBuilderController {
 	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderController.class);
-	
+
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
-	
+
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	private GtnWsRelationshipBuilderLogic logic ;
-	
+	private GtnWsRelationshipBuilderLogic logic;
+
 	@Autowired
 	private GtnWsRelationshipBuilderHelperLogic helperLogic;
-	
+
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
-	
+
 	@Autowired
 	private GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator;
 
@@ -85,12 +85,12 @@ public class GtnWsRelationshipBuilderController {
 	public GtnWsRelationshipBuilderLogic getLogic() {
 		return logic;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
 		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
-	
+
 	public String getQuery(String sqlId) {
 		return gtnWsSqlService.getQuery(sqlId);
 	}
@@ -270,7 +270,8 @@ public class GtnWsRelationshipBuilderController {
 			gtnResponse.setGtnWsRelationshipBuilderResponse(
 					logic.getHierarchyVersionNo(gtnWsRequest.getRelationshipBuilderRequest(), rbResponse));
 			int versionNo = gtnResponse.getGtnWsRelationshipBuilderResponse().getSelectedVersionNo();
-			gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId(), versionNo);
+			gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(
+					gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId(), versionNo);
 		} catch (Exception ex) {
 			logger.error("Exception in getVersionNo", ex);
 		}
@@ -345,7 +346,6 @@ public class GtnWsRelationshipBuilderController {
 		logger.info("Exit loadRelationship");
 		return gtnResponse;
 	}
-
 
 	@RequestMapping(value = GtnWsRelationshipBuilderConstants.HIERARCHY_FILE_CREATION, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse createHierarchyFiles(
