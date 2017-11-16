@@ -1049,6 +1049,10 @@ public class DataSelection extends ForecastDataSelection {
 		session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
 		session.setCustomerDescription(customerDescriptionMap);
 		session.setProductDescription(productDescriptionMap);
+                session.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
+                session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
+                session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
+                session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
 		dataSelectionDTO.setProjectionId(session.getProjectionId());
 		dataSelectionDTO.setSelectedCustomerRelationSid(getRelationshipSid(selectedCustomerContainer.getItemIds()));
 		dataSelectionDTO.setSelectedProductRelationSid(getRelationshipSid(selectedProductContainer.getItemIds()));
