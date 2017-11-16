@@ -1054,7 +1054,7 @@ public class GtnFrameworkItemGrpAddConfig {
 		confirmationActionConfig.setActionType(GtnUIFrameworkActionType.CONFIRMATION_ACTION);
 		List<Object> itemGroupResetAlertParamsList = new ArrayList<>();
 		itemGroupResetAlertParamsList.add("Reset Confirmation");
-		itemGroupResetAlertParamsList.add("Are you sure you want to reset the values in the Search Criteria group box?");
+		itemGroupResetAlertParamsList.add("Are you sure you want to reset the page to default/previous values?");
 
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfigList = new ArrayList<>();
 

@@ -311,8 +311,7 @@ public class GtnWsPriceScheduleController {
 		try {
 			GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = gtnWsRequest.getGtnWsCheckAllUpdateRequest();
 			GtnWsCheckAllUpdateBean psPricePopulateUpdateBean = gtnWsPSUpdateRequest.getUpdateBean();
-
-			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+                   			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE
 					.returnSearchQueryConfigLoader(gtnWebServiceAllListConfig.getDynamicClassObjectMap());
@@ -378,7 +377,6 @@ public class GtnWsPriceScheduleController {
 		try {
 			GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = gtnWsRequest.getGtnWsCheckAllUpdateRequest();
 			GtnWsCheckAllUpdateBean psPPUpdateBean = gtnWsPSUpdateRequest.getUpdateBean();
-
 			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE
@@ -389,7 +387,6 @@ public class GtnWsPriceScheduleController {
 
 			Map<String, GtnWsColumnDetailsConfig> componetMap = gtnWebServiceSearchQueryConfig
 					.getFieldToColumnDetailsMap();
-
 			StringBuilder psPPUpdateQuery = gtnWsPriceScheduleService.getPopulateQuery(psPPUpdateBean, generalWSRequest,
 					componetMap, psPPUpdateBean.getPropertyId(), psPPUpdateBean.getValue());
 			priceTabUpdate(psPPUpdateQuery.toString());

@@ -2279,23 +2279,20 @@ public class NMPVExcelLogic {
         selection.setConversionNeeded(isConversionNeeded);
         String visibleColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + CURRENT + projId;
         String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
-        String Value =  selection.isConversionNeeded() ? !isPer
+        String Value =  selection.isConversionNeeded() && !isPer
                         ? CommonUtil.getConversionFormattedValue(selection, currentValue, true)
-                        : getFormattedValue(format, currentValue)
                         : getFormattedValue(format, currentValue);
         discountDto.addStringProperties(visibleColumn, isPer ? Value + PERCENT : Value);
         String actualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACTUAL + projId;
         String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
-        String Value1 =  selection.isConversionNeeded() ? !isPer
+        String Value1 =  selection.isConversionNeeded() && !isPer
                         ? CommonUtil.getConversionFormattedValue(selection, actualValue, true)
-                        : getFormattedValue(format, actualValue)
                         : getFormattedValue(format, actualValue);
         discountDto.addStringProperties(actualColumn, isPer ? Value1 + PERCENT : Value1);
         String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
         String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
-        String accValue =   selection.isConversionNeeded() ? !isPer
+        String accValue =   selection.isConversionNeeded() && !isPer
                         ? CommonUtil.getConversionFormattedValue(selection, accrualValue, true)
-                        : getFormattedValue(format, accrualValue)
                         : getFormattedValue(format, accrualValue);
         discountDto.addStringProperties(accrualColumn, isPer ? accValue + PERCENT : accValue);
 
@@ -2336,9 +2333,8 @@ public class NMPVExcelLogic {
         priorIndex = currentIndex + priorIndex;
         String visibleColumn = discountColumn + VAL + String.valueOf(obj[0]).replaceAll(" ", StringUtils.EMPTY) + discountNo + projId;
         String priorValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[priorIndex])));
-        String val = selection.isConversionNeeded() ? !isPer
+        String val = selection.isConversionNeeded() && !isPer
                     ? CommonUtil.getConversionFormattedValue(selection, priorValue, true)
-                    : getFormattedValue(format, priorValue)
                     : getFormattedValue(format, priorValue);
         discountDto.addStringProperties(visibleColumn, isPer ? val + PERCENT : val);
 

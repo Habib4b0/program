@@ -58,6 +58,13 @@ public class GtnFrameworkCGrpDeleteValidationAction implements GtnUIFrameWorkAct
 			customerGrpavigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
 			customerGrpOnSucessActionConfigList.add(customerGrpavigationActionConfig);
 
+			GtnUIFrameWorkActionConfig customerGrpNotificationAction = new GtnUIFrameWorkActionConfig();
+			customerGrpNotificationAction.setActionType(GtnUIFrameworkActionType.NOTIFICATION_ACTION);
+			String message = customerGrpName + " has been deleted successfully";
+			customerGrpNotificationAction.addActionParameter(message);
+			customerGrpNotificationAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
+			customerGrpOnSucessActionConfigList.add(customerGrpNotificationAction);
+
 			confirmParamsList.add(customerGrpOnSucessActionConfigList);
 			customerGrpConfirmationActionConfig.setActionParameterList(confirmParamsList);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, customerGrpConfirmationActionConfig);

@@ -117,7 +117,6 @@ public class GtnWsTransactionService {
 				}
 				columnDataTypeMap.put(columnID, columnType);
 			}
-
 			if (isExcel && gtnWsSearchRequest.getSearchColumnNameList()
 					.contains(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
 				List<Object> excelColumnList = new ArrayList<>(gtnWsSearchRequest.getSearchColumnNameList());
@@ -151,8 +150,7 @@ public class GtnWsTransactionService {
 	private void appendWhereCondition(GtnWsSearchRequest gtnWsSearchRequest, Map<String, String> columnDataTypeMap,
 			Criteria criteria, ClassMetadata classMetadata, boolean isInvalid) throws ParseException {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
-			String type = columnDataTypeMap.get(columns.getFieldId());
-
+			String type = columnDataTypeMap.get(columns.getFieldId()); 
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
 			columns.setExpression(columns.isFilter()
 					? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName()) : columns.getExpression());
@@ -165,14 +163,14 @@ public class GtnWsTransactionService {
 				betweenConditon(criteria, columns, type, dateFormat);
 				break;
 			case "LIKE":
-				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter);
+				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter,type);
 				break;
 			case "EQUAL":
 				equalCriteria(criteria, classMetadata, columns, type, dateFormat, value);
 				break;
 
 			case "EQUALS":
-				equalsCriteria(criteria, columns, type, value, dateFormat);
+				equalsCriteria(criteria,columns, type, value, dateFormat);
 
 				break;
 			case "GREATER":
@@ -249,16 +247,21 @@ public class GtnWsTransactionService {
 			Date toDate = getDateForSearch(fromDate);
 			criteria.add(Restrictions.between(columns.getFieldId(), fromDate, toDate));
 
-		} else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
+		} 
+		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.eq(columns.getFieldId(), Double.valueOf(value)));
+		}
+		else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), true));
-		} else {
+		}
+		 else {
 			criteria.add(Restrictions.eq(columns.getFieldId(), value));
 		}
 	}
 
 	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String type, String dateFormat, String value) throws ParseException {
-		if ("java.lang.Double".equalsIgnoreCase(type) && columns.isFilter()) {
+		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			String columnName = ((AbstractEntityPersister) classMetadata)
 					.getPropertyColumnNames(columns.getFieldId())[0];
 			Object[] doubleFilterValues = { columnName, columns.getFilterValue1() };
@@ -272,7 +275,7 @@ public class GtnWsTransactionService {
 	}
 
 	private void likeCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
-			String value, boolean isUser, boolean isInvalidFilter) {
+			String value, boolean isUser, boolean isInvalidFilter,String type) {
 		if (isUser) {
 			Set<String> keys = new HashSet<>();
 			for (Entry<Integer, String> entry : gtnWebServiceAllListConfig.getUserIdNameMap().entrySet()) {
@@ -284,7 +287,15 @@ public class GtnWsTransactionService {
 				}
 			}
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
-		} else {
+		}
+		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+                        String columnName = columns.getFieldId();
+			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
+			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
+			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
+		}
+		else {
+			
 			if ("%".equals(value)) {
 				Criterion c1 = Restrictions.isNull(columns.getFieldId());
 				Criterion c2 = Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%"));
@@ -298,7 +309,7 @@ public class GtnWsTransactionService {
 						Restrictions.sqlRestriction("REPLACE(REPLACE(REPLACE( ? ,' ','{}'),'}{',''),'{}',' ') like ?",
 								invalidFilterValues, invalidFilterTypes));
 			} else {
-				criteria.add(Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%")));
+				criteria.add(Restrictions.ilike(columns.getFieldId(),value.replaceAll("\\*", "%")));
 			}
 		}
 	}

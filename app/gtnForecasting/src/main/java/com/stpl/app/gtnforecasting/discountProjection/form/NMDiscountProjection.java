@@ -5136,9 +5136,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
     private DiscountProjectionDTO getPreviousHierachyCustom(String hierarchyNo, String hierarchyIndicator) {
         String parentHierarchy = tableLogic.getParentHierarchyNo(hierarchyNo);
         Object itemId = tableLogic.getcurrentTreeData(hierarchyNo);
-        if (itemId == null) {
-            itemId = tableLogic.getExpandedTreeValues(hierarchyNo);
-        } else {
+        if (itemId != null) {
             if (hierarchyIndicator.equals(((DiscountProjectionDTO) itemId).getHierarchyIndicator())) {
                 return getPreviousHierachyCustom(parentHierarchy, ((DiscountProjectionDTO) itemId).getHierarchyIndicator());
             }

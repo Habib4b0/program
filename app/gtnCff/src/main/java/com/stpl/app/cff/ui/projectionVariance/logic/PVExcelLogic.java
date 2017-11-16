@@ -3288,35 +3288,31 @@ public class PVExcelLogic {
 
     private void setBase_Value(ProjectionVarianceDTO discountDto, Object[] obj, String discount) {
 
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountAmount", NumericConstants.SEVEN, selection.getCurrentProjId(), AMOUNT,true);
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountSales", NumericConstants.TEN, selection.getCurrentProjId(), RATE_PER,false);
-        calculatePivotDiscount(discountDto, obj, discount, "RPU", NumericConstants.THIRTEEN, selection.getCurrentProjId(), AMOUNT,false);
-        calculatePivotDiscount(discountDto, obj, discount, "DiscountPerExFactory", NumericConstants.SIXTEEN, selection.getCurrentProjId(), RATE_PER,false);
+        calculatePivotDiscount(discountDto, obj, discount, "DiscountAmount", NumericConstants.SEVEN, selection.getCurrentProjId(), AMOUNT);
+        calculatePivotDiscount(discountDto, obj, discount, "DiscountSales", NumericConstants.TEN, selection.getCurrentProjId(), RATE_PER);
+        calculatePivotDiscount(discountDto, obj, discount, "RPU", NumericConstants.THIRTEEN, selection.getCurrentProjId(), AMOUNT);
+        calculatePivotDiscount(discountDto, obj, discount, "DiscountPerExFactory", NumericConstants.SIXTEEN, selection.getCurrentProjId(), RATE_PER);
 
     }
 
-    private void calculatePivotDiscount(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int projId, DecimalFormat format,boolean isConversionNeeded) {
+    private void calculatePivotDiscount(ProjectionVarianceDTO discountDto, Object[] obj, String discount, String discountColumn, int currentIndex, int projId, DecimalFormat format) {
         String discountNo = discount_No(discount);
         boolean isPer = format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE);
         String visibleColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY) + discountNo + CURRENT + projId;
         String currentValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex])));
-        String Value = selection.isConversionNeeded() ? !isPer
-                        ? CommonUtils.getConversionFormattedValue(selection, currentValue, true)
-                        : getFormattedValue(format, currentValue)
+        String Value = selection.isConversionNeeded() && !isPer ? CommonUtils.getConversionFormattedValue(selection, currentValue, true)
                         : getFormattedValue(format, currentValue);
         discountDto.addStringProperties(visibleColumn, isPer ? Value + PERCENT : Value);
         String actualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACTUAL + projId;
         String actualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 1])));
-        String Value1 = selection.isConversionNeeded() ? !isPer
+        String Value1 = selection.isConversionNeeded() && !isPer
                         ? CommonUtils.getConversionFormattedValue(selection, actualValue, true)
-                        : getFormattedValue(format, actualValue)
                         : getFormattedValue(format, actualValue);
         discountDto.addStringProperties(actualColumn, isPer ? Value1 + PERCENT : Value1);
         String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
         String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
-        String accValue =  selection.isConversionNeeded() ? !isPer
+        String accValue =  selection.isConversionNeeded() && !isPer
                         ? CommonUtils.getConversionFormattedValue(selection, accrualValue, true)
-                        : getFormattedValue(format, accrualValue)
                         : getFormattedValue(format, accrualValue);
         discountDto.addStringProperties(accrualColumn, isPer ? accValue + PERCENT : accValue);
 

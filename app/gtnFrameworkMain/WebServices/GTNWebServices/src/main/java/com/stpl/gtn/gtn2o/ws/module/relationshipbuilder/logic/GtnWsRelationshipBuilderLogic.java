@@ -1327,7 +1327,8 @@ public class GtnWsRelationshipBuilderLogic {
         Date date = new Date();
         String pathMasterSid = "";
         for (int i = 0; i < resultSet.size(); i++) {
-            getDeductionHierarchyNo(resultSet.get(i), levelMap);
+            StringBuilder previousRelationshipValue = new StringBuilder();
+            getDeductionHierarchyNo(resultSet.get(i), levelMap,previousRelationshipValue);
         }
         List<GtnWsSortedHierarchyBean> veryFinalValue = new ArrayList<>();
         for (Map.Entry<Integer, GtnWsHierarchyBean> entry : levelMap.entrySet()) {
@@ -1379,16 +1380,18 @@ public class GtnWsRelationshipBuilderLogic {
         }
     }
 
-	private void getDeductionHierarchyNo(Object[] objects, Map<Integer, GtnWsHierarchyBean> levelMap) {
-
+	private void getDeductionHierarchyNo(Object[] objects, Map<Integer, GtnWsHierarchyBean> levelMap, StringBuilder previousRelationshipValue) {
 		int levelNo = 0;
 		boolean isHierarchyNeeded = false;
-		for (Object object : objects) {
-			if (levelMap.get(levelNo) == null) {
+                for (int i = 0; i < objects.length; i++) {
+                    Object object = objects[i];
+                    previousRelationshipValue.append(object).append(GtnFrameworkWebserviceConstant.STRING_TILT);
+                    if (levelMap.get(levelNo) == null) {
 				GtnWsHierarchyBean dto = new GtnWsHierarchyBean();
 				getParentDto(dto, levelNo, levelMap);
 				dto.addHierarchyNo(getHierarchyNo(null, true, dto.getParentHierarchyNo()));
 				dto.addRelationshipLevelValues(object);
+                                dto.addParentRelationshipLevelValues(previousRelationshipValue.toString());
 				dto.setLevelNo(levelNo);
 				levelMap.put(levelNo++, dto);
 			} else {
@@ -1396,16 +1399,17 @@ public class GtnWsRelationshipBuilderLogic {
 				parentdto = levelNo > 0 ? levelMap.get(levelNo - 1) : null;
 
 				GtnWsHierarchyBean dto = levelMap.get(levelNo++);
-				if (!dto.getRelationshipLevelValues().contains(object) || isHierarchyNeeded) {
+				if (!dto.getRelationshipLevelValues().contains(object) || isHierarchyNeeded || !dto.getParentRelationshipLevelValues().contains(previousRelationshipValue.toString())) {
 					dto.addRelationshipLevelValues(object);
 					getChildHierarchyNo(parentdto, dto, levelNo);
 					dto.addHierarchyNo(
 							getHierarchyNo(dto.getHierarchyNo(), isHierarchyNeeded, dto.getParentHierarchyNo()));
+                                        dto.addParentRelationshipLevelValues(previousRelationshipValue.toString());
 					dto.setLevelNo(levelNo > 0 ? levelNo - 1 : 0);
 					isHierarchyNeeded = true;
 				}
 			}
-		}
+                }
 	}
 
 	private void getChildHierarchyNo(GtnWsHierarchyBean parentdto, GtnWsHierarchyBean dto, int levelNo) {

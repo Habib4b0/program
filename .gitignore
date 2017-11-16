@@ -1,1 +1,9 @@
-/app/GtnFramworkQueryGenerator/target/
+app/Dist/*
+app/*/target/*
+.project
+.settings/*
+*/.settings*
+*.scannerwork*
+*.settings*
+etl/target/*
+*.classpath
