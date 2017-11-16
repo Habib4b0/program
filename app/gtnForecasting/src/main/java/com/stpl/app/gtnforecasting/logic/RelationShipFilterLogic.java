@@ -466,6 +466,7 @@ public class RelationShipFilterLogic {
 		List<Object> input = new ArrayList<>();
 		input.add(relationShipBuilderId);
 		input.add(maxlevelNo);
+		input.add(relationVersionNo);
 		List<Object[]> resultsDataList = QueryUtils.getAppData(input, "selectRelationQueryByRelationShipandLevelNos",
 				null);
 		return customizeRelationData(resultsDataList);

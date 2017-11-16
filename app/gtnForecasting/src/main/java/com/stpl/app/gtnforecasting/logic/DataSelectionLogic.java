@@ -2243,6 +2243,10 @@ public class DataSelectionLogic {
 
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetails");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
+		customSql = customSql.replace("?RLDV", isCustomerHierarchy ? sessionDTO.getCustomerRelationVersion()+ StringUtils.EMPTY 
+                                                : sessionDTO.getProductRelationVersion()+ StringUtils.EMPTY);
+		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
+                                                : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
 		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 
 		Map<String, List> resultMap = new HashMap<>();
