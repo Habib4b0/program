@@ -2281,7 +2281,7 @@ public class SalesLogic {
                 break;
         }
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-
+        
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
