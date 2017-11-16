@@ -370,7 +370,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
-
+				productFuture.get();
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductRelationShipVersionNo(relationVersionNo);
@@ -3150,7 +3150,16 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final DataSelectionDTO dto = (DataSelectionDTO) resultTable.getValue();
 				int projectionIdValue = dto.getProjectionId();
 				VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
+				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 
+				customerFuture = checkAndDoAutomaticUpdate(dto.getCustomerRelationShipVersionNo(),
+						Integer.parseInt(dto.getCustomerHierSid()), customerExecutorService);
+				ExecutorService productExecutorService = Executors.newSingleThreadExecutor();
+
+				productFuture = checkAndDoAutomaticUpdate(dto.getProductRelationShipVersionNo(),
+						Integer.parseInt(dto.getProdHierSid()), productExecutorService);
+				customerFuture.get();
+				productFuture.get();
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(screenName);
 				tempSession.setProjectionId(projectionIdValue);
@@ -4031,8 +4040,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
-
 		try {
+			customerFuture.get();
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
@@ -4201,7 +4210,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 
 				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
 						productHierarchyDto.getHierarchyId(), customerExecutorService);
 
