@@ -710,7 +710,7 @@ public class GtnWsRelationshipBuilderLogic {
 			List<String> columnAndTableNameList = hierarchyService.getMappingColumns(keyRelationBean);
 			queryBean.addSelectClauseBean(columnAndTableNameList.get(0), null, Boolean.TRUE, null);
 			queryBean.addSelectClauseBean(columnAndTableNameList.get(1), null, Boolean.TRUE, null);
-			queryBean.setFromTableNameWithAlies(keyRelationBean.getActualTtableName(), null);
+			queryBean.setFromTableNameWithAlies(keyRelationBean.getActualTtableName(), keyRelationBean.getActualTtableName());
 			hierarchyService.addTableJoin(keyRelationBean, queryBean);
 			queryBean.addWhereClauseBean(columnAndTableNameList.get(1), null, GtnFrameworkOperatorType.EQUAL_TO,
 					GtnFrameworkDataType.STRING, relationBean.getRekationshipLevelValue());
