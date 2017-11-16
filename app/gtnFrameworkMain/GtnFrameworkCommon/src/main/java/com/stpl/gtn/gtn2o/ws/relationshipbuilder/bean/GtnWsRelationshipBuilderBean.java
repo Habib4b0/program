@@ -3,6 +3,12 @@ package com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean;
 import java.util.Date;
 
 public class GtnWsRelationshipBuilderBean {
+	
+	
+	public GtnWsRelationshipBuilderBean() {
+		super();
+	}
+
 	private int relationshipBuilderSid;
 	private int hierarchyDefinitionSid;
 	private String relationshipName;
@@ -81,32 +87,16 @@ public class GtnWsRelationshipBuilderBean {
 		this.hierarchyVersion = hierarchyVersion;
 	}
 
-	public int getCreatedBy() {
-		return createdBy;
-	}
-
 	public void setCreatedBy(int createdBy) {
 		this.createdBy = createdBy;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
-	public int getModifiedBy() {
-		return modifiedBy;
-	}
-
 	public void setModifiedBy(int modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-
-	public Date getModifiedDate() {
-		return modifiedDate == null ? null : (Date) modifiedDate.clone();
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
@@ -120,4 +110,21 @@ public class GtnWsRelationshipBuilderBean {
 	public void setDeductionRelation(Integer deductionRelation) {
 		this.deductionRelation = deductionRelation;
 	}
+
+	public Date getCreatedDate() {
+		return createdDate == null ? null : (Date) createdDate.clone();
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate == null ? null : (Date) modifiedDate.clone();
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
+	}
+
 }

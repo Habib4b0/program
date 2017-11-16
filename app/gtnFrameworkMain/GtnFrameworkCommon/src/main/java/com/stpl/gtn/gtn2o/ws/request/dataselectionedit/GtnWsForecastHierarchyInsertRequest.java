@@ -1,6 +1,12 @@
 package com.stpl.gtn.gtn2o.ws.request.dataselectionedit;
 
 public class GtnWsForecastHierarchyInsertRequest {
+	
+	
+	public GtnWsForecastHierarchyInsertRequest() {
+		super();
+	}
+
 	private String userId;
 
 	private String sessionId;
