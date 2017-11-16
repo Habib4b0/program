@@ -51,7 +51,6 @@ public class GtnFrameworkAutomaticRelationUpdate {
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
-	private GtnFramworkCheckForAutoUpdateRunnable runnableTarget;
 	@Autowired
 	private ApplicationContext applicationContext;
 
@@ -134,7 +133,6 @@ public class GtnFrameworkAutomaticRelationUpdate {
 			insertQueryInput.add(finalQuery);
 			String finalInsertQuery = gtnWsSqlService.getQuery(insertQueryInput,
 					"relationShipSubQueryToInsertAutomaticData");
-			System.out.println("finalInsertQuery-->>" + finalInsertQuery);
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 		}
 
@@ -337,9 +335,6 @@ public class GtnFrameworkAutomaticRelationUpdate {
 			runnableTarget.setHierarchyLevelDefinitionList(hierarchyLevelDefinitionList);
 			runnableTarget.setIndex(i);
 			runnableTarget.setRelationBean(relationBean);
-			// Thread thread = new Thread(runnableTarget);
-			// thread.run();
-			this.runnableTarget = runnableTarget;
 			executorService.submit(runnableTarget);
 		}
 		executorService.shutdown();

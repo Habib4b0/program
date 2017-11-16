@@ -1,7 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.controller;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,7 +37,7 @@ public class GtnWsAutomaticRelationController {
 	@RequestMapping(value = GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse automaticRelationUpdate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest)
-			throws GtnFrameworkGeneralException, ClassNotFoundException, IOException, InterruptedException {
+			throws GtnFrameworkGeneralException, InterruptedException {
 		Integer relationshipBuilderSid = gtnWsRequest.getAutomaticRelationEequest().getRelationshipBuilderSid();
 		service.checkAndUpdateAutomaticRelationship(relationshipBuilderSid,
 				gtnWsRequest.getAutomaticRelationEequest().getUserId());

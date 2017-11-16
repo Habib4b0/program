@@ -85,9 +85,7 @@ public class GtnFrameworkFileReadWriteService {
 	}
 
 	private String getFilePath() {
-
-		return "D:/SriThAr/Allergan/Server";
-		// return System.getProperty("com.stpl.gtnframework.base.path");
+		return System.getProperty("com.stpl.gtnframework.base.path");
 
 	}
 
