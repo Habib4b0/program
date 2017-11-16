@@ -50,12 +50,12 @@
 				<module>etl</module>
 				<module>app/Resources</module>
 				<module>app/gtnProperties</module>
-				<module>app/gtnUtility</module>				
+				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
 				<module>app/gtnServicePartII</module>
 				<module>app/gtnServicePartI</module>
-				<module>app/gtnHierarchyRouteBuilder</module>				
-				
+				<module>app/gtnHierarchyRouteBuilder</module>
+
 				<module>app/WarReleasePlugin</module>
 			</modules>
 			<build>
@@ -102,17 +102,17 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 			<id>Clean-All</id>
 			<modules>
 				<module>etl</module>
-				<module>app/Resources</module>				
+				<module>app/Resources</module>
 				<module>app/gtnProperties</module>
-				<module>app/gtnUtility</module>				
+				<module>app/gtnUtility</module>
 				<module>app/util-service</module>
 				<module>app/gtnServicePartII</module>
-				<module>app/gtnServicePartI</module>				
+				<module>app/gtnServicePartI</module>
 				<module>app/WarReleasePlugin</module>
 				<module>app/gtnPartI</module>
 				<module>app/gtnPartII</module>
@@ -126,14 +126,14 @@
 				<module>app/gtnWorkflow</module>
 				<module>app/gtnGCM</module>
 				<module>app/gtnCff</module>
-				<module>app/gtnUtilities</module>				
+				<module>app/gtnUtilities</module>
 				<module>app/gtnArm</module>
 			</modules>
 			<build>
 				<defaultGoal>clean</defaultGoal>
 			</build>
-		</profile>		
-		
+		</profile>
+
 	</profiles>
 	<build>
 		<plugins>
