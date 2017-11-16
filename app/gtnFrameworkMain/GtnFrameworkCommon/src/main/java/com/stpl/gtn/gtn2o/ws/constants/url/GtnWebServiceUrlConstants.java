@@ -59,7 +59,16 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_COMMON_GENERAL_SERVICE_USER_NAME = "/getUserNameById";
 	public static final String GTN_COMMON_RELOAD_COMBO_BOX = "/GtnCommonReLoadComboBox";
 	public static final String GTN_TEMP_EXCEL_FILE_DELETE = "/tempExcelFileDelete";
+	public static final String GTN_AUTOMATIC_RELATION_SERIVCE = "/GtnAutomaticRelaitonService";
+	public static final String RELATION_WEBSERVICE_TEST = "/relstionshipWebserviceTest";
+	public static final String AUTOMATIC_RELATION_UPDATE = "/updateAutoMaticRelations";
 	public static final String GTN_CSV_EXPORT_FILE_SERVICE = "/gtnCsvExportFileService";
+
+	/**
+	 * Forecast dataselection Constants
+	 */
+	public static final String GTN_DATASELCTION_EDIT_SERVICE = "/GtnDataSelectionEdit";
+	public static final String GTN_DATASELECTION_EDIT_CUSTHIERARCHY_INSERT = "/relationShipCustHierarchyInsert";
 
 	private GtnWebServiceUrlConstants() {
 		super();

@@ -73,6 +73,8 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
         attributes.put("deductionHierarchySid", getDeductionHierarchySid());
         attributes.put("dedRelationshipBuilderSid",
             getDedRelationshipBuilderSid());
+        attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
+        attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
 
         return attributes;
     }
@@ -271,6 +273,20 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
 
         if (dedRelationshipBuilderSid != null) {
             setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
+        }
+
+        Integer projectionCustVersionNo = (Integer) attributes.get(
+                "projectionCustVersionNo");
+
+        if (projectionCustVersionNo != null) {
+            setProjectionCustVersionNo(projectionCustVersionNo);
+        }
+
+        Integer projectionProdVersionNo = (Integer) attributes.get(
+                "projectionProdVersionNo");
+
+        if (projectionProdVersionNo != null) {
+            setProjectionProdVersionNo(projectionProdVersionNo);
         }
     }
 
@@ -915,6 +931,46 @@ public class ProjectionMasterWrapper implements ProjectionMaster,
     public void setDedRelationshipBuilderSid(
         java.lang.String dedRelationshipBuilderSid) {
         _projectionMaster.setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
+    }
+
+    /**
+    * Returns the projection cust version no of this projection master.
+    *
+    * @return the projection cust version no of this projection master
+    */
+    @Override
+    public int getProjectionCustVersionNo() {
+        return _projectionMaster.getProjectionCustVersionNo();
+    }
+
+    /**
+    * Sets the projection cust version no of this projection master.
+    *
+    * @param projectionCustVersionNo the projection cust version no of this projection master
+    */
+    @Override
+    public void setProjectionCustVersionNo(int projectionCustVersionNo) {
+        _projectionMaster.setProjectionCustVersionNo(projectionCustVersionNo);
+    }
+
+    /**
+    * Returns the projection prod version no of this projection master.
+    *
+    * @return the projection prod version no of this projection master
+    */
+    @Override
+    public int getProjectionProdVersionNo() {
+        return _projectionMaster.getProjectionProdVersionNo();
+    }
+
+    /**
+    * Sets the projection prod version no of this projection master.
+    *
+    * @param projectionProdVersionNo the projection prod version no of this projection master
+    */
+    @Override
+    public void setProjectionProdVersionNo(int projectionProdVersionNo) {
+        _projectionMaster.setProjectionProdVersionNo(projectionProdVersionNo);
     }
 
     @Override

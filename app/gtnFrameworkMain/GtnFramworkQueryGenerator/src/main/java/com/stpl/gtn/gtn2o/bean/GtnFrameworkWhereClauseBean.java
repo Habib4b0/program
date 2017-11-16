@@ -1,7 +1,9 @@
 package com.stpl.gtn.gtn2o.bean;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
@@ -24,6 +26,7 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 	private Date dateConditionValue;
 	private GtnFrameworkDataType conditionValueType;
 	private String finalValue;
+	private List<Object> listValue;
 
 	public String getStringConditionValue() {
 		return stringConditionValue;
@@ -61,6 +64,14 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 		this.whereClauseRightbean = whereClauseRightbean;
 	}
 
+	public List<Object> getListValue() {
+		return listValue;
+	}
+
+	public void setListValue(List<Object> listValue) {
+		this.listValue = listValue;
+	}
+
 	public String getConditionalValue() {
 		String finalReturnValue;
 		switch (conditionValueType) {
@@ -72,6 +83,9 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 			break;
 		case DATE:
 			finalReturnValue = "CAST( " + dateConditionValue + "as DATETIME)";
+			break;
+		case LIST:
+			finalReturnValue = getListToString(listValue);
 			break;
 		default:
 			finalReturnValue = finalValue;
@@ -92,6 +106,7 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void setConditionalValue(GtnFrameworkDataType conditionValueType, Object value) {
 		switch (conditionValueType) {
 		case INTEGER:
@@ -102,6 +117,9 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 			break;
 		case DATE:
 			dateConditionValue = (Date) value;
+			break;
+		case LIST:
+			listValue = (List<Object>) value;
 			break;
 		default:
 			finalValue = null;
@@ -115,5 +133,17 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 
 	public void setConditionValueType(GtnFrameworkDataType conditionValueType) {
 		this.conditionValueType = conditionValueType;
+	}
+
+	private String getListToString(Collection<?> masterSids) {
+		StringBuilder result = new StringBuilder();
+		if (masterSids != null && !masterSids.isEmpty()) {
+			for (Object hirarechyNo : masterSids) {
+				result.append("'" + hirarechyNo + "' ,");
+			}
+			result.deleteCharAt(result.length() - 1);
+			return result.toString();
+		}
+		return "''";
 	}
 }

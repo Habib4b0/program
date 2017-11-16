@@ -45,6 +45,9 @@ public class GtnWsRelationshipBuilderConstants {
 	private static final Map<String, String> TABLE_PRIMARY_COLUMN = new HashMap<>();
 	public static final String TREE_CSS_LAYOUT = "treeCssLayout";
 	public static final String ITEM_MASTER_TABLE_COLUMN_NAME = "ITEM_MASTER.ITEM_MASTER_SID";
+	public static final String HIERARCHY_FILE_CREATION = "/hierarchyFileCreation";
+	public static final String NUMERIC_CONSTANT_ONE = "1";
+	public static final String HIERARCHY_LEVELNAME_LIST = "/hierarchyLevelNameList";
 
 	private GtnWsRelationshipBuilderConstants() {
 		/**
