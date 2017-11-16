@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -48,45 +49,37 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 		super();
 	}
 
-	public GtnFramworkCheckForAutoUpdateRunnable(GtnWsRelationshipBuilderBean relationBean,
-			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList, int index, AtomicBoolean atomicBoolean) {
-		this.relationBean = relationBean;
-		this.hierarchyLevelDefinitionList = hierarchyLevelDefinitionList;
-		this.index = index;
-		this.atomicBoolean = atomicBoolean;
-	}
-
-	public GtnWsSqlService getGtnWsSqlService() {
-		return gtnWsSqlService;
-	}
-
 	public void setGtnWsSqlService(GtnWsSqlService gtnWsSqlService) {
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
-
-	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
-		return gtnSqlQueryEngine;
+	public GtnWsSqlService getGtnWsSqlService() {
+		return gtnWsSqlService;
 	}
 
 	public void setGtnSqlQueryEngine(GtnFrameworkSqlQueryEngine gtnSqlQueryEngine) {
 		this.gtnSqlQueryEngine = gtnSqlQueryEngine;
 	}
 
-	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
-		return gtnFrameworkEntityMasterBean;
+	public GtnFrameworkSqlQueryEngine getGtnSqlQueryEngine() {
+		return gtnSqlQueryEngine;
 	}
 
 	public void setGtnFrameworkEntityMasterBean(GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean) {
 		this.gtnFrameworkEntityMasterBean = gtnFrameworkEntityMasterBean;
 	}
-
-	public GtnFrameworkHierarchyService getGtnHierarchyServiceBuilder() {
-		return gtnHierarchyServiceBuilder;
+	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
+		return gtnFrameworkEntityMasterBean;
 	}
 
 	public void setGtnHierarchyServiceBuilder(GtnFrameworkHierarchyService gtnHierarchyServiceBuilder) {
 		this.gtnHierarchyServiceBuilder = gtnHierarchyServiceBuilder;
 	}
+
+
+	public GtnFrameworkHierarchyService getGtnHierarchyServiceBuilder() {
+		return gtnHierarchyServiceBuilder;
+	}
+
 
 	public GtnWsRelationshipBuilderBean getRelationBean() {
 		return relationBean;
@@ -97,11 +90,11 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 	}
 
 	public List<HierarchyLevelDefinitionBean> getHierarchyLevelDefinitionList() {
-		return hierarchyLevelDefinitionList;
+		return Collections.unmodifiableList(hierarchyLevelDefinitionList);
 	}
 
 	public void setHierarchyLevelDefinitionList(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) {
-		this.hierarchyLevelDefinitionList = hierarchyLevelDefinitionList;
+		this.hierarchyLevelDefinitionList = Collections.unmodifiableList(hierarchyLevelDefinitionList);
 	}
 
 	public int getIndex() {
