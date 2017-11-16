@@ -194,21 +194,21 @@ AS
                     ON CM.COMPANY_ID = GM.COMPANY_CODE
 
       -------------------------Procedure Call ---------------------------------------
-      IF @@ROWCOUNT > 0
-        BEGIN
-            BEGIN TRY
-                BEGIN TRANSACTION
+      -- IF @@ROWCOUNT > 0
+        -- BEGIN
+            -- BEGIN TRY
+                -- BEGIN TRANSACTION
 
-                EXEC Prc_product_hierarchy_dynamic_add --PRODUCT
+                -- EXEC Prc_product_hierarchy_dynamic_add --PRODUCT
 
-                COMMIT
-            END TRY
+                -- COMMIT
+            -- END TRY
 
-            BEGIN CATCH
-                IF @@TRANCOUNT <> 0
-                  ROLLBACK
-            END CATCH
-        END
+            -- BEGIN CATCH
+                -- IF @@TRANCOUNT <> 0
+                  -- ROLLBACK
+            -- END CATCH
+        -- END
   ---------------------------------Relationship Implementation  ends here------------------------
 
   END
