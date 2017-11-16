@@ -107,6 +107,10 @@ public GtnFrameworkSingleColumnRelationBean(int mastersid, String actualTtableNa
 		return tableAliasName + "." + getDescriptionClauseColumn();
 	}
 
+	public String getMasterSidColumn() {
+		return isDescriptionColumnAvailable() ? primaryKeyColumnName : mappingColumnName;
+	}
+
 	public boolean isDescriptionColumnAvailable() {
 		return (descColumnName == null || descColumnName.isEmpty());
 	}
