@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stpl.app.adminconsole.filemanagement.ui.lazyload;
+package com.stpl.app.cff.ui.fileSelection.lazyload;
 
 import org.vaadin.addons.lazycontainer.SearchCriteria;
 
@@ -12,8 +12,8 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  *
  * @author Harlin
  */
-public class ForecastYearCriteria implements SearchCriteria{
-    	/** The search text. */
+public class ForecastYearCriteria implements SearchCriteria {
+	/** The search text. */
 	private String searchText;
 
 	/** The description. */
