@@ -72,7 +72,6 @@ public class ForecastingMasterWrapper implements ForecastingMaster,
         attributes.put("forecastedSalesPercentMonth",
             getForecastedSalesPercentMonth());
         attributes.put("inboundStatus", getInboundStatus());
-        attributes.put("businessUnit", getBusinessUnit());
 
         return attributes;
     }
@@ -270,12 +269,6 @@ public class ForecastingMasterWrapper implements ForecastingMaster,
 
         if (inboundStatus != null) {
             setInboundStatus(inboundStatus);
-        }
-
-        Integer businessUnit = (Integer) attributes.get("businessUnit");
-
-        if (businessUnit != null) {
-            setBusinessUnit(businessUnit);
         }
     }
 
@@ -928,26 +921,6 @@ public class ForecastingMasterWrapper implements ForecastingMaster,
     @Override
     public void setInboundStatus(java.lang.String inboundStatus) {
         _forecastingMaster.setInboundStatus(inboundStatus);
-    }
-
-    /**
-    * Returns the business unit of this forecasting master.
-    *
-    * @return the business unit of this forecasting master
-    */
-    @Override
-    public int getBusinessUnit() {
-        return _forecastingMaster.getBusinessUnit();
-    }
-
-    /**
-    * Sets the business unit of this forecasting master.
-    *
-    * @param businessUnit the business unit of this forecasting master
-    */
-    @Override
-    public void setBusinessUnit(int businessUnit) {
-        _forecastingMaster.setBusinessUnit(businessUnit);
     }
 
     @Override

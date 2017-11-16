@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
@@ -30,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHelperLogic;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderLogic;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -54,74 +52,27 @@ public class GtnWsRelationshipBuilderController {
 	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderController.class);
-
-	private GtnWsRelationshipBuilderLogic logic = new GtnWsRelationshipBuilderLogic(this);
-	private GtnWsRelationshipBuilderHelperLogic helperLogic = new GtnWsRelationshipBuilderHelperLogic(this);
-
-	private Map<String, String> filterAndSortingRBCriteriaMap = new HashMap<>();
-	private Map<String, String> searchCriteriaMap = new HashMap<>();
-
+	
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
-
+	
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
+	private GtnWsRelationshipBuilderLogic logic ;
+	
+	@Autowired
+	private GtnWsRelationshipBuilderHelperLogic helperLogic;
+	
+	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
-
+	
 	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
+	private GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator;
 
-	@Autowired
-	private org.hibernate.SessionFactory sessionFactory;
-
-	@Autowired
-	private GtnFrameworkHierarchyService hierarchyService;
-
-	public GtnFrameworkEntityMasterBean getGtnFrameworkEntityMasterBean() {
-		return gtnFrameworkEntityMasterBean;
-	}
-
-	public org.hibernate.SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public GtnFrameworkHierarchyService getHierarchyService() {
-		return hierarchyService;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
-	}
-
-	@SuppressWarnings("rawtypes")
-	public List executeQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
-			throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery, params, type);
-	}
-
-	public int executeUpdateQuery(String sqlQuery) throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlQuery);
-	}
-
-	public int executeUpdateQuery(String sqlQuery, Object[] params, GtnFrameworkDataType[] type)
-			throws GtnFrameworkGeneralException {
-		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(sqlQuery, params, type);
-	}
-
-	public String getQuery(String sqlId) {
-		return gtnWsSqlService.getQuery(sqlId);
-	}
-
-	public Object[] createParams(Object... params) {
-		return params;
-	}
-
-	public GtnFrameworkDataType[] createDataTypes(GtnFrameworkDataType... dataTypes) {
-		return dataTypes;
-	}
+	private Map<String, String> filterAndSortingRBCriteriaMap = new HashMap<>();
+	private Map<String, String> searchCriteriaMap = new HashMap<>();
 
 	public GtnWsRelationshipBuilderHelperLogic getHelperLogic() {
 		return helperLogic;
@@ -134,9 +85,23 @@ public class GtnWsRelationshipBuilderController {
 	public GtnWsRelationshipBuilderLogic getLogic() {
 		return logic;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
+		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
+	}
+	
+	public String getQuery(String sqlId) {
+		return gtnWsSqlService.getQuery(sqlId);
+	}
 
-	public void setLogic(GtnWsRelationshipBuilderLogic logic) {
-		this.logic = logic;
+	public GtnWsRelationshipBuilderHierarchyFileGenerator getGtnWsRelationshipBuilderHierarchyFileGenerator() {
+		return gtnWsRelationshipBuilderHierarchyFileGenerator;
+	}
+
+	public void setGtnWsRelationshipBuilderHierarchyFileGenerator(
+			GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator) {
+		this.gtnWsRelationshipBuilderHierarchyFileGenerator = gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -150,7 +115,7 @@ public class GtnWsRelationshipBuilderController {
 			String queryName = gtnWsRequest.getGtnWsSearchRequest().isCount() ? "getRelationshipBuilderCount"
 					: "getRelationshipBuilderResults";
 			List<String> inputlist = getSearchInput(gtnWsRequest);
-			List<Object[]> result = executeQuery(getQuery(inputlist, queryName));
+			List<Object[]> result = executeQuery(logic.getQuery(inputlist, queryName));
 			if (gtnWsRequest.getGtnWsSearchRequest().isCount()) {
 				relationshipBuilderSerachResponse.setCount(Integer.valueOf(String.valueOf(result.get(0))));
 			} else {
@@ -304,8 +269,8 @@ public class GtnWsRelationshipBuilderController {
 			GtnWsRelationshipBuilderResponse rbResponse = new GtnWsRelationshipBuilderResponse();
 			gtnResponse.setGtnWsRelationshipBuilderResponse(
 					logic.getHierarchyVersionNo(gtnWsRequest.getRelationshipBuilderRequest(), rbResponse));
-			int versionNo = gtnResponse.getGtnWsRelationshipBuilderResponse().getHierarchyVersionNo();
-			logic.updateQueryInHierarchy(gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId(), versionNo);
+			int versionNo = gtnResponse.getGtnWsRelationshipBuilderResponse().getSelectedVersionNo();
+			gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId(), versionNo);
 		} catch (Exception ex) {
 			logger.error("Exception in getVersionNo", ex);
 		}
@@ -381,20 +346,40 @@ public class GtnWsRelationshipBuilderController {
 		return gtnResponse;
 	}
 
-	public String getQuery(List<String> input, String queryName) {
-		StringBuilder sql = new StringBuilder();
-		try {
-			sql = new StringBuilder(getQuery(queryName));
-			if (input != null) {
-				for (Object temp : input) {
-					sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
-				}
-			}
 
+	@RequestMapping(value = GtnWsRelationshipBuilderConstants.HIERARCHY_FILE_CREATION, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse createHierarchyFiles(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enter createHierarchyFiles");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			int versionNo = gtnWsRequest.getRelationshipBuilderRequest().getVersionNo();
+			int hierarchyDefinitionSid = gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId();
+			gtnWsRelationshipBuilderHierarchyFileGenerator.updateQueryInHierarchy(hierarchyDefinitionSid, versionNo);
 		} catch (Exception ex) {
-			logger.error("Exception in getQuery", ex);
+			logger.error("Exception in creating hierarchy json files ", ex);
 		}
-		return sql.toString();
+		logger.info("Exit createHierarchyFiles");
+		return gtnResponse;
+	}
+
+	@RequestMapping(value = GtnWsRelationshipBuilderConstants.HIERARCHY_LEVELNAME_LIST, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse hierarchyLevelNameList(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enter hierarchyLevelNameList");
+		GtnUIFrameworkWebserviceResponse hierarchyLevelNameGtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsRelationshipBuilderResponse hierarchyLevelNameRbResponse = new GtnWsRelationshipBuilderResponse();
+			hierarchyLevelNameGtnResponse.setGtnWsRelationshipBuilderResponse(hierarchyLevelNameRbResponse);
+			int versionNo = gtnWsRequest.getRelationshipBuilderRequest().getVersionNo();
+			int hierarchyDefinitionSid = gtnWsRequest.getRelationshipBuilderRequest().getHierarchyDefSId();
+			hierarchyLevelNameRbResponse
+					.setHierarchyLevelNameList(logic.getRBHierarchyLevelNameList(hierarchyDefinitionSid, versionNo));
+		} catch (Exception ex) {
+			logger.error("Exception in Hierarchy Level Name List ", ex);
+		}
+		logger.info("Exit hierarchyLevelNameList");
+		return hierarchyLevelNameGtnResponse;
 	}
 
 }

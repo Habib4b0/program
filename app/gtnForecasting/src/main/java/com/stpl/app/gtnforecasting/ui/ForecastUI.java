@@ -95,6 +95,7 @@ public class ForecastUI extends UI {
 		addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
 		final String userId = request.getRemoteUser();
 
+
 		beforeUnloadCloseUi();
 		PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
 		PortletRequest portletRequest = (PortletRequest) request.getAttribute(JavaConstants.JAVAX_PORTLET_REQUEST);
@@ -137,6 +138,8 @@ public class ForecastUI extends UI {
 		String productHierarchyLevel = StringUtils.EMPTY;
 		String prodRelationshipBuilderSid = StringUtils.EMPTY;
 		String productHierSid = StringUtils.EMPTY;
+		String customerRelationVersionNo = StringUtils.EMPTY;
+		String productRelationVersionNo = StringUtils.EMPTY;
 		if (pageParameters != null) {
 
 			String[] parameters = pageParameters.split("&");
@@ -154,6 +157,8 @@ public class ForecastUI extends UI {
 			userType = hm.get("userType");
 			noOfApprovals = hm.get("noOfApprovals");
 			approvalLevels = hm.get("approvalLevel");
+			customerRelationVersionNo = hm.get("customerRelationVersionNo");
+			productRelationVersionNo = hm.get("productRelationVersionNo");
 			if (getGovernmentConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
 				screenName = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED;
 				CommonLogic.setScreenName(screenName);
@@ -178,18 +183,20 @@ public class ForecastUI extends UI {
 			sessionDto.setProcessId(processId);
 			sessionDto.setProjectionId(Integer.valueOf(projectionId));
 			RelationShipFilterLogic logic = RelationShipFilterLogic.getInstance();
-			ProjectionMaster temp;
+			ProjectionMaster temp = null;
 			String projectionName = StringUtils.EMPTY;
 			try {
 				temp = dataSelectionDao.getProjectionMaster(Integer.valueOf(projectionId));
 				if (!getReturnsConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
 					int hierarchySid = Integer.valueOf(temp.getCustomerHierarchySid());
 					sessionDto.setCustomerDescription(
-							logic.getLevelValueMap(temp.getCustRelationshipBuilderSid(), hierarchySid));
+							logic.getLevelValueMap(temp.getCustRelationshipBuilderSid(), hierarchySid,
+									temp.getCustomerHierVersionNo(), Integer.valueOf(customerRelationVersionNo)));
 				}
 				int hierarchySid = Integer.valueOf(temp.getProductHierarchySid());
 				sessionDto.setProductDescription(
-						logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid));
+						logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
+								temp.getProductHierVersionNo(), Integer.valueOf(productRelationVersionNo)));
 				projectionName = temp.getProjectionName();
 			} catch (Exception ex) {
 				LOGGER.error(ex);
@@ -219,15 +226,21 @@ public class ForecastUI extends UI {
 						dto.setProdHierSid(productHierSid);
 						dto.setProjectionId(Integer.parseInt(projectionId));
 						dto.setDeductionLevel(StringUtils.EMPTY);
+						dto.setCustomerHierVersionNo(Integer.valueOf(customerRelationVersionNo));
+						dto.setProductRelationShipVersionNo(Integer.valueOf(productRelationVersionNo));
 						sessionDto.setScreenName(screenName);
 						QueryUtils.createTempTables(sessionDto);
 
 						Map<String, String> tempCustomerDescriptionMap;
 						Map<String, String> tempProductDescriptionMap;
+                                                int custHierarchyVersionNo = temp!=null ? temp.getCustomerHierVersionNo() : 0;
 						tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
-								Integer.parseInt(dto.getCustomerHierSid()));
+								Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
+								dto.getCustomerRelationShipVersionNo());
+                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;
 						tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
-								Integer.parseInt(dto.getProdHierSid()));
+								Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
+								dto.getCustomerRelationShipVersionNo());
 						int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
 						int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
 						List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
@@ -236,14 +249,15 @@ public class ForecastUI extends UI {
 								Boolean.FALSE, productSelectedLeve, tempProductDescriptionMap);
 
 						customerHierarchyLevelDefinitionList = relationLogic
-								.getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()));
+								.getHierarchyLevelDefinition(Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo);
 						productHierarchyLevelDefinitionList = relationLogic
-								.getHierarchyLevelDefinition(Integer.parseInt(dto.getProdHierSid()));
+								.getHierarchyLevelDefinition(Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo);
 
 						relationLogic.ccpHierarchyInsertARP(sessionDto.getCurrentTableNames(), customerItemIds,
 								productItemIds, customerHierarchyLevelDefinitionList,
 								productHierarchyLevelDefinitionList, dto.getProjectionId(), dto.getDeductionLevel(),
-								dto.getDeductionValue());
+								dto.getDeductionValue(), dto.getCustomerRelationShipVersionNo(),
+								dto.getProductRelationShipVersionNo());
 						sessionDto.setCustomerLevelDetails(
 								dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
 						sessionDto.setProductLevelDetails(
@@ -333,6 +347,7 @@ public class ForecastUI extends UI {
 						cause += t.getClass().getName();
 
 					}
+					
 					LOGGER.error(t.getMessage());
 				}
 

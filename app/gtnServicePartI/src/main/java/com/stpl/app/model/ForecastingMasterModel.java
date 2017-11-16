@@ -503,20 +503,6 @@ public interface ForecastingMasterModel extends BaseModel<ForecastingMaster> {
      */
     public void setInboundStatus(String inboundStatus);
 
-    /**
-     * Returns the business unit of this forecasting master.
-     *
-     * @return the business unit of this forecasting master
-     */
-    public int getBusinessUnit();
-
-    /**
-     * Sets the business unit of this forecasting master.
-     *
-     * @param businessUnit the business unit of this forecasting master
-     */
-    public void setBusinessUnit(int businessUnit);
-
     @Override
     public boolean isNew();
 

@@ -465,7 +465,7 @@ JOIN dbo.HIERARCHY_DEFINITION HD on
 JOIN dbo.HELPER_TABLE HT on
 	HT.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
 where
-	hld.HIERARCHY_DEFINITION_SID =?;
+	hld.HIERARCHY_DEFINITION_SID =? and HLD.VERSION_NO =?;
          ]]>
 		</query>
 	</entity>
@@ -533,6 +533,7 @@ JOIN dbo.HIERARCHY_LEVEL_VALUES as HLV on
 Where
 	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID = ?
 	and RELATIONSHIP_LEVEL_DEFINITION.LEVEL_NO = ?
+	and RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO = ?
          ]]>
 		</query>
 	</entity>
@@ -795,7 +796,8 @@ SELECT
 	RELATIONSHIP_LEVEL_DEFINITION.PARENT_NODE,
 	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID,
 	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,
-	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID
+	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,
+	RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO
 FROM
 	RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
 JOIN HIERARCHY_LEVEL_DEFINITION as HIERARCHY_LEVEL_DEFINITION on
@@ -826,7 +828,8 @@ SELECT
 	RELATIONSHIP_LEVEL_DEFINITION.PARENT_NODE,
 	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_SID,
 	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,
-	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID
+	RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID,
+	RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO
 FROM
 	RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
 JOIN HIERARCHY_LEVEL_DEFINITION as HIERARCHY_LEVEL_DEFINITION on
@@ -950,6 +953,7 @@ SELECT
 		where
 			level_no = ?
 			and RELATIONSHIP_BUILDER_SID = ?
+			and VERSION_NO = ?
 
          ]]>
 		</query>
@@ -1012,6 +1016,37 @@ SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where LIST_NAME='?' and DESCRIPTIO
          ]]>
 		</query>
 	</entity>
+	<entity id="getRelationshipVersionNo">
+		<query> 
+        <![CDATA[            
+SELECT
+	VERSION_NO, HIERARCHY_VERSION
+from
+	RELATIONSHIP_BUILDER
+where
+	RELATIONSHIP_BUILDER_SID = ?
+ORDER by
+	VERSION_NO DESC
+         ]]>
+		</query>
+	</entity>
+	<entity id="RelationShipUserDefinedLoading">
+		<query> 
+        <![CDATA[            
+SELECT
+	RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,
+	HIERARCHY_LEVEL_VALUES.LEVEL_VALUES
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
+JOIN dbo.HIERARCHY_LEVEL_VALUES as HIERARCHY_LEVEL_VALUES on
+	HIERARCHY_LEVEL_VALUES.HIERARCHY_LEVEL_DEFINITION_SID = RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_LEVEL_DEFINITION_SID
+	and HIERARCHY_LEVEL_VALUES.HIERARCHY_LEVEL_VALUES_SID = RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES
+where
+	RELATIONSHIP_BUILDER_SID = ?
+	and RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO = ? 
+         ]]>
+		</query>
+	</entity>
         
         <entity id="getRelationshipLevelValuesForDeductionCustom">
 		<query> 
@@ -1043,5 +1078,70 @@ SELECT HELPER_TABLE_SID from dbo.HELPER_TABLE where LIST_NAME='?' and DESCRIPTIO
             ]]>
 		</query>
 	</entity>
+        
+        <entity id="getRelationShipeBuilderVersionNo">
+		<query> 
+            <![CDATA[ 
+               SELECT
+	VERSION_NO
+from
+	RELATIONSHIP_BUILDER
+where
+	RELATIONSHIP_BUILDER_SID = ?              
+            ]]>
+		</query>
+	</entity>
+        
+        <entity id="getParentLevelsWithHierarchyNo_New">
+            <query> 
+            <![CDATA[ 
+                SELECT 
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID
+                FROM 
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD 
+                        JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.HIERARCHY_NO IN (?)
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?               
+            ]]>
+            </query>
+        </entity>
+        
+        <entity id="getChildLevelsWithHierarchyNo_New">
+            <query> 
+            <![CDATA[ 
+                SELECT
+                    DISTINCT RLD.LEVEL_NO,
+                    RLD.RELATIONSHIP_LEVEL_VALUES,
+                    RLD.PARENT_NODE,
+                    RLD.LEVEL_NAME,
+                    HLD.LEVEL_VALUE_REFERENCE,
+                    HLD.TABLE_NAME,
+                    HLD.FIELD_NAME,
+                    RLD.RELATIONSHIP_LEVEL_SID,
+                    RLD.HIERARCHY_NO,
+                    RLD.RELATIONSHIP_BUILDER_SID
+                FROM
+                    dbo.RELATIONSHIP_LEVEL_DEFINITION RLD JOIN dbo.HIERARCHY_LEVEL_DEFINITION HLD
+                        ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID
+                    AND RLD.hierarchy_No LIKE '?%'
+                    AND RLD.hierarchy_No != '?'
+                    AND RLD.level_No <= ?
+                    AND RLD.VERSION_NO = ?
+                    AND HLD.VERSION_NO = ?
+                ORDER BY
+                    RLD.hierarchy_No ASC              
+            ]]>
+            </query>
+        </entity>
 
 </sql>

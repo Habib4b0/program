@@ -14,15 +14,35 @@ public class GtnFrameworkSelectClauseBean implements Serializable {
 	}
 
 	private GtnFrameworkColumnBean columnBean;
+	private String selectClauseAliesName;
+	private Boolean isValueFromColumnBean;
+	private String selectClauseValue;
 
 	public GtnFrameworkColumnBean getColumnBean() {
 		return columnBean;
 	}
 
-	public void setColumnNameWithAlies(String columnNameWithAlies) {
-		this.columnBean = new GtnFrameworkColumnBean();
-		columnBean.setColumnNameWithAlies(columnNameWithAlies);
+	public String getSelectClauseAliesName() {
+		return selectClauseAliesName;
+	}
 
+	public Boolean getIsValueFromColumnBean() {
+		return isValueFromColumnBean;
+	}
+
+	public String getSelectClauseValue() {
+		return selectClauseValue;
+	}
+
+	public void setColumnNameWithAlies(String columnNameWithAlies, String selectClauseAliesName,
+			Boolean isValueFromColumnBean, String selectClauseValue) {
+		this.selectClauseAliesName=selectClauseAliesName;
+		this.isValueFromColumnBean = isValueFromColumnBean;
+		this.selectClauseValue = selectClauseValue;
+		if (isValueFromColumnBean) {
+			this.columnBean = new GtnFrameworkColumnBean();
+			columnBean.setColumnNameWithAlies(columnNameWithAlies);
+		}
 	}
 
 }

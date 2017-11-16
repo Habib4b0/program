@@ -44,7 +44,6 @@ public class ForecastingMasterSoap implements Serializable {
     private int _forecastMasterSid;
     private int _forecastedSalesPercentMonth;
     private String _inboundStatus;
-    private int _businessUnit;
 
     public ForecastingMasterSoap() {
     }
@@ -83,7 +82,6 @@ public class ForecastingMasterSoap implements Serializable {
         soapModel.setForecastMasterSid(model.getForecastMasterSid());
         soapModel.setForecastedSalesPercentMonth(model.getForecastedSalesPercentMonth());
         soapModel.setInboundStatus(model.getInboundStatus());
-        soapModel.setBusinessUnit(model.getBusinessUnit());
 
         return soapModel;
     }
@@ -385,13 +383,5 @@ public class ForecastingMasterSoap implements Serializable {
 
     public void setInboundStatus(String inboundStatus) {
         _inboundStatus = inboundStatus;
-    }
-
-    public int getBusinessUnit() {
-        return _businessUnit;
-    }
-
-    public void setBusinessUnit(int businessUnit) {
-        _businessUnit = businessUnit;
     }
 }

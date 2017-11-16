@@ -5,6 +5,7 @@
  */
 package com.stpl.ifs.ui.forecastds.form;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +61,7 @@ import com.vaadin.ui.VerticalLayout;
  */
 public abstract class ForecastDataSelection extends CustomComponent implements View {
 
+	public static final String SELECT_ONE = "-Select One-";
 	/**
 	 * The Constant LOGGER.
 	 */
@@ -127,6 +129,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 	@UiField("customerRelation")
 	protected ComboBox customerRelationComboBox;
+	@UiField("customerRelationVersionLabel")
+	protected Label customerRelationVersionLabel;
+	@UiField("customerRelationVersion")
+	protected ComboBox customerRelationVersionComboBox;
 
 	/**
 	 * The level.
@@ -180,8 +186,12 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	@UiField("productlevel")
 	protected ComboBox productLevel;
 
+	@UiField("productRelationVersionLabel")
+	protected Label productRelationVersionLabel;
 	@UiField("productRelation")
 	protected ComboBox productRelation;
+	@UiField("productRelationVersion")
+	protected ComboBox productRelationVersionComboBox;
 
 	/**
 	 * The product group.
@@ -457,30 +467,29 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	/**
 	 * Bean container for available customers.
 	 */
-	protected BeanItemContainer<Leveldto> availableCustomerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+	protected BeanItemContainer<Leveldto> availableCustomerContainer = new BeanItemContainer<>(Leveldto.class);
 
 	/**
 	 * Bean container for available Product.
 	 */
-	protected BeanItemContainer<Leveldto> availableProductContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+	protected BeanItemContainer<Leveldto> availableProductContainer = new BeanItemContainer<>(Leveldto.class);
 
-	protected final BeanItemContainer<Leveldto> productFilterContainer = new BeanItemContainer<Leveldto>(
-			Leveldto.class);
+	protected final BeanItemContainer<Leveldto> productFilterContainer = new BeanItemContainer<>(Leveldto.class);
 
 	/**
 	 * Bean container for selected customers.
 	 */
-	protected ExtTreeContainer<Leveldto> selectedCustomerContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+	protected ExtTreeContainer<Leveldto> selectedCustomerContainer = new ExtTreeContainer<>(Leveldto.class);
 
 	/**
 	 * Bean container for selected Product.
 	 */
-	protected ExtTreeContainer<Leveldto> selectedProductContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+	protected ExtTreeContainer<Leveldto> selectedProductContainer = new ExtTreeContainer<>(Leveldto.class);
 
 	/**
 	 * Bean container for result table.
 	 */
-	protected final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<DataSelectionDTO>(
+	protected final BeanItemContainer<DataSelectionDTO> resultsContainer = new BeanItemContainer<>(
 			DataSelectionDTO.class);
 
 	/**
@@ -511,7 +520,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * Customer hierarchy DTO.
 	 */
 	protected HierarchyLookupDTO customerHierarchyDto;
-	protected List<String> relationshipBuilderSids = new ArrayList<String>();
+	protected List<String> relationshipBuilderSids = new ArrayList<>();
 	/**
 	 * Product hierarchy DTO.
 	 */
@@ -520,14 +529,14 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	/**
 	 * The inner cust levels.
 	 */
-	protected List<Leveldto> innerCustLevels = new ArrayList<Leveldto>();
+	protected List<Leveldto> innerCustLevels = new ArrayList<>();
 	protected List<String> groupFilteredCompanies = Collections.emptyList();
 	protected List<String> groupFilteredItems = null;
 
 	/**
 	 * The inner cust levels.
 	 */
-	protected List<Leveldto> innerProdLevels = new ArrayList<Leveldto>();
+	protected List<Leveldto> innerProdLevels = new ArrayList<>();
 
 	protected GroupDTO selectedProductGroupDTO;
 	protected GroupDTO selectedCustomerGroupDTO;
@@ -581,7 +590,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 * the deduction Value ddlb
 	 */
 	protected ComboBox deductionValue = new ComboBox();
-	
+
 	public ForecastDataSelection(CustomFieldGroup dataSelectionBinder, String screenName, boolean landingScreenFlag) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));
 		this.dataSelectionBinder = dataSelectionBinder;
@@ -611,13 +620,11 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 				configureProductSelection();
 				configureProductDdlb();
 			} else {
-				try {
-					configureCustomerSelection();
-					configureProductSelection();
-					configureCustomerDdlb();
-				} catch (Exception e) {
-					LOGGER.error(e);
-				}
+				configureCustomerSelection();
+				configureProductSelection();
+				configureCustomerDdlb();
+				configureCustomerVersionDdlb();
+				configureProductVersionDdlb();
 			}
 
 			deleteViewBtn.setEnabled(false);
@@ -866,13 +873,13 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	}
 
 	protected void resetOne() {
-		availableCustomerContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+		availableCustomerContainer = new BeanItemContainer<>(Leveldto.class);
 		availableCustomer.setContainerDataSource(availableCustomerContainer);
-		availableProductContainer = new BeanItemContainer<Leveldto>(Leveldto.class);
+		availableProductContainer = new BeanItemContainer<>(Leveldto.class);
 		availableProduct.setContainerDataSource(availableProductContainer);
-		selectedCustomerContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+		selectedCustomerContainer = new ExtTreeContainer<>(Leveldto.class);
 		selectedCustomer.setContainerDataSource(selectedCustomerContainer);
-		selectedProductContainer = new ExtTreeContainer<Leveldto>(Leveldto.class);
+		selectedProductContainer = new ExtTreeContainer<>(Leveldto.class);
 		selectedProduct.setContainerDataSource(selectedProductContainer);
 		availableProduct.setVisibleColumns(HeaderUtils.DISPLAY_VALUE);
 		availableProduct.setColumnHeaders(HeaderUtils.LEVEL);
@@ -1142,7 +1149,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		if (obj instanceof BeanItem<?>) {
 			targetItem = (BeanItem<?>) obj;
 		} else if (obj instanceof Leveldto) {
-			targetItem = new BeanItem<Leveldto>((Leveldto) obj);
+			targetItem = new BeanItem<>((Leveldto) obj);
 		}
 
 		return (Leveldto) targetItem.getBean();
@@ -1168,7 +1175,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 	protected abstract void customerLevelValueChange(Property.ValueChangeEvent event, boolean flag);
 
-	protected abstract void levelValueChangeListener(Object value);
+	protected abstract void levelValueChangeListener(Object value)
+			throws ClassNotFoundException, CloneNotSupportedException, IOException;
 
 	protected abstract void productLevelValueChange(Object value, boolean flag);
 
@@ -1216,6 +1224,10 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected abstract void deleteViewButtonLogic();
 
 	protected abstract void resetButtonLogic();
+
+	public abstract void loadProductVersionNo(Object selectedProductRelation);
+
+	public abstract void loadCustomerVersionNo(Object selectedProductRelation);
 
 	/**
 	 * Adds a default native select with only -Select One- in list
@@ -1518,26 +1530,21 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		selectedCustomer.setContainerDataSource(selectedCustomerContainer);
 		availableCustomer.setImmediate(true);
 		selectedCustomer.setImmediate(true);
-		availableCustomer.setVisibleColumns(new Object[] { HeaderUtils.DISPLAY_VALUE });
-		availableCustomer.setColumnHeaders(new String[] { HeaderUtils.LEVEL });
-		selectedCustomer.setVisibleColumns(new Object[] { HeaderUtils.DISPLAY_VALUE });
-		selectedCustomer.setColumnHeaders(new String[] { "Customer Hierarchy Group Builder" });
+		availableCustomer.setVisibleColumns(HeaderUtils.DISPLAY_VALUE);
+		availableCustomer.setColumnHeaders(HeaderUtils.LEVEL);
+		selectedCustomer.setVisibleColumns(HeaderUtils.DISPLAY_VALUE);
+		selectedCustomer.setColumnHeaders("Customer Hierarchy Group Builder");
 		availableCustomer.setSelectable(true);
 		selectedCustomer.setSelectable(true);
 		customerHierarchy.addStyleName("searchIcon");
+
 		customerHierarchy.addClickListener(new CustomTextField.ClickListener() {
 
 			@Override
 			public void click(CustomTextField.ClickEvent event) {
 				try {
 					customerHierarchyLookUp();
-				} catch (InstantiationException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (IllegalAccessException ex) {
-					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
-							ex);
-				} catch (ClassNotFoundException ex) {
+				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException ex) {
 					java.util.logging.Logger.getLogger(ForecastDataSelection.class.getName()).log(Level.SEVERE, null,
 							ex);
 				}
@@ -1590,8 +1597,12 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-
-				levelValueChangeListener(event.getProperty().getValue());
+				try {
+					loadCustomerVersionNo(customerRelationComboBox.getValue());
+					levelValueChangeListener(event.getProperty().getValue());
+				} catch (ClassNotFoundException | CloneNotSupportedException | IOException e) {
+					LOGGER.error(e + " - in resetBtn");
+				}
 			}
 		});
 
@@ -1689,6 +1700,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				String selectedLevel = String.valueOf(event.getProperty().getValue());
 				LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
+				loadProductVersionNo(productRelation.getValue());
 				productLevelDdlbValueChange(selectedLevel, false);
 			}
 		});
@@ -1698,6 +1710,53 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				productRelationValueChange(event.getProperty().getValue());
 			}
+
 		});
 	}
+
+	private void configureCustomerVersionDdlb() {
+		customerRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		customerRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
+		customerRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
+		customerRelationVersionComboBox.select(UIUtil.SELECT_ONE);
+		customerRelationVersionLabel.setVisible(Boolean.FALSE);
+		customerRelationVersionComboBox.setVisible(Boolean.FALSE);
+
+	}
+
+	private void configureProductVersionDdlb() {
+		productRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+		productRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
+		productRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
+		productRelationVersionComboBox.select(UIUtil.SELECT_ONE);
+		productRelationVersionLabel.setVisible(Boolean.FALSE);
+		productRelationVersionComboBox.setVisible(Boolean.FALSE);
+
+	}
+
+	@UiHandler("customerRelationVersion")
+	public void customerRelationVersionComboBoxValueChange(Property.ValueChangeEvent event) {
+
+	}
+
+	@UiHandler("productRelationVersion")
+	public void productRelationVersionComboBoxValueChange(Property.ValueChangeEvent event) {
+
+	}
+        
+        protected Object loadComboBoxBasedOnRelationshipVersion(ComboBox relationShipVersionComboBox, List<Object[]> resultList) {
+            Object returnValue = 0;
+            if (resultList != null && !resultList.isEmpty()) {
+                for (int i = 0; i < resultList.size(); i++) {
+                    Object[] resultListValue = resultList.get(i);
+                    relationShipVersionComboBox.addItem(resultListValue[1]);
+                    relationShipVersionComboBox.setItemCaption(resultListValue[1], resultListValue[0].toString());
+                    if (i == 0) {
+                        returnValue = resultListValue[1];
+                    }
+                }
+            }
+            return returnValue;
+        }
+
 }
