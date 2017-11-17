@@ -43,6 +43,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.AVERAGE;
 import static com.stpl.app.utils.Constants.CommonConstants.CONTRACT_DETAILS;
+import static com.stpl.app.utils.Constants.CommonConstants.PER_EX_FACTORY_SALES;
 import static com.stpl.app.utils.Constants.CommonConstants.ROLLING_ANNUAL_TREND;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.CommonConstantsForChannels.DISABLE;
@@ -2126,9 +2127,8 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						session.getFutureValue(Constant.CALL_PRC_CONTRACT_DETAILS_REBATE));
 			}
 			Set<String> setMethodologiesValuesVal = new HashSet();
-			setMethodologiesValuesVal
-					.addAll(Arrays.asList(new String[] { Constant.SINGLE_PERIOD, "% of Ex-Factory Sales", "% of Demand",
-							"% of Inventory Withdrawal", Constant.PERC_OF_ADJUSTED_DEMAND }));
+			setMethodologiesValuesVal.
+                                addAll(Arrays.asList(new String[] { Constant.SINGLE_PERIOD, "% of Demand", "% of Inventory Withdrawal", Constant.PERC_OF_ADJUSTED_DEMAND}));
 			String endValue;
 			List<String> checkedDiscountNames = new ArrayList<>();
 			List<String> checkedDiscountNamesList = new ArrayList<>();
@@ -2146,8 +2146,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 								&& !AVERAGE.getConstant().equals(methodologyDdlb.getValue())
 								&& !ROLLING_ANNUAL_TREND.getConstant().equals(methodologyDdlb.getValue())
 								&& !Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equals(methodologyDdlb.getValue())
-								&& (checkBoxMap.size() == 0
-										|| checkedDiscountsPropertyIds.size() != checkBoxMap.size())) {
+								&& (checkBoxMap.size() == 0 || checkedDiscountsPropertyIds.size() != checkBoxMap.size()) && !PER_EX_FACTORY_SALES.getConstant().equals(methodologyDdlb.getValue())) {
 							NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED, PLEASE_SELECT_A_HISTORIC_ALERT);
 						} else if (baseLineCalc(startPeriodForecastTab.getValue().toString(),
 								endValue.replace("~", " "))
