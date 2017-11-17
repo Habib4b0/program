@@ -175,6 +175,24 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.START_DATE, GtnFrameworkRSConstants.END_DATE, "Deduction Calendar No",
 					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.CALCULATION_RULE1,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
+		} else if (calculationType.equals("Price Protection")) {
+			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
+					Date.class };
+
+			tableHeader = new String[] { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+					GtnFrameworkCommonConstants.ITEM_NAME_HEADER, GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.RS_START_DATE1, GtnFrameworkRSConstants.RS_END_DATE };
+
+			visibleColumnList = Arrays.asList(checkRecordId, GtnFrameworkCommonConstants.ITEM_NO,
+					GtnFrameworkCommonConstants.ITEM_NAME, GtnFrameworkRSConstants.RS_STATUS,
+					GtnFrameworkRSConstants.RS_START_DATE, GtnFrameworkRSConstants.RS_END_DATE1);
+
+			fieldFactoryColumnList = Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID,
+					GtnFrameworkRSConstants.RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
+					GtnFrameworkRSConstants.RS_END_DATE1);
+
+			rebateSetupMassField.resetMassupdateCombobox(Arrays.asList(GtnFrameworkRSConstants.RS_STATUS1,
+					GtnFrameworkRSConstants.START_DATE, GtnFrameworkRSConstants.END_DATE));
 		}
 
 		List<Integer> dateColumn = new ArrayList<>();
