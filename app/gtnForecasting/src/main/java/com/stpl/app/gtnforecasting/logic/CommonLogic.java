@@ -42,6 +42,7 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -56,8 +57,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.HorizontalLayout;
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -73,9 +72,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.custommenubar.MenuItemDTO;
@@ -842,134 +838,37 @@ public class CommonLogic {
      */
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
         LOGGER.info("Procedure Name " + procedureName);
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        List<Object[]> objectList = new ArrayList<>();
         try {
-            Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                StringBuilder procedureToCall = new StringBuilder("{call ");
-                procedureToCall.append(procedureName);
-                int noOfArgs = orderedArgs.length;
-                for (int i = 0; i < noOfArgs; i++) {
-                    if (i == 0) {
-                        procedureToCall.append(CommonUtil.OPEN_PARANTHESIS);
-                    }
-                    procedureToCall.append("?,");
-                    if (i == noOfArgs - 1) {
-                        procedureToCall.append(CommonUtil.CLOSE_PARANTHESIS);
-                    }
-                }
-                procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA), procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
-                statement = connection.prepareCall(procedureToCall.toString());
-                for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.info(i + " -- " + orderedArgs[i]);
-                    statement.setObject(i + 1, orderedArgs[i]);
-                }
-                rs = statement.executeQuery();
-                objectList = convertResultSetToList(rs);
-
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                connection.close();
-
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
-            try {
-                System.gc();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
-        }
-        return objectList;
+			return convertResultSetToList(
+					GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs));
+		} catch (Exception e) {
+			LOGGER.error(e);
+		}
+        return new ArrayList<>();
     }
 
     public static void callProcedureforUpdate(String procedureName, Object[] orderedArgs) {
         LOGGER.debug("Procedure Name " + procedureName);
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        try {
-            Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
-            if (connection != null) {
-                StringBuilder procedureToCall = new StringBuilder("{call ");
-                procedureToCall.append(procedureName);
-                int noOfArgs = orderedArgs.length;
-                for (int i = 0; i < noOfArgs; i++) {
-                    if (i == 0) {
-                        procedureToCall.append(CommonUtil.OPEN_PARANTHESIS);
-                    }
-                    procedureToCall.append("?,");
-                    if (i == noOfArgs - 1) {
-                        procedureToCall.append(CommonUtil.CLOSE_PARANTHESIS);
-                    }
-                }
-                procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA), procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
-                procedureToCall.append("}");
-                statement = connection.prepareCall(procedureToCall.toString());
-                for (int i = 0; i < noOfArgs; i++) {
-                    LOGGER.debug(i + " -- " + orderedArgs[i]);
-                    statement.setObject(i + 1, orderedArgs[i]);
-                }
-                statement.executeUpdate();
+        GtnSqlUtil.procedureCallService(getQuery(procedureName, orderedArgs), orderedArgs);
 
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                if (rs != null) {
-                    rs.close();
-                }
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                connection.close();
-
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
-            try {
-                System.gc();
-            } catch (Exception ex) {
-                LOGGER.error(ex);
-            }
-        }
-
+    }
+    private static String getQuery(String procedureName, Object[] orderedArgs) {
+		StringBuilder procedureToCall = new StringBuilder("{call ");
+		procedureToCall.append(procedureName);
+		int noOfArgs = orderedArgs.length;
+		for (int i = 0; i < noOfArgs; i++) {
+			if (i == 0) {
+				procedureToCall.append(CommonUtil.OPEN_PARANTHESIS);
+			}
+			procedureToCall.append("?,");
+			if (i == noOfArgs - 1) {
+				procedureToCall.append(CommonUtil.CLOSE_PARANTHESIS);
+			}
+		}
+		procedureToCall.replace(procedureToCall.lastIndexOf(CommonUtil.COMMA),
+				procedureToCall.lastIndexOf(CommonUtil.COMMA) + 1, StringUtils.EMPTY);
+		procedureToCall.append("}");
+		return procedureToCall.toString();
     }
 
     /**
@@ -4537,10 +4436,9 @@ public class CommonLogic {
         String values, screensName;
         if (isSales) {
             screensName = "S";
-            if (Constant.SINGLE_PERIOD.equals(methodology) || Constant.AVERAGE.equals(methodology) || Constant.ROLLINGANNUALTREND.equalsIgnoreCase(methodology) || Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(methodology)) {
-                boolean isPercentageExFactory = Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND.equalsIgnoreCase(methodology);
-                session.setFileNameUsedInSales(isPercentageExFactory ? loadFileName(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND) : allocationBasis);
-                Object[] obj = session.getLatestProjectionFileDetails().get(isPercentageExFactory ? loadFileName(Constant.PERC_OF_EX_FACTORY_SEASONAL_TREND) : allocationBasis);
+            if (Constant.SINGLE_PERIOD.equals(methodology) || Constant.AVERAGE.equals(methodology) || Constant.ROLLINGANNUALTREND.equalsIgnoreCase(methodology)) {
+                session.setFileNameUsedInSales(loadFileName(allocationBasis));
+                Object[] obj = session.getLatestProjectionFileDetails().get(loadFileName(allocationBasis));
                 if (obj == null) {
                     return;
                 }

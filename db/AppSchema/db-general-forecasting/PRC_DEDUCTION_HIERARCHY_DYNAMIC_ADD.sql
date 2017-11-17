@@ -14,9 +14,6 @@ AS
 
       BEGIN TRY
   
- 
-
-
           IF Object_id('tempdb..#LEVEL') IS NOT NULL
             DROP TABLE #LEVEL
 
@@ -68,19 +65,19 @@ AS
           FROM   RELATIONSHIP_BUILDER
           WHERE  DEDUCTION_RELATION IN (SELECT DISTINCT RELATIONSHIP_BUILDER_SID
                                         FROM   RELATIONSHIP_LEVEL_DEFINITION
-                                        WHERE  RELATIONSHIP_LEVEL_VALUES IN (SELECT DISTINCT a.ITEM_MASTER_SID
-                                                                             FROM   #TEMP_DEDUCTION_HIERARCHY a)  )
+                                        WHERE  RELATIONSHIP_LEVEL_VALUES IN (SELECT DISTINCT A.ITEM_MASTER_SID
+                                                                             FROM   #TEMP_DEDUCTION_HIERARCHY A)  )
 
           INSERT INTO #LEVEL
                       (LEVEL_NAME,
                        LEVEL_NO,
                        RELATIONSHIP_BUILDER_SID)
-          SELECT b.LEVEL_NAME,
-                 b.LEVEL_NO,
-                 a.RELATIONSHIP_BUILDER_SID
-          FROM   #LEVEL1 a
-                 LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION b
-                        ON a.RELATIONSHIP_BUILDER_SID = b.RELATIONSHIP_BUILDER_SID
+          SELECT B.LEVEL_NAME,
+                 B.LEVEL_NO,
+                 A.RELATIONSHIP_BUILDER_SID
+          FROM   #LEVEL1 A
+                 LEFT JOIN RELATIONSHIP_LEVEL_DEFINITION B
+                        ON A.RELATIONSHIP_BUILDER_SID = B.RELATIONSHIP_BUILDER_SID
 
           IF Object_id('tempdb..#LEVEL_DEDUCTION_RELATION') IS NOT NULL
             DROP TABLE #LEVEL_DEDUCTION_RELATION
@@ -215,6 +212,9 @@ AS
 
                 INSERT INTO #tem
                 EXEC (@RELATIONSHIP_BUILDER_SID)
+				DECLARE @RELATIONSHIP_BUILDER_SID_DEDU INT
+
+			
 
                 --DECLARE @DEDUCTION_RELATION_SID VARCHAR(max),@intFlag VARCHAR =9,@VERSION VARCHAR(MAX)
                 SET @DEDUCTION_RELATION_SID= 'select DEDUCTION_RELATION_SID  from #RELATION_SHIP_BUILDER_SID   where ROWNUMBER ='
@@ -231,6 +231,8 @@ AS
 
                 INSERT INTO #tem1
                 EXEC (@DEDUCTION_RELATION_SID)
+
+					SET @RELATIONSHIP_BUILDER_SID_DEDU=( SELECT DEDUCTION_RELATION_SID FROM #tem1)
 
                 SET @VERSION= (SELECT VERSION_NO
                                FROM   RELATIONSHIP_BUILDER
@@ -307,7 +309,7 @@ AS
                                                            FROM   #tem))
                   BEGIN
                       INSERT INTO #RELATIONSHIP_LEVEL_VALUES
-                      SELECT DISTINCT IM.ITEM_NAME
+                      SELECT DISTINCT IM.ITEM_MASTER_SID
                       FROM   ITEM_MASTER IM
                              JOIN BRAND_MASTER B1
                                ON B1.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
@@ -344,7 +346,7 @@ AS
                        AND LIST_NAME IN ( 'RS_UDC1', 'RS_UDC2', 'RS_UDC3', 'RS_UDC4',
                                           'RS_UDC5', 'RS_UDC6' )
 
-                IF Object_id('tempdb..#TEMP_DEDUCTION') IS NOT NULL
+               IF Object_id('tempdb..#TEMP_DEDUCTION') IS NOT NULL
                   DROP TABLE #TEMP_DEDUCTION
 
                 CREATE TABLE #TEMP_DEDUCTION
@@ -362,7 +364,7 @@ AS
                      UDC6                     INT
                   )
 
-               INSERT INTO #TEMP_DEDUCTIOn
+               INSERT INTO #TEMP_DEDUCTION
                 SELECT DISTINCT c.RS_CONTRACT_SID,
                                 C.RS_ID,
                                 C.RS_CATEGORY,
@@ -404,6 +406,9 @@ AS
                                                                    WHERE  DESCRIPTION = 'UDC6'
                                                                           AND LIST_NAME = 'RS_UDC6')
                                        END, U.UDC6) AS UDC6
+
+
+
                 FROM   #RELATIONSHIP_LEVEL_VALUES A
                        LEFT JOIN RS_CONTRACT_DETAILS B
                               ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
@@ -413,451 +418,391 @@ AS
                                  AND C.INBOUND_STATUS <> 'D'
                        LEFT JOIN UDCS U
                               ON U.MASTER_SID = B.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
-where c.RS_ID is not null 
+WHERE C.RS_ID IS NOT NULL 
                 ----------------------------------------------
                 DECLARE @COLUMN_NAME1 VARCHAR(50),
                         @COLUMN_NAME2 VARCHAR(50),
                         @HIERARCHY    VARCHAR(50)='DeductionHierarchy'
 
-                SET @iteration = 1
 
-                WHILE( @iteration <= 10 )
-                  BEGIN
-                      IF( @ITERATION = 1 )
-                        BEGIN
-                            SET @LEVEL_NAME='Schedule Category'
-                            SET @COLUMN_NAME='REBATE_SCHEDULE_CATEGORY'
-                        END
-                      ELSE IF ( @ITERATION = 2 )
-                        BEGIN
-                            SET @LEVEL_NAME='Schedule Type'
-                            --SET @COLUMN_NAME='REBATE_SCHEDULE_TYPE'
-                            SET @COLUMN_NAME1='REBATE_SCHEDULE_CATEGORY'
-                            SET @COLUMN_NAME2='REBATE_SCHEDULE_TYPE'
-                        END
-                      ELSE IF ( @ITERATION = 3 )
-                        BEGIN
-                            SET @LEVEL_NAME='Program Type'
-                            --SET @COLUMN_NAME='REBATE_PROGRAM_TYPE'
-                            SET @COLUMN_NAME1='REBATE_SCHEDULE_TYPE'
-                            SET @COLUMN_NAME2='REBATE_PROGRAM_TYPE'
-                        END
-                      ELSE IF ( @ITERATION = 4 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 1'
-                            --SET @COLUMN_NAME='UDC1'
-                            SET @COLUMN_NAME1='REBATE_PROGRAM_TYPE'
-                            SET @COLUMN_NAME2='UDC1'
-                        END
-                      ELSE IF ( @ITERATION = 5 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 2'
-                            --SET @COLUMN_NAME='UDC2'
-                            SET @COLUMN_NAME1='UDC1'
-                            SET @COLUMN_NAME2='UDC2'
-                        END
-                      ELSE IF ( @ITERATION = 6 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 3'
-                            --SET @COLUMN_NAME='UDC3'
-                            SET @COLUMN_NAME1='UDC2'
-                            SET @COLUMN_NAME2='UDC3'
-                        END
-                      ELSE IF ( @ITERATION = 7 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 4'
-                            --SET @COLUMN_NAME='UDC4'
-                            SET @COLUMN_NAME1='UDC3'
-                            SET @COLUMN_NAME2='UDC4'
-                        END
-                      ELSE IF ( @ITERATION = 8 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 5'
-                            --SET @COLUMN_NAME='UDC5'
-                            SET @COLUMN_NAME1='UDC4'
-                            SET @COLUMN_NAME2='UDC5'
-                        END
-                      ELSE IF ( @ITERATION = 9 )
-                        BEGIN
-                            SET @LEVEL_NAME='UDC 6'
-                            --SET @COLUMN_NAME='UDC6'
-                            SET @COLUMN_NAME1='UDC5'
-                            SET @COLUMN_NAME2='UDC6'
-                        END
-                      ELSE IF ( @ITERATION = 10 )
-                        BEGIN
-                            SET @LEVEL_NAME='Schedule ID'
-                            --SET @COLUMN_NAME='RS_CONTRACT_SID'
-                            SET @COLUMN_NAME1='UDC6'
-                            SET @COLUMN_NAME2='RS_CONTRACT_SID'
-                        END
-
-                      IF( @ITERATION = 1 )
-                        BEGIN
-                            SET @SQL ='INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION select 
- a.RELATIONSHIP_BUILDER_SID
-,a.HIERARCHY_LEVEL_DEFINITION_SID
-,a.RELATIONSHIP_LEVEL_VALUES
-,a.LEVEL_NO
-,a.LEVEL_NAME
-,case when a.LEVEL_NO=1 then ''0'' else CONCAT(FINAL.LEVEL_NO,''~'',FINAL.RELATIONSHIP_LEVEL_VALUES ) end AS PARENT_NODE
-,case when a.LEVEL_NO=1 then a.HIERARCHY_NO 
-else  CONCAT(FINAL.HIERARCHY_NO,'''', DENSE_RANK () OVER( ORDER BY A.RELATIONSHIP_LEVEL_VALUES  ))+''.'' end AS HIERARCHY_NO
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,b.VERSION_NO+1 as VERSION_NO
-       
-       
-       from (
-       
-       SELECT         
-       DEDUCTION_RELATION as RELATIONSHIP_BUILDER_SID,
-
-       HIERARCHY_LEVEL_DEFINITION_SID,
-
-       ' + @COLUMN_NAME + '  as RELATIONSHIP_LEVEL_VALUES,
-       ' + @ITERATION
-                                      + ' AS LEVEL_NO,''' + @LEVEL_NAME
-                                      + ''' AS LEVEL_NAME,0 as PARENT_NODE,
-              concat(DEDUCTION_RELATION ,''-'', ROW_NUMBER () OVER(ORDER BY '
-                                      + @COLUMN_NAME
-                                      + '))+''.'' as HIERARCHY_NO,
-              1 as CREATED_BY
-,getdate() as CREATED_DATE
-,1 as MODIFIED_BY
-,getdate() as MODIFIED_DATE
-
-       FROM #TEMP_DEDUCTION T1 ,#NEWLEVEL1  T2
-       JOIN 
-                HIERARCHY_LEVEL_DEFINITION  B 
-                ON  T2.HIERARCHY_DEFINATION_SID=B.HIERARCHY_DEFINITION_SID WHERE B.LEVEL_NO='
-                                      + @ITERATION + '
-                 AND T2.RELATIONSHIP_BUILDER_SID=(SELECT RELATIONSHIP_BUILDER_SID FROM #tem)
-       GROUP BY ' + @COLUMN_NAME
-                                      + ',DEDUCTION_RELATION,HIERARCHY_DEFINATION_SID,HIERARCHY_LEVEL_DEFINITION_SID
-
-
-       )a left join RELATIONSHIP_BUILDER b on  a.RELATIONSHIP_BUILDER_SID=b.RELATIONSHIP_BUILDER_SID
-       left join #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION FINAL ON FINAL.RELATIONSHIP_BUILDER_SID=A.RELATIONSHIP_BUILDER_SID
-       WHERE A. RELATIONSHIP_LEVEL_VALUES IS NOT NULL AND A. RELATIONSHIP_LEVEL_VALUES<>0'
-
-                            EXEC (@SQL)
-
-                            SET @SQL ='INSERT INTO #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION select 
- a.RELATIONSHIP_BUILDER_SID
-,a.HIERARCHY_LEVEL_DEFINITION_SID
-,a.RELATIONSHIP_LEVEL_VALUES
-,a.LEVEL_NO
-,a.LEVEL_NAME
-,case when a.LEVEL_NO=1 then ''0'' else CONCAT(FINAL.LEVEL_NO,''~'',FINAL.RELATIONSHIP_LEVEL_VALUES ) end AS PARENT_NODE
-,case when a.LEVEL_NO=1 then a.HIERARCHY_NO 
-else  CONCAT(FINAL.HIERARCHY_NO,'''', DENSE_RANK () OVER( ORDER BY A.RELATIONSHIP_LEVEL_VALUES  ))+''.'' end AS HIERARCHY_NO
-,a.CREATED_BY
-,a.CREATED_DATE
-,a.MODIFIED_BY
-,a.MODIFIED_DATE
-,b.VERSION_NO+1 as VERSION_NO
-       
-       
-       from (
-       
-       SELECT         
-       DEDUCTION_RELATION as RELATIONSHIP_BUILDER_SID,
-
-       HIERARCHY_LEVEL_DEFINITION_SID,
-
-       ' + @COLUMN_NAME + '  as RELATIONSHIP_LEVEL_VALUES,
-       ' + @ITERATION
-                                      + ' AS LEVEL_NO,''' + @LEVEL_NAME
-                                      + ''' AS LEVEL_NAME,0 as PARENT_NODE,
-              concat(DEDUCTION_RELATION ,''-'', ROW_NUMBER () OVER(ORDER BY '
-                                      + @COLUMN_NAME
-                                      + '))+''.'' as HIERARCHY_NO,
-              1 as CREATED_BY
-,getdate() as CREATED_DATE
-,1 as MODIFIED_BY
-,getdate() as MODIFIED_DATE
-
-       FROM #TEMP_DEDUCTION T1 ,#NEWLEVEL1  T2
-       JOIN 
-                HIERARCHY_LEVEL_DEFINITION  B 
-                ON  T2.HIERARCHY_DEFINATION_SID=B.HIERARCHY_DEFINITION_SID WHERE B.LEVEL_NO='
-                                      + @ITERATION + '
-                 AND T2.RELATIONSHIP_BUILDER_SID=(SELECT RELATIONSHIP_BUILDER_SID FROM #tem)
-       GROUP BY ' + @COLUMN_NAME
-                                      + ',DEDUCTION_RELATION,HIERARCHY_DEFINATION_SID,HIERARCHY_LEVEL_DEFINITION_SID
-
-
-       )a left join RELATIONSHIP_BUILDER b on  a.RELATIONSHIP_BUILDER_SID=b.RELATIONSHIP_BUILDER_SID
-       left join #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION FINAL ON FINAL.RELATIONSHIP_BUILDER_SID=A.RELATIONSHIP_BUILDER_SID
-       WHERE A. RELATIONSHIP_LEVEL_VALUES IS NOT NULL AND A. RELATIONSHIP_LEVEL_VALUES<>0'
-
-                            EXEC(@SQL)
-
-                            DELETE FROM #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION
-                            WHERE  LEVEL_NO <> @ITERATION
-
-                            UPDATE #FINAL_RELATIONSHIP_LEVEL_DEFINITION
-                            SET    HIERARCHY_LEVEL_DEFINITION_SID = (SELECT TOP 1 HIERARCHY_LEVEL_DEFINITION_SID
-                                                                     FROM   HIERARCHY_LEVEL_DEFINITION
-                                                                     WHERE  LEVEL_NAME = @LEVEL_NAME)
-                        END
-                      ELSE IF ( @ITERATION = 10 )
-                        BEGIN
-                            IF Object_id('tempdb..#TEMP2') IS NOT NULL
-                              DROP TABLE #TEMP2
-
-                            CREATE TABLE #TEMP2
-                              (
-                                 REBATE_SCHEDULE_CATEGORY INT,
-                                 REBATE_SCHEDULE_TYPE     INT,
-                                 REBATE_PROGRAM_TYPE      INT,
-                                 UDC6                     INT,
-                                 HIERARCHY_NO             VARCHAR(100),
-                                 RS_CONTRACT_SID          INT,
-                                 ROWNUMBER                INT
-                              )
-
-                            INSERT INTO #TEMP2
-                            SELECT a.REBATE_SCHEDULE_CATEGORY,
-                                   a.REBATE_SCHEDULE_TYPE,
-                                   a.REBATE_PROGRAM_TYPE,
-                                   a.UDC6,
-                                   a.HIERARCHY_NO,
-                                   a.rs_contract_sid,
-                                   Row_number ()
-                                     OVER(
-                                       partition BY a.UDC6, a.REBATE_SCHEDULE_CATEGORY, a.REBATE_SCHEDULE_TYPE, a.REBATE_PROGRAM_TYPE, a.HIERARCHY_NO
-                                       ORDER BY a.UDC6)
-                            FROM   (SELECT B.REBATE_SCHEDULE_CATEGORY,
-                                           B.REBATE_SCHEDULE_TYPE,
-                                           B.REBATE_PROGRAM_TYPE,
-                                           B.RS_CONTRACT_SID,
-                                           b.udc6,
-                                           a.HIERARCHY_NO
-                                    FROM   #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION A
-                                           JOIN #TEMP_DEDUCTION B
-                                             ON A.RELATIONSHIP_LEVEL_VALUES = B.UDC6
-                                           JOIN (SELECT IRLD.HIERARCHY_NO,
-                                                        Max(CASE
-                                                              WHEN FRLD.LEVEL_NAME = 'SCHEDULE CATEGORY' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) SCHEDULE_CATEGORY,
-                                                        Max(CASE
-                                                              WHEN FRLD.LEVEL_NAME = 'SCHEDULE TYPE' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) SCHEDULE_TYPE,
-                                                        Max(CASE
-                                                              WHEN FRLD.LEVEL_NAME = 'PROGRAM TYPE' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) PROGRAM_TYPE,
-                                                                                                       Max(CASE
-                                                              WHEN FRLD.LEVEL_NAME = 'UDC 1' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc1,                     
-                                                                                                       Max(CASE                                   
-                                                              WHEN FRLD.LEVEL_NAME = 'udc 2' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc2,                     
-                                                                                                       Max(CASE                                   
-                                                              WHEN FRLD.LEVEL_NAME = 'udc 3'THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc3,                     
-                                                                                                       Max(CASE                                   
-                                                              WHEN FRLD.LEVEL_NAME = 'udc 4' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc4,                     
-                                                                                                       Max(CASE                                   
-                                                              WHEN FRLD.LEVEL_NAME = 'udc 5' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc5,                     
-                                                                                                       Max(CASE                                   
-                                                              WHEN FRLD.LEVEL_NAME = 'udc 6' THEN FRLD.RELATIONSHIP_LEVEL_VALUES
-                                                            END) udc6
-                                                 FROM   #FINAL_RELATIONSHIP_LEVEL_DEFINITION FRLD
-                                                        JOIN #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION IRLD
-                                                          ON FRLD. LEVEL_NO <=9
-                                                             AND IRLD.HIERARCHY_NO LIKE FRLD.HIERARCHY_NO + '%'
-                                                 GROUP  BY IRLD.HIERARCHY_NO)c
-                                             ON c.PROGRAM_TYPE = b.REBATE_PROGRAM_TYPE
-                                                AND c.SCHEDULE_CATEGORY = b.REBATE_SCHEDULE_CATEGORY
-                                                AND c.SCHEDULE_TYPE = b.REBATE_SCHEDULE_TYPE
-                                                AND A.HIERARCHY_NO = c.HIERARCHY_NO
-                                                                                  and c.udc1 = b.udc1
-                                                                                  and c.udc2 = b.udc2
-                                                                                  and c.udc3 = b.udc3
-                                                                                  and c.udc4 = b.udc4
-                                                                                  and c.udc5 = b.udc5
-                                                                                  and c.udc6 = b.udc6
-                                                                                  
-                                                                                  
-                                                                                  )a
-
-                            INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION
-                                        (RELATIONSHIP_BUILDER_SID,
-                                         HIERARCHY_LEVEL_DEFINITION_SID,
-                                         RELATIONSHIP_LEVEL_VALUES,
-                                         LEVEL_NO,
-                                         LEVEL_NAME,
-                                         PARENT_NODE,
-                                         HIERARCHY_NO,
-                                         CREATED_BY,
-                                         CREATED_DATE,
-                                         MODIFIED_BY,
-                                         MODIFIED_DATE)
-                            SELECT DISTINCT b.RELATIONSHIP_BUILDER_SID,
-                                            d.HIERARCHY_LEVEL_DEFINITION_SID,
-                                            a.RS_CONTRACT_SID,
-                                            '10'                                          AS level_no,
-                                            'Schedule ID'                                  AS LEVEL_NAME,
-                                            B.LEVEL_NO + '~' + B.RELATIONSHIP_LEVEL_VALUES AS PARENT_NODE,
-                                            Cast(A.HIERARCHY_NO AS VARCHAR) + '.'
-                                            + Cast(A.ROWNUMBER AS VARCHAR) + '.'           AS HIERARCHY_NO,
-                                            1                                              AS CREATED_BY,
-                                            Getdate()                                      AS CREATED_DATE,
-                                            1                                              AS MODIFIED_BY,
-                                            Getdate()                                      AS MODIFIED_DATE
-                            FROM   #TEMP2 a
-                                   LEFT JOIN #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION b
-                                          ON A.HIERARCHY_NO = B.HIERARCHY_NO
-                                   LEFT JOIN (SELECT HIERARCHY_LEVEL_DEFINITION_SID
-                                              FROM   HIERARCHY_LEVEL_DEFINITION
-                                              WHERE  HIERARCHY_DEFINITION_SID = (SELECT HIERARCHY_DEFINITION_SID
-                                                                                 FROM   HIERARCHY_DEFINITION
-                                                                                 WHERE  HIERARCHY_NAME = 'DeductionHierarchy')
-                                                     AND LEVEL_NO = 10)d
-                                          ON 1 = 1
-                        END
-                      ELSE
-                        BEGIN
-                            IF Object_id('tempdb..#TEMP1') IS NOT NULL
-                              DROP TABLE #TEMP1
-
-                            CREATE TABLE #TEMP1
-                              (
-                                 column1 INT,
-                                 column2 INT,
-                                 column3 INT
-                              )
-
-                            SET @SQL =' insert into  #TEMP1
-select 
-a.' + @COLUMN_NAME1 + ',
-a.' + @COLUMN_NAME2
-                                      + ',
-ROW_NUMBER () OVER(partition by a.'
-                                      + @COLUMN_NAME1 + ' ORDER BY a.' + @COLUMN_NAME1
-                                      + ')
-from
+	 INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
 (
-select 
-distinct b.' + @COLUMN_NAME1 + ',
-b.'
-                                      + @COLUMN_NAME2
-                                      + '
-from #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION a left join
-#TEMP_DEDUCTION b on a.RELATIONSHIP_LEVEL_VALUES=b.'
-                                      + @COLUMN_NAME1 + '
-)a'
-
-                            EXEC (@SQL)
-
-                            SET @SQL='INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION(RELATIONSHIP_BUILDER_SID,HIERARCHY_LEVEL_DEFINITION_SID, RELATIONSHIP_LEVEL_VALUES,
-LEVEL_NO,LEVEL_NAME,PARENT_NODE,HIERARCHY_NO,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE
-
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
 )
 
-SELECT  
- A.RELATIONSHIP_BUILDER_SID
-,A.HIERARCHY_LEVEL_DEFINITION_SID
-,A.RELATIONSHIP_LEVEL_VALUES
-,A.LEVEL_NO
-,A.LEVEL_NAME
-,B.LEVEL_NO+''~''+B.RELATIONSHIP_LEVEL_VALUES AS PARENT_NODE
-  ,A.HIERARCHY_NO+''.''
-,            1 as CREATED_BY
-,getdate() as CREATED_DATE
-,1 as MODIFIED_BY
-,getdate() as MODIFIED_DATE
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
 
-FROM 
- (
-select DISTINCT a.RELATIONSHIP_BUILDER_SID
-, d.HIERARCHY_LEVEL_DEFINITION_SID
-,b.column2 AS RELATIONSHIP_LEVEL_VALUES,
-' + @iteration + ' AS LEVEL_NO,
-''' + @LEVEL_NAME
-                                     + ''' AS LEVEL_NAME ,
-A.HIERARCHY_NO+CAST(B.COLUMN3 AS VARCHAR) AS HIERARCHY_NO,
-A.HIERARCHY_NO AS ORIGINAL_HIERARCHY_NO
+REBATE_SCHEDULE_CATEGORY,
+1,
+'Schedule Category',
+0,
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY),'.' )
 
-  from #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION a
-left join #TEMP1 b on a.RELATIONSHIP_LEVEL_VALUES=b.column1
-  INNER join #NEWLEVEL1 c on c.DEDUCTION_RELATION=a.RELATIONSHIP_BUILDER_SID
-  AND C.RELATIONSHIP_BUILDER_SID= (SELECT RELATIONSHIP_BUILDER_SID FROM #TEM)
-    left join (select HIERARCHY_LEVEL_DEFINITION_SID from HIERARCHY_LEVEL_DEFINITION where  HIERARCHY_DEFINITION_SID =(
-select HIERARCHY_DEFINITION_SID from HIERARCHY_DEFINITION where HIERARCHY_NAME='''
-                                     + @HIERARCHY + ''') and LEVEL_NO=' + @iteration
-                                     + '
+ FROM #TEMP_DEDUCTION
+GROUP BY 
 
-)d 
-on 1=1)A LEFT JOIN  #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION B
-ON A.ORIGINAL_HIERARCHY_NO=B.HIERARCHY_NO'
+REBATE_SCHEDULE_CATEGORY
+ORDER BY  REBATE_SCHEDULE_CATEGORY       
 
-                            EXEC(@SQL)
 
-                            SET @SQL='INSERT INTO #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION(RELATIONSHIP_BUILDER_SID,HIERARCHY_LEVEL_DEFINITION_SID, RELATIONSHIP_LEVEL_VALUES,
-LEVEL_NO,LEVEL_NAME,PARENT_NODE,HIERARCHY_NO,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
 )
-SELECT  
- A.RELATIONSHIP_BUILDER_SID
-,A.HIERARCHY_LEVEL_DEFINITION_SID
-,A.RELATIONSHIP_LEVEL_VALUES
-,A.LEVEL_NO
-,A.LEVEL_NAME
-,B.LEVEL_NO+''~''+B.RELATIONSHIP_LEVEL_VALUES AS PARENT_NODE
-  ,A.HIERARCHY_NO+''.''
-,            1 as CREATED_BY
-,getdate() as CREATED_DATE
-,1 as MODIFIED_BY
-,getdate() as MODIFIED_DATE
 
-FROM 
- (
-select DISTINCT a.RELATIONSHIP_BUILDER_SID
-, d.HIERARCHY_LEVEL_DEFINITION_SID
-,b.column2 AS RELATIONSHIP_LEVEL_VALUES,
-' + @iteration + ' AS LEVEL_NO,
-''' + @LEVEL_NAME
-                                     + ''' AS LEVEL_NAME ,
-A.HIERARCHY_NO+CAST(B.COLUMN3 AS VARCHAR) AS HIERARCHY_NO,
-A.HIERARCHY_NO AS ORIGINAL_HIERARCHY_NO
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
 
-  from #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION a
-left join #TEMP1 b on a.RELATIONSHIP_LEVEL_VALUES=b.column1
-  INNER join #NEWLEVEL1 c on c.DEDUCTION_RELATION=a.RELATIONSHIP_BUILDER_SID
-  AND C.RELATIONSHIP_BUILDER_SID= (SELECT RELATIONSHIP_BUILDER_SID FROM #TEM)
-    left join (select HIERARCHY_LEVEL_DEFINITION_SID from HIERARCHY_LEVEL_DEFINITION where  HIERARCHY_DEFINITION_SID =(
-select HIERARCHY_DEFINITION_SID from HIERARCHY_DEFINITION where HIERARCHY_NAME='''
-                                     + @HIERARCHY + ''') and LEVEL_NO=' + @iteration
-                                     + '
+REBATE_SCHEDULE_TYPE,
+2,
+'Schedule Type',
+concat(2,'~',REBATE_SCHEDULE_CATEGORY),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.') as HIERARCHY_NO
 
-)d 
-on 1=1)A LEFT JOIN  #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION B
-ON A.ORIGINAL_HIERARCHY_NO=B.HIERARCHY_NO'
+ FROM #TEMP_DEDUCTION
+GROUP BY 
 
-                            EXEC (@SQL)
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE
+ORDER BY  REBATE_SCHEDULE_CATEGORY  
 
-                            DELETE FROM #INTERMEDIATE_RELATIONSHIP_LEVEL_DEFINITION
-                            WHERE  LEVEL_NO <> @iteration
-                        END
 
-                      SET @iteration+=1
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
 
-                      UPDATE #FINAL_RELATIONSHIP_LEVEL_DEFINITION  SET    VERSION_NO = (SELECT 
-                                         COALESCE((SELECT TOP 1 VERSION_NO + 1 
-                                                FROM   RELATIONSHIP_LEVEL_DEFINITION 
-                                                WHERE  RELATIONSHIP_BUILDER_SID = 
-                                                       (SELECT TOP 1 RELATIONSHIP_BUILDER_SID 
-                                                       FROM   #FINAL_RELATIONSHIP_LEVEL_DEFINITION) 
-                                                       ORDER  BY VERSION_NO DESC), 1)) 
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+REBATE_PROGRAM_TYPE,
+3,
+'Program Type',
+concat(2,'~',REBATE_SCHEDULE_TYPE),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.') as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC1,
+4,
+'UDC 1',
+concat(3,'~',REBATE_PROGRAM_TYPE),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.') as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+udc1
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC2,
+5,
+'UDC 2',
+concat(4,'~',UDC2),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,
+'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2) ,'.') as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+udc1,
+UDC2
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+--6
+
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC3,
+6,
+'UDC 3',
+concat(5,'~',UDC2),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2 ),'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2 ORDER BY  UDC3 )
+
+,'.') as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+UDC1,
+UDC2,
+UDC3
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+
+--7
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC4,
+7,
+'UDC 4',
+concat(6,'~',UDC3),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2 ),'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2 ORDER BY  UDC3 )
+
+,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3 ORDER BY  UDC4 ),'.') as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+UDC1,
+UDC2,
+UDC3,
+UDC4
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+--8
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC5,
+8,
+'UDC 5',
+concat(7,'~',UDC4),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2 ),'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2 ORDER BY  UDC3 )
+
+,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3 ORDER BY  UDC4 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4 ORDER BY  UDC5 ),'.'
+) as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+UDC1,
+UDC2,
+UDC3,
+UDC4,
+UDC5
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+
+--9
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC6,
+9,
+'UDC 6',
+concat(8,'~',UDC5),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2 ),'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2 ORDER BY  UDC3 )
+
+,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3 ORDER BY  UDC4 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4 ORDER BY  UDC5 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4,UDC5 ORDER BY  UDC6 ),'.'
+) as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+UDC1,
+UDC2,
+UDC3,
+UDC4,
+UDC5,
+UDC6
+ORDER BY  REBATE_SCHEDULE_CATEGORY   
+
+--10
+
+
+
+INSERT INTO #FINAL_RELATIONSHIP_LEVEL_DEFINITION 
+(
+RELATIONSHIP_BUILDER_SID  ,    
+RELATIONSHIP_LEVEL_VALUES    , 
+LEVEL_NO   ,                   
+LEVEL_NAME   ,                 
+PARENT_NODE  ,                 
+HIERARCHY_NO                  
+)
+
+SELECT 
+@RELATIONSHIP_BUILDER_SID_DEDU,
+
+UDC6,
+10,
+'Schedule ID',
+concat(9,'~',UDC6),
+concat(@RELATIONSHIP_BUILDER_SID_DEDU,'-',
+DENSE_RANK() OVER( ORDER BY REBATE_SCHEDULE_CATEGORY) ,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY ORDER BY REBATE_SCHEDULE_TYPE) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE ORDER BY  REBATE_PROGRAM_TYPE) ,'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE ORDER BY  UDC1) ,'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1 ORDER BY  UDC2 ),'.',
+DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2 ORDER BY  UDC3 )
+
+,'.',DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3 ORDER BY  UDC4 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4 ORDER BY  UDC5 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4,UDC5 ORDER BY  UDC6 ),'.'
+,DENSE_RANK() OVER( PARTITION BY REBATE_SCHEDULE_CATEGORY,REBATE_SCHEDULE_TYPE,REBATE_PROGRAM_TYPE,UDC1,UDC2,UDC3,UDC4,UDC5,UDC6 ORDER BY rs_contract_sid  ),'.'
+) as HIERARCHY_NO
+
+ FROM #TEMP_DEDUCTION
+GROUP BY 
+
+REBATE_SCHEDULE_CATEGORY,
+REBATE_SCHEDULE_TYPE,
+REBATE_PROGRAM_TYPE,
+UDC1,
+UDC2,
+UDC3,
+UDC4,
+UDC5,
+UDC6,
+RS_CONTRACT_SID
+
+
+
+DECLARE @VERSION_NO INT =(SELECT MAX(RELATIONSHIP_BUILDER_SID)  FROM   #FINAL_RELATIONSHIP_LEVEL_DEFINITION)
 
                       RAISERROR('',10,1) WITH NOWAIT
-                  END
+                 
 
                 INSERT INTO RELATIONSHIP_LEVEL_DEFINITION
                             (RELATIONSHIP_BUILDER_SID,
@@ -883,16 +828,11 @@ ON A.ORIGINAL_HIERARCHY_NO=B.HIERARCHY_NO'
                        FLD.CREATED_DATE,
                        FLD.MODIFIED_BY,
                        FLD.MODIFIED_DATE,
-                       FLD.VERSION_NO
+                       @VERSION_NO
                 FROM   #FINAL_RELATIONSHIP_LEVEL_DEFINITION FLD
                            JOIN HIERARCHY_LEVEL_DEFINITION HRD ON HRD.LEVEL_NAME=FLD.LEVEL_NAME
                            JOIN RELATIONSHIP_BUILDER RB ON RB.RELATIONSHIP_BUILDER_SID=FLD.RELATIONSHIP_BUILDER_SID
                            AND HRD.HIERARCHY_DEFINITION_SID=RB.HIERARCHY_DEFINITION_SID
-
-
-
-
-
 
                 SET @intFlag+=1
 
@@ -983,7 +923,6 @@ ON V.A=A.RELATIONSHIP_LEVEL_SID
       END CATCH
 
   END 
-
 
 
 

@@ -4,32 +4,20 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
+import static com.stpl.app.utils.Constants.CommonConstants.NULL;
+import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
+import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
+import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
 
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.Converters;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -38,30 +26,50 @@ import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import java.util.Set;
+
 import javax.sql.DataSource;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 import org.jboss.logging.Logger;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
-import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
-import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
-import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
-import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
+
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.Converters;
+import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Container;
@@ -69,12 +77,6 @@ import com.vaadin.data.Container.Filter;
 import com.vaadin.data.util.filter.Between;
 import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
 /**
  *
@@ -1421,8 +1423,9 @@ public class NMProjectionVarianceLogic {
      * @param projectionId
      * @param procedureName
      * @return
+     * @throws Exception 
      */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) {
+    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
         Connection connection = null;
         DataSource datasource;
         CallableStatement statement = null;
@@ -1436,57 +1439,21 @@ public class NMProjectionVarianceLogic {
         } else {
             frequency = Constant.ANNUAL_CAPS;
         }
-        List<Object[]> objectList = new ArrayList<>();
-        try {
-            Context initialContext = new InitialContext();
-            datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
-            if (datasource != null) {
-                connection = datasource.getConnection();
-            }
 
-            if (connection != null) {
                 StringBuilder statementBuilder = new StringBuilder("{call ");
                 statementBuilder.append(procedureName);
-                statementBuilder.append("(?,?,?,?,?)}");
-                statement = connection.prepareCall(statementBuilder.toString());
-                statement.setInt(1, projectionId);
-                statement.setString(NumericConstants.TWO, frequency);
-                statement.setString(NumericConstants.THREE, discountId);
-                statement.setInt(NumericConstants.FOUR, Integer.valueOf(sessionId));
-                statement.setInt(NumericConstants.FIVE, Integer.valueOf(userId));
-                rs = statement.executeQuery();
+        		statementBuilder.append("(?,?,?,?,?)}");
+        		Object[] paramArray = new Object[5];
+        		paramArray[0] = projectionId;
+        		paramArray[1] = frequency;
+        		paramArray[2] = discountId;
+        		paramArray[3] = Integer.parseInt(sessionId);
+        		paramArray[4] = Integer.parseInt(userId);
+        		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+        	}
 
-                objectList = convertResultSetToList(rs);
 
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        } finally {
-            try {
-                rs.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                statement.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                connection.close();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-            try {
-                System.gc();
-            } catch (Exception e) {
-                LOGGER.error(e);
-            }
-        }
-        return objectList;
-    }
-
-    public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, PVSelectionDTO baseVariables, int start, int offset) {
+	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, PVSelectionDTO baseVariables, int start, int offset) {
         try {
             LOGGER.info("Inside getConfiguredProjectionVariance");
             List<ProjectionVarianceDTO> list;

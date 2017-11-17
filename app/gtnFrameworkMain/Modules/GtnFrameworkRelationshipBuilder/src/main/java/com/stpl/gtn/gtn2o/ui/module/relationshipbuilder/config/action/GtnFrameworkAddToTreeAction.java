@@ -106,6 +106,7 @@ public class GtnFrameworkAddToTreeAction implements GtnUIFrameWorkAction, GtnUIF
 		for (GtnWsRecordBean gtnWsRecordBean : selectedValue) {
 			gtnWsRecordBean.addAdditionalProperty(
 					gtnWsRecordBean.getStringPropertyByIndex(GtnWsRelationshipBuilderKeyConstant.LEVEL_NO.ordinal()));
+			gtnWsRecordBean.addProperties(false);
 		}
 
 	}

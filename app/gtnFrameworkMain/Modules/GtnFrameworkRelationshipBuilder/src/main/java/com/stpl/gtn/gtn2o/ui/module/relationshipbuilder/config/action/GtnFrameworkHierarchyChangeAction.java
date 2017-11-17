@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
@@ -34,14 +37,14 @@ public class GtnFrameworkHierarchyChangeAction implements GtnUIFrameWorkAction, 
 			throws GtnFrameworkGeneralException {
 		if (GtnFrameworkValueChangeManager.isValueChangeAllowed()) {
 			int hierarchySid = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(componentId).getIntegerFromField();
-			int versionNo = 0;
+			List<Integer> versionNoList = new ArrayList<>();
 			if (hierarchySid != 0) {
-				versionNo = getVersion(hierarchySid);
+				versionNoList = getVersion(hierarchySid);
 			}
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString())
-					.loadDefaultCombobox(versionNo, 0);
+					.loadDefaultComboboxAll(versionNoList, 0);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
 		}
 	}
@@ -51,7 +54,7 @@ public class GtnFrameworkHierarchyChangeAction implements GtnUIFrameWorkAction, 
 		return this;
 	}
 
-	private int getVersion(int hierarchySid) {
+	private List<Integer> getVersion(int hierarchySid) {
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsRelationshipBuilderRequest rbRequest = new GtnWsRelationshipBuilderRequest();

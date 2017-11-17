@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.request;
 
 import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGeneralRequest;
+import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.GtnWSAdjusmentSummaryRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.dataselection.GtnBSTimePeriodRequest;
 import com.stpl.gtn.gtn2o.ws.request.calendarconfiguration.GtnWsCalendarConfigurationRequest;
@@ -10,6 +11,7 @@ import com.stpl.gtn.gtn2o.ws.request.companygroup.GtnCompanyGroupRequest;
 import com.stpl.gtn.gtn2o.ws.request.compliancededuction.GtnWsComplianceGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractHeaderRequest;
+import com.stpl.gtn.gtn2o.ws.request.dataselectionedit.GtnWsForecastHierarchyInsertRequest;
 import com.stpl.gtn.gtn2o.ws.request.deductioncalendar.GtnWsDeductionCalendarRequest;
 import com.stpl.gtn.gtn2o.ws.request.duallistbox.GTNUIFrameworkDualListBoxRequest;
 import com.stpl.gtn.gtn2o.ws.request.emailconfig.GtnWsMailConfigurationRequest;
@@ -108,8 +110,18 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	private GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest;
 
+	private GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest;
 	private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
+private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
+
+	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
+		return gtnWshirarchyInsertRequest;
+	}
+
+	public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
+		this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
+	}
 	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
 		return gtnBSTimePeriodRequest;
 	}
@@ -392,6 +404,14 @@ public class GtnUIFrameworkWebserviceRequest {
 			GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest) {
 		this.gtnWsModuleAuthorizationGeneralRequest = gtnWsModuleAuthorizationGeneralRequest;
 	}
+	public GtnFrameworkAutomaticRelationshipRequest getAutomaticRelationEequest() {
+		return automaticRelationEequest;
+	}
+
+	public void setAutomaticRelationEequest(GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest) {
+		this.automaticRelationEequest = automaticRelationEequest;
+	}
+
 
 	public GtnWsCsvExportRequest getGtnWsCsvExportRequest() {
 		return gtnWsCsvExportRequest;

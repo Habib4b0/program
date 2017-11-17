@@ -28,18 +28,36 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 	public static final String AND = " AND ";
 	public static final String DISTINCT = " DISTINCT ";
 
-	private String fromTableNameWithAlies;
+	private String fromTableName;
+	private String fromTableAlies;
 	private List<GtnFrameworkSelectClauseBean> selectClauseConfigList = new ArrayList<>(0);
 	private List<GtnFrameworkJoinClauseBean> joinClauseConfigList = new ArrayList<>(0);
 	private List<GtnFrameworkWhereClauseBean> whereClauseConfigList = new ArrayList<>(0);
 	private List<GtnFrameworkOrderByClauseBean> orderByClauseConfigList = new ArrayList<>(0);
 
 	public String getFromTableNameWithAlies() {
-		return fromTableNameWithAlies;
+		return fromTableName + " AS " + fromTableAlies;
 	}
 
-	public void setFromTableNameWithAlies(String fromTableNameWithAlies) {
-		this.fromTableNameWithAlies = fromTableNameWithAlies;
+	public String getFromTableAlies() {
+		return fromTableAlies;
+	}
+
+	public String getFromTableName() {
+		return fromTableName;
+	}
+
+	public void setFromTableName(String fromTableName) {
+		this.fromTableName = fromTableName;
+	}
+
+	public void setFromTableAlies(String fromTableAlies) {
+		this.fromTableAlies = fromTableAlies;
+	}
+
+	public void setFromTableNameWithAlies(String fromTableName, String fromTableAlies) {
+		this.fromTableName = fromTableName;
+		this.fromTableAlies = fromTableAlies;
 	}
 
 	public List<GtnFrameworkSelectClauseBean> getSelectClauseConfigList() {
@@ -58,10 +76,12 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		return Collections.unmodifiableList(orderByClauseConfigList);
 	}
 
-	public void addSelectClauseBean(String columnNameWithAlies) {
-		if (!isSelectClauseExists(columnNameWithAlies)) {
+	public void addSelectClauseBean(String columnNameWithAlies, String selectClauseAliesName,
+			Boolean isValueFromColumnBean, String selectClauseValue) {
+		if (isValueFromColumnBean || !isSelectClauseExists(columnNameWithAlies)) {
 			GtnFrameworkSelectClauseBean selectClauseBean = new GtnFrameworkSelectClauseBean();
-			selectClauseBean.setColumnNameWithAlies(columnNameWithAlies);
+			selectClauseBean.setColumnNameWithAlies(columnNameWithAlies, selectClauseAliesName, isValueFromColumnBean,
+					selectClauseValue);
 			this.selectClauseConfigList.add(selectClauseBean);
 		}
 	}
@@ -103,13 +123,23 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 	}
 
 	public boolean isSelectClauseExists(String columnNameWithAlies) {
+		String existingSelectClause;
 		for (GtnFrameworkSelectClauseBean gtnFrameworkJoinClauseBean : selectClauseConfigList) {
-			GtnFrameworkColumnBean columnNameWithAliesInBean = gtnFrameworkJoinClauseBean.getColumnBean();
-			if (columnNameWithAlies.equals(columnNameWithAliesInBean.getColumnNameWithAlies())) {
-				return true;
+			existingSelectClause = gtnFrameworkJoinClauseBean.getSelectClauseValue();
+			if (gtnFrameworkJoinClauseBean.getIsValueFromColumnBean()) {
+				GtnFrameworkColumnBean columnNameWithAliesInBean = gtnFrameworkJoinClauseBean.getColumnBean();
+				existingSelectClause = columnNameWithAliesInBean.getColumnNameWithAlies();
 			}
+			if (existingSelectClause.equals(columnNameWithAlies))
+				return true;
 		}
 		return false;
+	}
+
+	public void removeSelectClauseByIndex(int index) {
+		if (index < 0 && index >= selectClauseConfigList.size())
+			throw new IndexOutOfBoundsException("Index out of bound in select clause");
+		selectClauseConfigList.remove(index);
 	}
 
 }

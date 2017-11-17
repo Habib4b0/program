@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sql>
+	<entity id="automaticRelationCheck">
+		<query> 
+        <![CDATA[
+            SELECT
+	CASE
+		WHEN EXISTS(
+			SELECT
+				1
+			from
+				RELATIONSHIP_BUILDER
+			where
+				RELATIONSHIP_BUILDER_SID = ? AND BUILD_TYPE = 'Automatic'
+		) THEN 1
+		ELSE 0
+	END;
+        ]]>
+
+		</query>
+	</entity>
+	<entity id="relationShipSubQueryForSubQuery">
+		<query> 
+        <![CDATA[            
+SELECT
+			RELATIONSHIP_LEVEL_Values
+		from
+			RELATIONSHIP_LEVEL_DEFINITION
+		where
+			level_no = ?
+			and RELATIONSHIP_BUILDER_SID = ?
+			and VERSION_NO=?
+
+         ]]>
+		</query>
+	</entity>
+	<entity id="relationShipSubQueryToInsertAutomaticData">
+		<query> 
+        <![CDATA[            
+INSERT
+	INTO
+		RELATIONSHIP_LEVEL_DEFINITION(
+			RELATIONSHIP_LEVEL_VALUES,
+			RELATIONSHIP_BUILDER_SID,
+			HIERARCHY_LEVEL_DEFINITION_SID,
+			LEVEL_NO,
+			LEVEL_NAME,
+			PARENT_NODE,
+			HIERARCHY_NO,
+			FLAG,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			PARENT_HIERARCHY_NO
+		) ?
+         ]]>
+		</query>
+	</entity>
+	<entity id="checkForUpdateInAutomaticRelation">
+		<query> 
+        <![CDATA[            
+IF Object_id('TEMPDB..#SELECTED_CUST_HIERARCHY_NO') IS NOT NULL DROP
+	TABLE
+		#SELECTED_CUST_HIERARCHY_NO CREATE
+			TABLE
+				#SELECTED_CUST_HIERARCHY_NO(
+					contract_name VARCHAR(50),
+					contract_master_sid VARCHAR(50),
+					HIERARCHY_NO VARCHAR(50)
+				) INSERT
+					into
+						#SELECTED_CUST_HIERARCHY_NO(contract_name,contract_master_sid,HIERARCHY_NO) SELECT
+							'a',RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_VALUES,RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO
+						from
+							dbo.RELATIONSHIP_LEVEL_DEFINITION as RELATIONSHIP_LEVEL_DEFINITION
+						where
+							RELATIONSHIP_BUILDER_SID = ?
+							and LEVEL_NO = ? and  VERSION_NO =?;
+
+IF Object_id('TEMPDB..#SELECTED_CUST_HIERARCHY_NO1') IS NOT NULL DROP
+	TABLE
+		#SELECTED_CUST_HIERARCHY_NO1 CREATE
+			TABLE
+				#SELECTED_CUST_HIERARCHY_NO1(
+					contract_name VARCHAR(50),
+					contract_master_sid VARCHAR(50),
+					HIERARCHY_NO VARCHAR(50)
+				) INSERT
+					into
+						#SELECTED_CUST_HIERARCHY_NO1(contract_name,contract_master_sid,HIERARCHY_NO) ?;
+
+IF EXISTS(
+	select
+		HIERARCHY_NO
+	from
+		#SELECTED_CUST_HIERARCHY_NO
+EXCEPT select
+		HIERARCHY_NO
+	from
+		#SELECTED_CUST_HIERARCHY_NO1
+UNION ALL (select
+		HIERARCHY_NO
+	from
+		#SELECTED_CUST_HIERARCHY_NO1
+EXCEPT select
+		HIERARCHY_NO
+	from
+		#SELECTED_CUST_HIERARCHY_NO)
+) BEGIN
+   SELECT 1 
+END
+ELSE
+BEGIN
+    SELECT 0
+END
+         ]]>
+		</query>
+	</entity>
+	<entity id="relationShipLevelInsert">
+		<query> 
+        <![CDATA[            
+        INSERT
+	INTO
+		dbo.RELATIONSHIP_LEVEL_DEFINITION(
+			RELATIONSHIP_BUILDER_SID,
+			HIERARCHY_LEVEL_DEFINITION_SID,
+			RELATIONSHIP_LEVEL_VALUES,
+			LEVEL_NO,
+			LEVEL_NAME,
+			PARENT_NODE,
+			HIERARCHY_NO,
+			FLAG,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			PARENT_HIERARCHY_NO
+		)
+
+SELECT
+	RELATIONSHIP_BUILDER_SID,
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	RELATIONSHIP_LEVEL_VALUES,
+	LEVEL_NO,
+	LEVEL_NAME,
+	PARENT_NODE,
+	HIERARCHY_NO,
+	'F',
+	CREATED_BY,
+	CREATED_DATE,
+	MODIFIED_BY,
+	MODIFIED_DATE,
+	VERSION_NO + 1,
+	PARENT_HIERARCHY_NO
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION
+where
+	RELATIONSHIP_BUILDER_SID = ?
+	and LEVEL_NO < ?
+	and VERSION_NO =?
+         ]]>
+		</query>
+	</entity>
+	<entity id="hierarchyByidandVersionNo">
+		<query> 
+        <![CDATA[            
+         SELECT
+		HIERARCHY_LEVEL_DEFINITION_SID,
+		HIERARCHY_DEFINITION_SID,
+		LEVEL_NAME,
+		LEVEL_VALUE_REFERENCE,
+		LEVEL_NO,
+		TABLE_NAME,
+		FIELD_NAME,
+		VERSION_NO
+	from
+		dbo.HIST_HIERARCHY_LEVEL_DEFN
+	where
+		HIERARCHY_DEFINITION_SID =?
+		and VERSION_NO =?
+         ]]>
+		</query>
+	</entity>
+
+
+</sql>
