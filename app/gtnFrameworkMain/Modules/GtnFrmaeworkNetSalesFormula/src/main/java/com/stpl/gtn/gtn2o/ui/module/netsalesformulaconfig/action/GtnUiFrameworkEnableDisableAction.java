@@ -12,13 +12,24 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
+import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants;
+import static com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants.NET_SALES_RULE_NAME;
+import static com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkNSFConstants.NET_SALES_RULE_NO;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import java.util.Arrays;
 
 /**
  *
  * @author STPL
  */
 public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+
+	private String formulaType;
+
+	public GtnUiFrameworkEnableDisableAction() {
+		super();
+	}
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -59,14 +70,100 @@ public class GtnUiFrameworkEnableDisableAction implements GtnUIFrameWorkAction, 
 				.setReadOnly(!isEnable);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "selectedCustomersResultTable").getExtFilterTable()
 				.setReadOnly(!isEnable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "selectedDeductionsResultTable").getExtFilterTable()
-				.setReadOnly(!isEnable);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE)
+				.getExtFilterTable().setReadOnly(!isEnable);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "availableDeductionsTable").getExtFilterTable()
 				.setReadOnly(!isEnable);
+		if (!isAdd) {
+			formulaType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "formulaType")
+					.getCaptionFromComboBox();
+			String[] selectedDeductionHeader = getSelectedDeductionHeaderArray(isEnable, viewId);
+			Object[] selectedDeductionColumn = getSelectedDeductionColumnArray(isEnable, viewId);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE)
+					.setTableColumns(selectedDeductionColumn);
+			GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(viewId + GtnFrameworkNSFConstants.SELECTED_DEDUCTION_RESULT_TABLE)
+					.setTableColumnHeaders(selectedDeductionHeader);
+		}
 		if (isAdd) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewId + "saveButton").setCaption("SAVE");
 		}
+	}
 
+	private String[] getSelectedDeductionHeaderArray(boolean isEnable, String viewId) {
+
+		if (isEnable) {
+			return getSelectedFormulaTypeHeaderArray();
+
+		} else {
+			String[] editHeaders = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(viewId + "selectedDeductionsResultTable").getExtCustomTable()
+					.getColumnHeaders();
+			return Arrays.copyOfRange(editHeaders, 1, editHeaders.length);
+		}
+
+	}
+
+	private Object[] getSelectedDeductionColumnArray(boolean isEnable, String viewId) {
+		if (isEnable) {
+			return getSelectedFormulaTypeColumnArray();
+		} else {
+			Object[] editColumns = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(viewId + "selectedDeductionsResultTable").getExtCustomTable()
+					.getVisibleColumns();
+			return Arrays.copyOfRange(editColumns, 1, editColumns.length);
+		}
+
+	}
+
+	private String[] getSelectedFormulaTypeHeaderArray() {
+
+		if (formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
+
+			return new String[] { "", GtnFrameworkCommonConstants.CONTRACT_NO_HEADER,
+					GtnFrameworkCommonConstants.CONTRACT_NAME_HEADER, GtnFrameworkCommonConstants.DEDUCTION_NO,
+					GtnFrameworkCommonConstants.DEDUCTION_NAME, GtnFrameworkCommonConstants.DEDUCTION_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER,
+					GtnFrameworkCommonConstants.MARKET_TYPE_HEADER, "Start Date", "End Date",
+					GtnFrameworkCommonConstants.CONTRACT_HOLDER_HEADER,
+					GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NO_HEADER,
+					GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NAME_HEADER,
+					GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_NO,
+					GtnFrameworkCommonConstants.HEADER_ITEM_FAMILY_PLAN_NAME,
+					GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_HEADER,
+					GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
+					NET_SALES_RULE_NO, NET_SALES_RULE_NAME };
+
+		} else {
+			return new String[] { "", GtnFrameworkCommonConstants.DEDUCTION_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
+					GtnFrameworkNSFConstants.NET_SALES_RULE_NO, GtnFrameworkNSFConstants.NET_SALES_RULE_NAME };
+		}
+	}
+
+	private Object[] getSelectedFormulaTypeColumnArray() {
+
+		if (formulaType.equals(GtnFrameworkNSFConstants.getFormulaTypeContract())) {
+			return new String[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.CONTRACT_NO,
+					GtnFrameworkCommonConstants.CONTRACT_NAME, "deductionNo", "deductionName",
+					GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
+					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, GtnFrameworkCommonConstants.MARKET_TYPE,
+					"startDate", "endDate", GtnFrameworkCommonConstants.CONTRACT_HOLDER,
+					GtnFrameworkCommonConstants.CFP_NO, GtnFrameworkCommonConstants.CFP_NAME,
+					GtnFrameworkCommonConstants.IFP_NUMBER, GtnFrameworkCommonConstants.IFP_NAME, "psNo",
+					GtnFrameworkCommonConstants.PS_NAME, "indicator", GtnFrameworkCommonConstants.RULE_NO,
+					GtnFrameworkCommonConstants.RULE_NAME };
+		} else {
+			return new String[] { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
+					GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
+					GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
+					GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_PROPERTY, "indicator", "netSalesRuleNo",
+					"netSalesRuleName" };
+		}
 	}
 
 	@Override

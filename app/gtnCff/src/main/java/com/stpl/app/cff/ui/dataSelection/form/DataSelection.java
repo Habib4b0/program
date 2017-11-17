@@ -3964,7 +3964,7 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	public static int getDataSelectionFormattedLevelNo(String value) {
-		return value == null && StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
+		return StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
 	}
 
 	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
