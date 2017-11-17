@@ -23,7 +23,7 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.controller.GtnWsRelationshipBuilderController;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderLogic;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsSearchRequest;
@@ -181,7 +181,7 @@ public class GtnWsRelationshipBuilderWebServiceTest {
 
 	@Test
 	public void updateQueryInHierarchy() throws GtnFrameworkGeneralException, IOException {
-		GtnWsRelationshipBuilderLogic logic = new GtnWsRelationshipBuilderLogic(gtnWsRelationshipBuilderController);
+		GtnWsRelationshipBuilderHierarchyFileGenerator logic = new GtnWsRelationshipBuilderHierarchyFileGenerator();
 		logic.updateQueryInHierarchy(1, 2);
 
 	}

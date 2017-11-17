@@ -44,12 +44,12 @@ public class GtnFrameworkNSFConstants {
 	private static final String ENABLE = "Enable";
 	private static final String DISABLE = "Disable";
 	private static final String EMPTY = "";
-	private static final String NET_SALES_RULE_NO = "Net Sales Rule No";
-	private static final String NET_SALES_RULE_NAME = "Net Sales Rule Name";
+	public static final String NET_SALES_RULE_NO = "Net Sales Rule No";
+	public static final String NET_SALES_RULE_NAME = "Net Sales Rule Name";
 
 	private static final String[] SELECTED_CUSTOMER_VISIBLE_HEADERS = new String[] { "", "Customer No", "Customer Name",
-			"Contract No", "Contract Name", "Company Family Plan No", "Company Family Plan Name", "Net Sales Rule No",
-			"Net Sales Rule Name" };
+			"Contract No", "Contract Name", "Company Family Plan No", "Company Family Plan Name",
+			GtnFrameworkNSFConstants.NET_SALES_RULE_NO, GtnFrameworkNSFConstants.NET_SALES_RULE_NAME };
 	private static final Object[] SELECTED_CUSTOMER_VISIBLE_COLUMNS = new Object[] { "checkRecordId", "customerNo",
 			"customerName", "contractNo", "contractName", "cfpName", "cfpNo", "ruleNo", "ruleName" };
 
@@ -70,8 +70,8 @@ public class GtnFrameworkNSFConstants {
 	private static final String SUBTRACT = "Subtract";
 	private static final String[] SELECTED_DEDUCTIONS_VISIBLE_HEADERS = new String[] { "",
 			GtnFrameworkCommonConstants.DEDUCTION_TYPE, GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE,
-			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, "Indicator", NET_SALES_RULE_NO,
-			NET_SALES_RULE_NAME };
+			GtnFrameworkCommonConstants.DEDUCTION_CATEGORY_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
+			NET_SALES_RULE_NO, NET_SALES_RULE_NAME };
 	private static final Object[] SELECTED_DEDUCTIONS_VISIBLE_COLUMNS = new Object[] {
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.PROPERTY_DEDUCTION_TYPE,
 			GtnFrameworkCommonConstants.DEDUCTION_SUB_TYPE_HEADER,
@@ -110,8 +110,8 @@ public class GtnFrameworkNSFConstants {
 			GtnFrameworkCommonConstants.COMPANY_FAMILY_PLAN_NAME_HEADER,
 			GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_NO, GtnFrameworkCommonConstants.HEADER_ITEM_FAMILY_PLAN_NAME,
 			GtnFrameworkCommonConstants.PRICE_SCHEDULE_NO_HEADER,
-			GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_HEADER, "Indicator", NET_SALES_RULE_NO,
-			NET_SALES_RULE_NAME };
+			GtnFrameworkCommonConstants.PRICE_SCHEDULE_NAME_HEADER, GtnFrameworkNSFConstants.INDICATOR_HEADER,
+			NET_SALES_RULE_NO, NET_SALES_RULE_NAME };
 
 	private static final Object[] SELECTED_DEDUCTIONS_COLUMNS_FORMULA_TYPE_CONTRACT = new Object[] {
 			GtnFrameworkCommonConstants.CHECK_RECORD_ID, GtnFrameworkCommonConstants.CONTRACT_NO,
@@ -127,6 +127,9 @@ public class GtnFrameworkNSFConstants {
 	private static final String DEDUCTION_TYPE = "deductionTypeSysId";
 	private static final String DEDUCTION_SUB_TYPE = "deductionSubTypeSysId";
 	private static final String DEDUCTION_CATEGORY = "deductionCategorySysId";
+	public static final String INDICATOR_HEADER = "Indicator";
+	public static final String SELECTED_DEDUCTION_RESULT_TABLE = "selectedDeductionsResultTable";
+
 	public static final List<String> POP_UP_TEXT_FIELD_PROPERTIES = Collections
 			.unmodifiableList(Arrays.asList("netSalesRuleNo", GtnFrameworkCommonConstants.RULE_NO));
 	public static final List<String> TEXT_FIELD_PROPERTIES = Collections
