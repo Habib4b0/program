@@ -245,9 +245,7 @@ public class GtnUIFrameworkCMTradeClassTab {
 			}
 
 			else if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
-				GtnUIFrameworkDateFieldConfig dateConfigTradeClassTab = new GtnUIFrameworkDateFieldConfig();
-				dateConfigTradeClassTab.setReadOnly(isReadOnly);
-				fieldConfig.setGtnDateFieldConfig(dateConfigTradeClassTab);
+				fieldConfig.setEnable(!isReadOnly);
 			}
 			editableFields.add(fieldConfig);
 		}

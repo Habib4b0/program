@@ -301,9 +301,7 @@ public class GtnUIFrameworkCMParentCompanyInformationTab {
 			}
 
 			else if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
-				GtnUIFrameworkDateFieldConfig dateConfigPCInformationTab = new GtnUIFrameworkDateFieldConfig();
-				dateConfigPCInformationTab.setReadOnly(isReadOnly);
-				fieldConfig.setGtnDateFieldConfig(dateConfigPCInformationTab);
+				fieldConfig.setEnable(!isReadOnly);
 			}
 
 			editableFields.add(fieldConfig);
