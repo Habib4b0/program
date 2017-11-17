@@ -1,0 +1,150 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<project>
+<actions/>
+<description>gtnv4.xNewArchSonarBuild</description>
+<keepDependencies>false</keepDependencies>
+<properties>
+<com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+<autoRebuild>false</autoRebuild>
+<rebuildDisabled>false</rebuildDisabled>
+</com.sonyericsson.rebuild.RebuildSettings>
+<hudson.model.ParametersDefinitionProperty>
+<parameterDefinitions>
+<hudson.model.StringParameterDefinition>
+<name>VersionNo</name>
+<description>
+4.x version no. Build number will be automatically attached.
+</description>
+<defaultValue>4.0.0</defaultValue>
+</hudson.model.StringParameterDefinition>
+</parameterDefinitions>
+</hudson.model.ParametersDefinitionProperty>
+</properties>
+<scm class="hudson.plugins.git.GitSCM" plugin="git@3.3.0">
+<configVersion>2</configVersion>
+<userRemoteConfigs>
+<hudson.plugins.git.UserRemoteConfig>
+<url>
+https://Lokeshwari.Kumarasamy%40sysbiz.org@scm.sysbiz.org/scm/gal/galderma-gtn.git
+</url>
+<credentialsId>a6dbee16-f022-457f-acd2-a624a56a17b2</credentialsId>
+</hudson.plugins.git.UserRemoteConfig>
+</userRemoteConfigs>
+<branches>
+<hudson.plugins.git.BranchSpec>
+<name>release/GTNv4.x</name>
+</hudson.plugins.git.BranchSpec>
+</branches>
+<doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+<submoduleCfg class="list"/>
+<extensions/>
+</scm>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers/>
+<concurrentBuild>false</concurrentBuild>
+<builders>
+<hudson.tasks.Shell>
+<command>
+echo "Deleting old builds" rm -rf $WORKSPACE/app/gtnFrameworkMain/Dist/*.war echo "Deleting old repository" rm -rf $WORKSPACE/app/gtnFrameworkMain/Repository/com/stpl/gtn/gtn2o
+</command>
+</hudson.tasks.Shell>
+<EnvInjectBuilder plugin="envinject@2.1">
+<info>
+<propertiesContent>JAVA_HOME = /usr/java/jdk1.7.0_75</propertiesContent>
+</info>
+</EnvInjectBuilder>
+<hudson.tasks.Maven>
+<targets>
+-e -PInstall-WarRelease -Dmaven.repo.local=$WORKSPACE/app/gtnFrameworkMain/Repository -DskipTests
+</targets>
+<pom>app/gtnFrameworkMain/pom.xml</pom>
+<usePrivateRepository>false</usePrivateRepository>
+<settings class="jenkins.mvn.DefaultSettingsProvider"/>
+<globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+<injectBuildVariables>false</injectBuildVariables>
+</hudson.tasks.Maven>
+<hudson.tasks.Maven>
+<targets>
+-e -PInstall-Dependency -Dmaven.repo.local=$WORKSPACE/app/gtnFrameworkMain/Repository -DskipTests
+</targets>
+<pom>app/gtnFrameworkMain/pom.xml</pom>
+<usePrivateRepository>false</usePrivateRepository>
+<settings class="jenkins.mvn.DefaultSettingsProvider"/>
+<globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+<injectBuildVariables>false</injectBuildVariables>
+</hudson.tasks.Maven>
+<hudson.tasks.Maven>
+<targets>
+-e -PRelease-Build-Parallel -T 4 -Dmaven.repo.local=$WORKSPACE/app/gtnFrameworkMain/Repository -DskipTests
+</targets>
+<pom>app/gtnFrameworkMain/pom.xml</pom>
+<usePrivateRepository>false</usePrivateRepository>
+<settings class="jenkins.mvn.DefaultSettingsProvider"/>
+<globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider"/>
+<injectBuildVariables>false</injectBuildVariables>
+</hudson.tasks.Maven>
+<EnvInjectBuilder plugin="envinject@2.1">
+<info>
+<propertiesContent>JAVA_HOME=/opt/bpigtn_jenkins/jdk8/jdk1.8.0_131</propertiesContent>
+</info>
+</EnvInjectBuilder>
+<hudson.plugins.sonar.SonarRunnerBuilder plugin="sonar@2.6.1">
+<project>
+$WORKSPACE/app/gtnFrameworkMain/sonar-project.properties
+</project>
+<properties/>
+<javaOpts/>
+<additionalArguments/>
+<jdk>(Inherit From Job)</jdk>
+<task/>
+</hudson.plugins.sonar.SonarRunnerBuilder>
+<hudson.tasks.Shell>
+<command>sleep 300</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Ant plugin="ant@1.5">
+<targets>prepareRpmNewArchDist</targets>
+<buildFile>build_PrepareRpmNewArch.xml</buildFile>
+</hudson.tasks.Ant>
+<hudson.tasks.Shell>
+<command>
+rm -rf $WORKSPACE/../Dist_NewArch_Sonar_Bkp mv $WORKSPACE/Dist $WORKSPACE/../Dist_NewArch_Sonar_Bkp echo "Removing all wars" find $WORKSPACE -type f -name "*.war" | xargs rm -rf
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+rm -f $WORKSPACE/version_temp.txt echo VersionNo=$VersionNo > $WORKSPACE/version_temp.txt
+</command>
+</hudson.tasks.Shell>
+</builders>
+<publishers>
+<quality.gates.jenkins.plugin.QGPublisher plugin="quality-gates@2.7-SNAPSHOT">
+<jobConfigData>
+<projectKey>allergan:frameworkBuild</projectKey>
+<sonarInstanceName>GtnSonarQualityGate</sonarInstanceName>
+<ignoreWarnings>false</ignoreWarnings>
+</jobConfigData>
+<buildDecision>
+<qualityGatesProvider>
+<qualityGateResponseParser/>
+<sonarHttpRequester/>
+<sonarInstanceValidationService/>
+</qualityGatesProvider>
+</buildDecision>
+<jobConfigurationService/>
+<jobExecutionService/>
+</quality.gates.jenkins.plugin.QGPublisher>
+<hudson.tasks.BuildTrigger>
+<childProjects>gtnv4.xNewArchBuild</childProjects>
+<threshold>
+<name>SUCCESS</name>
+<ordinal>0</ordinal>
+<color>BLUE</color>
+<completeBuild>true</completeBuild>
+</threshold>
+</hudson.tasks.BuildTrigger>
+</publishers>
+<buildWrappers/>
+</project>
