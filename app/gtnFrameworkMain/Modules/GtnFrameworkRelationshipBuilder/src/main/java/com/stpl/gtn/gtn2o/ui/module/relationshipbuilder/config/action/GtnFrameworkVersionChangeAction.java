@@ -16,8 +16,12 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.module.relationshipbuilder.config.GtnFrameworkRelationshipBuilderResultLayoutConfig;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 
 /**
  *
@@ -52,6 +56,7 @@ public class GtnFrameworkVersionChangeAction implements GtnUIFrameWorkAction, Gt
 				return;
 			}
 		}
+		createHierarchyFiles(hierarchySid, versionNo);
 		loadResultLayout(gtnUIFrameWorkActionConfig, componentId);
 	}
 
@@ -74,6 +79,19 @@ public class GtnFrameworkVersionChangeAction implements GtnUIFrameWorkAction, Gt
 				.getVaadinBaseComponent(parameters.get(4).toString());
 		tableBaseComponent.getLogicFromPagedDataTable()
 				.startSearchProcess(Arrays.asList(parameters.get(2).toString(), componentId), true);
+	}
+	
+	private void createHierarchyFiles(int hierarchySid, int versionNo) {
+		GtnUIFrameworkWebServiceClient hierarchyFileCreationWsClient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest hierarchyFileCreationRequest = new GtnUIFrameworkWebserviceRequest();
+		GtnWsRelationshipBuilderRequest hierarchyFileCreationRbRequest = new GtnWsRelationshipBuilderRequest();
+		hierarchyFileCreationRequest.setRelationshipBuilderRequest(hierarchyFileCreationRbRequest);
+		hierarchyFileCreationRbRequest.setHierarchyDefSId(hierarchySid);
+		hierarchyFileCreationRbRequest.setVersionNo(versionNo);
+		hierarchyFileCreationWsClient.callGtnWebServiceUrl(
+				GtnWsRelationshipBuilderConstants.GTN_RELATIONSHIP_BUILDER_SERVICE
+						+ GtnWsRelationshipBuilderConstants.HIERARCHY_FILE_CREATION,
+						hierarchyFileCreationRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 }

@@ -14,35 +14,36 @@ import com.vaadin.ui.Window;
  * @author sriram
  */
 public class AddDiscount extends Window {
-    
-    /**
-     * The Constructor.
-     */
-    public AddDiscount(String title) {
-        super(title);
-        addStyleName(Constant.BOOTSTRAP_NM);
-        addStyleName(Constant.BOOTSTRAP);
-        center();
-        setModal(true);
-        setClosable(true);
-        setWidth("500px");
-        setHeight("200px");
-        setResizable(false);
-        setContent(addToContent());
-    }
-    
-    /**
-     * Adds the to content.
-     *
-     * @return the panel
-     */
-    private HorizontalLayout addToContent() {
-        final HorizontalLayout content = (HorizontalLayout) UiUtils.getLayout(HorizontalLayout.class);
-        Label releaseLabel = new Label("<span style=\"text-align: center; font-size: 16px; font-weight: 600; color: #6495ED;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This would be released by M8</span>");
-        releaseLabel.setContentMode(ContentMode.HTML);
-        content.addComponent(releaseLabel);
-        content.setComponentAlignment(releaseLabel, Alignment.MIDDLE_CENTER);
-        content.setHeight(NumericConstants.HUNDRED,Unit.PERCENTAGE);
-        return content;
-    }
+
+	/**
+	 * The Constructor.
+	 */
+	public AddDiscount(String title) {
+		super(title);
+		addStyleName(Constant.BOOTSTRAP_NM);
+		addStyleName(Constant.BOOTSTRAP);
+		center();
+		setModal(true);
+		setClosable(true);
+		setWidth("500px");
+		setHeight("200px");
+		setResizable(false);
+		setContent(addToContent());
+	}
+
+	/**
+	 * Adds the to content.
+	 *
+	 * @return the panel
+	 */
+	private HorizontalLayout addToContent() {
+		final HorizontalLayout content = (HorizontalLayout) UiUtils.getLayout(new HorizontalLayout());
+		Label releaseLabel = new Label(
+				"<span style=\"text-align: center; font-size: 16px; font-weight: 600; color: #6495ED;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This would be released by M8</span>");
+		releaseLabel.setContentMode(ContentMode.HTML);
+		content.addComponent(releaseLabel);
+		content.setComponentAlignment(releaseLabel, Alignment.MIDDLE_CENTER);
+		content.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
+		return content;
+	}
 }

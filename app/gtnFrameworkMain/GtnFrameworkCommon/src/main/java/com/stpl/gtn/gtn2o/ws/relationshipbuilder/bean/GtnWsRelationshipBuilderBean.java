@@ -1,89 +1,130 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean;
 
-/**
- *
- * @author Mahesh.James
- */
-public class GtnWsRelationshipBuilderBean {
+import java.util.Date;
 
+public class GtnWsRelationshipBuilderBean {
+	
+	
 	public GtnWsRelationshipBuilderBean() {
 		super();
 	}
 
-	private String rekationshipLevelValue = "";
+	private int relationshipBuilderSid;
+	private int hierarchyDefinitionSid;
+	private String relationshipName;
+	private String relationshipDescription;
+	private Date startDate;
+	private String buildType;
+	private int versionNo;
+	private Integer hierarchyVersion;
+	private int createdBy;
+	private Date createdDate;
+	private int modifiedBy;
+	private Date modifiedDate;
+	private Integer deductionRelation;
 
-	private int hierarchyLevelSystemId;
-
-	private int relationshipLevelSystemId;
-
-	private String parentNode = "";
-
-	private String hierarchyNo;
-
-	private String levelNo;
-
-	private String levelName;
-
-	public int getRelationshipLevelSystemId() {
-		return relationshipLevelSystemId;
+	public int getRelationshipBuilderSid() {
+		return relationshipBuilderSid;
 	}
 
-	public void setRelationshipLevelSystemId(int relationshipLevelSystemId) {
-		this.relationshipLevelSystemId = relationshipLevelSystemId;
+	public void setRelationshipBuilderSid(int relationshipBuilderSid) {
+		this.relationshipBuilderSid = relationshipBuilderSid;
 	}
 
-	public int getHierarchyLevelSystemId() {
-		return hierarchyLevelSystemId;
+	public int getHierarchyDefinitionSid() {
+		return hierarchyDefinitionSid;
 	}
 
-	public void setHierarchyLevelSystemId(int hierarchyLevelSystemId) {
-		this.hierarchyLevelSystemId = hierarchyLevelSystemId;
+	public void setHierarchyDefinitionSid(int hierarchyDefinitionSid) {
+		this.hierarchyDefinitionSid = hierarchyDefinitionSid;
 	}
 
-	public String getRekationshipLevelValue() {
-		return rekationshipLevelValue;
+	public String getRelationshipName() {
+		return relationshipName;
 	}
 
-	public void setRekationshipLevelValue(String rekationshipLevelValue) {
-		this.rekationshipLevelValue = rekationshipLevelValue;
+	public void setRelationshipName(String relationshipName) {
+		this.relationshipName = relationshipName;
 	}
 
-	public String getParentNode() {
-		return parentNode;
+	public String getRelationshipDescription() {
+		return relationshipDescription;
 	}
 
-	public void setParentNode(String parentNode) {
-		this.parentNode = parentNode;
+	public void setRelationshipDescription(String relationshipDescription) {
+		this.relationshipDescription = relationshipDescription;
 	}
 
-	public String getHierarchyNo() {
-		return hierarchyNo;
+	public Date getStartDate() {
+		return startDate == null ? null : (Date) startDate.clone();
 	}
 
-	public void setHierarchyNo(String hierarchyNo) {
-		this.hierarchyNo = hierarchyNo;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate == null ? null : (Date) startDate.clone();
 	}
 
-	public String getLevelNo() {
-		return levelNo;
+	public String getBuildType() {
+		return buildType;
 	}
 
-	public void setLevelNo(String levelNo) {
-		this.levelNo = levelNo;
+	public void setBuildType(String buildType) {
+		this.buildType = buildType;
 	}
 
-	public String getLevelName() {
-		return levelName;
+	public int getVersionNo() {
+		return versionNo;
 	}
 
-	public void setLevelName(String levelName) {
-		this.levelName = levelName;
+	public void setVersionNo(int versionNo) {
+		this.versionNo = versionNo;
+	}
+
+	public Integer getHierarchyVersion() {
+		return hierarchyVersion;
+	}
+
+	public void setHierarchyVersion(Integer hierarchyVersion) {
+		this.hierarchyVersion = hierarchyVersion;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
+	}
+
+	public void setModifiedBy(int modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
+	}
+
+	public Integer getDeductionRelation() {
+		return deductionRelation;
+	}
+
+	public void setDeductionRelation(Integer deductionRelation) {
+		this.deductionRelation = deductionRelation;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate == null ? null : (Date) createdDate.clone();
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate == null ? null : (Date) modifiedDate.clone();
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
 	}
 
 }

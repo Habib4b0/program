@@ -207,6 +207,16 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 
 	}
 
+public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
+		for (int i = 0; i < hierarchyList.size(); i++) {
+			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = hierarchyList.get(i + 1);
+			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyLevelDefinitionBean.levelValueReference)) {
+				return hierarchyLevelDefinitionBean.getLevelNo();
+			}
+		}
+		return 0;
+
+	}
 	public boolean isUserDefined() {
 		return GtnFrameworkWebserviceConstant.USER_DEFINED.equals(levelValueReference);
 	}

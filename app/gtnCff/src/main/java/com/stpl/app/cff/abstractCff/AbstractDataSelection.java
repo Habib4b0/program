@@ -211,6 +211,15 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
     @UiField("customerSelection")
     protected Panel customerSelection;
     
+    @UiField("productRelationVersionLabel")
+    protected Label productRelationVersionLabel;
+    @UiField("productRelationVersion")
+    protected ComboBox productRelationVersionComboBox;
+    @UiField("customerRelationVersionLabel")
+    protected Label customerRelationVersionLabel;
+    @UiField("customerRelationVersion")
+    protected ComboBox customerRelationVersionComboBox;
+    
     public ComboBox businessUnit = new ComboBox();
 
     public Button getGenerateBtn() {
@@ -420,6 +429,8 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
                 configureCustomerSelection();
                 configureProductSelection();
                 configureCustomerDdlb();
+                configureCustomerVersionDdlb();
+                configureProductVersionDdlb();
             }
             deleteViewBtn.setEnabled(false);
             publicView.setWidth(StringConstantsUtil.TWO_SEVENTEEN_PX);
@@ -890,6 +901,12 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
     protected abstract void deleteViewButtonLogic();
 
     protected abstract void resetButtonLogic();
+    
+    protected abstract void loadProductVersionNo(Object selectedProductRelation);
+
+    protected abstract void loadCustomerVersionNo(Object selectedCustomerRelation);
+    
+    protected abstract void loadForecastLevels(List<Leveldto> innerLevels, IndexedContainer productForecastLevelContainer, ComboBox level, int hierarchySid, int hierarchyVersion);
 
     /**
      * Adds a default native select with only -Select One- in list
@@ -1035,7 +1052,10 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("customerRelation - ValueChangeListener ");
+                loadCustomerVersionNo(customerRelation.getValue());
                 customerRelationValueChange(event.getProperty().getValue());
+                loadForecastLevels(innerCustLevels, customerInnerLevelContainer, level, customerHierarchyDto.getHierarchyId(),
+                        Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
             }
         });
     }
@@ -1125,10 +1145,48 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         productRelation.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
+                loadProductVersionNo(productRelation.getValue());
                 productRelationValueChange(event.getProperty().getValue());
+                loadForecastLevels(innerProdLevels, productInnerLevelContainer, productlevelDdlb, productHierarchyDto.getHierarchyId(),
+                        Integer.parseInt(productRelationVersionComboBox.getValue().toString()));
             }
         });
     }
+
+    private void configureCustomerVersionDdlb() {
+        customerRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+        customerRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
+        customerRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
+        customerRelationVersionComboBox.select(UIUtil.SELECT_ONE);
+        customerRelationVersionLabel.setVisible(Boolean.FALSE);
+        customerRelationVersionComboBox.setVisible(Boolean.FALSE);
+
+    }
+
+    private void configureProductVersionDdlb() {
+        productRelationVersionComboBox.setNullSelectionAllowed(Boolean.TRUE);
+        productRelationVersionComboBox.setNullSelectionItemId(UIUtil.SELECT_ONE);
+        productRelationVersionComboBox.addItem(UIUtil.SELECT_ONE);
+        productRelationVersionComboBox.select(UIUtil.SELECT_ONE);
+        productRelationVersionLabel.setVisible(Boolean.FALSE);
+        productRelationVersionComboBox.setVisible(Boolean.FALSE);
+
+    }
+    
+    protected Object loadComboBoxBasedOnRelationshipVersion(ComboBox relationShipVersionComboBox, List<Object[]> resultList) {
+            Object returnValue = 0;
+            if (resultList != null && !resultList.isEmpty()) {
+                for (int i = 0; i < resultList.size(); i++) {
+                    Object[] resultListValue = resultList.get(i);
+                    relationShipVersionComboBox.addItem(resultListValue[1]);
+                    relationShipVersionComboBox.setItemCaption(resultListValue[1], resultListValue[0].toString());
+                    if (i == 0) {
+                        returnValue = resultListValue[1];
+                    }
+                }
+            }
+            return returnValue;
+        }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {

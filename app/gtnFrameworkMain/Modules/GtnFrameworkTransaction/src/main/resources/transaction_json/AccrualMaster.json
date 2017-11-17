@@ -214,7 +214,7 @@
 		"isResultView": true,
 		"componentType": "combobox",
 		"listName": "ACCRUAL_TYPE",
-		"mandatory": false,
+		"mandatory": true,
 		"messageName": "Mandatory Error",
 		"messageBody": "Please Select a Accrual Type",
 		"onlyValidComponent": true,

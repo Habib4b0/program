@@ -3230,6 +3230,8 @@
 		<field name="businessUnit" type="int" />
 		<field name="deductionHierarchySid" type="String" />
 		<field name="dedRelationshipBuilderSid" type="String" />
+		<field name="projectionCustVersionNo" type="int" />
+		<field name="projectionProdVersionNo" type="int" />
 	</model>
 	<model name="com.stpl.app.model.ProjectionNameConfig">
 		<field name="createdDate" type="Date" />

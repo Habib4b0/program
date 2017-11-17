@@ -6,6 +6,8 @@
 	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+	<bean id="gtnWsSqlService" scope="singleton"
+		class="com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService" />
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -378,7 +380,6 @@
 				</value>
 
 
-
 			</list>
 		</property>
 	</bean>
@@ -464,17 +465,35 @@
 	<bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
 	</bean>
 
-	<bean id="gtnHierarchyServiceBuilder"
-		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
-		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
-
-	</bean>
 	<bean id="gtnFrameworkEntityMasterBean"
 		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean"
 		init-method="initSetup">
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
 	</bean>
 
+	<bean id="gtnHierarchyServiceBuilder"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
+		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
+
+	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
+		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
+
+	<bean id="gtnFrameworkQueryBeanGenerator"
+		class="com.stpl.gtn.gtn2o.ws.querybeangenerator.QueryBeanGeneratorService"
+		init-method="init">
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnWsRelationshipBuilderHierarchyFileGenerator"
+			ref="gtnWsRelationshipBuilderHierarchyFileGenerator"></property>
+	</bean>
+	
 </beans>
 
 

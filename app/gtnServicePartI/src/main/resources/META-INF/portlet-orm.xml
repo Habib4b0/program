@@ -10324,6 +10324,12 @@
 			<basic name="dedRelationshipBuilderSid">
 				<column name="DED_RELATIONSHIP_BULDER_SID" />
 			</basic>
+			<basic name="projectionCustVersionNo">
+				<column name="PROJECTION_CUST_VERSION" />
+			</basic>
+			<basic name="projectionProdVersionNo">
+				<column name="PROJECTION_PROD_VERSION" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

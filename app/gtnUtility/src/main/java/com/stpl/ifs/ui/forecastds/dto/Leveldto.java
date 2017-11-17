@@ -109,6 +109,8 @@ public class Leveldto implements Cloneable, Comparable<Leveldto> {
 	private String deductionLevel = StringUtils.EMPTY;
 	private String deductionValue = StringUtils.EMPTY;
 	private String hierarchyType = StringUtils.EMPTY;
+	private Integer hierarchyVersionNo = new Integer("0");
+	private int relationShipVersionNo;
 
 	public String getHierarchyType() {
 		return hierarchyType;
@@ -264,6 +266,14 @@ public class Leveldto implements Cloneable, Comparable<Leveldto> {
 	 */
 	public void setParentNode(String parentNode) {
 		this.parentNode = parentNode;
+	}
+
+	public int getRelationShipVersionNo() {
+		return relationShipVersionNo;
+	}
+
+	public void setRelationShipVersionNo(int relationShipVersionNo) {
+		this.relationShipVersionNo = relationShipVersionNo;
 	}
 
 	/**
@@ -489,6 +499,14 @@ public class Leveldto implements Cloneable, Comparable<Leveldto> {
 	public boolean isUserDefined() {
 		return "User Defined".equals(levelValueReference);
 
+	}
+
+	public Integer getHierarchyVersionNo() {
+		return hierarchyVersionNo;
+	}
+
+	public void setHierarchyVersionNo(Integer hierarchyVersionNo) {
+		this.hierarchyVersionNo = hierarchyVersionNo;
 	}
 
 }

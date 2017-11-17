@@ -224,6 +224,11 @@
 			<artifactId>gtnHierarchyRouteBuilder</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.stpl.gtn.gtn2o</groupId>
+			<artifactId>GtnFrameworkCommon</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

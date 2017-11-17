@@ -127,5 +127,10 @@
             <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <artifactId>GtnFrameworkCommon</artifactId>
+            <groupId>com.stpl.gtn.gtn2o</groupId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 </project>
