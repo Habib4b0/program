@@ -335,9 +335,7 @@ public class GtnFrameworkCMIdentifierTab {
 			}
 
 			else if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
-				GtnUIFrameworkDateFieldConfig dateConfigIdentifierTab = new GtnUIFrameworkDateFieldConfig();
-				dateConfigIdentifierTab.setReadOnly(isReadOnly);
-				fieldConfig.setGtnDateFieldConfig(dateConfigIdentifierTab);
+				fieldConfig.setEnable(!isReadOnly);
 			}
 
 			editableFields.add(fieldConfig);
