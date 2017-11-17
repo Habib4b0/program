@@ -15,15 +15,17 @@ public class GtnFrameworkQueryGeneratorTest {
 	public void init() {
 		queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
 
-		queryGeneratorConfig.addSelectClauseBean("MTP.SINGLE_HEADER_VISIBLE_COLUMNS");
-		queryGeneratorConfig.addSelectClauseBean("MCM.COMPONENT_DESC");
-		queryGeneratorConfig.addSelectClauseBean("MCM.SCREEN_NAME");
-		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_VISIBLE");
-		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_EDITABLE");
-		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_TABLE_PROPERTY");
-		queryGeneratorConfig.addSelectClauseBean("MSM.SUBMODULE_NAME");
-		queryGeneratorConfig.addSelectClauseBean("MTP.GTN_UITABLE_COMPONENT_DETAILS_SID");
-		queryGeneratorConfig.addSelectClauseBean("MCRD.GTN_MODULE_COMPONENT_ROLE_DETAILS_SID");
+		queryGeneratorConfig.addSelectClauseBean("MCM.COMPONENT_DESC", "COMPONENT_DESC", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MCM.SCREEN_NAME", "SCREEN_NAME", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_VISIBLE", "IS_VISIBLE", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_EDITABLE", "IS_EDITABLE", true, null);
+		queryGeneratorConfig.addSelectClauseBean(null, "afda", false, "1234");
+		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_TABLE_PROPERTY", "IS_TABLE_PROPERTY", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MSM.SUBMODULE_NAME", "SUBMODULE_NAME", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MTP.GTN_UITABLE_COMPONENT_DETAILS_SID",
+				"GTN_UITABLE_COMPONENT_DETAILS_SID", true, null);
+		queryGeneratorConfig.addSelectClauseBean("MCRD.GTN_MODULE_COMPONENT_ROLE_DETAILS_SID",
+				"GTN_MODULE_COMPONENT_ROLE_DETAILS_SID", true, null);
 
 		GtnFrameworkJoinClauseBean joinClauseBean = queryGeneratorConfig.addJoinClauseBean("MODULE_SUBMODULE_MASTER",
 				"MSM", GtnFrameworkJoinType.JOIN);
@@ -45,7 +47,7 @@ public class GtnFrameworkQueryGeneratorTest {
 		queryGeneratorConfig.addWhereClauseBean("MSM.SUBMODULE_NAME", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, "Company Master");
 
-		queryGeneratorConfig.setFromTableNameWithAlies("GTN_UITABLE_COMPONENT_DETAILS MTP");
+		queryGeneratorConfig.setFromTableNameWithAlies("GTN_UITABLE_COMPONENT_DETAILS", "MTP");
 	}
 
 	@Test

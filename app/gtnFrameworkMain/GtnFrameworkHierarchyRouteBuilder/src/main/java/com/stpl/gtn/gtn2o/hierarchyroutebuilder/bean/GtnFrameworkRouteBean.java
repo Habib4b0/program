@@ -46,9 +46,6 @@ public class GtnFrameworkRouteBean {
 		this.routeTo = routeTo;
 	}
 
-	public void setPathList(List<Integer> pathList) {
-		this.pathList = pathList;
-	}
 
 	public void setHops(int hops) {
 		this.hops = hops;

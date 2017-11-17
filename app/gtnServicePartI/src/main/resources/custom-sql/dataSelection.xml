@@ -130,7 +130,12 @@ and open the template in the editor.
                     0 customerHierSid, 0 customerHierarchy, 0 customerHierarchyLevel, HDP.HIERARCHY_DEFINITION_SID prodHierSid, 
                     HDP.HIERARCHY_NAME productHierarchy, PM.PRODUCT_HIERARCHY_LEVEL productHierarchyLevel, PM.CREATED_BY createdBy, PM.CREATED_DATE createdDate, PM.MODIFIED_DATE modifiedBy, PM.COMPANY_MASTER_SID companySid, 
                     PM.COMPANY_GROUP_SID customerGrpSid,  CG.COMPANY_GROUP_NAME customerGroup, PM.ITEM_GROUP_SID prodGrpSid, IG.ITEM_GROUP_NAME productGroup, 0 customerHierarchyInnerLevel, 
-                    PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel, 0 custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.DISCOUNT_TYPE ,CM.COMPANY_NAME company,PM.BUSINESS_UNIT AS BUSINESSUNIT, CM1.COMPANY_NAME AS  BUSINESSUNITNAME 
+                    PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel, 
+                    0 custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.DISCOUNT_TYPE ,
+                    CM.COMPANY_NAME company,PM.BUSINESS_UNIT AS BUSINESSUNIT, CM1.COMPANY_NAME AS  BUSINESSUNITNAME ,PROJECTION_CUST_VERSION,PROJECTION_PROD_VERSION,
+	PM.CUSTOMER_HIER_VERSION_NO,
+	PM.PRODUCT_HIER_VERSION_NO,
+                    
                     From PROJECTION_MASTER PM
                   
                     JOIN HIERARCHY_DEFINITION HDP
@@ -163,7 +168,7 @@ and open the template in the editor.
                     HDP.HIERARCHY_NAME productHierarchy, PM.PRODUCT_HIERARCHY_LEVEL productHierarchyLevel, PM.CREATED_BY createdBy, PM.CREATED_DATE createdDate, PM.MODIFIED_DATE modifiedBy, PM.COMPANY_MASTER_SID companySid, 
                     PM.COMPANY_GROUP_SID customerGrpSid,  CG.COMPANY_GROUP_NAME customerGroup, PM.ITEM_GROUP_SID prodGrpSid, IG.ITEM_GROUP_NAME productGroup, PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerHierarchyInnerLevel, 
                     PM.PRODUCT_HIERARCHY_INNER_LEVEL productHierarchyInnerLevel, PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.DISCOUNT_TYPE,CM.COMPANY_NAME company,PM.BUSINESS_UNIT AS BUSINESSUNIT,
-                    CM1.COMPANY_NAME AS  BUSINESSUNITNAME, PM.from_Date FromDate,PM.TO_DATE ToPeriod @ACCFIELDVALUE 
+                    CM1.COMPANY_NAME AS  BUSINESSUNITNAME, PM.from_Date FromDate,PM.TO_DATE ToPeriod,PROJECTION_CUST_VERSION,PROJECTION_PROD_VERSION,	PM.CUSTOMER_HIER_VERSION_NO,	PM.PRODUCT_HIER_VERSION_NO @ACCFIELDVALUE 
                     From PROJECTION_MASTER PM
                   
                     JOIN HIERARCHY_DEFINITION HDC
@@ -306,7 +311,8 @@ and open the template in the editor.
     
     <sql id="getParentLevels">
 		<![CDATA[
-                 select distinct RLD.levelNo, RLD.relationshipLevelValues, RLD.parentNode, RLD.levelName, HLD.levelValueReference, HLD.tableName, HLD.fieldName, RLD.relationshipLevelSid, RLD.hierarchyNo, RLD.relationshipBuilderSid 
+                 select distinct RLD.levelNo, RLD.relationshipLevelValues, RLD.parentNode, RLD.levelName, HLD.levelValueReference, HLD.tableName, HLD.fieldName, RLD.relationshipLevelSid, RLD.hierarchyNo, RLD.relationshipBuilderSid,
+                 RLD.VERSION_NO 
                  FROM RelationshipLevelDefinition RLD, HierarchyLevelDefinition HLD 
                  WHERE RLD.hierarchyLevelDefinitionSid = HLD.hierarchyLevelDefinitionSid 
                  AND RLD.relationshipBuilderSid = (select RBLD.relationshipBuilderSid from RelationshipLevelDefinition RBLD where 

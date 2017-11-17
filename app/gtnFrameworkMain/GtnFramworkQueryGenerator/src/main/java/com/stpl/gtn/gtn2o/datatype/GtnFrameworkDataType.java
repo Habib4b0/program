@@ -12,9 +12,9 @@ import java.io.Serializable;
  * @author Abishek.Ram
  */
 public enum GtnFrameworkDataType implements Serializable {
-	STRING("String"), DATE("Date"), INTEGER("Integer"), LIST("List"), NULL_ALLOWED("Null_allowed"), DOUBLE("Double");
+	STRING("String"), DATE("Date"), INTEGER("Integer"), LIST("List"), NULL_ALLOWED("Null_allowed"), DOUBLE("Double"), IN_LIST("In_Lists");
 
-	String constant;
+	private String constant;
 
 	private GtnFrameworkDataType(String constant) {
 		this.constant = constant;

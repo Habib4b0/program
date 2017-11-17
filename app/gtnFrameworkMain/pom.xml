@@ -89,6 +89,19 @@
 			</build>
 		</profile>
 		<profile>
+			<id>Install-OldArchDependency</id>
+			<modules>
+				<module>GtnLogger</module>
+				<module>Security</module>
+				<module>GtnFrameWorkPropertyManager</module>
+				<module>GtnFrameworkCommon</module>
+				<module>GtnFramworkQueryGenerator</module>
+			</modules>
+			<build>
+				<defaultGoal>clean install</defaultGoal>
+			</build>
+		</profile>
+		<profile>
 			<id>Install-WarRelease</id>
 			<modules>
 				<module>Release/WarReleasePlugin</module>

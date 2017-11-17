@@ -104,6 +104,7 @@ public class DataSelectionLogic {
 	public static final String INDICATOR = "indicator";
 	public static final String PROJECTION_ID = "projectionId";
 	private final CommonUtils commonUtils = new CommonUtils();
+	RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
@@ -168,16 +169,15 @@ public class DataSelectionLogic {
 	 *            the hierarchy name
 	 * @return the list
 	 */
-	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName) {
+	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int HierarchyVersion) {
 		final List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
-		final Map<String, Object> parameters = new HashMap<>();
-		parameters.put("hierarchyId", hierarchyId);
-		if (!StringUtils.EMPTY.equals(hierarchyName)) {
-			parameters.put("hierarchyName", hierarchyName);
-		}
+		List<Object> input = new ArrayList<>();
+		input.add(hierarchyId);
+		input.add(HierarchyVersion);
 		try {
-			final List<Object[]> returnlist = dataSelectionDao.getLevelsFromHierarchy(parameters);
+			List<Object[]> returnlist = HelperTableLocalServiceUtil
+					.executeSelectQuery(CommonQueryUtils.getAppQuery(input, "selectHierarchyDetails"));
 			for (final Object[] object : returnlist) {
 				leveldto = new Leveldto();
 				leveldto.setLevel(object[0] == null ? StringUtils.EMPTY : String.valueOf(object[0]));
@@ -1150,16 +1150,18 @@ public class DataSelectionLogic {
 	}
 
 	public List<Leveldto> getParentLevelsWithHierarchyNo(final String hierarchyNos,
-			final Map<String, String> descriptionMap) {
+			final Map<String, String> descriptionMap, int hierarchyVersion, int relationShipVersion) {
 		List resultss;
 		List<Leveldto> resultList = null;
-		final Map<String, Object> parameters = new HashMap<>();
-		parameters.put("hierarchyNos", hierarchyNos);
-		parameters.put(INDICATOR, "getParentLevelsWithHierarchyNo");
+		List<Object> inputs = new ArrayList<>();
+		inputs.add(hierarchyNos);
+		inputs.add(relationShipVersion);
+		inputs.add(hierarchyVersion);
 		Leveldto dto;
 
 		try {
-			resultss = dataSelectionDao.getParentLevels(0, 0, parameters);
+			resultss = HelperTableLocalServiceUtil
+					.executeSelectQuery(CommonQueryUtils.getAppQuery(inputs, "getParentLevelsWithHierarchyNo_New"));
 
 			if (resultss != null) {
 				resultList = new ArrayList<>();
@@ -1265,26 +1267,33 @@ public class DataSelectionLogic {
 	}
 
 	public List<Leveldto> getChildLevelsWithHierarchyNo(String hierarchyNo, int lowestLevelNo,
-			final Map<String, String> descriptionMap, Object businessUnit) {
-		List resultss;
+			final Map<String, String> descriptionMap, Object businessUnit, Leveldto selectedLevelDto,
+			int hierarchyVersion, int relationShipVersion, int subListIndex) {
+		List<Object[]> resultss;
 		List<Leveldto> resultList = null;
-		final Map<String, Object> parameters = new HashMap<>();
-		parameters.put(HIERARCHY_NO, hierarchyNo);
-		parameters.put("lowestLevelNo", lowestLevelNo);
-		parameters.put(INDICATOR, "getChildLevelsWithHierarchyNo");
-		if (!String.valueOf(businessUnit).equals("0") && !String.valueOf(businessUnit).equals("null")
-				&& !String.valueOf(businessUnit).isEmpty()) {
-			parameters.put(StringConstantsUtil.BUSINESS_UNIT1, String.valueOf(businessUnit));
-		}
-		Leveldto dto;
-
 		try {
-			resultss = dataSelectionDao.getChildLevels(parameters);
+			Leveldto dto;
+			List<Object> inputs = new ArrayList<>();
+			inputs.add(hierarchyNo);
+			inputs.add(hierarchyNo);
+			inputs.add(lowestLevelNo);
+			inputs.add(relationShipVersion);
+			inputs.add(hierarchyVersion);
+			String query = StringUtils.EMPTY;
+			if (!String.valueOf(businessUnit).equals("null") && !String.valueOf(businessUnit).equals("0")
+					&& !String.valueOf(businessUnit).isEmpty()) {
+				query = relationLogic.getChildLevelQueryForProduct(selectedLevelDto, relationShipVersion,
+						String.valueOf(businessUnit), lowestLevelNo, subListIndex);
+				resultss = HelperTableLocalServiceUtil.executeSelectQuery(query);
+			} else {
+				query = "getChildLevelsWithHierarchyNo_New";
+				resultss = HelperTableLocalServiceUtil.executeSelectQuery(CommonQueryUtils.getAppQuery(inputs, query));
+			}
 
 			if (resultss != null) {
 				resultList = new ArrayList<>();
 				for (int loop = 0, limit = resultss.size(); loop < limit; loop++) {
-					final Object[] objects = (Object[]) resultss.get(loop);
+					Object[] objects = resultss.get(loop);
 					dto = new Leveldto();
 					dto.setLevelNo(Integer.parseInt(String.valueOf(objects[0])));
 					dto.setRelationshipLevelValue(String.valueOf(objects[1]));
@@ -1302,7 +1311,7 @@ public class DataSelectionLogic {
 					resultList.add(dto);
 				}
 			}
-		} catch (final Exception ex) {
+		} catch (Exception ex) {
 			LOGGER.error(ex);
 		}
 		return resultList;
@@ -1921,10 +1930,8 @@ public class DataSelectionLogic {
 			detailsList.add(object[1]); // Level Value
 			detailsList.add(object[NumericConstants.TWO]); // Level No
 			detailsList.add(object[NumericConstants.THREE]); // Level Name
-			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
-															// Actual System Id
-			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-																// INDICATOR
+			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value - Actual System Id
+			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY INDICATOR
 			commonUtils.updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
 			resultMap.put(String.valueOf(object[0]), detailsList);
 			if (j == tempList.size() - 1) {

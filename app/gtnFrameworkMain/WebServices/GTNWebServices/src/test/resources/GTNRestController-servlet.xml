@@ -470,4 +470,5 @@
 	<bean id="queryLogger"
 		class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
 	</bean>
+	
 </beans>

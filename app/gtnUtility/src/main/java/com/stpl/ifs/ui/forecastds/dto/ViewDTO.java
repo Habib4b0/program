@@ -123,6 +123,8 @@ public class ViewDTO {
     private String adjustmentType = StringUtils.EMPTY;
     private Integer businessUnitSystemId;
     private String businessUnitSystemName = StringUtils.EMPTY;
+    private Integer custHierarchyVersion ;
+    private Integer prodHierarchyVersion ;
 
     /**
      * Gets the view name.
@@ -602,6 +604,22 @@ public class ViewDTO {
 
     public void setBusinessUnitSystemName(String businessUnitSystemName) {
         this.businessUnitSystemName = businessUnitSystemName;
+    }
+
+    public Integer getCustHierarchyVersion() {
+        return custHierarchyVersion;
+    }
+
+    public void setCustHierarchyVersion(Integer custHierarchyVersion) {
+        this.custHierarchyVersion = custHierarchyVersion;
+    }
+
+    public Integer getProdHierarchyVersion() {
+        return prodHierarchyVersion;
+    }
+
+    public void setProdHierarchyVersion(Integer prodHierarchyVersion) {
+        this.prodHierarchyVersion = prodHierarchyVersion;
     }
     
 }

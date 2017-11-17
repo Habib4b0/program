@@ -16,7 +16,7 @@ public class GtnFramworkTableRelationBean {
 	}
 
 	public GtnFramworkTableRelationBean() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public String getLeftColumnName() {

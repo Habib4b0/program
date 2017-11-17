@@ -8,10 +8,10 @@ package com.stpl.app.cff.dto;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import com.stpl.app.parttwo.model.CffCustomViewDetails;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -99,7 +99,7 @@ public class SessionDTO implements Cloneable {
     private String forecastName = StringUtils.EMPTY;
     private boolean hasTradingPartner;
     private boolean isGenerated = false;
-    private Map<String, String> currentTableNames = new LinkedHashMap<>();
+    private GtnSmallHashMap currentTableNames = new GtnSmallHashMap();
     private String screenName = StringUtils.EMPTY;
     private Map<String, List> hierarchyLevelDetails = new HashMap<>();
     private Map<Integer, List<Leveldto>> customHierarchyMap = new HashMap<>();
@@ -792,7 +792,7 @@ public class SessionDTO implements Cloneable {
         this.isGenerated = isGenerated;
     }
 
-    public Map<String, String> getCurrentTableNames() {
+    public GtnSmallHashMap getCurrentTableNames() {
         return currentTableNames;
     }
 

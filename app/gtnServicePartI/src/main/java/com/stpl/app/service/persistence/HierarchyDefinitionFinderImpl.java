@@ -48,7 +48,7 @@ public class HierarchyDefinitionFinderImpl extends BasePersistenceImpl<Hierarchy
             
 //            if (Constants.ButtonConstants.BTN_SEARCH.getConstant().equals(action)) {
 
-            queryBuilder.append("SELECT c.hierarchyDefinitionSid,c.hierarchyName,a.levelName, a.levelNo , ");
+            queryBuilder.append("SELECT distinct c.hierarchyDefinitionSid,c.hierarchyName,a.levelName, a.levelNo , ");
             queryBuilder.append("b.levelNo , c.createdDate, c.modifiedDate, c.versionNo ");
             queryBuilder.append("from HierarchyLevelDefinition a , HierarchyLevelDefinition b ,HierarchyDefinition c ");
             queryBuilder.append("where a.hierarchyDefinitionSid = b.hierarchyDefinitionSid and a.hierarchyDefinitionSid = c.hierarchyDefinitionSid ");

@@ -2171,7 +2171,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 														+ " a complete calendar year of periods to use as a baseline."
 														+ "  Please select a complete calendar year of periods "
 														+ "for each selected discount and try again.");
-									} else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())
+									} else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
+											&& checkedDiscountsPropertyIds.size() == 0) {
+										NotificationUtils.getErrorNotification("No Discount selected",
+												"Please select atleast one discount.");
+									}else if (methodologyDdlb.getValue().equals(AVERAGE.getConstant())
 											&& (checkedDiscountsPropertyIds.size() != tripleHeaderForCheckedDoubleHeader
 													.size() || !checkHistorySelectedCount(NumericConstants.TWO))) {
 										NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
@@ -2189,11 +2193,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 											&& !checkHistorySelectedCount(0)) {
 										NotificationUtils.getErrorNotification(Constant.ERROR,
 												Constant.HISTORIC_PERIOD_SELECTION);
-									} else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
-											&& checkedDiscountsPropertyIds.size() == 0) {
-										NotificationUtils.getErrorNotification("No Discount selected",
-												"Please select atleast one discount.");
-									} else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
+									}  else if (!CONTRACT_DETAILS.getConstant().equals(methodologyDdlb.getValue())
 											&& radioMap.size() == 0) {
 										NotificationUtils.getErrorNotification(
 												Constant.VARIABLE_TYPE_SELECTION_CONFIRMATION,
