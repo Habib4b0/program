@@ -128,6 +128,16 @@ public class GtnFrameworkRSConstants {
 			"Deduction Calendar No", "Deduction Calendar Name", EVALUATION_RULE, EVALUATION_RULE_BUNDLE,
 			CALCULATION_RULE1, CALCULATION_RULE_BUNDLE, ATTACHED_DATE };
 
+	private static final String[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_TABLEHEADERS = {
+			GtnFrameworkCommonConstants.ITEM_NO_HEADER, GtnFrameworkCommonConstants.ITEM_NAME_HEADER,
+			GtnFrameworkRSConstants.RS_STATUS1, GtnFrameworkRSConstants.RS_START_DATE1,
+			GtnFrameworkRSConstants.RS_END_DATE };
+
+	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_VISIBLECOLUMNS = {
+			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME,
+			GtnFrameworkRSConstants.RS_STATUS, GtnFrameworkRSConstants.RS_START_DATE,
+			GtnFrameworkRSConstants.RS_END_DATE1 };
+
 	private static final Object[] RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS = {
 			GtnFrameworkCommonConstants.ITEM_NO, GtnFrameworkCommonConstants.ITEM_NAME, RS_STATUS, RS_START_DATE,
 			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
@@ -322,6 +332,10 @@ public class GtnFrameworkRSConstants {
 		return RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_VISIBLECOLUMNS.clone();
 	}
 
+	public static Object[] getRsSetUpTabCalculationTypePriceProtectionVisibleColumns() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_VISIBLECOLUMNS.clone();
+	}
+
 	public static List<String> getNonEditableList() {
 		return Collections.unmodifiableList(NON_EIDTABLE_LIST);
 	}
@@ -332,6 +346,10 @@ public class GtnFrameworkRSConstants {
 
 	public static String[] getRsSetUpTabCalculationTypeDeductionCalendarTableHeaders() {
 		return RS_SETUP_TAB_CALCULATION_TYPE_DEDUCTION_CALENDER_TABLEHEADERS.clone();
+	}
+
+	public static String[] getRsSetUpTabCalculationTypePriceProtectionTableHeaders() {
+		return RS_SETUP_TAB_CALCULATION_TYPE_PRICE_PROTECTION_TABLEHEADERS.clone();
 	}
 
 	public static Object[] getRsSetUPTabCalculationTypeFormulaVisibleColumns() {
