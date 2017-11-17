@@ -3196,16 +3196,12 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final DataSelectionDTO dto = (DataSelectionDTO) resultTable.getValue();
 				int projectionIdValue = dto.getProjectionId();
 				VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-
 				customerFuture = checkAndDoAutomaticUpdate(dto.getCustomerRelationShipVersionNo(),
-						Integer.parseInt(dto.getCustomerHierSid()), customerExecutorService);
-				ExecutorService productExecutorService = Executors.newSingleThreadExecutor();
-
+						Integer.parseInt(dto.getCustomerHierSid()));
 				productFuture = checkAndDoAutomaticUpdate(dto.getProductRelationShipVersionNo(),
-						Integer.parseInt(dto.getProdHierSid()), productExecutorService);
-				customerFuture.get();
-				productFuture.get();
+						Integer.parseInt(dto.getProdHierSid()));
+				boolean isCustRelationUpdate = (boolean) customerFuture.get();
+				boolean isProdRelationUpdate = (boolean) productFuture.get();
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(screenName);
 				tempSession.setProjectionId(projectionIdValue);
@@ -4207,10 +4203,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
-						customerHierarchyDto.getHierarchyId(), customerExecutorService);
+						customerHierarchyDto.getHierarchyId());
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerCustLevels.isEmpty()) {
 					customerForecastLevelContainer.removeAllItems();
@@ -4241,11 +4235,12 @@ public class DataSelectionForm extends ForecastDataSelection {
 		groupFilteredCompanies = null;
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
+	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
-		Future future = executorService.submit(wsClientRunnableTarget);
-		executorService.shutdown();
+		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+		Future future = customerExecutorService.submit(wsClientRunnableTarget);
+		customerExecutorService.shutdown();
 		return future;
 	}
 
@@ -4262,9 +4257,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
 
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
-						productHierarchyDto.getHierarchyId(), customerExecutorService);
+						productHierarchyDto.getHierarchyId());
 
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerProdLevels.isEmpty()) {

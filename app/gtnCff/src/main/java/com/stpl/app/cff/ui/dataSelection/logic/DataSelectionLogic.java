@@ -104,7 +104,7 @@ public class DataSelectionLogic {
 	public static final String INDICATOR = "indicator";
 	public static final String PROJECTION_ID = "projectionId";
 	private final CommonUtils commonUtils = new CommonUtils();
-	RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	/**
 	 * Gets the hierarchy group.
