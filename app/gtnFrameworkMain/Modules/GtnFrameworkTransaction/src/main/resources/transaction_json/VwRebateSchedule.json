@@ -206,22 +206,52 @@
 		"columnName": "Created By",
 		"isSearchCriteria": true,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+		"onlyValidComponent": true
+		
 	},
 	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria":false,
+		"isResultView": false,
+		"componentType": "text",
+		"isInvalidComponent": true
+		
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"columnAlignment": "CENTER",
+		"componentType": "date",
+		"isInvalidComponent": true
+	},
+        {
 		"columnID": "createdDate",
 		"columnName": "Created Date",
 		"isSearchCriteria": true,
 		"isResultView": true,
 		"columnAlignment": "CENTER",
-		"componentType": "date"
+		"componentType": "date",
+		"onlyValidComponent": true
 	},
 	{
 		"columnID": "modifiedBy",
 		"columnName": "Modified By",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+        {
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
 		"isSearchCriteria": true,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+		"onlyValidComponent": true
 	},
 	{
 		"columnID": "modifiedDate",
@@ -229,7 +259,41 @@
 		"isSearchCriteria": true,
 		"isResultView": true,
 		"columnAlignment": "CENTER",
-		"componentType": "date"
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+        {
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"columnAlignment": "CENTER",
+		"componentType": "date",
+		"isInvalidComponent": false
+	},
+        {
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+        {
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"onlyValidComponent": true
+	},
+         {
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N"
 	},
 	{
 		"columnID": "addChgDelIndicator",
@@ -245,13 +309,16 @@
 		"isResultView": true,
 		"componentType": "text"
 	},
-	{
-		"columnID": "batchId",
-		"columnName": "Batch ID",
+        {
+		"columnID": "rebateScheduleIntfid",
+		"columnName": "Invalid Record Id",
 		"isSearchCriteria": true,
 		"isResultView": true,
-		"componentType": "text"
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
 	},
+	
 	{
 		"columnID": "errorCode",
 		"columnName": "Error Code",
@@ -276,24 +343,8 @@
 		"componentType": "text",
 		"isInvalidComponent": true
 	},
-	{
-		"columnID": "reprocessedFlag",
-		"columnName": "Reprocessed Flag",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"defaultValue": "N",
-		"isInvalidComponent": true
-	},
-	{
-		"columnID": "rebateScheduleIntfid",
-		"columnName": "Invalid Record Id",
-		"isSearchCriteria": true,
-		"isResultView": true,
-		"componentType": "text",
-		"staticSearchCriterian": "true",
-		"isInvalidComponent": true
-	},
+	
+	
 	{
 		"columnID": "invalidDateFrom",
 		"columnName": "Invalid From",

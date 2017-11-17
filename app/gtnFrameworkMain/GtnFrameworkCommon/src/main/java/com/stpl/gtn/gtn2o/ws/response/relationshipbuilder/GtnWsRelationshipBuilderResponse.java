@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.response.GtnWSResponseData;
 
@@ -45,11 +45,13 @@ public class GtnWsRelationshipBuilderResponse implements GtnWSResponseData {
 	private int hierarchyDefSId;
 	private int createdById;
 	private String buildType;
-	private int hierarchyVersionNo;
+	private List<Integer> hierarchyVersionNo;
 	private List<GtnWsRecordBean> rbTreeNodeList;
-	private List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList;
+	private List<GtnWsRelationshipLevelDefinitionBean> relationshipBuilderBeanList;
 	private HierarchyDefinitionBean hierarchyDefinitionBean;
 	private List<String> hiddenIdList;
+	private int selectedVersionNo;
+	private List<String> hierarchyLevelNameList;
 
 	public GtnWsRecordBean getMainNode() {
 		return mainNode;
@@ -155,12 +157,12 @@ public class GtnWsRelationshipBuilderResponse implements GtnWSResponseData {
 		this.hierarchyDefSId = hierarchyDefSId;
 	}
 
-	public int getHierarchyVersionNo() {
-		return hierarchyVersionNo;
+	public List<Integer> getHierarchyVersionNo() {
+		return hierarchyVersionNo == null ? null : Collections.unmodifiableList(hierarchyVersionNo);
 	}
 
-	public void setHierarchyVersionNo(int hierarchyVersionNo) {
-		this.hierarchyVersionNo = hierarchyVersionNo;
+	public void setHierarchyVersionNo(List<Integer> hierarchyVersionNo) {
+		this.hierarchyVersionNo = hierarchyVersionNo == null ? null : Collections.unmodifiableList(hierarchyVersionNo);
 	}
 
 	public String getBuildType() {
@@ -195,11 +197,11 @@ public class GtnWsRelationshipBuilderResponse implements GtnWSResponseData {
 		this.levelNo = levelNo;
 	}
 
-	public List<GtnWsRelationshipBuilderBean> getRelationshipBuilderBeanList() {
+	public List<GtnWsRelationshipLevelDefinitionBean> getRelationshipBuilderBeanList() {
 		return relationshipBuilderBeanList == null ? null : Collections.unmodifiableList(relationshipBuilderBeanList);
 	}
 
-	public void setRelationshipBuilderBeanList(List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList) {
+	public void setRelationshipBuilderBeanList(List<GtnWsRelationshipLevelDefinitionBean> relationshipBuilderBeanList) {
 		this.relationshipBuilderBeanList = relationshipBuilderBeanList == null ? null
 				: Collections.unmodifiableList(relationshipBuilderBeanList);
 	}
@@ -268,6 +270,22 @@ public class GtnWsRelationshipBuilderResponse implements GtnWSResponseData {
 
 	public List<String> getHiddenIdList() {
 		return hiddenIdList == null ? null : Collections.unmodifiableList(hiddenIdList);
+	}
+
+	public int getSelectedVersionNo() {
+		return selectedVersionNo;
+	}
+
+	public void setSelectedVersionNo(int selectedVersionNo) {
+		this.selectedVersionNo = selectedVersionNo;
+	}
+
+	public List<String> getHierarchyLevelNameList() {
+		return hierarchyLevelNameList == null ? null : Collections.unmodifiableList(hierarchyLevelNameList);
+	}
+
+	public void setHierarchyLevelNameList(List<String> hierarchyLevelNameList) {
+		this.hierarchyLevelNameList = hierarchyLevelNameList == null ? null : new ArrayList<>(hierarchyLevelNameList);
 	}
 
 }

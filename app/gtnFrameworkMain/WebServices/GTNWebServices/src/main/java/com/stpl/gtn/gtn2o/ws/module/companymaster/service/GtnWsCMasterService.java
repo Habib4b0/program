@@ -90,7 +90,7 @@ public class GtnWsCMasterService {
 		getJoinClauseBean(queryGeneratorConfig);
 		getWhereClauseBean(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
 		getOrderByClause(queryGeneratorConfig, gtnWebServiceSearchQueryConfig, gtnUIFrameworkWebserviceRequest);
-		queryGeneratorConfig.setFromTableNameWithAlies("company_Master cm");
+		queryGeneratorConfig.setFromTableNameWithAlies("company_Master", "cm");
 		logger.info("Exiting getCompanyMasterQueryGeneratorBean method");
 		return queryGeneratorConfig;
 	}
@@ -103,8 +103,9 @@ public class GtnWsCMasterService {
 		if (visibleColumnList != null && !visibleColumnList.isEmpty()) {
 			for (int i = 0; i < visibleColumnList.size(); i++) {
 				String currentColumn = visibleColumnList.get(i).toString();
-				queryGeneratorConfig
-						.addSelectClauseBean(getTableColumnForField(currentColumn, gtnWebServiceSearchQueryConfig));
+				queryGeneratorConfig.addSelectClauseBean(
+						getTableColumnForField(currentColumn, gtnWebServiceSearchQueryConfig), null, Boolean.TRUE,
+						null);
 			}
 
 		}

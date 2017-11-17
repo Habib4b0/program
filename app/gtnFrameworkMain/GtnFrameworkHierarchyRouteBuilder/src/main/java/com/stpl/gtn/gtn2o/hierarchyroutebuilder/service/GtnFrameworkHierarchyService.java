@@ -32,4 +32,6 @@ public interface GtnFrameworkHierarchyService {
 			GtnFrameworkQueryGeneratorBean queryBean);
 
 	public void getInboundRestrictionQuery(Set<String> tableNameSet, GtnFrameworkQueryGeneratorBean queryBaen);
+
+	void getInboundRestrictionQueryForAutoUpdate(GtnFrameworkQueryGeneratorBean queryBaen);
 }

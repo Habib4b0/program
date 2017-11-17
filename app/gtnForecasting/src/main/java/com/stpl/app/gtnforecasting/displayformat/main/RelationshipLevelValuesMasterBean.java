@@ -40,7 +40,7 @@ public class RelationshipLevelValuesMasterBean {
 		this.relationshipBuilderSid = relationshipBuilderSid;
 		this.hierarchyNoType = hierarchyNoType;
 		if (!"D".equals(hierarchyNoType)) {
-			createQuery();
+			createQuery(sessionDTO);
 		} else {
 			createDeductionQuery(sessionDTO);
 		}
@@ -70,9 +70,9 @@ public class RelationshipLevelValuesMasterBean {
 		return finalQry.toString();
 	}
 
-	private void createQuery() {
+	private void createQuery(SessionDTO sessionDTO) {
 		for (int i = 0; i < tempList.size(); i++) {
-			queryList.add(getCustomisedQuery((Object[]) tempList.get(i)));
+			queryList.add(getCustomisedQuery((Object[]) tempList.get(i), sessionDTO));
 		}
 	}
 
@@ -82,7 +82,7 @@ public class RelationshipLevelValuesMasterBean {
 		}
 	}
 
-	private RelationshipLevelValuesBean getCustomisedQuery(Object[] tempListObject) {
+	private RelationshipLevelValuesBean getCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
 		String customSql = SQlUtil.getQuery("getRelationshipLevelValues");
 		customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
@@ -91,6 +91,8 @@ public class RelationshipLevelValuesMasterBean {
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.THREE]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		customSql = customSql.replace("?HIERARCHY_NO", hierarchyNoType);
+		customSql = customSql.replace("?RLDV", isCustomer() ? sessionDTO.getCustomerRelationVersion() + StringUtils.EMPTY :
+                                                                    sessionDTO.getProductRelationVersion() + StringUtils.EMPTY);
 		customSql = customSql.replace("?DISPLAYFORMATCOLUMN",
 				getDisplayFormatColumn(masterBean.getDisplayFormatList(), String.valueOf(tempListObject[0]), bean));
 		bean.setQuery(customSql);
@@ -200,5 +202,9 @@ public class RelationshipLevelValuesMasterBean {
 		}
 		return defaultStr.toString();
 	}
+        
+        private boolean isCustomer(){
+            return hierarchyNoType.equals("CUST_HIERARCHY_NO");
+        }
         
         }

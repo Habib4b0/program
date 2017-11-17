@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
+import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelValuesBean;
@@ -58,7 +58,7 @@ public class GtnWsRelationshipBuilderRequest implements GtnWSRequestData {
 	private List<HierarchyLevelValuesBean> hierarchyLevelValuesBeanList;
 	private List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionBeanList;
 	private List<HierarchyDefinitionBean> hierarchyDefinitionBeanList;
-	private List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList;
+	private List<GtnWsRelationshipLevelDefinitionBean> relationshipBuilderBeanList;
 	private HierarchyDefinitionBean hierarchyDefinitionBean;
 	private List<String> hiddenIdList;
 	private List<String> levelValueList;
@@ -281,11 +281,11 @@ public class GtnWsRelationshipBuilderRequest implements GtnWSRequestData {
 				: Collections.unmodifiableList(hierarchyDefinitionBeanList);
 	}
 
-	public List<GtnWsRelationshipBuilderBean> getRelationshipBuilderBeanList() {
+	public List<GtnWsRelationshipLevelDefinitionBean> getRelationshipBuilderBeanList() {
 		return relationshipBuilderBeanList == null ? null : Collections.unmodifiableList(relationshipBuilderBeanList);
 	}
 
-	public void setRelationshipBuilderBeanList(List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanList) {
+	public void setRelationshipBuilderBeanList(List<GtnWsRelationshipLevelDefinitionBean> relationshipBuilderBeanList) {
 		this.relationshipBuilderBeanList = relationshipBuilderBeanList == null ? null
 				: Collections.unmodifiableList(relationshipBuilderBeanList);
 	}

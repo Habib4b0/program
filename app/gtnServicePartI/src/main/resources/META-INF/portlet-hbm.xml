@@ -3759,6 +3759,8 @@
 		<property name="businessUnit" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="BUSINESS_UNIT" />
 		<property name="deductionHierarchySid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DEDUCTION_HIERARCHY_SID" />
 		<property name="dedRelationshipBuilderSid" type="com.stpl.portal.dao.orm.hibernate.StringType" column="DED_RELATIONSHIP_BULDER_SID" />
+		<property name="projectionCustVersionNo" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="PROJECTION_CUST_VERSION" />
+		<property name="projectionProdVersionNo" type="com.stpl.portal.dao.orm.hibernate.IntegerType" column="PROJECTION_PROD_VERSION" />
 	</class>
 	<class name="com.stpl.app.model.impl.ProjectionNameConfigImpl" table="PROJECTION_NAME_CONFIG">
 		<id name="projectionNameConfigSid" column="PROJECTION_NAME_CONFIG_SID" type="int">

@@ -51,6 +51,8 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
     private int _businessUnit;
     private String _deductionHierarchySid;
     private String _dedRelationshipBuilderSid;
+    private int _projectionCustVersionNo;
+    private int _projectionProdVersionNo;
     private BaseModel<?> _projectionMasterRemoteModel;
 
     public ProjectionMasterClp() {
@@ -125,6 +127,8 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         attributes.put("deductionHierarchySid", getDeductionHierarchySid());
         attributes.put("dedRelationshipBuilderSid",
             getDedRelationshipBuilderSid());
+        attributes.put("projectionCustVersionNo", getProjectionCustVersionNo());
+        attributes.put("projectionProdVersionNo", getProjectionProdVersionNo());
 
         return attributes;
     }
@@ -323,6 +327,20 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
         if (dedRelationshipBuilderSid != null) {
             setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
+        }
+
+        Integer projectionCustVersionNo = (Integer) attributes.get(
+                "projectionCustVersionNo");
+
+        if (projectionCustVersionNo != null) {
+            setProjectionCustVersionNo(projectionCustVersionNo);
+        }
+
+        Integer projectionProdVersionNo = (Integer) attributes.get(
+                "projectionProdVersionNo");
+
+        if (projectionProdVersionNo != null) {
+            setProjectionProdVersionNo(projectionProdVersionNo);
         }
     }
 
@@ -1024,6 +1042,54 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         }
     }
 
+    @Override
+    public int getProjectionCustVersionNo() {
+        return _projectionCustVersionNo;
+    }
+
+    @Override
+    public void setProjectionCustVersionNo(int projectionCustVersionNo) {
+        _projectionCustVersionNo = projectionCustVersionNo;
+
+        if (_projectionMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _projectionMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setProjectionCustVersionNo",
+                        int.class);
+
+                method.invoke(_projectionMasterRemoteModel,
+                    projectionCustVersionNo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
+    @Override
+    public int getProjectionProdVersionNo() {
+        return _projectionProdVersionNo;
+    }
+
+    @Override
+    public void setProjectionProdVersionNo(int projectionProdVersionNo) {
+        _projectionProdVersionNo = projectionProdVersionNo;
+
+        if (_projectionMasterRemoteModel != null) {
+            try {
+                Class<?> clazz = _projectionMasterRemoteModel.getClass();
+
+                Method method = clazz.getMethod("setProjectionProdVersionNo",
+                        int.class);
+
+                method.invoke(_projectionMasterRemoteModel,
+                    projectionProdVersionNo);
+            } catch (Exception e) {
+                throw new UnsupportedOperationException(e);
+            }
+        }
+    }
+
     public BaseModel<?> getProjectionMasterRemoteModel() {
         return _projectionMasterRemoteModel;
     }
@@ -1123,6 +1189,8 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         clone.setBusinessUnit(getBusinessUnit());
         clone.setDeductionHierarchySid(getDeductionHierarchySid());
         clone.setDedRelationshipBuilderSid(getDedRelationshipBuilderSid());
+        clone.setProjectionCustVersionNo(getProjectionCustVersionNo());
+        clone.setProjectionProdVersionNo(getProjectionProdVersionNo());
 
         return clone;
     }
@@ -1168,7 +1236,7 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(61);
+        StringBundler sb = new StringBundler(65);
 
         sb.append("{productHierarchyLevel=");
         sb.append(getProductHierarchyLevel());
@@ -1230,6 +1298,10 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         sb.append(getDeductionHierarchySid());
         sb.append(", dedRelationshipBuilderSid=");
         sb.append(getDedRelationshipBuilderSid());
+        sb.append(", projectionCustVersionNo=");
+        sb.append(getProjectionCustVersionNo());
+        sb.append(", projectionProdVersionNo=");
+        sb.append(getProjectionProdVersionNo());
         sb.append("}");
 
         return sb.toString();
@@ -1237,7 +1309,7 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
 
     @Override
     public String toXmlString() {
-        StringBundler sb = new StringBundler(94);
+        StringBundler sb = new StringBundler(100);
 
         sb.append("<model><model-name>");
         sb.append("com.stpl.app.model.ProjectionMaster");
@@ -1362,6 +1434,14 @@ public class ProjectionMasterClp extends BaseModelImpl<ProjectionMaster>
         sb.append(
             "<column><column-name>dedRelationshipBuilderSid</column-name><column-value><![CDATA[");
         sb.append(getDedRelationshipBuilderSid());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>projectionCustVersionNo</column-name><column-value><![CDATA[");
+        sb.append(getProjectionCustVersionNo());
+        sb.append("]]></column-value></column>");
+        sb.append(
+            "<column><column-name>projectionProdVersionNo</column-name><column-value><![CDATA[");
+        sb.append(getProjectionProdVersionNo());
         sb.append("]]></column-value></column>");
 
         sb.append("</model>");

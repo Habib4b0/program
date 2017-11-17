@@ -89,7 +89,8 @@ public class ProjectionMasterPersistenceImpl extends BasePersistenceImpl<Project
                 "companyMasterSid", "customerHierarchyInnerLevel",
                 "productHierarchyInnerLevel", "custRelationshipBuilderSid",
                 "prodRelationshipBuilderSid", "discountType", "businessUnit",
-                "deductionHierarchySid", "dedRelationshipBuilderSid"
+                "deductionHierarchySid", "dedRelationshipBuilderSid",
+                "projectionCustVersionNo", "projectionProdVersionNo"
             });
     private static ProjectionMaster _nullProjectionMaster = new ProjectionMasterImpl() {
             @Override
@@ -373,6 +374,8 @@ public class ProjectionMasterPersistenceImpl extends BasePersistenceImpl<Project
         projectionMasterImpl.setBusinessUnit(projectionMaster.getBusinessUnit());
         projectionMasterImpl.setDeductionHierarchySid(projectionMaster.getDeductionHierarchySid());
         projectionMasterImpl.setDedRelationshipBuilderSid(projectionMaster.getDedRelationshipBuilderSid());
+        projectionMasterImpl.setProjectionCustVersionNo(projectionMaster.getProjectionCustVersionNo());
+        projectionMasterImpl.setProjectionProdVersionNo(projectionMaster.getProjectionProdVersionNo());
 
         return projectionMasterImpl;
     }

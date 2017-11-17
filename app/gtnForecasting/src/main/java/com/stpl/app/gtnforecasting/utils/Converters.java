@@ -6,23 +6,26 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
-import com.stpl.app.model.CompanyGroup;
-import com.stpl.app.utils.Constants.CommonConstants;
-import com.stpl.app.utils.Constants.DateFormatConstants;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
+
+import com.stpl.app.model.CompanyGroup;
+import com.stpl.app.utils.Constants.CommonConstants;
+import com.stpl.app.utils.Constants.DateFormatConstants;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.stpl.portal.model.User;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -214,13 +217,14 @@ public class Converters {
 
                     dataSelectionDTO.setFromDate(parseDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_FIVE]))));
                     dataSelectionDTO.setToDate(parseDate(convertNullToEmpty(String.valueOf(objects[NumericConstants.TWENTY_SIX]))));
-
-                    dataSelectionDTO.setFromPeriod(String.valueOf(objects[NumericConstants.TWENTY_FIVE]));
-                    dataSelectionDTO.setToPeriod(String.valueOf(objects[NumericConstants.TWENTY_SIX]));
                 }
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
+			dataSelectionDTO.setCustomerRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_SEVEN]);
+			dataSelectionDTO.setProductRelationShipVersionNo((Integer) objects[NumericConstants.TWENTY_EIGHT]);
+			dataSelectionDTO.setCustomerHierVersionNo((Integer) objects[NumericConstants.TWENTY_NINE]);
+			dataSelectionDTO.setProductHierVersionNo((Integer) objects[NumericConstants.THIRTY]);
 
             if (channelsFlag) {
                 dataSelectionDTO.setDiscountSid(Integer.parseInt(objects[NumericConstants.TWENTY_ONE] == null ? DASH : objects[NumericConstants.TWENTY_ONE].toString()));
