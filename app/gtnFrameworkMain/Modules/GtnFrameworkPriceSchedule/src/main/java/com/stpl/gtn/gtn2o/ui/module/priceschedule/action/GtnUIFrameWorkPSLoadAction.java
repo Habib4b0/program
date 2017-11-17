@@ -219,10 +219,10 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	}
 
 	public void loadPriceTabsForView(int systemId, boolean isEditable) throws GtnFrameworkGeneralException {
-		String priceScheduleDesignation = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
+		String pSDesignation = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
 				.getCaptionFromComboBox();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(false);
-		if ("Child".equals(priceScheduleDesignation)) {
+		if ("Child".equals(pSDesignation)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
 		}
 		GtnUIFrameworkBaseComponent pricingResultDataTable = GtnUIFrameworkGlobalUI
