@@ -3202,6 +3202,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 						Integer.parseInt(dto.getProdHierSid()));
 				boolean isCustRelationUpdate = (boolean) customerFuture.get();
 				boolean isProdRelationUpdate = (boolean) productFuture.get();
+				if(isCustRelationUpdate || isProdRelationUpdate) {
+					AbstractNotificationUtils.getInfoNotification("Info", "Relationship used in this projection is updated");
+				}
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(screenName);
 				tempSession.setProjectionId(projectionIdValue);
@@ -3358,7 +3361,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 				}
 			} catch (Exception ex) {
-
 				LOGGER.error(ex + " - in editBtn");
 			}
 		}
@@ -4124,7 +4126,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						forecastLevel);
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
-				customerFuture.get();
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
 						dedValue, relationVersionNo);

@@ -294,12 +294,13 @@ public class DataSelection extends AbstractDataSelection {
 	protected void levelValueChangeListener(Object value) {
 
 		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
-		availableCustomerContainer.removeAllItems();
-		String levelName = StringConstantsUtil.LEVEL;
-		int relationVersionNo = Integer
-				.parseInt(customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-		int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 		try {
+			availableCustomerContainer.removeAllItems();
+			String levelName = StringConstantsUtil.LEVEL;
+			customerFuture.get();
+			int relationVersionNo = Integer.parseInt(
+					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+			int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 			int forecastLevel = 0;
 			if (value != null && customerRelation.getValue() != null
 					&& !SELECT_ONE.equals(customerRelation.getValue())) {
@@ -329,7 +330,6 @@ public class DataSelection extends AbstractDataSelection {
 				availableCustomer.setStyleName(StringConstantsUtil.FILTER_TABLE);
 			}
 		} catch (Exception ex) {
-
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
@@ -380,9 +380,8 @@ public class DataSelection extends AbstractDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(customerRelation.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationVersionComboBox.getValue(),
-						customerHierarchyDto.getHierarchyId(), customerExecutorService);
+						customerHierarchyDto.getHierarchyId());
 				int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
@@ -419,9 +418,8 @@ public class DataSelection extends AbstractDataSelection {
 				setProductForecastLevelNullSelection();
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
-						productHierarchyDto.getHierarchyId(), customerExecutorService);
+						productHierarchyDto.getHierarchyId());
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
@@ -484,6 +482,10 @@ public class DataSelection extends AbstractDataSelection {
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
 				sessionDTO.setCompanySystemId((Integer) company.getValue());
+				sessionDTO.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
+				sessionDTO.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
+				sessionDTO.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
+				sessionDTO.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
 				sessionDTO.setScreenName("CCP_HIERARCHY");
 				CFFQueryUtils.createTempTables(sessionDTO);
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
@@ -2800,8 +2802,7 @@ public class DataSelection extends AbstractDataSelection {
 
 			@Override
 			/**
-			 * The method is triggered when Yes button of the message box is
-			 * pressed .
+			 * The method is triggered when Yes button of the message box is pressed .
 			 *
 			 * @param buttonId
 			 *            The buttonId of the pressed button.
@@ -2849,11 +2850,13 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setProjectionId(UiUtils.parseStringToInteger(viewDTO.getProjectionId()));
 		customerHierarchyDto.setHierarchyId(
 				viewDTO.getCustomerHierarchySid() != null && viewDTO.getCustomerHierarchySid().equals(StringUtils.EMPTY)
-						? 0 : Integer.parseInt(viewDTO.getCustomerHierarchySid()));
+						? 0
+						: Integer.parseInt(viewDTO.getCustomerHierarchySid()));
 		customerHierarchyDto.setHierarchyName(viewDTO.getCustomerHierarchy());
 		productHierarchyDto.setHierarchyId(
 				viewDTO.getProductHierarchySid() != null && viewDTO.getProductHierarchySid().equals(StringUtils.EMPTY)
-						? 0 : Integer.parseInt(viewDTO.getProductHierarchySid()));
+						? 0
+						: Integer.parseInt(viewDTO.getProductHierarchySid()));
 		productHierarchyDto.setHierarchyName(viewDTO.getProductHierarchy());
 		customerHierarchy.setValue(viewDTO.getCustomerHierarchy());
 		productHierarchy.setValue(viewDTO.getProductHierarchy());
@@ -3054,6 +3057,7 @@ public class DataSelection extends AbstractDataSelection {
 			List<Leveldto> selectedCustomerContractList;
 			String levelName = StringConstantsUtil.LEVEL;
 			List<Leveldto> resultedLevelsList;
+			productFuture.get();
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				int productRelationVersionNo = Integer.parseInt(
@@ -3171,8 +3175,8 @@ public class DataSelection extends AbstractDataSelection {
 
 	/**
 	 * Manual trigger and processing of customer group select button logic Code
-	 * based on customer group select button logic Any change made there, should
-	 * be made here accordingly
+	 * based on customer group select button logic Any change made there, should be
+	 * made here accordingly
 	 *
 	 * @param customerGrpSid
 	 */
@@ -3200,9 +3204,9 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	/**
-	 * Manual trigger and processing of product group select button logic Code
-	 * based on product group select button logic Any change made there, should
-	 * be made here accordingly
+	 * Manual trigger and processing of product group select button logic Code based
+	 * on product group select button logic Any change made there, should be made
+	 * here accordingly
 	 *
 	 * @param productGrpSid
 	 */
@@ -3967,11 +3971,12 @@ public class DataSelection extends AbstractDataSelection {
 		return StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
+	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
-		Future future = executorService.submit(wsClientRunnableTarget);
-		executorService.shutdown();
+		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+		Future future = customerExecutorService.submit(wsClientRunnableTarget);
+		customerExecutorService.shutdown();
 		return future;
 	}
 
