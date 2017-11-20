@@ -7,8 +7,8 @@ public class GtnWsColumnDetailsConfig {
 	private String dataType;
 	private String tableAlias;
 	private String whereClauseColumn;
-        private String helperTableAliasName;
-        private String helperTableColumnName;
+	private String helperTableAliasName;
+	private String helperTableColumnName;
 
 	public GtnWsColumnDetailsConfig() {
 	}
@@ -117,22 +117,21 @@ public class GtnWsColumnDetailsConfig {
 	public void setWhereClauseColumn(String whereClauseColumn) {
 		this.whereClauseColumn = whereClauseColumn;
 	}
-         
-    public String getHelperTableAliasName() {
-        return helperTableAliasName;
-    }
 
-    public void setHelperTableAliasName(String helperTableAliasName) {
-        this.helperTableAliasName = helperTableAliasName;
-    }
+	public String getHelperTableAliasName() {
+		return helperTableAliasName;
+	}
 
-    public String getHelperTableColumnName() {
-        return helperTableColumnName;
-    }
+	public void setHelperTableAliasName(String helperTableAliasName) {
+		this.helperTableAliasName = helperTableAliasName;
+	}
 
-    public void setHelperTableColumnName(String helperTableColumnName) {
-        this.helperTableColumnName = helperTableColumnName;
-    }
-    
+	public String getHelperTableColumnName() {
+		return helperTableColumnName;
+	}
+
+	public void setHelperTableColumnName(String helperTableColumnName) {
+		this.helperTableColumnName = helperTableColumnName;
+	}
 
 }

@@ -44,8 +44,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ " LEFT JOIN company_Master comp1 ON comp1.company_Master_sid = parent.prior_Parent_Cmpy_Master_Sid "
 						+ " left JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID \n"
 						+ "JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
-                                                + " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE = companyTypeHelper.HELPER_TABLE_SID"
-                                                + " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
+						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE = companyTypeHelper.HELPER_TABLE_SID"
+						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
 		gtnWebServiceSearchQueryConfig.setSearchQuery(
 				" FROM company_Master cm LEFT JOIN company_Trade_Class trade ON cm.company_Master_Sid = trade.company_Master_Sid AND"
 						+ " trade.inbound_Status <> 'D' LEFT JOIN company_Parent_Details parent ON cm.company_Master_Sid = "
@@ -55,8 +55,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ " LEFT JOIN company_Master comp1 ON comp1.company_Master_sid = parent.prior_Parent_Cmpy_Master_Sid"
 						+ " left JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID "
 						+ "JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
-                                                + " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE=companyTypeHelper.HELPER_TABLE_SID"
-                                                + " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
+						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE=companyTypeHelper.HELPER_TABLE_SID"
+						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
 
 		gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
 		gtnWebServiceSearchQueryConfig.setCountQuerySelectClause(GtnWsCMasterConstants.QUERY_COUNT);
@@ -94,8 +94,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("contractHeaderTabTpSearchcompanyName", companyNameColumnConfig);
 		fieldToColumnDetailsMap.put("landingScreenTpSearchcompanyName", companyNameColumnConfig);
 		GtnWsColumnDetailsConfig companyTypeColumnConfig = configProvider.getColumnHelperConfig("COMPANY_TYPE", "cm");
-                companyTypeColumnConfig.setHelperTableAliasName("companyTypeHelper");
-                companyTypeColumnConfig.setHelperTableColumnName("DESCRIPTION");
+		companyTypeColumnConfig.setHelperTableAliasName("companyTypeHelper");
+		companyTypeColumnConfig.setHelperTableColumnName("DESCRIPTION");
 		fieldToColumnDetailsMap.put("companyType", companyTypeColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyType", companyTypeColumnConfig);
 		fieldToColumnDetailsMap.put("itemIdentifierparentCompanySearchcompanyType", companyTypeColumnConfig);
@@ -106,8 +106,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("landingScreenTpSearchcompanyType", companyTypeColumnConfig);
 		GtnWsColumnDetailsConfig companyStatusColumnConfig = configProvider.getColumnHelperConfig("COMPANY_STATUS",
 				"cm");
-                companyStatusColumnConfig.setHelperTableAliasName("companyStatusHelper");
-                companyStatusColumnConfig.setHelperTableColumnName("DESCRIPTION");
+		companyStatusColumnConfig.setHelperTableAliasName("companyStatusHelper");
+		companyStatusColumnConfig.setHelperTableColumnName("DESCRIPTION");
 		fieldToColumnDetailsMap.put("companyStatus", companyStatusColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyStatus", companyStatusColumnConfig);
 		fieldToColumnDetailsMap.put("itemIdentifierparentCompanySearchcompanyStatus", companyStatusColumnConfig);
@@ -169,9 +169,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnStringConfig("COMPANY_IDENTIFIER_VALUE", "CID"));
 		fieldToColumnDetailsMap.put("companyQualifierName",
 				configProvider.getColumnStringConfig("COMPANY_QUALIFIER_SID", "CQ"));
-                fieldToColumnDetailsMap.put("companyType1",
-				configProvider.getColumnStringConfig("DESCRIPTION", "helperDesc"));
-                fieldToColumnDetailsMap.put("companyStatus1",
+		fieldToColumnDetailsMap.put("companyType1", configProvider.getColumnStringConfig("DESCRIPTION", "helperDesc"));
+		fieldToColumnDetailsMap.put("companyStatus1",
 				configProvider.getColumnStringConfig("DESCRIPTION", "helperDescription"));
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 

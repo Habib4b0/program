@@ -137,7 +137,7 @@ public class GtnWsSearchServiceController {
 
 			for (int i = 0; i < list.size(); i++) {
 				final Object[] obj = list.get(i);
-                                
+
 				for (int index = 0; index < typeList.size(); index++) {
 					switch (typeList.get(index)) {
 					case "String":
