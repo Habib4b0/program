@@ -3242,7 +3242,6 @@ public class PVExcelLogic {
         String visibleColumn = discountColumn + VAL + discount + discountNo + projId;
         String priorValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[priorIndex])));
         String val = selection.isConversionNeeded() && !isPer ? CommonUtils.getConversionFormattedValue(selection, priorValue, true)
-                    : getFormattedValue(format, priorValue)
                     : getFormattedValue(format, priorValue);
         discountDto.addStringProperties(visibleColumn, isPer ? val + PERCENT : val);
 
