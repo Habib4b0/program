@@ -683,6 +683,7 @@ public class NMPVExcelLogic {
             calculate(Constant.PVVariables.EX_FACTORY_SALES.toString(), Constant.VALUE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.SEVEN, exFacValue, selection, AMOUNT);
 
         }
+        if (selection.isColVariance() && selection.isVarExFacSales()) {
             selection.setConversionNeeded(true);
             exFacVar = pvList.get(listIndex++);
             calculate(Constant.PVVariables.EX_FACTORY_SALES.toString(), Constant.VARIANCE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.SEVEN, exFacVar, selection, AMOUNT);
@@ -1503,7 +1504,6 @@ public class NMPVExcelLogic {
 
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-<<<<<<< HEAD
             String key;
             if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
                 key = obj[baseColumn_hierarchy_index].toString();

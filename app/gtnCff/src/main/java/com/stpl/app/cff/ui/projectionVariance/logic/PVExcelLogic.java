@@ -315,7 +315,6 @@ public class PVExcelLogic {
         if (indicator.equals(StringUtils.EMPTY)) {
             indicator = "N";
             int custId = selection.getCustomId();
-<<<<<<< HEAD
             Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, 0, custId, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         } else {
