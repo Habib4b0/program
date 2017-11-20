@@ -85,7 +85,6 @@ public class GtnFrameworkWhereClauseBean implements Serializable {
 		return finalReturnValue;
 	}
 
-
 	public void initializeVariables(String leftPartColumnNameWithAlies, String rightPartColumnNameWithAlies,
 			GtnFrameworkOperatorType operatorType, GtnFrameworkDataType conditionValueType, Object value) {
 		this.whereClauseLeftbean = new GtnFrameworkColumnBean();

@@ -13,7 +13,6 @@ import com.stpl.gtn.gtn2o.ui.company.constants.GtnFrameworkCompanyClassContants;
 import com.stpl.gtn.gtn2o.ui.company.constants.GtnFrameworkCompanyStringContants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.date.GtnUIFrameworkDateFieldConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.excelbutton.GtnUIFrameworkExcelButtonConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableConfig;
@@ -301,9 +300,7 @@ public class GtnUIFrameworkCMParentCompanyInformationTab {
 			}
 
 			else if (gtnUIFrameworkComponentType.equals(GtnUIFrameworkComponentType.DATEFIELD)) {
-				GtnUIFrameworkDateFieldConfig dateConfigPCInformationTab = new GtnUIFrameworkDateFieldConfig();
-				dateConfigPCInformationTab.setReadOnly(isReadOnly);
-				fieldConfig.setGtnDateFieldConfig(dateConfigPCInformationTab);
+				fieldConfig.setEnable(!isReadOnly);
 			}
 
 			editableFields.add(fieldConfig);

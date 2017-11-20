@@ -55,4 +55,7 @@ public class GtnFramworkTableBean {
 		return tablename + "." + inboundStatusColumn;
 	}
 
+	public String getInboundStatusColumn(String fromTableAlies) {
+		return fromTableAlies + "." + inboundStatusColumn;
+	}
 }

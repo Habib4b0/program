@@ -47,6 +47,8 @@ public class HierarchyLevelsBean {
 	private String primaryKeyColumn = "";
 
 	private String hierarchyNo = "";
+	
+	private String levelValueReference = "";
 
 	public List<HierarchyLevelDefinitionBean> getListOfLevels() {
 		return listOfLevels != null ? Collections.unmodifiableList(listOfLevels) : listOfLevels;
@@ -161,6 +163,14 @@ public class HierarchyLevelsBean {
 			logger.debug(ex.getMessage());
 		}
 		return hierarchyLevelsDTO2;
+	}
+
+	public String getLevelValueReference() {
+		return levelValueReference;
+	}
+
+	public void setLevelValueReference(String levelValueReference) {
+		this.levelValueReference = levelValueReference;
 	}
 
 }

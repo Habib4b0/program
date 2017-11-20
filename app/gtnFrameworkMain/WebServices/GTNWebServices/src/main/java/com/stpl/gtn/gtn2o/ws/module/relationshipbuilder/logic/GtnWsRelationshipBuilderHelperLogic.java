@@ -18,17 +18,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.bean.GtnWsHierarchyRuleBean;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.controller.GtnWsRelationshipBuilderController;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
@@ -37,20 +39,27 @@ import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilde
  *
  * @author Abhiram.Giri
  */
+@Service
+@Scope(value = "singleton")
 public class GtnWsRelationshipBuilderHelperLogic {
 
 	private final Set<String> tableNames = new HashSet<>();
 	private final Set<String> columnNames = new HashSet<>();
 	private final Map<Integer, String> inclusionExclusionRules = new HashMap<>();
-	private final GtnWsRelationshipBuilderController controller;
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderHelperLogic.class);
 
-	public GtnWsRelationshipBuilderHelperLogic(GtnWsRelationshipBuilderController controller) {
-		this.controller = controller;
-	}
+	@Autowired
+	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
-	public GtnWsRelationshipBuilderController getController() {
-		return controller;
+	@Autowired
+	private GtnFrameworkHierarchyService hierarchyService;
+
+	@Autowired
+	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
+
+	@SuppressWarnings("rawtypes")
+	public List executeQuery(String sqlQuery) throws GtnFrameworkGeneralException {
+		return gtnSqlQueryEngine.executeSelectQuery(sqlQuery);
 	}
 
 	public void addTableName(String tableName) {
@@ -61,6 +70,10 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		columnNames.add(columnName);
 	}
 
+	public GtnWsRelationshipBuilderHelperLogic() {
+		super();
+	}
+
 	@SuppressWarnings({ "rawtypes" })
 	public String finderImplInLogic(String tableName, String columnName, List hierListValues, boolean isFirst) {
 
@@ -68,17 +81,15 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		final String hierarchyCategory = hierListValues.get(1).toString();
 		final int levelNo = Integer.parseInt(hierListValues.get(2).toString());
 		String rule = String.valueOf(hierListValues.get(3));
-		final GtnFrameworkSingleColumnRelationBean dto = controller.getGtnFrameworkEntityMasterBean()
+		final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
-
-		final GtnFrameworkHierarchyService queryService = controller.getHierarchyService();
 
 		String sqlString = "";
 		final String totalDataToLoad = isFirst ? GtnFrameworkCommonStringConstants.STRING_EMPTY : " TOP 150 ";
 		if (dto != null) {
 			String joinCondition = "";
 			String whereCondition = "";
-			final List<String> columnList = queryService.getMappingColumns(dto);
+			final List<String> columnList = hierarchyService.getMappingColumns(dto);
 			sqlString = "SELECT DISTINCT " + totalDataToLoad + columnList.get(0) + "," + columnList.get(1)
 					+ GtnFrameworkWebserviceConstant.FROM + tableName;
 			joinCondition += addTableJoin(dto);
@@ -141,9 +152,8 @@ public class GtnWsRelationshipBuilderHelperLogic {
 				final String conditionMethod = colArray[2];
 				final String value = colArray[3];
 				otherColumn = otherColumn.replace(REPLACE_STRING, "");
-				controller.getGtnFrameworkEntityMasterBean().getKeyRelationBeanUsingTableIdAndColumnName(tableName,
-						columnName);
-				final GtnFrameworkSingleColumnRelationBean dto = controller.getGtnFrameworkEntityMasterBean()
+				gtnFrameworkEntityMasterBean.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
+				final GtnFrameworkSingleColumnRelationBean dto = gtnFrameworkEntityMasterBean
 						.getKeyRelationBeanUsingTableIdAndColumnName(tableName, columnName);
 				if (dto != null) {
 					final StringBuilder subQuery = new StringBuilder();
@@ -175,8 +185,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	}
 
 	@SuppressWarnings({ "rawtypes" })
-	public Map<Integer, String> getInclusionExclusionRulesWithoutBPM(String hierarchyDefName,
-			GtnWsRelationshipBuilderController controller) {
+	public Map<Integer, String> getInclusionExclusionRulesWithoutBPM(String hierarchyDefName) {
 		inclusionExclusionRules.clear();
 		final List<String> rulesName = new ArrayList<>();
 		final Map<String, Object> ruleMap = new HashMap<>();
@@ -186,7 +195,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 					+ hierarchyDefName + "')";
 			int totalLevels = 0;
 
-			final List list = executeAndGetData(controller, query);
+			final List list = executeAndGetData(query);
 			if (!list.isEmpty()) {
 				totalLevels = list.size();
 				for (int i = 0; i < totalLevels; i++) {
@@ -200,7 +209,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 					final String ruleName1 = getRuleNameString(rulesName);
 					final String rulesValue = "select HRD.RULE_NAME,HRD.\"TABLE_NAME\",HRD.\"COLUMN_NAME\",HRD.\"CONDITION\",HRD.\"VALUE\",HRD.INBOUND_STATUS from "
 							+ "dbo.HIERARCHY_RULES_DEFINITION HRD where RULE_NAME in (" + ruleName1 + ")";
-					final List ruleValueList = executeAndGetData(controller, rulesValue);
+					final List ruleValueList = executeAndGetData(rulesValue);
 					putRuleValuesInmap(ruleValueList, ruleMap);
 				}
 			}
@@ -231,7 +240,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 			} else {
 				final String ruleGroupQuery = "select distinct HRD.RULE_NAME from dbo.HIERARCHY_LEVEL_DEFINITION HLD JOIN dbo.HIERARCHY_RULES_DEFINITION HRD on HLD.INCLUSION_RULE=HRD.RULE_FLOW_GROUP_NAME\n"
 						+ "AND HRD.RULE_FLOW_GROUP_NAME='" + ruleName + "'";
-				final List ruleGroupList = executeAndGetData(controller, ruleGroupQuery);
+				final List ruleGroupList = executeAndGetData(ruleGroupQuery);
 				if (!ruleGroupList.isEmpty()) {
 					for (final Object rule : ruleGroupList) {
 						rulesName.add(String.valueOf(rule));
@@ -268,7 +277,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		GtnWsHierarchyRuleBean dto;
 
 		if (GtnFrameworkWebserviceConstant.GROUP.equalsIgnoreCase(ruleType)) {
-			final List<String> ruleNameList = getGroupRuleList(rule, controller);
+			final List<String> ruleNameList = getGroupRuleList(rule);
 			final List<GtnWsHierarchyRuleBean> exclusionList = new ArrayList<>();
 			for (final String ruleName : ruleNameList) {
 				dto = new GtnWsHierarchyRuleBean();
@@ -308,10 +317,10 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private List executeAndGetData(GtnWsRelationshipBuilderController controller, String query) {
+	private List executeAndGetData(String query) {
 		try {
 
-			return new ArrayList<>(controller.executeQuery(query));
+			return new ArrayList<>(executeQuery(query));
 		} catch (final GtnFrameworkGeneralException ex) {
 			logger.error("Exception in getInclusionExclusionRulesWithoutBPM listTemp", ex);
 		}
@@ -368,14 +377,13 @@ public class GtnWsRelationshipBuilderHelperLogic {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public List<String> getGroupRuleList(String ruleGroup, GtnWsRelationshipBuilderController controller)
-			throws GtnFrameworkGeneralException {
+	public List<String> getGroupRuleList(String ruleGroup) throws GtnFrameworkGeneralException {
 		final List<String> ruleList = new ArrayList<>();
 		final List tempList = new ArrayList<>();
 		try {
 			final String ruleQuery = "select RULE_NAME from dbo.HIERARCHY_RULES_DEFINITION where RULE_FLOW_GROUP_NAME='"
 					+ ruleGroup + "'";
-			tempList.addAll(controller.executeQuery(ruleQuery));
+			tempList.addAll(executeQuery(ruleQuery));
 			final List ruleNameList = tempList;
 			if (!ruleNameList.isEmpty()) {
 				for (final Object rule : ruleNameList) {
@@ -386,66 +394,6 @@ public class GtnWsRelationshipBuilderHelperLogic {
 			throw new GtnFrameworkGeneralException("Exception in getGroupRuleList", e);
 		}
 		return ruleList;
-	}
-
-	public void getLinkedValueQuery(HierarchyLevelDefinitionBean destinationHierarchyBean, int hierarchDefSid,
-			int levelNo, List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean)
-			throws GtnFrameworkGeneralException {
-		final GtnFrameworkHierarchyService queryService = controller.getHierarchyService();
-		final String hierarchyType = getHierarchyTypeFromSid(hierarchDefSid);
-		final Set<String> tableNameList = getDefaultTableNameList(hierarchyType);
-		Set<String> hierarchyTableList = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
-		tableNameList.addAll(hierarchyTableList);
-		if (tableNameList.isEmpty()) {
-			return;
-		}
-		final GtnFrameworkSingleColumnRelationBean destinationkeyBean = controller.getGtnFrameworkEntityMasterBean()
-				.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
-						destinationHierarchyBean.getFieldName());
-		queryService.getSelectColumnsForRelationShipBuilder(destinationkeyBean, queryBean);
-		queryService.getQueryByTableNameAndHierarchyTypeForMultiLevel(new ArrayList<>(tableNameList), hierarchyType,
-				queryBean);
-
-		if (!destinationkeyBean.isDescriptionColumnAvailable()) {
-			queryService.addTableJoin(destinationkeyBean, queryBean);
-		}
-		final List<GtnFrameworkSingleColumnRelationBean> keyListBeanList = getKeyListBean(levelNo, hierarchyList);
-		queryService.getWhereQuery(keyListBeanList, queryBean);
-	}
-
-	private Set<String> getDefaultTableNameList(String hierarchyType) {
-		Set<String> selectedTableNamesList = new HashSet<>();
-		if ("Customer Hierarchy".equalsIgnoreCase(hierarchyType)) {
-			selectedTableNamesList.add("COMPANY_MASTER");
-			selectedTableNamesList.add("CONTRACT_MASTER");
-		} else if ("PRODUCT HIERARCHY".equalsIgnoreCase(hierarchyType)) {
-			selectedTableNamesList.add("ITEM_MASTER");
-		}
-		return selectedTableNamesList;
-	}
-
-	private String getHierarchyTypeFromSid(int hierarchyDefinitionSid) throws GtnFrameworkGeneralException {
-		final String query = getController().getQuery("getHierarchyCatBySid");
-		final Object[] params = { hierarchyDefinitionSid };
-		final GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
-		final List<?> results = getController().executeQuery(query, params, paramsType);
-		return results.isEmpty() ? "" : results.get(0).toString();
-	}
-
-
-	public List<GtnFrameworkSingleColumnRelationBean> getKeyListBean(int levelNo,
-			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		final List<GtnFrameworkSingleColumnRelationBean> keyListBeanList = new ArrayList<>();
-		for (int i = 0; i < levelNo - 1; i++) {
-			final HierarchyLevelDefinitionBean hierarchyBean = hierarchyList.get(i);
-			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyBean.getLevelValueReference())) {
-				final GtnFrameworkSingleColumnRelationBean keyListBean = controller.getGtnFrameworkEntityMasterBean()
-						.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyBean.getTableName(),
-								hierarchyBean.getFieldName());
-				keyListBeanList.add(keyListBean);
-			}
-		}
-		return keyListBeanList;
 	}
 
 	public List<String> getMasterSidList(GtnWsRelationshipBuilderRequest rbRequest,
@@ -463,11 +411,11 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		return masterSidList;
 	}
 
-	public List<String> getMasterSidList(GtnUIFrameworkWebserviceRequest gtnWsRequest,
+	public List<Object> getMasterSidList(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			List<HierarchyLevelDefinitionBean> hierarchyList) {
 		final int levelNo = Integer.parseInt(
 				gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().get(3).getFilterValue1());
-		final List<String> masterSidList = new ArrayList<>();
+		final List<Object> masterSidList = new ArrayList<>();
 		List<String> primaryIdList = (List<String>) gtnWsRequest.getGtnWsSearchRequest()
 				.getGtnWebServiceSearchCriteriaList().get(4).getFilterValue3();
 		int primaryKeyPosition = primaryIdList.size() - 1;

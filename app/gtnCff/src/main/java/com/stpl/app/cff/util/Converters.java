@@ -86,7 +86,8 @@ public class Converters {
                 result.setBusinessUnitSystemId(Integer.valueOf(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
             }
             result.setBusinessUnitSystemName(convertNullToEmpty(String.valueOf(obj[NumericConstants.TWENTY_EIGHT])));
-            
+            result.setCustHierarchyVersion(obj[NumericConstants.TWENTY_NINE] == null ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.TWENTY_SEVEN])));
+            result.setProdHierarchyVersion(obj[NumericConstants.THIRTY] == null ? 0 : Integer.parseInt(String.valueOf(obj[NumericConstants.THIRTY])));
             results.add(result);
         }
         }catch(Exception e){

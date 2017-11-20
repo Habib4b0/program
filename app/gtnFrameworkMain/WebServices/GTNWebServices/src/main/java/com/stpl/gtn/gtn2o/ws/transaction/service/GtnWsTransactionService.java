@@ -218,18 +218,27 @@ public class GtnWsTransactionService {
 
 	private void andCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, String type,
 			String dateFormat) throws ParseException {
+		if(GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) )
+		{
+			criteria.add(Restrictions.gt(columns.getFieldId(),Double.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(),Double.valueOf(columns.getFilterValue1())));
+		}
+		else if("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type))
+		{
+			criteria.add(Restrictions.gt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue1())));
+		}else{
 		criteria.add(Restrictions.lt(columns.getFieldId(),
 				getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
-	}
+		}
+		}
 
 	Object getValueBasedOnType(String type, String value, String filterValue, String dateFormat) throws ParseException {
 		if (Date.class.getName().equalsIgnoreCase(type)) {
 			return new SimpleDateFormat(dateFormat).parse(filterValue);
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
-		} else if ("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type)) {
-			return Integer.valueOf(filterValue);
-		} else {
+		}else {
 			return value;
 		}
 
@@ -264,9 +273,14 @@ public class GtnWsTransactionService {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			String columnName = ((AbstractEntityPersister) classMetadata)
 					.getPropertyColumnNames(columns.getFieldId())[0];
-			Object[] doubleFilterValues = { columnName, columns.getFilterValue1() };
-			Type[] doubleFilterTypes = { StandardBasicTypes.STRING, StandardBasicTypes.STRING };
-			criteria.add(Restrictions.sqlRestriction(" round(?,3)=?", doubleFilterValues, doubleFilterTypes));
+			Object doubleFilterValues = columns.getFilterValue1() ;
+			Type doubleFilterTypes = StandardBasicTypes.STRING ;
+			StringBuilder sb=new StringBuilder();
+			sb.append("round(");
+			sb.append(columnName);
+			sb.append(",3)=?");
+			sb.append(doubleFilterTypes);
+			sb.append(doubleFilterValues);
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));
@@ -289,7 +303,7 @@ public class GtnWsTransactionService {
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
 		}
 		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-                        String columnName = columns.getFieldId();
+			String columnName = columns.getFieldId();
 			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
 			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
 			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));

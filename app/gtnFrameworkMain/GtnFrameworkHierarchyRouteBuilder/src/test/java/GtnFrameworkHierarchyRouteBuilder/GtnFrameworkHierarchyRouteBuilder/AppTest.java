@@ -15,12 +15,13 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkRouteBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 
-@Ignore
+
 /**
  * Unit test for simple App.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:GtnFrameworkHierarchyRouteBuilder-test.xml" })
+@Ignore
 public class AppTest {
 
 	@Autowired
@@ -41,17 +42,21 @@ public class AppTest {
 	@Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		List<String> entityList = Arrays.asList("CONTRACT_MASTER", "COMPANY_IDENTIFIER", "COMPANY_TRADE_CLASS");
-		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "CUSTOMER HIERARCHY", queryBean);
+		List<String> entityList = Arrays.asList("ITEM_MASTER", "COMPANY_MASTER", "BRAND_MASTER");
+		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "PRODUCT HIERARCHY", queryBean);
+		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
 		String finalQuery = queryBean.generateQuery();
+		
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
 	@Test
 	public void getRoutePath() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(2, 5);
+		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
+
 		String finalQuery = queryBean.generateQuery();
+		
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
@@ -59,9 +64,10 @@ public class AppTest {
 	@Test
 	public void getPathByTableNameAndHierarchyType() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("CONTRACT_MASTER",
-				"COMPANY_IDENTIFIER", "CUSTOMER HIERARCHY");
+		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("ITEM_MASTER",
+				"COMPANY_MASTER", "PRODUCT HIERARCHY");
 		String finalQuery = queryBean.generateQuery();
+		
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
