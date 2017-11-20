@@ -1927,4 +1927,35 @@ SELECT count(1)
         </query>
     </entity>
     
+     <entity id="PARENT-VALIDATE">
+        <query>
+            <![CDATA[
+            
+                  IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL DROP
+	TABLE
+		#PARENT_VALIDATE CREATE
+			TABLE
+				#PARENT_VALIDATE(
+					RS_CONTRACT_SID INT,
+					PARENT_HIERARCHY VARCHAR(MAX)
+				) INSERT
+					into
+						#PARENT_VALIDATE(
+							RS_CONTRACT_SID,
+							PARENT_HIERARCHY
+						) SELECT
+							DISTINCT mas.RS_CONTRACT_SID,
+							RLD.PARENT_HIERARCHY_NO
+						FROM
+							ST_NM_DISCOUNT_PROJ_MASTER MAS
+						JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+							LEVEL_NO = 10
+							AND relationship_builder_sid = @RELVALUE
+							AND RLD.RELATIONSHIP_LEVEL_VALUES = MAS.RS_CONTRACT_SID
+ 
+ 
+            ]]>
+        </query>
+    </entity> 
+    
 </sql>

@@ -3319,6 +3319,52 @@ public class CommonLogic {
             customerlevelCustomItem[i].setChecked(true);
         }
     }
+    
+    public String getSelectedHierarchyDeduction(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+
+        if (levelNo == 0) {
+            throw new IllegalArgumentException("Invalid Level No:" + levelNo);
+        }
+
+        Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        boolean isNotFirstElement = false;
+        boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
+
+        for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
+            if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable)) {
+
+                if (isNotFirstElement) {
+                    stringBuilder.append(",\n");
+                }
+                stringBuilder.append("('");
+                stringBuilder.append(entry.getValue().get(3).toString());
+                stringBuilder.append("')");
+
+                isNotFirstElement = true;
+            }
+        }
+        if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
+            stringBuilder.append("('");
+            stringBuilder.append("')");
+        }
+        return stringBuilder.toString();
+    }
+    
+    public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
+        String columnName;
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+        } else {
+            hierarchyNo = StringUtils.isEmpty(hierarchyNo) ? "%" : hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+            "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
+        }
+        return columnName;
+    }
 }
 
 

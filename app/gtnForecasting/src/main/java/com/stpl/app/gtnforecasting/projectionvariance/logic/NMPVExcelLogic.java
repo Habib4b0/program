@@ -979,7 +979,7 @@ public class NMPVExcelLogic {
             Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(),levelName
                 , parameterDto.getFrequency(), selection.isIsCustomHierarchy() ? "D" : parameterDto.getViewIndicator(),
                 parameterDto.getGroupFilter(), parameterDto.getGroupFilterValue(), parameterDto.getHierarchyNo(),
-                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView(),selection.getUomCode(),selection.getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion(),sIds};
+                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView(),selection.getUomCode(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),sIds};
             rawList = CommonLogic.callProcedure(PRC_PV_SELECTION, orderedArg);
             if (parameterDto.getViewName().equals("DETAIL_TOTAL_DISCOUNT")) {
                 procRawList_detail.clear();
@@ -1344,7 +1344,12 @@ public class NMPVExcelLogic {
 
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = "null".equals(String.valueOf(obj[obj.length - 1])) ? obj[baseColumn_hierarchy_index].toString() : obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString();
+            String key;
+            if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
+                key = obj[baseColumn_hierarchy_index].toString();
+            } else {
+                key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+            }
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             List<String> common = HeaderUtils.getCommonColumnHeaderForPV(frequencyDivision, Integer.valueOf(obj[isTotal ? baseColumn_year_indexForTotal : baseColumn_year_index].toString()), Integer.valueOf(obj[isTotal ? frequencyDivision == 1 ? 0 : baseColumn_period_indexForTotal : baseColumn_period_index].toString()));
             String groupId = common.get(0);
@@ -2002,12 +2007,8 @@ public class NMPVExcelLogic {
         for (int i = 0; i < count; i++) {
             Object[] obj = (Object[]) procRawList_detail_discount.get(i);
             if (i == 0) {
-//                oldHierarchyNo = String.valueOf(obj[1]);
-//                oldHierarchyNo = oldHierarchyNo.substring(oldHierarchyNo.indexOf('-') + 1);
                 oldHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
             }
-//            String newHierarchyNo = String.valueOf(obj[1]);
-//            newHierarchyNo = newHierarchyNo.substring(newHierarchyNo.indexOf('-') + 1);
             String newHierarchyNo = String.valueOf(obj[1]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
             newyear = String.valueOf(obj[NumericConstants.THREE]);
             newPeriod = String.valueOf(obj[NumericConstants.TWO]);
@@ -2220,7 +2221,13 @@ public class NMPVExcelLogic {
     private void calculateAndCustomize_periodForCustomView(List<Object[]> rawList, List<Object[]> rawList_discount) {
         for (Iterator<Object[]> it = rawList.listIterator(); it.hasNext();) {
             Object[] obj = it.next();
-            String key = "null".equals(String.valueOf(obj[obj.length - 1])) ? obj[baseColumn_hierarchy_index].toString() : obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString();
+            String key;
+            if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
+                key = obj[baseColumn_hierarchy_index].toString();
+            } else {
+                key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+            }
+
             List<ProjectionVarianceDTO> pvList = resultMap.get(key);
             if (pvList == null) {
                 //To check condition total or details values
@@ -2237,7 +2244,12 @@ public class NMPVExcelLogic {
             int listIndex = 0;
             for (ListIterator<Object[]> it = rawList_discount.listIterator(); it.hasNext();) {
                 Object[] obj = it.next();
-                String key = "null".equals(String.valueOf(obj[obj.length - 1])) ? obj[baseColumn_hierarchy_index].toString() : obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString();
+                String key;
+                if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
+                    key = obj[baseColumn_hierarchy_index].toString();
+                } else {
+                    key = obj[baseColumn_hierarchy_index].toString().endsWith(".") ? obj[baseColumn_hierarchy_index].toString() + "$" + obj[obj.length - 1].toString() : obj[baseColumn_hierarchy_index].toString() + ".$" + obj[obj.length - 1].toString();
+                }
                 String discountName = obj[baseColumn_discount_index] == null ? "" : obj[baseColumn_discount_index].toString();
                 if (hierarchyKey.add(key)) {
                     listIndex = 0;

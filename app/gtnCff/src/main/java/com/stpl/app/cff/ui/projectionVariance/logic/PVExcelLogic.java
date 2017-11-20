@@ -156,7 +156,7 @@ public class PVExcelLogic {
                     discount_Customize();
                 }
             } else {
-                executeProcedure_PRC_PV_SELECTION();
+                executeProcedurePRCPVSELECTION();
                 if (discountFlag) {
                     parameterDto.setViewName("DETAIL_DISCOUNT");
                     calculateDiscount();
@@ -167,7 +167,7 @@ public class PVExcelLogic {
             getTotalRawDataPivot();
             calculateAndCustomize_total_pivot();
         } else {
-            executeProcedure_PRC_PV_SELECTION_PIVOT();
+            executeProcedurePRCPVSELECTIONPIVOT();
             if (discountFlag) {
                 parameterDto.setViewName("DETAIL_DISCOUNT");
             }
@@ -219,7 +219,7 @@ public class PVExcelLogic {
             }
         }
     }
-
+    
 	private void hierarchyAndTPkeys(Object[] obj, String key, List<ProjectionVarianceDTO> pvList) {
 
         hierarchyKeys.add(key);
@@ -301,7 +301,7 @@ public class PVExcelLogic {
         }
     }
 
-    public void executeProcedure_PRC_PV_SELECTION() {
+    public void executeProcedurePRCPVSELECTION() {
         procRawList_detail.clear();
         procRawList_detail_discount.clear();
         List<Integer> projectionIdList = new ArrayList();
@@ -315,10 +315,10 @@ public class PVExcelLogic {
         if (indicator.equals(StringUtils.EMPTY)) {
             indicator = "N";
             int custId = selection.getCustomId();
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, 0, custId, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, 0, custId, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         } else {
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, selection.getExcelFilterLevelNo(), null, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, selection.getExcelFilterLevelNo(), null, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
 
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
@@ -331,18 +331,18 @@ public class PVExcelLogic {
                 indicator = "N";
                 int custId = selection.getCustomId();
                 Object[] orderedArgDiscountCustom = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, discountLevelName, discountLevelName, indicator,
-                    null, selection.getExcelFilterLevelNo(), custId, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion(),discountLevel};
+                    null, selection.getExcelFilterLevelNo(), custId, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscountCustom);
             } else {
                 Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, discountLevelName, discountLevelName, selection.getHierarchyIndicator(),
-                    null, selection.getExcelFilterLevelNo(), null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion(),discountLevel};
+                    null, selection.getExcelFilterLevelNo(), null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             }
             procRawList_detail_discount.addAll(rawListDiscount);
         }
     }
 
-    public void executeProcedure_PRC_PV_SELECTION_PIVOT() {
+    public void executeProcedurePRCPVSELECTIONPIVOT() {
         procRawList_detail.clear();
         procRawList_detail_discount.clear();
         List<Integer> projectionIdList = new ArrayList();
@@ -3208,7 +3208,7 @@ public class PVExcelLogic {
             if (key.contains("$")) {
                 key = (key.split("\\$"))[0];
             }
-            newKey = key + "$" + parentKey; //$ delimiter for key and parent key
+            newKey = key.endsWith(".") ? key + "$" + parentKey : key + ".$" + parentKey;
             hierarchyKeys.add(newKey);
             resultMap.put(newKey, pvList);
         }

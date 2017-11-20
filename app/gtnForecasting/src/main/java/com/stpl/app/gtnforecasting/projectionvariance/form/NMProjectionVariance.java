@@ -2154,7 +2154,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 if (parentKey.lastIndexOf('.') >= 0) {
                                     parentKey = parentKey.substring(0, parentKey.lastIndexOf('.') + 1);
                                 }
-
+                                
                                 parentItemId = excelParentRecords.get(parentKey);
 
                                 if (parentItemId != null) {
@@ -2164,7 +2164,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                                 excelParentRecords.put(key, itemId);
                                 resultExcelContainer.setChildrenAllowed(itemId, true);
                             } else {
-
                                 resultExcelContainer.setParent(itemId, parentItemId);
                                 resultExcelContainer.setChildrenAllowed(itemId, false);
                                 if ((!Constants.LabelConstants.TOTAL_DISCOUNT.toString().equals(pvSelectionDTO.getDiscountLevel())) && (itemId.getGroup().startsWith(Constants.LabelConstants.DISCOUNT.toString()) || itemId.getGroup().startsWith(PVVariables.VAR_RPU.toString()) || itemId.getGroup().startsWith(PVVariables.DISCOUNT_PER_EX_FACTORY.toString()))) {

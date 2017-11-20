@@ -70,6 +70,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
@@ -249,7 +250,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         if ("edit".equals(sessionDTO.getAction()) || "view".equals(sessionDTO.getAction())) {
             setProjectionSelection();
         }
-    }
+        }
     
     
     public void uomLoadingTabChange() {
@@ -754,10 +755,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (!periodList.isEmpty()) {
                 for (int i = 0; i < periodList.size(); i++) {
@@ -783,15 +784,15 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
             }
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                     && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constants.SELECT_ONE_LABEL)) {
                 String fromVal = fromDateVal.replace(" ", "");
-                fromVal = fromVal.toLowerCase();
+                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
                 start = periodList.indexOf(fromVal);
             }
             int end = periodList.size() - 1;
@@ -890,7 +891,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             toDate.setValue(Constants.SELECT_ONE_LABEL);
         }
         LOGGER.debug("ProjectionVariance ValueChangeEvent ends ");
-    }
+        }
 
     @Override
     protected void resetBtnLogic() {
@@ -1868,27 +1869,28 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
       private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
+        String parentKeyCustom = parentKey;
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key;
+            parentKeyCustom = key;
         } else {
-            parentKey = itemId.getParentHierarchyNo();
+            parentKeyCustom = itemId.getParentHierarchyNo();
                 if (pvSelectionDTO.isIsCustomHierarchy()) {
                 String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
+                if (parentKeyCustom.contains("~")) {
+                    String[] str = parentKeyCustom.split("~");
                     var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
+                    parentKeyCustom = var + parentKeyCustom.substring(0, parentKeyCustom.lastIndexOf('~'));
                 } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
+                    parentKeyCustom = key.substring(key.lastIndexOf('$') + 1);
                 }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
+            } else if (parentKeyCustom.contains("~")) {
+                parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.lastIndexOf('~') + 1);
                 if (!pvSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(pvSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
+                    parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.indexOf('-') + 1);
                 }
             }
         }
-        return parentKey;
+        return parentKeyCustom;
     }
 
     public void configurePermission() {
@@ -1927,11 +1929,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 editViewBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
+        } 
     }
     
     public void getUnCheckedVariableMenuItem(CustomMenuBar.CustomMenuItem customMenuItem) {

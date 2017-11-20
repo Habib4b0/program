@@ -889,7 +889,6 @@ public class DiscountQueryBuilder {
         String sql = SQlUtil.getQuery("discount-join");
         sql = sql.replace("?DEDJOIN", deductionJoin);
         sql += " JOIN RS_CONTRACT RSC ON RSC.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n ";
-//        sql += " @PROGJOIN ";
         if (StringUtils.isNotBlank(groupFilterValue) && !defaultValue.equals(groupFilterValue)) {
             sql += SQlUtil.getQuery("user-group-condition");
             sql = sql.replace("[?USER_GROUP]", groupFilterValue);
