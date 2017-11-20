@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.request;
 import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.GtnWSAdjusmentSummaryRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.dataselection.GtnBSTimePeriodRequest;
+import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
 import com.stpl.gtn.gtn2o.ws.request.calendarconfiguration.GtnWsCalendarConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.request.cfprequest.GtnWsCfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.cmrequest.GtnCMasterRequest;
@@ -109,6 +110,8 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest;
 
 	private GtnWsCsvExportRequest gtnWsCsvExportRequest;
+
+	private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
 
 	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
 		return gtnBSTimePeriodRequest;
@@ -399,6 +402,14 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	public void setGtnWsCsvExportRequest(GtnWsCsvExportRequest gtnWsCsvExportRequest) {
 		this.gtnWsCsvExportRequest = gtnWsCsvExportRequest;
+	}
+
+	public GtnWsBcpServiceRequest getGtnWsBcpServiceRequest() {
+		return gtnWsBcpServiceRequest;
+	}
+
+	public void setGtnWsBcpServiceRequest(GtnWsBcpServiceRequest gtnWsBcpServiceRequest) {
+		this.gtnWsBcpServiceRequest = gtnWsBcpServiceRequest;
 	}
 
 }
