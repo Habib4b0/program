@@ -3359,8 +3359,13 @@ public class CommonLogic {
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
         } else {
-            hierarchyNo = StringUtils.isEmpty(hierarchyNo) ? "%" : hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ hierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
+             String percentHierarchy;
+        if (StringUtils.isEmpty(hierarchyNo)) {
+            percentHierarchy = "%";
+        } else {
+            percentHierarchy = hierarchyNo.contains("~") ? "%"+hierarchyNo.replace("~","%")+"%" : "%"+hierarchyNo+"%";
+        }
+        columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ percentHierarchy +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
             "                     AND PR.PARENT_HIERARCHY LIKE RLD.PARENT_HIERARCHY_NO+'%'";       
         }
         return columnName;
