@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 30, 2017 9:06:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContractDetails"
+		table="CFP_CONTRACT_DETAILS" schema="dbo" optimistic-lock="version">
+		<id name="cfpContractDetailsSid" type="int">
+			<column name="CFP_CONTRACT_DETAILS_SID" />
+			<generator class="native" />
+		</id>
+		<many-to-one name="cfpContract"
+			class="com.stpl.gtn.gtn2o.ws.entity.contract.CfpContract" fetch="select">
+			<column name="CFP_CONTRACT_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="companyMaster"
+			class="com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster"
+			fetch="select">
+			<column name="COMPANY_MASTER_SID" not-null="true" />
+		</many-to-one>
+		<many-to-one name="helperTableByCfpContractAttachedStatus"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="CFP_CONTRACT_ATTACHED_STATUS" />
+		</many-to-one>
+		<many-to-one name="helperTableByTradeClass"
+			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" fetch="select">
+			<column name="TRADE_CLASS" />
+		</many-to-one>
+		<property name="companyStartDate" type="timestamp">
+			<column name="COMPANY_START_DATE" length="23" not-null="true" />
+		</property>
+		<property name="companyEndDate" type="timestamp">
+			<column name="COMPANY_END_DATE" length="23" />
+		</property>
+		<property name="tradeClassStartDate" type="timestamp">
+			<column name="TRADE_CLASS_START_DATE" length="23" />
+		</property>
+		<property name="tradeClassEndDate" type="timestamp">
+			<column name="TRADE_CLASS_END_DATE" length="23" />
+		</property>
+		<property name="cfpContractAttachedDate" type="timestamp">
+			<column name="CFP_CONTRACT_ATTACHED_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="char">
+			<column name="INBOUND_STATUS" length="1" not-null="true" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="int">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="int">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+	</class>
+</hibernate-mapping>

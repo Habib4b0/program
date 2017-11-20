@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Aug 24, 2017 11:33:22 AM by Hibernate Tools 5.2.3.Final -->
+<hibernate-mapping>
+ <class 
+  name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableRelation"
+  schema="dbo" table="HIERARCHY_TABLE_RELATION">
+  <composite-id
+   class="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableRelationId"
+   mapped="false" name="id" unsaved-value="undefined">
+   <key-property name="leftTableSid" type="int">
+    <column name="LEFT_TABLE_SID"/>
+   </key-property>
+   <key-property name="rightTableSid" type="int">
+    <column name="RIGHT_TABLE_SID"/>
+   </key-property>
+  </composite-id>
+  <many-to-one
+   class="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster"
+   fetch="select" insert="false"
+   name="hierarchyTableMasterByLeftTableSid" update="false">
+   <column name="LEFT_TABLE_SID" not-null="true"/>
+  </many-to-one>
+  <many-to-one
+   class="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster"
+   fetch="select" insert="false"
+   name="hierarchyTableMasterByRightTableSid" update="false">
+   <column name="RIGHT_TABLE_SID" not-null="true"/>
+  </many-to-one>
+  <property generated="never" lazy="false" name="leftColumnName" type="string">
+   <column length="100" name="LEFT_COLUMN_NAME"/>
+  </property>
+  <property generated="never" lazy="false" name="rightColumnName" type="string">
+   <column length="100" name="RIGHT_COLUMN_NAME"/>
+  </property>
+ </class>
+</hibernate-mapping>

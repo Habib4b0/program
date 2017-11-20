@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated Sep 26, 2017 3:14:30 PM by Hibernate Tools 5.1.4.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class  name="com.stpl.gtn.gtn2o.ws.entity.security.GtnUitableComponentDetails"  schema="dbo"  table="GTN_UITABLE_COMPONENT_DETAILS">
+        <id name="gtnUitableComponentDetailsSid" type="java.lang.Integer">
+            <column name="GTN_UITABLE_COMPONENT_DETAILS_SID"/>
+            <generator class="identity"/>
+        </id>
+        <many-to-one class="com.stpl.gtn.gtn2o.ws.entity.security.GtnModuleComponentMaster"  fetch="select"  name="gtnModuleComponentMaster"  update="true">
+            <column name="GTN_MODULE_COMPONENT_MASTER_SID"/>
+        </many-to-one>
+        <many-to-one class="com.stpl.gtn.gtn2o.ws.entity.security.ModuleSubmoduleMaster"  fetch="select" insert="true" name="moduleSubmoduleMaster"  update="true">
+            <column name="MODULE_SUBMODULE_MASTER_SID"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="singleHeaderVisibleColumns"  type="string" >
+            <column length="500" name="SINGLE_HEADER_VISIBLE_COLUMNS"/>
+        </property>
+        <property generated="never" lazy="false" name="doubleHeaderVisibleColumns"  type="string" >
+            <column length="200" name="DOUBLE_HEADER_VISIBLE_COLUMNS"/>
+        </property>
+        <property generated="never" lazy="false" name="singleHeaderVisibleHeaders"  type="string" >
+            <column length="500" name="SINGLE_HEADER_VISIBLE_HEADERS"/>
+        </property>
+        <property generated="never" lazy="false" name="doubleHeaderVisibleHeaders"  type="string" >
+            <column length="200" name="DOUBLE_HEADER_VISIBLE_HEADERS"/>
+        </property>
+        <property generated="never" lazy="false" name="createdBy"  type="java.lang.Integer" >
+            <column name="CREATED_BY"/>
+        </property>
+        <property generated="never" lazy="false" name="createdDate"  type="timestamp" >
+            <column length="23" name="CREATED_DATE"/>
+        </property>
+        <property generated="never" lazy="false" name="modifiedBy"  type="java.lang.Integer" >
+            <column name="MODIFIED_BY"/>
+        </property>
+        <property generated="never" lazy="false" name="modifiedDate"  type="timestamp" >
+            <column length="23" name="MODIFIED_DATE"/>
+        </property>
+    </class>
+</hibernate-mapping>

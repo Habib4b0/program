@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- To change this license header, choose License Headers in Project Properties. 
+	To change this template file, choose Tools | Templates and open the template 
+	in the editor. -->
+
+<sql>
+	<entity id="GET_RELATIONSHIP_LEVEL">
+		<query> 
+            <![CDATA[
+                    
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50))
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO)
+                SELECT DISTINCT HIERARCHY_NO
+                FROM  (VALUES ?)A(HIERARCHY_NO)
+                    
+                SELECT
+                     LEVEL_NO,
+                     LEVEL_NAME,
+                     RLD.HIERARCHY_NO,
+                     RELATIONSHIP_LEVEL_VALUES
+                FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN #SELECTED_HIERARCHY_NO SH 
+                    ON RLD.HIERARCHY_NO LIKE SH.HIERARCHY_NO
+                WHERE            
+                    RLD.RELATIONSHIP_BUILDER_SID = ? AND
+                    RLD.LEVEL_NO >= ?
+                ORDER BY
+                    RLD.HIERARCHY_NO;
+            ]]>
+		</query>
+	</entity>
+	<entity id="GET_HIERARCHY_DETAILS">
+		<query> 
+                    <![CDATA[
+                         SELECT distinct 
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'LEVEL_VALUES' ELSE 
+                    CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME OR JVIEW.REFERENCE_TABLE_NAME='HELPER_TABLE' THEN JVIEW.REFERENCE_COLUMN_NAME ELSE JVIEW.DESC_COLUMN_NAME END END DISPLAY_COLUMN,
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES' ELSE 
+                    CASE WHEN HLD.TABLE_NAME=JVIEW.REFERENCE_TABLE_NAME THEN HLD.TABLE_NAME ELSE JVIEW.REFERENCE_TABLE_NAME  END END H_TABLE_NAME,
+                CASE WHEN HLD.LEVEL_VALUE_REFERENCE='User Defined'  THEN 'HIERARCHY_LEVEL_VALUES_SID' ELSE 
+                    CASE WHEN JVIEW.MAPPING_COLUMN_NAME is null THEN JVIEW.PRIMARY_KEY_COLUMN_NAME ELSE JVIEW.MAPPING_COLUMN_NAME END END FIELD_NAME,
+                RLD.LEVEL_NO,
+                RLD.LEVEL_NAME
+                FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
+                JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?
+                JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN vw_helper_list JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
+                JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
+                  ]]>
+		</query>
+	</entity>
+
+	<entity id="GET_RELATIONSHIP_LEVEL_VALUES">
+		<query> 
+            <![CDATA[                            
+                SELECT
+                    RLD.HIERARCHY_NO,
+                    TEMP.?FIELD VALUE,
+                    LEVEL_NAME,
+                    LEVEL_NO,
+                    RELATIONSHIP_LEVEL_VALUES
+                FROM
+                    RELATIONSHIP_LEVEL_DEFINITION RLD
+                JOIN ?TABLE TEMP ON
+                        TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALUES
+                        AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                        AND RLD.LEVEL_NO = ?LNO
+              ]]>
+		</query>
+	</entity>
+
+	<entity id="GET_FORECAST_DATES">
+		<query> 
+            <![CDATA[           
+                    SELECT FROM_DATE AS FORECAST_START_DATE,
+                            TO_DATE  AS FORECAST_END_DATE
+                    FROM FORECAST_CONFIG F
+                    JOIN HELPER_TABLE h ON BUSINESS_PROCESS_TYPE = HELPER_TABLE_SID
+                    AND VERSION_NO IN
+                      (SELECT Max(VERSION_NO)
+                       FROM FORECAST_CONFIG F
+                       JOIN HELPER_TABLE H ON BUSINESS_PROCESS_TYPE = HELPER_TABLE_SID
+                       WHERE H.DESCRIPTION = ?)
+                    WHERE H.DESCRIPTION = ?;    
+            ]]>
+		</query>
+	</entity>
+
+	<entity id="relation-level-details-query">
+		<query> 
+                <![CDATA[
+                    SELECT
+                        RELATIONSHIP_LEVEL_SID,
+                        cm.?FIELD Value,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT AS HIERARCHY_NO,
+                        LEVEL_NAME,
+                        'NULL' AS FORM,
+                        'NULL' AS STRENGTH
+                    FROM
+                        #item_details RLD 
+                        JOIN
+                           ?TABLE cm 
+                           ON ?IDCOL = rld.RELATIONSHIP_LEVEL_VALUES 
+                           AND LEVEL_NO =?LNO 
+                ]]>
+		</query>
+	</entity>
+	
+		<entity id="relation-level-details-customer-hierarchy-query">
+		<query> 
+                <![CDATA[
+                    SELECT
+                        RELATIONSHIP_LEVEL_SID,
+                        cm.?FIELD Value,
+                        RLD.LEVEL_NO,
+                        RLD.HIERARCHY_NO,
+                        LEVEL_NAME
+                    FROM
+                        RELATIONSHIP_LEVEL_DEFINITION AS RLD
+                        JOIN
+                           ?TABLE cm 
+                           ON ?IDCOL = rld.RELATIONSHIP_LEVEL_VALUES 
+                           AND LEVEL_NO =?LNO 
+                           AND RLD.RELATIONSHIP_BUILDER_SID = ?RBUILDERSID
+                ]]>
+		</query>
+	</entity>
+
+	<entity id="relation-level-details-query-ndc">
+		<query> 
+                <![CDATA[
+                    SELECT
+                        RELATIONSHIP_LEVEL_SID,
+                        cm.?FIELD Value,
+                        LEVEL_NO,
+                        RLD.PARENT AS HIERARCHY_NO,
+                        LEVEL_NAME,
+                        HT1.DESCRIPTION AS FORM,
+                        HT2.DESCRIPTION AS STRENGTH
+                    FROM
+                        #item_details RLD 
+                        JOIN
+                           ?TABLE cm 
+                           ON ?IDCOL = rld.RELATIONSHIP_LEVEL_VALUES 
+                           AND LEVEL_NO =?LNO 
+                        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CM.ITEM_MASTER_SID
+                        JOIN HELPER_TABLE HT1 ON IM.FORM = HT1.HELPER_TABLE_SID 
+                        JOIN HELPER_TABLE HT2 ON IM.STRENGTH = HT2.HELPER_TABLE_SID                    
+                ]]>
+		</query>
+	</entity>
+
+	<entity id="relation-level-filter-query">
+		<query> 
+                <![CDATA[
+                    IF Object_id('tempdb..#item_details') IS NOT NULL
+                      DROP TABLE #item_details;
+
+                    WITH cte
+                         AS (SELECT HIERARCHY_NO AS parent,
+                                    RELATIONSHIP_LEVEL_SID,
+                                    LEVEL_NO,
+                                    HIERARCHY_NO,
+                                    LEVEL_NAME,
+                                    RELATIONSHIP_LEVEL_VALUES
+                             FROM   RELATIONSHIP_LEVEL_DEFINITION RLD
+                                    JOIN ITEM_MASTER IM
+                                      ON RLD.RELATIONSHIP_LEVEL_VALUES = im.ITEM_MASTER_SID
+                                         AND RLD.RELATIONSHIP_BUILDER_SID = [?RLD_ID]
+                                    JOIN GL_COST_CENTER_MASTER gl
+                                      ON gl.NDC8 = im.NDC8
+                                    JOIN COMPANY_MASTER cm
+                                      ON cm.COMPANY_NO = gl.COMPANY_CODE
+                                    [?PRDT_JOIN] JOIN ITEM_GROUP IG
+                                           ON (IG.ITEM_GROUP_NO = '[?PRODUCT_GROUP]' OR IG.ITEM_GROUP_NAME = '[?PRODUCT_GROUP]')
+                                    [?PRDT_JOIN] JOIN ITEM_GROUP_DETAILS IGD
+                                            ON IG.ITEM_GROUP_SID = IGD.ITEM_GROUP_SID
+                                              AND IGD.ITEM_MASTER_SID = im.ITEM_MASTER_SID
+                             WHERE  (LEVEL_NAME = 'ndc'
+                                     OR LEVEL_NAME = 'item'
+                                     OR LEVEL_NAME = 'product')
+                                        AND cm.company_master_sid = [?GLCOMP]
+                                        AND im.ORGANIZATION_KEY = [?BUSINESS_UNIT]
+                             UNION ALL
+                             SELECT Cast(LEFT(parent, Len(parent) - Charindex('.', Reverse(parent), 2))
+                                         + '.' AS VARCHAR(50)) AS parent,
+                                    RLD.RELATIONSHIP_LEVEL_SID,
+                                    RLD.LEVEL_NO,
+                                    RLD.HIERARCHY_NO,
+                                    RLD.LEVEL_NAME,
+                                    RLD.RELATIONSHIP_LEVEL_VALUES
+                             FROM   cte c
+                                    JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                      ON Cast(LEFT(parent, Len(parent) - Charindex('.', Reverse(parent), 2))
+                                              + '.' AS VARCHAR(50)) = RLD.Hierarchy_NO
+                             WHERE  Charindex('.', Reverse(parent), 2) > 0)
+                    SELECT DISTINCT parent,
+                                    RELATIONSHIP_LEVEL_SID,
+                                    LEVEL_NO,
+                                    LEVEL_NAME,
+                                    RELATIONSHIP_LEVEL_VALUES
+                    INTO   #item_details
+                    FROM   cte           
+                ]]>
+		</query>
+	</entity>
+
+</sql>

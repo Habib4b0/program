@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+	<schema-selection match-catalog="BPIGTN_GAL_APP_DEV_ARM"
+		match-schema="dbo" />
+	<table-filter match-name="UDCS" />
+	<table-filter match-name="HELPER_TABLE" />
+	<table-filter match-name="COMPANY_QUALIFIER" />
+	<table-filter match-name="COMPANY_TRADE_CLASS" />
+	<table-filter match-name="COMPANY_MASTER" />
+	<table-filter match-name="COMPANY_IDENTIFIER" />
+	<table-filter match-name="COMPANY_PARENT_DETAILS" />
+	<table-filter match-name="RS_MODEL" />
+	<table-filter match-name="IFP_DETAILS" />
+	<table-filter match-name="COMPANY_GROUP_DETAILS" />
+	<table-filter match-name="ITEM_GROUP" />
+	<table-filter match-name="CDR_MODEL" />
+	<table-filter match-name="ITEM_GROUP_DETAILS" />
+	<table-filter match-name="REBATE_PLAN_MASTER" />
+	<table-filter match-name="NET_SALES_FORMULA_MASTER" />
+	<table-filter match-name="RS_DETAILS" />
+	<table-filter match-name="PS_DETAILS" />
+	<table-filter match-name="PS_MODEL" />
+	<table-filter match-name="REBATE_PLAN_TIER" />
+	<table-filter match-name="CDR_DETAILS" />
+	<table-filter match-name="ITEM_PRICING_QUALIFIER" />
+	<table-filter match-name="IFP_MODEL" />
+	<table-filter match-name="ITEM_MASTER" />
+	<table-filter match-name="COMPANY_GROUP" />
+	<table-filter match-name="CFP_MODEL" />
+	<table-filter match-name="BRAND_MASTER" />
+	<table-filter match-name="CFP_DETAILS" />
+
+</hibernate-reverse-engineering>

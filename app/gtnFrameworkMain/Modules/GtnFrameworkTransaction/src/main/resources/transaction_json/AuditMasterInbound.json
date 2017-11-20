@@ -1,0 +1,194 @@
+[
+	{
+		"columnID": "auditInboundSid",
+		"columnName": "Audit ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 1,
+		"viewModeIndex": 1
+	},
+	{
+		"columnID": "applicationProcess",
+		"columnName": "Application Process",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 2,
+		"viewModeIndex": 2
+	},
+	{
+		"columnID": "status",
+		"columnName": "Status",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 3,
+		"viewModeIndex": 3
+	},
+	{
+		"columnID": "fileName",
+		"columnName": "File Name",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"viewOnlyColumn": true,
+		"viewModeIndex": 4
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 4,
+		"viewFlag": false
+	},
+	{
+		"columnID": "interfaceRunStartDate",
+		"columnName": "Interface Run Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"listViewIndex": 5,
+		"viewModeIndex": 5
+	},
+	{
+		"columnID": "interfaceRunEndDate",
+		"columnName": "Interface Run End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"listViewIndex": 6,
+		"viewModeIndex": 6
+	},
+	{
+		"columnID": "sentRecordAmountAttribute",
+		"columnName": "Sent Amt Attribute",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"viewOnlyColumn": true,
+		"viewModeIndex": 10
+	},
+	{
+		"columnID": "sentRecordCount",
+		"columnName": "Sent Record Count",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 7,
+		"viewModeIndex": 11
+	},
+	{
+		"columnID": "sentRecordAmount",
+		"columnName": "Sent Record Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 8,
+		"viewModeIndex": 12
+	},
+	{
+		"columnID": "receivedRecordAmountAttr",
+		"columnName": "Received Amt Attribute",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"viewOnlyColumn": true,
+		"viewModeIndex": 13
+	},
+	{
+		"columnID": "receivedRecordAmount",
+		"columnName": "Received Record Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 9,
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "receivedRecordCount",
+		"columnName": "Received Record Count",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"viewOnlyColumn": true,
+		"viewModeIndex": 15
+	},
+	{
+		"columnID": "addCount",
+		"columnName": "Add Count",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 10,
+		"viewModeIndex": 7
+	},
+	{
+		"columnID": "changeCount",
+		"columnName": "Change Count",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 11,
+		"viewModeIndex": 8
+	},
+	{
+		"columnID": "deleteCount",
+		"columnName": "Delete Count",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 12,
+		"viewModeIndex": 9
+	},
+	{
+		"columnID": "invalidRecordCount",
+		"columnName": "Invalid Record Count",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 13,
+		"viewModeIndex": 16
+	},
+	{
+		"columnID": "invalidRecordAmount",
+		"columnName": "Invalid Record Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 14,
+		"viewModeIndex": 17
+	},
+	{
+		"columnID": "discrepancyAmount",
+		"columnName": "Discrepancy Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 15,
+		"viewModeIndex": 18
+	},
+	{
+		"columnID": "validRecordAmount",
+		"columnName": "Valid Record Amount",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"listViewIndex": 16,
+		"viewModeIndex": 19
+	},
+	{
+		"columnID": "unprocessedRecords",
+		"columnName": "Unprocessed Records",
+		"isSearchCriteria": false,
+		"isResultView": false,
+		"componentType": "text",
+		"viewOnlyColumn": true,
+		"viewModeIndex": 20
+	},
+	{
+		"viewModeIndexFlag": true
+	}
+]

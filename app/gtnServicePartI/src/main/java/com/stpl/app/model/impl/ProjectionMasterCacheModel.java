@@ -52,10 +52,12 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
     public int businessUnit;
     public String deductionHierarchySid;
     public String dedRelationshipBuilderSid;
+    public int projectionCustVersionNo;
+    public int projectionProdVersionNo;
 
     @Override
     public String toString() {
-        StringBundler sb = new StringBundler(61);
+        StringBundler sb = new StringBundler(65);
 
         sb.append("{productHierarchyLevel=");
         sb.append(productHierarchyLevel);
@@ -117,6 +119,10 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         sb.append(deductionHierarchySid);
         sb.append(", dedRelationshipBuilderSid=");
         sb.append(dedRelationshipBuilderSid);
+        sb.append(", projectionCustVersionNo=");
+        sb.append(projectionCustVersionNo);
+        sb.append(", projectionProdVersionNo=");
+        sb.append(projectionProdVersionNo);
         sb.append("}");
 
         return sb.toString();
@@ -249,6 +255,9 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
             projectionMasterImpl.setDedRelationshipBuilderSid(dedRelationshipBuilderSid);
         }
 
+        projectionMasterImpl.setProjectionCustVersionNo(projectionCustVersionNo);
+        projectionMasterImpl.setProjectionProdVersionNo(projectionProdVersionNo);
+
         projectionMasterImpl.resetOriginalValues();
 
         return projectionMasterImpl;
@@ -286,6 +295,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         businessUnit = objectInput.readInt();
         deductionHierarchySid = objectInput.readUTF();
         dedRelationshipBuilderSid = objectInput.readUTF();
+        projectionCustVersionNo = objectInput.readInt();
+        projectionProdVersionNo = objectInput.readInt();
     }
 
     @Override
@@ -392,5 +403,8 @@ public class ProjectionMasterCacheModel implements CacheModel<ProjectionMaster>,
         } else {
             objectOutput.writeUTF(dedRelationshipBuilderSid);
         }
+
+        objectOutput.writeInt(projectionCustVersionNo);
+        objectOutput.writeInt(projectionProdVersionNo);
     }
 }

@@ -1,0 +1,305 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": "      ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "companyNo",
+		"columnName": "Business Unit",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "CompanyOrganizationKey",
+		"loadDescription": true
+	},
+	{
+		"columnID": "companyCostCenter",
+		"columnName": "Cost Center",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox"
+	},
+	{
+		"columnID": "itemId",
+		"columnName": "Customer No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "companyMasterSid",
+		"columnName": "Customer Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "accountName",
+		"columnName": "Customer Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "contractNo",
+		"columnName": "Contract No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "brandName",
+		"columnName": "Brand",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemNo",
+		"columnName": "Item No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "itemName",
+		"columnName": "Item Name",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "accrualTypeSid",
+		"columnName": "Accrual Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "ACCRUAL_TYPE",
+		"mandatory": true,
+		"messageName": "Mandatory Error",
+		"messageBody": "Please Select a Accrual Type",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "accrualType",
+		"columnName": "Accrual Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "ACCRUAL_TYPE",
+		"mandatory": true,
+		"messageName": "Mandatory Error",
+		"messageBody": "Please Select a Accrual Type",
+		"loadDescription": true,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "programType",
+		"columnName": "Program Type",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "RS_UDC2"
+	},
+	{
+		"columnID": "programNo",
+		"columnName": "Program No",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "accrualPeriodStartDate",
+		"columnName": "Accrual Period",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date"
+	},
+	{
+		"columnID": "accrualPeriodStartDate",
+		"columnName": "Accrual Period Start Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date"
+	},
+	{
+		"columnID": "accrualPeriodEndDate",
+		"columnName": "Accrual Period End Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date"
+	},
+	{
+		"columnID": "postingDate",
+		"columnName": "Posting Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date"
+	},
+	{
+		"columnID": "postingIndicator",
+		"columnName": "Posting Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "ARM_POSTING_INDICATOR",
+		"loadDescription": true
+	},
+	{
+		"columnID": "glDate",
+		"columnName": "GL Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date"
+	},
+	{
+		"columnID": "glAccount",
+		"columnName": "GL Account",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "postingIndicator",
+		"columnName": "Posting Indicator",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "combobox",
+		"listName": "ARM_POSTING_INDICATOR",
+		"loadDescription": true
+	},
+	{
+		"columnID": "subLedger",
+		"columnName": "Sub Ledger",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "subLedgerType",
+		"columnName": "Sub Ledger Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "documentType",
+		"columnName": "Document Type",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "salesMasterId",
+		"columnName": "Sales Master ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "accrualId",
+		"columnName": "Accrual ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date"
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "accrualIntid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

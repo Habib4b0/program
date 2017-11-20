@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 14, 2017 5:48:57 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.SalesMaster"
+		table="SALES_MASTER" schema="dbo">
+		<id name="salesMasterSid" type="int">
+			<column name="SALES_MASTER_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="salesId" type="string">
+			<column name="SALES_ID" length="50" not-null="true" unique="true" />
+		</property>
+		<property name="organizationKey" type="string">
+			<column name="ORGANIZATION_KEY" length="100" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="38" not-null="true" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" not-null="true" />
+		</property>
+		<property name="itemCodeQualifier" type="string">
+			<column name="ITEM_CODE_QUALIFIER" length="50" />
+		</property>
+		<property name="parentItemId" type="string">
+			<column name="PARENT_ITEM_ID" length="38" />
+		</property>
+		<property name="itemParentNo" type="string">
+			<column name="ITEM_PARENT_NO" length="50" />
+		</property>
+		<property name="itemUom" type="string">
+			<column name="ITEM_UOM" length="50" not-null="true" />
+		</property>
+		<property name="docType" type="string">
+			<column name="DOC_TYPE" length="50" />
+		</property>
+		<property name="orderNumber" type="string">
+			<column name="ORDER_NUMBER" length="50" />
+		</property>
+		<property name="invoiceNumber" type="string">
+			<column name="INVOICE_NUMBER" length="50" />
+		</property>
+		<property name="invoiceLineNumber" type="string">
+			<column name="INVOICE_LINE_NUMBER" length="50" />
+		</property>
+		<property name="invoiceDate" type="timestamp">
+			<column name="INVOICE_DATE" length="23" not-null="true" />
+		</property>
+		<property name="orderType" type="string">
+			<column name="ORDER_TYPE" length="50" />
+		</property>
+		<property name="orderSubtype" type="string">
+			<column name="ORDER_SUBTYPE" length="50" />
+		</property>
+		<property name="analysisCode" type="string">
+			<column name="ANALYSIS_CODE" length="50" />
+		</property>
+		<property name="priceAdjustmentName" type="string">
+			<column name="PRICE_ADJUSTMENT_NAME" length="100" />
+		</property>
+		<property name="recordSequence" type="int">
+			<column name="RECORD_SEQUENCE" precision="38" scale="0" />
+		</property>
+		<property name="price" type="double">
+			<column name="PRICE" precision="22" scale="6" />
+		</property>
+		<property name="quantity" type="double">
+			<column name="QUANTITY" precision="38" not-null="true" />
+		</property>
+		<property name="lotNo" type="string">
+			<column name="LOT_NO" length="50" />
+		</property>
+		<property name="amount" type="double">
+			<column name="AMOUNT" precision="22" scale="6" not-null="true" />
+		</property>
+		<property name="contractId" type="string">
+			<column name="CONTRACT_ID" length="50" />
+		</property>
+		<property name="contractNo" type="string">
+			<column name="CONTRACT_NO" length="50" />
+		</property>
+		<property name="accountType" type="string">
+			<column name="ACCOUNT_TYPE" length="100" />
+		</property>
+		<property name="customerSubtype" type="string">
+			<column name="CUSTOMER_SUBTYPE" length="100" />
+		</property>
+		<property name="wholesaleOwnerId" type="string">
+			<column name="WHOLESALE_OWNER_ID" length="100" />
+		</property>
+		<property name="accountNo" type="string">
+			<column name="ACCOUNT_NO" length="50" not-null="true" />
+		</property>
+		<property name="accountName" type="string">
+			<column name="ACCOUNT_NAME" length="100" />
+		</property>
+		<property name="identifierCodeQualifier" type="string">
+			<column name="IDENTIFIER_CODE_QUALIFIER" length="50" />
+		</property>
+		<property name="customerCompanyCode" type="string">
+			<column name="CUSTOMER_COMPANY_CODE" length="100" />
+		</property>
+		<property name="isActive" type="java.lang.Character">
+			<column name="IS_ACTIVE" length="1" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" length="38" />
+		</property>
+		<property name="divisionId" type="string">
+			<column name="DIVISION_ID" length="38" />
+		</property>
+		<property name="marketId" type="string">
+			<column name="MARKET_ID" length="38" />
+		</property>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" length="38" />
+		</property>
+		<property name="provisionId" type="int">
+			<column name="PROVISION_ID" precision="22" scale="0" />
+		</property>
+		<property name="accountId" type="string">
+			<column name="ACCOUNT_ID" length="100" not-null="true" />
+		</property>
+		<property name="orderReceivedDate" type="timestamp">
+			<column name="ORDER_RECEIVED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="uploadDate" type="timestamp">
+			<column name="UPLOAD_DATE" length="23" />
+		</property>
+		<property name="inboundStatus" type="java.lang.Character">
+			<column name="INBOUND_STATUS" length="1" />
+		</property>
+		<property name="recordLockStatus" type="boolean">
+			<column name="RECORD_LOCK_STATUS" not-null="true" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" not-null="true" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" not-null="true" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" not-null="true" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" not-null="true" />
+		</property>
+		<property name="companyMasterSid" type="java.lang.Integer">
+			<column name="COMPANY_MASTER_SID" />
+		</property>
+		<property name="contractMasterSid" type="java.lang.Integer">
+			<column name="CONTRACT_MASTER_SID" />
+		</property>
+		<property name="itemMasterSid" type="java.lang.Integer">
+			<column name="ITEM_MASTER_SID" />
+		</property>
+		<property name="rsModelSid" type="java.lang.Integer">
+			<column name="RS_MODEL_SID" />
+		</property>
+		<property name="brandMasterSid" type="java.lang.Integer">
+			<column name="BRAND_MASTER_SID" />
+		</property>
+	</class>
+</hibernate-mapping>

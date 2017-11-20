@@ -166,7 +166,11 @@ public class SessionDTO implements Serializable {
     private String tabNameCaption = StringUtils.EMPTY;
     private String tabName;
     
-                
+    private int customerHierarchyVersion = 0;
+    private int productHierarchyVersion = 0;
+    private int customerRelationVersion = 0;
+    private int productRelationVersion = 0;
+
     public String getAltFromPeriod() {
         return altFromPeriod;
     }
@@ -1381,6 +1385,38 @@ public class SessionDTO implements Serializable {
 
     public void setTabName(String tabName) {
         this.tabName = tabName;
+    }
+
+    public int getCustomerHierarchyVersion() {
+        return customerHierarchyVersion;
+    }
+
+    public void setCustomerHierarchyVersion(int customerHierarchyVersion) {
+        this.customerHierarchyVersion = customerHierarchyVersion;
+    }
+
+    public int getProductHierarchyVersion() {
+        return productHierarchyVersion;
+    }
+
+    public void setProductHierarchyVersion(int productHierarchyVersion) {
+        this.productHierarchyVersion = productHierarchyVersion;
+    }
+
+    public int getCustomerRelationVersion() {
+        return customerRelationVersion;
+    }
+
+    public void setCustomerRelationVersion(int customerRelationVersion) {
+        this.customerRelationVersion = customerRelationVersion;
+    }
+
+    public int getProductRelationVersion() {
+        return productRelationVersion;
+    }
+
+    public void setProductRelationVersion(int productRelationVersion) {
+        this.productRelationVersion = productRelationVersion;
     }
 
 }

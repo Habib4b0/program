@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+	version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd
+                        http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+
+
+	<portlet>
+		<description>Compliance Deduction Rules.</description>
+		<portlet-name>ComplianceDeductionRules</portlet-name>
+		<display-name>ComplianceDeductionRules</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.portlets.GtnFrameworkComplianceAndDeductionRulesPortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>ComplianceDeductionRules</title>
+			<short-title>Compliance Deduction Rules</short-title>
+			<keywords>Compliance Deduction Rules</keywords>
+		</portlet-info>
+	</portlet>
+
+</portlet-app>

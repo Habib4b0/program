@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2017 7:42:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagReturns" table="STAG_RETURNS" schema="dbo">
+        <id name="stagReturnsSid" type="int">
+            <column name="STAG_RETURNS_SID" />
+            <generator class="native" />
+        </id>
+        <property name="version" type="string">
+            <column name="VERSION" length="50" not-null="true" />
+        </property>
+        <property name="rreserveInterfaceId" type="string">
+            <column name="RRESERVE_INTERFACE_ID" not-null="true" />
+        </property>
+        <property name="rreserveId" type="string">
+            <column name="RRESERVE_ID" length="50" not-null="true" />
+        </property>
+        <property name="sku" type="string">
+            <column name="SKU" length="50" not-null="true" />
+        </property>
+        <property name="brand" type="string">
+            <column name="BRAND" length="120" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="250" not-null="true" />
+        </property>
+        <property name="origSaleMonth" type="string">
+            <column name="ORIG_SALE_MONTH" length="23" not-null="true" />
+        </property>
+        <property name="origSaleUnits" type="string">
+            <column name="ORIG_SALE_UNITS"  not-null="true" />
+        </property>
+        <property name="origSaleDollars" type="string">
+            <column name="ORIG_SALE_DOLLARS" not-null="true" />
+        </property>
+        <property name="asp" type="string">
+            <column name="ASP" not-null="true" />
+        </property>
+        <property name="cumReturnUnits" type="string">
+            <column name="CUM_RETURN_UNITS" not-null="true" />
+        </property>
+        <property name="actualReturnRate" type="string">
+            <column name="ACTUAL_RETURN_RATE"  not-null="true" />
+        </property>
+        <property name="weightedAvgMonths" type="string">
+            <column name="WEIGHTED_AVG_MONTHS" not-null="true" />
+        </property>
+        <property name="firstReturn" type="string">
+            <column name="FIRST_RETURN" length="23" />
+        </property>
+        <property name="lastReturn" type="string">
+            <column name="LAST_RETURN" length="23" />
+        </property>
+        <property name="maxExpiredMonth" type="string">
+            <column name="MAX_EXPIRED_MONTH" length="23" />
+        </property>
+        <property name="maxExpiredMonsPluscutoff" type="string">
+            <column name="MAX_EXPIRED_MONS_PLUSCUTOFF" length="23" not-null="true" />
+        </property>
+        <property name="returnComplete" type="string">
+            <column name="RETURN_COMPLETE" length="1" not-null="true" />
+        </property>
+        <property name="calcUsed" type="string">
+            <column name="CALC_USED" length="20" />
+        </property>
+        <property name="origSaleMonthCutOff" type="string">
+            <column name="ORIG_SALE_MONTH_CUT_OFF" length="23" />
+        </property>
+        <property name="expectedReturnRate" type="string">
+            <column name="EXPECTED_RETURN_RATE"  not-null="true" />
+        </property>
+        <property name="estimatedReturnUnits" type="string">
+            <column name="ESTIMATED_RETURN_UNITS" not-null="true" />
+        </property>
+        <property name="adjEstimatedReturnUnits" type="string">
+            <column name="ADJ_ESTIMATED_RETURN_UNITS"  not-null="true" />
+        </property>
+        <property name="adjValueAtOrigAsp" type="string">
+            <column name="ADJ_VALUE_AT_ORIG_ASP"  not-null="true" />
+        </property>
+        <property name="posEstimatedReturnUnits" type="string">
+            <column name="POS_ESTIMATED_RETURN_UNITS"  not-null="true" />
+        </property>
+        <property name="valueAtOrigAsp" type="string">
+            <column name="VALUE_AT_ORIG_ASP"  not-null="true" />
+        </property>
+        <property name="loadDate" type="string">
+            <column name="LOAD_DATE" length="23" not-null="true" />
+        </property>
+        <property name="pastExpiration" type="string">
+            <column name="PAST_EXPIRATION" length="1" not-null="true" />
+        </property>
+        <property name="within50qrtile" type="string">
+            <column name="WITHIN_50QRTILE" length="1" not-null="true" />
+        </property>
+        <property name="maximum" type="string">
+            <column name="MAXIMUM"  not-null="true" />
+        </property>
+        <property name="pct75th" type="string">
+            <column name="PCT_75TH"  not-null="true" />
+        </property>
+        <property name="pct50th" type="string">
+            <column name="PCT_50TH"  not-null="true" />
+        </property>
+        <property name="pct25th" type="string">
+            <column name="PCT_25TH" not-null="true" />
+        </property>
+        <property name="upperLimit" type="string">
+            <column name="UPPER_LIMIT" not-null="true" />
+        </property>
+        <property name="lowerLimit" type="string">
+            <column name="LOWER_LIMIT"  not-null="true" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="5" not-null="true" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="50" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1730,7 +1730,7 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
                   AND @END_PERIOD_SID
           AND SP1.CHECK_RECORD = 1
 
-
+    
    ]]>
 
         </query>

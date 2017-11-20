@@ -1,0 +1,216 @@
+[
+	{
+		"columnID": "checkRecord",
+		"columnName": " ",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "boolean",
+		"viewFlag": false,
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "companyId",
+		"columnName": "Company ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "parentCompanyId",
+		"columnName": "Parent Company ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "parentStartDate",
+		"columnName": "Parent Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "parentEndDate",
+		"columnName": "Parent End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "priorParentStartDate",
+		"columnName": "Prior Parent Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"onlyValidComponent": true
+	},
+	{
+		"columnID": "parentStartDate",
+		"columnName": "Parent Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "parentEndDate",
+		"columnName": "Parent End Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "priorParentStartDate",
+		"columnName": "Prior Parent Start Date",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "text"
+	},
+	{
+		"columnID": "lastUpdatedDate",
+		"columnName": "Last Updated Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "source",
+		"columnName": "Source",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "addChgDelIndicator",
+		"columnName": "Add Chg Del Indicator",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdBy",
+		"columnName": "Created By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "createdDate",
+		"columnName": "Created Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "modifiedBy",
+		"columnName": "Modified By",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"columnAlignment": "CENTER",
+		"componentType": "date"
+	},
+	{
+		"columnID": "priorParentCompanyId",
+		"columnName": "Prior Parent Company ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "batchId",
+		"columnName": "Batch ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
+	{
+		"columnID": "errorCode",
+		"columnName": "Error Code",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "errorField",
+		"columnName": "Error Field",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reasonForFailure",
+		"columnName": "Reason For Failure",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "text",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "reprocessedFlag",
+		"columnName": "Reprocessed Flag",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"defaultValue": "N",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "parentDetailsIntfid",
+		"columnName": "Invalid Record Id",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text",
+		"staticSearchCriterian": "true",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateFrom",
+		"columnName": "Invalid From",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "GREATER_OR_EQUAL",
+		"isInvalidComponent": true
+	},
+	{
+		"columnID": "invalidDateTo",
+		"columnName": "Invalid To",
+		"isSearchCriteria": true,
+		"isResultView": false,
+		"componentType": "date",
+		"staticSearchCriterian": "true",
+		"columnMappingId": "intfInsertedDate",
+		"expressionType": "LESS_OR_EQUAL",
+		"isInvalidComponent": true
+	}
+]

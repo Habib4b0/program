@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 public class PVCommonLogic {
 
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
     private static final String ZERO = "0";
     private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
@@ -183,8 +182,7 @@ public class PVCommonLogic {
 
             if (variableCategory.equalsIgnoreCase(Constant.VALUE)) {
                 //for ACTUAL
-               String baseValue = pvsdto.isConversionNeeded() ? !isPer
-                        ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
+               String baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
                         : getFormattedValue(format, actualValue)
                         : getFormattedValue(format, actualValue);
                if (!actualCheck) {
@@ -200,8 +198,7 @@ public class PVCommonLogic {
                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 //for Accrual
                 if (!nullCheck(StringUtils.EMPTY + obj[index - 2])) {
-                   baseValue = pvsdto.isConversionNeeded() ? !isPer
-                            ? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
+                   baseValue = pvsdto.isConversionNeeded() && !isPer? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
                             : getFormattedValue(format, accrualValue)
                             : getFormattedValue(format, accrualValue);
                     pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);

@@ -1,0 +1,83 @@
+.v-window-minimizebox,
+.v-window-light .v-window-minimizebox,
+.v-window-black .v-window-minimizebox,
+.v-window-minimizebox:active,
+.v-window-light .v-window-minimizebox:active,
+.v-window-black .v-window-minimizebox:active{
+        position: absolute;
+	right: 61px;
+	width: 15px;
+	height: 16px;
+        cursor: none;
+        background-image: url('minimize.PNG'); 
+}
+.v-window-minimizebox{
+    top: 11px;
+}
+.v-window-light .v-window-minimizebox {
+  top: 17px;  
+}
+.v-window-black .v-window-minimizebox {
+  top: 8px;
+}
+.v-window-minimizebox:hover,
+.v-window-light .v-window-minimizebox:hover,
+.v-window-black .v-window-minimizebox:hover {
+  cursor: pointer;
+}
+.v-window-minimizebox.minimized,
+.v-window-light .v-window-minimizebox.minimized,
+.v-window-black .v-window-minimizebox.minimized,
+.v-window-minimizebox.minimized:active,
+.v-window-light .v-window-minimizebox.minimized:active,
+.v-window-black .v-window-minimizebox.minimized:active{
+	right: 27px !important;
+        background-image: url('vertical-sprites.png');
+        background-position: left -1860px;
+}
+.v-window-maximizebox.minimized,
+.v-window-minimizebox.disabled,
+.v-window-restorebox.minimized,
+.header-nonvisible .v-window-maximizebox,
+.header-nonvisible .v-window-restorebox,
+.header-nonvisible .v-window-minimizebox,
+.header-nonvisible .v-window-outerheader,
+.v-window-closebox.nonvisible{
+    display:none !important;
+}
+.header-nonvisible .v-window-closebox.visible{
+    z-index: 400;
+}
+.reinder-theme-customwindow .v-window-outerheader.minimizable {
+    padding-right: 86px;
+}
+.valo-theme-customwindow .v-window-minimizebox, .valo-theme-customwindow .v-window-minimizebox:active{
+z-index: 3;
+top: 0;
+right: 65px;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+width: 33px;
+height: 36px;
+line-height: 34px;
+text-align: center;
+cursor: pointer;
+font-size: 21px;
+color: #999999;
+-webkit-transition: color 140ms;
+-moz-transition: color 140ms;
+transition: color 140ms;
+background: #fff;
+}
+.valo-theme-customwindow .v-window-minimizebox:before {
+content: "\2013";
+}
+.valo-theme-customwindow .v-window-minimizebox:hover {
+opacity: 1;
+filter: none;
+color: #197de1;
+}
+.valo-theme-customwindow .v-window-header{
+    margin-right: 96px;
+}

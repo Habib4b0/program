@@ -169,7 +169,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
 
     private Map<Integer, List<Object>> yearwiseColumns = new HashMap<>();
     private String comparisonBasis;
-    Map<String, Integer> discountNameMap = new HashMap<>();
+    private Map<String, Integer> discountNameMap = new HashMap<>();
     private boolean conversionNeeded = false;
 
     public int getLevelNo() {

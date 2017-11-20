@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="insertUpdateCompanyFinancial">
+		<query> 
+            <![CDATA[           
+           MERGE COMPANY_FINANCIAL_CLOSE AS Target
+    USING(
+    select 
+  	
+  ? AS COMPANY_MASTER_SID,
+    ? AS MODE ,
+    ? AS CALENDAR,
+    PERIOD_SID AS PERIOD_SID,
+    '' AS BUSINESS_DAY,
+    '' AS HOUR,
+    '' AS MINUTE,
+    ? AS STATUS,
+    ? AS STATUS_PERIOD_DATE,
+    ? AS CREATED_BY,
+    ? AS CREATED_DATE
+  	from PERIOD WHERE 
+         "YEAR"=?
+        AND "MONTH"=?
+) SOURCE ON Target.COMPANY_MASTER_SID =SOURCE.COMPANY_MASTER_SID AND TARGET.PERIOD_SID=SOURCE.PERIOD_SID
+
+
+WHEN MATCHED THEN 
+UPDATE
+SET
+    COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID,
+    MODE = SOURCE.MODE,
+    CALENDAR = SOURCE.CALENDAR,
+    PERIOD_SID = SOURCE.PERIOD_SID,
+    BUSINESS_DAY =SOURCE.BUSINESS_DAY,
+    HOUR =SOURCE.HOUR,
+    MINUTE =SOURCE.MINUTE,
+    STATUS = SOURCE.STATUS,
+    STATUS_PERIOD_DATE =SOURCE.STATUS_PERIOD_DATE,
+    CREATED_BY = SOURCE.CREATED_BY,
+    CREATED_DATE =SOURCE.CREATED_DATE
+    WHEN NOT MATCHED
+    THEN INSERT
+        (
+        COMPANY_MASTER_SID,
+        MODE,
+        CALENDAR,
+        PERIOD_SID,
+        BUSINESS_DAY,
+        HOUR,
+        MINUTE,
+        STATUS,
+        STATUS_PERIOD_DATE,
+        CREATED_BY,
+        CREATED_DATE
+        )
+	VALUES(SOURCE.COMPANY_MASTER_SID,
+  		   SOURCE.  MODE,
+			SOURCE.  CALENDAR,
+			SOURCE.  PERIOD_SID,
+			SOURCE.  BUSINESS_DAY,
+			SOURCE.  HOUR,
+			SOURCE.  MINUTE,
+			SOURCE.  STATUS,
+			SOURCE.  STATUS_PERIOD_DATE,
+			SOURCE.  CREATED_BY,
+			SOURCE.  CREATED_DATE);
+            
+    
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="insertTempTable">
+		<query> 
+            <![CDATA[           
+           INSERT INTO IMTD_COMPANY_FINANCIAL_CLOSE
+(COMPANY_MASTER_SID, MODE, CALENDAR, PERIOD_SID, BUSINESS_DAY, "HOUR",
+ "MINUTE", STATUS, STATUS_PERIOD_DATE, CREATED_BY, CREATED_DATE, USERS_ID, SESSION_ID)
+VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="deleteTempTable">
+		<query> 
+            <![CDATA[           
+          DELETE IMTD_COMPANY_FINANCIAL_CLOSE WHERE USERS_ID=? AND SESSION_ID=?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="searchForFinancialTemp">
+		<query> 
+            <![CDATA[           
+          SELECT ? AS COMPANY_MASTER_SID, MODE, CALENDAR, IMTD.PERIOD_SID, BUSINESS_DAY, "HOUR",
+ "MINUTE", STATUS, STATUS_PERIOD_DATE, CREATED_BY, CREATED_DATE,PS.YEAR,PS.MONTH FROM 
+  IMTD_COMPANY_FINANCIAL_CLOSE IMTD JOIN PERIOD PS ON IMTD.PERIOD_SID=PS.PERIOD_SID WHERE USERS_ID=? AND SESSION_ID=?
+            
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="mainToTempInsert">
+		<query> 
+            <![CDATA[           
+          INSERT INTO dbo.IMTD_COMPANY_FINANCIAL_CLOSE
+			(COMPANY_MASTER_SID ,
+	MODE ,CALENDAR ,PERIOD_SID ,
+	BUSINESS_DAY ,"HOUR" ,"MINUTE" ,
+	STATUS ,STATUS_PERIOD_DATE ,CREATED_BY ,
+	CREATED_DATE,USERS_ID ,SESSION_ID )
+	SELECT COMPANY_MASTER_SID ,MODE ,
+	CALENDAR ,PERIOD_SID ,
+	BUSINESS_DAY ,"HOUR" ,
+	"MINUTE" ,STATUS ,STATUS_PERIOD_DATE ,
+	CREATED_BY ,CREATED_DATE,? as USERS_ID,
+	? as SESSION_ID FROM HIST_COMPANY_FINANCIAL_CLOSE WHERE COMPANY_MASTER_SID=?
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="autoInsertorUpdate">
+		<query> 
+            <![CDATA[           
+          Declare @COMP int = ?
+  DECLARE @BUSINESS_DAY varchar(50) = ?
+DECLARE @HOURVALUE varchar(50) = ?
+DECLARE @MINU varchar(50) = ?
+DECLARE @CAL int = ?
+if exists(select 1 from dbo.COMPANY_FINANCIAL_CLOSE_AUTO where COMPANY_MASTER_SID=@COMP)
+BEGIN
+	update dbo.COMPANY_FINANCIAL_CLOSE_AUTO SET BUSINESS_DAY=@BUSINESS_DAY,"HOUR"=@HOURVALUE,"MINUTE"=@MINU,CALENDAR=@CAL
+END 
+ELSE
+BEGIN
+	INSERT INTO COMPANY_FINANCIAL_CLOSE_AUTO (COMPANY_MASTER_SID,BUSINESS_DAY,"HOUR","MINUTE",CALENDAR) VALUES(@COMP,@BUSINESS_DAY,@HOURVALUE,@MINU,@CAL)
+END 
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="selectForManualInEditMode">
+		<query> 
+            <![CDATA[     
+                  
+declare @c int = (select count(*) from HIST_COMPANY_FINANCIAL_CLOSE where COMPANY_MASTER_SID=?)
+
+declare @c2 int = (select count(*) from IMTD_COMPANY_FINANCIAL_CLOSE where COMPANY_MASTER_SID=? 
+AND USERS_ID = ? AND SESSION_ID=?)
+
+
+select top (@c2-@c) DFC.COMPANY_MASTER_SID,MODE,CALENDAR,
+STATUS,STATUS_PERIOD_DATE,
+CREATED_BY,CREATED_DATE,PD.YEAR,PD.MONTH
+from IMTD_COMPANY_FINANCIAL_CLOSE DFC 
+JOIN PERIOD PD ON PD.PERIOD_SID=DFC.PERIOD_SID  
+WHERE USERS_ID = ? AND SESSION_ID=? ORDER by CREATED_DATE desc 
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="validationForClose">
+		<query> 
+            <![CDATA[     
+                  SELECT TOP(1) ht.DESCRIPTION FROM dbo.IMTD_COMPANY_FINANCIAL_CLOSE IMTD
+join period pe on pe.period_sid = IMTD.PERIOD_SID 
+join helper_table ht on ht.HELPER_TABLE_SID=imtd.STATUS
+WHERE USERS_ID=? and session_id=? and pe."YEAR"=? and pe."MONTH"=?
+order by STATUS_PERIOD_DATE DESC
+            
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="company-CPDetailsInsert">
+		<query> 
+        <![CDATA[
+        INSERT INTO CP_DETAILS WITH (TABLOCKX)
+            (COMPANY_MASTER_SID,
+             ITEM_MASTER_SID)
+SELECT COMPANY_MASTER_SID,
+       ITEM_MASTER_SID
+FROM   COMPANY_MASTER CM
+       CROSS JOIN ITEM_MASTER IM
+WHERE  CM.INBOUND_STATUS <> 'D'
+       AND IM.INBOUND_STATUS <> 'D'
+          and COMPANY_MASTER_SID = ?
+       AND NOT EXISTS (SELECT 1
+                       FROM   CP_DETAILS CD
+                       WHERE  CD.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+                              AND CD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID) 
+
+                    ]]>
+		</query>
+	</entity>
+	
+		<entity id="getFetchCurrentMonthQuery">
+		<query> 
+            <![CDATA[           
+    
+	select HELPER_TABLE_SID from dbo.HELPER_TABLE
+
+	
+                    ]]>
+		</query>
+	</entity>
+		<entity id="getCompanyQualifierSelectQuery">
+		<query> 
+            <![CDATA[           
+    select COMPANY_QUALIFIER_VALUE,COMPANY_QUALIFIER_NAME,EFFECTIVE_DATES,NOTES, MODIFIED_BY ,MODIFIED_DATE ,CREATED_BY,CREATED_DATE,COMPANY_QUALIFIER_SID from COMPANY_QUALIFIER where INBOUND_STATUS <> 'D'
+	
+                    ]]>
+		</query>
+	</entity>
+			<entity id="getCompanyQualifierCountQuery">
+		<query> 
+            <![CDATA[           
+    select count(1) from COMPANY_QUALIFIER where INBOUND_STATUS <> 'D'
+	
+                    ]]>
+		</query>
+	</entity>
+		<entity id="getCompanyQualifierDeleteQuery">
+		<query> 
+            <![CDATA[           
+	UPDATE  COMPANY_QUALIFIER\n" + "SET   INBOUND_STATUS='D' ,MODIFIED_BY=?, MODIFIED_DATE=? \n"
+				+ "WHERE COMPANY_QUALIFIER_SID=?
+	
+                    ]]>
+		</query>
+	</entity>
+
+	
+	
+	
+	<entity id="updateForManualInEditMode">
+		<query> 
+            <![CDATA[     
+                  
+
+declare @company_sid varchar = (SELECT top 1(COMPANY_MASTER_SID) FROM IMTD_COMPANY_FINANCIAL_CLOSE WHERE USERS_ID=? and SESSION_ID=? ORDER BY CREATED_DATE ASC )
+IF @company_sid = '0'
+UPDATE IMTD_COMPANY_FINANCIAL_CLOSE SET COMPANY_MASTER_SID=? WHERE USERS_ID=? and SESSION_ID=? 
+            
+                    ]]>
+		</query>
+	</entity>
+	
+	
+</sql>

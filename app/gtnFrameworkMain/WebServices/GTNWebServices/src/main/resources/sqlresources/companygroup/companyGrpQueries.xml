@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getCompanyGrpAddDeclareQuery">
+		<query> 
+            <![CDATA[           
+            DECLARE @USERS_ID VARCHAR(10)= ?,
+            @SESSION_ID  VARCHAR(10)= ?
+            
+    
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCompanyGrpAddQuery">
+		<query> 
+            <![CDATA[           
+            
+         INSERT
+	INTO
+		IMTD_COMPANY_GROUP_DETAILS(
+			COMPANY_GROUP_SID,
+			COMPANY_MASTER_SID,
+			COMPANY_TRADECLASS_SID,
+			COMPANY_PARENT_DETAILS_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			IMTD_CREATED_DATE,
+			USERS_ID,
+			SESSION_ID
+		) SELECT
+			?,
+			?,
+			NULLIF(?,0),
+			NULLIF(?,0),
+			@USERS_ID,
+			GETDATE(),
+			@USERS_ID,
+			GETDATE(),
+			?,
+			GETDATE(),
+			@USERS_ID,
+			@SESSION_ID ;
+	
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCompanyGrpRemoveQuery">
+		<query> 
+            <![CDATA[           
+            
+        DELETE FROM DBO.IMTD_COMPANY_GROUP_DETAILS WHERE  COMPANY_MASTER_SID=? AND USERS_ID=? AND SESSION_ID= ?;
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getCompanyGrpDetailsUpdateQuery">
+		<query> 
+            <![CDATA[           
+                 
+        DECLARE @USERS_SID VARCHAR(100) =?,
+       @SESSION_ID VARCHAR(100) = ?,
+       @COMPANY_GROUP_SID  VARCHAR(10) =?
+
+       DELETE FROM COMPANY_GROUP_DETAILS WHERE COMPANY_GROUP_SID=@COMPANY_GROUP_SID
+
+       UPDATE IMTD_COMPANY_GROUP_DETAILS SET COMPANY_GROUP_SID=@COMPANY_GROUP_SID WHERE USERS_ID=@USERS_SID AND SESSION_ID= @SESSION_ID
+
+       INSERT
+	INTO
+		COMPANY_GROUP_DETAILS(
+			COMPANY_GROUP_SID,
+			COMPANY_MASTER_SID,
+			COMPANY_TRADECLASS_SID,
+			COMPANY_PARENT_DETAILS_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO
+		) 
+		SELECT
+			COMPANY_GROUP_SID,
+			COMPANY_MASTER_SID,
+			COMPANY_TRADECLASS_SID,
+			COMPANY_PARENT_DETAILS_SID,
+			CREATED_BY,
+                        CREATED_DATE,
+			CASE WHEN MODIFIED_BY IS NULL THEN 1 ELSE MODIFIED_BY END,
+			CASE WHEN MODIFIED_DATE IS NULL THEN GETDATE() ELSE MODIFIED_DATE END,
+			VERSION_NO
+		FROM
+			IMTD_COMPANY_GROUP_DETAILS
+		WHERE
+			COMPANY_GROUP_SID = @COMPANY_GROUP_SID
+			AND USERS_ID=@USERS_SID
+			AND SESSION_ID= @SESSION_ID
+			
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getCompanyGrpDetailsFetchQuery">
+		<query> 
+            <![CDATA[           
+	
+           DECLARE @USERS_SID VARCHAR(100) =?,
+       @SESSION_ID VARCHAR(100) = ?,
+       @COMPANY_GROUP_SID  INT =?
+       
+          DELETE FROM IMTD_COMPANY_GROUP_DETAILS WHERE USERS_ID=@USERS_SID AND SESSION_ID= @SESSION_ID
+        
+INSERT
+	INTO
+		IMTD_COMPANY_GROUP_DETAILS(
+			COMPANY_GROUP_SID,
+			COMPANY_MASTER_SID,
+			COMPANY_TRADECLASS_SID,
+			COMPANY_PARENT_DETAILS_SID,
+			CREATED_BY,
+			CREATED_DATE,
+			MODIFIED_BY,
+			MODIFIED_DATE,
+			VERSION_NO,
+			IMTD_CREATED_DATE,
+			USERS_ID,
+			SESSION_ID
+		)
+SELECT
+	COMPANY_GROUP_SID,
+	COMPANY_MASTER_SID,
+	COMPANY_TRADECLASS_SID,
+	COMPANY_PARENT_DETAILS_SID,
+	CREATED_BY,
+	CREATED_DATE,
+	 MODIFIED_BY,
+	MODIFIED_DATE,
+	VERSION_NO,
+	GETDATE(),
+	@USERS_SID,
+	@SESSION_ID
+FROM
+	COMPANY_GROUP_DETAILS
+WHERE
+	COMPANY_GROUP_SID = @COMPANY_GROUP_SID;
+
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+
+
+	<entity id="getCompanyGrpValidationQuery">
+		<query> 
+            <![CDATA[      
+
+         SELECT COUNT(*) FROM IMTD_COMPANY_GROUP_DETAILS WHERE  USERS_ID=? AND SESSION_ID=?
+	
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="getCompanyGrpAddAllQuery">
+		<query> 
+            <![CDATA[      
+
+       DECLARE @USERS_SID VARCHAR(10) = ?,
+    @SESSION_ID VARCHAR(10) = ?
+    
+     MERGE IMTD_COMPANY_GROUP_DETAILS AS T
+            USING(
+            SELECT DISTINCT
+                    CM.COMPANY_MASTER_SID,
+                    CTC.COMPANY_TRADE_CLASS_SID,
+                    CPD.COMPANY_PARENT_DETAILS_SID  
+                    [$MAIN_QUERY_CLAUSE]
+                    [$WHERE_CLAUSE]
+    ) AS S ON
+    (
+            S.COMPANY_MASTER_SID = T.COMPANY_MASTER_SID
+            AND T.USERS_ID = @USERS_SID
+            AND T.SESSION_ID = @SESSION_ID
+    )
+    WHEN MATCHED THEN UPDATE
+    SET
+        MODIFIED_BY = @USERS_SID,
+        MODIFIED_DATE = GETDATE(),
+        VERSION_NO = T.VERSION_NO + 1,
+        IMTD_CREATED_DATE = GETDATE()
+        WHEN NOT MATCHED BY TARGET THEN 
+        INSERT
+                
+                        (
+                                COMPANY_GROUP_SID,
+                                COMPANY_MASTER_SID,
+                                COMPANY_TRADECLASS_SID,
+                                COMPANY_PARENT_DETAILS_SID,
+                                CREATED_BY,
+                                CREATED_DATE,
+                                VERSION_NO,
+                                IMTD_CREATED_DATE,
+                                USERS_ID,
+                                SESSION_ID
+                        ) VALUES(
+                                0,
+                                S.COMPANY_MASTER_SID,
+                                S.COMPANY_TRADE_CLASS_SID,
+                                S.COMPANY_PARENT_DETAILS_SID,
+                                @USERS_SID,
+                                GETDATE(),
+                                1,
+                                GETDATE(),
+                                @USERS_SID,
+                                @SESSION_ID );
+                                ;
+	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getCompanyGrpSelectedTableCountQuery">
+		<query> 
+            <![CDATA[      
+SELECT
+	COUNT(DISTINCT IMTD.COMPANY_MASTER_SID)
+FROM
+	DBO.IMTD_COMPANY_GROUP_DETAILS IMTD
+JOIN COMPANY_MASTER CM ON
+	CM.COMPANY_MASTER_SID = IMTD.COMPANY_MASTER_SID
+LEFT JOIN DBO.COMPANY_TRADE_CLASS CTC ON
+	CTC.COMPANY_TRADE_CLASS_SID = IMTD.COMPANY_TRADECLASS_SID
+LEFT JOIN DBO.COMPANY_PARENT_DETAILS CPD ON
+	CPD.COMPANY_PARENT_DETAILS_SID = IMTD.COMPANY_PARENT_DETAILS_SID
+LEFT JOIN HELPER_TABLE HT_TC ON
+	CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CT ON
+	CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CS ON
+	CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_ST ON
+	CM.STATE = HT_ST.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CN ON
+	CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+LEFT JOIN DBO.UDCS udcs ON
+	CM.COMPANY_MASTER_SID = udcs.MASTER_SID
+	AND udcs.MASTER_TYPE = 'COMPANY_MASTER'
+LEFT JOIN HELPER_TABLE H_UDC1 ON
+	H_UDC1.HELPER_TABLE_SID = udcs.UDC1
+LEFT JOIN HELPER_TABLE H_UDC2 ON
+	H_UDC2.HELPER_TABLE_SID = udcs.UDC2
+LEFT JOIN COMPANY_MASTER PCM ON
+	PCM.COMPANY_MASTER_SID = CPD.PRIOR_PARENT_CMPY_MASTER_SID
+LEFT JOIN COMPANY_MASTER PACM ON
+	PACM.COMPANY_MASTER_SID = CPD.COMPANY_PARENT_DETAILS_SID	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getCompanyGrpSelectedTableQuery">
+		<query> 
+            <![CDATA[      
+SELECT
+	DISTINCT CM.ORGANIZATION_KEY,
+	CM.COMPANY_ID,
+	CM.COMPANY_NO,
+	CM.COMPANY_NAME,
+	replace(HT_TC.DESCRIPTION, '-Select One-', '') AS C_TRADE_CLASS,
+	CTC.TRADE_CLASS_START_DATE,
+	CTC.TRADE_CLASS_END_DATE,
+	replace(HT_CT.DESCRIPTION, '-Select One-', '') AS CUSTOMER_TYPE,
+	replace(HT_CS.DESCRIPTION, '-Select One-', '') AS CUSTOMER_STATUS,
+	CM.LIVES,
+	CM.COMPANY_END_DATE,
+	replace(H_UDC1.DESCRIPTION, '-Select One-', '') AS C_UDC1,
+	replace(H_UDC2.DESCRIPTION, '-Select One-', '') AS C_UDC2,
+	CM.COMPANY_GROUP,
+	CM.FINANCIAL_SYSTEM,
+	CM.ADDRESS1,
+	CM.ADDRESS2,
+	CM.CITY,
+	replace(HT_ST.DESCRIPTION, '-Select One-', '') AS CUSTOMER_STATE,
+	CM.ZIP_CODE,
+	replace(HT_CN.DESCRIPTION, '-Select One-', '') AS COUNTRY,
+	CM.REGION_CODE,
+	PACM.COMPANY_NO AS PARENT_CUSTOMER_NO,
+	CPD.PARENT_START_DATE,
+	CPD.PARENT_END_DATE,
+	CM.COMPANY_START_DATE,
+	CPD.PRIOR_PARENT_START_DATE,
+	PCM.COMPANY_NO AS PRIOR_PARENT_CUSTOMER_NO,
+	CM.COMPANY_MASTER_SID
+FROM
+	DBO.IMTD_COMPANY_GROUP_DETAILS IMTD
+JOIN COMPANY_MASTER CM ON
+	CM.COMPANY_MASTER_SID = IMTD.COMPANY_MASTER_SID
+LEFT JOIN DBO.COMPANY_TRADE_CLASS CTC ON
+	CTC.COMPANY_TRADE_CLASS_SID = IMTD.COMPANY_TRADECLASS_SID
+LEFT JOIN DBO.COMPANY_PARENT_DETAILS CPD ON
+	CPD.COMPANY_PARENT_DETAILS_SID = IMTD.COMPANY_PARENT_DETAILS_SID
+LEFT JOIN HELPER_TABLE HT_TC ON
+	CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CT ON
+	CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CS ON
+	CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_ST ON
+	CM.STATE = HT_ST.HELPER_TABLE_SID
+LEFT JOIN HELPER_TABLE HT_CN ON
+	CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+LEFT JOIN DBO.UDCS udcs ON
+	CM.COMPANY_MASTER_SID = udcs.MASTER_SID
+	AND udcs.MASTER_TYPE = 'COMPANY_MASTER'
+LEFT JOIN HELPER_TABLE H_UDC1 ON
+	H_UDC1.HELPER_TABLE_SID = udcs.UDC1
+LEFT JOIN HELPER_TABLE H_UDC2 ON
+	H_UDC2.HELPER_TABLE_SID = udcs.UDC2
+LEFT JOIN COMPANY_MASTER PCM ON
+	PCM.COMPANY_MASTER_SID = CPD.PRIOR_PARENT_CMPY_MASTER_SID
+LEFT JOIN COMPANY_MASTER PACM ON
+	PACM.COMPANY_MASTER_SID = CPD.COMPANY_PARENT_DETAILS_SID	
+                    ]]>
+		</query>
+	</entity>
+
+
+	<entity id="getCustomerGrpNameDuplicateValidationQuery">
+		<query> 
+            <![CDATA[      
+            DECLARE @CUSTOMER_GROUP_NAME varchar(500)= ?
+
+            SELECT CASE WHEN  CUSTOMER_GROUP_NAME = @CUSTOMER_GROUP_NAME THEN 'CUSTOMER_GROUP_NAME'
+                        ELSE '' END   AS COULMN1
+             FROM CUSTOMER_GROUP WHERE CUSTOMER_GROUP_NAME=@CUSTOMER_GROUP_NAME 
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="customerGroupTempTableClear">
+		<query> 
+            <![CDATA[      
+            DELETE
+FROM
+	IMTD_COMPANY_GROUP_DETAILS 
+WHERE
+	USERS_ID = ?
+	AND SESSION_ID = ?
+                    ]]>
+		</query>
+	</entity>
+
+</sql>

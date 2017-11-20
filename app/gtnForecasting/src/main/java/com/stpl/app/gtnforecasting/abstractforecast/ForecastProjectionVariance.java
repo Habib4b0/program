@@ -266,8 +266,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected CustomMenuBar.CustomMenuItem customerFilterValues;
     protected CustomMenuBar.CustomMenuItem productFilterValues;
     protected CustomMenuBar.CustomMenuItem deductionFilterValues;
-    
-     public static final String VARIANCE = "Variance";
+    public static final String VARIANCE = "Variance";
 
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     /**
@@ -554,7 +553,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("newBtn")
     public void newHierarchyBtn(Button.ClickEvent event) {
-         sessionDTO.setTabName(VARIANCE);
+        sessionDTO.setTabName(VARIANCE);
         customTreeViewLogic();
     }
 
@@ -565,7 +564,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
      */
     @UiHandler("editBtn")
     public void editHierarchyBtn(Button.ClickEvent event) {
-         sessionDTO.setTabName(VARIANCE);
+        sessionDTO.setTabName(VARIANCE);
         editHierarchyLogic();
 
     }
@@ -592,7 +591,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         try {
 
             LOGGER.debug("------ Inside generate security Projection Variance Tab and generate Button");
-
+       
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED) || screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED)) {
                 Utility.getTradingPartnerLevelNo(sessionDTO.getProjectionId(),sessionDTO);
                 PPAProjectionLogic.waitForPPAProcedure();

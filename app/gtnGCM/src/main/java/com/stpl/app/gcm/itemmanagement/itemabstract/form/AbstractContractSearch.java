@@ -1500,7 +1500,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
             return StringUtils.EMPTY;
         } else {
             for (int i = 0; i < list.size(); i++) {
-                Object obj[] = (Object[]) list.get(i);
+                Object[] obj = (Object[]) list.get(i);
                 if (sb.length() > 0) {
                     sb.append(",");
                 }

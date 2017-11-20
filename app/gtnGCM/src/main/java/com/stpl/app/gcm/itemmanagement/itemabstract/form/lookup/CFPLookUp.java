@@ -90,9 +90,9 @@ private static final Logger LOGGER = Logger.getLogger(CFPLookUp.class);
     List<String> countFlag = new ArrayList<>();
     List<String> loadDataFlag = new ArrayList<>();
     public CustomTextField componentTextField;
-    public Object CFP_SEARCH_COLUMNS[] = new Object[]{
+    public Object[] CFP_SEARCH_COLUMNS = new Object[]{
         "componentId", "componentNo", "componentName", "componentType", "category", "designation", "planId", "planName", "componentStatus", "tradeClass", Constants.START_DATE, Constants.END_DATE};
-    public String CFP_SEARCH_HEADERS[] = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
+    public String[] CFP_SEARCH_HEADERS = new String[]{"CFP ID", "CFP No", "CFP Name", "CFP Type", "CFP Category", "CFP Designation", "CFP Plan ID", "CFP Plan Name", "CFP Status", "CFP Trade Class", "CFP Start Date", "CFP End Date"};
 
     public CFPLookUp(final CustomTextField componentTextField) {
         this.componentTextField = componentTextField;

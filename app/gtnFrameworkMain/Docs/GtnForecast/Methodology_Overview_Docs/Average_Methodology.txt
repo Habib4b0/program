@@ -1,0 +1,149 @@
+Returns Forecasting:
+
+Step 1: Calculate Baseline.
+
+	* Baseline will be calculated for the selected period and applied in the calculation.
+	
+	Baseline Formula  : BASELINE = ACTUAL_RETURN_PERCENT = (SUM(CUM_RETURN_UNITS) / SUM(ORIG_SALE_UNITS)) / No. of Selected Periods
+
+Step 2: Projection Calculateion (Calculate Growth and Cummulative Multiplication)
+
+	* In this step, Baseline for the first period will be taken from the above calculated step.
+	  Baseline for the second period and so on.. will be the output of the previous period.
+
+	Projection Formula: PROJECTED_RETURN_PERCENT = BASELINE * ( 1 + GROWTH_RATE)
+	
+Step 3: Calculate Other Components. (Always calculated in monthly)
+
+	* In Returns, Since the calculation is only based on PROJECTED_RETURN_PERCENT,
+	  Once we calculated the PROJECTED_RETURN_PERCENT,We derive all the other values based on the PROJECTED_RETURN_PERCENT using the below formulae.
+	
+	PROJECTED_RETURN_AMOUNT =  PROJECTED_RETURN_PERCENT*ACTIVE_EXFACTORY_SALES_AMOUNT
+	
+	PROJECTED_RPU =  PROJECTED_RETURN_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS
+	
+	PROJECTED_RETURN_UNITS = PROJECTED_RETURN_AMOUNT/(ACTIVE_EXFACTORY_SALES_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS)
+
+
+Commercial Forecasting:
+
+
+	Sales Projection: 
+
+	Step 1: Calculate Baseline.
+		
+		* Baseline will be calculated for the selected period and applied in the calculation for the selected component.
+
+			* Sales Based:
+			
+				Baseline Formula  : BASELINE = ACTUAL_SALES = SUM(ACTUAL_SALES) / No. of Selected Periods
+			
+			* Unit Based:
+
+				Baseline Formula  : BASELINE = ACTUAL_UNITS = SUM(ACTUAL_UNITS) / No. of Selected Periods
+				
+	Step 2: Projection Calculateion (Calculate Growth and Cummulative Multiplication)
+		
+		* In this step, Baseline for the first period will be taken from the above calculated step.
+		  Baseline for the second period and so on.. will be the calculated output of the previous period.
+
+			* Sales Based:
+			
+				Projection Formula  : PROJECTED_SALES = BASELINE * (1+ WAC_INCREASE) * (1 + ACCOUNT_GROWTH) * (1 + PRODUCT_GROWTH)
+			
+			* Unit Based:
+
+				Projection Formula  : PROJECTED_UNITS = BASELINE * (1 + ACCOUNT_GROWTH) * (1 + PRODUCT_GROWTH)
+
+			WAC_INCREASE = (WAC_NEW_PERIOD - WAC_OLD_PERIOD) / WAC_OLD_PERIOD
+			
+			WAC_PRICE = FILE_SALES / FILE_UNIT 
+					
+	Step 3: Apply Allocation Basis. (In Case of Quarterly frequency)
+		
+			* In this step, the calculated value for that frequency needs to be allocated to each month 
+			  based on the month to frequency ratio available in the respective allocation file.
+			
+			MONTH 1 ALLOCATED PROJECTED_SALES = (MONTH 1 FILE_SALES / (MONTH 1 + MONTH 2 + MONTH 3 FILE_SALES)) * PROJECTED_SALES OF THAT FREQUENCY
+			MONTH 2 ALLOCATED PROJECTED_SALES = (MONTH 2 FILE_SALES / (MONTH 1 + MONTH 2 + MONTH 3 FILE_SALES)) * PROJECTED_SALES OF THAT FREQUENCY
+			MONTH 3 ALLOCATED PROJECTED_SALES = (MONTH 3 FILE_SALES / (MONTH 1 + MONTH 2 + MONTH 3 FILE_SALES)) * PROJECTED_SALES OF THAT FREQUENCY
+
+			MONTH 1 ALLOCATED PROJECTED_UNITS = (MONTH 1 FILE_UNITS / (MONTH 1 + MONTH 2 + MONTH 3 FILE_UNITS)) * PROJECTED_UNITS OF THAT FREQUENCY
+			MONTH 2 ALLOCATED PROJECTED_UNITS = (MONTH 2 FILE_UNITS / (MONTH 1 + MONTH 2 + MONTH 3 FILE_UNITS)) * PROJECTED_UNITS OF THAT FREQUENCY
+			MONTH 3 ALLOCATED PROJECTED_UNITS = (MONTH 3 FILE_UNITS / (MONTH 1 + MONTH 2 + MONTH 3 FILE_UNITS)) * PROJECTED_UNITS OF THAT FREQUENCY
+			
+			Note: Allocation is not needed in monthly frequency.
+				
+	Step 4: Calculate Other Components. (Always calculated in monthly)
+
+		* Once we calculated the selected component,
+		  We derive all the other values based on the selected component using the below formulae.		
+		
+			* Sales Based:
+			
+				PROJECTED_UNITS = PROJECTED_SALES / PRICE
+				
+			* Unit Based:
+					
+				PROJECTED_SALES = PROJECTED_UNITS * PRICE
+		
+		
+
+	Discount Projection:
+
+	Step 1: Calculate Baseline.
+		
+			* Baseline will be calculated for the selected period and applied in the calculation for the selected component.
+
+			* Rate Based:
+			
+				Baseline Formula	: ACTUAL_RATE = SUM(ACTUAL_DISCOUNT_AMOUNT) / SUM(ACTUAL_SALES) / No. of Selected Periods
+				
+			* RPU Based:
+			
+				Baseline Formula	: ACTUAL_RPU = SUM(ACTUAL_DISCOUNT_AMOUNT) / SUM(ACTUAL_UNITS) / No. of Selected Periods
+			
+			* Amount Based:
+			
+				Baseline Formula	: ACTUAL_RPU = SUM(ACTUAL_DISCOUNT_AMOUNT) / No. of Selected Periods
+
+	Step 2: Projection Calculateion (Calculate Growth and Cummulative Multiplication)
+		
+		* In this step, Baseline for the first period will be taken from the above calculated step.
+		  Baseline for the second period and so on.. will be the calculated output of the previous period.
+
+			* Rate Based:	
+				
+				Projection Formula	: PROJECTED_RATE = BASELINE * (1+ GROWTH_RATE)
+				
+			* RPU Based:	
+				
+				Projection Formula	: PROJECTED_RPU = BASELINE * (1+ GROWTH_RATE)
+				
+			* Amount Based:	
+				
+				Projection Formula	: PROJECTED_AMOUNT = BASELINE * (1+ GROWTH_RATE)
+			
+	Step 3: Calculate Other Components.(Always calculated in monthly)
+		
+		* Once we calculated the selected component,
+		We derive all the other values based on the selected component using the below formulae.		
+
+			* Rate Based:	
+				
+					PROJECTED_AMOUNT = PROJECTED_RATE * PROJECTED_SALES
+					PROJECTED_RPU    = PROJECTED_AMOUNT / PROJECTED_UNITS
+				
+			* RPU Based:	
+				
+					PROJECTED_AMOUNT = PROJECTED_RPU * PROJECTED_UNITS
+					PROJECTED_RATE   = PROJECTED_AMOUNT / PROJECTED_SALES
+				
+			* Amount Based:	
+				
+					PROJECTED_RATE = PROJECTED_AMOUNT / PROJECTED_SALES
+					PROJECTED_RPU  = PROJECTED_AMOUNT / PROJECTED_UNITS
+					
+					
+		Note:
+			PROJECTED_SALES - PROJECTED_SALES calculated in the sales projection.

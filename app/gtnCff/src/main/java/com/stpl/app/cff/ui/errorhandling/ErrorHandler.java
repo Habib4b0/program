@@ -1,4 +1,4 @@
-package com.stpl.app.ui.errorhandling;
+package com.stpl.app.cff.ui.errorhandling;
 
 import org.jboss.logging.Logger;
 
@@ -7,7 +7,6 @@ import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
 import com.vaadin.ui.Label;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ErrorHandler.
  */

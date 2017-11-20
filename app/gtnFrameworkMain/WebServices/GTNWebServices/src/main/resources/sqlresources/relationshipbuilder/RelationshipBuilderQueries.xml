@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<sql>
+	<entity id="getRBHierarchyVersionNo">
+		<query> 
+        <![CDATA[
+            select DISTINCT VERSION_NO from dbo.?HIERARCHY_DEFINITION
+             WHERE HIERARCHY_DEFINITION_SID=? ORDER BY VERSION_NO DESC;
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getRelationshipBuilderResults">
+		<query> 
+        <![CDATA[
+	SELECT
+	distinct
+	RB.RELATIONSHIP_NAME,
+	RB.RELATIONSHIP_DESCRIPTION,
+	HT.DESCRIPTION,
+	HD.HIERARCHY_NAME,
+	RB.VERSION_NO,
+	RB.START_DATE,
+	RB.CREATED_DATE,
+	RB.MODIFIED_DATE,
+	usr.lastName + ' ' + usr.middleName + ' ' + usr.firstName as CREATED_BY,
+	RB.RELATIONSHIP_BUILDER_SID,
+	RB.HIERARCHY_DEFINITION_SID,
+	RB.BUILD_TYPE,
+	RB.HIERARCHY_VERSION,
+	HD.NO_OF_LEVELS,
+	RB.CREATED_BY as CREATED_BY_ID,
+        RB.RELATIONSHIP_TYPE
+FROM
+	?RELATIONSHIP_BUILDER RB
+JOIN HELPER_TABLE HT on
+	HT.HELPER_TABLE_SID = RB.RELATIONSHIP_TYPE
+	AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+JOIN HIERARCHY_DEFINITION HD on
+	HD.HIERARCHY_DEFINITION_SID = RB.HIERARCHY_DEFINITION_SID
+JOIN ?.dbo.User_ usr ON usr.UserId = RB.CREATED_BY
+?
+	ORDER BY ?
+	OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+        ]]>
+
+		</query>
+	</entity>
+
+
+	<entity id="getRelationshipBuilderCount">
+		<query> 
+        <![CDATA[
+		SELECT COUNT(RB.RELATIONSHIP_BUILDER_SID)
+		FROM
+			?RELATIONSHIP_BUILDER RB
+		JOIN HELPER_TABLE HT on
+			HT.HELPER_TABLE_SID = RB.RELATIONSHIP_TYPE
+			AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+		JOIN HIERARCHY_DEFINITION HD on
+			HD.HIERARCHY_DEFINITION_SID = RB.HIERARCHY_DEFINITION_SID
+		JOIN ?.dbo.User_ usr ON usr.UserId = RB.CREATED_BY
+		?
+      ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelDefinition">
+		<query> 
+        <![CDATA[
+        SELECT
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NO,
+	LEVEL_NAME,
+	LEVEL_VALUE_REFERENCE,
+	HIERARCHY_DEFINITION_SID,
+	TABLE_NAME,
+	FIELD_NAME,
+	VERSION_NO
+FROM
+	HIERARCHY_LEVEL_DEFINITION
+WHERE
+	HIERARCHY_DEFINITION_SID = ?
+	AND VERSION_NO = ?
+ORDER BY
+	LEVEL_NO
+]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelDefinitionByLevelNo">
+		<query> 
+        <![CDATA[
+        SELECT
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NO,
+	LEVEL_NAME,
+	LEVEL_VALUE_REFERENCE,
+	HIERARCHY_DEFINITION_SID,
+	TABLE_NAME,
+	FIELD_NAME,
+	VERSION_NO
+FROM
+	HIERARCHY_LEVEL_DEFINITION
+WHERE
+	HIERARCHY_DEFINITION_SID = ?
+	AND VERSION_NO = ?
+        AND LEVEL_NO= ?
+ORDER BY
+	LEVEL_NO
+     ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelDefinitionByLesserLevelNo">
+		<query> 
+        <![CDATA[
+        SELECT
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NO,
+	LEVEL_NAME,
+	LEVEL_VALUE_REFERENCE,
+	HIERARCHY_DEFINITION_SID,
+	TABLE_NAME,
+	FIELD_NAME,
+	VERSION_NO
+FROM
+	HIERARCHY_LEVEL_DEFINITION
+WHERE
+	HIERARCHY_DEFINITION_SID = ?
+	AND VERSION_NO = ?
+	AND LEVEL_NO <= ?
+ORDER BY
+	LEVEL_NO DESC        
+     ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelDefinitionBySid">
+		<query> 
+        <![CDATA[
+    SELECT
+	HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NO,
+	LEVEL_NAME,
+	LEVEL_VALUE_REFERENCE,
+	HIERARCHY_DEFINITION_SID,
+	TABLE_NAME,
+	FIELD_NAME,
+	VERSION_NO
+FROM
+	HIERARCHY_LEVEL_DEFINITION HLD 
+WHERE
+	HLD.HIERARCHY_DEFINITION_SID = ?
+	AND VERSION_NO = ? order by LEVEL_NO
+
+     ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyDefinition">
+		<query> 
+        <![CDATA[
+        SELECT
+	HD.HIERARCHY_DEFINITION_SID,
+	HD.HIERARCHY_NAME,
+	HT.DESCRIPTION as HIERARCHY_TYPE,
+	HC.DESCRIPTION as HIERARCHY_CATEGORY,
+	HD.NO_OF_LEVELS
+from
+	dbo.?HIERARCHY_DEFINITION HD
+LEFT JOIN dbo.HELPER_TABLE HT ON
+	HT.HELPER_TABLE_SID = HD.HIERARCHY_TYPE
+LEFT JOIN dbo.HELPER_TABLE HC ON
+	HC.HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+WHERE
+	HD.HIERARCHY_DEFINITION_SID = ?
+    ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelValue">
+		<query> 
+        <![CDATA[
+        SELECT
+	HLV.HIERARCHY_LEVEL_VALUES_SID,
+	HLV.HIERARCHY_LEVEL_DEFINITION_SID,
+	HLV.LEVEL_VALUES,
+	HLD.LEVEL_NO,
+	HLD.LEVEL_NAME
+from
+	dbo.HIERARCHY_LEVEL_VALUES HLV
+JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
+	HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+WHERE
+	HLD.LEVEL_VALUE_REFERENCE = 'User Defined'
+	AND HLD.HIERARCHY_DEFINITION_SID = ?
+	AND HLD.VERSION_NO = ?
+ORDER BY
+	HLV.LEVEL_VALUES;
+        ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelValueByLevelNo">
+		<query> 
+        <![CDATA[
+        SELECT
+	HLV.HIERARCHY_LEVEL_VALUES_SID,
+	HLV.HIERARCHY_LEVEL_DEFINITION_SID,
+	HLV.LEVEL_VALUES,
+	HLD.LEVEL_NO,
+	HLD.LEVEL_NAME
+from
+	dbo.HIERARCHY_LEVEL_VALUES HLV
+JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
+	HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+WHERE
+	HLD.LEVEL_VALUE_REFERENCE = 'User Defined'
+	AND HLD.HIERARCHY_DEFINITION_SID = ?
+	AND HLD.VERSION_NO = ?
+        AND HLD.LEVEL_NO = ?
+        ]]>
+		</query>
+	</entity>
+	<entity id="getRBHierarchyLevelValueByLevelNoCount">
+		<query> 
+        <![CDATA[
+        SELECT
+	count(1)
+from
+	dbo.HIERARCHY_LEVEL_VALUES HLV
+JOIN HIERARCHY_LEVEL_DEFINITION HLD ON
+	HLD.HIERARCHY_LEVEL_DEFINITION_SID = HLV.HIERARCHY_LEVEL_DEFINITION_SID
+WHERE
+	HLD.LEVEL_VALUE_REFERENCE = 'User Defined'
+	AND HLD.HIERARCHY_DEFINITION_SID = ?
+	AND HLD.VERSION_NO = ?
+        AND HLD.LEVEL_NO = ?
+        ]]>
+		</query>
+	</entity>
+	
+	<entity id="getRBRelationshipLevelDefinition">
+		<query> 
+        <![CDATA[
+        SELECT
+		RELATIONSHIP_LEVEL_SID,
+		HIERARCHY_LEVEL_DEFINITION_SID,
+		RELATIONSHIP_LEVEL_VALUES,
+		HIERARCHY_NO,
+		PARENT_NODE,
+		LEVEL_NO,
+		LEVEL_NAME
+	from
+		RELATIONSHIP_LEVEL_DEFINITION
+	where
+		RELATIONSHIP_BUILDER_SID = ?
+		AND VERSION_NO = ?
+   ]]>
+		</query>
+	</entity>
+	<entity id="getRBTableKeyColumn">
+		<query> 
+        <![CDATA[
+        SELECT
+	DISTINCT PRIMARY_KEY_COLUMN_NAME
+FROM
+	VW_HELPER_LIST
+WHERE
+	ACTUAL_TABLE_NAME ='?'
+]]>
+		</query>
+	</entity>
+	<entity id="getRBhierarchyLevelDefn">
+		<query> 
+        <![CDATA[
+        SELECT
+	LEVEL_VALUE_REFERENCE,
+	TABLE_NAME,
+	FIELD_NAME
+from
+	HIERARCHY_LEVEL_DEFINITION
+where
+	HIERARCHY_LEVEL_DEFINITION_SID =?
+]]>
+		</query>
+	</entity>
+	<entity id="getRBuserDefindLevelValue">
+		<query> 
+        <![CDATA[
+        SELECT
+	LEVEL_VALUES,
+	HIERARCHY_LEVEL_VALUES_SID
+from
+	dbo.HIERARCHY_LEVEL_VALUES
+where
+	HIERARCHY_LEVEL_VALUES_SID =?
+	AND VERSION_NO = ?
+]]>
+		</query>
+	</entity>
+	<entity id="getRBSaveCheckHierarchyDefinition">
+		<query> 
+        <![CDATA[
+SELECT
+	count( distinct HD.HIERARCHY_DEFINITION_SID )
+from
+	dbo.HIERARCHY_DEFINITION HD
+JOIN dbo.HELPER_TABLE HT ON
+	HT . HELPER_TABLE_SID = HD.HIERARCHY_TYPE
+	AND HT.DESCRIPTION = 'Primary'
+JOIN dbo.HELPER_TABLE HC ON
+	HC . HELPER_TABLE_SID = HD.HIERARCHY_CATEGORY
+	AND HC.DESCRIPTION = 'Data Selection'
+        WHERE
+	HD.HIERARCHY_DEFINITION_SID = ?
+]]>
+		</query>
+	</entity>
+	<entity id="getRBSaveCheckRelationshipLevelDefinition">
+		<query> 
+        <![CDATA[
+        	SELECT
+	count(distinct RLD.RELATIONSHIP_BUILDER_SID)
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION RLD
+where
+	RLD.RELATIONSHIP_LEVEL_VALUES = '?'
+	AND RLD.LEVEL_NO = '?';
+   ]]>
+		</query>
+	</entity>
+	<entity id="getRBSaveCheckRelationshipName">
+		<query> 
+        <![CDATA[
+        SELECT
+		count( distinct RB.RELATIONSHIP_BUILDER_SID )
+	from
+		dbo.RELATIONSHIP_BUILDER RB
+	where
+		RB.RELATIONSHIP_NAME = '?';
+   ]]>
+		</query>
+	</entity>
+	<entity id="getRBSaveCheckUsedRelationship">
+		<query> 
+        <![CDATA[
+SELECT
+	count( distinct PCH.PROJECTION_CUST_HIERARCHY_SID ) as PCHCOUNT,
+	count( distinct PPH.PROJECTION_PROD_HIERARCHY_SID ) as PPHCOUNT
+from
+	dbo.RELATIONSHIP_LEVEL_DEFINITION RLD left
+JOIN dbo.PROJECTION_CUST_HIERARCHY PCH ON
+	RLD.RELATIONSHIP_LEVEL_SID = PCH.RELATIONSHIP_LEVEL_SID left
+JOIN dbo.PROJECTION_PROD_HIERARCHY PPH ON
+	RLD.RELATIONSHIP_LEVEL_SID = PPH.RELATIONSHIP_LEVEL_SID
+WHERE
+	RLD.RELATIONSHIP_BUILDER_SID = ?
+]]>
+		</query>
+	</entity>
+	<entity id="getRBItemId">
+		<query> 
+        <![CDATA[
+          SELECT
+					DISTINCT IM.ITEM_MASTER_SID
+				FROM
+					ITEM_MASTER IM
+					JOIN BRAND_MASTER B1 ON
+					B1.BRAND_MASTER_SID = IM.BRAND_MASTER_SID
+					JOIN GL_COST_CENTER_MASTER GLC ON
+					GLC.NDC8 = IM.NDC8
+					JOIN COMPANY_MASTER CM ON
+					CM.COMPANY_ID = GLC.COMPANY_CODE
+					WHERE
+					IM.ITEM_NAME IS NOT NULL
+					?;
+]]>
+		</query>
+	</entity>
+
+	<entity id="getDeductionData">
+		<query> 
+        <![CDATA[
+         SELECT DISTINCT
+                 RS.RS_CATEGORY as RS_CATEGORY,
+      RS.RS_TYPE as RS_TYPE,
+      RS.REBATE_PROGRAM_TYPE as REBATE_PROGRAM_TYPE,
+      
+          isnull(CASE   WHEN ( U.UDC1  = 0 or U.UDC1  is null) THEN ( SELECT HELPER_TABLE_SID   FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC1'
+                                       AND LIST_NAME = 'RS_UDC1')  END ,  U.UDC1)AS UDC1,
+          isnull(CASE   WHEN ( U.UDC2  = 0 or U.UDC2  is null)  THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'udc2'
+                                       AND LIST_NAME = 'RS_UDC2')  END ,U.UDC2 ) AS udc2,
+
+
+                  isnull(CASE   WHEN ( U.UDC3  = 0 or U.UDC3  is null)  THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC3'
+                                       AND LIST_NAME = 'RS_UDC3')  END , U.UDC3) AS UDC3,
+
+
+          isnull(CASE   WHEN ( U.UDC4  = 0 or U.UDC4  is null)  THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC4'
+                                       AND LIST_NAME = 'RS_UDC4')  END , U.UDC4 ) AS UDC4,
+
+
+          isnull(CASE   WHEN ( U.UDC5  = 0 or U.UDC5  is null) THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC5'
+                                       AND LIST_NAME = 'RS_UDC5')  END ,U.UDC5  ) AS UDC5,
+
+
+          isnull(CASE   WHEN ( U.UDC6  = 0 or U.UDC6  is null)THEN ( SELECT HELPER_TABLE_SID
+                                FROM   helper_table
+                                WHERE  DESCRIPTION = 'UDC6'
+                                       AND LIST_NAME = 'RS_UDC6')  END ,U.UDC6  ) AS UDC6,
+            RS.RS_CONTRACT_SID as RS_ID
+                FROM
+                RS_contract_details A join RS_CONTRACT RS on
+                RS.RS_CONTRACT_SID = a.RS_CONTRACT_SID
+                and RS.INBOUND_STATUS <> 'D'and a.INBOUND_STATUS <> 'D' left
+JOIN UDCS U ON
+                U.MASTER_SID = A.RS_CONTRACT_SID  and u.MASTER_TYPE='RS_CONTRACT'
+where
+                A.item_master_sid in (?)
+                order by  
+    RS_CATEGORY,RS_TYPE,REBATE_PROGRAM_TYPE, UDC1,UDC2,UDC3,UDC4,UDC5,UDC6,RS_ID ASC;
+]]>
+		</query>
+	</entity>
+
+
+	<entity id="getHierarchyDefSid">
+		<query> 
+        <![CDATA[
+      select
+	LEVEL_NO,
+	HIERARCHY_LEVEL_DEFINITION_SID,
+	LEVEL_NAME
+from
+	dbo.HIERARCHY_LEVEL_DEFINITION
+WHERE
+	HIERARCHY_DEFINITION_SID = (select HIERARCHY_DEFINITION_SID from dbo.RELATIONSHIP_BUILDER where RELATIONSHIP_BUILDER_SID = ?) AND VERSION_NO = ?
+]]>
+		</query>
+	</entity>
+
+	<entity id="getHierarchyDefSidRB">
+		<query> 
+        <![CDATA[
+     select
+	HIERARCHY_DEFINITION_SID
+from
+	dbo.HIERARCHY_DEFINITION
+where
+	HIERARCHY_NAME like '%Deduction%'
+ORDER By
+	CREATED_DATE DESC;
+]]>
+		</query>
+	</entity>
+
+	<entity id="getProductRelationId">
+		<query> 
+        <![CDATA[
+   select
+	RELATIONSHIP_BUILDER_SID
+from
+	dbo.RELATIONSHIP_BUILDER
+where
+	deduction_relation = ?;
+]]>
+		</query>
+	</entity>
+
+
+	<entity id="getProductRelationIdRLD">
+		<query> 
+        <![CDATA[
+select
+      *
+ from
+      (
+              select
+                      LEVEL_NAME,LEVEL_NO,RELATIONSHIP_LEVEL_VALUES,PARENT_NODE,
+                      dense_rank() 
+                      OVER(                  
+                      order by
+                              LEVEL_NO desc
+                      ) rn
+              from
+                      dbo.RELATIONSHIP_LEVEL_DEFINITION
+              where
+                      RELATIONSHIP_BUILDER_SID = ?
+      ) A
+ where
+     a.rn =1
+]]>
+		</query>
+	</entity>
+
+	<entity id="getHierarchyCatBySid">
+		<query> 
+        <![CDATA[
+           SELECT
+	DISTINCT he.DESCRIPTION
+from
+	dbo.HIERARCHY_DEFINITION hld join dbo.HELPER_TABLE he on
+	he.HELPER_TABLE_SID = hld.HIERARCHY_CATEGORY
+WHERE
+	hld.HIERARCHY_DEFINITION_SID =?
+	]]>
+		</query>
+	</entity>
+
+	<entity id="relationShipSubQuery">
+		<query> 
+        <![CDATA[            
+		SELECT
+			RELATIONSHIP_LEVEL_Values
+		from
+			RELATIONSHIP_LEVEL_DEFINITION
+		where
+			level_no = ?
+			and RELATIONSHIP_BUILDER_SID = ?
+
+         ]]>
+		</query>
+	</entity> 
+	
+	<entity id="getRBHierarchyLevelDefinitionByProductRelationSid">
+		<query> 
+        <![CDATA[
+    SELECT DISTINCT
+	HLD.HIERARCHY_LEVEL_DEFINITION_SID,
+	HLD.LEVEL_NO,
+	HLD.LEVEL_NAME,
+	LEVEL_VALUE_REFERENCE,
+	HIERARCHY_DEFINITION_SID,
+	TABLE_NAME,
+	FIELD_NAME,
+	HLD.VERSION_NO
+FROM
+	HIERARCHY_LEVEL_DEFINITION HLD JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+	ON HLD.HIERARCHY_LEVEL_DEFINITION_SID = RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?
+WHERE
+	HLD.HIERARCHY_DEFINITION_SID = ?
+	AND HLD.VERSION_NO = ? order by HLD.LEVEL_NO
+
+     ]]>
+		</query>
+	</entity>
+	
+	<entity id="getRBHierarchyLevelNameList">
+		<query> 
+        	<![CDATA[
+	        	SELECT
+					LEVEL_VALUE_REFERENCE
+				FROM
+					HIERARCHY_LEVEL_DEFINITION
+				WHERE
+					HIERARCHY_DEFINITION_SID = ?
+					AND VERSION_NO = ?
+				ORDER BY
+					LEVEL_NO
+     		]]>
+		</query>
+	</entity>
+	
+	<entity id="getHierarchyVersionList">
+		<query> 
+        	<![CDATA[
+	        	SELECT
+				    HIERARCHY_DEFINITION_SID,VERSION_NO
+				FROM
+				    (
+				        SELECT
+				            DISTINCT HIERARCHY_DEFINITION_SID,
+								    VERSION_NO,
+				            MAX(ACTION_FLAG) OVER(
+				                PARTITION BY HIERARCHY_DEFINITION_SID
+				            ) TEMP_STATUS
+				        FROM
+				            HIST_HIERARCHY_DEFINITION HHD JOIN HELPER_TABLE HT
+				                ON HT.HELPER_TABLE_SID = HHD.HIERARCHY_CATEGORY
+				            AND HT.LIST_NAME = 'HIERARCHY_CATEGORY'
+				            AND HT.DESCRIPTION IN('Customer Hierarchy','Product Hierarchy')
+				    ) D
+				WHERE
+				    D.TEMP_STATUS <> 'D'
+     		]]>
+		</query>
+	</entity>
+	
+</sql>

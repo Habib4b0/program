@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 17, 2017 7:42:20 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagItemIdentifier" table="STAG_ITEM_IDENTIFIER" schema="dbo">
+        <id name="stagItemIdentifierSid" type="int">
+            <column name="STAG_ITEM_IDENTIFIER_SID" />
+            <generator class="native" />
+        </id>
+        <property name="itemIdentifierIntfid" type="string">
+            <column name="ITEM_IDENTIFIER_INTFID"  not-null="true" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="38" not-null="true" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" not-null="true" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="identifierCodeQualifier" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER" length="25" not-null="true" />
+        </property>
+        <property name="identifierCodeQualifierName" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER_NAME" length="100" />
+        </property>
+        <property name="itemIdentifier" type="string">
+            <column name="ITEM_IDENTIFIER" length="50" not-null="true" />
+        </property>
+        <property name="itemStatus" type="string">
+            <column name="ITEM_STATUS" length="20" not-null="true" />
+        </property>
+        <property name="startDate" type="timestamp">
+            <column name="START_DATE" length="23" />
+        </property>
+        <property name="endDate" type="timestamp">
+            <column name="END_DATE" length="23" />
+        </property>
+        <property name="entityCode" type="string">
+            <column name="ENTITY_CODE" length="30" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

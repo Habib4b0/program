@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jun 29, 2017 10:21:54 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.StagIfp" table="STAG_IFP" schema="dbo" >
+        <id name="stagIfpSid" type="int">
+            <column name="STAG_IFP_SID" />
+            <generator class="native" />
+        </id>
+        <property name="ifpIntfid" type="string">
+            <column name="IFP_INTFID" precision="38" scale="0" not-null="true" />
+        </property>
+        <property name="ifpId" type="string">
+            <column name="IFP_ID" length="50" not-null="true" />
+        </property>
+        <property name="ifpNo" type="string">
+            <column name="IFP_NO" length="50" />
+        </property>
+        <property name="ifpName" type="string">
+            <column name="IFP_NAME" length="100" />
+        </property>
+        <property name="ifpType" type="string">
+            <column name="IFP_TYPE" length="50" />
+        </property>
+        <property name="ifpCategory" type="string">
+            <column name="IFP_CATEGORY" length="50" />
+        </property>
+        <property name="ifpDesignation" type="string">
+            <column name="IFP_DESIGNATION" length="50" />
+        </property>
+        <property name="parentIfpId" type="string">
+            <column name="PARENT_IFP_ID" length="50" />
+        </property>
+        <property name="parentIfpName" type="string">
+            <column name="PARENT_IFP_NAME" length="100" />
+        </property>
+        <property name="ifpStatus" type="string">
+            <column name="IFP_STATUS" length="50" not-null="true" />
+        </property>
+        <property name="ifpStartDate" type="string">
+            <column name="IFP_START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="ifpEndDate" type="string">
+            <column name="IFP_END_DATE" length="23" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="50" not-null="true" />
+        </property>
+        <property name="identifierCodeQualifier" type="string">
+            <column name="IDENTIFIER_CODE_QUALIFIER" length="25" />
+        </property>
+        <property name="itemNo" type="string">
+            <column name="ITEM_NO" length="50" />
+        </property>
+        <property name="itemName" type="string">
+            <column name="ITEM_NAME" length="100" />
+        </property>
+        <property name="attachedStatus" type="string">
+            <column name="ATTACHED_STATUS" length="50" not-null="true" />
+        </property>
+        <property name="attachedDate" type="string">
+            <column name="ATTACHED_DATE" length="23" not-null="true" />
+        </property>
+        <property name="startDate" type="string">
+            <column name="START_DATE" length="23" not-null="true" />
+        </property>
+        <property name="endDate" type="string">
+            <column name="END_DATE" length="23" />
+        </property>
+        <property name="totalVolumeCommitment" type="string">
+            <column name="TOTAL_VOLUME_COMMITMENT" length="50" />
+        </property>
+        <property name="totalDollarCommitment" type="string">
+            <column name="TOTAL_DOLLAR_COMMITMENT" length="50" />
+        </property>
+        <property name="totalMarketshareCommitment" type="string">
+            <column name="TOTAL_MARKETSHARE_COMMITMENT" length="50" />
+        </property>
+        <property name="commitmentPeriod" type="string">
+            <column name="COMMITMENT_PERIOD" length="50" />
+        </property>
+        <property name="contractId" type="string">
+            <column name="CONTRACT_ID" length="50" not-null="true" />
+        </property>
+        <property name="cfpId" type="string">
+            <column name="CFP_ID" length="50" />
+        </property>
+        <property name="mfpId" type="string">
+            <column name="MFP_ID" length="50" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="50" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="38" not-null="true" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="50" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

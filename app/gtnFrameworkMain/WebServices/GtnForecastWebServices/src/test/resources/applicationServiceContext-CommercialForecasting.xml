@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<bean id="gtnFrameworkQueryEngineMain"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain">
+	</bean>
+
+	<bean id="resourceService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsResourceService">
+	</bean>
+
+	<bean id="databaseService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsReturnsDatabaseService">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="gtnWsSqlService" class="com.stpl.gtn.gtn2o.ws.forecast.service.GtnWsSqlService">
+	</bean>
+
+
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServer2008Dialect</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+				<prop key="default_entity_mode">dynamic-map</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
+		<property name="url"
+			value="jdbc:jtds:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_GAL_APP_UNIT" />
+		<property name="username" value="bpigtn_unit" />
+		<property name="password" value="*U6s5ZKW~C4\Mdev" />
+
+	</bean>
+
+	<bean id="gtnFrameworkSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="gtnWsFileService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.file.GtnWsFileService">
+		<!-- <property name="resourceService" ref="resourceService"></property> 
+		-->
+	</bean>
+
+	<bean id="treeService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.service.tree.GtnWsTreeService">
+	</bean>
+
+	<bean id="commercialFileService"
+		class="com.stpl.gtn.gtn2o.ws.forecast.commercial.service.GtnWsCommercialFileService">
+	<!--<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="resourceService" ref="resourceService"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnFrameworkSqlQueryEngine"></property>
+		<property name="gtnWsFileService" ref="gtnWsFileService"></property> -->		
+	</bean>
+
+</beans>

@@ -1,0 +1,31 @@
+This Methodology available only in returns.
+
+Only Eligible records are calculated in this methodology.
+
+Returns Forecasting:
+
+Step 1: Calculate Baseline.
+
+	* In Other Methodologies,Baseline will be calculated separately for each record.
+	  In this methodology, Baseline is calculated by suming values of all selected records and selecte period.
+	  
+	  	
+	Baseline Formula  : BASELINE = ACTUAL_RETURN_PERCENT = SUM(CUM_RETURN_UNITS)/SUM(ORIG_SALE_UNITS)
+
+Step 2: Projection Calculateion (Calculate Growth)
+
+	* In this step, Baseline value will be the projected return percent.
+	* Cummulative Multiplication is not needed in this methodology.
+
+	Projection Formula: PROJECTED_RETURN_PERCENT = BASELINE*(1+(GROWTH_RATE)) 
+	
+Step 3: Calculate Other Components. (Always calculated in monthly)
+
+	* In Returns, Since the calculation is only based on PROJECTED_RETURN_PERCENT,
+	  Once we calculated the PROJECTED_RETURN_PERCENT,We derive all the other values based on the PROJECTED_RETURN_PERCENT using the below formulae.
+	
+	PROJECTED_RETURN_AMOUNT =  PROJECTED_RETURN_PERCENT*ACTIVE_EXFACTORY_SALES_AMOUNT
+	
+	PROJECTED_RPU =  PROJECTED_RETURN_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS
+	
+	PROJECTED_RETURN_UNITS = PROJECTED_RETURN_AMOUNT/(ACTIVE_EXFACTORY_SALES_AMOUNT/ACTIVE_EXFACTORY_SALES_UNITS)

@@ -42,7 +42,6 @@ import static com.stpl.app.serviceUtils.ConstantUtil.SELECT_ONE;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
@@ -147,8 +146,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String SID = "SID";
      
      public static final CommonLogic commonLogic = new CommonLogic();
-     public CommonUtils commonUtils = new CommonUtils();
 
+     private CommonUtils commonUtils = new CommonUtils();
     public ProjectionVariance(SessionDTO sessionDTO, final DataSelectionDTO dataSelectionDTO) {
         super(sessionDTO);
         LOGGER.debug("Inside Projection Varaince Constructor");
@@ -195,18 +194,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      * Configure fields.
      */
     private void configureFields() {
-        if(CommonUtils.isValueEligibleForLoading()){
-            pvSelectionDTO.setSessionDTO(sessionDTO);
-            loadCustomerLevel();
-            loadProductLevel();
-            loadDedutionLevel();
-            loadCustomerLevelFilter(StringUtils.EMPTY);
-            loadProductLevelFilter(StringUtils.EMPTY);
-            loadDeductionLevelFilter(StringUtils.EMPTY);
-            loadDeductionInclusion();
-            loadSalesInclusion();
-            uomLoadingTabChange();
-            loadDisplayFormatDdlb();
+        if (sessionDTO.getProjectionId() != 0) {
+            loadAllDdbls();
         }
         configurePermission();
         frequency.addItem(ConstantsUtil.SELECT_ONE);
@@ -250,9 +239,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         if ("edit".equals(sessionDTO.getAction()) || "view".equals(sessionDTO.getAction())) {
             setProjectionSelection();
         }
-        }
-    
-    
+    }
+
+   
     public void uomLoadingTabChange() {
         CommonLogic.loadUnitOfMeasureDdlb(uomDdlb, sessionDTO);
     }
@@ -755,10 +744,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
+
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
             }
             if (!periodList.isEmpty()) {
                 for (int i = 0; i < periodList.size(); i++) {
@@ -784,15 +774,17 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
-                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase(Locale.ENGLISH));
+
+                periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
-                listMap.put(entry.getKey().toLowerCase(Locale.ENGLISH), entry.getValue());
+                listMap.put(entry.getKey().toLowerCase(), entry.getValue());
             }
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                     && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constants.SELECT_ONE_LABEL)) {
                 String fromVal = fromDateVal.replace(" ", "");
-                fromVal = fromVal.toLowerCase(Locale.ENGLISH);
+
+                fromVal = fromVal.toLowerCase();
                 start = periodList.indexOf(fromVal);
             }
             int end = periodList.size() - 1;
@@ -891,7 +883,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             toDate.setValue(Constants.SELECT_ONE_LABEL);
         }
         LOGGER.debug("ProjectionVariance ValueChangeEvent ends ");
-        }
+
+    }
 
     @Override
     protected void resetBtnLogic() {
@@ -1984,10 +1977,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             productFilterDdlb.removeSubMenuCloseListener(productlistener);
             
             productFilterDdlb.removeItems();
-            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+
+            productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
 
             if (!levelNo.isEmpty() ) {
-                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                productLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 productLevelFilter.addAll(CommonLogic.getProductLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
             }
@@ -2001,10 +1995,11 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
             deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
             deductionFilterDdlb.removeItems();
-            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+
+            deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             
             if (!levelNo.isEmpty()) {
-                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                deductionLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 deductionLevelFilter.addAll(CommonLogic.getDeductionLevelValues(levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
             }
@@ -2038,9 +2033,10 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         
             customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
             customerFilterDdlb.removeItems();
-            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SelectLevel, null);
+
+            customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             if (!levelNo.isEmpty()) {
-                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SelectAll});
+                customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
                 customerLevelFilter.addAll(CommonLogic.getCustomerLevelValues(sessionDTO.getProjectionId(), levelNo, pvSelectionDTO));
                 CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
             }
@@ -2116,6 +2112,23 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         commonLogic.loadDisplayFormat(displayFormatFilter, displayFormatValues);
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.setPageLength(NumericConstants.TEN);
+    }
+
+
+    public void loadAllDdbls() {
+        if (CommonUtils.isValueEligibleForLoading()) {
+            pvSelectionDTO.setSessionDTO(sessionDTO);
+            loadCustomerLevel();
+            loadProductLevel();
+            loadDedutionLevel();
+            loadCustomerLevelFilter(StringUtils.EMPTY);
+            loadProductLevelFilter(StringUtils.EMPTY);
+            loadDeductionLevelFilter(StringUtils.EMPTY);
+            loadDeductionInclusion();
+            loadSalesInclusion();
+            uomLoadingTabChange();
+            loadDisplayFormatDdlb();
+        }
     }
     
 }

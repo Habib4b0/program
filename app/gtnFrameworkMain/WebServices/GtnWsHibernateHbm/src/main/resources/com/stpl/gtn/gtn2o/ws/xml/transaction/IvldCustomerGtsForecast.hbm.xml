@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated May 8, 2017 7:15:10 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCustomerGtsForecast" table="IVLD_CUSTOMER_GTS_FORECAST" schema="dbo">
+        <id name="ivldCustomerGtsForecastSid" type="int">
+            <column name="IVLD_CUSTOMER_GTS_FORECAST_SID" />
+            <generator class="native" />
+        </id>
+        <property name="customerGtsForecastIntfId" type="string">
+            <column name="CUSTOMER_GTS_FORECAST_INTF_ID"  not-null="true" />
+        </property>
+        <property name="forecastYear" type="string">
+            <column name="FORECAST_YEAR" length="200" />
+        </property>
+        <property name="forecastMonth" type="string">
+            <column name="FORECAST_MONTH" length="200" />
+        </property>
+        <property name="itemId" type="string">
+            <column name="ITEM_ID" length="200" />
+        </property>
+        <property name="companyId" type="string">
+            <column name="COMPANY_ID" length="200" />
+        </property>
+        <property name="units" type="string">
+            <column name="UNITS" length="200" />
+        </property>
+        <property name="priceType" type="string">
+            <column name="PRICE_TYPE" length="200" />
+        </property>
+        <property name="price" type="string">
+            <column name="PRICE" length="200" />
+        </property>
+        <property name="salesAmount" type="string">
+            <column name="SALES_AMOUNT" length="200" />
+        </property>
+        <property name="salesInclusion" type="string">
+            <column name="SALES_INCLUSION" length="10" />
+        </property>
+        <property name="deductionId" type="string">
+            <column name="DEDUCTION_ID" length="200" />
+        </property>
+        <property name="deductionCategory" type="string">
+            <column name="DEDUCTION_CATEGORY" length="200" />
+        </property>
+        <property name="deductionType" type="string">
+            <column name="DEDUCTION_TYPE" length="200" />
+        </property>
+        <property name="deductionProgramType" type="string">
+            <column name="DEDUCTION_PROGRAM_TYPE" length="200" />
+        </property>
+        <property name="adjustmentCode" type="string">
+            <column name="ADJUSTMENT_CODE" length="200" />
+        </property>
+        <property name="deductionRate" type="double">
+            <column name="DEDUCTION_RATE" precision="22" scale="6" />
+        </property>
+        <property name="deductionAmount" type="string">
+            <column name="DEDUCTION_AMOUNT" length="200" />
+        </property>
+        <property name="deductionInclusion" type="string">
+            <column name="DEDUCTION_INCLUSION" length="10" />
+        </property>
+        <property name="forecastValueType" type="string">
+            <column name="FORECAST_VALUE_TYPE" length="200" />
+        </property>
+        <property name="brand" type="string">
+            <column name="BRAND" length="200" />
+        </property>
+        <property name="segment" type="string">
+            <column name="SEGMENT" length="100" />
+        </property>
+        <property name="addChgDelIndicator" type="string">
+            <column name="ADD_CHG_DEL_INDICATOR" length="10" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="200" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" length="23" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="200" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" length="23" />
+        </property>
+        <property name="batchId" type="string">
+            <column name="BATCH_ID" length="200" />
+        </property>
+        <property name="source" type="string">
+            <column name="SOURCE" length="200" />
+        </property>
+        <property name="forecastVer" type="string">
+            <column name="FORECAST_VER" length="200" />
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="200" />
+        </property>
+        <property name="forecastName" type="string">
+            <column name="FORECAST_NAME" length="100" />
+        </property>
+        <property name="forecastDate" type="timestamp">
+            <column name="FORECAST_DATE" length="23" />
+        </property>
+        <property name="udc1" type="string">
+            <column name="UDC1" length="100" />
+        </property>
+        <property name="udc2" type="string">
+            <column name="UDC2" length="100" />
+        </property>
+        <property name="udc3" type="string">
+            <column name="UDC3" length="100" />
+        </property>
+        <property name="udc4" type="string">
+            <column name="UDC4" length="100" />
+        </property>
+        <property name="udc5" type="string">
+            <column name="UDC5" length="100" />
+        </property>
+        <property name="udc6" type="string">
+            <column name="UDC6" length="100" />
+        </property>
+        <property name="intfInsertedDate" type="timestamp">
+            <column name="INTF_INSERTED_DATE" length="23" />
+        </property>
+        <property name="reasonForFailure" type="string">
+            <column name="REASON_FOR_FAILURE" length="200" />
+        </property>
+        <property name="errorCode" type="string">
+            <column name="ERROR_CODE" length="200" />
+        </property>
+        <property name="errorField" type="string">
+            <column name="ERROR_FIELD" length="200" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
+        <property name="checkRecord" type="boolean">
+            <column name="CHECK_RECORD" />
+        </property>
+    </class>
+</hibernate-mapping>

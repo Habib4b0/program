@@ -370,9 +370,8 @@ public class FcpResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getFcpChild(projSelDTO, parentSid, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getFcpChildren ends");
@@ -534,9 +533,8 @@ public class FcpResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getNonFamp(projSelDTO, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getNonFampResults ends");
@@ -744,9 +742,8 @@ public class FcpResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getFcpWorksheet(projSelDTO, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getFcpResults ends");
@@ -761,9 +758,8 @@ public class FcpResultsLogic {
 
         if (neededRecord > 0) {
             List<TableDTO> resultList = getFcpWorksheetChild(projSelDTO, session);
-            for (int k = started; k < resultList.size() && neededRecord > 0; k++) {
+            for (int k = started; k < resultList.size() && neededRecord > 0; neededRecord--, k++) {
                 projDTOList.add(resultList.get(k));
-                neededRecord--;
             }
         }
         LOGGER.debug("getFcpWorksheetChildren ends");

@@ -95,30 +95,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 public class NMProjectionVariance extends ForecastProjectionVariance {
 
     private final StplSecurity stplSecurity = new StplSecurity();
-    /**
-     * The indicator.
-     */
-    private String indicator = null;
-    /**
-     * The comparison projections.
-     */
-    private List<Integer> comparisonProjections = null;
     public static final String CAPTION = "CAPTION";
-    /**
-     * The group.
-     */
-    /**
-     * The frequency.
-     */
-    private String frequencyString = null;
-    /**
-     * The selected level.
-     */
-    private String selectedLevel = null;
-    /**
-     * The discount level string.
-     */
-    private String discountLevelString = null;
     /**
      * The projection id.
      */
@@ -133,7 +110,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     private static final Logger LOGGER = Logger.getLogger(NMProjectionVariance.class);
 
-    private List<String[]> deductionLevel = new ArrayList<>();
 
     private CommonLogic commonLogic = new CommonLogic();
     /**
@@ -149,22 +125,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      */
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     /**
-     * The from bean.
-     */
-    /**
-     * The to bean.
-     */
-    /**
-     * The period table id.
-     */
-    private int hierarchyLevelNo = 0;
-    /**
      * The result bean.
      */
-    private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    private boolean customHierarchy = false;
     private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
     private static List<String> oldDiscountNameList = new ArrayList<>();
     /**
@@ -180,48 +144,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public List<Integer> projIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
     private NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
-    private ProjectionVarianceDAO projectionVarianceDAO = new ProjectionVarianceDAOImpl();
     private PVQueryUtils queryUtils = new PVQueryUtils();
-    private ProjectionVarianceDTO valueGTS = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO variGTS = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perGTS = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valuePercBuisness = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO varpercBuisness = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perPercBuisness = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valueContractSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO varContractSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perContractSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valueUnitResult = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO varUnitResult = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perUnitResult = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valuediscountDollar = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO vardiscountDollar = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perdiscountDollar = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valuediscountPer = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO vardiscountPer = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perdiscountPer = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valueNetSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO variNetSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perNetSales = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valuePPARate = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO variPPARate = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perPPARate = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO valuePPAAmount = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO variPPAAmount = new ProjectionVarianceDTO();
-    private ProjectionVarianceDTO perPPAAmount = new ProjectionVarianceDTO();
     private ForecastForm nonMandatedForm;
     private List<List<String>> discountlist = new ArrayList<>();
-    private Map<String, Object> selection = new HashMap<>();
-    private List<ProjectionVarianceDTO> projDTOList1 = new ArrayList<>();
-    private List<List> currentDiscount = new ArrayList<>();
-    private List<List> currentSales = new ArrayList<>();
-    private List<List> currentTotal = new ArrayList<>();
-    private List<List> currentTotalDiscount = new ArrayList<>();
-    private List<Integer> priorProjIdDiscountList = new ArrayList<>();
-    private List<Integer> priorProjIdSalesList = new ArrayList<>();
-    private List<Integer> priorProjIdTotalList = new ArrayList<>();
-    private List<List> currentPivotGTSTotal = new ArrayList<>();
-    private List<Integer> pivotPriorProjIdList = new ArrayList<>();
     private boolean firstGenerated = false;
     public List<Integer> comparisonProjId = new ArrayList<>();
     public List<String> comparisonProjName = new ArrayList<>();
@@ -404,7 +329,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         leftHeader = HeaderUtils.getVarianceLeftTableColumns(fullHeader);
         List<Object> HeaderPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
         rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
-        rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
+        CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
 
         alignRight();
@@ -898,7 +823,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 pvSelectionDTO.setProductLevelFilter((List) (generateProductToBeLoaded != null ? generateProductToBeLoaded : new ArrayList<>()));
                 pvSelectionDTO.setDeductionLevelFilter((List) (generateDiscountToBeLoaded != null ? generateDiscountToBeLoaded : new ArrayList<>()));
                 pvSelectionDTO.setDeductionLevelCaptions((List) (generateDiscountNamesToBeLoaded != null ? generateDiscountNamesToBeLoaded : new ArrayList<>()));
-             
+                
                 getDiscount();
                 if (pivotView.getValue().equals("Variable")) {
                     pivotPanel.setCaption("Variable Pivot View");
@@ -1710,15 +1635,15 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             value = map.get(Constant.CUSTOMER_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, customerFilterValues);
-                generateCustomerToBeLoaded=(List) commonLogic.getFilterValues(customerFilterValues).get(SID);
-                pvSelectionDTO.setCustomerLevelFilter((List)generateCustomerToBeLoaded);
+                  generateCustomerToBeLoaded= commonLogic.getFilterValues(customerFilterValues).get(SID);
+                  pvSelectionDTO.setCustomerLevelFilter((List)generateCustomerToBeLoaded);
             }
             value = map.get(Constant.PRODUCT_LEVEL_DDLB);
             productlevelDdlb.setValue(CommonUtil.nullCheck(value) || CommonUtil.stringNullCheck(value) ? SELECT_ONE.getConstant() : Integer.parseInt(value.toString()));
             value = map.get(Constant.PRODUCT_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, productFilterValues);
-                 generateProductToBeLoaded=(List) commonLogic.getFilterValues(productFilterValues).get(SID);
+                 generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
                  pvSelectionDTO.setProductLevelFilter((List)generateProductToBeLoaded);
             }
             value = map.get(Constant.DEDUCTION_LEVEL_DDLB);
@@ -1726,8 +1651,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             value = map.get(Constant.DEDUCTION_LEVEL_VALUE);
             if (!CommonUtil.nullCheck(value)) {
                 CommonUtil.setCustomMenuBarValuesInEdit(value, deductionFilterValues);
-                generateDiscountToBeLoaded = (List) commonLogic.getFilterValues(deductionFilterValues).get(SID);
-                generateDiscountNamesToBeLoaded = (List) commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
+                generateDiscountToBeLoaded =  commonLogic.getFilterValues(deductionFilterValues).get(SID);
+                generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
                 pvSelectionDTO.setDeductionLevelFilter((List) generateDiscountToBeLoaded);
                 pvSelectionDTO.setDeductionLevelCaptions((List) generateDiscountToBeLoaded);
             }
@@ -2298,7 +2223,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         productlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                   generateProductToBeLoaded = Collections.EMPTY_LIST;
+                generateProductToBeLoaded = Collections.emptyList();
                 if (event.getProperty().getValue() != null) {
                     String productlevelDdlbValue = String.valueOf(event.getProperty().getValue());
                     productlevelDdlbValue = Constant.NULL.equals(productlevelDdlbValue) ? StringUtils.EMPTY : productlevelDdlbValue;
@@ -2311,7 +2236,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     }
 
     private void loadDedutionLevel() {
-        deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
+        List<String[]> deductionLevel = CommonLogic.getDeductionLevel(session.getProjectionId());
         Utility.loadDdlbForDeduction(deductionlevelDdlb, deductionLevel);
         deductionlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
@@ -2338,7 +2263,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
 
         if (!levelNo.isEmpty()) {
             productLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-            productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateCustomerToBeLoaded, generateDiscountToBeLoaded));        
+            productLevelFilter.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateCustomerToBeLoaded, generateDiscountToBeLoaded));
             CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
         }
 
@@ -2352,7 +2277,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private void loadDeductionLevelFilter(String levelNo) {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
         if (levelNo.isEmpty()) {
-                       generateDiscountToBeLoaded.clear();
+            generateDiscountToBeLoaded.clear();
         }
         deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
         deductionFilterDdlb.removeItems();
@@ -2379,7 +2304,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                 generateCustomerToBeLoaded = Collections.EMPTY_LIST;
+                generateCustomerToBeLoaded = Collections.emptyList();
                 if (event.getProperty().getValue() != null) {
                     String customerlevelDdlbValue = String.valueOf(customerlevelDdlb.getValue());
                     customerlevelDdlbValue = Constant.NULL.equals(customerlevelDdlbValue) ? StringUtils.EMPTY : customerlevelDdlbValue;
@@ -2399,7 +2324,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         customerFilterValues = customerFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
         if (!levelNo.isEmpty()) {
             customerLevelFilter.add(0, new Object[]{0, SELECT_ALL});
-             customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateDiscountToBeLoaded));
+            customerLevelFilter.addAll(commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, pvSelectionDTO, generateProductToBeLoaded, generateDiscountToBeLoaded));
             CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
         }
         customerFilterDdlb.setScrollable(true);

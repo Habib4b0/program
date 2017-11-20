@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<bean id="gtnWsSqlService" scope="singleton"
+		class="com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService" />
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">com.stpl.gtn.gtn2o.queryengine.customdialect.CustomSQLServer2008Dialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/HelperTable.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyIdentifier.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyMaster.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyParentDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyQualifier.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/CompanyTradeClass.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/Udcs.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/netsalesformula/NetSalesFormulaMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/cdr/CdrModel.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemgroup/ItemGroup.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/PsModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/cdr/CdrDetails.hbm.xml</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateplan/RebatePlanMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/ItemMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemfamilyplan/IfpDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companyfamilyplan/CfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/ItemPricingQualifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateschedule/RsModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companyfamilyplan/CfpDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/priceshedule/PsDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemfamilyplan/IfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemgroup/ItemGroupDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companygroup/CompanyGroup.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/BrandMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateschedule/RsDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/companygroup/CompanyGroupDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/rebateplan/RebatePlanTier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/ItemQualifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/ItemPricing.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/itemmaster/ItemIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/CfpContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/ContractMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/IfpContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/IfpContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/ContractAliasMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/LotMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/CpiIndexMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/GlCostCenterMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AverageShelfLifeMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/GlBalanceMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AuditMasterInbound.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/SalesMaster.hbm.xml
+				</value>
+
+				<value>/com/stpl/gtn/gtn2o/ws/xml/relationshipbuilder/HierarchyDefinition.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/relationshipbuilder/HierarchyLevelDefinition.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/relationshipbuilder/RelationshipBuilder.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/relationshipbuilder/RelationshipLevelDefinition.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/forecastconfiguration/ForecastConfig.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/LotMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/CpiIndexMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/GlCostCenterMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AverageShelfLifeMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/GlBalanceMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AuditMasterInbound.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/SalesMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/ForecastingMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/CustomerGtsActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCustomerGtsForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCompanyTradeClass.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwReturnReserve.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/ReturnsMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCompanyParentDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCompanyIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwItemIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwItemPricing.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AccrualMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwAdjustDemandForecastAct.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCompanyMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/ActualsMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/PsContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/RsContract.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/CfpContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/PsContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/RsContractDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/deductioncalendar/DeductionCalendarMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwInventoryWdActualProjMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/ImtdCfpDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/contract/ImtdItemPriceRebateDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwItemMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/AccrualDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwDemandForecastActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/calendarconfig/CalendarConfigMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/calendarconfig/CalendarConfigDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCustomerGtsForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldAccrualInbound.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldAverageShelfLife.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCompanyIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldForecastSales.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCustomerGtsActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCustomerGtsForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldSalesMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldLotMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCpi.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCompanyMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCompanyParent.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCompanyTradeClass.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemPricing.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldGlBalance.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldGlCostCenter.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwIvldInventoryWdActualProjMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldReturns.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCpi.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAverageShelfLife.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagGlBalance.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagForecastSales.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagGlCostCenter.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCompanyIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCompanyMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCompanyParent.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCompanyTradeClass.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagItemIdentifier.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagItemMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagItemPricing.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCustomerGtsActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagLotMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagLotMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldReturns.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagSalesMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAccrualInbound.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagReturns.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagInventoryWdProjMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagInventoryWdProjDt.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagInventoryWdActualMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagInventoryWdActualDt.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldInventoryWdProjMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldInventoryWdProjDt.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldInventoryWdActualMas.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldInventoryWdActualDt.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowProfile.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwIvldAdjDemandForeActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwIvldDemandForecastActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwIvldActualsMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldDemandActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldDemandForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldAdjustedDemandActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldAdjustedDemandForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagActualMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAdjustedDemandActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagAdjustedDemandForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagDemandActual.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagDemandForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldActualMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/emailconfiguration/WfMailConfig.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/periodconfiguration/PeriodConfigDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/periodconfiguration/PeriodConfigMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/workflow/WorkflowInbox.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldIfp.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagIfp.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/CfpModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldCfp.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagCfp.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagContractHeader.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldContractHeader.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwContractHeader.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/PsModel.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagPriceSchedule.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldPriceSchedule.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/RebatePlanMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagRebatePlan.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldRebatePlan.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwRebateSchedule.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldRebateSchedule.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StagRebateSchedule.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/ReturnRateForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldReturnRateForecast.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/ItemUom.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/IvldItemUom.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/filemanagement/FileManagement.hbm.xml
+				</value>
+
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyEntityMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchySingleColumnRelation.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTableMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTableRelation.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTypeTableRelation.hbm.xml
+				</value>
+
+				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentRoleDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnUitableComponentDetails.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/security/ModuleSubmoduleMaster.hbm.xml
+				</value>
+
+
+			</list>
+		</property>
+	</bean>
+	<bean id="sysSessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="sysDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+
+	</bean>
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/appDataPool" /> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
+		<property name="lookupOnStartup" value="true" />
+		<!-- <property name="username" value="${jdbc.username}" /> -->
+		<!-- <property name="password" value="${jdbc.password}" /> -->
+	</bean>
+	<bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
+			/> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/infraDataPool" />
+		<property name="lookupOnStartup" value="true" />
+		<!-- <property name="username" value="${jdbc.username}" /> -->
+		<!-- <property name="password" value="${jdbc.password}" /> -->
+	</bean>
+	<bean id="gtnWebServiceAllListConfig" class="com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+	<bean id="TestWebService" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsHealthCheck">
+	</bean>
+
+	<bean id="gtnFrameworkQueryEngineMain"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkQueryEngineMain">
+		<!-- <property name="sessionFactory" ref="sessionFactory"></property> -->
+	</bean>
+	<bean id="companyMasterAddWebservice"
+		class="com.stpl.gtn.gtn2o.ws.module.companymaster.controller.GtnWsCMasterAdd">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnFrameworkQueryEngineMain" ref="gtnFrameworkQueryEngineMain"></property>
+	</bean>
+	<bean id="gTNSearchServiceController"
+		class="com.stpl.gtn.gtn2o.ws.controller.GtnWsSearchServiceController">
+		<property name="gtnWebServiceAllListConfig" ref="gtnWebServiceAllListConfig"></property>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+	<bean id="quartzListner"
+		class="com.stpl.gtn.gtn2o.ws.module.companymaster.quartz.GtnCmQuartzListener">
+		<property name="gtnGeneralServiceController" ref="gtnGeneralServiceController"></property>
+	</bean>
+	<bean id="gtnGeneralServiceController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsGeneralController">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+	<bean id="gtnWebServieJmx" class="com.stpl.gtn.gtn2o.ws.jmx.GtnWebServiceJmx" />
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+		<property name="beans">
+			<map>
+				<entry key="bean:name=gtnWebServieJmx" value-ref="gtnWebServieJmx" />
+			</map>
+		</property>
+		<property name="registrationBehaviorName" value="REGISTRATION_REPLACE_EXISTING" />
+	</bean>
+
+	<bean id="gtnSqlQueryEngine"
+		class="com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="queryLogger" ref="queryLogger"></property>
+	</bean>
+	<bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+	</bean>
+
+	<bean id="gtnFrameworkEntityMasterBean"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean"
+		init-method="initSetup">
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+	</bean>
+
+	<bean id="gtnHierarchyServiceBuilder"
+		class="com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyServiceImpl">
+		<property name="entityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
+
+	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
+		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnFrameworkEntityMasterBean" ref="gtnFrameworkEntityMasterBean"></property>
+	</bean>
+
+	<bean id="gtnFrameworkQueryBeanGenerator"
+		class="com.stpl.gtn.gtn2o.ws.querybeangenerator.QueryBeanGeneratorService"
+		init-method="init">
+		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
+		<property name="gtnWsSqlService" ref="gtnWsSqlService"></property>
+		<property name="gtnWsRelationshipBuilderHierarchyFileGenerator"
+			ref="gtnWsRelationshipBuilderHierarchyFileGenerator"></property>
+	</bean>
+	
+</beans>
+
+

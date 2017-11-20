@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 20, 2017 10:36:38 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class
+		name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwAdjustDemandForecastAct"
+		table="VW_ADJUST_DEMAND_FORECAST_ACT">
+		<id name="adjustedDemandForecastId" type="int">
+			<column name="ADJUSTED_DEMAND_FORECAST_ID" />
+			<generator class="assigned"></generator>
+		</id>
+		<property name="forecastVer" type="string">
+			<column name="FORECAST_VER" length="15" />
+		</property>
+		<property name="grossUnits" type="double">
+			<column name="GROSS_UNITS" />
+		</property>
+		<property name="businessUnitNo" type="string">
+			<column name="BUSINESS_UNIT_NO" />
+		</property>
+		<property name="forecastYear" type="string">
+			<column name="FORECAST_YEAR" />
+		</property>
+		<property name="brandName" type="string">
+			<column name="BRAND_NAME" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" />
+		</property>
+		<property name="organizationKey" type="string">
+			<column name="ORGANIZATION_KEY" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" />
+		</property>
+		<property name="marketShareRatio" type="string">
+			<column name="MARKET_SHARE_RATIO" />
+		</property>
+		<property name="businessUnitName" type="string">
+			<column name="BUSINESS_UNIT_NAME" />
+		</property>
+		<property name="marketShareUnits" type="double">
+			<column name="MARKET_SHARE_UNITS" />
+		</property>
+		<property name="forecastMonth" type="int">
+			<column name="FORECAST_MONTH" />
+		</property>
+		<property name="inventoryUnitChange" type="double">
+			<column name="INVENTORY_UNIT_CHANGE" />
+		</property>
+		<property name="uncapturedUnitsRatio" type="string">
+			<column name="UNCAPTURED_UNITS_RATIO" />
+		</property>
+		<property name="country" type="string">
+			<column name="COUNTRY" />
+		</property>
+		<property name="forecastType" type="string">
+			<column name="FORECAST_TYPE" />
+		</property>
+		<property name="totalDemandUnits" type="double">
+			<column name="TOTAL_DEMAND_UNITS" />
+		</property>
+		<property name="brandId" type="string">
+			<column name="BRAND_ID" />
+		</property>
+		<property name="isForecast" type="int">
+			<column name="IS_FORECAST" />
+		</property>
+		<property name="totalDemandAmount" type="double">
+			<column name="TOTAL_DEMAND_AMOUNT" />
+		</property>
+		<property name="uncapturedUnits" type="double">
+			<column name="UNCAPTURED_UNITS" />
+		</property>
+		<property name="grossPrice" type="double">
+			<column name="GROSS_PRICE" />
+		</property>
+		<property name="grossAmount" type="double">
+			<column name="GROSS_AMOUNT" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" />
+		</property>
+		<property name="netSalesPrice" type="double">
+			<column name="NET_SALES_PRICE" />
+		</property>
+		<property name="netSalesAmount" type="double">
+			<column name="NET_SALES_AMOUNT" />
+		</property>
+		<property name="segment" type="string">
+			<column name="SEGMENT" />
+		</property>
+		<property name="forecastName" type="string">
+			<column name="FORECAST_NAME" />
+		</property>
+		<property name="marketSizeUnits" type="double">
+			<column name="MARKET_SIZE_UNITS" />
+		</property>
+		<property name="forecastTypeSid" type="int">
+			<column name="FORECAST_TYPE_SID" />
+		</property>
+	</class>
+</hibernate-mapping>
