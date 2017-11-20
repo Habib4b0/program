@@ -37,7 +37,6 @@ public class GtnUIFrameworkDateComponent implements GtnUIFrameworkComponent {
 			dateField.setRequiredError(dateFieldConfig.getRequiredMessage());
 			dateField.setEnabled(dateFieldConfig.isEnable());
 			dateField.setImmediate(dateFieldConfig.isImmediate());
-			dateField.setReadOnly(dateFieldConfig.isReadOnly());
 			if (dateFieldConfig.getValueChangeActionConfigList() != null
 					&& !dateFieldConfig.getValueChangeActionConfigList().isEmpty()) {
 				dateField.addValueChangeListener(new DateFieldValueChangeListener(componentConfig));
@@ -79,7 +78,6 @@ public class GtnUIFrameworkDateComponent implements GtnUIFrameworkComponent {
 			dateField.setRequiredError(dateFieldConfig.getRequiredMessage());
 			dateField.setEnabled(dateFieldConfig.isEnable());
 			dateField.setImmediate(dateFieldConfig.isImmediate());
-			dateField.setReadOnly(dateFieldConfig.isReadOnly());
 			dateField.removeAllValidators();
 			addDateValidator(dateField, dateFieldConfig);
 		}
