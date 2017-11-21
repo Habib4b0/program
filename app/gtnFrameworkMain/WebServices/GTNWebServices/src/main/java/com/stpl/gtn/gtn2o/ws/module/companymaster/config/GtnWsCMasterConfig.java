@@ -75,7 +75,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("companyNo", companyNoColumnConfig);
 		fieldToColumnDetailsMap.put("itemIdentifierparentCompanySearchcompanyNo", companyNoColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyNo", companyNoColumnConfig);
-		fieldToColumnDetailsMap.put("itemPricingrparentCompanySearchcompanyNo", companyNoColumnConfig);
+		fieldToColumnDetailsMap.put("itemPricingparentCompanySearchcompanyNo", companyNoColumnConfig);
 		fieldToColumnDetailsMap.put("aliasTabTpSearchcompanyNo", companyNoColumnConfig);
 		fieldToColumnDetailsMap.put("contractHeaderTabCompanyNameSearchcompanyNo", companyNoColumnConfig);
 		fieldToColumnDetailsMap.put("contractHeaderTabTpSearchcompanyNo", companyNoColumnConfig);
