@@ -3393,7 +3393,8 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setProductHierarchy(productHierarchy.getValue());
 		dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 		if (customerHierarchyDto != null) {
-			dataSelectionDTO.setCustomerHierVersionNo(Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue())));
+			dataSelectionDTO.setCustomerHierVersionNo(
+					Integer.valueOf(String.valueOf(customerRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setCustomerRelationShipVersionNo(Integer.parseInt(
 					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue())));
 		} else {
@@ -3401,7 +3402,8 @@ public class DataSelection extends AbstractDataSelection {
 			dataSelectionDTO.setCustomerRelationShipVersionNo(0);
 		}
 		if (productHierarchyDto != null) {
-			dataSelectionDTO.setProductHierVersionNo(Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue())));
+			dataSelectionDTO.setProductHierVersionNo(
+					Integer.valueOf(String.valueOf(productRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setProductRelationShipVersionNo(Integer.parseInt(
 					productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue())));
 		} else {
