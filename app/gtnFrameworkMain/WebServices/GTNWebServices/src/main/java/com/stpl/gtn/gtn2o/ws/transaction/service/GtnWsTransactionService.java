@@ -268,7 +268,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns,
+	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String type, String dateFormat, String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			String columnName = ((AbstractEntityPersister) classMetadata)
