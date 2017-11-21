@@ -271,7 +271,8 @@ public class GtnWsTransactionService {
 	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String type, String dateFormat, String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
-			String columnName = columns.getFieldId();
+			String columnName = ((AbstractEntityPersister) classMetadata)
+					.getPropertyColumnNames(columns.getFieldId())[0];
 			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
 			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
 			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
