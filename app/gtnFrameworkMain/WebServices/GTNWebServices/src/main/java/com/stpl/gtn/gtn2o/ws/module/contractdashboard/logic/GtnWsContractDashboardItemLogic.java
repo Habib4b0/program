@@ -1412,7 +1412,7 @@ public class GtnWsContractDashboardItemLogic {
 				imtdPsDetailsInsertQueryTypes);
 
 	}
-        public void priceProtectionStartDateAlert(List<Object> inputValueList,
+        public void contractPriceProtectionStartDateAlert(List<Object> inputValueList,
 			GtnUIFrameworkWebserviceResponse gtnPsProtectionUpdateResponse) throws GtnFrameworkGeneralException {
 		String contractUserId = inputValueList.get(0).toString();
 		String contractSessionId = inputValueList.get(1).toString();
