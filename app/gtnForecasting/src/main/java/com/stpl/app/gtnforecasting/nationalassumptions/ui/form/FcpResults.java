@@ -587,7 +587,6 @@ public class FcpResults extends CustomComponent implements View {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -653,7 +652,6 @@ public class FcpResults extends CustomComponent implements View {
                 if (tableDto.getParent() == 1) {
                     Button ndcLink = new Button(tableDto.getGroup());
                     ndcLink.setStyleName(Reindeer.BUTTON_LINK);
-                    ndcLink.setImmediate(true);
                     ndcLink.setData(tableDto.getGroup());
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
