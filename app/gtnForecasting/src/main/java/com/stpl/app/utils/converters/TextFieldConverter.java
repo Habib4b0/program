@@ -6,7 +6,7 @@
 package com.stpl.app.utils.converters;
 
 import com.stpl.app.gtnforecasting.utils.Constant.CommonConstants;
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 import java.util.Locale;
 import org.apache.commons.lang.StringUtils;
 

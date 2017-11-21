@@ -9,7 +9,6 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-
 import java.util.List;
 import java.util.Map;
 

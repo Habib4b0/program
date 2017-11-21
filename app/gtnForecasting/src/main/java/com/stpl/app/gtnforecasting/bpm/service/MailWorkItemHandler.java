@@ -3,12 +3,12 @@ package com.stpl.app.gtnforecasting.bpm.service;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
+import com.vaadin.server.VaadinService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -16,13 +16,10 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.lang.StringUtils;
 import org.kie.api.runtime.process.WorkItem;
 import org.kie.api.runtime.process.WorkItemHandler;
 import org.kie.api.runtime.process.WorkItemManager;
-
-import com.vaadin.server.VaadinService;
 
 public class MailWorkItemHandler implements WorkItemHandler {
 

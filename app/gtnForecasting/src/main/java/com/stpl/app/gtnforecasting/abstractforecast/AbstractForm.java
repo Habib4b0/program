@@ -12,13 +12,11 @@ import static com.stpl.app.utils.Constants.ButtonConstants.BTN_REJECT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SAVE;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SUBMIT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_WITHDRAW;
-
-import java.util.logging.Logger;
-
 import com.stpl.app.utils.UiUtils;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.logging.Logger;
 
 /**
  *

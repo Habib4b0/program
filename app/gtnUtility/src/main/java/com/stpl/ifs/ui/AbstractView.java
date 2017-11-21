@@ -2,7 +2,7 @@ package com.stpl.ifs.ui;
 
 import com.vaadin.navigator.View;
 import com.vaadin.server.UserError;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 /**
  * Basic design for View
  * @author shrihariharan

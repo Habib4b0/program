@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.projectionresults.logic;
 
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.projectionresults.logic.NMProjectionResultsXLLogic.LOGGER;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.PVParameters;
@@ -28,10 +28,6 @@ import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-/*
- *
- * @author karthikraja.k
- */
 
 public class NMProjectionResultsXLLogic {
 

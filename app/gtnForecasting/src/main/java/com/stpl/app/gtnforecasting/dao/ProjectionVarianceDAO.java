@@ -1,11 +1,10 @@
 package com.stpl.app.gtnforecasting.dao;
 
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import java.util.List;
-
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import java.util.List;
 
 // TODO: Auto-generated Javadoc
 /**

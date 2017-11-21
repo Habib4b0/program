@@ -5,7 +5,7 @@
  */
 package com.stpl.ifs.ui.util.converters;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 import java.util.Locale;
 
 /**

@@ -8,17 +8,14 @@ import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CommonUtil;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -32,16 +29,22 @@ import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.Upload.Receiver;
+import elemental.json.JsonArray;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +57,6 @@ import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
-import com.stpl.ifs.util.CommonUtil;
 
 /**
  *
@@ -272,8 +274,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void call(org.json.JSONArray arguments) throws org.json.JSONException {
-                try {
+            public void call(JsonArray arguments) {
+                 try {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
@@ -306,7 +308,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
             }
         });
 
-        uploader.addFocusListener(new FieldEvents.FocusListener() {
+        uploader.addFocusListener(new FocusListener() {
             /**
              *
              */
@@ -316,8 +318,8 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
              * Will execute,when we click an uploader.
              */
             @Override
-            public void focus(final FieldEvents.FocusEvent event) {
-                uploadComponent.focus();
+            public void focus(FocusEvent event) {
+                  uploadComponent.focus();
             }
         });
 

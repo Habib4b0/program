@@ -3,7 +3,7 @@ package com.stpl.ifs.util.numberfilter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.Locale;

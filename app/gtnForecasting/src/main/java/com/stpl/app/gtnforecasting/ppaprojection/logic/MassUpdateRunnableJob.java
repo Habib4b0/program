@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.ppaprojection.logic;
 
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.List;
 import java.util.Map;
 

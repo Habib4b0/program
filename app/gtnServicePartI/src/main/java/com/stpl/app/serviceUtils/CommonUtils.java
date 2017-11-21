@@ -9,8 +9,7 @@ import org.jboss.logging.Logger;
 
 //import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.search.ParseException;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.NativeSelect;
+import com.vaadin.v7.ui.NativeSelect;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

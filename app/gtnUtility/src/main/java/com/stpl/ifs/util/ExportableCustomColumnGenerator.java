@@ -6,13 +6,13 @@
 
 package com.stpl.ifs.util;
 
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 
 /**
  *
  * @author Abhiram
  */
-public interface ExportableCustomColumnGenerator extends com.vaadin.ui.ExtCustomTable.ColumnGenerator {
+public interface ExportableCustomColumnGenerator extends com.vaadin.v7.ui.ExtCustomTable.ColumnGenerator {
 
     Property getGeneratedProperty(Object itemId, Object columnId);
     // the type of the generated property

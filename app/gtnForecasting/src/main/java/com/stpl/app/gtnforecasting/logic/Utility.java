@@ -14,7 +14,7 @@ import com.stpl.app.model.CustomViewDetails;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

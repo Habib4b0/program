@@ -7,8 +7,6 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.app.model.ProjectionCustDetails;
@@ -36,13 +34,14 @@ import com.stpl.app.service.ProjectionProdDetailsLocalServiceUtil;
 import com.stpl.app.service.ProjectionProdHierarchyLocalServiceUtil;
 import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import java.util.Collections;
-
 import java.util.List;
 import java.util.Map;
 

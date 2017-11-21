@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.lookups.dto;
 
-import com.vaadin.data.Container;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 
 /**

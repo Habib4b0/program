@@ -18,9 +18,9 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ExtCustomTable;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -136,10 +136,8 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
                 if (resultsTable.size() == 0) {
                     MessageBox.showPlain(Icon.INFO, Constant.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);
-                    addBtn.setImmediate(true);
                 } else {
                     addBtn.setEnabled(true);
-                    addBtn.setImmediate(true);
                     CommonUIUtils.getMessageNotification("Search Completed");
 
                 }
@@ -365,10 +363,8 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
         }
         if (resultsBean.size() > 0) {
             addBtn.setEnabled(true);
-            addBtn.setImmediate(true);
         } else {
             addBtn.setEnabled(false);
-            addBtn.setImmediate(true);
         }
     }
 
@@ -391,11 +387,9 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
             selectedList.remove(item);
         }
         if (resultsBean.size() > 0) {
-            addBtn.setEnabled(true);
-            addBtn.setImmediate(true);
+            addBtn.setEnabled(true);  
         } else {
             addBtn.setEnabled(false);
-            addBtn.setImmediate(true);
         }
     }
 

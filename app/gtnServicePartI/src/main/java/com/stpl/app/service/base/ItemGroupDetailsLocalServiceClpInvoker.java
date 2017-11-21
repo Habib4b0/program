@@ -263,7 +263,7 @@ public class ItemGroupDetailsLocalServiceClpInvoker {
                 (java.lang.String) arguments[3],
                 ((Integer) arguments[4]).intValue(),
                 ((Integer) arguments[5]).intValue(),
-                (java.util.Set<com.vaadin.data.Container.Filter>) arguments[6],
+                (java.util.Set<com.vaadin.v7.data.Container.Filter>) arguments[6],
                 (java.util.List<org.asi.ui.extfilteringtable.paged.logic.SortByColumn>) arguments[7]);
         }
 

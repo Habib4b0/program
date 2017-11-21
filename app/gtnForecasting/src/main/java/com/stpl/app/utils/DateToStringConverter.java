@@ -1,12 +1,11 @@
 package com.stpl.app.utils;
 
+import com.vaadin.v7.data.util.converter.Converter;
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import com.vaadin.data.util.converter.Converter;
 
 /**
  * String type Date converter

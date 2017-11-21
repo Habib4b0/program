@@ -9,7 +9,7 @@ import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.ifs.util.CommonUtil;
 import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.v7.ui.Upload.Receiver;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

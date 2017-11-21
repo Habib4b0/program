@@ -19,14 +19,12 @@ import com.stpl.app.gtnforecasting.utils.Converters;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItemContainer;
-
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 

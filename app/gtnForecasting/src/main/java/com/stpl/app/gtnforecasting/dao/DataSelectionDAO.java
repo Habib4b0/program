@@ -5,10 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.dao;
 
-import java.util.List;
-
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.app.model.ProjectionCustDetails;
@@ -17,10 +13,13 @@ import com.stpl.app.model.ProjectionDetails;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.model.ProjectionProdDetails;
 import com.stpl.app.model.ProjectionProdHierarchy;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
+import java.util.List;
 import java.util.Map;
 
 // TODO: Auto-generated Javadoc

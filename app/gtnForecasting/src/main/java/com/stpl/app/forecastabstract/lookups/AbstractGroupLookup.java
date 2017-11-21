@@ -5,6 +5,11 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.ErrorCodeUtil;
+import com.stpl.app.gtnforecasting.utils.ErrorCodes;
+import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_RESET;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
@@ -14,19 +19,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_GROUP_NAME;
 import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_GROUP_NO;
 import static com.stpl.app.utils.Constants.LabelConstants.RESULTS;
 import static com.stpl.app.utils.Constants.LabelConstants.SEARCH_CRITERIA;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
-import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.ErrorCodeUtil;
-import com.stpl.app.gtnforecasting.utils.ErrorCodes;
-import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -35,11 +27,16 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 /**
  *

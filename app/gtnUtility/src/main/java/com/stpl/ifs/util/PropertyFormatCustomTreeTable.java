@@ -6,8 +6,8 @@
 package com.stpl.ifs.util;
 
 import com.stpl.addons.tableexport.ExportableFormattedProperty;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ExtCustomTreeTable;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
 
 /**
  *
@@ -19,5 +19,7 @@ public class PropertyFormatCustomTreeTable extends ExtCustomTreeTable implements
     public String getFormattedPropertyValue(Object rowId, Object colId, Property property) {
         return this.formatPropertyValue(rowId, colId, property);
     }
+
+ 
     
 }

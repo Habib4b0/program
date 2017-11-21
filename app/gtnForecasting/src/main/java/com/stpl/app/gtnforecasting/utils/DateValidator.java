@@ -6,9 +6,9 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
-import com.vaadin.data.Validator;
-import com.vaadin.data.validator.AbstractValidator;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.data.Validator;
+import com.vaadin.v7.data.validator.AbstractValidator;
+import com.vaadin.v7.ui.PopupDateField;
 import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc

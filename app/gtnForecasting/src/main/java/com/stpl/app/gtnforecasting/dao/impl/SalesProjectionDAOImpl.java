@@ -8,9 +8,7 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-
 import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
 import com.stpl.app.service.StChSalesProjectionMasterLocalServiceUtil;
@@ -18,7 +16,6 @@ import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Collections;
-
 import java.util.List;
 import java.util.Map;
 

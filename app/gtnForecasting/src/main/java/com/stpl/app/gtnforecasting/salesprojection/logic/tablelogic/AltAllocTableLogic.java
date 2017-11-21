@@ -8,7 +8,7 @@ package com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Collections;
 import java.util.List;
 import org.asi.container.ExtContainer;

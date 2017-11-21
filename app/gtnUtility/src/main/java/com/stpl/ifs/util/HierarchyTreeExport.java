@@ -5,8 +5,8 @@
 package com.stpl.ifs.util;
 
 import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
-import com.vaadin.data.util.HierarchicalContainer;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.v7.data.util.HierarchicalContainer;
+import com.vaadin.v7.ui.ExtCustomTable;
 import com.vaadin.ui.UI;
 import java.io.File;
 import java.io.FileNotFoundException;

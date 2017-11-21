@@ -5,30 +5,30 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.DataSelectionIndex;
-import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
-import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
+import com.stpl.app.model.ForecastConfig;
+import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
 import static com.stpl.app.utils.Constants.LabelConstants.MODE_SEARCH;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TreeTable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,7 +45,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *

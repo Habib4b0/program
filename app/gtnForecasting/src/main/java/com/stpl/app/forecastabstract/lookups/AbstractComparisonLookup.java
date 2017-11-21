@@ -5,6 +5,11 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
+import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_ADD;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_REMOVE;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_RESET;
@@ -25,46 +30,37 @@ import static com.stpl.app.utils.Constants.LabelConstants.TO;
 import static com.stpl.app.utils.Constants.LabelConstants.WORKFLOW_STATUS;
 import static com.stpl.app.utils.Constants.LevelConstants.LEVEL_CONTRACT_HOLDER;
 import static com.stpl.app.utils.Constants.LevelConstants.LEVEL_MARKET_TYPE;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -569,7 +565,6 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 						} else {
 							resultsBean.addAll(searchResults);
 							addButton.setEnabled(true);
-							addButton.setImmediate(true);
 							CommonUIUtils.getMessageNotification("Search Completed");
 
 						}
@@ -692,10 +687,8 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		}
 		if (resultsBean.size() > 0) {
 			addButton.setEnabled(true);
-			addButton.setImmediate(true);
 		} else {
 			addButton.setEnabled(false);
-			addButton.setImmediate(true);
 		}
 
 	}
@@ -749,10 +742,8 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		}
 		if (resultsBean.size() > 0) {
 			addButton.setEnabled(true);
-			addButton.setImmediate(true);
 		} else {
 			addButton.setEnabled(false);
-			addButton.setImmediate(true);
 		}
 
 	}

@@ -24,23 +24,23 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -715,9 +715,7 @@ public class DataSelection extends CustomComponent implements View {
         try {
             LOGGER.debug("Inside Add or Search option value change listener");
             if (modeOption.getValue().toString().equals(Constant.ADD_SMALL)) {
-                searchBtn.setImmediate(true);
                 searchBtn.setEnabled(false);
-                generateBtn.setImmediate(true);
                 generateBtn.setEnabled(true);
                 projectionName.setValue(StringUtils.EMPTY);
                 company.setImmediate(true);
@@ -730,9 +728,7 @@ public class DataSelection extends CustomComponent implements View {
                 resultTable.removeAllItems();
 
             } else if (modeOption.getValue().toString().equals(Constants.LabelConstants.MODE_SEARCH)) {
-                generateBtn.setImmediate(true);
                 generateBtn.setEnabled(false);
-                searchBtn.setImmediate(true);
                 searchBtn.setEnabled(true);
                 projectionName.setValue(StringUtils.EMPTY);
                 company.setImmediate(true);

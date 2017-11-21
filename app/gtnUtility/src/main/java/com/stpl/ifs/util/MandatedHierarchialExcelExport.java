@@ -7,7 +7,7 @@
 package com.stpl.ifs.util;
 
 import com.stpl.addons.tableexport.TableHolder;
-import com.vaadin.ui.Table;
+import com.vaadin.v7.ui.Table;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Workbook;
 

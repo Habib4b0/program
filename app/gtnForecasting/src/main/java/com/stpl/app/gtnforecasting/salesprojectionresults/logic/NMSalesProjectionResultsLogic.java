@@ -5,9 +5,18 @@
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.logic;
 
+import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
+import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeaderSPR;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -28,7 +37,11 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PERC_OF_EX_FACTO
 import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
-
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -40,24 +53,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-
-import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
-import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 
 /**
  *

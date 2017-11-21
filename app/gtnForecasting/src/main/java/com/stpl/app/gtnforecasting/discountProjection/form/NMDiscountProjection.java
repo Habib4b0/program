@@ -74,8 +74,11 @@ import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
@@ -83,43 +86,47 @@ import com.stpl.ifs.util.QueryUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.AbstractComponent;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTable.ColumnCheckListener;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ExtCustomTable.ColumnCheckListener;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -129,22 +136,16 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
-import java.text.ParseException;
-import java.util.Comparator;
-import java.util.Iterator;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import org.asi.ui.custommenubar.CustomMenuBar;
 
 /**
  *
@@ -635,7 +636,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private FocusListener focusListener = new FocusListener() {
 		@Override
-		public void focus(FieldEvents.FocusEvent event) {
+		public void focus(FocusEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
 				focusValue = String
@@ -652,7 +653,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	BlurListener blurListener = new BlurListener() {
 		@Override
-		public void blur(FieldEvents.BlurEvent event) {
+		public void blur(BlurEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
 			if ("left".equalsIgnoreCase(String.valueOf(obj[NumericConstants.TWO]))) {
 				blurValue = String
@@ -1010,7 +1011,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			/* Default split position for the split bar */
 			float splitPosition = NumericConstants.FIVE_HUNDRED;
 
-			resultsTable.setImmediate(true);
+			
 			resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
 			resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
 			resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -1535,7 +1536,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					if (property.equals(Constant.CHECKRECORD)) {
 						final ExtCustomCheckBox check = new ExtCustomCheckBox();
 						check.setEnabled(!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()));
-						check.setImmediate(true);
 						check.setData(new Object[] { itemId, propertyId });
 						check.addClickListener(clickListener);
 						return check;
@@ -4077,7 +4077,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			startPeriod.setReadOnly(false);
 			value.setReadOnly(false);
 			endPeriod.setReadOnly(false);
-			populateBtn.setReadOnly(false);
 			populateBtn.setEnabled(true);
 		} else if (DISABLE.getConstant().equals(fieldValue)) {
 			fieldDdlb.setReadOnly(true);

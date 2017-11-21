@@ -5,20 +5,18 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
-import org.apache.commons.io.output.NullOutputStream;
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
 import com.stpl.ifs.util.GtnFileUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Upload.Receiver;
+import com.vaadin.v7.ui.Upload.Receiver;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import org.apache.commons.io.output.NullOutputStream;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -5,31 +5,26 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.stpl.app.forecastabstract.lookups.AbstractGroupLookup;
-
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.logic.GroupSearchLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.TextField;
-
 import static com.stpl.app.utils.Constants.ButtonConstants.*;
-
 import static com.stpl.app.utils.Constants.IndicatorConstants.*;
-
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.TextField;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;

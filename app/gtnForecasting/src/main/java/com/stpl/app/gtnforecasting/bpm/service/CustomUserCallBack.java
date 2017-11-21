@@ -1,19 +1,17 @@
 package com.stpl.app.gtnforecasting.bpm.service;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kie.internal.task.api.UserGroupCallback;
-
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.Role;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.RoleLocalServiceUtil;
 import com.stpl.portal.service.UserLocalServiceUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.jboss.logging.Logger;
+import org.kie.internal.task.api.UserGroupCallback;
 
 /**
  *

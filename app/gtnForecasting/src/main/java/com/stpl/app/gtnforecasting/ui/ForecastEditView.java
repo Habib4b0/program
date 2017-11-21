@@ -5,13 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.ui;
 
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.ui.VerticalLayout;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**

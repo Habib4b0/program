@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.dao;
 
 import com.stpl.app.gtnforecasting.dto.AssumptionPVDTO;
-
 import java.util.List;
 
 /**

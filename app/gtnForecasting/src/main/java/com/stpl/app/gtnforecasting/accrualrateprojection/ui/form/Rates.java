@@ -27,14 +27,14 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.VerticalLayout;
-import java.util.HashMap;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -199,7 +199,7 @@ public class Rates extends CustomComponent {
         table.markAsDirty();
         table.setDoubleHeaderVisible(true);
         table.setSelectable(false);
-        table.setImmediate(true);
+        
         table.setSplitPosition(AccrualRateUtils.SPLIT_POSITION, Sizeable.Unit.PIXELS);
         table.setMinSplitPosition(AccrualRateUtils.MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         table.setMaxSplitPosition(AccrualRateUtils.MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);

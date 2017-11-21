@@ -8,8 +8,8 @@ package com.stpl.app.gtnforecasting.lookups.logic.tablelogic;
 
 import com.stpl.app.gtnforecasting.lookups.dto.PmpyTradingPartnerDTO;
 import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;

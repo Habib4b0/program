@@ -22,26 +22,25 @@ import com.stpl.app.gtnforecasting.ui.ForecastMainView;
 import com.stpl.app.gtnforecasting.ui.form.DataSelection;
 import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.ui.form.lookups.WorkFlowNotesLookup;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.workflow.dto.WorkflowMasterDTO;
-import com.stpl.app.gtnforecasting.workflow.logic.WorkflowLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.gtnforecasting.workflow.dto.WorkflowMasterDTO;
+import com.stpl.app.gtnforecasting.workflow.logic.WorkflowLogic;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_SELECTION;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.vaadin.data.util.BeanItem;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_NEXT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_PREVIOUS;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_SELECTION;
+import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
@@ -58,18 +57,19 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.data.util.BeanItem;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
+import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import org.kie.api.runtime.process.ProcessInstance;
 import org.kie.api.task.model.TaskSummary;
@@ -279,7 +279,6 @@ public class AccrualRateProjectionForm extends AbstractForm {
     }
 
     private void configureTabSheet() {
-        tabSheet.setImmediate(true);
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
         tabSheet.addTab(dataSelection, TAB_DATA_SELECTION.getConstant(), null, 0);
@@ -509,19 +508,17 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     private void configureFooterButtons() {
 
-        btnNext.setImmediate(true);
         btnNext.setVisible(true);
 
-        btnPrev.setImmediate(true);
+
         btnPrev.setVisible(true);
 
-        btnSubmit.setImmediate(true);
         btnSubmit.setVisible(true);
 
-        btnClose.setImmediate(true);
+
         btnClose.setVisible(true);
 
-        btnSave.setImmediate(true);
+ ;
         btnSave.setVisible(true);
 
         if (session != null && (ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) && session.getWorkflowId() != 0) {

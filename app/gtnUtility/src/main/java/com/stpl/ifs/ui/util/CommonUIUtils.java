@@ -10,7 +10,7 @@ import com.stpl.ifs.util.HeaderUtils;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;

@@ -5,7 +5,7 @@
  */
 package com.stpl.ifs.ui;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTable;
 
 /**

@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -14,6 +13,7 @@ import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.logic.SalesProjectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
+import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import static com.stpl.app.utils.Constants.LabelConstants.*;

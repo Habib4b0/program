@@ -8,21 +8,21 @@ package com.stpl.ifs.ui.extfilteringtable;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HeaderUtils;
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.converter.StringToIntegerConverter;
 import com.vaadin.server.Sizeable;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractSelect;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.AbstractSelect;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -663,7 +663,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
             @Override
             public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
+                    com.vaadin.v7.data.Property.ValueChangeEvent event) {
                 Property pr = event.getProperty();
                 if ((pr != null) && (pr.getValue() != null)) {
                         int val = (Integer) pr.getValue();
@@ -709,7 +709,7 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
 
             @Override
             public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
+                    com.vaadin.v7.data.Property.ValueChangeEvent event) {
                 try {
                     String val=event.getProperty().getValue().toString();
                     val=val.trim().replace(" ", "").replace(",", "");

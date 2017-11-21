@@ -1,13 +1,10 @@
 package com.stpl.app.gtnforecasting.utils;
 
+import com.stpl.app.security.permission.model.AppPermission;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-
-
-import com.stpl.app.security.permission.model.AppPermission;
-import java.util.Arrays;
 
 // TODO: Auto-generated Javadoc
 /**

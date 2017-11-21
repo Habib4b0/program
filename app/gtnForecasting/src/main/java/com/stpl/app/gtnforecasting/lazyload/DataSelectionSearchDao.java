@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.lazyload;
 
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import java.util.ArrayList;
 import java.util.List;
 import org.vaadin.addons.lazycontainer.BeanDAO;

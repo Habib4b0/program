@@ -28,49 +28,56 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NON_FAMP;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PERIOD;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PER_OF_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TRENDING;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.ROLLING_AVERAGE;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SALES_WEIGHTED_WAC;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.SINGLE_PERIOD;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.TYPE;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.WEIGHTED_AVG;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.WindowMessagesName.RESET_CONFIRMATION;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.util.converters.DataFormatConverter;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.Property.ValueChangeEvent;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.Property.ValueChangeEvent;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.ui.CheckBox;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.v7.ui.themes.Reindeer;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -81,21 +88,13 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
+import javax.naming.NamingException;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TRENDING;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PER_OF_WAC;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.event.FieldEvents;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import javax.naming.NamingException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -271,9 +270,9 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
-    private final FieldEvents.BlurListener listener = new FieldEvents.BlurListener() {
+    private final BlurListener listener = new BlurListener() {
         @Override
-        public void blur(FieldEvents.BlurEvent event) {
+        public void blur(BlurEvent event) {
             final TextField field = (TextField) event.getComponent();
             final DecimalFormat format = (DecimalFormat)field.getData();
             field.setValue(format.format(Double.parseDouble(field.getValue().replace(",", StringUtils.EMPTY).replace(PERCENT, StringUtils.EMPTY))) + PERCENT);
@@ -383,7 +382,6 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceBasisDdlb.setNullSelectionAllowed(false);
             priceTrendDdlb.setNullSelectionAllowed(false);
 
-            deleteBtn.setImmediate(true);
             deleteBtn.setIcon(deleteImage);
 
             priceTypesTable.setImmediate(true);
@@ -1733,7 +1731,6 @@ public class NationalAssumptions extends CustomComponent implements View {
         deleteBtn = new Button();
         deleteBtn.setIcon(deleteImage);
         deleteBtn.setStyleName(Reindeer.BUTTON_LINK);
-        deleteBtn.setImmediate(true);
         deleteBtn.setData(priceTypeDTO);
         priceTypeDTO.setSymbol(deleteBtn);
         deleteBtn.addClickListener(new Button.ClickListener() {

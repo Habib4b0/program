@@ -8,8 +8,8 @@ package com.stpl.app.gtnforecasting.logic.tablelogic;
 
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
 import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;

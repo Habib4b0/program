@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 /**
  * String type Date converter
  * @author shrihariharan
@@ -18,7 +18,7 @@ public class DateToStringConverter implements Converter<String, Date> {
 
 	public Date convertToModel(String value, Class<? extends Date> targetType,
 			Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
 		 if (targetType != getModelType()) {
 	            throw new ConversionException("Converter only supports "
 	                    + getModelType().getName() + " (targetType was "
@@ -43,7 +43,7 @@ public class DateToStringConverter implements Converter<String, Date> {
 
 	public String convertToPresentation(Date value,
 			Class<? extends String> targetType, Locale locale)
-			throws com.vaadin.data.util.converter.Converter.ConversionException {
+			throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
 		   if (value == null) {
 	            return null;
 	        }

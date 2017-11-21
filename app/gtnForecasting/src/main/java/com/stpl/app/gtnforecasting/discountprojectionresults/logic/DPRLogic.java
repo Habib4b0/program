@@ -21,8 +21,8 @@ import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.SUPPLEME
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;

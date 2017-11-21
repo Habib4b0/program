@@ -5,8 +5,30 @@
  */
 package com.stpl.app.gtnforecasting.ui.form;
 
+import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
+import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
+import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
+import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
+import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
+import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.security.StplSecurity;
+import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.GtnAutomaticRelationServiceRunnable;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.util.service.thread.ThreadPool;
+import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
@@ -28,7 +50,23 @@ import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_CUSTOMER_GROUP_
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
 import static com.stpl.app.utils.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
-
+import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.HelperDTO;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ComboBox;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,50 +80,9 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.vaadin.addons.lazycontainer.LazyContainer;
-
-import com.stpl.app.gtnforecasting.dto.CompanyDdlbDto;
-import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
-import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbCriteria;
-import com.stpl.app.gtnforecasting.lazyload.CompanyDdlbDao;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.form.lookups.CustomerProductGroupLookup;
-import com.stpl.app.gtnforecasting.ui.form.lookups.HierarchyLookup;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.GtnAutomaticRelationServiceRunnable;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.util.service.thread.ThreadPool;
-import com.stpl.app.utils.Constants;
-import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Window;
 
 /**
  *

@@ -1,8 +1,8 @@
 package com.stpl.ifs.ui;
 
 import com.stpl.ifs.ui.errorhandling.ErrorDisplay;
-import com.vaadin.data.Item;
-import com.vaadin.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 
 /**
  * Binding Component and Variables in DTO class
@@ -30,7 +30,7 @@ public class CustomFieldGroup extends FieldGroup {
     
     /**
      * Checks whether the component return type and the variable binded type are same or not.  
-     * @throws com.vaadin.data.fieldgroup.FieldGroup.CommitException 
+     * @throws com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException 
      */
     @Override
     public void commit() throws CommitException {

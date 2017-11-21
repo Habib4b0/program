@@ -36,9 +36,6 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Resource;
@@ -46,18 +43,21 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTreeTable;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -573,7 +573,6 @@ public class PhsResults extends CustomComponent implements View {
 
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(SPLIT_POSITION, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);
@@ -689,7 +688,6 @@ public class PhsResults extends CustomComponent implements View {
                 if (tableDto.getParent() == 1) {
                     Button ndcLink = new Button(tableDto.getGroup());
                     ndcLink.setStyleName(Reindeer.BUTTON_LINK);
-                    ndcLink.setImmediate(true);
                     ndcLink.setData(tableDto.getGroup());
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;

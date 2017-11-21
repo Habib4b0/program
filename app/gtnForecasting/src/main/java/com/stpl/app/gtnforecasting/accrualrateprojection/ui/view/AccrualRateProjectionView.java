@@ -14,7 +14,7 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;

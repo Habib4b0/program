@@ -4,44 +4,6 @@
  */
 package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
-import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
-import static com.stpl.app.utils.Constants.CommonConstants.NULL;
-import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
-import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
-import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
-import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
-import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.sql.DataSource;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
-
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
@@ -60,6 +22,19 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.NmProjectionSelection;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
+import static com.stpl.app.utils.Constants.CommonConstants.NULL;
+import static com.stpl.app.utils.Constants.CommonConstants.VALUE;
+import static com.stpl.app.utils.Constants.CommonConstants.VARIANCE;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_JAVA_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.FrequencyConstants.DEFAULT_SQL_DATE_FORMAT;
+import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM;
+import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
+import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
@@ -72,11 +47,32 @@ import com.stpl.portal.kernel.dao.orm.ProjectionList;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Filter;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.sql.DataSource;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.jboss.logging.Logger;
 
 /**
  *

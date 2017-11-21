@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.projectionresults.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
-
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionResults;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -25,13 +24,16 @@ import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.vaadin.server.VaadinSession;
+import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.server.VaadinSession;
+import com.vaadin.v7.ui.ExtCustomTable;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -42,9 +44,6 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
 import org.jboss.logging.Logger;
 
 /**

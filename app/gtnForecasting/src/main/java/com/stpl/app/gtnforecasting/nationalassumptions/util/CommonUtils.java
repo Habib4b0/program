@@ -8,7 +8,9 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Com
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.*;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.CalculatePeriods.CALCULATE;
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.ZERO;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.model.HelperTable;
@@ -17,6 +19,7 @@ import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
@@ -29,9 +32,9 @@ import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Notification;
+import com.vaadin.v7.ui.ComboBox;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +45,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -49,10 +53,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.inflater.filter.AttributeFilter;
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
-import java.util.HashMap;
 
 /**
  * The Class CommonUtils.

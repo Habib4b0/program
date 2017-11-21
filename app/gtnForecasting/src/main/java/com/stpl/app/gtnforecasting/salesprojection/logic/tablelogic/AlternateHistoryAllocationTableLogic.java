@@ -10,7 +10,7 @@ import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

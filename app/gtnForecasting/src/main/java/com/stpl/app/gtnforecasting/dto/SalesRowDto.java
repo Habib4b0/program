@@ -9,7 +9,6 @@ import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Comparator;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
 

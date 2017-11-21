@@ -3,13 +3,10 @@ package com.stpl.app.gtnforecasting.projectionvariance.form;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.gtnforecasting.dao.impl.ProjectionVarianceDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import static com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection.ANULL;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -21,7 +18,6 @@ import com.stpl.app.gtnforecasting.projectionvariance.form.lookup.NMComparisonLo
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMPVExcelLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
-import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
@@ -38,6 +34,7 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.utils.PVChart;
 import com.stpl.app.gtnforecasting.utils.PVGraphWindow;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.utils.Constants;
@@ -45,6 +42,9 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
@@ -54,15 +54,15 @@ import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.ExtCustomTable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -84,8 +84,6 @@ import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  * The Class ProjectionVariance.
@@ -828,10 +826,8 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 getDiscount();
                 if (pivotView.getValue().equals("Variable")) {
                     pivotPanel.setCaption("Variable Pivot View");
-                    pivotPanel.setImmediate(true);
                 } else {
                     pivotPanel.setCaption("Period Pivot View");
-                    pivotPanel.setImmediate(true);
                 }
                 generated = true;
                 firstGenerated = true;

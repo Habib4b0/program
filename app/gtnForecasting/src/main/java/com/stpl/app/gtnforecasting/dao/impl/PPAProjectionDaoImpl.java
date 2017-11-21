@@ -1,7 +1,5 @@
 package com.stpl.app.gtnforecasting.dao.impl;
 
-import java.util.List;
-
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
@@ -11,6 +9,7 @@ import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Collections;
+import java.util.List;
 
 public class PPAProjectionDaoImpl implements PPAProjectionDao {
 

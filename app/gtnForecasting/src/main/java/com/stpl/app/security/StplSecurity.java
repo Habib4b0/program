@@ -3,14 +3,6 @@ package com.stpl.app.security;
 import com.stpl.app.gtnforecasting.dao.impl.StplSecurityDAOImpl;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.security.permission.model.AppPermission;
@@ -25,7 +17,14 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

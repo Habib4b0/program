@@ -6,15 +6,14 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 
-import org.asi.ui.customtextfield.CustomTextField;
-
 import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.List;
+import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 

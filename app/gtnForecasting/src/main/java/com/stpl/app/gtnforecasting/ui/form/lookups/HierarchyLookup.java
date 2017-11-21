@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 import com.stpl.app.forecastabstract.lookups.AbstractHierarchyLookup;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -17,14 +16,15 @@ import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SEARCH;
 import static com.stpl.app.utils.Constants.LabelConstants.PRIMARY;
 import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
 import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;

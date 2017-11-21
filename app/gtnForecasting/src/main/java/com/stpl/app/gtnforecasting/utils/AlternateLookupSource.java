@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
-import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
+import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import java.util.ArrayList;
 import java.util.List;
 

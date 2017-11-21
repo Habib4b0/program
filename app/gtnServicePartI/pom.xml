@@ -77,7 +77,29 @@
                                 <meminitial>128m</meminitial>
                                 <maxmem>1024m</maxmem>
                                 </configuration>
-                        </plugin>                        
+                        </plugin>         
+                        <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>8.1.6</version>
+                <configuration>
+                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+                    <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
+                    <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
+                    <noServer>true</noServer>
+                    <draftCompile>false</draftCompile>
+                    <style>OBF</style>
+                    <strict>true</strict>
+                    <compileReport>true</compileReport>
+                    <runTarget>http://localhost:8080/</runTarget>
+                </configuration>
+                <executions>
+                    <execution>
+                        <configuration>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>                
 		</plugins>
 	</build>
 	

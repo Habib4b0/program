@@ -7,9 +7,9 @@ package com.stpl.app.gtnforecasting.accrualrateprojection.ui.form;
  */
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateProjectionDTO;
-import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualRateSelectionDTO;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.AccrualRateProjectionLogic;
+import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.tablelogic.AccrualRateProjectionTableLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -26,22 +26,22 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.Reindeer;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -182,7 +182,6 @@ public class Sales extends CustomComponent {
         historyDdlb.addItems(AccrualRateUtils.getInstance().historyPeriods12);
         historyDdlb.select(Constant.SELECT_ONE);
 
-        exclusionDetails.setImmediate(true);
         exclusionDetails.addStyleName(Reindeer.BUTTON_LINK);
 
         priceBasisDdlb.setImmediate(true);
@@ -242,7 +241,6 @@ public class Sales extends CustomComponent {
         resultsTable.markAsDirty();
         resultsTable.setDoubleHeaderVisible(true);
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(AccrualRateUtils.SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(AccrualRateUtils.MIN_SPLIT_POSITION, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(AccrualRateUtils.MAX_SPLIT_POSITION, Sizeable.Unit.PIXELS);

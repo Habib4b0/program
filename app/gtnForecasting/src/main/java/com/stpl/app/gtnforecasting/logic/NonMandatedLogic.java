@@ -5,29 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
-
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-import org.jboss.logging.Logger;
-
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
@@ -47,6 +24,8 @@ import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import static com.stpl.app.gtnforecasting.utils.Constant.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.Converters;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.DataSourceConnection;
@@ -61,6 +40,7 @@ import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants.CommonConstants;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -81,12 +61,29 @@ import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

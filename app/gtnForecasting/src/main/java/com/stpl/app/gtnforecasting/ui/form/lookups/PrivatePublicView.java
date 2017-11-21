@@ -6,33 +6,30 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 import com.stpl.app.forecastabstract.lookups.AbstractViewLookup;
-import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.RETURNS;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-
 import static com.stpl.app.utils.Constants.ButtonConstants.*;
-
-import com.stpl.app.utils.TableHeaderColumnsUtil;
-import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.util.CommonUIUtils;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Button.ClickEvent;
 import static com.stpl.app.utils.Constants.LogicConstants.*;
 import com.stpl.app.utils.DateToStringConverter;
+import com.stpl.app.utils.TableHeaderColumnsUtil;
+import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
+import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ExtCustomTable;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.TextField;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;

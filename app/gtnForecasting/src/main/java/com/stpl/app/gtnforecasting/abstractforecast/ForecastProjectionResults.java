@@ -25,27 +25,28 @@ import com.stpl.app.gtnforecasting.utils.NmSPRGraphWindow;
 import com.stpl.app.gtnforecasting.utils.PRChart;
 import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +55,6 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -62,7 +62,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
- * @author 
+ * @author
  */
 public abstract class ForecastProjectionResults extends CustomComponent {
 
@@ -137,7 +137,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     final StplSecurity stplSecurity = new StplSecurity();
     final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 
-    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
     protected ProjectionResultsTableLogic tableLogic = new ProjectionResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
     protected boolean generated, firstGenerated = false;
@@ -193,7 +193,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * Init method that reads the UI components from xml and configures the
      * Projection Results Screen.
      */
-    private void init()  {
+    private void init() {
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/abstractforecast/forecast-projection-results.xml"), this));
         configureFields();
     }
@@ -292,7 +292,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     }
 
     @UiHandler("generateBtn")
-    public void generateBtn(Button.ClickEvent event)  {
+    public void generateBtn(Button.ClickEvent event) {
         tradingPartnerNo = Utility.getTradingPartnerLevelNo(projectionId, sessionDTO);
         generateButtonLogic();
     }
@@ -409,7 +409,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -633,7 +632,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * Configures the excel result table.
      */
     protected void configureExcelResultTable() {
-        excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP
+        excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP
         );
         excelResultBean.setColumnProperties(fullHeader.getProperties());
         exceltable = new ExtCustomTreeTable();
@@ -727,7 +726,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
      * @param isExpand
      * @param value
      */
-    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException{
+    private void expandCollapseLevelOption(boolean isExpand, Object value) throws PortalException, SystemException {
 
         List<Object> levelHierarchy = CommonLogic.getLevelNoAndHierarchyNo(value);
         int levelNo = Integer.valueOf(String.valueOf(levelHierarchy.get(0)));
@@ -752,16 +751,14 @@ public abstract class ForecastProjectionResults extends CustomComponent {
 
     public void saveProjectionResultsSelection() throws PortalException, SystemException {
         LOGGER.debug("save Projection Results method starts");
-        if (isImmediate()) {
-            Map map = new HashMap();
-            map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
-            map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
-            map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
-            map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
-            map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
-            map.put("Pivot", pivotViewOpg.getValue().toString());
-            CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
-        }
+        Map map = new HashMap();
+        map.put(Constant.FREQUENCY_SMALL, frequencyDdlb.getValue().toString());
+        map.put(Constant.HISTORY_CAPS, historyDdlb.getValue().toString());
+        map.put("Sales/Units", salesOrUnitsOpg.getValue().toString());
+        map.put("Actuals/Projections", actualOrProjectionsOpg.getValue().toString());
+        map.put(Constant.PERIOD_ORDER, periodOrderOpg.getValue().toString());
+        map.put("Pivot", pivotViewOpg.getValue().toString());
+        CommonLogic.saveProjectionSelection(map, Constant.PROJECTION_RESULTS_LABEL, projectionSelectionDTO);
         LOGGER.debug("save Projection Results method ends");
     }
 

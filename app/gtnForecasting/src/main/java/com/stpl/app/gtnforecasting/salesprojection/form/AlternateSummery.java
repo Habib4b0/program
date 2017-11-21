@@ -34,45 +34,49 @@ import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
-import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM_HIERARCHY;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
-
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,9 +96,6 @@ import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
 import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
@@ -582,7 +583,6 @@ public class AlternateSummery extends CustomComponent {
         resultsTable.markAsDirty();
         resultsTable.setDoubleHeaderVisible(true);
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -885,15 +885,15 @@ public class AlternateSummery extends CustomComponent {
                         textField.setData(getBeanFromId(itemId).getHierarchyNo());
                         textField.setImmediate(true);
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
-                        textField.addFocusListener(new FieldEvents.FocusListener() {
+                        textField.addFocusListener(new FocusListener() {
                             
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(FocusEvent event) {
                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
-                        textField.addBlurListener(new FieldEvents.BlurListener() {
+                        textField.addBlurListener(new BlurListener() {
                             
-                            public void blur(FieldEvents.BlurEvent event) {
+                            public void blur(BlurEvent event) {
                                 String newValue = ((TextField) event.getComponent()).getValue();
                                 if (!oldGroupValue.equals(newValue)) {
                                     try {
@@ -949,18 +949,17 @@ public class AlternateSummery extends CustomComponent {
                         textField.setConverter(growthFormat);
                     }
                     
-                    textField.addFocusListener(new FieldEvents.FocusListener() {
-                        
-                        public void focus(FieldEvents.FocusEvent event) {
+                    textField.addFocusListener(new FocusListener() {
+                        public void focus(FocusEvent event) {
                             oldValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             oldValue = oldValue.replace("$", StringUtils.EMPTY);
                             oldValue = oldValue.replace(",", StringUtils.EMPTY);
                             oldValue = oldValue.replace(Constant.PERCENT, StringUtils.EMPTY);
                         }
                     });
-                    textField.addBlurListener(new FieldEvents.BlurListener() {
+                    textField.addBlurListener(new BlurListener() {
                         
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             newValue = newValue.replace("$", StringUtils.EMPTY);
                             newValue = newValue.replace(",", StringUtils.EMPTY);

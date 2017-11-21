@@ -9,14 +9,14 @@ import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HelperListUtil;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc

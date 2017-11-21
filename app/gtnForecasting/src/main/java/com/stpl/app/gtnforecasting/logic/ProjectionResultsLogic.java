@@ -5,13 +5,13 @@
  */
 package com.stpl.app.gtnforecasting.logic;
 
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.gtnforecasting.dto.ProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
 import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
+import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.BOTH;
 import static com.stpl.app.utils.Constants.LabelConstants.CONTRACT_SALES_AT_WAC;
 import static com.stpl.app.utils.Constants.LabelConstants.DASH;
@@ -21,12 +21,12 @@ import static com.stpl.app.utils.Constants.LabelConstants.PERC_OF_BUSSINESS;
 import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PPA_DISCOUNT;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
-import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
 import static com.stpl.app.utils.Constants.LabelConstants.SALES;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT_AMOUNT;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT_PERC;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

@@ -1,43 +1,5 @@
 package com.stpl.app.gtnforecasting.ui.form;
 
-import static com.stpl.app.gtnforecasting.utils.CommonUtil.COMMA;
-import static com.stpl.app.utils.Constants.ButtonConstants.BTN_NEXT;
-import static com.stpl.app.utils.Constants.ButtonConstants.BTN_PREVIOUS;
-import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE;
-import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED;
-import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_ADDITIONAL_INFORMATION;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_ASSUMPTIONS;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_SELECTION;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION_RESULTS;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_PPA_PROJECTION_RESULTS;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_PROJECTION_RESULTS;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_PROJECTION_VARIANCE;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION_RESULTS;
-import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
-import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customwindow.MinimizeTray;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
-
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
@@ -81,6 +43,7 @@ import com.stpl.app.gtnforecasting.ui.NonMandatedViewWindow;
 import com.stpl.app.gtnforecasting.ui.form.lookups.WorkFlowNotesLookup;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import static com.stpl.app.gtnforecasting.utils.CommonUtil.COMMA;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
@@ -96,6 +59,22 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
+import static com.stpl.app.utils.Constants.ButtonConstants.BTN_NEXT;
+import static com.stpl.app.utils.Constants.ButtonConstants.BTN_PREVIOUS;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_REFRESH_UPDATE;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_TIME_PERIOD_CHANGED;
+import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_ADDITIONAL_INFORMATION;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_ASSUMPTIONS;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DATA_SELECTION;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION_RESULTS;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_PPA_PROJECTION_RESULTS;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_PROJECTION_RESULTS;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_PROJECTION_VARIANCE;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION;
+import static com.stpl.app.utils.Constants.LabelConstants.TAB_SALES_PROJECTION_RESULTS;
+import static com.stpl.app.utils.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
@@ -103,12 +82,13 @@ import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
+import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
@@ -118,14 +98,30 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
-
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customwindow.MinimizeTray;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -433,7 +429,7 @@ public class ForecastForm extends AbstractForm {
 		tabSheet = new TabSheet();
 		tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-		tabSheet.setImmediate(true);
+		
 		try {
 			tabSheet.addTab(data, TAB_DATA_SELECTION.getConstant(), null, 0);
 			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
@@ -600,7 +596,7 @@ public class ForecastForm extends AbstractForm {
 	 * Configure fields.
 	 */
 	private void configureFields() {
-		tabSheet.setImmediate(true);
+		
 		btnPrev.addClickListener(new Button.ClickListener() {
 			public void buttonClick(Button.ClickEvent event) {
 				btnPreviousLogic();

@@ -9,7 +9,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.addons.tableexport.TableHolder;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import java.util.Date;
 import java.util.Map;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;

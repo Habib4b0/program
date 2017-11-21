@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.discountProjection.dto;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtMapDTO;
 

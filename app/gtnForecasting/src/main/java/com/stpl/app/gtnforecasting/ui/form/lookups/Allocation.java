@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
@@ -12,35 +13,37 @@ import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.AltAllocTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.ifs.ui.util.converters.DataFormatConverter;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.vaadin.data.Container;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.Sizeable;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
-import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
-import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.ui.util.converters.DataFormatConverter;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Resource;
+import com.vaadin.server.Sizeable;
+import com.vaadin.server.ThemeResource;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.CustomComponent;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -233,7 +236,6 @@ public class Allocation extends CustomComponent implements View {
         resultsTable = new FreezePagedTable(tableLogic);
         resultsTable.setDoubleHeaderVisible(true);
         resultsTable.setSelectable(false);
-        resultsTable.setImmediate(true);
         resultsTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -243,7 +245,6 @@ public class Allocation extends CustomComponent implements View {
         resultsDetTable = new FreezePagedTable(tableDetLogic);
         resultsDetTable.setDoubleHeaderVisible(true);
         resultsDetTable.setSelectable(false);
-        resultsDetTable.setImmediate(true);
         resultsDetTable.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         resultsDetTable.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         resultsDetTable.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -399,18 +400,18 @@ public class Allocation extends CustomComponent implements View {
                         final String allocatedPeriod = (StringUtils.EMPTY + propertyId).substring(0, endexForRange);
                         
                         if (allocatedPeriodsList.contains(allocatedPeriod)) {
-                            textField.addFocusListener(new FieldEvents.FocusListener() {
+                            textField.addFocusListener(new FocusListener() {
                                 @Override
-                                public void focus(FieldEvents.FocusEvent event) {
+                                public void focus(FocusEvent event) {
                                     
                                     focusValue = String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).replace(" ", StringUtils.EMPTY);
                                     LOGGER.debug(" focus Value" + focusValue);
                                 }
                             });
                             
-                            textField.addBlurListener(new FieldEvents.BlurListener() {
+                            textField.addBlurListener(new BlurListener() {
                                 @Override
-                                public void blur(FieldEvents.BlurEvent event) {
+                                public void blur(BlurEvent event) {
                                     blurValue = String.valueOf(container.getContainerProperty(itemId, propertyId).getValue()).replace(" ", StringUtils.EMPTY);
                                     
                                     LOGGER.debug(" blur Value" + blurValue);

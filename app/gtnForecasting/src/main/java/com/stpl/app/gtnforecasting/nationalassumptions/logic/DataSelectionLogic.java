@@ -40,7 +40,7 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

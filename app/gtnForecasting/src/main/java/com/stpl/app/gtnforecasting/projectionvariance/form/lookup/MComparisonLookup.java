@@ -17,11 +17,11 @@ import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.exception.PortalException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.validator.RegexpValidator;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -262,11 +262,9 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
             selectedResultsBean.removeItem(item);
         }
         if (resultsBean.size() > 0) {
-            addBtn.setEnabled(true);
-            addBtn.setImmediate(true);
+            addBtn.setEnabled(true);        
         } else {
             addBtn.setEnabled(false);
-            addBtn.setImmediate(true);
         }
     }
 

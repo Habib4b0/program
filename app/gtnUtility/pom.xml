@@ -44,6 +44,14 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-compatibility-client</artifactId>
+            <version>8.1.6</version>
+            <scope>provided</scope>
+        </dependency>
+        
+
+        <dependency>
             <groupId>org.asi.ui.galderma</groupId>
             <artifactId>extfilteringtable</artifactId>
             <version>1.5</version>
@@ -66,6 +74,16 @@
             <artifactId>lazy-container</artifactId>
             <version>${lazy.container.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-themes</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.asi.ui.galderma</groupId>
@@ -114,6 +132,16 @@
             <artifactId>messagebox</artifactId>
             <version>${de.steinwedel.vaadin.addon.version}</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-client-compiled</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.vaadin</groupId>
+                    <artifactId>vaadin-themes</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -121,7 +149,7 @@
             <version>3.0.1</version>
             <scope>provided</scope>
         </dependency> 
-         <dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${javaee-api.version}</version>

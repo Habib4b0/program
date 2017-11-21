@@ -24,7 +24,7 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;

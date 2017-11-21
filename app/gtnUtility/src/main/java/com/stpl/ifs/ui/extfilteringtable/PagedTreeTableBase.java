@@ -7,7 +7,7 @@
 package com.stpl.ifs.ui.extfilteringtable;
 
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Set;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterControlConfig;

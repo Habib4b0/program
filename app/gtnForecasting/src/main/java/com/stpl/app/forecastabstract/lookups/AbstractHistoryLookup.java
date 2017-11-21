@@ -5,6 +5,7 @@
  */
 package com.stpl.app.forecastabstract.lookups;
 
+import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_RESET;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SEARCH;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_MODULE_NON_MANDATED;
@@ -17,11 +18,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.CONTRACT_NO;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER;
 import static com.stpl.app.utils.Constants.LabelConstants.CUSTOMER_ID;
 import static com.stpl.app.utils.Constants.LabelConstants.RESULTS;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.TableHeaderColumnsUtil;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -30,12 +26,14 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.NativeSelect;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *

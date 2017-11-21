@@ -23,13 +23,13 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,8 +175,6 @@ public class MedicaidNdcPopUp extends CustomComponent {
             ndcTable.setColumnAlignment(commonUiUtils.newNdcColumns[i], ExtFilterTable.Align.RIGHT);
         }
         loadNdcList();
-
-        populate.setImmediate(true);
         ndc.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 

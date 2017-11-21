@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-import com.vaadin.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.Converter;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -47,7 +47,7 @@ public class DataFormatConverter implements Converter<String, String> {
     @Override
     public String convertToModel(String value,
             Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
         if (targetType != getModelType()) {
             throw new Converter.ConversionException("Converter only supports "
                     + getModelType().getName() + " (targetType was "
@@ -75,7 +75,7 @@ public class DataFormatConverter implements Converter<String, String> {
     @Override
     public String convertToPresentation(String value,
             Class<? extends String> targetType, Locale locale)
-            throws com.vaadin.data.util.converter.Converter.ConversionException {
+            throws com.vaadin.v7.data.util.converter.Converter.ConversionException {
         if (value == null) {
             if (defaultEmpty) {
                 value = StringUtils.EMPTY;

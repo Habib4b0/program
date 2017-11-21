@@ -6,8 +6,8 @@
 package com.stpl.ifs.util;
 
 import com.stpl.addons.tableexport.ExportableFormattedProperty;
-import com.vaadin.data.Property;
-import com.vaadin.ui.ExtCustomTable;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.ExtCustomTable;
 
 /**
  *

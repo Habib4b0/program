@@ -5,12 +5,12 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.DataSelectionDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.ui.form.DataSelectionIndex;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.ifs.ui.CustomFieldGroup;
-import com.vaadin.data.util.BeanItem;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 

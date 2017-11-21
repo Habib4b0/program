@@ -15,7 +15,7 @@
  */
 package com.stpl.ifs.ui.extfilteringtable;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 
 
 /**

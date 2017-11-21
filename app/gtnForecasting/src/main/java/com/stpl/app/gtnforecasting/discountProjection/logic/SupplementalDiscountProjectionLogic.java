@@ -5,30 +5,32 @@
  */
 package com.stpl.app.gtnforecasting.discountProjection.logic;
 
-import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
 import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
+import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import static com.stpl.app.utils.Constants.CommonConstants.*;
-import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import static com.stpl.app.utils.Constants.CommonConstants.*;
+import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
-import com.vaadin.data.Container;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +38,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import com.stpl.ifs.util.QueryUtil;
-import java.util.Collections;
 
 /**
  *

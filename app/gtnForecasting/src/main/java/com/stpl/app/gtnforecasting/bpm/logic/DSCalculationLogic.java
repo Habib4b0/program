@@ -1,12 +1,5 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
-
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
@@ -17,6 +10,11 @@ import com.stpl.ifs.util.DroolsProperties;
 import com.stpl.portal.model.Role;
 import com.stpl.portal.model.User;
 import com.stpl.portal.service.RoleLocalServiceUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
 
 public class DSCalculationLogic {
 

@@ -1,27 +1,5 @@
 package com.stpl.app.gtnforecasting.ui;
 
-import static com.stpl.ifs.util.constants.GlobalConstants.getAccrualConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
-import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.portlet.PortletConfig;
-import javax.portlet.PortletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.vaadin.alump.beforeunload.BeforeUnload;
-
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
@@ -42,6 +20,10 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import static com.stpl.ifs.util.constants.GlobalConstants.getAccrualConstant;
+import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
+import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
+import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.stpl.portal.kernel.util.JavaConstants;
 import com.vaadin.navigator.Navigator;
@@ -50,11 +32,24 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
-
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletRequest;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.vaadin.alump.beforeunload.BeforeUnload;
 
 // TODO: Auto-generated Javadoc
 /**

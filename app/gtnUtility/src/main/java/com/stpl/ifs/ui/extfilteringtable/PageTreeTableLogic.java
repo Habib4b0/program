@@ -7,9 +7,9 @@ package com.stpl.ifs.ui.extfilteringtable;
 
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container.Indexed;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container.Indexed;
+import com.vaadin.v7.data.Property;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;

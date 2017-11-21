@@ -1,17 +1,18 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.util;
 
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Property;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.PopupView;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.FieldEvents;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
 
 /**
  *
@@ -78,9 +79,9 @@ public class NotesTextField extends CustomField {
                 return;
             }
         });
-        txtArea.addBlurListener(new FieldEvents.BlurListener() {
+        txtArea.addBlurListener(new BlurListener() {
             @Override
-            public void blur(FieldEvents.BlurEvent event) {
+            public void blur(BlurEvent event) {
                 popup.setPopupVisible(false);
                 }
         });

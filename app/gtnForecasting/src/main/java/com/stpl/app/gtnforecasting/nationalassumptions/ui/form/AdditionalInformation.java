@@ -19,11 +19,8 @@ import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
@@ -36,11 +33,16 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.VerticalLayout;
+import elemental.json.JsonArray;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -262,22 +264,19 @@ public class AdditionalInformation extends CustomComponent {
         if (Constant.VIEW.equalsIgnoreCase(mode)) {
             disableFieldsOnView();
         }
-        uploader.addFocusListener(new FieldEvents.FocusListener() {
+        uploader.addFocusListener(new FocusListener() {
             /**
              * Will execute,when we click an uploader.
              */
             @Override
-            public void focus(final FieldEvents.FocusEvent event) {
+            public void focus(final FocusEvent event) {
                 addAttachment.focus();
             }
         });
         JavaScript.getCurrent().addFunction("callJava", new JavaScriptFunction() {
             @Override
-            /**
-             * Call
-             */
-            public void call(final org.json.JSONArray arguments) throws org.json.JSONException {
-                File fileUpload;
+            public void call(JsonArray arguments) {
+                 File fileUpload;
                 final String value = String.valueOf(arguments.get(0));
                 fileUpload = CommonUtil.getFilePath(value);
                 final String name = fileUpload.getAbsolutePath();
@@ -295,8 +294,8 @@ public class AdditionalInformation extends CustomComponent {
                     uploader.setValue(name);
                 }
                 uploader.focus();
-
             }
+          
         });
         addAttachment.addChangeListener(new Upload.ChangeListener() {
             @Override

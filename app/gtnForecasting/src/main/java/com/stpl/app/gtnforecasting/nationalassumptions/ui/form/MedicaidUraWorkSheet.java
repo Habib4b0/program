@@ -34,30 +34,34 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -74,7 +78,6 @@ import org.vaadin.addons.lazycontainer.LazyContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import com.vaadin.ui.Table;
 
 /**
  * The Class MedicaidUraWorkSheet.
@@ -499,7 +502,6 @@ public class MedicaidUraWorkSheet extends Window {
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(false);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -617,19 +619,19 @@ public class MedicaidUraWorkSheet extends Window {
                                 notesField.setTextfieldValue(noteArr[0]);
                             }
                         
-                        notesField.addTextFieldFocusListener(new FieldEvents.FocusListener() {
+                        notesField.addTextFieldFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(FocusEvent event) {
 
                                 attachValueChangeListener((AbstractField) event.getComponent());
                             }
 
                         });
-                        notesField.addTextFieldBlurListener(new FieldEvents.BlurListener() {
+                        notesField.addTextFieldBlurListener(new BlurListener() {
 
                             @Override
-                            public void blur(FieldEvents.BlurEvent event) {
+                            public void blur(BlurEvent event) {
 
                                 if (valueChange) {
                                     try {
@@ -665,20 +667,20 @@ public class MedicaidUraWorkSheet extends Window {
                                 notesField.addToolTip(noteArr[1]);
                             
                         }
-                        notesField.addTextAreaFocusListener(new FieldEvents.FocusListener() {
+                        notesField.addTextAreaFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(FocusEvent event) {
 
                                 attachTAValueChangeListener((AbstractField) event.getComponent());
                             }
 
                         });
 
-                        notesField.addTextAreaBlurListener(new FieldEvents.BlurListener() {
+                        notesField.addTextAreaBlurListener(new BlurListener() {
 
                             @Override
-                            public void blur(FieldEvents.BlurEvent event) {
+                            public void blur(BlurEvent event) {
 
                                 if (valueTAChange) {
                                     try {
@@ -774,19 +776,19 @@ public class MedicaidUraWorkSheet extends Window {
                                 notesField.setTextfieldValue(noteArr[0]);
                             
                         }
-                        notesField.addTextFieldFocusListener(new FieldEvents.FocusListener() {
+                        notesField.addTextFieldFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(FocusEvent event) {
 
                                 attachValueChangeListener((AbstractField) event.getComponent());
                             }
 
                         });
-                        notesField.addTextFieldBlurListener(new FieldEvents.BlurListener() {
+                        notesField.addTextFieldBlurListener(new BlurListener() {
 
                             @Override
-                            public void blur(FieldEvents.BlurEvent event) {
+                            public void blur(BlurEvent event) {
 
                                 if (valueChange) {
                                     try {
@@ -819,20 +821,20 @@ public class MedicaidUraWorkSheet extends Window {
                                 notesField.addToolTip(noteArr[1]);
                             
                         }
-                        notesField.addTextAreaFocusListener(new FieldEvents.FocusListener() {
+                        notesField.addTextAreaFocusListener(new FocusListener() {
 
                             @Override
-                            public void focus(FieldEvents.FocusEvent event) {
+                            public void focus(FocusEvent event) {
 
                                 attachTAValueChangeListener((AbstractField) event.getComponent());
                             }
 
                         });
 
-                        notesField.addTextAreaBlurListener(new FieldEvents.BlurListener() {
+                        notesField.addTextAreaBlurListener(new BlurListener() {
 
                             @Override
-                            public void blur(FieldEvents.BlurEvent event) {
+                            public void blur(BlurEvent event) {
 
                                 if (valueTAChange) {
                                     try {

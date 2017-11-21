@@ -1,46 +1,42 @@
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
-import static com.stpl.app.utils.Constants.WindowMessagesName.CLOSE_CONFIRMATION;
-import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
-
-import java.util.Set;
-
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-
-import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
+import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
+import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.utils.Constants.WindowMessagesName.CLOSE_CONFIRMATION;
+import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION;
 import com.stpl.app.utils.ValidationUtils;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.Sizeable;
 import com.vaadin.shared.ui.MultiSelectMode;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 import java.util.List;
+import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * The Class ParityLookup.

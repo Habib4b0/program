@@ -3,7 +3,7 @@ package com.stpl.app.service.impl;
 import com.stpl.app.service.base.ItemGroupDetailsLocalServiceBaseImpl;
 import com.stpl.app.service.persistence.ItemGroupDetailsFinderUtil;
 import com.stpl.portal.kernel.dao.orm.Session;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.List;
 import java.util.Set;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;

@@ -2,8 +2,8 @@ package com.stpl.ifs.ui;
 
 import java.util.Date;
 
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.DefaultConverterFactory;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
 /**
  * Converter Factory
  * @author shrihariharan

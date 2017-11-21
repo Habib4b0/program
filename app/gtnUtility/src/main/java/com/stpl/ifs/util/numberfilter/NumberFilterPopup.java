@@ -4,19 +4,19 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.hene.popupbutton.PopupButton.PopupVisibilityEvent;
 
-import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.v7.data.util.converter.Converter.ConversionException;
+import com.vaadin.v7.event.FieldEvents;
+import com.vaadin.v7.event.FieldEvents.TextChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
+import com.vaadin.v7.ui.CustomField;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
 import org.jboss.logging.Logger;
 
 /**
@@ -154,7 +154,7 @@ public class NumberFilterPopup extends CustomField<NumberInterval> {
 
     @Override
     public void setValue(NumberInterval newFieldValue)
-            throws com.vaadin.data.Property.ReadOnlyException,
+            throws com.vaadin.v7.data.Property.ReadOnlyException,
             ConversionException {
         settingValue = true;
         boolean nullValue = false;

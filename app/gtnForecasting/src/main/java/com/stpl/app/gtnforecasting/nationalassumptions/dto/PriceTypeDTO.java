@@ -6,7 +6,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.dto;
  */
 
 import com.vaadin.ui.Button;
-
 import java.io.Serializable;
 
 // TODO: Auto-generated Javadoc

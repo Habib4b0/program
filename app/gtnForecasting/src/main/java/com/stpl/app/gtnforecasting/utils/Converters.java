@@ -6,16 +6,6 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
 import com.stpl.app.model.CompanyGroup;
 import com.stpl.app.utils.Constants.CommonConstants;
 import com.stpl.app.utils.Constants.DateFormatConstants;
@@ -26,6 +16,13 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.model.User;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

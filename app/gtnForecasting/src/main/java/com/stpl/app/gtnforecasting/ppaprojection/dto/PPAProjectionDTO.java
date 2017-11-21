@@ -6,7 +6,6 @@
 package com.stpl.app.gtnforecasting.ppaprojection.dto;
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;

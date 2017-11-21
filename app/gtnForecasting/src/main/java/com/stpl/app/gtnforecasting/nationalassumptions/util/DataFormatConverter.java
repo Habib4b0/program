@@ -5,11 +5,10 @@ package com.stpl.app.gtnforecasting.nationalassumptions.util;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import com.vaadin.v7.data.util.converter.Converter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Locale;
-
-import com.vaadin.data.util.converter.Converter;
 import org.apache.commons.lang.StringUtils;
 
 /**

@@ -8,15 +8,28 @@ package com.stpl.app.gtnforecasting.discountProjection.form;
 
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
-import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
 import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import static com.stpl.app.utils.Constants.RegexConstants.DOUBLE_CHECK;
+import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
+import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
+import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.SupplementalTableLogic;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
+import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.security.StplSecurity;
+import com.stpl.app.security.permission.model.AppPermission;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECTMETHODOLOGY;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
@@ -30,47 +43,37 @@ import static com.stpl.app.utils.Constants.LabelConstants.METHODOLOGY;
 import static com.stpl.app.utils.Constants.LabelConstants.PARITY;
 import static com.stpl.app.utils.Constants.LabelConstants.PARITY_REFERENCE;
 import static com.stpl.app.utils.Constants.LabelConstants.PARITY_SETTINGS;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import static com.stpl.app.utils.Constants.RegexConstants.DOUBLE_CHECK;
 import com.stpl.app.utils.converters.DataFormatConverter;
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
-import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
-import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
-import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
-import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.server.Sizeable;
 import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.ExtCustomTable;
+import com.vaadin.v7.ui.ExtCustomTreeTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TextField;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -199,9 +202,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         value.setVisible(true);
         formulaList = supplementalDiscountProjectionLogic.loadFormula();
         projectionDTO.setSupplementalList(supplementalDiscountProjectionLogic.getLevelList(session.getCustomerHierarchyId(), session.getProductHierarchyId()));
-        value.addBlurListener(new FieldEvents.BlurListener() {
+        value.addBlurListener(new BlurListener() {
             @Override
-            public void blur(FieldEvents.BlurEvent event) {
+            public void blur(BlurEvent event) {
                 value.setValue(dollZeroDec.format(Double.valueOf(value.getValue())));
             }
         });
@@ -497,7 +500,6 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     private void initializeResultTable() {
         periodTableId.markAsDirty();
         periodTableId.setSelectable(true);
-        periodTableId.setImmediate(true);
         periodTableId.setSplitPosition(splitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMinSplitPosition(minSplitPosition, Sizeable.Unit.PIXELS);
         periodTableId.setMaxSplitPosition(maxSplitPosition, Sizeable.Unit.PIXELS);
@@ -735,10 +737,10 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         comboBox.addItem(Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY);
                         comboBox.select(SELECT_ONE.getConstant());
                     }
-                    comboBox.addFocusListener(new FieldEvents.FocusListener() {
+                    comboBox.addFocusListener(new FocusListener() {
 
                         @Override
-                        public void focus(FieldEvents.FocusEvent event) {
+                        public void focus(FocusEvent event) {
                             valueChange = true;
                             attachValueChangeListener((AbstractField) event.getComponent());
                             itemIdValue = itemId;
@@ -746,9 +748,9 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         }
 
                     });
-                    comboBox.addBlurListener(new FieldEvents.BlurListener() {
+                    comboBox.addBlurListener(new BlurListener() {
 
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             try {
                                 detachLisener(comboBox);
                             } catch (Exception e) {
@@ -766,10 +768,10 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     textField.setImmediate(true);
                     textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
                     textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
-                    textField.addBlurListener(new FieldEvents.BlurListener() {
+                    textField.addBlurListener(new BlurListener() {
 
                         @Override
-                        public void blur(FieldEvents.BlurEvent event) {
+                        public void blur(BlurEvent event) {
                             blurValue = String.valueOf(container.getContainerProperty(itemId, propertyId).getValue());
                             if (blurValue.isEmpty()) {
                                 blurValue = Constant.DASH;

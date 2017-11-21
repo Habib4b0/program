@@ -11,6 +11,7 @@ import com.stpl.app.gtnforecasting.dao.impl.CommonResultsDAOImpl;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -24,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 
 /**
  *

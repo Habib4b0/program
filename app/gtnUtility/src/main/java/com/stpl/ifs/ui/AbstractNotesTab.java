@@ -22,12 +22,14 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.HeaderUtils;
-import com.vaadin.data.Property;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.FieldEvents;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -38,20 +40,21 @@ import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.Upload.Receiver;
+import com.vaadin.v7.ui.VerticalLayout;
+import elemental.json.JsonArray;
 
 /**
  *
@@ -283,10 +286,11 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
              *
              */
             private static final long serialVersionUID = 1L;
+          
 
             @Override
-            public void call(org.json.JSONArray arguments) throws org.json.JSONException {
-                try {
+            public void call(JsonArray arguments) {
+               try {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
@@ -319,7 +323,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
             }
         });
 
-        uploader.addFocusListener(new FieldEvents.FocusListener() {
+        uploader.addFocusListener(new FocusListener() {
             /**
              *
              */
@@ -329,7 +333,7 @@ public abstract class AbstractNotesTab extends CustomComponent implements View {
              * Will execute,when we click an uploader.
              */
             @Override
-            public void focus(final FieldEvents.FocusEvent event) {
+            public void focus(final FocusEvent event) {
                 uploadComponent.focus();
             }
         });

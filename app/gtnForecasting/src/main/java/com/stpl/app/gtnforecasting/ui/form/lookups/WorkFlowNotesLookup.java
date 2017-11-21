@@ -6,19 +6,16 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
-import com.stpl.app.utils.ValidationUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.FileUploader;
+import com.stpl.app.utils.ValidationUtils;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CommonUtil;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.event.FieldEvents;
-import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.FieldEvents.FocusEvent;
+import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
@@ -32,14 +29,19 @@ import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.Upload.Receiver;
-import com.vaadin.ui.Upload.StartedEvent;
-import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.event.ItemClickEvent;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextArea;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.Upload.Receiver;
+import com.vaadin.v7.ui.Upload.StartedEvent;
+import com.vaadin.v7.ui.Upload.SucceededEvent;
+import elemental.json.JsonArray;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -169,8 +171,8 @@ public class WorkFlowNotesLookup extends Window {
             private static final long serialVersionUID = 1L;
 
             @Override
-            public void call(org.json.JSONArray arguments) throws org.json.JSONException {
-                try {
+            public void call(JsonArray arguments) {
+              try {
                     String value = String.valueOf(arguments.get(0));
                     if (StringUtils.isNotEmpty(value)) {
 
@@ -203,12 +205,12 @@ public class WorkFlowNotesLookup extends Window {
             }
         });
 
-        uploader.addFocusListener(new FieldEvents.FocusListener() {
+        uploader.addFocusListener(new FocusListener() {
             /**
              * Will execute,when we click an uploader.
              */
             @Override
-            public void focus(final FieldEvents.FocusEvent event) {
+            public void focus(final FocusEvent event) {
                 uploadComponent.focus();
             }
         });

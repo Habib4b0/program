@@ -5,9 +5,9 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.stpl.app.gtnforecasting.discountProjection.form.AltSummeryDiscount;
 import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.discountProjection.form.AltSummeryDiscount;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.form.AlternateSummery;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
@@ -22,13 +22,13 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.Tab;
 import com.vaadin.ui.themes.ValoTheme;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -150,7 +150,6 @@ public class AlternateHistory extends CustomWindow {
         populateBtn.setVisible(false);
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.markAsDirty();
         tabSheet.markAsDirtyRecursive();
         tabSheet.addTab((Component) customerSelection, "Customer Selection", null, 0);

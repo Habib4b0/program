@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.utils;
 
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,12 +13,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-
-// TODO: Auto-generated Javadoc
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  * The Class Constant.
