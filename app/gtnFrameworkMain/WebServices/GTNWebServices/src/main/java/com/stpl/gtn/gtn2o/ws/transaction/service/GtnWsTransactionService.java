@@ -273,13 +273,9 @@ public class GtnWsTransactionService {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			String columnName = ((AbstractEntityPersister) classMetadata)
 					.getPropertyColumnNames(columns.getFieldId())[0];
-			Object doubleFilterValues = columns.getFilterValue1() ;
-			Type doubleFilterTypes = StandardBasicTypes.STRING ;
-			StringBuilder sb=new StringBuilder();
-			sb.append("round(");
-			sb.append(columnName);
-			sb.append(",3)=?");
-			criteria.add(Restrictions.sqlRestriction(sb.toString(), doubleFilterValues, doubleFilterTypes));
+			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
+			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
+			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));

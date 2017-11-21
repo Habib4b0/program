@@ -6,7 +6,7 @@ public class GtnFrameworkAutomaticRelationshipResponse {
 		super();
 	}
 
-	boolean isRelationUpdate;
+	private boolean isRelationUpdate;
 
 	public boolean isRelationUpdate() {
 		return isRelationUpdate;
