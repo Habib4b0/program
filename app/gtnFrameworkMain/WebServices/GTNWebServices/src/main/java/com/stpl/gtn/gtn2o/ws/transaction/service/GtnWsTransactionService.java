@@ -166,7 +166,7 @@ public class GtnWsTransactionService {
 				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter,type);
 				break;
 			case "EQUAL":
-				equalCriteria(criteria, classMetadata, columns, type, dateFormat, value);
+				equalCriteria(criteria, columns, type, dateFormat, value);
 				break;
 
 			case "EQUALS":
@@ -268,7 +268,7 @@ public class GtnWsTransactionService {
 		}
 	}
 
-	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
+	private void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns,
 			String type, String dateFormat, String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
 			String columnName = columns.getFieldId();
