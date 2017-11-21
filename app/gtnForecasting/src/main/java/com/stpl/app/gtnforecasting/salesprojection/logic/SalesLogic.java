@@ -2205,8 +2205,10 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
-    public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, final int startYear, final int endYear, final int startQuarter, final int endQuarter, final String value, final String growth) throws PortalException, SystemException {
-
+ public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, final int startYear, final int endYear, final int startQuarter, final int endQuarter, final String value, final String growth, boolean isAllChildChecked) throws PortalException, SystemException {
+        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+        StringBuilder hierarchyNumber = new StringBuilder();
+        
         if (growth.equals(Constant.SALES_SMALL) || growth.equals(Constant.UNIT_VOLUME)) {
             int frequency = projectionSelectionDTO.getFrequencyDivision();
             String semiOrAnnualFreq = frequency == 2 ? "S" : "A";
@@ -2223,7 +2225,19 @@ public class SalesLogic {
 
             
             input.add(growth.equals(Constant.SALES_SMALL) ? "PROJECTION_SALES" : "PROJECTION_UNITS");
-            com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(input, "mass-update-sales-units", projectionSelectionDTO.getSessionDTO());
+            String sqlQuery = SQlUtil.getQuery("selected-Hierarchy-Query-sales").replace("@HIER_NAME", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO");
+            List<String> hierarchyList = (List<String>)salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+            
+            for (String hierarchy : hierarchyList) {
+                hierarchyNumber.append("('").append(hierarchy).append("')").append(",");
+            }
+            hierarchyNumber.replace(hierarchyNumber.lastIndexOf(","), hierarchyNumber.length(), "");
+            String queryNameFromXml = !isAllChildChecked ? "mass-update-sales-check" : "mass-update-sales-units";
+            String sqlUnitsQuery=com.stpl.app.utils.QueryUtils.getQuery(input,queryNameFromXml);
+            
+            sqlUnitsQuery= sqlUnitsQuery.replace("@HIERARCHY_NO_VALUES", hierarchyNumber );
+            salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+      
             return;
         }
 
@@ -2280,7 +2294,6 @@ public class SalesLogic {
                 updateQuery = updateQuery.replace(Constant.END_FREQUENCY, " AND SEMI_ANNUAL > " + endQuarter);
                 break;
         }
-        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }

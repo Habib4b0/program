@@ -2203,7 +2203,29 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         return;
                     }
                 } else {
-                    salesLogic.saveOnMassUpdate(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
+                    boolean parentChecked=false;
+                    boolean parentExistinTable= false;
+                    SalesRowDto dto = (SalesRowDto)getTableLogic().getcurrentTreeData(getTableLogic().getAllLevels().get(0));
+                    int lowerLevelNo="C".equalsIgnoreCase(projectionDTO.getHierarchyIndicator()) ? projectionDTO.getSessionDTO().getLowerMostCustomerLevelNo() : projectionDTO.getSessionDTO().getLowerMostProductLevelNo();
+                    boolean onlyLowerLevelExist=(dto.getTreeLevelNo()==lowerLevelNo);
+                    if (onlyLowerLevelExist) {
+                        salesLogic.saveOnMassUpdate(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable, onlyLowerLevelExist);
+                    } else {
+                        for (String allLevel : getTableLogic().getAllLevels()) {
+                            if (getTableLogic().getcurrentTreeData(allLevel) != null) {
+                                SalesRowDto itemId = (SalesRowDto) getTableLogic().getcurrentTreeData(allLevel);
+                                int lowerMostLevelNo = "C".equalsIgnoreCase(projectionDTO.getHierarchyIndicator()) ? projectionDTO.getSessionDTO().getLowerMostCustomerLevelNo() : projectionDTO.getSessionDTO().getLowerMostProductLevelNo();
+                                parentExistinTable = itemId.getTreeLevelNo() < lowerMostLevelNo;
+                                if (!(itemId.getTreeLevelNo() == lowerMostLevelNo)) {
+                                    parentChecked = ((boolean) itemId.getPropertyValue(Constant.CHECK));
+                                }
+                            }
+                            if (parentExistinTable && parentChecked) {
+                                break;
+                            }
+                        }
+                        salesLogic.saveOnMassUpdate(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable, !(parentExistinTable && parentChecked));
+                    }
                     isUpdated = true;
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
@@ -3790,5 +3812,5 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             
             allocationBasis.addItems(outputList);
     }
-
+    
 }

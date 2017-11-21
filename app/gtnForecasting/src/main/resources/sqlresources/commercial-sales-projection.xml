@@ -1624,6 +1624,139 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
     <![CDATA[
 
     DECLARE @START_QUARTER VARCHAR(50) = '?'
+DECLARE @END_QUARTER VARCHAR(50) = '?'
+DECLARE @DISCOUNT_AMOUNT NUMERIC(22, 6) = ?
+DECLARE @FREQUENCY CHAR(1) = '?'
+DECLARE @START_PERIOD_SID INT
+DECLARE @END_PERIOD_SID INT
+DECLARE @FREQUENCY_COUNT INT
+DECLARE @QUARTERS_COUNT INT
+ 
+ 
+IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+       DROP TABLE #PERIOD;
+ 
+SELECT PERIOD_SID,
+       PERIOD_DATE,
+       MONTH AS PERIOD_MONTH,
+       QUARTER AS PERIOD_QUARTER,
+       SEMI_ANNUAL AS PERIOD_SEMI,
+       YEAR AS PERIOD_YEAR,
+       CASE
+              WHEN @FREQUENCY = 'M'
+                     THEN CONCAT ( 'M', MONTH, ' ', YEAR )
+              WHEN @FREQUENCY = 'Q'
+                     THEN CONCAT ( 'Q', QUARTER, ' ', YEAR )
+              WHEN @FREQUENCY = 'S'
+                     THEN CONCAT ( 'S', SEMI_ANNUAL, ' ', YEAR )
+              ELSE Cast(YEAR AS CHAR(4))
+              END AS PERIOD,
+       CASE
+              WHEN @FREQUENCY = 'M'
+                     THEN MONTH
+              WHEN @FREQUENCY = 'Q'
+                     THEN QUARTER
+              WHEN @FREQUENCY = 'S'
+                     THEN SEMI_ANNUAL
+              ELSE YEAR
+              END AS ROLL_PERIOD
+INTO #PERIOD
+FROM PERIOD
+ 
+SELECT @START_PERIOD_SID = MIN(PERIOD_SID)
+FROM #PERIOD
+WHERE PERIOD = @START_QUARTER
+ 
+SELECT @END_PERIOD_SID = MAX(PERIOD_SID)
+FROM #PERIOD
+WHERE PERIOD = @END_QUARTER
+ 
+SET @FREQUENCY_COUNT = (
+              SELECT CASE
+                           WHEN @FREQUENCY = 'M'
+                                  THEN 1
+                           WHEN @FREQUENCY = 'Q'
+                                  THEN 3
+                           WHEN @FREQUENCY = 'S'
+                                  THEN 6
+                           ELSE 12
+                           END
+              );
+SET @QUARTERS_COUNT = ((@END_PERIOD_SID - @START_PERIOD_SID) + 1) / @FREQUENCY_COUNT
+ 
+IF OBJECT_ID('TEMPDB..#HIER_NO') IS NOT NULL
+       DROP TABLE #HIER_NO
+ 
+CREATE TABLE #HIER_NO (
+       HIERARCHY_NO VARCHAR(1000),
+       CCP_DETAILS_SID INT
+       )
+ 
+INSERT INTO #HIER_NO (
+       HIERARCHY_NO,
+       CCP_DETAILS_SID
+       )
+SELECT DISTINCT HIERARCHY_NO,
+       CCP_DETAILS_SID
+FROM (
+       VALUES @HIERARCHY_NO_VALUES
+       ) A(HIERARCHY_NO)
+INNER JOIN ST_CCP_HIERARCHY B
+       ON (
+                     B.CUST_HIERARCHY_NO LIKE HIERARCHY_NO + '%'
+                     OR B.PROD_HIERARCHY_NO LIKE HIERARCHY_NO + '%'
+                     )
+WHERE EXISTS (
+              SELECT 1
+              FROM ST_NM_SALES_PROJECTION_MASTER ST
+              WHERE CHECK_RECORD = 1
+                     AND ST.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+              )
+ 
+UPDATE SP
+SET SP.? = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)
+FROM ST_NM_SALES_PROJECTION SP
+INNER JOIN ST_NM_SALES_PROJECTION_MASTER SP1
+       ON SP.CCP_DETAILS_SID = SP1.CCP_DETAILS_SID
+INNER JOIN #PERIOD P
+       ON SP.PERIOD_SID = P.PERIOD_SID
+INNER JOIN (
+       SELECT HIERARCHY_NO,
+              CCP_DETAILS_SID,
+              COUNT(CCP_DETAILS_SID) OVER (PARTITION BY HIERARCHY_NO) CCPS_COUNT
+       FROM #HIER_NO
+       ) CC
+       ON CC.CCP_DETAILS_SID = SP1.CCP_DETAILS_SID
+WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
+              AND @END_PERIOD_SID
+ 
+ 
+   ]]>
+
+        </query>
+    </entity>
+    
+    <entity id="selected-Hierarchy-Query-sales">
+<query>
+    <![CDATA[
+
+     SELECT DISTINCT CCP.@HIER_NAME FROM ST_NM_SALES_PROJECTION LK 
+          JOIN ST_NM_SALES_PROJECTION_MASTER SS 
+          ON SS.CCP_DETAILS_SID= LK.CCP_DETAILS_SID 
+          JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=SS.CCP_DETAILS_SID
+          WHERE SS.CHECK_RECORD=1
+
+
+   ]]>
+
+        </query>
+    </entity>
+    
+     <entity id="mass-update-sales-check">
+<query>
+    <![CDATA[
+
+     DECLARE @START_QUARTER VARCHAR(50) = '?'
     DECLARE @END_QUARTER VARCHAR(50) = '?'
     DECLARE @DISCOUNT_AMOUNT NUMERIC(22, 6) = ?
     DECLARE @FREQUENCY CHAR(1) = '?'
@@ -1711,11 +1844,10 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
     WHERE p.PERIOD_SID BETWEEN @START_PERIOD_SID
                   AND @END_PERIOD_SID
           AND SP1.CHECK_RECORD = 1
-    
-
+ 
+ 
    ]]>
-
-        </query>
+    </query>
     </entity>
 
 </sql>
