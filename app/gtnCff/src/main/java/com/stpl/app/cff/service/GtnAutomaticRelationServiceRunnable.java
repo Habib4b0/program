@@ -5,6 +5,9 @@
  */
 package com.stpl.app.cff.service;
 
+import java.util.Calendar;
+import java.util.concurrent.Callable;
+
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
@@ -12,9 +15,8 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.server.VaadinSession;
-import java.util.Calendar;
 
-public class GtnAutomaticRelationServiceRunnable implements Runnable {
+public class GtnAutomaticRelationServiceRunnable implements Callable {
 
     private Object value;
     private int hierarchySid;
@@ -27,43 +29,41 @@ public class GtnAutomaticRelationServiceRunnable implements Runnable {
     }
 
     public static void testWebservice() {
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        client.callGtnWebServiceUrl(
-                GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
-                + GtnWebServiceUrlConstants.RELATION_WEBSERVICE_TEST,
-                request, getGsnWsSecurityToken());
-    }
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+				+ GtnWebServiceUrlConstants.RELATION_WEBSERVICE_TEST, request, getGsnWsSecurityToken());
+	}
 
-    private static GtnWsSecurityToken getGsnWsSecurityToken() {
-        GtnWsSecurityToken token = new GtnWsSecurityToken();
-        Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
-        String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
-        token.setUserId(userId);
-        token.setSessionId(sessionId.toString());
-        return token;
-    }
+	private static GtnWsSecurityToken getGsnWsSecurityToken() {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		Integer sessionId = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
+		token.setUserId(userId);
+		token.setSessionId(sessionId.toString());
+		return token;
+	}
 
-    @Override
-    public void run() {
-        if (value == null) {
-            return;
-        }
+	@Override
+	public Object call() throws Exception {
+		if (value == null)
+			return Boolean.FALSE;
 
-        Integer relationShipBuilderSid = Integer.parseInt(value.toString());
-        GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
-        relationRequest.setRelationshipBuilderSid(relationShipBuilderSid);
-        relationRequest.setHierarchyBuilderSid(hierarchySid);
-        String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
-        relationRequest.setUserId(userId);
+		Integer relationShipBuilderSid = Integer.parseInt(value.toString());
+		GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
+		relationRequest.setRelationshipBuilderSid(relationShipBuilderSid);
+		relationRequest.setHierarchyBuilderSid(hierarchySid);
+		String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID);
+		relationRequest.setUserId(userId);
 
-        GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-        GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
-        request.setAutomaticRelationEequest(relationRequest);
-        GtnUIFrameworkWebserviceResponse newResponse = client
-                .callGtnWebServiceUrl(
-                        GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
-                        + GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE,
-                        request, getGsnWsSecurityToken());
-    }
+		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		request.setAutomaticRelationEequest(relationRequest);
+		GtnUIFrameworkWebserviceResponse newResponse = client
+				.callGtnWebServiceUrl(
+						GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
+								+ GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE,
+						request, getGsnWsSecurityToken());
+		return newResponse.getAutomaticRelationResponse().isRelationUpdate();
+	}
 }

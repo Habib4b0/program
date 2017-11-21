@@ -113,6 +113,10 @@ public class SessionDTO implements Cloneable {
     private int selectedDeductionLevelNo;
     private int customerLastLevelNo;
     private int productLastLevelNo;
+    private int customerHierarchyVersion = 0;
+    private int productHierarchyVersion = 0;
+    private int customerRelationVersion = 0;
+    private int productRelationVersion = 0;
     public boolean isHasTradingPartner() {
         return hasTradingPartner;
     }
@@ -903,5 +907,37 @@ public class SessionDTO implements Cloneable {
     public void setProductLastLevelNo(int productLastLevelNo) {
         this.productLastLevelNo = productLastLevelNo;
     }
+
+	public int getCustomerHierarchyVersion() {
+		return customerHierarchyVersion;
+	}
+
+	public void setCustomerHierarchyVersion(int customerHierarchyVersion) {
+		this.customerHierarchyVersion = customerHierarchyVersion;
+	}
+
+	public int getProductHierarchyVersion() {
+		return productHierarchyVersion;
+	}
+
+	public void setProductHierarchyVersion(int productHierarchyVersion) {
+		this.productHierarchyVersion = productHierarchyVersion;
+	}
+
+	public int getCustomerRelationVersion() {
+		return customerRelationVersion;
+	}
+
+	public void setCustomerRelationVersion(int customerRelationVersion) {
+		this.customerRelationVersion = customerRelationVersion;
+	}
+
+	public int getProductRelationVersion() {
+		return productRelationVersion;
+	}
+
+	public void setProductRelationVersion(int productRelationVersion) {
+		this.productRelationVersion = productRelationVersion;
+	}
         
 }
