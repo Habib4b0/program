@@ -1,32 +1,45 @@
 <?xml version="1.0"?>
 <project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.stpl.app</groupId>
-		<artifactId>global-parent</artifactId>
-		<version>1.0</version>
-	</parent>
-	<groupId>com.stpl.app</groupId>
-	<artifactId>gtnServicePartI</artifactId>
-	<version>1.0</version>
-	<name>gtnServicePartI</name>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.stpl.app</groupId>
+        <artifactId>global-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+    <groupId>com.stpl.app</groupId>
+    <artifactId>gtnServicePartI</artifactId>
+    <version>1.0</version>
+    <name>gtnServicePartI</name>
 	
     <dependencies>
-        <dependency>
+        <!--        <dependency>
             <groupId>com.stpl.portal</groupId>
             <artifactId>portal-service</artifactId>
             <version>${com.stpl.portal.version}</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <version>2.53.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--        <dependency>
             <groupId>com.stpl.portal</groupId>
             <artifactId>util-java</artifactId>
             <version>${com.stpl.portal.version}</version>
             <scope>provided</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.java</artifactId>
+            <version>2.3.0</version>
+            <scope>provided</scope>
         </dependency>
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>com.stpl.ifs</groupId>
             <artifactId>gtnUtility</artifactId>
             <version>${com.stpl.ifs.version}</version>
@@ -51,56 +64,58 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>com.stpl.maven.plugins</groupId>
-				<artifactId>stpl-maven-plugin</artifactId>
-				<version>${com.stpl.portal.version}</version>
-				<configuration>
-                                        <autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
-                                        <appServerDeployDir>${liferay.app.server.deploy.dir}</appServerDeployDir>
-                                        <appServerLibGlobalDir>${liferay.app.server.lib.global.dir}</appServerLibGlobalDir>
-                                        <appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
-                                        <liferayVersion>${com.stpl.portal.version}</liferayVersion>
-                                        <pluginName>gtnPartI</pluginName>
-                                        <pluginType>portlet</pluginType>
-					<webappBaseDir>${basedir}/../gtnServicePartI</webappBaseDir>
-					<apiBaseDir>${basedir}/../gtnServicePartI</apiBaseDir>
-				</configuration>
-			</plugin>
-                        <plugin>
-                                <groupId>org.apache.maven.plugins</groupId>
-                                <artifactId>maven-compiler-plugin</artifactId>
-                                <configuration>
-                                <fork>true</fork>
-                                <meminitial>128m</meminitial>
-                                <maxmem>1024m</maxmem>
-                                </configuration>
-                        </plugin>         
-                        <plugin>
-                <groupId>com.vaadin</groupId>
-                <artifactId>vaadin-maven-plugin</artifactId>
-                <version>8.1.6</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.stpl.maven.plugins</groupId>
+                <artifactId>stpl-maven-plugin</artifactId>
+                <version>${com.stpl.portal.version}</version>
                 <configuration>
-                    <extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
-                    <webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
-                    <hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
-                    <noServer>true</noServer>
-                    <draftCompile>false</draftCompile>
-                    <style>OBF</style>
-                    <strict>true</strict>
-                    <compileReport>true</compileReport>
-                    <runTarget>http://localhost:8080/</runTarget>
+                    <autoDeployDir>${liferay.auto.deploy.dir}</autoDeployDir>
+                    <appServerDeployDir>${liferay.app.server.deploy.dir}</appServerDeployDir>
+                    <appServerLibGlobalDir>${liferay.app.server.lib.global.dir}</appServerLibGlobalDir>
+                    <appServerPortalDir>${liferay.app.server.portal.dir}</appServerPortalDir>
+                    <liferayVersion>${com.stpl.portal.version}</liferayVersion>
+                    <pluginName>gtnPartI</pluginName>
+                    <pluginType>portlet</pluginType>
+                    <webappBaseDir>${basedir}/../gtnServicePartI</webappBaseDir>
+                    <apiBaseDir>${basedir}/../gtnServicePartI</apiBaseDir>
                 </configuration>
-                <executions>
-                    <execution>
-                        <configuration>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>                
-		</plugins>
-	</build>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>1024m</maxmem>
+                </configuration>
+            </plugin>    
+           
+        <plugin>
+            <groupId>com.liferay</groupId>
+            <artifactId>com.liferay.portal.tools.service.builder</artifactId>
+            <version>1.0.174</version>
+            <configuration>
+                <apiDirName>../blade.servicebuilder.api/src/main/java</apiDirName>
+                <autoImportDefaultReferences>true</autoImportDefaultReferences>
+                <autoNamespaceTables>true</autoNamespaceTables>
+                <buildNumberIncrement>true</buildNumberIncrement>
+                <hbmFileName>src/main/resources/META-INF/portlet-hbm.xml</hbmFileName>
+                <implDirName>src/main/java</implDirName>
+                <inputFileName>src/main/webapp/WEB-INF/service.xml</inputFileName>
+                <modelHintsFileName>src/main/resources/META-INF/portlet-model-hints.xml</modelHintsFileName>
+                <osgiModule>true</osgiModule>
+                <propsUtil>com.liferay.blade.samples.servicebuilder.service.util.PropsUtil</propsUtil>
+                <resourcesDirName>src/main/resources</resourcesDirName>
+                <springFileName>src/main/resources/META-INF/spring/portlet-spring.xml</springFileName>
+                <springNamespaces>beans,osgi</springNamespaces>
+                <sqlDirName>src/main/resources/META-INF/sql</sqlDirName>
+                <sqlFileName>tables.sql</sqlFileName>
+                <testDirName>src/main/test</testDirName>
+            </configuration>
+        </plugin>              
+        </plugins>
+    </build>
 	
 </project>
