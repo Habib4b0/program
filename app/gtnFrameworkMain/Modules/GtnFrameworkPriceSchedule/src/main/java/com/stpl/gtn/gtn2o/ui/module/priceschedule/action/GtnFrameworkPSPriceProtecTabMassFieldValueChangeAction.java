@@ -71,9 +71,11 @@ public class GtnFrameworkPSPriceProtecTabMassFieldValueChangeAction
 			psPriceProtectionTabBasePriceDdlbLayout.setVisible(true);
 			psPriceProtectionTabBasePriceDdlb.setVisible(true);
 			massDdlbValue = psPriceProtectionTabBasePriceDdlb.getCaptionFromComboBox();
+			psPriceProtectionTabBasePriceDdlb.setVisible(massDdlbValue != null && componentId.equals("psPriceProtectionTabMassField"));
 		} else {
 			psPriceProtectionTabBasePriceDdlbLayout.setVisible(false);
 			psPriceProtectionTabBasePriceDdlb.setVisible(false);
+			psPriceProtectionTabBasePriceDdlb.setPropertyValue(null);
 		}
 		psPriceProtectionTabTabmassCustomTextFieldLayout.setVisible(false);
 		psPriceProtectionTabTabmassTextFieldLayout.setVisible(false);
