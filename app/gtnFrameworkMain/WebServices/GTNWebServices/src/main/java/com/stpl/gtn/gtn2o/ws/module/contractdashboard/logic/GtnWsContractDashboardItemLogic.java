@@ -1414,7 +1414,6 @@ public class GtnWsContractDashboardItemLogic {
 	}
         public void priceProtectionStartDateAlert(List<Object> inputValueList,
 			GtnUIFrameworkWebserviceResponse gtnPsProtectionUpdateResponse) throws GtnFrameworkGeneralException {
-            System.out.println("priceProtectionStartDateAlert-----------------------------");
 		String psUserId = inputValueList.get(0).toString();
 		String psSessionId = inputValueList.get(1).toString();
 		Object[] imtdPsDetailsInsertQueryParams = { psUserId, psSessionId };
