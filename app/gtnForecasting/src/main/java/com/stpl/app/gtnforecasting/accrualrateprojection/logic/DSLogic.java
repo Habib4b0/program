@@ -5,9 +5,11 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.logic;
 
-import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
+
+
+import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -79,8 +81,8 @@ public class DSLogic {
         projectionMaster.setProductHierarchyLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyLevel()));
         projectionMaster.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
         projectionMaster.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
-        projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-        projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
         projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
         projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getProdGrpSid()));
         projectionMaster.setCompanyMasterSid(dataSelectionDTO.getCompanySid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCompanySid()));
@@ -133,8 +135,8 @@ public class DSLogic {
         projectionMaster.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
         projectionMaster.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
 
-        projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-        projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
         projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
         projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getProdGrpSid()));
         projectionMaster.setCompanyMasterSid(dataSelectionDTO.getCompanySid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCompanySid()));

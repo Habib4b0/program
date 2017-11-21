@@ -1152,16 +1152,16 @@ public class DataSelection extends ForecastDataSelection {
 			if (customerHierarchyDto != null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-				dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(custHierarchyVersionNo));
+				dataSelectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
 			} else {
-				dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(0));
+				dataSelectionDTO.setCustomerHierVersionNo(0);
 			}
 			if (productHierarchyDto != null) {
 				int prodHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
-				dataSelectionDTO.setProductHierarchyVer(String.valueOf(prodHierarchyVersionNo));
+				dataSelectionDTO.setProductHierVersionNo(prodHierarchyVersionNo);
 			} else {
-				dataSelectionDTO.setProductHierarchyVer(String.valueOf(0));
+				dataSelectionDTO.setProductHierVersionNo(0);
 			}
 			if (fromPeriod.getData() == null) {
 				if (fromPeriod.getValue() != null) {

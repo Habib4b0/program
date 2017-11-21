@@ -810,12 +810,6 @@ public class GtnWsRelationshipBuilderLogic {
 						"Selected company already associated with other relationship. Please select different company for the level 1.");
 				return;
 			}
-			if (checkUsedRelationship(rbRequest.getRbSysId())) {
-				rbResponse.setSuccess(false);
-				rbResponse.setMessageType(GtnFrameworkCommonStringConstants.EDIT);
-				rbResponse.setMessage(
-						"Cannot Edit the relationship which is already associated with existing projection.");
-			}
 		} catch (Exception e) {
 			rbResponse.setSuccess(false);
 			throw new GtnFrameworkGeneralException("Exception in checkSaveRelationship", e);
@@ -1015,7 +1009,6 @@ public class GtnWsRelationshipBuilderLogic {
 				input.add(String.valueOf(drbRequest.getRbSysId()));
 				List resultset = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(input, "getProductRelationId"));
 				relationBuilder = session.load(RelationshipBuilder.class, Integer.valueOf(resultset.get(0).toString()));
-				deletAssociatedHierarchy(relationBuilder, session);
 				relationBuilder.setModifiedBy(drbRequest.getUserId());
 				relationBuilder.setModifiedDate(date);
 				relationBuilder.setCreatedBy(drbRequest.getCreatedById());
@@ -1200,7 +1193,7 @@ public class GtnWsRelationshipBuilderLogic {
 
 			String finalQuery = finalQueryBean.generateQuery();
 
-			List<Object[]> result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(whereQueries, finalQuery));
+			List<Object[]> result = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getFinalQueryReplaced(whereQueries, finalQuery));
 			for (Object[] objects : result) {
 				input.add(String.valueOf(objects[objects.length - 1]));
 				itemMastersids = Arrays.toString(input.toArray()).replace("[", StringUtils.EMPTY).replace("]",
@@ -1210,7 +1203,7 @@ public class GtnWsRelationshipBuilderLogic {
 		resultsetinput.add(itemMastersids);
 		List<Object[]> resultset = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(resultsetinput, "getDeductionData"));
 		resultsetinput1.add(String.valueOf(relationshipBuilder.getRelationshipBuilderSid()));
-		resultsetinput1.add(String.valueOf(relationshipBuilder.getHierarchyVersion()));
+		resultsetinput1.add(String.valueOf(relationshipBuilder.getRelationshipBuilderSid()));
 		List<Integer[]> resultsetHierarchy = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(resultsetinput1, "getHierarchyDefSid"));
 		for (int i = 0; i < resultsetHierarchy.size(); i++) {
 			final Object[] obj = resultsetHierarchy.get(i);
@@ -1534,16 +1527,25 @@ public class GtnWsRelationshipBuilderLogic {
 		boolean saveFlag = false;
 		List<String> hierarchyLevels = getRBHierarchyLevelNameList(hierarchyDefSid, hierarchyVersion);
 		if ("Automatic".equals(buildType) && hierarchyLevels != null && !hierarchyLevels.isEmpty()
-				&& !checkUserDefinedCondition(hierarchyLevels)) {
+				&& checkUserDefinedCondition(hierarchyLevels)) {
 			saveFlag = true;
 		}
 		return saveFlag;
 	}
 
 	private boolean checkUserDefinedCondition(List<String> hierarchyLevels) {
-		return hierarchyLevels.contains(GtnFrameworkWebserviceConstant.USER_DEFINED)
-				&& (hierarchyLevels.lastIndexOf(GtnFrameworkWebserviceConstant.USER_DEFINED) == 0 || hierarchyLevels
-						.lastIndexOf(GtnFrameworkWebserviceConstant.USER_DEFINED) == hierarchyLevels.size() - 1);
+		boolean isLinkedVisted = false;
+		for (int i = 0; i < hierarchyLevels.size(); i++) {
+			String levelName = hierarchyLevels.get(i);
+			if (levelName.equals("Linked")) {
+				isLinkedVisted = true;
+			}
+			if (isLinkedVisted && i + 1 < hierarchyLevels.size()
+					&& GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyLevels.get(i + 1))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

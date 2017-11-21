@@ -206,10 +206,5 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				GtnFrameworkOperatorType.EQUAL_TO);
 	}
 
-	@Override
-	public String toString() {
-		return "GtnFramworkCheckForAutoUpdateRunnable [relationBean=" + relationBean + ", hierarchyLevelDefinitionList="
-				+ hierarchyLevelDefinitionList + ", index=" + index + ", atomicBoolean=" + atomicBoolean + "]";
-	}
 
 }

@@ -533,6 +533,6 @@ public class UiUtils {
 	}
 
 public static int getDataSelectionFormattedLevelNo(String value) {
-        return value == null && StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
+		return StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
     }
 }

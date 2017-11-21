@@ -2257,7 +2257,7 @@ public class DataSelectionLogic {
 				QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
 			Object[] object = (Object[]) tempList.get(j);
-			final List detailsList = new ArrayList();
+			final List<Object> detailsList = new ArrayList<>();
 			detailsList.add(object[1]); // Level Value
 			detailsList.add(object[NumericConstants.TWO]); // Level No
 			detailsList.add(object[NumericConstants.THREE]); // Level Name
