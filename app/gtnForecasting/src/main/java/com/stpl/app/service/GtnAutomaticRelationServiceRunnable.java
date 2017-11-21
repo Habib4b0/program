@@ -1,6 +1,7 @@
 package com.stpl.app.service;
 
 import java.util.Calendar;
+import java.util.concurrent.Callable;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -11,7 +12,7 @@ import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomat
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.server.VaadinSession;
 
-public class GtnAutomaticRelationServiceRunnable implements Runnable {
+public class GtnAutomaticRelationServiceRunnable implements Callable {
 
 	private Object value;
 	private int hierarchySid;
@@ -39,9 +40,9 @@ public class GtnAutomaticRelationServiceRunnable implements Runnable {
 	}
 
 	@Override
-	public void run() {
+	public Object call() throws Exception {
 		if (value == null)
-			return;
+			return Boolean.FALSE;
 
 		Integer relationShipBuilderSid = Integer.parseInt(value.toString());
 		GtnFrameworkAutomaticRelationshipRequest relationRequest = new GtnFrameworkAutomaticRelationshipRequest();
@@ -58,5 +59,6 @@ public class GtnAutomaticRelationServiceRunnable implements Runnable {
 						GtnWebServiceUrlConstants.GTN_AUTOMATIC_RELATION_SERIVCE
 								+ GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE,
 						request, getGsnWsSecurityToken());
+		return newResponse.getAutomaticRelationResponse().isRelationUpdate();
 	}
 }

@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.Gt
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUiFrameworkNsfDeductionsTabFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.fieldfactory.GtnUiFrameworkNsfSalesBasisTabFieldFactoryAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfPopulateValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfRuleSaveUniqueValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.netsalesformulaconfig.action.validation.GtnUiFrameworkNsfSaveValidationAction;
 
 public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFiller {
@@ -97,6 +98,8 @@ public class GtnUIFrameworkNsfDynamicClassFiller implements GtnUIDynamicObjectFi
 				new GtnFrameworkLoadRuleDetailsAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkNsfDeductionTabCheckAllAction.class.getName(),
 				new GtnFrameworkNsfDeductionTabCheckAllAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUiFrameworkNsfRuleSaveUniqueValidationAction.class.getName(),
+				new GtnUiFrameworkNsfRuleSaveUniqueValidationAction());
 
 	}
 
