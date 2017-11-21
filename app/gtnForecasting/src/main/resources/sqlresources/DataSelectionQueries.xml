@@ -603,16 +603,14 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 							#COMP_CONT CREATE
 								TABLE
 									#COMP_CONT(
-									    TEMP_NAME VARCHAR(50),
-									    TEMP_ID INT ,
+									   
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#COMP_CONT(
-											    TEMP_NAME ,
-									            TEMP_ID  ,
+											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
 												HIERARCHY_NO
@@ -636,15 +634,13 @@ CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
 							#ITEM CREATE
 								TABLE
 									#ITEM(
-										TEMP_NAME VARCHAR(50),
-										TEMP_ID INT,
+										
 										ITEM_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#ITEM(
-												TEMP_NAME,
-												TEMP_ID,
+												
 												ITEM_MASTER_SID,
 												HIERARCHY_NO
 											)  ?
@@ -691,16 +687,14 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 							#COMP_CONT CREATE
 								TABLE
 									#COMP_CONT(
-									    TEMP_NAME VARCHAR(50),
-									    TEMP_ID INT ,
+									    
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#COMP_CONT(
-											    TEMP_NAME ,
-									            TEMP_ID  ,
+											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
 												HIERARCHY_NO
@@ -724,15 +718,13 @@ CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
 							#ITEM CREATE
 								TABLE
 									#ITEM(
-										TEMP_NAME VARCHAR(50),
-										TEMP_ID INT,
+										
 										ITEM_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#ITEM(
-												TEMP_NAME,
-												TEMP_ID,
+												
 												ITEM_MASTER_SID,
 												HIERARCHY_NO
 											)  ?
