@@ -364,13 +364,13 @@ public class GtnFrameworkTransactionComponentConfig {
 		companyIdConfig.setAddToParent(true);
 		companyIdConfig.setEnable(isEnable);
 		if (component.isLengthValidator()) {
-		GtnUIFrameworkValidationConfig transactionLengthValConfig = new GtnUIFrameworkValidationConfig();
-		transactionLengthValConfig.setAttachLengthValidatior(true);
-		transactionLengthValConfig.setMinSize(component.getMinLength());
-		transactionLengthValConfig.setMaxLength(component.getMaxLength());
-		transactionLengthValConfig
-				.setRegxValidationMessage("Length should be less than " + component.getMaxLength()+" Characters");
-		companyIdConfig.setGtnUIFrameworkValidationConfig(transactionLengthValConfig);
+			GtnUIFrameworkValidationConfig transactionLengthValConfig = new GtnUIFrameworkValidationConfig();
+			transactionLengthValConfig.setAttachLengthValidatior(true);
+			transactionLengthValConfig.setMinSize(component.getMinLength());
+			transactionLengthValConfig.setMaxLength(component.getMaxLength());
+			transactionLengthValConfig
+					.setRegxValidationMessage("Length should be less than " + component.getMaxLength() + " Characters");
+			companyIdConfig.setGtnUIFrameworkValidationConfig(transactionLengthValConfig);
 		}
 		componentList.add(companyIdConfig);
 	}
@@ -452,6 +452,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			companyStatus.setComponentWsFieldId(component.getColumnMappingId());
 		}
 		if (component.getExpressionType() != null) {
+
 			companyStatus.setExpressionType(component.getExpressionType());
 		}
 		if (isInvalid) {
@@ -494,10 +495,10 @@ public class GtnFrameworkTransactionComponentConfig {
 			searchResults.setTableVisibleHeader(visibleHeaders.toArray(new String[visibleHeaders.size()]));
 			searchResults.setTableColumnMappingId(visibleColumns.toArray(new Object[visibleColumns.size()]));
 		}
-		if (isInvalid) {
-			searchResults.setColumnToAlign(columnToAlign.toArray(new String[columnToAlign.size()]));
-			searchResults.setColumnAlignment(columnAlignments.toArray(new String[columnAlignments.size()]));
-		}
+
+		searchResults.setColumnToAlign(columnToAlign.toArray(new String[columnToAlign.size()]));
+		searchResults.setColumnAlignment(columnAlignments.toArray(new String[columnAlignments.size()]));
+
 		searchResults.setCountUrl(GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
 				+ GtnWsTransactionConstants.GTN_WS_TRANSACTION_GETSEARCHRESULTS_SERVICE);
 		searchResults.setResultSetUrl(GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
