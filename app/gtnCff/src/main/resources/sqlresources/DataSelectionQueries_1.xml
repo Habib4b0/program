@@ -376,8 +376,8 @@ from
 	<entity id="getRelationshipLevelValuesForDeduction">
 		<query> 
             <![CDATA[ 
-                SELECT  
-                    RLD.HIERARCHY_NO,
+                SELECT DISTINCT 
+                    RELATIONSHIP_LEVEL_VALUES,
                     ?HTDESCRIPTION as DESCRIPTION,
                     LEVEL_NAME,
                     LEVEL_NO,

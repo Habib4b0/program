@@ -210,6 +210,24 @@ and open the template in the editor.
             ]]>
         </query>
     </entity>
+    
+    <entity id="selected-hierarchy-no-for-custom">
+        <query>
+            <![CDATA[
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID)
+                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
+                [?SELECTED_HIERARCHY_JOIN]
+            ]]>
+        </query>
+    </entity>
+   
     <entity id="selected-hierarchy-no-customer">
         <query>
             <![CDATA[
@@ -1711,11 +1729,11 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
     WHERE p.PERIOD_SID BETWEEN @START_PERIOD_SID
                   AND @END_PERIOD_SID
           AND SP1.CHECK_RECORD = 1
-    
 
+    
    ]]>
 
         </query>
     </entity>
-
+    
 </sql>

@@ -3849,7 +3849,7 @@ public class CommonLogic {
         }
         return hierarchyIndicator;
     }
-
+    
     /**
      * Method used to get the Hierarchy Indicator based on the Custom View Level
      * No. based on the selected Custom View. Custom View Level Details are
