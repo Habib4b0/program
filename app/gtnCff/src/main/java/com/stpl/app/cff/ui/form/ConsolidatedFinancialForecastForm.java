@@ -901,8 +901,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				? Integer.valueOf(resultList[NumericConstants.TWENTY_TWO].toString()) : 0);
 		dataSelectionDto.setCustomerHierVersionNo(resultList[NumericConstants.TWENTY_FIVE] != null
 				? Integer.valueOf(resultList[NumericConstants.TWENTY_FIVE].toString()) : 0);
-		dataSelectionDto.setProductHierarchyVer(resultList[NumericConstants.TWENTY_SIX] != null
-				? resultList[NumericConstants.TWENTY_SIX].toString() : "0");
+		dataSelectionDto.setProductHierVersionNo(resultList[NumericConstants.TWENTY_SIX] != null
+				? Integer.valueOf(resultList[NumericConstants.TWENTY_SIX].toString()) : 0);
 		dataSelectionDto.setCustomerRelationShipVersionNo(resultList[NumericConstants.TWENTY_SEVEN] != null
 				? Integer.valueOf(resultList[NumericConstants.TWENTY_SEVEN].toString()) : 0);
 		dataSelectionDto.setProductRelationShipVersionNo(resultList[NumericConstants.TWENTY_EIGHT] != null
