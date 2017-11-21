@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfig;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsSearchQueryConfigProvider;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.module.companymaster.constants.GtnWsCMasterConstants;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 
@@ -95,7 +96,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		fieldToColumnDetailsMap.put("landingScreenTpSearchcompanyName", companyNameColumnConfig);
 		GtnWsColumnDetailsConfig companyTypeColumnConfig = configProvider.getColumnHelperConfig("COMPANY_TYPE", "cm");
 		companyTypeColumnConfig.setHelperTableAliasName("companyTypeHelper");
-		companyTypeColumnConfig.setHelperTableColumnName("DESCRIPTION");
+		companyTypeColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
 		fieldToColumnDetailsMap.put("companyType", companyTypeColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyType", companyTypeColumnConfig);
 		fieldToColumnDetailsMap.put("itemIdentifierparentCompanySearchcompanyType", companyTypeColumnConfig);
@@ -107,7 +108,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 		GtnWsColumnDetailsConfig companyStatusColumnConfig = configProvider.getColumnHelperConfig("COMPANY_STATUS",
 				"cm");
 		companyStatusColumnConfig.setHelperTableAliasName("companyStatusHelper");
-		companyStatusColumnConfig.setHelperTableColumnName("DESCRIPTION");
+		companyStatusColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
 		fieldToColumnDetailsMap.put("companyStatus", companyStatusColumnConfig);
 		fieldToColumnDetailsMap.put("parentCompanySearchcompanyStatus", companyStatusColumnConfig);
 		fieldToColumnDetailsMap.put("itemIdentifierparentCompanySearchcompanyStatus", companyStatusColumnConfig);
@@ -169,9 +170,9 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 				configProvider.getColumnStringConfig("COMPANY_IDENTIFIER_VALUE", "CID"));
 		fieldToColumnDetailsMap.put("companyQualifierName",
 				configProvider.getColumnStringConfig("COMPANY_QUALIFIER_SID", "CQ"));
-		fieldToColumnDetailsMap.put("companyType1", configProvider.getColumnStringConfig("DESCRIPTION", "helperDesc"));
+		fieldToColumnDetailsMap.put("companyType1", configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDesc"));
 		fieldToColumnDetailsMap.put("companyStatus1",
-				configProvider.getColumnStringConfig("DESCRIPTION", "helperDescription"));
+				configProvider.getColumnStringConfig(GtnWsConstants.DESCRIPTION, "helperDescription"));
 		gtnWebServiceSearchQueryConfig.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();

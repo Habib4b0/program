@@ -153,12 +153,11 @@ public class GtnWsSearchQueryGenerationLogic {
 		Map<String, GtnWsColumnDetailsConfig> componentMap = gtnWebServiceSearchQueryConfig
 				.getFieldToColumnDetailsMap();
 		if (componentMap.containsKey(fieldName)) {
-			String orderByclause = componentMap.get(fieldName).getDataType()
+			return componentMap.get(fieldName).getDataType()
 					.equals(GtnFrameworkWebserviceConstant.HELPER)
 							? componentMap.get(fieldName).getHelperTableMappedColumnNameForOrderByClause()
 							: componentMap.get(fieldName).getColumnNameForWhereClause();
 
-			return orderByclause;
 		} else {
 			throw new IllegalArgumentException("Details Not Found for ---" + fieldName);
 		}
