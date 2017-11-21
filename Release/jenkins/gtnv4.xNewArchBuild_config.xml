@@ -1,0 +1,56 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<project>
+<actions/>
+<description>gtnv4.xNewArchBuild</description>
+<keepDependencies>false</keepDependencies>
+<properties>
+<com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+<autoRebuild>false</autoRebuild>
+<rebuildDisabled>false</rebuildDisabled>
+</com.sonyericsson.rebuild.RebuildSettings>
+</properties>
+<scm class="hudson.scm.NullSCM"/>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers/>
+<concurrentBuild>false</concurrentBuild>
+<customWorkspace>
+/opt/bpigtn_jenkins/jenkinshome/workspace/gtnv4.xRelease/gtnv4.xNewArchSonarBuild
+</customWorkspace>
+<builders>
+<EnvInjectBuilder plugin="envinject@2.1">
+<info>
+<propertiesFilePath>$WORKSPACE/version_temp.txt</propertiesFilePath>
+</info>
+</EnvInjectBuilder>
+<hudson.tasks.Shell>
+<command>
+#Move backuped Dist mv $WORKSPACE/../Dist_NewArch_Sonar_Bkp $WORKSPACE/Dist
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+#creating tar file for Application wars cd $WORKSPACE/Dist/UI mv RpmDirStructure GTN-$VersionNo.$BUILD_NUMBER-UiAppRelease-1.0 zip -r -0 GTN-$VersionNo.$BUILD_NUMBER-UiAppRelease.zip GTN-$VersionNo.$BUILD_NUMBER-UiAppRelease-1.0/
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+chmod -R 777 $WORKSPACE/Dist/UI/rpm cd $WORKSPACE/Dist/UI/rpm/ ./rpmbuildscript.sh $WORKSPACE/Dist/UI/GTN-$VersionNo.$BUILD_NUMBER-UiAppRelease.zip $WORKSPACE/Dist/UI mv $WORKSPACE/Dist/UI/rpm/Release/*.rpm $WORKSPACE/Dist/UI rm -rf $WORKSPACE/Dist/UI/rpm rm -rf $WORKSPACE/Dist/UI/rpmbuild rm -rf $WORKSPACE/Dist/UI/GTN-$VersionNo.$BUILD_NUMBER-UiAppRelease.zip
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+#creating tar file for Application wars cd $WORKSPACE/Dist/WS mv RpmDirStructure GTN-$VersionNo.$BUILD_NUMBER-WsAppRelease-1.0 zip -r -0 GTN-$VersionNo.$BUILD_NUMBER-WsAppRelease.zip GTN-$VersionNo.$BUILD_NUMBER-WsAppRelease-1.0/
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+chmod -R 777 $WORKSPACE/Dist/WS/rpm cd $WORKSPACE/Dist/WS/rpm/ ./rpmbuildscript.sh $WORKSPACE/Dist/WS/GTN-$VersionNo.$BUILD_NUMBER-WsAppRelease.zip $WORKSPACE/Dist/WS mv $WORKSPACE/Dist/WS/rpm/Release/*.rpm $WORKSPACE/Dist/WS rm -rf $WORKSPACE/Dist/WS/rpm rm -rf $WORKSPACE/Dist/WS/rpmbuild rm -rf $WORKSPACE/Dist/WS/GTN-$VersionNo.$BUILD_NUMBER-WsAppRelease.zip
+</command>
+</hudson.tasks.Shell>
+</builders>
+<publishers/>
+<buildWrappers/>
+</project>
