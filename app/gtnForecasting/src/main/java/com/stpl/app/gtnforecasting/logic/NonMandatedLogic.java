@@ -237,8 +237,8 @@ public class NonMandatedLogic {
 		projectionMaster
 				.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
 
-		projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-		projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
 		projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(DASH) ? null
 				: String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
 		projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(DASH) ? null
@@ -1462,8 +1462,8 @@ public class NonMandatedLogic {
 				.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
 		projectionMaster
 				.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
-		projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-		projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
 		projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(DASH) ? null
 				: String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
 		projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(DASH) ? null

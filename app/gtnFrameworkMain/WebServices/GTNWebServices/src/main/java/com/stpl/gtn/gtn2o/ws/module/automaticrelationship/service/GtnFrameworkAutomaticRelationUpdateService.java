@@ -39,7 +39,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
 @Scope(value = "singleton")
-public class GtnFrameworkAutomaticRelationUpdate {
+public class GtnFrameworkAutomaticRelationUpdateService {
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -54,7 +54,7 @@ public class GtnFrameworkAutomaticRelationUpdate {
 	@Autowired
 	private ApplicationContext applicationContext;
 
-	public GtnFrameworkAutomaticRelationUpdate() {
+	public GtnFrameworkAutomaticRelationUpdateService() {
 		super();
 	}
 
@@ -90,8 +90,9 @@ public class GtnFrameworkAutomaticRelationUpdate {
 		this.hierarchyService = hierarchyService;
 	}
 
-	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkAutomaticRelationUpdate.class);
-	public void checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid, String userId)
+	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
+
+	public boolean checkAndUpdateAutomaticRelationship(Integer relationshipBuilderSid, String userId)
 			throws GtnFrameworkGeneralException, InterruptedException {
 		GtnWsRelationshipBuilderBean relationBean = getRelationtionshipBuilder(relationshipBuilderSid);
 		if (relationBean != null) {
@@ -100,9 +101,11 @@ public class GtnFrameworkAutomaticRelationUpdate {
 			if (checkAutomaticRelation(relationshipBuilderSid)
 					&& checkForAutoUpdate(relationBean, hierarchyDefinitionList)) {
 				doAutomaticUpdate(hierarchyDefinitionList, relationBean, userId);
+				return Boolean.TRUE;
 			}
 			LOGGER.info("checkAndUpdateAutomaticRelationship has finihsed");
 		}
+		return Boolean.FALSE;
 	}
 
 	private void doAutomaticUpdate(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,

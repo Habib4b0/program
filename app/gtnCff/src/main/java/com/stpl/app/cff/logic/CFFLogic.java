@@ -1524,10 +1524,14 @@ public class CFFLogic {
 
         String customSql = SQlUtil.getQuery("getHierarchyTableDetails");
         customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, relationshipBuilderSid);
+        customSql = customSql.replace("?RLDV", isCustomerHierarchy ? sessionDTO.getCustomerRelationVersion()+ StringUtils.EMPTY 
+                : sessionDTO.getProductRelationVersion()+ StringUtils.EMPTY);
+		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
+                : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         Map<String, List> resultMap = new HashMap<>();
         String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType);
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, hierarchyNoType, sessionDTO);
         tempList.clear();
         tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
         for (int j = tempList.size() - 1; j >= 0; j--) {
@@ -1559,7 +1563,7 @@ public class CFFLogic {
         customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, relationshipBuilderSid);
         List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         Map<String, List> resultMap = new HashMap<>();
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, "D");
+        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid, "D", sessionDTO);
         tempList.clear();
         tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
         for (int j = tempList.size() - 1; j >= 0; j--) {

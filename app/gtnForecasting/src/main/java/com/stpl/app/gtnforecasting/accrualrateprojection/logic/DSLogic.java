@@ -5,9 +5,21 @@
  */
 package com.stpl.app.gtnforecasting.accrualrateprojection.logic;
 
-import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+
+import org.apache.commons.lang.StringUtils;
+
+import com.stpl.app.gtnforecasting.accrualrateprojection.dto.AccrualDataSelectionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -25,15 +37,6 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -79,8 +82,8 @@ public class DSLogic {
         projectionMaster.setProductHierarchyLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyLevel()));
         projectionMaster.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
         projectionMaster.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
-        projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-        projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
         projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
         projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getProdGrpSid()));
         projectionMaster.setCompanyMasterSid(dataSelectionDTO.getCompanySid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCompanySid()));
@@ -133,8 +136,8 @@ public class DSLogic {
         projectionMaster.setCustomerHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyInnerLevel()));
         projectionMaster.setProductHierarchyInnerLevel(Integer.parseInt(dataSelectionDTO.getProductHierarchyInnerLevel()));
 
-        projectionMaster.setCustomerHierVersionNo(Integer.parseInt(dataSelectionDTO.getCustomerHierarchyVer()));
-        projectionMaster.setProductHierVersionNo(Integer.parseInt(dataSelectionDTO.getProductHierarchyVer()));
+		projectionMaster.setCustomerHierVersionNo(dataSelectionDTO.getCustomerHierVersionNo());
+		projectionMaster.setProductHierVersionNo(dataSelectionDTO.getProductHierVersionNo());
         projectionMaster.setCompanyGroupSid(dataSelectionDTO.getCustomerGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCustomerGrpSid()));
         projectionMaster.setItemGroupSid(dataSelectionDTO.getProdGrpSid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getProdGrpSid()));
         projectionMaster.setCompanyMasterSid(dataSelectionDTO.getCompanySid().equals(Constant.DASH) ? null : String.valueOf(dataSelectionDTO.getCompanySid()));
