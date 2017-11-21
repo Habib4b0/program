@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
+import com.stpl.gtn.gtn2o.ws.response.automaticrelationupdate.GtnFrameworkAutomaticRelationshipResponse;
 import com.stpl.gtn.gtn2o.ws.response.calendarconfiguration.GtnWsCalendarConfigurationResponse;
 import com.stpl.gtn.gtn2o.ws.response.cfpresponse.GtnWsCfpReponse;
 import com.stpl.gtn.gtn2o.ws.response.cmresponse.GtnCompanyMasterResponse;
@@ -83,6 +84,8 @@ public class GtnUIFrameworkWebserviceResponse {
 	private GtnWsFileManagementResponse gtnWsFileManagementResponse;
 	private GtnWsModuleAuthorizationGeneralResponse gtnWsModuleAuthorizationGeneralResponse;
 	private GtnWsCsvExportResponse gtnWsCsvExportResponse;
+
+	private GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse;
 
 	public String getResponseStatus() {
 		return responseStatus;
@@ -401,6 +404,14 @@ public class GtnUIFrameworkWebserviceResponse {
 
 	public void setGtnWsCsvExportResponse(GtnWsCsvExportResponse gtnWsCsvExportResponse) {
 		this.gtnWsCsvExportResponse = gtnWsCsvExportResponse;
+	}
+
+	public GtnFrameworkAutomaticRelationshipResponse getAutomaticRelationResponse() {
+		return automaticRelationResponse;
+	}
+
+	public void setAutomaticRelationResponse(GtnFrameworkAutomaticRelationshipResponse automaticRelationResponse) {
+		this.automaticRelationResponse = automaticRelationResponse;
 	}
 
 }
