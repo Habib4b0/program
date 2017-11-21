@@ -1672,23 +1672,23 @@ public class GtnWsContractDashboardController {
         @RequestMapping(value = "/contractPriceProtectionStartDateAlert", method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse priceProtectionStartDateAlertTabService(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkWebserviceResponse gtnPsProtectionUpdateResponse = new GtnUIFrameworkWebserviceResponse();
-		GtnWsGeneralResponse gtnWsGeneralResponsePs = new GtnWsGeneralResponse();
-		gtnPsProtectionUpdateResponse.setGtnWsGeneralResponse(gtnWsGeneralResponsePs);
+		GtnUIFrameworkWebserviceResponse gtnContractProtectionUpdateResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse gtnWsGeneralResponseContract = new GtnWsGeneralResponse();
+		gtnContractProtectionUpdateResponse.setGtnWsGeneralResponse(gtnWsGeneralResponseContract);
 
-		GtnWsGeneralRequest psPriceProtectionWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+		GtnWsGeneralRequest contractPriceProtectionWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 
-		List<Object> inputList = psPriceProtectionWSRequest.getComboBoxWhereclauseParamList();
+		List<Object> inputList = contractPriceProtectionWSRequest.getComboBoxWhereclauseParamList();
 
 		try {
-			getItemLogic().priceProtectionStartDateAlert(inputList, gtnPsProtectionUpdateResponse);
-			gtnWsGeneralResponsePs.setSucess(true);
+			getItemLogic().priceProtectionStartDateAlert(inputList, gtnContractProtectionUpdateResponse);
+			gtnWsGeneralResponseContract.setSucess(true);
 		} catch (GtnFrameworkGeneralException e) {
-			gtnWsGeneralResponsePs.setSucess(false);
-			gtnWsGeneralResponsePs.setGtnGeneralException(e);
+			gtnWsGeneralResponseContract.setSucess(false);
+			gtnWsGeneralResponseContract.setGtnGeneralException(e);
 		}
 
-		return gtnPsProtectionUpdateResponse;
+		return gtnContractProtectionUpdateResponse;
 	}
         
 }

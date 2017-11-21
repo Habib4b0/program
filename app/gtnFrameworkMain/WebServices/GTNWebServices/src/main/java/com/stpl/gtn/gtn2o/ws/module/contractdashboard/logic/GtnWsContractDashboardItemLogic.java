@@ -1414,17 +1414,17 @@ public class GtnWsContractDashboardItemLogic {
 	}
         public void priceProtectionStartDateAlert(List<Object> inputValueList,
 			GtnUIFrameworkWebserviceResponse gtnPsProtectionUpdateResponse) throws GtnFrameworkGeneralException {
-		String psUserId = inputValueList.get(0).toString();
-		String psSessionId = inputValueList.get(1).toString();
-		Object[] imtdPsDetailsInsertQueryParams = { psUserId, psSessionId };
+		String contractUserId = inputValueList.get(0).toString();
+		String contractSessionId = inputValueList.get(1).toString();
+		Object[] imtdTableInsertQueryParams = { contractUserId, contractSessionId };
 		GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING,
 				GtnFrameworkDataType.STRING };
 
-		List<Object> psCountList = (List<Object>) getController().executeQuery(
-				getController().getGtnWsSqlService().getQuery("contractPriceProtectionStartDateAlertQuery"), imtdPsDetailsInsertQueryParams,
+		List<Object> contractCountList = (List<Object>) getController().executeQuery(
+				getController().getGtnWsSqlService().getQuery("contractPriceProtectionStartDateAlertQuery"), imtdTableInsertQueryParams,
 				imtdPsDetailsInsertQueryTypes);
 
-		gtnPsProtectionUpdateResponse.setOutBountData(new Object[] { psCountList.get(0) });
+		gtnPsProtectionUpdateResponse.setOutBountData(new Object[] { contractCountList.get(0) });
 
 	}
 

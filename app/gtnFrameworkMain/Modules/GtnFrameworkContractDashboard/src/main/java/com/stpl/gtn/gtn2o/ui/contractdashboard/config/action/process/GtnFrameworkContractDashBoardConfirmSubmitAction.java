@@ -134,27 +134,27 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 				GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
 
-		GtnWsContractDashboardRequest getGtnWsPriceScheduleGeneralRequest = new GtnWsContractDashboardRequest();
-		List<Object> inputList = new ArrayList<>();
-		inputList.add(GtnUIFrameworkGlobalUI.getCurrentUser());
-		inputList.add(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
-		gtnWsGeneralRequest.setComboBoxWhereclauseParamList(inputList);
-		getGtnWsPriceScheduleGeneralRequest.setContractDashboardBean(contractPsInfoBean);
-		request.setGtnWsContractDashboardRequest(getGtnWsPriceScheduleGeneralRequest);
-		GtnUIFrameworkWebserviceResponse responseStartDate = wsclient.callGtnWebServiceUrl(
+		GtnWsContractDashboardRequest getGtnWsContractGeneralRequest = new GtnWsContractDashboardRequest();
+		List<Object> inpList = new ArrayList<>();
+		inpList.add(GtnUIFrameworkGlobalUI.getCurrentUser());
+		inpList.add(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+		gtnWsGeneralRequest.setComboBoxWhereclauseParamList(inpList);
+		getGtnWsContractGeneralRequest.setContractDashboardBean(contractPsInfoBean);
+		request.setGtnWsContractDashboardRequest(getGtnWsContractGeneralRequest);
+		GtnUIFrameworkWebserviceResponse responseStartDateContract = wsclient.callGtnWebServiceUrl(
 				"/" + GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE+ "/contractPriceProtectionStartDateAlert", request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
-		int responseResult = Integer.parseInt(String.valueOf(responseStartDate.getOutBountData()[0]));
+		int responseResult = Integer.parseInt(String.valueOf(responseStartDateContract.getOutBountData()[0]));
 		if (responseResult > 1) {
-			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
-			alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
-			List<Object> alertMsgParamsList = new ArrayList<>();
-			alertMsgParamsList.add("Error");
-			alertMsgParamsList.add(
+			GtnUIFrameWorkActionConfig startDateAlertActionConfig = new GtnUIFrameWorkActionConfig();
+			startDateAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			List<Object> alertMsgParamList = new ArrayList<>();
+			alertMsgParamList.add("Error");
+			alertMsgParamList.add(
 					"For the same Item, the ‘Price Protection Start Date’ field cannot have the same month/year combination across multiple records.");
-			alertActionConfig.setActionParameterList(alertMsgParamsList);
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
+			startDateAlertActionConfig.setActionParameterList(alertMsgParamList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, startDateAlertActionConfig);
 			return true;
 		}
 		return false;
