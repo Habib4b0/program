@@ -353,6 +353,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorType5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentOperator5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentValue5itemPricingQualifier());
+			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperator());
 			String s = ruleDetailsBeanComplex.getValueDesc();
 
 			List<Character> splitList = new ArrayList<>();

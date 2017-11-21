@@ -5,17 +5,23 @@
  */
 package com.stpl.gtn.gtn2o.ws.module.netsales.controller;
 
-import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.ws.complianceanddeductionrules.constants.GtnWsCDRContants;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.controller.GtnWsSearchServiceController;
+import com.stpl.gtn.gtn2o.ws.entity.netsalesformula.NetSalesFormulaMaster;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.netsales.service.GtnWsNsfService;
@@ -25,7 +31,6 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.netsales.GtnWsNetSalesGeneralResponse;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequestMapping(value = "/" + GtnWsNsfUriConstants.NSF_SERVICE)
@@ -242,6 +247,28 @@ public class GtnWsNetSalesFormulaAddController {
 		} finally {
 			LOGGER.info("Exit deleteIfp and delete the ifp ");
 		}
+	}
+
+	@RequestMapping(value = "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse nsfDuplicateFormulaType(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try (Session session = sessionFactory.openSession()) {
+			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
+			GtnUIFrameworkNsfInfoBean nsfInfoBean = gtnWsRequest.getGtnWsNetSalesGeneralRequest().getnSfInfoBean();
+			Criteria criteria = session.createCriteria(NetSalesFormulaMaster.class)
+					.add(Restrictions.eq("netSalesFormulaName", nsfInfoBean.getFormulaName()))
+					.add(Restrictions.eq("netSalesFormulaId", nsfInfoBean.getFormulaId()))
+					.add(Restrictions.eq("netSalesFormulaNo", nsfInfoBean.getFormulaNo()));
+			criteria.setProjection(Projections.rowCount());
+
+			int count = Integer.parseInt(String.valueOf((Long) criteria.uniqueResult()));
+			gtnResponse.getGtnWsGeneralResponse().setSucess(count == 0);
+		} catch (Exception ex) {
+			gtnResponse.getGtnWsGeneralResponse().setSucess(false);
+			LOGGER.error(ex.getMessage());
+		}
+		return gtnResponse;
 	}
 
 }
