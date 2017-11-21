@@ -1,7 +1,24 @@
 package com.stpl.app.cff.logic;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
+
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
@@ -24,6 +41,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.NotificationUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.SysDataSourceConnection;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
@@ -58,22 +76,6 @@ import com.stpl.portal.model.User;
 import com.stpl.portal.service.UserLocalServiceUtil;
 import com.vaadin.data.Container;
 import com.vaadin.server.VaadinSession;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
 
 /**
  *
@@ -941,7 +943,7 @@ public class CFFLogic {
 
         query = query.replace("@CUSTOMER_HIERARCHY_SID", dataSelectionDTO.getCustomerHierSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getCustomerHierSid()));
         query = query.replace("@CUSTOMER_HIERARCHY_LEVEL", dataSelectionDTO.getCustomerHierarchyLevel());
-        query = query.replace("@CUSTOMER_HIER_VERSION_NO", dataSelectionDTO.getCustomerHierarchyVer());
+		query = query.replace("@CUSTOMER_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getCustomerHierVersionNo()));
 
         query = query.replace("@COMPANY_GROUP_SID", dataSelectionDTO.getCustomerGrpSid().equals("0") ? "null" : "'" + String.valueOf(dataSelectionDTO.getCustomerGrpSid()) + "'");
         query = query.replace("@CUSTOMER_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getCustomerHierarchyInnerLevel());
@@ -950,7 +952,7 @@ public class CFFLogic {
 
         query = query.replace("@PRODUCT_HIERARCHY_SID", dataSelectionDTO.getProdHierSid().equals("0") ? "0" : String.valueOf(dataSelectionDTO.getProdHierSid()));
         query = query.replace("@PRODUCT_HIERARCHY_LEVEL", dataSelectionDTO.getProductHierarchyLevel());
-        query = query.replace("@PRODUCT_HIER_VERSION_NO", dataSelectionDTO.getProductHierarchyVer());
+		query = query.replace("@PRODUCT_HIER_VERSION_NO", String.valueOf(dataSelectionDTO.getProductHierVersionNo()));
         query = query.replace("@ITEM_GROUP_SID", dataSelectionDTO.getProdGrpSid().equals("0") ? "null" : "'" + String.valueOf(dataSelectionDTO.getProdGrpSid()) + "'");
 
         query = query.replace("@PRODUCT_HIERARCHY_INNER_LEVEL", dataSelectionDTO.getProductHierarchyInnerLevel());
