@@ -27,18 +27,20 @@ public class GtnWsAutomaticRelationController {
 		super();
 	}
 
-
 	@RequestMapping(value = GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse automaticRelationUpdate(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest)
-			throws GtnFrameworkGeneralException, InterruptedException {
-		Integer relationshipBuilderSid = gtnWsRequest.getAutomaticRelationEequest().getRelationshipBuilderSid();
-		boolean isRelationUpdated = service.checkAndUpdateAutomaticRelationship(relationshipBuilderSid,
-				gtnWsRequest.getAutomaticRelationEequest().getUserId());
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		GtnFrameworkAutomaticRelationshipResponse relationResponse = new GtnFrameworkAutomaticRelationshipResponse();
-		relationResponse.setRelationUpdate(isRelationUpdated);
 		GtnUIFrameworkWebserviceResponse generalResponse = new GtnUIFrameworkWebserviceResponse();
-		generalResponse.setAutomaticRelationResponse(relationResponse);
+		try {
+			Integer relationshipBuilderSid = gtnWsRequest.getAutomaticRelationEequest().getRelationshipBuilderSid();
+			boolean isRelationUpdated = service.checkAndUpdateAutomaticRelationship(relationshipBuilderSid,
+					gtnWsRequest.getAutomaticRelationEequest().getUserId());
+			relationResponse.setRelationUpdate(isRelationUpdated);
+			generalResponse.setAutomaticRelationResponse(relationResponse);
+		} catch (GtnFrameworkGeneralException | InterruptedException ex) {
+			relationResponse.setRelationUpdate(false);
+		}
 		return generalResponse;
 	}
 }
