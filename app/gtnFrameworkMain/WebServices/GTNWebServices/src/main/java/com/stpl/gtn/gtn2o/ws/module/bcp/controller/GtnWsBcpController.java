@@ -1,5 +1,6 @@
-package com.stpl.gtn.gtn2o.ws.controller;
+package com.stpl.gtn.gtn2o.ws.module.bcp.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -7,14 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.module.bcp.service.GtnWsBcpService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
-import com.stpl.gtn.gtn2o.ws.service.GtnWsBcpService;
 
 
-@RestController(value = GtnWebServiceUrlConstants.GTN_BCP_SERVICE)
+@RestController()
+@RequestMapping(value = GtnWebServiceUrlConstants.GTN_BCP_SERVICE)
 public class GtnWsBcpController {
+	@Autowired
+	private GtnWsBcpService bcpService;
 	public GtnWsBcpController() {
 		super();
 	}
@@ -25,7 +29,6 @@ public class GtnWsBcpController {
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
 		try {
-			GtnWsBcpService bcpService = new GtnWsBcpService();
 			generalResponse.setSucess(true);
 			bcpService.calculate(bcpServiceRequest);
 			return gtnResponse;

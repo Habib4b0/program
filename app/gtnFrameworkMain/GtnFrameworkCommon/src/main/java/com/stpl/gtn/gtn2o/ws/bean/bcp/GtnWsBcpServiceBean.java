@@ -1,8 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.bean.bcp;
 
-import java.util.Collections;
-import java.util.List;
-
 public class GtnWsBcpServiceBean {
 	public GtnWsBcpServiceBean() {
 		super();
@@ -21,7 +18,7 @@ public class GtnWsBcpServiceBean {
 	private String finalFileName;
 	private String folderName;
 	
-	private List<Object[]> peocedureResultList;
+	private Object[] procedureInputs;
 	private String tabName ;
 	private String methodology;
 	private String cumulativeFilePath;
@@ -108,13 +105,12 @@ public class GtnWsBcpServiceBean {
 		this.folderName = folderName;
 	}
 
-	public List<Object[]> getPeocedureResultList() {
-		return peocedureResultList == null ? peocedureResultList : Collections.unmodifiableList(peocedureResultList);
+	public Object[] getProcedureInputs() {
+		return procedureInputs.clone();
 	}
 
-	public void setPeocedureResultList(List<Object[]> peocedureResultList) {
-		this.peocedureResultList = peocedureResultList == null ? peocedureResultList
-				: Collections.unmodifiableList(peocedureResultList);
+	public void setProcedureInputs(Object[] procedureInputs) {
+		this.procedureInputs = procedureInputs.clone();
 	}
 
 	public String getTabName() {

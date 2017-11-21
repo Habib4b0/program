@@ -3353,7 +3353,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						} catch (
 
 						Exception e) {
-
+							e.printStackTrace();
 							LOGGER.error(e);
 						}
 					} else {
@@ -3362,7 +3362,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 				}
 			} catch (Exception ex) {
-
+				ex.printStackTrace();
 				LOGGER.error(ex + " - in editBtn");
 			}
 		}

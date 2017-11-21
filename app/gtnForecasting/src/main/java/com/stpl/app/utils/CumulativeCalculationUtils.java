@@ -6,7 +6,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.SALES_PROJ;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -17,16 +16,19 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang.StringUtils;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.bean.bcp.GtnWsBcpServiceBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.ifs.ui.util.GtnUiBcpServiceUtil;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.StandaloneParser;
 import com.stpl.ifs.util.constants.ForecastingConstants;
 
 public class CumulativeCalculationUtils {
 
-	private List<Object[]> peocedureResultList;
+	private Object[] procedureInputList;
 	public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
 			.getLogger(CumulativeCalculationUtils.class);
 	private String tabName = StringUtils.EMPTY;
@@ -40,9 +42,9 @@ public class CumulativeCalculationUtils {
 	private String tableName;
 	private static final String KEY = "jaas is the way";
 
-	public CumulativeCalculationUtils(List<Object[]> peocedureResultList, final String userId, final String sessionId,
+	public CumulativeCalculationUtils(Object[] procedureInputList, final String userId, final String sessionId,
 			final String methodology, final String tabName, final String tableName) {
-		this.peocedureResultList = peocedureResultList;
+		this.procedureInputList = procedureInputList;
 		this.tabName = tabName;
 		this.tableName = tableName;
 		this.methodology = methodology;
@@ -77,14 +79,27 @@ public class CumulativeCalculationUtils {
 							: credentials.getPassword());
 
 
-		gtnWsBcpServiceBean.setPeocedureResultList(peocedureResultList);
+			gtnWsBcpServiceBean.setProcedureInputs(procedureInputList);
 		gtnWsBcpServiceBean.setCumulativeFilePath(System.getProperty(Constant.CUMULATIVE_FILE_PATH));
 		gtnWsBcpServiceBean.setSalesFlag(salesFlag);
 		gtnWsBcpServiceBean.setMethodology(methodology);
 		gtnWsBcpServiceBean.setTabName(tabName);
 
-			GtnUiBcpServiceUtil.callBcpService(gtnWsBcpServiceBean,
-					GtnWebServiceUrlConstants.GTN_BCP_SERVICE + GtnWebServiceUrlConstants.CALCULATE);
+			GtnUIFrameworkWebServiceClient wsBcpClient = new GtnUIFrameworkWebServiceClient();
+			GtnUIFrameworkWebserviceRequest wsBcpRequest = new GtnUIFrameworkWebserviceRequest();
+			GtnWsBcpServiceRequest gtnWsBcpServiceRequest = new GtnWsBcpServiceRequest();
+			gtnWsBcpServiceRequest.setGtnWsBcpServiceBean(gtnWsBcpServiceBean);
+			wsBcpRequest.setGtnWsBcpServiceRequest(gtnWsBcpServiceRequest);
+			GtnWsSecurityToken token = new GtnWsSecurityToken();
+			token.setUserId(gtnWsBcpServiceBean.getUserId());
+			token.setSessionId(gtnWsBcpServiceBean.getSessionId());
+			wsBcpClient.callGtnWebServiceUrl(
+					GtnWebServiceUrlConstants.GTN_BCP_SERVICE + GtnWebServiceUrlConstants.CALCULATE, wsBcpRequest,
+					token);
+
+			// GtnUiBcpServiceUtil.callBcpService(gtnWsBcpServiceBean,
+			// GtnWebServiceUrlConstants.GTN_BCP_SERVICE +
+			// GtnWebServiceUrlConstants.CALCULATE);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
 				| BadPaddingException e) {
 			LOGGER.error(e);

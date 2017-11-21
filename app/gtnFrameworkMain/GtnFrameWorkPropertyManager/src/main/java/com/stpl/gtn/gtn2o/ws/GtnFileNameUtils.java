@@ -39,7 +39,7 @@ public class GtnFileNameUtils {
 		return Paths.get(fileName);
 	}
 	public static FileOutputStream getFileOutputStream(String fileName) throws FileNotFoundException {
-		return new FileOutputStream(fileName);
+		return new FileOutputStream(FilenameUtils.getName(fileName));
 	}
 
 	public static FileOutputStream getFileOutputStream(File fileName) throws FileNotFoundException {
@@ -47,6 +47,6 @@ public class GtnFileNameUtils {
 	}
 
 	public static FileWriter getFileWriter(String fileName) throws IOException {
-		return new FileWriter(fileName);
+		return new FileWriter(FilenameUtils.getName(fileName));
 	}
 }

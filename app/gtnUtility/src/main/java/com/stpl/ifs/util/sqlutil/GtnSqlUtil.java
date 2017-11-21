@@ -74,7 +74,7 @@ public class GtnSqlUtil {
 		try (Connection connection = datasource.getConnection();
 				CallableStatement statement = connection.prepareCall(sqlQuery);) {
 			for (int i = 0; i < paramArray.length; i++) {
-				statement.setObject(i, paramArray[i]);
+				statement.setObject(i + 1, paramArray[i]);
 			}
 			LOGGER.debug("Ending callResultProcedure");
 			return statement.executeQuery();
