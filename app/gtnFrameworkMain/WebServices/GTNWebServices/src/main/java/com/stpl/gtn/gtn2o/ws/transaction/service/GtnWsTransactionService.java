@@ -166,7 +166,7 @@ public class GtnWsTransactionService {
 				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter,type);
 				break;
 			case "EQUAL":
-				equalCriteria(criteria, columns, type, dateFormat, value);
+				equalCriteria(criteria, classMetadata, columns, type, dateFormat, value);
 				break;
 
 			case "EQUALS":
