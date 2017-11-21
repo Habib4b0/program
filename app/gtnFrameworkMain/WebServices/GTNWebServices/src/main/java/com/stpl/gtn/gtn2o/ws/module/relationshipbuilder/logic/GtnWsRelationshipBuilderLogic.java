@@ -1009,7 +1009,6 @@ public class GtnWsRelationshipBuilderLogic {
 				input.add(String.valueOf(drbRequest.getRbSysId()));
 				List resultset = executeQuery(gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(input, "getProductRelationId"));
 				relationBuilder = session.load(RelationshipBuilder.class, Integer.valueOf(resultset.get(0).toString()));
-				deletAssociatedHierarchy(relationBuilder, session);
 				relationBuilder.setModifiedBy(drbRequest.getUserId());
 				relationBuilder.setModifiedDate(date);
 				relationBuilder.setCreatedBy(drbRequest.getCreatedById());
