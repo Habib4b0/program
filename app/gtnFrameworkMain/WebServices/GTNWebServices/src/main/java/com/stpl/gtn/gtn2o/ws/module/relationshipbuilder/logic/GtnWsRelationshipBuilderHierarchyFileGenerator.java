@@ -114,6 +114,22 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		}
 		return sqlStringBuilder.toString();
 	}
+	
+	public String getFinalQueryReplaced(List<String> input, String finalQuery) {
+		StringBuilder sqlStrBuilder = new StringBuilder();
+		try {
+			sqlStrBuilder = new StringBuilder(finalQuery);
+			if (input != null) {
+				for (Object tempInput : input) {
+					sqlStrBuilder.replace(sqlStrBuilder.indexOf("?"), sqlStrBuilder.indexOf("?") + 1, String.valueOf(tempInput));
+				}
+			}
+
+		} catch (Exception ex) {
+			LOGGER.error("Exception in getQuery", ex);
+		}
+		return sqlStrBuilder.toString();
+	}
 
 	public void updateQueryInHierarchy(int hierarchyDefSId, int versionNo)
 			throws GtnFrameworkGeneralException, IOException {

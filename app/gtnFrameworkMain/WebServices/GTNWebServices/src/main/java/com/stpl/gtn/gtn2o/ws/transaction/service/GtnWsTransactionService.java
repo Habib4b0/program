@@ -271,23 +271,17 @@ public class GtnWsTransactionService {
 	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String type, String dateFormat, String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
-			String columnName = ((AbstractEntityPersister) classMetadata)
-					.getPropertyColumnNames(columns.getFieldId())[0];
-			Object doubleFilterValues = columns.getFilterValue1() ;
-			Type doubleFilterTypes = StandardBasicTypes.STRING ;
-			StringBuilder sb=new StringBuilder();
-			sb.append("round(");
-			sb.append(columnName);
-			sb.append(",3)=?");
-			sb.append(doubleFilterTypes);
-			sb.append(doubleFilterValues);
+			String columnName = columns.getFieldId();
+			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
+			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
+			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));
 
 		}
 	}
-
+	
 	private void likeCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
 			String value, boolean isUser, boolean isInvalidFilter,String type) {
 		if (isUser) {
