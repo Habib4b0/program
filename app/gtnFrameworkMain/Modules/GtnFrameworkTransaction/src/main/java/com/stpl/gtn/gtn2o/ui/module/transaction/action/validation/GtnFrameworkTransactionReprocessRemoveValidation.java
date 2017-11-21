@@ -108,7 +108,8 @@ public class GtnFrameworkTransactionReprocessRemoveValidation implements GtnUIFr
         processNameMap.put("Returns", "RETURNS_INTERFACE");
         processNameMap.put("Sales Actual", "SALES_MASTER_INTERFACE");
         processNameMap.put("Sales Forecast", "FORECAST_SALES_INTERFACE");
-       
+        processNameMap.put("Return Rate Forecast", "RETURN_RATE_FORECAST_INTERFACE");
+        processNameMap.put("Item Uom", "ITEM_UOM_INTERFACE");
         return processNameMap;
     }
 }

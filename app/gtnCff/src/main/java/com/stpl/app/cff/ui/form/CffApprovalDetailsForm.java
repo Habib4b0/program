@@ -5,9 +5,22 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customwindow.CustomWindow;
+import org.asi.ui.customwindow.CustomWindowConstant;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
-import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
@@ -18,10 +31,12 @@ import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
 import com.stpl.app.cff.ui.fileSelection.form.FileSelection;
 import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
+import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -36,22 +51,10 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.themes.ValoTheme;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.customwindow.CustomWindow;
-import org.asi.ui.customwindow.CustomWindowConstant;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  * CFF Approval screen
@@ -131,7 +134,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
     boolean flag = false;
     CFFLogic cffLogic = new CFFLogic();
     Boolean isApproved = false;
-    boolean filterOptionLoaded=false;
+
+    private boolean filterOptionLoaded = false;
 
     /**
      * scenarioModeling form constructor
@@ -260,6 +264,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                         projectionVariance.uomLoadingTabChange();
                     }
+
                     if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction()) && !filterOptionLoaded) {
                         projectionVariance.loadAllDdbls();
                         filterOptionLoaded=true;

@@ -26,6 +26,7 @@ public final class GtnWsNsfUriConstants {
 	public static final String NSF_POPULATE_VALIDATION_SERVICE = "netSalesPopulateValidationService";
 	public static final String NSF_REMOVE_RECORD_SERVICE = "netSalesRemoveRecordService";
 	public static final String NSF_RESET_TABLE_SERVICE = "netSalesResetTableService";
+	public static final String NS_SAVE_UNIQUE_VALIDATION = "netSalesFormulaTypeUniqueValidation";
 
 	private GtnWsNsfUriConstants() {
 		super();
