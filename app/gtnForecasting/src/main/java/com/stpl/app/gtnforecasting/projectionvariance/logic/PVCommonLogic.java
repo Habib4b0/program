@@ -45,7 +45,6 @@ public class PVCommonLogic {
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
         if (variableCategory.equalsIgnoreCase(Constant.VALUE)) {
             visibleColumn = column;
-            //String baseValue = getFormattedValue(format, priorVal);
             String baseValue = pvsdto.isConversionNeeded() ? !isPer
                     ? CommonUtil.getConversionFormattedValue(pvsdto, priorVal, true)
                     : getFormattedValue(format, priorVal)
@@ -183,10 +182,7 @@ public class PVCommonLogic {
 
             if (variableCategory.equalsIgnoreCase(Constant.VALUE)) {
                 //for ACTUAL
-               // String baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true) : getFormattedValue(format, actualValue);
-               String baseValue = pvsdto.isConversionNeeded() ? !isPer
-                        ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
-                        : getFormattedValue(format, actualValue)
+               String baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
                         : getFormattedValue(format, actualValue);
                if (!actualCheck) {
                     pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
@@ -194,18 +190,12 @@ public class PVCommonLogic {
                     pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), actualDASH);
                 }
                 //for CURRENT
-               // baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true) : getFormattedValue(format, currentValue);
-               baseValue = pvsdto.isConversionNeeded() ? !isPer
-                        ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true)
-                        : getFormattedValue(format, currentValue)
+               baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true)
                         : getFormattedValue(format, currentValue); 
                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 //for Accrual
                 if (!nullCheck(StringUtils.EMPTY + obj[index - 2])) {
-                   // baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true) :  getFormattedValue(format, accrualValue);
-                   baseValue = pvsdto.isConversionNeeded() ? !isPer
-                            ? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
-                            : getFormattedValue(format, accrualValue)
+                   baseValue = pvsdto.isConversionNeeded() && !isPer? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
                             : getFormattedValue(format, accrualValue);
                     pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 } else {
