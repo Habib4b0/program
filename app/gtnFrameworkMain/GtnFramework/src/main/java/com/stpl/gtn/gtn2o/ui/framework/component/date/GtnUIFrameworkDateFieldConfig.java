@@ -11,7 +11,6 @@ public class GtnUIFrameworkDateFieldConfig {
 	private boolean enable = true;
 	private boolean required;
 	private boolean immediate = true;
-	private boolean readOnly = false;
 	private String requiredMessage;
 	private List<GtnUIFrameWorkActionConfig> valueChangeActionConfigList = new ArrayList<>();
 	private List<GtnUIFrameWorkActionConfig> validationActionConfigList = new ArrayList<>();
@@ -45,15 +44,7 @@ public class GtnUIFrameworkDateFieldConfig {
 		this.required = required;
 	}
 
-	public boolean isReadOnly() {
-		return readOnly;
-	}
-
-	public void setReadOnly(boolean readOnly) {
-		this.readOnly = readOnly;
-	}
-
-	public List<GtnUIFrameWorkActionConfig> getValidationActionConfigList() {
+        public List<GtnUIFrameWorkActionConfig> getValidationActionConfigList() {
 		return validationActionConfigList == null ? validationActionConfigList
 				: Collections.unmodifiableList(validationActionConfigList);
 	}
