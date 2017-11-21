@@ -1646,6 +1646,8 @@ public class Constant {
     public static final String OVERRIDE_AMP = "Override AMP";
     public static final String OVERRIDE_BEST_PRICE = "Override Best Price";
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
+    public static final String RELVALUE = "@RELVALUE";
+    public static final String SELECTED_HIERARCHY_CUSTOM = "selected-hierarchy-no-for-custom";
     /**
      * Enum for Frequency constants
      */

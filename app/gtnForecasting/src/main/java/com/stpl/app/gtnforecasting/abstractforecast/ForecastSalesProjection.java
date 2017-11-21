@@ -1546,7 +1546,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                                 } else {
                                     updatedRecordsNo = salesLogic.queryToUpdateCheckRecord(session, (checkValue ? 1 : 0), true, checkDTO.getReturnDetailsSid());
                                 }
-
+                                
                                 updateCheckForParentLevels(itemId, updatedRecordsNo, checkValue);
                                 updateCheckForChildLevels(tableHierarchyNo, itemId, checkValue);
 
@@ -2203,7 +2203,30 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                         return;
                     }
                 } else {
-                    salesLogic.saveOnMassUpdate(projectionDTO, startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
+                    boolean parentChecked=false;
+                    boolean parentExistinTable= false;
+                    SalesRowDto dto = (SalesRowDto)getTableLogic().getcurrentTreeData(getTableLogic().getAllLevels().get(0));
+                    int lowerLevelNo="C".equalsIgnoreCase(projectionDTO.getHierarchyIndicator()) ? projectionDTO.getSessionDTO().getLowerMostCustomerLevelNo() : projectionDTO.getSessionDTO().getLowerMostProductLevelNo();
+                    boolean onlyLowerLevelExist=(dto.getTreeLevelNo()==lowerLevelNo);
+                    Map<String, Object> inputParameters = loadInputParameters(startYear, endYear, startQuater, endQuater, enteredValue, updateVariable);
+                    if (onlyLowerLevelExist) {
+                        salesLogic.saveOnMassUpdate(projectionDTO, inputParameters, onlyLowerLevelExist);
+                    } else {
+                        for (String allLevel : getTableLogic().getAllLevels()) {
+                            if (getTableLogic().getcurrentTreeData(allLevel) != null) {
+                                SalesRowDto itemId = (SalesRowDto) getTableLogic().getcurrentTreeData(allLevel);
+                                int lowerMostLevelNo = "C".equalsIgnoreCase(projectionDTO.getHierarchyIndicator()) ? projectionDTO.getSessionDTO().getLowerMostCustomerLevelNo() : projectionDTO.getSessionDTO().getLowerMostProductLevelNo();
+                                parentExistinTable = itemId.getTreeLevelNo() < lowerMostLevelNo;
+                                if ((itemId.getTreeLevelNo() != lowerMostLevelNo)) {
+                                    parentChecked = ((boolean) itemId.getPropertyValue(Constant.CHECK));
+                                }
+                            }
+                            if (parentExistinTable && parentChecked) {
+                                break;
+                            }
+                        }
+                        salesLogic.saveOnMassUpdate(projectionDTO, inputParameters, !(parentExistinTable && parentChecked));
+                    }
                     isUpdated = true;
                     if (Constant.GROUPFCAPS.equals(String.valueOf(fieldDdlb.getValue()))) {
                         refreshGroupDdlb();
@@ -2220,6 +2243,17 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             LOGGER.error(ex);
         }
 
+    }
+
+    public Map<String,Object> loadInputParameters(int startYear, int endYear, int startQuater, int endQuater, String enteredValue, String updateVariable) {
+        Map<String,Object> updateValues=new HashMap<>();
+        updateValues.put("startYear", startYear);
+        updateValues.put("endYear", endYear);
+        updateValues.put("startQuater", startQuater);
+        updateValues.put("endQuater", endQuater);
+        updateValues.put("enteredValue", enteredValue);
+        updateValues.put("updateVariable", updateVariable);
+        return updateValues;
     }
 
     /**
@@ -3790,5 +3824,5 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
             
             allocationBasis.addItems(outputList);
     }
-
+    
 }
