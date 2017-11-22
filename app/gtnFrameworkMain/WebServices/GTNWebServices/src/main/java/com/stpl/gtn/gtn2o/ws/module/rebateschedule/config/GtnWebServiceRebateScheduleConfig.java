@@ -132,12 +132,12 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnStringConfig("RS_TRANS_REF_ID", "RSM"));
 		fieldToColumnDetailsMap.put("rSTransactionReferenceName",
 				configProvider.getColumnStringConfig("RS_TRANS_REF_NAME", "RSM"));
-		fieldToColumnDetailsMap.put("rsUDC1", configProvider.getColumnStringConfig("DESCRIPTION", "UDC1"));
-		fieldToColumnDetailsMap.put("rsUDC2", configProvider.getColumnStringConfig("DESCRIPTION", "UDC2"));
-		fieldToColumnDetailsMap.put("rsUDC3", configProvider.getColumnStringConfig("DESCRIPTION", "UDC3"));
-		fieldToColumnDetailsMap.put("rsUDC4", configProvider.getColumnStringConfig("DESCRIPTION", "UDC4"));
-		fieldToColumnDetailsMap.put("rsUDC5", configProvider.getColumnStringConfig("DESCRIPTION", "UDC5"));
-		fieldToColumnDetailsMap.put("rsUDC6", configProvider.getColumnStringConfig("DESCRIPTION", "UDC6"));
+		fieldToColumnDetailsMap.put("rsUDC1", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC1"));
+		fieldToColumnDetailsMap.put("rsUDC2", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC2"));
+		fieldToColumnDetailsMap.put("rsUDC3", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC3"));
+		fieldToColumnDetailsMap.put("rsUDC4", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC4"));
+		fieldToColumnDetailsMap.put("rsUDC5", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC5"));
+		fieldToColumnDetailsMap.put("rsUDC6", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC6"));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
