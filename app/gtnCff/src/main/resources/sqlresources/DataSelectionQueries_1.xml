@@ -376,8 +376,8 @@ from
 	<entity id="getRelationshipLevelValuesForDeduction">
 		<query> 
             <![CDATA[ 
-                SELECT  
-                    RLD.HIERARCHY_NO,
+                SELECT DISTINCT 
+                    RELATIONSHIP_LEVEL_VALUES,
                     ?HTDESCRIPTION as DESCRIPTION,
                     LEVEL_NAME,
                     LEVEL_NO,
@@ -842,7 +842,7 @@ TEMP.HIERARCHY_NO
             from
                     HIERARCHY_LEVEL_DEFINITION HLD
             where
-                    HIERARCHY_DEFINITION_SID = '?'
+                    HIERARCHY_DEFINITION_SID = '?' AND HLD.VERSION_NO = ?
                     and EXISTS(
                             SELECT
                                     1
@@ -850,7 +850,6 @@ TEMP.HIERARCHY_NO
                                     dbo.RELATIONSHIP_BUILDER RLD
                             where
                                     RLD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
-                                    AND HLD.VERSION_NO = ?
                     )
             order by
                     LEVEL_NO asc;
