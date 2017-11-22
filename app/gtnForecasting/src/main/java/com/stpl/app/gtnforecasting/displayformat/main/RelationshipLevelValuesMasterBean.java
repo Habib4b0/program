@@ -102,12 +102,8 @@ public class RelationshipLevelValuesMasterBean {
 
 	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-		String customSql;
-		if (sessionDTO.getTabNameCaption().equals(TAB_DISCOUNT_PROJECTION.getConstant())) {
-			customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
-		} else {
-			customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeduction");
-		}
+                String customSql;
+		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);
