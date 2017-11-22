@@ -1449,7 +1449,7 @@ public class NMProjectionVarianceLogic {
         		paramArray[2] = discountId;
         		paramArray[3] = Integer.parseInt(sessionId);
         		paramArray[4] = Integer.parseInt(userId);
-        		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+        		return GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
         	}
 
 
@@ -1484,42 +1484,6 @@ public class NMProjectionVarianceLogic {
         return 0;
     }
 
-    /**
-     * To convert the given Result Set into List of Objects
-     *
-     * @param rs
-     * @return
-     */
-    private List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<>();
-
-        try {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            Object[] header = new Object[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                Object label = rsMetaData.getColumnLabel(i);
-                header[i - 1] = label;
-            }
-            while (rs.next()) {
-                Object[] str = new Object[columnCount];
-                for (int i = 1; i <= columnCount; ++i) {
-                    Object obj = rs.getObject(i);
-                    str[i - 1] = obj;
-                }
-                objList.add(str);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                LOGGER.error(ex);
-            }
-        }
-        return objList;
-    }
 
     public List<ProjectionVarianceDTO> getCustomizedPivotTotalResults(final List<Object> results, List<Integer> priorProjGtsList, PVSelectionDTO pvsdto, PVSelectionDTO baseVariables, List totalDiscount) {
         List<String> periodList = new ArrayList<>(pvsdto.getPeriodList());

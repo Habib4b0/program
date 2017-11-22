@@ -1518,7 +1518,7 @@ public class ProjectionVarianceLogic {
 		paramArray[2] = discountId;
 		paramArray[3] = Integer.parseInt(sessionId);
 		paramArray[4] = Integer.parseInt(userId);
-		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+		return GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 	}
 
 	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO,
@@ -1545,43 +1545,6 @@ public class ProjectionVarianceLogic {
         count += getProjVarianceCount(projSelDTO, parentId, isLevelCount);
         return count;
 
-    }
-
-    /**
-     * To convert the given Result Set into List of Objects
-     *
-     * @param rs
-     * @return
-     */
-    private List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<>();
-
-        try {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            Object[] header = new Object[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                Object label = rsMetaData.getColumnLabel(i);
-                header[i - 1] = label;
-            }
-            while (rs.next()) {
-                Object[] str = new Object[columnCount];
-                for (int i = 1; i <= columnCount; ++i) {
-                    Object obj = rs.getObject(i);
-                    str[i - 1] = obj;
-                }
-                objList.add(str);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                LOGGER.error(ex);
-            }
-        }
-        return objList;
     }
 
 

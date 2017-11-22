@@ -839,8 +839,7 @@ public class CommonLogic {
     public static List<Object[]> callProcedure(String procedureName, Object[] orderedArgs) {
         LOGGER.info("Procedure Name " + procedureName);
         try {
-			return convertResultSetToList(
-					GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs));
+			return GtnSqlUtil.getResultFromProcedure(getQuery(procedureName, orderedArgs), orderedArgs);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}
