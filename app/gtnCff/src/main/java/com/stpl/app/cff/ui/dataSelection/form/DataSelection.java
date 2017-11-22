@@ -3084,7 +3084,9 @@ public class DataSelection extends AbstractDataSelection {
 				List<Leveldto> hierarchyLevelDefinitionList = productHierarchyLevelDefinitionList.subList(0,
 						forecastLevel);
 				Leveldto selectedHierarchyLevelDto = productHierarchyLevelDefinitionList.get(forecastLevel - 1);
-				isNdc = selectedHierarchyLevelDto.getTableName().equalsIgnoreCase("ITEM_MASTER");
+				isNdc = (selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("Package")
+						|| selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("NDC-11")); 
+
 				selectedCustomerContractList = getSelectedCustomerContractList();
 
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()

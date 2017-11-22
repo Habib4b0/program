@@ -78,19 +78,18 @@ public class GtnSqlUtil {
 		try (Connection connection = datasource.getConnection();
 				CallableStatement statement = connection.prepareCall(sqlQuery);) {
 			for (int i = 0; i < paramArray.length; i++) {
-				statement.setObject(i + 1, paramArray[i]);
+
+				statement.setObject(i+1, paramArray[i]);
 			}
 			LOGGER.debug("Ending callResultProcedure");
-			
-                        return convertResultSetToList(statement.executeQuery());
-                        
+			return convertResultSetToList(statement.executeQuery());
 		} catch (Exception ex) {
 			LOGGER.error("Exception in callResultProcedure", ex);
 		}
 		return null;
 	}
         
-       private static List<Object[]> convertResultSetToList(ResultSet rs) {
+        private static List<Object[]> convertResultSetToList(ResultSet rs) {
         List<Object[]> objList = new ArrayList<>();
 
         try {
