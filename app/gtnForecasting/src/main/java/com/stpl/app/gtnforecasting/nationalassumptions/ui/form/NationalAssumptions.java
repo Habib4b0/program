@@ -275,7 +275,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         @Override
         public void blur(FieldEvents.BlurEvent event) {
             final TextField field = (TextField) event.getComponent();
-            final DecimalFormat format = (DecimalFormat) field.getData();
+            final DecimalFormat format = (DecimalFormat)field.getData();
             field.setValue(format.format(Double.parseDouble(field.getValue().replace(",", StringUtils.EMPTY).replace(PERCENT, StringUtils.EMPTY))) + PERCENT);
         }
     };
