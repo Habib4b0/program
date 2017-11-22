@@ -221,8 +221,7 @@ public class NMSalesProjectionResultsLogic {
 				paramArray[2] = StringUtils.EMPTY;
 				paramArray[3] = Integer.parseInt(String.valueOf(selections[NumericConstants.EIGHT]));
 				paramArray[4] = Integer.parseInt(String.valueOf(selections[NumericConstants.SEVEN]));
-				List gtsList = convertResultSetToList(
-						GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+				List gtsList = GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 				if (sprList != null && !sprList.isEmpty()) {
 					List<List> list = getRowList(selections);
 					for (int j = 0; j < levelCount.size(); j++) {
@@ -364,8 +363,7 @@ public class NMSalesProjectionResultsLogic {
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();
 
 		try {
-			List list = convertResultSetToList(
-					GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+			List list = GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 			if (!list.isEmpty()) {
 				if ("period".equalsIgnoreCase(pivotView)) {
 					for (int i = 0; i < list.size(); i++) {

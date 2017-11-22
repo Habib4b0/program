@@ -1417,42 +1417,6 @@ public class NMProjectionVarianceLogic {
         return newFullHeader;
     }
 
-    /**
-     * FFS GTS Procedure Call
-     *
-     * @param projectionId
-     * @param procedureName
-     * @return
-     * @throws Exception 
-     */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = Constant.QUARTERLY1;
-        } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
-            frequency = Constant.SEMI_ANNUAL;
-        } else if (frequency.equals(Constant.MONTHLY)) {
-            frequency = Constant.MONTHLY_COLUMN;
-        } else {
-            frequency = Constant.ANNUAL_CAPS;
-        }
-
-                StringBuilder statementBuilder = new StringBuilder("{call ");
-                statementBuilder.append(procedureName);
-        		statementBuilder.append("(?,?,?,?,?)}");
-        		Object[] paramArray = new Object[5];
-        		paramArray[0] = projectionId;
-        		paramArray[1] = frequency;
-        		paramArray[2] = discountId;
-        		paramArray[3] = Integer.parseInt(sessionId);
-        		paramArray[4] = Integer.parseInt(userId);
-        		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
-        	}
-
-
 	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, PVSelectionDTO baseVariables, int start, int offset) {
         try {
             LOGGER.info("Inside getConfiguredProjectionVariance");
