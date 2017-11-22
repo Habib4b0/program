@@ -903,7 +903,7 @@ public class CommonLogic {
                 rs.close();
             } catch (SQLException ex) {
                 LOGGER.error(ex);
-            }
+        } 
         }
         return objList;
     }
