@@ -136,7 +136,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 				"cGrpInformationCGrpDesc", true, addViewCGrpDesclayout.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX);
 		addViewCGroupDescConfig.setAuthorizationIncluded(true);
-		addViewCGroupDescConfig.setComponentName("Customer Group Desc");
+		addViewCGroupDescConfig.setComponentName("Customer Group Description");
 		addViewCGroupDescConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(addViewCGroupDescConfig);
 
