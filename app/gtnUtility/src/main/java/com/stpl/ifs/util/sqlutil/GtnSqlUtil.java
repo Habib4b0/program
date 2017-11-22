@@ -88,6 +88,37 @@ public class GtnSqlUtil {
 		return null;
 	}
         
+	public static ResultSet getResultSetFromProcedure(String sqlQuery, Object[] paramArray) throws Exception {
+		LOGGER.debug("Enter getResultFromProcedure ");
+
+		try {
+			Context initialContext = new InitialContext();
+			DataSource datasource = (DataSource) initialContext.lookup(DATA_POOL);
+			if (datasource != null) {
+				return callResultSetProcedure(sqlQuery, paramArray, datasource);
+			}
+			LOGGER.debug("Exiting getResultFromProcedure");
+			return null;
+		} catch (NamingException namingException) {
+			LOGGER.error("Exception getResultFromProcedure", namingException);
+			throw new Exception("Exception getResultFromProcedure", namingException);
+		}
+	}
+
+	private static ResultSet callResultSetProcedure(String sqlQuery, Object[] paramArray, DataSource datasource) {
+		try (Connection connection = datasource.getConnection();
+				CallableStatement statement = connection.prepareCall(sqlQuery);) {
+			for (int i = 0; i < paramArray.length; i++) {
+				statement.setObject(i+1, paramArray[i]);
+			}
+			LOGGER.debug("Ending callResultProcedure");
+			return statement.executeQuery();
+		} catch (Exception ex) {
+			LOGGER.error("Exception in callResultProcedure", ex);
+		}
+		return null;
+	}
+        
         private static List<Object[]> convertResultSetToList(ResultSet rs) {
         List<Object[]> objList = new ArrayList<>();
 
