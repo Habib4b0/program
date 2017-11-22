@@ -3,8 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Jun 2, 2017 4:01:00 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAdjustedDemandForecast" table="IVLD_ADJUSTED_DEMAND_FORECAST" schema="dbo" catalog="BPIGTN_AGN_APP_UNIT"
-    optimistic-lock="version">
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAdjustedDemandForecast" table="IVLD_ADJUSTED_DEMAND_FORECAST" schema="dbo">
         <id name="ivldAdjustedDemandForecastSid" type="int">
             <column name="IVLD_ADJUSTED_DEMAND_FORECAST_SID" />
             <generator class="native" />
