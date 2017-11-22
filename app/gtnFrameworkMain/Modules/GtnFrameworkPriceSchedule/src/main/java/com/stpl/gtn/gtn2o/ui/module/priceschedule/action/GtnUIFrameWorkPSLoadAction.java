@@ -225,6 +225,9 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		if ("Child".equals(pSDesignation)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
 		}
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
+                GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
 		GtnUIFrameworkBaseComponent pricingResultDataTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE);
 		GtnUIFrameworkBaseComponent priceProtectionResultDataTable = GtnUIFrameworkGlobalUI
