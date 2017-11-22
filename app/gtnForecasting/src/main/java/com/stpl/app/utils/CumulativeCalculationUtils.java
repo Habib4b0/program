@@ -16,12 +16,9 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang.StringUtils;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
-import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.bean.bcp.GtnWsBcpServiceBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
-import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
+import com.stpl.ifs.ui.util.GtnUiBcpServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.StandaloneParser;
 import com.stpl.ifs.util.constants.ForecastingConstants;
@@ -85,21 +82,8 @@ public class CumulativeCalculationUtils {
 		gtnWsBcpServiceBean.setMethodology(methodology);
 		gtnWsBcpServiceBean.setTabName(tabName);
 
-			GtnUIFrameworkWebServiceClient wsBcpClient = new GtnUIFrameworkWebServiceClient();
-			GtnUIFrameworkWebserviceRequest wsBcpRequest = new GtnUIFrameworkWebserviceRequest();
-			GtnWsBcpServiceRequest gtnWsBcpServiceRequest = new GtnWsBcpServiceRequest();
-			gtnWsBcpServiceRequest.setGtnWsBcpServiceBean(gtnWsBcpServiceBean);
-			wsBcpRequest.setGtnWsBcpServiceRequest(gtnWsBcpServiceRequest);
-			GtnWsSecurityToken token = new GtnWsSecurityToken();
-			token.setUserId(gtnWsBcpServiceBean.getUserId());
-			token.setSessionId(gtnWsBcpServiceBean.getSessionId());
-			wsBcpClient.callGtnWebServiceUrl(
-					GtnWebServiceUrlConstants.GTN_BCP_SERVICE + GtnWebServiceUrlConstants.CALCULATE, wsBcpRequest,
-					token);
-
-			// GtnUiBcpServiceUtil.callBcpService(gtnWsBcpServiceBean,
-			// GtnWebServiceUrlConstants.GTN_BCP_SERVICE +
-			// GtnWebServiceUrlConstants.CALCULATE);
+			GtnUiBcpServiceUtil.callBcpService(gtnWsBcpServiceBean,
+					GtnWebServiceUrlConstants.GTN_BCP_SERVICE + GtnWebServiceUrlConstants.CALCULATE);
 		} catch (InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | IllegalBlockSizeException
 				| BadPaddingException e) {
 			LOGGER.error(e);
@@ -107,7 +91,7 @@ public class CumulativeCalculationUtils {
 	}
 	private static String getDecryptedPassword(String secret) throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
-		byte[] kbytes = KEY.getBytes();
+		byte[] kbytes = System.getProperty("KEY").getBytes();
 		SecretKeySpec key = new SecretKeySpec(kbytes, ForecastingConstants.getPassword());
 		BigInteger n = new BigInteger(secret, NumericConstants.SIXTEEN);
 		byte[] encoding = n.toByteArray();

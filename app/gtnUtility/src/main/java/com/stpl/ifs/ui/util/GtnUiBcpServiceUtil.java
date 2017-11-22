@@ -22,7 +22,6 @@ public class GtnUiBcpServiceUtil {
 		GtnWsSecurityToken token = new GtnWsSecurityToken();
 		token.setUserId(gtnWsBcpServiceBean.getUserId());
 		token.setSessionId(gtnWsBcpServiceBean.getSessionId());
-		return wsBcpClient.callGtnWebServiceUrl(
-				url, wsBcpRequest, token);
+		return wsBcpClient.callGtnWebServiceUrl(url, wsBcpRequest, token);
 	}
 }
