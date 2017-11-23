@@ -124,7 +124,7 @@ public class SearchLogic {
 						getSortByQuery(sortByList, Constants.JOB), start, end);
 			}
 
-			ResultSet resultSet = GtnSqlUtil.getResultFromProcedure(query, new Object[] {});
+			ResultSet resultSet = GtnSqlUtil.getResultSetFromProcedure(query, new Object[] {});
 			return isExcelExport && !isCount ? Arrays.asList(resultSet) : customize_Job_Data(resultSet, isCount);
 		} catch (Exception ex) {
 			LOGGER.debug(ex);

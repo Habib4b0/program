@@ -165,7 +165,7 @@ public class GtnWsItemMasterConfig implements GtnWsSearchQueryConfigLoader {
 		itemMasterColumnDetailsMap.put(popUpValue + GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS,
 				configProvider.getColumnBooleanConfig(GtnFrameworkWebserviceConstant.RECORD_LOCK_STATUS_COLUMN, "IM"));
 		itemMasterColumnDetailsMap.put(popUpValue + "therapeuticClass",
-				configProvider.getColumnHelperConfig("THERAPEUTIC_CLASS", "IM"));
+				configProvider.getColumnStringConfig("DESCRIPTION", "HELPERTABLETHERAPETIC"));
 		itemMasterColumnDetailsMap.put(popUpValue + "brand", configProvider.getColumnStringConfig("BRAND_NAME", "BM"));
 		itemMasterColumnDetailsMap.put(popUpValue + "IMasterSearchNdc9",
 				configProvider.getColumnStringConfig("ITEM_ID", "IM1"));
