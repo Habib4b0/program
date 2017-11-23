@@ -1640,7 +1640,7 @@ public class Constant {
     public static final String PHS_AMP = "PHS_AMP";
     public static final String PHS_TOTAL_URA = "PHS_TOTAL_URA";
     public static final String CONVERSION_FACTOR = "CONVERSION_FACTOR";
-    public static final String CONVERSION_FACTOR_DEFALUT_VALUE="No_Conversion";
+    public static final String CONVERSION_FACTOR_DEFALUT_VALUE = "No Conversion";
     public static final String CLOSE_CONFIRMATION = "Close Confirmation";
     public static final String COMMA =  ", ";
     public static final String OVERRIDE_AMP = "Override AMP";
