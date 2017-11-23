@@ -184,13 +184,11 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationSelfGrowthIndicator")
 				.loadFieldValue(!rebatePlanInfoBean.getSelfGrowthIndicator().trim().equals("0")
-						? rebatePlanInfoBean.getSelfGrowthIndicator().trim()
-						: "");
+						? rebatePlanInfoBean.getSelfGrowthIndicator().trim() : "");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationSelfGrowthReference")
 				.loadFieldValue(!"".equals(rebatePlanInfoBean.getSelfGrowthReference())
-						? rebatePlanInfoBean.getSelfGrowthReference()
-						: "");
+						? rebatePlanInfoBean.getSelfGrowthReference() : "");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationSelfGrowthFrom")
 				.loadDateValue(rebatePlanInfoBean.getSelfGrowthFrom());
@@ -200,13 +198,11 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationMarketShareIndicator")
 				.loadFieldValue(!rebatePlanInfoBean.getMarketShareIndicator().trim().equals("")
-						? rebatePlanInfoBean.getMarketShareIndicator()
-						: "");
+						? rebatePlanInfoBean.getMarketShareIndicator() : "");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationMarketShareReference")
 				.loadFieldValue(!"".equals(rebatePlanInfoBean.getMarketShareReference())
-						? rebatePlanInfoBean.getMarketShareReference()
-						: "");
+						? rebatePlanInfoBean.getMarketShareReference() : "");
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationMarketShareFrom")
 				.loadDateValue(rebatePlanInfoBean.getMarketShareFrom());
@@ -317,8 +313,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 
 	static String getDefaultValue(String value) {
 		return value.equals(GtnFrameworkCommonConstants.SELECT_ONE) || "0".equals(value)
-				? GtnFrameworkCommonStringConstants.STRING_EMPTY
-				: value;
+				? GtnFrameworkCommonStringConstants.STRING_EMPTY : value;
 	}
 
 	public String getValueDesc(String valueDesc) {
@@ -358,6 +353,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorType5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentOperator5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentValue5itemPricingQualifier());
+			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperator());
 			String s = ruleDetailsBeanComplex.getValueDesc();
 
 			List<Character> splitList = new ArrayList<>();
@@ -394,7 +390,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		List<String> list = Arrays.asList(value.split(","));
 		int k = 3;
 		for (int j = 0; j < list.size(); j++) {
-                        
+
 			dto.addProperties(String.valueOf(recordHeader.get(k)), list.get(j));
 			dto.addAdditionalProperties(k, list.get(j));
 			k += 3;
@@ -429,6 +425,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 		operationValue = operationValue.replace("%)", ",");
 		operationValue = operationValue.replace("),", ",");
 		operationValue = operationValue.replace(",,", ",");
+		operationValue = operationValue.replace(")", ",");
 		for (int i = 0; i <= 4; i++) {
 			if (operationValue.charAt(0) == '(') {
 				operationValue = operationValue.substring(i + 1, operationValue.length());
@@ -466,10 +463,10 @@ public class GtnUIFrameWorkResetYesButtonAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsValue").loadDateValue(null);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX)
-				.loadDateValue(null);
+				.setEnable(true);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX)
-				.loadDateValue(null);
+				.setEnable(true);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsOperatorType").loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsAdjustmentOperator1").loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsAdjustmentValue").loadDateValue(null);

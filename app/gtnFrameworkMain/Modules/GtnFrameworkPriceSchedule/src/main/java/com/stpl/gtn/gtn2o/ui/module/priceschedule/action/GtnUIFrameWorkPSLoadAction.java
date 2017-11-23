@@ -77,7 +77,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("modifiedBy")
 				.loadFieldValue(priceScheduleInfoBean.getModifiedBy());
 
-		setValueForComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID, priceScheduleInfoBean.getParentPsSid());
+		setValueForComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID,
+				priceScheduleInfoBean.getParentPsSid());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID)
 				.loadFieldValue(priceScheduleInfoBean.getParentPsId());
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStatus1")
@@ -218,7 +219,12 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	}
 
 	public void loadPriceTabsForView(int systemId, boolean isEditable) throws GtnFrameworkGeneralException {
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PARENT_PRICE_SCHEDULE_ID).setEnable(isEditable);
+		String pSDesignation = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleDesignation")
+				.getCaptionFromComboBox();
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(false);
+		if ("Child".equals(pSDesignation)) {
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
+		}
 		GtnUIFrameworkBaseComponent pricingResultDataTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE);
 		GtnUIFrameworkBaseComponent priceProtectionResultDataTable = GtnUIFrameworkGlobalUI

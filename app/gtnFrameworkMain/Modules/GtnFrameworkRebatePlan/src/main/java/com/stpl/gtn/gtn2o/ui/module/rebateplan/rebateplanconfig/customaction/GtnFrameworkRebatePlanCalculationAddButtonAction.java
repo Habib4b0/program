@@ -105,7 +105,9 @@ public class GtnFrameworkRebatePlanCalculationAddButtonAction
 			}
 
 		}
-
+		record.addAdditionalProperty(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX)
+				.getIntegerFromField());
 		return record;
 	}
 

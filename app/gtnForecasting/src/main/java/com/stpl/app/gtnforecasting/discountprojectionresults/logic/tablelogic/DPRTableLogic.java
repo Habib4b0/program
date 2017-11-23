@@ -100,7 +100,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                         count = commercialDPRLogic.getConfiguredProjectionResultsCount(getLastParent(), projSelDTO, true);
                         break;
                     default:
-                        LOGGER.warn("screenName is not valid: " + screenName);
+                        LOGGER.warn("screenName is not valid : " + screenName);
                         break;
                 }
                
@@ -199,7 +199,7 @@ public class DPRTableLogic extends PageTreeTableLogic {
                 nmExpandData(parentId, treeLevel, expandLevelNo);
                 break;
             default:
-                LOGGER.warn("screenName is not valid: " + screenName);
+                LOGGER.warn("screenName is not valid in default: " + screenName);
                 break;
         }
 
