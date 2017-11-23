@@ -1484,43 +1484,6 @@ public class ProjectionVarianceLogic {
         pivotTotalList.addAll(gtsResult);
     }
 
-    /**
-     * FFS GTS Procedure Call
-     *
-     * @param projectionId
-     * @param procedureName
-     * @return
-
-     * @throws Exception 
-     */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        if (frequency.equals(StringConstantsUtil.QUARTERLY_FREQ)) {
-            frequency = StringConstantsUtil.QUARTERLY_LABEL;
-        } else if (frequency.equals(StringConstantsUtil.SEMI_ANNUALLY_FREQ)) {
-            frequency = "SEMI_ANNUAL";
-        } else if (frequency.equals(StringConstantsUtil.MONTHLY_FREQ)) {
-            frequency = StringConstantsUtil.MONTHLY_LABEL;
-        } else {
-            frequency = StringConstantsUtil.ANNUAL_LABEL;
-        }
-
-
-                StringBuilder statementBuilder = new StringBuilder("{call ");
-		statementBuilder.append(procedureName);
-		statementBuilder.append("(?,?,?,?,?)}");
-		Object[] paramArray = new Object[5];
-		paramArray[0] = projectionId;
-		paramArray[1] = frequency;
-		paramArray[2] = discountId;
-		paramArray[3] = Integer.parseInt(sessionId);
-		paramArray[4] = Integer.parseInt(userId);
-		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
-	}
-
 	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO,
 			int start, int offset) {
 		try {
@@ -1545,43 +1508,6 @@ public class ProjectionVarianceLogic {
         count += getProjVarianceCount(projSelDTO, parentId, isLevelCount);
         return count;
 
-    }
-
-    /**
-     * To convert the given Result Set into List of Objects
-     *
-     * @param rs
-     * @return
-     */
-    private List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<>();
-
-        try {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            Object[] header = new Object[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                Object label = rsMetaData.getColumnLabel(i);
-                header[i - 1] = label;
-            }
-            while (rs.next()) {
-                Object[] str = new Object[columnCount];
-                for (int i = 1; i <= columnCount; ++i) {
-                    Object obj = rs.getObject(i);
-                    str[i - 1] = obj;
-                }
-                objList.add(str);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                LOGGER.error(ex);
-            }
-        }
-        return objList;
     }
 
 
