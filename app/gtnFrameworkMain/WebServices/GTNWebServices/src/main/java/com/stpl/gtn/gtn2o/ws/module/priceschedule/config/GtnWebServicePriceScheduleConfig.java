@@ -505,7 +505,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 						GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN,
 						GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
-				configProvider.getColumnStringConfig("ITEM_MASTER_SID", GtnFrameworkWebserviceConstant.IMPSD));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
@@ -668,7 +668,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		psPPViewColumnDetailsMap.put("IMPSD.PS_MODEL_SID", configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.PS_MODEL_SID, GtnFrameworkWebserviceConstant.IMPSD));
 		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
-				configProvider.getColumnStringConfig("ITEM_MASTER_SID", GtnFrameworkWebserviceConstant.IMPSD));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPViewColumnDetailsMap);
 
