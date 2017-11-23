@@ -15,6 +15,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -215,6 +216,16 @@ public class PVCommonLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
+    }
+    
+    public static String removeBracesInList(List<String> bracesList) {
+        String removedString = StringUtils.EMPTY;
+        for (String string : bracesList) {
+            removedString =  removedString.concat(",").concat(string) ;
+        }
+        
+        removedString=removedString.replaceFirst(",","");
+        return removedString;
     }
 
 }
