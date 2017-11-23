@@ -293,7 +293,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 
 		// PRICE_PROTECTION_PRICE_TYPE
 		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
-				configProvider.getColumnStringConfig("ITEM_MASTER_SID", GtnFrameworkWebserviceConstant.IMPSD));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, configProvider.getColumnBooleanConfig(
 				GtnFrameworkWebserviceConstant.CHECK_RECORD_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_PP_STATUS,
