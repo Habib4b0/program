@@ -112,6 +112,7 @@ public class NMPVExcelLogic {
     private static final String VAR = "Var";
     private static final String PER = "Per";
     private static final String P = "P";
+    private static final String ALL = "ALL";
 
     public NMPVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {
@@ -1065,7 +1066,7 @@ public class NMPVExcelLogic {
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1};
+        Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1,null,selection.getUomCode(), ALL.equals(selection.getSalesInclusion()) ? null : selection.getSalesInclusion(), ALL.equals(selection.getSession().getDeductionInclusion()) ? null : selection.getSession().getDeductionInclusion()};
         rawList = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
         procRawList_total.addAll(rawList);
         rawList.clear();
@@ -1089,17 +1090,16 @@ public class NMPVExcelLogic {
             parameters.put(PRC_PV_SELECTION, parameterDto.clone());
         }
         if (isRefresh) {
-            NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
             List<Integer> projectionIdList = new ArrayList();
             projectionIdList.add(selection.getCurrentProjId());
             projectionIdList.addAll(selection.getProjIdList());
             String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
             String levelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getSelectedDeductionLevelName() : parameterDto.getDiscountLevel();
-            String sIds = selection.getDeductionLevelFilter().isEmpty() ? null :logic.removeBracesInList(selection.getDeductionLevelFilter());
+            String sIds = selection.getDeductionLevelFilter().isEmpty() ? null :PVCommonLogic.removeBracesInList(selection.getDeductionLevelFilter());
             Object[] orderedArg = {projectionId, parameterDto.getUserId(), parameterDto.getSessionId(),levelName
                 , parameterDto.getFrequency(), selection.isIsCustomHierarchy() ? "D" : parameterDto.getViewIndicator(),
                 parameterDto.getGroupFilter(), parameterDto.getGroupFilterValue(), parameterDto.getHierarchyNo(),
-                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView(),selection.getUomCode(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),sIds};
+                parameterDto.getLevelNo(), parameterDto.getViewName(), parameterDto.getCustomViewMasterSid(), parameterDto.getView().equals("Variable") ? "pivot" : parameterDto.getView(),selection.getUomCode(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),sIds};
             rawList = CommonLogic.callProcedure(PRC_PV_SELECTION, orderedArg);
             if (parameterDto.getViewName().equals("DETAIL_TOTAL_DISCOUNT")) {
                 procRawList_detail.clear();
@@ -2153,7 +2153,7 @@ public class NMPVExcelLogic {
             pivotPriorProjIdList.add(projId);
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1};
+        Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, selection.getSessionDTO().getSessionId(), selection.getUserId(), PIVOT1,null,selection.getUomCode(), ALL.equals(selection.getSalesInclusion()) ? null : selection.getSalesInclusion(), ALL.equals(selection.getSession().getDeductionInclusion()) ? null : selection.getSession().getDeductionInclusion()};
         gtsResult = CommonLogic.callProcedure(PRC_PROJ_RESULTS, orderedArg);
         pivotTotalList.addAll(gtsResult);
     }
@@ -2191,13 +2191,10 @@ public class NMPVExcelLogic {
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
         List<Object[]> discountsList = null;
-        if (selection.getDiscountLevel().equals(PROGRAM)) {
-            Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", PROGRAM};
-            discountsList = CommonLogic.callProcedure(PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE, orderedArg);
-        } else {
-            Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", PROGRAM_CAT};
-            discountsList = CommonLogic.callProcedure(PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE, orderedArg);
-        }
+        Object sIds = projSelDTO.getDeductionLevelFilter().isEmpty() ? null : PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
+        String levelName = projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDiscountLevel() : projSelDTO.getSelectedDeductionLevelName();
+        Object[] orderedArg = {projectionId, frequency, discountId, VARIANCE1, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), "1", levelName, null, projSelDTO.getSalesInclusion(), projSelDTO.getSession().getDeductionInclusion(), projSelDTO.getUomCode(), sIds};
+        discountsList = CommonLogic.callProcedure(PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE, orderedArg);
         pivotDiscountList.addAll(discountsList);
 
     }

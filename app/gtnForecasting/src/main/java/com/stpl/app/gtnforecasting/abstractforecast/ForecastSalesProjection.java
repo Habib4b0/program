@@ -2249,8 +2249,8 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         Map<String,Object> updateValues=new HashMap<>();
         updateValues.put("startYear", startYear);
         updateValues.put("endYear", endYear);
-        updateValues.put("startQuater", startQuater);
-        updateValues.put("endQuater", endQuater);
+        updateValues.put("startQuarter", startQuater);
+        updateValues.put("endQuarter", endQuater);
         updateValues.put("enteredValue", enteredValue);
         updateValues.put("updateVariable", updateVariable);
         return updateValues;
