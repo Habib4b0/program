@@ -432,7 +432,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                     && (parameters.get("filter~createdDateSearch~to") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
                 queryString.append(" AND PM.CREATED_DATE BETWEEN '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
                 queryString.append(from);
@@ -445,7 +445,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                     && (parameters.get("filter~createdDateSearch~to") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
                 queryString.append(" AND PM.CREATED_DATE < '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String to = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~to"))));
                 queryString.append(to);
@@ -455,7 +455,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                     && (parameters.get("filter~createdDateSearch~to") == null || ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~to")))
                     || StringUtils.isBlank(String.valueOf(parameters.get("filter~createdDateSearch~to"))))) {
                 queryString.append(" AND PM.CREATED_DATE > '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String from = format.format(parse.parse(String.valueOf(parameters.get("filter~createdDateSearch~from"))));
                 queryString.append(from);
@@ -465,7 +465,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
             if (parameters.get("filter~modifiedDateSearch~from") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~from")))
                     && parameters.get("filter~modifiedDateSearch~to") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))) && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))) {
                 queryString.append(" AND PM.MODIFIED_DATE BETWEEN '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
                 String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
@@ -478,7 +478,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                     && (parameters.get("filter~modifiedDateSearch~to") != null && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
                 queryString.append(" AND PM.MODIFIED_DATE < '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String to = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))));
                 queryString.append(to);
@@ -488,7 +488,7 @@ public class ProjectionMasterFinderImpl extends BasePersistenceImpl<ProjectionMa
                     && (parameters.get("filter~modifiedDateSearch~to") == null || ConstantsUtils.NULL.equals(String.valueOf(parameters.get("filter~modifiedDateSearch~to")))
                     || StringUtils.isBlank(String.valueOf(parameters.get("filter~modifiedDateSearch~to"))))) {
                 queryString.append(" AND PM.MODIFIED_DATE > '");
-                SimpleDateFormat parse = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                SimpleDateFormat parse = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
                 String from = format.format(parse.parse(String.valueOf(parameters.get("filter~modifiedDateSearch~from"))));
                 queryString.append(from);
