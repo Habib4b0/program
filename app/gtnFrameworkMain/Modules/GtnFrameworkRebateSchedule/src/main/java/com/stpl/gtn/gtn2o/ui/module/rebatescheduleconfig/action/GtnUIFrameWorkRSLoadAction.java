@@ -179,7 +179,7 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			} else if (calculationType.equals("Deduction Calendar")) {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeDeductionCalendarTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeDeductionCalendarVisibleColumns();
-			} else if (calculationType.equals("Price Protection")) {
+			} else {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypePriceProtectionTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypePriceProtectionVisibleColumns();
 			}
