@@ -175,7 +175,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.START_DATE, GtnFrameworkRSConstants.END_DATE, "Deduction Calendar No",
 					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.CALCULATION_RULE1,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
-		} else if (calculationType.equals("Price Protection")) {
+		} else{
 			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
 					Date.class };
 

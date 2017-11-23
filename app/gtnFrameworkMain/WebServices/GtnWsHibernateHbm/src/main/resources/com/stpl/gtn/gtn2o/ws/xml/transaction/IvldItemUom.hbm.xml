@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Nov 1, 2017 3:21:50 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom" table="IVLD_ITEM_UOM" schema="dbo" catalog="BPIGTN_AGN_APP_UNIT" optimistic-lock="version">
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom" table="IVLD_ITEM_UOM" schema="dbo">
         <id name="ivldItemUomSid" type="int">
             <column name="IVLD_ITEM_UOM_SID" />
             <generator class="assigned" />

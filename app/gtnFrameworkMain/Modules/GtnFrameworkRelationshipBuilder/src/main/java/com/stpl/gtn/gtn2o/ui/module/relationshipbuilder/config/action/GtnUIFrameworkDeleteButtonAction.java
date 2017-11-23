@@ -59,11 +59,8 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		if (rbNewResponse.isSuccess()) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
 					.removeItemFromDataTable(parameters.get(1));
-			GtnUIFrameWorkActionConfig deleteNotifAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			deleteNotifAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			deleteNotifAction.addActionParameter(rbNewResponse.getMessage());
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, deleteNotifAction);
+			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
+					rbNewResponse.getMessage(), null);
 			return;
 		}
 		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(
