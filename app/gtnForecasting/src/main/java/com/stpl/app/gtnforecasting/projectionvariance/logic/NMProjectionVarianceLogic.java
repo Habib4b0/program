@@ -819,7 +819,7 @@ public class NMProjectionVarianceLogic {
                 ccps = getCCPIds(projSelDTO);
                 discountId = getRSIds(projSelDTO);
             }
-            Object sIds=projSelDTO.getDeductionLevelFilter().isEmpty()?null:removeBracesInList(projSelDTO.getDeductionLevelFilter());
+            Object sIds=projSelDTO.getDeductionLevelFilter().isEmpty()?null:PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter());
             String levelName=projSelDTO.getDeductionLevelFilter().isEmpty()?projSelDTO.getDiscountLevel():projSelDTO.getSelectedDeductionLevelName();
             Object[] orderedArg = {projectionId, frequency, discountId, Constant.VARIANCE_COLUMN, projSelDTO.getSessionDTO().getSessionId(), projSelDTO.getUserId(), Constant.STRING_ONE, levelName, ccps, projSelDTO.getSalesInclusion(), projSelDTO.getSession().getDeductionInclusion(),projSelDTO.getUomCode(),sIds};
             discountsList = CommonLogic.callProcedure("PRC_PROJECTION_RESULTS_DISCOUNT", orderedArg);
@@ -1417,42 +1417,6 @@ public class NMProjectionVarianceLogic {
         return newFullHeader;
     }
 
-    /**
-     * FFS GTS Procedure Call
-     *
-     * @param projectionId
-     * @param procedureName
-     * @return
-     * @throws Exception 
-     */
-    public List<Object[]> getGrossTradeSales(int projectionId, String procedureName, String frequency, String sessionId, String userId, String discountId) throws Exception {
-        Connection connection = null;
-        DataSource datasource;
-        CallableStatement statement = null;
-        ResultSet rs = null;
-        if (frequency.equals(Constant.QUARTERLY)) {
-            frequency = Constant.QUARTERLY1;
-        } else if (frequency.equals(Constant.SEMI_ANNUALLY)) {
-            frequency = Constant.SEMI_ANNUAL;
-        } else if (frequency.equals(Constant.MONTHLY)) {
-            frequency = Constant.MONTHLY_COLUMN;
-        } else {
-            frequency = Constant.ANNUAL_CAPS;
-        }
-
-                StringBuilder statementBuilder = new StringBuilder("{call ");
-                statementBuilder.append(procedureName);
-        		statementBuilder.append("(?,?,?,?,?)}");
-        		Object[] paramArray = new Object[5];
-        		paramArray[0] = projectionId;
-        		paramArray[1] = frequency;
-        		paramArray[2] = discountId;
-        		paramArray[3] = Integer.parseInt(sessionId);
-        		paramArray[4] = Integer.parseInt(userId);
-        		return convertResultSetToList(GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
-        	}
-
-
 	public List<ProjectionVarianceDTO> getConfiguredProjectionVariance(Object parentId, PVSelectionDTO projSelDTO, PVSelectionDTO baseVariables, int start, int offset) {
         try {
             LOGGER.info("Inside getConfiguredProjectionVariance");
@@ -1484,42 +1448,6 @@ public class NMProjectionVarianceLogic {
         return 0;
     }
 
-    /**
-     * To convert the given Result Set into List of Objects
-     *
-     * @param rs
-     * @return
-     */
-    private List<Object[]> convertResultSetToList(ResultSet rs) {
-        List<Object[]> objList = new ArrayList<>();
-
-        try {
-            ResultSetMetaData rsMetaData = rs.getMetaData();
-            int columnCount = rsMetaData.getColumnCount();
-            Object[] header = new Object[columnCount];
-            for (int i = 1; i <= columnCount; ++i) {
-                Object label = rsMetaData.getColumnLabel(i);
-                header[i - 1] = label;
-            }
-            while (rs.next()) {
-                Object[] str = new Object[columnCount];
-                for (int i = 1; i <= columnCount; ++i) {
-                    Object obj = rs.getObject(i);
-                    str[i - 1] = obj;
-                }
-                objList.add(str);
-            }
-        } catch (Exception e) {
-            LOGGER.error(e);
-        } finally {
-            try {
-                rs.close();
-            } catch (SQLException ex) {
-                LOGGER.error(ex);
-            }
-        }
-        return objList;
-    }
 
     public List<ProjectionVarianceDTO> getCustomizedPivotTotalResults(final List<Object> results, List<Integer> priorProjGtsList, PVSelectionDTO pvsdto, PVSelectionDTO baseVariables, List totalDiscount) {
         List<String> periodList = new ArrayList<>(pvsdto.getPeriodList());
@@ -3056,36 +2984,36 @@ public class NMProjectionVarianceLogic {
         query=query.replace("@SELECTCOLUMN","HT.DESCRIPTION");
         switch(projSelDTO.getSessionDTO().getSelectedDeductionLevelNoPv()){
             case 1: 
-                query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_CATEGORY AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_CATEGORY AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 break;
             case 2:
-               query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_TYPE AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+               query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.RS_TYPE AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 break;
             case 3:
-              query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+              query=query.replace(JOINQUERY," JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.REBATE_PROGRAM_TYPE AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                break;
             case 4:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC1 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC1 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 5:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC2 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC2 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 6:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC3 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC3 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 7:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC4 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC4 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 8:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC5 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC5 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 9:
-                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC6 AND HT.HELPER_TABLE_SID in (").concat(removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
+                joinUdcQuery = joinUdcQuery.concat(" JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = UD.UDC6 AND HT.HELPER_TABLE_SID in (").concat(PVCommonLogic.removeBracesInList(projSelDTO.getDeductionLevelFilter())).concat(")");
                 query=query.replace(JOINQUERY,joinUdcQuery);
                  break;
             case 10:
@@ -3107,15 +3035,7 @@ public class NMProjectionVarianceLogic {
         return resultList;
     }
     
-    public String removeBracesInList(List<String> bracesList) {
-        String removedString = StringUtils.EMPTY;
-        for (String string : bracesList) {
-            removedString =  removedString.concat(",").concat(string) ;
-        }
-        
-        removedString=removedString.replaceFirst(",","");
-        return removedString;
-    }
+    
     
     public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
