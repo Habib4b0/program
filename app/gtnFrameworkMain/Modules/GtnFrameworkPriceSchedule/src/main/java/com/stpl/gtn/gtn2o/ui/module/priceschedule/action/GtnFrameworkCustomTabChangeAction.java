@@ -10,7 +10,6 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFramewo
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFrameworkPriceTabValueChangeManager;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
 

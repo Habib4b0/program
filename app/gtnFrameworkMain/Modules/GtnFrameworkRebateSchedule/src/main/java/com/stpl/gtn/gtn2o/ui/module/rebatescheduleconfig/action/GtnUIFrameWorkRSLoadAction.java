@@ -168,8 +168,8 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		if (isEditable) {
 			String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
 					.getCaptionFromComboBox();
-			String[] tableHeader = new String[] { "Item NO", "Item Name", "RS Status", "RS Start Date", "RS End Date" };
-			Object[] visibleColumns = new Object[] { "itemNo", "itemName", "rsStatus", "rsStartDate", "rsEndDate" };
+			String[] tableHeader;
+			Object[] visibleColumns;
 			if (calculationType.equals("Rebate Plan")) {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeRebatePlanTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUPTabCalculationTypeRebatePlanVisibleColumns();
