@@ -1,7 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -161,23 +160,14 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 
 		for (Object[] result : resultList) {
 			hierarchyLevelBean = new HierarchyLevelDefinitionBean();
-			getHierarchyCustomizer(hierarchyLevelBean, result);
+			hierarchyLevelBean.customize(result);
 			hierarchyList.add(hierarchyLevelBean);
 		}
 		Collections.sort(hierarchyList);
 		return hierarchyList;
 	}
 
-	public void getHierarchyCustomizer(HierarchyLevelDefinitionBean hierarchyLevelBean, Object[] result) {
-		hierarchyLevelBean.setHierarchyLevelDefinitionSid((Integer) result[0]);
-		hierarchyLevelBean.setLevelNo((((BigDecimal) result[1]).intValue()));
-		hierarchyLevelBean.setLevelName((String) result[2]);
-		hierarchyLevelBean.setLevelValueReference((String) result[3]);
-		hierarchyLevelBean.setHierarchyDefinitionSid((Integer) result[4]);
-		hierarchyLevelBean.setTableName((String) result[5]);
-		hierarchyLevelBean.setFieldName((String) result[6]);
-		hierarchyLevelBean.setVersionNo((Integer) result[7]);
-	}
+
 
 	public HierarchyLevelDefinitionBean getHierarchyBeanByLevelNo(List<HierarchyLevelDefinitionBean> hierarchyList,
 			int levelNo) {
