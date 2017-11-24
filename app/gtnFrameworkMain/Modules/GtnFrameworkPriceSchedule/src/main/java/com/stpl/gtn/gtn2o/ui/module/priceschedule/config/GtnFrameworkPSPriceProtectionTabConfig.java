@@ -323,13 +323,20 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		GtnUIFrameworkComponentConfig mainTableLayout = configProvider
 				.getVerticalLayoutConfig("psPriceProtectionMainResultLayout", true, "psPriceProtectionTabResultPanel");
 		componentList.add(mainTableLayout);
-		companiesResultLayout(componentList, mainTableLayout.getComponentId());
-		addExcelButtonComponent(componentList, mainTableLayout.getComponentId());
-		addAddLineButtonComponent(componentList, mainTableLayout.getComponentId());
-		addRemoveLineButtonComponent(componentList);
-		addCopyLineButtonComponent(componentList);
+		companiesResultLayout(componentList, mainTableLayout.getComponentId());		
+		getMainTableLayoutButton(componentList,mainTableLayout.getComponentId());		
 
 	}
+        private void getMainTableLayoutButton(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+		GtnUIFrameworkComponentConfig mainTableLayout = configProvider
+				.getHorizontalLayoutConfig("psPriceProtectionMainButtonLayout", false, parentId);
+		componentList.add(mainTableLayout);
+                mainTableLayout.setVisible(false);
+                addAddLineButtonComponent(componentList);
+		addRemoveLineButtonComponent(componentList);
+		addCopyLineButtonComponent(componentList);
+                addExcelButtonComponent(componentList);
+        }
 
 	private void companiesResultLayout(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig tableLayout = configProvider
@@ -346,6 +353,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTableConfig.setAuthorizationIncluded(true);
 		priceProtectionResultTableConfig.setComponentName("Results");
 		priceProtectionResultTableConfig.setComponentHight("400px");
+                priceProtectionResultTableConfig.setComponentWidth("1200px");
 		priceProtectionResultTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(priceProtectionResultTableConfig);
 
@@ -400,33 +408,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 	 * @param componentList
 	 * @param parentId
 	 */
-	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
-		GtnUIFrameworkComponentConfig excelButtonLayout = configProvider
-				.getHorizontalLayoutConfig("gtnExcelButtonlayout", false, parentId);
-		componentList.add(excelButtonLayout);
-
-		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getUIFrameworkComponentConfig(null, true,
-				"gtnExcelButtonlayout", GtnUIFrameworkComponentType.EXCEL_BUTTON);
-		excelButtonConfig.setAuthorizationIncluded(true);
-		componentList.add(excelButtonConfig);
-
-		GtnUIFrameworkExcelButtonConfig priceProtectionTabExcelButtonConfig = configProvider.getExcelBtnconfig(
-				"PRICE_PROTECTION", true, GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE, false);
-		priceProtectionTabExcelButtonConfig.setTitleNeeded(true);
-		priceProtectionTabExcelButtonConfig
-				.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
-		priceProtectionTabExcelButtonConfig.setHelperTableMapedPropertyIdList(Arrays.asList("psPPStatus",
-				"psPPPriceType", "psBasePriceType", "psNetBasePrice", "psSubseqPeriodPriceType", "psToleranceInterval",
-				"psToleranceFreq", "psToleranceType", "psResetEligible", "psResetType", "psResetInterval",
-				"psResetFrequency", "psResetPriceType", "psNetResetPriceType", "psNetPriceType"));
-		priceProtectionTabExcelButtonConfig
-				.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
-		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(priceProtectionTabExcelButtonConfig);
-		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
-		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
-		excelAction.addActionParameter(priceProtectionTabExcelButtonConfig);
-		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
-	}
+	
 
 	List<GtnUIFrameworkComponentConfig> createTableFieldFactoryComponents(List<String> propertyIds) {
 		List<GtnUIFrameworkComponentConfig> priceProtectionTabEditableFields = new ArrayList<>();
@@ -582,9 +564,9 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 	}
 
-	private void addAddLineButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
+	private void addAddLineButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig addLineButtonLayout = configProvider
-				.getHorizontalLayoutConfig(GtnFrameworkCommonConstants.ADD_LINE, false, parentId);
+				.getHorizontalLayoutConfig(GtnFrameworkCommonConstants.ADD_LINE, true, "psPriceProtectionMainButtonLayout");
 		componentList.add(addLineButtonLayout);
 
 		GtnUIFrameworkComponentConfig addLineButtonConfig = configProvider.getUIFrameworkComponentConfig(null, true,
@@ -643,5 +625,32 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		actionConfigList.add(copyLineCustomAction);
 
 		copyLineButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
+	}
+        private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+		GtnUIFrameworkComponentConfig excelButtonLayout = configProvider
+				.getVerticalLayoutConfig("gtnExcelButtonlayout", true, GtnFrameworkCommonConstants.ADD_LINE);
+		componentList.add(excelButtonLayout);
+
+		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getUIFrameworkComponentConfig(null, true,
+				"gtnExcelButtonlayout", GtnUIFrameworkComponentType.EXCEL_BUTTON);
+		excelButtonConfig.setAuthorizationIncluded(true);
+		componentList.add(excelButtonConfig);
+
+		GtnUIFrameworkExcelButtonConfig priceProtectionTabExcelButtonConfig = configProvider.getExcelBtnconfig(
+				"PRICE_PROTECTION", true, GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE, false);
+		priceProtectionTabExcelButtonConfig.setTitleNeeded(true);
+		priceProtectionTabExcelButtonConfig
+				.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
+		priceProtectionTabExcelButtonConfig.setHelperTableMapedPropertyIdList(Arrays.asList("psPPStatus",
+				"psPPPriceType", "psBasePriceType", "psNetBasePrice", "psSubseqPeriodPriceType", "psToleranceInterval",
+				"psToleranceFreq", "psToleranceType", "psResetEligible", "psResetType", "psResetInterval",
+				"psResetFrequency", "psResetPriceType", "psNetResetPriceType", "psNetPriceType"));
+		priceProtectionTabExcelButtonConfig
+				.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
+		excelButtonConfig.setGtnUIFrameworkExcelButtonConfig(priceProtectionTabExcelButtonConfig);
+		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
+		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
+		excelAction.addActionParameter(priceProtectionTabExcelButtonConfig);
+		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
 }

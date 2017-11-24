@@ -25,6 +25,14 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		int position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").getTabSheetSelectedTabIndex();
+                
+                if(position==3){
+                       System.out.println("in position==3----------------------------------");
+                     GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionMainButtonLayout").setVisible(true);
+                }
+                else{
+                    GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionMainButtonLayout").setVisible(false);
+                }
 		
                    if (position == 2 || position == 3) {
                 GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
@@ -34,7 +42,9 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,
                 if (position == 3) {
                     previousTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
                     currentTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
+                    
                 }
+                
                 GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
                         .getVaadinComponentData(currentTable);
                 GtnUIFrameworkPagedTableLogic currentTableLogic = componentData.getCurrentPageTableLogic();
@@ -50,6 +60,9 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,
 
                 return;
             }
+                   
+                System.out.println("ppTab------------------------------------------"+position);
+               
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 	}
