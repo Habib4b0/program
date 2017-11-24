@@ -94,7 +94,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		addFieldComponent(componentList, "searchCriterialayout1", componentBean.getSearchComponent(), isInvalid);
 		addSearchButtonComponent(componentList, portletName, componentBean, isInvalid);
 		addPagedTableComponent(componentList, portletName, GtnFrameworkCommonStringConstants.STRING_EMPTY, isInvalid,
-				componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
 		addResetButtonComponent(componentList, componentBean.getSearchComponent());
 		addExcelButtonComponent(componentList, portletName);
@@ -404,6 +404,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		companyStatusConfig.setComboBoxType(component.getListName());
 		companyStatus.setGtnComboboxConfig(companyStatusConfig);
+        companyStatusConfig.setIntegerItemCode(!component.isLoadDescription());
 		getAdditonalSetting(component, companyStatus, companyStatusConfig);
 
 	}
