@@ -94,7 +94,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		addFieldComponent(componentList, "searchCriterialayout1", componentBean.getSearchComponent(), isInvalid);
 		addSearchButtonComponent(componentList, portletName, componentBean, isInvalid);
 		addPagedTableComponent(componentList, portletName, GtnFrameworkCommonStringConstants.STRING_EMPTY, isInvalid,
-		componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+                    componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
 		addResetButtonComponent(componentList, componentBean.getSearchComponent());
 		addExcelButtonComponent(componentList, portletName);
