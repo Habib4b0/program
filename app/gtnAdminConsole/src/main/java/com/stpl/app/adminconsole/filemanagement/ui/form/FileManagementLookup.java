@@ -346,6 +346,9 @@ public class FileManagementLookup extends Window {
 	 *            the file type
 	 * @param country
 	 *            the country
+         * @param sessionDTO
+         * @param isDetails
+         * @param businessUnit
 	 */
 	public FileManagementLookup(final FileMananagementResultDTO fileMgtIndexDTO, final TextField selectFile,
 			final ComboBox fileType, final String country, final SessionDTO sessionDTO, final boolean isDetails,
@@ -1590,6 +1593,11 @@ public class FileManagementLookup extends Window {
 			remove.setEnabled(true);
 			save.setEnabled(true);
 		}
+                if(CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)){
+                    addLine.setEnabled(false);
+                    remove.setEnabled(false);
+                    save.setEnabled(false);
+                }
 		detailsBean.removeAllItems();
 
 		detailsResultDTO.setFileName(String.valueOf(fileNameList.getValue()));

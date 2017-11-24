@@ -168,11 +168,13 @@ public class DataSelectionLogic {
 	 *            the hierarchy name
 	 * @return the list
 	 */
-	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName) {
+	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int hierarchyVersion) {
+		LOGGER.debug(" hierarchyName "+hierarchyName);
 		List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
 		input.add(hierarchyId);
+		input.add(hierarchyVersion);
 		try {
 			List<Object[]> returnlist = QueryUtils.getAppData(input, "selectHierarchyDetails", null);
 			for (Object[] object : returnlist) {
@@ -2260,7 +2262,7 @@ public class DataSelectionLogic {
 				QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
 			Object[] object = (Object[]) tempList.get(j);
-			final List detailsList = new ArrayList();
+			final List<Object> detailsList = new ArrayList<>();
 			detailsList.add(object[1]); // Level Value
 			detailsList.add(object[NumericConstants.TWO]); // Level No
 			detailsList.add(object[NumericConstants.THREE]); // Level Name

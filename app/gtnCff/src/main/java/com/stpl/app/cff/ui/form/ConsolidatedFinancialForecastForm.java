@@ -12,6 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 
 import org.apache.commons.lang.StringUtils;
@@ -34,6 +37,7 @@ import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
+import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
@@ -255,7 +259,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	private String topLevelName = StringUtils.EMPTY;
 	public static final String NO_RECORD_SELECTED = "No Record Selected.";
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
-
+	private Future customerFuture;
+	private Future productFuture;
 	/**
 	 * ConsolidatedFinancialForecastForm constructor
 	 *
@@ -500,6 +505,19 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 							? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0));
 					sessionDto.setProjectionId(dto.getCffMasterSid());
 					loadDataSelectionDTO(resultList);
+					customerFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getCustomerRelationShipVersionNo(),
+							Integer.parseInt(dataSelectionDto.getCustomerHierSid()));
+					productFuture = checkAndDoAutomaticUpdate(dataSelectionDto.getProductRelationShipVersionNo(),
+							Integer.parseInt(dataSelectionDto.getProdHierSid()));
+					boolean isCustRelationUpdate = (boolean) customerFuture.get();
+					boolean isProdRelationUpdate = (boolean) productFuture.get();
+					if(isCustRelationUpdate || isProdRelationUpdate) {
+						AbstractNotificationUtils.getInfoNotification("Info", "Relationship used in this projection is updated");
+					}
+					sessionDto.setCustomerHierarchyVersion(dataSelectionDto.getCustomerHierVersionNo());
+					sessionDto.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
+					sessionDto.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
+					sessionDto.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
 					sessionDto.setScreenName("CCP_HIERARCHY");
 					CFFQueryUtils.createTempTables(sessionDto);
 					dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDto.getCustomerHierarchyId()));
@@ -683,6 +701,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 						? Integer.valueOf(resultList[NumericConstants.THREE].toString()) : 0));
 				sessionDTO.setScreenName("CCP_HIERARCHY");
 				CFFQueryUtils.createTempTables(sessionDTO);
+				sessionDTO.setCustomerHierarchyVersion(dataSelectionDto.getCustomerHierVersionNo());
+				sessionDTO.setProductHierarchyVersion(dataSelectionDto.getProductHierVersionNo());
+				sessionDTO.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
+				sessionDTO.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
 				dataSelectionDto.setCustomerHierSid(String.valueOf(sessionDTO.getCustomerHierarchyId()));
 				dataSelectionDto
 						.setCustRelationshipBuilderSid(String.valueOf(sessionDTO.getCustRelationshipBuilderSid()));
@@ -948,5 +970,14 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 		} catch (final SystemException ex) {
 			LOGGER.error(ex);
 		}
+	}
+	
+	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
+		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
+				hierarchyId);
+		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+		Future future = customerExecutorService.submit(wsClientRunnableTarget);
+		customerExecutorService.shutdown();
+		return future;
 	}
 }

@@ -1912,21 +1912,26 @@ public class DataSelectionLogic {
 	 * @param relationshipBuilderSid
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<String, List> getRelationshipDetails(SessionDTO sessionDTO, String relationshipBuilderSid,
 			boolean isCustomerHierarchy) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetails");
 		customSql = customSql.replace(StringConstantsUtil.RBSID, relationshipBuilderSid);
-		List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
+		customSql = customSql.replace("?RLDV", isCustomerHierarchy ? sessionDTO.getCustomerRelationVersion()+ StringUtils.EMPTY 
+                : sessionDTO.getProductRelationVersion()+ StringUtils.EMPTY);
+		customSql = customSql.replace("?HLDV", isCustomerHierarchy ? sessionDTO.getCustomerHierarchyVersion()+ StringUtils.EMPTY 
+                : sessionDTO.getProductHierarchyVersion()+ StringUtils.EMPTY);
+		List<Object[]> tempList = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 		Map<String, List> resultMap = new HashMap<>();
 		String hierarchyNoType = isCustomerHierarchy ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO";
 		RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, relationshipBuilderSid,
-				hierarchyNoType);
+				hierarchyNoType, sessionDTO);
 		tempList.clear();
 		tempList = HelperTableLocalServiceUtil.executeSelectQuery(
 				QueryUtil.replaceTableNames(bean.getFinalQuery(), sessionDTO.getCurrentTableNames()));
 		for (int j = tempList.size() - 1; j >= 0; j--) {
-			final Object[] object = (Object[]) tempList.get(j);
-			final List detailsList = new ArrayList();
+			final Object[] object = tempList.get(j);
+			final List<Object> detailsList = new ArrayList<>();
 			detailsList.add(object[1]); // Level Value
 			detailsList.add(object[NumericConstants.TWO]); // Level No
 			detailsList.add(object[NumericConstants.THREE]); // Level Name

@@ -235,6 +235,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                 RLD.LEVEL_NO
                 FROM RELATIONSHIP_LEVEL_DEFINITION RLD 
                 JOIN HIERARCHY_LEVEL_DEFINITION HLD ON HLD.HIERARCHY_LEVEL_DEFINITION_SID=RLD.HIERARCHY_LEVEL_DEFINITION_SID AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
+                AND RLD.VERSION_NO = ?RLDV AND HLD.VERSION_NO = ?HLDV
                 JOIN HIERARCHY_DEFINITION HD ON HD.HIERARCHY_DEFINITION_SID=HLD.HIERARCHY_DEFINITION_SID
                 LEFT JOIN HIERARCHY_SINGLE_COLUMN_RELATION JVIEW ON JVIEW.ACTUAL_TABLE_NAME=HLD.TABLE_NAME AND JVIEW.ACTUAL_COLUMN_NAME=HLD.FIELD_NAME
                 JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID=HD.HIERARCHY_CATEGORY ORDER BY RLD.LEVEL_NO;
@@ -259,6 +260,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                                 TEMP.?IDCOL = RLD.RELATIONSHIP_LEVEL_VALUES
                                 AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
                                 AND RLD.LEVEL_NO = ?LNO
+                                AND RLD.VERSION_NO = ?RLDV
             ]]>
 		</query>
 	</entity>
@@ -374,8 +376,8 @@ from
 	<entity id="getRelationshipLevelValuesForDeduction">
 		<query> 
             <![CDATA[ 
-                SELECT  
-                    RLD.HIERARCHY_NO,
+                SELECT DISTINCT 
+                    RELATIONSHIP_LEVEL_VALUES,
                     ?HTDESCRIPTION as DESCRIPTION,
                     LEVEL_NAME,
                     LEVEL_NO,
@@ -544,16 +546,12 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 							#COMP_CONT CREATE
 								TABLE
 									#COMP_CONT(
-									    TEMP_NAME VARCHAR(50),
-									    TEMP_ID INT ,
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#COMP_CONT(
-											    TEMP_NAME ,
-									            TEMP_ID  ,
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
 												HIERARCHY_NO
@@ -577,15 +575,11 @@ CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
 							#ITEM CREATE
 								TABLE
 									#ITEM(
-										TEMP_NAME VARCHAR(50),
-										TEMP_ID INT,
 										ITEM_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#ITEM(
-												TEMP_NAME,
-												TEMP_ID,
 												ITEM_MASTER_SID,
 												HIERARCHY_NO
 											)  ?
@@ -840,7 +834,7 @@ TEMP.HIERARCHY_NO
             from
                     HIERARCHY_LEVEL_DEFINITION HLD
             where
-                    HIERARCHY_DEFINITION_SID = '?'
+                    HIERARCHY_DEFINITION_SID = '?' AND HLD.VERSION_NO = ?
                     and EXISTS(
                             SELECT
                                     1
@@ -848,7 +842,6 @@ TEMP.HIERARCHY_NO
                                     dbo.RELATIONSHIP_BUILDER RLD
                             where
                                     RLD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
-                                    AND HLD.VERSION_NO = ?
                     )
             order by
                     LEVEL_NO asc;

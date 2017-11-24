@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -59,11 +58,8 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		if (rbNewResponse.isSuccess()) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
 					.removeItemFromDataTable(parameters.get(1));
-			GtnUIFrameWorkActionConfig deleteNotifAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			deleteNotifAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			deleteNotifAction.addActionParameter(rbNewResponse.getMessage());
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, deleteNotifAction);
+			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
+					rbNewResponse.getMessage(), null);
 			return;
 		}
 		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(

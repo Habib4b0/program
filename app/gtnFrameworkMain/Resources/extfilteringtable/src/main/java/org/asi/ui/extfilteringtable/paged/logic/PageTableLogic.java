@@ -1141,5 +1141,12 @@ public abstract class PageTableLogic {
 	protected void clearCheckedRecordCount() {
 		checkedRecordCount = 0D;
 	}
+    public double getCheckRecordCount() {
+        return checkedRecordCount;
+    }
+
+    public void setCheckedRecordCount(double checkedRecordCount) {
+        this.checkedRecordCount = checkedRecordCount;
+    }
 
 }

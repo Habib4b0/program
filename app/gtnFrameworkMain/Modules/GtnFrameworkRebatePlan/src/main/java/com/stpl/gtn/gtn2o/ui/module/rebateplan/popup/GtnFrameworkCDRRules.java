@@ -332,7 +332,7 @@ public class GtnFrameworkCDRRules {
 		GtnUIFrameworkComponentConfig cdrPopupResetButtonConfig = cdrPopUpConfigProvider.getUIFrameworkComponentConfig(
 				"CDRPopUpSearchSearchViewReset01", true, cdrPopupResetBtnLayout.getComponentId(),
 				GtnUIFrameworkComponentType.BUTTON);
-		cdrPopupResetButtonConfig.setComponentName("SEARCH");
+		cdrPopupResetButtonConfig.setComponentName("RESET");
 		cdrPopupResetButtonConfig.setAuthorizationIncluded(true);
 		componentList.add(cdrPopupResetButtonConfig);
 

@@ -353,6 +353,7 @@ public class GtnUIFrameWorkResetYesButtonAction
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperatorType5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentOperator5());
 			dto.addAdditionalProperty(ruleDetailsBeanComplex.getAdjustmentValue5itemPricingQualifier());
+			dto.addAdditionalProperty(ruleDetailsBeanComplex.getOperator());
 			String s = ruleDetailsBeanComplex.getValueDesc();
 
 			List<Character> splitList = new ArrayList<>();
@@ -462,10 +463,10 @@ public class GtnUIFrameWorkResetYesButtonAction
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsValue").loadDateValue(null);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX)
-				.setEnable(false);
+				.setEnable(true);
 		GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX)
-				.setEnable(false);
+				.setEnable(true);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsOperatorType").loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsAdjustmentOperator1").loadDateValue(null);
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("rebatePlanCalculationsAdjustmentValue").loadDateValue(null);

@@ -297,7 +297,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             forecastMethodologyLayout.addComponent(new Label(" "), 1, 1, 1, 1);
             forecastMethodologyLayout.addComponent(priceTrendDdlb, 1, 2, 1, 2);
             forecastMethodologyLayout.addComponent(wacvalue, 1, 3, 1, 3);
-           
+
             forecastMethodologyLayout.addComponent(priceBasisDdlb, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
 //            forecastMethodologyLayout.addComponent(growthLabel, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
             forecastMethodologyLayout.addComponent(growthValue, 1, NumericConstants.FIVE, 1, NumericConstants.FIVE);
@@ -353,7 +353,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             } else {
                 cpiCompounding.setEnabled(false);
             }
-
+            priceBasisDdlb.addStyleName("fieldPositionPrice");
             priceBasisDdlb.setImmediate(true);
 
             priceBasisDdlb.addItem(SELECT_ONE.getConstant());
@@ -375,11 +375,11 @@ public class NationalAssumptions extends CustomComponent implements View {
                 priceTrendDdlb.addItem(DAY_WEIGHTED_WAC.getConstant());
                 priceTrendDdlb.addItem(SALES_WEIGHTED_WAC.getConstant());
                 priceTrendDdlb.select(SELECT_ONE.getConstant());
-            } else {
-                priceBasisDdlb.addStyleName("fieldPositionWac");
-                priceTrendDdlb.addStyleName("fieldPositionWac");
-                priceTypeDdlb.addStyleName("table-header-center");
             }
+
+            priceTrendDdlb.addStyleName("fieldPositionPriceTrend");
+            priceTypeDdlb.addStyleName("table-header-center");
+
             priceBasisDdlb.setNullSelectionAllowed(false);
             priceTrendDdlb.setNullSelectionAllowed(false);
 
@@ -975,7 +975,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     excuteFlag = true;
                                 }
 
-                            } 
+                            }
                             if (CommonUtil.isValueEligibleForLoading() && PER_OF_WAC.getConstant().equalsIgnoreCase(forecastMethodology.getValue().toString())) {
                                 if ((priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
                                     AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_BASIS_SELECTED, Constant.PLEASE_SELECT_A_PRICE_BASIS);
@@ -1079,7 +1079,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                         if (selecteditems > 1) {
                             if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))
                                     && ((priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())
-                                        || (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
+                                    || (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
                                 AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_TREND_SELECTED, Constant.PLEASE_SELECT_A_PRICE_TREND);
                                 return;
                             }
@@ -1124,7 +1124,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     populateBtnOnClick();
                 }
 
-                
             } else {
                 AbstractNotificationUtils.getErrorNotification("Alert",
                         "Not all required fields are selected.");

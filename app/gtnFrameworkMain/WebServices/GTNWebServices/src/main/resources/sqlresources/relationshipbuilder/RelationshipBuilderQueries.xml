@@ -434,15 +434,38 @@ where
 	<entity id="getHierarchyDefSid">
 		<query> 
         <![CDATA[
-      select
-	LEVEL_NO,
-	HIERARCHY_LEVEL_DEFINITION_SID,
-	LEVEL_NAME
-from
-	dbo.HIERARCHY_LEVEL_DEFINITION
-WHERE
-	HIERARCHY_DEFINITION_SID = (select HIERARCHY_DEFINITION_SID from dbo.RELATIONSHIP_BUILDER where RELATIONSHIP_BUILDER_SID = ?) AND VERSION_NO = ?
-]]>
+      DECLARE @VERSION_NO INT;
+      SELECT
+		    @VERSION_NO = MAX(VERSION_NO)
+		FROM
+		    HIERARCHY_LEVEL_DEFINITION
+		WHERE
+		    HIERARCHY_DEFINITION_SID =(
+		        SELECT
+		            HIERARCHY_DEFINITION_SID
+		        FROM
+		            dbo.RELATIONSHIP_BUILDER
+		        WHERE
+		            RELATIONSHIP_BUILDER_SID = ?
+		    );
+		
+		SELECT
+		    LEVEL_NO,
+		    HIERARCHY_LEVEL_DEFINITION_SID,
+		    LEVEL_NAME
+		FROM
+		    dbo.HIERARCHY_LEVEL_DEFINITION
+		WHERE
+		    HIERARCHY_DEFINITION_SID IN(
+		        SELECT
+		            HIERARCHY_DEFINITION_SID
+		        FROM
+		            dbo.RELATIONSHIP_BUILDER
+		        WHERE
+		            RELATIONSHIP_BUILDER_SID = ?
+		    )
+		    AND VERSION_NO = @VERSION_NO
+	]]>
 		</query>
 	</entity>
 

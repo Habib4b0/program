@@ -310,37 +310,6 @@ from
 		</query>
 	</entity>
 
-	<entity id="getRelationshipLevelValuesForDeduction">
-		<query> 
-            <![CDATA[ 
-                SELECT  
-                    RLD.HIERARCHY_NO,
-                    ?HTDESCRIPTION as DESCRIPTION,
-                    LEVEL_NAME,
-                    LEVEL_NO,
-                    RELATIONSHIP_LEVEL_VALUES
-                    ?DISPLAYFORMATCOLUMN
-                FROM
-                    RELATIONSHIP_LEVEL_DEFINITION RLD
-                                  ?UDCJOIN
-                                  join RS_CONTRACT RS ON ?FIELD_VALUE
-                                  ?REBATEJOIN
-                                  JOIN ST_NM_DISCOUNT_PROJ_MASTER ST ON ST.RS_CONTRACT_SID=RS.RS_CONTRACT_SID
-                                  ?HELPERTABLEJOIN
-             where 
-                                 RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
-                                AND RLD.LEVEL_NO = ?LNO
-
-             GROUP BY   RLD.HIERARCHY_NO,
-                    ?DEDGROUPBY,
-                    LEVEL_NAME,
-                    LEVEL_NO,
-                    RELATIONSHIP_LEVEL_VALUES    
-                    ?DEFGRPBY               
-            ]]>
-		</query>
-	</entity>
-
 	<entity id="GET_TOP_LEVEL_NAME">
 		<query> 
             <![CDATA[ 
@@ -923,7 +892,7 @@ select
 from
 	HIERARCHY_LEVEL_DEFINITION HLD
 where
-	HIERARCHY_DEFINITION_SID = '?'
+	HIERARCHY_DEFINITION_SID = '?' AND HLD.VERSION_NO = ?
 	and EXISTS(
 		SELECT
 			1

@@ -365,8 +365,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTable
 				.setTableColumnMappingId(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray());
 
-		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId" });
-		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class });
+		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId" ,"itemMasterSid"});
+		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class,Integer.class });
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0],
@@ -402,7 +402,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 	 */
 	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig excelButtonLayout = configProvider
-				.getHorizontalLayoutConfig("gtnExcelButtonlayout", true, parentId);
+				.getHorizontalLayoutConfig("gtnExcelButtonlayout", false, parentId);
 		componentList.add(excelButtonLayout);
 
 		GtnUIFrameworkComponentConfig excelButtonConfig = configProvider.getUIFrameworkComponentConfig(null, true,
@@ -584,7 +584,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 	private void addAddLineButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String parentId) {
 		GtnUIFrameworkComponentConfig addLineButtonLayout = configProvider
-				.getHorizontalLayoutConfig(GtnFrameworkCommonConstants.ADD_LINE, true, parentId);
+				.getHorizontalLayoutConfig(GtnFrameworkCommonConstants.ADD_LINE, false, parentId);
 		componentList.add(addLineButtonLayout);
 
 		GtnUIFrameworkComponentConfig addLineButtonConfig = configProvider.getUIFrameworkComponentConfig(null, true,
