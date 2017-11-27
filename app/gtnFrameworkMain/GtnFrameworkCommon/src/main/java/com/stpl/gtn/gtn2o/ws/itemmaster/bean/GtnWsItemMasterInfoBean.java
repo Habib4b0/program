@@ -78,14 +78,14 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 	private Date acquisitionDate;
 	private Date nonFederalExpirationDate;
 	private Double baseCpi;
-	private Double acquiredAmp;
+	private Integer acquiredAmp;
 	private Date marketTerminationDate;
 	private Date newFormulationStartDate;
 	private Date baseCpiPeriod;
-	private Double acquiredBamp;
+	private Integer acquiredBamp;
 	private Date newFormulationEndDate;
-	private Double dra;
-	private Double obraBamp;
+	private Integer dra;
+	private Integer obraBamp;
 
 	private String internalNotes;
 	private char inboundStatus;
@@ -564,11 +564,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.baseCpi = baseCpi;
 	}
 
-	public Double getAcquiredAmp() {
+	public Integer getAcquiredAmp() {
 		return acquiredAmp;
 	}
 
-	public void setAcquiredAmp(Double acquiredAmp) {
+	public void setAcquiredAmp(Integer acquiredAmp) {
 		this.acquiredAmp = acquiredAmp;
 	}
 
@@ -596,19 +596,19 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.baseCpiPeriod = baseCpiPeriod != null ? (Date) baseCpiPeriod.clone() : baseCpiPeriod;
 	}
 
-	public Double getAcquiredBamp() {
+	public Integer getAcquiredBamp() {
 		return acquiredBamp;
 	}
 
-	public void setAcquiredBamp(Double acquiredBamp) {
+	public void setAcquiredBamp(Integer acquiredBamp) {
 		this.acquiredBamp = acquiredBamp;
 	}
 
-	public Double getDra() {
+	public Integer getDra() {
 		return dra;
 	}
 
-	public void setDra(Double dra) {
+	public void setDra(Integer dra) {
 		this.dra = dra;
 	}
 
@@ -628,11 +628,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.recordLockStatus = recordLockStatus;
 	}
 
-	public Double getObraBamp() {
+	public Integer getObraBamp() {
 		return obraBamp;
 	}
 
-	public void setObraBamp(Double obraBamp) {
+	public void setObraBamp(Integer obraBamp) {
 		this.obraBamp = obraBamp;
 	}
 

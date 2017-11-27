@@ -36,8 +36,7 @@ public class PVCommonLogic {
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         String visibleColumn;
-
-        String priorVal = StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)];
+        String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)])));
         boolean actualBasis = Constant.ACTUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
         boolean accrualBasis = Constant.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
         boolean actualCheck = "null".equalsIgnoreCase(StringUtils.EMPTY + row[index - 1]);
@@ -49,7 +48,7 @@ public class PVCommonLogic {
             String baseValue = pvsdto.isConversionNeeded() ? !isPer
                     ? CommonUtil.getConversionFormattedValue(pvsdto, priorVal, true)
                     : getFormattedValue(format, priorVal)
-                    : getFormattedValue(format, priorVal);
+                     : getFormattedValue(format, priorVal);
             projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
         } else if (variableCategory.equalsIgnoreCase(Constant.VARIANCE)) {
             visibleColumn = column;

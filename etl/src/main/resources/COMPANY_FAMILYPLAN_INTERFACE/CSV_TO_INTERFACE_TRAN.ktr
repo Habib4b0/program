@@ -458,6 +458,10 @@
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
         </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -865,6 +869,17 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>SALES_INCLUSION</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1156,6 +1171,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
         </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1340,6 +1359,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -1526,6 +1549,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
         </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1710,6 +1737,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -2019,6 +2050,84 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_FAMILY_PLAN_NO</name>
+<validation_name>COMPANY_FAMILY_PLAN_NO</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_FAMILY_PLAN_NO</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_FAMILY_PLAN_NAME</name>
+<validation_name>COMPANY_FAMILY_PLAN_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>COMPANY_FAMILY_PLAN_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SALES_INCLUSION</name>
+<validation_name>SALES_INCLUSION</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>SALES_INCLUSION</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>681</xloc>
@@ -2073,7 +2182,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <concat_separator>|</concat_separator>
        <validator_field><name>COMPANY_FAMILY_PLAN_ID</name>
 <validation_name>COMPANY_FAMILY_PLAN_ID</validation_name>
-<max_length>38</max_length>
+<max_length>50</max_length>
 <min_length/>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
@@ -2101,7 +2210,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_FAMILY_PLAN_NO</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>Y</null_allowed>
+<null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -2301,32 +2410,6 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E02</error_code>
 <error_description>PARENT_COMPANY_FAMILY_PLAN_ID</error_description>
-<is_sourcing_values>N</is_sourcing_values>
-<sourcing_step/>
-<sourcing_field/>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>PARENT_COMPANY_FAMILY_PLAN_NAME</name>
-<validation_name>PARENT_COMPANY_FAMILY_PLAN_NAME</validation_name>
-<max_length>50</max_length>
-<min_length/>
-<null_allowed>Y</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>E02</error_code>
-<error_description>PARENT_COMPANY_FAMILY_PLAN_NAME</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -2691,6 +2774,58 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E02</error_code>
 <error_description>SOURCE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SALES_INCLUSION</name>
+<validation_name>SALES_INCLUSION</validation_name>
+<max_length>10</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>SALES_INCLUSION</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>COMPANY_FAMILY_PLAN_NAME</name>
+<validation_name>COMPANY_FAMILY_PLAN_NAME</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>COMPANY_FAMILY_PLAN_NAME</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -2718,7 +2853,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <concat_separator>|</concat_separator>
        <validator_field><name>COMPANY_FAMILY_PLAN_ID</name>
 <validation_name>COMPANY_FAMILY_PLAN_ID</validation_name>
-<max_length>38</max_length>
+<max_length>50</max_length>
 <min_length/>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
@@ -2746,7 +2881,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <validation_name>COMPANY_FAMILY_PLAN_NO</validation_name>
 <max_length>50</max_length>
 <min_length/>
-<null_allowed>Y</null_allowed>
+<null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -2768,11 +2903,11 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>PARENT_COMPANY_FAMILY_PLAN_NAME</name>
-<validation_name>PARENT_COMPANY_FAMILY_PLAN_NAME</validation_name>
+       <validator_field><name>COMPANY_FAMILY_PLAN_NAME</name>
+<validation_name>COMPANY_FAMILY_PLAN_NAME</validation_name>
 <max_length>100</max_length>
 <min_length/>
-<null_allowed>Y</null_allowed>
+<null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
@@ -2789,7 +2924,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>E03</error_code>
-<error_description>PARENT_COMPANY_FAMILY_PLAN_NAME</error_description>
+<error_description>COMPANY_FAMILY_PLAN_NAME</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -2958,7 +3093,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
-<data_type_verified>N</data_type_verified>
+<data_type_verified>Y</data_type_verified>
 <conversion_mask/>
 <decimal_symbol/>
 <grouping_symbol/>
@@ -3336,6 +3471,32 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E03</error_code>
 <error_description>SOURCE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SALES_INCLUSION</name>
+<validation_name>SALES_INCLUSION</validation_name>
+<max_length>10</max_length>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>SALES_INCLUSION</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -3544,6 +3705,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
         </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -3716,6 +3881,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -3890,6 +4059,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
         </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -4062,6 +4235,10 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADING_PARTNER_NO</column_name>
           <stream_name>TRADING_PARTNER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>SALES_INCLUSION</column_name>
+          <stream_name>SALES_INCLUSION</stream_name>
         </field>
     </fields>
      <cluster_schema/>

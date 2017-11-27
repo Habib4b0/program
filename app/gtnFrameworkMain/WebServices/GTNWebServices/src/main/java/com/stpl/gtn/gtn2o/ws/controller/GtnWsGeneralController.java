@@ -27,6 +27,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
+
 @RestController
 public class GtnWsGeneralController {
 	public GtnWsGeneralController() {
@@ -114,8 +115,7 @@ public class GtnWsGeneralController {
 			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			String comboBoxType = generalWSRequest.getComboBoxType();
 			String query = comboBoxTypeResponseMap.get(comboBoxType);
-
-			List<Object[]> resultList = null;
+            List<Object[]> resultList = null;
 
 			if (query != null) {
 				if (!"loadFromXML".equals(query)) {
