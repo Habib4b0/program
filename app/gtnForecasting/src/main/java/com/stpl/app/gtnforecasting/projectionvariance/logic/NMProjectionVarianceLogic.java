@@ -780,7 +780,7 @@ public class NMProjectionVarianceLogic {
         if (baseVariables.isColPercentage() && parentDto.getGroup().contains(Constant.CHANGE1)) {
             projSelDTO.setConversionNeeded(false);
             projSelDTO.setVarIndicator(Constant.CHANGE);
-            dto.addAll(getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, index, isPer));
+            dto.addAll(getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, index, true));
             return dto;
         }
         LOGGER.info("Ending commonCustomizationForTotalDiscount");
