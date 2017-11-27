@@ -324,13 +324,11 @@ public class GtnWsItemMasterSaveService {
 		itemMasterData.setAcquisitionDate(infoBean.getAcquisitionDate());
 		itemMasterData.setNonFederalExpirationDate(infoBean.getNonFederalExpirationDate());
 		itemMasterData.setBaseCpi(infoBean.getBaseCpi() == null ? null : new BigDecimal(infoBean.getBaseCpi()));
-		itemMasterData
-				.setAcquiredAmp(infoBean.getAcquiredAmp() == null ? null : new BigDecimal(infoBean.getAcquiredAmp()));
+		itemMasterData.setAcquiredAmp(infoBean.getAcquiredAmp() == null ? null : new BigDecimal(infoBean.getAcquiredAmp()));
 		itemMasterData.setMarketTerminationDate(infoBean.getMarketTerminationDate());
 		itemMasterData.setNewFormulationStartDate(infoBean.getNewFormulationStartDate());
 		itemMasterData.setBaseCpiPeriod(infoBean.getBaseCpiPeriod());
-		itemMasterData.setAcquiredBamp(
-				infoBean.getAcquiredBamp() == null ? null : new BigDecimal(infoBean.getAcquiredBamp()));
+		itemMasterData.setAcquiredBamp(infoBean.getAcquiredBamp() == null ? null : new BigDecimal(infoBean.getAcquiredBamp()));
 		itemMasterData.setNewFormulationEndDate(infoBean.getNewFormulationEndDate());
 		itemMasterData.setDra(infoBean.getDra() == null ? null : new BigDecimal(infoBean.getDra()));
 		itemMasterData.setObraBamp(infoBean.getObraBamp() == null ? null : new BigDecimal(infoBean.getObraBamp()));
@@ -452,13 +450,13 @@ public class GtnWsItemMasterSaveService {
 			itemMasterEditData.setAcquisitionDate(infoBean.getAcquisitionDate());
 			itemMasterEditData.setNonFederalExpirationDate(infoBean.getNonFederalExpirationDate());
 			itemMasterEditData.setBaseCpi(getBigDecimalValue(infoBean.getBaseCpi()));
-			itemMasterEditData.setAcquiredAmp(getBigDecimalValue(infoBean.getAcquiredAmp()));
+			itemMasterEditData.setAcquiredAmp(BigDecimal.valueOf(infoBean.getAcquiredAmp()));
 			itemMasterEditData.setMarketTerminationDate(infoBean.getMarketTerminationDate());
 			itemMasterEditData.setNewFormulationStartDate(infoBean.getNewFormulationStartDate());
 			itemMasterEditData.setBaseCpiPeriod(infoBean.getBaseCpiPeriod());
-			itemMasterEditData.setAcquiredBamp(getBigDecimalValue(infoBean.getAcquiredBamp()));
-			itemMasterEditData.setDra(getBigDecimalValue(infoBean.getDra()));
-			itemMasterEditData.setObraBamp(getBigDecimalValue(infoBean.getObraBamp()));
+			itemMasterEditData.setAcquiredBamp(BigDecimal.valueOf(infoBean.getAcquiredBamp()));
+			itemMasterEditData.setDra(BigDecimal.valueOf(infoBean.getDra()));
+			itemMasterEditData.setObraBamp(BigDecimal.valueOf(infoBean.getObraBamp()));
 			itemMasterEditData.setNewFormulationEndDate(infoBean.getNewFormulationEndDate());
 			itemMasterEditData.setNewFormulation(infoBean.getNewFormulation());
 			itemMasterEditData.setInternalNotes(infoBean.getInternalNotes());
