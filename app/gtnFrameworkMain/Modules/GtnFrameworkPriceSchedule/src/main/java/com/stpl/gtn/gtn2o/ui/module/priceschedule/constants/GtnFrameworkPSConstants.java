@@ -62,6 +62,8 @@ public class GtnFrameworkPSConstants {
 			GtnFrameworkCommonConstants.PS_ATTACHED_DATE, "psStatus", "priceType");
 	public static final String GTN_CONTRACT_HEADER_PS_ID_VALIDATION = "Please enter different Price Schedule ID since the Price Schedule  ID already exists";
 	public static final String GTN_CONTRACT_HEADER_PS_NO_VALIDATION = "Please enter different Price Schedule No since the Price Schedule  No already exists";
+        public static final String PS_DATE_EQUAL_VALIDATION = "PS Start date and PS End date should not be equal";
+	public static final String PS_DATE_LESS_THAN_VALIDATION = "PS End date should be greater than PS Start date";
 
 	private static final String[] PRICE_PROTECTION_HEADER = { "", "Item Id", "Item No", "Item Name", "Brand",
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",  

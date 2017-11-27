@@ -66,6 +66,9 @@ public class GtnWsPriceScheduleController {
 	private static final String CP_START_DATE_NULL = "CPStartDateNull";
 	private static final String CP_START_DATE_EQUAL = "CPStartDateEqual";
 	private static final String CP_START_DATE_LESS = "CPStartDateLess";
+	private static final String PP_START_DATE_NULL = "PPStartDateNull";
+	private static final String PP_START_DATE_EQUAL = "PPStartDateEqual";
+	private static final String PP_START_DATE_LESS = "PPStartDateLess";
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsPriceScheduleController.class);
 
@@ -649,4 +652,90 @@ public class GtnWsPriceScheduleController {
 
 	}
 
+        @SuppressWarnings("unchecked")
+	@RequestMapping(value = "/" + GtnWsCDRContants.PS_PP_VALIDATION_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse priceProtectionValidationService(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enter validationService");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
+			List<Object> inputList = gtnWsGeneralRequest.getComboBoxWhereclauseParamList();
+			String processName = String.valueOf(inputList.get(0));
+			Object resulList = validateTempPriceProtectionDeatils(gtnWsGeneralRequest.getUserId(),
+					gtnWsGeneralRequest.getSessionId(), processName);
+			gtnResponse.setOutBountData(new Object[] { 0 });
+			if (resulList != null) {
+
+				List<Integer> list = (List<Integer>) resulList;
+				gtnResponse.setOutBountData(new Object[] { list.get(0) });
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+
+		logger.info("Exit validationService");
+		return gtnResponse;
+	}
+        
+        public Object validateTempPriceProtectionDeatils(String userId, String sessionId, String process)
+			throws GtnFrameworkGeneralException {
+
+		StringBuilder ppValidateSql = new StringBuilder("");
+		boolean checkRecord = false;
+
+		if (TEMP_COUNT.equalsIgnoreCase(process)) {
+			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+
+		}
+//		if (STATUS.equalsIgnoreCase(process)) {
+//			psValidateSql.append(
+//					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ");
+//			checkRecord = true;
+//		}
+		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
+			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+			checkRecord = true;
+		}
+//		if (PRICE_TYPE.equalsIgnoreCase(process)) {
+//			psValidateSql.append(
+//					"select count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
+//			checkRecord = true;
+//		}
+		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate is  null and");
+			checkRecord = true;
+		}
+		if (PP_START_DATE_EQUAL.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate = ps_Details_Pric_Prtcn_Eddate and");
+			checkRecord = true;
+		}
+		if (PP_START_DATE_LESS.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate > ps_Details_Pric_Prtcn_Eddate and");
+			checkRecord = true;
+		}
+
+		if (userId != null) {
+			ppValidateSql.append("  users_Sid='").append(userId).append("'");
+		}
+		if (sessionId != null) {
+			ppValidateSql.append(" and session_Id='").append(sessionId).append("'");
+		}
+
+		if ("Price".equalsIgnoreCase(process) || "PPStartDateEqual".equalsIgnoreCase(process)
+				|| "PPStartDateLess".equalsIgnoreCase(process) || checkRecord) {
+			ppValidateSql.append(" and check_record = 1");
+		}
+
+		if ("itemDuplicationCheck".equalsIgnoreCase(process)) {
+			ppValidateSql.append(" group by item_Id,ps_Dtls_Cont_Price_Startdate) a where a.countA >1;");
+		}
+
+		return queryEngine.executeSelectQuery(ppValidateSql.toString());
+
+	}
 }

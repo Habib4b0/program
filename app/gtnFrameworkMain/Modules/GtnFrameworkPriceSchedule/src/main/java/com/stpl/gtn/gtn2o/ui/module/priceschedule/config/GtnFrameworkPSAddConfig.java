@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkCustomTabChangeAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSPriceProtectionTabAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPsResetAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSSaveMandatoryAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction;
@@ -249,10 +250,10 @@ public class GtnFrameworkPSAddConfig {
 		componentList.add(searchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-
+                
 		GtnUIFrameWorkActionConfig custoValidationAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-
+               
 		custoValidationAction.addActionParameter(GtnUIFrameWorkPSSaveMandatoryAlertAction.class.getName());
 		actionConfigList.add(custoValidationAction);
 		GtnUIFrameWorkActionConfig priceTabcustomValidationAction = configProvider
@@ -262,6 +263,11 @@ public class GtnFrameworkPSAddConfig {
 				.addActionParameter(GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction.class.getName());
 
 		actionConfigList.add(priceTabcustomValidationAction);
+                
+                    GtnUIFrameWorkActionConfig customPsCommonValidationAction = configProvider
+                    .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+            customPsCommonValidationAction.addActionParameter(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName());
+            actionConfigList.add(customPsCommonValidationAction);
 
 		GtnUIFrameWorkActionConfig custoSavemAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);

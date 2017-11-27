@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSDeleteC
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSPriceProtectionTabPopulateAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSPriceTabPopulateAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameworkPSSaveConfirmationAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSPriceProtectionTabAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnFrameworkPSPriceProtectionTabAddLineAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnFramworkItemAdditionSelectValidateAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.validation.GtnUIFrameworkPSPopulateCheckAction;
@@ -92,6 +93,8 @@ public class GtnUIFrameworkPsDynamicClassFiller implements GtnUIDynamicObjectFil
 				new GtnFrameworkPSPriceProtectionTabAddLineAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPsFieldFactoryPopupSelectAction.class.getName(),
 				new GtnFrameworkPsFieldFactoryPopupSelectAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName(),
+				new GtnFrameworkPSPriceProtectionTabAlertAction());
                 
 	}
 
