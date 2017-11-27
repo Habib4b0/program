@@ -150,7 +150,7 @@ public class GtnWsTransactionService {
 	private void appendWhereCondition(GtnWsSearchRequest gtnWsSearchRequest, Map<String, String> columnDataTypeMap,
 			Criteria criteria, ClassMetadata classMetadata, boolean isInvalid) throws ParseException {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
-			String type = columnDataTypeMap.get(columns.getFieldId()); 
+			String type = columnDataTypeMap.get(columns.getFieldId());
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
 			columns.setExpression(columns.isFilter()
 					? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName()) : columns.getExpression());
@@ -163,14 +163,14 @@ public class GtnWsTransactionService {
 				betweenConditon(criteria, columns, type, dateFormat);
 				break;
 			case "LIKE":
-				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter,type);
+				likeCriteria(criteria, columns, value, isUser, isInvalidFilter, type);
 				break;
 			case "EQUAL":
-				equalCriteria(criteria, classMetadata, columns, type, dateFormat, value);
+				equalCriteria(criteria, columns, type, dateFormat, value);
 				break;
 
 			case "EQUALS":
-				equalsCriteria(criteria,columns, type, value, dateFormat);
+				equalsCriteria(criteria, columns, type, value, dateFormat);
 
 				break;
 			case "GREATER":
@@ -218,27 +218,25 @@ public class GtnWsTransactionService {
 
 	private void andCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, String type,
 			String dateFormat) throws ParseException {
-		if(GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) )
-		{
-			criteria.add(Restrictions.gt(columns.getFieldId(),Double.valueOf(columns.getFilterValue2())));
-			criteria.add(Restrictions.lt(columns.getFieldId(),Double.valueOf(columns.getFilterValue1())));
+		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.gt(columns.getFieldId(), Double.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(), Double.valueOf(columns.getFilterValue1())));
+		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
+				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.gt(columns.getFieldId(), Integer.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(), Integer.valueOf(columns.getFilterValue1())));
+		} else {
+			criteria.add(Restrictions.lt(columns.getFieldId(),
+					getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
 		}
-		else if("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type))
-		{
-			criteria.add(Restrictions.gt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue2())));
-			criteria.add(Restrictions.lt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue1())));
-		}else{
-		criteria.add(Restrictions.lt(columns.getFieldId(),
-				getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
-		}
-		}
+	}
 
 	Object getValueBasedOnType(String type, String value, String filterValue, String dateFormat) throws ParseException {
 		if (Date.class.getName().equalsIgnoreCase(type)) {
 			return new SimpleDateFormat(dateFormat).parse(filterValue);
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
-		}else {
+		} else {
 			return value;
 		}
 
@@ -249,42 +247,48 @@ public class GtnWsTransactionService {
 		if ("com.stpl.gtn.gtn2o.ws.entity.HelperTable".equalsIgnoreCase(type)) {
 			criteria.createAlias("c1." + columns.getFieldId(), columns.getFieldId(), JoinType.INNER_JOIN);
 			criteria.add(Restrictions.eq(columns.getFieldId() + "." + "helperTableSid", Integer.valueOf(value)));
-		} else if ("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type)) {
+		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
+				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(value)));
 		} else if ("java.util.Date".equalsIgnoreCase(type)) {
 			Date fromDate = new SimpleDateFormat(dateFormat).parse(columns.getFilterValue1());
 			Date toDate = getDateForSearch(fromDate);
 			criteria.add(Restrictions.between(columns.getFieldId(), fromDate, toDate));
 
-		} 
-		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			criteria.add(Restrictions.eq(columns.getFieldId(), Double.valueOf(value)));
-		}
-		else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
+		} else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			Object doubleFilterValues = columns.getFilterValue1();
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			String columnName = getColumnName(columns.getFieldId());
+			criteria.add(Restrictions.sqlRestriction(" round(" + columnName + " ,3) = ?", doubleFilterValues,
+					doubleFilterTypes));
+		} else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), true));
-		}
-		 else {
+		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(), value));
 		}
 	}
 
-	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
-			String type, String dateFormat, String value) throws ParseException {
+	private void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat,
+			String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
-			String columnName = ((AbstractEntityPersister) classMetadata)
-					.getPropertyColumnNames(columns.getFieldId())[0];
-			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
-			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
-			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
+			Object doubleFilterValues = columns.getFilterValue1();
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			String columnName = getColumnName(columns.getFieldId());
+			criteria.add(Restrictions.sqlRestriction(" round(" + columnName + " ,3) = ?", doubleFilterValues,
+					doubleFilterTypes));
+		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
+				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(columns.getFilterValue1())));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));
 
 		}
 	}
-	
-	private void likeCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
-			String value, boolean isUser, boolean isInvalidFilter,String type) {
+
+	private void likeCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, boolean isUser,
+			boolean isInvalidFilter, String type) {
+		String columnName = getColumnName(columns.getFieldId());
 		if (isUser) {
 			Set<String> keys = new HashSet<>();
 			for (Entry<Integer, String> entry : gtnWebServiceAllListConfig.getUserIdNameMap().entrySet()) {
@@ -296,29 +300,25 @@ public class GtnWsTransactionService {
 				}
 			}
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
-		}
-		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			String columnName = columns.getFieldId();
-			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
-			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
-			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
-		}
-		else {
-			
+		} else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			Object doubleFilterValues = columns.getFilterValue1().replaceAll("\\*", "%");
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			criteria.add(Restrictions.sqlRestriction(columnName + " like ?", doubleFilterValues, doubleFilterTypes));
+
+		} else {
+
 			if ("%".equals(value)) {
 				Criterion c1 = Restrictions.isNull(columns.getFieldId());
 				Criterion c2 = Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%"));
 				criteria.add(Restrictions.or(c1, c2));
 			} else if (isInvalidFilter) {
-				String columnName = ((AbstractEntityPersister) classMetadata)
-						.getPropertyColumnNames(columns.getFieldId())[0];
-				Object[] invalidFilterValues = { columnName, value };
-				Type[] invalidFilterTypes = { StandardBasicTypes.STRING, StandardBasicTypes.STRING };
-				criteria.add(
-						Restrictions.sqlRestriction("REPLACE(REPLACE(REPLACE( ? ,' ','{}'),'}{',''),'{}',' ') like ?",
-								invalidFilterValues, invalidFilterTypes));
+				Object invalidFilterValues = value;
+				Type invalidFilterTypes = StandardBasicTypes.STRING;
+				criteria.add(Restrictions.sqlRestriction(
+						"REPLACE(REPLACE(REPLACE(" + columnName + " ,' ','{}'),'}{',''),'{}',' ') like ?",
+						invalidFilterValues, invalidFilterTypes));
 			} else {
-				criteria.add(Restrictions.ilike(columns.getFieldId(),value.replaceAll("\\*", "%")));
+				criteria.add(Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%")));
 			}
 		}
 	}
@@ -644,5 +644,19 @@ public class GtnWsTransactionService {
 			logger.info(ex.getMessage());
 		}
 		return String.valueOf(validationList.get(0));
+	}
+
+	public String getColumnName(String columnName) {
+		Map<String, String> columnMap = new HashMap<>();
+		columnMap.put("rate", "Rate");
+		columnMap.put("secondaryUomConversionFactor", "SECONDARY_UOM_CONVERSION_FACTOR");
+		columnMap.put("accrualPeriodStartDate", "ACCRUAL_PERIOD_START_DATE");
+		columnMap.put("accrualPeriodEndDate", "ACCRUAL_PERIOD_END_DATE");
+		columnMap.put("postingDate", "POSTING_DATE");
+		columnMap.put("glDate", "GL_DATE");
+		columnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
+		columnMap.put("quantity", "QUANTITY");
+		columnMap.put("salesAmount", "SALES_AMOUNT");
+		return columnMap.get(columnName);
 	}
 }
