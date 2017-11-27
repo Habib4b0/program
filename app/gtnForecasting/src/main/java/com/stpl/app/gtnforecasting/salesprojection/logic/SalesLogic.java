@@ -1,63 +1,49 @@
 package com.stpl.app.gtnforecasting.salesprojection.logic;
 
-import com.stpl.app.gtnforecasting.dao.CommonDAO;
-import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
-import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
-import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
-import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
-import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
-import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ContractMaster;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SalesRowDto;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.getCustomViewDetails;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
+import static com.stpl.app.gtnforecasting.logic.NonMandatedLogic.dataSelection;
 import static com.stpl.app.gtnforecasting.salesprojection.utils.HeaderUtils.getMonthForInt;
-import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
-import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
-import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
-import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.model.ChProjectionSelection;
-import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
-import com.stpl.app.gtnforecasting.utils.CommonQueryUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
-import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeader;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.CustomViewDetails;
-import com.stpl.app.model.RelationshipLevelDefinition;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
-import static com.stpl.app.utils.Constants.CommonConstants.*;
-import static com.stpl.app.utils.Constants.FinderImplIndicators.*;
-import static com.stpl.app.utils.Constants.FrequencyConstants.*;
-import static com.stpl.app.utils.Constants.IndicatorConstants.*;
-import static com.stpl.app.utils.Constants.LabelConstants.*;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
+import static com.stpl.app.utils.Constants.CommonConstants.NULL;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.INDICATOR;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.OFFSET;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.PM_SID;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.SESSION_ID;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.START;
+import static com.stpl.app.utils.Constants.FinderImplIndicators.USER_ID;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUAL;
+import static com.stpl.app.utils.Constants.FrequencyConstants.ANNUALLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
+import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
+import static com.stpl.app.utils.Constants.IndicatorConstants.H_INDICATOR;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LOGIC_CUSTOM_HIERARCHY;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_LOGIC_PRODUCT_HIERARCHY;
+import static com.stpl.app.utils.Constants.IndicatorConstants.INPUT_MAP;
+import static com.stpl.app.utils.Constants.IndicatorConstants.JOIN_MAP;
+import static com.stpl.app.utils.Constants.IndicatorConstants.LEVEL_NO;
+import static com.stpl.app.utils.Constants.IndicatorConstants.LEVEL_NO_C;
+import static com.stpl.app.utils.Constants.IndicatorConstants.LEVEL_NO_P;
+import static com.stpl.app.utils.Constants.LabelConstants.ACTUALS;
+import static com.stpl.app.utils.Constants.LabelConstants.ASCENDING;
+import static com.stpl.app.utils.Constants.LabelConstants.DASH;
+import static com.stpl.app.utils.Constants.LabelConstants.LEVEL_BRAND;
+import static com.stpl.app.utils.Constants.LabelConstants.LEVEL_NDC;
+import static com.stpl.app.utils.Constants.LabelConstants.LEVEL_NDC_10;
+import static com.stpl.app.utils.Constants.LabelConstants.LEVEL_NDC_11;
+import static com.stpl.app.utils.Constants.LabelConstants.LEVEL_NDC_8;
+import static com.stpl.app.utils.Constants.LabelConstants.MASS_FIELD_CS;
+import static com.stpl.app.utils.Constants.LabelConstants.MASS_FIELD_POB;
+import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT_HIERARCHY;
+import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
+import static com.stpl.app.utils.Constants.LabelConstants.SALES_PROJ;
+import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.StringConstants.PERCENT;
 import static com.stpl.app.utils.Constants.StringConstants.SPLIT_ARROW;
-import com.stpl.app.utils.CumulativeCalculationUtils;
-import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.CustomFieldGroup;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -79,11 +65,60 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 import org.apache.commons.lang.StringUtils;
+
+import com.stpl.app.gtnforecasting.dao.CommonDAO;
+import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
+import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
+import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
+import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SalesRowDto;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.DataSourceConnection;
+import com.stpl.app.gtnforecasting.salesprojection.form.MSalesProjection;
+import com.stpl.app.gtnforecasting.salesprojection.utils.QueryUtils;
+import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
+import com.stpl.app.gtnforecasting.salesprojectionresults.logic.NMSalesProjectionResultsLogic;
+import com.stpl.app.gtnforecasting.salesprojectionresults.logic.SPRCommonLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.utils.AlternateLookupSource;
+import com.stpl.app.gtnforecasting.utils.CommonQueryUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.ChProjectionSelection;
+import com.stpl.app.model.CompanyMaster;
+import com.stpl.app.model.ContractMaster;
+import com.stpl.app.model.CustomViewDetails;
+import com.stpl.app.model.RelationshipLevelDefinition;
+import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.utils.CumulativeCalculationUtils;
+import com.stpl.app.utils.UiUtils;
+import com.stpl.ifs.ui.CustomFieldGroup;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
+import com.stpl.portal.kernel.dao.orm.DynamicQuery;
+import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.ProjectionList;
+import com.stpl.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
+import com.stpl.util.dao.orm.CustomSQLUtil;
 
 /**
  *
@@ -572,6 +607,7 @@ public class SalesLogic {
         }
         sql= projSelDTO.isExcel() ? sql.replaceAll(",INSTR INT", "").replace(",INSTR", ""):sql;
         String aaa=QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+		System.out.println("Sales Genetaed Query=========" + aaa);
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
     }   
@@ -4310,8 +4346,10 @@ private void cumulativeCalculation(ProjectionSelectionDTO projectionSelectionDTO
             LOGGER.debug("PRC_GROWTH_CALCULATION--------------------------------------- ");
 
             procedureInputs = new Object[]{projectionSelectionDTO.getProjectionId(), projectionSelectionDTO.getUserId(), projectionSelectionDTO.getSessionDTO().getSessionId(), projectionSelectionDTO.getTabName(), calcBased, projectionSelectionDTO.getFrequency(), UiUtils.getDate(),null,start,end};
-            List<Object[]> list = CommonLogic.callProcedure("PRC_GROWTH_CALCULATION", procedureInputs);
-            new CumulativeCalculationUtils(list, String.valueOf(projectionSelectionDTO.getUserId()), projectionSelectionDTO.getSessionDTO().getSessionId(), methodology, projectionSelectionDTO.getTabName(), tableName);
+			// Procedure calling part moved to Webservice
+			new CumulativeCalculationUtils(procedureInputs, String.valueOf(projectionSelectionDTO.getUserId()),
+					projectionSelectionDTO.getSessionDTO().getSessionId(), methodology,
+					projectionSelectionDTO.getTabName(), tableName);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
