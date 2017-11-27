@@ -1266,7 +1266,6 @@ public class CopyContractLogic {
                 } else {
                     companyDTO.setCompanyEndDate(Constants.EMPTY);
                 }
-                companyDTO.setTradeClass(obje[NumericConstants.FIVE] != null ? String.valueOf(obje[NumericConstants.FIVE]) : StringUtils.EMPTY);
                 companyList.add(companyDTO);
             }
         }
@@ -1282,7 +1281,8 @@ public class CopyContractLogic {
                 Object[] obje = (Object[]) componentList.get(i);
                 itemDTO.setItemNo(String.valueOf(obje[0]));
                 itemDTO.setItemName(String.valueOf(obje[1]));
-                itemDTO.setTherapyClass(String.valueOf(obje[NumericConstants.TWO]));
+                itemDTO.setTherapyClass(((obje[NumericConstants.TWO] != null) && !obje[NumericConstants.TWO].equals(Constants.SELECT_ONE) && !obje[NumericConstants.TWO].equals(Constants.NULL))
+                        ? String.valueOf(obje[NumericConstants.TWO]) : Constants.EMPTY);
                 itemDTO.setBrand((obje[NumericConstants.THREE] != null) ? String.valueOf(obje[NumericConstants.THREE]) : Constants.EMPTY);
                 itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
                 if (obje[NumericConstants.FIVE] != null) {
@@ -1313,7 +1313,8 @@ public class CopyContractLogic {
                 Object[] obje = (Object[]) componentList.get(i);
                 itemDTO.setItemNo(String.valueOf(obje[0]));
                 itemDTO.setItemName(String.valueOf(obje[1]));
-                itemDTO.setTherapyClass(String.valueOf(obje[NumericConstants.TWO]));
+                itemDTO.setTherapyClass(((obje[NumericConstants.TWO] != null) && !obje[NumericConstants.TWO].equals(Constants.SELECT_ONE) && !obje[NumericConstants.TWO].equals(Constants.NULL))
+                        ? String.valueOf(obje[NumericConstants.TWO]) : Constants.EMPTY);
                 itemDTO.setBrand((obje[NumericConstants.THREE] != null) ? String.valueOf(obje[NumericConstants.THREE]) : Constants.EMPTY);
                 itemDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
                 if (obje[NumericConstants.FIVE] != null) {
@@ -1370,7 +1371,8 @@ public class CopyContractLogic {
                 Object[] obje = (Object[]) componentList.get(i);
                 rebateDTO.setItemNo(String.valueOf(obje[0]));
                 rebateDTO.setItemName(String.valueOf(obje[1]));
-                rebateDTO.setTherapyClass(String.valueOf(obje[NumericConstants.TWO]));
+                rebateDTO.setTherapyClass(((obje[NumericConstants.TWO] != null) && !obje[NumericConstants.TWO].equals(Constants.SELECT_ONE) && !obje[NumericConstants.TWO].equals(Constants.NULL))
+                        ? String.valueOf(obje[NumericConstants.TWO]) : Constants.EMPTY);
                 rebateDTO.setBrand((obje[NumericConstants.THREE] != null) ? String.valueOf(obje[NumericConstants.THREE]) : Constants.EMPTY);
                 rebateDTO.setIfpStatus(String.valueOf(obje[NumericConstants.FOUR]));
                 if (obje[NumericConstants.FIVE] != null) {
