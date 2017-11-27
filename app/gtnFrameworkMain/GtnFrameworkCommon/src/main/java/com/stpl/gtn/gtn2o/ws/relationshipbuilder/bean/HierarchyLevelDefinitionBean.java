@@ -230,7 +230,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 
 	public static HierarchyLevelDefinitionBean getBeanByLevelNo(int levelNo,
 			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		if (hierarchyList.get(levelNo - 1).levelNo == levelNo)
+		if (levelNo > 1 && hierarchyList.get(levelNo - 1).levelNo == levelNo)
 			return hierarchyList.get(levelNo - 1);
 		for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
 			if (levelNo == hierarchyLevelDefinitionBean.levelNo) {

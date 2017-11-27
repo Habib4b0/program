@@ -19,6 +19,7 @@ import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryB
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFramworkCheckForAutoUpdateRunnable;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkJoinQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
@@ -26,7 +27,6 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.serviceimpl.GtnFrameworkQueryGeneraterServiceImpl;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnFrameworkDeductionRelationServiceImpl;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
@@ -60,7 +60,7 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 	@Qualifier("CustProdJoin")
 	private GtnFrameworkJoinQueryGeneratorService joinService;
 	@Autowired
-	private GtnFrameworkDeductionRelationServiceImpl deductionRelationService;
+	private GtnFrameworkDeductionRelationServiceRunnable deductionRelationService;
 
 	public GtnFrameworkProductAutoUpdateServiceImpl() {
 		super();

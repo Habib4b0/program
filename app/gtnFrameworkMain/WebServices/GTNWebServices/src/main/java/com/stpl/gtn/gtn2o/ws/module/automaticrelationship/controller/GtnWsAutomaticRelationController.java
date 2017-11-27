@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
@@ -24,6 +25,9 @@ public class GtnWsAutomaticRelationController {
 		super();
 	}
 
+	private static final GtnWSLogger LOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
+
 	@RequestMapping(value = GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse automaticRelationUpdate(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -36,6 +40,7 @@ public class GtnWsAutomaticRelationController {
 			relationResponse.setRelationUpdate(isRelationUpdated);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
 		} catch (GtnFrameworkGeneralException | InterruptedException ex) {
+			LOGGER.error("Error in automaticRelationUpdate", ex);
 			relationResponse.setRelationUpdate(false);
 		}
 		return generalResponse;

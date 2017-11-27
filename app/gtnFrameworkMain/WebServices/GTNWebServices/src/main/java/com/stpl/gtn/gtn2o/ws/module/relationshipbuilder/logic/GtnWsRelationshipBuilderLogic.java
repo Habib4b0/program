@@ -49,6 +49,7 @@ import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipLevelDefinit
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.logic.GtnWsSearchQueryGenerationLogic;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyDefinitionBean;
@@ -96,7 +97,7 @@ public class GtnWsRelationshipBuilderLogic {
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
 	@Autowired
-	private GtnFrameworkDeductionRelationServiceImpl deductionService;
+	private GtnFrameworkDeductionRelationServiceRunnable deductionService;
 
 	public GtnWsRelationshipBuilderLogic() {
 		super();
@@ -913,22 +914,19 @@ public class GtnWsRelationshipBuilderLogic {
 		return relationUsed;
 	}
 
-	@SuppressWarnings("unchecked")
 	private void updateRelationshipBuilderFromRequest(RelationshipBuilder relationshipBuilder,
 			GtnWsRelationshipBuilderRequest rbRequest, Session session, RelationshipBuilder productrelationshipBuilder)
 			throws GtnFrameworkGeneralException {
 		try {
-			List<Integer> resultsetHierarchy = executeQuery(getQuery("getHierarchyDefSidRB"));
-			relationshipBuilder.setRelationshipName(rbRequest.getRelationshipName() + "Deduction");
+			relationshipBuilder.setRelationshipName(rbRequest.getRelationshipName());
 			relationshipBuilder.setRelationshipDescription(rbRequest.getRelationshipDescription());
 			relationshipBuilder.setHelperTable(
 					GtnCommonUtil.getHelperTable(rbRequest.getRelationshipType(), "RELATIONSHIP_TYPE", session));
 			relationshipBuilder
-					.setHierarchyDefinition(session.load(HierarchyDefinition.class, resultsetHierarchy.get(0)));
+					.setHierarchyDefinition(session.load(HierarchyDefinition.class, rbRequest.getHierarchyDefSId()));
 			relationshipBuilder.setHierarchyVersion(rbRequest.getHierarchyVersionNo());
 			relationshipBuilder.setStartDate(rbRequest.getStartDate());
 			relationshipBuilder.setBuildType(rbRequest.getBuildType());
-			relationshipBuilder.setDeductionRelation(productrelationshipBuilder.getRelationshipBuilderSid());
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Exception in updateRelationshipBuilderFromRequest", e);
 		}
@@ -972,6 +970,7 @@ public class GtnWsRelationshipBuilderLogic {
 			rbResponse.setMessageType("success");
 			rbResponse.setMessage("'" + rbRequest.getRelationshipName() + "' has been saved successfully.");
 			inputlist.add(String.valueOf(rbRequest.getHierarchyDefSId()));
+			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
 			List<Object> result = executeQuery(
 					gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist, "getHierarchyCatBySid"));
 			tx.commit();

@@ -57,12 +57,12 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 		querygeneratorBean.removeAllWhereClauseConfigList();
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 		try (Session session = sessionFactory.openSession()) {
-			RelationshipBuilder productrelationshipBuilder = session.load(RelationshipBuilder.class,
+			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
 					relationBean.getDeductionRelation());
 			List<Integer> itemMastersidList = getItemMasterSidForProductRelation(productrelationshipBuilder);
 			querygeneratorBean.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null,
 					GtnFrameworkOperatorType.IN, GtnFrameworkDataType.LIST, itemMastersidList);
-		}
+		} 
 	}
 
 	@SuppressWarnings("unchecked")
@@ -72,7 +72,7 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 		try {
 			List<HierarchyLevelDefinitionBean> hierarchyList = relationLogic.getRBHierarchyLevelDefinitionBySid(
 					productrelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid(),
-					productrelationshipBuilder.getHierarchyVersion(),
+					productrelationshipBuilder.getHierarchyDefinition().getVersionNo(),
 					productrelationshipBuilder.getRelationshipBuilderSid());
 
 			int levelNo = HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
@@ -103,6 +103,7 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 						.executeSelectQuery(gtnWsSqlService.getReplacedQuery(whereQueries, finalQuery));
 			}
 		} catch (Exception e) {
+			
 			logger.error(e.getMessage());
 		}
 		return result;

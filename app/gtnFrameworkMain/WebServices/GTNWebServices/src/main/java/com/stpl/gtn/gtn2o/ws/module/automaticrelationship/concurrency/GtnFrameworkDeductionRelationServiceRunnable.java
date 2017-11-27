@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
+package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +24,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
 @Scope(value = "singleton")
-public class GtnFrameworkDeductionRelationServiceImpl {
+public class GtnFrameworkDeductionRelationServiceRunnable implements Runnable {
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
@@ -39,12 +39,33 @@ public class GtnFrameworkDeductionRelationServiceImpl {
 
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDeductionRelationServiceImpl.class);
 
-	public GtnFrameworkDeductionRelationServiceImpl() {
+	private GtnWsRelationshipBuilderBean relationBuilderBean;
+	private boolean isRelationSaved;
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDeductionRelationServiceRunnable.class);
+
+	public GtnFrameworkDeductionRelationServiceRunnable() {
 		super();
 	}
-	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
+
+	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved) {
+		this.relationBuilderBean = relationBuilderBean;
+		this.isRelationSaved = isRelationSaved;
+		Thread t = new Thread(this);
+		t.start();
+	}
+
+	@Override
+	public void run() {
+		try {
+			saveRelationshipRunnable(relationBuilderBean, isRelationSaved);
+		} catch (GtnFrameworkGeneralException e) {
+			logger.error("Exception in getQuery", e);
+		}
+
+	}
+
+	private void saveRelationshipRunnable(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
 			throws GtnFrameworkGeneralException {
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
@@ -90,8 +111,8 @@ public class GtnFrameworkDeductionRelationServiceImpl {
 		deductionRelationBean.setRelationshipBuilderSid(deductionRelationshipBuilder.getRelationshipBuilderSid());
 		deductionRelationBean.setRelationshipName(deductionRelationshipBuilder.getRelationshipName());
 		deductionRelationBean.setRelationshipDescription(deductionRelationshipBuilder.getRelationshipDescription());
-		deductionRelationBean
-				.setHierarchyDefinitionSid(deductionRelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
+		deductionRelationBean.setHierarchyDefinitionSid(
+				deductionRelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
 		deductionRelationBean.setStartDate(deductionRelationshipBuilder.getStartDate());
 		deductionRelationBean.setBuildType(deductionRelationshipBuilder.getBuildType());
 		deductionRelationBean.setVersionNo(deductionRelationshipBuilder.getVersionNo());
