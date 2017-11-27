@@ -50,7 +50,7 @@ public class GtnFrameworkCfpStringContants {
 	public static final String GTN_CFP_VALIDATION_MSG_EDIT = "Please select a record to edit";
 	public static final String GTN_CFP_LANDING_SCREEN_RESET_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria group box?";
 	public static final String CFP_COMPANIES_TAB_RESULT_DATA_TABLE = "cfpCompaniesTabResultDataTable";
-        public static final String CFP_DATE_EQUAL_VALIDATION = "CFP Start date and CFP End date should not be equal";
+	public static final String CFP_DATE_EQUAL_VALIDATION = "CFP Start date and CFP End date should not be equal";
 	public static final String CFP_DATE_LESS_THAN_VALIDATION = "CFP End date should be greater than CFP Start date";
 	public static final List<String> CFP_TEXTFIELD_PROPERTIES_LIST = Collections
 			.unmodifiableList(Arrays.asList(GtnFrameworkCommonConstants.PROPERTY_COMPANY_ID,
