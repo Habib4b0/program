@@ -365,8 +365,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTable
 				.setTableColumnMappingId(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray());
 
-		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId" });
-		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class });
+		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId" ,"itemMasterSid"});
+		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class,Integer.class });
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0],

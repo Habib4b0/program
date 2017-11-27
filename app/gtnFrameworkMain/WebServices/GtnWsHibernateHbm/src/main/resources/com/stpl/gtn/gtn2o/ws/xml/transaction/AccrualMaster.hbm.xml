@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Oct 31, 2017 7:22:13 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.AccrualMaster" table="ACCRUAL_MASTER" schema="dbo" catalog="BPIGTN_AGN_APP_UNIT" optimistic-lock="version">
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.AccrualMaster" table="ACCRUAL_MASTER" schema="dbo">
         <id name="accrualMasterSid" type="int">
             <column name="ACCRUAL_MASTER_SID" />
             <generator class="assigned" />

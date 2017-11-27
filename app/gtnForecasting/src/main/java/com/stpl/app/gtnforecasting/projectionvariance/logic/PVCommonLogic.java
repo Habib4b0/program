@@ -49,7 +49,7 @@ public class PVCommonLogic {
             String baseValue = pvsdto.isConversionNeeded() ? !isPer
                     ? CommonUtil.getConversionFormattedValue(pvsdto, priorVal, true)
                     : getFormattedValue(format, priorVal)
-                    : getFormattedValue(format, priorVal);
+                     : getFormattedValue(format, priorVal);
             projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
         } else if (variableCategory.equalsIgnoreCase(Constant.VARIANCE)) {
             visibleColumn = column;
