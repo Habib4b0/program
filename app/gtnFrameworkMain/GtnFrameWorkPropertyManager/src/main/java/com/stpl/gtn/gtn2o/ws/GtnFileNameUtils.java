@@ -3,6 +3,11 @@ package com.stpl.gtn.gtn2o.ws;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -29,5 +34,19 @@ public class GtnFileNameUtils {
 
 	public static FileInputStream getFileInputStream(String path) throws FileNotFoundException {
 		return new FileInputStream(path);
+	}
+	public static Path getPath(String fileName) {
+		return Paths.get(fileName);
+	}
+	public static FileOutputStream getFileOutputStream(String fileName) throws FileNotFoundException {
+		return new FileOutputStream(FilenameUtils.getName(fileName));
+	}
+
+	public static FileOutputStream getFileOutputStream(File fileName) throws FileNotFoundException {
+		return new FileOutputStream(fileName);
+	}
+
+	public static FileWriter getFileWriter(String fileName) throws IOException {
+		return new FileWriter(FilenameUtils.getName(fileName));
 	}
 }

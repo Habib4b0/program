@@ -63,6 +63,8 @@ public final class GtnWebServiceUrlConstants {
 	public static final String RELATION_WEBSERVICE_TEST = "/relstionshipWebserviceTest";
 	public static final String AUTOMATIC_RELATION_UPDATE = "/updateAutoMaticRelations";
 	public static final String GTN_CSV_EXPORT_FILE_SERVICE = "/gtnCsvExportFileService";
+	public static final String GTN_BCP_SERVICE = "/gtnBcpService";
+	public static final String CALCULATE = "/calulate";
 
 	/**
 	 * Forecast dataselection Constants

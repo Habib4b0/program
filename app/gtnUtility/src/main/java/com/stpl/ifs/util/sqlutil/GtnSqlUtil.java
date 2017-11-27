@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.naming.Context;
@@ -14,6 +15,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import org.jboss.logging.Logger;
+
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
 public class GtnSqlUtil {
 	private GtnSqlUtil() {
@@ -57,7 +60,8 @@ public class GtnSqlUtil {
 		return false;
 	}
 
-	public static List<Object[]> getResultFromProcedure(String sqlQuery, Object[] paramArray) throws Exception {
+	public static List<Object[]> getResultFromProcedure(String sqlQuery, Object[] paramArray)
+			throws GtnFrameworkGeneralException {
 		LOGGER.debug("Enter getResultFromProcedure ");
 
 		try {
@@ -67,10 +71,9 @@ public class GtnSqlUtil {
 				return callResultProcedure(sqlQuery, paramArray, datasource);
 			}
 			LOGGER.debug("Exiting getResultFromProcedure");
-			return null;
+			return Collections.emptyList();
 		} catch (NamingException namingException) {
-			LOGGER.error("Exception getResultFromProcedure", namingException);
-			throw new Exception("Exception getResultFromProcedure", namingException);
+			throw new GtnFrameworkGeneralException("Exception getResultFromProcedure method", namingException);
 		}
 	}
 
@@ -86,10 +89,11 @@ public class GtnSqlUtil {
 		} catch (Exception ex) {
 			LOGGER.error("Exception in callResultProcedure", ex);
 		}
-		return null;
+		return Collections.emptyList();
 	}
         
-	public static ResultSet getResultSetFromProcedure(String sqlQuery, Object[] paramArray) throws Exception {
+	public static ResultSet getResultSetFromProcedure(String sqlQuery, Object[] paramArray)
+			throws GtnFrameworkGeneralException {
 		LOGGER.debug("Enter getResultFromProcedure ");
 
 		try {
@@ -102,7 +106,7 @@ public class GtnSqlUtil {
 			return null;
 		} catch (NamingException namingException) {
 			LOGGER.error("Exception getResultFromProcedure", namingException);
-			throw new Exception("Exception getResultFromProcedure", namingException);
+			throw new GtnFrameworkGeneralException("Exception getResultFromProcedure", namingException);
 		}
 	}
 
