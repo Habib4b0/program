@@ -1535,18 +1535,18 @@ public class NMPVExcelLogic {
         pvList.add(frequencyBasedDTO);
         //Ex-Factory-Sales
         if (selection.isVarExFacSales()) {
-            if (selection.isColValue()) {
+            if (selection.isColValue()) { 
 
                 selection.setConversionNeeded(true);
-                calculateForTotal("ExFacValue", Constant.VALUE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT);
+                calculateForTotal("ExFacValue", Constant.VALUE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT);
             }
             if (selection.isColVariance()) {
                 selection.setConversionNeeded(true);
-                calculateForTotal("ExFacVariance", Constant.VARIANCE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.FIVE, frequencyBasedDTO, selection, AMOUNT);
+                calculateForTotal("ExFacVariance", Constant.VARIANCE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.SEVEN, frequencyBasedDTO, selection, AMOUNT);
             }
             if (selection.isColPercentage()) {
                 selection.setConversionNeeded(false);
-                calculateForTotal("ExFacPer", Constant.CHANGE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.FIVE, frequencyBasedDTO, selection, RATE_PER);
+                calculateForTotal("ExFacPer", Constant.CHANGE, obj, isTotal ? NumericConstants.FOUR : NumericConstants.SEVEN, frequencyBasedDTO, selection, RATE_PER);
             }
         }
         //Demand

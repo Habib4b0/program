@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.Date;
 
 public class GtnFrameworkIfpCommonValidationAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -44,6 +45,10 @@ public class GtnFrameworkIfpCommonValidationAction
 		gtnWsGeneralRequest.setSessionId(String
 				.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonStringConstants.SESSION_ID)));
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		Date ifpStartDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationIFPStartDate")
+				.getDateFromDateField();
+		Date ifpEndDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpInformationIFPEndDate")
+				.getDateFromDateField();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsIFamilyPlanContants.GTN_WS_IFP_SERVICE
 						+ GtnWsIFamilyPlanContants.GTN_WS_IFP_COMMON_VALIDATION_SERVICE,
@@ -52,6 +57,8 @@ public class GtnFrameworkIfpCommonValidationAction
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		Object msg;
 		GtnIFamilyPlanValidationBean validationBean = response.getGtnWsIfpReponse().getGtnIFamilyPlanValidationBean();
+		validateDateEqualOrGreater(ifpStartDate, ifpEndDate, componentId);
+
 		if (validationBean.getCount() == 0) {
 			msg = GtnFrameworkIfpStringContants.GTN_IFP_VALIDATION_MSG_ATLEAST_ONE_RECORD;
 			alertActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkCommonStringConstants.ERROR, msg));
@@ -95,6 +102,20 @@ public class GtnFrameworkIfpCommonValidationAction
 			throw new GtnFrameworkValidationFailedException(GtnFrameworkCommonConstants.VALIDATION_ERROR + msg);
 		}
 
+	}
+
+	public void validateDateEqualOrGreater(Date ifpStartDate, Date ifpEndDate, String componentId)
+			throws GtnFrameworkValidationFailedException {
+		if (ifpEndDate != null) {
+			if (ifpStartDate.equals(ifpEndDate)) {
+				throw new GtnFrameworkValidationFailedException(GtnFrameworkIfpStringContants.IFP_DATE_EQUAL_VALIDATION,
+						componentId);
+			}
+			if (ifpStartDate.after(ifpEndDate)) {
+				throw new GtnFrameworkValidationFailedException(
+						GtnFrameworkIfpStringContants.IFP_DATE_LESS_THAN_VALIDATION, componentId);
+			}
+		}
 	}
 
 	@Override
