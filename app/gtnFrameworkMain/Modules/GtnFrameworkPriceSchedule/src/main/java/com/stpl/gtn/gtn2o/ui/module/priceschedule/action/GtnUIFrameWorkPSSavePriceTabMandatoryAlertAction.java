@@ -63,7 +63,7 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 		validationMsgMap.put("CPStartDateNull", " CP Start Date  required for selected Item");
 		validationMsgMap.put("CPStartDateEqual", " Start Date is equal to CP End date for selected Item");
 		validationMsgMap.put("CPStartDateLess", " Start Date is lesser than CP End date for selected Item");
-                
+
 		return validationMsgMap;
 	}
 

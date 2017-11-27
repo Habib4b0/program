@@ -11,12 +11,12 @@ import com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory.GtnFramewo
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 
-public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            return;
+		return;
 
 	}
 
@@ -24,31 +24,31 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction ,
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		int position = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("tabSheet").getTabSheetSelectedTabIndex();
-		
-                   if (position == 2 || position == 3) {
-                GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-                GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
-                String previousTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
-                String currentTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
-                if (position == 3) {
-                    previousTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
-                    currentTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
-                }
-                GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
-                        .getVaadinComponentData(currentTable);
-                GtnUIFrameworkPagedTableLogic currentTableLogic = componentData.getCurrentPageTableLogic();
-                currentTableLogic.setCurrentPage(currentTableLogic.getCurrentPage());
-                  componentData = GtnUIFrameworkGlobalUI
-                        .getVaadinComponentData(previousTable);
-//                GtnUIFrameworkPagedTableLogic previousTableLogic = componentData.getCurrentPageTableLogic();
-//                currentTableLogic.setCheckedRecordCount( previousTableLogic.getCheckRecordCount());
-                boolean checkValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(previousTable)
-                        .getExtPagedTable().getColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
-                GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable)
-                        .getExtPagedTable().setColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID, true, checkValue);
 
-                return;
-            }
+		if (position == 2 || position == 3) {
+			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
+			String previousTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
+			String currentTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
+			if (position == 3) {
+				previousTable = GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE;
+				currentTable = GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE;
+			}
+			GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(currentTable);
+			GtnUIFrameworkPagedTableLogic currentTableLogic = componentData.getCurrentPageTableLogic();
+			currentTableLogic.setCurrentPage(currentTableLogic.getCurrentPage());
+			componentData = GtnUIFrameworkGlobalUI.getVaadinComponentData(previousTable);
+			// GtnUIFrameworkPagedTableLogic previousTableLogic =
+			// componentData.getCurrentPageTableLogic();
+			// currentTableLogic.setCheckedRecordCount(
+			// previousTableLogic.getCheckRecordCount());
+			boolean checkValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(previousTable).getExtPagedTable()
+					.getColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).getExtPagedTable()
+					.setColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID, true, checkValue);
+
+			return;
+		}
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 	}

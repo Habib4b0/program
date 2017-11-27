@@ -95,7 +95,7 @@ public class GtnUIFrameworkPsDynamicClassFiller implements GtnUIDynamicObjectFil
 				new GtnFrameworkPsFieldFactoryPopupSelectAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName(),
 				new GtnFrameworkPSPriceProtectionTabAlertAction());
-                
+
 	}
 
 }

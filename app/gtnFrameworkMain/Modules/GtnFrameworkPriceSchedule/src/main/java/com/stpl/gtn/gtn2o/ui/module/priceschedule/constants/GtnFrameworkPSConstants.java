@@ -62,30 +62,30 @@ public class GtnFrameworkPSConstants {
 			GtnFrameworkCommonConstants.PS_ATTACHED_DATE, "psStatus", "priceType");
 	public static final String GTN_CONTRACT_HEADER_PS_ID_VALIDATION = "Please enter different Price Schedule ID since the Price Schedule  ID already exists";
 	public static final String GTN_CONTRACT_HEADER_PS_NO_VALIDATION = "Please enter different Price Schedule No since the Price Schedule  No already exists";
-        public static final String PS_DATE_EQUAL_VALIDATION = "PS Start date and PS End date should not be equal";
+	public static final String PS_DATE_EQUAL_VALIDATION = "PS Start date and PS End date should not be equal";
 	public static final String PS_DATE_LESS_THAN_VALIDATION = "PS End date should be greater than PS Start date";
 
 	private static final String[] PRICE_PROTECTION_HEADER = { "", "Item Id", "Item No", "Item Name", "Brand",
-			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",  
-			"Measurement Price", "NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE,
-			"Baseline WAC", "Baseline Net WAC", "Net Base Price Formula",
-			"Subsequent Period Price Type", "Net Subsequent Period Price", "NetSubsequent Price Formula",
-			"Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance",
-			"Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency",
-			"Reset Price Type", "Net Reset Price Type", "Net Reset Price Formula", "Net Price Type",
-			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE,
-			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
+			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date", "Measurement Price",
+			"NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE, "Baseline WAC", "Baseline Net WAC",
+			"Net Base Price Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
+			"NetSubsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+			"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
+			"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
+			"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " AttachedDate",
+			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE,
+			GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
 
 	private static final String[] PRICE_PROTECTION_VIEW_HEADER = { "Item Id", "Item No", "Item Name", "Brand",
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 			"Price Protection Price Type", "NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE,
-			"Baseline WAC", "Baseline Net WAC", "Net Base Price Formula",
-			"Subsequent Period Price Type", "Net Subsequent Period Price", "NetSubsequent Price Formula",
-			"Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance",
-			"Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency",
-			"Reset Price Type", "Net Reset Price Type", "Net Reset Price Formula", "Net Price Type",
-			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE,
-			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
+			"Baseline WAC", "Baseline Net WAC", "Net Base Price Formula", "Subsequent Period Price Type",
+			"Net Subsequent Period Price", "NetSubsequent Price Formula", "Price Tolerance Interval",
+			"Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance", "Max Incremental Change",
+			"Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type",
+			"Net Reset Price Type", "Net Reset Price Formula", "Net Price Type", "Net Price Type Formula",
+			" AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE,
+			GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
 
 	public static List<String> getPriceProtectionTextFieldProperties() {
 		return Collections.unmodifiableList(PRICEE_PRODETECTION_TEXT_FIELD_PROPERTIES);
@@ -130,24 +130,33 @@ public class GtnFrameworkPSConstants {
 	public static String[] getPriceProtectionViewHeader() {
 		return PRICE_PROTECTION_VIEW_HEADER.clone();
 	}
-	
+
 	public static void loadPsPriceProtectioncomboBoxFieldMap(Map<String, String> psPriceProtectioncomboBoxFieldMap) {
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_PROTECTION_STATUS, "STATUS");
 		psPriceProtectioncomboBoxFieldMap.put("Measurement Price", GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_TOLERANCE_INTERVAL, "PRICE_TOLERANCE_INTERVAL");
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_TOLERANCE_FREQUENCY, "PRICE_TOLERANCE_FREQUENCY");
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_TOLERANCE_INTERVAL,
+				"PRICE_TOLERANCE_INTERVAL");
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_TOLERANCE_FREQUENCY,
+				"PRICE_TOLERANCE_FREQUENCY");
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_TOLERANCE_TYPE, "PRICE_TOLERANCE_TYPE");
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_ELIGIBLE, GtnFrameworkCommonConstants.LOCKED_STATUS);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_ELIGIBLE,
+				GtnFrameworkCommonConstants.LOCKED_STATUS);
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_TYPE, "RESET_TYPE");
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_INTERVAL, "PRICE_TOLERANCE_INTERVAL");
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_FREQUENCY, "PRICE_TOLERANCE_FREQUENCY");
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_PRICE_TYPE, GtnFrameworkCommonConstants.LOCKED_STATUS);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_PRICE_TYPE,
+				GtnFrameworkCommonConstants.LOCKED_STATUS);
 		psPriceProtectioncomboBoxFieldMap.put("Price Type", "pricingCodeQualifierName");
-                
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.BASELINE_NET_WAC, GtnFrameworkCommonConstants.LOCKED_STATUS);
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.SUBSEQUENT_PERIOD_PRICE_TYPE_HEADER, GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_SUBSEQUENT_PERIOD_PRICE_HEADER, GtnFrameworkCommonConstants.LOCKED_STATUS);
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_PRICE_TYPE_HEADER, GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
-		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_RESET_PRICE_TYPE_HEADER, GtnFrameworkCommonConstants.LOCKED_STATUS);
+
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.BASELINE_NET_WAC,
+				GtnFrameworkCommonConstants.LOCKED_STATUS);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.SUBSEQUENT_PERIOD_PRICE_TYPE_HEADER,
+				GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_SUBSEQUENT_PERIOD_PRICE_HEADER,
+				GtnFrameworkCommonConstants.LOCKED_STATUS);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.RESET_PRICE_TYPE_HEADER,
+				GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);
+		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.NET_RESET_PRICE_TYPE_HEADER,
+				GtnFrameworkCommonConstants.LOCKED_STATUS);
 	}
 }

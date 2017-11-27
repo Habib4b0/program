@@ -29,14 +29,16 @@ import java.util.Map;
  */
 public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-            // empty method    
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		// empty method
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        Map<String, String> mandatoryCheckMsgMap = configureMsgMap();
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		Map<String, String> mandatoryCheckMsgMap = configureMsgMap();
 
 		String subMessage = validates(mandatoryCheckMsgMap);
 
@@ -45,20 +47,23 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 					"Information for the following Mandatory fields need to be provided: \n" + subMessage, componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
-    }
-            private Map<String, String> configureMsgMap() {
+	}
+
+	private Map<String, String> configureMsgMap() {
 		Map<String, String> validationMsgMap = new HashMap<>();
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_COUNT,
 				"Add atleast One Item in Item Addition tab for PS");
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_CHECKED_COUNT,
 				"Select atleast one Item in Price Protection tab for PS");
 		validationMsgMap.put("PPStartDateNull", " Price Protection Start Date  required for selected Item");
-		validationMsgMap.put("PPStartDateEqual", " Price Protection Start Date and Price Protection End date should not be equal for selected Item");
-		validationMsgMap.put("PPStartDateLess", " Price Protection Start Date is less than Price Protection End date for selected Item");
+		validationMsgMap.put("PPStartDateEqual",
+				" Price Protection Start Date and Price Protection End date should not be equal for selected Item");
+		validationMsgMap.put("PPStartDateLess",
+				" Price Protection Start Date is less than Price Protection End date for selected Item");
 		return validationMsgMap;
 	}
-            
-            private String validates(Map<String, String> mandatoryCheckMsgMap) {
+
+	private String validates(Map<String, String> mandatoryCheckMsgMap) {
 		StringBuilder subMessage = new StringBuilder();
 
 		for (Map.Entry<String, String> entry : mandatoryCheckMsgMap.entrySet()) {
@@ -71,7 +76,8 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 
 		return subMessage.toString();
 	}
-            private boolean validate(String processName) {
+
+	private boolean validate(String processName) {
 		boolean isDuplicated = false;
 
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
@@ -101,9 +107,10 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 
 		return isDuplicated;
 	}
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
-    
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
 }

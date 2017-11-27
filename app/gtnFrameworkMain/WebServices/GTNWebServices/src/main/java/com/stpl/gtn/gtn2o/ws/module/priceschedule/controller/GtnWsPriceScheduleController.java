@@ -314,7 +314,7 @@ public class GtnWsPriceScheduleController {
 		try {
 			GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = gtnWsRequest.getGtnWsCheckAllUpdateRequest();
 			GtnWsCheckAllUpdateBean psPricePopulateUpdateBean = gtnWsPSUpdateRequest.getUpdateBean();
-                   			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE
 					.returnSearchQueryConfigLoader(gtnWebServiceAllListConfig.getDynamicClassObjectMap());
@@ -652,7 +652,7 @@ public class GtnWsPriceScheduleController {
 
 	}
 
-        @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/" + GtnWsCDRContants.PS_PP_VALIDATION_SERVICE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse priceProtectionValidationService(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
@@ -678,8 +678,8 @@ public class GtnWsPriceScheduleController {
 		logger.info("Exit validationService");
 		return gtnResponse;
 	}
-        
-        public Object validateTempPriceProtectionDeatils(String userId, String sessionId, String process)
+
+	public Object validateTempPriceProtectionDeatils(String userId, String sessionId, String process)
 			throws GtnFrameworkGeneralException {
 
 		StringBuilder ppValidateSql = new StringBuilder("");
@@ -689,20 +689,22 @@ public class GtnWsPriceScheduleController {
 			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
 
 		}
-//		if (STATUS.equalsIgnoreCase(process)) {
-//			psValidateSql.append(
-//					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ");
-//			checkRecord = true;
-//		}
+		// if (STATUS.equalsIgnoreCase(process)) {
+		// psValidateSql.append(
+		// "select count(item_No) from dbo.Imtd_Ps_Details where (status is null
+		// OR status = '0') and ");
+		// checkRecord = true;
+		// }
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
 			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
 			checkRecord = true;
 		}
-//		if (PRICE_TYPE.equalsIgnoreCase(process)) {
-//			psValidateSql.append(
-//					"select count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
-//			checkRecord = true;
-//		}
+		// if (PRICE_TYPE.equalsIgnoreCase(process)) {
+		// psValidateSql.append(
+		// "select count(item_No) from dbo.Imtd_Ps_Details where (
+		// ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
+		// checkRecord = true;
+		// }
 		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			ppValidateSql.append(
 					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate is  null and");

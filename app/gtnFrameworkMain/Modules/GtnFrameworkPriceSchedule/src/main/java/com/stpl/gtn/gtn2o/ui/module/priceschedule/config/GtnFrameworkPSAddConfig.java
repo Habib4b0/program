@@ -250,10 +250,10 @@ public class GtnFrameworkPSAddConfig {
 		componentList.add(searchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-                
+
 		GtnUIFrameWorkActionConfig custoValidationAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-               
+
 		custoValidationAction.addActionParameter(GtnUIFrameWorkPSSaveMandatoryAlertAction.class.getName());
 		actionConfigList.add(custoValidationAction);
 		GtnUIFrameWorkActionConfig priceTabcustomValidationAction = configProvider
@@ -263,11 +263,11 @@ public class GtnFrameworkPSAddConfig {
 				.addActionParameter(GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction.class.getName());
 
 		actionConfigList.add(priceTabcustomValidationAction);
-                
-                    GtnUIFrameWorkActionConfig customPsCommonValidationAction = configProvider
-                    .getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
-            customPsCommonValidationAction.addActionParameter(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName());
-            actionConfigList.add(customPsCommonValidationAction);
+
+		GtnUIFrameWorkActionConfig customPsCommonValidationAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customPsCommonValidationAction.addActionParameter(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName());
+		actionConfigList.add(customPsCommonValidationAction);
 
 		GtnUIFrameWorkActionConfig custoSavemAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
