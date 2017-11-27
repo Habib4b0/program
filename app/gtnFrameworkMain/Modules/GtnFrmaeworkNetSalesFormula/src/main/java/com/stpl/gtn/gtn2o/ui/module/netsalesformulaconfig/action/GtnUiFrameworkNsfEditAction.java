@@ -43,6 +43,7 @@ public class GtnUiFrameworkNsfEditAction implements GtnUIFrameWorkAction, GtnUIF
 
 		Object systemId = editRecordBean.getPropertyValue(GtnFrameworkNSFConstants.getSystemid());
 		GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkNSFConstants.getSystemid(), systemId);
+		GtnUIFrameworkGlobalUI.addSessionProperty("mode", (String) actionParemeterList.get(3));
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUiFrameworkNsfLoadDataAction.class.getName());

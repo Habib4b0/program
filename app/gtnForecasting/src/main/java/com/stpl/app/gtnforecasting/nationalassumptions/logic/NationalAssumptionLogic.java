@@ -1,5 +1,38 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils.getQuator;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.BRAND_NAME;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SELECT_ONE;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SHOW_ALL;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.SUCCESS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUAL;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.GROWTH;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PER_OF_WAC;
+import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.PRICE_TRENDING;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,10 +47,6 @@ import com.stpl.app.gtnforecasting.nationalassumptions.dto.PriceTypeDTO;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.DataSelectionQueryUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.queryutils.MedicaidQueryUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils.getQuator;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.CommonConstants.*;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.FrequencyConstants.ANNUAL;
-import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.*;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -50,25 +79,6 @@ import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.util.dao.orm.CustomSQLUtil;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.VaadinSession;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -1333,11 +1343,13 @@ public class NationalAssumptionLogic {
             CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.NA_FILE_INSERT));
             LOGGER.debug("PRC_GROWTH_CALCULATION--------------------------------------- ");
             procedureInputs = new Object[]{session.getProjectionId(), session.getUserId(), session.getSessionId(), NATIONAL_ASSUMPTIONS.getConstant(), StringUtils.EMPTY, Constant.QUARTERLY, UiUtils.getDate(), "ndc9"};
-            List<Object[]> list = com.stpl.app.gtnforecasting.logic.CommonLogic.callProcedure("PRC_GROWTH_CALCULATION", procedureInputs);
-            new CumulativeCalculationUtils(list, session.getUserId(), session.getSessionId(), methodology, NATIONAL_ASSUMPTIONS.getConstant(), "ST_NA_NDC9_GROWTH_FACTOR_");
+			// Procedure calling part moved to Webservice
+			new CumulativeCalculationUtils(procedureInputs, session.getUserId(), session.getSessionId(), methodology,
+					NATIONAL_ASSUMPTIONS.getConstant(), "ST_NA_NDC9_GROWTH_FACTOR_");
             procedureInputs = new Object[]{session.getProjectionId(), session.getUserId(), session.getSessionId(), NATIONAL_ASSUMPTIONS.getConstant(), StringUtils.EMPTY, Constant.QUARTERLY, UiUtils.getDate(), "ndc11"};
-            list = com.stpl.app.gtnforecasting.logic.CommonLogic.callProcedure("PRC_GROWTH_CALCULATION", procedureInputs);
-            new CumulativeCalculationUtils(list, session.getUserId(), session.getSessionId(), methodology, NATIONAL_ASSUMPTIONS.getConstant(), "ST_NA_NDC11_GROWTH_FACTOR_");
+			// Procedure calling part moved to Webservice
+			new CumulativeCalculationUtils(procedureInputs, session.getUserId(), session.getSessionId(), methodology,
+					NATIONAL_ASSUMPTIONS.getConstant(), "ST_NA_NDC11_GROWTH_FACTOR_");
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

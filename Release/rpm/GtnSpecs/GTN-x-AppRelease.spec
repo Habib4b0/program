@@ -214,7 +214,7 @@ done
 if [ -d $app_file ]
 then
 
-declare -a array=("gtnSharedLibrary" "gtnPartI" "gtnPartII" "gtnForecasting" "gtnGlobal" "gtnContract" "gtnAdminConsole" "gtnTransaction" "gtnCff" "gtnWorkflow" "gtnARM" "gtnWorkflow" "gtnSecurity" "gtnGCM" "gtnUtilities" "GtnVaadinWidgetset" "default-theme" "vaadin-widgetset.war")
+declare -a array=("gtnSharedLibrary" "gtnPartI" "gtnPartII" "gtnForecasting" "gtnGlobal" "gtnContract" "gtnAdminConsole" "gtnTransaction" "gtnCff" "gtnWorkflow" "gtnARM" "gtnWorkflow" "gtnSecurity" "gtnGCM" "gtnUtilities" "GtnVaadinWidgetset" "default-theme" "vaadin-widgetset")
 # get length of an array
 arraylength=${#array[@]}
 # use for loop to read all values and indexes
