@@ -31,33 +31,38 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Scope(value = "singleton")
 public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQueryGeneratorService {
 	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
+
+	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
-
-	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
-
-	@Autowired
-	GtnWsRelationshipBuilderLogic relationLogic;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 	@Autowired
+	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
+	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
 
 	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
+	private GtnWsRelationshipBuilderLogic relationLogic;
+
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDedutionWhereServiceImpl.class);
+
+	public GtnFrameworkDedutionWhereServiceImpl() {
+		super();
+	}
 
 	public void addWhereClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
 		querygeneratorBean.removeAllWhereClauseConfigList();
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
-		Session session = sessionFactory.openSession();
-		RelationshipBuilder productrelationshipBuilder = session.load(RelationshipBuilder.class,
-				relationBean.getDeductionRelation());
-		List<Integer> itemMastersidList = getItemMasterSidForProductRelation(productrelationshipBuilder);
-		querygeneratorBean.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null, GtnFrameworkOperatorType.IN,
-				GtnFrameworkDataType.LIST, itemMastersidList);
+		try (Session session = sessionFactory.openSession()) {
+			RelationshipBuilder productrelationshipBuilder = session.load(RelationshipBuilder.class,
+					relationBean.getDeductionRelation());
+			List<Integer> itemMastersidList = getItemMasterSidForProductRelation(productrelationshipBuilder);
+			querygeneratorBean.addWhereClauseBean("RS_CONTRACT_DETAILS.ITEM_MASTER_SID", null,
+					GtnFrameworkOperatorType.IN, GtnFrameworkDataType.LIST, itemMastersidList);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

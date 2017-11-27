@@ -1,11 +1,9 @@
 package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
-import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.HierarchyDefinition;
 import com.stpl.gtn.gtn2o.ws.entity.relationshipbuilder.RelationshipBuilder;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
@@ -29,8 +20,6 @@ import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAu
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutoupdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBean;
-import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
-import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @Service
@@ -45,34 +34,28 @@ public class GtnFrameworkDeductionRelationServiceImpl {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
-
-	@Autowired
-	private GtnFrameworkHierarchyService hierarchyService;
-
-	@Autowired
-	GtnWsRelationshipBuilderLogic relationLogic;
-
-	@Autowired
 	@Qualifier("Deduction")
-	GtnFrameworkAutoupdateService deDuctionAutoUpdateService;
+	private GtnFrameworkAutoupdateService deDuctionAutoUpdateService;
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
+	private GtnFrameworkAutomaticRelationUpdateService relationUpdateService;
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnFrameworkDeductionRelationServiceImpl.class);
 
+	public GtnFrameworkDeductionRelationServiceImpl() {
+		super();
+	}
 	public void saveRelationship(GtnWsRelationshipBuilderBean relationBuilderBean, boolean isRelationSaved)
 			throws GtnFrameworkGeneralException {
 		try (Session session = sessionFactory.openSession()) {
-		Transaction tx = session.beginTransaction();
-		RelationshipBuilder relationBuilder;
-		relationBuilder = saveRelationShipBuilder(relationBuilderBean, session, isRelationSaved);
-		GtnWsRelationshipBuilderBean relationBean = customizeRelation(relationBuilder);
-		List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = relationUpdateService
-				.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
-		tx.commit();
-		deDuctionAutoUpdateService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean,
-				String.valueOf(relationBuilderBean.getCreatedBy()));
+			Transaction tx = session.beginTransaction();
+			RelationshipBuilder relationBuilder;
+			relationBuilder = saveRelationShipBuilder(relationBuilderBean, session, isRelationSaved);
+			GtnWsRelationshipBuilderBean relationBean = customizeDeductionRelation(relationBuilder);
+			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList = relationUpdateService
+					.getHierarchyBuilder(relationBean.getHierarchyDefinitionSid(), relationBean.getHierarchyVersion());
+			tx.commit();
+			deDuctionAutoUpdateService.doAutomaticUpdate(hierarchyLevelDefinitionList, relationBean,
+					String.valueOf(relationBuilderBean.getCreatedBy()));
 		}
 	}
 
@@ -102,23 +85,23 @@ public class GtnFrameworkDeductionRelationServiceImpl {
 		return relationBuilder;
 	}
 
-	private GtnWsRelationshipBuilderBean customizeRelation(RelationshipBuilder relationshipBuilder) {
-		GtnWsRelationshipBuilderBean relationBean = new GtnWsRelationshipBuilderBean();
-		relationBean.setRelationshipBuilderSid(relationshipBuilder.getRelationshipBuilderSid());
-		relationBean.setRelationshipName(relationshipBuilder.getRelationshipName());
-		relationBean.setRelationshipDescription(relationshipBuilder.getRelationshipDescription());
-		relationBean
-				.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
-		relationBean.setStartDate(relationshipBuilder.getStartDate());
-		relationBean.setBuildType(relationshipBuilder.getBuildType());
-		relationBean.setVersionNo(relationshipBuilder.getVersionNo());
-		relationBean.setHierarchyVersion(relationshipBuilder.getHierarchyVersion());
-		relationBean.setCreatedBy(relationshipBuilder.getCreatedBy());
-		relationBean.setCreatedDate(relationshipBuilder.getCreatedDate());
-		relationBean.setModifiedBy(relationshipBuilder.getModifiedBy());
-		relationBean.setModifiedDate(relationshipBuilder.getModifiedDate());
-		relationBean.setDeductionRelation(relationshipBuilder.getDeductionRelation());
-		return relationBean;
+	private GtnWsRelationshipBuilderBean customizeDeductionRelation(RelationshipBuilder deductionRelationshipBuilder) {
+		GtnWsRelationshipBuilderBean deductionRelationBean = new GtnWsRelationshipBuilderBean();
+		deductionRelationBean.setRelationshipBuilderSid(deductionRelationshipBuilder.getRelationshipBuilderSid());
+		deductionRelationBean.setRelationshipName(deductionRelationshipBuilder.getRelationshipName());
+		deductionRelationBean.setRelationshipDescription(deductionRelationshipBuilder.getRelationshipDescription());
+		deductionRelationBean
+				.setHierarchyDefinitionSid(deductionRelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
+		deductionRelationBean.setStartDate(deductionRelationshipBuilder.getStartDate());
+		deductionRelationBean.setBuildType(deductionRelationshipBuilder.getBuildType());
+		deductionRelationBean.setVersionNo(deductionRelationshipBuilder.getVersionNo());
+		deductionRelationBean.setHierarchyVersion(deductionRelationshipBuilder.getHierarchyVersion());
+		deductionRelationBean.setCreatedBy(deductionRelationshipBuilder.getCreatedBy());
+		deductionRelationBean.setCreatedDate(deductionRelationshipBuilder.getCreatedDate());
+		deductionRelationBean.setModifiedBy(deductionRelationshipBuilder.getModifiedBy());
+		deductionRelationBean.setModifiedDate(deductionRelationshipBuilder.getModifiedDate());
+		deductionRelationBean.setDeductionRelation(deductionRelationshipBuilder.getDeductionRelation());
+		return deductionRelationBean;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -136,52 +119,8 @@ public class GtnFrameworkDeductionRelationServiceImpl {
 			relationshipBuilder.setBuildType(relationBuilderBean.getBuildType());
 			relationshipBuilder.setDeductionRelation(relationBuilderBean.getRelationshipBuilderSid());
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw new GtnFrameworkGeneralException("Exception in updateRelationshipBuilderFromRequest", e);
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public String getItemMasterSidForProductRelation(RelationshipBuilder productrelationshipBuilder)
-			throws GtnFrameworkGeneralException {
-		List<Object> input = new ArrayList<>();
-		String itemMastersids = StringUtils.EMPTY;
-
-		List<HierarchyLevelDefinitionBean> hierarchyList = relationLogic.getRBHierarchyLevelDefinitionBySid(
-				productrelationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid(),
-				productrelationshipBuilder.getHierarchyVersion(),
-				productrelationshipBuilder.getRelationshipBuilderSid());
-
-		int levelNo = HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
-		HierarchyLevelDefinitionBean destinationHierarchyBean = HierarchyLevelDefinitionBean.getBeanByLevelNo(levelNo,
-				hierarchyList);
-		if (destinationHierarchyBean != null) {
-			GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-					.getKeyRelationBeanUsingTableIdAndColumnName(destinationHierarchyBean.getTableName(),
-							destinationHierarchyBean.getFieldName());
-			List<String> whereClauseColumn = hierarchyService.getMappingColumns(keyBean);
-			List<String> whereQueries = relationLogic.getRelationQueries(
-					productrelationshipBuilder.getRelationshipBuilderSid(), hierarchyList.subList(0, levelNo),
-					productrelationshipBuilder.getVersionNo());
-			GtnFrameworkFileReadWriteService fileReadWriteService = new GtnFrameworkFileReadWriteService();
-			GtnFrameworkHierarchyQueryBean queryBean = fileReadWriteService.getQueryFromFile(
-					destinationHierarchyBean.getHierarchyDefinitionSid(),
-					destinationHierarchyBean.getHierarchyLevelDefinitionSid(), destinationHierarchyBean.getVersionNo());
-			GtnFrameworkQueryGeneratorBean finalQueryBean = queryBean.getQuery();
-			finalQueryBean.addSelectClauseBean(GtnWsRelationshipBuilderConstants.ITEM_MASTER_TABLE_COLUMN_NAME, null,
-					Boolean.TRUE, null);
-			finalQueryBean.addWhereClauseBean(whereClauseColumn.get(1), null, GtnFrameworkOperatorType.IN,
-					GtnFrameworkDataType.NULL_ALLOWED, "?");
-			String finalQuery = finalQueryBean.generateQuery();
-			List<Object[]> result = (List<Object[]>) gtnSqlQueryEngine
-					.executeSelectQuery(getQueryReplaced(whereQueries, finalQuery));
-			for (Object[] objects : result) {
-				input.add(String.valueOf(objects[objects.length - 1]));
-				itemMastersids = Arrays.toString(input.toArray()).replace("[", StringUtils.EMPTY).replace("]",
-						StringUtils.EMPTY);
-			}
-		}
-		return itemMastersids;
 	}
 
 	public String getQueryReplaced(List<String> input, String queryName) {

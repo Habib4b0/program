@@ -28,17 +28,17 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Service
 @Scope(value = "singleton")
 public class GtnFrameworkAutomaticRelationUpdateService {
-
-	@Autowired
-	private GtnWsSqlService gtnWsSqlService;
-
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
+	private GtnWsSqlService gtnWsSqlService;
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
+
+	@Autowired
+	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
+
 	@Autowired
 	private ApplicationContext applicationContext;
 
@@ -141,7 +141,6 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			return relationshipBuilder.getVersionNo();
 		}
 	}
-
 
 	@SuppressWarnings("unchecked")
 	public GtnWsRelationshipBuilderBean getRelationtionshipBuilder(Integer relationshipBuilderSid) {

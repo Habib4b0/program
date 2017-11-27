@@ -96,7 +96,7 @@ public class GtnWsRelationshipBuilderLogic {
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
 	@Autowired
-	GtnFrameworkDeductionRelationServiceImpl deductionService;
+	private GtnFrameworkDeductionRelationServiceImpl deductionService;
 
 	public GtnWsRelationshipBuilderLogic() {
 		super();
@@ -382,7 +382,7 @@ public class GtnWsRelationshipBuilderLogic {
 				logger.error("Exception in getLinkedLevelValues levelValues", ex);
 			}
 			for (int i = 0; i < levelValues.size(); i++) {
-				Object[] obj = (Object[]) levelValues.get(i);
+				Object[] obj = levelValues.get(i);
 				HierarchyLevelsBean levelValuesDTO = new HierarchyLevelsBean();
 				levelValuesDTO.setLevelValue(String.valueOf(obj[0]));
 				levelValuesDTO.setHiddenId(String.valueOf(obj[1]));
@@ -976,7 +976,7 @@ public class GtnWsRelationshipBuilderLogic {
 					gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist, "getHierarchyCatBySid"));
 			tx.commit();
 			if ("Product Hierarchy".equals(result.get(0).toString())) {
-				GtnWsRelationshipBuilderBean relationBuilderBean = getCustomizedRelationBean(relationshipBuilder,
+				GtnWsRelationshipBuilderBean relationBuilderBean = getCustomizedRelationShipBean(relationshipBuilder,
 						session);
 				deductionService.saveRelationship(relationBuilderBean, isRelationSaved);
 			}
@@ -1226,7 +1226,6 @@ public class GtnWsRelationshipBuilderLogic {
 
 	}
 
-
 	public List<String> getRelationQueries(int relationshipSid,
 			List<HierarchyLevelDefinitionBean> levelHierarchyLevelDefinitionList, int versionNo) {
 		List<String> queryList = new ArrayList<>();
@@ -1300,27 +1299,27 @@ public class GtnWsRelationshipBuilderLogic {
 		return false;
 	}
 
-	public GtnWsRelationshipBuilderBean getCustomizedRelationBean(RelationshipBuilder relationshipBuilder,
+	public GtnWsRelationshipBuilderBean getCustomizedRelationShipBean(RelationshipBuilder relationshipBuilder,
 			Session session) {
-		GtnWsRelationshipBuilderBean relationBean = new GtnWsRelationshipBuilderBean();
-		relationBean.setRelationshipBuilderSid(relationshipBuilder.getRelationshipBuilderSid());
-		relationBean.setRelationshipName(relationshipBuilder.getRelationshipName());
-		relationBean.setRelationshipDescription(relationshipBuilder.getRelationshipDescription());
-		relationBean
+		GtnWsRelationshipBuilderBean relationShipBuilderBean = new GtnWsRelationshipBuilderBean();
+		relationShipBuilderBean.setRelationshipBuilderSid(relationshipBuilder.getRelationshipBuilderSid());
+		relationShipBuilderBean.setRelationshipName(relationshipBuilder.getRelationshipName());
+		relationShipBuilderBean.setRelationshipDescription(relationshipBuilder.getRelationshipDescription());
+		relationShipBuilderBean
 				.setHierarchyDefinitionSid(relationshipBuilder.getHierarchyDefinition().getHierarchyDefinitionSid());
-		relationBean.setStartDate(relationshipBuilder.getStartDate());
-		relationBean.setBuildType(relationshipBuilder.getBuildType());
-		relationBean.setVersionNo(relationshipBuilder.getVersionNo());
-		relationBean.setHierarchyVersion(relationshipBuilder.getHierarchyVersion());
-		relationBean.setCreatedBy(relationshipBuilder.getCreatedBy());
-		relationBean.setCreatedDate(relationshipBuilder.getCreatedDate());
-		relationBean.setModifiedBy(relationshipBuilder.getModifiedBy());
-		relationBean.setModifiedDate(relationshipBuilder.getModifiedDate());
-		relationBean.setDeductionRelation(relationshipBuilder.getDeductionRelation());
+		relationShipBuilderBean.setStartDate(relationshipBuilder.getStartDate());
+		relationShipBuilderBean.setBuildType(relationshipBuilder.getBuildType());
+		relationShipBuilderBean.setVersionNo(relationshipBuilder.getVersionNo());
+		relationShipBuilderBean.setHierarchyVersion(relationshipBuilder.getHierarchyVersion());
+		relationShipBuilderBean.setCreatedBy(relationshipBuilder.getCreatedBy());
+		relationShipBuilderBean.setCreatedDate(relationshipBuilder.getCreatedDate());
+		relationShipBuilderBean.setModifiedBy(relationshipBuilder.getModifiedBy());
+		relationShipBuilderBean.setModifiedDate(relationshipBuilder.getModifiedDate());
+		relationShipBuilderBean.setDeductionRelation(relationshipBuilder.getDeductionRelation());
 		HelperTable hierarchyCat = session.load(HelperTable.class,
 				relationshipBuilder.getHierarchyDefinition().getHierarchyCategory());
-		relationBean.setHierarchycategory(hierarchyCat.getDescription());
-		return relationBean;
+		relationShipBuilderBean.setHierarchycategory(hierarchyCat.getDescription());
+		return relationShipBuilderBean;
 	}
 
 }

@@ -17,6 +17,10 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 @Scope(value = "singleton")
 public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFrameworkJoinQueryGeneratorService {
 
+	public GtnFrameworkAutomaticCustProdJoinServiceImpl() {
+		super();
+	}
+
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 

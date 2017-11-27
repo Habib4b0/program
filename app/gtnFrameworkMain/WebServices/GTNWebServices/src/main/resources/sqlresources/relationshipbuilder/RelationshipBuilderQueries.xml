@@ -530,10 +530,12 @@ select
            SELECT
 	DISTINCT he.DESCRIPTION
 from
-	dbo.HIERARCHY_DEFINITION hld join dbo.HELPER_TABLE he on
+	HIST_HIERARCHY_DEFINITION hld join HELPER_TABLE he on
 	he.HELPER_TABLE_SID = hld.HIERARCHY_CATEGORY
 WHERE
 	hld.HIERARCHY_DEFINITION_SID =?
+	and hld.version_no=?
+	
 	]]>
 		</query>
 	</entity>

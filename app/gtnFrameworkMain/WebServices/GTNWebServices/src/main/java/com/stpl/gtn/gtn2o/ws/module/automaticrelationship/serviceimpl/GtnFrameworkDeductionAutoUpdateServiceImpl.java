@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyQueryBean;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkSelectQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.service.GtnFrameworkWhereQueryGeneratorService;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.serviceimpl.GtnFrameworkQueryGeneraterServiceImpl;
@@ -28,7 +29,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkAutoupdateService {
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService automaticService;
+	private GtnFrameworkAutomaticRelationUpdateService automaticService;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -39,11 +40,16 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 
 	@Autowired
 	@Qualifier("DeductionSelect")
-	GtnFrameworkSelectQueryGeneratorService selectService;
+	private GtnFrameworkSelectQueryGeneratorService selectService;
 	@Autowired
 	@Qualifier("DeductionWhere")
-	GtnFrameworkWhereQueryGeneratorService whereService;
+	private GtnFrameworkWhereQueryGeneratorService whereService;
+	private static final GtnWSLogger LOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkDeductionAutoUpdateServiceImpl.class);
 
+	public GtnFrameworkDeductionAutoUpdateServiceImpl() {
+		super();
+	}
 	@Override
 	public boolean checkAutomaticRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
 		return Boolean.TRUE;
@@ -78,7 +84,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 		}
 	}
 

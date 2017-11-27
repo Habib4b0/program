@@ -36,7 +36,7 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAutoupdateService {
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService automaticService;
+	private GtnFrameworkAutomaticRelationUpdateService automaticService;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -52,13 +52,17 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 
 	@Autowired
 	@Qualifier("CustProdSelect")
-	GtnFrameworkSelectQueryGeneratorService selectService;
+	private GtnFrameworkSelectQueryGeneratorService selectService;
 	@Autowired
 	@Qualifier("CustProdWhere")
-	GtnFrameworkWhereQueryGeneratorService whereService;
+	private GtnFrameworkWhereQueryGeneratorService whereService;
 	@Autowired
 	@Qualifier("CustProdJoin")
 	private GtnFrameworkJoinQueryGeneratorService joinService;
+
+	public GtnFrameworkCustProdAutoUpdateServiceImpl() {
+		super();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

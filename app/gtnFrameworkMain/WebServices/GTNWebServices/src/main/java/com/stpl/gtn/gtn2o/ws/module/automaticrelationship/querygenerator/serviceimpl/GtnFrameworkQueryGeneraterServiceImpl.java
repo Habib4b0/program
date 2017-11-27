@@ -12,9 +12,9 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 
 public class GtnFrameworkQueryGeneraterServiceImpl {
 
-	GtnFrameworkSelectQueryGeneratorService selectQueryGenerator;
-	GtnFrameworkJoinQueryGeneratorService joinQueryGenerator;
-	GtnFrameworkWhereQueryGeneratorService whereQueryGenerator;
+	private GtnFrameworkSelectQueryGeneratorService selectQueryGenerator;
+	private GtnFrameworkJoinQueryGeneratorService joinQueryGenerator;
+	private GtnFrameworkWhereQueryGeneratorService whereQueryGenerator;
 
 	public GtnFrameworkQueryGeneraterServiceImpl(GtnFrameworkSelectQueryGeneratorService selectQueryGenerator,
 			GtnFrameworkJoinQueryGeneratorService joinQueryGenerator,

@@ -35,9 +35,14 @@ import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 @Component("ProdService")
 @Scope(value = "singleton")
 public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAutoupdateService {
+	@Autowired
+	private GtnFrameworkHierarchyService hierarchyService;
+	@Autowired
+	@Qualifier("CustProdSelect")
+	private GtnFrameworkSelectQueryGeneratorService selectService;
 
 	@Autowired
-	GtnFrameworkAutomaticRelationUpdateService automaticService;
+	private GtnFrameworkAutomaticRelationUpdateService automaticService;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
@@ -46,22 +51,20 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	private GtnFrameworkHierarchyService hierarchyService;
-
-	@Autowired
 	private ApplicationContext applicationContext;
 
 	@Autowired
-	@Qualifier("CustProdSelect")
-	GtnFrameworkSelectQueryGeneratorService selectService;
-	@Autowired
 	@Qualifier("CustProdWhere")
-	GtnFrameworkWhereQueryGeneratorService whereService;
+	private GtnFrameworkWhereQueryGeneratorService whereService;
 	@Autowired
 	@Qualifier("CustProdJoin")
 	private GtnFrameworkJoinQueryGeneratorService joinService;
 	@Autowired
-	GtnFrameworkDeductionRelationServiceImpl deductionRelationService;
+	private GtnFrameworkDeductionRelationServiceImpl deductionRelationService;
+
+	public GtnFrameworkProductAutoUpdateServiceImpl() {
+		super();
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

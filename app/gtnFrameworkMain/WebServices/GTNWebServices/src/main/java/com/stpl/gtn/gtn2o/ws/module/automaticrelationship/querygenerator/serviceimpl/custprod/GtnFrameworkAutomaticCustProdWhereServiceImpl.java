@@ -13,8 +13,13 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBe
 @Scope(value = "singleton")
 public class GtnFrameworkAutomaticCustProdWhereServiceImpl implements GtnFrameworkWhereQueryGeneratorService {
 
+	public GtnFrameworkAutomaticCustProdWhereServiceImpl() {
+		super();
+	}
+
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
+
 	@Override
 	public void addWhereClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			GtnWsRelationshipBuilderBean relationBean) {

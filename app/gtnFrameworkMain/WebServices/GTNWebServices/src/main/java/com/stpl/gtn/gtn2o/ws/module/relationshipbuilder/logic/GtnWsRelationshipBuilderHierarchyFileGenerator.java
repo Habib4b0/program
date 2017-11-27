@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -104,7 +103,8 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 			sqlStringBuilder = new StringBuilder(getQuery(queryName));
 			if (input != null) {
 				for (Object tempInput : input) {
-					sqlStringBuilder.replace(sqlStringBuilder.indexOf("?"), sqlStringBuilder.indexOf("?") + 1, String.valueOf(tempInput));
+					sqlStringBuilder.replace(sqlStringBuilder.indexOf("?"), sqlStringBuilder.indexOf("?") + 1,
+							String.valueOf(tempInput));
 				}
 			}
 
@@ -113,14 +113,15 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		}
 		return sqlStringBuilder.toString();
 	}
-	
+
 	public String getFinalQueryReplaced(List<String> input, String finalQuery) {
 		StringBuilder sqlStrBuilder = new StringBuilder();
 		try {
 			sqlStrBuilder = new StringBuilder(finalQuery);
 			if (input != null) {
 				for (Object tempInput : input) {
-					sqlStrBuilder.replace(sqlStrBuilder.indexOf("?"), sqlStrBuilder.indexOf("?") + 1, String.valueOf(tempInput));
+					sqlStrBuilder.replace(sqlStrBuilder.indexOf("?"), sqlStrBuilder.indexOf("?") + 1,
+							String.valueOf(tempInput));
 				}
 			}
 
@@ -130,9 +131,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		return sqlStrBuilder.toString();
 	}
 
-	public void updateQueryInHierarchy(int hierarchyDefSId, int versionNo)
-			throws GtnFrameworkGeneralException, IOException {
-
+	public void updateQueryInHierarchy(int hierarchyDefSId, int versionNo) {
 		try (Session session = sessionFactory.openSession()) {
 			Transaction tx = session.beginTransaction();
 			List<HierarchyLevelDefinitionBean> hierarchyDefList = getRBHierarchyLevelDefinitionBySid(hierarchyDefSId,
@@ -146,7 +145,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 						.equals(destinationHierarchyBean.getLevelValueReference())) {
 					GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 					getLinkedValueQuery(destinationHierarchyBean, hierarchyDefSId,
-							hierarchyLevelDefinitionBean.getLevelNo(), hierarchyDefList, queryBean);
+							hierarchyLevelDefinitionBean.getLevelNo(), hierarchyDefList, queryBean, versionNo);
 					GtnFrameworkHierarchyQueryBean hierarchyQueryBean = new GtnFrameworkHierarchyQueryBean();
 					hierarchyQueryBean
 							.setHierarchyLevelDefSid(hierarchyLevelDefinitionBean.getHierarchyLevelDefinitionSid());
@@ -156,6 +155,8 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 			}
 			fileService.createJson(queryBeanList, hierarchyDefSId, versionNo);
 			tx.commit();
+		} catch (Exception e) {
+			LOGGER.error("Exception in getQuery", e);
 		}
 	}
 
@@ -183,8 +184,6 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		return hierarchyList;
 	}
 
-
-
 	public HierarchyLevelDefinitionBean getHierarchyBeanByLevelNo(List<HierarchyLevelDefinitionBean> hierarchyList,
 			int levelNo) {
 		// we are sorting the list based on the level No so get the value by
@@ -200,9 +199,10 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 	}
 
 	public void getLinkedValueQuery(HierarchyLevelDefinitionBean destinationHierarchyBean, int hierarchDefSid,
-			int levelNo, List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean)
+			int levelNo, List<HierarchyLevelDefinitionBean> hierarchyList, GtnFrameworkQueryGeneratorBean queryBean,
+			int versionNo)
 			throws GtnFrameworkGeneralException {
-		final String hierarchyType = getHierarchyTypeFromSid(hierarchDefSid);
+		final String hierarchyType = getHierarchyTypeFromSid(hierarchDefSid, versionNo);
 		final Set<String> tableNameList = getDefaultTableNameList(hierarchyType);
 		Set<String> hierarchyTableList = HierarchyLevelDefinitionBean.getTableNameSet(hierarchyList);
 		tableNameList.addAll(hierarchyTableList);
@@ -234,10 +234,10 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 		return selectedTableNamesList;
 	}
 
-	private String getHierarchyTypeFromSid(int hierarchyDefinitionSid) throws GtnFrameworkGeneralException {
+	private String getHierarchyTypeFromSid(int hierarchyDefinitionSid, int versionNo) throws GtnFrameworkGeneralException {
 		final String query = getQuery("getHierarchyCatBySid");
-		final Object[] params = { hierarchyDefinitionSid };
-		final GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER };
+		final Object[] params = { hierarchyDefinitionSid, versionNo };
+		final GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 		final List<?> results = executeQuery(query, params, paramsType);
 		return results.isEmpty() ? "" : results.get(0).toString();
 	}

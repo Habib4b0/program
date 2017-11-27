@@ -19,6 +19,10 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
+	public GtnFramewrokAutomaticCustProdSelectServiceImpl() {
+		super();
+	}
+
 	private String getHierarchyNo(HierarchyLevelDefinitionBean hierarchyLevelBean) {
 		StringBuilder hierarcyNo = new StringBuilder();
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
@@ -32,21 +36,21 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		return hierarcyNo.toString();
 	}
 
-	private String getParentNode(HierarchyLevelDefinitionBean previousHierarchyLevelBean) {
+	private String getParentNodeForCustomerAndProdHie(HierarchyLevelDefinitionBean previousHierarchyLevelBean) {
 		if (previousHierarchyLevelBean == null)
 			return "''";
-		StringBuilder parentNode = new StringBuilder();
+		StringBuilder parentNodeString = new StringBuilder();
 		String tempString;
-		parentNode.append("CONCAT(");
-		parentNode.append(previousHierarchyLevelBean.getLevelNo());
-		parentNode.append(",'~',");
+		parentNodeString.append("CONCAT(");
+		parentNodeString.append(previousHierarchyLevelBean.getLevelNo());
+		parentNodeString.append(",'~',");
 		GtnFrameworkSingleColumnRelationBean previousKeyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
 		tempString = previousKeyBean.getActualTtableName() + "." + previousKeyBean.getWhereClauseColumn();
-		parentNode.append(tempString);
-		parentNode.append(")");
-		return parentNode.toString();
+		parentNodeString.append(tempString);
+		parentNodeString.append(")");
+		return parentNodeString.toString();
 	}
 
 	@Override
@@ -66,7 +70,7 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 				String.valueOf(hierarchyLevelBean.getLevelNo()));
 		querygeneratorBean.addSelectClauseBean(null, "LEVEL_NAME", Boolean.FALSE,
 				"'" + hierarchyLevelBean.getLevelName() + "'");
-		String parentNode = getParentNode(previousHierarchyLevelBean);
+		String parentNode = getParentNodeForCustomerAndProdHie(previousHierarchyLevelBean);
 		String hierarchyNo = getHierarchyNo(hierarchyLevelBean);
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_NODE", Boolean.FALSE, parentNode);
 		querygeneratorBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, hierarchyNo);

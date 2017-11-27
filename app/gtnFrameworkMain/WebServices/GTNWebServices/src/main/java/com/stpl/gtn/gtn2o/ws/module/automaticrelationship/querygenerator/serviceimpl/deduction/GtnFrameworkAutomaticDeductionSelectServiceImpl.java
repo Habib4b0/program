@@ -19,6 +19,9 @@ public class GtnFrameworkAutomaticDeductionSelectServiceImpl implements GtnFrame
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
+	public GtnFrameworkAutomaticDeductionSelectServiceImpl() {
+		super();
+	}
 	public void addSelectClause(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			int updatedVersionNo, String userId, int levelNo) {
