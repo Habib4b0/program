@@ -41,8 +41,8 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
-                String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-                boolean isEditMode = "edit".equalsIgnoreCase(mode);
+		String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+		boolean isEditMode = "edit".equalsIgnoreCase(mode);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
 		GtnUIFrameworkNsfInfoBean nsfInfoBean = new GtnUIFrameworkNsfInfoBean();
