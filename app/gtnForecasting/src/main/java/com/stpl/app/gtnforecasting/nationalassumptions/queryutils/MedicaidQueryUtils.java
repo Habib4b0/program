@@ -164,7 +164,6 @@ public class MedicaidQueryUtils {
                 String replacedQuery = QueryUtil.replaceTableNames(queryBuilder1.toString(), session.getCurrentTableNames());
                 queryBuilder1 = new StringBuilder(replacedQuery);
                 queryList.add(queryBuilder1);
-                System.out.println("queryBuilder1 ======="+queryBuilder1.toString());
 
             }
             DAO.executeUpdateQuery(queryList);
@@ -289,7 +288,6 @@ public class MedicaidQueryUtils {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }
 
-        System.out.println("fecth query ========"+QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
         phsWSList = (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
         return phsWSList;

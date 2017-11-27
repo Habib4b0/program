@@ -609,8 +609,6 @@ public class MedicaidUraWorkSheet extends Window {
                             notesValue = thirdEditedNotes.get(notesPropId);
                         }
 
-                        System.out.println("thirdAdjustedValues values are ===="+thirdAdjustedValues.keySet());
-                        System.out.println("adjustPropId ==========="+adjustPropId);
                         String[] noteArr = notesMap.get(String.valueOf(propertyId));
                         if (StringUtils.isNotBlank(adjustValue)) {
                             notesField.setTextfieldValue(adjustValue);
