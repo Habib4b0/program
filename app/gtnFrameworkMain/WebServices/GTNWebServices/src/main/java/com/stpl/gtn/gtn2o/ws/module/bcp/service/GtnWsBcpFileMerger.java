@@ -32,19 +32,11 @@ public class GtnWsBcpFileMerger {
 
 		File file = GtnFileNameUtils.getFile(finalFile);
 		boolean isCreated = file.createNewFile();
-		GTNLOGGER.info(Boolean.toString(isCreated));
+		GTNLOGGER.debug(Boolean.toString(isCreated));
 		long time = System.currentTimeMillis();
 		String[] command;
 		if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")) {
-
-			command = new String[fileList.size() + 2];
-			command[0] = "cmd.exe";
-			command[1] = "/c";
-
-			for (int i = 0; i < fileList.size(); i++) {
-				command[i + 2] = "type " + fileList.get(i).replace("/", "\\") + " >> " + finalFile;
-			}
-
+			command = createCommandForWindows(fileList, finalFile);
 		} else {
 			StringBuilder strb = new StringBuilder();
 			strb.append("cat ");
@@ -82,5 +74,16 @@ public class GtnWsBcpFileMerger {
 
 		GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
 
+	}
+
+	public String[] createCommandForWindows(List<String> fileList, String finalFile) {
+		String[] command = new String[fileList.size() + 2];
+		command[0] = "cmd.exe";
+		command[1] = "/c";
+
+		for (int i = 0; i < fileList.size(); i++) {
+			command[i + 2] = "type " + fileList.get(i).replace("/", "\\") + " >> " + finalFile;
+		}
+		return command;
 	}
 }

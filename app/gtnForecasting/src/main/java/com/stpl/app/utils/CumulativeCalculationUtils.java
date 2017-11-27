@@ -31,13 +31,11 @@ public class CumulativeCalculationUtils {
 	private String tabName = StringUtils.EMPTY;
 	boolean salesFlag = false;
 	private StandaloneParser credentials = StandaloneParser.getInstance();
-	private String finalFile = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
 	private String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
 	private String methodology = StringUtils.EMPTY;
 	private String userId = StringUtils.EMPTY;
 	private String sessionId = StringUtils.EMPTY;
 	private String tableName;
-	private static final String KEY = "jaas is the way";
 
 	public CumulativeCalculationUtils(Object[] procedureInputList, final String userId, final String sessionId,
 			final String methodology, final String tabName, final String tableName) {
@@ -64,7 +62,6 @@ public class CumulativeCalculationUtils {
 		gtnWsBcpServiceBean.setSessionId(sessionId);
 		gtnWsBcpServiceBean.setCurrentDateInString(UiUtils.getDate());
 		gtnWsBcpServiceBean.setTableName(tableName);
-		gtnWsBcpServiceBean.setFinalFileName(finalFile);
 		gtnWsBcpServiceBean.setFolderName(folderName);
 
 		gtnWsBcpServiceBean.setServerName(credentials.getServer());

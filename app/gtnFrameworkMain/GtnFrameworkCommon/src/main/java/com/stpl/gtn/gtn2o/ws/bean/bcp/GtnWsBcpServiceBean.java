@@ -81,13 +81,6 @@ public class GtnWsBcpServiceBean {
 		this.tableName = tableName;
 	}
 
-	public String getFinalFileName() {
-		return finalFileName;
-	}
-
-	public void setFinalFileName(String finalFileName) {
-		this.finalFileName = finalFileName;
-	}
 
 	public String getCurrentDateInString() {
 		return currentDateInString;

@@ -47,7 +47,7 @@ public class GtnWsBcpFileUploader {
 		String password = gtnWsBcpServiceBean.getPassword();
 		ProcessBuilder builder = null;
 		List<String> fileList = new ArrayList<>();
-		String logPath = gtnWsBcpServiceBean.getFolderName() + "/Cumulative_Multiplication_" + userId + "_" + sessionId
+		String logPath = cumulativeBasePath + "/Cumulative_Multiplication_" + userId + "_" + sessionId
 				+ ".log";
 
 		newTableName = tableName + userId + "_" + sessionId + "_" + currentDate;
@@ -59,33 +59,14 @@ public class GtnWsBcpFileUploader {
 			commandArray = new String[3];
 			commandArray[0] = "cmd.exe";
 			commandArray[1] = "/c";
-
-			command.append("bcp ").append(newTableName).append(" IN ").append(finalFile).append(" -c -d")
-					.append(schemaName).append(" -t , -S ").append(serverName).append(" -U ").append(userName)
-					.append(" -P \"").append(password).append("\" > ").append(logPath);
+			command = createWindowsCommand(newTableName, finalFile, schemaName, serverName, userName, password,
+					logPath);
 			commandArray[2] = command.toString();
 			builder = GtnWsProcessUtil.createProcess(commandArray);
-			GTNLOGGER.info(command.toString());
 		} else {
 			query = newTableName + " IN ";
 			StringBuilder strb = new StringBuilder();
-			strb.append(System.getProperty("bcp.location"));
-			strb.append(" ");
-			strb.append(query);
-			strb.append(finalFile);
-			strb.append(" -c ");
-			strb.append("-d ");
-			strb.append(schemaName);
-			strb.append(" -t ");
-			strb.append(", ");
-			strb.append("-S ");
-			strb.append(serverName);
-			strb.append(" -U ");
-			strb.append(userName);
-			strb.append(" -P ");
-			strb.append("'").append(password).append("'");
-			strb.append(">");
-			strb.append(logPath);
+			strb = createLinuxCommand(query, finalFile, schemaName, serverName, userName, password, logPath);
 			GTNLOGGER.info("bcp ====" + strb.toString());
 			File shellFile = GtnFileNameUtils.getFile(cumulativeBasePath + File.separator + "exec.sh");
 			fileList.add(shellFile.getAbsolutePath());
@@ -116,10 +97,44 @@ public class GtnWsBcpFileUploader {
 		fileList.add(finalFile);
 		fileList.add(logPath);
 		for (String fileName : fileList) {
+			GTNLOGGER.debug("Deleted filename " + fileName);
 			Files.delete(GtnFileNameUtils.getPath(fileName));
 		}
-
 		GTNLOGGER.info("Upload Complete");
+	}
+
+	private StringBuilder createWindowsCommand(String newTableName, String finalFile, String schemaName,
+			String serverName, String userName, String password, String logPath) {
+		StringBuilder command = new StringBuilder();
+		command.append("bcp ").append(newTableName).append(" IN ").append(finalFile).append(" -c -d").append(schemaName)
+				.append(" -t , -S ").append(serverName).append(" -U ").append(userName).append(" -P \"")
+				.append(password).append("\" > ").append(logPath);
+		return command;
+
+	}
+
+	private StringBuilder createLinuxCommand(String query, String finalFile, String schemaName, String serverName,
+			String userName, String password, String logPath) {
+		StringBuilder strb = new StringBuilder();
+		strb.append(System.getProperty("bcp.location"));
+		strb.append(" ");
+		strb.append(query);
+		strb.append(finalFile);
+		strb.append(" -c ");
+		strb.append("-d ");
+		strb.append(schemaName);
+		strb.append(" -t ");
+		strb.append(", ");
+		strb.append("-S ");
+		strb.append(serverName);
+		strb.append(" -U ");
+		strb.append(userName);
+		strb.append(" -P ");
+		strb.append("'").append(password).append("'");
+		strb.append(">");
+		strb.append(logPath);
+		return strb;
+
 	}
 
 }

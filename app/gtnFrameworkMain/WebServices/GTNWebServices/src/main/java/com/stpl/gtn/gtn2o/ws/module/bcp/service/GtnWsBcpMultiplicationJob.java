@@ -33,7 +33,6 @@ public class GtnWsBcpMultiplicationJob implements Runnable {
 
 	@Override
 	public void run() {
-
 		try {
 			StringBuilder updatedLine = new StringBuilder();
 			if ("Rolling Annual Trend".equals(gtnWsBcpServiceBean.getMethodology())) {

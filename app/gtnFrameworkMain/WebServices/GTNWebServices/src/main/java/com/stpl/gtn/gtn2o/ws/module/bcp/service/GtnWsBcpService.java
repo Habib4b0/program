@@ -49,26 +49,24 @@ public class GtnWsBcpService {
 		boolean salesFlag = gtnWsBcpServiceBean.getSalesFlag();
 		List<Object[]> peocedureResultList = gtnWsSqlService.getResultFromProcedure("PRC_GROWTH_CALCULATION",
 				gtnWsBcpServiceBean.getProcedureInputs());
-		final List<String> fileList = new ArrayList<>();
 
-		List<Closeable> fileOperationList = new ArrayList<>();
-
-		final AtomicInteger atomicInteger = new AtomicInteger();
-		GtnWsThreadLocalImpl threadLocalImpl = new GtnWsThreadLocalImpl(atomicInteger, fileList, fileOperationList);
-
-		ExecutorService executorService = Executors.newFixedThreadPool(5);
-
-		int count = 0;
-		AtomicInteger aint = new AtomicInteger();
-		List<Future> task = new ArrayList<>();
 
 		try {
-
-			List<Object[]> objectList = new ArrayList<>();
-			Semaphore sema = new Semaphore(5);
-			String lastCCP = StringUtils.EMPTY;
-			boolean isProcessAllowed = false;
 			if (!peocedureResultList.isEmpty()) {
+				final List<String> fileList = new ArrayList<>();
+				List<Closeable> fileOperationList = new ArrayList<>();
+				final AtomicInteger atomicInteger = new AtomicInteger();
+				GtnWsThreadLocalImpl threadLocalImpl = new GtnWsThreadLocalImpl(atomicInteger, fileList,
+						fileOperationList);
+				ExecutorService executorService = Executors.newFixedThreadPool(5);
+				int count = 0;
+				AtomicInteger aint = new AtomicInteger();
+				List<Future> task = new ArrayList<>();
+				List<Object[]> objectList = new ArrayList<>();
+				Semaphore sema = new Semaphore(5);
+				String lastCCP = StringUtils.EMPTY;
+				boolean isProcessAllowed = false;
+
 				for (Object[] object : peocedureResultList) {
 					if (!String.valueOf(object[0]).equals(lastCCP)) {
 						count++;
@@ -96,13 +94,9 @@ public class GtnWsBcpService {
 				executorService.shutdown();
 				executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
 
-				finalFile += "/Cumulative_Multiplication_disc" + userId + "_" + sessionId + ".csv";
-				if (salesFlag) {
-					finalFile += "/Cumulative_Multiplication_sales" + userId + "_" + sessionId + ".csv";
-				}
-
-				mergeFiles(fileList, finalFile, fileOperationList, gtnWsBcpServiceBean.getFolderName());
-				uploadFiles(finalFile, bcpServiceRequest);
+				String finalFileName = getFinalFileName(salesFlag, userId, sessionId, finalFile);
+				mergeFiles(fileList, finalFileName, fileOperationList, gtnWsBcpServiceBean.getFolderName());
+				uploadFiles(finalFileName, bcpServiceRequest);
 			}
 
 		} catch (Exception ex) {
@@ -119,7 +113,15 @@ public class GtnWsBcpService {
 		bcpFileUploader.uploadFiles(finalFileParam, bcpServiceRequest);
 	}
 
-
+	public String getFinalFileName(boolean salesFlag, String userId, String sessionId, String finalFile) {
+		String finalFileName = finalFile;
+		if (salesFlag) {
+			finalFileName += "/Cumulative_Multiplication_sales" + userId + "_" + sessionId + ".csv";
+		} else {
+			finalFileName += "/Cumulative_Multiplication_disc" + userId + "_" + sessionId + ".csv";
+		}
+		return finalFileName;
+	}
 }
 
 
