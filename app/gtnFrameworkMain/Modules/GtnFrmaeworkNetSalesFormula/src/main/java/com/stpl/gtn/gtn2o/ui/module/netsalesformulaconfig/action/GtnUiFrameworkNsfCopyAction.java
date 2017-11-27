@@ -41,6 +41,7 @@ public class GtnUiFrameworkNsfCopyAction implements GtnUIFrameWorkAction, GtnUIF
 		String addViewId = (String) actionParemeterList.get(2);
 		GtnWsRecordBean editRecordBean = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(viewId + "netSalesSearchResultTable").getValueFromPagedDataTable();
+                GtnUIFrameworkGlobalUI.addSessionProperty("mode", "copy");
 		if (editRecordBean == null) {
 			GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 			alertActionConfig.setActionType(GtnUIFrameworkActionType.TABLE_ALERT_ACTION);
