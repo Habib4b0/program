@@ -177,35 +177,39 @@ public class GtnFrameworkItemMasterSaveAction
 		if (baseCpi != null) {
 			infoBean.setBaseCpi(baseCpi);
 		}
-		boolean emptyCheckAcquiredAmp = isEmpty(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabAcquiredAMP").getObjectFromField()));
-		Integer acquiredAmp = emptyCheckAcquiredAmp ? null
-				: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("additionalInformationTabAcquiredAMP").getObjectFromField()));
+		Integer acquiredAmp = isEmpty(
+				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
+						.getObjectFromField()))
+								? null
+								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+										.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
+										.getObjectFromField()));
 		if (acquiredAmp != null) {
 			infoBean.setAcquiredAmp(acquiredAmp);
 		}
-		boolean emptyCheckAcquiredBamp = isEmpty(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP").getObjectFromField()));
-		Integer acquiredBamp = emptyCheckAcquiredBamp ? null
-				: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP").getObjectFromField()));
+		Integer acquiredBamp = isEmpty(
+				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
+						.getObjectFromField()))
+								? null
+								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+										.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
+										.getObjectFromField()));
 		if (acquiredBamp != null) {
 			infoBean.setAcquiredBamp(acquiredBamp);
 		}
-		boolean emptyCheckDra = isEmpty(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
-		Integer dra = emptyCheckDra ? null
-				: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
+		Integer dra = isEmpty(String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()))
+						? null
+						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
 		if (dra != null) {
 			infoBean.setDra(dra);
 		}
-		boolean emptyCheckObraBamp = isEmpty(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
-		Integer obraBamp = emptyCheckObraBamp ? null
-				: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
-						.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
+		Integer obraBamp = isEmpty(String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()))
+						? null
+						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
 		if (obraBamp != null) {
 			infoBean.setObraBamp(obraBamp);
 		}

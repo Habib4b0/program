@@ -39,6 +39,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String DESCRIPTION = "DESCRIPTION";
 	public static final String DATE = "Date";
 	public static final String DOUBLE= "java.lang.Double";
+	public static final String JAVA_LANG_INTEGER = "java.lang.Integer";
+
 
 	/*
 	 * Webservice Constant
