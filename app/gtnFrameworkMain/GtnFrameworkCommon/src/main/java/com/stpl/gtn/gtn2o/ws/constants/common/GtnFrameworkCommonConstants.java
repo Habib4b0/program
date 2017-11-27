@@ -676,7 +676,9 @@ public class GtnFrameworkCommonConstants {
 	public static final String VERSION_NO = "versionNo";
 	public static final String RELATIONSHIP_TYPE = "relationshipType";
 	public static final String REMOVE_FROM_TREE_BTN = "removeFromTreeBtn";
+	public static final String TREE_PANEL = "treePanel";
 	public static final String TREE_RESULT_LAYOUT = "treeResultLayout";
+	public static final String TREE_HORIZONTAL_RESULT_LAYOUT = "treeHorizontalResultLayout";
 	public static final String MAIN_CSS_LAYOUT = "mainCssLayout";
 	public static final String MAIN_HIERARCHY_CSS_LAYOUT = "mainHierarchyCssLayout";
 	public static final String RB_TREE = "rbTree";
