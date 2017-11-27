@@ -3353,7 +3353,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						} catch (
 
 						Exception e) {
-							
+
 							LOGGER.error(e);
 						}
 					} else {

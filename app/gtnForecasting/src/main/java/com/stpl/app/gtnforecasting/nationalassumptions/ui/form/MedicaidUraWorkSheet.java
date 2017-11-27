@@ -1126,12 +1126,12 @@ public class MedicaidUraWorkSheet extends Window {
                     secondEditedNotes.clear();
                 }
                 if (!thirdAdjustedValues.isEmpty()) {
-                    queryUtil.saveNotes(thirdAdjustedValues,sessionDTO, projectionDTO.getNdc9(), CPIU_LABEL);
+                    queryUtil.saveNotes(thirdAdjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);
                     adjustFlag = true;
                     thirdAdjustedValues.clear();
                 }
                 if (!thirdEditedNotes.isEmpty()) {
-                    queryUtil.saveNotes(thirdEditedNotes, sessionDTO, projectionDTO.getNdc9(), CPIU_LABEL);
+                    queryUtil.saveNotes(thirdEditedNotes, sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);
                     notesFlag = true;
                     thirdEditedNotes.clear();
                 }
@@ -1213,7 +1213,7 @@ public class MedicaidUraWorkSheet extends Window {
 
     private void callAdjustmentProcedure() {
         try {
-            String priceType = "AMP,BEST PRICE,CPI-U";
+            String priceType = "AMP,BEST PRICE";
             medLogic.workSheetSetupCook(projectionDTO.getNdcSid().getId(), priceType, "MEDICAID URA", projectionDTO.getNdc9(),sessionDTO);
         } catch (Exception ex) {
             LOGGER.error(ex);
