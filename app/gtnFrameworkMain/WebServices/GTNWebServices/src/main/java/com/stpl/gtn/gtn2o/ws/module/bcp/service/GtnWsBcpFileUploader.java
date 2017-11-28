@@ -17,7 +17,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
-import com.stpl.gtn.gtn2o.ws.util.GtnWsProcessUtil;
 
 @Service
 public class GtnWsBcpFileUploader {
@@ -62,7 +61,7 @@ public class GtnWsBcpFileUploader {
 			command = createWindowsCommand(newTableName, finalFile, schemaName, serverName, userName, password,
 					logPath);
 			commandArray[2] = command.toString();
-			builder = GtnWsProcessUtil.createProcess(commandArray);
+			builder = GtnWsProcessService.createProcess(commandArray);
 		} else {
 			query = newTableName + " IN ";
 			StringBuilder strb = new StringBuilder();
@@ -80,7 +79,7 @@ public class GtnWsBcpFileUploader {
 			GTNLOGGER.debug(Boolean.toString(isExecutable) + isWritable + isReadable);
 			commandArray = new String[1];
 			commandArray[0] = shellFile.getAbsolutePath();
-			builder = GtnWsProcessUtil.createProcess(commandArray);
+			builder = GtnWsProcessService.createProcess(commandArray);
 			File dir = GtnFileNameUtils.getFile(cumulativeBasePath);
 			if (!dir.exists()) {
 				dir.mkdir();
