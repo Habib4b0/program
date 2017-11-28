@@ -38,7 +38,7 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		Map<String, String> mandatoryCheckMessageMap = configureMsgMap();
+		Map<String, String> mandatoryCheckMessageMap = configureMessageMap();
 
 		String message = validatesFieldsForPP(mandatoryCheckMessageMap);
 
@@ -49,10 +49,10 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 	}
 
-	private Map<String, String> configureMsgMap() {
+	private Map<String, String> configureMessageMap() {
 		Map<String, String> validationMessageMap = new HashMap<>();
 		validationMessageMap.put(GtnFrameworkCommonConstants.TEMP_COUNT,
-				"Add atleast One Item in Item Addition tab for PS");
+				GtnFrameworkCommonConstants.PS_ALERT_MSG);
 		validationMessageMap.put(GtnFrameworkCommonConstants.TEMP_CHECKED_COUNT,
 				"Select atleast one Item in Price Protection tab for PS");
 		validationMessageMap.put("PPStartDateNull", " Price Protection Start Date  required for selected Item");
