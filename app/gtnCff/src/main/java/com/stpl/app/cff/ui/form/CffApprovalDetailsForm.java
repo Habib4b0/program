@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -134,7 +134,8 @@ public class CffApprovalDetailsForm extends CustomWindow {
     boolean flag = false;
     CFFLogic cffLogic = new CFFLogic();
     Boolean isApproved = false;
-	private boolean filterOptionLoaded = false;
+
+    private boolean filterOptionLoaded = false;
 
     /**
      * scenarioModeling form constructor
@@ -263,6 +264,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                         projectionVariance.uomLoadingTabChange();
                     }
+
                     if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction()) && !filterOptionLoaded) {
                         projectionVariance.loadAllDdbls();
                         filterOptionLoaded=true;

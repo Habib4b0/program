@@ -182,6 +182,12 @@ public class FileManagementLookup extends Window {
 	@UiField("summaryPanel")
 	private Panel summaryPanel;
 
+	@UiField("cssLayout")
+	private CssLayout cssLayout;
+
+	@UiField("cssLayoutForecastSection")
+	private CssLayout cssLayoutForecastSection;
+
 	private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
 
 	private ExtPagedTable resultsFilterTable = new ExtPagedTable(tableLogic);
@@ -272,10 +278,8 @@ public class FileManagementLookup extends Window {
 	private FileManagementLogic logic = new FileManagementLogic();
 	private HelperDTO helperFileType;
 	private SessionDTO sessionDTO;
-        
 	@UiField("viewBtn")
 	private Button viewBtn;
-        
 	@UiField("searchPanel")
 	private Panel searchPanel;
 
@@ -342,6 +346,9 @@ public class FileManagementLookup extends Window {
 	 *            the file type
 	 * @param country
 	 *            the country
+         * @param sessionDTO
+         * @param isDetails
+         * @param businessUnit
 	 */
 	public FileManagementLookup(final FileMananagementResultDTO fileMgtIndexDTO, final TextField selectFile,
 			final ComboBox fileType, final String country, final SessionDTO sessionDTO, final boolean isDetails,
@@ -522,8 +529,8 @@ public class FileManagementLookup extends Window {
 		this.detailsFlag = detailsFlag;
 	}
 
-	private CommonUtil commonUtil = new CommonUtil();
-	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+	CommonUtil commonUtil = new CommonUtil();
+	CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	public void init() {
 		try {
@@ -1586,6 +1593,11 @@ public class FileManagementLookup extends Window {
 			remove.setEnabled(true);
 			save.setEnabled(true);
 		}
+                if(CommonUtil.getSelectedFileType(fmFileType).getDescription().equals(ConstantsUtils.CUSTOMERGTS)){
+                    addLine.setEnabled(false);
+                    remove.setEnabled(false);
+                    save.setEnabled(false);
+                }
 		detailsBean.removeAllItems();
 
 		detailsResultDTO.setFileName(String.valueOf(fileNameList.getValue()));
@@ -2583,7 +2595,7 @@ public class FileManagementLookup extends Window {
 
 	public void formatData(Object propertyId) {
 
-		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE)) {
+		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE) && !"priceType".equals(String.valueOf(propertyId))) {
 			detailsFilterTable.setConverter(propertyId, priceFormat);
 		} else if (String.valueOf(propertyId).contains(ConstantsUtils.UNITS)) {
 			detailsFilterTable.setConverter(propertyId, unitsFormat);

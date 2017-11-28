@@ -2784,7 +2784,7 @@ WHERE
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
                 ORDER BY
-                        ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+                        ? ,IMTD.IMTD_ITEM_PRICE_REBATE_SID ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
 		</query>
 	</entity>
@@ -7647,6 +7647,20 @@ SELECT
 			@SESSION_ID VARCHAR(10)=?
 			
 			select count(1) from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS where USERS_SID=@USERS_SID AND SESSION_ID= @SESSION_ID and CHECK_RECORD = 1 and ADD_COPY_INDICATOR = 'A';
+		]]>
+		</query>
+	</entity>
+        <entity id="contractPriceProtectionStartDateAlertQuery">
+		<query> 
+            <![CDATA[ 
+			DECLARE 
+			@USERS_SID VARCHAR(10) = ?,
+			@SESSION_ID VARCHAR(10)=?
+			
+			Select MAX(mycount) from
+                        (SELECT ITEM_ID,COUNT(PRICE_PROTECTION_START_DATE)mycount
+                        FROM dbo.IMTD_ITEM_PRICE_REBATE_DETAILS where USERS_SID=@USERS_SID AND SESSION_ID= @SESSION_ID
+                        GROUP BY PRICE_PROTECTION_START_DATE,ITEM_ID) a
 		]]>
 		</query>
 	</entity>

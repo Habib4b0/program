@@ -39,6 +39,8 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String DESCRIPTION = "DESCRIPTION";
 	public static final String DATE = "Date";
 	public static final String DOUBLE= "java.lang.Double";
+	public static final String JAVA_LANG_INTEGER = "java.lang.Integer";
+
 
 	/*
 	 * Webservice Constant
@@ -118,6 +120,7 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String EXCEPTION_WHILE_EXCUTING_DELETE_ITEM_MASTER = "Exception while Excuting deleteItemMaster Query";
 	public static final String ENTER_DELETE_ITEM_MASTER = "Enter deleteItemMaster";
 	public static final String ITEM_MASTER_SID = "itemMasterSid";
+    public static final String ITEM_MASTER_SID_COLUMN = "ITEM_MASTER_SID";
 	public static final String EXCEPTION_IN_CHECK_ITEM_IDENTIFIER_QUALFIER_V = "Exception in checkItemIdentifierQualfierValueExist ";
 	public static final String BMBRAND_NAME = "BM.BRAND_NAME";
 	public static final String STADESCRIPTION = "STA.DESCRIPTION";

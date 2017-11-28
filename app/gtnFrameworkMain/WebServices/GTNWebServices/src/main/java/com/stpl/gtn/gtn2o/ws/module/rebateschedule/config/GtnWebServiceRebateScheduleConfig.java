@@ -132,12 +132,12 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnStringConfig("RS_TRANS_REF_ID", "RSM"));
 		fieldToColumnDetailsMap.put("rSTransactionReferenceName",
 				configProvider.getColumnStringConfig("RS_TRANS_REF_NAME", "RSM"));
-		fieldToColumnDetailsMap.put("rsUDC1", configProvider.getColumnStringConfig("UDC1", "UDCS"));
-		fieldToColumnDetailsMap.put("rsUDC2", configProvider.getColumnStringConfig("UDC2", "UDCS"));
-		fieldToColumnDetailsMap.put("rsUDC3", configProvider.getColumnStringConfig("UDC3", "UDCS"));
-		fieldToColumnDetailsMap.put("rsUDC4", configProvider.getColumnStringConfig("UDC4", "UDCS"));
-		fieldToColumnDetailsMap.put("rsUDC5", configProvider.getColumnStringConfig("UDC5", "UDCS"));
-		fieldToColumnDetailsMap.put("rsUDC6", configProvider.getColumnStringConfig("UDC6", "UDCS"));
+		fieldToColumnDetailsMap.put("rsUDC1", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC1"));
+		fieldToColumnDetailsMap.put("rsUDC2", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC2"));
+		fieldToColumnDetailsMap.put("rsUDC3", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC3"));
+		fieldToColumnDetailsMap.put("rsUDC4", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC4"));
+		fieldToColumnDetailsMap.put("rsUDC5", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC5"));
+		fieldToColumnDetailsMap.put("rsUDC6", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "UDC6"));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
@@ -228,8 +228,8 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				configProvider.getColumnStringConfig("USERS_SID", GtnFrameworkWebserviceConstant.IMTD_RSD));
 		fieldToColumnDetailsMap.put("sessionId",
 				configProvider.getColumnStringConfig("SESSION_ID", GtnFrameworkWebserviceConstant.IMTD_RSD));
-		fieldToColumnDetailsMap.put("description",
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, GtnFrameworkWebserviceConstant.HT));
+		fieldToColumnDetailsMap.put("description", configProvider
+				.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, GtnFrameworkWebserviceConstant.HT));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(fieldToColumnDetailsMap);
 
@@ -245,7 +245,7 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				+ "LEFT JOIN dbo.NET_SALES_FORMULA_MASTER NET_SALES_FORMULA ON NET_SALES_FORMULA.NET_SALES_FORMULA_MASTER_SID=IMTD_RSD.NET_SALES_FORMULA_MASTER_SID\n"
 				+ "LEFT JOIN dbo.FORECASTING_FORMULA FORMULA ON FORMULA.FORECASTING_FORMULA_SID=IMTD_RSD.RS_DETAILS_FORMULA_ID "
 				+ "LEFT JOIN dbo.ITEM_MASTER IM ON IMTD_RSD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID "
-                                + "LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID=IMTD_RSD.RS_DETAILS_ATTACHED_STATUS\n");
+				+ "LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID=IMTD_RSD.RS_DETAILS_ATTACHED_STATUS\n");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery("  from dbo.IMTD_RS_DETAILS IMTD_RSD\n"
 				+ "LEFT JOIN dbo.DEDUCTION_CALENDAR_MASTER DEDUCTION_CALENDAR ON DEDUCTION_CALENDAR.DEDUCTION_CALENDAR_MASTER_SID=IMTD_RSD.DEDUCTION_CALENDAR_MASTER_SID\n"
@@ -255,7 +255,7 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 				+ "LEFT JOIN dbo.NET_SALES_FORMULA_MASTER NET_SALES_FORMULA ON NET_SALES_FORMULA.NET_SALES_FORMULA_MASTER_SID=IMTD_RSD.NET_SALES_FORMULA_MASTER_SID\n"
 				+ "LEFT JOIN dbo.FORECASTING_FORMULA FORMULA ON FORMULA.FORECASTING_FORMULA_SID=IMTD_RSD.RS_DETAILS_FORMULA_ID "
 				+ "LEFT JOIN dbo.ITEM_MASTER IM ON IMTD_RSD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID "
-                                + "LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID=IMTD_RSD.RS_DETAILS_ATTACHED_STATUS\n");
+				+ "LEFT JOIN HELPER_TABLE HT on HT.HELPER_TABLE_SID=IMTD_RSD.RS_DETAILS_ATTACHED_STATUS\n");
 
 		searchQueryConfigMap.put("rebateScheduleRebateSetup", gtnWebServiceSearchQueryContext);
 
@@ -350,8 +350,8 @@ public class GtnWebServiceRebateScheduleConfig implements GtnWsSearchQueryConfig
 
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMap = new HashMap<>();
 		fieldToColumnDetailsMap.put(GtnFrameworkWebserviceConstant.RULE_NAME_PROPERTY,
-				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.EVA_RULE_NAME, GtnFrameworkWebserviceConstant.EVALUATION_RULE,
-						GtnFrameworkWebserviceConstant.EVA_RULE_NAME));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.EVA_RULE_NAME,
+						GtnFrameworkWebserviceConstant.EVALUATION_RULE, GtnFrameworkWebserviceConstant.EVA_RULE_NAME));
 		fieldToColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID, configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.EVALUATION_RULE, GtnFrameworkWebserviceConstant.IMTD_RSD));
 

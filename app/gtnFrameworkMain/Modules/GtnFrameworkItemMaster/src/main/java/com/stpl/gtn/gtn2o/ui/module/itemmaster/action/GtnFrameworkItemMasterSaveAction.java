@@ -157,14 +157,16 @@ public class GtnFrameworkItemMasterSaveAction
 		if (upps != null) {
 			infoBean.setUpps(upps);
 		}
-             String itemType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabItemType").getCaptionFromComboBox();
-            Object ndc9Value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemInformationTabValueDropDown").getObjectFromField();
-            boolean isNDC11 = "NDC-11".equals(itemType);
-            if (!isNDC11) {
-                infoBean.setNdc9("0");
-            } else {
-                infoBean.setNdc9(String.valueOf(ndc9Value));
-            }
+		String itemType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabItemType")
+				.getCaptionFromComboBox();
+		Object ndc9Value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpItemInformationTabValueDropDown")
+				.getObjectFromField();
+		boolean isNDC11 = "NDC-11".equals(itemType);
+		if (!isNDC11) {
+			infoBean.setNdc9("0");
+		} else {
+			infoBean.setNdc9(String.valueOf(ndc9Value));
+		}
 		Double baselineAmp = toDouble(String.valueOf(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("additionalInformationTabBaselineAMP").getObjectFromField()));
 		if (baselineAmp != null) {
@@ -175,23 +177,39 @@ public class GtnFrameworkItemMasterSaveAction
 		if (baseCpi != null) {
 			infoBean.setBaseCpi(baseCpi);
 		}
-		Double acquiredAmp = toDouble(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabAcquiredAMP").getObjectFromField()));
+		Integer acquiredAmp = isEmpty(
+				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
+						.getObjectFromField()))
+								? null
+								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+										.getVaadinBaseComponent("additionalInformationTabAcquiredAMP")
+										.getObjectFromField()));
 		if (acquiredAmp != null) {
 			infoBean.setAcquiredAmp(acquiredAmp);
 		}
-		Double acquiredBamp = toDouble(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP").getObjectFromField()));
+		Integer acquiredBamp = isEmpty(
+				String.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
+						.getObjectFromField()))
+								? null
+								: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+										.getVaadinBaseComponent("additionalInformationTabAcquiredBAMP")
+										.getObjectFromField()));
 		if (acquiredBamp != null) {
 			infoBean.setAcquiredBamp(acquiredBamp);
 		}
-		Double dra = toDouble(String.valueOf(
-				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
+		Integer dra = isEmpty(String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()))
+						? null
+						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								.getVaadinBaseComponent("additionalInformationTabDRA").getObjectFromField()));
 		if (dra != null) {
 			infoBean.setDra(dra);
 		}
-		Double obraBamp = toDouble(String.valueOf(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
+		Integer obraBamp = isEmpty(String.valueOf(
+				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()))
+						? null
+						: Integer.parseInt(String.valueOf(GtnUIFrameworkGlobalUI
+								.getVaadinBaseComponent("additionalInformationTabOBRABAMP").getObjectFromField()));
 		if (obraBamp != null) {
 			infoBean.setObraBamp(obraBamp);
 		}
@@ -222,6 +240,10 @@ public class GtnFrameworkItemMasterSaveAction
 		itemMasterBean.setGtnWsItemIdentifierBeanList(identifierSaveList);
 
 		return itemMasterBean;
+	}
+
+	private boolean isEmpty(String textBoxValue) {
+		return (textBoxValue == null || textBoxValue.equals(""));
 	}
 
 	private void loadNotesTab(List<NotesTabBean> noteBeanList, List<NotesDTO> notesDTOs)

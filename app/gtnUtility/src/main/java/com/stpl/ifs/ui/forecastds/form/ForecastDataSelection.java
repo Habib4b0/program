@@ -1228,6 +1228,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	public abstract void loadProductVersionNo(Object selectedProductRelation);
 
 	public abstract void loadCustomerVersionNo(Object selectedProductRelation);
+	
+	protected abstract void loadForecastLevels(List<Leveldto> innerLevels, IndexedContainer productForecastLevelContainer, ComboBox level, int hierarchySid, int hierarchyVersion);
+
 
 	/**
 	 * Adds a default native select with only -Select One- in list
@@ -1598,7 +1601,6 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
 				try {
-					loadCustomerVersionNo(customerRelationComboBox.getValue());
 					levelValueChangeListener(event.getProperty().getValue());
 				} catch (ClassNotFoundException | CloneNotSupportedException | IOException e) {
 					LOGGER.error(e + " - in resetBtn");
@@ -1611,6 +1613,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				LOGGER.debug("customerRelation - ValueChangeListener ");
 				customerRelationValueChange(event.getProperty().getValue());
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			}
 		});
 	}
@@ -1700,7 +1703,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				String selectedLevel = String.valueOf(event.getProperty().getValue());
 				LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
-				loadProductVersionNo(productRelation.getValue());
+
 				productLevelDdlbValueChange(selectedLevel, false);
 			}
 		});
@@ -1708,7 +1711,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		productRelation.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
+
 				productRelationValueChange(event.getProperty().getValue());
+				loadProductVersionNo(event.getProperty().getValue());
 			}
 
 		});

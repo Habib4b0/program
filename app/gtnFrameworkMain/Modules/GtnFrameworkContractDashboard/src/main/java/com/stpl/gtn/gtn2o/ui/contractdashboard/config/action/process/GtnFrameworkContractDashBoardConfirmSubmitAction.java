@@ -10,10 +10,12 @@ import java.util.Date;
 import com.stpl.gtn.gtn2o.ui.contractdashboard.config.action.GtnFrameworkSessionManagerAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.workflow.GtnWsBpmCommonConstants;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.beans.GtnWsContractDashboardProcessBean;
@@ -27,6 +29,8 @@ import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.contract.GtnWsContractDashboardResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -44,6 +48,8 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+            boolean var = contractPriceProtectionStartDateAlert(componentId);
+            if (!var) {
 		GtnWsContractDashboardSessionBean processDataBean = GtnFrameworkSessionManagerAction
 				.getDashboardSessionBean(componentId);
 
@@ -84,6 +90,7 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 		}
 		GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.ALERT_ACTION,
 				cdResponse.getMessageHeader(), cdResponse.getMessage());
+            }
 	}
 
 	private void getModifiedWorkFlowRequest(GtnWsCommonWorkflowRequest workflowRequest,
@@ -114,6 +121,43 @@ public class GtnFrameworkContractDashBoardConfirmSubmitAction
 	private String createContractStructure(GtnWsContractDashboardProcessBean processBean) {
 		return "C" + processBean.getCfpContractId() + "|I" + processBean.getIfpContractId() + "|P"
 				+ processBean.getPsContractId() + "|R" + processBean.getRsContractId();
+	}
+        public boolean contractPriceProtectionStartDateAlert(String componentId)
+			throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
+		GtnWsGeneralRequest gtnWsGeneralRequest = new GtnWsGeneralRequest();
+		GtnWsContractDashboardSessionBean contractPsInfoBean = new GtnWsContractDashboardSessionBean();
+
+		gtnWsGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
+		gtnWsGeneralRequest.setSessionId(
+				GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+
+		GtnWsContractDashboardRequest getGtnWsContractGeneralRequest = new GtnWsContractDashboardRequest();
+		List<Object> inpList = new ArrayList<>();
+		inpList.add(GtnUIFrameworkGlobalUI.getCurrentUser());
+		inpList.add(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+		gtnWsGeneralRequest.setComboBoxWhereclauseParamList(inpList);
+		getGtnWsContractGeneralRequest.setContractDashboardBean(contractPsInfoBean);
+		request.setGtnWsContractDashboardRequest(getGtnWsContractGeneralRequest);
+		GtnUIFrameworkWebserviceResponse responseStartDateContract = wsclient.callGtnWebServiceUrl(
+				"/" + GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE+ "/contractPriceProtectionStartDateAlert", request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
+		int responseResult = Integer.parseInt(String.valueOf(responseStartDateContract.getOutBountData()[0]));
+		if (responseResult > 1) {
+			GtnUIFrameWorkActionConfig startDateAlertActionConfig = new GtnUIFrameWorkActionConfig();
+			startDateAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
+			List<Object> alertMsgParamList = new ArrayList<>();
+			alertMsgParamList.add("Error");
+			alertMsgParamList.add(
+					"For the same Item, the ‘Price Protection Start Date’ field cannot have the same month/year combination across multiple records.");
+			startDateAlertActionConfig.setActionParameterList(alertMsgParamList);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, startDateAlertActionConfig);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
