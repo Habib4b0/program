@@ -12,7 +12,7 @@ import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomat
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.server.VaadinSession;
 
-public class GtnAutomaticRelationServiceRunnable implements Callable {
+public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 
 	private Object value;
 	private int hierarchySid;
@@ -40,7 +40,7 @@ public class GtnAutomaticRelationServiceRunnable implements Callable {
 	}
 
 	@Override
-	public Object call() throws Exception {
+	public Boolean call() throws Exception {
 		if (value == null)
 			return Boolean.FALSE;
 

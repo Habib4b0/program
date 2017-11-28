@@ -411,6 +411,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		return masterSidList;
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<Object> getMasterSidList(GtnUIFrameworkWebserviceRequest gtnWsRequest,
 			List<HierarchyLevelDefinitionBean> hierarchyList) {
 		final int levelNo = Integer.parseInt(

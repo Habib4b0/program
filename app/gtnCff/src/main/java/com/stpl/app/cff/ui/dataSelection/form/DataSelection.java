@@ -297,13 +297,15 @@ public class DataSelection extends AbstractDataSelection {
 		try {
 			availableCustomerContainer.removeAllItems();
 			String levelName = StringConstantsUtil.LEVEL;
-			customerFuture.get();
-			int relationVersionNo = Integer.parseInt(
-					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-			int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 			int forecastLevel = 0;
 			if (value != null && customerRelation.getValue() != null
 					&& !SELECT_ONE.equals(customerRelation.getValue())) {
+				customerFuture.get();
+				int relationVersionNo = Integer.parseInt(
+						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+				customerDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(customerRelation.getValue()),
+						customerHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				String selectedLevel = String.valueOf(value);
 				String relationshipSid = String.valueOf(customerRelation.getValue());
 				String[] val = selectedLevel.split(" ");
@@ -382,11 +384,7 @@ public class DataSelection extends AbstractDataSelection {
 				setRelationshipBuilderSids(String.valueOf(customerRelation.getValue()));
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationVersionComboBox.getValue(),
 						customerHierarchyDto.getHierarchyId());
-				int relationVersionNo = Integer.parseInt(
-						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-				customerDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(customerRelation.getValue()),
-						customerHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
+
 			} catch (Exception ex) {
 				LOGGER.error(ex + " in customerRelation value change");
 			}
@@ -3057,9 +3055,9 @@ public class DataSelection extends AbstractDataSelection {
 			List<Leveldto> selectedCustomerContractList;
 			String levelName = StringConstantsUtil.LEVEL;
 			List<Leveldto> resultedLevelsList;
-			productFuture.get();
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
+				productFuture.get();
 				int productRelationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				String customerVersionNo = customerRelationVersionComboBox
@@ -3975,11 +3973,11 @@ public class DataSelection extends AbstractDataSelection {
 		return StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
+	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-		Future future = customerExecutorService.submit(wsClientRunnableTarget);
+		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();
 		return future;
 	}
