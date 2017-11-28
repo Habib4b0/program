@@ -341,7 +341,7 @@ public class GtnFrameworkCompanyMasterSearchConfig {
 		searchResults.setEditable(false);
 		searchResults.setFilterBar(true);
 		searchResults.setSelectable(true);
-                searchResults.setItemPerPage(10);
+		searchResults.setItemPerPage(10);
 		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setTableColumnDataType(new Class<?>[] { GtnFrameworkCommonConstants.JAVALANG_STRING,
 				GtnFrameworkCommonConstants.JAVALANG_STRING, GtnFrameworkCommonConstants.JAVALANG_STRING,

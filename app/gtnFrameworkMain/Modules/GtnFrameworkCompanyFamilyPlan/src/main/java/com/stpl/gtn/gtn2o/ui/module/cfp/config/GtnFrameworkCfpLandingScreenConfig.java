@@ -392,7 +392,7 @@ public class GtnFrameworkCfpLandingScreenConfig {
 				"cfpcreatedBy", "cfpcreatedDate" });
 		searchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.COMPANY_FAMILY_PLAN_SEARCH);
 		searchResultConfig.setGtnPagedTableConfig(searchResults);
-                searchResults.setSinkItemPerPageWithPageLength(false);
+		searchResults.setSinkItemPerPageWithPageLength(false);
 		searchResults.setDoubleClickEnable(true);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
