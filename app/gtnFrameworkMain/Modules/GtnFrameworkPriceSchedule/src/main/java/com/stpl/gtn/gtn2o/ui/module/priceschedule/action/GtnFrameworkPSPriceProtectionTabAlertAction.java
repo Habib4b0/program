@@ -5,11 +5,6 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.priceschedule.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
@@ -23,22 +18,25 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
- * @author Mahesh.James
+ * @author Deepika.krishnakumar
  */
-public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
-		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
+public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
-	public void configureParams(final GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		// empty method
 	}
 
 	@Override
-	public void doAction(final String componentId, final GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		Map<String, String> mandatoryCheckMsgMap = configureMsgMap();
 
@@ -49,7 +47,6 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 					"Information for the following Mandatory fields need to be provided: \n" + subMessage, componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
-
 	}
 
 	private Map<String, String> configureMsgMap() {
@@ -57,13 +54,12 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_COUNT,
 				"Add atleast One Item in Item Addition tab for PS");
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_CHECKED_COUNT,
-				"Select atleast one Item in Pricing tab for PS");
-		validationMsgMap.put("Status", "Status required for selected Item");
-		validationMsgMap.put("PriceType", "Price Type is required for selected Item");
-		validationMsgMap.put("CPStartDateNull", " CP Start Date  required for selected Item");
-		validationMsgMap.put("CPStartDateEqual", " Start Date is equal to CP End date for selected Item");
-		validationMsgMap.put("CPStartDateLess", " Start Date is lesser than CP End date for selected Item");
-
+				"Select atleast one Item in Price Protection tab for PS");
+		validationMsgMap.put("PPStartDateNull", " Price Protection Start Date  required for selected Item");
+		validationMsgMap.put("PPStartDateEqual",
+				" Price Protection Start Date and Price Protection End date should not be equal for selected Item");
+		validationMsgMap.put("PPStartDateLess",
+				" Price Protection Start Date is less than Price Protection End date for selected Item");
 		return validationMsgMap;
 	}
 
@@ -97,7 +93,7 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 		generalWSRequest.setComboBoxWhereclauseParamList(inputList);
 
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_VALIDATION_SERVICE, request,
+				"/" + GtnWsCDRContants.PS_SERVICE + "/" + GtnWsCDRContants.PS_PP_VALIDATION_SERVICE, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 		int result = Integer.parseInt(String.valueOf(response.getOutBountData()[0]));
@@ -116,4 +112,5 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 	public GtnUIFrameWorkAction createInstance() {
 		return this;
 	}
+
 }
