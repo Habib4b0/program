@@ -467,7 +467,7 @@ public class GtnWsPriceScheduleController {
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+			psValidateSql.append("select   count(item_No) from dbo.Imtd_Ps_Details where ");
 
 		}
 		if (STATUS.equalsIgnoreCase(process)) {
@@ -476,27 +476,27 @@ public class GtnWsPriceScheduleController {
 			checkRecord = true;
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+			psValidateSql.append("select  count(item_No) from dbo.Imtd_Ps_Details where ");
 			checkRecord = true;
 		}
 		if (PRICE_TYPE.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
+					"select   count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate is  null and");
+					"select   count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate is  null and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_EQUAL.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate = ps_Dtls_Cont_Price_Enddate and");
+					"select    count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate = ps_Dtls_Cont_Price_Enddate and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_LESS.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate > ps_Dtls_Cont_Price_Enddate and");
+					"select   count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate > ps_Dtls_Cont_Price_Enddate and");
 			checkRecord = true;
 		}
 
@@ -507,8 +507,8 @@ public class GtnWsPriceScheduleController {
 			psValidateSql.append(" and session_Id='").append(sessionId).append("'");
 		}
 
-		if ("Price".equalsIgnoreCase(process) || "PPStartDateEqual".equalsIgnoreCase(process)
-				|| "PPStartDateLess".equalsIgnoreCase(process) || checkRecord) {
+		if ("Price".equalsIgnoreCase(process) || PP_START_DATE_EQUAL.equalsIgnoreCase(process)
+				|| PP_START_DATE_LESS.equalsIgnoreCase(process) || checkRecord) {
 			psValidateSql.append(" and check_record = 1");
 		}
 
@@ -716,8 +716,8 @@ public class GtnWsPriceScheduleController {
 			ppValidateSql.append(" and session_Id='").append(sessionId).append("'");
 		}
 
-		if ("Price".equalsIgnoreCase(process) || "PPStartDateEqual".equalsIgnoreCase(process)
-				|| "PPStartDateLess".equalsIgnoreCase(process) || checkRecord) {
+		if ("Price".equalsIgnoreCase(process) || PP_START_DATE_EQUAL.equalsIgnoreCase(process)
+				|| PP_START_DATE_LESS.equalsIgnoreCase(process) || checkRecord) {
 			ppValidateSql.append(" and check_record = 1");
 		}
 
