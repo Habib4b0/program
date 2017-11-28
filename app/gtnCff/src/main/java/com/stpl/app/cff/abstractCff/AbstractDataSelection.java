@@ -4,10 +4,25 @@
  */
 package com.stpl.app.cff.abstractCff;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.jboss.logging.Logger;
+import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
@@ -38,19 +53,6 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.TreeTable;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -1044,6 +1046,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
         level.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
+				
                 levelValueChangeListener(event.getProperty().getValue());
             }
         });
@@ -1052,8 +1055,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("customerRelation - ValueChangeListener ");
-                loadCustomerVersionNo(customerRelation.getValue());
-                customerRelationValueChange(event.getProperty().getValue());
+                loadCustomerVersionNo(customerRelation.getValue());                customerRelationValueChange(event.getProperty().getValue());
                 loadForecastLevels(innerCustLevels, customerInnerLevelContainer, level, customerHierarchyDto.getHierarchyId(),
                         Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
             }
@@ -1115,11 +1117,13 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
                          * @param buttonId The buttonId of the pressed button.
                          */
                         public void yesMethod() {
+							
                             productLevelValueChange(event.getProperty().getValue(), true);
                         }
                     }.getConfirmationMessage("Confirm Change", "You have selected a new Forecast Level. Are you sure you want to proceed? You will lose the current Customer/Product hierarchies if you continue.");
                 } else {
                     if (productLevelListenerFlag) {
+						
                         productLevelValueChange(event.getProperty().getValue(), false);
                     }
                 }
