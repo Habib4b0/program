@@ -1579,11 +1579,14 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             if (!pvSelectionDTO.isIsCustomHierarchy()) {
                 Collections.sort(hierarchyKeys);
             }
+            List<ProjectionVarianceDTO> varibaleListDetails = new ArrayList<>();
             for (Iterator<String> it = hierarchyKeys.listIterator(); it.hasNext();) {
                 String newKey = it.next();
                 it.remove();
-                List<ProjectionVarianceDTO> varibaleListDetails = resultMap.get(newKey);
-                resultMap.remove(newKey);
+                if (resultMap.containsKey(newKey)) {
+                    varibaleListDetails = resultMap.get(newKey);
+                    resultMap.remove(newKey);
+                }
                 Object parentItemId = null;
                 int index = 0;
                 for (Iterator<ProjectionVarianceDTO> it1 = varibaleListDetails.listIterator(); it1.hasNext();) {
@@ -1814,6 +1817,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             }
         } catch (Exception e) {
             LOGGER.error(e);
+            e.printStackTrace();
         }
         excelParentRecords.clear();
     }
