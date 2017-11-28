@@ -1536,7 +1536,6 @@ public class DataSelection extends ForecastDataSelection {
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
-				loadCustomerVersionNo(customerRelationComboBox.getValue());
 				int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
@@ -1772,7 +1771,6 @@ public class DataSelection extends ForecastDataSelection {
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				productFuture.get();
-				loadProductVersionNo(selectedLevel);
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));

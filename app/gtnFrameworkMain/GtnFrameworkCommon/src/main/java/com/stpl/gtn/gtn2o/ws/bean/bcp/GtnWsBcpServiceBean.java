@@ -15,7 +15,6 @@ public class GtnWsBcpServiceBean {
 	private String sessionId;
 	private String tableName;
 	private String currentDateInString;
-	private String finalFileName;
 	private String folderName;
 	
 	private Object[] procedureInputs;

@@ -67,10 +67,10 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean checkAutomaticRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
-		String query = gtnWsSqlService.getQuery("automaticRelationCheck");
-		List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
+		String customerQuery = gtnWsSqlService.getQuery("automaticRelationCheck");
+		List<Integer> productResultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(customerQuery,
 				new Object[] { relationshipBuilderSid }, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
-		return (int) resultData.get(0) == 1;
+		return (int) productResultData.get(0) == 1;
 	}
 
 	@Override
@@ -78,21 +78,21 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList) throws InterruptedException {
 
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
-		final ExecutorService executorService = Executors
+		final ExecutorService customerExecutorService = Executors
 				.newFixedThreadPool(hierarchyLevelDefinitionList.size() - firstLinkedLevelNo);
 		AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
-			GtnFramworkCheckForAutoUpdateRunnable runnableTarget = applicationContext
+			GtnFramworkCheckForAutoUpdateRunnable customerRunnableTarget = applicationContext
 					.getBean(GtnFramworkCheckForAutoUpdateRunnable.class);
-			runnableTarget.setAtomicBoolean(atomicBoolean);
-			runnableTarget.setHierarchyLevelDefinitionList(hierarchyLevelDefinitionList);
-			runnableTarget.setIndex(i);
-			runnableTarget.setRelationBean(relationBean);
-			executorService.submit(runnableTarget);
+			customerRunnableTarget.setAtomicBoolean(atomicBoolean);
+			customerRunnableTarget.setHierarchyLevelDefinitionList(hierarchyLevelDefinitionList);
+			customerRunnableTarget.setIndex(i);
+			customerRunnableTarget.setRelationBean(relationBean);
+			customerExecutorService.submit(customerRunnableTarget);
 		}
-		executorService.shutdown();
-		executorService.awaitTermination(5, TimeUnit.MINUTES);
+		customerExecutorService.shutdown();
+		customerExecutorService.awaitTermination(5, TimeUnit.MINUTES);
 		return atomicBoolean.get();
 	}
 
@@ -101,30 +101,30 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 			GtnWsRelationshipBuilderBean relationBean, String userId) throws GtnFrameworkGeneralException {
 		GtnFrameworkFileReadWriteService fileService = new GtnFrameworkFileReadWriteService();
 		int firstLinkedLevelNo = HierarchyLevelDefinitionBean.getFirstLinkedLevel(hierarchyLevelDefinitionList);
-		int updatedVersionNo = automaticService.insertRelationTillFirstLevelAndGetVersionNo(firstLinkedLevelNo,
+		int customertUpdatedVersionNo = automaticService.insertRelationTillFirstLevelAndGetVersionNo(firstLinkedLevelNo,
 				relationBean, userId);
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
-			HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(i);
-			GtnFrameworkHierarchyQueryBean hierarchyQuery = fileService.getQueryFromFile(
-					hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
-					hierarchyLevelBean.getVersionNo());
+			HierarchyLevelDefinitionBean customerHierarchyLevelBean = hierarchyLevelDefinitionList.get(i);
+			GtnFrameworkHierarchyQueryBean customerHierarchyQuery = fileService.getQueryFromFile(
+					customerHierarchyLevelBean.getHierarchyDefinitionSid(), customerHierarchyLevelBean.getHierarchyLevelDefinitionSid(),
+					customerHierarchyLevelBean.getVersionNo());
 			HierarchyLevelDefinitionBean previousHierarchyLevelBean = i > 0 ? hierarchyLevelDefinitionList.get(i - 1)
 					: null;
-			GtnFrameworkQueryGeneratorBean querygeneratorBean = hierarchyQuery.getQuery();
-			GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
+			GtnFrameworkQueryGeneratorBean querygeneratorBean = customerHierarchyQuery.getQuery();
+			GtnFrameworkQueryGeneraterServiceImpl customerQueryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 					selectService, joinService, whereService);
-			queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
-					updatedVersionNo, userId, i);
+			customerQueryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
+					customertUpdatedVersionNo, userId, i);
 			List<String> whereQueryList = automaticService.getRelationQueries(relationBean.getRelationshipBuilderSid(),
-					updatedVersionNo,
+					customertUpdatedVersionNo,
 					hierarchyLevelDefinitionList.subList(0, i).toArray(new HierarchyLevelDefinitionBean[i]));
-			List<Object> inputs = new ArrayList<>();
-			inputs.add(relationBean.getRelationshipBuilderSid());
-			inputs.add(previousHierarchyLevelBean == null ? "" : previousHierarchyLevelBean.getLevelNo());
-			inputs.add(updatedVersionNo);
-			inputs.addAll(whereQueryList);
+			List<Object> inputsList = new ArrayList<>();
+			inputsList.add(relationBean.getRelationshipBuilderSid());
+			inputsList.add(previousHierarchyLevelBean == null ? "" : previousHierarchyLevelBean.getLevelNo());
+			inputsList.add(customertUpdatedVersionNo);
+			inputsList.addAll(whereQueryList);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
-			String finalQuery = gtnWsSqlService.getReplacedQuery(inputs, querygeneratorBean.generateQuery());
+			String finalQuery = gtnWsSqlService.getReplacedQuery(inputsList, querygeneratorBean.generateQuery());
 			List<String> insertQueryInput = new ArrayList<>();
 			insertQueryInput.add(finalQuery);
 			String finalInsertQuery = gtnWsSqlService.getQuery(insertQueryInput,

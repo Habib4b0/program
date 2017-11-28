@@ -69,6 +69,7 @@ public class GtnWsPriceScheduleController {
 	private static final String PP_START_DATE_NULL = "PPStartDateNull";
 	private static final String PP_START_DATE_EQUAL = "PPStartDateEqual";
 	private static final String PP_START_DATE_LESS = "PPStartDateLess";
+        private static final String IMTD_PS_DETAILS_COUNT = "Imtd_Ps_Details_Count_query";
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsPriceScheduleController.class);
 
@@ -467,7 +468,8 @@ public class GtnWsPriceScheduleController {
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select   count(item_No) from dbo.Imtd_Ps_Details where ");
+
+			psValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 
 		}
 		if (STATUS.equalsIgnoreCase(process)) {
@@ -476,27 +478,27 @@ public class GtnWsPriceScheduleController {
 			checkRecord = true;
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select  count(item_No) from dbo.Imtd_Ps_Details where ");
+                         psValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 			checkRecord = true;
 		}
 		if (PRICE_TYPE.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select   count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
+					"select count(item_No) from dbo.Imtd_Ps_Details where ( ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select   count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate is  null and");
+					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate is  null and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_EQUAL.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select    count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate = ps_Dtls_Cont_Price_Enddate and");
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate = ps_Dtls_Cont_Price_Enddate and");
 			checkRecord = true;
 		}
 		if (CP_START_DATE_LESS.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select   count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate > ps_Dtls_Cont_Price_Enddate and");
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Dtls_Cont_Price_Startdate > ps_Dtls_Cont_Price_Enddate and");
 			checkRecord = true;
 		}
 
@@ -686,11 +688,11 @@ public class GtnWsPriceScheduleController {
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
-			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+                      ppValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
-			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+			ppValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 			checkRecord = true;
 		}
 		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
