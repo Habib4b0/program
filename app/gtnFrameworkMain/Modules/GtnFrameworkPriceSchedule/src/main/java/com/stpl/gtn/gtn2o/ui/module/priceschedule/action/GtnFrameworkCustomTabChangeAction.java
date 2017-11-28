@@ -50,7 +50,7 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 			GtnUIFrameworkPagedTableLogic previousTableLogic = componentData.getCurrentPageTableLogic();
 			currentTableLogic.setCheckedRecordCount(previousTableLogic.getCheckRecordCount());
 			Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-			if (mode != null && mode != GtnUIFrameworkModeType.VIEW) {
+			if (mode != null && (GtnUIFrameworkModeType.VIEW).equals(String.valueOf(mode))) {
 				boolean checkValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(previousTable).getExtPagedTable()
 						.getColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).getExtPagedTable()
