@@ -213,6 +213,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		} else {
 			loadPriceTabsForView(sysid, Boolean.TRUE);
 		}
+                
+                
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
 
@@ -225,9 +227,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		if ("Child".equals(pSDesignation)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
 		}
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LINE).setEnable(isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnRemoveLineButtonlayout").setEnable(isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnCopyLineButtonlayout").setEnable(isEditable);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionMainButtonLayout").setEnable(isEditable);
 		GtnUIFrameworkBaseComponent pricingResultDataTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE);
 		GtnUIFrameworkBaseComponent priceProtectionResultDataTable = GtnUIFrameworkGlobalUI

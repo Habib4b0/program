@@ -21,11 +21,12 @@ public class GtnWsAutomaticRelationController {
 	@Autowired
 	private GtnFrameworkAutomaticRelationUpdateService service;
 
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsAutomaticRelationController.class);
-
 	public GtnWsAutomaticRelationController() {
 		super();
 	}
+
+	private static final GtnWSLogger LOGGER = GtnWSLogger
+			.getGTNLogger(GtnFrameworkAutomaticRelationUpdateService.class);
 
 	@RequestMapping(value = GtnWebServiceUrlConstants.AUTOMATIC_RELATION_UPDATE, method = RequestMethod.POST)
 	public GtnUIFrameworkWebserviceResponse automaticRelationUpdate(
@@ -39,6 +40,7 @@ public class GtnWsAutomaticRelationController {
 			relationResponse.setRelationUpdate(isRelationUpdated);
 			generalResponse.setAutomaticRelationResponse(relationResponse);
 		} catch (GtnFrameworkGeneralException | InterruptedException ex) {
+			LOGGER.error("Error in automaticRelationUpdate", ex);
 			relationResponse.setRelationUpdate(false);
 		}
 		return generalResponse;

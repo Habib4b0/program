@@ -406,11 +406,11 @@ FROM   PROJECTION_CUST_HIERARCHY PCH
 	<entity id="DeductionRelationshipId">
 		<query> 
         <![CDATA[            
-        select
+        select  DISTINCT
 	RELATIONSHIP_BUILDER_SID,
 	HIERARCHY_DEFINITION_SID
 from
-	dbo.RELATIONSHIP_BUILDER
+	RELATIONSHIP_BUILDER
 where
 	DEDUCTION_RELATION = ?;
          ]]>

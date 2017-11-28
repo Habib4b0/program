@@ -243,7 +243,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			} else {
 				ruleDetailBean.setTo(getDoubleValue(1, ruleDetail));
 			}
-			ruleDetailBean.setOperator(getValue(12, ruleDetail));
+			ruleDetailBean.setOperator(getValue(2, ruleDetail));
 			ruleDetailBean.setOperatorType(getStringValue(4, ruleDetail));
 			ruleDetailBean.setOperatorType2(getStringValue(7, ruleDetail));
 			ruleDetailBean.setOperatorType3(getStringValue(10, ruleDetail));
