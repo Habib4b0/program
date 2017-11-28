@@ -17,7 +17,6 @@ import javax.sql.DataSource;
 import org.jboss.logging.Logger;
 
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-
 public class GtnSqlUtil {
 	private GtnSqlUtil() {
 
@@ -81,7 +80,7 @@ public class GtnSqlUtil {
 		try (Connection connection = datasource.getConnection();
 				CallableStatement statement = connection.prepareCall(sqlQuery);) {
 			for (int i = 0; i < paramArray.length; i++) {
-
+                                LOGGER.debug(i + " -- " + paramArray[i]);
 				statement.setObject(i+1, paramArray[i]);
 			}
 			LOGGER.debug("Ending callResultProcedure");
