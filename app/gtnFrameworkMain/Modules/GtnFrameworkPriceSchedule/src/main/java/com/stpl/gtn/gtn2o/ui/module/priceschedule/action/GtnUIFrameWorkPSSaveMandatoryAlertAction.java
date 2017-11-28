@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.priceschedule.GtnWsPriceScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.priceschedule.GtnWsPriceScheduleGeneralResponse;
+import java.util.Date;
 
 /**
  *
@@ -41,6 +42,11 @@ public class GtnUIFrameWorkPSSaveMandatoryAlertAction implements GtnUIFrameWorkA
 		String[] fields = new String[] { "priceScheduleId1", "priceScheduleNo1", "priceScheduleName1",
 				"priceScheduleStatus1", "priceScheduleStartDate" };
 		GtnUIFrameworkGlobalUI.validateFields(fields, fieldMsg);
+
+		Date psStartDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleStartDate")
+				.getDateFromDateField();
+		Date psEndDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleEndDate").getDateFromDateField();
+		validateDateEqualOrGreater(psStartDate, psEndDate, componentId);
 
 		if (fieldMsg.length() != 0) {
 			throw new GtnFrameworkValidationFailedException(
@@ -76,6 +82,20 @@ public class GtnUIFrameWorkPSSaveMandatoryAlertAction implements GtnUIFrameWorkA
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 
+	}
+
+	public void validateDateEqualOrGreater(Date psStartDate, Date psEndDate, String componentId)
+			throws GtnFrameworkValidationFailedException {
+		if (psEndDate != null) {
+			if (psStartDate.equals(psEndDate)) {
+				throw new GtnFrameworkValidationFailedException(GtnFrameworkPSConstants.PS_DATE_EQUAL_VALIDATION,
+						componentId);
+			}
+			if (psStartDate.after(psEndDate)) {
+				throw new GtnFrameworkValidationFailedException(GtnFrameworkPSConstants.PS_DATE_LESS_THAN_VALIDATION,
+						componentId);
+			}
+		}
 	}
 
 	@Override
