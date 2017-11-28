@@ -183,7 +183,7 @@ public class GtnFrameworkItemMasterSaveAction
 		return itemMasterBean;
 	}
 
-    private void setDefaultValues(GtnWsItemMasterInfoBean infoBean) throws GtnFrameworkValidationFailedException, NumberFormatException {
+    private void setDefaultValues(GtnWsItemMasterInfoBean infoBean) throws GtnFrameworkValidationFailedException {
         Double upps = toDouble(String
                 .valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemInformationTabUPPS").getObjectFromField()));
         if (upps != null) {
