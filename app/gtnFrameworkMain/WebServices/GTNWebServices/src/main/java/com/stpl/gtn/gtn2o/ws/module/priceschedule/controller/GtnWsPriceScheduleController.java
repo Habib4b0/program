@@ -689,22 +689,10 @@ public class GtnWsPriceScheduleController {
 			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
 
 		}
-		// if (STATUS.equalsIgnoreCase(process)) {
-		// psValidateSql.append(
-		// "select count(item_No) from dbo.Imtd_Ps_Details where (status is null
-		// OR status = '0') and ");
-		// checkRecord = true;
-		// }
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
 			ppValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
 			checkRecord = true;
 		}
-		// if (PRICE_TYPE.equalsIgnoreCase(process)) {
-		// psValidateSql.append(
-		// "select count(item_No) from dbo.Imtd_Ps_Details where (
-		// ps_Details_Pricetype is null OR ps_Details_Pricetype = '0') and");
-		// checkRecord = true;
-		// }
 		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			ppValidateSql.append(
 					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate is  null and");
