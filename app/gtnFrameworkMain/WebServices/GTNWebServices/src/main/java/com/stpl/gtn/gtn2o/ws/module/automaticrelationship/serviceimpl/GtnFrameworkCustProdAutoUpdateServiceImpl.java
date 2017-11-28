@@ -67,10 +67,10 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 	@Override
 	@SuppressWarnings("unchecked")
 	public boolean checkAutomaticRelation(int relationshipBuilderSid) throws GtnFrameworkGeneralException {
-		String query = gtnWsSqlService.getQuery("automaticRelationCheck");
-		List<Integer> resultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query,
+		String customerQuery = gtnWsSqlService.getQuery("automaticRelationCheck");
+		List<Integer> productResultData = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(customerQuery,
 				new Object[] { relationshipBuilderSid }, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER });
-		return (int) resultData.get(0) == 1;
+		return (int) productResultData.get(0) == 1;
 	}
 
 	@Override
