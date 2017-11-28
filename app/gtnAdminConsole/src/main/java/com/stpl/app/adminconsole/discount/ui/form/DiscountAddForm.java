@@ -221,13 +221,13 @@ public class DiscountAddForm extends CustomComponent implements View {
     private HorizontalLayout addBtnsHLayout;
     @UiField("removeBtnsHLayout")
     private HorizontalLayout removeBtnsHLayout;
-    CommonUtil commonUtil = new CommonUtil();
-    CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+    private CommonUtil commonUtil = new CommonUtil();
+    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
     /**
      * The commonUtils.
      */
-    DiscountLogic logic = new DiscountLogic();
+    private DiscountLogic logic = new DiscountLogic();
     /**
      * The version.
      */
@@ -287,7 +287,7 @@ public class DiscountAddForm extends CustomComponent implements View {
     private Label categoryTypeLabel = new Label("Category Type:");
     private Label tpLabel = new Label("Trading Partner:");
 
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     /**
      * Gets the availableRebate.

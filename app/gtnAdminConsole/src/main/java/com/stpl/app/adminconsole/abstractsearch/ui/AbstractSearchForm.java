@@ -111,15 +111,6 @@ public class AbstractSearchForm extends CustomComponent {
     @UiField("combo3")
     private ComboBox combo3;
 
-    @UiField("label1")
-    private Label label1;
-
-    @UiField("label2")
-    private Label label2;
-
-    @UiField("label3")
-    private Label label3;
-
     @UiField("label4")
     private Label label4;
 
@@ -189,9 +180,6 @@ public class AbstractSearchForm extends CustomComponent {
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
 
-    @UiField("searchBtn")
-    private Button searchBtn;
-
     @UiField("resetBtn")
     private Button resetBtn;
 
@@ -231,21 +219,21 @@ public class AbstractSearchForm extends CustomComponent {
     @UiField("buttonLayout")
     private HorizontalLayout buttonLayout;
 
-    AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
+    private AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    final Map<String, String> SecuritymoduleName = new HashMap<>();
-    CommonUtils commonUtil = CommonUtils.getInstance();
+    private final Map<String, String> SecuritymoduleName = new HashMap<>();
+    private CommonUtils commonUtil = CommonUtils.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
-    DiscountLogic discountLogic = new DiscountLogic();
+    private DiscountLogic discountLogic = new DiscountLogic();
     private String moduleName = StringUtils.EMPTY;
-    final CommonUtils commonsUtil = new CommonUtils();
+    private final CommonUtils commonsUtil = new CommonUtils();
     public static final String NAME = ConstantsUtils.EMPTY;
     public static final String ERROR_MSG = "No Record has been selected.  Please select a Record and try again.";
-    CommonUtil common = new CommonUtil();
+    private CommonUtil common = new CommonUtil();
     /**
      * The ErrorLabel.
      */
@@ -257,14 +245,14 @@ public class AbstractSearchForm extends CustomComponent {
     private int versionNo;
 
     private String searchCriteria = ConstantsUtils.EMPTY;
-    CommonUtil commonUtilSecurity = new CommonUtil();
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private CommonUtil commonUtilSecurity = new CommonUtil();
+    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     /**
      * The Excel table.
      */
     private ExtFilterTable excelTable;
     private BeanItemContainer<SearchResultsDTO> excelTableBean;
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     /**
      * The Constructor.
      *
