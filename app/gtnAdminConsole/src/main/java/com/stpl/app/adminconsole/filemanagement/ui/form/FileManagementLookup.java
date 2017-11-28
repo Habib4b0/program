@@ -2595,7 +2595,7 @@ public class FileManagementLookup extends Window {
 
 	public void formatData(Object propertyId) {
 
-		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE)) {
+		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE) && !"priceType".equals(String.valueOf(propertyId))) {
 			detailsFilterTable.setConverter(propertyId, priceFormat);
 		} else if (String.valueOf(propertyId).contains(ConstantsUtils.UNITS)) {
 			detailsFilterTable.setConverter(propertyId, unitsFormat);
