@@ -202,8 +202,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setManufacturerId(
 						(itemMaster.getManufacturerId() == null || itemMaster.getManufacturerId().isEmpty()
 								|| GtnFrameworkCommonStringConstants.STRING_NULL.equals(itemMaster.getManufacturerId()))
-										? 0
-										: Integer.valueOf(itemMaster.getManufacturerId()));
+										? 0 : Integer.valueOf(itemMaster.getManufacturerId()));
 				Udcs udcs = getUdcs(infoBean, session);
 				if (udcs != null) {
 					infoBean.setUdc1(getHelpervalue(udcs.getHelperTableByUdc1()));
@@ -240,11 +239,18 @@ public class GtnWsItemMasterAddService {
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
 				infoBean.setBaselineAmp(getDoublevalue(itemMaster.getBaselineAmp()));
 				infoBean.setBaseCpi(getDoublevalue(itemMaster.getBaseCpi()));
-				infoBean.setAcquiredAmp(getDoublevalue(itemMaster.getAcquiredAmp()));
-				infoBean.setAcquiredBamp(getDoublevalue(itemMaster.getAcquiredBamp()));
-				infoBean.setDra(getDoublevalue(itemMaster.getDra()));
-				infoBean.setObraBamp(getDoublevalue(itemMaster.getObraBamp()));
-
+				if (itemMaster.getAcquiredAmp() != null) {
+					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
+				}
+				if (itemMaster.getAcquiredBamp() != null) {
+					infoBean.setAcquiredBamp(Integer.valueOf(itemMaster.getAcquiredBamp().intValue()));
+				}
+				if (itemMaster.getDra() != null) {
+					infoBean.setDra(Integer.valueOf(itemMaster.getDra().intValue()));
+				}
+				if (itemMaster.getObraBamp() != null) {
+					infoBean.setObraBamp(Integer.valueOf(itemMaster.getObraBamp().intValue()));
+				}
 				infoBean.setCreatedBy(itemMaster.getCreatedBy());
 				infoBean.setCreatedByUserName(
 						gtnWebServiceAllListConfig.getUserIdNameMap().get(itemMaster.getCreatedBy()));

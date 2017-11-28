@@ -372,6 +372,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				productFuture.get();
+				loadProductVersionNo(selectedLevel);
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductRelationShipVersionNo(relationVersionNo);
@@ -3197,9 +3198,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final DataSelectionDTO dto = (DataSelectionDTO) resultTable.getValue();
 				int projectionIdValue = dto.getProjectionId();
 				VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
-				customerFuture = checkAndDoAutomaticUpdate(dto.getCustomerRelationShipVersionNo(),
+				customerFuture = checkAndDoAutomaticUpdate(dto.getCustRelationshipBuilderSid(),
 						Integer.parseInt(dto.getCustomerHierSid()));
-				productFuture = checkAndDoAutomaticUpdate(dto.getProductRelationShipVersionNo(),
+				productFuture = checkAndDoAutomaticUpdate(dto.getProdRelationshipBuilderSid(),
 						Integer.parseInt(dto.getProdHierSid()));
 				boolean isCustRelationUpdate = (boolean) customerFuture.get();
 				boolean isProdRelationUpdate = (boolean) productFuture.get();
@@ -3353,7 +3354,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						} catch (
 
 						Exception e) {
-							
+
 							LOGGER.error(e);
 						}
 					} else {
@@ -4073,6 +4074,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 				int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
@@ -4221,11 +4223,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 		groupFilteredCompanies = null;
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
+	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-		Future future = customerExecutorService.submit(wsClientRunnableTarget);
+		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();
 		return future;
 	}
