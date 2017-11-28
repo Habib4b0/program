@@ -21,14 +21,14 @@
 
 	<logger name="com.stpl.gtn.gtn2o.ws">
 		<level value="INFO" />
-		 <appender-ref ref="console" /> 
+		 <!--<appender-ref ref="console" />--> 
 		<appender-ref ref="general" />
 	</logger>
 
 	<!-- Root logger option -->
 	<root>
 		<level value="INFO" />
-		 <appender-ref ref="console" /> 
+		 <!--<appender-ref ref="console" />--> 
 		<appender-ref ref="general" />
 	</root>
 </log4j:configuration>
