@@ -57,9 +57,10 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsRelationshipBuilderResponse rbNewResponse = newResponse.getGtnWsRelationshipBuilderResponse();
 		if (rbNewResponse.isSuccess()) {
-			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
+			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(parameters.get(2).toString());
 			removeItem.removeItemFromDataTable(parameters.get(1));
-                        removeItem.setTableValue(null);
+			removeItem.setTableValue(null);
 			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
 					rbNewResponse.getMessage(), null);
 			return;
@@ -69,7 +70,7 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
-                }
+	}
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
