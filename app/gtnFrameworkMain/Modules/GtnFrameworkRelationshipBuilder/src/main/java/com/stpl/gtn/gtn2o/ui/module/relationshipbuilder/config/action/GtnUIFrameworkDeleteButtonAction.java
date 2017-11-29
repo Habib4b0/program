@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
@@ -56,8 +57,9 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsRelationshipBuilderResponse rbNewResponse = newResponse.getGtnWsRelationshipBuilderResponse();
 		if (rbNewResponse.isSuccess()) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
-					.removeItemFromDataTable(parameters.get(1));
+			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString());
+			removeItem.removeItemFromDataTable(parameters.get(1));
+                        removeItem.setTableValue(null);
 			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
 					rbNewResponse.getMessage(), null);
 			return;
@@ -67,7 +69,7 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessageType());
 		rbDeleteSuccessAlertAction.addActionParameter(rbNewResponse.getMessage());
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, rbDeleteSuccessAlertAction);
-	}
+                }
 
 	@Override
 	public GtnUIFrameWorkAction createInstance() {
