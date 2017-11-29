@@ -71,5 +71,8 @@
         <property name="checkRecord" type="boolean">
             <column name="CHECK_RECORD" />
         </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="REPROCESSED_FLAG" length="1" />
+        </property>
     </class>
 </hibernate-mapping>
