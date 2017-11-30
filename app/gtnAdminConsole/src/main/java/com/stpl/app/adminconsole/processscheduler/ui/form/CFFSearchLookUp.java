@@ -68,7 +68,7 @@ public class CFFSearchLookUp extends Window {
 
     private static final Logger LOGGER = Logger.getLogger(CFFSearchLookUp.class);
 
-    ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
+    private ProcessSchedulerDTO psDTO = new ProcessSchedulerDTO();
 
     public CustomFieldGroup cffSearchBinder = new CustomFieldGroup(new BeanItem<>(psDTO));
 
@@ -131,14 +131,14 @@ public class CFFSearchLookUp extends Window {
 
     @UiField("resultLayout")
     private VerticalLayout resultLayout;
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
 
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
 
     private final BeanItemContainer<ProcessSchedulerDTO> resultsContainer = new BeanItemContainer<>(ProcessSchedulerDTO.class);
-    SessionDTO sessionDTO;
-    CommonUtils commonutil = new CommonUtils();
-    CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
+    private SessionDTO sessionDTO;
+    private CommonUtils commonutil = new CommonUtils();
+    private CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
     public ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
     private String scriptName = StringUtils.EMPTY;

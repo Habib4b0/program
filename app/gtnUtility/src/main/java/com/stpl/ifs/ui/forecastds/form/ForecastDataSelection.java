@@ -591,6 +591,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	 */
 	protected ComboBox deductionValue = new ComboBox();
 
+
+
 	public ForecastDataSelection(CustomFieldGroup dataSelectionBinder, String screenName, boolean landingScreenFlag) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));
 		this.dataSelectionBinder = dataSelectionBinder;
@@ -1613,7 +1615,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				LOGGER.debug("customerRelation - ValueChangeListener ");
 				customerRelationValueChange(event.getProperty().getValue());
-				loadCustomerVersionNo(customerRelationComboBox.getValue());
+
 			}
 		});
 	}
@@ -1711,9 +1713,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		productRelation.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
+				productRelationValueChange(productRelation.getValue());
 
-				productRelationValueChange(event.getProperty().getValue());
-				loadProductVersionNo(event.getProperty().getValue());
 			}
 
 		});

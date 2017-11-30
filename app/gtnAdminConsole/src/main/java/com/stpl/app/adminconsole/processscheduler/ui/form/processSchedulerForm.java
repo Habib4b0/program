@@ -88,27 +88,37 @@ public class processSchedulerForm extends CustomComponent {
 
     @UiField("runOne")
     private Label runOne;
+    
     @UiField("hoursLB1")
     private Label hoursLB1;
+    
     @UiField("minutesLB1")
     private Label minutesLB1;
+    
     @UiField("runTwo")
     private Label runTwo;
+    
     @UiField("hoursLB2")
     private Label hoursLB2;
+    
     @UiField("minutesLB2")
     private Label minutesLB2;
+    
     @UiField("runThree")
     private Label runThree;
+    
     @UiField("hoursLB3")
     private Label hoursLB3;
+    
     @UiField("minutesLB3")
     private Label minutesLB3;
+    
     @UiField("processName")
     private TextField processName;
 
     @UiField("startDate")
     private PopupDateField startDate;
+    
     @UiField("endDate")
     private PopupDateField endDate;
 
@@ -121,7 +131,7 @@ public class processSchedulerForm extends CustomComponent {
     @UiField("runBtn1")
     private Button run;
 
-    ProcessSchedulerTableLogic tableLogic = new ProcessSchedulerTableLogic();
+    private ProcessSchedulerTableLogic tableLogic = new ProcessSchedulerTableLogic();
 
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
@@ -138,9 +148,9 @@ public class processSchedulerForm extends CustomComponent {
     public static ResourceBundle listBundle = ResourceBundle.getBundle("properties.labelname");
     public static final String MSG_ID_061 = "MSG_ID_061";
     private String key = "processscheduler";
-    boolean isload = false;
-    ProcessSchedulerDTO ProcessDTO;
-    Date date = new Date();
+    private boolean isload = false;
+    private ProcessSchedulerDTO ProcessDTO;
+    private Date date = new Date();
     @UiField("updateBtn")
     private Button updateBtn;
     private static final ResourceBundle confirmationMessage = ResourceBundle.getBundle("properties.message");
@@ -149,9 +159,9 @@ public class processSchedulerForm extends CustomComponent {
 
     public final String[] manualHeader = new String[]{
         "Process Name", "Last Run"};
-    CommonUtil commonUtil = new CommonUtil();
-    CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    SessionDTO sessionDTO;
+    private CommonUtil commonUtil = new CommonUtil();
+    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+    private SessionDTO sessionDTO;
     public String timeHourOne;
     public String timeHourTwo;
     public String intervalHourOne;
