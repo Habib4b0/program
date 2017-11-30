@@ -75,7 +75,7 @@ public class GtnWebServiceCompanyGroupConfig implements GtnWsSearchQueryConfigLo
 					.setCountQuerySelectClause(GtnWsCGrpQueryContants.GTN_CGRP_SELECTED_TABLE_SELECTED_CLAUSE);
 			getCommonConditionForSearch(gtnWsAddTabselectedTableSearchQueryConfig, true);
 			companyGroupSearchQueryConfigMap.put("cGrpAddTabSelectedSearchQuery", gtnWsAddTabselectedTableSearchQueryConfig);
-			gtnWsAddTabselectedTableSearchQueryConfig
+                        gtnWsAddTabselectedTableSearchQueryConfig
 					.setWhereClauseList(Arrays.asList(GtnWsCGrpQueryContants.GTN_CGRP_SELECTED_TABLE_WHERE_CLAUSE));
 
 		} catch (Exception ex) {
@@ -113,7 +113,7 @@ public class GtnWebServiceCompanyGroupConfig implements GtnWsSearchQueryConfigLo
 		Map<String, GtnWsColumnDetailsConfig> fieldToColumnDetailsMapAddTab = new HashMap<>();
 		List<GtnWebServiceOrderByCriteria> orderByClauseList = new ArrayList<>();
 		fieldToColumnDetailsMapAddTab.put("organizationKey",
-				configProvider.getColumnStringConfig("ORGANIZATION_KEY", "CM"));
+				                configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "HT", "ORGANIZATION_KEY"));
 		fieldToColumnDetailsMapAddTab.put("customerId", configProvider.getColumnStringConfig("COMPANY_ID", "CM"));
 		fieldToColumnDetailsMapAddTab.put("customerNo",
 				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.COMPANY_NO, "CM"));
