@@ -55,7 +55,7 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 	private Map<String, String> configureMsgMap() {
 		Map<String, String> validationMsgMap = new HashMap<>();
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_COUNT,
-				"Add atleast One Item in Item Addition tab for PS");
+				GtnFrameworkCommonConstants.PS_ALERT_MSG);
 		validationMsgMap.put(GtnFrameworkCommonConstants.TEMP_CHECKED_COUNT,
 				"Select atleast one Item in Pricing tab for PS");
 		validationMsgMap.put("Status", "Status required for selected Item");
@@ -63,6 +63,7 @@ public class GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction
 		validationMsgMap.put("CPStartDateNull", " CP Start Date  required for selected Item");
 		validationMsgMap.put("CPStartDateEqual", " Start Date is equal to CP End date for selected Item");
 		validationMsgMap.put("CPStartDateLess", " Start Date is lesser than CP End date for selected Item");
+
 		return validationMsgMap;
 	}
 

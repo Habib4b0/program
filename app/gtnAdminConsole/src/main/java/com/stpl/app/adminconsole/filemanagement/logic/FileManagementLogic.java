@@ -92,9 +92,9 @@ public class FileManagementLogic {
 	public static final String COMPANY_NAME = "companyName";
 	public static final String SELECT_ONE = "-Select One-";
 
-	Map<String, String> monthMap = new HashMap<>();
+	private Map<String, String> monthMap = new HashMap<>();
 
-	HashMap<String, String> columnNames = new HashMap<>();
+	private HashMap<String, String> columnNames = new HashMap<>();
 
 	public int getFoecastYearCount() {
 		return foecastYearCount;
@@ -112,8 +112,8 @@ public class FileManagementLogic {
 
 	public static String DEFAULT_SQL_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS";
 
-	SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
+	private SimpleDateFormat MMDDYY_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	private SimpleDateFormat JAVA_DATE_FORMAT = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
 
 	/**
 	 * Gets the forecast year.

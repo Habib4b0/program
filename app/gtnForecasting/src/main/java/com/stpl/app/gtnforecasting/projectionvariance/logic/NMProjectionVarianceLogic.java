@@ -780,7 +780,7 @@ public class NMProjectionVarianceLogic {
         if (baseVariables.isColPercentage() && parentDto.getGroup().contains(Constant.CHANGE1)) {
             projSelDTO.setConversionNeeded(false);
             projSelDTO.setVarIndicator(Constant.CHANGE);
-            dto.addAll(getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, index, isPer));
+            dto.addAll(getCustomisedProjectionResultsTotalDiscount(dataList, projSelDTO, index, true));
             return dto;
         }
         LOGGER.info("Ending commonCustomizationForTotalDiscount");
@@ -1203,8 +1203,8 @@ public class NMProjectionVarianceLogic {
         ProjectionVarianceDTO parentDto;
         List<ProjectionVarianceDTO> projDTOList = new ArrayList<>();
         if (started < maxRecord || pvsdto.getLevel().equals(TOTAL.getConstant())) {
-            getTotalPivotVariance(pvsdto);
             if (pvsdto.getLevel().equals(TOTAL.getConstant())) {
+                 getTotalPivotVariance(pvsdto);
                 if (!pvsdto.getDiscountLevel().equals(TOTAL_DISCOUNT.getConstant())) {
                     getTotalDiscountResults(pvsdto);
                 }
@@ -1213,6 +1213,7 @@ public class NMProjectionVarianceLogic {
                     projDTOList.add(finalList.get(i));
                 }
             } else if (parent instanceof ProjectionVarianceDTO) {
+                getTotalPivotVariance(pvsdto);
                 parentDto = (ProjectionVarianceDTO) parent;
                 if ("All Sales Group".equalsIgnoreCase(parentDto.getGroup()) || "All Discount Group".equalsIgnoreCase(parentDto.getGroup())
                         || "All PPA Group".equalsIgnoreCase(parentDto.getGroup())) {

@@ -45,6 +45,8 @@ public class GtnFrameworkIfpStringContants {
 	public static final String GTN_IFP_VALIDATION_MSG_POPULATE_003 = "Select Start Date";
 	public static final String GTN_IFP_VALIDATION_MSG_POPULATE_004 = "Select End Date";
 	public static final String GTN_IFP_VALIDATION_MSG_POPULATE_005 = "Select a row to populate";
+	public static final String IFP_DATE_EQUAL_VALIDATION = "IFP Start date and IFP End date should not be equal";
+	public static final String IFP_DATE_LESS_THAN_VALIDATION = "IFP End date should be greater than IFP Start date";
 	private static final List<String> DATEFIELD_PROPERTIES_LIST = Arrays.asList(
 			GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_START_DATE,
 			GtnFrameworkCommonConstants.ITEM_FAMILY_PLAN_END_DATE);

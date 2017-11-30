@@ -60,6 +60,7 @@ public final class GtnFrameworkQueryGenerator {
 			selectClause = columnConfig.getAliesName() + "." + columnConfig.getColumnName();
 			selectClauseAliesName = columnConfig.getAliesName().toLowerCase(Locale.ENGLISH).trim()
 					+ columnConfig.getColumnName().toLowerCase(Locale.ENGLISH).trim();
+
 		}
 		generatedSelectClause.append(selectClause).append(" as ").append(selectClauseAliesName);
 		return generatedSelectClause.toString();

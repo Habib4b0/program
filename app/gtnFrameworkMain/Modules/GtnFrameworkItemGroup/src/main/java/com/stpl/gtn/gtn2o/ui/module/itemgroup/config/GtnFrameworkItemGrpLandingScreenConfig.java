@@ -633,7 +633,7 @@ public class GtnFrameworkItemGrpLandingScreenConfig {
 
 		resetActionConfig
 				.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG_RESET_HEADER);
-		resetActionConfig.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_MSG_RESET);
+		resetActionConfig.addActionParameter(GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_CONFIRMATION_RESET_MSG);
 
 		String[] resetIdArray = { GtnFrameworkCommonConstants.ITEM_GROUP_NAME,
 				GtnFrameworkCommonConstants.ITEM_GROUP_NO, GtnFrameworkCommonConstants.ITEM_GROUP_DESC,

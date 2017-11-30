@@ -22,11 +22,11 @@ import org.jboss.logging.Logger;
 public class FileManagementTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(FileManagementTableLogic.class);
-    final FileManagementLogic searchLogic = new FileManagementLogic();
-    HelperDTO fileType;
-    String country;
-    String businessUnit;
-    Object companyId;
+    private final FileManagementLogic searchLogic = new FileManagementLogic();
+    private HelperDTO fileType;
+    private String country;
+    private String businessUnit;
+    private Object companyId;
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;

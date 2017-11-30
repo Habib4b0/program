@@ -1612,8 +1612,8 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
 				LOGGER.debug("customerRelation - ValueChangeListener ");
-				loadCustomerVersionNo(customerRelationComboBox.getValue());
 				customerRelationValueChange(event.getProperty().getValue());
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
 			}
 		});
 	}
@@ -1703,6 +1703,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 			public void valueChange(Property.ValueChangeEvent event) {
 				String selectedLevel = String.valueOf(event.getProperty().getValue());
 				LOGGER.debug("product inner Level - ValueChangeListener selectedLevel " + selectedLevel);
+
 				productLevelDdlbValueChange(selectedLevel, false);
 			}
 		});
@@ -1710,8 +1711,9 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 		productRelation.addValueChangeListener(new Property.ValueChangeListener() {
 			@Override
 			public void valueChange(Property.ValueChangeEvent event) {
-				loadProductVersionNo(productRelation.getValue());
+
 				productRelationValueChange(event.getProperty().getValue());
+				loadProductVersionNo(event.getProperty().getValue());
 			}
 
 		});
