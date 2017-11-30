@@ -20,7 +20,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
 import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.ManualTableLogic;
@@ -32,7 +31,6 @@ import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Property;
@@ -159,8 +157,6 @@ public class processSchedulerForm extends CustomComponent {
 
     public final String[] manualHeader = new String[]{
         "Process Name", "Last Run"};
-    private CommonUtil commonUtil = new CommonUtil();
-    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
     private SessionDTO sessionDTO;
     public String timeHourOne;
     public String timeHourTwo;
