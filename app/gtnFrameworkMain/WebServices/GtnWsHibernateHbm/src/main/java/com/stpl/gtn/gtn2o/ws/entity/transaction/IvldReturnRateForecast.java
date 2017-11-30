@@ -30,6 +30,7 @@ public class IvldReturnRateForecast implements java.io.Serializable {
 	private String errorCode;
 	private String errorField;
 	private boolean checkRecord;
+	private String reprocessedFlag;
 
 	public IvldReturnRateForecast() {
 	}
@@ -42,7 +43,7 @@ public class IvldReturnRateForecast implements java.io.Serializable {
 			String itemNo, String itemName, String forecastYear, String forecastMonth, String rate, String forecastName,
 			String forecastVer, String createdBy, Date createdDate, String modifiedBy, Date modifiedDate,
 			String addChgDelIndicator, String batchId, String source, String reasonForFailure, Date intfInsertedDate,
-			String errorCode, String errorField) {
+			String errorCode, String errorField,String reprocessedFlag) {
 		this.returnRateForecastSid = returnRateForecastSid;
 		this.returnRateForecastInterfaceId = returnRateForecastInterfaceId;
 		this.itemId = itemId;
@@ -64,6 +65,7 @@ public class IvldReturnRateForecast implements java.io.Serializable {
 		this.intfInsertedDate = intfInsertedDate;
 		this.errorCode = errorCode;
 		this.errorField = errorField;
+		this.reprocessedFlag= reprocessedFlag;
 	}
 
 	public int getReturnRateForecastSid() {
@@ -240,6 +242,14 @@ public class IvldReturnRateForecast implements java.io.Serializable {
 
 	public void setCheckRecord(boolean checkRecord) {
 		this.checkRecord = checkRecord;
+	}
+
+	public String getReprocessedFlag() {
+		return reprocessedFlag;
+	}
+
+	public void setReprocessedFlag(String reprocessedFlag) {
+		this.reprocessedFlag = reprocessedFlag;
 	}
 
 }
