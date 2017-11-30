@@ -25,13 +25,13 @@ public class CFFIndexTableLogic extends PageTableLogic {
      * The logger.
      */
     private static final Logger LOGGER = Logger.getLogger(CFFIndexTableLogic.class);
-    ProcessSchedulerDTO binderDto;
+    private ProcessSchedulerDTO binderDto;
     /**
      * The Cff logic
      */
     private final ProcessSchedulerLogic cffLogic = new ProcessSchedulerLogic();
-    Boolean isGenerate = false;
-    SessionDTO sessionDTO;
+    private Boolean isGenerate = false;
+    private SessionDTO sessionDTO;
 
     /**
      * Method to get the no of count for Searching results.

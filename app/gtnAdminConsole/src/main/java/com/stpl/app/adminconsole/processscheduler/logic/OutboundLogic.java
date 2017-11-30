@@ -63,16 +63,16 @@ public class OutboundLogic {
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(OutboundLogic.class);
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
     public final SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
-    static HashMap<String, String> hierarchySearchCriteria = new HashMap<>();
-    static HashMap<String, String> hierarchyFilterMap = new HashMap<>();
-    static HashMap<String, String> hierarchyTypeMap = new HashMap<>();
-    SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
-    static HashMap<String, String> hierarchyCheckAllMap = new HashMap<>();
-    static HashMap<String, String> rbMap = new HashMap<>();
-    static CommonDAO dao = new CommonDAOImpl();
-    static HashMap<String, String> columnNames = new HashMap<String, String>();
+    private static HashMap<String, String> hierarchySearchCriteria = new HashMap<>();
+    private static HashMap<String, String> hierarchyFilterMap = new HashMap<>();
+    private static HashMap<String, String> hierarchyTypeMap = new HashMap<>();
+    private SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
+    private static HashMap<String, String> hierarchyCheckAllMap = new HashMap<>();
+    private static HashMap<String, String> rbMap = new HashMap<>();
+    private static CommonDAO dao = new CommonDAOImpl();
+    private static HashMap<String, String> columnNames = new HashMap<String, String>();
     public static final String RELATIONSHIP_DESCRIPTION = "relationshipDescription";
     
     public int getHierarchyDefinitionCount(final ErrorfulFieldGroup searchFields, final Set<Container.Filter> filterSet, String hierType) {

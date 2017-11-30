@@ -38,19 +38,19 @@ import org.jboss.logging.Logger;
 public class OutboundProcess {
 
     private static final Logger LOGGER = Logger.getLogger(OutboundProcess.class);
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    OutboundLogic outboundLogic = new OutboundLogic();
-    List<ProcessSchedulerDTO> cffCsvList;
-    List<OutboundTableDTO> rbCsvList;
-    ProcessSchedulerLogic processSchedulerLogic = new ProcessSchedulerLogic();
-    FtpProperties ftpProperties = getFtpBundleValue();
-    String filePath = ftpProperties.getScripts();
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private OutboundLogic outboundLogic = new OutboundLogic();
+    private List<ProcessSchedulerDTO> cffCsvList;
+    private List<OutboundTableDTO> rbCsvList;
+    private ProcessSchedulerLogic processSchedulerLogic = new ProcessSchedulerLogic();
+    private FtpProperties ftpProperties = getFtpBundleValue();
+    private String filePath = ftpProperties.getScripts();
 
-    SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
-    SimpleDateFormat format_time = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss");
-    String processName;
+    private SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+    private SimpleDateFormat format_time = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss");
+    private String processName;
 
     public void getAutomatedOutbound(String processName) {
 

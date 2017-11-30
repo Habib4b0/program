@@ -104,7 +104,7 @@ public class FileManagementIndex extends CustomComponent implements View {
     @UiField("resetBtn")
     private Button resetBtn;
 
-    FileManagementTableLogic tableLogic = new FileManagementTableLogic();
+    private FileManagementTableLogic tableLogic = new FileManagementTableLogic();
 
     private ExtPagedTable fileHistoryTable = new ExtPagedTable(tableLogic);
 
@@ -118,19 +118,19 @@ public class FileManagementIndex extends CustomComponent implements View {
     private Button processTracking;
 
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
 
     @UiField("cssLayout")
-    CssLayout cssLayout;
+    private CssLayout cssLayout;
 
     @UiField("selectFileCssLayout")
-    CssLayout selectFileCssLayout;
+    private CssLayout selectFileCssLayout;
 
     @UiField("fileTypeLb")
-    Label fileTypeLb;
+    private Label fileTypeLb;
 
     @UiField("countryLb")
-    Label countryLb;
+    private Label countryLb;
 
     @UiField("businessUnit")
     private ComboBox businessUnit;
@@ -140,13 +140,13 @@ public class FileManagementIndex extends CustomComponent implements View {
 
     private HorizontalLayout controlLayout = new HorizontalLayout();
 
-    FileManagementLogic logic = new FileManagementLogic();
+    private FileManagementLogic logic = new FileManagementLogic();
 
-    HelperDTO detailsFileType;
+    private HelperDTO detailsFileType;
 
-    String[] fileString = new String[NumericConstants.TWO];
+    private String[] fileString = new String[NumericConstants.TWO];
 
-    final Map<Integer, Boolean> reloadMap = new HashMap<>();
+    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
 
     private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
 
@@ -154,11 +154,11 @@ public class FileManagementIndex extends CustomComponent implements View {
     private ExtFilterTable excelTable;
     private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 
-    CommonUtil commonUtil = new CommonUtil();
+    private CommonUtil commonUtil = new CommonUtil();
 
     private static final Logger LOGGER = Logger.getLogger(FileManagementIndex.class);
-    CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    SessionDTO sessionDTO;
+    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+    private SessionDTO sessionDTO;
 
     private static ResourceBundle configProperties = ResourceBundle.getBundle("properties.FileManagementConfiguration");
 
