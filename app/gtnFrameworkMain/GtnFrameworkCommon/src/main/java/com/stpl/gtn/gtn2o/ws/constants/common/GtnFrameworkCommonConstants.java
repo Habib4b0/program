@@ -1062,4 +1062,15 @@ public class GtnFrameworkCommonConstants {
 	public static final String NET_PRICE_TYPE = "Net Price Type";
 	public static final String RESET_PRICE_TYPE_HEADER = "Reset Price Type";
 	public static final String NET_RESET_PRICE_TYPE_HEADER = "Net Reset Price Type";
+	
+	/*
+	 * Udc Configuration
+	 *
+	 */
+	
+	public static final String UDC_CATEGORYLAYOUT = "udcCategoryLayout";
+	public static final String UDC_CATEGORY = "udcCategory";
+	public static final String UDC_VALUE = "udcValue";
+	public static final String UDC_RESULT_TABLE = "udcResultTable";
+	public static final String UDC_EXCEL_BUTTONLAYOUT = "excelButtonLayout";
 }

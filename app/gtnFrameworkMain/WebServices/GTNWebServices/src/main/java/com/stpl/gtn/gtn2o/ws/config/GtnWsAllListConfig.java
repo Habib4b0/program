@@ -105,6 +105,7 @@ import com.stpl.gtn.gtn2o.ws.module.netsales.config.GtnWebServiceNetSalesFormula
 import com.stpl.gtn.gtn2o.ws.module.priceschedule.config.GtnWebServicePriceScheduleConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateplan.config.GtnWebServiceRebatePlanConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.config.GtnWebServiceRebateScheduleConfig;
+import com.stpl.gtn.gtn2o.ws.module.udc.config.GtnWsUdcConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceArmWorkflowSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceArpWorkflowSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceAttachmentWorkflowSearchConfig;
@@ -552,6 +553,8 @@ public class GtnWsAllListConfig {
 				new GtnWebServiceHistoryWorkflowSearchConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.WF_ATTACHMENT_SEARCH.getClassName(),
 				new GtnWebServiceAttachmentWorkflowSearchConfig());
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION.getClassName(),
+				new GtnWsUdcConfig());
 
 	}
 
