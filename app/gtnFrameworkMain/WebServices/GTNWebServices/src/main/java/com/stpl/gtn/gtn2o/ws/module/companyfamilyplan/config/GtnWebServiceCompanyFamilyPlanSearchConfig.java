@@ -52,22 +52,23 @@ public class GtnWebServiceCompanyFamilyPlanSearchConfig implements GtnWsSearchQu
 					configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.CFP_NO, "CFP"));
 			fieldToColumnDetailsMap.put("companyFamilyPlanName",
 					configProvider.getColumnStringConfig("CFP_NAME", "CFP"));
-                        
+
 			GtnWsColumnDetailsConfig cftTypeColumnConfig = configProvider.getColumnHelperConfig("CFP_TYPE", "CFP");
-                        cftTypeColumnConfig.setHelperTableAliasName("companyFamilyPlanTypeHelper");
-                        cftTypeColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
-                        fieldToColumnDetailsMap.put("companyFamilyPlanType",cftTypeColumnConfig);
-                        
+			cftTypeColumnConfig.setHelperTableAliasName("companyFamilyPlanTypeHelper");
+			cftTypeColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			fieldToColumnDetailsMap.put("companyFamilyPlanType", cftTypeColumnConfig);
+
 			GtnWsColumnDetailsConfig cftStatusColumnConfig = configProvider.getColumnHelperConfig("CFP_STATUS", "CFP");
-                        cftStatusColumnConfig.setHelperTableAliasName("cfpStatusHelper");
-                        cftStatusColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
-                        fieldToColumnDetailsMap.put("companyFamilyPlanStatus",cftStatusColumnConfig);
-                        
-			GtnWsColumnDetailsConfig cfpCategoryColumnConfig = configProvider.getColumnHelperConfig("CFP_CATEGORY", "CFP");
-                        cfpCategoryColumnConfig.setHelperTableAliasName("cfpCategoryHelper");
-                        cfpCategoryColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
-                        fieldToColumnDetailsMap.put("companyFamilyPlanCategory",cfpCategoryColumnConfig);
-                        
+			cftStatusColumnConfig.setHelperTableAliasName("cfpStatusHelper");
+			cftStatusColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			fieldToColumnDetailsMap.put("companyFamilyPlanStatus", cftStatusColumnConfig);
+
+			GtnWsColumnDetailsConfig cfpCategoryColumnConfig = configProvider.getColumnHelperConfig("CFP_CATEGORY",
+					"CFP");
+			cfpCategoryColumnConfig.setHelperTableAliasName("cfpCategoryHelper");
+			cfpCategoryColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			fieldToColumnDetailsMap.put("companyFamilyPlanCategory", cfpCategoryColumnConfig);
+
 			fieldToColumnDetailsMap.put("companyFamilyPlanStartDate",
 					configProvider.getColumnDateConfig("CFP_START_DATE", "CFP"));
 			fieldToColumnDetailsMap.put("companyFamilyPlanEndDate",
