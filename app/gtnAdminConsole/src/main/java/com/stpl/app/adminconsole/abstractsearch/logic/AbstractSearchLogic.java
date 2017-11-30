@@ -70,6 +70,11 @@ public class AbstractSearchLogic {
      * @param columns
      * @param filterSet
      * @param moduleName
+     * @param searchCriteria     
+     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws java.text.ParseException
+     * @throws com.stpl.portal.kernel.exception.PortalException
+     * 
      * @return
      */
     public int getCountBasedOnModules(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns,
