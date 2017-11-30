@@ -11,6 +11,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.notestab.util.NotesDTO;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
@@ -203,7 +204,11 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				ruleDetailBean.setFrom(getDoubleValue(0, ruleDetail));
 				if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null || String
 						.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
-					ruleDetailBean.setTo(getValue(1, ruleDetail));
+                                        Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+                                        if (mode != null && mode == GtnUIFrameworkModeType.EDIT) {
+                                                    ruleDetailBean.setTo(getdobValue(1, ruleDetail));
+                                                 } else {
+					ruleDetailBean.setTo(getValue(1, ruleDetail));}
 				} else {
 					ruleDetailBean.setTo(getDoubleValue(1, ruleDetail));
 				}
@@ -313,11 +318,18 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	}
 
-	private int getValue(int index, GtnWsRecordBean ruleDetail) {
-
+        private int getValue(int index, GtnWsRecordBean ruleDetail) {
+            
 		return (ruleDetail.getAdditionalProperties().get(index) != null
-				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
+                        && !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
 						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
+	}
+
+	private double getdobValue(int index, GtnWsRecordBean ruleDetail) {
+           return ((ruleDetail.getAdditionalProperties().get(index) != null
+                        && String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals(0.0))
+                        ? Double.parseDouble(ruleDetail.getAdditionalProperties().get(index).toString()) : 0);
+            
 	}
 
 	private Double getDoubleValue(int index, GtnWsRecordBean ruleDetail) {
