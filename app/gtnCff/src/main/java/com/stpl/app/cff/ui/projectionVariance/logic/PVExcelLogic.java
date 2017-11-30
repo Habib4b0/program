@@ -102,6 +102,7 @@ public class PVExcelLogic {
     public static final String PIVOT_LABEL = "PIVOT";
     private static final int COLUMN_COUNT_TOTAL = 96;
     private static final int COLUMN_COUNT_DISCOUNT = 12;
+    private static final String ALL = "ALL";
 
     public PVExcelLogic(Map<String, List<ProjectionVarianceDTO>> resultMap, PVSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto, Map<String, List<ProjectionVarianceDTO>> discountMap, Map<String, List<List<ProjectionVarianceDTO>>> discountMapDetails) {
@@ -264,7 +265,7 @@ public class PVExcelLogic {
         projectionIdList.add(selection.getCurrentProjId());
         projectionIdList.addAll(selection.getProjIdList());
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, null, null, null};
+        Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, null, null, null,null,selection.getSessionDTO().getDiscountUom(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())? null : selection.getSessionDTO().getDeductionInclusion()};
         List< Object[]> rawList = CommonLogic.callProcedure(PRC_CFF_RESULTS, orderedArg);
         procRawList_total_period.addAll(rawList);
         rawList.clear();
@@ -290,12 +291,13 @@ public class PVExcelLogic {
         for (Integer projId : selection.getProjIdList()) {
             projectionIdList.add(projId);
         }
+        String discountLevel = !selection.getDeductionLevelFilter().isEmpty() ? CommonUtils.CollectionToString(selection.getDeductionLevelFilter(),false) : null;
         String projectionIds = CommonUtils.CollectionToString(projectionIdList, false);
-        Object[] orderedArg = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, null, null, null};
+        Object[] orderedArg = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, null, null, null,null,selection.getSessionDTO().getDiscountUom(), ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion())?null : selection.getSessionDTO().getDeductionInclusion()};
         List< Object[]> gtsResult = CommonLogic.callProcedure(PRC_CFF_RESULTS, orderedArg);
         procRawList_total_period.addAll(gtsResult);
         if (!selection.getDiscountLevel().equals(ConstantsUtil.TOTAL_DISCOUNT)) {
-            Object[] orderedArgDiscount = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, "Pivot", null, null, selection.getDiscountLevel(), "EXCEL"};
+            Object[] orderedArgDiscount = {projectionIds, frequency, StringConstantsUtil.VARIANCE1, "Pivot", null, null, selection.getDiscountLevel(), "EXCEL",selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel,null};
             List<Object[]> discountsList = CommonLogic.callProcedure("Prc_cff_projection_results_discount", orderedArgDiscount);
             pivotDiscountList.addAll(discountsList);
         }
@@ -315,10 +317,10 @@ public class PVExcelLogic {
         if (indicator.equals(StringUtils.EMPTY)) {
             indicator = "N";
             int custId = selection.getCustomId();
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, 0, custId, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
+            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, 0, custId, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         } else {
-            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, selection.getExcelFilterLevelNo(), null, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
+            Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, indicator, null, selection.getExcelFilterLevelNo(), null, null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
         procRawList_detail.addAll(rawList);
@@ -330,11 +332,11 @@ public class PVExcelLogic {
                 indicator = "N";
                 int custId = selection.getCustomId();
                 Object[] orderedArgDiscountCustom = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, discountLevelName, discountLevelName, indicator,
-                    null, selection.getExcelFilterLevelNo(), custId, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
+                    null, selection.getExcelFilterLevelNo(), custId, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscountCustom);
             } else {
                 Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, discountLevelName, discountLevelName, selection.getHierarchyIndicator(),
-                    null, selection.getExcelFilterLevelNo(), null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),"ALL".equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), "ALL".equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
+                    null, selection.getExcelFilterLevelNo(), null, null, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel};
 
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             }
@@ -365,11 +367,11 @@ public class PVExcelLogic {
             int custId = selection.getCustomId();
 
             Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, indicator,
-                null, selection.getExcelFilterLevelNo(), custId, null, order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+                null, selection.getExcelFilterLevelNo(), custId, null, order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         } else {
             Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getHierarchyIndicator(),
-                null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+                null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), order, selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
             rawList = CommonLogic.callProcedure(PRC_CFF_EXCEL_EXPORT, orderedArg);
         }
         procRawList_detail.addAll(rawList);
@@ -379,12 +381,12 @@ public class PVExcelLogic {
                 indicator = "N";
                 int custId = selection.getCustomId();
                 Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), indicator,
-                    null, selection.getExcelFilterLevelNo(), custId, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+                    null, selection.getExcelFilterLevelNo(), custId, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             } else {
 
                 Object[] orderedArgDiscount = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PIVOT_LABEL, selection.getDiscountLevel(), selection.getDiscountLevel(), selection.getHierarchyIndicator(),
-                    null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),selection.getSessionDTO().getSalesInclusion(),selection.getSessionDTO().getDeductionInclusion()};
+                    null, selection.getExcelFilterLevelNo(), null, selection.getPivotStartDate(), selection.getSessionDTO().getUserId(), selection.getSessionDTO().getSessionId(),selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion()};
                 rawListDiscount = CommonLogic.callProcedure(PRC_CFF_DISCOUNT_EXCEL_EXPORT, orderedArgDiscount);
             }
             procRawList_detail_discount.addAll(rawListDiscount);
@@ -393,7 +395,9 @@ public class PVExcelLogic {
     }
 
     private void calculateAndCustomize_total_pivot() {
-        pivotPriorProjIdList.clear();
+        if (pivotPriorProjIdList != null) {
+            pivotPriorProjIdList.clear();
+        }
         for (Integer projId : selection.getProjIdList()) {
             pivotPriorProjIdList.add(projId);
         }
@@ -1342,8 +1346,8 @@ public class PVExcelLogic {
             projectionIdList.add(String.valueOf(projId));
         }
         String projectionId = CommonUtils.CollectionToString(projectionIdList, false);
-
-        Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, null, null, selection.getDiscountLevel(), "EXCEL"};
+        String discountLevel = !selection.getDeductionLevelFilter().isEmpty() ? CommonUtils.CollectionToString(selection.getDeductionLevelFilter(),false) : null;
+        Object[] orderedArg = {projectionId, frequency, StringConstantsUtil.VARIANCE1, PERIOD_LABEL, null, null, selection.getDiscountLevel(), "EXCEL",selection.getSessionDTO().getDiscountUom(),ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),discountLevel,null};
         List<Object[]> discountsList = CommonLogic.callProcedure("Prc_cff_projection_results_discount", orderedArg);
         pivotDiscountList.addAll(discountsList);
 
@@ -2683,10 +2687,16 @@ public class PVExcelLogic {
 
         for (int i = 0; i < count; i++) {
             Object[] obj = (Object[]) procRawList_detail_discount.get(i);
-            if (i == 0) {
-                oldHierarchyNo = String.valueOf(obj[0]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
+            String parentkey;
+            if ("null".equals(String.valueOf(obj[obj.length - 1]))) {
+                parentkey = obj[0].toString();
+            } else {
+                parentkey = obj[0].toString().endsWith(".") ? obj[0].toString() + "$" + obj[obj.length - 1].toString() : obj[0].toString() + ".$" + obj[obj.length - 1].toString();
             }
-            String newHierarchyNo = String.valueOf(obj[0]) + ("null".equals(String.valueOf(obj[obj.length - 1])) ? StringUtils.EMPTY : "$" + String.valueOf(obj[obj.length - 1]));
+            if (i == 0) {
+                oldHierarchyNo = parentkey;
+            }
+            String newHierarchyNo = parentkey;
             if (oldHierarchyNo.equals(newHierarchyNo)) {
                 newDiscount = String.valueOf(obj[NumericConstants.FOUR]);
                 if (oldDiscount.equals(newDiscount)) {
@@ -3310,7 +3320,7 @@ public class PVExcelLogic {
                         ? CommonUtils.getConversionFormattedValue(selection, actualValue, true)
                         : getFormattedValue(format, actualValue);
         discountDto.addStringProperties(actualColumn, isPer ? Value1 + PERCENT : Value1);
-        String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.ZERO]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
+        String accrualColumn = discountColumn + VAL + String.valueOf(obj[NumericConstants.FOUR]).replaceAll(" ", StringUtils.EMPTY) + discountNo + ACCRUAL + projId;
         String accrualValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + obj[currentIndex - 2])));
         String accValue =  selection.isConversionNeeded() && !isPer
                         ? CommonUtils.getConversionFormattedValue(selection, accrualValue, true)
@@ -3424,7 +3434,7 @@ public class PVExcelLogic {
             if (key.contains("$")) {
                 key = (key.split("\\$"))[0];
             }
-            newKey = key.endsWith(".") ? key + "$" + parentKey : key + ".$" + parentKey;
+            newKey = key.endsWith(".") ? key+"$"+parentKey : key.trim()+".$"+parentKey;
             hierarchyKeys.add(newKey);
             resultMap.put(newKey, pvList);
         }

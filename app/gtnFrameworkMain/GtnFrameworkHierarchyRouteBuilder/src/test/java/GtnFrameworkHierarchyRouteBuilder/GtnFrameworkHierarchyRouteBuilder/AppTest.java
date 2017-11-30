@@ -42,8 +42,8 @@ public class AppTest {
 	@Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		List<String> entityList = Arrays.asList("ITEM_MASTER", "COMPANY_MASTER", "BRAND_MASTER");
-		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "PRODUCT HIERARCHY", queryBean);
+		List<String> entityList = Arrays.asList("RS_CONTRACT");
+		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "Deduction Hierarchy", queryBean);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
 		String finalQuery = queryBean.generateQuery();
 		
@@ -57,15 +57,16 @@ public class AppTest {
 
 		String finalQuery = queryBean.generateQuery();
 		
-		Assert.assertEquals(true, !finalQuery.isEmpty());
-		Assert.assertEquals(true, routePath.getPathList().isEmpty());
+		 Assert.assertEquals(true, !finalQuery.isEmpty());
+		 Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
 
 	@Test
 	public void getPathByTableNameAndHierarchyType() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("ITEM_MASTER",
-				"COMPANY_MASTER", "PRODUCT HIERARCHY");
+		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("RS_CONTRACT", "UDCS",
+				"DEDUCTION_HIERARCHY");
+		hierarchyService.createQuery(routePath, queryBean);
 		String finalQuery = queryBean.generateQuery();
 		
 		Assert.assertEquals(true, !finalQuery.isEmpty());

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.querybeangenerator;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -68,7 +67,7 @@ public class QueryBeanGeneratorService{
 							Integer.parseInt(String.valueOf(hierarchyVersion[1])));
 				}
 			}
-		} catch (GtnFrameworkGeneralException | IOException e) {
+		} catch (GtnFrameworkGeneralException e) {
 			LOGGER.error(" Error in context Initializer Listener " + e.getMessage());
 		}
 	}

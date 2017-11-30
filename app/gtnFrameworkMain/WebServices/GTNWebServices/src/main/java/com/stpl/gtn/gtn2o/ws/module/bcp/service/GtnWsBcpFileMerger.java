@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.util.GtnWsProcessUtil;
 
 @Service
 public class GtnWsBcpFileMerger {
@@ -60,7 +59,7 @@ public class GtnWsBcpFileMerger {
 			command[0] = shellFile.getAbsolutePath();
 			fileList.add(shellFile.getAbsolutePath());
 		}
-		ProcessBuilder builder = GtnWsProcessUtil.createProcess(command);
+		ProcessBuilder builder = GtnWsProcessService.createProcess(command);
 		Process p = builder.start();
 		p.waitFor();
 
