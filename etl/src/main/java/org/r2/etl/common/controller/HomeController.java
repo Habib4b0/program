@@ -5,12 +5,18 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.apache.log4j.Logger;
+import org.pentaho.di.core.Const;
 import org.pentaho.di.core.encryption.Encr;
+import org.pentaho.di.core.encryption.TwoWayPasswordEncoderPluginType;
+import org.pentaho.di.core.exception.KettleException;
+import org.pentaho.di.core.exception.KettlePluginException;
+import org.pentaho.di.core.plugins.PluginRegistry;
+import org.pentaho.di.core.util.EnvUtil;
 import org.r2.etl.common.util.CommonUtils;
 import org.r2.etl.common.util.Constants;
-import org.r2.etl.common.controller.BPIETLException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -745,6 +751,10 @@ public class HomeController {
             @PathVariable("pass") final String pass) throws BPIETLException, IOException {
         try {
             if (Constants.APP_KEY.equals(apikey)) {
+                PluginRegistry.addPluginType(TwoWayPasswordEncoderPluginType.getInstance());
+                PluginRegistry.init();
+                String passwordEncoderPluginID = Const.NVL(EnvUtil.getSystemProperty(Const.KETTLE_PASSWORD_ENCODER_PLUGIN), "Kettle");
+                Encr.init(passwordEncoderPluginID);
                 return Encr.encryptPassword(pass);
 
             } else {
@@ -752,6 +762,8 @@ public class HomeController {
             }
         } catch (NoClassDefFoundError ex) {
             throw new BPIETLException(ex);
+        } catch (KettleException ex) {
+           throw new BPIETLException(ex);
         } finally {
             CommonUtils.createlog();
             CommonUtils.cleartemp();

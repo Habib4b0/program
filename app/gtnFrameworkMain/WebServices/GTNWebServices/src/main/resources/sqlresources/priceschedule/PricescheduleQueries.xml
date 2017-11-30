@@ -907,7 +907,7 @@ operation,
         	<entity id="Imtd_Ps_Details_Count_query">
 		<query> 
             <![CDATA[ 
-			select count(item_No) from Imtd_Ps_Details where 
+			select count(item_No) from Imtd_Ps_Details where   
 		]]>
 		</query>
 	</entity>

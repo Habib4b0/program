@@ -439,13 +439,13 @@ public class GtnWsPriceScheduleController {
 			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			List<Object> inputList = gtnWsGeneralRequest.getComboBoxWhereclauseParamList();
 			String processName = String.valueOf(inputList.get(0));
-			Object resulList = validateTempPSDeatils(gtnWsGeneralRequest.getUserId(),
+			Object resulListData = validateTempPSDeatils(gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId(), processName);
 			gtnResponse.setOutBountData(new Object[] { 0 });
-			if (resulList != null) {
+			if (resulListData != null) {
 
-				List<Integer> list = (List<Integer>) resulList;
-				gtnResponse.setOutBountData(new Object[] { list.get(0) });
+				List<Integer> resultDataList = (List<Integer>) resulListData;
+				gtnResponse.setOutBountData(new Object[] { resultDataList.get(0) });
 			}
 
 		} catch (Exception ex) {

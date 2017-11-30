@@ -3920,7 +3920,7 @@ WHERE  RN = 1 ;
             USERS_SID, SESSION_ID, CHECK_RECORD,  IMTD_CREATED_DATE, "Operation", CREATED_BY, CREATED_DATE, MODIFIED_BY, MODIFIED_DATE, ATTACHED_STATUS,
             MAX_INCREMENTAL_CHANGE,RESET_ELIGIBLE,RESET_TYPE,RESET_DATE,RESET_INTERVAL,RESET_FREQUENCY,NET_PRICE_TYPE,NET_PRICE_TYPE_FORMULA,PRICE_PROTECTION_PRICE_TYPE,
             NEP,NEP_FORMULA,BRAND_MASTER_SID,PRICE_PROTECTION_STATUS,Base_Price_Type,Base_Price_Entry,Base_Price_Date,Base_Price_ddlb,Net_Base_Price,Net_Base_Price_Formula_ID,Subsequent_Period_Price_Type,
-            Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id,"SOURCE",SUGGESTED_PRICE, ATTACHED_DATE,PPA_INDEX_NO )
+            Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id,"SOURCE",SUGGESTED_PRICE, ATTACHED_DATE,PPA_INDEX_NO,ADD_COPY_INDICATOR )
         SELECT Distinct
             IM.ITEM_MASTER_SID, IM.ITEM_ID,  IM.ITEM_NO, IM.ITEM_NAME,IM.PRIMARY_UOM,IM.PACKAGE_SIZE, 0 UDC1, 0 UDC2, 0 UDC3, 0 UDC4, 0 UDC5, 0 UDC6,
             IFP.ITEM_START_DATE, IFP.ITEM_END_DATE,
@@ -3933,7 +3933,7 @@ WHERE  RN = 1 ;
             PS.MAX_INCREMENTAL_CHANGE,PS.RESET_ELIGIBLE,PS.RESET_TYPE,PS.RESET_DATE,PS.RESET_INTERVAL,PS.RESET_FREQUENCY,PS.NET_PRICE_TYPE,PS.NET_PRICE_TYPE_FORMULA,PS.PRICE_PROTECTION_PRICE_TYPE,
             PS.NEP,PS.NEP_FORMULA,PS.BRAND_MASTER_SID,PS.PRICE_PROTECTION_STATUS,PS.Base_Price_Type,PS.Base_Price_Entry,PS.Base_Price_Date,PS.Base_Price_ddlb,PS.Net_Base_Price,PS.Net_Base_Price_Formula_ID,
             PS.Subsequent_Period_Price_Type,PS.Net_Subsequent_Period_price,PS.Net_Subsequent_Price_Formula_Id,PS.Reset_Price_Type,PS.Net_Reset_Price_Type,PS.Net_Reset_Price_Formula_Id
-            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO
+            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO,ADD_COPY_INDICATOR
         FROM
             PS_CONTRACT_DETAILS PS,
             PS_CONTRACT PSC,
@@ -6115,6 +6115,7 @@ WITH CTE AS (
                            END NET_PRICE_TYPE_FORMULA
                      ,@CREATED_BY CREATED_BY
                      ,@MODIFIED_BY MODIFIED_BY
+                     ,IMTD.ADD_COPY_INDICATOR
                      ,CC1.PPA_INDEX_NO
               FROM IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
               JOIN PS_CONTRACT RC ON RC.PS_MODEL_SID = IMTD.PS_MODEL_SID
@@ -6209,6 +6210,7 @@ WITH CTE AS (
                      ,IMTD.NET_PRICE_TYPE_FORMULA
                      ,@CREATED_BY
                      ,@MODIFIED_BY
+                     ,IMTD.ADD_COPY_INDICATOR
                      ,0 PPA_INDEX_NO
 FROM IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
        WHERE IMTD.USERS_SID = @USERS_SID
@@ -6277,6 +6279,7 @@ INSERT INTO PS_CONTRACT_DETAILS_PENDING (
        ,NET_PRICE_TYPE_FORMULA
        ,CREATED_BY
        ,MODIFIED_BY
+       ,ADD_COPY_INDICATOR
        ,PPA_INDEX_NO
        )
 SELECT PS_CONTRACT_SID
@@ -6329,6 +6332,7 @@ SELECT PS_CONTRACT_SID
        ,NET_PRICE_TYPE_FORMULA
        ,CREATED_BY
        ,MODIFIED_BY
+       ,ADD_COPY_INDICATOR
        ,COALESCE(@COUNT,0) + ROW_NUMBER() OVER (
               PARTITION BY PS_CONTRACT_SID ,ITEM_MASTER_SID ,CONTRACT_PRICE_START_DATE ORDER BY PRICE_PROTECTION_START_DATE ) PPA_INDEX_NO
 FROM CTE
@@ -6451,7 +6455,8 @@ SET
                      RESET_FREQUENCY,
                      NET_PRICE_TYPE,
                      NET_PRICE_TYPE_FORMULA,
-                     PPA_INDEX_NO
+                     PPA_INDEX_NO,
+                     ADD_COPY_INDICATOR
               )
        VALUES(
               PS_CONTRACT_SID,
@@ -6502,7 +6507,8 @@ SET
               SOURCE.RESET_FREQUENCY,
               SOURCE.NET_PRICE_TYPE,
               SOURCE.NET_PRICE_TYPE_FORMULA,
-              SOURCE.PPA_INDEX_NO
+              SOURCE.PPA_INDEX_NO,
+              SOURCE.ADD_COPY_INDICATOR
        );
  
 ;
