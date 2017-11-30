@@ -58,7 +58,6 @@ public class AbstractSearchLogic {
      * module.
      *
      * @param binder
-     * @param obj
      * @param start
      * @param offset
      * @param isCount
@@ -66,7 +65,6 @@ public class AbstractSearchLogic {
      * @param filterSet
      * @param moduleName
      * @return
-     * @throws Exception
      */
     public int getCountBasedOnModules(ErrorfulFieldGroup binder, int start, int offset, final boolean isCount, final List<SortByColumn> columns,
             final Set<Container.Filter> filterSet, final String moduleName, final String searchCriteria) throws SystemException, ParseException, PortalException {
