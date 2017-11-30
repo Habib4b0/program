@@ -51,8 +51,8 @@ public class ContractSelectionDTO implements Serializable {
     String IFPname = StringUtils.EMPTY;
     String PSname = StringUtils.EMPTY;
     String RSname = StringUtils.EMPTY;
-    List<String> companyMasterSids = new ArrayList<>();
-    List<String> phCompanyMasterSids = new ArrayList<>();
+    private List<String> companyMasterSids = new ArrayList<>();
+    private List<String> phCompanyMasterSids = new ArrayList<>();
 
     String moduleName = StringUtils.EMPTY;
     String screenName = StringUtils.EMPTY;
