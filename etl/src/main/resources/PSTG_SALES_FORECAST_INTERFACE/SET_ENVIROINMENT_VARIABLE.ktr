@@ -208,7 +208,7 @@
            <schema_name/>
            </partitioning>
     <connection>appdb</connection>
-    <sql>	SELECT&#xd;&#xa; 	AUDIT_INTERFACE_NAME ,&#xd;&#xa;	WORKFLOW_INTERFACE_NAME ,&#xd;&#xa;	STAG_TABLE_NAME,&#xd;&#xa;	FILE_NAME  ,&#xd;&#xa;	INTERFACE_NAME_INPUT,&#xd;&#xa;	INTERFACE_NAME_ERROR ,&#xd;&#xa;	INTERFACE_NAME_PROCESSED ,&#xd;&#xa;	OUTBOUND_PROCESSED, &#xd;&#xa;    &#x27;ADROIT_FORECASTING_MASTER_INTERFACE&#x27; as INTERFACE_TABLE,&#x27;ADROIT_FORECASTING_MASTER_INTERFACE&#x27;	AS ORIGINAL_INTERFACE_TABLE_NAME&#xd;&#xa;	,	 SOURCE_TABLE_NAME  AS VIEW_NAME&#xd;&#xa;, SOURCE_TABLE_AVAILABLE&#xd;&#xa;	FROM ETL_TABLE where FILE_NAME&#x3d;&#x27;Adroit_Forecasting_Sales_Intf.sh&#x27;</sql>
+    <sql>	SELECT&#xd;&#xa; 	AUDIT_INTERFACE_NAME ,&#xd;&#xa;	WORKFLOW_INTERFACE_NAME ,&#xd;&#xa;	STAG_TABLE_NAME,&#xd;&#xa;	FILE_NAME  ,&#xd;&#xa;	INTERFACE_NAME_INPUT,&#xd;&#xa;	INTERFACE_NAME_ERROR ,&#xd;&#xa;	INTERFACE_NAME_PROCESSED ,&#xd;&#xa;	OUTBOUND_PROCESSED, &#xd;&#xa;    &#x27;PSTG_SALES_FORECAST_INTERFACE&#x27; as INTERFACE_TABLE,&#x27;PSTG_SALES_FORECAST_INTERFACE&#x27;	AS ORIGINAL_INTERFACE_TABLE_NAME&#xd;&#xa;	,	 SOURCE_TABLE_NAME  AS VIEW_NAME&#xd;&#xa;, SOURCE_TABLE_AVAILABLE&#xd;&#xa;	FROM ETL_TABLE where FILE_NAME&#x3d;&#x27;Pstg_Sales_Forecast_Intf.sh&#x27;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
