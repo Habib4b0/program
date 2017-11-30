@@ -213,19 +213,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				} else {
 					ruleDetailBean.setTo(getDoubleValue(1, ruleDetail));
 				}
-				ruleDetailBean.setOperator(getValue(2, ruleDetail));
-				if (!ruleDetail.getAdditionalProperties().contains("newItem")) {
-					if ("$".equals(ruleDetail.getStringProperty("tierOperator"))) {
-						ruleDetailBean.setItemPricingQualifierSid(getStringValue(3, ruleDetail));
-					} else {
-						ruleDetailBean.setReturnRateSid(getValue(3, ruleDetail));
-					}
-
-				} else {
-					ruleDetailBean.setValueDesc(getStringValue(3, ruleDetail));
-				}
-
-				ruleDetailBeanList.add(ruleDetailBean);
+				loadRuleDetailBean(ruleDetailBean, ruleDetail, ruleDetailBeanList);
 			}
 		} catch (Exception systemExcption) {
 			GTN_LOGGER.error("Error in Rebate Plan Save Action", systemExcption);
@@ -233,6 +221,22 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		}
 
 	}
+
+    private void loadRuleDetailBean(GtnWsRebatePlanRuleDetailBean ruleDetailBean, GtnWsRecordBean ruleDetail, List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList) {
+        ruleDetailBean.setOperator(getValue(2, ruleDetail));
+        if (!ruleDetail.getAdditionalProperties().contains("newItem")) {
+            if ("$".equals(ruleDetail.getStringProperty("tierOperator"))) {
+                ruleDetailBean.setItemPricingQualifierSid(getStringValue(3, ruleDetail));
+            } else {
+                ruleDetailBean.setReturnRateSid(getValue(3, ruleDetail));
+            }
+            
+        } else {
+            ruleDetailBean.setValueDesc(getStringValue(3, ruleDetail));
+        }
+        
+        ruleDetailBeanList.add(ruleDetailBean);
+    }
 
 	private void loadRuleDetailsComplexFormula(List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList,
 			final List<GtnWsRecordBean> ruleDetailsList) throws GtnFrameworkValidationFailedException {
