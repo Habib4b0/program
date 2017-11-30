@@ -31,8 +31,8 @@ public class GtnUIFrameworkPagedTableConfig {
 	private boolean itemClickListener = false;
 	private String moduleName = "";
 	private String queryName = "";
-	private int itemPerPage = 15;
-	private int pageLength = 15;
+	private int itemPerPage = 10;
+	private int pageLength = 10;
 	private List<String> editableColumnList = null;
 	private List<GtnUIFrameworkComponentConfig> editableField = null;
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = null;

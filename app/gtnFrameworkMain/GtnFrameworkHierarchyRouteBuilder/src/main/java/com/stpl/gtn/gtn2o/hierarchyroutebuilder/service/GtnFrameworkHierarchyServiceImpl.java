@@ -296,7 +296,7 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		for (GtnFrameworkJoinClauseBean joinClauseBean : queryBaen.getJoinClauseConfigList()) {
 			GtnFramworkTableBean tableBean = entityMasterBean
 					.getEntityBeanByTableName(joinClauseBean.getJoinTableName());
-			if (tableBean == null)
+			if (tableBean == null || tableBean.getInboundStatusColumn() == null)
 				continue;
 			queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(joinClauseBean.getJoinTableAliesName()), null,
 					GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
@@ -304,6 +304,8 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 		}
 		GtnFramworkTableBean tableBean = entityMasterBean
 				.getEntityBeanByTableName(queryBaen.getFromTableName());
+		if (tableBean.getInboundStatusColumn() == null)
+			return;
 		queryBaen.addWhereClauseBean(tableBean.getInboundStatusColumn(queryBaen.getFromTableAlies()), null,
 				GtnFrameworkOperatorType.NOT_EQUAL_TO, GtnFrameworkDataType.STRING,
 				tableBean.getInboundStatusValue());

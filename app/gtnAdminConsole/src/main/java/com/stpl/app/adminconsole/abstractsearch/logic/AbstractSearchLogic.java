@@ -27,12 +27,6 @@ import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
  */
 public class AbstractSearchLogic {
     
-    String moduleName;
-    ErrorfulFieldGroup binder;
-    String searchCriteria;
-    int versionNo;
-    
-    
     /**
      * Check search criteria.
      *

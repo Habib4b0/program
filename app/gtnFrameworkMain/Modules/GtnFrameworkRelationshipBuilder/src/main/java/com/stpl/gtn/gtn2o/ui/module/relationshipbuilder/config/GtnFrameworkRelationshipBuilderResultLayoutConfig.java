@@ -56,7 +56,7 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 		treeCssConfig.addComponentStyle(GtnFrameworkCssConstants.NO_MARGIN);
 		componentList.add(treeCssConfig);
 
-		GtnUIFrameworkComponentConfig treePanelConfig = gtnConfigFactory.getPanelConfig(namespaceprefix + "treePanel",
+		GtnUIFrameworkComponentConfig treePanelConfig = gtnConfigFactory.getPanelConfig(namespaceprefix + GtnFrameworkCommonConstants.TREE_PANEL,
 				true, namespaceprefix + GtnWsRelationshipBuilderConstants.TREE_CSS_LAYOUT);
 		treePanelConfig.setComponentHight("700px");
 		treePanelConfig.setAuthorizationIncluded(true);
@@ -64,9 +64,13 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 		componentList.add(treePanelConfig);
 
 		GtnUIFrameworkComponentConfig treeLayoutConfig = gtnConfigFactory.getVerticalLayoutConfig(
-				namespaceprefix + GtnFrameworkCommonConstants.TREE_RESULT_LAYOUT, true, namespaceprefix + "treePanel");
+				namespaceprefix + GtnFrameworkCommonConstants.TREE_RESULT_LAYOUT, true, namespaceprefix + GtnFrameworkCommonConstants.TREE_PANEL);
 		treeLayoutConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
+		
+		GtnUIFrameworkComponentConfig treeHorizontalLayoutConfig = gtnConfigFactory.getHorizontalLayoutConfig(
+				namespaceprefix + GtnFrameworkCommonConstants.TREE_HORIZONTAL_RESULT_LAYOUT, true, namespaceprefix + GtnFrameworkCommonConstants.TREE_PANEL);
 		componentList.add(treeLayoutConfig);
+		componentList.add(treeHorizontalLayoutConfig);
 		addHierarchyLevelPanel(componentList, namespaceprefix, isView);
 		addRelationshipTree(componentList, namespaceprefix, isView);
 		addRemoveFromTreeButtonComponent(componentList, namespaceprefix, isView);
@@ -218,18 +222,21 @@ public class GtnFrameworkRelationshipBuilderResultLayoutConfig {
 
 	public void addRelationshipTree(List<GtnUIFrameworkComponentConfig> componentList, String namespaceprefix,
 			boolean isView) {
+	
 		GtnUIFrameworkComponentConfig treeComponentConfig = new GtnUIFrameworkComponentConfig();
+		
 		treeComponentConfig.setComponentType(GtnUIFrameworkComponentType.TREE);
 		treeComponentConfig.setAuthorizationIncluded(true);
 		treeComponentConfig.setComponentId(namespaceprefix + GtnFrameworkCommonConstants.RB_TREE);
 		treeComponentConfig.setParentComponentId(namespaceprefix + GtnFrameworkCommonConstants.TREE_RESULT_LAYOUT);
+		treeComponentConfig.setParentComponentId(namespaceprefix+GtnFrameworkCommonConstants.TREE_HORIZONTAL_RESULT_LAYOUT);
 		treeComponentConfig.setAddToParent(true);
 
 		GtnUIFrameworkTreeConfig treeConfig = new GtnUIFrameworkTreeConfig();
 		treeConfig.setItemCaptionPropertyId(GtnFrameworkRelationshipBuilderConstants.AVAILABLE_LIST_COLUMNID);
 		if (!isView) {
 			treeConfig.setSelectable(true);
-			treeConfig.setMultiSelect(true);
+			treeConfig.setMultiSelect(true);		
 			GtnUIFrameWorkActionConfig actionConfig = getItemClickAction(namespaceprefix);
 			treeConfig.addItemClickActionConfig(actionConfig);
 		}

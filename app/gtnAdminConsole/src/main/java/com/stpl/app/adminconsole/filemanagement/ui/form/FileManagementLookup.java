@@ -183,15 +183,15 @@ public class FileManagementLookup extends Window {
 	private Panel summaryPanel;
 
 	@UiField("cssLayout")
-	CssLayout cssLayout;
+	private CssLayout cssLayout;
 
 	@UiField("cssLayoutForecastSection")
-	CssLayout cssLayoutForecastSection;
+	private CssLayout cssLayoutForecastSection;
 
-	FileResultsTableLogic tableLogic = new FileResultsTableLogic();
+	private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
 
 	private ExtPagedTable resultsFilterTable = new ExtPagedTable(tableLogic);
-	FileDetailsTableLogic detailstableLogic = new FileDetailsTableLogic();
+	private FileDetailsTableLogic detailstableLogic = new FileDetailsTableLogic();
 	private HorizontalLayout controlLayout = new HorizontalLayout();
 	private HorizontalLayout detailsControlLayout = new HorizontalLayout();
 
@@ -212,10 +212,10 @@ public class FileManagementLookup extends Window {
 	private Button excelExportDetail;
 
 	@UiField("tableLayout")
-	VerticalLayout tableLayout;
+	private VerticalLayout tableLayout;
 
 	@UiField("detailsTable")
-	VerticalLayout detailsTable;
+	private VerticalLayout detailsTable;
 
 	@UiField("massUpdate")
 	private OptionGroup massUpdate;
@@ -253,31 +253,31 @@ public class FileManagementLookup extends Window {
 
 	private TextField lookupItemName = new TextField();
 
-	String selectedFileCountry;
+	private String selectedFileCountry;
 
-	String selectedBusinessUnit;
+	private String selectedBusinessUnit;
 
-	String selectedFile = ConstantsUtils.EMPTY;
+	private String selectedFile = ConstantsUtils.EMPTY;
 
-	boolean saveflag;
+	private boolean saveflag;
 
-	boolean selectClose;
+	private boolean selectClose;
 
-	DataFormatConverter priceFormat = new DataFormatConverter("#0.00", DataFormatConverter.INDICATOR_DOLLAR);
-	DataFormatConverter unitsFormat = new DataFormatConverter("#0.0");
-	DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
-	List<FileMananagementResultDTO> addlineList = new ArrayList<>();
-	ComboBox fmFileType;
-	String fmCountry;
-	FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO demandResultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO demandDetailsResultDTO = new FileMananagementResultDTO();
+	private DataFormatConverter priceFormat = new DataFormatConverter("#0.00", DataFormatConverter.INDICATOR_DOLLAR);
+	private DataFormatConverter unitsFormat = new DataFormatConverter("#0.0");
+	private DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
+	private List<FileMananagementResultDTO> addlineList = new ArrayList<>();
+	private ComboBox fmFileType;
+	private String fmCountry;
+	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
+	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
+	private FileMananagementResultDTO demandResultDTO = new FileMananagementResultDTO();
+	private FileMananagementResultDTO demandDetailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
-	FileManagementLogic logic = new FileManagementLogic();
-	HelperDTO helperFileType;
-	SessionDTO sessionDTO;
+	private FileManagementLogic logic = new FileManagementLogic();
+	private HelperDTO helperFileType;
+	private SessionDTO sessionDTO;
 	@UiField("viewBtn")
 	private Button viewBtn;
 	@UiField("searchPanel")
@@ -329,11 +329,11 @@ public class FileManagementLookup extends Window {
 
 	private String systemId = StringUtils.EMPTY;
 
-	CommonUtils commonUtils = CommonUtils.getInstance();
+	private CommonUtils commonUtils = CommonUtils.getInstance();
 
 	private boolean isDetails;
-	String fmbusinessUnit;
-	int nonRecordLock = 0;
+	private String fmbusinessUnit;
+	private int nonRecordLock = 0;
 
 	/**
 	 * Instantiates a new file management lookup.
@@ -2595,7 +2595,7 @@ public class FileManagementLookup extends Window {
 
 	public void formatData(Object propertyId) {
 
-		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE)) {
+		if (String.valueOf(propertyId).contains(ConstantsUtils.PRICE) && !"priceType".equals(String.valueOf(propertyId))) {
 			detailsFilterTable.setConverter(propertyId, priceFormat);
 		} else if (String.valueOf(propertyId).contains(ConstantsUtils.UNITS)) {
 			detailsFilterTable.setConverter(propertyId, unitsFormat);

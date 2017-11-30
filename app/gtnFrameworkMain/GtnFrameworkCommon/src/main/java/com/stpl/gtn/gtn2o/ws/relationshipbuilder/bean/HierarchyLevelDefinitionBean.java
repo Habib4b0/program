@@ -6,6 +6,7 @@
 
 package com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -196,7 +197,7 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 		return tableNameSet;
 	}
 
-	public static int getLastLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
+	public static int getLastLinkedLevelNo(List<HierarchyLevelDefinitionBean> hierarchyList) {
 		for (int i = hierarchyList.size() - 1; i > 0; i--) {
 			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = hierarchyList.get(i);
 			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyLevelDefinitionBean.levelValueReference)) {
@@ -207,7 +208,12 @@ public class HierarchyLevelDefinitionBean implements Comparable<HierarchyLevelDe
 
 	}
 
-public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
+	public static HierarchyLevelDefinitionBean getLastLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
+		int levelNo = HierarchyLevelDefinitionBean.getLastLinkedLevelNo(hierarchyList);
+		return HierarchyLevelDefinitionBean.getBeanByLevelNo(levelNo, hierarchyList);
+	}
+
+	public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarchyList) {
 		for (int i = 0; i < hierarchyList.size(); i++) {
 			HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean = hierarchyList.get(i + 1);
 			if (!GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyLevelDefinitionBean.levelValueReference)) {
@@ -217,20 +223,32 @@ public static int getFirstLinkedLevel(List<HierarchyLevelDefinitionBean> hierarc
 		return 0;
 
 	}
+
 	public boolean isUserDefined() {
 		return GtnFrameworkWebserviceConstant.USER_DEFINED.equals(levelValueReference);
 	}
 
 	public static HierarchyLevelDefinitionBean getBeanByLevelNo(int levelNo,
 			List<HierarchyLevelDefinitionBean> hierarchyList) {
-		if (hierarchyList.get(levelNo-1).levelNo == levelNo)
-			return hierarchyList.get(levelNo-1);
+		if (levelNo > 1 && hierarchyList.get(levelNo - 1).levelNo == levelNo)
+			return hierarchyList.get(levelNo - 1);
 		for (HierarchyLevelDefinitionBean hierarchyLevelDefinitionBean : hierarchyList) {
 			if (levelNo == hierarchyLevelDefinitionBean.levelNo) {
 				return hierarchyLevelDefinitionBean;
 			}
 		}
 		return null;
+	}
+
+	public void customize(Object[] result) {
+		setHierarchyLevelDefinitionSid((Integer) result[0]);
+		setLevelNo((((BigDecimal) result[1]).intValue()));
+		setLevelName((String) result[2]);
+		setLevelValueReference((String) result[3]);
+		setHierarchyDefinitionSid((Integer) result[4]);
+		setTableName((String) result[5]);
+		setFieldName((String) result[6]);
+		setVersionNo((Integer) result[7]);
 	}
 
 }

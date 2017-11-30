@@ -260,6 +260,13 @@ public class GtnWsAllListConfig {
 	}
 
 	private void loadcomboBoxTypeMap() {
+            
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_SALES_MASTER_ID,
+				"select distinct sales_master_id as code ,sales_master_id as description from ACCRUAL_MASTER order by sales_master_id Asc");
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_CATEGORY_ID,
+				"select distinct category_id as code1, category_id as description1 from ACCRUAL_MASTER order by category_id Asc");
+		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.ACCRUAL_MASTER_DOC_TYPE,
+				"select distinct document_type as code2, document_type as description2 from ACCRUAL_MASTER order by document_type Asc");
 
 		comboBoxQueryMap.put(GtnFrameworkForecastConstantCommon.COMPANY_IDENTIFIER,
 				"select company_Qualifier_Sid,company_Qualifier_Name from dbo.Company_Qualifier WHERE INBOUND_STATUS <> 'D' order by company_Qualifier_Name Asc");

@@ -25,6 +25,7 @@ public class GtnFrameworkItemGrpStringContants {
 	public static final String GTN_ITEM_GRP_ALERT_MSG = "No Item Group has been selected.Please select an Item Group and try again.";
 	public static final String GTN_ITEM_GRP_CONFIRMATION_MSG_RESET_HEADER = "Reset Confirmation";
 	public static final String GTN_ITEM_GRP_CONFIRMATION_MSG_RESET = "Are you sure you want to reset the values in the Search Criteria group box?";
+	public static final String GTN_ITEM_GRP_CONFIRMATION_RESET_MSG = "Are you sure you want to reset the page to default/previous values?";
 	public static final String GTN_ITEM_GRP_CONFIRMATION_MSG_SEARCH = "Search Criteria ";
 	public static final String GTN_ITEM_GRP_CONFIRMATION_MSG_SEARCH_001 = "Please enter Search Criteria";
 	public static final String GTN_ITEM_GRP_VALIDATION_SEARCH_ERROR = "Search Error";
