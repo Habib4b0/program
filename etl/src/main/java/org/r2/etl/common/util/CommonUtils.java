@@ -112,7 +112,7 @@ public final class CommonUtils {
      *
      */
     public static void createlog() throws IOException {
-        commonCode(FilePathUtil.getLOG_PATH());
+       commonCode(FilePathUtil.getLOG_PATH());
     }
 
     /**

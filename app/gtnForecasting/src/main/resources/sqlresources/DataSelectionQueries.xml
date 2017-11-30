@@ -1103,7 +1103,7 @@ where
                     AND RLD.VERSION_NO = ?
                     AND HLD.VERSION_NO = ?
                 ORDER BY
-                    RLD.hierarchy_No ASC              
+                    RLD.LEVEL_NO ASC              
             ]]>
             </query>
         </entity>
