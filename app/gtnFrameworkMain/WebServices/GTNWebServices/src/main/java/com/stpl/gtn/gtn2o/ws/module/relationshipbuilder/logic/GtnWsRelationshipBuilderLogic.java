@@ -915,7 +915,7 @@ public class GtnWsRelationshipBuilderLogic {
 	}
 
 	private void updateRelationshipBuilderFromRequest(RelationshipBuilder relationshipBuilder,
-			GtnWsRelationshipBuilderRequest rbRequest, Session session, RelationshipBuilder productrelationshipBuilder)
+			GtnWsRelationshipBuilderRequest rbRequest, Session session)
 			throws GtnFrameworkGeneralException {
 		try {
 			relationshipBuilder.setRelationshipName(rbRequest.getRelationshipName());
@@ -961,7 +961,7 @@ public class GtnWsRelationshipBuilderLogic {
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo() + 1);
 				isRelationSaved = true;
 			}
-			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session, relationshipBuilder);
+			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session);
 			session.saveOrUpdate(relationshipBuilder);
 			saveRelationshipBuilderLevels(relationshipBuilder, date, "", "", rbRequest.getRsTreeNodeList(), session,
 					"");

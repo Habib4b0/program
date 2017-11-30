@@ -372,7 +372,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				productFuture.get();
-				loadProductVersionNo(selectedLevel);
+				
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductRelationShipVersionNo(relationVersionNo);
@@ -4070,15 +4070,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		try {
-			customerFuture.get();
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
-				loadCustomerVersionNo(customerRelationComboBox.getValue());
+				customerFuture.get();
+
 				int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-
 				String dedLevel = StringUtils.EMPTY;
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
@@ -4193,6 +4192,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
 						customerHierarchyDto.getHierarchyId());
+				customerFuture.get();
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerCustLevels.isEmpty()) {
 					customerForecastLevelContainer.removeAllItems();
@@ -4247,10 +4247,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setProductForecastLevelNullSelection();
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
 						productHierarchyDto.getHierarchyId());
-
+				productFuture.get();
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerProdLevels.isEmpty()) {
 					productForecastLevelContainer.removeAllItems();

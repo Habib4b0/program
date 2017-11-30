@@ -57,7 +57,7 @@ AS
  BEGIN
       SET NOCOUNT ON
 
-       DECLARE @STARTFROM             DATE,
+        DECLARE @STARTFROM             DATE,
                   @PROJECTION_DATE       DATETIME,
                   @SP                    INT,
                   @SP_PROJ_SID           INT,
@@ -1437,10 +1437,10 @@ AS (
 			,PERIOD
 	        ,YEAR
 			,DT.PERIOD_SID
-			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ACTUAL_SALES, NULL) ACTUAL_SALES
-			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ACTUAL_UNITS, NULL) * ISNULL(UOM_VALUE, 0) ACTUAL_UNITS
-			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), PROJECTION_SALES, NULL) PROJECTION_SALES
-			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), PROJECTION_UNITS, NULL) * ISNULL(UOM_VALUE, 0) PROJECTION_UNITS
+			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(ACTUAL_SALES,0), NULL) ACTUAL_SALES
+			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(ACTUAL_UNITS,0), NULL) * ISNULL(UOM_VALUE, 0) ACTUAL_UNITS
+			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL) PROJECTION_SALES
+			,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL) * ISNULL(UOM_VALUE, 0) PROJECTION_UNITS
 			,DT.ITEM_MASTER_SID
 			,COGS_ACTUAL = (ISNULL(NAS.ACTUAL_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0)) * ISNULL(UOM_VALUE, 0)
 			,COGS_PROJECTED = (ISNULL(NPS.PROJECTION_UNITS, 0) * ISNULL(U.ITEM_PRICE, 0)) * ISNULL(UOM_VALUE, 0)
@@ -1472,8 +1472,8 @@ AS (
 			,PERIOD
 	        ,YEAR
 			,DT.PERIOD_SID
-			,IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), ACTUAL_SALES, NULL) ACTUAL_SALES
-			,IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), PROJECTION_SALES, NULL)  PROJECTION_SALES
+			,IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), ISNULL(ACTUAL_SALES,0), NULL) ACTUAL_SALES
+			,IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL)  PROJECTION_SALES
 			,DISCOUNT_AMOUNT  ACCRUAL_DISCOUNT
 		FROM #DATA_TABLE DT
 		JOIN ' + @DISC_PROJECTION_MASTER_TABLE +' DPM ON DPM.CCP_DETAILS_SID = DT.CCP_DETAILS_SID
@@ -1785,6 +1785,7 @@ LEFT JOIN PPA PPA ON DT.PROJECTION_MASTER_SID = PPA.PROJECTION_MASTER_SID
 	AND DT.PERIOD = PPA.PERIOD
 '
 
+
                     
 EXEC Sp_executesql
   @SQL_ACC,
@@ -1799,12 +1800,6 @@ EXEC Sp_executesql
   @DEDUCTION_INCLUSION=@DEDUCTION_INCLUSION
 
 
-
-
-
-
-
- 
 IF OBJECT_ID('TEMPDB..#PRIOR_TEMP_CCP') IS NOT NULL
 	DROP TABLE #PRIOR_TEMP_CCP
 
@@ -1823,39 +1818,32 @@ INSERT INTO #PRIOR_TEMP_CCP (
 	,ITEM_MASTER_SID
 	,CCP_DETAILS_SID
 	,PROJECTION_MASTER_SID
-	,BUSINESS_UNIT
 	)
-SELECT CCP.COMPANY_MASTER_SID
-	,CCP.CONTRACT_MASTER_SID
-	,CCP.ITEM_MASTER_SID
-	,CCP.CCP_DETAILS_SID
-	,PM.PROJECTION_MASTER_SID
-	,PM.BUSINESS_UNIT
-FROM #CCP_DETAILS_TEMP CCP
-CROSS JOIN (
-	SELECT PM.PROJECTION_MASTER_SID
-		,PM.BUSINESS_UNIT
-	FROM PROJECTION_MASTER PM
-	WHERE PM.PROJECTION_MASTER_SID = @FIRST_PROJ_SID
-	) PM
-				
-IF Object_id('TEMPDB..#CURRENT_CPP_COMP_PRIOR_CPP') IS NOT NULL
-	DROP TABLE #CURRENT_CPP_COMP_PRIOR_CPP
+SELECT CD.COMPANY_MASTER_SID
+	,CD.CONTRACT_MASTER_SID
+	,CD.ITEM_MASTER_SID
+	,CD.CCP_DETAILS_SID
+	,A.PROJECTION_MASTER_SID
+FROM #PROJECTION_MASTER A
+JOIN PROJECTION_DETAILS PD ON A.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID
+AND ID<>1
+JOIN  CCP_DETAILS CD  ON PD.CCP_DETAILS_SID=CD.CCP_DETAILS_SID
+WHERE EXISTS (SELECT 1 FROM #TEMP_CCP TC WHERE TC.CCP_DETAILS_SID=CD.CCP_DETAILS_SID)
+	
+IF Object_id('TEMPDB..#PRIOR_DATA_TABLE') IS NOT NULL
+	DROP TABLE #PRIOR_DATA_TABLE
 
-SELECT PM.PROJECTION_MASTER_SID
-	,CC.CCP_DETAILS_SID
-INTO #CURRENT_CPP_COMP_PRIOR_CPP
-FROM #PROJECTION_MASTER PM
-INNER JOIN PROJECTION_DETAILS PD ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
-INNER JOIN CCP_DETAILS CC ON PD.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
-WHERE ID = 1
-	AND EXISTS (
-		SELECT 1
-		FROM #TEMP_CCP A
-		WHERE A.CCP_DETAILS_SID = CC.CCP_DETAILS_SID
-		)
-
-
+SELECT COMPANY_MASTER_SID
+	,CONTRACT_MASTER_SID
+	,ITEM_MASTER_SID
+	,CCP_DETAILS_SID
+	,PROJECTION_MASTER_SID
+	,YEAR
+	,PERIOD
+	,PERIOD_SID
+	INTO #PRIOR_DATA_TABLE
+FROM #PRIOR_TEMP_CCP A
+CROSS JOIN #PERIOD 			
 
 IF Object_id('TEMPDB..#PRIOR_RS_PPA') IS NOT NULL
 	DROP TABLE #PRIOR_RS_PPA
@@ -1863,7 +1851,7 @@ IF Object_id('TEMPDB..#PRIOR_RS_PPA') IS NOT NULL
 CREATE TABLE #PRIOR_RS_PPA (RS_CONTRACT_SID INT)
 
 INSERT INTO #PRIOR_RS_PPA
-EXEC ('SELECT DISTINCT RS_CONTRACT_SID FROM ' + @PPA_PROJECTION_TABLE + ' X  WHERE EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP R WHERE R.CCP_DETAILS_SID = X.CCP_DETAILS_SID)')
+EXEC ('SELECT DISTINCT RS_CONTRACT_SID FROM ' + @PPA_PROJECTION_TABLE + ' X  WHERE EXISTS (SELECT 1 FROM #PRIOR_TEMP_CCP R WHERE R.CCP_DETAILS_SID = X.CCP_DETAILS_SID)')
 
 
                       IF Object_id('tempdb..#PRODUCT_FILE_TEMP') IS NOT NULL
@@ -1935,7 +1923,7 @@ EXEC ('SELECT DISTINCT RS_CONTRACT_SID FROM ' + @PPA_PROJECTION_TABLE + ' X  WHE
 IF OBJECT_ID('TEMPDB..#SALES_INCLUSION') IS NOT NULL
 	DROP TABLE #SALES_INCLUSION
 
-SELECT A.PROJECTION_DETAILS_SID
+SELECT DISTINCT  A.PROJECTION_DETAILS_SID
 	,B.CCP_DETAILS_SID
 	,CASE 
 		WHEN DESCRIPTION = 'YES'
@@ -1945,23 +1933,14 @@ SELECT A.PROJECTION_DETAILS_SID
 INTO #SALES_INCLUSION
 FROM NM_SALES_PROJECTION_MASTER A
 JOIN PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
-	AND EXISTS (
-		SELECT 1
-		FROM #PROJECTION_MASTER PM
-		WHERE PM.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
-			AND PM.ID <> 1
-		)
-JOIN CCP_DETAILS CD ON CD.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-JOIN CFP_CONTRACT_DETAILS CC ON CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
-JOIN CFP_CONTRACT CC1 ON CC1.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
-	AND CC1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+JOIN #PRIOR_TEMP_CCP CD ON CD.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+AND CD.PROJECTION_MASTER_SID=B.PROJECTION_MASTER_SID
+JOIN CFP_CONTRACT CC1 ON CC1.CONTRACT_MASTER_SID = CD.CONTRACT_MASTER_SID
+AND INBOUND_STATUS <> 'D'
+JOIN CFP_CONTRACT_DETAILS CC ON 
+  CC1.CFP_CONTRACT_SID = CC.CFP_CONTRACT_SID
+	AND CC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
 JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = CC1.SALES_INCLUSION
-	AND EXISTS (
-		SELECT 1
-		FROM #CURRENT_CPP_COMP_PRIOR_CPP CCP
-		WHERE CCP.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-		)
-
 
 IF OBJECT_ID('TEMPDB..#DEDUCTION_INCLUSION') IS NOT NULL
 	DROP TABLE #DEDUCTION_INCLUSION
@@ -1977,20 +1956,10 @@ SELECT A.PROJECTION_DETAILS_SID
 INTO #DEDUCTION_INCLUSION
 FROM NM_DISCOUNT_PROJ_MASTER A
 JOIN PROJECTION_DETAILS B ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
-	AND EXISTS (
-		SELECT 1
-		FROM #PROJECTION_MASTER PM
-		WHERE PM.PROJECTION_MASTER_SID = B.PROJECTION_MASTER_SID
-			AND PM.ID <> 1
-		)
+JOIN #PRIOR_TEMP_CCP CD ON CD.CCP_DETAILS_SID = B.CCP_DETAILS_SID	
+AND CD.PROJECTION_MASTER_SID=B.PROJECTION_MASTER_SID
 JOIN RS_CONTRACT RS ON A.RS_CONTRACT_SID = RS.RS_CONTRACT_SID
 JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = RS.DEDUCTION_INCLUSION
-	AND EXISTS (
-		SELECT 1
-		FROM #CURRENT_CPP_COMP_PRIOR_CPP CCP
-		WHERE CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID
-		)
-	
 
 IF OBJECT_ID('TEMPDB..#PRIOR_ACCRUAL_DISCOUNT') IS NOT NULL
 	DROP TABLE #PRIOR_ACCRUAL_DISCOUNT;
@@ -2014,9 +1983,9 @@ AS (
 		,PERIOD_DATE
 		,RS.RS_CONTRACT_SID
 		,RS.RS_MODEL_SID
-	FROM #CURRENT_CPP_COMP_PRIOR_CPP A
-	JOIN PROJECTION_DETAILS CD ON A.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
-	JOIN CCP_DETAILS CDD ON A.CCP_DETAILS_SID = CDD.CCP_DETAILS_SID
+	FROM  PROJECTION_DETAILS CD 
+	JOIN #PRIOR_TEMP_CCP CDD ON CD.CCP_DETAILS_SID = CDD.CCP_DETAILS_SID
+	AND CD.PROJECTION_MASTER_SID=CDD.PROJECTION_MASTER_SID
 	JOIN NM_DISCOUNT_PROJ_MASTER RS ON RS.PROJECTION_DETAILS_SID = CD.PROJECTION_DETAILS_SID
 	JOIN PERIOD P ON P.PERIOD_SID BETWEEN @START_PERIOD_SID
 			AND @END_PERIOD_SID
@@ -2053,8 +2022,7 @@ GROUP BY PROJECTION_MASTER_SID
 	,A2.RS_CONTRACT_SID
 	,ACCRUAL_PERIOD_START_DATE
 	,ACCRUAL_PERIOD_END_DATE
-
-
+	
                   ---FIRST PROJECTION_DETAILS_SID (PULL FROM ST TABLE) END
                       --SECOND TO LAST PROJECTION_DETAILS_SID(PULL FROM MAIN TABLE) START
          
@@ -2115,8 +2083,8 @@ GROUP BY PROJECTION_MASTER_SID
 										 TOTAL_DISCOUNT_ACCRUAL
 										 )
                             SELECT COALESCE(a.PROJECTION_MASTER_SID, SALES.PROJECTION_MASTER_SID) PROJECTION_ID,
-                                   P.[MONTH],
-                                   P.[YEAR],
+                                   A.PERIOD,
+                                   A.[YEAR],
                                    Isnull(A.GTS_SALES_ACTUALS, 0) as EX_FACTORY_SALES_ACTUALS ,
                                     Isnull(A.GTS_SALES_PROJECTED, 0)AS EX_FACTORY_SALES_PROJECTED ,
                                     Isnull(A.DEMAND_SALES_ACTUAL, 0) AS DEMAND_SALES_ACTUALS ,
@@ -2182,239 +2150,139 @@ GROUP BY PROJECTION_MASTER_SID
 							,NET_EX_FACTORY_SALES_OF_EX_FACTORY_SALES_ACTUALS=ISNULL((( ISNULL(A.GTS_SALES_ACTUALS, 0) )-( DISC.CONTRACT_DISCOUNT_ACTUALS+ ISNULL(PPA.PPA_DISCOUNT_ACTUALS, 0)  ))/NULLIF( ISNULL(A.GTS_SALES_ACTUALS, 0),0),0)*100  -----------cel-386
 							,NET_EX_FACTORY_SALES_OF_EX_FACTORY_SALES_PROJECTED=ISNULL((ISNULL(A.GTS_SALES_PROJECTED, 0)-(DISC.CONTRACT_DISCOUNT_PROJECTED + ISNULL(PPA.PPA_DISCOUNT_PROJECTED, 0)))/NULLIF(A.GTS_SALES_PROJECTED, 0),0)*100, -----------cel-386
 							 ACCRUAL_DISCOUNT AS TOTAL_DISCOUNT_ACCRUAL
-                            FROM   (SELECT PM.PROJECTION_MASTER_SID,
-                                           Sum(INVENTORY_ACTUAL_SALES) as ACT_AMOUNT_WITHDRAWN ,
-                                            Sum(INVENTORY_ACTUAL_UNITS) AS ACT_UNITS_WITHDRAWN ,
-                                           Sum(COALESCE(INVENTORY_FORECAST_SALES, INVENTORY_ACTUAL_SALES)) AS  FOR_AMOUNT_WITHDRAWN ,
-                                           Sum(COALESCE(INVENTORY_FORECAST_UNITS, INVENTORY_ACTUAL_UNITS)) AS  FOR_UNITS_WITHDRAWN ,
-                                            Sum(DEMAND_ACTUAL_SALES) AS DEMAND_SALES_ACTUAL ,
-                                           Sum(DEMAND_ACTUAL_UNITS) AS ACT_GROSS_UNITS ,
-                                           Sum(COALESCE(DEMAND_FORECAST_SALES, DEMAND_ACTUAL_SALES)) AS  DEMAND_SALES_PROJECTED,
-                                            Sum(COALESCE(DEMAND_FORECAST_UNITS, DEMAND_ACTUAL_UNITS)) AS FOR_GROSS_UNITS,
-                                            Sum(EXFACTORY_ACTUAL_SALES) AS GTS_SALES_ACTUALS,
-                                            Sum(COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES)) AS GTS_SALES_PROJECTED,
-                                           Sum(COALESCE(EXFACTORY_FORECAST_UNITS, EXFACTORY_ACTUAL_UNITS)) AS UNITS,YEAR,
-                                           P.period
-                                    FROM   #PROJECTION_MASTER PM
-										JOIN #PERIOD P
-                                             ON P.PERIOD_SID  BETWEEN @START_PERIOD_SID AND @END_PERIOD_SID
-											 AND PM.ID <> 1
-										LEFT JOIN  (SELECT * FROM #PRODUCT_FILE_TEMP  PF WHERE  EXISTS (SELECT 1 FROM  #TEMP_CCP A WHERE A.ITEM_MASTER_SID=PF.ITEM_MASTER_SID)) PF
-											 ON PM.PROJECTION_MASTER_SID = PF.PROJECTION_MASTER_SID	
-											 AND PF.PERIOD_SID=P.PERIOD_SID
-                                    GROUP  BY PM.PROJECTION_MASTER_SID,
-                                              P.PERIOD,YEAR) a
-                                   RIGHT JOIN (SELECT  Sum(ACTUAL_SALES) AS CONTRACT_SALES_ACTUALS ,
-                                                       Sum(PROJECTION_SALES) AS CONTRACT_SALES_PROJECTED ,
-                                                      COALESCE(ACT.PERIOD, PROJ.PERIOD) AS PERIOD ,
-													  COALESCE(ACT.YEAR, PROJ.YEAR) AS year ,
-                                                      Sum(ACTUAL_UNITS) AS  CONTRACT_UNITS_ACTUALS,
-                                                      Sum(PROJECTION_UNITS) AS CONTRACT_UNITS_PROJECTED ,
-                                                      Sum(COGS_ACTUAL) AS COGS_ACTUALS ,
-                                                      Sum(COGS_PROJECTED) AS COGS_PROJECTED,
-                                                      COALESCE(act.PROJECTION_MASTER_SID, proj.PROJECTION_MASTER_SID) AS PROJECTION_MASTER_SID
-                                               --, ITEM_MASTER_SID = COALESCE(ACT.ITEM_MASTER_SID, PROJ.ITEM_MASTER_SID)
-                                               FROM   (SELECT PD.PROJECTION_MASTER_SID,
-                                                              PP.PERIOD,
-                                                              IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),ACTUAL_SALES,NULL)  ACTUAL_SALES,
-                                                              IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),ACTUAL_UNITS,NULL) * ISNULL(UOM_VALUE,0) ACTUAL_UNITS,
-                                                              CCP.ITEM_MASTER_SID,
-                                                               (ISNULL(IIF((SALES_INCLUSION=NULL OR NULL IS NULL),NAS.ACTUAL_UNITS,NULL), 0) * ISNULL(U.ITEM_PRICE, 0) )  * ISNULL(UOM_VALUE,0) AS COGS_ACTUAL,
-															   NAS.PROJECTION_DETAILS_SID,YEAR
-                                                       FROM   NM_ACTUAL_SALES NAS
-                                                              INNER JOIN PROJECTION_DETAILS PD
-                                                                      ON NAS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-                                                              INNER JOIN CCP_DETAILS CCP
-                                                                      ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-                                                              INNER JOIN #ITEM_PRICING U
-                                                                      ON CCP.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-                                                                         AND NAS.PERIOD_SID = U.PERIOD_SID
-																		 JOIN #PERIOD PP ON PP.PERIOD_SID=NAS.PERIOD_SID
-															 INNER JOIN #SALES_INCLUSION SI ON SI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-															 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID
-																							
-
-                                                       WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                           FROM   #PROJECTION_MASTER PM
-                                                                                           WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-														AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                      WHERE  CC.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID)
-															  ) ACT
-                                                      FULL JOIN (SELECT PD.PROJECTION_MASTER_SID,
-                                                                        pp.PERIOD,
-                                                                        IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),PROJECTION_SALES,NULL)  PROJECTION_SALES,
-                                                                        IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),PROJECTION_UNITS,NULL)  * ISNULL(UOM_VALUE,0) PROJECTION_UNITS,
-                                                                        CCP.ITEM_MASTER_SID,
-                                                                        ( Isnull(IIF((SALES_INCLUSION=NULL OR NULL IS NULL),NSP.PROJECTION_UNITS,NULL)  , 0) * Isnull(U.ITEM_PRICE, 0) )  * ISNULL(UOM_VALUE,0) AS COGS_PROJECTED ,
-																		NSP.PROJECTION_DETAILS_SID,YEAR
-                                                                 FROM   NM_SALES_PROJECTION NSP
-                                                                        INNER JOIN PROJECTION_DETAILS PD
-                                                                                ON NSP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-                                                                        INNER JOIN CCP_DETAILS CCP
-                                                                                ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-                                                                        INNER JOIN #ITEM_PRICING U
-                                                                                ON CCP.ITEM_MASTER_SID = U.ITEM_MASTER_SID
-                                                                                   AND NSP.PERIOD_SID = U.PERIOD_SID
-																				   	 join #PERIOD pp on pp.PERIOD_SID=NSP.PERIOD_SID
-																				   INNER JOIN #SALES_INCLUSION SI ON SI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-															 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID
-																							
-																				   AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                      WHERE  CC.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID)
-                                                                 WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                                     FROM   #PROJECTION_MASTER PM
-                                                                                                     WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-                                                                        AND NSP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @END_PERIOD_SID) PROJ
-                                                             ON ACT.PROJECTION_MASTER_SID = PROJ.PROJECTION_MASTER_SID
-															 AND ACT.PROJECTION_DETAILS_SID = PROJ.PROJECTION_DETAILS_SID
-                                                                AND ACT.PERIOD = PROJ.PERIOD
-																and act.YEAR=proj.YEAR
-                                               GROUP  BY COALESCE(ACT.PERIOD, PROJ.PERIOD),
-                                                         COALESCE(ACT.year, PROJ.year),COALESCE(act.PROJECTION_MASTER_SID, proj.PROJECTION_MASTER_SID)) SALES
-                                           ON SALES.PERIOD = A.PERIOD
-										   and sales.YEAR=a.YEAR
-                                              AND SALES.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID
-                                   INNER JOIN #PERIOD P
-                                           ON P.PERIOD_SID = COALESCE(SALES.period, A.period)
-                                              AND P.PERIOD_SID BETWEEN 600 AND 648
-                                   LEFT JOIN (SELECT SUM(ACTUAL_SALES) AS CONTRACT_DISCOUNT_ACTUALS ,
-                                                      SUM(PROJECTION_SALES) AS CONTRACT_DISCOUNT_PROJECTED ,
-													  COALESCE(SUM(ACCRUAL_DISCOUNT_PROJ),SUM(ACCRUAL_DISCOUNT_ACTUAL)) ACCRUAL_DISCOUNT,
-                                                     COALESCE(ACT.PERIOD, PROJ.PERIOD) AS  PERIOD ,COALESCE(ACT.YEAR, PROJ.YEAR) AS YEAR,
-                                                     COALESCE(ACT.PROJECTION_MASTER_SID, PROJ.PROJECTION_MASTER_SID) AS PROJECTION_MASTER_SID
-                                              FROM   (SELECT PD.PROJECTION_MASTER_SID,
-                                                             PP.PERIOD,PP.YEAR,
-                                                             IIF((DEDUCTION_INCLUSION=NULL OR  @DEDUCTION_INCLUSION IS NULL),ACTUAL_SALES,NULL) ACTUAL_SALES,
-                                                             NAD.RS_CONTRACT_SID,
-															 NAD.PROJECTION_DETAILS_SID,DISCOUNT_AMOUNT ACCRUAL_DISCOUNT_ACTUAL
-                                                      FROM   NM_ACTUAL_DISCOUNT NAD
-                                                             INNER JOIN PROJECTION_DETAILS PD
-                                                                     ON NAD.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-                                                             AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                      WHERE  CC.CCP_DETAILS_SID = PD.CCP_DETAILS_SID)
-															INNER JOIN #DEDUCTION_INCLUSION DI ON DI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-															AND DI.RS_CONTRACT_SID=NAD.RS_CONTRACT_SID
-														  LEFT JOIN  #PRIOR_ACCRUAL_DISCOUNT AD ON AD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID
-														  AND AD.PROJECTION_DETAILS_SID=NAD.PROJECTION_DETAILS_SID
-														   AND AD.RS_CONTRACT_SID=NAD.RS_CONTRACT_SID
-														   AND AD.PERIOD_SID=NAD.PERIOD_SID
-														   JOIN #PERIOD PP ON PP.PERIOD_SID=AD.PERIOD_SID
-														   AND PP.PERIOD_SID=NAD.PERIOD_SID
-                                                      WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                          FROM   #PROJECTION_MASTER PM
-                                                                                          WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-															AND EXISTS(SELECT 1 FROM #RS_DATA RS WHERE RS.RS_CONTRACT_SID=NAD.RS_CONTRACT_SID )) ACT
-                                                     FULL JOIN (SELECT PD.PROJECTION_MASTER_SID,
-                                                                          PP.PERIOD,PP.YEAR,
-                                                                       IIF((DEDUCTION_INCLUSION=NULL OR  @DEDUCTION_INCLUSION IS NULL),PROJECTION_SALES,NULL) PROJECTION_SALES,
-                                                                       NDP.RS_CONTRACT_SID,
-																	   NDP.PROJECTION_DETAILS_SID,DISCOUNT_AMOUNT ACCRUAL_DISCOUNT_PROJ
-                                                                FROM   NM_DISCOUNT_PROJECTION NDP
-                                                                       INNER JOIN PROJECTION_DETAILS PD
-                                                                               ON NDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-                                                                      AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                        WHERE  CC.CCP_DETAILS_SID = PD.CCP_DETAILS_SID)
-															INNER JOIN #DEDUCTION_INCLUSION DI ON DI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-															AND DI.RS_CONTRACT_SID=NDP.RS_CONTRACT_SID
-															LEFT JOIN  #PRIOR_ACCRUAL_DISCOUNT AD ON AD.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID
-														   AND AD.PROJECTION_DETAILS_SID=NDP.PROJECTION_DETAILS_SID
-														   AND AD.RS_CONTRACT_SID=NDP.RS_CONTRACT_SID
-														   AND AD.PERIOD_SID=NDP.PERIOD_SID
-														    JOIN #PERIOD PP ON PP.PERIOD_SID=AD.PERIOD_SID
-														   AND PP.PERIOD_SID=NDP.PERIOD_SID
-                                                           WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                                    FROM   #PROJECTION_MASTER PM
-                                                                                                    WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-                                                                       AND EXISTS(SELECT 1 FROM #RS_DATA RS WHERE RS.RS_CONTRACT_SID=NDP.RS_CONTRACT_SID )
-																	   AND NDP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @END_PERIOD_SID) PROJ
-                                                            ON ACT.PROJECTION_MASTER_SID = PROJ.PROJECTION_MASTER_SID
-															AND ACT.PROJECTION_DETAILS_SID = PROJ.PROJECTION_DETAILS_SID
-                                                               AND ACT.PERIOD = PROJ.PERIOD
-															   AND ACT.YEAR=PROJ.YEAR
-                                                               AND ACT.RS_CONTRACT_SID = PROJ.RS_CONTRACT_SID
-                                              GROUP  BY COALESCE(ACT.PERIOD, PROJ.PERIOD),COALESCE(ACT.YEAR, PROJ.YEAR),
-                                                        COALESCE(ACT.PROJECTION_MASTER_SID, PROJ.PROJECTION_MASTER_SID)) DISC
-                                          ON DISC.PERIOD = P.PERIOD
-										  and disc.year=p.YEAR
-                                             AND DISC.PROJECTION_MASTER_SID = COALESCE(A.PROJECTION_MASTER_SID, SALES.PROJECTION_MASTER_SID)
-                                   LEFT JOIN (SELECT  Sum(ACTUAL_PPA_SALES) AS PPA_DISCOUNT_ACTUALS ,
-                                                      Sum(ACTUAL_PPA_RPU) AS PPA_RPU_ACTUALS ,
-                                                     Sum(PROJECTION_PPA_SALES) AS PPA_DISCOUNT_PROJECTED ,
-                                                      Sum(PPA_RPU) AS PPA_RPU_PROJECTED ,
-                                                    Sum(ACTUAL_SALES) AS  PPA_ACTUAL_SALES ,
-                                                      Sum(ACTUAL_UNITS) AS PPA_ACTUAL_UNITS ,
-                                                      Sum(PROJECTION_SALES) AS PPA_PROJECTION_SALES ,
-                                                     Sum(PROJECTION_UNITS) AS PPA_PROJECTION_UNITS ,
-                                                    COALESCE(ACT.PERIOD, PROJ.PERIOD) AS  PERIOD ,
-													 COALESCE(ACT.year, PROJ.year) AS  year ,
-                                                      COALESCE(ACT.PROJECTION_MASTER_SID, PROJ.PROJECTION_MASTER_SID) AS PROJECTION_MASTER_SID 
-                                              FROM   (SELECT PD.PROJECTION_MASTER_SID,
-                                                             pp.PERIOD,pp.year,
-                                                             ACTUAL_DISCOUNT_DOLLAR AS ACTUAL_PPA_SALES ,
-                                                             ACTUAL_DISCOUNT_DOLLAR AS  ACTUAL_PPA_RPU ,
-                                                             RS_CONTRACT_SID,
-                                                              IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),NS.ACTUAL_SALES,NULL)  AS ACTUAL_SALES,
-                                                              IIF((SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS NULL),NS.ACTUAL_UNITS,NULL)  * ISNULL(UOM_VALUE,0) AS ACTUAL_UNITS,
-															  NAP.PROJECTION_DETAILS_SID
-                                                      FROM   NM_ACTUAL_PPA NAP
-                                                             INNER JOIN NM_ACTUAL_SALES NS
-                                                                     ON NS.PROJECTION_DETAILS_SID = NAP.PROJECTION_DETAILS_SID
-                                                                        AND NS.PERIOD_SID = NAP.PERIOD_SID
-																		join #PERIOD pp on pp.PERIOD_SID=nap.PERIOD_SID
-                                                             INNER JOIN PROJECTION_DETAILS PD
-                                                                     ON NS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-																	 INNER JOIN #SALES_INCLUSION SI ON SI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-                                                             AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                      WHERE  CC.CCP_DETAILS_SID = PD.CCP_DETAILS_SID)
-																	  INNER JOIN CCP_DETAILS CCP
-                                                                                ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-															 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID
-																							
-
-                                                      WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                          FROM   #PROJECTION_MASTER PM
-                                                                                          WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-                                                     AND EXISTS(SELECT 1 FROM #PRIOR_RS_PPA RS WHERE RS.RS_CONTRACT_SID=NAP.RS_CONTRACT_SID )
-                                                     ) ACT
-                                                     FULL JOIN (SELECT PD.PROJECTION_MASTER_SID,
-                                                                         pp.PERIOD,pp.year,
-                                                                        PROJECTION_DISCOUNT_DOLLAR AS PPA_RPU,
-                                                                        PROJECTION_DISCOUNT_DOLLAR AS PROJECTION_PPA_SALES,
-                                                                        RS_CONTRACT_SID,
-                                                                        IIF((SALES_INCLUSION=NULL OR @SALES_INCLUSION IS NULL),NS.PROJECTION_SALES,NULL)   AS PROJECTION_SALES ,
-                                                                        IIF((SALES_INCLUSION=NULL OR @SALES_INCLUSION IS NULL),NS.PROJECTION_UNITS,NULL)  * ISNULL(UOM_VALUE,0) AS PROJECTION_UNITS,
-																		NPP.PROJECTION_DETAILS_SID
-                                                                FROM   NM_PPA_PROJECTION NPP
-                                                                       INNER JOIN NM_SALES_PROJECTION NS
-                                                                               ON NS.PROJECTION_DETAILS_SID = NPP.PROJECTION_DETAILS_SID
-                                                                                  AND NS.PERIOD_SID = NPP.PERIOD_SID
-																				  join #PERIOD pp on pp.PERIOD_SID=NS.PERIOD_SID
-                                                                       INNER JOIN PROJECTION_DETAILS PD
-                                                                               ON NS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
-																			   INNER JOIN #SALES_INCLUSION SI ON SI.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID
-                                                                      AND  EXISTS (SELECT 1 FROM #CURRENT_CPP_COMP_PRIOR_CPP CC
-                                                                      WHERE  CC.CCP_DETAILS_SID = PD.CCP_DETAILS_SID)
-																	  INNER JOIN CCP_DETAILS CCP
-                                                                                ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-															 LEFT JOIN #ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID
-																							
-                                                                WHERE  EXISTS (SELECT PM.PROJECTION_MASTER_SID
-                                                                                                    FROM   #PROJECTION_MASTER PM
-                                                                                                    WHERE  ID <> 1 AND PM.PROJECTION_MASTER_SID=PD.PROJECTION_MASTER_SID)
-                                                                       AND EXISTS(SELECT 1 FROM #PRIOR_RS_PPA RS WHERE RS.RS_CONTRACT_SID=NPP.RS_CONTRACT_SID )
-																	   AND NPP.PERIOD_SID BETWEEN @PROJ_START_PERIOD_SID AND @END_PERIOD_SID) PROJ
-                                                            ON ACT.PROJECTION_MASTER_SID = PROJ.PROJECTION_MASTER_SID
-															AND ACT.PROJECTION_DETAILS_SID = PROJ.PROJECTION_DETAILS_SID
-                                                               AND ACT.PERIOD = PROJ.PERIOD
-															   and act.YEAR=proj.YEAR
-                                                               AND ACT.RS_CONTRACT_SID = PROJ.RS_CONTRACT_SID
-                                              GROUP  BY COALESCE(ACT.PERIOD, PROJ.PERIOD),COALESCE(ACT.YEAR, PROJ.YEAR),
-                                                        COALESCE(ACT.PROJECTION_MASTER_SID, PROJ.PROJECTION_MASTER_SID)) PPA
-                                          ON PPA.PERIOD = SALES.PERIOD
-										  and ppa.year=sales.year
-                                             AND COALESCE(A.PROJECTION_MASTER_SID, SALES.PROJECTION_MASTER_SID) = PPA.PROJECTION_MASTER_SID
-                            ORDER  BY SALES.PERIOD,sales.year
-                    
+                            FROM (
+	SELECT PM.PROJECTION_MASTER_SID,
+		SUM(INVENTORY_ACTUAL_SALES) AS ACT_AMOUNT_WITHDRAWN,
+		SUM(INVENTORY_ACTUAL_UNITS) AS ACT_UNITS_WITHDRAWN,
+		SUM(COALESCE(INVENTORY_FORECAST_SALES, INVENTORY_ACTUAL_SALES)) AS FOR_AMOUNT_WITHDRAWN,
+		SUM(COALESCE(INVENTORY_FORECAST_UNITS, INVENTORY_ACTUAL_UNITS)) AS FOR_UNITS_WITHDRAWN,
+		SUM(DEMAND_ACTUAL_SALES) AS DEMAND_SALES_ACTUAL,
+		SUM(DEMAND_ACTUAL_UNITS) AS ACT_GROSS_UNITS,
+		SUM(COALESCE(DEMAND_FORECAST_SALES, DEMAND_ACTUAL_SALES)) AS DEMAND_SALES_PROJECTED,
+		SUM(COALESCE(DEMAND_FORECAST_UNITS, DEMAND_ACTUAL_UNITS)) AS FOR_GROSS_UNITS,
+		SUM(EXFACTORY_ACTUAL_SALES) AS GTS_SALES_ACTUALS,
+		SUM(COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES)) AS GTS_SALES_PROJECTED,
+		SUM(COALESCE(EXFACTORY_FORECAST_UNITS, EXFACTORY_ACTUAL_UNITS)) AS UNITS,
+		PM.YEAR,
+		PM.PERIOD
+	FROM #PRIOR_DATA_TABLE PM
+	LEFT JOIN #PRODUCT_FILE_TEMP PF
+		ON PM.PROJECTION_MASTER_SID = PF.PROJECTION_MASTER_SID
+			AND PF.PERIOD_SID = PM.PERIOD_SID
+	GROUP BY PM.PROJECTION_MASTER_SID,
+		PM.PERIOD,
+		PM.YEAR
+	) A
+INNER JOIN (
+	SELECT PROJECTION_MASTER_SID,
+		PERIOD,
+		YEAR,
+		CONTRACT_SALES_ACTUALS = SUM(ACTUAL_SALES),
+		CONTRACT_SALES_PROJECTED = SUM(PROJECTION_SALES),
+		CONTRACT_UNITS_ACTUALS = SUM(ACTUAL_UNITS),
+		CONTRACT_UNITS_PROJECTED = SUM(PROJECTION_UNITS),
+		COGS_ACTUALS = SUM(COGS_ACTUAL),
+		COGS_PROJECTED = SUM(COGS_PROJECTED)
+	FROM (
+		SELECT PT.PROJECTION_MASTER_SID,
+			PT.CCP_DETAILS_SID,
+			PERIOD,
+			YEAR,
+			PT.PERIOD_SID
+		,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(ACTUAL_SALES,0), NULL) ACTUAL_SALES
+		,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(ACTUAL_UNITS,0), NULL) * ISNULL(UOM_VALUE, 0) ACTUAL_UNITS
+		,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL) PROJECTION_SALES
+		,IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ISNULL(PROJECTION_UNITS,0), NULL) * ISNULL(UOM_VALUE, 0) PROJECTION_UNITS
+		,COGS_ACTUAL = (IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), ACTUAL_UNITS, NULL) * ISNULL(U.ITEM_PRICE, 0)) * ISNULL(UOM_VALUE, 0)
+		,COGS_PROJECTED = (IIF(( SALES_INCLUSION = @SALES_INCLUSION OR @SALES_INCLUSION IS NULL ), PROJECTION_UNITS, NULL) * ISNULL(U.ITEM_PRICE, 0)) * ISNULL(UOM_VALUE, 0)
+		FROM #PRIOR_DATA_TABLE PT
+		INNER JOIN PROJECTION_DETAILS PD
+			ON PT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+				AND PD.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+		INNER JOIN #SALES_INCLUSION SI
+			ON SI.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+		LEFT JOIN NM_ACTUAL_SALES NAS
+			ON NAS.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+				AND NAS.PERIOD_SID = PT.PERIOD_SID
+		LEFT JOIN NM_SALES_PROJECTION NSP
+			ON NSP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+				AND NSP.PERIOD_SID = PT.PERIOD_SID
+		LEFT JOIN #ITEM_PRICING U
+			ON PT.ITEM_MASTER_SID = U.ITEM_MASTER_SID
+				AND PT.PERIOD_SID = U.PERIOD_SID
+		LEFT JOIN #ITEM_UOM_DETAILS UOM
+			ON UOM.ITEM_MASTER_SID = PT.ITEM_MASTER_SID
+		) A
+	GROUP BY PROJECTION_MASTER_SID,
+		YEAR,
+		PERIOD
+	) SALES
+	ON SALES.PERIOD = A.PERIOD
+		AND sales.YEAR = a.YEAR
+		AND SALES.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID
+LEFT JOIN (
+	SELECT PROJECTION_MASTER_SID,
+		PERIOD,
+		YEAR,
+		CONTRACT_DISCOUNT_ACTUALS = Sum(ACTUAL_SALES),
+		CONTRACT_DISCOUNT_PROJECTED = Sum(PROJECTION_SALES),
+		ACCRUAL_DISCOUNT = SUM(ACCRUAL_DISCOUNT)
+	FROM (
+		SELECT PT.PROJECTION_MASTER_SID,
+			PT.CCP_DETAILS_SID,
+			PERIOD,
+			YEAR,
+			PT.PERIOD_SID,
+			IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), ISNULL(ACTUAL_SALES,0), NULL) ACTUAL_SALES,
+			IIF(( DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION OR @DEDUCTION_INCLUSION IS NULL ), ISNULL(PROJECTION_SALES,0), NULL)  PROJECTION_SALES,
+			DISCOUNT_AMOUNT ACCRUAL_DISCOUNT
+		FROM #PRIOR_DATA_TABLE PT
+		INNER JOIN PROJECTION_DETAILS PD
+			ON PT.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+				AND PD.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+		INNER JOIN #DEDUCTION_INCLUSION DI
+			ON DI.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+		LEFT JOIN NM_ACTUAL_DISCOUNT NAD
+			ON NAD.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+				AND DI.RS_CONTRACT_SID = NAD.RS_CONTRACT_SID
+				AND NAD.PERIOD_SID = PT.PERIOD_SID
+		LEFT JOIN NM_DISCOUNT_PROJECTION NDP
+			ON NDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+				AND DI.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+				AND NDP.PERIOD_SID = PT.PERIOD_SID
+		LEFT JOIN #PRIOR_ACCRUAL_DISCOUNT AD
+			ON AD.PROJECTION_MASTER_SID = PT.PROJECTION_MASTER_SID
+				AND AD.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID
+				AND AD.RS_CONTRACT_SID = DI.RS_CONTRACT_SID
+				AND AD.PERIOD_SID = PT.PERIOD_SID
+		) A
+	GROUP BY PROJECTION_MASTER_SID,
+		PERIOD,
+		YEAR
+	) DISC
+	ON DISC.PERIOD = A.PERIOD
+		AND disc.year = A.YEAR
+		AND DISC.PROJECTION_MASTER_SID = A.PROJECTION_MASTER_SID
+LEFT JOIN (
+	SELECT 0 AS PPA_DISCOUNT_ACTUALS,
+	0 AS PPA_RPU_ACTUALS,
+	0 AS PPA_DISCOUNT_PROJECTED,
+	0 AS PPA_RPU_PROJECTED,
+	0 AS PPA_ACTUAL_SALES,
+	0 AS PPA_ACTUAL_UNITS,
+	0 AS PPA_PROJECTION_SALES,
+	0 AS PPA_PROJECTION_UNITS,
+	PERIOD,
+	year,
+	PROJECTION_MASTER_SID
+FROM #PRIOR_DATA_TABLE
+) PPA
+	ON PPA.PERIOD = SALES.PERIOD
+		AND ppa.year = sales.year
+		AND A.PROJECTION_MASTER_SID = PPA.PROJECTION_MASTER_SID
+ORDER BY SALES.PERIOD,
+	sales.year
+                 
        --                ELSE IF @PROJ_FREQUENCY = 'QUARTERLY'----------------------------IT WILL DISPLAY THE QUARTERLY WISE DATA  -------------------------
        --                 BEGIN
        --                     INSERT INTO #PIVOT_RESULT
@@ -3466,8 +3334,8 @@ GROUP BY PROJECTION_MASTER_SID
        --                     ORDER  BY SALES.YEAR
        --                 END
                       --SECOND TO LAST PROJECTION_DETAILS_SID(PULL FROM MAIN TABLE) END
-					  							end
-	end
+					  							END
+	END
                       ------------- PIVOTING START
                       DECLARE @LOOP_CNTR INT,
                               @MAX_CCP   INT
@@ -4513,3 +4381,4 @@ GROUP BY PROJECTION_MASTER_SID
 
 
 			END
+			GO

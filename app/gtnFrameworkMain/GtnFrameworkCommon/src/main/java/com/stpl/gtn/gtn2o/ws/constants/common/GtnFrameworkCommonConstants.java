@@ -816,6 +816,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PRICE_SCHEDULE_NO_TOP = "priceScheduleNoTop";
 	public static final String RULE_TYPE = "Rule Type";
 	public static final String ADD_LINE = "gtnAddLineButtonlayout";
+	public static final String PS_ALERT_MSG = "Add atleast One Item in Item Addition tab for PS";
 
 	/**
 	 * Process Monitor

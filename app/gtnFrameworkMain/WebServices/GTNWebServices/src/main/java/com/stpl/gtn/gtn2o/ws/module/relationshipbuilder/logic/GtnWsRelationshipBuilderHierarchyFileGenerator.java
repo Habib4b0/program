@@ -109,7 +109,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 			}
 
 		} catch (Exception ex) {
-			LOGGER.error("Exception in getQuery", ex);
+			LOGGER.error("Exception in getQueryReplaced", ex);
 		}
 		return sqlStringBuilder.toString();
 	}
