@@ -10,21 +10,19 @@ public final class FilePathUtil {
 	
 	/** The variable used for logger. */
 	public static final String VIEW_RESOL_PRE = "/WEB-INF/jsp/";
+
 	
 	/** The variable used for logger. */
 	public static final String VIEW_RESOL_SUFF = ".jsp";
 
         /** The Constant BACKSLASH. */
 	public static final String BACKSLASH="/";
-                
+              
 	/** The Constant TEMP_PATH. */
 	public static final String TEMP_PATH=BACKSLASH+"temp";
+        
+	public static  String latestServerName="";
 	        
-	/** The Constant LOG_PATH. */
-	public static final String LOG_PATH=BACKSLASH+"log.txt";
-	
-	/** The Constant ERROR_LOG_PATH. */
-	public static final String ERROR_LOG_PATH=BACKSLASH+"Error_Log.txt";
 	
 	/** The Constant LOG_FILE_NAME. */
 	public static final String LOG_FILE_NAME="Error_Log.txt";
@@ -280,4 +278,13 @@ public final class FilePathUtil {
        
        private FilePathUtil(){
         }
+    public static String getLOG_PATH() {
+        return latestServerName.isEmpty()?BACKSLASH+"log.txt":BACKSLASH+latestServerName+"_log.txt";
+    }
+
+
+    public static String getERROR_LOG_PATH() {
+         return latestServerName.isEmpty()?BACKSLASH+"Error_Log.txt":BACKSLASH+latestServerName+"_Error_Log.txt";
+    }
+
 }
