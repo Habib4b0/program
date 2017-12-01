@@ -2,15 +2,15 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.service.BusinessroleModuleLocalServiceUtil;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
 import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.stpl.domain.forecast.security.StplSecurityDAO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gtnforecasting.service.finderImpl.BusinessRoleModuleImpl;
 import java.util.List;
 /**
  * DAO operations for Security
@@ -57,7 +57,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws SystemException
 	 * @throws PortalException
 	 */public List getBusinessroleModuleMasterTabList(final String businessRoleIds,final String moduleName){
-		return BusinessroleModuleLocalServiceUtil.getBusinessTabPermission(businessRoleIds, moduleName);
+		return new BusinessRoleModuleImpl().getBusinessTabPermission(businessRoleIds, moduleName);
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws PortalException
 	 */
 	public List getBusinessroleModuleMasterFieldList(final String businessRoleIds,final String moduleName) throws PortalException, SystemException {
-		return BusinessroleModuleLocalServiceUtil.getBusinessFieldPermission(businessRoleIds, moduleName);
+		return new BusinessRoleModuleImpl().getBusinessFieldPermission(businessRoleIds, moduleName);
 	}
 	
 	/**
@@ -81,7 +81,7 @@ public class StplSecurityDAOImpl implements StplSecurityDAO{
 	 * @throws PortalException
 	 */
 	public List getBusinessroleModuleMasterFunctionList(final String businessRoleIds,final String moduleName)  throws PortalException, SystemException{
-		return BusinessroleModuleLocalServiceUtil.getBusinessFunctionPermission(businessRoleIds, moduleName);
+		return new BusinessRoleModuleImpl().getBusinessFunctionPermission(businessRoleIds, moduleName);
 	}
 	
 }

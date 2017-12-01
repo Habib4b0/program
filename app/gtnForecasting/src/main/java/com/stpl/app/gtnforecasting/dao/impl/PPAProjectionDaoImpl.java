@@ -3,11 +3,11 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
-import com.stpl.app.service.NmPpaProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmPpaProjectionMasterImpl;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,12 +43,12 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
  */
     @Override
     public List getPPAProjection(Integer projectionId,int levelNo,String parent,boolean last,int startIndex,int endIndex,boolean isCount,String levelName) throws SystemException, PortalException{
-        return NmPpaProjectionMasterLocalServiceUtil.getPPAProjectionList(projectionId,levelNo,parent,last,startIndex,endIndex,isCount,levelName);
+        return new NmPpaProjectionMasterImpl().getPPAProjectionList(projectionId,levelNo,parent,last,startIndex,endIndex,isCount,levelName);
         
     }
      @Override
     public void massUpdate(Object priceCap, int startQuater, int endQuater, int startYear, int endYear, int projectionId,String parent,String levelValue) {
-         NmPpaProjectionMasterLocalServiceUtil.setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId, parent, levelValue);
+         new NmPpaProjectionMasterImpl().setPPAProjectionMassUpdate(priceCap,startQuater,endQuater,startYear,endYear,projectionId, parent, levelValue);
     }
 
     @Override
@@ -63,7 +63,8 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
 
     @Override
     public Object executeUpdate(String query) {
-       return NmSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+        return true;
     }
  /**
      * Performs a dynamic query on the database and returns the matching rows.

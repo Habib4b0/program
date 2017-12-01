@@ -1,11 +1,11 @@
 package com.stpl.app.gtnforecasting.bpm.service;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.RoleLocalServiceUtil;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

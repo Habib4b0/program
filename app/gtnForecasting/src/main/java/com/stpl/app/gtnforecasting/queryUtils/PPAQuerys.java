@@ -10,7 +10,7 @@ import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;

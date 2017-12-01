@@ -13,9 +13,9 @@ import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,8 +43,8 @@ public class Converters {
      * @param list the list
      * @return the customized views
      * @throws java.text.ParseException
-     * @throws com.stpl.portal.kernel.exception.PortalException
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();

@@ -15,9 +15,12 @@ import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
 import com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
 
 /**
@@ -98,21 +101,21 @@ public class CommonDAOImpl implements CommonDAO{
     
     @Override
     public List getDiscountNoList(int projectionId, List<String> priceGroupType) {
-        return NmDiscountProjMasterLocalServiceUtil.getDiscountNo(projectionId,priceGroupType);
+        return new NmDiscountImpl().getDiscountNo(projectionId,priceGroupType);
     }
 
     @Override
     public Object executeSelectQuery(String query, Object udc1, Object udc2) {
-       return NmSalesProjectionMasterLocalServiceUtil.executeSelectQuery(query, udc1, udc2);
+       return new NMSalesProjectionMasterImpl().executeSelectQuery(query, udc1, udc2);
     }
 
     @Override
     public Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
-        return NmSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, udc1, udc2);
+        return new NMSalesProjectionMasterImpl().executeBulkUpdateQuery(query, udc1, udc2);
     }
 
     @Override
     public Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
-         return NmSalesProjectionMasterLocalServiceUtil.executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
+         return new NMSalesProjectionMasterImpl().executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
     }
 }

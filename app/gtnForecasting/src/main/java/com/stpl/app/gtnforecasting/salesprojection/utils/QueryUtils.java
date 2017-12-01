@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.utils;
 
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 
 /**
  *

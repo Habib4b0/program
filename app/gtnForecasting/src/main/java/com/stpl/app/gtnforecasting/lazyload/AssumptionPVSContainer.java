@@ -3,17 +3,17 @@ package com.stpl.app.gtnforecasting.lazyload;
 import com.stpl.app.gtnforecasting.dto.AssumptionPVDTO;
 import com.stpl.app.gtnforecasting.logic.AssumptionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.ComboBox;
 import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedFilterTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 public class AssumptionPVSContainer  implements DAO<AssumptionPVDTO> {
 

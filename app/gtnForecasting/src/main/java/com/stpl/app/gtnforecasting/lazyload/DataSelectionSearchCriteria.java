@@ -7,7 +7,7 @@ package com.stpl.app.gtnforecasting.lazyload;
 
 import com.vaadin.v7.data.Container.Filter;
 import java.util.Set;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
 /**
  *
  * @author soundarrajan.l

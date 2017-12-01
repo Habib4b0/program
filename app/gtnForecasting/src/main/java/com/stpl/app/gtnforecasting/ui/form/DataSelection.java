@@ -59,8 +59,8 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
@@ -82,7 +82,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 
 /**
  *

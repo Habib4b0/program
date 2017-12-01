@@ -24,8 +24,8 @@ import static com.stpl.app.utils.Constants.WindowMessagesName.RESET_CONFIRMATION
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.ui.Alignment;

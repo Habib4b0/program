@@ -39,7 +39,7 @@ import com.stpl.app.model.ProjectionProdHierarchy;
 import com.stpl.app.model.RelationshipBuilder;
 import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.service.NmSalesProjectionMasterLocalServiceUtil.executeSelectQuery;
+
 import com.stpl.app.utils.Constants.IndicatorConstants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.app.utils.UiUtils;
@@ -53,17 +53,18 @@ import com.stpl.ifs.util.QueryUtil;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.TreeTable;
 import java.sql.Connection;
@@ -1932,7 +1933,7 @@ public class DataSelectionLogic {
 		try {
 			String customSql = CustomSQLUtil.get("getAccrualSelection");
 			customSql = customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
-			obj = (List<Object[]>) executeSelectQuery(customSql, null, null);
+			obj = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
 		} catch (Exception e) {
 			LOGGER.error(e);
 		}

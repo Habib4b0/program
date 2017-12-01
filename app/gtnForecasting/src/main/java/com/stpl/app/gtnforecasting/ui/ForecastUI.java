@@ -25,7 +25,7 @@ import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.Page;
@@ -48,7 +48,6 @@ import java.util.logging.Logger;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 // TODO: Auto-generated Javadoc
@@ -75,7 +74,7 @@ public class ForecastUI extends UI {
 	/**
 	 * Logger
 	 */
-	private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger(ForecastUI.class);
+	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ForecastUI.class);
 
 	public static boolean EXCEL_CLOSE = false;
 

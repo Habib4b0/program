@@ -1,5 +1,6 @@
 package com.stpl.app.gtnforecasting.projectionvariance.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
@@ -47,8 +48,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
-import com.stpl.portal.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
@@ -1124,7 +1125,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
                 addViewBtn.setVisible(Boolean.FALSE);
                 editViewBtn.setVisible(Boolean.FALSE);
             }
-        } catch (com.stpl.portal.kernel.exception.PortalException ex) {
+        } catch (com.liferay.portal.kernel.exception.PortalException ex) {
             java.util.logging.Logger.getLogger(MProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(MProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);

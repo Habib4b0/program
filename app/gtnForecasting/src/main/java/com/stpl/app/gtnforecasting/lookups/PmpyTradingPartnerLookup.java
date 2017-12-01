@@ -15,7 +15,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Window;

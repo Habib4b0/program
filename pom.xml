@@ -25,7 +25,7 @@
 		<commons.lang.version>2.6</commons.lang.version>
 		<lazy.container.version>0.1</lazy.container.version>
 		<apache.poi.ooxml.version>3.9</apache.poi.ooxml.version>
-		<de.steinwedel.vaadin.addon.version>2.0.3</de.steinwedel.vaadin.addon.version>
+		<de.steinwedel.vaadin.addon.version>2.0.7</de.steinwedel.vaadin.addon.version>
 		<hibernate-validator.version>5.0.1.Final</hibernate-validator.version>
 		<commons-beanutils.version>1.8.3</commons-beanutils.version>
 		<javax.portlet>2.0</javax.portlet>
@@ -161,6 +161,43 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+                        <plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<id>default-bnd-process</id>
+						<goals>
+							<goal>bnd-process</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>biz.aQute.bnd</groupId>
+						<artifactId>biz.aQute.bndlib</artifactId>
+						<version>3.3.0</version>
+					</dependency>
+					<dependency>
+						<groupId>com.liferay</groupId>
+						<artifactId>com.liferay.ant.bnd</artifactId>
+						<version>2.0.41</version>
+					</dependency>
+				</dependencies>
+			</plugin> 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>
+                            ${project.build.outputDirectory}/META-INF/MANIFEST.MF
+                        </manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>         
 		</plugins>
 	</build>
 </project>

@@ -29,23 +29,47 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>5.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <version>2.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.stpl.app</groupId>
+            <artifactId>gtnApiPartI</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--        <dependency>
             <groupId>com.stpl.app</groupId>
             <artifactId>gtnServicePartI</artifactId>
             <version>1.0</version>
             <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.stpl.portal</groupId>
-            <artifactId>portal-service</artifactId>
-            <version>${com.stpl.portal.version}</version>
-             <scope>provided</scope>
-        </dependency>
+            <scope>provided</scope>
+        </dependency>-->
     </dependencies>
 
    
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
         <finalName>${artifactId}</finalName>
-        <resources>
+        <!--        <resources>
             <resource>
                 <directory>${basedir}/../gtnServicePartI/src/main/resources/META-INF</directory>
                 <targetPath>../gtnPartI/WEB-INF/classes/META-INF</targetPath>
@@ -54,8 +78,8 @@
                 <directory>${basedir}/../gtnPartI/src/main/resources</directory>
                 <targetPath>../gtnPartI/WEB-INF/classes</targetPath>
             </resource>
-        </resources>
-        <plugins>
+        </resources>-->
+        <!--        <plugins>
             <plugin>
                 <groupId>com.stpl.maven.plugins</groupId>
                 <artifactId>stpl-maven-plugin</artifactId>
@@ -72,7 +96,7 @@
                     <apiBaseDir>${basedir}/../gtnServicePartI</apiBaseDir>
                 </configuration>
             </plugin>
-        </plugins>  
+        </plugins>  -->
     </build>
             
             

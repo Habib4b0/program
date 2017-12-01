@@ -15,10 +15,10 @@ import com.stpl.app.model.ProjectionProdDetails;
 import com.stpl.app.model.ProjectionProdHierarchy;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import java.util.List;
 import java.util.Map;
 
@@ -261,7 +261,7 @@ public interface DataSelectionDAO {
      *
      * @param parameters the parameters
      * @return the projection master result list
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public List searchDSProjections(final Map<String, Object> parameters) throws SystemException;
 
@@ -284,7 +284,7 @@ public interface DataSelectionDAO {
      *
      * @param parameters the parameters
      * @return result list
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public List getRelationshipHierarchy(final Map<String, Object> parameters) throws SystemException;
 
@@ -292,7 +292,7 @@ public interface DataSelectionDAO {
      * Save Customer hierarchy
      *
      * @param projectionCustHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public void addProjectionCustHierarchy(final ProjectionCustHierarchy projectionCustHierarchy) throws SystemException;
 
@@ -300,7 +300,7 @@ public interface DataSelectionDAO {
      * Save Product hierarchy
      *
      * @param projectionProdHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public void addProjectionProdHierarchy(final ProjectionProdHierarchy projectionProdHierarchy) throws SystemException;
 
@@ -343,7 +343,7 @@ public interface DataSelectionDAO {
      *
      * @param dynamicQuery
      * @return
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     public List<Object[]> getCompanies(DynamicQuery dynamicQuery) throws SystemException;
 

@@ -15,9 +15,9 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.stpl.app.service.StNewNdcLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 

@@ -16,7 +16,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.app.utils.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.v7.data.Property;

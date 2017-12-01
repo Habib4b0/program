@@ -7,11 +7,10 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.service.FcpActualsLocalServiceUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.List;
-
-
 
 /**
  *
@@ -20,17 +19,24 @@ import java.util.List;
 public class NACommonResultsDAOImpl implements NACommonResultsDAO {
 
     public Object executeSelectQuery(String query) throws PortalException, SystemException {
-        return FcpActualsLocalServiceUtil.executeSelectQuery(query);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
     public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
-        return FcpActualsLocalServiceUtil.executeBulkUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+        return true;
+
     }
-    public Object executeUpdateQuery(String query) throws SystemException, PortalException{
-        return FcpActualsLocalServiceUtil.executeUpdateQuery(query);
+
+    public Object executeUpdateQuery(String query) throws SystemException, PortalException {
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
+        return true;
     }
-       
+
     public Object executeUpdateQuery(List<StringBuilder> fcpList) throws PortalException, SystemException {
-        return FcpActualsLocalServiceUtil.executeUpdateQuery(fcpList);
+        for (StringBuilder builder : fcpList) {
+            HelperTableLocalServiceUtil.executeUpdateQuery(builder.toString());
+        }
+        return true;
     }
 }

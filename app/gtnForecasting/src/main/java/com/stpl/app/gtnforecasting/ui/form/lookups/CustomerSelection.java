@@ -19,7 +19,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;

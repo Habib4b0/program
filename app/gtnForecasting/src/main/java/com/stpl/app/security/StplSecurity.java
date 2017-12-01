@@ -9,14 +9,16 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.domain.forecast.security.StplSecurityDAO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.Disjunction;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.PortalClassLoaderUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -93,7 +95,7 @@ public StplSecurityDAO getDto() {
     public String getBusinessRoleIds(final Collection<Object> userGroupId) throws PortalException, SystemException{
     	String businessRoleIds=StringUtils.EMPTY;
         final DynamicQuery ugBusRoleDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(UsergroupBusinessrole.class);
+                .forClass(UsergroupBusinessrole.class,PortalClassLoaderUtil.getClassLoader());
         ugBusRoleDynamicQuery.add(RestrictionsFactoryUtil.in("usergroupId", userGroupId));
             final List<UsergroupBusinessrole> list = dto.getUsergroupBusinessroleMasterList(ugBusRoleDynamicQuery);
             UsergroupBusinessrole usergroupBusinessroleMaster;

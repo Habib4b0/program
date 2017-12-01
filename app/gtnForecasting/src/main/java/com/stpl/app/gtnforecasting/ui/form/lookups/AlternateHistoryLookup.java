@@ -20,7 +20,7 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;

@@ -17,7 +17,7 @@ import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import org.vaadin.addons.lazycontainer.LazyContainer;
+import org.asi.ui.addons.lazycontainer.LazyContainer;
 
 /**
  *  Filter Generator for the filters used in the National Assumptions Screen.

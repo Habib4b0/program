@@ -116,7 +116,7 @@ public class PPAProjectionLogic {
      * @param start
      * @param offset
      * @return
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset) {
         List list = null;

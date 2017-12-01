@@ -2,8 +2,8 @@ package com.stpl.app.gtnforecasting.bpm.logic;
 
 import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import java.util.Map;
 import org.kie.api.task.model.Status;
 import org.kie.api.task.model.TaskSummary;

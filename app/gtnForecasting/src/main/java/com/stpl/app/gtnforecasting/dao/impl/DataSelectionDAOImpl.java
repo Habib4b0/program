@@ -36,11 +36,14 @@ import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.gtnforecasting.service.finderImpl.ForecastingViewMasterImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.HierarchyDefinitionImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionMasterImpl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +71,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
     @Override
     public List findViewByName(final String viewName, final String forecastType, final String userId, final String viewType)
             throws SystemException, PortalException {
-        return ForecastingViewMasterLocalServiceUtil.findViewByName(viewName, forecastType, userId, viewType);
+        return new ForecastingViewMasterImpl().findViewByName(viewName, forecastType, userId, viewType);
     }
 
     /**
@@ -348,7 +351,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
     @Override
     public List searchDSProjections(final Map<String, Object> parameters) throws SystemException {
 
-        return ProjectionMasterLocalServiceUtil.searchDsProjection(parameters);
+        return new ProjectionMasterImpl().searchDsProjection(parameters);
     }
 
     /**
@@ -376,13 +379,12 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getHierarchyGroup(final String hierarchyName, final String hierarchyType, final String customerOrProduct, final String action) {
-        return HierarchyDefinitionLocalServiceUtil.getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
-
+        return new HierarchyDefinitionImpl().getHierarchyGroup(hierarchyName, hierarchyType, customerOrProduct, action);
     }
 
 
     /* (non-Javadoc)
-     * @see com.stpl.app.gtnforecasting.dao.DataSelectionDAO#getCustomerForecastLevel(com.stpl.portal.kernel.dao.orm.DynamicQuery)
+     * @see com.stpl.app.gtnforecasting.dao.DataSelectionDAO#getCustomerForecastLevel(com.liferay.portal.kernel.dao.orm.DynamicQuery)
      */
     @Override
     public List getCustomerForecastLevel(DynamicQuery query) {
@@ -399,19 +401,19 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      *
      * @param parameters the parameters
      * @return result list
-     * @throws com.stpl.portal.kernel.exception.SystemException
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     @Override
     public List getRelationshipHierarchy(final Map<String, Object> parameters) throws SystemException{
-        return ProjectionMasterLocalServiceUtil.getRelationshipHierarchy(parameters);
+        return new ProjectionMasterImpl().getRelationshipHierarchy(parameters);
     }
 
     /**
      * Save Customer hierarchy
      *
      * @param projectionCustHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     @Override
     public void addProjectionCustHierarchy(final ProjectionCustHierarchy projectionCustHierarchy) throws SystemException {
@@ -422,7 +424,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * Save Product hierarchy
      *
      * @param projectionProdHierarchy
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */
     @Override
     public void addProjectionProdHierarchy(final ProjectionProdHierarchy projectionProdHierarchy) throws SystemException {
@@ -439,7 +441,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getCcpDetails(Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getCcpDetails(parameters);
+        return new ProjectionMasterImpl().getCcpDetails(parameters);
     }
 
     /**
@@ -452,7 +454,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getLevelsFromHierarchy(Map<String, Object> parameters) throws SystemException{
-        return HierarchyDefinitionLocalServiceUtil.getLevelsFromHierarchy(parameters);
+        return new HierarchyDefinitionImpl().getLevelsFromHierarchy(parameters);
     }
 
     /**
@@ -465,7 +467,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getCustomerGroup(final Map<String, Object> parameters) throws SystemException{
-        return ProjectionMasterLocalServiceUtil.getCustomerProductGroup(parameters);
+        return new ProjectionMasterImpl().getCustomerProductGroup(parameters);
     }
 
     /**
@@ -478,7 +480,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      */
     @Override
     public List getProductGroup(final Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getCustomerProductGroup(parameters);
+        return new ProjectionMasterImpl().getCustomerProductGroup(parameters);
     }
 
     /**
@@ -548,22 +550,22 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getProjection(int projectionId) {
-        return ProjectionMasterLocalServiceUtil.getProjection(projectionId);
+        return new ProjectionMasterImpl().getProjection(projectionId);
     }
 
     @Override
     public List getRelationShipValues(Map<String, Object> parameters) throws SystemException{
-        return ProjectionMasterLocalServiceUtil.getRelationShipValues(parameters);
+        return new ProjectionMasterImpl().getRelationShipValues(parameters);
     }
 
     @Override
     public String deleteProjection(String str, int id)  {
-        return ProjectionMasterLocalServiceUtil.deleteProjection(str, id);
+        return new ProjectionMasterImpl().deleteProjection(str, id);
     }
 
     @Override
     public List getParentLevels(int levelNo, int relationshipLevelSid, final Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getParentLevels(levelNo, relationshipLevelSid, parameters);
+        return new ProjectionMasterImpl().getParentLevels(levelNo, relationshipLevelSid, parameters);
     }
 
     @Override
@@ -578,7 +580,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List executeQuery(Map<String, Object> parameters) throws SystemException{
-        return ProjectionMasterLocalServiceUtil.executeQuery(parameters);
+        return  new ProjectionMasterImpl().executeQuery(parameters);
     }
 
     @Override
@@ -593,7 +595,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getItemsFromBrand(Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getItemsFromBrand(parameters);
+        return new ProjectionMasterImpl().getItemsFromBrand(parameters);
     }
 
     @Override
@@ -603,7 +605,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getInnerLevel(Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getInnerLevel(parameters);
+        return new ProjectionMasterImpl().getInnerLevel(parameters);
     }
 
     @Override
@@ -653,12 +655,12 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getCcpMap(Map<String, Object> parameters) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.getCcpMap(parameters);
+        return new ProjectionMasterImpl().getCcpMap(parameters);
     }
 
     @Override
     public void saveCcp(Map<String, Object> parameters) throws SystemException{
-        ProjectionMasterLocalServiceUtil.saveCcp(parameters);
+        new ProjectionMasterImpl().saveCcp(parameters);
     }
 
     @Override
@@ -668,7 +670,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public Object tempOperation(Map<String, Object> input, String queryName) throws SystemException {
-        return ProjectionMasterLocalServiceUtil.tempOperation(input, queryName);
+        return new ProjectionMasterImpl().tempOperation(input, queryName);
     }
 
     @Override
@@ -688,7 +690,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List getChildLevels(Map<String, Object> parameters) throws SystemException, PortalException {
-        return ProjectionMasterLocalServiceUtil.getChildLevels(parameters);
+        return new ProjectionMasterImpl().getChildLevels(parameters);
     }
     @Override
     public int getDiscountCount(DynamicQuery dynamicQuery) throws SystemException {
@@ -702,7 +704,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
 
     @Override
     public List executeQueryforchannel(Map<String, Object> parameters) throws SystemException {
-       return ProjectionMasterLocalServiceUtil.executeQueryforchannel(parameters);
+       return new ProjectionMasterImpl().executeQueryforchannel(parameters);
     }
 
     @Override

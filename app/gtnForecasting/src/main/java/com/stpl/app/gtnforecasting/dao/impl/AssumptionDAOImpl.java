@@ -7,6 +7,7 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.gtnforecasting.dao.AssumptionDAO;
 import com.stpl.app.gtnforecasting.dto.AssumptionPVDTO;
+import com.stpl.app.gtnforecasting.service.finderImpl.NMSalesProjectionMasterImpl;
 import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,8 @@ public class AssumptionDAOImpl implements AssumptionDAO{
      */
     @Override
     public List<?>  getAssumptionResults(List input, String queryName) {
-        return NmSalesProjectionLocalServiceUtil.getAssumptionResult(input, queryName);
+        return new NMSalesProjectionMasterImpl()
+                .getAssumptionResult(input, queryName);
     }
 
     /**

@@ -3,7 +3,7 @@
  */
 package com.stpl.ifs.ui;
 
-import org.vaadin.addons.lazycontainer.LazyBeanContainer;
+
 
 import com.vaadin.navigator.View;
 import com.vaadin.v7.shared.ui.label.ContentMode;
@@ -12,6 +12,7 @@ import com.vaadin.ui.GridLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.Table;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.asi.ui.addons.lazycontainer.LazyBeanContainer;
 
 /**
  * Gives basic design for the search form

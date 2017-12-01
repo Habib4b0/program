@@ -9,7 +9,9 @@ import static com.stpl.app.gtnforecasting.dao.impl.DiscountProjectionForChannels
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
+import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.ChSalesProjectionMasterLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +40,7 @@ public class DPQueryUtils {
                         + " and M.SESSION_ID = " + sessionId + "\n"
                         + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                         + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
-                ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(uncheckRecordSql, null, null);
+                HelperTableLocalServiceUtil.executeUpdateQuery(uncheckRecordSql);
             }
             ccpDetails = getCustomCCPDetailsQuery(hierarchyIndicator, projectionId, customViewDetails, true, hierarchyNo);
 

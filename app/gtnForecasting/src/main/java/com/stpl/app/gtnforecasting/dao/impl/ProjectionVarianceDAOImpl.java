@@ -3,11 +3,11 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
-import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
-import com.stpl.app.service.ProjectionCustHierarchyLocalServiceUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.ProjectionCustHierarchyImpl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -105,7 +105,7 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
             String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract,
             String from, String to) throws SystemException, PortalException{
 
-        List list = ProjectionCustHierarchyLocalServiceUtil.getComparisonSearch(workflowStatus, marketType, brand, projName, contHldr, ndcNo, ndcName, desc, contract, from, to);
+        List list = new ProjectionCustHierarchyImpl().getComparisonSearch(workflowStatus, marketType, brand, projName, contHldr, ndcNo, ndcName, desc, contract, from, to);
         return list;
     }
 
@@ -122,11 +122,11 @@ public class ProjectionVarianceDAOImpl implements ProjectionVarianceDAO {
 
     @Override
     public List getPVResultsSales(int projectionId, String frequency, List<Integer> periods, String actualsOrProjections, String parentName, String year, int levelNo, String sales) {
-        return NmSalesProjectionLocalServiceUtil.getVarianceSales(projectionId, frequency, periods, actualsOrProjections, parentName, year, levelNo, sales);
+        return new NmSalesProjectionImpl().getVarianceSales(projectionId, frequency, periods, actualsOrProjections, parentName, year, levelNo, sales);
     }
 
     @Override
     public List getPVResultsDiscount(int projectionId, String frequency, List<Integer> periods, String discountTotal, String parentName, List<String> discountList, String year, int levelNo, String sales) {
-        return NmDiscountProjMasterLocalServiceUtil.getVarianceDiscount(projectionId, frequency, periods, discountTotal, parentName, discountList, year, levelNo, sales);
+        return new NmDiscountImpl().getVarianceDiscount(projectionId, frequency, periods, discountTotal, parentName, discountList, year, levelNo, sales);
     }
 }

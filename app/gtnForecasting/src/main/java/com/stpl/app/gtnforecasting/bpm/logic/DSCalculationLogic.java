@@ -1,15 +1,15 @@
 package com.stpl.app.gtnforecasting.bpm.logic;
 
+import com.liferay.portal.kernel.model.Role;
 import com.stpl.app.bpm.dto.ForecastingRulesDTO;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.stpl.ifs.util.DroolsProperties;
-import com.stpl.portal.model.Role;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.RoleLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;

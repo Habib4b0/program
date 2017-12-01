@@ -6,7 +6,7 @@
 package com.stpl.app.gtnforecasting.utils;
 
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
-import com.stpl.portal.kernel.dao.orm.ORMException;
+import com.liferay.portal.kernel.dao.orm.ORMException;
 import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

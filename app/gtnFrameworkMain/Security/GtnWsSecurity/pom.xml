@@ -17,33 +17,39 @@
 			<groupId>com.stpl.gtn.gtn2o</groupId>
 			<artifactId>GtnLogger</artifactId>
 			<version>${gtnlogger.version}</version>
+                        <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.jtds</groupId>
 			<artifactId>jtds</artifactId>
 			<version>${jtds.version}</version>
+                        <scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>${jsonwebtoken.version}</version>
+                        <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>${common.codec.version}</version>
+                        <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o</groupId>
 			<artifactId>GtnFrameworkPropertyManager</artifactId>
 			<version>${GtnFrameworkPropertyManager.version}</version>
 			<type>jar</type>
+                        <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 			<version>${jaxb.api.version}</version>
+                        <scope>provided</scope>
 		</dependency>
 	</dependencies>
 	<properties>

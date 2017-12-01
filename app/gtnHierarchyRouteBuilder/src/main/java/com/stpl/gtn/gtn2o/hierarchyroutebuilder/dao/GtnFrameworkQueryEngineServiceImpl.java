@@ -9,7 +9,6 @@ public class GtnFrameworkQueryEngineServiceImpl implements GtnFrameworkQueryEngi
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Object[]> executeSelectQuery(String query) {
-
 		 return HelperTableLocalServiceUtil.executeSelectQuery(query);
 	}
 

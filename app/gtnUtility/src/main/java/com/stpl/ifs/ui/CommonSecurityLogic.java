@@ -4,11 +4,11 @@
  */
 package com.stpl.ifs.ui;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.TableResultCustom;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
 /**

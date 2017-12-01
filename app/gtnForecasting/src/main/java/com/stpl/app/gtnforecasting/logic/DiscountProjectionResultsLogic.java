@@ -13,7 +13,6 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getMonthForInt;
 import com.stpl.app.model.ProjectionDetails;
-import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
 import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
@@ -24,12 +23,13 @@ import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PROJECTIONS;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -88,13 +88,13 @@ public class DiscountProjectionResultsLogic {
             int session = Integer.valueOf(sessionId);
             List ccpId = null;
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (selectedView.equals(Constant.CUSTOM_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
@@ -113,7 +113,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = NmDiscountProjMasterLocalServiceUtil.getDiscountProjectionResults(proDetailsSid, freq, discountString, projection, Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(proDetailsSid, freq, discountString, projection, Constant.PARENT, order, startAndEndPeriods, user, session,viewFlag);
                     DiscountProjectionResultsDTO discountDto = null;
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
@@ -203,10 +203,10 @@ public class DiscountProjectionResultsLogic {
             String hierarchy = proSelDTO.getView();
             List ccpid = null;
             if (hierarchy.equals(Constant.CUSTOMER_SMALL)) {
-                ccpid = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierarchyNo, level);
+                ccpid = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierarchyNo, level);
             }
             if (hierarchy.equals(Constant.PRODUCT_LABEL)) {
-                ccpid = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
+                ccpid = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
             }
             if (hierarchy.equals(Constant.CUSTOM_LABEL)) {
                 proSelDTO.setIsCustomHierarchy(true);
@@ -245,7 +245,7 @@ public class DiscountProjectionResultsLogic {
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = NmDiscountProjMasterLocalServiceUtil.getAllPesriodDiscount(projectionDetailsId, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(projectionDetailsId, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(proSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -292,11 +292,11 @@ public class DiscountProjectionResultsLogic {
             List ccpId = null;
             String selectedView = projSelDTO.getView();
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             } else if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
             } else if (selectedView.equals(Constant.CUSTOM_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
@@ -319,7 +319,7 @@ public class DiscountProjectionResultsLogic {
                     if (discountString.equals(StringUtils.EMPTY)) {
                         discountString = ZERO_SYMBOL;
                     }
-                    List list = NmDiscountProjMasterLocalServiceUtil.getAllPesriodDiscount(proDetailsSid, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, order, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getAllPesriodDiscount(proDetailsSid, freq, discountString, StringUtils.EMPTY, StringUtils.EMPTY, order, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(QUARTERLY.getConstant())) {
                             discountProjList = getDiscountListDto(projSelDTO, list, discountProjList, Constant.Q_SMALL, discountList);
@@ -365,13 +365,13 @@ public class DiscountProjectionResultsLogic {
             String selectedView = String.valueOf(projSelDTO.getView());
             List ccpId = null;
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (selectedView.equals(Constant.CUSTOM_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && !ccpId.isEmpty()) {
                 final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
@@ -390,7 +390,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = NmDiscountProjMasterLocalServiceUtil.getTotalDiscountNumber(proDetailsSid, freq, discountString, startAndEndPeriods, user, session,null);
+                    List list = new NmDiscountImpl().getTotalDiscountNumber(proDetailsSid, freq, discountString, startAndEndPeriods, user, session,null);
                     if (list != null && !list.isEmpty()) {
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         discountDto.setGroup(Constant.PROJECTION_TOTAL);
@@ -586,7 +586,7 @@ public class DiscountProjectionResultsLogic {
         List<DiscountProjectionResultsDTO> discountProjList = new ArrayList<>();
         try {
             int projectionId = projSelDTO.getProjectionId();
-            List ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
+            List ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
                 final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
@@ -605,7 +605,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = NmDiscountProjMasterLocalServiceUtil.getSubDiscount(proDetailsSid, freq, discountString, startAndEndPeriods, user, session);
+                    List list = new NmDiscountImpl().getSubDiscount(proDetailsSid, freq, discountString, startAndEndPeriods, user, session);
                     if (list != null && !list.isEmpty()) {
                         if (freq.equals(Constant.ANNUALLY)) {
                             double actualSales = 0;
@@ -1730,10 +1730,10 @@ public class DiscountProjectionResultsLogic {
         String hierarchyNo = String.valueOf(projSelDTO.getHierarchyNo());
         List ccpId = null;
         if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-            ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierarchyNo, level);
+            ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierarchyNo, level);
         }
         if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-            ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
+            ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierarchyNo, level);
         }
         if (selectedView.equals(Constant.CUSTOM_LABEL)) {
             projSelDTO.setIsCustomHierarchy(true);
@@ -1770,7 +1770,7 @@ public class DiscountProjectionResultsLogic {
                 List<String> tmpList = new ArrayList<>();
                 discountList = projSelDTO.getDiscountNameList();
                 String discountString = getDiscountName(discountList);
-                List list = NmDiscountProjMasterLocalServiceUtil.getSubDiscount(proDetailsSid, frequ, discountString, startAndEndPeriods, user, session);
+                List list = new NmDiscountImpl().getSubDiscount(proDetailsSid, frequ, discountString, startAndEndPeriods, user, session);
                 if (list != null && !list.isEmpty()) {
                     if (frequ.equals(Constant.ANNUALLY)) {
                         double actualSales = 0;
@@ -2970,7 +2970,7 @@ public class DiscountProjectionResultsLogic {
         dto.setIsParent(Constant.STRING_ONE);
         Integer levelNo = dto.getTreeLevelNo();
         hierachyNumber = hierachyNumber + PERCENTAGE;
-        List ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(levelNo));
+        List ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(levelNo));
         String frequency = String.valueOf(selection.get(Constant.FREQUENCY));
         if (ccpId != null && !ccpId.isEmpty()) {
             final DynamicQuery projectionDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
@@ -2985,7 +2985,7 @@ public class DiscountProjectionResultsLogic {
                 String sessionId = String.valueOf(selection.get(Constant.SESSION_ID));
                 int user = Integer.valueOf(userId);
                 int session1 = Integer.valueOf(sessionId);
-                List list = NmDiscountProjMasterLocalServiceUtil.getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
+                List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, StringUtils.EMPTY, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, startAndEndPeriods, user, session1,viewFlag);
                 if (list != null && !list.isEmpty()) {
                     if (frequency.equals(QUARTERLY.getConstant())) {
                         double actualSales = 0;
@@ -4185,10 +4185,10 @@ public class DiscountProjectionResultsLogic {
             List ccpId = null;
             if (ccp == null) {
                 if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                    ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                    ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                    ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
                 }
                 if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                     projSelDTO.setIsCustomHierarchy(true);
@@ -4226,7 +4226,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> discountList;
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = NmDiscountProjMasterLocalServiceUtil.getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
+                    List list = new NmDiscountImpl().getDiscountProjectionResults(projectionDetailsId, frequency, discountString, StringUtils.EMPTY, Constant.PARENT, StringUtils.EMPTY, yearList, user, session,viewFlag);
                     if (list != null && !list.isEmpty()) {
                         if (frequency.equals(QUARTERLY.getConstant())) {
                             dto = getValueForDTO(projSelDTO, list, dto, Constant.Q_SMALL);
@@ -4321,10 +4321,10 @@ public class DiscountProjectionResultsLogic {
             String selectedView = projSelDTO.getView();
             List ccpId = null;
             if (selectedView.equals(Constant.CUSTOMER_SMALL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
             }
             if (selectedView.equals(Constant.PRODUCT_LABEL)) {
-                ccpId = NmDiscountProjMasterLocalServiceUtil.getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
+                ccpId = new NmDiscountImpl().getCCPDetailsIDForProductHierarchy(projectionMasterId, hierachyNumber, String.valueOf(dto.getTreeLevelNo()));
             }
             if (selectedView.equals(Constant.CUSTOM_LABEL)) {
                 projSelDTO.setIsCustomHierarchy(true);
@@ -4360,7 +4360,7 @@ public class DiscountProjectionResultsLogic {
                     List<String> tmpList = new ArrayList<>();
                     discountList = projSelDTO.getDiscountNameList();
                     String discountString = getDiscountName(discountList);
-                    List list = NmDiscountProjMasterLocalServiceUtil.getTotalDiscountNumber(proDetailsSid, freq, discountString, pivotYearList, user, session,null);
+                    List list = new NmDiscountImpl().getTotalDiscountNumber(proDetailsSid, freq, discountString, pivotYearList, user, session,null);
                     if (list != null && !list.isEmpty()) {
                         DiscountProjectionResultsDTO discountDto = new DiscountProjectionResultsDTO();
                         discountDto.setHierarchySid(ZERO_SYMBOL);

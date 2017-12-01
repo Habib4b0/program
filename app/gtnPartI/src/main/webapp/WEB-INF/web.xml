@@ -13,6 +13,6 @@
         <context-param>
 		<description>Widget Set to Use</description>
 		<param-name>widgetset</param-name>
-		<param-value>com.stpl.app.AppWidgetSet</param-value>
+		<param-value>com.stpl.app.v8.AppWidgetSet</param-value>
 	</context-param>
 </web-app>

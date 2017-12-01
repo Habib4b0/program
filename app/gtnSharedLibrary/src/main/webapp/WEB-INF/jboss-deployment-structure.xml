@@ -3,7 +3,7 @@
 <jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
 	<deployment>
 		<exclusions>
-			<module name="org.apache.cxf"></module>
+<!--			<module name="org.apache.cxf"></module>
 			<module name="javaee.api"></module>
 			<module name="org.jboss.resteasy.resteasy-atom-provider"></module>
 			<module name="org.jboss.resteasy.resteasy-cdi"></module>
@@ -15,11 +15,11 @@
 			<module name="org.jboss.resteasy.resteasy-multipart-provider"></module>
 			<module name="org.jboss.resteasy.resteasy-yaml-provider"></module>
 			<module name="org.springframework.spring-data"></module>
-			<module name="org.hibernate"></module>
+			<module name="org.hibernate"></module>-->
 			
 		</exclusions>
 		<dependencies>
-			<module meta-inf="export" name="com.stpl.portal">
+			<module meta-inf="export" name="com.liferay.portal">
 				<imports>
 					<include path="META-INF"></include>
 				</imports>

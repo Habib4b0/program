@@ -7,12 +7,12 @@ package com.stpl.app.gtnforecasting.lazyload;
 
 import com.stpl.app.gtnforecasting.dto.RelationshipDdlbDto;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortalException;
 import java.util.ArrayList;
 import java.util.List;
-import org.vaadin.addons.lazycontainer.DAO;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.DAO;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *

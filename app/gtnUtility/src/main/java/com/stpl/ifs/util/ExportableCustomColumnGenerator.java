@@ -12,7 +12,7 @@ import com.vaadin.v7.data.Property;
  *
  * @author Abhiram
  */
-public interface ExportableCustomColumnGenerator extends com.vaadin.v7.ui.ExtCustomTable.ColumnGenerator {
+public interface ExportableCustomColumnGenerator extends org.asi.ui.extfilteringtable.ExtCustomTable.ColumnGenerator {
 
     Property getGeneratedProperty(Object itemId, Object columnId);
     // the type of the generated property

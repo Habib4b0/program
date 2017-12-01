@@ -29,7 +29,6 @@ import com.stpl.app.model.ItemMaster;
 import com.stpl.app.model.MedicaidNewNdc;
 import com.stpl.app.model.NaProjDetails;
 import com.stpl.app.model.StNewNdc;
-import com.stpl.app.model.impl.StNewNdcImpl;
 import com.stpl.app.service.FederalNewNdcLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MedicaidNewNdcLocalServiceUtil;
@@ -39,15 +38,15 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -398,7 +397,7 @@ public class NationalAssumptionLogic {
 
     public StNewNdc getItemNo(String itemNo) {
 
-        StNewNdc newNDC = new StNewNdcImpl();
+        StNewNdc newNDC = null;
         try {
             DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
                     .forClass(StNewNdc.class);

@@ -10,11 +10,12 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MSalesProjectionMasterLocalServiceUtil;
-import com.stpl.app.service.NmSalesProjectionLocalServiceUtil;
-import com.stpl.app.service.StChSalesProjectionMasterLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmSalesProjectionImpl;
+import com.stpl.app.gtnforecasting.service.finderImpl.StChSalesProjectionImpl;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,20 +38,18 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-
     @Override
-    public List<String> getPMPYTradingPartnerList(String tpName) throws SystemException, PortalException{
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public List<String> getPMPYTradingPartnerList(String tpName) throws SystemException, PortalException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     /* (non-Javadoc)
      * @see com.stpl.app.gtnforecasting.dao.SalesProjectionDAO#getPMPYContractHolder()
      */
     @Override
-    public List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws SystemException, PortalException{
-       return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
+    public List<String> getPMPYContractHolder(DynamicQuery dynamicQuery) throws SystemException, PortalException {
+        return CompanyMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
     }
-
 
     /**
      * Gets the sales projection.
@@ -62,12 +61,11 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List getSalesProjection(Object[] inputs) throws SystemException, PortalException{
-         return  NmSalesProjectionLocalServiceUtil.getSalesResult(inputs);
-      
+    public List getSalesProjection(Object[] inputs) throws SystemException, PortalException {
+        return new NmSalesProjectionImpl().getSalesResult(inputs);
+
     }
-    
-    
+
     /**
      * Gets the sales projection result.
      *
@@ -78,11 +76,10 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws Exception the exception
      */
     @Override
-    public List getSalesProjectionResult(DynamicQuery query) throws SystemException, PortalException{
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public List getSalesProjectionResult(DynamicQuery query) throws SystemException, PortalException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    
     /**
      * Gets the sales contract holder summary.
      *
@@ -97,30 +94,27 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-	@Override
-	public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
-			String level, String discountLevel) throws SystemException, PortalException{
-		
-		
-		return Collections.emptyList();
-	}
-	
+    @Override
+    public List getContractHolderSummary(int projectionId, String indicator, List<Integer> comparisonProjections, String frequency,
+            String level, String discountLevel) throws SystemException, PortalException {
 
-          /**
- * Gets the group list.
- *
- * @param query the query
- * @return the group list
- * @throws SystemException the system exception
- * @throws Exception the exception
- */
-	@Override
-	public List<String> getGroupList(DynamicQuery query) throws SystemException {
-		
-		
-		return Collections.emptyList();
-}
-        
+        return Collections.emptyList();
+    }
+
+    /**
+     * Gets the group list.
+     *
+     * @param query the query
+     * @return the group list
+     * @throws SystemException the system exception
+     * @throws Exception the exception
+     */
+    @Override
+    public List<String> getGroupList(DynamicQuery query) throws SystemException {
+
+        return Collections.emptyList();
+    }
+
     /**
      * Gets the sales projection result.
      *
@@ -132,16 +126,15 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      */
     @Override
     public List getSalesProjectionResults(Object[] inputs) throws SystemException, PortalException {
-        return NmSalesProjectionLocalServiceUtil.getSalesProjectionResults(inputs);
+        return new NmSalesProjectionImpl().getSalesProjectionResults(inputs);
     }
 
     @Override
     public List getSalesProjectionResultLevels(Object[] inputs) throws SystemException, PortalException {
-        return NmSalesProjectionLocalServiceUtil.getSalesProjectionResultLevels(inputs);
+        return new NmSalesProjectionImpl().getSalesProjectionResultLevels(inputs);
     }
-    
-    
-        /**
+
+    /**
      * Gets the sales projection.
      *
      * @param query the query
@@ -150,29 +143,28 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
-    public List executeQuery(Map<String, Object> parameters) throws SystemException, PortalException{
-        return StChSalesProjectionMasterLocalServiceUtil.executeQuery(parameters);
+    public List executeQuery(Map<String, Object> parameters) throws SystemException, PortalException {
+        return new StChSalesProjectionImpl().executeQuery(parameters);
     }
 
-    
-
+    @Override
     public Object executeSelectQuery(String query) throws SystemException, PortalException {
-        return MSalesProjectionMasterLocalServiceUtil.executeSelectQuery(query, null, null);
+        return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
-    
+
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
 
     @Override
-    public List executeUpdateQuery(String queryList) throws SystemException, PortalException{
-        return MSalesProjectionMasterLocalServiceUtil.executeUpdateQuery(queryList, null, null);
-    }
-    
-    public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
-        MSalesProjectionMasterLocalServiceUtil.executeUpdateQuery(queryList,null, null);
+    public List executeUpdateQuery(String queryList) throws SystemException, PortalException {
+        List list = new ArrayList();
+        list.add(HelperTableLocalServiceUtil.executeUpdateQueryCount(queryList));
+        return list;
     }
 
-    
+    public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
+        new NACommonResultsDAOImpl().executeUpdateQuery(queryList);
+    }
 
 }

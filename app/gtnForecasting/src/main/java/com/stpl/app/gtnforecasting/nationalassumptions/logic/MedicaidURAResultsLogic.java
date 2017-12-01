@@ -25,8 +25,8 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -15,11 +15,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${springmvc}</version>
+                          <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.databind.version}</version>
+                          <scope>provided</scope>
 		</dependency>
 
 
@@ -28,12 +30,14 @@
 			<artifactId>GtnWsSecurity</artifactId>
 			<version>${gtnsecurity.version}</version>
 			<type>jar</type>
+                         <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.stpl.gtn.gtn2o</groupId>
 			<artifactId>GtnFrameworkPropertyManager</artifactId>
 			<version>${GtnFrameworkPropertyManager.version}</version>
 			<type>jar</type>
+                        <scope>provided</scope>
 		</dependency>
 	</dependencies>
 

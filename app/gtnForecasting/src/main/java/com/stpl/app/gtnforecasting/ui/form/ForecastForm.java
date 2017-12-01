@@ -85,10 +85,11 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;

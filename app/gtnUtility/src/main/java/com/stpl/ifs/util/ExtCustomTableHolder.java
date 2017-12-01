@@ -11,7 +11,7 @@ import com.stpl.addons.tableexport.TableHolder;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
-import com.vaadin.v7.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.ui.UI;
 import java.util.Arrays;
 import java.util.HashMap;

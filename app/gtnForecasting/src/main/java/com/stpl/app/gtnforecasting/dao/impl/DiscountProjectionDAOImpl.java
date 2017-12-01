@@ -3,8 +3,8 @@ package com.stpl.app.gtnforecasting.dao.impl;
 import com.stpl.app.gtnforecasting.dao.DiscountProjectionDAO;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.DiscountSelectionDTO;
+import com.stpl.app.gtnforecasting.service.finderImpl.NmDiscountImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.service.NmDiscountProjMasterLocalServiceUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public List<DiscountSelectionDTO> getDiscountProgramList(SessionDTO session, String programType) {
-        return NmDiscountProjMasterLocalServiceUtil.getDiscountPrograms(session.getProjectionId(), session.getUserId(), session.getSessionId(), programType,"view".equals(session.getAction()));
+        return new NmDiscountImpl().getDiscountPrograms(session.getProjectionId(), session.getUserId(), session.getSessionId(), programType,"view".equals(session.getAction()));
     }
 
     @Override
@@ -22,7 +22,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
             List<Integer> startAndEndPeriods, String parentName, boolean isProgram, List<String> discountList, String year, int historyNumber,
             int levelNo, String hierarchyIndicator, String userGroup, int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, 
             boolean isRefresh, String refreshHierarchyNumbers, String relationshipBuilderSid,boolean isAltHistory) {
-        return NmDiscountProjMasterLocalServiceUtil.getDiscountProjection(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency,
+        return new NmDiscountImpl().getDiscountProjection(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency,
                 startAndEndPeriods, parentName, isProgram, discountList, year, historyNumber, levelNo, hierarchyIndicator, userGroup,
                 start, offset, isCount, isCustom, customViewDetails, isRefresh, refreshHierarchyNumbers, relationshipBuilderSid,isAltHistory,session.getAction());
     }
@@ -35,19 +35,19 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
     @Override
     public int updateCheckRecord(SessionDTO session, boolean checkValue,String hierarchyNo, String userGroup, String hierarchyIndicator, 
             boolean isCustomView, List<String> customViewDetails, String relationshipBuilderSid, boolean isProgram, List<String> discountNamesList) {
-        return NmDiscountProjMasterLocalServiceUtil.updateCheckRecord(session.getProjectionId(), session.getUserId(), session.getSessionId(), checkValue,
+        return new NmDiscountImpl().updateCheckRecord(session.getProjectionId(), session.getUserId(), session.getSessionId(), checkValue,
                 hierarchyNo,  userGroup, hierarchyIndicator, isCustomView, customViewDetails, relationshipBuilderSid, isProgram, discountNamesList);
     }
 
     @Override
     public int getLevelIndex(int projectionId, String hierarchy, String hierarchyNo, String selectedHiearchyNo) {
-        return NmDiscountProjMasterLocalServiceUtil.getIndex(projectionId, hierarchy, hierarchyNo, selectedHiearchyNo);
+        return new NmDiscountImpl().getIndex(projectionId, hierarchy, hierarchyNo, selectedHiearchyNo);
     }
 
     @Override
     public void massUpdate(SessionDTO session, String frequency, List<Integer> startAndEndPeriods, String selectedField, String fieldValue,
             List<String> selectedDiscounts, boolean isProgram) {
-        NmDiscountProjMasterLocalServiceUtil.massUpdate(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, startAndEndPeriods, selectedField, fieldValue,
+        new NmDiscountImpl().massUpdate(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, startAndEndPeriods, selectedField, fieldValue,
                 selectedDiscounts, isProgram);
     }
 
@@ -55,33 +55,33 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
     public boolean updateInputsForAdjustment(SessionDTO session, String frequency, String levelType, String adjustmentType, String adjustmentBasis,
             String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> selectedPeriods) {
 
-        return NmDiscountProjMasterLocalServiceUtil.updateInputsForAdjustment(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, levelType, adjustmentType, adjustmentBasis,
+        return new NmDiscountImpl().updateInputsForAdjustment(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, levelType, adjustmentType, adjustmentBasis,
                 adjustmentValue, allocationMethodology, selectedPeriods);
     }
 
     @Override
     public boolean saveGroupValues(SessionDTO session, String hierarchyNo, String fieldValue, boolean isProgram, boolean isCustom, 
             List<String> customViewDetails , List<String> discountList, String relationshipBuilderSid) {
-        return NmDiscountProjMasterLocalServiceUtil.saveGroupValues(session.getProjectionId(), session.getUserId(), session.getSessionId(), hierarchyNo, fieldValue, isProgram, isCustom, 
+        return new NmDiscountImpl().saveGroupValues(session.getProjectionId(), session.getUserId(), session.getSessionId(), hierarchyNo, fieldValue, isProgram, isCustom, 
              customViewDetails ,  discountList,relationshipBuilderSid);
     }
 
     @Override
     public boolean saveDiscountProjectionListView(SessionDTO session, String frequency, int period, int year, String hierarchy,
             int levelNo, String hierarchyNo, String discountName, String fieldValue, boolean isProgram, boolean isCustomHierarchy, List<String> customViewDetails, String relationshipBuilderSid) {
-        return NmDiscountProjMasterLocalServiceUtil.saveDiscountProjectionListView(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, period, year, hierarchy,
+        return new NmDiscountImpl().saveDiscountProjectionListView(session.getProjectionId(), session.getUserId(), session.getSessionId(), frequency, period, year, hierarchy,
                 levelNo, hierarchyNo, discountName, fieldValue, isProgram, isCustomHierarchy, customViewDetails, relationshipBuilderSid);
     }
 
   
     @Override
     public int getCheckedRecordCount(int projectionId, String userId, String sessionId, boolean isProgram, List<String> discountList) {
-        return NmDiscountProjMasterLocalServiceUtil.getCheckedRecordCount(projectionId, userId, sessionId, isProgram, discountList);
+        return new NmDiscountImpl().getCheckedRecordCount(projectionId, userId, sessionId, isProgram, discountList);
     }
 
     @Override
     public List<String> loadGroupValues(int projectionId, String userId, String sessionId, String masterTableName, List<String> discountList, String relationshipBuilderSid) {
-        return NmDiscountProjMasterLocalServiceUtil.getGroupValues(projectionId, userId, sessionId, masterTableName, discountList, relationshipBuilderSid);
+        return new NmDiscountImpl().getGroupValues(projectionId, userId, sessionId, masterTableName, discountList, relationshipBuilderSid);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DiscountProjectionDAOImpl implements DiscountProjectionDAO {
 
     @Override
     public void checkClearAll(int projectionId, String userId, String sessionId, String userGroup, boolean checkClear, boolean isProgram, List<String> discountList) {
-        NmDiscountProjMasterLocalServiceUtil.checkClearAll(projectionId, userId, sessionId, userGroup, checkClear, isProgram, discountList);
+        new NmDiscountImpl().checkClearAll(projectionId, userId, sessionId, userGroup, checkClear, isProgram, discountList);
     }
 
 }

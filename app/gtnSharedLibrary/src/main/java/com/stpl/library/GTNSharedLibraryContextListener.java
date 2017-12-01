@@ -138,6 +138,7 @@ public class GTNSharedLibraryContextListener implements ServletContextListener {
     // Our web app (Vaadin app) is starting up.
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        System.out.println("Configured");
         String sharedLibNames = getProperties().getProperty("shared.library.names");
         String sharedLibPaths=getProperties().getProperty("shared.library.paths");
         String nonSharedJars = getProperties().getProperty("non.shared.jars");

@@ -43,15 +43,16 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -943,7 +944,7 @@ public class CommonLogic {
     public static List<Leveldto> getLevelListDiscount(int projectionId, String hierarchyIndicator, int levelNo, int hierarchyId) {
         List<Leveldto> listValue = new ArrayList<>();
         try {
-            List list = CustomViewMasterLocalServiceUtil.getHierarchyLevelsForDiscount(projectionId, hierarchyIndicator, levelNo, hierarchyId);
+            List list = new CustomViewMasterImpl().getHierarchyLevelsForDiscount(projectionId, hierarchyIndicator, levelNo, hierarchyId);
             if (list != null && !list.isEmpty()) {
                 for (Object list1 : list) {
                     final Object[] obj = (Object[]) list1;

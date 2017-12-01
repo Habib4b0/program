@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.lazyLoad;
 
-import org.vaadin.addons.lazycontainer.SearchCriteria;
+import org.asi.ui.addons.lazycontainer.SearchCriteria;
 
 /**
  *

@@ -17,10 +17,11 @@ import com.stpl.app.service.ChSalesProjectionMasterLocalServiceUtil;
 import com.stpl.app.service.StChDiscountProjMasterLocalServiceUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.Session;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.service.persistence.impl.BasePersistenceImpl;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -199,7 +200,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 customQuery = " Select count(DISTINCT CCP.HIERARCHY_NO ) \n "
                         + "        FROM " + ccpDetails;
             }
-            List<DiscountProjectionDTO> list = (List<DiscountProjectionDTO>) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customQuery, null, null);
+            List<DiscountProjectionDTO> list = (List<DiscountProjectionDTO>) HelperTableLocalServiceUtil.executeSelectQuery(customQuery);
             LOGGER.debug(" Fetching Discount Data" + list.size());
             return list;
         } catch (Exception e) {
@@ -223,7 +224,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     + " FROM " + ccpDetails + "\n"
                     + " order by CCP.HIERARCHY_NO OFFSET " + startIndex + Constant.ROWS_FETCH_NEXT_SPACE + endIndex + " ROWS ONLY ";
 
-            List<String> list = (List<String>) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customSql, null, null);
+            List<String> list = (List<String>) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
@@ -332,7 +333,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
             }
 
-            return StChDiscountProjMasterLocalServiceUtil.updateQuery(customSql);
+            return HelperTableLocalServiceUtil.executeUpdateQueryCount(customSql);
         } catch (Exception e) {
            LOGGER.error(e);
             return 0;
@@ -353,7 +354,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                     + " AND PCH.PROJECTION_MASTER_SID = " + projectionId + " \n"
                     + " WHERE RLD.HIERARCHY_NO LIKE '" + hierarchyNo + "%' and RLD.LEVEL_NO = " + (selectedHiearchyNo.length() - selectedHiearchyNo.replace(".", StringUtils.EMPTY).length() + 1) + ") "
                     + " TEMP where TEMP.HIERARCHY_NO='" + selectedHiearchyNo + "'";
-            list = (List) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customSql, null, null);
+            list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
         } catch (Exception e) {
             LOGGER.error(e);
             return 0;
@@ -464,7 +465,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
         Date eDate = commonUtils.getLastDate(endMonth, endYear);
         query = queryUtils.massUpdateQuery(sDate, eDate,  fieldValue, session, selectedField);
-        ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
+       HelperTableLocalServiceUtil.executeUpdateQuery(query);
         LOGGER.debug(" Ending massUpdate");
     }
 
@@ -490,7 +491,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             LOGGER.debug(" Selected Periods " + selectedPeriods);
             masterTableUpdateQuery = queryUtils.masterTableUpdateQuery(baselinePeriods, projectionId, discountName, selectedPeriods);
 
-            ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(masterTableUpdateQuery, null, null);
+           HelperTableLocalServiceUtil.executeUpdateQuery(masterTableUpdateQuery);
             // For updating DISCOUNT_PROJECTION Table 
             String period = StringUtils.EMPTY;
             if (frequency.equals(QUARTERLY.getConstant())) {
@@ -510,7 +511,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
             selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace(Constant.Q, StringUtils.EMPTY).replace(Constant.S, StringUtils.EMPTY).replace(" ", StringUtils.EMPTY);
             String DiscountProjectionTableUpdateQuery = queryUtils.discountProjectionTableUpdateQuery(adjustmentType, adjustmentBasis, allocationMethodology, adjustmentValue, projectionId, discountName, userId, sessionId, period, selectedPeriodsToUpdate);
-            ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(DiscountProjectionTableUpdateQuery, null, null);
+           HelperTableLocalServiceUtil.executeUpdateQuery(DiscountProjectionTableUpdateQuery);
 
         } catch (Exception e) {
             LOGGER.error(e);
@@ -575,7 +576,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             Date sDate = commonUtils.getDate(01, startMonth - 1, yearToSave);
             Date eDate = commonUtils.getLastDate(endMonth, yearToSave);
             String query = queryUtils.saveDiscountProjectionListView(sDate, eDate, isCustomHierarchy, customViewDetails, hierarchy, session, hierarchyNo, fieldValue, selectedField);
-            ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
+           HelperTableLocalServiceUtil.executeUpdateQuery(query);
             return true;
         } catch (Exception e) {
               LOGGER.error(e);
@@ -603,7 +604,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             }
 
             String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customSql, null, null);
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
@@ -630,7 +631,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
             }
 
             String customSql = queryUtils.getLevelvalues(isLevelFilter, endLevelNo, isCustomHierarchy, projectionId, hierarchy, startLevelNo);
-            List list = (List) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(customSql, null, null);
+            List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(customSql);
             return list;
         } catch (Exception e) {
             LOGGER.error(e);
@@ -649,7 +650,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
      */
     public List getAlternateContract(String contractquery) {
 
-        List list = (List) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(contractquery, null, null);
+        List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(contractquery);
         LOGGER.debug(" getAlternate values" + list.size());
         return list;
     }
@@ -661,7 +662,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
      * @return
      */
     public List<String> getCompanyForAlternate(String query) {
-        List<String> list = (List) ChSalesProjectionMasterLocalServiceUtil.executeSelectQuery(query, null, null);
+        List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug(" getCompany values" + list.size());
         return list;
     }
@@ -686,7 +687,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 + "AND CHDP.USER_ID='" + projectionSelectionDTO.getUserId()
                 + "' AND CHDP.SESSION_ID='" + projectionSelectionDTO.getSessionId() + "'\n";
 
-        ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(updateQuery, null, null);
+       HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         LOGGER.debug(" Ending getCalculation");
     }
 
@@ -702,7 +703,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 LOGGER.debug("Key : " + key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
-            ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(customSql.toString(), null, null);
+           HelperTableLocalServiceUtil.executeUpdateQuery(customSql.toString());
         } catch (Exception e) {
             LOGGER.error(e);
         } finally {
@@ -720,6 +721,6 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 + Constant.AND_MSESSION_ID + sessionId + "\n"
                 + " AND E.PROJECTION_MASTER_SID ='" + projectionId + "' \n"
                 + " AND E.PROJECTION_DETAILS_SID = M.PROJECTION_DETAILS_SID ";
-        ChSalesProjectionMasterLocalServiceUtil.executeBulkUpdateQuery(query, null, null);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 }

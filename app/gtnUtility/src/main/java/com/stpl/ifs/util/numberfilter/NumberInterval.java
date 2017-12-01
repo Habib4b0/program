@@ -1,11 +1,11 @@
 package com.stpl.ifs.util.numberfilter;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import java.io.Serializable;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import org.jboss.logging.Logger;
 
 /**

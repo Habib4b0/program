@@ -1,0 +1,9 @@
+Bundle-Name: gtn-apiI
+Bundle-SymbolicName: gtn-apiI
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.stpl.app.exception,\
+	com.stpl.app.model,\
+	com.stpl.app.service*
+Import-Package: *
+-includeresource: META-INF/service.xml=../gtnService/service.xml

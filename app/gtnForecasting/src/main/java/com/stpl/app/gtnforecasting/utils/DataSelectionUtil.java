@@ -23,7 +23,7 @@ import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.IndexedContainer;

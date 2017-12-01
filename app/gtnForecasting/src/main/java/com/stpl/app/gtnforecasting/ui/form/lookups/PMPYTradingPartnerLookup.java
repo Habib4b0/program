@@ -14,7 +14,7 @@ import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.numberfilter.DemoFilterDecorator;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;

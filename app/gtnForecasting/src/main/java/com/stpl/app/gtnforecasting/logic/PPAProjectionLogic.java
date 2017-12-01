@@ -25,13 +25,14 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
@@ -138,7 +139,7 @@ public class PPAProjectionLogic {
      * @param start
      * @param offset
      * @return
-     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.liferay.portal.kernel.exception.PortalException
      */
     public Object getPPAProjectionResults(ProjectionSelectionDTO selection, CustomTableHeaderDTO ridhtdto, int start, int offset)  {
         List list = null;
@@ -684,7 +685,7 @@ public class PPAProjectionLogic {
         query = query.replace("@NEP_FILTER", Constant.PPAVariables.NEP_FORMULA.getConstant().equals(rsFormulaDTO.getPropertyId()) ? " AND formulaType.DESCRIPTION = 'Contract Deduction' " : StringUtils.EMPTY);
         String filterQuery = getFilterQuery(filterSet);
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
-        List resultList = (List) RsModelLocalServiceUtil.executeSelectQuery(query, null, null);
+        List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
             int count = (Integer) resultList.get(0);
             return count;
@@ -763,7 +764,7 @@ public class PPAProjectionLogic {
         query = query.replace("@FORMULA_SID", String.valueOf(forectastingFormulaSid));
         String filterQuery = getFilterQuery(filterSet);
         query = StringUtils.isEmpty(filterQuery) ? query.replace(Constant.FILTERR, StringUtils.EMPTY) : query.replace(Constant.FILTERR, filterQuery);
-        List resultList = (List) RsModelLocalServiceUtil.executeSelectQuery(query, null, null);
+        List resultList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (isCount) {
             int count = (Integer) resultList.get(0);
             return count;

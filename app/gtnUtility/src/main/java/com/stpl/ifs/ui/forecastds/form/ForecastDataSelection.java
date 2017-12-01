@@ -18,7 +18,7 @@ import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
+
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -54,6 +54,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 
 /**
  *
@@ -592,7 +593,7 @@ public abstract class ForecastDataSelection extends CustomComponent implements V
 	protected ComboBox deductionValue = new ComboBox();
 
 	public ForecastDataSelection(CustomFieldGroup dataSelectionBinder, String screenName, boolean landingScreenFlag) {
-		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));
+		setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/forecast/dataSelectionIndex.xml"), this));
 		this.dataSelectionBinder = dataSelectionBinder;
 		this.screenName = screenName;
 		this.landingScreenFlag = landingScreenFlag;

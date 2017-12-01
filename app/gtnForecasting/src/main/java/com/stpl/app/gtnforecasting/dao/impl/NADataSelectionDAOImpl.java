@@ -7,8 +7,8 @@ package com.stpl.app.gtnforecasting.dao.impl;
 
 import com.stpl.app.gtnforecasting.dao.NADataSelectionDAO;
 import com.stpl.app.service.ForecastConfigLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 

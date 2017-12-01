@@ -27,14 +27,15 @@ import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.MasterDataAttributeLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnforecasting.service.finderImpl.MasterDataAttributeFinderImpl;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -270,7 +271,7 @@ public class SalesProjectionLogic {
     public String loadTotalLives(Object[] inputs) {
         Double lives = 0.0;
         List<String> list;
-        list = MasterDataAttributeLocalServiceUtil.getTotalLives(inputs);
+        list = new MasterDataAttributeFinderImpl().getTotalLives(inputs);
         if (list != null) {
             for (String live : list) {
                 lives = lives + Double.parseDouble(live);
@@ -385,7 +386,7 @@ public class SalesProjectionLogic {
         SessionDTO session = (SessionDTO) inputs[NumericConstants.TWO];
         Map<String, Map<Integer, Double>> finalMap = new HashMap<>();
         List<LivesDTO> livesDto = new ArrayList<>();
-        list = MasterDataAttributeLocalServiceUtil.getTotalLives(inputs);
+        list = new MasterDataAttributeFinderImpl().getTotalLives(inputs);
         LivesDTO lives = null;
         Date startDate = null;
         Date endDate = null;

@@ -11,15 +11,26 @@
     <artifactId>gtnUtility</artifactId>
     <version>1.0</version>
     <name>gtnUtility</name>
-  
-    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <dependencies>
         <!--STPL addons-->
         
         <dependency>
-            <groupId>com.stpl.addons.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>tableexport</artifactId>
-            <version>${stpl.excelexport.version}</version>   
+            <version>2.0</version>   
             <scope>provided</scope>         
         </dependency>
 
@@ -36,7 +47,18 @@
             </exclusions>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.portal.kernel</artifactId>
+            <version>2.6.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.liferay.portal</groupId>
+            <artifactId>com.liferay.util.java</artifactId>
+            <version>2.3.0</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
@@ -52,9 +74,9 @@
         
 
         <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>extfilteringtable</artifactId>
-            <version>1.5</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -64,15 +86,15 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>clara</artifactId>
-            <version>1.1.0</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.vaadin.addons</groupId>
+          <groupId>org.vaadin.addons</groupId>
             <artifactId>lazy-container</artifactId>
-            <version>${lazy.container.version}</version>
+            <version>2.0</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -86,12 +108,12 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
             <artifactId>customtextfield</artifactId>
-            <version>1.0</version>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!--        <dependency>
             <groupId>com.stpl.portal</groupId>
             <artifactId>portal-service</artifactId>
             <version>${com.stpl.portal.version}</version>
@@ -102,7 +124,7 @@
             <artifactId>util-java</artifactId>
             <version>${com.stpl.portal.version}</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.stpl.app</groupId>
             <artifactId>util-service</artifactId>
@@ -155,10 +177,12 @@
             <version>${javaee-api.version}</version>
             <scope>provided</scope>
         </dependency>
+        
         <dependency>
             <artifactId>GtnFrameworkCommon</artifactId>
             <groupId>com.stpl.gtn.gtn2o</groupId>
             <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

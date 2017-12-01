@@ -7,3 +7,7 @@ app/*/target/*
 *.settings*
 etl/target/*
 *.classpath
+/app/gtnServicePart1/jndi-api/target/
+/app/gtnServicePart1/jndi-service/target/
+/app/gtnServicePart1/gtnService/target/
+/app/gtnServicePart1/gtnServiceapi/target/

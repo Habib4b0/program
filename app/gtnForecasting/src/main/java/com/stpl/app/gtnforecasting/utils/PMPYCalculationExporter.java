@@ -9,7 +9,7 @@ import com.stpl.addons.tableexport.TemporaryFileDownloadResource;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import java.io.File;

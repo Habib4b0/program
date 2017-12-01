@@ -21,15 +21,15 @@ import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Component;
@@ -508,7 +508,7 @@ public class CommonUtils {
      * Retrieves all the user name and stores that in the Concurrent Hash Map.
      * 
      * @return the Map
-     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.liferay.portal.kernel.exception.SystemException
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");

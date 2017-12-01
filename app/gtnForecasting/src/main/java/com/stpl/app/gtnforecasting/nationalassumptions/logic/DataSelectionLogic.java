@@ -5,7 +5,7 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.logic;
 
 
-import com.stpl.app.NoSuchItemGroupException;
+
 import com.stpl.app.gtnforecasting.dao.NACommonResultsDAO;
 import com.stpl.app.gtnforecasting.dao.NADataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.NACommonResultsDAOImpl;
@@ -31,15 +31,16 @@ import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.stpl.app.service.NaProjMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.exception.NoSuchItemGroupException;
 import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

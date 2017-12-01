@@ -22,7 +22,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.*;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.ui.ComboBox;
 import java.text.DecimalFormat;

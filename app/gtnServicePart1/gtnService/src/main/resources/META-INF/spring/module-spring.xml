@@ -1,0 +1,875 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean class="com.stpl.app.service.impl.AccrualDetailsLocalServiceImpl" id="com.stpl.app.service.AccrualDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.AccrualDetailsPersistenceImpl" id="com.stpl.app.service.persistence.AccrualDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.AccrualMasterLocalServiceImpl" id="com.stpl.app.service.AccrualMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.AccrualMasterPersistenceImpl" id="com.stpl.app.service.persistence.AccrualMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ActualsMasterLocalServiceImpl" id="com.stpl.app.service.ActualsMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ActualsMasterPersistenceImpl" id="com.stpl.app.service.persistence.ActualsMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.AdditionalNotesLocalServiceImpl" id="com.stpl.app.service.AdditionalNotesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.AdditionalNotesPersistenceImpl" id="com.stpl.app.service.persistence.AdditionalNotesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.AuditMasterInboundLocalServiceImpl" id="com.stpl.app.service.AuditMasterInboundLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.AuditMasterInboundPersistenceImpl" id="com.stpl.app.service.persistence.AuditMasterInboundPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.AverageShelfLifeMasterLocalServiceImpl" id="com.stpl.app.service.AverageShelfLifeMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.AverageShelfLifeMasterPersistenceImpl" id="com.stpl.app.service.persistence.AverageShelfLifeMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.BestPriceMasterLocalServiceImpl" id="com.stpl.app.service.BestPriceMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.BestPriceMasterPersistenceImpl" id="com.stpl.app.service.persistence.BestPriceMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.BrandMasterLocalServiceImpl" id="com.stpl.app.service.BrandMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.BrandMasterPersistenceImpl" id="com.stpl.app.service.persistence.BrandMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.BusinessroleMasterLocalServiceImpl" id="com.stpl.app.service.BusinessroleMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.BusinessroleMasterPersistenceImpl" id="com.stpl.app.service.persistence.BusinessroleMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.BusinessroleModuleLocalServiceImpl" id="com.stpl.app.service.BusinessroleModuleLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.BusinessroleModulePersistenceImpl" id="com.stpl.app.service.persistence.BusinessroleModulePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CcpDetailsLocalServiceImpl" id="com.stpl.app.service.CcpDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CcpDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CcpDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CcpMapLocalServiceImpl" id="com.stpl.app.service.CcpMapLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CcpMapPersistenceImpl" id="com.stpl.app.service.persistence.CcpMapPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CdrDetailsLocalServiceImpl" id="com.stpl.app.service.CdrDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CdrDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CdrDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CdrModelLocalServiceImpl" id="com.stpl.app.service.CdrModelLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CdrModelPersistenceImpl" id="com.stpl.app.service.persistence.CdrModelPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CfpContractLocalServiceImpl" id="com.stpl.app.service.CfpContractLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CfpContractPersistenceImpl" id="com.stpl.app.service.persistence.CfpContractPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CfpContractDetailsLocalServiceImpl" id="com.stpl.app.service.CfpContractDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CfpContractDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CfpContractDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CfpDetailsLocalServiceImpl" id="com.stpl.app.service.CfpDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CfpDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CfpDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CfpModelLocalServiceImpl" id="com.stpl.app.service.CfpModelLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CfpModelPersistenceImpl" id="com.stpl.app.service.persistence.CfpModelPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChActualDiscountLocalServiceImpl" id="com.stpl.app.service.ChActualDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChActualDiscountPersistenceImpl" id="com.stpl.app.service.persistence.ChActualDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChActualSalesLocalServiceImpl" id="com.stpl.app.service.ChActualSalesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChActualSalesPersistenceImpl" id="com.stpl.app.service.persistence.ChActualSalesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChAssumptionsLocalServiceImpl" id="com.stpl.app.service.ChAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.ChAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChDiscountProjMasterLocalServiceImpl" id="com.stpl.app.service.ChDiscountProjMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChDiscountProjMasterPersistenceImpl" id="com.stpl.app.service.persistence.ChDiscountProjMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChProjectionDiscountLocalServiceImpl" id="com.stpl.app.service.ChProjectionDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChProjectionDiscountPersistenceImpl" id="com.stpl.app.service.persistence.ChProjectionDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChProjectionSelectionLocalServiceImpl" id="com.stpl.app.service.ChProjectionSelectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChProjectionSelectionPersistenceImpl" id="com.stpl.app.service.persistence.ChProjectionSelectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChSalesProjectionLocalServiceImpl" id="com.stpl.app.service.ChSalesProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChSalesProjectionPersistenceImpl" id="com.stpl.app.service.persistence.ChSalesProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ChSalesProjectionMasterLocalServiceImpl" id="com.stpl.app.service.ChSalesProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ChSalesProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.ChSalesProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyGroupLocalServiceImpl" id="com.stpl.app.service.CompanyGroupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyGroupPersistenceImpl" id="com.stpl.app.service.persistence.CompanyGroupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyGroupDetailsLocalServiceImpl" id="com.stpl.app.service.CompanyGroupDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyGroupDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CompanyGroupDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyIdentifierLocalServiceImpl" id="com.stpl.app.service.CompanyIdentifierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyIdentifierPersistenceImpl" id="com.stpl.app.service.persistence.CompanyIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyMasterLocalServiceImpl" id="com.stpl.app.service.CompanyMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyMasterPersistenceImpl" id="com.stpl.app.service.persistence.CompanyMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyParentDetailsLocalServiceImpl" id="com.stpl.app.service.CompanyParentDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyParentDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CompanyParentDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyQualifierLocalServiceImpl" id="com.stpl.app.service.CompanyQualifierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyQualifierPersistenceImpl" id="com.stpl.app.service.persistence.CompanyQualifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CompanyTradeClassLocalServiceImpl" id="com.stpl.app.service.CompanyTradeClassLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CompanyTradeClassPersistenceImpl" id="com.stpl.app.service.persistence.CompanyTradeClassPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ContractAliasMasterLocalServiceImpl" id="com.stpl.app.service.ContractAliasMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ContractAliasMasterPersistenceImpl" id="com.stpl.app.service.persistence.ContractAliasMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ContractMasterLocalServiceImpl" id="com.stpl.app.service.ContractMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ContractMasterPersistenceImpl" id="com.stpl.app.service.persistence.ContractMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CpiIndexMasterLocalServiceImpl" id="com.stpl.app.service.CpiIndexMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CpiIndexMasterPersistenceImpl" id="com.stpl.app.service.persistence.CpiIndexMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CustomViewDetailsLocalServiceImpl" id="com.stpl.app.service.CustomViewDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CustomViewDetailsPersistenceImpl" id="com.stpl.app.service.persistence.CustomViewDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.CustomViewMasterLocalServiceImpl" id="com.stpl.app.service.CustomViewMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.CustomViewMasterPersistenceImpl" id="com.stpl.app.service.persistence.CustomViewMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DeductionCalendarDetailsLocalServiceImpl" id="com.stpl.app.service.DeductionCalendarDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DeductionCalendarDetailsPersistenceImpl" id="com.stpl.app.service.persistence.DeductionCalendarDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DeductionCalendarMasterLocalServiceImpl" id="com.stpl.app.service.DeductionCalendarMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DeductionCalendarMasterPersistenceImpl" id="com.stpl.app.service.persistence.DeductionCalendarMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DeductionDetailsLocalServiceImpl" id="com.stpl.app.service.DeductionDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DeductionDetailsPersistenceImpl" id="com.stpl.app.service.persistence.DeductionDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DeductionGroupLocalServiceImpl" id="com.stpl.app.service.DeductionGroupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DeductionGroupPersistenceImpl" id="com.stpl.app.service.persistence.DeductionGroupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DeductionGroupDetailsLocalServiceImpl" id="com.stpl.app.service.DeductionGroupDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DeductionGroupDetailsPersistenceImpl" id="com.stpl.app.service.persistence.DeductionGroupDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DemandForecastLocalServiceImpl" id="com.stpl.app.service.DemandForecastLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DemandForecastPersistenceImpl" id="com.stpl.app.service.persistence.DemandForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.DocDetailsLocalServiceImpl" id="com.stpl.app.service.DocDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.DocDetailsPersistenceImpl" id="com.stpl.app.service.persistence.DocDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.FcpActualsLocalServiceImpl" id="com.stpl.app.service.FcpActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.FcpActualsPersistenceImpl" id="com.stpl.app.service.persistence.FcpActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.FcpProjLocalServiceImpl" id="com.stpl.app.service.FcpProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.FcpProjPersistenceImpl" id="com.stpl.app.service.persistence.FcpProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.FederalNewNdcLocalServiceImpl" id="com.stpl.app.service.FederalNewNdcLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.FederalNewNdcPersistenceImpl" id="com.stpl.app.service.persistence.FederalNewNdcPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.FileManagementLocalServiceImpl" id="com.stpl.app.service.FileManagementLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.FileManagementPersistenceImpl" id="com.stpl.app.service.persistence.FileManagementPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ForecastConfigLocalServiceImpl" id="com.stpl.app.service.ForecastConfigLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ForecastConfigPersistenceImpl" id="com.stpl.app.service.persistence.ForecastConfigPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ForecastingFormulaLocalServiceImpl" id="com.stpl.app.service.ForecastingFormulaLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ForecastingFormulaPersistenceImpl" id="com.stpl.app.service.persistence.ForecastingFormulaPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ForecastingMasterLocalServiceImpl" id="com.stpl.app.service.ForecastingMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ForecastingMasterPersistenceImpl" id="com.stpl.app.service.persistence.ForecastingMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ForecastingViewMasterLocalServiceImpl" id="com.stpl.app.service.ForecastingViewMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ForecastingViewMasterPersistenceImpl" id="com.stpl.app.service.persistence.ForecastingViewMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.FormulaDetailsMasterLocalServiceImpl" id="com.stpl.app.service.FormulaDetailsMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.FormulaDetailsMasterPersistenceImpl" id="com.stpl.app.service.persistence.FormulaDetailsMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GcmCompanyDetailsLocalServiceImpl" id="com.stpl.app.service.GcmCompanyDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GcmCompanyDetailsPersistenceImpl" id="com.stpl.app.service.persistence.GcmCompanyDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GcmCompanyLinkLocalServiceImpl" id="com.stpl.app.service.GcmCompanyLinkLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GcmCompanyLinkPersistenceImpl" id="com.stpl.app.service.persistence.GcmCompanyLinkPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GcmContractDetailsLocalServiceImpl" id="com.stpl.app.service.GcmContractDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GcmContractDetailsPersistenceImpl" id="com.stpl.app.service.persistence.GcmContractDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GcmGlobalDetailsLocalServiceImpl" id="com.stpl.app.service.GcmGlobalDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GcmGlobalDetailsPersistenceImpl" id="com.stpl.app.service.persistence.GcmGlobalDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GcmItemDetailsLocalServiceImpl" id="com.stpl.app.service.GcmItemDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GcmItemDetailsPersistenceImpl" id="com.stpl.app.service.persistence.GcmItemDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GlBalanceMasterLocalServiceImpl" id="com.stpl.app.service.GlBalanceMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GlBalanceMasterPersistenceImpl" id="com.stpl.app.service.persistence.GlBalanceMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.GlCostCenterMasterLocalServiceImpl" id="com.stpl.app.service.GlCostCenterMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.GlCostCenterMasterPersistenceImpl" id="com.stpl.app.service.persistence.GlCostCenterMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HelperTableLocalServiceImpl" id="com.stpl.app.service.HelperTableLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HelperTablePersistenceImpl" id="com.stpl.app.service.persistence.HelperTablePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.persistence.impl.HelperTableFinderImpl" id="com.stpl.app.service.persistence.HelperTableFinder" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HierarchyDefinitionLocalServiceImpl" id="com.stpl.app.service.HierarchyDefinitionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HierarchyDefinitionPersistenceImpl" id="com.stpl.app.service.persistence.HierarchyDefinitionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HierarchyLevelDefinitionLocalServiceImpl" id="com.stpl.app.service.HierarchyLevelDefinitionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HierarchyLevelDefinitionPersistenceImpl" id="com.stpl.app.service.persistence.HierarchyLevelDefinitionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HierarchyLevelValuesLocalServiceImpl" id="com.stpl.app.service.HierarchyLevelValuesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HierarchyLevelValuesPersistenceImpl" id="com.stpl.app.service.persistence.HierarchyLevelValuesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistCompanyGroupLocalServiceImpl" id="com.stpl.app.service.HistCompanyGroupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistCompanyGroupPersistenceImpl" id="com.stpl.app.service.persistence.HistCompanyGroupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistCompanyGroupDetailsLocalServiceImpl" id="com.stpl.app.service.HistCompanyGroupDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistCompanyGroupDetailsPersistenceImpl" id="com.stpl.app.service.persistence.HistCompanyGroupDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistHierarchyDefinitionLocalServiceImpl" id="com.stpl.app.service.HistHierarchyDefinitionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistHierarchyDefinitionPersistenceImpl" id="com.stpl.app.service.persistence.HistHierarchyDefinitionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistHierarchyLevelDefnLocalServiceImpl" id="com.stpl.app.service.HistHierarchyLevelDefnLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistHierarchyLevelDefnPersistenceImpl" id="com.stpl.app.service.persistence.HistHierarchyLevelDefnPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistHierarchyLevelValuesLocalServiceImpl" id="com.stpl.app.service.HistHierarchyLevelValuesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistHierarchyLevelValuesPersistenceImpl" id="com.stpl.app.service.persistence.HistHierarchyLevelValuesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistItemGroupLocalServiceImpl" id="com.stpl.app.service.HistItemGroupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistItemGroupPersistenceImpl" id="com.stpl.app.service.persistence.HistItemGroupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistItemGroupDetailsLocalServiceImpl" id="com.stpl.app.service.HistItemGroupDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistItemGroupDetailsPersistenceImpl" id="com.stpl.app.service.persistence.HistItemGroupDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistRelationshipBuilderLocalServiceImpl" id="com.stpl.app.service.HistRelationshipBuilderLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistRelationshipBuilderPersistenceImpl" id="com.stpl.app.service.persistence.HistRelationshipBuilderPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistRelationshipLevelDefnLocalServiceImpl" id="com.stpl.app.service.HistRelationshipLevelDefnLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistRelationshipLevelDefnPersistenceImpl" id="com.stpl.app.service.persistence.HistRelationshipLevelDefnPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.HistWorkflowMasterLocalServiceImpl" id="com.stpl.app.service.HistWorkflowMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.HistWorkflowMasterPersistenceImpl" id="com.stpl.app.service.persistence.HistWorkflowMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IfpContractLocalServiceImpl" id="com.stpl.app.service.IfpContractLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IfpContractPersistenceImpl" id="com.stpl.app.service.persistence.IfpContractPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IfpContractDetailsLocalServiceImpl" id="com.stpl.app.service.IfpContractDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IfpContractDetailsPersistenceImpl" id="com.stpl.app.service.persistence.IfpContractDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IfpDetailsLocalServiceImpl" id="com.stpl.app.service.IfpDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IfpDetailsPersistenceImpl" id="com.stpl.app.service.persistence.IfpDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IfpModelLocalServiceImpl" id="com.stpl.app.service.IfpModelLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IfpModelPersistenceImpl" id="com.stpl.app.service.persistence.IfpModelPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdCfpDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdCfpDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdCfpDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdCfpDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdDeductionDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdDeductionDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdDeductionDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdDeductionDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdIfpDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdIfpDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdIfpDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdIfpDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdItemPriceRebateDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdItemPriceRebateDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdItemPriceRebateDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdItemPriceRebateDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdLevelValuesLocalServiceImpl" id="com.stpl.app.service.ImtdLevelValuesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdLevelValuesPersistenceImpl" id="com.stpl.app.service.persistence.ImtdLevelValuesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdPsDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdPsDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdPsDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdPsDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdRsContractDetailsFrLocalServiceImpl" id="com.stpl.app.service.ImtdRsContractDetailsFrLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdRsContractDetailsFrPersistenceImpl" id="com.stpl.app.service.persistence.ImtdRsContractDetailsFrPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdRsDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdRsDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdRsDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdRsDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdRsDetailsFrLocalServiceImpl" id="com.stpl.app.service.ImtdRsDetailsFrLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdRsDetailsFrPersistenceImpl" id="com.stpl.app.service.persistence.ImtdRsDetailsFrPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ImtdSalesBasisDetailsLocalServiceImpl" id="com.stpl.app.service.ImtdSalesBasisDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ImtdSalesBasisDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ImtdSalesBasisDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.InventoryWdActualMasLocalServiceImpl" id="com.stpl.app.service.InventoryWdActualMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.InventoryWdActualMasPersistenceImpl" id="com.stpl.app.service.persistence.InventoryWdActualMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.InventoryWdProjMasLocalServiceImpl" id="com.stpl.app.service.InventoryWdProjMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.InventoryWdProjMasPersistenceImpl" id="com.stpl.app.service.persistence.InventoryWdProjMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemGroupLocalServiceImpl" id="com.stpl.app.service.ItemGroupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemGroupPersistenceImpl" id="com.stpl.app.service.persistence.ItemGroupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemGroupDetailsLocalServiceImpl" id="com.stpl.app.service.ItemGroupDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemGroupDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ItemGroupDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemHierarchyDefMasterLocalServiceImpl" id="com.stpl.app.service.ItemHierarchyDefMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemHierarchyDefMasterPersistenceImpl" id="com.stpl.app.service.persistence.ItemHierarchyDefMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemHierarchyMasterLocalServiceImpl" id="com.stpl.app.service.ItemHierarchyMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemHierarchyMasterPersistenceImpl" id="com.stpl.app.service.persistence.ItemHierarchyMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemIdentifierLocalServiceImpl" id="com.stpl.app.service.ItemIdentifierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemIdentifierPersistenceImpl" id="com.stpl.app.service.persistence.ItemIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemMasterLocalServiceImpl" id="com.stpl.app.service.ItemMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemMasterPersistenceImpl" id="com.stpl.app.service.persistence.ItemMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemPricingLocalServiceImpl" id="com.stpl.app.service.ItemPricingLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemPricingPersistenceImpl" id="com.stpl.app.service.persistence.ItemPricingPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemPricingQualifierLocalServiceImpl" id="com.stpl.app.service.ItemPricingQualifierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemPricingQualifierPersistenceImpl" id="com.stpl.app.service.persistence.ItemPricingQualifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ItemQualifierLocalServiceImpl" id="com.stpl.app.service.ItemQualifierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ItemQualifierPersistenceImpl" id="com.stpl.app.service.persistence.ItemQualifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldActualMasterLocalServiceImpl" id="com.stpl.app.service.IvldActualMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldActualMasterPersistenceImpl" id="com.stpl.app.service.persistence.IvldActualMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldAverageShelfLifeLocalServiceImpl" id="com.stpl.app.service.IvldAverageShelfLifeLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldAverageShelfLifePersistenceImpl" id="com.stpl.app.service.persistence.IvldAverageShelfLifePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldBestPriceLocalServiceImpl" id="com.stpl.app.service.IvldBestPriceLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldBestPricePersistenceImpl" id="com.stpl.app.service.persistence.IvldBestPricePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldCpiLocalServiceImpl" id="com.stpl.app.service.IvldCpiLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldCpiPersistenceImpl" id="com.stpl.app.service.persistence.IvldCpiPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldDemandActualLocalServiceImpl" id="com.stpl.app.service.IvldDemandActualLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldDemandActualPersistenceImpl" id="com.stpl.app.service.persistence.IvldDemandActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldDemandForecastLocalServiceImpl" id="com.stpl.app.service.IvldDemandForecastLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldDemandForecastPersistenceImpl" id="com.stpl.app.service.persistence.IvldDemandForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldForecastSalesLocalServiceImpl" id="com.stpl.app.service.IvldForecastSalesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldForecastSalesPersistenceImpl" id="com.stpl.app.service.persistence.IvldForecastSalesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldFormulaDetailsLocalServiceImpl" id="com.stpl.app.service.IvldFormulaDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldFormulaDetailsPersistenceImpl" id="com.stpl.app.service.persistence.IvldFormulaDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldGlBalanceLocalServiceImpl" id="com.stpl.app.service.IvldGlBalanceLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldGlBalancePersistenceImpl" id="com.stpl.app.service.persistence.IvldGlBalancePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldGlCostCenterLocalServiceImpl" id="com.stpl.app.service.IvldGlCostCenterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldGlCostCenterPersistenceImpl" id="com.stpl.app.service.persistence.IvldGlCostCenterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldInventoryWdActualMasLocalServiceImpl" id="com.stpl.app.service.IvldInventoryWdActualMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldInventoryWdActualMasPersistenceImpl" id="com.stpl.app.service.persistence.IvldInventoryWdActualMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldInventoryWdProjMasLocalServiceImpl" id="com.stpl.app.service.IvldInventoryWdProjMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldInventoryWdProjMasPersistenceImpl" id="com.stpl.app.service.persistence.IvldInventoryWdProjMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldItemHierarchyLocalServiceImpl" id="com.stpl.app.service.IvldItemHierarchyLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldItemHierarchyPersistenceImpl" id="com.stpl.app.service.persistence.IvldItemHierarchyPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldItemHierarchyDefinitionLocalServiceImpl" id="com.stpl.app.service.IvldItemHierarchyDefinitionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldItemHierarchyDefinitionPersistenceImpl" id="com.stpl.app.service.persistence.IvldItemHierarchyDefinitionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldLotMasterLocalServiceImpl" id="com.stpl.app.service.IvldLotMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldLotMasterPersistenceImpl" id="com.stpl.app.service.persistence.IvldLotMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldMasterDataAttributeLocalServiceImpl" id="com.stpl.app.service.IvldMasterDataAttributeLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldMasterDataAttributePersistenceImpl" id="com.stpl.app.service.persistence.IvldMasterDataAttributePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldReturnsLocalServiceImpl" id="com.stpl.app.service.IvldReturnsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldReturnsPersistenceImpl" id="com.stpl.app.service.persistence.IvldReturnsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.IvldSalesMasterLocalServiceImpl" id="com.stpl.app.service.IvldSalesMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.IvldSalesMasterPersistenceImpl" id="com.stpl.app.service.persistence.IvldSalesMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.LotMasterLocalServiceImpl" id="com.stpl.app.service.LotMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.LotMasterPersistenceImpl" id="com.stpl.app.service.persistence.LotMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MailNotificationMasterLocalServiceImpl" id="com.stpl.app.service.MailNotificationMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MailNotificationMasterPersistenceImpl" id="com.stpl.app.service.persistence.MailNotificationMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MAssumptionsLocalServiceImpl" id="com.stpl.app.service.MAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.MAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MasterDataAttributeLocalServiceImpl" id="com.stpl.app.service.MasterDataAttributeLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MasterDataAttributePersistenceImpl" id="com.stpl.app.service.persistence.MasterDataAttributePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MasterDataFilesLocalServiceImpl" id="com.stpl.app.service.MasterDataFilesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MasterDataFilesPersistenceImpl" id="com.stpl.app.service.persistence.MasterDataFilesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MedicaidNewNdcLocalServiceImpl" id="com.stpl.app.service.MedicaidNewNdcLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MedicaidNewNdcPersistenceImpl" id="com.stpl.app.service.persistence.MedicaidNewNdcPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MedicaidUraActualsLocalServiceImpl" id="com.stpl.app.service.MedicaidUraActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MedicaidUraActualsPersistenceImpl" id="com.stpl.app.service.persistence.MedicaidUraActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MedicaidUraProjLocalServiceImpl" id="com.stpl.app.service.MedicaidUraProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MedicaidUraProjPersistenceImpl" id="com.stpl.app.service.persistence.MedicaidUraProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ModulePropertiesLocalServiceImpl" id="com.stpl.app.service.ModulePropertiesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ModulePropertiesPersistenceImpl" id="com.stpl.app.service.persistence.ModulePropertiesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ModuleSubmoduleMasterLocalServiceImpl" id="com.stpl.app.service.ModuleSubmoduleMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ModuleSubmoduleMasterPersistenceImpl" id="com.stpl.app.service.persistence.ModuleSubmoduleMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MParityLookupLocalServiceImpl" id="com.stpl.app.service.MParityLookupLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MParityLookupPersistenceImpl" id="com.stpl.app.service.persistence.MParityLookupPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MProjectionSelectionLocalServiceImpl" id="com.stpl.app.service.MProjectionSelectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MProjectionSelectionPersistenceImpl" id="com.stpl.app.service.persistence.MProjectionSelectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MSalesProjectionMasterLocalServiceImpl" id="com.stpl.app.service.MSalesProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MSalesProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.MSalesProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MSupplementalDiscActualsLocalServiceImpl" id="com.stpl.app.service.MSupplementalDiscActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MSupplementalDiscActualsPersistenceImpl" id="com.stpl.app.service.persistence.MSupplementalDiscActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MSupplementalDiscMasterLocalServiceImpl" id="com.stpl.app.service.MSupplementalDiscMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MSupplementalDiscMasterPersistenceImpl" id="com.stpl.app.service.persistence.MSupplementalDiscMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.MSupplementalDiscProjLocalServiceImpl" id="com.stpl.app.service.MSupplementalDiscProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.MSupplementalDiscProjPersistenceImpl" id="com.stpl.app.service.persistence.MSupplementalDiscProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NaProjDetailsLocalServiceImpl" id="com.stpl.app.service.NaProjDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NaProjDetailsPersistenceImpl" id="com.stpl.app.service.persistence.NaProjDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NaProjectionSelectionLocalServiceImpl" id="com.stpl.app.service.NaProjectionSelectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NaProjectionSelectionPersistenceImpl" id="com.stpl.app.service.persistence.NaProjectionSelectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NaProjMasterLocalServiceImpl" id="com.stpl.app.service.NaProjMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NaProjMasterPersistenceImpl" id="com.stpl.app.service.persistence.NaProjMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NationalAssumptionsLocalServiceImpl" id="com.stpl.app.service.NationalAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NationalAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.NationalAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NationalAssumptionsActualsLocalServiceImpl" id="com.stpl.app.service.NationalAssumptionsActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NationalAssumptionsActualsPersistenceImpl" id="com.stpl.app.service.persistence.NationalAssumptionsActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NationalAssumptionsProjLocalServiceImpl" id="com.stpl.app.service.NationalAssumptionsProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NationalAssumptionsProjPersistenceImpl" id="com.stpl.app.service.persistence.NationalAssumptionsProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NetSalesFormulaMasterLocalServiceImpl" id="com.stpl.app.service.NetSalesFormulaMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NetSalesFormulaMasterPersistenceImpl" id="com.stpl.app.service.persistence.NetSalesFormulaMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmActualDiscountLocalServiceImpl" id="com.stpl.app.service.NmActualDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmActualDiscountPersistenceImpl" id="com.stpl.app.service.persistence.NmActualDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmActualPpaLocalServiceImpl" id="com.stpl.app.service.NmActualPpaLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmActualPpaPersistenceImpl" id="com.stpl.app.service.persistence.NmActualPpaPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmDiscountProjectionLocalServiceImpl" id="com.stpl.app.service.NmDiscountProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmDiscountProjectionPersistenceImpl" id="com.stpl.app.service.persistence.NmDiscountProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmDiscountProjMasterLocalServiceImpl" id="com.stpl.app.service.NmDiscountProjMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmDiscountProjMasterPersistenceImpl" id="com.stpl.app.service.persistence.NmDiscountProjMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmPpaProjectionLocalServiceImpl" id="com.stpl.app.service.NmPpaProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmPpaProjectionPersistenceImpl" id="com.stpl.app.service.persistence.NmPpaProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmPpaProjectionMasterLocalServiceImpl" id="com.stpl.app.service.NmPpaProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmPpaProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.NmPpaProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmProjectionSelectionLocalServiceImpl" id="com.stpl.app.service.NmProjectionSelectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmProjectionSelectionPersistenceImpl" id="com.stpl.app.service.persistence.NmProjectionSelectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmSalesProjectionLocalServiceImpl" id="com.stpl.app.service.NmSalesProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmSalesProjectionPersistenceImpl" id="com.stpl.app.service.persistence.NmSalesProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.NmSalesProjectionMasterLocalServiceImpl" id="com.stpl.app.service.NmSalesProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.NmSalesProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.NmSalesProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PeriodLocalServiceImpl" id="com.stpl.app.service.PeriodLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PeriodPersistenceImpl" id="com.stpl.app.service.persistence.PeriodPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PhsActualsLocalServiceImpl" id="com.stpl.app.service.PhsActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PhsActualsPersistenceImpl" id="com.stpl.app.service.persistence.PhsActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PhsProjLocalServiceImpl" id="com.stpl.app.service.PhsProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PhsProjPersistenceImpl" id="com.stpl.app.service.persistence.PhsProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PriceScheduleDetailsLocalServiceImpl" id="com.stpl.app.service.PriceScheduleDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PriceScheduleDetailsPersistenceImpl" id="com.stpl.app.service.persistence.PriceScheduleDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PriceScheduleMasterLocalServiceImpl" id="com.stpl.app.service.PriceScheduleMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PriceScheduleMasterPersistenceImpl" id="com.stpl.app.service.persistence.PriceScheduleMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionCustDetailsLocalServiceImpl" id="com.stpl.app.service.ProjectionCustDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionCustDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionCustDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionCustHierarchyLocalServiceImpl" id="com.stpl.app.service.ProjectionCustHierarchyLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionCustHierarchyPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionCustHierarchyPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionDetailsLocalServiceImpl" id="com.stpl.app.service.ProjectionDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionMasterLocalServiceImpl" id="com.stpl.app.service.ProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionNameConfigLocalServiceImpl" id="com.stpl.app.service.ProjectionNameConfigLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionNameConfigPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionNameConfigPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionProdDetailsLocalServiceImpl" id="com.stpl.app.service.ProjectionProdDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionProdDetailsPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionProdDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ProjectionProdHierarchyLocalServiceImpl" id="com.stpl.app.service.ProjectionProdHierarchyLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ProjectionProdHierarchyPersistenceImpl" id="com.stpl.app.service.persistence.ProjectionProdHierarchyPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PsContractLocalServiceImpl" id="com.stpl.app.service.PsContractLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PsContractPersistenceImpl" id="com.stpl.app.service.persistence.PsContractPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PsContractDetailsLocalServiceImpl" id="com.stpl.app.service.PsContractDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PsContractDetailsPersistenceImpl" id="com.stpl.app.service.persistence.PsContractDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PsDetailsLocalServiceImpl" id="com.stpl.app.service.PsDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PsDetailsPersistenceImpl" id="com.stpl.app.service.persistence.PsDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.PsModelLocalServiceImpl" id="com.stpl.app.service.PsModelLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.PsModelPersistenceImpl" id="com.stpl.app.service.persistence.PsModelPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RebatePlanMasterLocalServiceImpl" id="com.stpl.app.service.RebatePlanMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RebatePlanMasterPersistenceImpl" id="com.stpl.app.service.persistence.RebatePlanMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RebatePlanTierLocalServiceImpl" id="com.stpl.app.service.RebatePlanTierLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RebatePlanTierPersistenceImpl" id="com.stpl.app.service.persistence.RebatePlanTierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RebateTierFormulaLocalServiceImpl" id="com.stpl.app.service.RebateTierFormulaLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RebateTierFormulaPersistenceImpl" id="com.stpl.app.service.persistence.RebateTierFormulaPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RelationshipBuilderLocalServiceImpl" id="com.stpl.app.service.RelationshipBuilderLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RelationshipBuilderPersistenceImpl" id="com.stpl.app.service.persistence.RelationshipBuilderPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RelationshipLevelDefinitionLocalServiceImpl" id="com.stpl.app.service.RelationshipLevelDefinitionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RelationshipLevelDefinitionPersistenceImpl" id="com.stpl.app.service.persistence.RelationshipLevelDefinitionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.ReturnsMasterLocalServiceImpl" id="com.stpl.app.service.ReturnsMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.ReturnsMasterPersistenceImpl" id="com.stpl.app.service.persistence.ReturnsMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsContractLocalServiceImpl" id="com.stpl.app.service.RsContractLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsContractPersistenceImpl" id="com.stpl.app.service.persistence.RsContractPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsContractDetailsLocalServiceImpl" id="com.stpl.app.service.RsContractDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsContractDetailsPersistenceImpl" id="com.stpl.app.service.persistence.RsContractDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsContractDetailsFrLocalServiceImpl" id="com.stpl.app.service.RsContractDetailsFrLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsContractDetailsFrPersistenceImpl" id="com.stpl.app.service.persistence.RsContractDetailsFrPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsDetailsLocalServiceImpl" id="com.stpl.app.service.RsDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsDetailsPersistenceImpl" id="com.stpl.app.service.persistence.RsDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsDetailsFrLocalServiceImpl" id="com.stpl.app.service.RsDetailsFrLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsDetailsFrPersistenceImpl" id="com.stpl.app.service.persistence.RsDetailsFrPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.RsModelLocalServiceImpl" id="com.stpl.app.service.RsModelLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.RsModelPersistenceImpl" id="com.stpl.app.service.persistence.RsModelPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.SalesBasisDetailsLocalServiceImpl" id="com.stpl.app.service.SalesBasisDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.SalesBasisDetailsPersistenceImpl" id="com.stpl.app.service.persistence.SalesBasisDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.SalesMasterLocalServiceImpl" id="com.stpl.app.service.SalesMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.SalesMasterPersistenceImpl" id="com.stpl.app.service.persistence.SalesMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StChActualDiscountLocalServiceImpl" id="com.stpl.app.service.StChActualDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StChActualDiscountPersistenceImpl" id="com.stpl.app.service.persistence.StChActualDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StChAssumptionsLocalServiceImpl" id="com.stpl.app.service.StChAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StChAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.StChAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StChDiscountProjMasterLocalServiceImpl" id="com.stpl.app.service.StChDiscountProjMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StChDiscountProjMasterPersistenceImpl" id="com.stpl.app.service.persistence.StChDiscountProjMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StChProjectionDiscountLocalServiceImpl" id="com.stpl.app.service.StChProjectionDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StChProjectionDiscountPersistenceImpl" id="com.stpl.app.service.persistence.StChProjectionDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StChSalesProjectionMasterLocalServiceImpl" id="com.stpl.app.service.StChSalesProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StChSalesProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.StChSalesProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StDeductionCalendarDetailsLocalServiceImpl" id="com.stpl.app.service.StDeductionCalendarDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StDeductionCalendarDetailsPersistenceImpl" id="com.stpl.app.service.persistence.StDeductionCalendarDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StFederalNewNdcLocalServiceImpl" id="com.stpl.app.service.StFederalNewNdcLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StFederalNewNdcPersistenceImpl" id="com.stpl.app.service.persistence.StFederalNewNdcPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StMAssumptionsLocalServiceImpl" id="com.stpl.app.service.StMAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StMAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.StMAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StMedicaidNewNdcLocalServiceImpl" id="com.stpl.app.service.StMedicaidNewNdcLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StMedicaidNewNdcPersistenceImpl" id="com.stpl.app.service.persistence.StMedicaidNewNdcPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StMSupplementalDiscActualsLocalServiceImpl" id="com.stpl.app.service.StMSupplementalDiscActualsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StMSupplementalDiscActualsPersistenceImpl" id="com.stpl.app.service.persistence.StMSupplementalDiscActualsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StMSupplementalDiscMasterLocalServiceImpl" id="com.stpl.app.service.StMSupplementalDiscMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StMSupplementalDiscMasterPersistenceImpl" id="com.stpl.app.service.persistence.StMSupplementalDiscMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StMSupplementalDiscProjLocalServiceImpl" id="com.stpl.app.service.StMSupplementalDiscProjLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StMSupplementalDiscProjPersistenceImpl" id="com.stpl.app.service.persistence.StMSupplementalDiscProjPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNationalAssumptionsLocalServiceImpl" id="com.stpl.app.service.StNationalAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNationalAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.StNationalAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNewNdcLocalServiceImpl" id="com.stpl.app.service.StNewNdcLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNewNdcPersistenceImpl" id="com.stpl.app.service.persistence.StNewNdcPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmActualDiscountLocalServiceImpl" id="com.stpl.app.service.StNmActualDiscountLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmActualDiscountPersistenceImpl" id="com.stpl.app.service.persistence.StNmActualDiscountPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmActualPpaLocalServiceImpl" id="com.stpl.app.service.StNmActualPpaLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmActualPpaPersistenceImpl" id="com.stpl.app.service.persistence.StNmActualPpaPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmAssumptionsLocalServiceImpl" id="com.stpl.app.service.StNmAssumptionsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmAssumptionsPersistenceImpl" id="com.stpl.app.service.persistence.StNmAssumptionsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmDiscountProjectionLocalServiceImpl" id="com.stpl.app.service.StNmDiscountProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmDiscountProjectionPersistenceImpl" id="com.stpl.app.service.persistence.StNmDiscountProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmDiscountProjMasterLocalServiceImpl" id="com.stpl.app.service.StNmDiscountProjMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmDiscountProjMasterPersistenceImpl" id="com.stpl.app.service.persistence.StNmDiscountProjMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmPpaProjectionLocalServiceImpl" id="com.stpl.app.service.StNmPpaProjectionLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmPpaProjectionPersistenceImpl" id="com.stpl.app.service.persistence.StNmPpaProjectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StNmPpaProjectionMasterLocalServiceImpl" id="com.stpl.app.service.StNmPpaProjectionMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StNmPpaProjectionMasterPersistenceImpl" id="com.stpl.app.service.persistence.StNmPpaProjectionMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.StSelectionTableLocalServiceImpl" id="com.stpl.app.service.StSelectionTableLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.StSelectionTablePersistenceImpl" id="com.stpl.app.service.persistence.StSelectionTablePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.TransactionModuleDetailsLocalServiceImpl" id="com.stpl.app.service.TransactionModuleDetailsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.TransactionModuleDetailsPersistenceImpl" id="com.stpl.app.service.persistence.TransactionModuleDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.TransactionModuleMasterLocalServiceImpl" id="com.stpl.app.service.TransactionModuleMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.TransactionModuleMasterPersistenceImpl" id="com.stpl.app.service.persistence.TransactionModuleMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.UdcsLocalServiceImpl" id="com.stpl.app.service.UdcsLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.UdcsPersistenceImpl" id="com.stpl.app.service.persistence.UdcsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.UsergroupBusinessroleLocalServiceImpl" id="com.stpl.app.service.UsergroupBusinessroleLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.UsergroupBusinessrolePersistenceImpl" id="com.stpl.app.service.persistence.UsergroupBusinessrolePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.UsergroupDomainMasterLocalServiceImpl" id="com.stpl.app.service.UsergroupDomainMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.UsergroupDomainMasterPersistenceImpl" id="com.stpl.app.service.persistence.UsergroupDomainMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwAccrualMasterLocalServiceImpl" id="com.stpl.app.service.VwAccrualMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwAccrualMasterPersistenceImpl" id="com.stpl.app.service.persistence.VwAccrualMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwDemandForecastActualLocalServiceImpl" id="com.stpl.app.service.VwDemandForecastActualLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwDemandForecastActualPersistenceImpl" id="com.stpl.app.service.persistence.VwDemandForecastActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwInventoryWdActualProjMasLocalServiceImpl" id="com.stpl.app.service.VwInventoryWdActualProjMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwInventoryWdActualProjMasPersistenceImpl" id="com.stpl.app.service.persistence.VwInventoryWdActualProjMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwIvldDemandForecastActualLocalServiceImpl" id="com.stpl.app.service.VwIvldDemandForecastActualLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwIvldDemandForecastActualPersistenceImpl" id="com.stpl.app.service.persistence.VwIvldDemandForecastActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwIvldInventoryWdActualProjMasLocalServiceImpl" id="com.stpl.app.service.VwIvldInventoryWdActualProjMasLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwIvldInventoryWdActualProjMasPersistenceImpl" id="com.stpl.app.service.persistence.VwIvldInventoryWdActualProjMasPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.VwUserTablesLocalServiceImpl" id="com.stpl.app.service.VwUserTablesLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.VwUserTablesPersistenceImpl" id="com.stpl.app.service.persistence.VwUserTablesPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.WfMailConfigLocalServiceImpl" id="com.stpl.app.service.WfMailConfigLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.WfMailConfigPersistenceImpl" id="com.stpl.app.service.persistence.WfMailConfigPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.WorkflowMasterLocalServiceImpl" id="com.stpl.app.service.WorkflowMasterLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.WorkflowMasterPersistenceImpl" id="com.stpl.app.service.persistence.WorkflowMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.WorkflowProcessInfoLocalServiceImpl" id="com.stpl.app.service.WorkflowProcessInfoLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.WorkflowProcessInfoPersistenceImpl" id="com.stpl.app.service.persistence.WorkflowProcessInfoPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.service.impl.WorkflowProfileLocalServiceImpl" id="com.stpl.app.service.WorkflowProfileLocalService" />
+	<bean class="com.stpl.app.service.persistence.impl.WorkflowProfilePersistenceImpl" id="com.stpl.app.service.persistence.WorkflowProfilePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+</beans>

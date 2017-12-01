@@ -35,7 +35,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.stpl.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;

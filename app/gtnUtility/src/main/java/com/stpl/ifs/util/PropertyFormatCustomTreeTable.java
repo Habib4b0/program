@@ -7,7 +7,7 @@ package com.stpl.ifs.util;
 
 import com.stpl.addons.tableexport.ExportableFormattedProperty;
 import com.vaadin.v7.data.Property;
-import com.vaadin.v7.ui.ExtCustomTreeTable;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
 
 /**
  *

@@ -6,7 +6,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.util.dao.orm.CustomSQLUtil;
+import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import java.util.List;
 
 public class WorkflowPersistance extends BasePersistanceProvider {
