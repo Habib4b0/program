@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
+package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service;
 
 import static com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants.REPLACE_STRING;
 import static com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants.getConditions;
@@ -41,12 +41,12 @@ import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilde
  */
 @Service
 @Scope(value = "singleton")
-public class GtnWsRelationshipBuilderHelperLogic {
+public class GtnWsRelationshipBuilderHelperService {
 
 	private final Set<String> tableNames = new HashSet<>();
 	private final Set<String> columnNames = new HashSet<>();
 	private final Map<Integer, String> inclusionExclusionRules = new HashMap<>();
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderHelperLogic.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderHelperService.class);
 
 	@Autowired
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
@@ -70,7 +70,7 @@ public class GtnWsRelationshipBuilderHelperLogic {
 		columnNames.add(columnName);
 	}
 
-	public GtnWsRelationshipBuilderHelperLogic() {
+	public GtnWsRelationshipBuilderHelperService() {
 		super();
 	}
 

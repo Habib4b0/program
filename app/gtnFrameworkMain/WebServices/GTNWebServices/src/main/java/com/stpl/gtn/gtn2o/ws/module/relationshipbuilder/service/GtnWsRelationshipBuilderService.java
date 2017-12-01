@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
+package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -73,14 +73,14 @@ import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
  */
 @Service
 @Scope(value = "singleton")
-public class GtnWsRelationshipBuilderLogic {
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderLogic.class);
+public class GtnWsRelationshipBuilderService {
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsRelationshipBuilderService.class);
 
 	@Autowired
-	private GtnWsRelationshipBuilderHelperLogic helperLogic;
+	private GtnWsRelationshipBuilderHelperService helperLogic;
 
 	@Autowired
-	private GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator;
+	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -99,7 +99,7 @@ public class GtnWsRelationshipBuilderLogic {
 	@Autowired
 	private GtnFrameworkDeductionRelationServiceRunnable deductionService;
 
-	public GtnWsRelationshipBuilderLogic() {
+	public GtnWsRelationshipBuilderService() {
 		super();
 	}
 
@@ -135,12 +135,12 @@ public class GtnWsRelationshipBuilderLogic {
 		return dataTypes;
 	}
 
-	public GtnWsRelationshipBuilderHierarchyFileGenerator getGtnWsRelationshipBuilderHierarchyFileGenerator() {
+	public GtnWsRelationshipBuilderHierarchyFileGeneratorService getGtnWsRelationshipBuilderHierarchyFileGenerator() {
 		return gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 
 	public void setGtnWsRelationshipBuilderHierarchyFileGenerator(
-			GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator) {
+			GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator) {
 		this.gtnWsRelationshipBuilderHierarchyFileGenerator = gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 
