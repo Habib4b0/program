@@ -19,7 +19,10 @@ public class GtnFrameworkPSConstants {
 	private static final List<String> PRICEE_PRODETECTION_CUSTOM_TEXTFIELD_PROPERTIES = Arrays.asList("psNEPFormula",
 			"psNetBasePriceFormulaId", "psNetBSubseqPriceFormulaId", "psNetResetPriceFormulaId",
 			"psNetResetPriceFormulaName");
-
+	private static final List<String> PRICE_PROTECTION_DDLB_PROPERTIES=Arrays.asList("psPPStatus","psPPPriceType","psBasePriceType",
+			"psNetBasePrice","psSubseqPeriodPriceType","psNetBSubseqPeriodPrice","psToleranceInterval", "psToleranceFreq", "psToleranceType",
+			"psResetEligible", "psResetType","psResetInterval", "psResetFrequency", "psResetPriceType", "psNetResetPriceType","psNetPriceType");
+	
 	private static final List<String> PRICEE_PRODETECTION_DATE_FIELD_PROPERTIES = Arrays.asList("psPPStartDate",
 			"psPPEndDate", "psResetDate", GtnFrameworkCommonConstants.PS_ATTACHED_DATE);
 
@@ -38,7 +41,7 @@ public class GtnFrameworkPSConstants {
 			"psDetailsPriceTol", "psMaxIncrementalChange", "psResetEligible", "psResetType", "psResetDate",
 			"psResetInterval", "psResetFrequency", "psResetPriceType", "psNetResetPriceType",
 			"psNetResetPriceFormulaId", "psNetPriceType", "psNetResetPriceFormulaName",
-			GtnFrameworkCommonConstants.PS_ATTACHED_DATE, "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes");
+			GtnFrameworkCommonConstants.PS_ATTACHED_DATE,"psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes");
 
 	private static final List<String> PRICING_TEXTFIELD_PROPERTIES_ARRAY = Arrays.asList(
 			GtnFrameworkCommonConstants.ITEM_ID, GtnFrameworkCommonConstants.ITEM_NO,
@@ -71,7 +74,7 @@ public class GtnFrameworkPSConstants {
 			"Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance",
 			"Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency",
 			"Reset Price Type", "Net Reset Price Type", "Net Reset Price Formula", "Net Price Type",
-			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE,
+			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.PRICE_TOLERANCE_TYPE, GtnFrameworkCommonConstants.BASE_PRICE,
 			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
 
 	private static final String[] PRICE_PROTECTION_VIEW_HEADER = { "Item Id", "Item No", "Item Name", "Brand",
@@ -85,6 +88,12 @@ public class GtnFrameworkPSConstants {
 			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE,
 			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
 
+	private static final List<String> PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED=Arrays.asList("v-textfield-txtRightAlign");
+	
+	private static final String[] PRICE_PROTECTION_COLUMN_ALIGNMENT={"RIGHT"};
+	
+	private static final Object[] PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER={GtnFrameworkCommonConstants.PS_DETAILS_PRICE_TOL};
+	
 	public static List<String> getPriceProtectionTextFieldProperties() {
 		return Collections.unmodifiableList(PRICEE_PRODETECTION_TEXT_FIELD_PROPERTIES);
 	}
@@ -121,6 +130,14 @@ public class GtnFrameworkPSConstants {
 		return Collections.unmodifiableList(PRICING_EDITABFIELD_PROPERTIES_ARRAY);
 	}
 
+	public static List<String> getPriceProtectionDdlbFieldPropertiesArray() {
+		return Collections.unmodifiableList(PRICE_PROTECTION_DDLB_PROPERTIES);
+	}
+	
+	public static List<String> getPriceProtectionTextRightJustified() {
+		return Collections.unmodifiableList(PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED);
+	}
+	
 	public static String[] getPriceProtectionHeader() {
 		return PRICE_PROTECTION_HEADER.clone();
 	}
@@ -129,6 +146,13 @@ public class GtnFrameworkPSConstants {
 		return PRICE_PROTECTION_VIEW_HEADER.clone();
 	}
 	
+	public static String[] getPriceProtectionColumnAlignment() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT.clone();
+	}
+	
+	public static Object[] getPriceProtectionColumnAlignmentHeader() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER.clone();
+	}
 	public static void loadPsPriceProtectioncomboBoxFieldMap(Map<String, String> psPriceProtectioncomboBoxFieldMap) {
 		psPriceProtectioncomboBoxFieldMap.put(GtnFrameworkCommonConstants.PRICE_PROTECTION_STATUS, "STATUS");
 		psPriceProtectioncomboBoxFieldMap.put("Measurement Price", GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER);

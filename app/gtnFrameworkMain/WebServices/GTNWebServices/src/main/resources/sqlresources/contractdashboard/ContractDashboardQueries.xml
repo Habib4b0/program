@@ -2673,6 +2673,7 @@ WHERE
                             NRPF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_RESET_PRICE_FORMULA_ID
                     LEFT JOIN NET_SALES_FORMULA_MASTER NPTF ON
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
+                       
                 WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
@@ -2762,7 +2763,8 @@ WHERE
                                                   ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
                                           END,
                             IMTD.BASE_PRICE_DATE,
-                            BPH.DESCRIPTION
+                            BPH.DESCRIPTION,
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES
                     FROM
                             IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
                     LEFT JOIN BRAND_MASTER BM ON
@@ -2779,6 +2781,8 @@ WHERE
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                    LEFT JOIN HELPER_TABLE PTH ON
+                            PTH.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE
                 WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
@@ -6621,7 +6625,7 @@ SELECT
                     LEFT JOIN NET_SALES_FORMULA_MASTER NPTF ON
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
-                            BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                            BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE       
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'

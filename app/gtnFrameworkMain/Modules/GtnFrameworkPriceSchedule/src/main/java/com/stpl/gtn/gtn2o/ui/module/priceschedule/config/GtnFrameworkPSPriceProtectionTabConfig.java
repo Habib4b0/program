@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
@@ -96,7 +97,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		addPsPriceProtectionMassTextField(componentList);
 		addPsPriceProtectionMassCustomTextField(componentList);
 		addPsPriceProtectionPopulateButtons(componentList);
-
+		
 	}
 
 	private void addPsPriceProtectionMassCheck(List<GtnUIFrameworkComponentConfig> componentList) {
@@ -255,7 +256,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		componentList.add(massTextFieldConfig);
 
 	}
-
+	
+	
 	private void addPsPriceProtectionPopulateButtons(List<GtnUIFrameworkComponentConfig> componentList) {
 		massUpdatePopulateButton(componentList);
 		massUpdatePopulateAllButton(componentList);
@@ -348,29 +350,33 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTableConfig.setComponentHight("400px");
 		priceProtectionResultTableConfig.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(priceProtectionResultTableConfig);
-
+	
 		GtnUIFrameworkPagedTableConfig priceProtectionResultTable = configProvider.getPagedTableConfig(true, true,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				"priceSchedulePriceProtection", "priceSchedulePriceProtection");
-		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);
+		
 		priceProtectionResultTable.setEditable(true);
 		priceProtectionResultTable.setTableColumnDataType(new Class<?>[] { Boolean.class, String.class, String.class,
 				String.class, String.class, Integer.class, Date.class, Date.class, Integer.class, String.class,
 				String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class, Integer.class,
 				String.class, Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 				Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-				Integer.class, String.class, Date.class, Date.class, Integer.class, String.class });
+				Integer.class, String.class, Date.class, String.class,Date.class, Integer.class, String.class });
 		priceProtectionResultTable.setTableVisibleHeader(GtnFrameworkPSConstants.getPriceProtectionHeader());
 		priceProtectionResultTable
 				.setTableColumnMappingId(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray());
-
+		
+		priceProtectionResultTable.setColumnToAlign(GtnFrameworkPSConstants.getPriceProtectionColumnAlignmentHeader());		
+		priceProtectionResultTable.setColumnAlignment(GtnFrameworkPSConstants.getPriceProtectionColumnAlignment());
+		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);	
 		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId" });
 		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class });
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0],
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12]);
+		
 		priceProtectionResultTable.setEditableColumnList(GtnFrameworkPSConstants.getPriceProtectionEditableList());
 		priceProtectionResultTable.setEditableField(
 				createTableFieldFactoryComponents(priceProtectionResultTable.getEditableColumnList()));
@@ -379,8 +385,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 		priceProtectionResultTable.setRecordTypeComponentId("psPriceProtectionTabRecordType");
 		priceProtectionResultTable.setRecordTypeStartDate("psPPStartDate");
-		priceProtectionResultTable.setRecordTypeEndDate("psPPEndDate");
-
+		priceProtectionResultTable.setRecordTypeEndDate("psPPEndDate");		
+			
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameWorkTableRecordTypeAction.class.getName());
@@ -392,9 +398,10 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		tableCheckCustomAction.addActionParameter(GtnFrameworkPSPriceProtectionTabTableCheckAction.class.getName());
 		actionConfigList.add(tableCheckCustomAction);
 		priceProtectionResultTable.setColumnCheckActionConfigList(actionConfigList);
-
+		
 	}
 
+	
 	/**
 	 * 
 	 * @param componentList
@@ -432,8 +439,8 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		List<GtnUIFrameworkComponentConfig> priceProtectionTabEditableFields = new ArrayList<>();
 		Map<String, String> comboBoxMap = getComboBoxMap();
 		for (String propertyId : propertyIds) {
+			List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 			GtnUIFrameworkComponentConfig priceProtectionTabConfig = new GtnUIFrameworkComponentConfig();
-
 			GtnUIFrameworkComponentType gtnUIFrameworkComponentType;
 			if (GtnFrameworkPSConstants.getPriceProtectionTextFieldProperties().contains(propertyId)) {
 				gtnUIFrameworkComponentType = GtnUIFrameworkComponentType.TEXTBOX;
@@ -475,7 +482,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(popupActionConfig);
 				priceProtectionTabConfig.addGtnUIFrameWorkActionConfig(selectAction);
 			 }
-			if (GtnFrameworkCommonConstants.PS_BASE_PRICE_ENTRY.equals(propertyId)) {
+		if (GtnFrameworkCommonConstants.PS_BASE_PRICE_ENTRY.equals(propertyId)) {
 				GtnUIFrameWorkActionConfig pricingTableFieldFactoryFieldFactoryComponentCreateAction = new GtnUIFrameWorkActionConfig();
 				pricingTableFieldFactoryFieldFactoryComponentCreateAction
 						.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -490,8 +497,9 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				priceProtectionTabConfig.setFieldFactoryComponentCreateActionConfig(
 						pricingTableFieldFactoryFieldFactoryComponentCreateAction);
 			}
+			getPriceProtectionPriceToleranceColumnRightAlignment(propertyId, priceProtectionTabConfig);
 			if (priceProtectionTabConfig.isEnable()) {
-				List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
+				
 				GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 				customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 				customAction.addActionParameter(GtnFramworkPsPriceProtectionResultsFieldFactoryAction.class.getName());
@@ -503,6 +511,13 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		}
 
 		return priceProtectionTabEditableFields;
+	}
+
+	private void getPriceProtectionPriceToleranceColumnRightAlignment(String propertyId,
+			GtnUIFrameworkComponentConfig priceProtectionTabConfig) {
+		if (GtnFrameworkCommonConstants.PS_DETAILS_PRICE_TOL.equals(propertyId)) {
+			priceProtectionTabConfig.setComponentStyle(GtnFrameworkPSConstants.getPriceProtectionTextRightJustified());
+			}
 	}
 
 	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
@@ -644,4 +659,6 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 
 		copyLineButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 	}
+	
+	
 }
