@@ -82,7 +82,7 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 
 	public void addSelectClauseBean(String columnNameWithAlies, String selectClauseAliesName,
 			Boolean isValueFromColumnBean, String selectClauseValue) {
-		if (isValueFromColumnBean && !isSelectClauseExists(columnNameWithAlies)) {
+		if (isValueFromColumnBean || !isSelectClauseExists(columnNameWithAlies)) {
 			GtnFrameworkSelectClauseBean selectClauseBean = new GtnFrameworkSelectClauseBean();
 			selectClauseBean.setColumnNameWithAlies(columnNameWithAlies, selectClauseAliesName, isValueFromColumnBean,
 					selectClauseValue);
