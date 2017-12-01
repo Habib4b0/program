@@ -292,6 +292,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		Map<String, GtnWsColumnDetailsConfig> updatePPColumnDetailsMap = new HashMap<>();
 
 		// PRICE_PROTECTION_PRICE_TYPE
+		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, configProvider.getColumnBooleanConfig(
 				GtnFrameworkWebserviceConstant.CHECK_RECORD_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_PP_STATUS,
@@ -503,10 +505,13 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnIntegerConfig(
 						GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN,
 						GtnFrameworkWebserviceConstant.IMPSD));
+		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
-		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("IMPSD.ITEM_NO", "ASC"));
+		cDROrderByClauseList
+				.add(new GtnWebServiceOrderByCriteria("IMPSD.ITEM_MASTER_SID,IMPSD.IMTD_PS_DETAILS_SID", "ASC"));
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
 
 		gtnWebServiceSearchQueryContext.setCountQuery(" FROM IMTD_PS_DETAILS IMPSD\n"
@@ -665,6 +670,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig("PS_DETAILS_SID", GtnFrameworkWebserviceConstant.IMPSD));
 		psPPViewColumnDetailsMap.put("IMPSD.PS_MODEL_SID", configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.PS_MODEL_SID, GtnFrameworkWebserviceConstant.IMPSD));
+		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPViewColumnDetailsMap);
 

@@ -22,6 +22,7 @@ public class GtnWsRelationshipBuilderBean {
 	private int modifiedBy;
 	private Date modifiedDate;
 	private Integer deductionRelation;
+	private String hierarchycategory;
 
 	public int getRelationshipBuilderSid() {
 		return relationshipBuilderSid;
@@ -126,5 +127,15 @@ public class GtnWsRelationshipBuilderBean {
 	public int getModifiedBy() {
 		return modifiedBy;
 	}
+
+	public String getHierarchycategory() {
+		return hierarchycategory;
+	}
+
+	public void setHierarchycategory(String hierarchycategory) {
+		this.hierarchycategory = hierarchycategory;
+	}
+
+
 
 }

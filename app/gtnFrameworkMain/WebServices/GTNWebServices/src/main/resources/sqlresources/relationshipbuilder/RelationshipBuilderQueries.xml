@@ -236,7 +236,7 @@ WHERE
         ]]>
 		</query>
 	</entity>
-	
+
 	<entity id="getRBRelationshipLevelDefinition">
 		<query> 
         <![CDATA[
@@ -434,15 +434,38 @@ where
 	<entity id="getHierarchyDefSid">
 		<query> 
         <![CDATA[
-      select
-	LEVEL_NO,
-	HIERARCHY_LEVEL_DEFINITION_SID,
-	LEVEL_NAME
-from
-	dbo.HIERARCHY_LEVEL_DEFINITION
-WHERE
-	HIERARCHY_DEFINITION_SID = (select HIERARCHY_DEFINITION_SID from dbo.RELATIONSHIP_BUILDER where RELATIONSHIP_BUILDER_SID = ?) AND VERSION_NO = ?
-]]>
+      DECLARE @VERSION_NO INT;
+      SELECT
+		    @VERSION_NO = MAX(VERSION_NO)
+		FROM
+		    HIERARCHY_LEVEL_DEFINITION
+		WHERE
+		    HIERARCHY_DEFINITION_SID =(
+		        SELECT
+		            HIERARCHY_DEFINITION_SID
+		        FROM
+		            dbo.RELATIONSHIP_BUILDER
+		        WHERE
+		            RELATIONSHIP_BUILDER_SID = ?
+		    );
+		
+		SELECT
+		    LEVEL_NO,
+		    HIERARCHY_LEVEL_DEFINITION_SID,
+		    LEVEL_NAME
+		FROM
+		    dbo.HIERARCHY_LEVEL_DEFINITION
+		WHERE
+		    HIERARCHY_DEFINITION_SID IN(
+		        SELECT
+		            HIERARCHY_DEFINITION_SID
+		        FROM
+		            dbo.RELATIONSHIP_BUILDER
+		        WHERE
+		            RELATIONSHIP_BUILDER_SID = ?
+		    )
+		    AND VERSION_NO = @VERSION_NO
+	]]>
 		</query>
 	</entity>
 
@@ -451,10 +474,11 @@ WHERE
         <![CDATA[
      select
 	HIERARCHY_DEFINITION_SID
+	
 from
-	dbo.HIERARCHY_DEFINITION
+	HIERARCHY_DEFINITION
 where
-	HIERARCHY_NAME like '%Deduction%'
+	HIERARCHY_NAME like 'DeductionHierarchy'
 ORDER By
 	CREATED_DATE DESC;
 ]]>
@@ -506,10 +530,12 @@ select
            SELECT
 	DISTINCT he.DESCRIPTION
 from
-	dbo.HIERARCHY_DEFINITION hld join dbo.HELPER_TABLE he on
+	HIST_HIERARCHY_DEFINITION hld join HELPER_TABLE he on
 	he.HELPER_TABLE_SID = hld.HIERARCHY_CATEGORY
 WHERE
 	hld.HIERARCHY_DEFINITION_SID =?
+	and hld.version_no=?
+	
 	]]>
 		</query>
 	</entity>
@@ -527,8 +553,8 @@ WHERE
 
          ]]>
 		</query>
-	</entity> 
-	
+	</entity>
+
 	<entity id="getRBHierarchyLevelDefinitionByProductRelationSid">
 		<query> 
         <![CDATA[
@@ -551,7 +577,7 @@ WHERE
      ]]>
 		</query>
 	</entity>
-	
+
 	<entity id="getRBHierarchyLevelNameList">
 		<query> 
         	<![CDATA[
@@ -567,7 +593,7 @@ WHERE
      		]]>
 		</query>
 	</entity>
-	
+
 	<entity id="getHierarchyVersionList">
 		<query> 
         	<![CDATA[
@@ -585,12 +611,12 @@ WHERE
 				            HIST_HIERARCHY_DEFINITION HHD JOIN HELPER_TABLE HT
 				                ON HT.HELPER_TABLE_SID = HHD.HIERARCHY_CATEGORY
 				            AND HT.LIST_NAME = 'HIERARCHY_CATEGORY'
-				            AND HT.DESCRIPTION IN('Customer Hierarchy','Product Hierarchy')
+				           
 				    ) D
 				WHERE
 				    D.TEMP_STATUS <> 'D'
      		]]>
 		</query>
 	</entity>
-	
+
 </sql>

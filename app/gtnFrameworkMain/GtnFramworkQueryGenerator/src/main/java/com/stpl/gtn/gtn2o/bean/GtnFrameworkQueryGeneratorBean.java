@@ -72,6 +72,10 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		return Collections.unmodifiableList(whereClauseConfigList);
 	}
 
+	public void removeAllWhereClauseConfigList() {
+		whereClauseConfigList.clear();
+	}
+
 	public List<GtnFrameworkOrderByClauseBean> getOrderByClauseConfigList() {
 		return Collections.unmodifiableList(orderByClauseConfigList);
 	}

@@ -33,6 +33,7 @@ public class GtnWsCDRContants {
 	public static final String PS_SAVE_SERVICE = "priceScheduleSave";
 	public static final String PS_DELECTE_SERVICE = "priceScheduleDelete";
 	public static final String PS_VALIDATION_SERVICE = "priceScheduleValidate";
+	public static final String PS_PP_VALIDATION_SERVICE = "priceSchedulePriceProtectionDateValidate";
 	public static final String PS_QUERY_SERVICE = "priceScheduleQuery";
 	public static final String GTN_WS_PS_ID_NO_VALIDATION_SERVICE = "/psIdNoValidation";
 

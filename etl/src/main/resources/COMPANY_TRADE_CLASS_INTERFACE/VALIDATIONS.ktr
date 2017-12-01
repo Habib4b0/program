@@ -164,20 +164,12 @@
         <rename>BATCH_ID</rename>
         </value>
       <value>
-        <name>CREATED_DATE</name>
-        <rename>CREATED_DATE</rename>
-        </value>
-      <value>
-        <name>MODIFIED_DATE</name>
-        <rename>MODIFIED_DATE</rename>
-        </value>
-      <value>
         <name>PRIOR_TRADE_CLASS</name>
         <rename>new_comp_priortradeclass_code</rename>
         </value>
       <value>
         <name>INBOUND_STATUS</name>
-        <rename>INBOUND_STATUS</rename>
+        <rename>INBOUND_STATUS_C</rename>
         </value>
       <value>
         <name>COMPANY_MASTER_SID</name>
@@ -831,6 +823,17 @@
         <group/>
         <nullif>D</nullif>
         <length>10</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>INBOUND_STATUS_C</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>C</nullif>
+        <length>-1</length>
         <precision>-1</precision>
       </field>
     </fields>

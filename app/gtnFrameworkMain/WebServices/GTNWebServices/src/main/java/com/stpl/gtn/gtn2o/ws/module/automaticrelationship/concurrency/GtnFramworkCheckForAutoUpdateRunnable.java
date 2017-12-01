@@ -167,7 +167,8 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 						hierarchyLevelBean.getFieldName());
 		String selectClause = "CONCAT( RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO," + keyBean.getActualTtableName()
 				+ "." + keyBean.getWhereClauseColumn() + ",'.')";
-		queryGenerartorBean.addSelectClauseBean(null, "HIERARCHY_NO", false, selectClause);
+		queryGenerartorBean.addSelectClauseBean(null, "HIERARCHY_NO", false,
+				selectClause);
 		return queryGenerartorBean;
 	}
 
@@ -206,10 +207,5 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				GtnFrameworkOperatorType.EQUAL_TO);
 	}
 
-	@Override
-	public String toString() {
-		return "GtnFramworkCheckForAutoUpdateRunnable [relationBean=" + relationBean + ", hierarchyLevelDefinitionList="
-				+ hierarchyLevelDefinitionList + ", index=" + index + ", atomicBoolean=" + atomicBoolean + "]";
-	}
 
 }

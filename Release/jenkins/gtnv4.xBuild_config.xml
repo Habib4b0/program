@@ -1,0 +1,46 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<project>
+<actions/>
+<description>gtnv4.xBuild</description>
+<keepDependencies>false</keepDependencies>
+<properties>
+<com.sonyericsson.rebuild.RebuildSettings plugin="rebuild@1.27">
+<autoRebuild>false</autoRebuild>
+<rebuildDisabled>false</rebuildDisabled>
+</com.sonyericsson.rebuild.RebuildSettings>
+</properties>
+<scm class="hudson.scm.NullSCM"/>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<triggers/>
+<concurrentBuild>false</concurrentBuild>
+<customWorkspace>
+/opt/bpigtn_jenkins/jenkinshome/workspace/gtnv4.xRelease/gtnv4.xSonarBuild
+</customWorkspace>
+<builders>
+<EnvInjectBuilder plugin="envinject@2.1">
+<info>
+<propertiesFilePath>$WORKSPACE/version_temp.txt</propertiesFilePath>
+</info>
+</EnvInjectBuilder>
+<hudson.tasks.Shell>
+<command>
+#Move backuped Dist mv $WORKSPACE/../Dist_Sonar_Bkp $WORKSPACE/Dist
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+#creating tar file for Application wars cd $WORKSPACE/Dist mv Default_War1-1 GTN-$VersionNo.$BUILD_NUMBER-AppRelease-1.0 zip -r -0 GTN-$VersionNo.$BUILD_NUMBER-AppRelease.zip GTN-$VersionNo.$BUILD_NUMBER-AppRelease-1.0/
+</command>
+</hudson.tasks.Shell>
+<hudson.tasks.Shell>
+<command>
+chmod -R 777 $WORKSPACE/Dist/rpm cd $WORKSPACE/Dist/rpm/ ./rpmbuildscript.sh $WORKSPACE/Dist/GTN-$VersionNo.$BUILD_NUMBER-AppRelease.zip $WORKSPACE/Dist/ mv $WORKSPACE/Dist/rpm/Release/*.rpm $WORKSPACE/Dist rm -rf $WORKSPACE/Dist/rpm rm -rf $WORKSPACE/Dist/rpmbuild rm -rf $WORKSPACE/Dist/GTN-$VersionNo.$BUILD_NUMBER-AppRelease.zip
+</command>
+</hudson.tasks.Shell>
+</builders>
+<publishers/>
+<buildWrappers/>
+</project>

@@ -87,6 +87,7 @@ import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.ComboBox;
@@ -155,6 +156,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private Future customerFuture;
 	private Future productFuture;
 
+	
 	public static final String NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN = "No record was selected.  Please try again.";
 
 	public String getPublicViewName() {
@@ -371,6 +373,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
 				productFuture.get();
+				
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				dataSelectionDTO.setProductRelationShipVersionNo(relationVersionNo);
@@ -526,7 +529,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				&& !DASH.equals(viewDTO.getCustomerHierarchySid())
 				&& !StringUtils.EMPTY.equals(viewDTO.getCustomerHierarchySid())) {
 
-			loadCustomerLevel(viewDTO.getCustomerHierarchySid(), viewDTO.getCustomerLevel());
+			loadCustomerLevel(viewDTO.getCustomerHierarchySid(), viewDTO.getCustomerLevel(), viewDTO.getCustHierarchyVersion());
 			loadInnerCustomerLevel(Integer.parseInt(viewDTO.getCustomerLevel()),
 					UiUtils.parseStringToInteger(viewDTO.getCustomerInnerLevel()),
 					UiUtils.parseStringToInteger(viewDTO.getCustomerHierarchySid()));
@@ -543,7 +546,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		if (!Constants.CommonConstants.NULL.getConstant().equals(viewDTO.getProductHierarchySid())
 				&& !DASH.equals(viewDTO.getProductHierarchySid())
 				&& !StringUtils.EMPTY.equals(viewDTO.getProductHierarchySid())) {
-			loadProductLevel(viewDTO.getProductHierarchySid(), viewDTO.getProductLevel());
+			loadProductLevel(viewDTO.getProductHierarchySid(), viewDTO.getProductLevel(), viewDTO.getProdHierarchyVersion());
 			loadInnerProductLevel(Integer.parseInt(viewDTO.getProductLevel()),
 					UiUtils.parseStringToInteger(viewDTO.getProductInnerLevel()),
 					UiUtils.parseStringToInteger(viewDTO.getProductHierarchySid()));
@@ -702,16 +705,16 @@ public class DataSelectionForm extends ForecastDataSelection {
 			if (customerHierarchyDto != null) {
 				int custHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-				dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(custHierarchyVersionNo));
+				dataSelectionDTO.setCustomerHierVersionNo(custHierarchyVersionNo);
 			} else {
-				dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(0));
+				dataSelectionDTO.setCustomerHierVersionNo(0);
 			}
 			if (productHierarchyDto != null) {
 				int prodHierarchyVersionNo = Integer
 						.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
-				dataSelectionDTO.setProductHierarchyVer(String.valueOf(prodHierarchyVersionNo));
+				dataSelectionDTO.setProductHierVersionNo(prodHierarchyVersionNo);
 			} else {
-				dataSelectionDTO.setProductHierarchyVer(String.valueOf(0));
+				dataSelectionDTO.setProductHierVersionNo(0);
 			}
 
 			if (fromPeriod.getData() == null) {
@@ -3196,16 +3199,15 @@ public class DataSelectionForm extends ForecastDataSelection {
 				final DataSelectionDTO dto = (DataSelectionDTO) resultTable.getValue();
 				int projectionIdValue = dto.getProjectionId();
 				VaadinSession.getCurrent().setAttribute(Constant.PROJECTION_ID, projectionIdValue);
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-
-				customerFuture = checkAndDoAutomaticUpdate(dto.getCustomerRelationShipVersionNo(),
-						Integer.parseInt(dto.getCustomerHierSid()), customerExecutorService);
-				ExecutorService productExecutorService = Executors.newSingleThreadExecutor();
-
-				productFuture = checkAndDoAutomaticUpdate(dto.getProductRelationShipVersionNo(),
-						Integer.parseInt(dto.getProdHierSid()), productExecutorService);
-				customerFuture.get();
-				productFuture.get();
+				customerFuture = checkAndDoAutomaticUpdate(dto.getCustRelationshipBuilderSid(),
+						Integer.parseInt(dto.getCustomerHierSid()));
+				productFuture = checkAndDoAutomaticUpdate(dto.getProdRelationshipBuilderSid(),
+						Integer.parseInt(dto.getProdHierSid()));
+				boolean isCustRelationUpdate = (boolean) customerFuture.get();
+				boolean isProdRelationUpdate = (boolean) productFuture.get();
+				if(isCustRelationUpdate || isProdRelationUpdate) {
+					AbstractNotificationUtils.getInfoNotification("Info", "Relationship used in this projection is updated");
+				}
 				final SessionDTO tempSession = SessionUtil.createSession();
 				tempSession.setScreenName(screenName);
 				tempSession.setProjectionId(projectionIdValue);
@@ -3362,7 +3364,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					}
 				}
 			} catch (Exception ex) {
-
+				
 				LOGGER.error(ex + " - in editBtn");
 			}
 		}
@@ -3542,11 +3544,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	}
 
-	public void loadCustomerLevel(final String hierarchyId, final String innerLevel) {
+	public void loadCustomerLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
 		LOGGER.debug("Logging - loadCustomerLevel hierarchyId " + hierarchyId + "  innerLevel  " + innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
-			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY);
+			innerCustLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY, hierarchyVersion);
 			customerForecastLevelContainer.removeAllItems();
 			int levelNo = UiUtils.parseStringToInteger(innerLevel);
 			String selectedLevelName = innerCustLevels.get(levelNo - 1).getLevel();
@@ -3565,11 +3567,11 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	}
 
-	public void loadProductLevel(final String hierarchyId, final String innerLevel) {
+	public void loadProductLevel(final String hierarchyId, final String innerLevel, final int hierarchyVersion) {
 		LOGGER.debug("Logging - loadProductLevel hierarchyId " + hierarchyId + "  innerLevel " + innerLevel);
 		try {
 			DataSelectionLogic logic = new DataSelectionLogic();
-			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY);
+			innerProdLevels = logic.loadCustomerForecastLevel(Integer.parseInt(hierarchyId), StringUtils.EMPTY, hierarchyVersion);
 			int levelNo = UiUtils.parseStringToInteger(innerLevel);
 			String selectedLevelName = innerProdLevels.get(levelNo - 1).getLevel();
 			productForecastLevelContainer.removeAllItems();
@@ -3964,16 +3966,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				if (customerHierarchyLookupWindow.getHierarchyDto() != null) {
 					final HierarchyLookupDTO lookupDto = customerHierarchyLookupWindow.getHierarchyDto();
 					customerHierarchyDto = lookupDto;
-					DataSelectionLogic logic = new DataSelectionLogic();
-					innerCustLevels = logic.loadCustomerForecastLevel(lookupDto.getHierarchyId(),
-							lookupDto.getHierarchyName());
 					loadRelationDdlb(customerHierarchyDto.getHierarchyId(), null, customerRelationComboBox);
-					customerForecastLevelContainer.removeAllItems();
-					for (int i = 1; i <= innerCustLevels.size(); i++) {
-						String levelName = innerCustLevels.get(i - 1).getLevel();
-						levelCheck(levelName);
-						customerForecastLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
-					}
 					resetCustomerLevel();
 					resetSecondCustomerLevel();
 					availableCustomer.removeAllItems();
@@ -3983,10 +3976,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					customerGroup.setValue(StringUtils.EMPTY);
 					dataSelectionDTO.setCustomerGrpSid(null);
 					groupFilteredCompanies = null;
-					customerLevel.setContainerDataSource(customerForecastLevelContainer);
-					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-						level.setContainerDataSource(customerForecastLevelContainer);
-					}
 					setCustomerForecastLevelNullSelection();
 					setCustomerRelationNullSelection();
 					dataSelectionDTO.setCustomerHierSid(String.valueOf(customerHierarchyDto.getHierarchyId()));
@@ -4007,15 +3996,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 			public void windowClose(Window.CloseEvent e) {
 				if (productHierarchyLookupWindow.getHierarchyDto() != null) {
 					final HierarchyLookupDTO lookupDto = productHierarchyLookupWindow.getHierarchyDto();
-					DataSelectionLogic logic = new DataSelectionLogic();
 					productHierarchyDto = lookupDto;
-					innerProdLevels = logic.loadCustomerForecastLevel(lookupDto.getHierarchyId(),
-							lookupDto.getHierarchyName());
-					productForecastLevelContainer.removeAllItems();
-					for (int i = 1; i <= innerProdLevels.size(); i++) {
-						String levelName = innerProdLevels.get(i - 1).getLevel();
-						productForecastLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
-					}
 					companiesInProdHier = new ArrayList<>();
 					loadRelationDdlb(productHierarchyDto.getHierarchyId(), null, productRelation);
 					resetProductLevel();
@@ -4029,10 +4010,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 					dataSelectionDTO.setProdGrpSid(null);
 					productGroup.setValue(StringUtils.EMPTY);
 					groupFilteredItems = null;
-					productLevel.setContainerDataSource(productForecastLevelContainer);
-					if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)) {
-						productlevelDdlb.setContainerDataSource(productForecastLevelContainer);
-					}
 				}
 			}
 		});
@@ -4094,14 +4071,14 @@ public class DataSelectionForm extends ForecastDataSelection {
 		availableCustomerContainer.removeAllItems();
 		String levelName = Constant.LEVEL_LABEL;
 		try {
-			customerFuture.get();
 			int forecastLevel = 0;
 			if (value != null && customerRelationComboBox.getValue() != null
 					&& !SELECT_ONE.equals(customerRelationComboBox.getValue())) {
+				customerFuture.get();
+
 				int relationVersionNo = Integer.parseInt(
 						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-
 				String dedLevel = StringUtils.EMPTY;
 				String dedValue = StringUtils.EMPTY;
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
@@ -4128,7 +4105,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 						forecastLevel);
 				List<String> tempGroupFileter = groupFilteredCompanies == null ? Collections.<String>emptyList()
 						: groupFilteredCompanies;
-				customerFuture.get();
 				List<Leveldto> resultedLevelsList = relationLogic.loadAvailableCustomerlevel(selectedHierarchyLevelDto,
 						Integer.valueOf(relationshipSid), tempGroupFileter, levelHierarchyLevelDefinitionList, dedLevel,
 						dedValue, relationVersionNo);
@@ -4166,39 +4142,42 @@ public class DataSelectionForm extends ForecastDataSelection {
 	protected void productLevelValueChange(Object value, boolean flag) {
 		LOGGER.debug("Logging - productLevelValueChange");
 		productInnerLevelContainer.removeAllItems();
-		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
-			String selectedLevel = String.valueOf(value);
-			setSelectedProductLevel(selectedLevel);
+		try {
+			if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
+				productFuture.get();
+				String selectedLevel = String.valueOf(value);
+				setSelectedProductLevel(selectedLevel);
 
-			String[] val = selectedLevel.split(" ");
-			int forecastLevel = Integer.parseInt(val[1]);
-			productInnerLevelContainer.removeAllItems();
-			selectedProduct.removeAllItems();
-			selectedProductContainer.removeAllItems();
-			productBeanList.clear();
-			for (int i = 1; i <= forecastLevel; i++) {
-				String levelName = innerProdLevels.get(i - 1).getLevel();
-				productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
+				String[] val = selectedLevel.split(" ");
+				int forecastLevel = Integer.parseInt(val[1]);
+				productInnerLevelContainer.removeAllItems();
+				selectedProduct.removeAllItems();
+				selectedProductContainer.removeAllItems();
+				productBeanList.clear();
+				for (int i = 1; i <= forecastLevel; i++) {
+					String levelName = innerProdLevels.get(i - 1).getLevel();
+					productInnerLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
+				}
+				productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
+				setProductLevelNullSelection();
+			} else if (value == null || SELECT_ONE.equals(String.valueOf(value))) {
+				productInnerLevelContainer.removeAllItems();
+				availableProduct.removeAllItems();
+				availableProductContainer.removeAllItems();
+				selectedProduct.removeAllItems();
+				selectedProductContainer.removeAllItems();
+				productBeanList.clear();
+				setProductLevelNullSelection();
 			}
-			productlevelDdlb.setContainerDataSource(productInnerLevelContainer);
-			setProductLevelNullSelection();
-		} else if (value == null || SELECT_ONE.equals(String.valueOf(value))) {
-			productInnerLevelContainer.removeAllItems();
-			availableProduct.removeAllItems();
-			availableProductContainer.removeAllItems();
-			selectedProduct.removeAllItems();
-			selectedProductContainer.removeAllItems();
-			productBeanList.clear();
-			setProductLevelNullSelection();
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
 		}
 	}
 
 	@Override
 	protected void customerRelationValueChange(Object value) {
-
 		LOGGER.debug("customerRelationValueChange" + value);
-
-		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
+		if (value != null && !SELECT_ONE.equals(String.valueOf(value)) ) {
 			try {
 				availableCustomer.removeAllItems();
 				availableCustomerContainer.removeAllItems();
@@ -4207,10 +4186,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(customerRelationComboBox.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
-
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
-						customerHierarchyDto.getHierarchyId(), customerExecutorService);
+						customerHierarchyDto.getHierarchyId());
+				customerFuture.get();
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
+				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
+						customerHierarchyDto.getHierarchyId(),
+						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerCustLevels.isEmpty()) {
 					customerForecastLevelContainer.removeAllItems();
@@ -4222,7 +4204,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 
 			} catch (Exception ex) {
-
+				
 				LOGGER.error(ex + " in customerRelation value change");
 			}
 		} else if (value == null || SELECT_ONE.equals(String.valueOf(value))) {
@@ -4241,11 +4223,12 @@ public class DataSelectionForm extends ForecastDataSelection {
 		groupFilteredCompanies = null;
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
+	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
-		Future future = executorService.submit(wsClientRunnableTarget);
-		executorService.shutdown();
+		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
+		customerExecutorService.shutdown();
 		return future;
 	}
 
@@ -4261,11 +4244,13 @@ public class DataSelectionForm extends ForecastDataSelection {
 				setProductForecastLevelNullSelection();
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
-						productHierarchyDto.getHierarchyId(), customerExecutorService);
-
+						productHierarchyDto.getHierarchyId());
+				productFuture.get();
+				loadProductVersionNo(productRelation.getValue());
+				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
+						productHierarchyDto.getHierarchyId(),
+						Integer.valueOf(productRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerProdLevels.isEmpty()) {
 					productForecastLevelContainer.removeAllItems();
@@ -4339,7 +4324,8 @@ public class DataSelectionForm extends ForecastDataSelection {
 						session.setProductDescription(productDescriptionMap);
 						session.setCustRelationshipBuilderSid(dataSelectionDTO.getCustRelationshipBuilderSid());
 						session.setProdRelationshipBuilderSid(dataSelectionDTO.getProdRelationshipBuilderSid());
-						session.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
+						session.setCustomerHierarchyVersion(
+								dataSelectionDTO.getCustomerHierVersionNo());
 						session.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
 						session.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
 						session.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
@@ -4570,6 +4556,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						loadView(viewDTO);
 
 					} catch (Exception ex) {
+						
 						LOGGER.error(ex + " privateView close");
 					}
 				}
@@ -5024,6 +5011,20 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 			LOGGER.error(e.getMessage());
 		}
+	}
+	
+	@Override
+	protected void loadForecastLevels(List<Leveldto> innerLevels, IndexedContainer productForecastLevelContainer,
+			ComboBox level, int hierarchySid, int hierarchyVersion) {
+		innerLevels.clear();
+		innerLevels.addAll(new DataSelectionLogic().loadCustomerForecastLevel(hierarchySid, StringUtils.EMPTY,
+				hierarchyVersion));
+		productForecastLevelContainer.removeAllItems();
+		for (int i = 1; i <= innerLevels.size(); i++) {
+			String levelName = innerLevels.get(i - 1).getLevel();
+			productForecastLevelContainer.addItem(Constant.LEVEL + i + " - " + levelName);
+		}
+		level.setContainerDataSource(productForecastLevelContainer);
 	}
 
 }

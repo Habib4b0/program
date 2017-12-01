@@ -919,7 +919,7 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
         <query> 
          <![CDATA[
             DECLARE @FREQUENCY CHAR(1)='?F'
-            DECLARE @RELVALUE CHAR(1)='?R'
+            DECLARE @RELVALUE VARCHAR(20)='?R'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD

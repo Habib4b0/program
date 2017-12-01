@@ -294,15 +294,18 @@ public class DataSelection extends AbstractDataSelection {
 	protected void levelValueChangeListener(Object value) {
 
 		LOGGER.debug("customer inner Level - ValueChangeListener  " + value);
-		availableCustomerContainer.removeAllItems();
-		String levelName = StringConstantsUtil.LEVEL;
-		int relationVersionNo = Integer
-				.parseInt(customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-		int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
 		try {
+			availableCustomerContainer.removeAllItems();
+			String levelName = StringConstantsUtil.LEVEL;
 			int forecastLevel = 0;
 			if (value != null && customerRelation.getValue() != null
 					&& !SELECT_ONE.equals(customerRelation.getValue())) {
+				customerFuture.get();
+				int relationVersionNo = Integer.parseInt(
+						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+				customerDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(customerRelation.getValue()),
+						customerHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 				String selectedLevel = String.valueOf(value);
 				String relationshipSid = String.valueOf(customerRelation.getValue());
 				String[] val = selectedLevel.split(" ");
@@ -329,7 +332,6 @@ public class DataSelection extends AbstractDataSelection {
 				availableCustomer.setStyleName(StringConstantsUtil.FILTER_TABLE);
 			}
 		} catch (Exception ex) {
-
 			LOGGER.error(ex + " level  ValueChangeListener ");
 		}
 	}
@@ -380,14 +382,9 @@ public class DataSelection extends AbstractDataSelection {
 				setCustomerForecastLevelNullSelection();
 				setCustomerLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(customerRelation.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationVersionComboBox.getValue(),
-						customerHierarchyDto.getHierarchyId(), customerExecutorService);
-				int relationVersionNo = Integer.parseInt(
-						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
-				int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
-				customerDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(customerRelation.getValue()),
-						customerHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
+						customerHierarchyDto.getHierarchyId());
+
 			} catch (Exception ex) {
 				LOGGER.error(ex + " in customerRelation value change");
 			}
@@ -419,9 +416,8 @@ public class DataSelection extends AbstractDataSelection {
 				setProductForecastLevelNullSelection();
 				setProductLevelNullSelection();
 				setRelationshipBuilderSids(String.valueOf(productRelation.getValue()));
-				ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
-						productHierarchyDto.getHierarchyId(), customerExecutorService);
+						productHierarchyDto.getHierarchyId());
 				int relationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				int hierarchyVersionNo = Integer.parseInt(String.valueOf(productRelationVersionComboBox.getValue()));
@@ -484,6 +480,10 @@ public class DataSelection extends AbstractDataSelection {
 				Object[] obj = cffLogic.deductionRelationBuilderId(dataSelectionDTO.getProdRelationshipBuilderSid());
 				sessionDTO.setDedRelationshipBuilderSid(obj[0].toString());
 				sessionDTO.setCompanySystemId((Integer) company.getValue());
+				sessionDTO.setCustomerHierarchyVersion(dataSelectionDTO.getCustomerHierVersionNo());
+				sessionDTO.setProductHierarchyVersion(dataSelectionDTO.getProductHierVersionNo());
+				sessionDTO.setCustomerRelationVersion(dataSelectionDTO.getCustomerRelationShipVersionNo());
+				sessionDTO.setProductRelationVersion(dataSelectionDTO.getProductRelationShipVersionNo());
 				sessionDTO.setScreenName("CCP_HIERARCHY");
 				CFFQueryUtils.createTempTables(sessionDTO);
 				relationLogic.ccpHierarchyInsert(sessionDTO.getCurrentTableNames(),
@@ -2800,8 +2800,7 @@ public class DataSelection extends AbstractDataSelection {
 
 			@Override
 			/**
-			 * The method is triggered when Yes button of the message box is
-			 * pressed .
+			 * The method is triggered when Yes button of the message box is pressed .
 			 *
 			 * @param buttonId
 			 *            The buttonId of the pressed button.
@@ -2849,11 +2848,13 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setProjectionId(UiUtils.parseStringToInteger(viewDTO.getProjectionId()));
 		customerHierarchyDto.setHierarchyId(
 				viewDTO.getCustomerHierarchySid() != null && viewDTO.getCustomerHierarchySid().equals(StringUtils.EMPTY)
-						? 0 : Integer.parseInt(viewDTO.getCustomerHierarchySid()));
+						? 0
+						: Integer.parseInt(viewDTO.getCustomerHierarchySid()));
 		customerHierarchyDto.setHierarchyName(viewDTO.getCustomerHierarchy());
 		productHierarchyDto.setHierarchyId(
 				viewDTO.getProductHierarchySid() != null && viewDTO.getProductHierarchySid().equals(StringUtils.EMPTY)
-						? 0 : Integer.parseInt(viewDTO.getProductHierarchySid()));
+						? 0
+						: Integer.parseInt(viewDTO.getProductHierarchySid()));
 		productHierarchyDto.setHierarchyName(viewDTO.getProductHierarchy());
 		customerHierarchy.setValue(viewDTO.getCustomerHierarchy());
 		productHierarchy.setValue(viewDTO.getProductHierarchy());
@@ -3056,6 +3057,7 @@ public class DataSelection extends AbstractDataSelection {
 			List<Leveldto> resultedLevelsList;
 			if (selectedLevel != null && !Constants.CommonConstants.NULL.getConstant().equals(selectedLevel)
 					&& !SELECT_ONE.equals(selectedLevel)) {
+				productFuture.get();
 				int productRelationVersionNo = Integer.parseInt(
 						productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue()));
 				String customerVersionNo = customerRelationVersionComboBox
@@ -3080,7 +3082,9 @@ public class DataSelection extends AbstractDataSelection {
 				List<Leveldto> hierarchyLevelDefinitionList = productHierarchyLevelDefinitionList.subList(0,
 						forecastLevel);
 				Leveldto selectedHierarchyLevelDto = productHierarchyLevelDefinitionList.get(forecastLevel - 1);
-				isNdc = selectedHierarchyLevelDto.getTableName().equalsIgnoreCase("ITEM_MASTER");
+				isNdc = (selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("Package")
+						|| selectedHierarchyLevelDto.getLevel().equalsIgnoreCase("NDC-11")); 
+
 				selectedCustomerContractList = getSelectedCustomerContractList();
 
 				List<String> tempGroupFileter = groupFilteredItems == null ? Collections.<String>emptyList()
@@ -3171,8 +3175,8 @@ public class DataSelection extends AbstractDataSelection {
 
 	/**
 	 * Manual trigger and processing of customer group select button logic Code
-	 * based on customer group select button logic Any change made there, should
-	 * be made here accordingly
+	 * based on customer group select button logic Any change made there, should be
+	 * made here accordingly
 	 *
 	 * @param customerGrpSid
 	 */
@@ -3200,9 +3204,9 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	/**
-	 * Manual trigger and processing of product group select button logic Code
-	 * based on product group select button logic Any change made there, should
-	 * be made here accordingly
+	 * Manual trigger and processing of product group select button logic Code based
+	 * on product group select button logic Any change made there, should be made
+	 * here accordingly
 	 *
 	 * @param productGrpSid
 	 */
@@ -3389,19 +3393,21 @@ public class DataSelection extends AbstractDataSelection {
 		dataSelectionDTO.setProductHierarchy(productHierarchy.getValue());
 		dataSelectionDTO.setCustomerHierarchy(customerHierarchy.getValue());
 		if (customerHierarchyDto != null) {
-			dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(customerRelationVersionComboBox.getValue()));
+			dataSelectionDTO.setCustomerHierVersionNo(
+					Integer.valueOf(String.valueOf(customerRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setCustomerRelationShipVersionNo(Integer.parseInt(
 					customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue())));
 		} else {
-			dataSelectionDTO.setCustomerHierarchyVer(String.valueOf(0));
+			dataSelectionDTO.setCustomerHierVersionNo(0);
 			dataSelectionDTO.setCustomerRelationShipVersionNo(0);
 		}
 		if (productHierarchyDto != null) {
-			dataSelectionDTO.setProductHierarchyVer(String.valueOf(productRelationVersionComboBox.getValue()));
+			dataSelectionDTO.setProductHierVersionNo(
+					Integer.valueOf(String.valueOf(productRelationVersionComboBox.getValue())));
 			dataSelectionDTO.setProductRelationShipVersionNo(Integer.parseInt(
 					productRelationVersionComboBox.getItemCaption(productRelationVersionComboBox.getValue())));
 		} else {
-			dataSelectionDTO.setProductHierarchyVer(String.valueOf(0));
+			dataSelectionDTO.setProductHierVersionNo(0);
 			dataSelectionDTO.setProductRelationShipVersionNo(0);
 		}
 
@@ -3964,14 +3970,15 @@ public class DataSelection extends AbstractDataSelection {
 	}
 
 	public static int getDataSelectionFormattedLevelNo(String value) {
-		return value == null && StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
+		return StringUtils.isBlank(value) ? 0 : Integer.parseInt(value.split(" ")[1]);
 	}
 
-	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
+	private Future<Boolean> checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
 				hierarchyId);
-		Future future = executorService.submit(wsClientRunnableTarget);
-		executorService.shutdown();
+		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
+		Future<Boolean> future = customerExecutorService.submit(wsClientRunnableTarget);
+		customerExecutorService.shutdown();
 		return future;
 	}
 
