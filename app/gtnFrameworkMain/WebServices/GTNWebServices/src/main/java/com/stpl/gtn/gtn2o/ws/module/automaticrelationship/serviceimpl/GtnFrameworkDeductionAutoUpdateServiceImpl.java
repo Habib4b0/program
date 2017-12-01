@@ -84,6 +84,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 			}
 		} catch (Exception e) {
+			
 			LOGGER.error(e.getMessage());
 		}
 	}
