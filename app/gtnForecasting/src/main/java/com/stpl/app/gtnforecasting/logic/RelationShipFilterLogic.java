@@ -926,6 +926,7 @@ public class RelationShipFilterLogic {
 				"HIERARCHY_NO_JOIN.HIERARCHY_LEVEL_DEFINITION_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		finalQueryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, businessUnitValue);
+                finalQueryBean.addOrderByClauseBean("HIERARCHY_NO_JOIN.LEVEL_NO", "ASC");
 		return QueryUtils.getQuery(finalQueryBean.generateQuery(), input);
 	}
 

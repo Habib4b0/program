@@ -1750,6 +1750,7 @@ WHEN NOT MATCHED BY TARGET THEN INSERT
                 LEFT JOIN HELPER_TABLE hpackageSize on hpackageSize.HELPER_TABLE_SID=im.PACKAGE_SIZE
                 Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
                 WHERE OPERATION <> 'D' and impr.USERS_SID = '?' and impr.SESSION_ID='?'
+                AND impr.ADD_COPY_INDICATOR IS NULL
                      ?
             ]]>
 		</query>
@@ -1778,6 +1779,7 @@ WHEN NOT MATCHED BY TARGET THEN INSERT
                 LEFT JOIN HELPER_TABLE hpackageSize on hpackageSize.HELPER_TABLE_SID=im.PACKAGE_SIZE
                 Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
                 WHERE OPERATION <> 'D' and impr.USERS_SID = '?' and impr.SESSION_ID='?'
+                AND impr.ADD_COPY_INDICATOR IS NULL
                      ?
                      ORDER BY ?
                     OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
@@ -2191,7 +2193,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
-                        and ppa_index_no = 1
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -2256,6 +2258,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2326,6 +2329,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2353,7 +2357,7 @@ SET
                                 OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -2405,6 +2409,7 @@ SET
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2454,6 +2459,7 @@ SET
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2993,7 +2999,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -3095,6 +3101,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
 
@@ -3118,7 +3125,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -3152,6 +3159,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
 
@@ -3904,7 +3912,8 @@ WHERE  RN = 1 ;
             AND IM.ITEM_MASTER_SID=IFP.ITEM_MASTER_SID
             AND IM.INBOUND_STATUS <> 'D'
             AND IFP.INBOUND_STATUS <> 'D'
-            AND IFPC.INBOUND_STATUS <> 'D';
+            AND IFPC.INBOUND_STATUS <> 'D'
+            AND ADD_COPY_INDICATOR IS NULL;
         ]]>
 		</query>
 	</entity>
@@ -3933,7 +3942,7 @@ WHERE  RN = 1 ;
             PS.MAX_INCREMENTAL_CHANGE,PS.RESET_ELIGIBLE,PS.RESET_TYPE,PS.RESET_DATE,PS.RESET_INTERVAL,PS.RESET_FREQUENCY,PS.NET_PRICE_TYPE,PS.NET_PRICE_TYPE_FORMULA,PS.PRICE_PROTECTION_PRICE_TYPE,
             PS.NEP,PS.NEP_FORMULA,PS.BRAND_MASTER_SID,PS.PRICE_PROTECTION_STATUS,PS.Base_Price_Type,PS.Base_Price_Entry,PS.Base_Price_Date,PS.Base_Price_ddlb,PS.Net_Base_Price,PS.Net_Base_Price_Formula_ID,
             PS.Subsequent_Period_Price_Type,PS.Net_Subsequent_Period_price,PS.Net_Subsequent_Price_Formula_Id,PS.Reset_Price_Type,PS.Net_Reset_Price_Type,PS.Net_Reset_Price_Formula_Id
-            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO,ADD_COPY_INDICATOR
+            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO,PS.ADD_COPY_INDICATOR
         FROM
             PS_CONTRACT_DETAILS PS,
             PS_CONTRACT PSC,
@@ -3979,7 +3988,7 @@ WHERE  RN = 1 ;
             ,RESET_FREQUENCY,NET_PRICE_TYPE,NET_PRICE_TYPE_FORMULA,Base_Price_Type,Base_Price_Entry,Base_Price_Date,Net_Base_Price,Base_Price_ddlb,Net_Base_Price_Formula_ID,Subsequent_Period_Price_Type
             ,Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id, RS_ATTACHED_STATUS, NET_SALES_FORMULA_MASTER_SID,
             NET_SALES_RULE, EVALUATION_RULE, EVALUATION_RULE_BUNDLE, CALCULATION_RULE, CALCULATION_RULE_BUNDLE,DEDUCTION_CALENDAR_MASTER_SID
-            ,"SOURCE",SUGGESTED_PRICE, MODIFIED_DATE)
+            ,"SOURCE",SUGGESTED_PRICE, MODIFIED_DATE,ADD_COPY_INDICATOR)
         SELECT DISTINCT
             IM.ITEM_MASTER_SID, IM.ITEM_ID,  IM.ITEM_NO, IM.ITEM_NAME,IM.ITEM_TYPE,IM.PRIMARY_UOM,IM.PACKAGE_SIZE, 0 UDC1, 0 UDC2, 0 UDC3, 0 UDC4, 0 UDC5, 0 UDC6,
             IFPCD.ITEM_START_DATE, IFPCD.ITEM_END_DATE, IFPCD.ITEM_STATUS, IFPCD.IFP_CONTRACT_ATTACHED_DATE, IFPCD.IFP_CONTRACT_DETAILS_SID,
@@ -3996,7 +4005,7 @@ WHERE  RN = 1 ;
              PSCD.Base_Price_ddlb,PSCD.Net_Base_Price_Formula_ID,PSCD.Subsequent_Period_Price_Type,PSCD.Net_Subsequent_Period_price,PSCD.Net_Subsequent_Price_Formula_Id,PSCD.Reset_Price_Type,PSCD.Net_Reset_Price_Type,
              PSCD.Net_Reset_Price_Formula_Id, RSCD.RS_CONTRACT_ATTACHED_STATUS,
             RSCD.NET_SALES_FORMULA_MASTER_SID, RSCD.NET_SALES_RULE, RSCD.EVALUATION_RULE, RSCD.EVALUATION_RULE_BUNDLE, RSCD.CALCULATION_RULE, RSCD.CALCULATION_RULE_BUNDLE, RSCD.DEDUCTION_CALENDAR_MASTER_SID
-            ,PSCD."SOURCE",PSCD.SUGGESTED_PRICE, IFPCD.MODIFIED_DATE
+            ,PSCD."SOURCE",PSCD.SUGGESTED_PRICE, IFPCD.MODIFIED_DATE,PSCD.ADD_COPY_INDICATOR
         FROM
 
             IFP_CONTRACT_DETAILS IFPCD,

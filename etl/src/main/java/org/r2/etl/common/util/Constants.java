@@ -1,6 +1,6 @@
 package org.r2.etl.common.util;
 
-import static org.r2.etl.common.action.FileNameUtil.ADROIT_COMPANY_IDENTIFIER_INTERFACE;
+import static org.r2.etl.common.action.FileNameUtil.COMPANY_BUID_INTERFACE;
 
 
 /**
@@ -256,23 +256,23 @@ public final class Constants {
            /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE = "ADROIT_ACTUAL_MASTER_CHARGEBACK_INTERFACE";
+	public static final String ACTUALS_CHARGEBACK_INTERFACE = "ACTUALS_CHARGEBACK_INTERFACE";
            /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE = "ADROIT_ACTUAL_MASTER_MEDICAID_INTERFACE";   /**
+	public static final String ACTUALS_MEDICAID_INTERFACE = "ACTUALS_MEDICAID_INTERFACE";   /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ACTUAL_MASTER_REBATE_INTERFACE = "ADROIT_ACTUAL_MASTER_REBATE_INTERFACE";   /**
+	public static final String ACTUALS_REBATE_INTERFACE = "ACTUALS_REBATE_INTERFACE";   /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ACTUAL_MASTER_COUPON_INTERFACE = "ADROIT_ACTUAL_MASTER_COUPON_INTERFACE";   /**
+	public static final String ACTUALS_COUPON_INTERFACE = "ACTUALS_COUPON_INTERFACE";   /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_HIERARCHY_INTERFACE = "ADROIT_ITEM_HIERARCHY_INTERFACE";   /**
+	public static final String PRODUCT_PROD_HIERARCHY_INTERFACE = "PRODUCT_PROD_HIERARCHY_INTERFACE";   /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE = "ADROIT_ITEM_BUSINESS_WAREHOUSE_INTERFACE";
+	public static final String PRODUCT_PROD_BW_INTERFACE = "PRODUCT_PROD_BW_INTERFACE";
         
         
         
@@ -280,7 +280,7 @@ public final class Constants {
               /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_COMPANY_IDENTIFIER_INTERFACE = "ADROIT_COMPANY_IDENTIFIER_INTERFACE";
+	public static final String COMPANY_BUID_INTERFACE = "COMPANY_BUID_INTERFACE";
         
         
         
@@ -290,62 +290,62 @@ public final class Constants {
         	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_COMPANY_MASTER_INTERFACE = "ADROIT_COMPANY_MASTER_INTERFACE";
+	public static final String COMPANY_BUNIT_INTERFACE = "COMPANY_BUNIT_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_COMPANY_TRADE_CLASS_INTERFACE = "ADROIT_COMPANY_TRADE_CLASS_INTERFACE";
+	public static final String COMPANY_BUTYPE_INTERFACE = "COMPANY_BUTYPE_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_IDENTIFIER_INTERFACE = "ADROIT_ITEM_IDENTIFIER_INTERFACE";
+	public static final String PRODUCT_PRODID_INTERFACE = "PRODUCT_PRODID_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_MASTER_INTERFACE = "ADROIT_ITEM_MASTER_INTERFACE";
+	public static final String PRODUCT_PROD_INTERFACE = "PRODUCT_PROD_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_PRICING_INTERFACE = "ADROIT_ITEM_PRICING_INTERFACE";
+	public static final String PRICING_INTERFACE = "PRICING_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_CONTRACT_HEADER_INTERFACE = "ADROIT_CONTRACT_HEADER_INTERFACE";
+	public static final String CONTRACT_CONT_INTERFACE = "CONTRACT_CONT_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_COMPANY_FAMILY_PLAN_INTERFACE = "ADROIT_COMPANY_FAMILY_PLAN_INTERFACE";
+	public static final String CONTRACT_CPGRP_INTERFACE = "CONTRACT_CPGRP_INTERFACE";
 	
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_FAMILY_PLAN_INTERFACE = "ADROIT_ITEM_FAMILY_PLAN_INTERFACE";
+	public static final String CONTRACT_CPPPO_INTERFACE = "CONTRACT_CPPPO_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_REBATE_PLAN_INTERFACE = "ADROIT_REBATE_PLAN_INTERFACE";
+	public static final String CONTRACT_CPPT_INTERFACE = "CONTRACT_CPPT_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_PRICE_SCHEDULE_INTERFACE = "ADROIT_PRICE_SCHEDULE_INTERFACE";
+	public static final String CONTRACT_CPGRP_PGMMKT_INTERFACE = "CONTRACT_CPGRP_PGMMKT_INTERFACE";
         
         /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_REBATE_SCHEDULE_INTERFACE = "ADROIT_REBATE_SCHEDULE_INTERFACE";
+	public static final String CONTRACT_PRGMMKT_INTERFACE = "CONTRACT_PRGMMKT_INTERFACE";
         
            /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_SALES_MASTER_INTERFACE = "ADROIT_SALES_MASTER_INTERFACE";
+	public static final String PSTG_SALES_MASTER_INTERFACE = "PSTG_SALES_MASTER_INTERFACE";
            /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE = "ADROIT_CUSTOMER_GTS_ACTUAL_INTERFACE";
+	public static final String PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE = "PSTG_CUSTOMER_GTS_ACTUAL_INTERFACE";
               /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE = "ADROIT_CUSTOMER_GTS_FORECAST_INTERFACE";
+	public static final String PSTG_CUSTOMER_GTS_FORECAST_INTERFACE = "PSTG_CUSTOMER_GTS_FORECAST_INTERFACE";
         
         
         
@@ -354,29 +354,29 @@ public final class Constants {
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_RETURNS_INTERFACE = "ADROIT_RETURNS_INTERFACE";
+	public static final String PSTG_RETURNS_INTERFACE = "PSTG_RETURNS_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_CPI_INDEX_INTERFACE = "ADROIT_CPI_INDEX_INTERFACE";
+	public static final String CONSUMER_PRICE_INDEX_INTERFACE = "CONSUMER_PRICE_INDEX_INTERFACE";
         /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_GL_COST_CENTER_INTERFACE = "ADROIT_GL_COST_CENTER_INTERFACE";
+	public static final String PSTG_GL_COST_CENTER_INTERFACE = "PSTG_GL_COST_CENTER_INTERFACE";
 	/**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ITEM_UOM_INTERFACE = "ADROIT_ITEM_UOM_INTERFACE";
+	public static final String UNIT_OF_MEASURE_INTERFACE = "UNIT_OF_MEASURE_INTERFACE";
         
         /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_ACCRUAL_INBOUND_INTERFACE = "ADROIT_ACCRUAL_INBOUND_INTERFACE";
+	public static final String ACCRUALS_INTERFACE = "ACCRUALS_INTERFACE";
         
            /**
 	 * variable for the ETLInterface.
 	 */
-	public static final String ADROIT_FORECASTING_MASTER_INTERFACE = "ADROIT_FORECASTING_MASTER_INTERFACE";
+	public static final String PSTG_SALES_FORECAST_INTERFACE = "PSTG_SALES_FORECAST_INTERFACE";
        
 	
         private Constants(){

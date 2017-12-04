@@ -4,6 +4,14 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 
+import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementFilterGenerator;
@@ -14,19 +22,20 @@ import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CommonUtils;
 import com.stpl.app.adminconsole.util.ConstantsUtils;
 import com.stpl.app.adminconsole.util.HelperListUtil;
-import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
 import com.stpl.app.adminconsole.util.ValidationUtils;
-import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.CommonSecurityLogic;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.validator.RegexpValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ItemClickEvent;
-import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
@@ -35,21 +44,12 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FileManagementLookup.
  *
@@ -108,7 +108,6 @@ public class ItemSearchLookup extends Window {
     @UiField("cssLayout")
     private CssLayout cssLayout;
     
-    private FileManagementLogic logic = new FileManagementLogic();
     private TextField itemNumber;
     private TextField itemLookupName;
     private ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
@@ -121,22 +120,15 @@ public class ItemSearchLookup extends Window {
     private HorizontalLayout controlLayout = new HorizontalLayout();
     private ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    private CommonUtil commonUtil = new CommonUtil();
-    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    private SessionDTO sessionDTO;
     private int masterSid = 0;
     private String itemId = StringUtils.EMPTY;
     public boolean isSelected=false;
-    private String currentItemNumber="";
-    private String currentItemLookUpName="";
 
     public ItemSearchLookup(TextField itemNo, TextField itemLookupName, final SessionDTO sessionDTO) {
         super("Item Search");
         this.itemNumber = itemNo;
         this.itemLookupName = itemLookupName;
-        this.sessionDTO = sessionDTO;
-        this.currentItemNumber = itemNo.getValue();
-        this.currentItemLookUpName = itemLookupName.getValue();
+        LOGGER.info("Sessiondto "+sessionDTO);
     }
 
     public int getMasterSid() {

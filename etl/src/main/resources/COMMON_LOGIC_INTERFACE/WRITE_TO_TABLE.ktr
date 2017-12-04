@@ -137,6 +137,50 @@
   <hop> <from>Table output</from><to>MAIL ID 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
+    <name>Abort</name>
+    <type>Abort</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <row_threshold>0</row_threshold>
+      <message/>
+      <always_log_rows>N</always_log_rows>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>661</xloc>
+      <yloc>602</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Abort 2</name>
+    <type>Abort</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <row_threshold>0</row_threshold>
+      <message>No content in csv file</message>
+      <always_log_rows>N</always_log_rows>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>867</xloc>
+      <yloc>592</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>CSV file input</name>
     <type>CsvInput</type>
     <description/>
@@ -166,6 +210,180 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>354</xloc>
       <yloc>155</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>MAIL ID</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>appunit</connection>
+    <rowlimit>0</rowlimit>
+    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;File Moved Successfully to Table.&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xd;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xd;&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xd;&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xd;&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xd;&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,&#xd;&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,&#xd;&#xa;             B.SUCCESS_MAIL_SUBJECT        AS SUBJECT,&#xd;&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xd;&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.SUCCESS_MAIL_BODY&#x29; as CONTENT&#xd;&#xa;FROM   WF_MAIL_CONFIG A&#xd;&#xa;       JOIN WORKFLOW_PROFILE B&#xd;&#xa;         ON 1 &#x3d; 1&#xd;&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xd;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>Y</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>664</xloc>
+      <yloc>422</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>MAIL ID 2</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>appunit</connection>
+    <rowlimit>0</rowlimit>
+    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;There was an error in moving file to table&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>Y</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>871</xloc>
+      <yloc>422</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mail</name>
+    <type>Mail</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <server>MAIL_SERVER</server>
+      <port>MAIL_PORT</port>
+      <destination>DESTINATION_ADDRESS</destination>
+      <destinationCc>DESTINATION_CC</destinationCc>
+      <destinationBCc/>
+      <replyToAddresses/>
+      <replyto>SENDER_ADDRESS</replyto>
+      <replytoname/>
+      <subject>SUBJECT</subject>
+      <include_date>N</include_date>
+      <include_subfolders>N</include_subfolders>
+      <zipFilenameDynamic>N</zipFilenameDynamic>
+      <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
+      <dynamicFieldname/>
+      <dynamicWildcard/>
+      <dynamicZipFilename/>
+      <sourcefilefoldername/>
+      <sourcewildcard/>
+      <contact_person/>
+      <contact_phone/>
+      <comment>CONTENT</comment>
+      <include_files>N</include_files>
+      <zip_files>N</zip_files>
+      <zip_name/>
+      <zip_limit_size>0</zip_limit_size>
+      <use_auth>N</use_auth>
+      <use_secure_auth>N</use_secure_auth>
+      <auth_user>SENDER_ADDRESS</auth_user>
+      <auth_password>Encrypted 2becbea862ee2a0bb9b389d43e9bd9dfe</auth_password>
+      <only_comment>Y</only_comment>
+      <use_HTML>Y</use_HTML>
+      <use_Priority>N</use_Priority>
+    <encoding>UTF-8</encoding>
+    <priority>normal</priority>
+    <importance>normal</importance>
+    <sensitivity>normal</sensitivity>
+    <secureconnectiontype>SSL</secureconnectiontype>
+      <embeddedimages>
+      </embeddedimages>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>663</xloc>
+      <yloc>513</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Mail 2</name>
+    <type>Mail</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <server>MAIL_SERVER</server>
+      <port>MAIL_PORT</port>
+      <destination>DESTINATION_ADDRESS</destination>
+      <destinationCc>DESTINATION_CC</destinationCc>
+      <destinationBCc/>
+      <replyToAddresses/>
+      <replyto>SENDER_ADDRESS</replyto>
+      <replytoname/>
+      <subject>SUBJECT</subject>
+      <include_date>N</include_date>
+      <include_subfolders>N</include_subfolders>
+      <zipFilenameDynamic>N</zipFilenameDynamic>
+      <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
+      <dynamicFieldname/>
+      <dynamicWildcard/>
+      <dynamicZipFilename/>
+      <sourcefilefoldername/>
+      <sourcewildcard/>
+      <contact_person/>
+      <contact_phone/>
+      <comment>CONTENT</comment>
+      <include_files>N</include_files>
+      <zip_files>N</zip_files>
+      <zip_name/>
+      <zip_limit_size>0</zip_limit_size>
+      <use_auth>N</use_auth>
+      <use_secure_auth>N</use_secure_auth>
+      <auth_user>SENDER_ADDRESS</auth_user>
+      <auth_password>Encrypted 2becbea862ee2a0bb9b389d43e9bd9dfe</auth_password>
+      <only_comment>Y</only_comment>
+      <use_HTML>Y</use_HTML>
+      <use_Priority>N</use_Priority>
+    <encoding/>
+    <priority>normal</priority>
+    <importance>normal</importance>
+    <sensitivity/>
+    <secureconnectiontype>SSL</secureconnectiontype>
+      <embeddedimages>
+      </embeddedimages>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>869</xloc>
+      <yloc>521</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -250,224 +468,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>849</xloc>
       <yloc>93</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Abort</name>
-    <type>Abort</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <row_threshold>0</row_threshold>
-      <message>No content in csv file</message>
-      <always_log_rows>N</always_log_rows>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>661</xloc>
-      <yloc>602</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>MAIL ID</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>appunit</connection>
-    <rowlimit>0</rowlimit>
-    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;File Moved Successfully to Table.&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>Y</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>664</xloc>
-      <yloc>422</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mail</name>
-    <type>Mail</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <server>MAIL_SERVER</server>
-      <port>MAIL_PORT</port>
-      <destination>DESTINATION_ADDRESS</destination>
-      <destinationCc>DESTINATION_CC</destinationCc>
-      <destinationBCc/>
-      <replyToAddresses/>
-      <replyto>SENDER_ADDRESS</replyto>
-      <replytoname/>
-      <subject>SUBJECT</subject>
-      <include_date>N</include_date>
-      <include_subfolders>N</include_subfolders>
-      <zipFilenameDynamic>N</zipFilenameDynamic>
-      <isFilenameDynamic>N</isFilenameDynamic>
-      <attachContentFromField>N</attachContentFromField>
-      <attachContentField/>
-      <attachContentFileNameField/>
-      <dynamicFieldname/>
-      <dynamicWildcard/>
-      <dynamicZipFilename/>
-      <sourcefilefoldername/>
-      <sourcewildcard/>
-      <contact_person/>
-      <contact_phone/>
-      <comment>CONTENT</comment>
-      <include_files>N</include_files>
-      <zip_files>N</zip_files>
-      <zip_name/>
-      <zip_limit_size>0</zip_limit_size>
-      <use_auth>N</use_auth>
-      <use_secure_auth>N</use_secure_auth>
-      <auth_user>SENDER_ADDRESS</auth_user>
-      <auth_password>Encrypted 2becbea862ee2a0bb9b389d43e9bd9dfe</auth_password>
-      <only_comment>Y</only_comment>
-      <use_HTML>Y</use_HTML>
-      <use_Priority>N</use_Priority>
-    <encoding/>
-    <priority>normal</priority>
-    <importance>normal</importance>
-    <sensitivity/>
-    <secureconnectiontype>SSL</secureconnectiontype>
-      <embeddedimages>
-      </embeddedimages>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>663</xloc>
-      <yloc>513</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Abort 2</name>
-    <type>Abort</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <row_threshold>0</row_threshold>
-      <message>No content in csv file</message>
-      <always_log_rows>N</always_log_rows>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>867</xloc>
-      <yloc>592</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>MAIL ID 2</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>appunit</connection>
-    <rowlimit>0</rowlimit>
-    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;There was an error in moving file to table&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>Y</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>871</xloc>
-      <yloc>422</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Mail 2</name>
-    <type>Mail</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <server>MAIL_SERVER</server>
-      <port>MAIL_PORT</port>
-      <destination>DESTINATION_ADDRESS</destination>
-      <destinationCc>DESTINATION_CC</destinationCc>
-      <destinationBCc/>
-      <replyToAddresses/>
-      <replyto>SENDER_ADDRESS</replyto>
-      <replytoname/>
-      <subject>SUBJECT</subject>
-      <include_date>N</include_date>
-      <include_subfolders>N</include_subfolders>
-      <zipFilenameDynamic>N</zipFilenameDynamic>
-      <isFilenameDynamic>N</isFilenameDynamic>
-      <attachContentFromField>N</attachContentFromField>
-      <attachContentField/>
-      <attachContentFileNameField/>
-      <dynamicFieldname/>
-      <dynamicWildcard/>
-      <dynamicZipFilename/>
-      <sourcefilefoldername/>
-      <sourcewildcard/>
-      <contact_person/>
-      <contact_phone/>
-      <comment>CONTENT</comment>
-      <include_files>N</include_files>
-      <zip_files>N</zip_files>
-      <zip_name/>
-      <zip_limit_size>0</zip_limit_size>
-      <use_auth>N</use_auth>
-      <use_secure_auth>N</use_secure_auth>
-      <auth_user>SENDER_ADDRESS</auth_user>
-      <auth_password>Encrypted 2becbea862ee2a0bb9b389d43e9bd9dfe</auth_password>
-      <only_comment>Y</only_comment>
-      <use_HTML>Y</use_HTML>
-      <use_Priority>N</use_Priority>
-    <encoding/>
-    <priority>normal</priority>
-    <importance>normal</importance>
-    <sensitivity/>
-    <secureconnectiontype>SSL</secureconnectiontype>
-      <embeddedimages>
-      </embeddedimages>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>869</xloc>
-      <yloc>521</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
