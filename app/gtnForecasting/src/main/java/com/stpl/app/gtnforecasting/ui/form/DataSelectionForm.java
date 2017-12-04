@@ -156,6 +156,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 	private Future customerFuture;
 	private Future productFuture;
 
+	
 	public static final String NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN = "No record was selected.  Please try again.";
 
 	public String getPublicViewName() {
@@ -4175,14 +4176,9 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	@Override
 	protected void customerRelationValueChange(Object value) {
-
 		LOGGER.debug("customerRelationValueChange" + value);
-
-		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
+		if (value != null && !SELECT_ONE.equals(String.valueOf(value)) ) {
 			try {
-				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
-						customerHierarchyDto.getHierarchyId(),
-						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
 				availableCustomer.removeAllItems();
 				availableCustomerContainer.removeAllItems();
 				selectedCustomer.removeAllItems();
@@ -4193,6 +4189,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				customerFuture = checkAndDoAutomaticUpdate(customerRelationComboBox.getValue(),
 						customerHierarchyDto.getHierarchyId());
 				customerFuture.get();
+				loadCustomerVersionNo(customerRelationComboBox.getValue());
+				loadForecastLevels(innerCustLevels, customerForecastLevelContainer, customerLevel,
+						customerHierarchyDto.getHierarchyId(),
+						Integer.valueOf(customerRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerCustLevels.isEmpty()) {
 					customerForecastLevelContainer.removeAllItems();
@@ -4204,7 +4204,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 				}
 
 			} catch (Exception ex) {
-
+				
 				LOGGER.error(ex + " in customerRelation value change");
 			}
 		} else if (value == null || SELECT_ONE.equals(String.valueOf(value))) {
@@ -4237,9 +4237,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 		LOGGER.debug("productRelation - ValueChangeListener " + value);
 		if (value != null && !SELECT_ONE.equals(String.valueOf(value))) {
 			try {
-				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
-						productHierarchyDto.getHierarchyId(),
-						Integer.valueOf(productRelationVersionComboBox.getValue().toString()));
 				selectedProduct.removeAllItems();
 				selectedProductContainer.removeAllItems();
 				availableProduct.removeAllItems();
@@ -4250,6 +4247,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 				productFuture = checkAndDoAutomaticUpdate(productRelation.getValue(),
 						productHierarchyDto.getHierarchyId());
 				productFuture.get();
+				loadProductVersionNo(productRelation.getValue());
+				loadForecastLevels(innerProdLevels, productForecastLevelContainer, productLevel,
+						productHierarchyDto.getHierarchyId(),
+						Integer.valueOf(productRelationVersionComboBox.getValue().toString()));
 				if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equals(screenName)
 						&& !innerProdLevels.isEmpty()) {
 					productForecastLevelContainer.removeAllItems();
@@ -4555,6 +4556,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 						loadView(viewDTO);
 
 					} catch (Exception ex) {
+						
 						LOGGER.error(ex + " privateView close");
 					}
 				}

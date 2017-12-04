@@ -72,7 +72,7 @@ public class CommonUtils {
 
     final private static FileManagementLogicDAO DAO = new FileManagementLogicDAOImpl();
     
-    static CommonDAO commonDao = new CommonDAOImpl();
+    private static CommonDAO commonDao = new CommonDAOImpl();
 
     private static CommonUtils object;
     /**
@@ -111,7 +111,7 @@ public class CommonUtils {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     public static CommonUtils getInstance() {
         if (object == null) {
