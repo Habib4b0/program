@@ -1,4 +1,4 @@
-package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic;
+package com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,10 +23,10 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 import com.stpl.gtn.gtn2o.ws.service.GtnFrameworkFileReadWriteService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
-public class GtnWsRelationshipBuilderHierarchyFileGenerator {
+public class GtnWsRelationshipBuilderHierarchyFileGeneratorService {
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger
-			.getGTNLogger(GtnWsRelationshipBuilderHierarchyFileGenerator.class);
+			.getGTNLogger(GtnWsRelationshipBuilderHierarchyFileGeneratorService.class);
 
 	private org.hibernate.SessionFactory sessionFactory;
 
@@ -38,7 +38,7 @@ public class GtnWsRelationshipBuilderHierarchyFileGenerator {
 
 	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
-	public GtnWsRelationshipBuilderHierarchyFileGenerator() {
+	public GtnWsRelationshipBuilderHierarchyFileGeneratorService() {
 		super();
 	}
 

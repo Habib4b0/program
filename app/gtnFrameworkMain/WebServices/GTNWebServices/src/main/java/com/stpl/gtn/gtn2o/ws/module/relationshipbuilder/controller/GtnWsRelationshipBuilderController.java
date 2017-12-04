@@ -26,9 +26,9 @@ import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHelperLogic;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderLogic;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHelperService;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
@@ -60,29 +60,29 @@ public class GtnWsRelationshipBuilderController {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@Autowired
-	private GtnWsRelationshipBuilderLogic logic;
+	private GtnWsRelationshipBuilderService logic;
 
 	@Autowired
-	private GtnWsRelationshipBuilderHelperLogic helperLogic;
+	private GtnWsRelationshipBuilderHelperService helperLogic;
 
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
 	@Autowired
-	private GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator;
+	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
 	private Map<String, String> filterAndSortingRBCriteriaMap = new HashMap<>();
 	private Map<String, String> searchCriteriaMap = new HashMap<>();
 
-	public GtnWsRelationshipBuilderHelperLogic getHelperLogic() {
+	public GtnWsRelationshipBuilderHelperService getHelperLogic() {
 		return helperLogic;
 	}
 
-	public void setHelperLogic(GtnWsRelationshipBuilderHelperLogic helperLogic) {
+	public void setHelperLogic(GtnWsRelationshipBuilderHelperService helperLogic) {
 		this.helperLogic = helperLogic;
 	}
 
-	public GtnWsRelationshipBuilderLogic getLogic() {
+	public GtnWsRelationshipBuilderService getLogic() {
 		return logic;
 	}
 
@@ -95,12 +95,12 @@ public class GtnWsRelationshipBuilderController {
 		return gtnWsSqlService.getQuery(sqlId);
 	}
 
-	public GtnWsRelationshipBuilderHierarchyFileGenerator getGtnWsRelationshipBuilderHierarchyFileGenerator() {
+	public GtnWsRelationshipBuilderHierarchyFileGeneratorService getGtnWsRelationshipBuilderHierarchyFileGenerator() {
 		return gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 
 	public void setGtnWsRelationshipBuilderHierarchyFileGenerator(
-			GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator) {
+			GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator) {
 		this.gtnWsRelationshipBuilderHierarchyFileGenerator = gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 

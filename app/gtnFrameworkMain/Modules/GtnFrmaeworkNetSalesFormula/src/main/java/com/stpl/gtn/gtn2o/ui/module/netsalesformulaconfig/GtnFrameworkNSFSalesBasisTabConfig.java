@@ -1152,6 +1152,8 @@ public class GtnFrameworkNSFSalesBasisTabConfig {
 
 		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = componentConfigProvider
 				.getExcelBtnconfig("Sales_Basis", true, viewId + "selectedCustomersResultTable", false);
+		gtnUIFrameworkExcelButtonConfig
+			.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
 		selectedCustomerTableExcelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
 		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
 		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
