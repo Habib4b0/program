@@ -1283,9 +1283,9 @@ public class SupplementalDiscountProjectionLogic {
         List<List> emptyQuarterList = new ArrayList<>();
         List<String> emptyQuarterNdcName = new ArrayList<>();
 
-        //emptyNdc
-        //quarterEmtyNdc and quartername
-        //insertlist
+        
+        /*quarterEmptyNdc and quartername*/
+        /*insertlist*/
         if (!dtoList.isEmpty()) {
 
             for (int i = 0; i < dtoList.size(); i++) {

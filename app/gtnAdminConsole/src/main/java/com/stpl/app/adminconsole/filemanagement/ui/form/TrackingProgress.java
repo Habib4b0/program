@@ -4,6 +4,14 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 
+import java.util.List;
+import java.util.Map;
+
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 /**
  *
  * @author Nandhakumar
@@ -36,12 +44,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.List;
-import java.util.Map;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  * The Class FileManagementLookup.
@@ -52,20 +54,28 @@ public class TrackingProgress extends Window {
 
     @UiField("fileType")
     private TextField fileType;
+    
     @UiField("fileName")
     private TextField fileName;
+    
     @UiField("country")
     private TextField country;
+    
     @UiField("version")
     private TextField version;
+    
     @UiField("effectiveDate")
     private TextField effectiveDate;
+    
     @UiField("activeDateFrom")
     private TextField activeDateFrom;
+    
     @UiField("activeDateTo")
     private TextField activeDateTo;
+    
     @UiField("close")
     private Button close;
+    
     @UiField("cssLayout")
     private CssLayout cssLayout;
 
@@ -86,14 +96,11 @@ public class TrackingProgress extends Window {
 
     @UiField("detailsControlLayout")
     private HorizontalLayout detailsControlLayout;
+    
     @UiField("businessUnit")
     private TextField businessUnit;
 
-    FileManagementLogic logic = new FileManagementLogic();
-    TextField itemNumber;
-    TextField itemLookupName;
-    CommonUtil commonUtil = new CommonUtil();
-    FileMananagementResultDTO fileMgtDTO;
+    private CommonUtil commonUtil = new CommonUtil();
     /**
      * The selected results excel export.
      */
@@ -118,8 +125,9 @@ public class TrackingProgress extends Window {
      * The Constant FIELD_LOOKUP_HEADER.
      */
     public final String[] detailsHeader = new String[]{"Process Identifier", "Start Time", "End Time", "# of Projections", "Sequence", "Status"};
-    CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    SessionDTO sessionDTO;
+    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
+    private SessionDTO sessionDTO;
+    
     public TrackingProgress(String name,final SessionDTO sessionDTO) {
         super(name);
         this.sessionDTO=sessionDTO;

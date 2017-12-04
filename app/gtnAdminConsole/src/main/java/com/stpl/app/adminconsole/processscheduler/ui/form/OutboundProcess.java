@@ -5,31 +5,32 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
-import com.stpl.app.adminconsole.util.StringConstantUtils;
-import com.stpl.app.adminconsole.common.util.CommonUIUtil;
-import com.stpl.app.adminconsole.processscheduler.dto.FtpProperties;
-import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
-import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
-import com.stpl.app.adminconsole.processscheduler.logic.OutboundLogic;
-import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
 import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.FTP_PROPERTIES_PATH;
 import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getPropertyFile;
-import com.stpl.app.adminconsole.processscheduler.util.CommonUtil;
-import com.stpl.app.adminconsole.util.SchedulerCSVEport;
-import com.stpl.app.adminconsole.util.SchedulerExcelEport;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.ExcelExportUtil;
-import com.stpl.ifs.util.ExtCustomTableHolder;
-import com.vaadin.ui.ExtCustomTreeTable;
+
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.jboss.logging.Logger;
+
+import com.stpl.app.adminconsole.common.util.CommonUIUtil;
+import com.stpl.app.adminconsole.processscheduler.dto.FtpProperties;
+import com.stpl.app.adminconsole.processscheduler.dto.OutboundTableDTO;
+import com.stpl.app.adminconsole.processscheduler.logic.OutboundLogic;
+import com.stpl.app.adminconsole.processscheduler.util.CommonUtil;
+import com.stpl.app.adminconsole.util.SchedulerCSVEport;
+import com.stpl.app.adminconsole.util.SchedulerExcelEport;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.ExcelExportUtil;
+import com.stpl.ifs.util.ExtCustomTableHolder;
+import com.vaadin.ui.ExtCustomTreeTable;
 
 /**
  *
@@ -38,20 +39,21 @@ import org.jboss.logging.Logger;
 public class OutboundProcess {
 
     private static final Logger LOGGER = Logger.getLogger(OutboundProcess.class);
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    OutboundLogic outboundLogic = new OutboundLogic();
-    List<ProcessSchedulerDTO> cffCsvList;
-    List<OutboundTableDTO> rbCsvList;
-    ProcessSchedulerLogic processSchedulerLogic = new ProcessSchedulerLogic();
-    FtpProperties ftpProperties = getFtpBundleValue();
-    String filePath = ftpProperties.getScripts();
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private OutboundLogic outboundLogic = new OutboundLogic();
+    private List<OutboundTableDTO> rbCsvList;
+    private FtpProperties ftpProperties = getFtpBundleValue();
+    private String filePath = ftpProperties.getScripts();
 
-    SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
-    SimpleDateFormat format_time = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss");
-    String processName;
+    private SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd");
+    private SimpleDateFormat format_time = new SimpleDateFormat("YYYY-MM-dd HH-mm-ss");
+    private String processName;
 
+    public OutboundProcess() {
+    	LOGGER.info("OutboundProcess is invoked");
+	}
     public void getAutomatedOutbound(String processName) {
 
         try {
