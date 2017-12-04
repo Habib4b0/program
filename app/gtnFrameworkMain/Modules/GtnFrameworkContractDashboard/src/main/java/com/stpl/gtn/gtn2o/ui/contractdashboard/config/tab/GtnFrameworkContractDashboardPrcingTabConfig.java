@@ -1469,6 +1469,23 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		cdPricingResultTable
 				.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceProtectionColumnHeader());
 		cdPricingResultTable.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceProtectionColumn());
+		cdPricingResultTable.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PP_STATUS_PENDING,
+				GtnFrameworkContractDashboardContants.MEASUREMENT_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.BASE_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING, });
+		cdPricingResultTable.setExtraColumnDataType(new Class[] { String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class });
 		cdPricingResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_TABLE_DATA);
 		cdPricingResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE

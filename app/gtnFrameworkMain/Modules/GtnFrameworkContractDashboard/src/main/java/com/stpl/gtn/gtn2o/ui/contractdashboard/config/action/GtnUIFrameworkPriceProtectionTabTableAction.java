@@ -77,6 +77,7 @@ public class GtnUIFrameworkPriceProtectionTabTableAction
 		priceprotectionpricingTable.getExtPagedTable().setFilterBarVisible(false);
 		priceprotectionpricingTable.getExtPagedTable().setEditable(false);
 		priceprotectionpricingTable.getExtPagedTable().setReadOnly(true);
+		configurePriceProtectionPendingTableColumn(priceprotectionpricingTable);
 
 	}
 
@@ -85,6 +86,24 @@ public class GtnUIFrameworkPriceProtectionTabTableAction
 		priceprotectionpricingTable.getExtPagedTable().setFilterBarVisible(true);
 		priceprotectionpricingTable.getExtPagedTable().setEditable(true);
 		priceprotectionpricingTable.getExtPagedTable().setReadOnly(false);
+		configurePriceProtectionTableColumn(priceprotectionpricingTable);
+
+	}
+
+	private void configurePriceProtectionPendingTableColumn(GtnUIFrameworkBaseComponent priceprotectionpricingTable) {
+
+		priceprotectionpricingTable
+				.setTableColumns(GtnFrameworkContractDashboardContants.getPriceProtectionPendingColumn());
+		priceprotectionpricingTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceProtectionPendingColumnHeader());
+
+	}
+
+	private void configurePriceProtectionTableColumn(GtnUIFrameworkBaseComponent priceprotectionpricingTable) {
+
+		priceprotectionpricingTable.setTableColumns(GtnFrameworkContractDashboardContants.getPriceProtectionColumn());
+		priceprotectionpricingTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceProtectionColumnHeader());
 
 	}
 
