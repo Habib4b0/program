@@ -47,7 +47,7 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private int currentProjId;
     private String screenName;
     private int currentProjectionID;
-    int customCount = 0;
+    private int customCount = 0;
     private List<String> programCodeNameList = new ArrayList<>();
     private String toDate;
     private boolean isCustomerDdlb;

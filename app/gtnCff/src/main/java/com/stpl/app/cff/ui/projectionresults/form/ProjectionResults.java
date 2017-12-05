@@ -70,11 +70,11 @@ import org.jboss.logging.Logger;
 public class ProjectionResults extends ForecastProjectionResults {
 
     public static final Logger LOGGER = Logger.getLogger(ProjectionResults.class);
-    SessionDTO session;
-    List<List<String>> discountlist = new ArrayList<>();
+    private SessionDTO session;
+    private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
-    boolean flag = false;
+    private boolean flag = false;
 
     private final Map<String, Object> excelParentRecords = new HashMap();
     private final List<String> hierarchyKeys = new ArrayList();
@@ -83,7 +83,7 @@ public class ProjectionResults extends ForecastProjectionResults {
     protected PVParameters parameterDto = new PVParameters();
     private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<>();
     private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap);
-    DataSelectionDTO dataSelectionDTO;
+    private DataSelectionDTO dataSelectionDTO;
 
     public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {
         super(session, screenName);

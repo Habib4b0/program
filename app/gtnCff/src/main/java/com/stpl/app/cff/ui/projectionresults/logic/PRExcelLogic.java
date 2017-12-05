@@ -68,18 +68,18 @@ public class PRExcelLogic {
     private static final String PRC_PROJ_RESULTS_TOTAL = "PRC_CFF_RESULTS";
     private static final String PRC_PROJ_RESULTS_TOTAL_DISCOUNT = "PRC_CFF_PROJECTION_RESULTS_DISCOUNT";
     private final List<Object[]> procRawList_total_discount = new ArrayList();
-    List<Object> pivotDiscountList = new ArrayList<>();
-    List<ProjectionResultsDTO> discountList = new ArrayList<>();
+    private List<Object> pivotDiscountList = new ArrayList<>();
+    private List<ProjectionResultsDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    List<Object> pivotTotalList = new ArrayList<>();
-    List<Integer> pivotPriorProjIdList = new ArrayList();
+    private List<Object> pivotTotalList = new ArrayList<>();
+    private List<Integer> pivotPriorProjIdList = new ArrayList();
     private final Map<String, String> customView_relationship_hierarchy = new HashMap();
-    PVParameters parameterDto;
+    private PVParameters parameterDto;
     private boolean isCustomView;
     private final int indexDetail = 7;
-    String discountName= StringUtils.EMPTY;
-    Map<String,Map<String,ProjectionResultsDTO>> pivotDiscountMap=new HashMap<>();
-    Map<String,Map<String,ProjectionResultsDTO>> totalpivotDiscountMap=new HashMap<>();
+    private String discountName= StringUtils.EMPTY;
+    private Map<String,Map<String,ProjectionResultsDTO>> pivotDiscountMap=new HashMap<>();
+    private Map<String,Map<String,ProjectionResultsDTO>> totalpivotDiscountMap=new HashMap<>();
     
   
     public PRExcelLogic(Map<String, List<ProjectionResultsDTO>> resultMap, ProjectionSelectionDTO selection,

@@ -42,10 +42,10 @@ public class ProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     
     public static final String NULL_PPAACTUAL_SALES = "+Isnull(PPA.ACTUAL_SALES, 0)";
     private static final String CURRENCY = "$";
@@ -55,7 +55,7 @@ public class ProjectionResultsLogic {
     public static final String PRC_CFF_PROJECTION_RESULTS_DISCOUNT = "Prc_cff_projection_results_discount";
     public static final String PRC_CFF_RESULTS = "PRC_CFF_RESULTS";
     
-    Map<String,String> monthMap=new HashMap<>();
+    private Map<String,String> monthMap=new HashMap<>();
 
     public List<ProjectionResultsDTO> getTotalDiscountLevels(ProjectionSelectionDTO projSelDTO,String group) {
         LOGGER.debug("= = = Inside getTotalDiscountLevels = = =");
@@ -68,7 +68,7 @@ public class ProjectionResultsLogic {
     }
 
 
-    List<String> discountList = new ArrayList<>();
+    private List<String> discountList = new ArrayList<>();
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsDiscount(List<Object> list, ProjectionSelectionDTO projSelDTO, boolean isPPA) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();

@@ -186,9 +186,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	 */
 	@UiField("viewBtn")
 	private Button viewBtn;
-	CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
+        
+	private CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
 	public ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
-	ProjectionResults projectionResults;
+	private ProjectionResults projectionResults;
 	/**
 	 * Label for Created From
 	 */
@@ -209,21 +210,22 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	 */
 	@UiField("approvalTo")
 	private Label approvalTo;
-	@UiField("resultLayout")
+	
+        @UiField("resultLayout")
 	private VerticalLayout resultLayout;
 	/**
 	 * ApprovalPopup Window
 	 */
-	CffApprovalDetailsForm approvalWindow;
+	private CffApprovalDetailsForm approvalWindow;
 	/**
 	 * The cff logic
 	 */
-	CFFLogic cffLogic = new CFFLogic();
+	private CFFLogic cffLogic = new CFFLogic();
 	/**
 	 * The cff search dto.
 	 */
 	public CFFSearchDTO cffSearchDTO = new CFFSearchDTO();
-	DataSelectionDTO dataSelectionDto;
+	private DataSelectionDTO dataSelectionDto;
 	/**
 	 * The cff search binder.
 	 */
@@ -245,17 +247,19 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	 * The results bean.
 	 */
 	public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<>(CFFResultsDTO.class);
-	CFFSearchDTO dto;
-	@UiField("excelExport")
-	Button excelExport;
+	
+        private CFFSearchDTO dto;
+	
+        @UiField("excelExport")
+	private Button excelExport;
 	/**
 	 * The error msg.
 	 */
-	final ErrorLabel errorMsg = new ErrorLabel();
-	SessionDTO sessionDTO;
-	CommonUtils commonutil = new CommonUtils();
-	DataSelectionLogic dataLogic = new DataSelectionLogic();
-	int projectionid;
+	private final ErrorLabel errorMsg = new ErrorLabel();
+	private SessionDTO sessionDTO;
+	private CommonUtils commonutil = new CommonUtils();
+	private DataSelectionLogic dataLogic = new DataSelectionLogic();
+	private int projectionid;
 	private String topLevelName = StringUtils.EMPTY;
 	public static final String NO_RECORD_SELECTED = "No Record Selected.";
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();

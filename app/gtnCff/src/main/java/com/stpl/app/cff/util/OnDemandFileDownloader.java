@@ -15,13 +15,12 @@ package com.stpl.app.cff.util;
  * and open the template in the editor.
  */
 
+import static com.stpl.app.cff.logic.CommonLogic.LOGGER;
 import com.vaadin.server.FileDownloader;
-import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinResponse;
 import java.io.IOException;
-import org.jboss.logging.Logger;
 
 /**
  *
@@ -55,18 +54,16 @@ public class OnDemandFileDownloader extends FileDownloader {
     @Override
     public boolean handleConnectorRequest(VaadinRequest request, VaadinResponse response, String path)
             throws IOException {
-
-        System.out.println("this.getResource(\"dl\");----" + getResource().getFilename());
+        LOGGER.debug("this.getResource(\"dl\");----" + getResource().getFilename());
         StreamResource resource = getResource();
         resource.setFilename(onDemandStreamResource.getFilename());
-        System.out.println("Current Buffer size :" + resource.getBufferSize());
-        System.out.println("Setting new Buffer size :" + BUFFER_SIZE);
+        LOGGER.debug("Current Buffer size :" + resource.getBufferSize());
+        LOGGER.debug("Setting new Buffer size :" + BUFFER_SIZE);
         boolean falg=false;
         try {
            falg = super.handleConnectorRequest(request, response, path);
-        } catch (Exception e) {
-            System.out.println("No record Found to Export :" + e);
-            e.printStackTrace();
+        } catch (IOException e) {
+           LOGGER.error(e);
         }
         return falg;
     }

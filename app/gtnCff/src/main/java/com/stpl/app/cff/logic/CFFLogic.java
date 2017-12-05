@@ -94,8 +94,8 @@ public class CFFLogic {
     public CommonUtils commonUtils = new CommonUtils();
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
     public static Map<String, String> userMap = new HashMap<>();
-    FileSelectionDTO dto = new FileSelectionDTO();
-    DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+    private FileSelectionDTO dto = new FileSelectionDTO();
+    private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     
     /**
      * Gets the cff details for add.

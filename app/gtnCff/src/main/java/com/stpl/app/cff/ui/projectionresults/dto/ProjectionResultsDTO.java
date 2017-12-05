@@ -66,8 +66,8 @@ public class ProjectionResultsDTO extends ExtMapDTO implements Comparator<Projec
     
     private String relationshipLevelName = StringUtils.EMPTY;
     
-    ProjectionResultsDTO manDTO;
-    ProjectionResultsDTO suppDTO;
+    private ProjectionResultsDTO manDTO;
+    private ProjectionResultsDTO suppDTO;
     
 
     private String ccpIds=StringUtils.EMPTY;

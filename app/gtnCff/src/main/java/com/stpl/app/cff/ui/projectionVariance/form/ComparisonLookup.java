@@ -35,7 +35,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
     private int currentProjId;
-    List<ComparisonLookupDTO> selectedList;
+    private List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
      */
@@ -43,7 +43,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
   /**
    * Screen Name
    */
-    String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
     /**
      * Constructor for ComparisonLookup.
      *
