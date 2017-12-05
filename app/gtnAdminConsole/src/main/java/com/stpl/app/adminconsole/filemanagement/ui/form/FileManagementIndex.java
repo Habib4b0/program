@@ -800,7 +800,7 @@ public class FileManagementIndex extends CustomComponent implements View {
         tableLayout.addComponent(controlLayout);
 
         tableLogic.setContainerDataSource(resultsBean);
-        tableLogic.setPageLength(NumericConstants.HUNDRED);
+        tableLogic.setPageLength(10);
         tableLogic.sinkItemPerPageWithPageLength(false);
         setTableDefaultConfig();
         fileHistoryTable.setSelectable(true);
