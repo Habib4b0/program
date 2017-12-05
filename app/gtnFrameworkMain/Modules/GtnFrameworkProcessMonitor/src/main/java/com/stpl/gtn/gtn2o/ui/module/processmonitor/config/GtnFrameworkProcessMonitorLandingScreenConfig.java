@@ -704,8 +704,6 @@ public class GtnFrameworkProcessMonitorLandingScreenConfig {
 						+ GtnWsProcessMonitorConstants.GET_PROCESS_MONITOR_TABLE_DATA,
 				"processMonitor", "SearchQuery");
 		processMonitorSearchResult.setEditable(false);
-		processMonitorSearchResult.setPageLength(5);
-		processMonitorSearchResult.setItemPerPage(5);
 		processMonitorSearchResult.setSinkItemPerPageWithPageLength(false);
 
 		processMonitorSearchResult
