@@ -5,7 +5,7 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator;
+import com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 public class QueryBeanGeneratorService{
@@ -13,7 +13,7 @@ public class QueryBeanGeneratorService{
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(QueryBeanGeneratorService.class);
 
 	
-	private GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator;
+	private GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator;
 
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
@@ -38,12 +38,12 @@ public class QueryBeanGeneratorService{
 		this.gtnWsSqlService = gtnWsSqlService;
 	}
 
-	public GtnWsRelationshipBuilderHierarchyFileGenerator getGtnWsRelationshipBuilderHierarchyFileGenerator() {
+	public GtnWsRelationshipBuilderHierarchyFileGeneratorService getGtnWsRelationshipBuilderHierarchyFileGenerator() {
 		return gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 
 	public void setGtnWsRelationshipBuilderHierarchyFileGenerator(
-			GtnWsRelationshipBuilderHierarchyFileGenerator gtnWsRelationshipBuilderHierarchyFileGenerator) {
+			GtnWsRelationshipBuilderHierarchyFileGeneratorService gtnWsRelationshipBuilderHierarchyFileGenerator) {
 		this.gtnWsRelationshipBuilderHierarchyFileGenerator = gtnWsRelationshipBuilderHierarchyFileGenerator;
 	}
 

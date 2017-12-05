@@ -4,6 +4,14 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 
+import java.util.List;
+import java.util.Map;
+
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 /**
  *
  * @author Nandhakumar
@@ -36,12 +44,6 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
-import java.util.List;
-import java.util.Map;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
 
 /**
  * The Class FileManagementLookup.
@@ -98,11 +100,7 @@ public class TrackingProgress extends Window {
     @UiField("businessUnit")
     private TextField businessUnit;
 
-    private FileManagementLogic logic = new FileManagementLogic();
-    private TextField itemNumber;
-    private TextField itemLookupName;
     private CommonUtil commonUtil = new CommonUtil();
-    private FileMananagementResultDTO fileMgtDTO;
     /**
      * The selected results excel export.
      */

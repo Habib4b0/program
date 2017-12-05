@@ -4,10 +4,26 @@
  */
 package com.stpl.app.adminconsole.filemanagement.ui.form;
 
+import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.customtextfield.CustomTextField;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
 import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.filemanagement.dto.FileManagementDTO;
@@ -25,6 +41,7 @@ import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.CommonUIUtils;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -34,7 +51,6 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Button;
@@ -54,20 +70,6 @@ import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import static com.stpl.app.adminconsole.util.ResponsiveUtils.getResponsiveControls;
-import com.stpl.ifs.ui.util.NumericConstants;
-import java.util.ResourceBundle;
 
 /**
  * The Class FileManagementIndex.
@@ -142,11 +144,8 @@ public class FileManagementIndex extends CustomComponent implements View {
 
     private FileManagementLogic logic = new FileManagementLogic();
 
-    private HelperDTO detailsFileType;
-
     private String[] fileString = new String[NumericConstants.TWO];
 
-    private final Map<Integer, Boolean> reloadMap = new HashMap<>();
 
     private final BeanItemContainer<FileMananagementResultDTO> resultsBean = new BeanItemContainer<>(FileMananagementResultDTO.class);
 

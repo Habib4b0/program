@@ -5,15 +5,17 @@
  */
 package com.stpl.app.adminconsole.processscheduler.logic.tableLogic;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
+import org.jboss.logging.Logger;
+
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import java.util.ArrayList;
-import java.util.List;
-import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
-import org.jboss.logging.Logger;
 
 /**
  *
@@ -32,6 +34,9 @@ public class CFFIndexTableLogic extends PageTableLogic {
     private final ProcessSchedulerLogic cffLogic = new ProcessSchedulerLogic();
     private Boolean isGenerate = false;
     private SessionDTO sessionDTO;
+    public CFFIndexTableLogic() {
+    	LOGGER.info("Table logic invoked");
+	}
 
     /**
      * Method to get the no of count for Searching results.

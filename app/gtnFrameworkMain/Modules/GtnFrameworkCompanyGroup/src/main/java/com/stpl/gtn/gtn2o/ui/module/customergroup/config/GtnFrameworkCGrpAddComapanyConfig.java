@@ -743,7 +743,7 @@ public class GtnFrameworkCGrpAddComapanyConfig {
 		selectedRecordTableConfig.setMultiSelect(true);
 		selectedRecordTableConfig.setSinkItemPerPageWithPageLength(false);
 
-		selectedRecordTableConfig.setTableColumnDataType(new Class[] { Integer.class, String.class, String.class,
+		selectedRecordTableConfig.setTableColumnDataType(new Class[] { String.class, String.class, String.class,
 				String.class, String.class, Date.class, Date.class, String.class, String.class, Integer.class,
 				Date.class, String.class, String.class, Integer.class, String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, Date.class,
