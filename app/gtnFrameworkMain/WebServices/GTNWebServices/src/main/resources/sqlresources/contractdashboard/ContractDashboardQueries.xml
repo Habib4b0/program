@@ -4447,7 +4447,7 @@ WHERE  RN = 1 ;
         <![CDATA[
                             SELECT
                                     RSM.RS_ID
-                                    ,RSM.RS_NO
+                                    ,RSC.RS_NO
                                     ,RSC.RS_NAME
                                     ,RSC.RS_STATUS
                                     ,RSC.RS_TYPE
