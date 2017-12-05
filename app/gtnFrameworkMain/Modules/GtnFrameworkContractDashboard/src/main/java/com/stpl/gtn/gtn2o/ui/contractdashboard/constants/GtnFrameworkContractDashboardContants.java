@@ -345,7 +345,7 @@ public class GtnFrameworkContractDashboardContants {
 			getPriceProtectionColumn()[30], getPriceProtectionColumn()[31], getPriceProtectionColumn()[32],
 			getPriceProtectionColumn()[33] };
 	private static final String[] PRICE_PROTECTION_COLUMN_HEADER = { "", RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
-			BRAND2, "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
+			BRAND2, "Price Protection Status", PRICE_PROTECTION_START_DATE, "Price Protection End Date",
 			"Measurement Price", "NEP", "NEP Formula", BASE_PRICE, "Baseline WAC", "Baseline Net WAC",
 			"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
 			"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
@@ -353,7 +353,7 @@ public class GtnFrameworkContractDashboardContants {
 			"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
 			"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", ATTACHED_DATE2 };
 	private static final String[] PRICE_PROTECTION_PENDING_COLUMN_HEADER = { RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
-			BRAND2, "Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
+			BRAND2, "Price Protection Status", PRICE_PROTECTION_START_DATE, "Price Protection End Date",
 			"Measurement Price", "NEP", "NEP Formula", BASE_PRICE, "Baseline WAC", "Baseline Net WAC",
 			"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
 			"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
