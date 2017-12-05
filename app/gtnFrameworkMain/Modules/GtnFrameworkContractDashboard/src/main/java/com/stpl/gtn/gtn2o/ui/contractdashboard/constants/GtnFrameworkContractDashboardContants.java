@@ -289,7 +289,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String NET_RESET_PRICE_TYPE_FORMULA_POPUP = "netResetPriceTypeFormulapopup";
 	public static final String NET_PRICE_TYPE_FORMULAA = "NetPriceTypeFormula";
 	public static final String NEP_LOWER = "nep";
-	public static final String popup = "popup";
+	public static final String POPUP = "popup";
 	public static final String BASELINE_WAC = "Baseline WAC";
 
 	private static final String[] PP_MASS_POPULATE_FIELD = { PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE,
@@ -327,7 +327,7 @@ public class GtnFrameworkContractDashboardContants {
         private static final String[] PRICE_PROTECTION_PENDING_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
 			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
 			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
-			getPpMassPopulateField()[5].replace(" ", "") + popup, BASE_PRICE_TYPE_PENDING,
+			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
 			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
 			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
 			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, getPpMassPopulateField()[12].replace(" ", ""),
