@@ -149,6 +149,21 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
+                "onlyValidComponent": true,
+                "expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
+		"listViewIndex": 12,
+		"viewModeIndex": 14
+	},
+	{
+		"columnID": "modifiedDate",
+		"columnName": "Modified Date",
+		"isSearchCriteria": false,
+		"isResultView": true,
+		"componentType": "date",
+		"isInvalidComponent": true,
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
 		"listViewIndex": 12,
 		"viewModeIndex": 14
 	},
@@ -158,7 +173,6 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "text",
-		"onlyValidComponent": true,
 		"listViewIndex": 13,
 		"viewModeIndex": 15
 	},
@@ -168,6 +182,8 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
+		"expressionType": "DATE_BETWEEN",
+		"columnAlignment": "CENTER",
 		"listViewIndex": 14,
 		"viewModeIndex": 16,
 		"onlyValidComponent": true
@@ -244,6 +260,17 @@
 		"listViewIndex": 19
 	},
 	{
+                "columnID": "reprocessedFlag",
+                "columnName": "Reprocessed Flag",
+                "isSearchCriteria": true,
+                "isResultView": true,
+                "componentType": "text",
+                "defaultValue": "N",
+                "isInvalidComponent": true,
+                "viewModeIndex": 20,
+                "listViewIndex": 20
+        },
+	{
 		"columnID": "returnRateForecastSid",
 		"columnName": "Invalid Record Id",
 		"isSearchCriteria": true,
@@ -251,8 +278,8 @@
 		"componentType": "text",
 		"staticSearchCriterian": "true",
 		"isInvalidComponent": true,
-		"viewModeIndex": 20,
-		"listViewIndex": 20
+		"viewModeIndex": 21,
+		"listViewIndex": 21
 	},
 	{
 		"columnID": "invalidDateFrom",
