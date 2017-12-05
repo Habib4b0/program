@@ -930,6 +930,8 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
 		attachResults.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
+		
+		
 	}
 
 	private void addExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1464,6 +1466,10 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		cdPricingResultTable.setPageLength(5);
 		cdPricingResultTable.setItemPerPage(5);
 		cdPricingResultTable.setSinkItemPerPageWithPageLength(false);
+		
+		cdPricingResultTable.setColumnToAlign(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignmentHeader());
+		cdPricingResultTable.setColumnAlignment(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignment());
+		
 		cdPricingResultTable
 				.setTableColumnDataType(GtnFrameworkContractDashboardContants.getPriceProtectionColumnType());
 		cdPricingResultTable
@@ -1484,7 +1490,6 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				cdPricingResultTable.getEditableColumnList().size());
 		getPricingTableEditableField(editableFieldList);
 		cdPricingResultTable.setEditableField(editableFieldList);
-
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameWorkContractTableRecordTypeAction.class.getName());
@@ -1498,6 +1503,9 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		pricingViewResultTable(cdPricingComponentList, gtnLayoutConfig.getComponentId());
 	}
 
+	
+		
+	
 	private void pricingViewResultTable(List<GtnUIFrameworkComponentConfig> cdPricingComponentList, String parent) {
 		String componentId = GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE + "View";
 
@@ -1522,6 +1530,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
 		cdPricingViewResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
+	
 	}
 
 	private void addPricingExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1598,7 +1607,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		addFieldFactoryComboField(cdPricingComponentList, pricingTableFieldFactoryAction,
 				GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME, pricingTableFieldFactoryFocusAction);
 
-		GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
+	GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
 		pricingTableFieldFactoryRegexConfig.setAttachRegxValidatior(true);
 		pricingTableFieldFactoryRegexConfig.setFormatString("([|0-9]*.[0-9]{1,6})");
 		pricingTableFieldFactoryRegexConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
@@ -1644,11 +1653,12 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE, pricingTableFieldFactoryFocusAction);
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
 		valConfig.setAttachRegxValidatior(true);
-		valConfig.setFormatString(GtnFrameworkContractDashboardContants.REGEX_NUM);
+		valConfig.setFormatString("\\$?([|0-9]*.[0-9]{1,6})%?");
 		valConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
 		GtnUIFrameworkComponentConfig priceTolCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,
 				pricingTableFieldFactoryFocusAction);
+		 priceTolCompConfig.setComponentStyle(GtnFrameworkContractDashboardContants.getPriceProtectionTextRightJustified());
 		priceTolCompConfig.setGtnUIFrameworkValidationConfig(valConfig);
 		GtnUIFrameworkComponentConfig incChangeCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,

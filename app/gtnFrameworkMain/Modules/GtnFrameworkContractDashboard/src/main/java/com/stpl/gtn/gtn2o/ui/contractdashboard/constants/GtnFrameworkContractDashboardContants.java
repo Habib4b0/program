@@ -5,8 +5,11 @@
  */
 package com.stpl.gtn.gtn2o.ui.contractdashboard.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.contractdashboard.constants.GtnWsContractDashboardContants;
@@ -292,14 +295,13 @@ public class GtnFrameworkContractDashboardContants {
 			getPpMassPopulateField()[3].replace(" ", ""), "nep", getPpMassPopulateField()[5].replace(" ", "") + "popup",
 			getPpMassPopulateField()[6].replace(" ", "") + "Type", getPpMassPopulateField()[6].replace(" ", ""),
 			"netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice",
-			"netSubsequentPriceFormulapopup", getPpMassPopulateField()[7].replace(" ", ""),
-			getPpMassPopulateField()[8].replace(" ", ""), getPpMassPopulateField()[9].replace(" ", ""),
-			getPpMassPopulateField()[11].replace(" ", ""), getPpMassPopulateField()[10].replace(" ", ""),
-			getPpMassPopulateField()[12].replace(" ", ""), getPpMassPopulateField()[13].replace(" ", ""),
-			getPpMassPopulateField()[14].replace(" ", ""), getPpMassPopulateField()[15].replace(" ", ""),
-			getPpMassPopulateField()[16].replace(" ", ""), "resetPriceType", "netResetPriceType",
-			"netResetPriceTypeFormulapopup", getPpMassPopulateField()[17].replace(" ", ""),
-			getPpMassPopulateField()[18].replace(" ", "") + "popup", ATTACHED_DATE };
+			"netSubsequentPriceFormulapopup", getPpMassPopulateField()[12].replace(" ", ""),
+			getPpMassPopulateField()[13].replace(" ", ""), getPpMassPopulateField()[14].replace(" ", ""),
+			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+			getPpMassPopulateField()[17].replace(" ", ""), getPpMassPopulateField()[18].replace(" ", ""),
+			getPpMassPopulateField()[19].replace(" ", ""), getPpMassPopulateField()[20].replace(" ", ""),
+			getPpMassPopulateField()[21].replace(" ", ""), "resetPriceType", "netResetPriceType",
+			"netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormula", ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, String.class, Integer.class, Date.class, Date.class, Integer.class,
 			String.class, String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class,
@@ -766,6 +768,12 @@ public class GtnFrameworkContractDashboardContants {
 		return COMPONENT_MEMBER_HEADER_MAP.get(value);
 	}
 
+	private static final List<String> PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED=Arrays.asList("v-textfield-txtRightAlign");
+	
+	private static final String[] PRICE_PROTECTION_COLUMN_ALIGNMENT={"RIGHT"};
+	
+	private static final Object[] PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER={GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17]};
+	
 	public static Class<?>[] getCompanyHistoryColumnType() {
 		return COMPANY_HISTORY_COLUMN_TYPE.clone();
 	}
@@ -1198,6 +1206,18 @@ public class GtnFrameworkContractDashboardContants {
 		return PS_LOOKUP_COLUMN.clone();
 	}
 
+	public static String[] getPriceProtectionColumnAlignment() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT.clone();
+	}
+	
+	public static Object[] getPriceProtectionColumnAlignmentHeader() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER.clone();
+	}
+	
+	public static List<String> getPriceProtectionTextRightJustified() {
+		return Collections.unmodifiableList(PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED);
+	}
+	
 	public static Class<?>[] getRpLookupColumnType() {
 		return RP_LOOKUP_COLUMN_TYPE.clone();
 	}
