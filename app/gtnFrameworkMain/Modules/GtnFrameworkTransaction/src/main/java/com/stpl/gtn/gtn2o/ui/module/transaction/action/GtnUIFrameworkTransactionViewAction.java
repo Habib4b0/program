@@ -54,7 +54,10 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		String wsViewName = tableName;
 		String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 		String demandTypeColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
-
+	    String inventoryLevelColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		String inventoryLevelColumnValue = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+		List<String> inventoryType =new ArrayList<>();
+	
 		if (wsViewName.contains("InventoryWdActualProjMas")) {
 			List<String> viewColumnList = (List<String>) actionParamList.get(1);
 			List<Object> columnList = (List<Object>) actionParamList.get(4);
@@ -63,6 +66,10 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(false, defaultViewColumnList, componentId);
 			componentList = new ArrayList<>(columnList);
 			GtnUIFrameworkGlobalUI.setVisibleFlagForComponent(true, viewColumnList, componentId);
+			inventoryType.add(GtnTransactionUIConstants.INVENTORY_TYPE);
+			inventoryType.add(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_TYPE).getValueFromComponent().toString());
+			inventoryLevelColumnName=GtnTransactionUIConstants.INVENTORY_LEVEL;
+			inventoryLevelColumnValue=GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnTransactionUIConstants.INVENTORY_LEVEL).getValueFromComponent().toString();
 		} else if (wsViewName.contains(GtnTransactionUIConstants.DEMAND)) {
 			demandTypeColumnName = GtnTransactionUIConstants.DEMAND_TYPE_SID;
 			demandTypeColumnValue = GtnUIFrameworkGlobalUI
@@ -100,8 +107,16 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		List<String> helpercomponentList = (List<String>) actionParamList.get(3);
 		int systemId = getSystemId(isInvalid, componentId, actionParamList);
 		try {
+			if(wsViewName.equalsIgnoreCase("VwInventoryWdActualProjMas"))
+			{
+				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, inventoryLevelColumnName,
+						inventoryLevelColumnValue,inventoryType);	
+			}
+			else
+			{
 			loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, demandTypeColumnName,
-					demandTypeColumnValue);
+					demandTypeColumnValue,null);
+			}
 			gtnLogger.info("----------Ending doAction ---------------");
 		} catch (Exception e) {
 			throw new GtnFrameworkGeneralException("Error in doAction", e);
@@ -109,7 +124,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 	}
 
 	private void loadDataFromService(List<Object> componentList, String tableName, List<String> helpercomponentList,
-			int systemId, String demandTypeColumnName, String demandTypeColumnValue)
+			int systemId, String demandTypeColumnName, String demandTypeColumnValue,List<String> inventoryType)
 			throws GtnFrameworkGeneralException {
 		gtnLogger.info("--------Inside loadDataFromService----------");
 
@@ -120,8 +135,18 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		gtnWsTransactionRequest.setProjectionColumns(componentList);
 		gtnWsTransactionRequest.setPrimayColumnValue(systemId);
 		gtnWsTransactionRequest.setHelpercomponentList(helpercomponentList);
-		gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
-		gtnWsTransactionRequest.setDemandTypeColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
+		if(tableName.equalsIgnoreCase("VwInventoryWdActualProjMas"))
+		{
+			gtnWsTransactionRequest.setInventoryLevelColumnName(demandTypeColumnName);
+			gtnWsTransactionRequest.setInventoryLevelColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
+			gtnWsTransactionRequest.setInventoryTypeColumnName(inventoryType.get(0));
+			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.parseInt(inventoryType.get(1)));
+		}
+		else if (tableName.equalsIgnoreCase("Demand"))
+			{
+				gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
+				gtnWsTransactionRequest.setDemandTypeColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
+			}
 		request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
 				GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE

@@ -398,6 +398,12 @@ public class GtnWsTransactionService {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getDemandTypeColumnName(),
 						gtnWsTransactionRequest.getDemandTypeColumnValue()));
 			}
+			else if(!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty() ){
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
+						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
+						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
+			}
 			List<Object> resultList = criteria.list();
 			ob = getViewRecord(resultList, gtnWsTransactionRequest);
 		} catch (Exception ex) {
