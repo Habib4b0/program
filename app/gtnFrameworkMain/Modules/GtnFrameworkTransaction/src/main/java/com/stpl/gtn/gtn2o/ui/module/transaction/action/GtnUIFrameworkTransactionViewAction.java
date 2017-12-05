@@ -142,7 +142,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 			gtnWsTransactionRequest.setInventoryTypeColumnName(inventoryType.get(0));
 			gtnWsTransactionRequest.setInventoryTypeColumnValue(Integer.parseInt(inventoryType.get(1)));
 		}
-		else if (tableName.equalsIgnoreCase("Demand"))
+		else if ("Demand".equalsIgnoreCase(tableName))
 			{
 				gtnWsTransactionRequest.setDemandTypeColumnName(demandTypeColumnName);
 				gtnWsTransactionRequest.setDemandTypeColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
