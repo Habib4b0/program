@@ -107,7 +107,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		List<String> helpercomponentList = (List<String>) actionParamList.get(3);
 		int systemId = getSystemId(isInvalid, componentId, actionParamList);
 		try {
-			if(wsViewName.equalsIgnoreCase("VwInventoryWdActualProjMas"))
+			if("VwInventoryWdActualProjMas" .equalsIgnoreCase(wsViewName))
 			{
 				loadDataFromService(componentList, wsViewName, helpercomponentList, systemId, inventoryLevelColumnName,
 						inventoryLevelColumnValue,inventoryType);	
@@ -135,7 +135,7 @@ public class GtnUIFrameworkTransactionViewAction implements GtnUIFrameWorkAction
 		gtnWsTransactionRequest.setProjectionColumns(componentList);
 		gtnWsTransactionRequest.setPrimayColumnValue(systemId);
 		gtnWsTransactionRequest.setHelpercomponentList(helpercomponentList);
-		if(tableName.equalsIgnoreCase("VwInventoryWdActualProjMas"))
+		if("VwInventoryWdActualProjMas".equalsIgnoreCase(tableName))
 		{
 			gtnWsTransactionRequest.setInventoryLevelColumnName(demandTypeColumnName);
 			gtnWsTransactionRequest.setInventoryLevelColumnValue(demandTypeColumnValue.isEmpty()?0:Integer.parseInt(demandTypeColumnValue));
