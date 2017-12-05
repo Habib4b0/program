@@ -550,8 +550,8 @@ public class DataSelection extends CustomComponent implements View {
         availableProduct.markAsDirty();
         availableProduct.setFilterBarVisible(true);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(commonUiUtils.visibleColumn);
-        availableProduct.setColumnHeaders(commonUiUtils.visibleHeader);
+        availableProduct.setVisibleColumns(CommonUiUtils.visibleColumn);
+        availableProduct.setColumnHeaders(CommonUiUtils.visibleHeader);
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
@@ -587,8 +587,8 @@ public class DataSelection extends CustomComponent implements View {
         selectedProducts.markAsDirty();
         selectedProducts.setFilterBarVisible(true);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(commonUiUtils.visibleColumn);
-        selectedProducts.setColumnHeaders(commonUiUtils.visibleHeader);
+        selectedProducts.setVisibleColumns(CommonUiUtils.visibleColumn);
+        selectedProducts.setColumnHeaders(CommonUiUtils.visibleHeader);
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
@@ -609,10 +609,9 @@ public class DataSelection extends CustomComponent implements View {
         resultTable.setStyleName(Constant.FILTER_TABLE);
         resultTable.markAsDirty();
         resultTable.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
-        resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
+        resultTable.setVisibleColumns(CommonUiUtils.visibleSearchColumn);
+        resultTable.setColumnHeaders(CommonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
-        resultTable.setItemPerPage(NumericConstants.TEN);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
         resultTable.setSizeFull();
