@@ -104,6 +104,8 @@ public class Converters {
             } else {
                 result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
                 result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
+                result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
+                result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
             }
             results.add(result);
         }

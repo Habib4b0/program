@@ -479,7 +479,7 @@
 	</bean>
 
 	<bean id="gtnWsRelationshipBuilderHierarchyFileGenerator"
-		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.logic.GtnWsRelationshipBuilderHierarchyFileGenerator">
+		class="com.stpl.gtn.gtn2o.ws.module.relationshipbuilder.service.GtnWsRelationshipBuilderHierarchyFileGeneratorService">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 		<property name="gtnHierarchyServiceBuilder" ref="gtnHierarchyServiceBuilder"></property>
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>

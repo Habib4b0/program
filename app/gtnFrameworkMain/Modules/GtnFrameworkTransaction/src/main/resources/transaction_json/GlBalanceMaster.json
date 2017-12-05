@@ -1,7 +1,7 @@
 {
 "module":[  
       {  
-         "reprocessingWebServiceURL":"/gtnTransaction/reprocess"
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
 		 "stagingUpdateColumns":["reprocessedFlag"],
 		 "stagingUpdateColumnsValues": ["Y"]
 	 

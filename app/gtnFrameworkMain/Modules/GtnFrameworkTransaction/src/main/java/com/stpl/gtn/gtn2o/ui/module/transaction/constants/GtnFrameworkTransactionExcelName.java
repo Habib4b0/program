@@ -21,7 +21,7 @@ public enum GtnFrameworkTransactionExcelName {
 																																			"Accural Details"), INVALIDINTEGRATION(
 																																					""), IFPMODEL(
 																																							"Global Files Item Family Plan"), CFPMODEL(
-																																									"Global Files Item Family Plan"), VWCONTRACTHEADER(
+																																									"Global Files Company Family Plan"), VWCONTRACTHEADER(
 																																											"Contract Header"), PSMODEL(
 																																													"Global Files Price Shedule"), REBATEPLANMASTER(
 																																															"Global Files Rebate Plan"), VWREBATESCHEDULE(

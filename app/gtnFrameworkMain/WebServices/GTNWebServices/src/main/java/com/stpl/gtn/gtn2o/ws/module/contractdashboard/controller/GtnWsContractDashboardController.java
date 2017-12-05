@@ -1669,5 +1669,26 @@ public class GtnWsContractDashboardController {
 
 		return gtnContractProtectionUpdateResponse;
 	}
+        @RequestMapping(value = "/contractPriceProtectionStartDateAlert", method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse contractPriceProtectionStartDateAlertTabService(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) throws GtnFrameworkGeneralException {
+		GtnUIFrameworkWebserviceResponse gtnContractProtectionUpdateResponse = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse gtnWsGeneralResponseContract = new GtnWsGeneralResponse();
+		gtnContractProtectionUpdateResponse.setGtnWsGeneralResponse(gtnWsGeneralResponseContract);
 
+		GtnWsGeneralRequest contractPriceProtectionWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+
+		List<Object> inputList = contractPriceProtectionWSRequest.getComboBoxWhereclauseParamList();
+
+		try {
+			getItemLogic().contractPriceProtectionStartDateAlert(inputList, gtnContractProtectionUpdateResponse);
+			gtnWsGeneralResponseContract.setSucess(true);
+		} catch (GtnFrameworkGeneralException e) {
+			gtnWsGeneralResponseContract.setSucess(false);
+			gtnWsGeneralResponseContract.setGtnGeneralException(e);
+		}
+
+		return gtnContractProtectionUpdateResponse;
+	}
+        
 }

@@ -72,13 +72,17 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		return Collections.unmodifiableList(whereClauseConfigList);
 	}
 
+	public void removeAllWhereClauseConfigList() {
+		whereClauseConfigList.clear();
+	}
+
 	public List<GtnFrameworkOrderByClauseBean> getOrderByClauseConfigList() {
 		return Collections.unmodifiableList(orderByClauseConfigList);
 	}
 
 	public void addSelectClauseBean(String columnNameWithAlies, String selectClauseAliesName,
 			Boolean isValueFromColumnBean, String selectClauseValue) {
-		if (isValueFromColumnBean && !isSelectClauseExists(columnNameWithAlies)) {
+		if (isValueFromColumnBean || !isSelectClauseExists(columnNameWithAlies)) {
 			GtnFrameworkSelectClauseBean selectClauseBean = new GtnFrameworkSelectClauseBean();
 			selectClauseBean.setColumnNameWithAlies(columnNameWithAlies, selectClauseAliesName, isValueFromColumnBean,
 					selectClauseValue);

@@ -87,6 +87,7 @@ public class GtnWsSearchQueryGenerationLogic {
 			finalQuery.append(" as ");
 			finalQuery.append(visibleColumnList.get(visibleColumnList.size() - 1).toString());
 			finalQuery.append("  ");
+			appendSelectColumnForSorting(finalQuery);
 		}
 		return finalQuery;
 	}
@@ -152,9 +153,11 @@ public class GtnWsSearchQueryGenerationLogic {
 		Map<String, GtnWsColumnDetailsConfig> componentMap = gtnWebServiceSearchQueryConfig
 				.getFieldToColumnDetailsMap();
 		if (componentMap.containsKey(fieldName)) {
-			return componentMap.get(fieldName).getColumnNameForWhereClause().contains("HELPER_TABLE_SID")
-					? componentMap.get(fieldName).getHelperTableMappedColumnNameForOrderByClause()
-					: componentMap.get(fieldName).getColumnNameForWhereClause();
+			return componentMap.get(fieldName).getDataType()
+					.equals(GtnFrameworkWebserviceConstant.HELPER)
+							? componentMap.get(fieldName).getHelperTableMappedColumnNameForOrderByClause()
+							: componentMap.get(fieldName).getColumnNameForWhereClause();
+
 		} else {
 			throw new IllegalArgumentException("Details Not Found for ---" + fieldName);
 		}
@@ -382,5 +385,22 @@ public class GtnWsSearchQueryGenerationLogic {
 		}
 
 		return finalTempleate;
+	}
+
+	private void appendSelectColumnForSorting(StringBuilder finalQuery) {
+		List<GtnWebServiceOrderByCriteria> orderByClause = gtnUIFrameworkWebserviceRequest.getGtnWsSearchRequest()
+				.getGtnWebServiceOrderByCriteriaList();
+		if (orderByClause != null && !orderByClause.isEmpty()) {
+			for (int i = 0; i < orderByClause.size() - 1; i++) {
+				finalQuery.append(",");
+				finalQuery.append(getTableColumnForWhereClause(orderByClause.get(i).getPropertyId())).append(" ")
+						.append(orderByClause.get(i).getOrderByCriteria());
+			}
+			finalQuery.append(",");
+			finalQuery.append(getTableColumnForWhereClause(orderByClause.get(orderByClause.size() - 1).getPropertyId()))
+					.append(" ");
+
+		}
+
 	}
 }

@@ -15,8 +15,9 @@ public class GtnFrameworkQueryGeneratorTest {
 	public void init() {
 		queryGeneratorConfig = new GtnFrameworkQueryGeneratorBean();
 
-		queryGeneratorConfig.addSelectClauseBean("MCM.COMPONENT_DESC", "COMPONENT_DESC", true, null);
-		queryGeneratorConfig.addSelectClauseBean("MCM.SCREEN_NAME", "SCREEN_NAME", true, null);
+		queryGeneratorConfig.addSelectClauseBean(null, "HIERARCHY_NO", false,
+				"CONCAT( RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,)");
+		queryGeneratorConfig.addSelectClauseBean("MCM.COMPONENT_DESC", "SCREEN_NAME", true, null);
 		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_VISIBLE", "IS_VISIBLE", true, null);
 		queryGeneratorConfig.addSelectClauseBean("MCRD.IS_EDITABLE", "IS_EDITABLE", true, null);
 		queryGeneratorConfig.addSelectClauseBean(null, "afda", false, "1234");
@@ -48,6 +49,7 @@ public class GtnFrameworkQueryGeneratorTest {
 				GtnFrameworkDataType.STRING, "Company Master");
 
 		queryGeneratorConfig.setFromTableNameWithAlies("GTN_UITABLE_COMPONENT_DETAILS", "MTP");
+		
 	}
 
 	@Test

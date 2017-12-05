@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -72,22 +72,29 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     @UiField("detailsTabSheet")
     private TabSheet tabSheet;
+    
     @UiField("BottomBtnLayout")
     private HorizontalLayout BottomBtnLayout;
     private DataSelection dataSelection;
+        
     @UiField("closeButton")
     private Button closeBtn;
+    
     @UiField("submitBtn")
     private Button submitBtn;
+    
     @UiField("approveBtn")
     private Button approveBtn;
+    
     @UiField("rejectBtn")
     private Button rejectBtn;
+    
     @UiField("deleteBtn")
     private Button deleteBtn;
+    
     @UiField("cancelBtn")
     private Button cancelBtn;
-    int tabPosition = 0;
+    private int tabPosition = 0;
     /**
      * Approval Tab
      */
@@ -96,45 +103,46 @@ public class CffApprovalDetailsForm extends CustomWindow {
      * Additional Information
      */
     private NotesTabForm notestab;
-    CFFSearchDTO dto;
+    private CFFSearchDTO dto;
     /**
      * The approval details bean.
      */
-    public BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean;
+    private  BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean;
     /**
      * The results bean.
      */
-    public BeanItemContainer<CFFResultsDTO> resultsBean;
-    SessionDTO sessionDTO;
+    private  BeanItemContainer<CFFResultsDTO> resultsBean;
+    private SessionDTO sessionDTO;
     /**
      * scenarioModeling form constructor
      */
-    DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
+    private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
     /**
      * Binder for Data Selection
      */
-    CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
     /**
      * File Selection
      */
-    FileSelection fileSelection;
+    private FileSelection fileSelection;
     /**
      * PR
      */
-    ProjectionResults projectionResults;
+    private ProjectionResults projectionResults;
     /**
      * PV
      */
-    ProjectionVariance projectionVariance;
+    private ProjectionVariance projectionVariance;
     /**
      * The updateCycleBean bean.
      */
-    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
-    CustomFieldGroup cffSearchBinder;
-    boolean flag = false;
-    CFFLogic cffLogic = new CFFLogic();
-    Boolean isApproved = false;
-	private boolean filterOptionLoaded = false;
+    private  List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
+    private CustomFieldGroup cffSearchBinder;
+    private boolean flag = false;
+    private CFFLogic cffLogic = new CFFLogic();
+    private Boolean isApproved = false;
+
+    private boolean filterOptionLoaded = false;
 
     /**
      * scenarioModeling form constructor
@@ -263,6 +271,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         CommonLogic.callProcedureUpdate("PRC_CFF_FILES_DATA_INSERT", obj);
                         projectionVariance.uomLoadingTabChange();
                     }
+
                     if (tabPosition == NumericConstants.FOUR && Constants.ADD.equals(sessionDTO.getAction()) && !filterOptionLoaded) {
                         projectionVariance.loadAllDdbls();
                         filterOptionLoaded=true;

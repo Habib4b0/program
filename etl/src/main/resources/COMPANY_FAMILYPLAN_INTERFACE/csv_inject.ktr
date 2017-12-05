@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#x2f;</directory>
+    <directory>&#47;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,11 +34,6 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
-<metrics-log-table><connection/>
-<schema/>
-<table/>
-<timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -67,29 +62,19 @@
     <clusterschemas>
     </clusterschemas>
   <created_user/>
-  <created_date>2016&#x2f;01&#x2f;22 09&#x3a;37&#x3a;30.263</created_date>
+  <created_date>2016&#47;01&#47;22 09:37:30.263</created_date>
   <modified_user/>
-  <modified_date>2016&#x2f;01&#x2f;22 09&#x3a;37&#x3a;30.263</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
+  <modified_date>2016&#47;01&#47;22 09:37:30.263</modified_date>
   </info>
   <notepads>
   </notepads>
   <order>
-  <hop> <from>Text file input</from><to>Row Normaliser</to><enabled>Y</enabled> </hop>
-  <hop> <from>Row Normaliser</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>
-  <hop> <from>Fields</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filename</from><to>Using variable to resolve filename</to><enabled>Y</enabled> </hop>
-  <hop> <from>Using variable to resolve filename</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>
-  <hop> <from>Using variable to resolve filename</from><to>Text file input</to><enabled>Y</enabled> </hop>
-  </order>
+  <hop> <from>Text file input</from><to>Row Normaliser</to><enabled>Y</enabled> </hop>  <hop> <from>Row Normaliser</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>  <hop> <from>Fields</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>  <hop> <from>Filename</from><to>Using variable to resolve filename</to><enabled>Y</enabled> </hop>  <hop> <from>Using variable to resolve filename</from><to>ETL Metadata Injection</to><enabled>Y</enabled> </hop>  <hop> <from>Using variable to resolve filename</from><to>Text file input</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>Add constants</name>
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -106,7 +91,6 @@
         <nullif>String</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -122,7 +106,6 @@
     <type>MetaInject</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -131,13 +114,9 @@
     <specification_method>filename</specification_method>
     <trans_object_id/>
     <trans_name/>
-    <filename>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;read_csv.ktr</filename>
+    <filename>${Internal.Transformation.Filename.Directory}&#47;read_csv.ktr</filename>
     <directory_path/>
     <source_step/>
-    <source_output_fields>    </source_output_fields>    <target_file/>
-    <no_execution>N</no_execution>
-    <stream_source_step/>
-    <stream_target_step/>
     <mappings>      <mapping>        <target_step_name>Select values</target_step_name>
         <target_attribute_key>FIELD_NAME</target_attribute_key>
         <target_detail>Y</target_detail>
@@ -171,7 +150,6 @@
     <type>DataGrid</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -187,7 +165,6 @@
         <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
     <data>
@@ -225,6 +202,7 @@
       <line> <item>ADD_CHG_DEL_INDICATOR</item> </line>
       <line> <item>BATCH_ID</item> </line>
       <line> <item>SOURCE</item> </line>
+      <line> <item>SALES_INCLUSION</item> </line>
     </data>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -239,7 +217,6 @@
     <type>DataGrid</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -255,7 +232,6 @@
         <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>fileout</name>
@@ -266,7 +242,6 @@
         <group/>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
     <data>
@@ -285,7 +260,6 @@
     <type>Normaliser</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -394,6 +368,9 @@
         </field>      <field>        <name>col34</name>
         <value>col34</value>
         <norm>col</norm>
+        </field>      <field>        <name>col35</name>
+        <value>col35</value>
+        <norm>col</norm>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>403</xloc>
@@ -407,7 +384,6 @@
     <type>TextFileInput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -417,8 +393,8 @@
     <passing_through_fields>N</passing_through_fields>
     <accept_field>filename</accept_field>
     <accept_stepname>Using variable to resolve filename</accept_stepname>
-    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
-    <enclosure>&#x22;</enclosure>
+    <separator>${DELIMITER}</separator>
+    <enclosure>&quot;</enclosure>
     <enclosure_breaks>N</enclosure_breaks>
     <escapechar/>
     <header>N</header>
@@ -440,7 +416,7 @@
     <encoding/>
     <add_to_result_filenames>Y</add_to_result_filenames>
     <file>
-      <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
+      <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -453,7 +429,7 @@
     <fields>
       <field>
         <name>col1</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -468,7 +444,7 @@
       </field>
       <field>
         <name>col2</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -483,7 +459,7 @@
       </field>
       <field>
         <name>col3</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -498,7 +474,7 @@
       </field>
       <field>
         <name>col4</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -513,7 +489,7 @@
       </field>
       <field>
         <name>col5</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -528,7 +504,7 @@
       </field>
       <field>
         <name>col6</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -543,7 +519,7 @@
       </field>
       <field>
         <name>col7</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -558,7 +534,7 @@
       </field>
       <field>
         <name>col8</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -573,7 +549,7 @@
       </field>
       <field>
         <name>col9</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -588,7 +564,7 @@
       </field>
       <field>
         <name>col10</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -603,7 +579,7 @@
       </field>
       <field>
         <name>col11</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -618,7 +594,7 @@
       </field>
       <field>
         <name>col12</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -633,7 +609,7 @@
       </field>
       <field>
         <name>col13</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -648,7 +624,7 @@
       </field>
       <field>
         <name>col14</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -663,7 +639,7 @@
       </field>
       <field>
         <name>col15</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -678,7 +654,7 @@
       </field>
       <field>
         <name>col16</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -693,7 +669,7 @@
       </field>
       <field>
         <name>col17</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -708,7 +684,7 @@
       </field>
       <field>
         <name>col18</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -723,7 +699,7 @@
       </field>
       <field>
         <name>col19</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -738,7 +714,7 @@
       </field>
       <field>
         <name>col420</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -753,7 +729,7 @@
       </field>
       <field>
         <name>col21</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -768,7 +744,7 @@
       </field>
       <field>
         <name>col22</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -783,7 +759,7 @@
       </field>
       <field>
         <name>col23</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -798,7 +774,7 @@
       </field>
       <field>
         <name>col24</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -813,7 +789,7 @@
       </field>
       <field>
         <name>col25</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -828,7 +804,7 @@
       </field>
       <field>
         <name>col26</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -843,7 +819,7 @@
       </field>
       <field>
         <name>col27</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -858,7 +834,7 @@
       </field>
       <field>
         <name>col28</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -873,7 +849,7 @@
       </field>
       <field>
         <name>col29</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -888,7 +864,7 @@
       </field>
       <field>
         <name>col30</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -903,7 +879,7 @@
       </field>
       <field>
         <name>col31</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -918,7 +894,7 @@
       </field>
       <field>
         <name>col32</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -933,7 +909,7 @@
       </field>
       <field>
         <name>col33</name>
-        <type>None</type>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -948,7 +924,22 @@
       </field>
       <field>
         <name>col34</name>
-        <type>None</type>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col35</name>
+        <type>-</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1000,7 +991,6 @@
     <type>SetValueConstant</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1010,15 +1000,13 @@
     <fields>
       <field>
         <name>filename</name>
-        <value>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</value>
+        <value>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</value>
         <mask/>
-        <set_empty_string>N</set_empty_string>
         </field>
       <field>
         <name>fileout</name>
-        <value>&#x24;&#x7b;Internal.Transformation.Filename.Directory&#x7d;&#x2f;2_out</value>
+        <value>${Internal.Transformation.Filename.Directory}&#47;2_out</value>
         <mask/>
-        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -1034,5 +1022,4 @@
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>

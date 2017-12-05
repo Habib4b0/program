@@ -168,8 +168,8 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		if (isEditable) {
 			String calculationType = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calculationType1")
 					.getCaptionFromComboBox();
-			String[] tableHeader = new String[] { "Item NO", "Item Name", "RS Status", "RS Start Date", "RS End Date" };
-			Object[] visibleColumns = new Object[] { "itemNo", "itemName", "rsStatus", "rsStartDate", "rsEndDate" };
+			String[] tableHeader;
+			Object[] visibleColumns;
 			if (calculationType.equals("Rebate Plan")) {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeRebatePlanTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUPTabCalculationTypeRebatePlanVisibleColumns();
@@ -179,7 +179,7 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			} else if (calculationType.equals("Deduction Calendar")) {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeDeductionCalendarTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypeDeductionCalendarVisibleColumns();
-			} else if (calculationType.equals("Price Protection")) {
+			} else {
 				tableHeader = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypePriceProtectionTableHeaders();
 				visibleColumns = GtnFrameworkRSConstants.getRsSetUpTabCalculationTypePriceProtectionVisibleColumns();
 			}
@@ -188,8 +188,12 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			rsRebateSetupTabResultDataTable.setTableColumns(visibleColumns);
 			rsRebateSetupTabResultDataTable.setTableColumnHeaders(tableHeader);
 		} else {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE)
+			GtnUIFrameworkBaseComponent rsRebateSetupTabResultDataTableForView = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
+			rsRebateSetupTabResultDataTableForView
 					.setTableColumns(GtnFrameworkRSConstants.getRsSetupTabVisibleColumnsView());
+			rsRebateSetupTabResultDataTableForView
+					.setTableColumnHeaders(GtnFrameworkRSConstants.getRsSetupTabVisibleHeadersView());
 		}
 
 	}

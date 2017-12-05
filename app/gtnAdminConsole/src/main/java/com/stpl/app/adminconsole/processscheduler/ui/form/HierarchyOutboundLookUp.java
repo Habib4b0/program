@@ -65,14 +65,19 @@ public final class HierarchyOutboundLookUp extends Window {
 
     @UiField("errorMsg")
     private ErrorLabel errorMsg;
+    
     @UiField("hierarchyType")
     private OptionGroup hierarchyType;
+    
     @UiField("hierarchyName")
     private TextField hierarchyName;
+    
     @UiField("hierarchyCategory")
     private ComboBox hierarchyCategory;   
+    
     @UiField("createdDateFrom")
     private PopupDateField createdDateFrom;
+    
     @UiField("createdDateTo")
     private PopupDateField createdDateTo;
 
@@ -81,25 +86,28 @@ public final class HierarchyOutboundLookUp extends Window {
 
     @UiField("closeBtn")
     private Button closeBtn;
+    
     @UiField("outboundBtn")
     private Button outboundBtn;
+    
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
+    
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
 
     private ErrorfulFieldGroup binder;
-    HierarchyTableLogic tableLogic = new HierarchyTableLogic();
+    private HierarchyTableLogic tableLogic = new HierarchyTableLogic();
     protected ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
     protected final BeanItemContainer<HierarchyDefinitionDTO> resultsContainer = new BeanItemContainer<>(HierarchyDefinitionDTO.class);
 
-    Map<String, HierarchyDefinitionDTO> checkedHierarchy = new HashMap<>();
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    String hierType;
-    OutboundLogic outboundLogic = new OutboundLogic();
+    private Map<String, HierarchyDefinitionDTO> checkedHierarchy = new HashMap<>();
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<OutboundTableDTO> excelResultBeanContainer = new ExtTreeContainer<>(OutboundTableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private String hierType;
+    private OutboundLogic outboundLogic = new OutboundLogic();
 
     public void setBinder(final ErrorfulFieldGroup binder) {
         this.binder = binder;

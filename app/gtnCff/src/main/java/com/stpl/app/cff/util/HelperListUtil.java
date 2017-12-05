@@ -36,7 +36,7 @@ public class HelperListUtil {
      * The object.
      */
     private static HelperListUtil object;
-    ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
+    private ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
     /**
      * The id desc map.
      */

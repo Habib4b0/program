@@ -292,6 +292,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		Map<String, GtnWsColumnDetailsConfig> updatePPColumnDetailsMap = new HashMap<>();
 
 		// PRICE_PROTECTION_PRICE_TYPE
+		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkCommonConstants.CHECK_RECORD_ID, configProvider.getColumnBooleanConfig(
 				GtnFrameworkWebserviceConstant.CHECK_RECORD_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		updatePPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_PP_STATUS,
@@ -478,6 +480,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.BASE_PRICE_DDLB,
 						GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put("psBasePriceTypeDes", configProvider.getColumnStringConfig("DESCRIPTION", "baseType"));
+		psPPColumnDetailsMap.put("psToleranceTypeDes", configProvider.getColumnStringConfig("DESCRIPTION", "priceToleranceType"));
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID, configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.IMTD_PS_DETAILS_SID, GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.USER_ID, configProvider.getColumnStringConfig(
@@ -502,10 +505,13 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnIntegerConfig(
 						GtnFrameworkWebserviceConstant.PS_NET_PRICE_TYPE_FORMULA_ID_COLUMN,
 						GtnFrameworkWebserviceConstant.IMPSD));
+		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPColumnDetailsMap);
 
 		List<GtnWebServiceOrderByCriteria> cDROrderByClauseList = new ArrayList<>();
-		cDROrderByClauseList.add(new GtnWebServiceOrderByCriteria("IMPSD.ITEM_NO", "ASC"));
+		cDROrderByClauseList
+				.add(new GtnWebServiceOrderByCriteria("IMPSD.ITEM_MASTER_SID,IMPSD.IMTD_PS_DETAILS_SID", "ASC"));
 		gtnWebServiceSearchQueryContext.setOrderByClause(cDROrderByClauseList);
 
 		gtnWebServiceSearchQueryContext.setCountQuery(" FROM IMTD_PS_DETAILS IMPSD\n"
@@ -520,7 +526,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nsppFormula on nsppFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_SUBSEQUENT_PRICE_FORMULA_ID "
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nrpFormula on nrpFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_RESET_PRICE_FORMULA_ID "
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nptFormula on nptFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_PRICE_TYPE_FORMULA "
-				+ "LEFT JOIN HELPER_TABLE baseType on baseType.HELPER_TABLE_SID = IMPSD.BASE_PRICE_TYPE");
+				+ "LEFT JOIN HELPER_TABLE baseType on baseType.HELPER_TABLE_SID = IMPSD.BASE_PRICE_TYPE "
+				+"LEFT JOIN HELPER_TABLE priceToleranceType on priceToleranceType.HELPER_TABLE_SID = IMPSD.PS_DTLS_PRICE_TOLERANCE_TYPE ");
 
 		gtnWebServiceSearchQueryContext.setSearchQuery(" FROM IMTD_PS_DETAILS IMPSD\n"
 				+ "LEFT JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IMPSD.BRAND_MASTER_SID\n"
@@ -534,7 +541,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nsppFormula on nsppFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_SUBSEQUENT_PRICE_FORMULA_ID "
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nrpFormula on nrpFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_RESET_PRICE_FORMULA_ID "
 				+ "LEFT JOIN NET_SALES_FORMULA_MASTER nptFormula on nptFormula.NET_SALES_FORMULA_MASTER_SID=IMPSD.NET_PRICE_TYPE_FORMULA "
-				+ "LEFT JOIN HELPER_TABLE baseType on baseType.HELPER_TABLE_SID = IMPSD.BASE_PRICE_TYPE");
+				+ "LEFT JOIN HELPER_TABLE baseType on baseType.HELPER_TABLE_SID = IMPSD.BASE_PRICE_TYPE "
+				+"LEFT JOIN HELPER_TABLE priceToleranceType on priceToleranceType.HELPER_TABLE_SID = IMPSD.PS_DTLS_PRICE_TOLERANCE_TYPE ");
 
 		searchQueryConfigMap.put("priceSchedulePriceProtection", gtnWebServiceSearchQueryContext);
 
@@ -662,6 +670,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnStringConfig("PS_DETAILS_SID", GtnFrameworkWebserviceConstant.IMPSD));
 		psPPViewColumnDetailsMap.put("IMPSD.PS_MODEL_SID", configProvider.getColumnIntegerConfig(
 				GtnFrameworkWebserviceConstant.PS_MODEL_SID, GtnFrameworkWebserviceConstant.IMPSD));
+		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.ITEM_MASTER_SID,
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID_COLUMN, GtnFrameworkWebserviceConstant.IMPSD));
 
 		gtnWebServiceSearchQueryContext.setFieldToColumnDetailsMap(psPPViewColumnDetailsMap);
 

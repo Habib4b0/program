@@ -62,6 +62,7 @@ public class DiscountProjectionLogic {
     CommonDAO dao = new CommonDAOImpl();
     public static final String PAYMENT1 = "payment";
     public static final String PIVOT_LABEL = "Pivot";
+    public static final String ALL = "ALL";
     /**
      * The Constant LOGGER.
      */
@@ -230,12 +231,13 @@ public class DiscountProjectionLogic {
                             discountName = StringUtils.EMPTY;
                             hierarchyNo = String.valueOf(obj[1]);
                             discountDto.setHierarchyNo(String.valueOf(obj[1]));
+                            String relValue = StringUtils.EMPTY;
                             if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
-                                String relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
-                                discountDto.setLevelName(session.getHierarchyLevelDetails().get(relValue).get(0).toString());
+                                relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
                             } else {
-                                discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                                relValue = discountDto.getHierarchyNo();
                             }
+                            discountDto.setLevelName(CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                             discountDto.setHierarchyIndicator(hierarchyIndicator);
                             if (isCustom) {
                                 discountDto.setTreeLevelNo(treeLevelNo);
@@ -400,7 +402,7 @@ public class DiscountProjectionLogic {
                 statement.setString(NumericConstants.EIGHT, adjustmentValue);
                 statement.setString(NumericConstants.NINE, baselinePeriods);
                 statement.setString(NumericConstants.TEN, selectedPeriods);
-                statement.setString(NumericConstants.ELEVEN,  session.getDeductionInclusion().equals("ALL") ? null : session.getDeductionInclusion());
+                statement.setString(NumericConstants.ELEVEN,  ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
 
                 statement.execute();
           
@@ -783,7 +785,7 @@ public class DiscountProjectionLogic {
         LOGGER.debug("Forecast Start               " + projectionSelection.getFromDateDdlb());
         LOGGER.debug("Forecast End              " +  projectionSelection.getToDateDdlb());
         LOGGER.debug("Calc Based              " +  projectionSelection.getCalcBased());
-        LOGGER.debug("DEDUCTION  " +  (projectionSelection.getSessionDTO().getDeductionInclusion().equals("ALL") ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
+        LOGGER.debug("DEDUCTION  " +  ((projectionSelection.getSessionDTO().getDeductionInclusion()==null || ALL.equals(projectionSelection.getSessionDTO().getDeductionInclusion())) ? null : projectionSelection.getSessionDTO().getDeductionInclusion()));
 
         Connection connection = null;
         DataSource datasource;
@@ -804,7 +806,7 @@ public class DiscountProjectionLogic {
                 statement.setString(NumericConstants.FIVE, projectionSelection.getFromDateDdlb());
                 statement.setString(NumericConstants.SIX, projectionSelection.getToDateDdlb());
                 statement.setString(NumericConstants.SEVEN, projectionSelection.getCalcBased());
-                statement.setString(NumericConstants.EIGHT, projectionSelection.getSessionDTO().getDeductionInclusion().equals("ALL") ? null : projectionSelection.getSessionDTO().getDeductionInclusion());
+                statement.setString(NumericConstants.EIGHT, (projectionSelection.getSessionDTO().getDeductionInclusion()==null || projectionSelection.getSessionDTO().getDeductionInclusion().equals(ALL)) ? null : projectionSelection.getSessionDTO().getDeductionInclusion());
                 statement.execute();
             }
         } catch (Exception ex) {

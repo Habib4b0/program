@@ -47,9 +47,9 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 		GtnUIFrameworkBaseComponent rebateSetupMassField = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("rebateSetupTabMassField");
 
-		Class<?>[] tableColumnDataType = null;
-		String[] tableHeader = null;
-		List<Object> visibleColumnList = new ArrayList<>();
+		Class<?>[] tableColumnDataType;
+		String[] tableHeader;
+		List<Object> visibleColumnList;
 		List<String> fieldFactoryColumnList = null;
 		boolean isEditable = true;
 		Object checkRecordId = GtnFrameworkCommonConstants.CHECK_RECORD_ID;
@@ -175,7 +175,7 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 					GtnFrameworkRSConstants.START_DATE, GtnFrameworkRSConstants.END_DATE, "Deduction Calendar No",
 					GtnFrameworkRSConstants.EVALUATION_RULE, GtnFrameworkRSConstants.CALCULATION_RULE1,
 					GtnFrameworkRSConstants.EVALUATION_RULE_BUNDLE, GtnFrameworkRSConstants.CALCULATION_RULE_BUNDLE2));
-		} else if (calculationType.equals("Price Protection")) {
+		} else{
 			tableColumnDataType = new Class<?>[] { Boolean.class, String.class, String.class, Integer.class, Date.class,
 					Date.class };
 
@@ -197,14 +197,12 @@ public class GtnUIFrameWorkCalculationTypeChangeAction implements GtnUIFrameWork
 
 		List<Integer> dateColumn = new ArrayList<>();
 		Map<String, Class<?>> dataType = new HashMap<>();
-		if (tableColumnDataType != null) {
 			for (int i = 0; i < tableColumnDataType.length; i++) {
 				if (Date.class.equals(tableColumnDataType[i])) {
 					dateColumn.add(i);
 				}
 				dataType.put(visibleColumnList.get(i).toString(), tableColumnDataType[i]);
 			}
-		}
 
 		GtnUIFrameworkComponentConfig componentConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent("psRebateSetupTabResultDataTable").getComponentConfig();

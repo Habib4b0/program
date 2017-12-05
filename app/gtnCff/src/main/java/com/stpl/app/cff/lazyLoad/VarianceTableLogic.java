@@ -31,12 +31,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
 	public VarianceTableLogic() {
 		super();
 	}
-    List<Leveldto> currentHierarchy = new ArrayList<>();
+    private List<Leveldto> currentHierarchy = new ArrayList<>();
     private PVSelectionDTO projSelDTO = new PVSelectionDTO();
-    int levelNo;
+    private int levelNo;
     private String hierarchyNo;
-    boolean firstGenerated = false;
-    boolean isChild = false;
+    private boolean firstGenerated = false;
+    private boolean isChild = false;
     public static final Logger LOGGER = Logger.getLogger(VarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
@@ -233,7 +233,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list = new ProjectionVarianceLogic().getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();
                             int index = count - size + 1;
