@@ -10,7 +10,7 @@ GO
 
 CREATE VIEW [dbo].[VW_DEMAND_FORECAST_ACTUAL]
 AS 
-  SELECT ROW_NUMBER()
+   SELECT ROW_NUMBER()
            OVER(
              ORDER BY IS_FORECAST, DEMAND_FORECAST_ACTUAL_SID)AS DEMAND_ID,
          DEMAND_FORECAST_ACTUAL_SID,
@@ -86,6 +86,8 @@ AS
                        ON BM.BRAND_MASTER_SID = DF.BRAND_MASTER_SID
                 LEFT JOIN dbo.COMPANY_MASTER CM
                        ON CM.COMPANY_ID = DF.ORGANIZATION_KEY
+			     WHERE DF.INBOUND_STATUS<>'D'
+
          UNION ALL
          SELECT DA.DEMAND_ACTUAL_SID,
                 NULL            FORECAST_NAME,
@@ -143,6 +145,7 @@ AS
                 LEFT JOIN dbo.BRAND_MASTER BM
                        ON BM.BRAND_MASTER_SID = DA.BRAND_MASTER_SID
                 LEFT JOIN dbo.COMPANY_MASTER CM
-                       ON CM.COMPANY_ID = DA.ORGANIZATION_KEY)T
-
+                       ON CM.COMPANY_ID = DA.ORGANIZATION_KEY
+			     WHERE DA.INBOUND_STATUS<>'D')T
+				 
 GO 

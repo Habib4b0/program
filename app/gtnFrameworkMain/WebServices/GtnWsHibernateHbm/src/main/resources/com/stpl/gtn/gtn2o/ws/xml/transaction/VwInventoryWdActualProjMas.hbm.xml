@@ -101,14 +101,12 @@
 		<property name="forecastName" type="string">
 			<column name="FORECAST_NAME" length="50" not-null="true" />
 		</property>
-		<many-to-one name="inventoryType"
-			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" lazy="false" fetch="select">
-			<column name="INVENTORY_TYPE" />
-		</many-to-one>
-		<many-to-one name="inventoryLevel"
-			class="com.stpl.gtn.gtn2o.ws.entity.HelperTable" lazy="false" fetch="select">
-			<column name="INVENTORY_LEVEL" />
-		</many-to-one>
+		<property name="inventoryType" type="int">
+			<column name="INVENTORY_TYPE" length="100" />
+		</property>
+		<property name="inventoryLevel" type="int">
+			<column name="INVENTORY_LEVEL" length="100" />
+		</property>
 		<property name="brandId" type="string">
 			<column name="BRAND_ID" length="100" />
 		</property>

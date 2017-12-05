@@ -106,15 +106,15 @@ public class FileManagementLogic {
 	 */
 	public final static String ITEM_QUALIFIER_SID = "itemQualifierSid";
 
-	Map<String, String> monthMap = new HashMap<>();
+	private Map<String, String> monthMap = new HashMap<>();
 
-	HashMap<String, String> columnNames = new HashMap<>();
-	String DOLLAR = "$";
-	DecimalFormat dollarFormat = new DecimalFormat("#,##0.00");
-	DecimalFormat unitsFormat = new DecimalFormat("#0.0");
-	static DecimalFormat priceFormat = new DecimalFormat("#0.00");
-	final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
-	final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
+	private HashMap<String, String> columnNames = new HashMap<>();
+	private String DOLLAR = "$";
+	private DecimalFormat dollarFormat = new DecimalFormat("#,##0.00");
+	private DecimalFormat unitsFormat = new DecimalFormat("#0.0");
+	private static DecimalFormat priceFormat = new DecimalFormat("#0.00");
+	private final DateFormat dateFormat = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT);
+	private final DateFormat dateFormatToParse = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
 	public static final SimpleDateFormat DB_DATE = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static final String ITEM_IDENTIFIER = "ITEM_IDENTIFIER";

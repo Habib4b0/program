@@ -56,6 +56,11 @@ public class GtnTransactionUIConstants {
 	public static final String RESULTS_PANEL_LAYOUT = "resultPanelLayout";
 
 	public static final String DEMAND_TYPE_SID = "forecastTypeSid";
+	
+	public static final String INVENTORY_TYPE = "inventoryType";
+
+	public static final String INVENTORY_LEVEL = "inventoryLevel";
+	
 
 	private static final String[] VIEW_ENABLE = { "AccrualMaster", "ActualsMaster", "AuditMasterInbound",
 			"CpiIndexMaster", "CustomerGtsActual", "ForecastingMaster", "GlBalanceMaster", "ReturnsMaster",

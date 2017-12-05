@@ -21,8 +21,8 @@ import org.jboss.logging.Logger;
 public class FileDetailsTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(FileResultsTableLogic.class);
-    final FileManagementLogic searchLogic = new FileManagementLogic();
-    FileMananagementResultDTO resultDTO;
+    private final FileManagementLogic searchLogic = new FileManagementLogic();
+    private FileMananagementResultDTO resultDTO;
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;

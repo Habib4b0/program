@@ -14,4 +14,25 @@
                 <goal>-PRelease-Build</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-GTN_Step_0</actionName>
+            <displayName>GTN_Step_0</displayName>
+            <goals>
+                <goal>-Dmaven.wagon.http.ssl.insecure=true</goal>
+                <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
+                <goal>-Dmaven.repo.local=D:\Sysbiz\GTN\Repository</goal>
+                <goal>-PInstall-Dependency</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-GTN_Step_2</actionName>
+            <displayName>GTN_Step_2</displayName>
+            <goals>
+                <goal>-Dmaven.wagon.http.ssl.insecure=true</goal>
+                <goal>-Dmaven.wagon.http.ssl.allowall=true</goal>
+                <goal>-Dmaven.repo.local=D:\Sysbiz\GTN\Repository</goal>
+                <goal>-PRelease-Build</goal>
+                <goal>-DskipTests</goal>
+            </goals>
+        </action>
     </actions>

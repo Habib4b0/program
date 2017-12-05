@@ -1,5 +1,5 @@
 #!/bin/sh
-file="/opt/bpigtn_dev/etl/Interface_Job/EtlConfiguration.properties"
+file="Server_Path/etl/Interface_Job/EtlConfiguration.properties"
 var2=$(grep -E "ETL_PORT_NO" $file)
 #echo $var2
 ETL_PORT=`echo ${var2} | cut -d "=" -f2`

@@ -26,23 +26,23 @@ import org.jboss.logging.Logger;
  * @author Jayaram
  */
 public class ComparisonFilterGenerator implements ExtFilterGenerator {
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtils utils = new CommonUtils();
-    PVSelectionDTO pvSelectionDTO;
-    ProjectionSelectionDTO sprProjectionDTO;
+    private CommonLogic commonLogic = new CommonLogic();
+    private CommonUtils utils = new CommonUtils();
+    private PVSelectionDTO pvSelectionDTO;
+    private ProjectionSelectionDTO sprProjectionDTO;
     private static final String ZERO = "0";
-    ProjectionSelectionDTO psDTO;
-    boolean detailFlag;
-    boolean prFlag = false;
-    boolean sprFlag=false;
-    boolean pvFlag=false;
-    boolean mmDprFlag = false;
+    private ProjectionSelectionDTO psDTO;
+    private boolean detailFlag;
+    private boolean prFlag = false;
+    private boolean sprFlag=false;
+    private boolean pvFlag=false;
+    private boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";
     public static final String PRODUCT = "Product";
 
 
-    String indicator = StringUtils.EMPTY;
-    int levelNo = 0;
+    private String indicator = StringUtils.EMPTY;
+    private int levelNo = 0;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator( PVSelectionDTO projectionVarianceSelectionDTO,boolean detailFlag) {

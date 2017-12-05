@@ -54,7 +54,7 @@ public class FileUploader implements Upload.Receiver {
 	 */
 	private static final Logger LOGGER = Logger.getLogger(FileUploader.class);
 	public static final String FILE_PATH = getFilePath();
-	final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
+	private final String userId = (String) VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID);
 	public boolean upload = true;
 
 	/**

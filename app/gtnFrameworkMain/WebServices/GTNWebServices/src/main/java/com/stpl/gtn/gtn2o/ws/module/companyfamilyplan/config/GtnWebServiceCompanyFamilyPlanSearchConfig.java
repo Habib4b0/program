@@ -73,8 +73,13 @@ public class GtnWebServiceCompanyFamilyPlanSearchConfig implements GtnWsSearchQu
 					configProvider.getColumnDateConfig("CFP_START_DATE", "CFP"));
 			fieldToColumnDetailsMap.put("companyFamilyPlanEndDate",
 					configProvider.getColumnDateConfig("CFP_END_DATE", "CFP"));
-			fieldToColumnDetailsMap.put("companyFamilyPlanDesignation",
-					configProvider.getColumnHelperConfig("CFP_DESIGNATION", "CFP"));
+
+			GtnWsColumnDetailsConfig cfpDesignationColumnConfig = configProvider
+					.getColumnHelperConfig("CFP_DESIGNATION", "CFP");
+			cfpDesignationColumnConfig.setHelperTableAliasName("cfpDesignationHelper");
+			cfpDesignationColumnConfig.setHelperTableColumnName(GtnWsConstants.DESCRIPTION);
+			fieldToColumnDetailsMap.put("companyFamilyPlanDesignation", cfpDesignationColumnConfig);
+
 			fieldToColumnDetailsMap.put("parentCompanyFamilyPlanId", configProvider
 					.getColumnStringConfig(GtnFrameworkWebserviceConstant.CFP_NO, "parenCfp", "parenCfpId"));
 			fieldToColumnDetailsMap.put("parentCompanyFamilyPlanName", configProvider
