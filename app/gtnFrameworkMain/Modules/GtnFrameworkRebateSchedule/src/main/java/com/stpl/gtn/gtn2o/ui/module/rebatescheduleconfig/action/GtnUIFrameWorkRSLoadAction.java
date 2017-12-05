@@ -188,9 +188,12 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 			rsRebateSetupTabResultDataTable.setTableColumns(visibleColumns);
 			rsRebateSetupTabResultDataTable.setTableColumnHeaders(tableHeader);
 		} else {
-			GtnUIFrameworkBaseComponent rsRebateSetupTabResultDataTableForView = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
-			rsRebateSetupTabResultDataTableForView.setTableColumns(GtnFrameworkRSConstants.getRsSetupTabVisibleColumnsView());
-                        rsRebateSetupTabResultDataTableForView.setTableColumnHeaders(GtnFrameworkRSConstants.getRsSetupTabVisibleHeadersView());
+			GtnUIFrameworkBaseComponent rsRebateSetupTabResultDataTableForView = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE);
+			rsRebateSetupTabResultDataTableForView
+					.setTableColumns(GtnFrameworkRSConstants.getRsSetupTabVisibleColumnsView());
+			rsRebateSetupTabResultDataTableForView
+					.setTableColumnHeaders(GtnFrameworkRSConstants.getRsSetupTabVisibleHeadersView());
 		}
 
 	}
