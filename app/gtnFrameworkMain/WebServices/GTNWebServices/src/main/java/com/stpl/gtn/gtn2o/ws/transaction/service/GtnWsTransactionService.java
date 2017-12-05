@@ -153,8 +153,9 @@ public class GtnWsTransactionService {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
 			String type = columnDataTypeMap.get(columns.getFieldId());
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
-			columns.setExpression(columns.isFilter()
-					? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName()) : columns.getExpression());
+			columns.setExpression(
+					columns.isFilter() ? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName())
+							: columns.getExpression());
 			boolean isUser = columns.getFieldId().contains(GtnFrameworkCommonConstants.CREATED_BY)
 					|| columns.getFieldId().contains(GtnFrameworkCommonConstants.MODIFIED_BY);
 			String dateFormat = columns.isFilter() ? "E MMM dd HH:mm:ss Z yyyy" : "yyyy-MM-dd";
@@ -230,15 +231,7 @@ public class GtnWsTransactionService {
 			criteria.add(Restrictions.lt(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
 		}
-		else if(GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type))
-		{
-			criteria.add(Restrictions.gt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue2())));
-			criteria.add(Restrictions.lt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue1())));
-		}else{
-		criteria.add(Restrictions.lt(columns.getFieldId(),
-				getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
-		}
-		}
+	}
 
 	Object getValueBasedOnType(String type, String value, String filterValue, String dateFormat) throws ParseException {
 		if (Date.class.getName().equalsIgnoreCase(type)) {
@@ -366,8 +359,9 @@ public class GtnWsTransactionService {
 						? Order.asc(column.getPropertyId() + "." + "description")
 						: Order.desc(column.getPropertyId() + "." + "description"));
 			} else {
-				criteria.addOrder("ASC".equalsIgnoreCase(column.getOrderByCriteria())
-						? Order.asc(column.getPropertyId()) : Order.desc(column.getPropertyId()));
+				criteria.addOrder(
+						"ASC".equalsIgnoreCase(column.getOrderByCriteria()) ? Order.asc(column.getPropertyId())
+								: Order.desc(column.getPropertyId()));
 			}
 
 		}
@@ -407,8 +401,7 @@ public class GtnWsTransactionService {
 			if (!gtnWsTransactionRequest.getDemandTypeColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getDemandTypeColumnName(),
 						gtnWsTransactionRequest.getDemandTypeColumnValue()));
-			}
-			else if(!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty() ){
+			} else if (!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
 						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
