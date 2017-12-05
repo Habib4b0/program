@@ -1145,8 +1145,8 @@ public class GtnFrameworkPeriodConfigurationConfig {
 						+ GtnWsPeriodConfigurationConstants.PERIOD_CONFIG_ONSCREEN_LOAD_COUNT,
 				"periodConfiguration", "SearchQuery");
 		loadResults.setEditable(false);
-		loadResults.setPageLength(5);
-		loadResults.setItemPerPage(5);
+		loadResults.setPageLength(10);
+		loadResults.setItemPerPage(10);
 		loadResults.setSinkItemPerPageWithPageLength(false);
 		HashMap<Object, Object[]> doubleHeaderMap = new HashMap<>();
 		loadResults.setTableVisibleHeader(GtnFrameworkPeriodConfigurationContants.getPeriodConfigurationTableHeader());
