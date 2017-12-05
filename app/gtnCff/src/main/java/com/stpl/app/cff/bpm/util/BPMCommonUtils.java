@@ -13,9 +13,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class BPMCommonUtils {
 
-    private  static String groupId = "com.stpl.app.bpm";
-    private  static String artifactId = "Non-Mandated";
-    private  static String version = "1.0";
+    public static final String groupId = "com.stpl.app.bpm";
+    public static final String artifactId = "Non-Mandated";
+    public static final String version = "1.0";
 
     public static List<Date> getPreviousQuarterDates() {
         Calendar cal = Calendar.getInstance();
