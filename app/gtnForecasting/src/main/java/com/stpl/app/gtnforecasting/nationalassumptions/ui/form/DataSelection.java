@@ -612,7 +612,6 @@ public class DataSelection extends CustomComponent implements View {
         resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
         resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
-        resultTable.setItemPerPage(NumericConstants.TEN);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
         resultTable.setSizeFull();
