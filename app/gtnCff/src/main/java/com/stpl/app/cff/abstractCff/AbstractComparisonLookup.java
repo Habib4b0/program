@@ -190,12 +190,12 @@ public abstract class AbstractComparisonLookup extends Window {
     /**
      * Screen Name
      */
-    String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
     /**
      * Comparison custom text field
      */
     protected CustomTextField comparison;
-    CommonUtils commonUtil = new CommonUtils();
+    private CommonUtils commonUtil = new CommonUtils();
 
     /**
      *

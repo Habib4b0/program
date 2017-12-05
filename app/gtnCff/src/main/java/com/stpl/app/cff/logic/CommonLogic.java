@@ -97,7 +97,7 @@ public class CommonLogic {
     public static final String BUILDERSID = "@BUILDERSID";
     public static final String EACH = "EACH";
     
-    static GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
+    private static GtnFrameworkHierarchyServiceImpl gtnFrameworkHierarchyServiceImpl=new GtnFrameworkHierarchyServiceImpl();
 
     /**
      * Get Customer Hierarchy
@@ -3057,10 +3057,8 @@ public class CommonLogic {
 
         } catch (SystemException ex) {
             LOGGER.error(ex);
-            ex.printStackTrace();
         } catch (PortalException ex) {
             LOGGER.error(ex);
-            ex.printStackTrace();
         }
         return stockList;
     }
