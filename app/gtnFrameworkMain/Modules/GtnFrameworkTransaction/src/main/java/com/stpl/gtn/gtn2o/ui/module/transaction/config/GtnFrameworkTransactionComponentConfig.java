@@ -48,6 +48,7 @@ import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnUIFrameworkTransactionTabsheetBean;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
+import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionModuleBean;
 import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 
 public class GtnFrameworkTransactionComponentConfig {
@@ -78,10 +79,9 @@ public class GtnFrameworkTransactionComponentConfig {
 		List<List<GtnUIFrameworkComponentConfig>> componentListForTransaction = new ArrayList<>();
 		componentListForTransaction.add(componentList);
 		componentListForTransaction.add(viewComponentList);
-		List<GtnWSTransactionColumnBean> transactionBeanList = getTransactionColumnBeanList(portletName);
-		seperateComponentsByType(transactionBeanList, isInvalid, componentListForTransaction, portletName, tableName,
-				bean, moduleName);
-
+		GtnWSTransactionModuleBean transactionModuleBeanList = getTransactionColumnBeanList(portletName);
+		seperateComponentsByType(transactionModuleBeanList, isInvalid, componentListForTransaction, portletName,
+				tableName, bean, moduleName);
 	}
 
 	private Boolean setEnableFlag(String tableName) {
@@ -93,21 +93,25 @@ public class GtnFrameworkTransactionComponentConfig {
 			boolean isInvalid, GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		addFieldComponent(componentList, "searchCriterialayout1", componentBean.getSearchComponent(), isInvalid);
 		addSearchButtonComponent(componentList, portletName, componentBean, isInvalid);
-		addPagedTableComponent(componentList, portletName, GtnFrameworkCommonStringConstants.STRING_EMPTY, isInvalid,
-				componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
+		addPagedTableComponent(componentList, portletName, GtnFrameworkCommonStringConstants.STRING_EMPTY,
+				componentBean.isOutBoundModule(), componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
-		addResetButtonComponent(componentList, componentBean.getSearchComponent());
+		addResetButtonComponent(componentList, componentBean.getSearchComponent(),
+				GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT);
 		addExcelButtonComponent(componentList, portletName);
 	}
 
-	public void seperateComponentsByType(List<GtnWSTransactionColumnBean> transactionBeanList, boolean isInvalid,
+	public void seperateComponentsByType(GtnWSTransactionModuleBean transactionModuleBeanList, boolean isInvalid,
 			List<List<GtnUIFrameworkComponentConfig>> componentList, String portletName, String tableName,
 			GtnUIFrameworkTransactionComponentListForInvalidBean transactionBean, String moduleName) {
 
 		boolean isValidComponentCondition = isInvalid;
+		List<GtnWSTransactionColumnBean> transactionModuleConfigBeanList = transactionModuleBeanList.getModule();
+		List<GtnWSTransactionColumnBean> transactionBeanList = transactionModuleBeanList.getModuleDetails();
 
 		GtnUIFrameworkTransactionComponentTypeListBean componentBean = getComponentListForComponents(
 				isValidComponentCondition, transactionBeanList, isInvalid);
+		getConfigurationForModules(componentBean, transactionModuleConfigBeanList);
 
 		getVisibleColumnsAndHeader(componentBean.getSearchComponent(), componentBean.getListViewComponent(), isInvalid);
 
@@ -133,7 +137,8 @@ public class GtnFrameworkTransactionComponentConfig {
 			} else {
 				addSearchButtonComponent(searchAndResetComponentList, tableName, componentBean, true);
 
-				addResetButtonComponent(searchAndResetComponentList, componentBean.getSearchComponent());
+				addResetButtonComponent(searchAndResetComponentList, componentBean.getSearchComponent(),
+						GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT);
 				transactionBean.setSearchAndResetComponentList(searchAndResetComponentList);
 				List<GtnUIFrameworkComponentConfig> tableComponentList = new ArrayList<>();
 				addPagedTableComponent(tableComponentList, tableName, portletName, true, componentBean, moduleName);
@@ -143,7 +148,8 @@ public class GtnFrameworkTransactionComponentConfig {
 						viewOnlyComponentList, componentBean.isViewIndexFlag(), tableName, isInvalid);
 				transactionBean.setViewComponentList(viewOnlyComponentList);
 				List<GtnUIFrameworkComponentConfig> reprocessAndRemoveComponentList = new ArrayList<>();
-				addReprocessButtonComponent(reprocessAndRemoveComponentList);
+				addReprocessButtonComponent(reprocessAndRemoveComponentList,
+						componentBean.getReprocessingWebServiceURL(), componentBean, portletName);
 				addRemoveButtonComponent(reprocessAndRemoveComponentList);
 				transactionBean.setReprocessAndRemoveComponentList(reprocessAndRemoveComponentList);
 			}
@@ -158,6 +164,7 @@ public class GtnFrameworkTransactionComponentConfig {
 					componentList.get(GtnWsNumericConstants.ONE), componentBean.isViewIndexFlag(),
 
 					portletName, isInvalid);
+			addOutBoundModuleCriteria(componentList.get(GtnWsNumericConstants.ZERO), componentBean, portletName);
 		}
 
 	}
@@ -280,9 +287,9 @@ public class GtnFrameworkTransactionComponentConfig {
 
 	}
 
-	private List<GtnWSTransactionColumnBean> getTransactionColumnBeanList(String portletName) {
-		return new GtnFrameworkJSONReader().getCustomConfigFromJSON(GtnTransactionUIConstants.TRANSACTION_JSON_PATH,
-				portletName + ".json");
+	private GtnWSTransactionModuleBean getTransactionColumnBeanList(String portletName) {
+		return new GtnFrameworkJSONReader().getTypeConfigFromJson(GtnTransactionUIConstants.TRANSACTION_JSON_PATH,
+				portletName + ".json", GtnWSTransactionModuleBean.class);
 	}
 
 	private void addFieldComponent(List<GtnUIFrameworkComponentConfig> componentList, String layout,
@@ -364,13 +371,13 @@ public class GtnFrameworkTransactionComponentConfig {
 		companyIdConfig.setAddToParent(true);
 		companyIdConfig.setEnable(isEnable);
 		if (component.isLengthValidator()) {
-		GtnUIFrameworkValidationConfig transactionLengthValConfig = new GtnUIFrameworkValidationConfig();
-		transactionLengthValConfig.setAttachLengthValidatior(true);
-		transactionLengthValConfig.setMinSize(component.getMinLength());
-		transactionLengthValConfig.setMaxLength(component.getMaxLength());
-		transactionLengthValConfig
-				.setRegxValidationMessage("Length should be less than " + component.getMaxLength()+" Characters");
-		companyIdConfig.setGtnUIFrameworkValidationConfig(transactionLengthValConfig);
+			GtnUIFrameworkValidationConfig transactionLengthValConfig = new GtnUIFrameworkValidationConfig();
+			transactionLengthValConfig.setAttachLengthValidatior(true);
+			transactionLengthValConfig.setMinSize(component.getMinLength());
+			transactionLengthValConfig.setMaxLength(component.getMaxLength());
+			transactionLengthValConfig
+					.setRegxValidationMessage("Length should be less than " + component.getMaxLength() + " Characters");
+			companyIdConfig.setGtnUIFrameworkValidationConfig(transactionLengthValConfig);
 		}
 		componentList.add(companyIdConfig);
 	}
@@ -503,7 +510,6 @@ public class GtnFrameworkTransactionComponentConfig {
 		searchResults.setResultSetUrl(GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
 				+ GtnWsTransactionConstants.GTN_WS_TRANSACTION_GETSEARCHRESULTS_SERVICE);
 		searchResults.setModuleName(tableName);
-
 		searchResults.setPageLength(10);
 		searchResults.setItemPerPage(10);
 		searchResults.setSinkItemPerPageWithPageLength(false);
@@ -588,12 +594,14 @@ public class GtnFrameworkTransactionComponentConfig {
 		checkAllAction.addActionParameter(GtnUIFrameworkTransactionTableCheckAllAction.class.getName());
 		checkAllAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
 		searchResults.addColumnCheckActionConfig(checkAllAction);
-		List<String> generatedColumnlist = Arrays.asList(componentBean.getStaticComponent().get(0).getColumnID());
-		searchResults.setGeneratedColumnList(generatedColumnlist);
-		searchResults.setGeneratedColumn(
-				createTableGeneratedColumnComponents(componentBean.getStaticComponent().get(0).getColumnID(), tableName,
-						viewEnabled, componentBean.getViewModeComponents(), componentBean.getViewModeOrderComponents(),
-						componentBean.getListViewComponent(), invalidModule));
+		if (!componentBean.getStaticComponent().isEmpty()) {
+			List<String> generatedColumnlist = Arrays.asList(componentBean.getStaticComponent().get(0).getColumnID());
+			searchResults.setGeneratedColumnList(generatedColumnlist);
+			searchResults.setGeneratedColumn(createTableGeneratedColumnComponents(
+					componentBean.getStaticComponent().get(0).getColumnID(), tableName, viewEnabled,
+					componentBean.getViewModeComponents(), componentBean.getViewModeOrderComponents(),
+					componentBean.getListViewComponent(), invalidModule));
+		}
 		GtnUIFrameWorkActionConfig recordTypeAction = new GtnUIFrameWorkActionConfig();
 		recordTypeAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		recordTypeAction.addActionParameter(GtnUIFrameWorkTransactioneRecordTypeAction.class.getName());
@@ -613,7 +621,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		searchButtonConfig.setComponentName("Search");
 		searchButtonConfig.setAddToParent(true);
 		searchButtonConfig.setAuthorizationIncluded(true);
-		searchButtonConfig.setParentComponentId("searchButtonlayout");
+		searchButtonConfig.setParentComponentId(GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT);
 		componentList.add(searchButtonConfig);
 		visibleColumnArray = new List[totalCombination];
 		visibleHeaderArray = new List[totalCombination];
@@ -653,6 +661,13 @@ public class GtnFrameworkTransactionComponentConfig {
 							visibleHeaderArray, GtnTransactionUIConstants.SEARCH_TABLE_ID, tableNameForDemand));
 			actionConfigList.add(customResultViewAction);
 		}
+		if (componentBean.isOutBoundModule()) {
+			GtnUIFrameWorkActionConfig outBoundAction = new GtnUIFrameWorkActionConfig();
+			outBoundAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+			outBoundAction.addActionParameter(GtnUIFrameworkTransactionResetBeanAction.class.getName());
+			outBoundAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
+			actionConfigList.add(outBoundAction);
+		}
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = new GtnUIFrameWorkActionConfig();
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 
@@ -681,7 +696,7 @@ public class GtnFrameworkTransactionComponentConfig {
 	}
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			List<GtnWSTransactionColumnBean> searchComponent) {
+			List<GtnWSTransactionColumnBean> searchComponent, String parentComponentId) {
 
 		GtnUIFrameworkComponentConfig renameButtonConfig = new GtnUIFrameworkComponentConfig();
 		renameButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -689,7 +704,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		renameButtonConfig.setComponentName("Reset");
 		renameButtonConfig.setAddToParent(true);
 		renameButtonConfig.setAuthorizationIncluded(true);
-		renameButtonConfig.setParentComponentId("searchButtonlayout");
+		renameButtonConfig.setParentComponentId(parentComponentId);
 		componentList.add(renameButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -736,13 +751,14 @@ public class GtnFrameworkTransactionComponentConfig {
 
 	}
 
-	private void addReprocessButtonComponent(List<GtnUIFrameworkComponentConfig> componentList) {
+	private void addReprocessButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String wsReprocessURL,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean, String portletName) {
 		GtnUIFrameworkComponentConfig reprocessButtonConfig = new GtnUIFrameworkComponentConfig();
 		reprocessButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		reprocessButtonConfig.setComponentId("gtnReprocess01");
 		reprocessButtonConfig.setComponentName("Reprocess");
 		reprocessButtonConfig.setAddToParent(true);
-		reprocessButtonConfig.setParentComponentId("reprocessButtonlayout");
+		reprocessButtonConfig.setParentComponentId(GtnTransactionUIConstants.REPROCESS_BUTTON_LAYOUT);
 		reprocessButtonConfig.setAuthorizationIncluded(true);
 		List<GtnUIFrameWorkActionConfig> gtnUIFrameworkReprocessConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig reprocessAlertAction = new GtnUIFrameWorkActionConfig();
@@ -750,6 +766,8 @@ public class GtnFrameworkTransactionComponentConfig {
 		reprocessAlertAction.addActionParameter(GtnFrameworkTransactionReprocessRemoveValidation.class.getName());
 		reprocessAlertAction.addActionParameter(GtnTransactionUIConstants.REPROCESS);
 		reprocessAlertAction.addActionParameter(GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT);
+		reprocessAlertAction.addActionParameter(componentBean.isOutBoundModule());
+		reprocessAlertAction.addActionParameter(portletName);
 		gtnUIFrameworkReprocessConfigList.add(reprocessAlertAction);
 		List<GtnUIFrameWorkActionConfig> reprocess = new ArrayList<>();
 		Object resultpanelLayout = GtnTransactionUIConstants.RESULTS_PANEL_LAYOUT;
@@ -757,7 +775,9 @@ public class GtnFrameworkTransactionComponentConfig {
 		reprocessAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		reprocessAction.setActionParameterList(Arrays.asList(
 				GtnUIFrameworkTransactionReprocessRemoveAction.class.getName(), GtnTransactionUIConstants.REPROCESS,
-				resultpanelLayout, GtnTransactionUIConstants.SEARCH_TABLE_ID));
+				resultpanelLayout, GtnTransactionUIConstants.SEARCH_TABLE_ID, wsReprocessURL,
+				componentBean.isOutBoundModule(), componentBean.getStagingInsertColumns(),
+				componentBean.getStagingUpdateColumns(), componentBean.getStagingUpdateColumnsValues()));
 		reprocess.add(reprocessAction);
 		GtnUIFrameWorkActionConfig resetBeanAction = new GtnUIFrameWorkActionConfig();
 		resetBeanAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
@@ -799,7 +819,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		resetButtonConfig.setComponentName("Remove");
 		resetButtonConfig.setAuthorizationIncluded(true);
 		resetButtonConfig.setAddToParent(true);
-		resetButtonConfig.setParentComponentId("reprocessButtonlayout");
+		resetButtonConfig.setParentComponentId(GtnTransactionUIConstants.REPROCESS_BUTTON_LAYOUT);
 		Object remove = GtnTransactionUIConstants.REMOVE;
 		List<GtnUIFrameWorkActionConfig> gtnUIFrameworkRemoveConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig removeAlertAction = new GtnUIFrameWorkActionConfig();
@@ -1158,4 +1178,26 @@ public class GtnFrameworkTransactionComponentConfig {
 		}
 
 	}
+
+	private void getConfigurationForModules(GtnUIFrameworkTransactionComponentTypeListBean componentBean,
+			List<GtnWSTransactionColumnBean> moduleComponentList) {
+		for (GtnWSTransactionColumnBean gtnWSTransactionModuleBean : moduleComponentList) {
+			componentBean.setOutBoundModule(gtnWSTransactionModuleBean.isOutBoundModule());
+			componentBean.setReprocessingWebServiceURL(gtnWSTransactionModuleBean.getReprocessingWebServiceURL());
+			componentBean.setStagingInsertColumns(gtnWSTransactionModuleBean.getStagingInsertColumns());
+			componentBean.setStagingUpdateColumns(gtnWSTransactionModuleBean.getStagingUpdateColumns());
+			componentBean.setStagingUpdateColumnsValues(gtnWSTransactionModuleBean.getStagingUpdateColumnsValues());
+		}
+	}
+
+	private void addOutBoundModuleCriteria(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean, String portletName) {
+		if (componentBean.isOutBoundModule()) {
+			addResetButtonComponent(componentList, componentBean.getSearchComponent(),
+					GtnTransactionUIConstants.REPROCESS_BUTTON_LAYOUT);
+			addReprocessButtonComponent(componentList, componentBean.getReprocessingWebServiceURL(), componentBean,
+					portletName);
+		}
+	}
+
 }

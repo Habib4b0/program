@@ -15,30 +15,27 @@ import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 import com.stpl.gtn.gtn2o.ws.transaction.service.GtnWsTransactionReprocessIOService;
 
 @RestController
-@RequestMapping(value = GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE)
-public class GtnWsTransactionReprocessController {
-	public GtnWsTransactionReprocessController() {
-		/**
-		 * empty constructor
-		 */
+@RequestMapping(value = GtnWsTransactionConstants.GTN_WS_TRANSACTION_OUTBOUND_SERVICE)
+public class GtnWsTransactionOutboundController {
+
+	public GtnWsTransactionOutboundController() {
 	}
 
 	@Autowired
 	private GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;
-	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsTransactionReprocessController.class);
+	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsTransactionOutboundController.class);
 
 	@PostMapping(value = GtnWsTransactionConstants.GTN_WS_TRANSACTION_REPROCESS_SERVICE)
 	public GtnUIFrameworkWebserviceResponse reprocessRecords(
-			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
-		GtnWsTransactionRequest gtnWsTransactionRequest = gtnWsRequest.getGtnWsTransactionRequest();
-		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWebserviceResponse = new GtnUIFrameworkWebserviceResponse();
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsOutboundRequest) {
+		GtnWsTransactionRequest gtnWsTransactionOutboundRequest = gtnWsOutboundRequest.getGtnWsTransactionRequest();
+		GtnUIFrameworkWebserviceResponse gtnUIFrameworkWsResponse = new GtnUIFrameworkWebserviceResponse();
 		try {
-			gtnWsTransactionReprocessIOService.getReprocessRecords(gtnWsTransactionRequest);
+			gtnWsTransactionReprocessIOService.outboundRecords(gtnWsTransactionOutboundRequest);
 		} catch (GtnFrameworkGeneralException e) {
 
-			logger.debug("Reprocess Web" + gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().isSucess());
+			logger.debug("Reprocess Web" + gtnUIFrameworkWsResponse.getGtnWsGeneralResponse().isSucess());
 		}
-		return gtnUIFrameworkWebserviceResponse;
+		return gtnUIFrameworkWsResponse;
 	}
-
 }

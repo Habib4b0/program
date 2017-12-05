@@ -378,8 +378,10 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/ModuleSubmoduleMaster.hbm.xml
 				</value>
-
-
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCffOutboundMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StCffOutboundMaster.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>

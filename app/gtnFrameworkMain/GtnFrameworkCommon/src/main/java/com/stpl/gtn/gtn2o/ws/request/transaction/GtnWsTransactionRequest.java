@@ -29,12 +29,17 @@ public class GtnWsTransactionRequest {
 	private Integer primayColumnValue = 0;
 	private List<String> helpercomponentList = new ArrayList<>();
 	private String stagingTableName;
-	private List<Integer> reprocessIds = new ArrayList<>();
+	private List<String> reprocessIds = new ArrayList<>();
 	private List<GtnWebServiceSearchCriteria> searchCriteria = new ArrayList<>();
 	private boolean reprocessFlag = false;
-	private List<Integer> uncheckedIds = new ArrayList<>();
+	private List<String> uncheckedIds = new ArrayList<>();
 	private String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 	private Integer demandTypeColumnValue = 0;
+	private boolean outBoundModule = false;
+	private Object[] stagInsertColumns = new Object[0];
+	private Object[] stagUpdateColumns = new Object[0];
+	private Object[] stagUpdateColumnsValues = new Object[0];
+	private String outBoundTableName;
 
 	public String getTableName() {
 		return tableName;
@@ -69,11 +74,11 @@ public class GtnWsTransactionRequest {
 		return primayColumnValue;
 	}
 
-	public List<Integer> getUncheckedIds() {
+	public List<String> getUncheckedIds() {
 		return uncheckedIds != null ? Collections.unmodifiableList(uncheckedIds) : uncheckedIds;
 	}
 
-	public void setUncheckedIds(List<Integer> uncheckedIds) {
+	public void setUncheckedIds(List<String> uncheckedIds) {
 		this.uncheckedIds = uncheckedIds != null ? Collections.unmodifiableList(uncheckedIds) : uncheckedIds;
 	}
 
@@ -97,11 +102,11 @@ public class GtnWsTransactionRequest {
 		this.stagingTableName = stagingTableName;
 	}
 
-	public List<Integer> getReprocessIds() {
+	public List<String> getReprocessIds() {
 		return reprocessIds != null ? Collections.unmodifiableList(reprocessIds) : reprocessIds;
 	}
 
-	public void setReprocessIds(List<Integer> reprocessIds) {
+	public void setReprocessIds(List<String> reprocessIds) {
 		this.reprocessIds = reprocessIds != null ? Collections.unmodifiableList(reprocessIds) : reprocessIds;
 	}
 
@@ -137,4 +142,44 @@ public class GtnWsTransactionRequest {
 		this.demandTypeColumnValue = demandTypeColumnValue;
 	}
 
+	public boolean isOutBoundModule() {
+		return outBoundModule;
+	}
+
+	public void setOutBoundModule(boolean outBoundModule) {
+		this.outBoundModule = outBoundModule;
+	}
+
+	public String getOutBoundTableName() {
+		return outBoundTableName;
+	}
+
+	public void setOutBoundTableName(String outBoundTableName) {
+		this.outBoundTableName = outBoundTableName;
+	}
+	
+	public Object[] getStagInsertColumns() {
+		return stagInsertColumns.length == 0 ? stagInsertColumns : stagInsertColumns.clone();
+	}
+
+	public void setStagInsertColumns(Object[] stagInsertColumns) {
+		this.stagInsertColumns = stagInsertColumns.clone();
+	}
+
+	public Object[] getStagUpdateColumns() {
+		return stagUpdateColumns.length == 0 ? stagUpdateColumns : stagUpdateColumns.clone();
+	}
+
+	public void setStagUpdateColumns(Object[] stagUpdateColumns) {
+		this.stagUpdateColumns = stagUpdateColumns.clone();
+	}
+
+	public Object[] getStagUpdateColumnsValues() {
+		return stagUpdateColumnsValues.length == 0 ? stagUpdateColumnsValues : stagUpdateColumnsValues.clone();
+	}
+
+	public void setStagUpdateColumnsValues(Object[] stagUpdateColumnsValues) {
+		this.stagUpdateColumnsValues = stagUpdateColumnsValues.clone();
+	}
+	
 }

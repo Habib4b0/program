@@ -64,6 +64,7 @@ import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -223,7 +224,7 @@ public class GtnWsTransactionService {
 			criteria.add(Restrictions.gt(columns.getFieldId(),Double.valueOf(columns.getFilterValue2())));
 			criteria.add(Restrictions.lt(columns.getFieldId(),Double.valueOf(columns.getFilterValue1())));
 		}
-		else if("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type))
+		else if(GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type))
 		{
 			criteria.add(Restrictions.gt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue2())));
 			criteria.add(Restrictions.lt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue1())));
@@ -238,7 +239,9 @@ public class GtnWsTransactionService {
 			return new SimpleDateFormat(dateFormat).parse(filterValue);
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
-		}else {
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
+			return Integer.parseInt(filterValue);
+		} else {
 			return value;
 		}
 
@@ -249,7 +252,7 @@ public class GtnWsTransactionService {
 		if ("com.stpl.gtn.gtn2o.ws.entity.HelperTable".equalsIgnoreCase(type)) {
 			criteria.createAlias("c1." + columns.getFieldId(), columns.getFieldId(), JoinType.INNER_JOIN);
 			criteria.add(Restrictions.eq(columns.getFieldId() + "." + "helperTableSid", Integer.valueOf(value)));
-		} else if ("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type)) {
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(value)));
 		} else if ("java.util.Date".equalsIgnoreCase(type)) {
 			Date fromDate = new SimpleDateFormat(dateFormat).parse(columns.getFilterValue1());
