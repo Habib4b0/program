@@ -35,6 +35,10 @@ public class GtnWsTransactionRequest {
 	private List<Integer> uncheckedIds = new ArrayList<>();
 	private String demandTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
 	private Integer demandTypeColumnValue = 0;
+	private String inventoryLevelColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+	private Integer inventoryLevelColumnValue = 0;
+	private String inventoryTypeColumnName = GtnFrameworkCommonStringConstants.STRING_EMPTY;
+	private Integer inventoryTypeColumnValue = 0;
 
 	public String getTableName() {
 		return tableName;
@@ -86,7 +90,8 @@ public class GtnWsTransactionRequest {
 	}
 
 	public void setHelpercomponentList(List<String> helpercomponentList) {
-		this.helpercomponentList = helpercomponentList != null ? Collections.unmodifiableList(helpercomponentList) : helpercomponentList;
+		this.helpercomponentList = helpercomponentList != null ? Collections.unmodifiableList(helpercomponentList)
+				: helpercomponentList;
 	}
 
 	public String getStagingTableName() {
@@ -135,6 +140,38 @@ public class GtnWsTransactionRequest {
 
 	public void setDemandTypeColumnValue(int demandTypeColumnValue) {
 		this.demandTypeColumnValue = demandTypeColumnValue;
+	}
+
+	public String getInventoryLevelColumnName() {
+		return inventoryLevelColumnName;
+	}
+
+	public void setInventoryLevelColumnName(String inventoryLevelColumnName) {
+		this.inventoryLevelColumnName = inventoryLevelColumnName;
+	}
+
+	public Integer getInventoryLevelColumnValue() {
+		return inventoryLevelColumnValue;
+	}
+
+	public void setInventoryLevelColumnValue(Integer inventoryLevelColumnValue) {
+		this.inventoryLevelColumnValue = inventoryLevelColumnValue;
+	}
+
+	public String getInventoryTypeColumnName() {
+		return inventoryTypeColumnName;
+	}
+
+	public void setInventoryTypeColumnName(String inventoryTypeColumnName) {
+		this.inventoryTypeColumnName = inventoryTypeColumnName;
+	}
+
+	public Integer getInventoryTypeColumnValue() {
+		return inventoryTypeColumnValue;
+	}
+
+	public void setInventoryTypeColumnValue(Integer inventoryTypeColumnValue) {
+		this.inventoryTypeColumnValue = inventoryTypeColumnValue;
 	}
 
 }

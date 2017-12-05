@@ -43,12 +43,12 @@ public class PRChart {
      */
     private List<ProjectionResultsDTO> dto;
 
-    CustomTableHeaderDTO rightDto;
+    private CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(PRChart.class);
-    ProjectionSelectionDTO projSelDTO;
+    private ProjectionSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

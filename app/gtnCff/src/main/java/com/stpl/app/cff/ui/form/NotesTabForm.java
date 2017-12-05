@@ -58,25 +58,25 @@ public class NotesTabForm extends AbstractNotesTab {
 	private String masterTableSid;
 	private final CustomFieldGroup binder;
 	private final String moduleName;
-	final String userId;
+	private final String userId;
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	ComboBox reasonCode = new ComboBox();
-	List<String> notesList = new ArrayList<>();
+	private ComboBox reasonCode = new ComboBox();
+	private List<String> notesList = new ArrayList<>();
 	/**
 	 * The common logic.
 	 */
 	private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-	public List<NotesDTO> removeDetailsList = new ArrayList<>();
+	private  List<NotesDTO> removeDetailsList = new ArrayList<>();
 	private Double fileSize = 0.00;
 	protected final String mode = "";
-	CommonUIUtils commonUiUtil = new CommonUIUtils();
-	CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
-	CffApprovalDetailsForm approvalWindow;
-	Button close = new Button("Close");
-	SessionDTO sessionDTO;
-	public static String MODULE_NAME = "Consolidated Financial Forecast";
+	private CommonUIUtils commonUiUtil = new CommonUIUtils();
+	private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+	private CffApprovalDetailsForm approvalWindow;
+	private Button close = new Button("Close");
+	private SessionDTO sessionDTO;
+	private static String MODULE_NAME = "Consolidated Financial Forecast";
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {

@@ -11,7 +11,6 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import java.util.Collections;
 import java.util.List;

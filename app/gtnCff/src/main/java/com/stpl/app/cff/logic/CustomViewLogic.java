@@ -333,7 +333,7 @@ public class CustomViewLogic {
         return parentHierarchyNo;
     }
 
-    Comparator comp = new Comparator<LevelMapKey>() {
+    private Comparator comp = new Comparator<LevelMapKey>() {
 
         @Override
         public int compare(LevelMapKey o1, LevelMapKey o2) {
