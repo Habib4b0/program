@@ -35,11 +35,11 @@ public class ComparisonLookupDTO {
     private int projectionId = 0;
     private String createdBy = StringUtils.EMPTY;
     private String currentProjId = StringUtils.EMPTY;
-    List<ComparisonLookupDTO> selected = new ArrayList<>();
-    List<Integer> projIdList = new ArrayList<>();
-    List<String> projNameList = new ArrayList<>();
-    Map<Integer, String> projectionMap = new HashMap<>();
-    boolean isSubmitFlag = false;
+    private List<ComparisonLookupDTO> selected = new ArrayList<>();
+    private List<Integer> projIdList = new ArrayList<>();
+    private List<String> projNameList = new ArrayList<>();
+    private Map<Integer, String> projectionMap = new HashMap<>();
+    private boolean isSubmitFlag = false;
     private String contractHolder = StringUtils.EMPTY;
     private Date createdDate = null;
     private Set<Container.Filter> filter;

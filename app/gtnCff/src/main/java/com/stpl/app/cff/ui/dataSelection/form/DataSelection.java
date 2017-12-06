@@ -83,7 +83,7 @@ public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
-	CustomFieldGroup dataSelectionBinder;
+	private CustomFieldGroup dataSelectionBinder;
 	/**
 	 * The data selection binder.
 	 */
@@ -91,24 +91,24 @@ public class DataSelection extends AbstractDataSelection {
 	public static final String TRADING_PARTNER = "Trading Partner";
 	public static final String COMPANY_MASTER_TABLE = "COMPANY_MASTER";
 	public static final String NULL = "null";
-	String screenName = CommonUtils.MODULE_NAME;
-	Map<String, String> customerDescriptionMap = null;
-	Map<String, String> productDescriptionMap = null;
+	private String screenName = CommonUtils.MODULE_NAME;
+	private Map<String, String> customerDescriptionMap = null;
+	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE);
-	CompanyDdlbDto discountDTO = null;
+	private CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE);
+	private CompanyDdlbDto discountDTO = null;
 	public static Map<String, String> relationLevelValues = new HashMap<>();
-	DataSelectionLogic dataLogic = new DataSelectionLogic();
-	List<Integer> customerBeanList = new ArrayList<>();
-	List<Integer> productBeanList = new ArrayList<>();
-	String publicViewName;
-	String privateViewName;
-	SessionDTO sessionDTO;
-	CFFLogic cffLogic = new CFFLogic();
-	TabSheet tabSheet;
+	private DataSelectionLogic dataLogic = new DataSelectionLogic();
+	private List<Integer> customerBeanList = new ArrayList<>();
+	private List<Integer> productBeanList = new ArrayList<>();
+	private String publicViewName;
+	private String privateViewName;
+	private SessionDTO sessionDTO;
+	private CFFLogic cffLogic = new CFFLogic();
+	private TabSheet tabSheet;
 	private String topLevelName = StringUtils.EMPTY;
-	ExecutorService service = ThreadPool.getInstance().getService();
+	private ExecutorService service = ThreadPool.getInstance().getService();
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
 
 	private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
@@ -3895,8 +3895,8 @@ public class DataSelection extends AbstractDataSelection {
 	 */
 	class CFFDetailsInsertJobRun implements Runnable {
 
-		int projectionId;
-		GtnSmallHashMap tempTableNames;
+		private int projectionId;
+		private GtnSmallHashMap tempTableNames;
 
 		public CFFDetailsInsertJobRun(int projectionId, GtnSmallHashMap tempTableNames) {
 			this.projectionId = projectionId;

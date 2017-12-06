@@ -17,11 +17,11 @@ import com.stpl.gtn.gtn2o.ws.transaction.service.GtnWsTransactionReprocessIOServ
 @RestController
 @RequestMapping(value = GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE)
 public class GtnWsTransactionReprocessController {
-    public GtnWsTransactionReprocessController(){
-        /**
-         * empty constructor
-         */
-    }
+	public GtnWsTransactionReprocessController() {
+		/**
+		 * empty constructor
+		 */
+	}
 
 	@Autowired
 	private GtnWsTransactionReprocessIOService gtnWsTransactionReprocessIOService;

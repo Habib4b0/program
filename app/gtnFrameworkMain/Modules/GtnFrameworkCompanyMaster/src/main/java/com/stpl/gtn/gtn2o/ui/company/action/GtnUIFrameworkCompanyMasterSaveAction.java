@@ -116,7 +116,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			request.setGtnCMasterRequest(companyMasterRequest);
 			request.setGtnWsGeneralRequest(generalRequest);
 
-			setFinancialCloseTabValues(financialCloseBeanList, request, companyMasterBean, companyMasterRequest);
+			
 			companyMasterBean.setGtnCMasterFinancialCloseBean(financialCloseBeanList);
 
 			GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -125,7 +125,7 @@ public class GtnUIFrameworkCompanyMasterSaveAction implements GtnUIFrameWorkActi
 			GtnUIFrameworkGlobalUI.addSessionProperty(GtnFrameworkCompanyStringContants.COMPANY_MASTER_SID,
 					response.getGtnCompanyMasterResponse().getGtnCMasterBean().getGtnCMasterInformationBean()
 							.getCompanyMasterSystemId());
-
+			setFinancialCloseTabValues(financialCloseBeanList, request, companyMasterBean, companyMasterRequest);
 			if (systemId == null || systemId == 0) {
 				insertInCPDeatils(Integer.parseInt(GtnUIFrameworkGlobalUI
 						.getSessionProperty(GtnFrameworkCompanyStringContants.COMPANY_MASTER_SID).toString()));

@@ -62,7 +62,7 @@ public class PVChart extends Window {
      * The history.
      */
     public String history;
-    CustomTableHeaderDTO rightDto;
+    private CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
@@ -70,7 +70,7 @@ public class PVChart extends Window {
     /**
      * projSelDTO;
      */
-    PVSelectionDTO projSelDTO;
+    private PVSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

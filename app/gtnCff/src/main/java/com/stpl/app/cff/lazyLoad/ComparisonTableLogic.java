@@ -24,13 +24,13 @@ import org.jboss.logging.Logger;
 public class ComparisonTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
-    boolean loadData = false;
-    ComparisonLookupDTO comparisonLookup;
-    String notNeededProjectionIds = StringUtils.EMPTY;
-    ComparisonLookupDTO lookUpDTO;
-    SessionDTO sessionDTO;
-    String screenName = StringUtils.EMPTY;
-    ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
+    private boolean loadData = false;
+    private ComparisonLookupDTO comparisonLookup;
+    private String notNeededProjectionIds = StringUtils.EMPTY;
+    private ComparisonLookupDTO lookUpDTO;
+    private SessionDTO sessionDTO;
+    private String screenName = StringUtils.EMPTY;
+    private ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     @Override
     public int getCount() {

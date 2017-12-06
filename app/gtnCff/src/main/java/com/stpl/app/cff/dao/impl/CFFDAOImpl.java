@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class CFFDAOImpl implements CFFDAO {
 
-    static CFFDAOImpl dao = new CFFDAOImpl();
+    private static CFFDAOImpl dao = new CFFDAOImpl();
 
     private CFFDAOImpl() {
     }
