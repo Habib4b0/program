@@ -135,7 +135,8 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	 */
 	@UiField("productlevel")
 	protected ComboBox productLevel;
-	@UiField("productRelation")
+	
+        @UiField("productRelation")
 	protected ComboBox productRelation;
 	/**
 	 * The product group.
@@ -368,14 +369,14 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected GroupDTO selectedProductGroupDTO;
 	protected GroupDTO selectedCustomerGroupDTO;
 	protected TextField projectionId = new TextField();
-	final ErrorLabel errorMsg = new ErrorLabel();
+	private final ErrorLabel errorMsg = new ErrorLabel();
 	protected TextField viewId = new TextField();
 	private TextField viewName = new TextField();
 	protected List<String> helperTableListNames;
 	protected List<String> companiesInProdHier;
 	protected LazyBeanItemContainer<DataSelectionDTO> resultsLazyContainer;
 	protected ViewDTO viewDTO;
-	boolean resetFlag = false;
+	private boolean resetFlag = false;
 	protected boolean customerLevelListenerFlag = true;
 	protected boolean productLevelListenerFlag = true;
 	protected String selectedCustomerLevel = StringUtils.EMPTY;
@@ -400,7 +401,7 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	private final IndexedContainer defaultCustomerForecastLevelContainer = new IndexedContainer();
 	protected String screenName = StringUtils.EMPTY;
 
-	CFFLogic logic = new CFFLogic();
+	private CFFLogic logic = new CFFLogic();
 
 	public AbstractDataSelection(CustomFieldGroup dataSelectionBinder, String screenName) {
 		setCompositionRoot(Clara.create(getClass().getResourceAsStream("/cff/tabs/dataSelection.xml"), this));

@@ -1,11 +1,14 @@
 package com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory;
 
+import java.util.ArrayList;
 import java.util.Date;
+
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
 import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -62,6 +65,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 
 	public void updateField(String column, Object value, boolean checkAll, String systemId, String componentId,
 			String tableId, GtnWsRecordBean gtnWsRecordBean) throws GtnFrameworkValidationFailedException {
+
 		Object localVarable = value;
 		GtnUIFrameworkWebserviceRequest updateRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsGeneralRequest generalWSRequest = new GtnWsGeneralRequest();
@@ -85,6 +89,9 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 		} else if (GtnFrameworkPSConstants.getPriceProtectionCustomTextFieldProperties().contains(column)
 				&& GtnUIFrameworkGlobalUI.getVaadinFieldFactoryComponentData(componentId).getCustomData() == null) {
 			return;
+		} else if (GtnFrameworkPSConstants.getPriceProtectionDdlbFieldPropertiesArray().contains(column)
+				&& localVarable == null) {
+			localVarable = 0;
 		}
 		psUpdateBean.setValue(localVarable);
 		psUpdateBean.setMasterSid(Integer.valueOf(systemId));
@@ -111,6 +118,22 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			tableBaseComponent.setTableRefresh(true);
 
 		}
+		boolean gtnFrameworkPriceProtectionValueChangeManager=GtnFrameworkPriceProtectionValueChangeManager.isValueChangeAllowed();
+		if ((gtnFrameworkPriceProtectionValueChangeManager)&&((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))
+				|| (column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
+			
+				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
+				refreshTable();
+				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);			
+		}
+	}
+
+	private void refreshTable() throws GtnFrameworkValidationFailedException {
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData("psPriceProtectionTabResultDataTable");
+		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
+		tableLogic.startSearchProcess(new ArrayList<String>(), true);
+		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
 
 	}
 

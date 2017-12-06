@@ -93,11 +93,11 @@ public class DataSelectionLogic {
 	/**
 	 * The data selection dao.
 	 */
-	DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
+	private DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelectionLogic.class);
-	int discountDdlbCount = 0;
-	CommonDAO salesProjectionDAO = new CommonDAOImpl();
-	DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
+	private int discountDdlbCount = 0;
+	private CommonDAO salesProjectionDAO = new CommonDAOImpl();
+	private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
 	public static final String FILTER = "filter~";
 	public static final String HIERARCHY_NO = "hierarchyNo";
 	public static final String CFF_MASTER_SID = "cffMasterSid";

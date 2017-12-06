@@ -107,7 +107,7 @@ public abstract class AbstractCustomTreeView extends Window {
     private Button close;
     @UiField("deductionLayout")
     private HorizontalLayout deductionLayout;
-    boolean saveFlag = false;
+    private boolean saveFlag = false;
 
     /**
      * Inits the.

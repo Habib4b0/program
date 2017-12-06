@@ -5,7 +5,6 @@
 package com.stpl.app.cff.ui.fileSelection.dto;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.FileSelectionTableLogic;
 import com.stpl.app.cff.ui.fileSelection.FileManagementLookup.FileManagementLookup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
@@ -18,7 +17,6 @@ import com.vaadin.ui.Field;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import org.asi.ui.customtextfield.CustomTextField;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
 
 /**
@@ -29,8 +27,8 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
 
     private BeanItemContainer searchContainer;
     private CustomTextField fileName;
-    SessionDTO session;
-    String businessUnit;
+    private SessionDTO session;
+    private String businessUnit;
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableGenerator.class);
 
     public FileSelectionTableGenerator(BeanItemContainer searchContainer,SessionDTO sessionDTO,String businessUnit ){

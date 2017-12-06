@@ -143,14 +143,19 @@ public class GtnFrameworkRSConstants {
 			RS_END_DATE1, "deductionName", DEDUCTION_NO, EVALUATION_RULE_NAME, EVALUATION_RULE_BUNDLE1,
 			CALCULATION_RULE_NAME, CALCULATION_RULE_BUNDLE1, ATTACHED_DATE1 };
 
-	private static final String[] RS_SETUP_TAB_TABLE_HEADERS = { "", "Item NO", "Item Name", "RS Status",
-			"RS Start Date", "RS End Date" };
+	private static final String[] RS_SETUP_TAB_TABLE_HEADERS = { "", GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, GtnFrameworkRSConstants.RS_START_DATE1,
+			GtnFrameworkRSConstants.RS_END_DATE };
 
 	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS = { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
 			"itemNo", "itemName", RS_STATUS, RS_START_DATE, RS_END_DATE1 };
 
-	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { GtnFrameworkCommonConstants.CHECK_RECORD_ID,
-			"itemNo", "itemName", "description", RS_START_DATE, RS_END_DATE1 };
+	private static final Object[] RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW = { "itemNo", "itemName", "description",
+			RS_START_DATE, RS_END_DATE1 };
+
+	private static final String[] RS_SETUP_TAB_VISIBLE_HEADERS_VIEW = { GtnFrameworkCommonConstants.ITEM_NO_HEADER,
+			GtnFrameworkCommonConstants.ITEM_NAME_HEADER, RS_STATUS1, GtnFrameworkRSConstants.RS_START_DATE1,
+			GtnFrameworkRSConstants.RS_END_DATE };
 
 	public static final String DETAILS_RESULT_TABLE = "detailsResultTable";
 	public static final String POU_UP_REBATE_SCHEDULE_TYPE = "pouUpRebateScheduleType";
@@ -382,6 +387,10 @@ public class GtnFrameworkRSConstants {
 
 	public static Object[] getRsSetupTabVisibleColumnsView() {
 		return RS_SETUP_TAB_VISIBLE_COLUMNS_VIEW.clone();
+	}
+
+	public static String[] getRsSetupTabVisibleHeadersView() {
+		return RS_SETUP_TAB_VISIBLE_HEADERS_VIEW.clone();
 	}
 
 	public static String[] getRsSetupTabTableHeaders() {
