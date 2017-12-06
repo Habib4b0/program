@@ -479,8 +479,8 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.PS_BASE_PRICE_DDLB,
 				configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.BASE_PRICE_DDLB,
 						GtnFrameworkWebserviceConstant.IMPSD));
-		psPPColumnDetailsMap.put("psBasePriceTypeDes", configProvider.getColumnStringConfig("DESCRIPTION", "baseType"));
-		psPPColumnDetailsMap.put("psToleranceTypeDes", configProvider.getColumnStringConfig("DESCRIPTION", "priceToleranceType"));
+		psPPColumnDetailsMap.put("psBasePriceTypeDes", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "baseType"));
+		psPPColumnDetailsMap.put("psToleranceTypeDes", configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "priceToleranceType"));
 		psPPColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID, configProvider.getColumnStringConfig(
 				GtnFrameworkWebserviceConstant.IMTD_PS_DETAILS_SID, GtnFrameworkWebserviceConstant.IMPSD));
 		psPPColumnDetailsMap.put(GtnFrameworkWebserviceConstant.USER_ID, configProvider.getColumnStringConfig(
@@ -665,7 +665,7 @@ public class GtnWebServicePriceScheduleConfig implements GtnWsSearchQueryConfigL
 				configProvider.getColumnIntegerConfig(GtnFrameworkWebserviceConstant.BASE_PRICE_DDLB,
 						GtnFrameworkWebserviceConstant.IMPSD));
 		psPPViewColumnDetailsMap.put("psBasePriceTypeDes",
-				configProvider.getColumnStringConfig("DESCRIPTION", "baseType"));
+				configProvider.getColumnStringConfig(GtnFrameworkWebserviceConstant.DESCRIPTION, "baseType"));
 		psPPViewColumnDetailsMap.put(GtnFrameworkCommonConstants.SYSTEM_ID,
 				configProvider.getColumnStringConfig("PS_DETAILS_SID", GtnFrameworkWebserviceConstant.IMPSD));
 		psPPViewColumnDetailsMap.put("IMPSD.PS_MODEL_SID", configProvider.getColumnIntegerConfig(
