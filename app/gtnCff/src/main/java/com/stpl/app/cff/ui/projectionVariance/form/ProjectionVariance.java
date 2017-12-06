@@ -77,7 +77,6 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -106,8 +105,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private Map<Integer, String> projectionMap = new HashMap<>();
     public List<String> projNameList = new ArrayList<>();
     public List<Integer> projIdList = new ArrayList<>();
-    private ExtPagedTreeTable leftTable;
-    private ExtPagedTreeTable rightTable;
     private ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
     public ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
     private int tradingPartnerNo = 0;
@@ -118,7 +115,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     private boolean isComparisonLookupOpened;
     private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
     public List<Integer> comparisonProjId = new ArrayList<>();
-    private PVSelectionDTO baseVariables = new PVSelectionDTO();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -132,7 +128,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     private final PVExcelLogic excelLogic = new PVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap, discountMapDetails);
 
-    private String toDateValue;
 
     private DataSelectionDTO dataSelectionDTO;
     private int columnSize = 0;
@@ -425,7 +420,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
 
             UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
-            toDateValue = String.valueOf(toDate.getValue());
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue()))
                     && toDate.getValue() != null && !"null".equals(String.valueOf(toDate.getValue())) && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(toDate.getValue()))) {
                 if (pivotView.getValue().equals("Period")) {

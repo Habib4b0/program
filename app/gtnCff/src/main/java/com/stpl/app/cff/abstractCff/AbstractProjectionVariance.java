@@ -274,7 +274,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
      */
     @UiField("uomDdlb")
     protected ComboBox uomDdlb;
-    private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
     /**
      * Screen Name
      */

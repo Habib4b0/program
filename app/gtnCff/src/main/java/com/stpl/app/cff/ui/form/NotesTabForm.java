@@ -24,7 +24,6 @@ import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.AbstractNotesTab;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.AbstractNotificationUtils;
@@ -41,7 +40,6 @@ import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Upload;
 
 /**
@@ -62,7 +60,6 @@ public class NotesTabForm extends AbstractNotesTab {
 	private final String userName;
 	private final NotesTabLogic logic = new NotesTabLogic();
 	private NotesDTO tableBean = new NotesDTO();
-	private ComboBox reasonCode = new ComboBox();
 	private List<String> notesList = new ArrayList<>();
 	/**
 	 * The common logic.
@@ -71,17 +68,13 @@ public class NotesTabForm extends AbstractNotesTab {
 	private  List<NotesDTO> removeDetailsList = new ArrayList<>();
 	private Double fileSize = 0.00;
 	protected final String mode = "";
-	private CommonUIUtils commonUiUtil = new CommonUIUtils();
-	private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 	private CffApprovalDetailsForm approvalWindow;
 	private Button close = new Button("Close");
-	private SessionDTO sessionDTO;
 	private static String MODULE_NAME = "Consolidated Financial Forecast";
 
 	public NotesTabForm(SessionDTO sessionDTO, CustomFieldGroup binder, String moduleName,
 			CffApprovalDetailsForm approvalWindow) throws SystemException {
 		super(binder, moduleName);
-		this.sessionDTO = sessionDTO;
 		this.binder = binder;
 		this.moduleName = moduleName;
 		this.approvalWindow = approvalWindow;

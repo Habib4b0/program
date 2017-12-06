@@ -139,8 +139,6 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     @UiField("tableVerticalLayout")
     protected VerticalLayout tableVerticalLayout;
 
-    private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
-
     protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     protected ResultsTableLogic tableLogic = new ResultsTableLogic();
     protected FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
