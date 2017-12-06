@@ -6,7 +6,6 @@ package com.stpl.app.cff.ui.fileSelection.Util;
 
 // TODO: Auto-generated Javadoc
 import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.dto.SessionDTO;
 
 /**
  * The Class CommonUIUtil.
@@ -279,8 +278,6 @@ public final class CommonUIUtil {
 
     public final String[] fileMgtLookupAdjustedDemandDetailsHeader = new String[]{ITEM_ID_LABEL, ITEM_NAME_LABEL, StringConstantsUtil.BRAND_ID_LABEL, "Brand Name", StringConstantsUtil.SEGMENT_LABEL, "Year", MONTH_LABEL, MARKET_SIZE_UNITS, MARKET_SHARE_RATIO_LABEL, StringConstantsUtil.MARKET_SHARE_UNITS_LABEL, UNCAPTURED_UNITS, UNCAPTURED_UNITS_RATIO, TOTAL_DEMAND_UNITS, TOTAL_DEMAND_AMOUNT, INVENTORY_UNIT_CHANGE, GROSS_UNITS_LABEL, GROSS_PRICE, GROSS_AMOUNT, NET_SALES_PRICE, NET_SALE_AMOUNT, StringConstantsUtil.BATCH_ID_LABEL, "Source", ORGANIZATION_KEY};
     public final Object[] fileMgtLookupAdjustedDemandDetailsColumns = new Object[]{StringConstantsUtil.ITEM_ID, ITEM_NAME_PROPERTY, BRAND_ID, "brandName", SEGMENT_PROPERTY, FORCAST_YEAR, StringConstantsUtil.FORECAST_MONTH, StringConstantsUtil.MARKET_SIZE_UNITS, MARKET_SHARE_RATIO_PROPERTY, MARKET_SHARE_UNITS, UNCAPTURED_UNITS1, UNCAPTURED_UNITS_RATIO1, TOTAL_DEMAND_UNITS1, TOTAL_DEMAND_AMOUNT1, StringConstantsUtil.INVENTORY_UNIT_CHANGE, GROSS_UNITS, GROSS_PRICE1, GROSS_AMOUNT1, StringConstantsUtil.NET_SALES_PRICE, NET_SALES_AMOUNT, BATCH_ID_PROPERTY, "source", ORGANIZATION_KEY1};
-
-    private SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * private constructor to protect to object creation.
