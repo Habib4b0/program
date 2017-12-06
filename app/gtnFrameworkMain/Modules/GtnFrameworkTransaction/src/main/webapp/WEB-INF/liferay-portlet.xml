@@ -193,5 +193,10 @@
 		<instanceable>false</instanceable>
 		<ajaxable>false</ajaxable>
 	</portlet>
+	<portlet>
+		<portlet-name>VwCffOutboundMaster</portlet-name>
+		<instanceable>false</instanceable>
+		<ajaxable>false</ajaxable>
+	</portlet>
 	
 </liferay-portlet-app>

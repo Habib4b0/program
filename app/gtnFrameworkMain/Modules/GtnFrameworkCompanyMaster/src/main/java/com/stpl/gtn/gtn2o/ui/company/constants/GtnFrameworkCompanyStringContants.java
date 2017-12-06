@@ -262,6 +262,8 @@ public class GtnFrameworkCompanyStringContants {
 
 	public static final String FINANCIAL_CLOSE_RESET_ALERT_MSG = "Are you sure you want to reset the fields to default values?";
 
+	public static final String TRADE_CLASS_SID_DISTINCT = "Please select different Trade class. Selected Trade Class already exists";
+
 	public static final String TRADE_CLASS_DATE_LESS_THAN = "Trade class Start Date should be less than Trade Class End Date in Company Trade Class Tab";
 
 	public static final String TRADE_CLASS_DATE_EQUAL = "Trade class Start Date should not be equal to Trade class End Date in Company Trade Class Tab";

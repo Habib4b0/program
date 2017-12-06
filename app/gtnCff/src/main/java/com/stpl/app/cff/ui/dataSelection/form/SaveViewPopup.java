@@ -62,7 +62,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * The view binder.
      */
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<SaveViewDTO>(saveViewDTO));
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
     private TextField viewId = new TextField();
     private TextField viewName = new TextField();
     private OptionGroup viewType = new OptionGroup();
@@ -73,9 +73,9 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The logic.
      */
-    CFFLogic cffLogic = new CFFLogic();
-    List<String> customerListEndSids;
-    List<String> productListEndSids;
+    private CFFLogic cffLogic = new CFFLogic();
+    private List<String> customerListEndSids;
+    private List<String> productListEndSids;
     /**
      * The Constant LOGGER.
      */
@@ -84,12 +84,12 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     private List<Leveldto> selectedProductsList;
     private List<Leveldto> selectedCustomersList;
     private int projectionId = 0;
-    List<Leveldto> customerHierarchyEndLevels;
-    String productHierarchyEndLevelsHierNos;
-    ViewDTO viewDTO;
-    String screenName = StringUtils.EMPTY;
-    String updateOrSave;
-    SessionDTO sessionDTO;
+    private List<Leveldto> customerHierarchyEndLevels;
+    private String productHierarchyEndLevelsHierNos;
+    private ViewDTO viewDTO;
+    private String screenName = StringUtils.EMPTY;
+    private String updateOrSave;
+    private SessionDTO sessionDTO;
 
     /**
      * Save view popup constructor.

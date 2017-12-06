@@ -35,7 +35,7 @@ public class CFFQueryUtils {
      */
     private static final Logger LOGGER = LogManager.getLogger(CFFQueryUtils.class);
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * Gets the CCP combination
