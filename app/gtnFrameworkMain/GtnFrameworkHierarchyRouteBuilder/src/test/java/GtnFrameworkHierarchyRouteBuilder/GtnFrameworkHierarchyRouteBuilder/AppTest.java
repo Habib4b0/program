@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,23 +12,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkQueryGeneratorBean;
-import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkRouteBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.service.GtnFrameworkHierarchyService;
+
 
 /**
  * Unit test for simple App.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:GtnFrameworkHierarchyRouteBuilder-test.xml" })
-// @Ignore
+@Ignore
 public class AppTest {
 
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
-
-	@Autowired
-	private GtnFrameworkEntityMasterBean gtnFrameworkEntityMasterBean;
 
 	/**
 	 * Create the test case
@@ -41,7 +39,7 @@ public class AppTest {
 		*/
 	}
 
-	// @Test
+	@Test
 	public void creatQueryForMultiLevelHierarchy() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		List<String> entityList = Arrays.asList("RS_CONTRACT");
@@ -52,7 +50,7 @@ public class AppTest {
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
-	// @Test
+	@Test
 	public void getRoutePath() {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
 		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
@@ -65,27 +63,14 @@ public class AppTest {
 
 	@Test
 	public void getPathByTableNameAndHierarchyType() {
-		try {
 		GtnFrameworkQueryGeneratorBean queryBean = new GtnFrameworkQueryGeneratorBean();
-			GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("COMPANY_MASTER",
-					"ITEM_MASTER", "PRODUCT HIERARCHY");
-		System.out.println(routePath);
+		GtnFrameworkRouteBean routePath = hierarchyService.getPathByTableNameAndHierarchyType("RS_CONTRACT", "UDCS",
+				"DEDUCTION_HIERARCHY");
 		hierarchyService.createQuery(routePath, queryBean);
-		System.out.println(routePath.getPathList());
-		// final GtnFrameworkSingleColumnRelationBean destinationkeyBean =
-		// gtnFrameworkEntityMasterBean
-		// .getKeyRelationBeanUsingTableIdAndColumnName("ITEM_MASTER",
-		// "ITEM_CATEGORY");
-		// hierarchyService.getSelectColumnsForRelationShipBuilder(destinationkeyBean,
-		// queryBean);
 		String finalQuery = queryBean.generateQuery();
-		System.out.println(finalQuery);
-		// Assert.assertEquals(true, !finalQuery.isEmpty());
-		// Assert.assertEquals(true, routePath.getPathList().isEmpty());
-		} catch (Exception e) {
 
-			e.printStackTrace();
-		}
+		Assert.assertEquals(true, !finalQuery.isEmpty());
+		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
 
 }

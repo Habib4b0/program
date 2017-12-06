@@ -461,15 +461,8 @@
 							<Dependencies>com.stpl.shared.library</Dependencies>
 						</manifestEntries>
 					</archive>
-						 <outputDirectory>D:\New folder\BackupWar\</outputDirectory>
-						 <outputDirectory>D:\bpigtn-dev\deploy\</outputDirectory>
 				</configuration>
 			</plugin>
-			 <plugin>
-        <groupId>org.sonarsource.scanner.maven</groupId>
-        <artifactId>sonar-maven-plugin</artifactId>
-        <version>3.4.0.905</version>
-      </plugin>
 		</plugins>
 		<!-- <resources> <resource> <directory>src/main/java</directory> <includes> 
 			<include>**/*.xml</include> </includes> </resource> </resources> -->
