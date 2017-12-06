@@ -301,6 +301,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      */
     private void configureFields() {
         tableLogic.setContainerDataSource(resultsContainer);
+        tableLogic.setPageLength(10);
         resultsTableLayout.addComponent(resultTable);
         resultsTableLayout.addComponent(tableLogic.createControls());
         resultTable.addStyleName(Constant.FILTER_TABLE);
