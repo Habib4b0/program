@@ -74,19 +74,19 @@ public class GtnWsUdcInfoBean implements Serializable {
 	}
 
 	public Date getCreatedDate() {
-		return this.createdDate;
+		return createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public Date getModifiedDate() {
-		return this.modifiedDate;
+		return modifiedDate == null ? null : (Date) modifiedDate.clone();
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
+		this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
 	}
 
 	public boolean isBrand() {
