@@ -10,8 +10,8 @@ public class GtnWSTransactionModuleBean {
 		super();
 	}
 
-	List<GtnWSTransactionColumnBean> module = new ArrayList<>();
-	List<GtnWSTransactionColumnBean> moduleDetails = new ArrayList<>();
+	private List<GtnWSTransactionColumnBean> module = new ArrayList<>();
+	private List<GtnWSTransactionColumnBean> moduleDetails = new ArrayList<>();
 
 	public List<GtnWSTransactionColumnBean> getModule() {
 		return module != null ? Collections.unmodifiableList(module) : module;
