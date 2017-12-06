@@ -19,6 +19,9 @@ import com.stpl.gtn.gtn2o.ws.transaction.service.GtnWsTransactionReprocessIOServ
 public class GtnWsTransactionOutboundController {
 
 	public GtnWsTransactionOutboundController() {
+		/**
+		 * empty constructor
+		 */
 	}
 
 	@Autowired
