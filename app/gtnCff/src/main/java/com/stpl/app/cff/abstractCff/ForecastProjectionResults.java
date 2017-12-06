@@ -55,7 +55,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +139,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     @UiField("tableVerticalLayout")
     protected VerticalLayout tableVerticalLayout;
 
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
+    private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
 
     protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     protected ResultsTableLogic tableLogic = new ResultsTableLogic();
@@ -159,7 +158,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected List<CffCustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = NumericConstants.TWO_HUNDRED, splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
-    int tradingPartnerNo = 0;
+    private int tradingPartnerNo = 0;
 
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override

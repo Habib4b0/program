@@ -7,7 +7,6 @@ import java.util.List;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 
 public class GtnUIFrameworkTransactionComponentTypeListBean {
-	
 
 	public GtnUIFrameworkTransactionComponentTypeListBean() {
 		super();
@@ -20,6 +19,11 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private List<GtnWSTransactionColumnBean> viewModeOrderComponents;
 	private List<GtnWSTransactionColumnBean> staticComponent;
 	private boolean viewIndexFlag = false;
+	private boolean outBoundModule = false;
+	private String reprocessingWebServiceURL;
+	private Object[] stagingInsertColumns = null;
+	private Object[] stagingUpdateColumns = null;
+	private Object[] stagingUpdateColumnsValues = null;
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
 		return Collections.unmodifiableList(listViewComponent);
@@ -75,6 +79,46 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 
 	public void setViewIndexFlag(boolean viewIndexFlag) {
 		this.viewIndexFlag = viewIndexFlag;
+	}
+
+	public boolean isOutBoundModule() {
+		return outBoundModule;
+	}
+
+	public void setOutBoundModule(boolean outBoundModule) {
+		this.outBoundModule = outBoundModule;
+	}
+
+	public String getReprocessingWebServiceURL() {
+		return reprocessingWebServiceURL;
+	}
+
+	public void setReprocessingWebServiceURL(String reprocessingWebServiceURL) {
+		this.reprocessingWebServiceURL = reprocessingWebServiceURL;
+	}
+
+	public Object[] getStagingInsertColumns() {
+		return stagingInsertColumns.length == 0 ? stagingInsertColumns : stagingInsertColumns.clone();
+	}
+
+	public void setStagingInsertColumns(Object[] stagingInsertColumns) {
+		this.stagingInsertColumns = stagingInsertColumns.clone();
+	}
+
+	public Object[] getStagingUpdateColumns() {
+		return stagingUpdateColumns.length == 0 ? stagingUpdateColumns : stagingUpdateColumns.clone();
+	}
+
+	public void setStagingUpdateColumns(Object[] stagingUpdateColumns) {
+		this.stagingUpdateColumns = stagingUpdateColumns.clone();
+	}
+
+	public Object[] getStagingUpdateColumnsValues() {
+		return stagingUpdateColumnsValues.length == 0 ? stagingUpdateColumnsValues : stagingUpdateColumnsValues.clone();
+	}
+
+	public void setStagingUpdateColumnsValues(Object[] stagingUpdateColumnsValues) {
+		this.stagingUpdateColumnsValues = stagingUpdateColumnsValues.clone();
 	}
 
 }

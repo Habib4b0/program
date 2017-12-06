@@ -640,7 +640,9 @@ public class RelationShipFilterLogic {
 			query.append(hierarchyNo);
 			query.append("'),");
 		}
+                if (query.length() != 0) {
 		query.deleteCharAt(query.length() - 1);
+                }
 		return query;
 	}
 

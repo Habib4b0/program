@@ -780,8 +780,8 @@ public class GtnFrameworkWorkflowInboxDataSelectionConfig {
 		searchResults.setFilterBar(Boolean.TRUE);
 		searchResults.setSelectable(Boolean.FALSE);
 		searchResults.setSinkItemPerPageWithPageLength(Boolean.FALSE);
-		searchResults.setPageLength(15);
-		searchResults.setItemPerPage(15);
+		searchResults.setPageLength(10);
+		searchResults.setItemPerPage(10);
 		searchResults.setSelectable(Boolean.TRUE);
 
 		searchResults.setTableColumnDataType(

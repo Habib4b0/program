@@ -45,6 +45,13 @@
                     </archive>
                 </configuration>
             </plugin>
+            	<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <configuration>
+                <outputDirectory>D:\bpigtn-dev\deploy\</outputDirectory>
+            </configuration>
+        </plugin>
             </plugins>
 	</build>
 </project>
