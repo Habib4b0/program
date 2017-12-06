@@ -1,6 +1,8 @@
 package com.stpl.gtn.gtn2o.ws.udc.bean;
 
 import java.io.Serializable;
+import java.util.Date;
+
 
 public class GtnWsUdcInfoBean implements Serializable {
 
@@ -15,9 +17,16 @@ public class GtnWsUdcInfoBean implements Serializable {
 
 	private String udcCategory;
 	private String udcValue;
+	private Integer helperTableSid;
+	private Integer refCount;
+	private Integer createdBy;
+	private Integer modifiedBy;
+	private Date createdDate;
+	private Date modifiedDate;
+	private boolean isBrand;
 
 	public String getUdcCategory() {
-		return udcCategory;
+		return this.udcCategory;
 	}
 
 	public void setUdcCategory(String udcCategory) {
@@ -25,11 +34,67 @@ public class GtnWsUdcInfoBean implements Serializable {
 	}
 
 	public String getUdcValue() {
-		return udcValue;
+		return this.udcValue;
 	}
 
 	public void setUdcValue(String udcValue) {
 		this.udcValue = udcValue;
+	}
+
+	public Integer getHelperTableSid() {
+		return this.helperTableSid;
+	}
+
+	public void setHelperTableSid(Integer helperTableSid) {
+		this.helperTableSid = helperTableSid;
+	}
+
+	public Integer getRefCount() {
+		return this.refCount;
+	}
+
+	public void setRefCount(Integer refCount) {
+		this.refCount = refCount;
+	}
+
+	public Integer getCreatedBy() {
+		return this.createdBy;
+	}
+
+	public void setCreatedBy(Integer createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Integer getModifiedBy() {
+		return this.modifiedBy;
+	}
+
+	public void setModifiedBy(Integer modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return this.modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public boolean isBrand() {
+		return this.isBrand;
+	}
+
+	public void setBrand(boolean isBrand) {
+		this.isBrand = isBrand;
 	}
 
 }

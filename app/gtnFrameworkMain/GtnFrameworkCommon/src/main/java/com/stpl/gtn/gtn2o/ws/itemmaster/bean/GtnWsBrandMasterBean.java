@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.itemmaster.bean;
 
+import java.util.Date;
+
 public class GtnWsBrandMasterBean implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,6 +15,11 @@ public class GtnWsBrandMasterBean implements java.io.Serializable {
 	private String brandName;
 	private String displayBrand;
 	private String brandDesc;
+	private Date createdDate;
+	private Date modifiedDate;
+	private int createdBy;
+	private int modifiedBy;
+	private char inboundStatus;
 
 	public int getBrandMasterSid() {
 		return brandMasterSid;
@@ -53,5 +60,46 @@ public class GtnWsBrandMasterBean implements java.io.Serializable {
 	public void setBrandDesc(String brandDesc) {
 		this.brandDesc = brandDesc;
 	}
+
+	public Date getCreatedDate() {
+		return this.createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return this.modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public int getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(int modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public char getInboundStatus() {
+		return inboundStatus;
+	}
+
+	public void setInboundStatus(char inboundStatus) {
+		this.inboundStatus = inboundStatus;
+	}
+
 
 }
