@@ -2193,6 +2193,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        and ppa_index_no = 1
                         AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -2357,6 +2358,7 @@ SET
                                 OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
+                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -2999,6 +3001,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
+                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -3125,6 +3128,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
+                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
