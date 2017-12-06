@@ -57,11 +57,15 @@ public class GtnTransactionUIConstants {
 
 	public static final String DEMAND_TYPE_SID = "forecastTypeSid";
 	
+	public static final String SEARCH_BUTTON_LAYOUT = "searchButtonlayout";
+	
 	public static final String INVENTORY_TYPE = "inventoryType";
 
 	public static final String INVENTORY_LEVEL = "inventoryLevel";
 	
 
+	public static final String REPROCESS_BUTTON_LAYOUT = "reprocessButtonlayout";
+	
 	private static final String[] VIEW_ENABLE = { "AccrualMaster", "ActualsMaster", "AuditMasterInbound",
 			"CpiIndexMaster", "CustomerGtsActual", "ForecastingMaster", "GlBalanceMaster", "ReturnsMaster",
 			"SalesMaster", "VwCompanyIdentifier", "VwCompanyMaster", "VwCompanyParentDetails", "VwCompanyTradeClass",
