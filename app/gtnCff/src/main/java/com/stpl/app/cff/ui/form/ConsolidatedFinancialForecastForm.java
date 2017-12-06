@@ -41,7 +41,6 @@ import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
-import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
@@ -189,7 +188,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
         
 	private CFFIndexTableLogic tableLogic = new CFFIndexTableLogic();
 	public ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
-	private ProjectionResults projectionResults;
 	/**
 	 * Label for Created From
 	 */
@@ -259,7 +257,6 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 	private SessionDTO sessionDTO;
 	private CommonUtils commonutil = new CommonUtils();
 	private DataSelectionLogic dataLogic = new DataSelectionLogic();
-	private int projectionid;
 	private String topLevelName = StringUtils.EMPTY;
 	public static final String NO_RECORD_SELECTED = "No Record Selected.";
 	private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();

@@ -87,8 +87,6 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     private List<Leveldto> customerHierarchyEndLevels;
     private String productHierarchyEndLevelsHierNos;
     private ViewDTO viewDTO;
-    private String screenName = StringUtils.EMPTY;
-    private String updateOrSave;
     private SessionDTO sessionDTO;
 
     /**
@@ -127,7 +125,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      */
     public SaveViewPopup(String windowName, DataSelectionDTO dataselectionDtoToSave, List<Leveldto> selectedCustomersList,
             List<Leveldto> selectedProductsList, List<Leveldto> customerHierarchyEndLevels, String productHierarchyEndLevelsHierNos, ViewDTO viewDTO, List<String> customerListEndSids, 
-            List<String> productListEndSids, final String screenName , SessionDTO sessionDTO) {
+            List<String> productListEndSids, SessionDTO sessionDTO) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
         this.dataselectionDtoToSave = dataselectionDtoToSave;
@@ -138,7 +136,6 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         this.viewDTO = viewDTO;
         this.customerListEndSids = customerListEndSids;
         this.productListEndSids = productListEndSids;
-        this.screenName = screenName;
         this.sessionDTO = sessionDTO;
         buildPopup();
         LOGGER.debug("End of SaveViewPopup");

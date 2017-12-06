@@ -57,7 +57,7 @@ public class FileSelectionTableGenerator extends DefaultFieldFactory {
                     String country = String.valueOf(searchContainer.getContainerProperty(itemId, "country").getValue());
 
                     try {
-                        final FileManagementLookup lookUp = new FileManagementLookup("", session, false, fileType, country, searchContainer, itemId,businessUnit);
+                        final FileManagementLookup lookUp = new FileManagementLookup(session, false, fileType, searchContainer, itemId,businessUnit);
                         lookUp.init();
 
                         UI.getCurrent().addWindow(lookUp);
