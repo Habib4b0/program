@@ -33,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
+import com.stpl.gtn.gtn2o.ws.request.udc.GtnWsUdcRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 
 public class GtnUIFrameworkWebserviceRequest {
@@ -118,6 +119,8 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 
+	private GtnWsUdcRequest gtnWsUdcRequest;
+
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
 		return gtnWshirarchyInsertRequest;
 	}
@@ -125,6 +128,7 @@ public class GtnUIFrameworkWebserviceRequest {
 	public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
 		this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
 	}
+
 	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
 		return gtnBSTimePeriodRequest;
 	}
@@ -407,6 +411,7 @@ public class GtnUIFrameworkWebserviceRequest {
 			GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest) {
 		this.gtnWsModuleAuthorizationGeneralRequest = gtnWsModuleAuthorizationGeneralRequest;
 	}
+
 	public GtnFrameworkAutomaticRelationshipRequest getAutomaticRelationEequest() {
 		return automaticRelationEequest;
 	}
@@ -414,7 +419,6 @@ public class GtnUIFrameworkWebserviceRequest {
 	public void setAutomaticRelationEequest(GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest) {
 		this.automaticRelationEequest = automaticRelationEequest;
 	}
-
 
 	public GtnWsCsvExportRequest getGtnWsCsvExportRequest() {
 		return gtnWsCsvExportRequest;
@@ -430,6 +434,14 @@ public class GtnUIFrameworkWebserviceRequest {
 
 	public void setGtnWsBcpServiceRequest(GtnWsBcpServiceRequest gtnWsBcpServiceRequest) {
 		this.gtnWsBcpServiceRequest = gtnWsBcpServiceRequest;
+	}
+
+	public GtnWsUdcRequest getGtnWsUdcRequest() {
+		return gtnWsUdcRequest;
+	}
+
+	public void setGtnWsUdcRequest(GtnWsUdcRequest gtnWsUdcRequest) {
+		this.gtnWsUdcRequest = gtnWsUdcRequest;
 	}
 
 }

@@ -70,12 +70,12 @@ public class GtnUIFrameWorkTransactioneRecordTypeAction implements GtnUIFrameWor
 			if (checkBean.isCheckAll()) {
 				GtnWsRecordBean.addProperties(0,
 						checkBean.isCheckAll() || checkBean.getCheckedIdSet()
-								.contains(record.getIntegerPropertyByIndex(record.getProperties().size() - 1)),
+								.contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			} else {
 				GtnWsRecordBean.addProperties(0,
 						!checkBean.getUnCheckedIdSet().isEmpty() && !checkBean.getUnCheckedIdSet()
-								.contains(record.getIntegerPropertyByIndex(record.getProperties().size() - 1)),
+								.contains(record.getStringPropertyByIndex(record.getProperties().size() - 1)),
 						record.getProperties());
 			}
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(tableId).setPagedTableHeaderCheckBox(checkBean.isCheckAll(),

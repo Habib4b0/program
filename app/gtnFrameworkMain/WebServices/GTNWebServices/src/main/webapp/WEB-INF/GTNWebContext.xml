@@ -369,6 +369,8 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTypeTableRelation.hbm.xml
 				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
+				</value>
 
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentMaster.hbm.xml
 				</value>
@@ -378,8 +380,10 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/ModuleSubmoduleMaster.hbm.xml
 				</value>
-
-
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/VwCffOutboundMaster.hbm.xml
+				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/transaction/StCffOutboundMaster.hbm.xml
+				</value>
 			</list>
 		</property>
 	</bean>
