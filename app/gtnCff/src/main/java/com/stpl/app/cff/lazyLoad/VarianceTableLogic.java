@@ -31,12 +31,9 @@ public class VarianceTableLogic extends PageTreeTableLogic{
 	public VarianceTableLogic() {
 		super();
 	}
-    private List<Leveldto> currentHierarchy = new ArrayList<>();
     private PVSelectionDTO projSelDTO = new PVSelectionDTO();
-    private int levelNo;
     private String hierarchyNo;
     private boolean firstGenerated = false;
-    private boolean isChild = false;
     public static final Logger LOGGER = Logger.getLogger(VarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
@@ -119,16 +116,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     /**
      * Method for reloading the table
      *
-     * @param currentHierarchy
      * @param projSelDTO
-     * @param levelNo
      * @param hierarchyNo
      */
-    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo, String hierarchyNo) {
+    public void setProjectionResultsData(PVSelectionDTO projSelDTO, String hierarchyNo) {
         LOGGER.debug("setProjectionResultsData Starts");
-        this.currentHierarchy = currentHierarchy;
         this.projSelDTO = projSelDTO;
-        this.levelNo = levelNo;
         this.hierarchyNo = hierarchyNo;
         clearAll();
         firstGenerated = true;

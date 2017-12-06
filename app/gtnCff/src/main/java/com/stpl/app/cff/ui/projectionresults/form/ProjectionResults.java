@@ -74,15 +74,13 @@ public class ProjectionResults extends ForecastProjectionResults {
     private List<List<String>> discountlist = new ArrayList<>();
     private final ProjectionResultsLogic projResLogic = new ProjectionResultsLogic();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
-    private boolean flag = false;
 
     private final Map<String, Object> excelParentRecords = new HashMap();
     private final List<String> hierarchyKeys = new ArrayList();
     private final List<String> tradingPartnerKeys = new ArrayList();
     private final List<String> discountKeys = new ArrayList();
-    protected PVParameters parameterDto = new PVParameters();
     private final Map<String, List<List<ProjectionResultsDTO>>> discountMap = new HashMap<>();
-    private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap);
+    private final PRExcelLogic excelLogic = new PRExcelLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, discountMap);
     private DataSelectionDTO dataSelectionDTO;
 
     public ProjectionResults(final SessionDTO session, final String screenName, final DataSelectionDTO dataSelectionDTO) throws PortalException, SystemException {

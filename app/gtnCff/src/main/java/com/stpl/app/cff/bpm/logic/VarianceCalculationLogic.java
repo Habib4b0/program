@@ -15,7 +15,6 @@ public class VarianceCalculationLogic {
      * The Constant LOGGER.
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(VarianceCalculationLogic.class);
-    private static String notiMsg = "";
 
     public static void submitWorkflow(final String userId, final Long processInstanceId, final Map<String, Object> params) {
         int count = 1;
