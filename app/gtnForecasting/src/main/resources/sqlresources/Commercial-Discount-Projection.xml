@@ -2075,19 +2075,19 @@ GROUP  BY I.PERIOD,
                 FROM ST_NM_SALES_PROJECTION)
 				
 
-              SELECT CHECK_RECORD,
+                SELECT CHECK_RECORD,
                      sh.HIERARCHY_NO,
                      sh.YEAR,
                      sh.PERIOD,
                      sh.DISCOUNT,
-                     COALESCE((DISCOUNT_ACTUALS/NULLIF(CCPS_COUNT,0)) / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                     COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES,0), 0) * 100 AS ACTUAL_RATE,
                      NULL PROJECTION_RATE,
                      0                                                             AS AP_TABLE_INDICATOR,
                      SH.USER_GROUP,
                      CCP_COUNT,
                      UNCHECK_COUNT,
                      DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
-                     COALESCE((DISCOUNT_ACTUALS /NULLIF(CCPS_COUNT,0))/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                     COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
                      NULL                                      AS PROJECTION_SALES,
                      NULL                                                          AS PROJECTION_RPU,
                      NULL                                                          AS GROWTH,RELATIONSHIP_LEVEL_VALUES @SELCOLDED
