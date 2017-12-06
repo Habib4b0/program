@@ -12,7 +12,8 @@ public class GtnFrameworkProcessMonitorStringContants {
 	public static final String RUN = "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23";
 	public static final String HOURS = "0,15,30,45";
 	public static final String PROCESS_TYPE = "processType";
-	private static final Object[] PROCESS_MONITOR_TABLE_COLUMNS = new Object[] { "processName", PROCESS_TYPE,
+	public static final String GTN_PROCESS_MONITOR_PROCESS_NAME = "processName";
+	private static final Object[] PROCESS_MONITOR_TABLE_COLUMNS = new Object[] { GTN_PROCESS_MONITOR_PROCESS_NAME, PROCESS_TYPE,
 			"slaCalendarMasterSid", "modifiedDate", "modifiedBy" };
 
 	private static final String[] PROCESS_MONITOR_TABLE_HEADER = new String[] { "Monitor Name", "Process Type",
@@ -36,8 +37,6 @@ public class GtnFrameworkProcessMonitorStringContants {
 
 	public static final String GTN_PROCESS_MONITOR_CONFIRMATION = "Confirmation";
 
-	public static final String GTN_PROCESS_MONITOR_PROCESS_NAME = "processName";
-
 	public static final String GTN_PROCESS_MONITOR_PROCESS_TYPE = "process Type";
 
 	public static final String GTN_PROCESS_MONITOR_AUTOMATIC = "Automatic";
@@ -60,7 +59,7 @@ public class GtnFrameworkProcessMonitorStringContants {
 
 	public static final String GTN_PROCESS_MONITOR_INBOUND_STATUS_CHANGE = "C";
 
-	public static final String GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME = "atlease one run time";
+	public static final String GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME = "atleast one run time";
 
 	public static final String GTN_PROCESS_MONITOR_PROCESS_NAMES = "process Name";
 
@@ -76,6 +75,8 @@ public class GtnFrameworkProcessMonitorStringContants {
 	public static final String GTN_PROCESS_MONITOR_RUNONEDDLB = "run1Ddlb";
 	public static final String GTN_PROCESS_MONITOR_RUNTWODDLB = "run2Ddlb";
 	public static final String GTN_PROCESS_MONITOR_RUNTHREEDDLB = "run3Ddlb";
+	public static final String GTN_PROCESS_MONITOR_RUNONEHOURDDLB = "hours1Ddlb";
+	
 	public static final List<String> PROCESS_MONITOR_FIELDS = Collections.unmodifiableList(
 			Arrays.asList(GtnFrameworkCommonConstants.PROCESS_NAME, PROCESS_TYPE, "calender", "startDate", "endDate",
 					GtnFrameworkCommonConstants.RUN1_DDLB, GtnFrameworkCommonConstants.RUN2_DDLB,
