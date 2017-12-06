@@ -272,6 +272,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		tableLogic.setContainerDataSource(resultsContainer);
 		tableLogic.sinkItemPerPageWithPageLength(false);
 		resultTable.setSelectable(true);
+                resultTable.setItemsPerPage(10);
 		tableLogic.setPageLength(NumericConstants.TEN);
 		setProductForecastLevelNullSelection();
 		setProductLevelNullSelection();
@@ -351,7 +352,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 		resultTable.setFilterBarVisible(true);
 		resultTable.setSizeFull();
 		resultTable.setImmediate(true);
-		resultTable.setPageLength(NumericConstants.TEN);
+//		resultTable.setPageLength(NumericConstants.TEN);
 		resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
 		resultTable.addStyleName(Constant.FILTER_TABLE);
 		resultTable.addStyleName("table-header-normal");

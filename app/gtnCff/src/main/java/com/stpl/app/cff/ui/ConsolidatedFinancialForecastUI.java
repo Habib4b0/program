@@ -40,7 +40,7 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	 * navigator
 	 */
 	private Navigator navigator;
-	PortletMode customMode;
+	private PortletMode customMode;
 	public static boolean EXCEL_CLOSE = false;
 	/**
 	 * Logger constant for the class ConsolidatedFinancialForecastUI

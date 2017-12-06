@@ -1,4 +1,13 @@
-[
+{
+"module":[  
+      {  
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
+		 "stagingUpdateColumns":["reprocessedFlag"],
+		 "stagingUpdateColumnsValues": ["Y"]
+	 
+      }
+   ],
+"moduleDetails":[
   {
     "columnID": "glCompany",
     "columnName": "GL Company",
@@ -286,3 +295,4 @@
 	"listViewIndex":32
   }
 ]
+}

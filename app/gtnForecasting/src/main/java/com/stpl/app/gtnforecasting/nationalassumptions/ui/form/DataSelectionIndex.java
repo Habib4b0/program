@@ -305,7 +305,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultsTableLayout.addComponent(tableLogic.createControls());
         resultTable.addStyleName(Constant.FILTER_TABLE);
         resultTable.addStyleName("table-header-center");
-        
+        resultTable.setItemsPerPage(10);
         resultTable.setSortEnabled(true);
         resultTable.setFilterGenerator(new ExtFilterGenerator() {
 
@@ -825,6 +825,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
         resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
+        resultTable.setItemsPerPage(10);
         resultTable.setImmediate(true);
         resultTable.setSelectable(true);
         resultTable.setWidth("100%");

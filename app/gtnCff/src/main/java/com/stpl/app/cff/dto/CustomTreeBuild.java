@@ -32,8 +32,8 @@ import org.jboss.logging.Logger;
 public class CustomTreeBuild extends AbstractCustomTreeView {
 
     private SessionDTO session;
-    int customId = 0;
-    boolean isSelect = false;
+    private int customId = 0;
+    private boolean isSelect = false;
     private CffCustomViewMaster customView = null;
     private static final Logger LOGGER = Logger.getLogger(CustomTreeBuild.class);
     private CustomViewLogic relationBuildLogic = new CustomViewLogic(); 
