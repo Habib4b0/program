@@ -28,7 +28,7 @@ public class GtnUIFrameworkTransactionTableCheckAction implements GtnUIFrameWork
 		GtnUIFrameworkActionParameter actionParam = componentData.getActionParameter();
 		List<Object> currentRecord = actionParam.getItemId().getProperties();
 		List<Object> actionParametersList = gtnUIFrameWorkActionConfig.getActionParameterList();
-		int systemID = (Integer) currentRecord.get(currentRecord.size() - 1);
+		String systemID = String.valueOf(currentRecord.get(currentRecord.size() - 1));
 		GtnWSTransactionTableCheckAllBean checkBean = (GtnWSTransactionTableCheckAllBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParametersList.get(2).toString()).getComponentData().getSharedPopupData();
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParametersList.get(1).toString())

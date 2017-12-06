@@ -8,9 +8,9 @@ public class GtnWSTransactionTableCheckAllBean {
 
 	private boolean checkAll = false;
 
-	private Set<Integer> checkedIdSet = new HashSet<>();
+	private Set<String> checkedIdSet = new HashSet<>();
 
-	private Set<Integer> unCheckedIdSet = new HashSet<>();
+	private Set<String> unCheckedIdSet = new HashSet<>();
 
 	public boolean isCheckAll() {
 		return checkAll;
@@ -20,35 +20,35 @@ public class GtnWSTransactionTableCheckAllBean {
 		this.checkAll = checkAll;
 	}
 
-	public Set<Integer> getCheckedIdSet() {
+	public Set<String> getCheckedIdSet() {
 		return checkedIdSet != null ? Collections.unmodifiableSet(checkedIdSet) : checkedIdSet;
 	}
 
-	public void setCheckedIdSet(Set<Integer> checkedIdSet) {
+	public void setCheckedIdSet(Set<String> checkedIdSet) {
 		this.checkedIdSet = checkedIdSet != null ? new HashSet<>(checkedIdSet) : checkedIdSet;
 	}
 
-	public void addtoCheckedIdSet(Integer value) {
+	public void addtoCheckedIdSet(String value) {
 		checkedIdSet.add(value);
 	}
 
-	public void removeFromCheckedIdSet(Integer value) {
+	public void removeFromCheckedIdSet(String value) {
 		checkedIdSet.remove(value);
 	}
 
-	public Set<Integer> getUnCheckedIdSet() {
+	public Set<String> getUnCheckedIdSet() {
 		return unCheckedIdSet != null ? Collections.unmodifiableSet(unCheckedIdSet) : unCheckedIdSet;
 	}
 
-	public void setUnCheckedIdSet(Set<Integer> unCheckedIdSet) {
+	public void setUnCheckedIdSet(Set<String> unCheckedIdSet) {
 		this.unCheckedIdSet = unCheckedIdSet != null ? new HashSet<>(unCheckedIdSet) : unCheckedIdSet;
 	}
 
-	public void addtoUnCheckedIdSet(Integer uncheckedId) {
+	public void addtoUnCheckedIdSet(String uncheckedId) {
 		unCheckedIdSet.add(uncheckedId);
 	}
 
-	public boolean removeFromUnCheckedIdSet(Integer uncheckedId) {
+	public boolean removeFromUnCheckedIdSet(String uncheckedId) {
 		return unCheckedIdSet.remove(uncheckedId);
 	}
 

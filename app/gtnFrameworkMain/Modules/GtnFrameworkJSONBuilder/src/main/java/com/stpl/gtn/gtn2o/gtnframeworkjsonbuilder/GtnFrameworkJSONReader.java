@@ -2,8 +2,6 @@
 package com.stpl.gtn.gtn2o.gtnframeworkjsonbuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -14,7 +12,6 @@ import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
-import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 
 public class GtnFrameworkJSONReader {
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnFrameworkJSONReader.class);
@@ -56,27 +53,6 @@ public class GtnFrameworkJSONReader {
 			LOGGER.error(GtnFrameworkCommonConstants.IO_EXCEPTION + e.getMessage());
 		}
 		return null;
-	}
-
-	public List<GtnWSTransactionColumnBean> getCustomConfigFromJSON(String path, String fileName) {
-		List<GtnWSTransactionColumnBean> resultList = null;
-		ObjectMapper mapper = new ObjectMapper();
-		// Convert object to JSON string and save into a file directly
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-		mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-		try {
-			resultList = (Arrays.asList(mapper.readValue(GtnFileNameUtils.getFile(
-					System.getProperty(GtnFrameworkCommonStringConstants.GTNFRAMEWORK_BASE_PATH) + path + fileName),
-					GtnWSTransactionColumnBean[].class)));
-		} catch (JsonGenerationException e) {
-			LOGGER.error(GtnFrameworkCommonConstants.JSON_GENERATION_EXCEPTION_EXCEPTION + e.getMessage());
-		} catch (JsonMappingException e) {
-			LOGGER.error(GtnFrameworkCommonConstants.JSON_MAPPING_EXCEPTION_EXCEPTION + e.getMessage());
-		} catch (IOException e) {
-			LOGGER.error(GtnFrameworkCommonConstants.IO_EXCEPTION + e.getMessage());
-		}
-		return resultList;
-
 	}
 
 	public static void main(String[] arg) {
