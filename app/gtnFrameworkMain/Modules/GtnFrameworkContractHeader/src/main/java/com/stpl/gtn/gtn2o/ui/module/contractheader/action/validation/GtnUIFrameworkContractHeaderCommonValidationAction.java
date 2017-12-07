@@ -33,7 +33,8 @@ public class GtnUIFrameworkContractHeaderCommonValidationAction
 		String[] fields = new String[] { GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_ID,
 				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_CONTRACT_NO,
 				"contractHeaderTabContractName", "contractHeaderTabContractStatus", "contractHeaderTabContractType",
-				"contractHeaderContractStartDate", GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER };
+				"contractHeaderContractStartDate",
+				GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER };
 		GtnUIFrameworkGlobalUI.validateFields(fields, chErrorMsg);
 
 		if (chErrorMsg.length() > 0) {
