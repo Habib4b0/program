@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,22 +71,29 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     @UiField("detailsTabSheet")
     private TabSheet tabSheet;
+    
     @UiField("BottomBtnLayout")
     private HorizontalLayout BottomBtnLayout;
     private DataSelection dataSelection;
+        
     @UiField("closeButton")
     private Button closeBtn;
+    
     @UiField("submitBtn")
     private Button submitBtn;
+    
     @UiField("approveBtn")
     private Button approveBtn;
+    
     @UiField("rejectBtn")
     private Button rejectBtn;
+    
     @UiField("deleteBtn")
     private Button deleteBtn;
+    
     @UiField("cancelBtn")
     private Button cancelBtn;
-    int tabPosition = 0;
+    private int tabPosition = 0;
     /**
      * Approval Tab
      */
@@ -96,44 +102,39 @@ public class CffApprovalDetailsForm extends CustomWindow {
      * Additional Information
      */
     private NotesTabForm notestab;
-    CFFSearchDTO dto;
+    private CFFSearchDTO dto;
     /**
      * The approval details bean.
      */
-    public BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean;
+    private  BeanItemContainer<ApprovalDetailsDTO> approvalDetailsBean;
     /**
      * The results bean.
      */
-    public BeanItemContainer<CFFResultsDTO> resultsBean;
-    SessionDTO sessionDTO;
+    private  BeanItemContainer<CFFResultsDTO> resultsBean;
+    private SessionDTO sessionDTO;
     /**
      * scenarioModeling form constructor
      */
-    DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
+    private DataSelectionDTO dataSelectionDTO = new DataSelectionDTO();
     /**
      * Binder for Data Selection
      */
-    CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
+    private CustomFieldGroup binder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
     /**
      * File Selection
      */
-    FileSelection fileSelection;
+    private FileSelection fileSelection;
     /**
      * PR
      */
-    ProjectionResults projectionResults;
+    private ProjectionResults projectionResults;
     /**
      * PV
      */
-    ProjectionVariance projectionVariance;
-    /**
-     * The updateCycleBean bean.
-     */
-    public List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
-    CustomFieldGroup cffSearchBinder;
-    boolean flag = false;
-    CFFLogic cffLogic = new CFFLogic();
-    Boolean isApproved = false;
+    private ProjectionVariance projectionVariance;
+    private CustomFieldGroup cffSearchBinder;
+    private CFFLogic cffLogic = new CFFLogic();
+    private Boolean isApproved = false;
 
     private boolean filterOptionLoaded = false;
 
@@ -321,7 +322,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         }
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
-                                        flag = true;
 
                                     } catch (Exception ex) {
                                         java.util.logging.Logger.getLogger(CffApprovalDetailsForm.class.getName()).log(Level.SEVERE, null, ex);

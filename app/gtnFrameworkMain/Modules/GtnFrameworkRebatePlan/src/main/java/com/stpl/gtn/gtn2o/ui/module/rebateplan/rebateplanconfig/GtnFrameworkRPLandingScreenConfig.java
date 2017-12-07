@@ -940,7 +940,9 @@ public class GtnFrameworkRPLandingScreenConfig {
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_TO,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_OPERATOR,
 				GtnFrameworkStringConstants.REBATE_PLAN_CALCULATION_VALUE,
-				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX };
+				GtnFrameworkCommonConstants.RULE_DETAILS_INFORMATION_LAYOUT_COMPLEX,
+				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_OPERATOR_COMPLEX,
+				GtnFrameworkCommonConstants.REBATE_PLAN_CALCULATIONS_VALUE_COMPLEX };
 
 		disableAction.setActionParameterList(Arrays.asList(disableField));
 		viewActionConfigList.add(disableAction);

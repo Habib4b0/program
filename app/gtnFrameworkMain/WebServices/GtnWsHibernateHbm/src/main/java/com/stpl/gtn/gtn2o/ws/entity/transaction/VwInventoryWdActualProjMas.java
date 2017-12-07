@@ -47,8 +47,8 @@ public class VwInventoryWdActualProjMas implements java.io.Serializable {
 	private String itemName;
 	private Double amountOnOrder;
 	private String forecastName;
-	private HelperTable inventoryType;
-	private HelperTable inventoryLevel;
+	private int inventoryType;
+	private int inventoryLevel;
 	private String brandId;
 	private String brandName;
 
@@ -300,19 +300,19 @@ public class VwInventoryWdActualProjMas implements java.io.Serializable {
 		this.forecastName = forecastName;
 	}
 
-	public HelperTable getInventoryType() {
+	public int getInventoryType() {
 		return inventoryType;
 	}
 
-	public void setInventoryType(HelperTable inventoryType) {
+	public void setInventoryType(int inventoryType) {
 		this.inventoryType = inventoryType;
 	}
 
-	public HelperTable getInventoryLevel() {
+	public int getInventoryLevel() {
 		return inventoryLevel;
 	}
 
-	public void setInventoryLevel(HelperTable inventoryLevel) {
+	public void setInventoryLevel(int inventoryLevel) {
 		this.inventoryLevel = inventoryLevel;
 	}
 

@@ -1126,7 +1126,7 @@ select
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS=&apos;A&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt; &apos;D&apos;)
 
 
 

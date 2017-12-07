@@ -27,7 +27,8 @@ public enum GtnFrameworkTransactionExcelName {
 																																															"Global Files Rebate Plan"), VWREBATESCHEDULE(
 																																																	"Global Files Rebate Schedule"), RETURNRATEFORECAST(
 																																																			"Return Rate Forecast"), ITEMUOM(
-																																																					"Item Uom");
+																																																					"Item Uom"), VWCFFOUTBOUNDMASTER(
+																																																							" Consolidated Financial Forecast");
 	private final String excelName;
 
 	GtnFrameworkTransactionExcelName(String excelName) {

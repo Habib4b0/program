@@ -19,11 +19,11 @@ import org.jboss.logging.Logger;
  */
 public class FileSelectionTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(FileSelectionTableLogic.class);
-     CFFLogic logic=new CFFLogic();
-     List<FileSelectionDTO> list;
-       boolean iscount=false;
-       SessionDTO sessionDTO;
-       String businessUnit;
+    private CFFLogic logic=new CFFLogic();
+    private List<FileSelectionDTO> list;
+    private boolean iscount=false;
+    private SessionDTO sessionDTO;
+    private String businessUnit;
     @Override
     public int getCount() {
         int count =0;

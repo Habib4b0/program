@@ -231,12 +231,13 @@ public class DiscountProjectionLogic {
                             discountName = StringUtils.EMPTY;
                             hierarchyNo = String.valueOf(obj[1]);
                             discountDto.setHierarchyNo(String.valueOf(obj[1]));
+                            String relValue;
                             if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
-                                String relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
-                                discountDto.setLevelName(session.getHierarchyLevelDetails().get(relValue).get(0).toString());
+                                relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
                             } else {
-                                discountDto.setLevelName(CommonUtil.getDisplayFormattedName(discountDto.getHierarchyNo(), hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
+                                relValue = discountDto.getHierarchyNo();
                             }
+                            discountDto.setLevelName(CommonUtil.getDisplayFormattedName(relValue, hierarchyIndicator, session.getHierarchyLevelDetails(), session, projectionSelection.getDisplayFormat()));
                             discountDto.setHierarchyIndicator(hierarchyIndicator);
                             if (isCustom) {
                                 discountDto.setTreeLevelNo(treeLevelNo);

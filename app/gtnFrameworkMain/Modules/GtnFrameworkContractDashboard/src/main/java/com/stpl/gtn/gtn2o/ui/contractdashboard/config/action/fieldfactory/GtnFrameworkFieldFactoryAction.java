@@ -18,6 +18,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.action.validation.GtnUIFrameworkValidationConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.fieldfactory.GtnUIFrameworkActionParameter;
+import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.GtnUIFrameworkPagedTableLogic;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -26,6 +27,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.contractdashboard.beans.GtnWsContractDashboardSessionBean;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.vaadin.ui.DateField;
 
@@ -78,10 +80,10 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 	}
 
 	private void operateFieldFactoryValue(GtnUIFrameworkActionParameter actionParameter, String componentId,
+	
 			List<Object> parameters, GtnUIFrameworkBaseComponent baseComponent) throws GtnFrameworkGeneralException {
 		String propertyId = actionParameter.getPropertyId();
 		int idIndex = Integer.parseInt(String.valueOf(parameters.get(2)));
-
 		GtnUIFrameWorkActionConfig updateActionConfig = new GtnUIFrameWorkActionConfig();
 		updateActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		updateActionConfig.addActionParameter(GtnFrameworkFieldFactoryValueUpdateAction.class.getName());
@@ -131,6 +133,10 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 			tableBaseComponent.setTableRefresh(true);
 			GtnFrameworkSessionManagerAction.getDashboardSessionBean(componentId).setNeedOperation(true);
 		}
+		if((GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[16]).equals(propertyId)||
+				(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17]).equals(propertyId)){
+			refreshTable();
+		}
 		if (propertyId.equals(GtnFrameworkContractDashboardContants.getPriceDetailEditableColumn()[4])) {
 			String componentIdPrefix = componentId.substring(0,
 					componentId.length() - actionParameter.getPropertyId().length());
@@ -145,7 +151,14 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 			}
 		}
 	}
+	private void refreshTable() throws GtnFrameworkValidationFailedException {
+		GtnUIFrameworkComponentData componentData = GtnUIFrameworkGlobalUI
+				.getVaadinComponentData("PricingTabPricingTable");
+		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
+		tableLogic.startSearchProcess(new ArrayList<String>(), true);
+		GtnFrameworkSessionManagerAction.getDashboardSessionBean("PricingTabPricingTable").setNeedOperation(true);
 
+	}
 	private boolean isValidValue(GtnUIFrameworkBaseComponent baseComponent, GtnUIFrameworkComponentData componentData) {
 		boolean ret = true;
 		GtnUIFrameworkValidationConfig valConfig = componentData.getCurrentComponentConfig()

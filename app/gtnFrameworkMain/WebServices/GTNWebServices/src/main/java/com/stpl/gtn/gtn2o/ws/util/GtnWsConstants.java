@@ -43,6 +43,7 @@ public final class GtnWsConstants {
 
 	public static final char CHAR_PERCENT = '%';
 	public static final char CHAR_ASTERISK = '*';
+	public static final String INTEGER = "Integer";
 
 	private GtnWsConstants() {
 		super();
