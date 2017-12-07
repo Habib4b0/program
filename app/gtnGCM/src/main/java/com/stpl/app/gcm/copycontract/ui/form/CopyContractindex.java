@@ -166,7 +166,8 @@ public class CopyContractindex extends VerticalLayout {
             copycontractResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
             copycontractResultsTable.setWidth(NumericConstants.HUNDRED, Sizeable.Unit.PERCENTAGE);
             copycontractResultsTable.setHeight(NumericConstants.FOUR_HUNDRED, Sizeable.Unit.PIXELS);
-            copycontractResultsTable.setPageLength(NumericConstants.FIVE);
+            copycontractResultsTable.setPageLength(10);
+            copycontractResultsTable.setItemsPerPage(10);
             copycontractResultsTable.setEditable(Boolean.TRUE);
             tablelogic.setContainerDataSource(resultContainer);
             copycontractTableLayout.addComponent(copycontractResultsTable);

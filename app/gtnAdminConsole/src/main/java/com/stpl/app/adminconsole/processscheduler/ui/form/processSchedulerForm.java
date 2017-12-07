@@ -455,8 +455,8 @@ public class processSchedulerForm extends CustomComponent {
         LOGGER.debug("Inside configureManualTable");
         manualTabLogic.setContainerDataSource(manualProcSchContainerBean);
         manualTabLogic.setPageLength(10);
-	manualProcTable.setWidth("100%");
-	manualProcTable.setHeight("560px");
+        manualTabLogic.sinkItemPerPageWithPageLength(false);
+        manualProcTable.setWidth("100%");
         manualProcTable.setItemsPerPage(10);
         manualProcTable.setSelectable(true);
         manualProcTable.setMultiSelect(false);
