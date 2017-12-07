@@ -88,6 +88,10 @@ public class GtnWsCfpValidationService {
 					validationBean.setDuplicateCompanyId(value);
 					validationBean.setDuplicateCompanyCount(Integer.valueOf(String.valueOf(objects[2])));
 					break;
+				case "START_DATE_EQUALS_END_DATE":
+					validationBean.setStartDateEqualsEndCount(getInt(value));
+					validationBean.setStartDateEqualsCompanyId(getString(value));
+					break;
 				default:
 					break;
 				}
