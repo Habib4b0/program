@@ -171,6 +171,7 @@ public class CompanySearch extends VerticalLayout {
             commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, false);
 
             companySearchTableLayout.addComponent(companySearchResultsTable);
+            companyLogic.setPageLength(10);
             HorizontalLayout hLayout;
             hLayout = companyLogic.createControls();
             companySearchTableLayout.addComponent(hLayout);
@@ -226,7 +227,7 @@ public class CompanySearch extends VerticalLayout {
         companySearchResultsTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         companySearchResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
         companySearchResultsTable.setHeight(NumericConstants.FOUR_HUNDRED, Unit.PIXELS);
-        companySearchResultsTable.setPageLength(NumericConstants.FIVE);
+        companySearchResultsTable.setItemsPerPage(10);
         companySearchResultsTable.setSortEnabled(false);
         companyLogic.setContainerDataSource(companyResultsContainer);
 

@@ -160,9 +160,9 @@ public class GtnWsUdcSaveService {
 		try {
 			int brandMasterSid = brandMasterModel.getBrandMasterSid();
 			if (brandMasterSid != 0) {
-				brandMasterModel = session.load(BrandMaster.class, brandMasterSid);
-				brandMasterModel.setInboundStatus('D');
-				session.update(brandMasterModel);
+				BrandMaster brandMasterModelDelete = session.load(BrandMaster.class, brandMasterSid);
+				brandMasterModelDelete.setInboundStatus('D');
+				session.update(brandMasterModelDelete);
 				transaction.commit();
 				gtnUIFrameworkWebserviceResponse.getGtnWsGeneralResponse().setSucess(true);
 			}

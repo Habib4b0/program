@@ -464,6 +464,7 @@ public class GtnFrameworkWorkflowInboxClassConstants {
 	public static final String SELECTED_ADJUSTMENTTYPE = "selectedAdjustmentType";
 	public static final String CONFIGURATION_TYPE = "configurationType";
 	public static final String CUSTOMERHIERSID = "customerHierSid";
+	public static final String PRODUCTHIERSID = "productHierSid";
 	public static final String CUSTOMERHIERLEVEL = "customerHierarchyLevel";
 	public static final String CUSTRELATIONSHIPSID = "custRelationshipBuilderSid";
 	public static final String PRODHIERLEVEL = "productHierarchyLevel";

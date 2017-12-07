@@ -231,7 +231,7 @@ public class DiscountProjectionLogic {
                             discountName = StringUtils.EMPTY;
                             hierarchyNo = String.valueOf(obj[1]);
                             discountDto.setHierarchyNo(String.valueOf(obj[1]));
-                            String relValue = StringUtils.EMPTY;
+                            String relValue;
                             if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(hierarchyIndicator)) {
                                 relValue = discountDto.getHierarchyNo().contains("~") ? discountDto.getHierarchyNo().substring(discountDto.getHierarchyNo().lastIndexOf("~") + 1) : discountDto.getHierarchyNo();
                             } else {

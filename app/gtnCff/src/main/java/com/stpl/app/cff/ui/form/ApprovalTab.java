@@ -205,24 +205,11 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The cff dto.
      */
-    private  CFFDTO cffDTO;
-    /**
-     * The projection id.
-     */
-    private  int projectionId;
-    /**
-     * The workflow id.
-     */
-    private  String workflowId;
-    /**
-     * The workflow system id.
-     */
-    private  int workflowSystemId;
+    public  CFFDTO cffDTO;
     /**
      * The commonUtils.
      */
     private final CommonUtils commonUtils = new CommonUtils();
-    private CFFResultsDTO cffResultsDTO = new CFFResultsDTO();
     private static final String ALERT = "Alert";
     private CFFLogic cffLogic = new CFFLogic();
     private NotesTabForm notestab;

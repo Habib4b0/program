@@ -5,7 +5,6 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,12 +132,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
      * PV
      */
     private ProjectionVariance projectionVariance;
-    /**
-     * The updateCycleBean bean.
-     */
-    private  List<ApprovalDetailsDTO> updateCycleBean = new ArrayList<>();
     private CustomFieldGroup cffSearchBinder;
-    private boolean flag = false;
     private CFFLogic cffLogic = new CFFLogic();
     private Boolean isApproved = false;
 
@@ -328,7 +322,6 @@ public class CffApprovalDetailsForm extends CustomWindow {
                                         }
                                         projectionResults.saveProjectionResultsSelection(sessionDTO);
                                         projectionVariance.savePvSelections(sessionDTO);
-                                        flag = true;
 
                                     } catch (Exception ex) {
                                         java.util.logging.Logger.getLogger(CffApprovalDetailsForm.class.getName()).log(Level.SEVERE, null, ex);
