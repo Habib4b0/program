@@ -388,7 +388,7 @@ public abstract class PageTableLogic {
         configureItemPerPage(itemsPerPageSelect);
         itemsPerPageSelect.setStyleName(Reindeer.TEXTFIELD_SMALL);
         itemsPerPageSelect.setImmediate(true);
-        itemsPerPageSelect.select(15);
+        itemsPerPageSelect.select(10);
         itemsPerPageSelect.setNullSelectionAllowed(false);
         itemsPerPageSelect.setWidth("70px");
         itemsPerPageSelect.addValueChangeListener(new Property.ValueChangeListener() {
