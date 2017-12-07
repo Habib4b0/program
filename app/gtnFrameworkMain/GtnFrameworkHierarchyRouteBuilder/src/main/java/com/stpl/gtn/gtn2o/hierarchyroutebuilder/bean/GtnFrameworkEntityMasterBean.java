@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyEntityMaster;
+import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyRestrictionMaster;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchySingleColumnRelation;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableMaster;
 import com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyTableRelation;
@@ -30,6 +31,7 @@ public class GtnFrameworkEntityMasterBean {
 	private final List<GtnFrameworkRouteBean> entityRouteList = new ArrayList<>();
 	private final List<GtnFrameworkSingleColumnRelationBean> singleColumnRelationList = new ArrayList<>();
 	private final List<GtnFrameworkEntityHierarchyRelationBean> entityHirarchyRelationList = new ArrayList<>();
+	private final List<GtnFrameworkHierarchyRestrictionBean> hierachyRestrcionList = new ArrayList<>();
 
 	public GtnFrameworkEntityMasterBean() throws GtnFrameworkGeneralException {
 		super();
@@ -49,6 +51,7 @@ public class GtnFrameworkEntityMasterBean {
 		insertToTableList();
 		insertToKeyRelationList();
 		insertToHierarchyRelationList();
+		insertToHierarchyRestrictionList();
 	}
 
 	public List<GtnFrameworkEntityBean> getEntityList() {
@@ -89,6 +92,10 @@ public class GtnFrameworkEntityMasterBean {
 
 	public void addEntityRouteList(GtnFrameworkRouteBean entityRouteItem) {
 		entityRouteList.add(entityRouteItem);
+	}
+
+	public void addRestrictionBeanList(GtnFrameworkHierarchyRestrictionBean entityRouteItem) {
+		hierachyRestrcionList.add(entityRouteItem);
 	}
 
 	public GtnFrameworkEntityBean getEntityBean(int sourceEntityId) {
@@ -281,6 +288,26 @@ public class GtnFrameworkEntityMasterBean {
 
 	}
 
+	private void insertToHierarchyRestrictionList() {
+		try (Session session = gtnSqlQueryEngine.getSessionFactory().openSession()) {
+			Criteria criteria = session.createCriteria(HierarchyRestrictionMaster.class);
+			@SuppressWarnings("unchecked")
+			List<HierarchyRestrictionMaster> results = criteria.list();
+			for (HierarchyRestrictionMaster dbTableMasterBean : results) {
+				GtnFrameworkHierarchyRestrictionBean tableRestrictionBean = new GtnFrameworkHierarchyRestrictionBean();
+				tableRestrictionBean.setHierarchyTableMasterSid(dbTableMasterBean.getHierarchyTableMasterSid());
+				tableRestrictionBean.setActualTableName(dbTableMasterBean.getActualTableName());
+				tableRestrictionBean.setActualColumnName(dbTableMasterBean.getActualColumnName());
+				tableRestrictionBean.setReferencTableName(dbTableMasterBean.getReferenceTableName());
+				tableRestrictionBean.setReferenceColumnName(dbTableMasterBean.getReferenceColumnName());
+				tableRestrictionBean.setRestrictionColumnName(dbTableMasterBean.getRestrictionColumnName());
+				tableRestrictionBean.setRestrictionValue(dbTableMasterBean.getRestrictionValue());
+				addRestrictionBeanList(tableRestrictionBean);
+			}
+		}
+
+	}
+
 	public GtnFrameworkEntityHierarchyRelationBean getEntityHirarchyRelationBean(String tableName,
 			String hierarchyType) {
 		for (GtnFrameworkEntityHierarchyRelationBean entityHirarchyRelationBean : entityHirarchyRelationList) {
@@ -288,6 +315,14 @@ public class GtnFrameworkEntityMasterBean {
 					&& entityHirarchyRelationBean.getHierarchyType().equalsIgnoreCase(hierarchyType)) {
 				return entityHirarchyRelationBean;
 			}
+		}
+		return null;
+	}
+
+	public GtnFrameworkHierarchyRestrictionBean getRestrictionBean(Integer pathValue) {
+		for (GtnFrameworkHierarchyRestrictionBean hierachyRestrcionBean : hierachyRestrcionList) {
+			if (hierachyRestrcionBean.getHierarchyTableMasterSid() == pathValue)
+				return hierachyRestrcionBean;
 		}
 		return null;
 	}
