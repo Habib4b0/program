@@ -790,7 +790,7 @@ public class GtnWsContractDashboardProcessLogic {
 	}
 
 	private String getQueryNameToLoadTempIFP(List<String> inputList, GtnWsContractDashboardRequest cdRequest) {
-		inputList.add(cdRequest.getCfpContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
+                inputList.add(cdRequest.getCfpContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
 				: " =" + cdRequest.getCfpContractId());
 		inputList.add(cdRequest.getIfpContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
 				: " =" + cdRequest.getIfpContractId());
@@ -804,12 +804,15 @@ public class GtnWsContractDashboardProcessLogic {
 		}
 		inputList.add(cdRequest.getPsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
 				: " =" + cdRequest.getPsContractId());
-		inputList.add(cdRequest.getRsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
-				: " =" + cdRequest.getRsContractId());
-		inputList.add(cdRequest.getPsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
-				: " =" + cdRequest.getPsContractId());
-		inputList.add(cdRequest.getIfpContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
+                inputList.add(3,cdRequest.getIfpContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
 				: " =" + cdRequest.getIfpContractId());
+                inputList.add(4,cdRequest.getPsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
+				: " =" + cdRequest.getPsContractId());
+		inputList.add(5,cdRequest.getRsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
+				: " =" + cdRequest.getRsContractId());
+		
+                inputList.add(cdRequest.getRsContractId() == 0 ? GtnFrameworkWebserviceConstant.IS_NULL
+				: " =" + cdRequest.getRsContractId());
 		return "com.contractDashboard.process.loadTempRS";
 	}
 
