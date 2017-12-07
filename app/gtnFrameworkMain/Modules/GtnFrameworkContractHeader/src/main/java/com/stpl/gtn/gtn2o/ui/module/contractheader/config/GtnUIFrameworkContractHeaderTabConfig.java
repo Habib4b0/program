@@ -322,6 +322,7 @@ public class GtnUIFrameworkContractHeaderTabConfig {
 				GtnUIFrameworkComponentType.POPUPTEXTFIELD);
 		itemNameConfig.setAuthorizationIncluded(true);
 		itemNameConfig.setComponentName("Trading Partner");
+                itemNameConfig.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 		componentList.add(itemNameConfig);
 
 		GtnUIFrameworkTextBoxConfig textboxConfig = configProvider.getTextBoxConfig(true, false, true);
