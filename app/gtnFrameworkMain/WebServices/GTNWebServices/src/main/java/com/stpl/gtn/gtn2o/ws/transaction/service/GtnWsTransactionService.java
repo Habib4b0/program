@@ -456,7 +456,7 @@ public class GtnWsTransactionService {
 			Boolean excelComplete) {
 
 		try {
-			GtnCommonUtil.createDataRows(printWriter, resultList);
+			GtnCommonUtil.createDataRows(printWriter, resultList,2);
 			printWriter.flush();
 			if (excelComplete) {
 				printWriter.close();
