@@ -369,6 +369,8 @@
 				</value>
 				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyTypeTableRelation.hbm.xml
 				</value>
+				<value>/com/stpl/gtn/gtn2o/ws/xml/hierarchyroutebuilder/HierarchyRestrictionMaster.hbm.xml
+				</value>
 
 				<value>/com/stpl/gtn/gtn2o/ws/xml/security/GtnModuleComponentMaster.hbm.xml
 				</value>

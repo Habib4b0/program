@@ -55,7 +55,6 @@ public class FileSelection extends CustomComponent {
     private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private VerticalLayout layout = new VerticalLayout();
     private BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
-    private BeanItemContainer<FileSelectionDTO> excelContainer = new BeanItemContainer<>(FileSelectionDTO.class);
     private SessionDTO sessionDTO;
     private Button excelExport = new Button();
     private CFFLogic cffLogic = new CFFLogic();

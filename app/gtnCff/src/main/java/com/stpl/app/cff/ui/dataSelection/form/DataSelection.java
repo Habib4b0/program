@@ -83,7 +83,6 @@ public class DataSelection extends AbstractDataSelection {
 
 	private static final long serialVersionUID = 1905122041950251207L;
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(DataSelection.class);
-	private CustomFieldGroup dataSelectionBinder;
 	/**
 	 * The data selection binder.
 	 */
@@ -96,14 +95,11 @@ public class DataSelection extends AbstractDataSelection {
 	private Map<String, String> productDescriptionMap = null;
 	private boolean dismantleCustomerSelection = true;
 	private boolean dismantleProductSelection = true;
-	private CompanyDdlbDto discountDdlbDefault = new CompanyDdlbDto(0, SELECT_ONE);
 	private CompanyDdlbDto discountDTO = null;
 	public static Map<String, String> relationLevelValues = new HashMap<>();
 	private DataSelectionLogic dataLogic = new DataSelectionLogic();
 	private List<Integer> customerBeanList = new ArrayList<>();
 	private List<Integer> productBeanList = new ArrayList<>();
-	private String publicViewName;
-	private String privateViewName;
 	private SessionDTO sessionDTO;
 	private CFFLogic cffLogic = new CFFLogic();
 	private TabSheet tabSheet;
@@ -119,7 +115,6 @@ public class DataSelection extends AbstractDataSelection {
 	public DataSelection(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, TabSheet tabSheet,
 			SessionDTO sessionDTO) {
 		super(dataSelectionBinder, CommonUtils.MODULE_NAME);
-		this.dataSelectionBinder = dataSelectionBinder;
 		this.dataSelectionDTO = dataSelectionDTO;
 		this.tabSheet = tabSheet;
 		this.sessionDTO = sessionDTO;
@@ -628,7 +623,7 @@ public class DataSelection extends AbstractDataSelection {
 					selectedCustomersList, selectedProductsList,
 					getCustomerHierarchyEndLevels(selectedCustomerContainer),
 					getProductHierarchyEndLevelsHierNo(selectedProductContainer), viewDTO, customerListEndSids,
-					productListEndSids, screenName, sessionDTO);
+					productListEndSids, sessionDTO);
 			getUI().getCurrent().addWindow(saveViewPopup);
 		} catch (Exception e) {
 			LOGGER.error(e);

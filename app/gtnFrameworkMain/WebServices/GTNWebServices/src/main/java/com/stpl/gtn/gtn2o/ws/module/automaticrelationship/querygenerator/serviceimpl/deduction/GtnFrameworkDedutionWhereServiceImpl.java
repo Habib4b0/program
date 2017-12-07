@@ -54,7 +54,9 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 
 	public void addWhereClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			GtnWsRelationshipBuilderBean relationBean) throws GtnFrameworkGeneralException {
-		querygeneratorBean.removeAllWhereClauseConfigList();
+		
+		int whereClauseSize = querygeneratorBean.getWhereClauseConfigList().size();
+		querygeneratorBean.removeWhereClauseConfigListByIndex(1, whereClauseSize - 1);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 		try (Session session = sessionFactory.openSession()) {
 			RelationshipBuilder productrelationshipBuilder = session.get(RelationshipBuilder.class,
