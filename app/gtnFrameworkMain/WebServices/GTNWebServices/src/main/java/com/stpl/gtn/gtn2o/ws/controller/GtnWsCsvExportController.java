@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsCsvExportBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -33,9 +34,10 @@ public class GtnWsCsvExportController {
 
 		GtnUIFrameworkWebserviceResponse csvExportFileResponse = new GtnUIFrameworkWebserviceResponse();
 		GtnWsCsvExportResponse gtnWsCsvExportResponse = new GtnWsCsvExportResponse();
+		GtnWsCsvExportBean gtnWsCsvExportBean=csvExportRequest.getGtnWsCsvExportRequest().getGtnWsCsvExportBean();
 		csvExportFileResponse.setGtnWsCsvExportResponse(gtnWsCsvExportResponse);
 		try {
-			gtnWsCsvExportResponse.setFileName(gtnCsvExportService.getCsvExportFile(csvExportRequest));
+			gtnWsCsvExportResponse.setFileName(gtnCsvExportService.getCsvExportFile(csvExportRequest,gtnWsCsvExportBean.getExcludedColumnCount()));
 		} catch (GtnFrameworkGeneralException ex) {
 			LOGGER.error("Exception in GTN_CSV_EXPORT_FILE_SERVICE", ex);
 		}
