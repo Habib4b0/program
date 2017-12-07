@@ -1323,7 +1323,9 @@ public class NMProjectionVarianceLogic {
     String getRSIds(PVSelectionDTO pvsdto) {
         String rsIds = StringUtils.EMPTY;
         try{
-        String rsQuery = insertAvailableHierarchyNo(pvsdto) + getRsIdForCurrentHierarchy(pvsdto);
+        String ccpQuery = SQlUtil.getQuery("PARENT-VALIDATE");
+        ccpQuery = ccpQuery.replace(Constant.RELVALUE, pvsdto.getSessionDTO().getDedRelationshipBuilderSid());
+        String rsQuery = ccpQuery + insertAvailableHierarchyNo(pvsdto) + getRsIdForCurrentHierarchy(pvsdto);
         String query = QueryUtil.replaceTableNames(rsQuery.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH), pvsdto.getSessionDTO().getCurrentTableNames());
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         boolean flag = true;
@@ -2929,9 +2931,11 @@ public class NMProjectionVarianceLogic {
     }
     
     public String getCCPQueryForPV(ProjectionSelectionDTO projSelDTO) {
-        String ccpQuery = QueryUtil.replaceTableNames(insertAvailableHierarchyNo(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames());
+        String ccpQuery = SQlUtil.getQuery("PARENT-VALIDATE");
+        ccpQuery = ccpQuery.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
+        ccpQuery += insertAvailableHierarchyNo(projSelDTO);
         ccpQuery += " where PV_FILTERS=1 SELECT * FROM #SELECTED_HIERARCHY_NO ";
-        return ccpQuery;
+        return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
     }
     
     public int getCountForCustomView(final ProjectionSelectionDTO projSelDTO) {
