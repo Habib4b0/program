@@ -326,7 +326,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	private int getValue(int index, GtnWsRecordBean ruleDetail) {
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && mode == GtnUIFrameworkModeType.COPY) {
+		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(String.valueOf(mode))) {
 			return (ruleDetail.getAdditionalProperties().get(index) != null
 					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
 		}
