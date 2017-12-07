@@ -13,6 +13,15 @@ public class GtnWsCsvExportBean {
 	private String dataQuery;
 	private String exportName;
 	private List<String> headerList;
+	private int excludedColumnCount;
+
+	public int getExcludedColumnCount() {
+		return excludedColumnCount;
+	}
+
+	public void setExcludedColumnCount(int excludedColumnCount) {
+		this.excludedColumnCount = excludedColumnCount;
+	}
 
 	public String getCountQuery() {
 		return countQuery;
