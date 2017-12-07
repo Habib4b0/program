@@ -487,7 +487,8 @@ public class DiscountQueryBuilder {
 
             String queryPeriod = SQlUtil.getQuery("PERIOD_TABLE")
                     .replace("?F", String.valueOf(frequency.charAt(0)))
-                    .replace("?R", session.getDedRelationshipBuilderSid());
+                    .replace("?R", session.getDedRelationshipBuilderSid())
+                    .replace("@REFNAME", refreshName);
             if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
                 customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT_CUSTOM").replace(PERIOD_TABLE, queryPeriod)
                         .replace("@TEMP_TABLE_DISCOUNT", StringUtils.EMPTY)
@@ -509,7 +510,7 @@ public class DiscountQueryBuilder {
             if ("GROWTH".equals(refreshName)) {
                 customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue);
             } else {
-                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + " ,DPT.refreshed_name = '" + refreshName + "' ");
+                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue);
             }
 
             if (!frequency.equals(ANNUALLY.getConstant())) {
