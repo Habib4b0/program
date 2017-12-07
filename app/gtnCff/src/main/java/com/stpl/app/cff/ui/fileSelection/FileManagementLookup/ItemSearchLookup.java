@@ -4,7 +4,6 @@
  */
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
-import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
@@ -15,7 +14,6 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ValidationUtils;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -121,14 +119,11 @@ public class ItemSearchLookup extends Window {
     private ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
     private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
     private CommonUtils commonUtil = new CommonUtils();
-    private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    private SessionDTO sessionDTO;
 
-    public ItemSearchLookup(TextField itemNo, TextField itemLookupName, final SessionDTO sessionDTO) {
+    public ItemSearchLookup(TextField itemNo, TextField itemLookupName) {
         super("Item Search");
         this.itemNumber = itemNo;
         this.itemLookupName = itemLookupName;
-        this.sessionDTO = sessionDTO;
     }
 
     public void init() throws PortalException, SystemException {
