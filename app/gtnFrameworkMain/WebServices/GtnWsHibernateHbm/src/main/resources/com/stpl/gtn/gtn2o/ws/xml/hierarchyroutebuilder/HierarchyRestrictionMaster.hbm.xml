@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Dec 5, 2017 6:54:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.stpl.gtn.gtn2o.ws.entity.hierarchyroutebuilder.HierarchyRestrictionMaster" table="HIERARCHY_RESTRICTION_MASTER" schema="dbo" 
+    optimistic-lock="version">
+        <id name="hierarchyTableMasterSid" type="int">
+            <column name="HIERARCHY_TABLE_MASTER_SID" />
+            <generator class="assigned" />
+        </id>
+        <property name="actualTableName" type="string">
+            <column name="ACTUAL_TABLE_NAME" length="100" not-null="true" />
+        </property>
+        <property name="actualColumnName" type="string">
+            <column name="ACTUAL_COLUMN_NAME" length="100" not-null="true" />
+        </property>
+        <property name="referenceTableName" type="string">
+            <column name="REFERENCE_TABLE_NAME" length="100" not-null="true" />
+        </property>
+        <property name="referenceColumnName" type="string">
+            <column name="REFERENCE_COLUMN_NAME" length="100" not-null="true" />
+        </property>
+        <property name="restrictionColumnName" type="string">
+            <column name="RESTRICTION_COLUMN_NAME" length="100" not-null="true" />
+        </property>
+        <property name="restrictionValue" type="string">
+            <column name="RESTRICTION_VALUE" length="100" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

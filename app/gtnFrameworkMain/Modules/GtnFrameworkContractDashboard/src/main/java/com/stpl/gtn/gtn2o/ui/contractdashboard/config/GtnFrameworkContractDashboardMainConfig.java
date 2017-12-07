@@ -1135,8 +1135,8 @@ public class GtnFrameworkContractDashboardMainConfig {
 		cdMainComponentTableConfig.setFilterBar(true);
 		cdMainComponentTableConfig.setSelectable(true);
 		cdMainComponentTableConfig.setMultiSelect(false);
-		cdMainComponentTableConfig.setPageLength(5);
-		cdMainComponentTableConfig.setItemPerPage(5);
+		cdMainComponentTableConfig.setPageLength(10);
+		cdMainComponentTableConfig.setItemPerPage(10);
 		cdMainComponentTableConfig.setSinkItemPerPageWithPageLength(false);
 		cdMainComponentTableConfig
 				.setTableColumnDataType(GtnFrameworkContractDashboardContants.getComponentTableColumnType());

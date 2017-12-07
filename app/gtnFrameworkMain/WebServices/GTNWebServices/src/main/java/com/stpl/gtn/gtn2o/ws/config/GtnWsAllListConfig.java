@@ -28,14 +28,13 @@ import com.stpl.gtn.gtn2o.ws.entity.transaction.CustomerGtsActual;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.ForecastingMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.GlBalanceMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.GlCostCenterMaster;
+import com.stpl.gtn.gtn2o.ws.entity.transaction.ItemUom;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAccrualInbound;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldActualMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAdjustedDemandActual;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAdjustedDemandForecast;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldAverageShelfLife;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCfp;
-import com.stpl.gtn.gtn2o.ws.entity.transaction.ItemUom;
-import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCompanyIdentifier;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldCompanyParent;
@@ -57,6 +56,7 @@ import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldInventoryWdProjMas;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemIdentifier;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemPricing;
+import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldItemUom;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldLotMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldPriceSchedule;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.IvldRebatePlan;
@@ -68,7 +68,9 @@ import com.stpl.gtn.gtn2o.ws.entity.transaction.LotMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.ReturnRateForecast;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.ReturnsMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.SalesMaster;
+import com.stpl.gtn.gtn2o.ws.entity.transaction.StCffOutboundMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwAdjustDemandForecastAct;
+import com.stpl.gtn.gtn2o.ws.entity.transaction.VwCffOutboundMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyIdentifier;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.transaction.VwCompanyParentDetails;
@@ -105,6 +107,7 @@ import com.stpl.gtn.gtn2o.ws.module.netsales.config.GtnWebServiceNetSalesFormula
 import com.stpl.gtn.gtn2o.ws.module.priceschedule.config.GtnWebServicePriceScheduleConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateplan.config.GtnWebServiceRebatePlanConfig;
 import com.stpl.gtn.gtn2o.ws.module.rebateschedule.config.GtnWebServiceRebateScheduleConfig;
+import com.stpl.gtn.gtn2o.ws.module.udc.config.GtnWsUdcConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceArmWorkflowSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceArpWorkflowSearchConfig;
 import com.stpl.gtn.gtn2o.ws.module.workflowinbox.config.GtnWebServiceAttachmentWorkflowSearchConfig;
@@ -552,6 +555,8 @@ public class GtnWsAllListConfig {
 				new GtnWebServiceHistoryWorkflowSearchConfig());
 		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.WF_ATTACHMENT_SEARCH.getClassName(),
 				new GtnWebServiceAttachmentWorkflowSearchConfig());
+		dynamicClassObjectMap.put(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION.getClassName(),
+				new GtnWsUdcConfig());
 
 	}
 
@@ -634,6 +639,8 @@ public class GtnWsAllListConfig {
 		transactionDynamicClassObjectMap.put(IvldReturnRateForecast.class.getName(), IvldReturnRateForecast.class);
 		transactionDynamicClassObjectMap.put(ItemUom.class.getName(), ItemUom.class);
 		transactionDynamicClassObjectMap.put(IvldItemUom.class.getName(), IvldItemUom.class);
+		transactionDynamicClassObjectMap.put(VwCffOutboundMaster.class.getName(), VwCffOutboundMaster.class);
+		transactionDynamicClassObjectMap.put(StCffOutboundMaster.class.getName(), StCffOutboundMaster.class);
 
 	}
 

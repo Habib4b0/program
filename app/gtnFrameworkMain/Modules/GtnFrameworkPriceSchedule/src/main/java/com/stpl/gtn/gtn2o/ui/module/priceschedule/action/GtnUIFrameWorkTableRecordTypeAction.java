@@ -35,6 +35,7 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 			List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
 			GtnUIFrameworkBaseComponent psPpTableBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent((String) actionParams.get(1));
+
 			GtnUIFrameworkComponentData psPpTableComponentData = psPpTableBaseComponent.getComponentData();
 			for (GtnWsRecordBean record : psPpTableComponentData.getDataTableRecordList()) {
 				managePpTableRecordType(record, psPpTableBaseComponent);
@@ -59,6 +60,10 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 				if (GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[12]
 						.equals(psPriceProtectionPropertyId)) {
 					psPriceProtectionValue = getFieldValue(record);
+				}
+				if (GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21]
+						.equals(psPriceProtectionPropertyId)) {
+					psPriceProtectionValue = getFieldValuePriceTolerance(record);
 				} else {
 					Class<?> type = tableBaseComponent.getTableColumnProperty(psPriceProtectionPropertyId.toString());
 					psPriceProtectionValue = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type,
@@ -97,4 +102,21 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 		return "";
 	}
 
+	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
+		int size = bean.getProperties().size();
+		String depandingValue = (bean.getStringPropertyByIndex(size - 5));
+		if (!(depandingValue.startsWith("-Sel")) && (!(("").equals(bean.getStringPropertyByIndex(size - 18))))&&(bean.getIndex("psDetailsPriceTol") == size - 18)) {
+
+			DecimalFormat formatDecimal = new DecimalFormat("0.00");
+			if (depandingValue.startsWith("per") || depandingValue.startsWith("%")) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(size - 18)) + "%";
+			}
+			if (depandingValue.startsWith("dol")) {
+				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(size - 18));
+			}
+
+		}
+
+		return "";
+	}
 }

@@ -28,11 +28,11 @@ public class ConsolidatedFinancialForecastView extends VerticalLayout implements
      * The Constant NAME.
      */
     public static final String NAME = StringUtils.EMPTY;
-    ConsolidatedFinancialForecastForm mainForm;
+    private ConsolidatedFinancialForecastForm mainForm;
     /**
      * The SessionDTO
      */
-    SessionDTO sessionDTO = new SessionDTO();
+    private SessionDTO sessionDTO = new SessionDTO();
 
     /**
      * Constructor

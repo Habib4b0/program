@@ -7,8 +7,6 @@ package com.stpl.app.cff.ui.projectionVariance.form;
 
 import com.stpl.app.cff.dto.SaveDTO;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
 import org.apache.commons.lang.StringUtils;
 
@@ -17,16 +15,14 @@ import org.apache.commons.lang.StringUtils;
  * @author sooriya.lakshmanan
  */
 public class RunnableJob implements Runnable {
-    int projectionId=0;
-    int userId=0;
-    int sessionId=0;
-    String procedureCall=StringUtils.EMPTY;
-    String propertyId=StringUtils.EMPTY;
-    Object valueOf=null;
-    String hirarechyNo=StringUtils.EMPTY;
-    String group=StringUtils.EMPTY;
-    SessionDTO session=null;
-    ProjectionSelectionDTO selection=null;
+    private int projectionId=0;
+    private int userId=0;
+    private int sessionId=0;
+    private String procedureCall=StringUtils.EMPTY;
+    private String propertyId=StringUtils.EMPTY;
+    private Object valueOf=null;
+    private String hirarechyNo=StringUtils.EMPTY;
+    private String group=StringUtils.EMPTY;
     private String table=StringUtils.EMPTY;
     
     public RunnableJob(final int projectionId, final int userId, final int sessionId, final String procedureCall) {
@@ -37,14 +33,12 @@ public class RunnableJob implements Runnable {
     }
 
     public RunnableJob(final String propertyId, final Object valueOf, final String hirarechyNo, final String group, int projectionId, 
-            SessionDTO session, ProjectionSelectionDTO selection, final String procedureCall,String table) {
+            final String procedureCall,String table) {
         this.propertyId = propertyId;
         this.valueOf = valueOf;
         this.hirarechyNo = hirarechyNo;
         this.group = group;
         this.projectionId = projectionId;
-        this.session = session;
-        this.selection = selection;
         this.procedureCall = procedureCall;
         this.table=table;
     }

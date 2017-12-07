@@ -6,8 +6,6 @@
 package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.data.Container;
@@ -26,23 +24,20 @@ import org.jboss.logging.Logger;
  * @author Jayaram
  */
 public class ComparisonFilterGenerator implements ExtFilterGenerator {
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtils utils = new CommonUtils();
-    PVSelectionDTO pvSelectionDTO;
-    ProjectionSelectionDTO sprProjectionDTO;
+    private PVSelectionDTO pvSelectionDTO;
+    private ProjectionSelectionDTO sprProjectionDTO;
     private static final String ZERO = "0";
-    ProjectionSelectionDTO psDTO;
-    boolean detailFlag;
-    boolean prFlag = false;
-    boolean sprFlag=false;
-    boolean pvFlag=false;
-    boolean mmDprFlag = false;
+    private boolean detailFlag;
+    private boolean prFlag = false;
+    private boolean sprFlag=false;
+    private boolean pvFlag=false;
+    public boolean mmDprFlag = false;
     public static final String CUSTOM = "Custom";
     public static final String PRODUCT = "Product";
 
 
-    String indicator = StringUtils.EMPTY;
-    int levelNo = 0;
+    public String indicator = StringUtils.EMPTY;
+    public int levelNo = 0;
     public static final Logger LOGGER = Logger.getLogger(ComparisonFilterGenerator.class);
 
     public ComparisonFilterGenerator( PVSelectionDTO projectionVarianceSelectionDTO,boolean detailFlag) {

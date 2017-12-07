@@ -60,7 +60,6 @@ import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
 import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
 import com.stpl.app.service.DemandForecastLocalServiceUtil;
 import com.stpl.app.service.ForecastingMasterLocalServiceUtil;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
@@ -207,14 +206,14 @@ public class FileManagementLookup extends Window {
 	private Panel summaryPanel;
 
 	@UiField("cssLayoutForecastSection")
-	CssLayout cssLayoutForecastSection;
+	private CssLayout cssLayoutForecastSection;
 
-	FileResultsTableLogic tableLogic = new FileResultsTableLogic();
+	private FileResultsTableLogic tableLogic = new FileResultsTableLogic();
 	/**
 	 * The file history table.
 	 */
 	private ExtPagedTable resultsFilterTable = new ExtPagedTable(tableLogic);
-	FileDetailsTableLogic detailstableLogic = new FileDetailsTableLogic();
+	private FileDetailsTableLogic detailstableLogic = new FileDetailsTableLogic();
 	private HorizontalLayout controlLayout = new HorizontalLayout();
 	private HorizontalLayout detailsControlLayout = new HorizontalLayout();
 	/**
@@ -247,12 +246,14 @@ public class FileManagementLookup extends Window {
 	private Button excelExportDetail;
 
 	@UiField("tableLayout")
-	VerticalLayout tableLayout;
+	private VerticalLayout tableLayout;
 
 	@UiField("detailsTable")
-	VerticalLayout detailsTable;
+	private VerticalLayout detailsTable;
+        
 	@UiField("horizLayout")
 	private HorizontalLayout horizLayout;
+        
 	public static final String SEARCH_ERROR = "Search Error";
 	public static final String FORCAST_YEAR = "forcastYear";
 	/**
@@ -307,79 +308,60 @@ public class FileManagementLookup extends Window {
 	/**
 	 * The file lookupItemName.
 	 */
-	String selectedFileCountry;
+	private String selectedFileCountry;
 	/**
 	 * The file lookupItemName.
 	 */
-	String selectedFile = ConstantsUtils.EMPTY;
+	private String selectedFile = ConstantsUtils.EMPTY;
 	/*
 	 * The save flag
 	 */
-	boolean saveflag;
+	private boolean saveflag;
 	/*
 	 * The selectClose flag
 	 */
-	boolean selectClose;
+	private boolean selectClose;
 	/**
 	 * The file DAO.
 	 */
-	DataFormatConverter priceFormat = new DataFormatConverter("#0.00", DataFormatConverter.INDICATOR_DOLLAR);
-	DataFormatConverter unitsFormat = new DataFormatConverter("#0.0");
-	DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
+	private DataFormatConverter priceFormat = new DataFormatConverter("#0.00", DataFormatConverter.INDICATOR_DOLLAR);
+	private DataFormatConverter unitsFormat = new DataFormatConverter("#0.0");
+	private DataFormatConverter dollarsFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
 	private DataFormatConverter zeroDecimalFormat = new DataFormatConverter("#0");
-	List<FileMananagementResultDTO> addlineList = new ArrayList<>();
-	ComboBox fmFileType;
-	String fmCountry;
-	FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO demandResultDTO = new FileMananagementResultDTO();
-	FileMananagementResultDTO demandDetailsResultDTO = new FileMananagementResultDTO();
+	private List<FileMananagementResultDTO> addlineList = new ArrayList<>();
+	private ComboBox fmFileType;
+	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
+	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 	private ExtFilterTable excelDetailsTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelDetailsBean;
-	FileManagementLogic logic = new FileManagementLogic();
-	String helperFileType;
-	BeanItemContainer searchContainer;
-	SessionDTO sessionDTO;
-	boolean isdetails;
+	private FileManagementLogic logic = new FileManagementLogic();
+	private String helperFileType;
+	private BeanItemContainer searchContainer;
+	private SessionDTO sessionDTO;
+	private boolean isdetails;
 	public static final String REGEX = "([0-9|a-z|A-Z|*\\\\ ])*";
-	FileSelectionDTO fileselectiondto = new FileSelectionDTO();
-	String FileType;
-	String Country;
-	Object itemId;
-	String businessUnit;
+	private FileSelectionDTO fileselectiondto = new FileSelectionDTO();
+	private String FileType;
+	private Object itemId;
+	private String businessUnit;
 	public static final String UNIQUE_COMBINATION_ERROR = "Unique combination error";
 
-	/**
-	 * Instantiates a new file management lookup.
-	 *
-	 * @param fileMgtIndexDTO
-	 *            the file mgt index dto
-	 * @param selectFile
-	 *            the select file
-	 * @param fileType
-	 *            the file type
-	 * @param country
-	 *            the country
-	 */
 	public FileManagementLookup() {
 
 	}
 
-	public FileManagementLookup(final String country, final SessionDTO sessionDTO, final boolean isdetails,
-			String fileType, String Country, BeanItemContainer searchContainer, Object itemId, String businessUnit) {
+	public FileManagementLookup(final SessionDTO sessionDTO, final boolean isdetails,
+			String fileType, BeanItemContainer searchContainer, Object itemId, String businessUnit) {
 		super("File Lookup");
 		LOGGER.debug("FileManagementLookup constructor initiated");
 
-		this.selectFile = selectFile;
 		this.sessionDTO = sessionDTO;
 		this.searchContainer = searchContainer;
 		this.itemId = itemId;
-		this.fmCountry = country.replaceAll(ConstantsUtils.NULL, ConstantsUtils.EMPTY);
 		this.isdetails = isdetails;
 		this.FileType = fileType;
-		this.Country = Country;
 		this.businessUnit = businessUnit;
 		LOGGER.debug("FileManagementLookup constructor Ended");
 	}
@@ -738,9 +720,6 @@ public class FileManagementLookup extends Window {
 	public void setDetailsFlag(final char detailsFlag) {
 		this.detailsFlag = detailsFlag;
 	}
-
-	CommonUtils commonUtil = new CommonUtils();
-	CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	/**
 	 * The customer group binder.
@@ -2596,8 +2575,7 @@ public class FileManagementLookup extends Window {
 							 */
 							@SuppressWarnings("PMD")
 							public void click(CustomTextField.ClickEvent event) {
-								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName,
-										sessionDTO);
+								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName);
 								try {
 									lookUp.init();
 								} catch (Exception ex) {
@@ -4042,7 +4020,6 @@ public class FileManagementLookup extends Window {
 	@UiHandler("excelExportDetail")
 	public void excelExportDetailLogic(Button.ClickEvent event) {
 		try {
-			System.out.println("Enter in Execl export");
 			if (null != detailsResultDTO.getHelperType()) {
 				String countQuery;
 				String dataQuery;

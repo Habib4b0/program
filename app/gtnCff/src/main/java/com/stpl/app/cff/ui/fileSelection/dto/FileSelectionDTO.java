@@ -13,17 +13,17 @@ import org.apache.commons.lang.StringUtils;
  */
 public class FileSelectionDTO {
 
-    String fileName = StringUtils.EMPTY;
-    String fileType = StringUtils.EMPTY;
-    String version = StringUtils.EMPTY;
-    String country = StringUtils.EMPTY;
-    String helperfileType=StringUtils.EMPTY;
-    String fileTypeId=StringUtils.EMPTY;
+    private String fileName = StringUtils.EMPTY;
+    private String fileType = StringUtils.EMPTY;
+    private String version = StringUtils.EMPTY;
+    private String country = StringUtils.EMPTY;
+    private String helperfileType=StringUtils.EMPTY;
+    private String fileTypeId=StringUtils.EMPTY;
 
-    Date activeFromDate;
-    Date activeToDate;
-    String fileManagementSid = StringUtils.EMPTY;
-     boolean fileChanged=false;
+    private Date activeFromDate;
+    private Date activeToDate;
+    private String fileManagementSid = StringUtils.EMPTY;
+    private boolean fileChanged=false;
 
     public String getFileName() {
         return fileName;

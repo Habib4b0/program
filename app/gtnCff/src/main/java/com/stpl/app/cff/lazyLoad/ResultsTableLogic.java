@@ -27,9 +27,9 @@ import org.jboss.logging.Logger;
  */
 public class ResultsTableLogic extends PageTreeTableLogic {
 
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
     private final ProjectionResultsLogic projectionResultsLogic = new ProjectionResultsLogic();
-    boolean firstGenerated = false;
+    private boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(ResultsTableLogic.class);
 
     @Override

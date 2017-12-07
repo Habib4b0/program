@@ -62,7 +62,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * The view binder.
      */
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<SaveViewDTO>(saveViewDTO));
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
     private TextField viewId = new TextField();
     private TextField viewName = new TextField();
     private OptionGroup viewType = new OptionGroup();
@@ -73,9 +73,9 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The logic.
      */
-    CFFLogic cffLogic = new CFFLogic();
-    List<String> customerListEndSids;
-    List<String> productListEndSids;
+    private CFFLogic cffLogic = new CFFLogic();
+    private List<String> customerListEndSids;
+    private List<String> productListEndSids;
     /**
      * The Constant LOGGER.
      */
@@ -84,12 +84,10 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     private List<Leveldto> selectedProductsList;
     private List<Leveldto> selectedCustomersList;
     private int projectionId = 0;
-    List<Leveldto> customerHierarchyEndLevels;
-    String productHierarchyEndLevelsHierNos;
-    ViewDTO viewDTO;
-    String screenName = StringUtils.EMPTY;
-    String updateOrSave;
-    SessionDTO sessionDTO;
+    private List<Leveldto> customerHierarchyEndLevels;
+    private String productHierarchyEndLevelsHierNos;
+    private ViewDTO viewDTO;
+    private SessionDTO sessionDTO;
 
     /**
      * Save view popup constructor.
@@ -127,7 +125,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      */
     public SaveViewPopup(String windowName, DataSelectionDTO dataselectionDtoToSave, List<Leveldto> selectedCustomersList,
             List<Leveldto> selectedProductsList, List<Leveldto> customerHierarchyEndLevels, String productHierarchyEndLevelsHierNos, ViewDTO viewDTO, List<String> customerListEndSids, 
-            List<String> productListEndSids, final String screenName , SessionDTO sessionDTO) {
+            List<String> productListEndSids, SessionDTO sessionDTO) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
         this.dataselectionDtoToSave = dataselectionDtoToSave;
@@ -138,7 +136,6 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
         this.viewDTO = viewDTO;
         this.customerListEndSids = customerListEndSids;
         this.productListEndSids = productListEndSids;
-        this.screenName = screenName;
         this.sessionDTO = sessionDTO;
         buildPopup();
         LOGGER.debug("End of SaveViewPopup");

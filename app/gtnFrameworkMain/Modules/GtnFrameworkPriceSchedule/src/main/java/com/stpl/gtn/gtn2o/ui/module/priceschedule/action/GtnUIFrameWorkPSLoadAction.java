@@ -334,7 +334,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					Object.class, Integer.class, String.class, Integer.class, Integer.class, String.class,
 					Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 					Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-					Integer.class, String.class, Date.class, Date.class, Integer.class, String.class };
+					Integer.class, String.class, Date.class,String.class ,Date.class, Integer.class, String.class };
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
@@ -411,7 +411,6 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		priceTabTableLogic.resetSearchCriteriaList();
 		priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		priceTabTableLogic.startSearchProcess(new ArrayList<String>(), true);
-
 	}
 
 	private void configureTableURL(GtnUIFrameworkPagedTableConfig pricingTabPagedTableConfig) {
