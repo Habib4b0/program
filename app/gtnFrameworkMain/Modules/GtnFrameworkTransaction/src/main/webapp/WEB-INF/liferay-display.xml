@@ -36,6 +36,7 @@
 		<portlet id="VwRebateSchedule" />
 		<portlet id="Return Rate Forecast" />
 		<portlet id="Item Uom" />
+		<portlet id="VwCffOutboundMaster" />
 	</category>
 
 </display>

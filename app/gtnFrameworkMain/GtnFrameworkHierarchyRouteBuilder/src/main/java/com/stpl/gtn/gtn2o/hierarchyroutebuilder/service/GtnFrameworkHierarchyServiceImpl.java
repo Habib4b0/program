@@ -13,6 +13,7 @@ import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityHierarchyRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkEntityMasterBean;
+import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkHierarchyRestrictionBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkRouteBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFrameworkSingleColumnRelationBean;
 import com.stpl.gtn.gtn2o.hierarchyroutebuilder.bean.GtnFramworkTableBean;
@@ -98,6 +99,18 @@ public class GtnFrameworkHierarchyServiceImpl implements GtnFrameworkHierarchySe
 	@Override
 	public void createQuery(GtnFrameworkRouteBean routeBean, GtnFrameworkQueryGeneratorBean queryBean) {
 		createQuery(routeBean, 0, queryBean);
+		addRestrictionQuery(routeBean, queryBean);
+	}
+
+	private void addRestrictionQuery(GtnFrameworkRouteBean routeBean, GtnFrameworkQueryGeneratorBean queryBean) {
+		List<Integer> pathList = routeBean.getPathList();
+		for (Integer pathValue : pathList) {
+			GtnFrameworkHierarchyRestrictionBean restrictionBean = entityMasterBean.getRestrictionBean(pathValue);
+			if (restrictionBean == null)
+				continue;
+			restrictionBean.addrestrictionForTable(queryBean);
+		}
+
 	}
 
 	private void createQuery(GtnFrameworkRouteBean routeBean, int startIndex,

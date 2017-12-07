@@ -1,4 +1,13 @@
-[
+{
+"module":[  
+      {  
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
+		 "stagingUpdateColumns":["reprocessedFlag"],
+		 "stagingUpdateColumnsValues": ["Y"]
+	 
+      }
+   ],
+"moduleDetails":[
 	{
 		"columnID": "auditInboundSid",
 		"columnName": "Audit ID",
@@ -192,3 +201,4 @@
 		"viewModeIndexFlag": true
 	}
 ]
+}

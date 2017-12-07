@@ -76,6 +76,18 @@ public class GtnFrameworkQueryGeneratorBean implements Serializable {
 		whereClauseConfigList.clear();
 	}
 
+	public void removeWhereClauseConfigListByIndex(int index) {
+		whereClauseConfigList.remove(index);
+	}
+
+	public void removeWhereClauseConfigListByIndex(int fromIndex, int toIndex) {
+		if (fromIndex < 0 && toIndex >= whereClauseConfigList.size())
+			throw new ArrayIndexOutOfBoundsException(
+					"Please Enter the corrent from and to index fromIndex=" + fromIndex + " toIndex=" + toIndex);
+		for (int i = toIndex; i >= fromIndex; i--)
+			whereClauseConfigList.remove(i);
+	}
+
 	public List<GtnFrameworkOrderByClauseBean> getOrderByClauseConfigList() {
 		return Collections.unmodifiableList(orderByClauseConfigList);
 	}

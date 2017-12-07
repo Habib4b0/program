@@ -164,7 +164,14 @@ public class GtnFrameworkProcessMonitorValidationAction
 		String run1Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run1Ddlb").getCaptionFromComboBox();
 		String run2Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run2Ddlb").getCaptionFromComboBox();
 		String run3Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("run3Ddlb").getCaptionFromComboBox();
-
+		String hours1Ddlb = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_RUNONEHOURDDLB).getCaptionFromComboBox();
+		if (((processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC))||
+				(processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_BOTH)))
+				&& (run1Ddlb.isEmpty()||hours1Ddlb.isEmpty())) {
+			callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME,
+					componentId);
+			return;
+		}
 		if (processType.equals(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_AUTOMATIC)
 				&& run1Ddlb.isEmpty() && run2Ddlb.isEmpty() && run3Ddlb.isEmpty()) {
 			callAlertAction(GtnFrameworkProcessMonitorStringContants.GTN_PROCESS_MONITOR_ATLEAST_ONE_RUN_TIME,

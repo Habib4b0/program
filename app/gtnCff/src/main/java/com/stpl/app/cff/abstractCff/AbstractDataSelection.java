@@ -376,7 +376,6 @@ public abstract class AbstractDataSelection extends CustomComponent implements V
 	protected List<String> companiesInProdHier;
 	protected LazyBeanItemContainer<DataSelectionDTO> resultsLazyContainer;
 	protected ViewDTO viewDTO;
-	private boolean resetFlag = false;
 	protected boolean customerLevelListenerFlag = true;
 	protected boolean productLevelListenerFlag = true;
 	protected String selectedCustomerLevel = StringUtils.EMPTY;

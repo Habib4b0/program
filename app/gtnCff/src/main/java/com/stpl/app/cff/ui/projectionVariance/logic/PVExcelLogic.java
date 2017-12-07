@@ -72,11 +72,8 @@ public class PVExcelLogic {
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private Map<String, String> discountNameMap = new HashMap<>();
-    private String NoNumber = "NoNumber";
-    private String RETURNS = "Returns";
     public static final String TOTAL1 = "Total";
     private List<Object> pivotDiscountList = new ArrayList<>();
-    private List<ProjectionVarianceDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(STRING_TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
     private List<Object> pivotTotalList = new ArrayList<>();

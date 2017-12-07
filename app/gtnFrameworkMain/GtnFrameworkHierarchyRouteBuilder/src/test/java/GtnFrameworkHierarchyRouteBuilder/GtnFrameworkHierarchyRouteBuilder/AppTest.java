@@ -46,7 +46,7 @@ public class AppTest {
 		hierarchyService.getQueryByTableNameAndHierarchyTypeForMultiLevel(entityList, "Deduction Hierarchy", queryBean);
 		hierarchyService.getInboundRestrictionQueryForAutoUpdate(queryBean);
 		String finalQuery = queryBean.generateQuery();
-		
+
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 	}
 
@@ -56,9 +56,9 @@ public class AppTest {
 		GtnFrameworkRouteBean routePath = hierarchyService.getRoutePath(6, 7);
 
 		String finalQuery = queryBean.generateQuery();
-		
-		 Assert.assertEquals(true, !finalQuery.isEmpty());
-		 Assert.assertEquals(true, routePath.getPathList().isEmpty());
+
+		Assert.assertEquals(true, !finalQuery.isEmpty());
+		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}
 
 	@Test
@@ -68,7 +68,7 @@ public class AppTest {
 				"DEDUCTION_HIERARCHY");
 		hierarchyService.createQuery(routePath, queryBean);
 		String finalQuery = queryBean.generateQuery();
-		
+
 		Assert.assertEquals(true, !finalQuery.isEmpty());
 		Assert.assertEquals(true, routePath.getPathList().isEmpty());
 	}

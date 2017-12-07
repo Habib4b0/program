@@ -60,7 +60,6 @@ import com.stpl.app.parttwo.service.AdjustedDemandForecastLocalServiceUtil;
 import com.stpl.app.parttwo.service.CustomerGtsForecastLocalServiceUtil;
 import com.stpl.app.service.DemandForecastLocalServiceUtil;
 import com.stpl.app.service.ForecastingMasterLocalServiceUtil;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnWsCsvExportUtil;
@@ -331,11 +330,8 @@ public class FileManagementLookup extends Window {
 	private DataFormatConverter zeroDecimalFormat = new DataFormatConverter("#0");
 	private List<FileMananagementResultDTO> addlineList = new ArrayList<>();
 	private ComboBox fmFileType;
-	private String fmCountry;
 	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
-	private FileMananagementResultDTO demandResultDTO = new FileMananagementResultDTO();
-	private FileMananagementResultDTO demandDetailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 	private ExtFilterTable excelDetailsTable;
@@ -348,40 +344,24 @@ public class FileManagementLookup extends Window {
 	public static final String REGEX = "([0-9|a-z|A-Z|*\\\\ ])*";
 	private FileSelectionDTO fileselectiondto = new FileSelectionDTO();
 	private String FileType;
-	private String Country;
 	private Object itemId;
 	private String businessUnit;
 	public static final String UNIQUE_COMBINATION_ERROR = "Unique combination error";
 
-	/**
-	 * Instantiates a new file management lookup.
-	 *
-	 * @param fileMgtIndexDTO
-	 *            the file mgt index dto
-	 * @param selectFile
-	 *            the select file
-	 * @param fileType
-	 *            the file type
-	 * @param country
-	 *            the country
-	 */
 	public FileManagementLookup() {
 
 	}
 
-	public FileManagementLookup(final String country, final SessionDTO sessionDTO, final boolean isdetails,
-			String fileType, String Country, BeanItemContainer searchContainer, Object itemId, String businessUnit) {
+	public FileManagementLookup(final SessionDTO sessionDTO, final boolean isdetails,
+			String fileType, BeanItemContainer searchContainer, Object itemId, String businessUnit) {
 		super("File Lookup");
 		LOGGER.debug("FileManagementLookup constructor initiated");
 
-		this.selectFile = selectFile;
 		this.sessionDTO = sessionDTO;
 		this.searchContainer = searchContainer;
 		this.itemId = itemId;
-		this.fmCountry = country.replaceAll(ConstantsUtils.NULL, ConstantsUtils.EMPTY);
 		this.isdetails = isdetails;
 		this.FileType = fileType;
-		this.Country = Country;
 		this.businessUnit = businessUnit;
 		LOGGER.debug("FileManagementLookup constructor Ended");
 	}
@@ -740,9 +720,6 @@ public class FileManagementLookup extends Window {
 	public void setDetailsFlag(final char detailsFlag) {
 		this.detailsFlag = detailsFlag;
 	}
-
-	private CommonUtils commonUtil = new CommonUtils();
-	private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
 	/**
 	 * The customer group binder.
@@ -2598,8 +2575,7 @@ public class FileManagementLookup extends Window {
 							 */
 							@SuppressWarnings("PMD")
 							public void click(CustomTextField.ClickEvent event) {
-								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName,
-										sessionDTO);
+								final ItemSearchLookup lookUp = new ItemSearchLookup(itemNo, lookupItemName);
 								try {
 									lookUp.init();
 								} catch (Exception ex) {

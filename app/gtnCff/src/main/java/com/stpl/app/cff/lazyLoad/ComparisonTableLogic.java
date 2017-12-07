@@ -5,14 +5,12 @@
  */
 package com.stpl.app.cff.lazyLoad;
 
-import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 import org.jboss.logging.Logger;
@@ -26,10 +24,6 @@ public class ComparisonTableLogic extends PageTableLogic {
     private static final Logger LOGGER = Logger.getLogger(ComparisonTableLogic.class);
     private boolean loadData = false;
     private ComparisonLookupDTO comparisonLookup;
-    private String notNeededProjectionIds = StringUtils.EMPTY;
-    private ComparisonLookupDTO lookUpDTO;
-    private SessionDTO sessionDTO;
-    private String screenName = StringUtils.EMPTY;
     private ProjectionVarianceLogic projectionVarianceLogic = new ProjectionVarianceLogic();
 
     @Override
@@ -71,9 +65,8 @@ public class ComparisonTableLogic extends PageTableLogic {
         return dto;
     }
 
-    public boolean fireSetData(final ComparisonLookupDTO comparisonLookup, boolean isReset, String screenName) {
+    public boolean fireSetData(final ComparisonLookupDTO comparisonLookup, boolean isReset) {
         this.comparisonLookup = comparisonLookup;
-        this.screenName = screenName;
         clearAll();
         setRequiredCount(true);
         loadData = !isReset;
@@ -94,11 +87,7 @@ public class ComparisonTableLogic extends PageTableLogic {
         setRefresh(Boolean.TRUE);
     }
 
-    public boolean fireSetData(ComparisonLookupDTO lookUpDTO, SessionDTO sessionDTO, String notNeededProjectionIds, boolean isReset, String screenName) {
-        this.lookUpDTO = lookUpDTO;
-        this.sessionDTO = sessionDTO;
-        this.screenName = screenName;
-        this.notNeededProjectionIds = notNeededProjectionIds;
+    public boolean fireSetData(boolean isReset) {
         clearAll();
         setRequiredCount(true);
         loadData = !isReset;

@@ -37,7 +37,7 @@
 		<module>GtnFrameworkWorkFlowInbox</module>
 		<module>GtnFrameworkPeriodConfiguration</module>
 		<module>GtnFrameworkBusinessRoleModuleMaster</module>
-
+		<module>GtnFrameworkUDCConfiguration</module>
 	</modules>
 
 	<dependencies>
