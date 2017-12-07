@@ -92,8 +92,12 @@ public class GtnFrameworkCfpCommonValidationAction
 
 	private void validateIsEndBeforeStartDate(String componentId, GtnCFamilyPlanValidationBean validationBean)
 			throws GtnFrameworkValidationFailedException {
-		String msg;
-		if (validationBean.getStartDateGreaterThanEndCount() > 0) {
+		String msg= "";
+	   if (validationBean.getStartDateGreaterThanEndCount() == 0 && validationBean.getStartDateEqualsEndCount() > 0 ) {
+			msg = GtnFrameworkCfpStringContants.CFP_DATE_EQUAL_VALIDATION;
+			throw new GtnFrameworkValidationFailedException(msg, componentId);
+		}
+	   if (validationBean.getStartDateGreaterThanEndCount() > 0  ) {
 			if (validationBean.getStartDateGreaterThanEndCount() > 1) {
 				msg = GtnFrameworkCfpStringContants.GTN_CFP_START_DATE_REQUIRED_VALIDATION_MSG_001
 						+ validationBean.getStartDateGreaterThanEndCount()
@@ -105,6 +109,7 @@ public class GtnFrameworkCfpCommonValidationAction
 			}
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
 		}
+		
 	}
 
 	private void validateStatus(String componentId, GtnCFamilyPlanValidationBean validationBean)
