@@ -104,6 +104,8 @@ public class GtnWebServiceReturnWorkflowSearchConfig implements GtnWsSearchQuery
 		fieldToColumnDetailsMap.put("projectionMasterSid",
 				configProvider.getColumnIntegerConfig("PROJECTION_MASTER_SID", "WM"));
 		fieldToColumnDetailsMap.put("createdById", configProvider.getColumnIntegerConfig("CREATED_BY", "WM"));
+		fieldToColumnDetailsMap.put("productHierSid",
+				configProvider.getColumnIntegerConfig("PRODUCT_HIERARCHY_SID", "PM"));
 	}
 
 }

@@ -235,10 +235,10 @@ public class ForecastUI extends UI {
                         tempCustomerDescriptionMap = relationLogic.getLevelValueMap(dto.getCustRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getCustomerHierSid()), custHierarchyVersionNo,
                                 dto.getCustomerRelationShipVersionNo());
-                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;
+                                                int prodHierarchyVersionNo = temp!=null ? temp.getProductHierVersionNo() : 0;   
                         tempProductDescriptionMap = relationLogic.getLevelValueMap(dto.getProdRelationshipBuilderSid(),
                                 Integer.parseInt(dto.getProdHierSid()), prodHierarchyVersionNo,
-                                dto.getCustomerRelationShipVersionNo());
+                                dto.getProductRelationShipVersionNo());
                         int customerSelectedLevel = Integer.parseInt(customerHierarchyLevel);
                         int productSelectedLeve = Integer.parseInt(productHierarchyLevel);
                         List<Leveldto> customerItemIds = relationLogic.getRelationShipValues(dto.getProjectionId(),
@@ -343,7 +343,7 @@ public class ForecastUI extends UI {
                     {
                         cause += t.getClass().getName();
 
-                    }
+    }
 
                     LOGGER.error(t.getMessage());
                 }
