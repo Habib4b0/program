@@ -561,7 +561,7 @@ SET
                         WHEN  CFP_ID = @CFP_ID THEN 'CFP_ID'
                         WHEN CFP_NO = @CFP_NO THEN 'CFP_NO'
                         ELSE '' END   AS COULMN1
-             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO) 
+             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO) AND INBOUND_STATUS<>'D'
              
  ]]>
 		</query>
