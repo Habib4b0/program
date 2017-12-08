@@ -289,10 +289,58 @@ select count(1) from ##ITEM_PRICING_TEMP_TABLE where  ITEM_PRICING_QUALIFIER_SID
 	</entity>
 	
 	
+	<entity id="getItemIdWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_ID='?' AND IM.INBOUND_STATUS LIKE 'D' 
+            
+                    ]]>
+		</query>
+	</entity>
 	
+<entity id="checkItemIDStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
 
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_ID='?' and IM.INBOUND_STATUS<>'D'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkItemNoStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
 
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_NO='?' and IM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
 
+<entity id="checkNDCStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM ITEM_MASTER IM WHERE IM.NDC8='?' and IM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
+<entity id="changeStatusOfItemIdentiferValue">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID='?' AND ITEM_IDENTIFIER_SID NOT IN (:inParameter)
+            
+                    ]]>
+		</query>
+	</entity>
 
 
 </sql>

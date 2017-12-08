@@ -247,6 +247,35 @@ UPDATE IMTD_COMPANY_FINANCIAL_CLOSE SET COMPANY_MASTER_SID=? WHERE USERS_ID=? an
                     ]]>
 		</query>
 	</entity>
-	
+	<entity id="checkCompanyIDStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' and CM.INBOUND_STATUS<>'D'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkCompanyNoStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_NO='?' and CM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="getCompanyIdWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' AND CM.INBOUND_STATUS LIKE 'D' 
+            
+                    ]]>
+		</query>
+	</entity>
 	
 </sql>

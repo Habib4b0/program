@@ -78,6 +78,13 @@ public class GtnWsCMasterAdd {
 	public GtnUIFrameworkWebserviceResponse saveCompanyMaster(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("Enter saveCompanyMaster");
+		int count=performUpdateForCompanyIdWithStatusD(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
+		if(count==1)
+		{
+		int automatedSystemId=getSysIdForCompanyIdWithStatusD(gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean());
+		gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean().getGtnCMasterInformationBean().setCompanyMasterSystemId(automatedSystemId);
+		
+		}
 		GtnFrameworkQueryEngineMainConfig mainConfig = new GtnFrameworkQueryEngineMainConfig();
 		mainConfig = configureDataArray(mainConfig, gtnWsRequest);
 		mainConfig = buildQueryConfigForCMaster(mainConfig, gtnWsRequest);
@@ -129,6 +136,7 @@ public class GtnWsCMasterAdd {
 	public GtnFrameworkQueryEngineMainConfig buildQueryConfigForCMaster(GtnFrameworkQueryEngineMainConfig mainConfig,
 			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		LOGGER.info("Enter buildQueryConfigForCMaster");
+		
 		GtnCMasterBean companyMasterBean = gtnWsRequest.getGtnCMasterRequest().getGtnCMasterBean();
 		GtnCMasterInformationBean companyInformationBean = companyMasterBean.getGtnCMasterInformationBean();
 		int currentParamPos = 0;
@@ -138,6 +146,7 @@ public class GtnWsCMasterAdd {
 			companyMasterConfig = getCompanyMasterEditQueryConfig(companyInformationBean);
 			companyMasterIdentifierPosition = 29;
 			currentParamPos = 29;
+
 		} else {
 			currentParamPos = getCompanyMasterQueryConfig(companyMasterConfig, currentParamPos);
 			companyMasterIdentifierPosition = currentParamPos;
@@ -194,6 +203,8 @@ public class GtnWsCMasterAdd {
 		LOGGER.info("Exit buildQueryConfigForCMaster");
 		return mainConfig;
 	}
+
+	
 
 	private GtnFrameworkQueryEngineMainConfig configureDataArray(GtnFrameworkQueryEngineMainConfig mainConfig,
 			GtnUIFrameworkWebserviceRequest request) {
@@ -705,4 +716,58 @@ public class GtnWsCMasterAdd {
 		return sql.toString();
 
 	}
+	
+	private int performUpdateForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
+		boolean isCompanyExist = false;
+		List<Long> resultsDb4 = checkIfCompanyIdExistsWithStatusD(masterbean);
+		if (resultsDb4 != null) {
+			isCompanyExist = (long) resultsDb4.size() == 1;
+		}
+		
+		int countUpdate = 0;
+		if (isCompanyExist) {
+			String query = "UPDATE COMPANY_MASTER SET INBOUND_STATUS='A' WHERE COMPANY_ID='"
+					+ masterbean.getGtnCMasterInformationBean().getCompanyId() + "' AND INBOUND_STATUS='D'";
+
+			try {
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+			} catch (GtnFrameworkGeneralException e) {
+				LOGGER.info("Error in Updating");
+			}
+		}
+		return countUpdate;
+	}
+	@SuppressWarnings("unchecked")
+	private int getSysIdForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
+		    List<Integer> sysId=new ArrayList<>();
+			String query1 = "Select COMPANY_MASTER_SID from COMPANY_MASTER where COMPANY_ID='"+ masterbean.getGtnCMasterInformationBean().getCompanyId() + "'";
+			try {
+				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(query1));
+				
+			} catch (GtnFrameworkGeneralException e) {
+				LOGGER.info("Error in Updating");
+			}
+		
+		return sysId.get(0);
+	}
+	
+
+	@SuppressWarnings("unchecked")
+	private List<Long> checkIfCompanyIdExistsWithStatusD(GtnCMasterBean masterbean) {
+		List<String> compNoCriteria = new ArrayList<>();
+		compNoCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
+		
+		List<Long> resultsDb3 = new ArrayList<>();
+		try {
+			resultsDb3 = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "getCompanyIdWithStatusD"));
+			
+		} catch (GtnFrameworkGeneralException e) {
+
+			LOGGER.error("Exception Occured while Checking Whetehr Company Exists");
+		}
+		return resultsDb3;
+	}
+	
+	
 }
