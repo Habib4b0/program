@@ -41,7 +41,7 @@ public class GtnFrameworkPSConstants {
 			"psDetailsPriceTol", "psMaxIncrementalChange", "psResetEligible", "psResetType", "psResetDate",
 			"psResetInterval", "psResetFrequency", "psResetPriceType", "psNetResetPriceType",
 			"psNetResetPriceFormulaId", "psNetPriceType", "psNetResetPriceFormulaName",
-			GtnFrameworkCommonConstants.PS_ATTACHED_DATE,"psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes");
+			GtnFrameworkCommonConstants.PS_ATTACHED_DATE);
 
 	private static final List<String> PRICING_TEXTFIELD_PROPERTIES_ARRAY = Arrays.asList(
 			GtnFrameworkCommonConstants.ITEM_ID, GtnFrameworkCommonConstants.ITEM_NO,
@@ -72,25 +72,23 @@ public class GtnFrameworkPSConstants {
 
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",  
 			"Measurement Price", "NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE,
-			"Baseline WAC", "Baseline Net WAC", "Net Base Price Formula",
-			"Subsequent Period Price Type", "Net Subsequent Period Price", "NetSubsequent Price Formula",
+			"Baseline WAC", "Baseline Net WAC", "Net Baseline WAC Formula",
+			"Subsequent Period Price Type", "Net Subsequent Period Price", "Net Subsequent Price Formula",
 			"Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance",
 			"Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency",
 			"Reset Price Type", "Net Reset Price Type", "Net Reset Price Formula", "Net Price Type",
-			"Net Price Type Formula", " AttachedDate", GtnFrameworkCommonConstants.PRICE_TOLERANCE_TYPE, GtnFrameworkCommonConstants.BASE_PRICE,
-			GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
+			"Net Price Type Formula", " Attached Date"};
 
 
 	private static final String[] PRICE_PROTECTION_VIEW_HEADER = { "Item Id", "Item No", "Item Name", "Brand",
 			"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 			"Price Protection Price Type", "NEP", "NEP Formula", GtnFrameworkCommonConstants.BASE_PRICE_TYPE,
-			"Baseline WAC", "Baseline Net WAC", "Net Base Price Formula", "Subsequent Period Price Type",
+			"Baseline WAC", "Baseline Net WAC", "Net Baseline WAC Formula", "Subsequent Period Price Type",
 			"Net Subsequent Period Price", "NetSubsequent Price Formula", "Price Tolerance Interval",
 			"Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance", "Max Incremental Change",
 			"Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type",
 			"Net Reset Price Type", "Net Reset Price Formula", "Net Price Type", "Net Price Type Formula",
-			" AttachedDate", GtnFrameworkCommonConstants.BASE_PRICE, GtnFrameworkCommonConstants.BASE_PRICE,
-			GtnFrameworkCommonConstants.BASE_PRICE_TYPE };
+			" Attached Date"};
 
 	private static final List<String> PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED=Arrays.asList("v-textfield-txtRightAlign");
 	
