@@ -55,7 +55,6 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 				GtnFrameworkCommonConstants.PS_ALERT_MSG);
 		validationMessageMap.put(GtnFrameworkCommonConstants.TEMP_CHECKED_COUNT,
 				"Select atleast one Item in Price Protection tab for PS");
-		validationMessageMap.put("PPStartDateNull", " Price Protection Start Date  required for selected Item");
 		validationMessageMap.put("PPStartDateEqual",
 				" Price Protection Start Date and Price Protection End date should not be equal for selected Item");
 		validationMessageMap.put("PPStartDateLess",
