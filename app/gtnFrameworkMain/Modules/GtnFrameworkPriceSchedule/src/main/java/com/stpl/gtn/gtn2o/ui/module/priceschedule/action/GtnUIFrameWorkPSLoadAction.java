@@ -377,7 +377,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"Net Subsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
 					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
@@ -387,7 +387,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"Net Subsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
 					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
