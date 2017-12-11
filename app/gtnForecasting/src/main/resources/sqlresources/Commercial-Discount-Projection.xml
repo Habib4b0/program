@@ -307,7 +307,7 @@ UNION ALL
      <entity id="discountGenerateCustom">
         <query> 
             <![CDATA[            
-              DECLARE @VAR CHAR(1)='?RS'
+            DECLARE @VAR CHAR(1)='?RS'
             DECLARE @FREQUENCY CHAR(1)='?F'
             DECLARE @PARENT varchar(1000)='?P'
              
@@ -527,7 +527,7 @@ GROUP  BY I.PERIOD,
                     FROM #SELECTED_HIERARCHY_NO
                     GROUP BY HIERARCHY_NO
                     
-                    DECLARE @STAT_SALES INT
+                 DECLARE @STAT_SALES INT
 	,@EN_SALES INT
 	,@ACTUAL_END_PERIOD INT
 	,@ACTUAL_START_PERIOD INT
@@ -585,8 +585,6 @@ LEFT JOIN #ACTUAL_DISCOUNT AD ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
 LEFT JOIN #ACTUAL_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
-LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
-
 UNION ALL
 
 SELECT CHECK_RECORD
@@ -595,7 +593,7 @@ SELECT CHECK_RECORD
 	,AD.PERIOD
         ,'' DISCOUNT
 	,NULL AS ACTUAL_RATE
-	,COALESCE((PROJECTED_DISCOUNT / NULLIF(CCPS_COUNT, 0)) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE
+	,COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE
 	,1 AS AP_TABLE_INDICATOR
 	,USER_GROUP
 	,CCP_COUNT
@@ -603,7 +601,7 @@ SELECT CHECK_RECORD
 	,NULL AS ACTUAL_SALES
 	,NULL AS ACTUAL_RPU
 	,PROJECTED_DISCOUNT AS PROJECTION_SALES
-	,COALESCE((PROJECTED_DISCOUNT / NULLIF(CCPS_COUNT, 0)) / NULLIF(PROJECTION_UNITS, 0), 0) AS PROJECTION_RPU
+	,COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0) AS PROJECTION_RPU
 	,GROWTH @SELCOLDED
 FROM (
 	SELECT HIERARCHY_NO
@@ -624,7 +622,6 @@ LEFT JOIN #DISCOUNT_PROJECTION AD ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
 LEFT JOIN #PROJECTION_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
-LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
 ORDER BY HIERARCHY_NO
 	,YEAR
 	,PERIOD
@@ -971,7 +968,7 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
          <![CDATA[
             DECLARE @FREQUENCY CHAR(1)='?F'
             DECLARE @RELVALUE VARCHAR(20)='?R'
-            DECLARE @REFRESHED_NAME VARCHAR(10) = @REFNAME
+            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFNAME'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD
@@ -1292,20 +1289,63 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
         <entity id="MANUAL_ENTRY_DISCOUNT_CUSTOM">
         <query> 
             <![CDATA[
-                @PERIOD_TABLE
+                 @PERIOD_TABLE
                 @TEMP_TABLE_DISCOUNT
-                UPDATE DPT 
-                SET    @SETTER
-                FROM   st_nm_discount_projection DPT 
-                       JOIN st_nm_discount_proj_master MAS 
-                         ON MAS.ccp_details_sid = DPT.ccp_details_sid 
-                         and dpt.rs_contract_sid = MAS.rs_contract_sid
-                       JOIN st_ccp_hierarchy CCPH 
-                         ON CCPH.ccp_details_sid = DPT.ccp_details_sid 
-                            @COLUMN_NAME @CUSTOM_VIEW 
-                       JOIN #period I 
-                         ON I.period_sid = DPT.period_sid 
-                WHERE  I.year = ?Y  
+                IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+       DROP TABLE #SELECTED_HIERARCHY_NO
+ 
+CREATE TABLE #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO_1 VARCHAR(1000),
+       CCP_DETAILS_SID INT,
+       HIERARCHY_NO_2 VARCHAR(8000),
+       RS_CONTRACT_SID INT
+       )
+ 
+INSERT INTO #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO_1,
+       CCP_DETAILS_SID,
+       HIERARCHY_NO_2,
+       RS_CONTRACT_SID
+       )
+SELECT DISTINCT CUST_HIERARCHY_NO,
+       CCPH.CCP_DETAILS_SID,
+       PROD_HIERARCHY_NO,
+       MAS.RS_CONTRACT_SID
+FROM ST_CCP_HIERARCHY CCPH
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MAS
+       ON CCPH.CCP_DETAILS_SID = MAS.CCP_DETAILS_SID
+       @COLUMN_NAME @CUSTOM_VIEW;
+ 
+WITH CTE
+AS (
+       SELECT COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO_1,
+                     HIERARCHY_NO_2
+                     ) AMOUNT_COUNT,
+              SR.*,
+              COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO_1,
+                     SR.CCP_DETAILS_SID,
+                     HIERARCHY_NO_2
+                     ) RATE_RPU_COUNT
+       FROM #SELECTED_HIERARCHY_NO SR
+       )
+               UPDATE DPT
+SET @SETTER / (
+              CASE 
+                     WHEN @REFRESHED_NAME = 'AMOUNT'
+                           THEN AMOUNT_COUNT * @PERIOD_COUNT
+                     ELSE RATE_RPU_COUNT
+                     END
+              ),
+       DPT.REFRESHED_NAME = @REFRESHED_NAME
+FROM ST_NM_DISCOUNT_PROJECTION DPT
+INNER JOIN CTE M
+       ON M.CCP_DETAILS_SID = DPT.CCP_DETAILS_SID
+              AND DPT.RS_CONTRACT_SID = M.RS_CONTRACT_SID
+INNER JOIN #PERIOD I
+       ON I.PERIOD_SID = DPT.PERIOD_SID
+WHERE I.YEAR = ?Y
         ]]>
         </query>
     </entity>  
@@ -2023,7 +2063,6 @@ INTO   #PROJECTION_SALES
                              ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
                      INNER JOIN #PERIOD I
                              ON I.PERIOD_SID = S.PERIOD_SID
-                     join  ccp_details c1 on C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
 							 JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
 							
                                                           @UOMJOIN  
