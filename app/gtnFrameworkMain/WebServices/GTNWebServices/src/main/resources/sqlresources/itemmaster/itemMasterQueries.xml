@@ -237,7 +237,7 @@ INSERT
 	);]]></query>
 	</entity>
 
-<entity id="insertIntoMainTable">
+	<entity id="insertIntoMainTable">
 		<query> 
 		<![CDATA[
 INSERT
@@ -282,30 +282,30 @@ INSERT
 			##ITEM_PRICING_TEMP_TABLE
 			]]></query>
 	</entity>
-	
+
 	<entity id="deleteOldPricingData">
 		<query> 
 		<![CDATA[
 Delete from ITEM_PRICING where ITEM_MASTER_SID = ?
 ]]></query>
 	</entity>
-	
+
 	<entity id="pricingvalidation">
 		<query> 
 		<![CDATA[
 select count(1) from ##ITEM_PRICING_TEMP_TABLE where  COLUMNNAME = 0	OR  COLUMNNAME	= NULL 
 ]]></query>
 	</entity>
-	
+
 	<entity id="pricingUniqueValidation">
 		<query> 
 		<![CDATA[
 select count(1) from ##ITEM_PRICING_TEMP_TABLE where  ITEM_PRICING_QUALIFIER_SID = ? and ITEM_UOM = ? and PRICING_CODE_STATUS =? and START_DATE = ?
 ]]></query>
 	</entity>
-	
-	
-	
+
+
+
 
 
 
