@@ -4,7 +4,6 @@
  */
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
-import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
@@ -15,7 +14,6 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ValidationUtils;
-import com.stpl.ifs.ui.CommonSecurityLogic;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -57,59 +55,75 @@ public class ItemSearchLookup extends Window {
 
     @UiField("itemName")
     private TextField itemName;
+    
     @UiField("systemId")
     private TextField systemId;
+    
     @UiField("itemNo")
     private TextField itemNo;
+    
     @UiField("itemDesc")
     private TextField itemDesc;
+    
     @UiField("itemType")
     private ComboBox itemType;
+    
     @UiField("therapyClass")
     private ComboBox therapyClass;
+    
     @UiField("identifierType")
     private ComboBox identifierType;
+    
     @UiField("itemStatus")
     private ComboBox itemStatus;
+    
     @UiField("brand")
     private ComboBox brand;
+    
     @UiField("identifier")
     private TextField identifier;
+    
     @UiField("ndc9")
     private TextField ndc9;
+    
     @UiField("ndc8")
     private TextField ndc8;
+    
     @UiField("search")
-    Button search;
+    private Button search;
+    
     @UiField("reset")
     private Button reset;
+    
     @UiField("select")
-    Button select;
+    private Button select;
+    
     @UiField("close")
     private Button close;
+    
     @UiField("cssLayout")
-    CssLayout cssLayout;
-    FileManagementLogic logic = new FileManagementLogic();
-    TextField itemNumber;
-    TextField itemLookupName;
-    ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
+    private CssLayout cssLayout;
+    
+    private FileManagementLogic logic = new FileManagementLogic();
+    private TextField itemNumber;
+    private TextField itemLookupName;
+    private ItemSearchDTO itemSearchDTO = new ItemSearchDTO();
     private ErrorfulFieldGroup itemSearchBinder = new ErrorfulFieldGroup(new BeanItem<ItemSearchDTO>(itemSearchDTO));
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(ItemSearchLookup.class);
     private final BeanItemContainer<ItemSearchDTO> itemBean = new BeanItemContainer<>(ItemSearchDTO.class);
+    
     @UiField("tableLayout")
-    VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
+    
     private HorizontalLayout controlLayout = new HorizontalLayout();
-    ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
-    ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    CommonUtils commonUtil = new CommonUtils();
-    CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
-    SessionDTO sessionDTO;
+    private ItemSearchTableLogic tableLogic = new ItemSearchTableLogic();
+    private ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private CommonUtils commonUtil = new CommonUtils();
 
-    public ItemSearchLookup(TextField itemNo, TextField itemLookupName, final SessionDTO sessionDTO) {
+    public ItemSearchLookup(TextField itemNo, TextField itemLookupName) {
         super("Item Search");
         this.itemNumber = itemNo;
         this.itemLookupName = itemLookupName;
-        this.sessionDTO = sessionDTO;
     }
 
     public void init() throws PortalException, SystemException {

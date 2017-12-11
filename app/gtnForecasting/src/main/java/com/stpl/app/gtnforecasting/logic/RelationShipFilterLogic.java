@@ -53,6 +53,7 @@ public class RelationShipFilterLogic {
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATION_HIERARCHY_JOIN = "HIERARCHY_NO_JOIN.HIERARCHY_NO";
+	private static final String RELATION_HIERARCHY_LEVEL_JOIN = "HIERARCHY_NO_JOIN.LEVEL_NO";
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor
@@ -640,7 +641,9 @@ public class RelationShipFilterLogic {
 			query.append(hierarchyNo);
 			query.append("'),");
 		}
+                if (query.length() != 0) {
 		query.deleteCharAt(query.length() - 1);
+                }
 		return query;
 	}
 
@@ -893,7 +896,7 @@ public class RelationShipFilterLogic {
 		GtnFrameworkQueryGeneratorBean finalQueryBean = queryBean.getQuery();
 		finalQueryBean.removeSelectClauseByIndex(0);
 		finalQueryBean.removeSelectClauseByIndex(0);
-		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.LEVEL_NO", null, Boolean.TRUE, null);
+		finalQueryBean.addSelectClauseBean(RELATION_HIERARCHY_LEVEL_JOIN, null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.RELATIONSHIP_LEVEL_VALUES", null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.PARENT_NODE", null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.LEVEL_NAME", null, Boolean.TRUE, null);
@@ -918,7 +921,7 @@ public class RelationShipFilterLogic {
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO+'%'",
 				GtnFrameworkOperatorType.LIKE);
 		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
-		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.LEVEL_NO", null, GtnFrameworkOperatorType.LESSTHAN);
+		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_LEVEL_JOIN, null, GtnFrameworkOperatorType.LESSTHAN);
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, null, GtnFrameworkOperatorType.NOT_IN);
 		GtnFrameworkJoinClauseBean hierarchyLevelDefnTableJoin = finalQueryBean.addJoinClauseBean(
 				"HIERARCHY_LEVEL_DEFINITION", "HIERARCHY_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
@@ -926,6 +929,7 @@ public class RelationShipFilterLogic {
 				"HIERARCHY_NO_JOIN.HIERARCHY_LEVEL_DEFINITION_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		finalQueryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, businessUnitValue);
+                finalQueryBean.addOrderByClauseBean(RELATION_HIERARCHY_LEVEL_JOIN, "ASC");
 		return QueryUtils.getQuery(finalQueryBean.generateQuery(), input);
 	}
 

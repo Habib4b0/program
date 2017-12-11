@@ -614,8 +614,6 @@ public class GtnFrameworkForecastConfigurationConfig {
 						+ GtnWsForecastConfigurationConstants.GET_FORECAST_CONF_TABLE_DATA,
 				"forecastConfiguration", "SearchQuery");
 		forecastConfigSearchResult.setEditable(false);
-		forecastConfigSearchResult.setPageLength(5);
-		forecastConfigSearchResult.setItemPerPage(5);
 		forecastConfigSearchResult.setSinkItemPerPageWithPageLength(false);
 		forecastConfigSearchResult.setTableColumnDataType(
 				GtnFrameworkForecastConfigurationContants.getForecastConfigurationTableColumnType());

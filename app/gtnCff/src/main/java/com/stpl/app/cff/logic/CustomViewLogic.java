@@ -12,7 +12,6 @@ import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -332,13 +331,5 @@ public class CustomViewLogic {
         }
         return parentHierarchyNo;
     }
-
-    Comparator comp = new Comparator<LevelMapKey>() {
-
-        @Override
-        public int compare(LevelMapKey o1, LevelMapKey o2) {
-            return o1.getLevelNo().compareTo(o2.getLevelNo());
-        }
-    };
 
 }

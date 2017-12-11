@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.contractdashboard.config.action;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,9 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 				Object value = record.getPropertyValueByIndex(i);
 				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8].equals(propertyId)) {
 					value = getFieldValue(record);
+				}
+				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) {
+					value = getFieldValuePriceTolerance(record);
 				} else {
 					Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
 					value = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type, value);
@@ -88,6 +92,22 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 		}
 		if (depandingValue.startsWith("M")) {
 			return contractTableRecordBean.getStringPropertyByIndex(43).trim();
+		}
+		return "";
+	}
+
+	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
+		int size = bean.getProperties().size();
+		String depandingValue = bean.getStringPropertyByIndex(size-1);
+		if (!(depandingValue.equals(""))&&(!("".equals(bean.getPropertyValueByIndex(size-25))))&&(bean.getIndex("PriceTolerance") == size - 25)) {						
+			DecimalFormat formatDecimal = new DecimalFormat("0.00");
+			if (depandingValue.startsWith("per") || depandingValue.startsWith("%")) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(size - 25)) + "%";
+			}
+			if (depandingValue.startsWith("dol")) {
+				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(size - 25));
+
+			}
 		}
 		return "";
 	}

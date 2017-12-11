@@ -73,10 +73,12 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 						hierarchyLevelBean.getHierarchyDefinitionSid(),
 						hierarchyLevelBean.getHierarchyLevelDefinitionSid(), hierarchyLevelBean.getVersionNo());
 				GtnFrameworkQueryGeneratorBean querygeneratorBean = hierarchyQuery.getQuery();
+				
 				GtnFrameworkQueryGeneraterServiceImpl queryGenerator = new GtnFrameworkQueryGeneraterServiceImpl(
 						selectService, joinService, whereService);
 				queryGenerator.generateQuery(hierarchyLevelDefinitionList, relationBean, querygeneratorBean,
 						updatedVersionNo, userId, i);
+				
 				List<String> insertQueryInput = new ArrayList<>();
 				insertQueryInput.add(querygeneratorBean.generateQuery());
 				String finalInsertQuery = gtnWsSqlService.getQuery(insertQueryInput,
@@ -84,6 +86,7 @@ public class GtnFrameworkDeductionAutoUpdateServiceImpl implements GtnFrameworkA
 				gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 			}
 		} catch (Exception e) {
+			
 			LOGGER.error(e.getMessage());
 		}
 	}

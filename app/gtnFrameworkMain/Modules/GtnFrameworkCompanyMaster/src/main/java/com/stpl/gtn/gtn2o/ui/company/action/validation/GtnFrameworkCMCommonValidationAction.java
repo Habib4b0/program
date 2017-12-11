@@ -3,7 +3,9 @@ package com.stpl.gtn.gtn2o.ui.company.action.validation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.stpl.gtn.gtn2o.ui.company.constants.GtnFrameworkCompanyStringContants;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
@@ -166,6 +168,8 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 				.getVaadinBaseComponent("tradeClassattachResultTable").getItemsFromDataTable();
 		if (tradeClassList.isEmpty()) {
 			msg = msg + GtnFrameworkCompanyStringContants.GTN_COMPANY_MASTER_VALIDATION_MSG_TRADECLASS_REMOVE;
+		} else {
+			msg = gtnCMTradeClassTabDuplicateBeanCheck(tradeClassList);
 		}
 		if (!msg.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
@@ -190,6 +194,22 @@ public class GtnFrameworkCMCommonValidationAction implements GtnUIFrameWorkActio
 					messageList.get(i).get(1),
 					GtnFrameworkCompanyStringContants.getGtnCompanyDateTabComponentsList().get(i));
 		}
+	}
+
+	private String gtnCMTradeClassTabDuplicateBeanCheck(List<GtnWsRecordBean> tradeClassList) {
+		Set<Integer> tradeClassSidset = new HashSet<>();
+		StringBuilder tradeClassDuplicateAlertMsg=new StringBuilder();
+		for (int i = 0; i < tradeClassList.size(); i++) {
+			GtnWsRecordBean tradeClassBean = tradeClassList.get(i);
+			Object tradeClassSid = tradeClassBean
+					.getPropertyValueByIndex(tradeClassBean.getProperties().size() - 1);
+			Boolean tradeClassSidCheck = tradeClassSidset.add((int) tradeClassSid);
+			if (!tradeClassSidCheck) {
+				tradeClassDuplicateAlertMsg.append(GtnFrameworkCompanyStringContants.TRADE_CLASS_SID_DISTINCT);
+				break;
+			}
+		}
+		return tradeClassDuplicateAlertMsg.toString();
 	}
 
 }

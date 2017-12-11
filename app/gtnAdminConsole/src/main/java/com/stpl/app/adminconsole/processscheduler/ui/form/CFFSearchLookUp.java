@@ -5,11 +5,23 @@
  */
 package com.stpl.app.adminconsole.processscheduler.ui.form;
 
-import com.stpl.app.adminconsole.util.StringConstantUtils;
+import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getFtpBundleValue;
+
+import java.util.ResourceBundle;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
+import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic;
-import static com.stpl.app.adminconsole.processscheduler.logic.ProcessSchedulerLogic.getFtpBundleValue;
 import com.stpl.app.adminconsole.processscheduler.logic.tableLogic.CFFIndexTableLogic;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.CFFFilterGenerator;
@@ -19,11 +31,11 @@ import com.stpl.app.adminconsole.util.HelperListUtil;
 import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.MessageUtil;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
+import com.stpl.app.adminconsole.util.StringConstantUtils;
 import com.stpl.app.util.service.SchedulerSynchronizer;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
@@ -44,21 +56,10 @@ import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
-import java.util.List;
-import java.util.ResourceBundle;
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
-import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox.ClickListener;
-
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.Clara;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
  *
@@ -131,7 +132,6 @@ public class CFFSearchLookUp extends Window {
 
     @UiField("resultLayout")
     private VerticalLayout resultLayout;
-    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
 
     private final ErrorLabel errorMsg = new ErrorLabel();
 

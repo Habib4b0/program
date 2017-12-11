@@ -255,8 +255,6 @@ public class FileManagementLookup extends Window {
 
 	private String selectedFileCountry;
 
-	private String selectedBusinessUnit;
-
 	private String selectedFile = ConstantsUtils.EMPTY;
 
 	private boolean saveflag;
@@ -271,8 +269,6 @@ public class FileManagementLookup extends Window {
 	private String fmCountry;
 	private FileMananagementResultDTO resultDTO = new FileMananagementResultDTO();
 	private FileMananagementResultDTO detailsResultDTO = new FileMananagementResultDTO();
-	private FileMananagementResultDTO demandResultDTO = new FileMananagementResultDTO();
-	private FileMananagementResultDTO demandDetailsResultDTO = new FileMananagementResultDTO();
 	private ExtFilterTable excelTable;
 	private BeanItemContainer<FileMananagementResultDTO> excelTableBean;
 	private FileManagementLogic logic = new FileManagementLogic();
@@ -334,7 +330,6 @@ public class FileManagementLookup extends Window {
 	private boolean isDetails;
 	private String fmbusinessUnit;
 	private int nonRecordLock = 0;
-
 	/**
 	 * Instantiates a new file management lookup.
 	 *
@@ -1131,7 +1126,6 @@ public class FileManagementLookup extends Window {
 			fileNameList.setValue(null);
 			versionList.setValue(null);
 			selectedFileCountry = ConstantsUtils.EMPTY;
-			selectedBusinessUnit = ConstantsUtils.EMPTY;
 			selectedYear = 0;
 		} else {
 			BeanItem<?> targetItem;
@@ -1145,7 +1139,6 @@ public class FileManagementLookup extends Window {
 			final String fileNameListValue = ((FileMananagementResultDTO) targetItem.getBean()).getFileName();
 			final String versionListValue = ((FileMananagementResultDTO) targetItem.getBean()).getVersion();
 			selectedFileCountry = ((FileMananagementResultDTO) targetItem.getBean()).getCountry();
-			selectedBusinessUnit = ((FileMananagementResultDTO) targetItem.getBean()).getBusinessUnit();
 			selectedFile = ((FileMananagementResultDTO) targetItem.getBean()).getFileType();
 			fileMgtDTO = (FileMananagementResultDTO) targetItem.getBean();
 			fileNameList.setValue(String.valueOf(fileNameListValue));
@@ -1749,7 +1742,6 @@ public class FileManagementLookup extends Window {
 	@UiHandler("excelExportDetail")
 	public void excelExportDetailLogic(Button.ClickEvent event) {
 		try {
-
 			if (null != detailsResultDTO.getHelperType().getDescription()) {
 				String countQuery;
 				String dataQuery;
@@ -1794,7 +1786,7 @@ public class FileManagementLookup extends Window {
 				SessionDTO sessionDto = getSessionDto();
 				String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
 						detailsResultDTO.getHelperType().getDescription(), countQuery, dataQuery,
-						Arrays.asList(configureExcelDetailsTable()), sessionDto.getUserId(), sessionDto.getSessionId());
+						Arrays.asList(configureExcelDetailsTable()), sessionDto.getUserId(), sessionDto.getSessionId(),1);
 				GtnWsCsvExportUtil.sendTheExcelToUser(detailsResultDTO.getHelperType().getDescription(),
 						fileAbsolutePath, true, sessionDto.getUserId(), sessionDto.getSessionId());
 			}

@@ -101,6 +101,13 @@ public class GtnFrameworkIfpCommonValidationAction
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
 			throw new GtnFrameworkValidationFailedException(GtnFrameworkCommonConstants.VALIDATION_ERROR + msg);
 		}
+		if (validationBean.getStartDateEqualCount() > 0) {
+			msg = GtnFrameworkIfpStringContants.IFP_DATE_EQUAL_VALIDATION;
+			alertActionConfig.setActionParameterList(Arrays.asList(GtnFrameworkCommonStringConstants.ERROR, msg));
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, alertActionConfig);
+			throw new GtnFrameworkValidationFailedException(GtnFrameworkCommonConstants.VALIDATION_ERROR + msg);
+		}
+
 
 	}
 
@@ -111,7 +118,7 @@ public class GtnFrameworkIfpCommonValidationAction
 				throw new GtnFrameworkValidationFailedException(GtnFrameworkIfpStringContants.IFP_DATE_EQUAL_VALIDATION,
 						componentId);
 			}
-			if (ifpStartDate.after(ifpEndDate)) {
+		    if (ifpStartDate.after(ifpEndDate)) {
 				throw new GtnFrameworkValidationFailedException(
 						GtnFrameworkIfpStringContants.IFP_DATE_LESS_THAN_VALIDATION, componentId);
 			}

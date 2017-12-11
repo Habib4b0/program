@@ -3,10 +3,10 @@
 <!-- Generated Jan 5, 2017 4:57:08 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.stpl.gtn.gtn2o.ws.entity.HelperTable"
-               optimistic-lock="version" schema="dbo" table="HELPER_TABLE">
+               optimistic-lock="version" schema="dbo" table="HELPER_TABLE" dynamic-update="true">
         <id name="helperTableSid" type="int">
             <column name="HELPER_TABLE_SID" />
-            <generator class="assigned" />
+            <generator class="native" />
         </id>
         <property name="description" type="string">
             <column length="50" name="DESCRIPTION" />

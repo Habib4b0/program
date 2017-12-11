@@ -82,7 +82,7 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 public class ApprovalTab extends CustomComponent {
 
-    String projectionIdHidden = "";
+    private String projectionIdHidden = "";
     /**
      * Logger implementation for CffApprovalDetailsForm
      */
@@ -196,42 +196,32 @@ public class ApprovalTab extends CustomComponent {
     /**
      * The cff binder.
      */
-    public CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
+    private  CustomFieldGroup cffBinder = new CustomFieldGroup(new BeanItem<ApprovalDetailsDTO>(new ApprovalDetailsDTO()));
     /**
      * The results bean.
      */
-    public BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<>(
+    private  BeanItemContainer<CFFResultsDTO> resultsBean = new BeanItemContainer<>(
             CFFResultsDTO.class);
     /**
      * The cff dto.
      */
-    public CFFDTO cffDTO;
-    /**
-     * The projection id.
-     */
-    public int projectionId;
-    /**
-     * The workflow id.
-     */
-    public String workflowId;
-    /**
-     * The workflow system id.
-     */
-    public int workflowSystemId;
+    public  CFFDTO cffDTO;
     /**
      * The commonUtils.
      */
     private final CommonUtils commonUtils = new CommonUtils();
-    CFFResultsDTO cffResultsDTO = new CFFResultsDTO();
-    public static final String ALERT = "Alert";
-    CFFLogic cffLogic = new CFFLogic();
+    private static final String ALERT = "Alert";
+    private CFFLogic cffLogic = new CFFLogic();
     private NotesTabForm notestab;
+    
     @UiField("excelExport")
-    Button excelExport;
+    private Button excelExport;
+    
     @UiField("bottombuttonLayout")
     private HorizontalLayout bottombuttonLayout;
-    boolean isFirst = false;
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private boolean isFirst = false;
+    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    
     @UiField("errorLabel")
     public ErrorLabel errorLabel;
 
@@ -253,8 +243,8 @@ public class ApprovalTab extends CustomComponent {
     /**
      * ApprovalTab form constructor
      */
-    CFFSearchDTO dto;
-    SessionDTO sessionDTO;
+    private CFFSearchDTO dto;
+    private SessionDTO sessionDTO;
 
     public ApprovalTab(CFFSearchDTO dto, BeanItemContainer<ApprovalDetailsDTO> approvalContainer, BeanItemContainer<CFFResultsDTO> resultsBean,
             NotesTabForm notestab, SessionDTO sessionDTO) {

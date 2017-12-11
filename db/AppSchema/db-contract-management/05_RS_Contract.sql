@@ -2369,82 +2369,82 @@ IF EXISTS (SELECT 'X'
            FROM   SYS.TRIGGERS
            WHERE  [NAME] = N'TRG_RS_CONTRACT_DTLS_DYNAMIC_INS')
   BEGIN
-      DROP TRIGGER DBO.TRG_RS_CONTRACT_DTLS_DYNAMIC_INS
+         ALTER TABLE RS_CONTRACT_DETAILS DISABLE TRIGGER  TRG_RS_CONTRACT_DTLS_DYNAMIC_INS
   END
 
 GO
 
-CREATE TRIGGER [dbo].[TRG_RS_CONTRACT_DTLS_DYNAMIC_INS]
-ON [dbo].[RS_CONTRACT_DETAILS]
-AFTER INSERT
-AS
-  BEGIN
-      SET NOCOUNT ON
+--CREATE TRIGGER [dbo].[TRG_RS_CONTRACT_DTLS_DYNAMIC_INS]
+--ON [dbo].[RS_CONTRACT_DETAILS]
+--AFTER INSERT
+--AS
+--  BEGIN
+--      SET NOCOUNT ON
 
-      IF Object_id('tempdb..#TEMP_DEDUCTION_HIERARCHY') IS NOT NULL
-        DROP TABLE #TEMP_DEDUCTION_HIERARCHY
+--      IF Object_id('tempdb..#TEMP_DEDUCTION_HIERARCHY') IS NOT NULL
+--        DROP TABLE #TEMP_DEDUCTION_HIERARCHY
 
-      CREATE TABLE #TEMP_DEDUCTION_HIERARCHY
-        (
-           ITEM_MASTER_SID          INT,
-           RS_CONTRACT_SID          INT,
-           REBATE_SCHEDULE_CATEGORY INT,
-           REBATE_SCHEDULE_TYPE     INT,
-           REBATE_PROGRAM_TYPE      INT,
-           UDC1                     INT,
-           UDC2                     INT,
-           UDC3                     INT,
-           UDC4                     INT,
-           UDC5                     INT,
-           UDC6                     INT
-        )
+--      CREATE TABLE #TEMP_DEDUCTION_HIERARCHY
+--        (
+--           ITEM_MASTER_SID          INT,
+--           RS_CONTRACT_SID          INT,
+--           REBATE_SCHEDULE_CATEGORY INT,
+--           REBATE_SCHEDULE_TYPE     INT,
+--           REBATE_PROGRAM_TYPE      INT,
+--           UDC1                     INT,
+--           UDC2                     INT,
+--           UDC3                     INT,
+--           UDC4                     INT,
+--           UDC5                     INT,
+--           UDC6                     INT
+--        )
 
-      INSERT INTO #TEMP_DEDUCTION_HIERARCHY
-                  (ITEM_MASTER_SID,
-                   RS_CONTRACT_SID,
-                   REBATE_SCHEDULE_CATEGORY,
-                   REBATE_SCHEDULE_TYPE,
-                   REBATE_PROGRAM_TYPE,
-                   UDC1,
-                   UDC2,
-                   UDC3,
-                   UDC4,
-                   UDC5,
-                   UDC6)
-      SELECT a.ITEM_MASTER_SID,
-             A.RS_CONTRACT_SID,
-             rs.RS_CATEGORY,
-             rs.RS_TYPE,
-             rs.REBATE_PROGRAM_TYPE,
-             U.UDC1,
-             U.UDC2,
-             U.UDC3,
-             U.UDC4,
-             U.UDC5,
-             U.UDC6
-      FROM   INSERTED A
-             JOIN RS_CONTRACT rs
-               ON rs.RS_CONTRACT_SID = a.RS_CONTRACT_SID AND RS.INBOUND_STATUS<>'D'
-             LEFT JOIN UDCS U
-                    ON U.MASTER_SID = A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+--      INSERT INTO #TEMP_DEDUCTION_HIERARCHY
+--                  (ITEM_MASTER_SID,
+--                   RS_CONTRACT_SID,
+--                   REBATE_SCHEDULE_CATEGORY,
+--                   REBATE_SCHEDULE_TYPE,
+--                   REBATE_PROGRAM_TYPE,
+--                   UDC1,
+--                   UDC2,
+--                   UDC3,
+--                   UDC4,
+--                   UDC5,
+--                   UDC6)
+--      SELECT a.ITEM_MASTER_SID,
+--             A.RS_CONTRACT_SID,
+--             rs.RS_CATEGORY,
+--             rs.RS_TYPE,
+--             rs.REBATE_PROGRAM_TYPE,
+--             U.UDC1,
+--             U.UDC2,
+--             U.UDC3,
+--             U.UDC4,
+--             U.UDC5,
+--             U.UDC6
+--      FROM   INSERTED A
+--             JOIN RS_CONTRACT rs
+--               ON rs.RS_CONTRACT_SID = a.RS_CONTRACT_SID AND RS.INBOUND_STATUS<>'D'
+--             LEFT JOIN UDCS U
+--                    ON U.MASTER_SID = A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
 
-      -------------------------Procedure Call ---------------------------------------
-      IF @@ROWCOUNT > 0
-        BEGIN
-            BEGIN TRY
-                BEGIN TRANSACTION
+--      -------------------------Procedure Call ---------------------------------------
+--      IF @@ROWCOUNT > 0
+--        BEGIN
+--            BEGIN TRY
+--                BEGIN TRANSACTION
 
-                EXEC Prc_deduction_hierarchy_dynamic_add --DEDUCTION
-                COMMIT
-            END TRY
+--                EXEC Prc_deduction_hierarchy_dynamic_add --DEDUCTION
+--                COMMIT
+--            END TRY
 
-            BEGIN CATCH
-                IF @@TRANCOUNT <> 0
-                  ROLLBACK
-            END CATCH
-        END
-  END
-GO
+--            BEGIN CATCH
+--                IF @@TRANCOUNT <> 0
+--                  ROLLBACK
+--            END CATCH
+--        END
+--  END
+--GO
 
 
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.component.calendarfield.GtnUIFrameworkCalendarConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -20,7 +21,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
  *
  * @author Abhiram.Giri
  */
-public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction  ,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkCurdYearChangeAction.class);
 
@@ -51,7 +52,10 @@ public class GtnFrameworkCurdYearChangeAction implements GtnUIFrameWorkAction  ,
 			calendarBaseComponent.setCalendarFieldRangeEnd(null);
 			calendarBaseComponent.setCalendarFieldRangeStart(rangeStartDate.getTime());
 			calendarBaseComponent.setCalendarFieldRangeEnd(rangeEndDate.getTime());
-
+			GtnUIFrameworkCalendarConfig gtnUIFrameworkCalendarConfig = calendarBaseComponent.getComponentConfig()
+					.getCalendarConfig();
+			gtnUIFrameworkCalendarConfig.setRangeStartDate(rangeStartDate);
+			gtnUIFrameworkCalendarConfig.setRangeEndDate(rangeEndDate);
 			GtnUIFrameworkBaseComponent defaultHolidayBaseComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(parameters.get(0));
 			defaultHolidayBaseComponent.setPropertyValue(false);

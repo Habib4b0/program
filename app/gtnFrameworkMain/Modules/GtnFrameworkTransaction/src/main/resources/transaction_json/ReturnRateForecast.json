@@ -1,4 +1,13 @@
-[
+{
+"module":[  
+      {  
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
+		 "stagingUpdateColumns":["reprocessedFlag"],
+		 "stagingUpdateColumnsValues": ["Y"]
+	 
+      }
+   ],
+"moduleDetails":[
    {
 		"columnID": "checkRecord",
 		"columnName": "      ",
@@ -140,8 +149,8 @@
 		"isSearchCriteria": false,
 		"isResultView": true,
 		"componentType": "date",
-	    "onlyValidComponent": true,
-	    "expressionType": "DATE_BETWEEN",
+                "onlyValidComponent": true,
+                "expressionType": "DATE_BETWEEN",
 		"columnAlignment": "CENTER",
 		"listViewIndex": 12,
 		"viewModeIndex": 14
@@ -251,16 +260,16 @@
 		"listViewIndex": 19
 	},
 	{
-        "columnID": "reprocessedFlag",
-        "columnName": "Reprocessed Flag",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "defaultValue": "N",
-        "isInvalidComponent": true,
-        "viewModeIndex": 20,
-        "listViewIndex": 20
-    },
+                "columnID": "reprocessedFlag",
+                "columnName": "Reprocessed Flag",
+                "isSearchCriteria": true,
+                "isResultView": true,
+                "componentType": "text",
+                "defaultValue": "N",
+                "isInvalidComponent": true,
+                "viewModeIndex": 20,
+                "listViewIndex": 20
+        },
 	{
 		"columnID": "returnRateForecastSid",
 		"columnName": "Invalid Record Id",
@@ -298,3 +307,4 @@
 		"viewModeIndexFlag": true
 	}
 ]
+}
