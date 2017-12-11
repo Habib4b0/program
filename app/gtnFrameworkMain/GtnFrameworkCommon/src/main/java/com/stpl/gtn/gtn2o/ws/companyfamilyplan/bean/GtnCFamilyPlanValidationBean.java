@@ -25,6 +25,8 @@ public class GtnCFamilyPlanValidationBean {
 	private String statusNullCompanyId;
 	private String startDateGreaterThanEndCompanyId;
 	private String duplicateCompanyId;
+	private int startDateEqualsEndCount;
+	private String startDateEqualsCompanyId;
 
 	public int getCount() {
 		return count;
@@ -105,6 +107,24 @@ public class GtnCFamilyPlanValidationBean {
 	public void setStatusNullCount(int statusNullCount) {
 		this.statusNullCount = statusNullCount;
 	}
+	
+	
+
+	public int getStartDateEqualsEndCount() {
+		return startDateEqualsEndCount;
+	}
+
+	public void setStartDateEqualsEndCount(int startDateEqualsEndCount) {
+		this.startDateEqualsEndCount = startDateEqualsEndCount;
+	}
+
+	public String getStartDateEqualsCompanyId() {
+		return startDateEqualsCompanyId;
+	}
+
+	public void setStartDateEqualsCompanyId(String startDateEqualsCompanyId) {
+		this.startDateEqualsCompanyId = startDateEqualsCompanyId;
+	}
 
 	@Override
 	public String toString() {
@@ -113,7 +133,8 @@ public class GtnCFamilyPlanValidationBean {
 				+ startDateGreaterThanEndCount + ", duplicateCompanyCount=" + duplicateCompanyCount + ", checkedCount="
 				+ checkedCount + ", startDateNullCompanyId=" + startDateNullCompanyId + ", statusNullCompanyId="
 				+ statusNullCompanyId + ", startDateGreaterThanEndCompanyId=" + startDateGreaterThanEndCompanyId
-				+ ", duplicateCompanyId=" + duplicateCompanyId + '}';
+				+ ", duplicateCompanyId=" + duplicateCompanyId + ",startDateEqualsEndCount="
+				+ startDateEqualsEndCount + " ,startDateEqualsCompanyId=" + startDateEqualsCompanyId + '}';
 	}
 
 }

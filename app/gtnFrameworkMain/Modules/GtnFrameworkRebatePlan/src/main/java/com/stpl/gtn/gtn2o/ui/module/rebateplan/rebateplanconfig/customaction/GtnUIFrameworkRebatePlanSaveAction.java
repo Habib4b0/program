@@ -222,21 +222,22 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	}
 
-    private void loadRuleDetailBean(GtnWsRebatePlanRuleDetailBean ruleDetailBean, GtnWsRecordBean ruleDetail, List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList) {
-        ruleDetailBean.setOperator(getValue(2, ruleDetail));
-        if (!ruleDetail.getAdditionalProperties().contains("newItem")) {
-            if ("$".equals(ruleDetail.getStringProperty("tierOperator"))) {
-                ruleDetailBean.setItemPricingQualifierSid(getStringValue(3, ruleDetail));
-            } else {
-                ruleDetailBean.setReturnRateSid(getValue(3, ruleDetail));
-            }
-            
-        } else {
-            ruleDetailBean.setValueDesc(getStringValue(3, ruleDetail));
-        }
-        
-        ruleDetailBeanList.add(ruleDetailBean);
-    }
+	private void loadRuleDetailBean(GtnWsRebatePlanRuleDetailBean ruleDetailBean, GtnWsRecordBean ruleDetail,
+			List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList) {
+		ruleDetailBean.setOperator(getValue(2, ruleDetail));
+		if (!ruleDetail.getAdditionalProperties().contains("newItem")) {
+			if ("$".equals(ruleDetail.getStringProperty("tierOperator"))) {
+				ruleDetailBean.setItemPricingQualifierSid(getStringValue(3, ruleDetail));
+			} else {
+				ruleDetailBean.setReturnRateSid(getValue(3, ruleDetail));
+			}
+
+		} else {
+			ruleDetailBean.setValueDesc(getStringValue(3, ruleDetail));
+		}
+
+		ruleDetailBeanList.add(ruleDetailBean);
+	}
 
 	private void loadRuleDetailsComplexFormula(List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList,
 			final List<GtnWsRecordBean> ruleDetailsList) throws GtnFrameworkValidationFailedException {
@@ -324,6 +325,11 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	}
 
 	private int getValue(int index, GtnWsRecordBean ruleDetail) {
+		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(String.valueOf(mode))) {
+			return (ruleDetail.getAdditionalProperties().get(index) != null
+					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
+		}
 
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))

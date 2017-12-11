@@ -425,7 +425,7 @@ public class FileManagementIndex extends CustomComponent implements View {
                 try {
                     configureExcelResultTable();
                     loadExcelTable(CommonUtil.getSelectedFileType(fileType), String.valueOf(country.getValue()), String.valueOf(businessUnit.getValue()));
-                    ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(fileHistoryTable), "File Management History", "File Management History", "File Management History.xls", false);
+                    ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(fileHistoryTable), "File Management History", "File Management History", "FileManagementHistory.xls", false);
                     excel.export();
 
                 } catch (Exception e) {

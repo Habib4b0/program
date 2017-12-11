@@ -328,7 +328,8 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
-			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID };
+			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
+			GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID };
 	private static final Object[] GTN_WORKFLOW_INBOX_ARP_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
@@ -338,7 +339,8 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
-			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID };
+			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
+			GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID };
 	private static final Object[] GTN_WORKFLOW_INBOX_RETURNS_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL,
@@ -348,7 +350,8 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.PRODHIERLEVEL,
 			GtnFrameworkWorkflowInboxClassConstants.PRODRELATIONSID,
 			GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID,
-			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID };
+			GtnFrameworkWorkflowInboxClassConstants.CREATEDBYID,
+			GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID };
 	private static final Object[] GTN_WORKFLOW_INBOX_ARM_SEARCH_EXTRA_COLUMNS = new Object[] {
 			GtnFrameworkWorkflowInboxClassConstants.WORKFLOWSID, GtnFrameworkWorkflowInboxClassConstants.NOOFAPPROVALS,
 			GtnFrameworkWorkflowInboxClassConstants.APPROVALLEVEL, "adjustmentTypeName",
@@ -609,6 +612,7 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER
 
 	};
@@ -623,11 +627,13 @@ public class GtnFrameworkWorkflowInboxTableConstants {
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER
 
 	};
 
 	private static final Class<?>[] GTN_WORKFLOW_INBOX_RETURNS_SEARCH_TABLE_EXTRACOLUMNS_DATA_TYPE = new Class<?>[] {
+			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,
 			GtnFrameworkWorkflowInboxClassConstants.JAVA_LANG_INTEGER,

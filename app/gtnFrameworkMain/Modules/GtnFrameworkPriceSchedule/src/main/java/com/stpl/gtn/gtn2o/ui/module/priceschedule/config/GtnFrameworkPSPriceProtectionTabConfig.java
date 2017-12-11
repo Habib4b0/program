@@ -373,15 +373,15 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 				String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class, Integer.class,
 				String.class, Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 				Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-				Integer.class, String.class, Date.class, String.class,Date.class, Integer.class, String.class });
+				Integer.class, String.class, Date.class });
 		priceProtectionResultTable.setTableVisibleHeader(GtnFrameworkPSConstants.getPriceProtectionHeader());
 		priceProtectionResultTable
 				.setTableColumnMappingId(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray());
 		priceProtectionResultTable.setColumnToAlign(GtnFrameworkPSConstants.getPriceProtectionColumnAlignmentHeader());		
 		priceProtectionResultTable.setColumnAlignment(GtnFrameworkPSConstants.getPriceProtectionColumnAlignment());
 		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);	
-		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId", "itemMasterSid" });
-		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class, Integer.class });
+		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId", "itemMasterSid","psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes"});
+		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class, Integer.class, String.class , Date.class,Integer.class, String.class});
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
 				GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[0],
