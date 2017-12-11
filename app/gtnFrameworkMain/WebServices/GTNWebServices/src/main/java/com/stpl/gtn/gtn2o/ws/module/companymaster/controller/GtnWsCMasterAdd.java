@@ -723,14 +723,12 @@ public class GtnWsCMasterAdd {
 		if (resultsDb4 != null) {
 			isCompanyExist = (long) resultsDb4.size() == 1;
 		}
-		
+		 List<String> compIdCriteria = new ArrayList<>();
+		 compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
 		int countUpdate = 0;
 		if (isCompanyExist) {
-			String query = "UPDATE COMPANY_MASTER SET INBOUND_STATUS='A' WHERE COMPANY_ID='"
-					+ masterbean.getGtnCMasterInformationBean().getCompanyId() + "' AND INBOUND_STATUS='D'";
-
 			try {
-				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(compIdCriteria, "updateCompanyIdWithStatusD"));
 			} catch (GtnFrameworkGeneralException e) {
 				LOGGER.info("Error in Updating");
 			}
@@ -740,9 +738,10 @@ public class GtnWsCMasterAdd {
 	@SuppressWarnings("unchecked")
 	private int getSysIdForCompanyIdWithStatusD(GtnCMasterBean masterbean) {
 		    List<Integer> sysId=new ArrayList<>();
-			String query1 = "Select COMPANY_MASTER_SID from COMPANY_MASTER where COMPANY_ID='"+ masterbean.getGtnCMasterInformationBean().getCompanyId() + "'";
+		    List<String> compIdCriteria = new ArrayList<>();
+		    compIdCriteria.add(masterbean.getGtnCMasterInformationBean().getCompanyId());
 			try {
-				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(query1));
+				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "getSysIdWithStatusD")));
 				
 			} catch (GtnFrameworkGeneralException e) {
 				LOGGER.info("Error in Updating");

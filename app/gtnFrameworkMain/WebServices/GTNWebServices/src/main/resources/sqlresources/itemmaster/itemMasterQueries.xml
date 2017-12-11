@@ -341,6 +341,35 @@ UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID='?' AND ITEM
                     ]]>
 		</query>
 	</entity>
+	<entity id="selectItemMasterSysId">
+		<query> 
+            <![CDATA[     
+                  
 
+Select ITEM_MASTER_SID from ITEM_MASTER where ITEM_ID='?'
+            
+                    ]]>
+		</query>
+	</entity>
+<entity id="updateIdentifierWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID='?'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="updateItemIdWithStatusA">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_MASTER SET INBOUND_STATUS='A' WHERE ITEM_ID='?' AND INBOUND_STATUS='D'
+            
+                    ]]>
+		</query>
+	</entity>
 
 </sql>

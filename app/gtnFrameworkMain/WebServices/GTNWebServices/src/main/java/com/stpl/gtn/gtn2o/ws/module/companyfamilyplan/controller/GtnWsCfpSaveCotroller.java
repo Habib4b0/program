@@ -122,12 +122,12 @@ public class GtnWsCfpSaveCotroller {
 
 	@SuppressWarnings("unchecked")
 	private int getSysIdForCfpIdWithStatusD(GtnCFamilyPlanInformation cfpInfo) {
-
+		List<String> cfpCriteria = new ArrayList<>();
+		cfpCriteria.add(cfpInfo.getCfpId());
+		cfpCriteria.add(cfpInfo.getCfpNo());
 		List<Integer> sysId = new ArrayList<>();
-		String query2 = "Select CFP_MODEL_SID from CFP_MODEL where CFP_ID='" + cfpInfo.getCfpId() + "' AND CFP_NO='"
-				+ cfpInfo.getCfpNo() + "'";
 		try {
-			sysId = (List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(query2));
+			sysId = (List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery(cfpCriteria, "getSysIdCfpIdAndCfpNoWithStatusD")));
 
 		} catch (GtnFrameworkGeneralException e) {
 			logger.info("Error in Updating");
@@ -142,14 +142,13 @@ public class GtnWsCfpSaveCotroller {
 		if (resultsDb4 != null) {
 			isCompanyExist = (long) resultsDb4.size() == 1;
 		}
-
+		List<String> cfpCriteria = new ArrayList<>();
+		cfpCriteria.add(cfpInfo.getCfpId());
+		cfpCriteria.add(cfpInfo.getCfpNo());
 		int countUpdate = 0;
 		if (isCompanyExist) {
-			String query1 = "UPDATE CFP_MODEL SET INBOUND_STATUS='A' WHERE CFP_ID='" + cfpInfo.getCfpId()
-					+ "' AND CFP_NO='" + cfpInfo.getCfpNo() + "' AND INBOUND_STATUS like 'D'";
-
-			try {
-				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query1);
+		try {
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(cfpCriteria, "UpdateCfpIdAndCfpNoWithStatusA"));
 			} catch (GtnFrameworkGeneralException e) {
 				logger.info("Error in Updating");
 			}

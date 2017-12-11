@@ -150,13 +150,13 @@ public class GtnWsItemMasterSaveCotroller {
 		
 		int countUpdate = 0;
 		if (isItemIdExist) {
-			String identifierQuery="UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID="+ gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemId();
-			String query = "UPDATE ITEM_MASTER SET INBOUND_STATUS='A' WHERE ITEM_ID='"
-					+ gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemId() + "' AND INBOUND_STATUS='D'";
-
+			  List<Integer> sysId=new ArrayList<>();
+			    List<String> itemIdCriteria = new ArrayList<>();
+				itemIdCriteria.add(gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemId());
+				sysId.add(gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid());
 			try {
-				gtnSqlQueryEngine.executeInsertOrUpdateQuery(identifierQuery);
-				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
+				gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(sysId, "updateIdentifierWithStatusD"));
+				countUpdate = gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery(itemIdCriteria, "updateItemIdWithStatusA"));
 			} catch (GtnFrameworkGeneralException e) {
 				logger.info("Error in Updating");
 			}
@@ -166,9 +166,10 @@ public class GtnWsItemMasterSaveCotroller {
 	@SuppressWarnings("unchecked")
 	private int getSysIdForItemIdWithStatusD(GtnWsItemMasterBean gtnWsItemMasterBean) {
 		    List<Integer> sysId=new ArrayList<>();
-			String query1 = "Select ITEM_MASTER_SID from ITEM_MASTER where ITEM_ID='"+ gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemId() + "'";
+		    List<String> itemIdCriteria = new ArrayList<>();
+			itemIdCriteria.add(gtnWsItemMasterBean.getGtnWsItemMasterInfoBean().getItemId());
 			try {
-				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(query1));
+				sysId=(List<Integer>) (gtnSqlQueryEngine.executeSelectQuery(gtnWsSqlService.getQuery(itemIdCriteria, "selectItemMasterSysId")));
 				
 			} catch (GtnFrameworkGeneralException e) {
 				logger.info("Error in Updating");

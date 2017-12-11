@@ -277,5 +277,25 @@ SELECT * FROM COMPANY_MASTER CM WHERE CM.COMPANY_ID='?' AND CM.INBOUND_STATUS LI
                     ]]>
 		</query>
 	</entity>
+	<entity id="getSysIdWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+Select COMPANY_MASTER_SID from COMPANY_MASTER where COMPANY_ID='?'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="updateCompanyIdWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE COMPANY_MASTER SET INBOUND_STATUS='A' WHERE COMPANY_ID='?' AND INBOUND_STATUS='D'
+            
+                    ]]>
+		</query>
+	</entity>
 	
 </sql>

@@ -803,5 +803,18 @@ DECLARE @USERS_SID VARCHAR(10)=?,
                 ]]>
 		</query>
 	</entity>
-	
+	<entity id="getSysIdCfpIdAndCfpNoWithStatusD">
+		<query> 
+            <![CDATA[   
+            Select CFP_MODEL_SID from CFP_MODEL where CFP_ID='?' AND CFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+	<entity id="UpdateCfpIdAndCfpNoWithStatusA">
+		<query> 
+            <![CDATA[   
+          UPDATE CFP_MODEL SET INBOUND_STATUS='A' WHERE CFP_ID='?' AND CFP_NO='?' AND INBOUND_STATUS like 'D'
+                ]]>
+		</query>
+	</entity>
 </sql>
