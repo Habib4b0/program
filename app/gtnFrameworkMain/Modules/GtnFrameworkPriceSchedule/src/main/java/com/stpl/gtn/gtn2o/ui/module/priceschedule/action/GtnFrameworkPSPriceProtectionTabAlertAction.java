@@ -59,6 +59,10 @@ public class GtnFrameworkPSPriceProtectionTabAlertAction implements GtnUIFrameWo
 				" Price Protection Start Date and Price Protection End date should not be equal for selected Item");
 		validationMessageMap.put("PPStartDateLess",
 				" Price Protection Start Date is less than Price Protection End date for selected Item");
+		validationMessageMap.put("PPStartDateNull",
+				" Price Protection Start Date Should Be Selected");
+		validationMessageMap.put("PPEndDateNull",
+				" Price Protection End Date Should Be Selected");
 		return validationMessageMap;
 	}
 
