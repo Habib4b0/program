@@ -280,7 +280,7 @@ public class GtnWsPriceScheduleService {
 			updateValue = formatedDate;
 		} else if (componetMap.get(psUpdateBean.getPropertyId()).getDataType().equals("Date")
 				&& psUpdateBean.getValue().equals("NULL")) {
-			updateValue = "";
+			updateValue = null;
 		} else {
 			updateValue = String.valueOf(psUpdateBean.getValue());
 		}
