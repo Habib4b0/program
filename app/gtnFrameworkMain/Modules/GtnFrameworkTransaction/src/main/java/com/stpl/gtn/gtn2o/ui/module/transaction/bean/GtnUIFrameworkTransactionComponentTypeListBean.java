@@ -1,8 +1,11 @@
 package com.stpl.gtn.gtn2o.ui.module.transaction.bean;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 
@@ -24,6 +27,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private Object[] stagingUpdateColumnsValues = null;
 	private Object[] stagingUpdateColumns = null;
 	private Object[] stagingInsertColumns = null;
+	private Map<String, String> formatterMap = null;
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
 		return Collections.unmodifiableList(listViewComponent);
@@ -119,6 +123,17 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 
 	public void setStagingUpdateColumns(Object[] stagingUpdateColumns) {
 		this.stagingUpdateColumns = stagingUpdateColumns.clone();
+	}
+
+	public String getFormatterMap(String property) {
+		return formatterMap.get(property);
+	}
+
+	public void putFormatterMap(String propertyId, String pattern) {
+		if (formatterMap == null) {
+			formatterMap = new HashMap<>();
+		}
+		formatterMap.put(propertyId, pattern);
 	}
 
 }
