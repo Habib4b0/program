@@ -380,7 +380,7 @@ public class GtnFrameworkPSPriceProtectionTabConfig {
 		priceProtectionResultTable.setColumnToAlign(GtnFrameworkPSConstants.getPriceProtectionColumnAlignmentHeader());		
 		priceProtectionResultTable.setColumnAlignment(GtnFrameworkPSConstants.getPriceProtectionColumnAlignment());
 		priceProtectionResultTableConfig.setGtnPagedTableConfig(priceProtectionResultTable);	
-		priceProtectionResultTable.setExtraColumn(new Object[] { "systemId", "itemMasterSid","psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes"});
+		priceProtectionResultTable.setExtraColumn(new Object[] {"psToleranceTypeDes", "psBasePriceDate", "psBasePriceDdlb", "psBasePriceTypeDes", "systemId", "itemMasterSid"});
 		priceProtectionResultTable.setExtraColumnDataType(new Class<?>[] { String.class, Integer.class, String.class , Date.class,Integer.class, String.class});
 		priceProtectionResultTable.setColumnCheckBoxId(GtnFrameworkCommonConstants.CHECK_RECORD_ID);
 		priceProtectionResultTable.setInvisibleFilterPropertyIds(
