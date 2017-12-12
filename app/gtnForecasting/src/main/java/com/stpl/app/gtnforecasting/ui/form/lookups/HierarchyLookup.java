@@ -59,21 +59,21 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     /**
      * hierarchyLookup TextField.
      */
-    private TextField hierarchyLookup;
+    private final TextField hierarchyLookup;
 
     /**
      * The search result table.
      */
     private ExtFilterTable results;
 
-    private Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
+    private final Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
     /**
      * Container for results table.
      */
     private OptionGroup hierarchyType;
 
-    private Button searchBtn = new Button(BTN_SEARCH.getConstant());
-    private Button resetBtn = new Button(BTN_RESET.getConstant());
+    private final Button searchBtn = new Button(BTN_SEARCH.getConstant());
+    private final Button resetBtn = new Button(BTN_RESET.getConstant());
     /**
      * Container for results table.
      */
@@ -175,7 +175,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
             @Override
             public void noMethod() {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
         };
         notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -269,6 +269,5 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-        return;
     }
 }

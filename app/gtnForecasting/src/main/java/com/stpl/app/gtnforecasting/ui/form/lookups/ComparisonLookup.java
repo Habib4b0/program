@@ -17,6 +17,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterTable;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -30,42 +31,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      * The results.
      */
     private final ExtFilterTable results = new ExtFilterTable();
-    /**
-     * The market type.
-     */
-    /**
-     * The workflow status.
-     */
-    /**
-     * The brand.
-     */
-    /**
-     * The proj name.
-     */
-    /**
-     * The cont hldr.
-     */
-    /**
-     * The ndc no.
-     */
-    /**
-     * The ndc name.
-     */
-    /**
-     * The desc.
-     */
-    /**
-     * The contract.
-     */
-    /**
-     * The from.
-     */
-    /**
-     * The to.
-     */
-    /**
-     * The search table.
-     */
+    
     private ExtFilterTable searchTable;
     /**
      * The selected table.
@@ -74,39 +40,28 @@ public class ComparisonLookup extends AbstractComparisonLookup {
     /**
      * The submit btn.
      */
-    private Button submitBtn = new Button();
+    private final Button submitBtn = new Button();
     /**
      * The add line btn.
      */
-    private Button addLineBtn = new Button();
+    private final Button addLineBtn = new Button();
     /**
      * The remove line btn.
      */
-    private Button removeLineBtn = new Button();
-    /**
-     * The comparison lookup.
-     */
-    CustomTextField comparisonLookup;
+    private final Button removeLineBtn = new Button();
+    
     /**
      * The selected projection.
      */
-    private  ExtFilterTable selectedProjection = new ExtFilterTable();
+    private final  ExtFilterTable selectedProjection = new ExtFilterTable();
     /**
      * projection id
      */
-    public int currentProjId;
+    private final int currentProjId;
 
-    List<ComparisonLookupDTO> selectedList;
+    private final List<ComparisonLookupDTO> selectedList;
+    private static final Logger LOGGER = Logger.getLogger(ComparisonLookup.class);
   
-
-    /**
-     * Constructor for ComparisonLookup.
-     *
-     * @param windowName Name of the window
-     * @param moduleIndicator Indicates the module. NonMandated or Mandated or
-     * Channels
-     * @param comparisonLookup Textfield which opens this lookup
-     */
     public ComparisonLookup(final String windowName, final CustomTextField comparisonLookup,final int currentProjId, List<ComparisonLookupDTO> selectedList) {
         super(windowName, comparisonLookup);
         this.comparisonLookup = comparisonLookup;
@@ -144,8 +99,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         submitBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                return;
-          
+                LOGGER.debug("Inside Overriden method: do nothing");
             }
         });
 
@@ -198,20 +152,20 @@ public class ComparisonLookup extends AbstractComparisonLookup {
     /**
      * The container.
      */
-    BeanItemContainer<DataSelectionDTO> container;
+    private BeanItemContainer<DataSelectionDTO> container;
 
     /**
      * Creates a new Reset button which resets the table content.
      *
      * @return A Reset button and it's listener implementation
      */
+    @Override
     public ExtFilterTable getSelectedProjection() {
         return selectedProjection;
     }
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-        return;
     }
     
     
