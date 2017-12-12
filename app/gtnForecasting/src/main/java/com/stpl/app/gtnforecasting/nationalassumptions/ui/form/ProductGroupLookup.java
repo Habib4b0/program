@@ -52,66 +52,66 @@ public class ProductGroupLookup extends Window {
      * The product group name.
      */
     @UiField("productGroupName")
-    TextField productGroupName;
+    private TextField productGroupName;
 
     /**
      * The product group.
      */
     @UiField("productGroup")
-    TextField productGroup;
+    private TextField productGroup;
 
     /**
      * The result table.
      */
     @UiField("resultsTableLayout")
     private VerticalLayout resultsTableLayout;
-    ProductGroupTableLogic tableLogic = new ProductGroupTableLogic();
-    ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
+    
+    private final ProductGroupTableLogic tableLogic = new ProductGroupTableLogic();
+    private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     /**
      * The table bean.
      */
-    BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
+    private BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
 
     /**
      * The select.
      */
     @UiField("select")
-    Button select;
+    private Button select;
 
     /**
      * The cancel.
      */
     @UiField("cancel")
-    Button cancel;
+    private Button cancel;
 
     /**
      * The reset table.
      */
     @UiField("resetTable")
-    Button resetTable;
+    private Button resetTable;
 
     /**
      * The search.
      */
     @UiField("search")
-    Button search;
+    private Button search;
 
     /**
      * The reset.
      */
     @UiField("reset")
-    Button reset;
+    private Button reset;
 
     /**
      * The logic.
      */
-    ProductGroupLogic productLogic = new ProductGroupLogic();
-    boolean isCancel = false;
-    SessionDTO sessionDTO;
+    private final ProductGroupLogic productLogic = new ProductGroupLogic();
+    private boolean isCancel = false;
+    private final SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
-    /**
-     * Instantiates a new product group lookup.
-     */
+    
+    
     public ProductGroupLookup(SessionDTO sessionDTO) {
         super("Product Group Lookup");
         this.sessionDTO=sessionDTO;
@@ -185,7 +185,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        return;
+
                     }
 
                     @Override
@@ -203,7 +203,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        return;
+
                     }
 
                     @Override
