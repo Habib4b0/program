@@ -1063,6 +1063,12 @@ public class GtnFrameworkCommonConstants {
 	public static final String NET_PRICE_TYPE = "Net Price Type";
 	public static final String RESET_PRICE_TYPE_HEADER = "Reset Price Type";
 	public static final String NET_RESET_PRICE_TYPE_HEADER = "Net Reset Price Type";
+	public static final String PRICE_PROTECTION_PRICE_TYPE = "PRICE_PROTECTION_PRICE_TYPE";
+	public static final String BASE_PRICE_TYPE_CD = "BASE_PRICE_TYPE";
+	public static final String BASE_PRICE_DATE = "BASE_PRICE_DATE";
+	public static final String BASE_PRICE_ENTRY = "BASE_PRICE_ENTRY";
+	public static final String BASE_PRICE_DDLB = "BASE_PRICE_DDLB";
+	public static final String NET_PRICE_TYPE_FORMULA = "NET_PRICE_TYPE_FORMULA";
 	
 	/*
 	 * Udc Configuration

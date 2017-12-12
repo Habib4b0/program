@@ -873,6 +873,7 @@ public class MasterPhsWorksheet extends Window {
         if (submitMsg) {
             new AbstractNotificationUtils() {
                 public void noMethod() {
+                    //Default method
                 }
 
                 @Override
