@@ -98,16 +98,16 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 
 	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
 		String depandingValue = bean.getStringPropertyByIndex(48);
-		if (!(depandingValue.equals(""))&&(!("".equals(bean.getPropertyValueByIndex(22))))&&(bean.getIndex("PriceTolerance") == 22)) {						
-			DecimalFormat formatDecimal = new DecimalFormat("0.00");
-			if (depandingValue.startsWith("per") || depandingValue.startsWith("%")) {
-				return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + "%";
+		if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue ))&&(!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22))))&&(bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {						
+			DecimalFormat formatDecimal = new DecimalFormat(GtnFrameworkContractDashboardContants.TWODECIMAL_ZERO);
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER) || depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + GtnFrameworkContractDashboardContants.PERCENTAGE;
 			}
-			if (depandingValue.startsWith("dol")) {
-				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(22));
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.DOL)) {
+				return GtnFrameworkContractDashboardContants.DOLLER + formatDecimal.format(bean.getDoublePropertyByIndex(22));
 
 			}
 		}
-		return "";
+		return GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY;
 	}
 }

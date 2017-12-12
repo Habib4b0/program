@@ -293,6 +293,13 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String NEP_LOWER = "nep";
 	public static final String POPUP = "popup";
 	public static final String BASELINE_WAC = "Baseline WAC";
+	public static final String STRINGUTILS_EMPTY = "";
+	public static final String PRICE_TOLERANCE = "PriceTolerance";	
+	public static final String PER = "per";
+	public static final String TWODECIMAL_ZERO = "0.00";
+	public static final String PERCENTAGE = "%";
+	public static final String DOL = "dol";
+	public static final String DOLLER = "$";
 
 	private static final String[] PP_MASS_POPULATE_FIELD = { PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE,
 			PRICE_PROTECTION_END_DATE, PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_NET_WAC,
