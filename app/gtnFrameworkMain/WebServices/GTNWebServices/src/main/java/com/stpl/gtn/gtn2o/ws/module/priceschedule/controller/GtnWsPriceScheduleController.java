@@ -695,11 +695,6 @@ public class GtnWsPriceScheduleController {
 			ppValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 			checkRecord = true;
 		}
-		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
-			ppValidateSql.append(
-					"select count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate is  null and");
-			checkRecord = true;
-		}
 		if (PP_START_DATE_EQUAL.equalsIgnoreCase(process)) {
 			ppValidateSql.append(
 					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate = ps_Details_Pric_Prtcn_Eddate and");

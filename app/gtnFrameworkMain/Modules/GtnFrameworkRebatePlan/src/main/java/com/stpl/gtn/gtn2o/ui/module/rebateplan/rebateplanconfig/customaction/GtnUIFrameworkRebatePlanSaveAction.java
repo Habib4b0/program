@@ -326,7 +326,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	private int getValue(int index, GtnWsRecordBean ruleDetail) {
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(String.valueOf(mode))) {
+		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(mode)) {
 			return (ruleDetail.getAdditionalProperties().get(index) != null
 					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
 		}
@@ -334,7 +334,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
 						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
-	}
+                }
 
 	private double getdobValue(int index, GtnWsRecordBean ruleDetail) {
 		return ((ruleDetail.getAdditionalProperties().get(index) != null
