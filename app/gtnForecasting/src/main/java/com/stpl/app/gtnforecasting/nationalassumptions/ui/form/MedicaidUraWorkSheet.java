@@ -197,6 +197,7 @@ public class MedicaidUraWorkSheet extends Window {
     Map<String, String> secondEditedNotes = new HashMap<>();
 
     Map<String, String> thirdAdjustedValues = new HashMap<>();
+    Map<String, String> fourthAdjustedValues = new HashMap<>();
     Map<String, String> thirdEditedNotes = new HashMap<>();
     MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
 
@@ -603,10 +604,14 @@ public class MedicaidUraWorkSheet extends Window {
                             adjustValue = secondAdjustedValues.get(adjustPropId);
                             notesValue = secondEditedNotes.get(notesPropId);
                         }
-                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI) || tableDto.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
+                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI)) {
                             notesMap = projectionDTO.getThirdRowNotesMap();
                             adjustValue = thirdAdjustedValues.get(adjustPropId);
                             notesValue = thirdEditedNotes.get(notesPropId);
+                        }
+                        if (tableDto.getGroup().equalsIgnoreCase(Constant.OVERRIDE_CPI_URA)) {
+                            notesMap = projectionDTO.getFourthRowNotesMap();
+                            adjustValue = fourthAdjustedValues.get(adjustPropId);
                         }
 
                         String[] noteArr = notesMap.get(String.valueOf(propertyId));
@@ -640,8 +645,11 @@ public class MedicaidUraWorkSheet extends Window {
                                         if (tableDto.getGroup().startsWith(Constant.ADJUSTMENT_BEST_PRICE) || tableDto.getGroup().startsWith(Constant.OVERRIDE_BEST_PRICE)) {
                                             secondAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
-                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI) || tableDto.getGroup().startsWith(Constant.OVERRIDE_CPI_URA)) {
+                                        if (tableDto.getGroup().startsWith(ADJUSTMENT_CPI)) {
                                             thirdAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
+                                        }
+                                        if (tableDto.getGroup().equalsIgnoreCase(Constant.OVERRIDE_CPI_URA)) {
+                                            fourthAdjustedValues.put(String.valueOf(((TextField) event.getComponent()).getData()), String.valueOf(((TextField) event.getComponent()).getValue()));
                                         }
                                         valueChange = false;
                                     } catch (Exception ex) {
@@ -1105,6 +1113,7 @@ public class MedicaidUraWorkSheet extends Window {
             } else {
                 boolean notesFlag = false;
                 boolean adjustFlag = false;
+                boolean isCpiUra= false;
                 if (!adjustedValues.isEmpty()) {
                     queryUtil.saveNotes(adjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
                     adjustFlag = true;
@@ -1129,6 +1138,13 @@ public class MedicaidUraWorkSheet extends Window {
                     queryUtil.saveNotes(thirdAdjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);
                     adjustFlag = true;
                     thirdAdjustedValues.clear();
+                }
+                if (!fourthAdjustedValues.isEmpty()) {
+                    queryUtil.saveNotes(fourthAdjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);
+                    adjustFlag = true;
+                    isCpiUra = true;
+                    projectionDTO.setAdjust(true);
+                    fourthAdjustedValues.clear();
                 }
                 if (!thirdEditedNotes.isEmpty()) {
                     queryUtil.saveNotes(thirdEditedNotes, sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);
@@ -1161,7 +1177,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }
 
                 if (adjustFlag || notesFlag) {
-                    if (adjustFlag) {
+                    if (adjustFlag && !isCpiUra) {
                         callAdjustmentProcedure();
                         projectionDTO.setAdjust(true);
                         submitMsg = true;
