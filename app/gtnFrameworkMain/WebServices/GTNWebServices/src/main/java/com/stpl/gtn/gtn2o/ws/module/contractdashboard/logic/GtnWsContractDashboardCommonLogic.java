@@ -212,20 +212,20 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("PriceProtectionStartDate", "PRICE_PROTECTION_START_DATE");
 		itemColumnNameMap.put("Price Protection End Date", "PRICE_PROTECTION_END_DATE");
 		itemColumnNameMap.put("PriceProtectionEndDate", "PRICE_PROTECTION_END_DATE");
-		itemColumnNameMap.put("Measurement Price", "PRICE_PROTECTION_PRICE_TYPE");
-		itemColumnNameMap.put("PriceProtectionPriceType", "PRICE_PROTECTION_PRICE_TYPE");
+		itemColumnNameMap.put("Measurement Price", GtnFrameworkCommonConstants.PRICE_PROTECTION_PRICE_TYPE);
+		itemColumnNameMap.put("PriceProtectionPriceType", GtnFrameworkCommonConstants.PRICE_PROTECTION_PRICE_TYPE);
 		itemColumnNameMap.put("nep", "NEP");
 		itemColumnNameMap.put("NEP", "NEP");
 		itemColumnNameMap.put("NEP Formula", "NEPF.NET_SALES_FORMULA_NAME");
 		itemColumnNameMap.put("NEPFormulapopup", "NEPF.NET_SALES_FORMULA_NAME");
-		itemColumnNameMap.put("Base Price Type", "BASE_PRICE_TYPE");
-		itemColumnNameMap.put("BasePriceType", "BASE_PRICE_TYPE");
-		itemColumnNameMap.put("BasePriceDdlb", "BASE_PRICE_DDLB");
-		itemColumnNameMap.put("Price Type1", "BASE_PRICE_DDLB");
-		itemColumnNameMap.put("BasePriceEntry", "BASE_PRICE_ENTRY");
-		itemColumnNameMap.put("Manual1", "BASE_PRICE_ENTRY");
-		itemColumnNameMap.put("BasePriceDate", "BASE_PRICE_DATE");
-		itemColumnNameMap.put("Date1", "BASE_PRICE_DATE");
+		itemColumnNameMap.put("Base Price Type", GtnFrameworkCommonConstants.BASE_PRICE_TYPE_CD);
+		itemColumnNameMap.put("BasePriceType", GtnFrameworkCommonConstants.BASE_PRICE_TYPE_CD);
+		itemColumnNameMap.put("BasePriceDdlb", GtnFrameworkCommonConstants.BASE_PRICE_DDLB);
+		itemColumnNameMap.put("Price Type1", GtnFrameworkCommonConstants.BASE_PRICE_DDLB);
+		itemColumnNameMap.put("BasePriceEntry", GtnFrameworkCommonConstants.BASE_PRICE_ENTRY);
+		itemColumnNameMap.put("Manual1", GtnFrameworkCommonConstants.BASE_PRICE_ENTRY);
+		itemColumnNameMap.put("BasePriceDate", GtnFrameworkCommonConstants.BASE_PRICE_DATE);
+		itemColumnNameMap.put("Date1", GtnFrameworkCommonConstants.BASE_PRICE_DATE);
 		itemColumnNameMap.put("netBasePrice", GtnFrameworkCommonConstants.NET_BASE_PRICE);
 		itemColumnNameMap.put("netBasePriceFormulapopup", "NBPF.NET_SALES_FORMULA_NAME");
 		itemColumnNameMap.put("netSubsequentPeriodPrice", GtnFrameworkCommonConstants.NET_SUBSEQUENT_PERIOD_PRICE);
@@ -264,7 +264,7 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("netSubsequentPriceFormulapopup1", GtnFrameworkCommonConstants.NET_SUBSEQUENT_PRICE_FORMULA_ID);
 		itemColumnNameMap.put("netResetPriceTypeFormulapopup1", GtnFrameworkCommonConstants.NET_RESET_PRICE_FORMULA_ID);
 		itemColumnNameMap.put("Net Price Type Formula1", "IMTD.NET_PRICE_TYPE_FORMULA");
-		itemColumnNameMap.put("NetPriceTypeFormulapopup1", "NET_PRICE_TYPE_FORMULA");
+		itemColumnNameMap.put("NetPriceTypeFormulapopup1", GtnFrameworkCommonConstants.NET_PRICE_TYPE_FORMULA);
 		itemColumnNameMap.put("RS Status", "RS_ATTACHED_STATUS");
 		itemColumnNameMap.put("attachedStatus", "RS_ATTACHED_STATUS");
 		itemColumnNameMap.put("Start Date", "ITEM_REBATE_START_DATE");
@@ -319,12 +319,12 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("Baseline Net WAC1", GtnFrameworkCommonConstants.NET_BASE_PRICE);
 		itemColumnNameMap.put("Baseline Net WAC", GtnFrameworkCommonConstants.NET_BASE_PRICE);
 		itemColumnNameMap.put("BaselineNetWAC1", GtnFrameworkCommonConstants.NET_BASE_PRICE);
-		itemColumnNameMap.put("MeasurementPrice", "PRICE_PROTECTION_PRICE_TYPE");
-		itemColumnNameMap.put("BasePriceTypeType", "BASE_PRICE_TYPE");
-		itemColumnNameMap.put("BasePriceTypeDate", "BASE_PRICE_DATE");
-		itemColumnNameMap.put("BasePriceTypeEntry", "BASE_PRICE_ENTRY");
-		itemColumnNameMap.put("BasePriceTypeDdlb", "BASE_PRICE_DDLB");
-		itemColumnNameMap.put("NetPriceTypeFormula", "NET_PRICE_TYPE_FORMULA");
+		itemColumnNameMap.put("MeasurementPrice", GtnFrameworkCommonConstants.PRICE_PROTECTION_PRICE_TYPE);
+		itemColumnNameMap.put("BasePriceTypeType", GtnFrameworkCommonConstants.BASE_PRICE_TYPE_CD);
+		itemColumnNameMap.put("BasePriceTypeDate", GtnFrameworkCommonConstants.BASE_PRICE_DATE);
+		itemColumnNameMap.put("BasePriceTypeEntry", GtnFrameworkCommonConstants.BASE_PRICE_ENTRY);
+		itemColumnNameMap.put("BasePriceTypeDdlb", GtnFrameworkCommonConstants.BASE_PRICE_DDLB);
+		itemColumnNameMap.put("NetPriceTypeFormula", GtnFrameworkCommonConstants.NET_PRICE_TYPE_FORMULA);
 		
 	}
 
