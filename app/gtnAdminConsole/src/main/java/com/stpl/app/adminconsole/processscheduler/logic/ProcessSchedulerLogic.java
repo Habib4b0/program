@@ -87,6 +87,7 @@ public class ProcessSchedulerLogic {
 	private static final Logger LOGGER = Logger.getLogger(ProcessSchedulerLogic.class);
 	public static final  String QUOTE = "\"";
 	public static final  String FTP_PROPERTIES_PATH = "conf/BPI Configuration/FTPConfiguration.properties";
+        public static final  String ETL_PROPERTIES_PATH = "etl/Interface_Job/EtlConfiguration.properties";
 	public static final String JBOSS_HOME_FOLDER="jboss-7.1.1";
 
 	public List getSearchResult(boolean count, int start, int offset, boolean scheduler,
@@ -291,7 +292,7 @@ public class ProcessSchedulerLogic {
 			if (!"null".equals(jbossHome)) {
 				String[] ftppath = jbossHome.split(JBOSS_HOME_FOLDER);
 				if (ftppath.length != 0) {
-					java.util.Properties prop = getPropertyFile(ftppath[0] + FTP_PROPERTIES_PATH);
+					java.util.Properties prop = getPropertyFile(ftppath[0] + ETL_PROPERTIES_PATH);
 					String etlInterfaceUri=buildUrl(scriptName,prop);
 					ftpProperties.setScripts(prop.getProperty("scripts"));
 					runShellScript(etlInterfaceUri);

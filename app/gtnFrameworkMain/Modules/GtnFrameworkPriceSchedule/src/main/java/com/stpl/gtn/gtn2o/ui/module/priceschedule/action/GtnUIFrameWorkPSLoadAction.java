@@ -334,15 +334,14 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					Object.class, Integer.class, String.class, Integer.class, Integer.class, String.class,
 					Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 					Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-					Integer.class, String.class, Date.class,String.class ,Date.class, Integer.class, String.class };
+					Integer.class, String.class, Date.class};
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, Object.class, String.class,
 					String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class, String.class, String.class, Date.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, Date.class, Date.class,
-					Integer.class, String.class };
+					String.class, String.class, String.class, String.class, String.class, Date.class};
 		}
 	}
 
@@ -378,20 +377,20 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"NetSubsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
-					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " AttachedDate" };
+					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
 		} else {
 
 			return new String[] { "Item Id", "Item No", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand",
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"NetSubsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
-					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " AttachedDate" };
+					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
 		}
 
 	}
