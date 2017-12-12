@@ -66,7 +66,6 @@ public class GtnWsPriceScheduleController {
 	private static final String CP_START_DATE_NULL = "CPStartDateNull";
 	private static final String CP_START_DATE_EQUAL = "CPStartDateEqual";
 	private static final String CP_START_DATE_LESS = "CPStartDateLess";
-	private static final String PP_START_DATE_NULL = "PPStartDateNull";
 	private static final String PP_START_DATE_EQUAL = "PPStartDateEqual";
 	private static final String PP_START_DATE_LESS = "PPStartDateLess";
 	private static final String PP_END_DATE_NULL = "PPEndDateNull";

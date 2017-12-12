@@ -1758,11 +1758,57 @@ WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
 <query>
     <![CDATA[
 
-     SELECT DISTINCT CCP.@HIER_NAME FROM ST_NM_SALES_PROJECTION LK 
-          JOIN ST_NM_SALES_PROJECTION_MASTER SS 
-          ON SS.CCP_DETAILS_SID= LK.CCP_DETAILS_SID 
-          JOIN ST_CCP_HIERARCHY CCP ON CCP.CCP_DETAILS_SID=SS.CCP_DETAILS_SID
-          WHERE SS.CHECK_RECORD=1
+     IF Object_id('TEMPDB..#SELECTED_SYSTEM_HIERARCHY_NO') IS NOT NULL DROP
+        TABLE
+        #SELECTED_SYSTEM_HIERARCHY_NO CREATE
+        TABLE
+        #SELECTED_SYSTEM_HIERARCHY_NO(
+        HIERARCHY_NO VARCHAR(50),
+        RELATIONSHIP_LEVEL_SID INT,
+        LEVEL_NO INT
+        ) INSERT
+        into
+        #SELECTED_SYSTEM_HIERARCHY_NO(HIERARCHY_NO,RELATIONSHIP_LEVEL_SID,LEVEL_NO)
+ 
+ 
+                SELECT
+                RLD.HIERARCHY_NO,
+                RELATIONSHIP_LEVEL_SID,LEVEL_NO
+                from
+                dbo.PROJECTION_MASTER PM
+                JOIN dbo.PROJECTION_DETAILS PD on
+                PD.PROJECTION_MASTER_SID = PM.PROJECTION_MASTER_SID
+                JOIN dbo.RELATIONSHIP_LEVEL_DEFINITION RLD on
+                rld.RELATIONSHIP_BUILDER_SID = PM.@REL_BUILD_ID
+                and rld.VERSION_NO = PM.@CUSTPRODVER
+                JOIN dbo.ST_CCP_HIERARCHY CCP on
+                ccp.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                JOIN dbo.ST_NM_SALES_PROJECTION_MASTER as TEMP on
+                pd.CCP_DETAILS_SID = TEMP.CCP_DETAILS_SID
+                where
+                pm.PROJECTION_MASTER_SID = @PROJ_ID
+                and RLD.LEVEL_NO >= @LEVEL_NO
+                and CCP.@HIER_NO LIKE RLD.HIERARCHY_NO + '%' 
+                GROUP by
+                HIERARCHY_no,RLD.RELATIONSHIP_LEVEL_SID,LEVEL_NO
+                HAVING
+                Sum( CASE( CHECK_RECORD ) WHEN 1 THEN 1 ELSE 0 END )= COUNT( TEMP.CCP_DETAILS_SID )
+                order by RLD.LEVEL_NO
+
+
+
+
+                DELETE M FROM #SELECTED_SYSTEM_HIERARCHY_NO M JOIN
+                (
+                SELECT C.* FROM
+                #SELECTED_SYSTEM_HIERARCHY_NO A
+                CROSS APPLY
+                (
+                SELECT * FROM #SELECTED_SYSTEM_HIERARCHY_NO B  WHERE b.HIERARCHY_NO LIKE a.HIERARCHY_NO+'[0-9]%'
+                )C
+                )B ON M.HIERARCHY_NO=B.HIERARCHY_NO
+
+      SELECT distinct HIERARCHY_NO from #SELECTED_SYSTEM_HIERARCHY_NO
 
 
    ]]>
