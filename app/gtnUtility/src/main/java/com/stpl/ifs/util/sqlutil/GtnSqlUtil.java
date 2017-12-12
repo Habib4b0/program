@@ -80,7 +80,7 @@ public class GtnSqlUtil {
 		try (Connection connection = datasource.getConnection();
 				CallableStatement statement = connection.prepareCall(sqlQuery);) {
 			for (int i = 0; i < paramArray.length; i++) {
-                                LOGGER.debug(i + " -- " + paramArray[i]);
+                                LOGGER.info(i + " -- " + paramArray[i]);
 				statement.setObject(i+1, paramArray[i]);
 			}
 			LOGGER.debug("Ending callResultProcedure");
