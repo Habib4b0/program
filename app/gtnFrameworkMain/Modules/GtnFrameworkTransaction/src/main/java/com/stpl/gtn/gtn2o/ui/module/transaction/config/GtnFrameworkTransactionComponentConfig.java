@@ -46,7 +46,6 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnWsNumericConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
-import com.stpl.gtn.gtn2o.ws.formatter.GtnWsFormatter;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnUIFrameworkTransactionTabsheetBean;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionModuleBean;
@@ -98,7 +97,8 @@ public class GtnFrameworkTransactionComponentConfig {
 				componentBean.isOutBoundModule(), componentBean, GtnFrameworkCommonStringConstants.STRING_EMPTY);
 
 		addResetButtonComponent(componentList, componentBean.getSearchComponent(),
-				GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT, GtnTransactionUIConstants.RESET_DEFAULT_ALERT_MSG, !componentBean.isOutBoundModule());
+				GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT, GtnTransactionUIConstants.RESET_DEFAULT_ALERT_MSG,
+				!componentBean.isOutBoundModule());
 		addExcelButtonComponent(componentList, portletName);
 	}
 
@@ -139,7 +139,8 @@ public class GtnFrameworkTransactionComponentConfig {
 				addSearchButtonComponent(searchAndResetComponentList, tableName, componentBean, true);
 
 				addResetButtonComponent(searchAndResetComponentList, componentBean.getSearchComponent(),
-						GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT, GtnTransactionUIConstants.RESET_DEFAULT_ALERT_MSG, true);
+						GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT,
+						GtnTransactionUIConstants.RESET_DEFAULT_ALERT_MSG, true);
 				transactionBean.setSearchAndResetComponentList(searchAndResetComponentList);
 				List<GtnUIFrameworkComponentConfig> tableComponentList = new ArrayList<>();
 				addPagedTableComponent(tableComponentList, tableName, portletName, true, componentBean, moduleName);
@@ -204,11 +205,7 @@ public class GtnFrameworkTransactionComponentConfig {
 			if (gtnWSTransactionColumnBean.isOnlyValidComponent() && isInvalid) {
 				getInvalidOnlyComponentList(gtnWSTransactionColumnBean, searchComponent, listViewComponent);
 			}
-
-			if (gtnWSTransactionColumnBean.isDecimalFormatNeeded()) {
-				componentBean.putFormatterMap(gtnWSTransactionColumnBean.getColumnID(),
-						gtnWSTransactionColumnBean.getPattern());
-			}
+			setDecimalFormatLogic(gtnWSTransactionColumnBean, componentBean);
 
 		}
 		componentBean.setSearchComponent(searchComponent);
@@ -707,7 +704,8 @@ public class GtnFrameworkTransactionComponentConfig {
 	}
 
 	private void addResetButtonComponent(List<GtnUIFrameworkComponentConfig> componentList,
-			List<GtnWSTransactionColumnBean> searchComponent, String parentComponentId, String alertMessage, boolean isReprocessLayout) {
+			List<GtnWSTransactionColumnBean> searchComponent, String parentComponentId, String alertMessage,
+			boolean isReprocessLayout) {
 
 		GtnUIFrameworkComponentConfig renameButtonConfig = new GtnUIFrameworkComponentConfig();
 		renameButtonConfig.setComponentType(GtnUIFrameworkComponentType.BUTTON);
@@ -743,7 +741,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				break;
 			}
 		}
-		if(isReprocessLayout) {
+		if (isReprocessLayout) {
 			resetMap.put(GtnTransactionUIConstants.SEARCH_TABLE_ID, null);
 		}
 		params.add(resetMap);
@@ -1207,9 +1205,18 @@ public class GtnFrameworkTransactionComponentConfig {
 			GtnUIFrameworkTransactionComponentTypeListBean componentBean, String portletName) {
 		if (componentBean.isOutBoundModule()) {
 			addResetButtonComponent(componentList, componentBean.getSearchComponent(),
-					GtnTransactionUIConstants.REPROCESS_BUTTON_LAYOUT, GtnTransactionUIConstants.RESET_REPROCESS_ALERT_MSG, componentBean.isOutBoundModule());
+					GtnTransactionUIConstants.REPROCESS_BUTTON_LAYOUT,
+					GtnTransactionUIConstants.RESET_REPROCESS_ALERT_MSG, componentBean.isOutBoundModule());
 			addReprocessButtonComponent(componentList, componentBean.getReprocessingWebServiceURL(), componentBean,
 					portletName);
+		}
+	}
+
+	private void setDecimalFormatLogic(GtnWSTransactionColumnBean gtnWSTransactionColumnBean,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
+		if (gtnWSTransactionColumnBean.isDecimalFormatNeeded()) {
+			componentBean.putFormatterMap(gtnWSTransactionColumnBean.getColumnID(),
+					gtnWSTransactionColumnBean.getPattern());
 		}
 	}
 

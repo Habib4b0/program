@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;

@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ui.module.transaction.bean;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
