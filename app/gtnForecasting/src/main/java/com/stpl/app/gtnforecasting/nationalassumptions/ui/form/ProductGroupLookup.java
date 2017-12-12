@@ -103,10 +103,6 @@ public class ProductGroupLookup extends Window {
     @UiField("reset")
     private Button reset;
 
-    /**
-     * The logic.
-     */
-    private final ProductGroupLogic productLogic = new ProductGroupLogic();
     private boolean isCancel = false;
     private final SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
@@ -185,7 +181,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        //Default method
                     }
 
                     @Override
@@ -203,7 +199,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        //Default method
                     }
 
                     @Override

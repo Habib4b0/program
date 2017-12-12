@@ -61,6 +61,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	@Override
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try{
 		GtnUIFrameWorkPSInfoBean priceScheduleInfoBean;
 		List<NotesTabBean> noteBeanList = new ArrayList<>();
 		priceScheduleInfoBean = loadDataFromService(noteBeanList);
@@ -111,7 +112,11 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				(Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable")
 				.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
-
+		}
+		catch(Exception e)
+		{
+			throw new GtnFrameworkGeneralException(e.getMessage(),e);
+		}
 	}
 
 	private GtnUIFrameWorkPSInfoBean loadDataFromService(List<NotesTabBean> noteBeanList) {

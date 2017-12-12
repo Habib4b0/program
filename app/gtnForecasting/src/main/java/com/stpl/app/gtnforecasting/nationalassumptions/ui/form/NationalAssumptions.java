@@ -251,11 +251,6 @@ public class NationalAssumptions extends CustomComponent implements View {
     private final BeanItemContainer<PriceTypeDTO> priceTypesBean = new BeanItemContainer<>(PriceTypeDTO.class);
 
     /**
-     * The baseline period dto.
-     */
-    private final BaselinePeriodDTO baselinePeriodDto = new BaselinePeriodDTO();
-
-    /**
      * The logic.
      */
     private final NationalAssumptionLogic logic = new NationalAssumptionLogic();
@@ -1293,7 +1288,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        
+        //Default method
     }
 
     @UiHandler("resetBtn")
@@ -1456,7 +1451,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        
+                        //Default method
                     }
 
                     @Override

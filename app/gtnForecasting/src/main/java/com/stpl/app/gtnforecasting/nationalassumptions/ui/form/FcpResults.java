@@ -772,6 +772,7 @@ public class FcpResults extends CustomComponent implements View {
      */
 
     public void enter(ViewChangeEvent event) {
+        //Default method
     }
 
     public void generateLogic() {
