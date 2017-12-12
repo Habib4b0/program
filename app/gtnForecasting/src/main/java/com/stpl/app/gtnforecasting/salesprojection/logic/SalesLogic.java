@@ -2240,7 +2240,7 @@ public class SalesLogic {
      * @throws PortalException
      * @throws Exception
      */
- public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String,Object> inputParameters, boolean isAllChildChecked) throws PortalException, SystemException {
+ public void saveOnMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, Map<String,Object> inputParameters) throws PortalException, SystemException {
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         String growth = String.valueOf(inputParameters.get("updateVariable"));
         int startQuarter = Integer.parseInt(String.valueOf(inputParameters.get("startQuarter")));
@@ -2266,7 +2266,7 @@ public class SalesLogic {
 
             
             input.add(growth.equals(Constant.SALES_SMALL) ? "PROJECTION_SALES" : "PROJECTION_UNITS");
-            salesAndUnitsMassUpdate(projectionSelectionDTO, salesProjectionDAO, isAllChildChecked, input);
+            salesAndUnitsMassUpdate(projectionSelectionDTO, salesProjectionDAO, input);
       
             return;
         }
@@ -2328,17 +2328,22 @@ public class SalesLogic {
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
     }
 
-    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, boolean isAllChildChecked, List<Object> input)  throws PortalException, SystemException{
+    public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input)  throws PortalException, SystemException{
+        SessionDTO sessionDto=projectionSelectionDTO.getSessionDTO();
         StringBuilder hierarchyNumber = new StringBuilder();
-        String sqlQuery = SQlUtil.getQuery("selected-Hierarchy-Query-sales").replace("@HIER_NAME", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO");
-        List<String> hierarchyList = (List<String>)salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
+        String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
+        String prodCustVersion = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "PROJECTION_CUST_VERSION" : "PROJECTION_PROD_VERSION";
+        String prodCustBuilderSid = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID";
+        String sqlQuery = SQlUtil.getQuery("selected-Hierarchy-Query-sales").replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO")
+                .replace("@LEVEL_NO",lowerMostLevelNo).replace("@PROJ_ID", String.valueOf(sessionDto.getProjectionId())).replace("@CUSTPRODVER", prodCustVersion)
+               .replace("@REL_BUILD_ID", prodCustBuilderSid);
+        List<String> hierarchyList = (List<String>)salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, sessionDto.getCurrentTableNames()));
         
         for (String hierarchy : hierarchyList) {
             hierarchyNumber.append("('").append(hierarchy).append("')").append(",");
         }
         hierarchyNumber.replace(hierarchyNumber.lastIndexOf(","), hierarchyNumber.length(), "");
-        String queryNameFromXml = !isAllChildChecked ? "mass-update-sales-check" : "mass-update-sales-units";
-        String sqlUnitsQuery=com.stpl.app.utils.QueryUtils.getQuery(input,queryNameFromXml);
+        String sqlUnitsQuery=com.stpl.app.utils.QueryUtils.getQuery(input, "mass-update-sales-units");
         
         sqlUnitsQuery= sqlUnitsQuery.replace("@HIERARCHY_NO_VALUES", hierarchyNumber );
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(sqlUnitsQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));

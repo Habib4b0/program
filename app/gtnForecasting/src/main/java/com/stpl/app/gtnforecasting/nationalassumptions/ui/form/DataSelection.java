@@ -257,7 +257,7 @@ public class DataSelection extends CustomComponent implements View {
      */
     @Override
     public void enter(ViewChangeEvent event) {
-      
+      //Default method
     }
 
     /**

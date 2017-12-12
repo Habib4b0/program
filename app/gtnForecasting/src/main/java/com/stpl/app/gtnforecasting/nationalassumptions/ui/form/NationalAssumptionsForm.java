@@ -71,10 +71,6 @@ public class NationalAssumptionsForm extends CustomComponent {
     private TabSheet tabSheet;
 
     /**
-     * The tabSheet map.
-     */
-    private final Map<Integer, Boolean> tabSheetMap = new HashMap<>();
-    /**
      * The button layout.
      */
     @UiField("buttonLayout")
@@ -562,6 +558,7 @@ public class NationalAssumptionsForm extends CustomComponent {
 
                 @Override
                 public void noMethod() {
+                    //Default method
                 }
             }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.ADDEDREMOVED_NDCS_ALERT);
         }

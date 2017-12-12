@@ -503,12 +503,12 @@ public class GtnFrameworkItemMasterInformationTabConfig {
 				"itemInformationTabNDC9", true, ndc9Layout.getComponentId(), GtnUIFrameworkComponentType.TEXTBOX);
 		ndc9Config.setComponentName("NDC 9");
 		ndc9Config.setAuthorizationIncluded(true);
-		
+
 		ndc9Config.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
 
 		GtnUIFrameworkTextBoxConfig ndc9MaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
 		ndc9MaxLengthConfig.setImmediate(true);
-                ndc9MaxLengthConfig.setEnable(false);
+		ndc9MaxLengthConfig.setEnable(false);
 		ndc9Config.setGtnTextBoxConfig(ndc9MaxLengthConfig);
 		componentList.add(ndc9Config);
 
