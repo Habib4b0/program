@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.module.itemaster.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -486,12 +487,14 @@ public class GtnWsItemMasterSaveService {
 		return value == null ? new BigDecimal(0) : new BigDecimal(value);
 	}
 
-	private void saveOrUpdateItemIdentifier(GtnWsItemMasterRequest imRquest, Session session, int itemSystemId) {
+	private void saveOrUpdateItemIdentifier(GtnWsItemMasterRequest imRquest, Session session, int itemSystemId) throws GtnFrameworkGeneralException {
 		List<GtnWsItemIdentifierBean> identifierBeanList = imRquest.getGtnWsItemMasterBean()
 				.getGtnWsItemIdentifierBeanList();
+		
 		LOGGER.info("identifierBeanList---save zise-----" + identifierBeanList.size());
 		for (GtnWsItemIdentifierBean idenBean : identifierBeanList) {
 			ItemIdentifier identifier = null;
+			LOGGER.info("Identifier SId:"+idenBean.getItemIdentifierSid());
 			if (idenBean.getItemIdentifierSid() == 0) {
 				identifier = new ItemIdentifier();
 				identifier.setCreatedBy(Integer.valueOf(imRquest.getUserId()));
@@ -502,15 +505,29 @@ public class GtnWsItemMasterSaveService {
 				Integer itemIdentifierSid = (Integer) session.save(identifier);
 				idenBean.setItemIdentifierSid(itemIdentifierSid);
 				idenBean.setItemQualifierName(identifier.getItemQualifier().getItemQualifierName());
-			} else {
+			}
+			else {
+				updateInboundStatus(identifierBeanList,imRquest.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getItemMasterSid());
 				identifier = session.get(ItemIdentifier.class, idenBean.getItemIdentifierSid());
 				identifier.setItemIdentifierSid(idenBean.getItemIdentifierSid());
 				setIdentifierValues(imRquest, identifier, idenBean, session, itemSystemId);
 				session.saveOrUpdate(identifier);
 				idenBean.setItemQualifierName(identifier.getItemQualifier().getItemQualifierName());
 			}
+			
 
 		}
+	}
+	private void updateInboundStatus(List<GtnWsItemIdentifierBean> identifierBeanList, int itemMasterSID) throws GtnFrameworkGeneralException
+	{
+		List<Object> criteria=new ArrayList<>();
+		criteria.add(itemMasterSID);
+     	for (GtnWsItemIdentifierBean idenBean : identifierBeanList) 
+		{
+		criteria.add(idenBean.getItemIdentifierSid());
+		}
+		Object[] paramObject=criteria.toArray(new Object[criteria.size()]);
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery("changeStatusOfItemIdentiferValue"), paramObject, new  GtnFrameworkDataType[]{GtnFrameworkDataType.IN_LIST});
 	}
 
 	private void setIdentifierValues(GtnWsItemMasterRequest imRquest, ItemIdentifier identifier,

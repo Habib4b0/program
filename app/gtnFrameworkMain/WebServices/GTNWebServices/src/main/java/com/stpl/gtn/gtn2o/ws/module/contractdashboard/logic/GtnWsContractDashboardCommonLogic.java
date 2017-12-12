@@ -319,6 +319,13 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("Baseline Net WAC1", GtnFrameworkCommonConstants.NET_BASE_PRICE);
 		itemColumnNameMap.put("Baseline Net WAC", GtnFrameworkCommonConstants.NET_BASE_PRICE);
 		itemColumnNameMap.put("BaselineNetWAC1", GtnFrameworkCommonConstants.NET_BASE_PRICE);
+		itemColumnNameMap.put("MeasurementPrice", "PRICE_PROTECTION_PRICE_TYPE");
+		itemColumnNameMap.put("BasePriceTypeType", "BASE_PRICE_TYPE");
+		itemColumnNameMap.put("BasePriceTypeDate", "BASE_PRICE_DATE");
+		itemColumnNameMap.put("BasePriceTypeEntry", "BASE_PRICE_ENTRY");
+		itemColumnNameMap.put("BasePriceTypeDdlb", "BASE_PRICE_DDLB");
+		itemColumnNameMap.put("NetPriceTypeFormula", "NET_PRICE_TYPE_FORMULA");
+		
 	}
 
 	private void addCompanyColumns() {

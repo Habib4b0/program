@@ -82,6 +82,7 @@ public class ProjectionSelectionDTO {
     private Map<String,String[]> notesMap=new HashMap<>();
     private Map<String,String[]> secondRowNotesMap=new HashMap<>();
     private Map<String,String[]> thirdRowNotesMap=new HashMap<>();
+    private Map<String,String[]> fourthRowNotesMap=new HashMap<>();
     private int histProjYear;
     private int histProjMonth;
     private int histProjPeriod;
@@ -598,7 +599,7 @@ public class ProjectionSelectionDTO {
     public void setThirdRowNotesMap(Map<String, String[]> thirdRowNotesMap) {
         this.thirdRowNotesMap = thirdRowNotesMap;
     }
-
+    
     public int getHistProjYear() {
         return histProjYear;
     }
@@ -799,6 +800,14 @@ public class ProjectionSelectionDTO {
 
     public void setLoadPhsPriceMap(Map<String, String> loadPhsPriceMap) {
         this.loadPhsPriceMap = loadPhsPriceMap;
+    }
+
+    public Map<String,String[]> getFourthRowNotesMap() {
+        return fourthRowNotesMap;
+    }
+
+    public void setFourthRowNotesMap(Map<String,String[]> fourthRowNotesMap) {
+        this.fourthRowNotesMap = fourthRowNotesMap;
     }
     
   }
