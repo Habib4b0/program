@@ -494,7 +494,7 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 
 		GtnUIFrameworkValidationConfig baseLineAMPValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,
-				"Baseline AMP can only be Alphanumeric", GtnFrameworkRegexStringConstants.ALPHANUMERIC_FORMAT);
+				"Baseline AMP can contain only Numbers", GtnFrameworkRegexStringConstants.NUMERIC_WITH_SIX_DECIMAL_PRECISION);
 		baseLineAMPConfig.setGtnUIFrameworkValidationConfig(baseLineAMPValidationConfig);
 		componentList.add(baseLineAMPConfig);
 	}
@@ -567,7 +567,7 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 
 		GtnUIFrameworkValidationConfig baseCPIValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,
-				"Base CPI can only be Alphanumeric", GtnFrameworkRegexStringConstants.ALPHANUMERIC_FORMAT);
+				"Base CPI can contain only Numbers", GtnFrameworkRegexStringConstants.NUMERIC_WITH_THREE_DECIMAL_PRECISION);
 		baseCPIConfig.setGtnUIFrameworkValidationConfig(baseCPIValidationConfig);
 
 		componentList.add(baseCPIConfig);

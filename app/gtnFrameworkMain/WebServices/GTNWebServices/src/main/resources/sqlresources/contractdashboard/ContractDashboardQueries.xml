@@ -4328,7 +4328,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
         <![CDATA[
             SELECT
                     CFM.CFP_ID
-                    ,CFM.CFP_NO
+                    ,CFC.CFP_NO
                     ,CFC.CFP_NAME
                     ,CFC.CFP_STATUS
                     ,CFC.CFP_START_DATE
@@ -4367,7 +4367,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
         <![CDATA[
                 SELECT
                         IFM.IFP_ID
-                        ,IFM.IFP_NO
+                        ,IFC.IFP_NO
                         ,IFC.IFP_NAME
                         ,IFC.IFP_STATUS
                         ,IFC.IFP_START_DATE
@@ -4399,7 +4399,7 @@ LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RS
         <![CDATA[
             SELECT
                     PSM.PS_ID
-                    ,PSM.PS_NO
+                    ,PSC.PS_NO
                     ,PSC.PS_NAME
                     ,PSC.PS_STATUS
                     ,PSC.PS_START_DATE
