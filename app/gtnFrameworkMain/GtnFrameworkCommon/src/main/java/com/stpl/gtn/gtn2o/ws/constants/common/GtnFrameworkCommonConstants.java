@@ -1074,10 +1074,17 @@ public class GtnFrameworkCommonConstants {
 	public static final String UDC_CATEGORY = "udcCategory";
 	public static final String UDC_VALUE = "udcValue";
 	public static final String UDC_RESULT_TABLE = "udcResultTable";
+	public static final String UDC_ALL_RESULT_TABLE = "udcAllResultTable";
 	public static final String UDC_BRAND_RESULT_TABLE = "udcBrandResultTable";
 	public static final String UDC_EXCEL_BUTTONLAYOUT = "excelButtonLayout";
 	public static final String UDC_BRAND_ID = "brandId";
 	public static final String UDC_BRAND_NAME = "brandName";
 	public static final String UDC_DISPLAY_BRAND = "displayBrand";
 	public static final String UDC_RESULTS_LAYOUT = "categoryResultsLayout";
+	public static final String GTN_EXCEL_BUTTON_LAYOUT = "gtnExcelButtonLayout";
+	public static final String GTN_BRAND_EXCEL_BUTTON_LAYOUT = "gtnBrandExcelButtonLayout";
+	public static final String ADD_LAYOUT = "addLayout";
+	public static final String ADD_BRAND_LAYOUT = "addBrandLayout";
+	public static final String VALUE_LAYOUT = "valueLayout";
+	public static final String UDC_CONFIGURATION = "Udc Configuration";
 }

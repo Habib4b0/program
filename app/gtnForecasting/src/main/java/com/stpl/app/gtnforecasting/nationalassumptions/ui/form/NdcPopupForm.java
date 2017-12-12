@@ -37,56 +37,54 @@ public class NdcPopupForm extends Window {
      * The close.
      */
     @UiField("close")
-    Button close;
+    private Button close;
 
     /**
      * The add.
      */
     @UiField(Constant.ADD_FULL_SMALL)
-    Button add;
+    private Button add;
 
     /**
      * The reset table.
      */
     @UiField("resetTable")
-    Button resetTable;
+    private Button resetTable;
     @UiField("tabSheet")
-    TabSheet tabSheet;
+    private TabSheet tabSheet;
 
     /**
      * The tab position.
      */
-    public int tabPosition = 0;
-
+    private int tabPosition = 0;
     /**
      * The tabsheet map.
      */
-    Map<Integer, Boolean> tabsheetMap = new HashMap<>();
+    private final Map<Integer, Boolean> tabsheetMap;
 
     private MedicaidNdcPopUp medicaidNdcPopUp;
     private FederalNdcPopup federalNdcPopup;
-    NewNdcDTO newNdcDto = new NewNdcDTO();
-    Map<String, Object> medicaidMap;
-    Map<Integer, Object> federalMap;
+    private NewNdcDTO newNdcDto = new NewNdcDTO();
+
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(NdcPopupForm.class);
-    boolean checkFlag = true;
-     SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
 
     public NdcPopupForm() {
         super("New NDC Setup");
+        this.tabsheetMap = new HashMap<>();
     }
 
     public NdcPopupForm(NewNdcDTO newNdcDto, Map<Integer, Object> medicaidMap, Map<Integer, Object> federalMap,SessionDTO sessionDTO) throws SystemException {
         super("New NDC Setup");
+        this.tabsheetMap = new HashMap<>();
         this.newNdcDto = newNdcDto;
         this.sessionDTO=sessionDTO;
         this.medicaidNdcPopUp = new MedicaidNdcPopUp(newNdcDto, medicaidMap,sessionDTO);
         this.federalNdcPopup = new FederalNdcPopup(newNdcDto, federalMap,sessionDTO);
         init();
-        checkFlag = false;
     }
 
     private void init() {
@@ -230,10 +228,8 @@ public class NdcPopupForm extends Window {
                 close.setVisible(false);
             }
 
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
     }
 

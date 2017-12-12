@@ -554,14 +554,14 @@ SET
 	<entity id="getCfpCfpIdAndCfpNoValidationQuery">
 		<query> 
             <![CDATA[    
-            DECLARE @CFP_ID varchar(500)= ? ,
+           DECLARE @CFP_ID varchar(500)= ?,
             @CFP_NO varchar(500)= ? 
 
             SELECT CASE WHEN CFP_ID = @CFP_ID AND CFP_NO = @CFP_NO THEN 'CFP_ID, CFP_NO'
                         WHEN  CFP_ID = @CFP_ID THEN 'CFP_ID'
                         WHEN CFP_NO = @CFP_NO THEN 'CFP_NO'
                         ELSE '' END   AS COULMN1
-             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO)
+             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO) AND INBOUND_STATUS<>'D'
              
  ]]>
 		</query>
@@ -792,15 +792,28 @@ DECLARE @USERS_SID VARCHAR(10)=?,
 	GROUP BY COMPANY_NO,CFP_DETAILS_START_DATE
 	HAVING COUNT(*) >1
 	
-	UNION ALL
-	 -- START_DATE_EQUALS_END_DATE CHECK QUERY
-	select 'START_DATE_EQUALS_END_DATE' AS COLUMN_ID ,CASE WHEN COUNT(*) =1 THEN min(COMPANY_NO) ELSE  CONVERT(VARCHAR(50),COUNT(*))  END AS COMPANY_NO_OR_COUNT ,0 AS COUNT
-	from dbo.IMTD_CFP_DETAILS where CFP_DETAILS_START_DATE = CFP_DETAILS_END_DATE 
-	AND CHECK_RECORD = 1 
-	and OPERATION Not In ('D','F') 
-	AND USERS_SID =@USERS_SID
-	AND SESSION_ID = @SESSION_ID
 	
+                ]]>
+		</query>
+	</entity>
+	<entity id="getCfpIdWithStatusD">
+		<query> 
+            <![CDATA[   
+             Select * from CFP_MODEL where INBOUND_STATUS<>'A' and CFP_ID='?' and CFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+	<entity id="getSysIdCfpIdAndCfpNoWithStatusD">
+		<query> 
+            <![CDATA[   
+            Select CFP_MODEL_SID from CFP_MODEL where CFP_ID='?' AND CFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+	<entity id="UpdateCfpIdAndCfpNoWithStatusA">
+		<query> 
+            <![CDATA[   
+          UPDATE CFP_MODEL SET INBOUND_STATUS='A' WHERE CFP_ID='?' AND CFP_NO='?' AND INBOUND_STATUS like 'D'
                 ]]>
 		</query>
 	</entity>
