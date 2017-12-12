@@ -126,6 +126,8 @@ public class GtnUIFrameworkComponentConfig {
 	private String pagedTableLogicClassName;
 
 	private String expressionType;
+	
+	private boolean defaultFocus = false;
 
 	public GtnUIFrameworkComponentConfig() {
 		super();
@@ -678,6 +680,14 @@ public class GtnUIFrameworkComponentConfig {
 
 	public void setRebuild(boolean rebuild) {
 		this.rebuild = rebuild;
+	}
+
+	public boolean isDefaultFocus() {
+		return defaultFocus;
+	}
+
+	public void setDefaultFocus(boolean defaultFocus) {
+		this.defaultFocus = defaultFocus;
 	}
 
 }

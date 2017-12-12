@@ -24,6 +24,7 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceComboBoxResponse;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractSelect;
+import com.vaadin.ui.AbstractTextField;
 import com.vaadin.ui.AbstractSelect.NewItemHandler;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
@@ -76,7 +77,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 				vaadinComboBox.setNewItemsAllowed(true);
 				vaadinComboBox.setNewItemHandler(new GtnNewItemHandler(componentConfig, vaadinComboBox));
 			}
-
+			setDefaultFocus(vaadinComboBox, componentConfig);
 		} catch (GtnFrameworkGeneralException ex) {
 
 			gtnLogger.error(ex.getMessage(), ex);
@@ -415,5 +416,10 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		}
 		return startIndexTemp;
 	}
-
+	
+	private void setDefaultFocus(ComboBox vaadinComboBox, GtnUIFrameworkComponentConfig componentConfig) {
+		if(componentConfig.isDefaultFocus()) {
+			vaadinComboBox.focus();
+		}
+	}
 }
