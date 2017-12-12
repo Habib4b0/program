@@ -75,11 +75,13 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String NET_BASE_PRICE_PENDING = "netbasepriceHelperValue";
 	public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING = "subsequentperiodpriceHelperValue";
 	public static final String NET_SUBSEQUENT_PERIOD_PRICE_PENDING = "netsubsequentperiodpriceHelperValue";
+	public static final String PRICE_TOLERANCE_INTERVAL_PENDING = "pricetoleranceintervalHelperValue";
 	public static final String MEASUREMENT_PRICE_PENDING = "measurementHelperValue";
 	public static final String PRICE_TOLERANCE_FREQUENCY_PENDING = "pricetolerancefrequencyHelperValue";
 	public static final String PRICE_TOLERANCE_TYPE_PENDING = "pricetolerancetypeHelperValue";
 	public static final String RESET_ELIGIBLE_PENDING = "reseteligibleHelperValue";
 	public static final String RESET_TYPE_PENDING = "resettypeHelperValue";
+	public static final String RESET_INTERVAL_PENDING = "resetintervalHelperValue";
 	public static final String RESET_FREQUENCY_PENDING = "resetfrequencyHelperValue";
 	public static final String RESET_PRICE_TYPE_PENDING = "resetpricetypeHelperValue";
 	public static final String NET_RESET_PRICE_TYPE_PENDING = "netresetpricetypeHelperValue";
@@ -330,11 +332,11 @@ public class GtnFrameworkContractDashboardContants {
 			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
 			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
 			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
-			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, getPpMassPopulateField()[12].replace(" ", ""),
+			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, PRICE_TOLERANCE_INTERVAL_PENDING,
 			PRICE_TOLERANCE_FREQUENCY_PENDING, PRICE_TOLERANCE_TYPE_PENDING,
 			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
 			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
-			getPpMassPopulateField()[20].replace(" ", ""), RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
+			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
 			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
 			NET_PRICE_TYPE_FORMULAA, ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
@@ -758,6 +760,10 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String DETAILS_RESULT_TABLE = "detailsResultTable";
 	public static final String RESET_CONSTANT = "Are you sure you want to reset the page to default/previous values  ?";
 	public static final String RESETMSG = "Are you sure you want to reset the values in the Search Criteria group box?";
+	public static final String EXTRACOLUMN_PENDING3 = "bDesHelperValue";
+	public static final String EXTRACOLUMN_PENDING4 = "iBPDDLBHelperValue";
+	public static final String EXTRACOLUMN_PENDING5 = "iBPDHelperValue";
+	public static final String EXTRACOLUMN_PENDING6 = "bASEPRICEENTRYYYHelperValue";
 
 	private GtnFrameworkContractDashboardContants() {
 

@@ -79,33 +79,32 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 	}
 
 	private Object getFieldValue(GtnWsRecordBean contractTableRecordBean) {
-		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(45);
+		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(51);
 		if (depandingValue.startsWith("P")) {
-			return contractTableRecordBean.getPropertyValueByIndex(42);
+			return contractTableRecordBean.getPropertyValueByIndex(52);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = contractTableRecordBean.getPropertyValueByIndex(44);
+			Object value = contractTableRecordBean.getPropertyValueByIndex(53);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
 			return value;
 		}
 		if (depandingValue.startsWith("M")) {
-			return contractTableRecordBean.getStringPropertyByIndex(43).trim();
+			return contractTableRecordBean.getStringPropertyByIndex(54).trim();
 		}
 		return "";
 	}
 
 	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
-		int size = bean.getProperties().size();
-		String depandingValue = bean.getStringPropertyByIndex(size-1);
-		if (!(depandingValue.equals(""))&&(!("".equals(bean.getPropertyValueByIndex(size-25))))&&(bean.getIndex("PriceTolerance") == size - 25)) {						
+		String depandingValue = bean.getStringPropertyByIndex(48);
+		if (!(depandingValue.equals(""))&&(!("".equals(bean.getPropertyValueByIndex(22))))&&(bean.getIndex("PriceTolerance") == 22)) {						
 			DecimalFormat formatDecimal = new DecimalFormat("0.00");
 			if (depandingValue.startsWith("per") || depandingValue.startsWith("%")) {
-				return formatDecimal.format(bean.getDoublePropertyByIndex(size - 25)) + "%";
+				return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + "%";
 			}
 			if (depandingValue.startsWith("dol")) {
-				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(size - 25));
+				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(22));
 
 			}
 		}
