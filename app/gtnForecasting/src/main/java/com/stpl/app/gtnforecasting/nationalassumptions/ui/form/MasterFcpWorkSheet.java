@@ -37,7 +37,6 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItem;
@@ -169,43 +168,43 @@ public class MasterFcpWorkSheet extends Window {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private HorizontalLayout controlLayout;
     /**
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private VerticalLayout tableVerticalLayout;
+    
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    MasterFcpWorkSheetTableLogic tableLogic = new MasterFcpWorkSheetTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    FcpResultsLogic fcpLogic = new FcpResultsLogic();
-    ProjectionSelectionDTO projectionDTO;
-    LazyContainer ndcContainer;
-    LazyContainer brandContainer;
+    private MasterFcpWorkSheetTableLogic tableLogic = new MasterFcpWorkSheetTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
+    private final ProjectionSelectionDTO projectionDTO;
+    private LazyContainer ndcContainer;
+    private LazyContainer brandContainer;
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    Property.ValueChangeListener valueChangeListener = null;
-    Property.ValueChangeListener valueChangeListenerTA = null;
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private Property.ValueChangeListener valueChangeListener = null;
+    private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
     private boolean valueTAChange = false;
-    public User user;
-    String description = StringUtils.EMPTY;
-    Map<String, String> fssAdjustedValues = new HashMap<>();
-    Map<String, String> fssEditedNotes = new HashMap<>();
-    Map<String, String> ovrAdjustedValues = new HashMap<>();
-    Map<String, String> ovrEditedNotes = new HashMap<>();
-    FcpQueryUtils queryUtil = new FcpQueryUtils();
-    boolean submitFlag = false;
-    boolean submitMsg = false;
-    HelperDTO ndcResultdto;
-    HelperDTO brandResultdto;
-    SessionDTO sessionDTO;
+    private String description = StringUtils.EMPTY;
+    private final Map<String, String> fssAdjustedValues = new HashMap<>();
+    private final Map<String, String> fssEditedNotes = new HashMap<>();
+    private final Map<String, String> ovrAdjustedValues = new HashMap<>();
+    private final Map<String, String> ovrEditedNotes = new HashMap<>();
+    private final FcpQueryUtils queryUtil = new FcpQueryUtils();
+    private boolean submitFlag = false;
+    private boolean submitMsg = false;
+    private final HelperDTO ndcResultdto;
+    private final HelperDTO brandResultdto;
+    private final SessionDTO sessionDTO;
     /**
      * Instantiates a new master fcp work sheet.
      *
@@ -363,11 +362,9 @@ public class MasterFcpWorkSheet extends Window {
             } else {
                 close.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
-        }
+        } 
         LOGGER.debug("configureFields Method ended ");
     }
 

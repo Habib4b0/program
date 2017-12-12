@@ -164,54 +164,55 @@ public class MedicaidUraWorkSheet extends Window {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private HorizontalLayout controlLayout;
     /**
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private VerticalLayout tableVerticalLayout;
+    
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    MedicaidWorkSheetTableLogic tableLogic = new MedicaidWorkSheetTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
-    ProjectionSelectionDTO projectionDTO;
-    LazyContainer ndcContainer;
-    LazyContainer brandContainer;
+    private MedicaidWorkSheetTableLogic tableLogic = new MedicaidWorkSheetTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final MedicaidURAResultsLogic medLogic = new MedicaidURAResultsLogic();
+    private final ProjectionSelectionDTO projectionDTO;
+    private LazyContainer ndcContainer;
+    private LazyContainer brandContainer;
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    Property.ValueChangeListener valueChangeListener = null;
-    Property.ValueChangeListener valueChangeListenerTA = null;
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    public static final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private Property.ValueChangeListener valueChangeListener = null;
+    private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
     private boolean valueTAChange = false;
-    String description = StringUtils.EMPTY;
-    Map<String, String> adjustedValues = new HashMap<>();
-    Map<String, String> editedNotes = new HashMap<>();
+    private String description = StringUtils.EMPTY;
+    private Map<String, String> adjustedValues = new HashMap<>();
+    private Map<String, String> editedNotes = new HashMap<>();
 
-    Map<String, String> secondAdjustedValues = new HashMap<>();
-    Map<String, String> secondEditedNotes = new HashMap<>();
+    private Map<String, String> secondAdjustedValues = new HashMap<>();
+    private Map<String, String> secondEditedNotes = new HashMap<>();
 
-    Map<String, String> thirdAdjustedValues = new HashMap<>();
-    Map<String, String> fourthAdjustedValues = new HashMap<>();
-    Map<String, String> thirdEditedNotes = new HashMap<>();
-    MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
+    private Map<String, String> thirdAdjustedValues = new HashMap<>();
+    private Map<String, String> fourthAdjustedValues = new HashMap<>();
+    private Map<String, String> thirdEditedNotes = new HashMap<>();
+    private MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
 
-    Map<String, String> bpAdjustedValues = new HashMap<>();
-    Map<String, String> bpEditedNotes = new HashMap<>();
-    Map<String, String> cpiAdjustedValues = new HashMap<>();
-    Map<String, String> cpiEditedNotes = new HashMap<>();
-    boolean submitFlag = false;
-    boolean submitMsg = false;
-    HelperDTO ndcResultdto;
-    HelperDTO brandResultdto;
-    SessionDTO sessionDTO;
-    boolean isFirestTimeLoadAMP = true, isFirestTimeLoadCPI = true;
-    Map<String, String> baseYear = new HashMap<>();
+    private Map<String, String> bpAdjustedValues = new HashMap<>();
+    private Map<String, String> bpEditedNotes = new HashMap<>();
+    private Map<String, String> cpiAdjustedValues = new HashMap<>();
+    private Map<String, String> cpiEditedNotes = new HashMap<>();
+    private boolean submitFlag = false;
+    private boolean submitMsg = false;
+    private HelperDTO ndcResultdto;
+    private HelperDTO brandResultdto;
+    private SessionDTO sessionDTO;
+    private boolean isFirestTimeLoadAMP = true, isFirestTimeLoadCPI = true;
+    private Map<String, String> baseYear = new HashMap<>();
 
     /**
      * Instantiates a new master fcp work sheet.
