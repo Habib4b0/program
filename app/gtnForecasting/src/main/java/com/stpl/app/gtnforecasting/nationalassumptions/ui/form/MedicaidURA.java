@@ -997,9 +997,7 @@ public class MedicaidURA extends CustomComponent implements View {
 
                     tempValue = tempValue.trim();
 
-                    if (tempValue.equals(WAC.getConstant())) {
                         priceType.select(tempValue);
-                    }
                 }
             }
         }
