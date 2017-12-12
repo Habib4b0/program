@@ -2329,15 +2329,15 @@ public class SalesLogic {
     }
 
     public void salesAndUnitsMassUpdate(final ProjectionSelectionDTO projectionSelectionDTO, SalesProjectionDAO salesProjectionDAO, List<Object> input)  throws PortalException, SystemException{
-        SessionDTO session=projectionSelectionDTO.getSessionDTO();
+        SessionDTO sessionDto=projectionSelectionDTO.getSessionDTO();
         StringBuilder hierarchyNumber = new StringBuilder();
-        String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(session.getCustomerLevelNumber()) : String.valueOf(session.getProductLevelNumber());
+        String lowerMostLevelNo = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? String.valueOf(sessionDto.getCustomerLevelNumber()) : String.valueOf(sessionDto.getProductLevelNumber());
         String prodCustVersion = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "PROJECTION_CUST_VERSION" : "PROJECTION_PROD_VERSION";
         String prodCustBuilderSid = projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_RELATIONSHIP_BUILDER_SID" : "PROD_RELATIONSHIP_BUILDER_SID";
         String sqlQuery = SQlUtil.getQuery("selected-Hierarchy-Query-sales").replace("@HIER_NO", projectionSelectionDTO.getHierarchyIndicator().equals("C") ? "CUST_HIERARCHY_NO" : "PROD_HIERARCHY_NO")
-                .replace("@LEVEL_NO",lowerMostLevelNo).replace("@PROJ_ID", String.valueOf(session.getProjectionId())).replace("@CUSTPRODVER", prodCustVersion)
+                .replace("@LEVEL_NO",lowerMostLevelNo).replace("@PROJ_ID", String.valueOf(sessionDto.getProjectionId())).replace("@CUSTPRODVER", prodCustVersion)
                .replace("@REL_BUILD_ID", prodCustBuilderSid);
-        List<String> hierarchyList = (List<String>)salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, session.getCurrentTableNames()));
+        List<String> hierarchyList = (List<String>)salesProjectionDAO.executeSelectQuery(QueryUtil.replaceTableNames(sqlQuery, sessionDto.getCurrentTableNames()));
         
         for (String hierarchy : hierarchyList) {
             hierarchyNumber.append("('").append(hierarchy).append("')").append(",");

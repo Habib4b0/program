@@ -5,7 +5,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * and open the template in the editor.
  */
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
@@ -25,7 +24,6 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
@@ -102,11 +100,9 @@ public class MedicaidNdcPopUp extends CustomComponent {
      */
     private final BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<>(NewNdcDTO.class);
     private Map<Integer, String> ndc9Map = new HashMap<>();
-    public static final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     private boolean flag;
     private String SelectedNDC = StringUtils.EMPTY;
-    private String ItemName = StringUtils.EMPTY;
     private final NewNdcDTO deletedItem = new NewNdcDTO();
     private final NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
     private final List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
@@ -337,7 +333,6 @@ public class MedicaidNdcPopUp extends CustomComponent {
         if (ndcNo.contains(",")) {
             String[] ndcNo1 = ndcNo.split(",");
             newNDC.setNdc9(ndcNo1[1].trim());
-            ItemName = ndcNo1[0].trim();
         } else {
             newNDC.setNdc9(String.valueOf(ndc.getValue()));
         }

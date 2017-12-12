@@ -185,7 +185,7 @@ public class MedicaidUraWorkSheet extends Window {
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
     private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
     private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public static final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    public static final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private Property.ValueChangeListener valueChangeListener = null;
     private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
@@ -329,7 +329,7 @@ public class MedicaidUraWorkSheet extends Window {
                 }
             }
         });
-        if (Constant.VIEW.equalsIgnoreCase(mode)) {
+        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
             disableFieldsOnView();
         }
         final StplSecurity stplSecurity = new StplSecurity();
@@ -456,7 +456,7 @@ public class MedicaidUraWorkSheet extends Window {
      */
     @UiHandler("close")
     public void close(Button.ClickEvent event) {
-        if (!Constant.VIEW.equalsIgnoreCase(mode)) {
+        if (!Constant.VIEW.equalsIgnoreCase(MODE)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
                     public void noMethod() {
@@ -715,7 +715,7 @@ public class MedicaidUraWorkSheet extends Window {
                             }
 
                         });
-                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
+                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
                             notesField.setEnable(false);
                         }
 
@@ -866,7 +866,7 @@ public class MedicaidUraWorkSheet extends Window {
 
                         });
                         notesField.addToolTip(description);
-                        if (Constant.VIEW.equalsIgnoreCase(mode)) {
+                        if (Constant.VIEW.equalsIgnoreCase(MODE)) {
                             notesField.setEnable(false);
                         }
                                 if (projectionDTO.getNewFormulation() != null && !projectionDTO.getNewFormulation().isEmpty() && !"null".equals(projectionDTO.getNewFormulation())) {

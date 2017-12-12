@@ -59,7 +59,6 @@ public class FederalNdcPopup extends CustomComponent {
      */
 
     private final BeanItemContainer<NewNdcDTO> federalBean = new BeanItemContainer<>(NewNdcDTO.class);
-    private final NewNdcDTO newNdcDTO;
     /**
      * The ndc.
      */
@@ -107,7 +106,6 @@ public class FederalNdcPopup extends CustomComponent {
 
     public FederalNdcPopup(NewNdcDTO newNdcDTO, Map<Integer, Object> federalMap,SessionDTO sessionDTO) {
         this.sessionDTO=sessionDTO;
-        this.newNdcDTO = newNdcDTO;
         this.listNDC = newNdcDTO.getListItemNo();
         this.wACList = newNdcDTO.getFederalWacMap();
         this.itemIdMap = newNdcDTO.getItemMasterSidMap();
