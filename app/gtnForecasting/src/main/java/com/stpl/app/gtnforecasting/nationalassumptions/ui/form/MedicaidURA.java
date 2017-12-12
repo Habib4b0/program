@@ -177,7 +177,7 @@ public class MedicaidURA extends CustomComponent implements View {
      * The grid layout.
      */
     @UiField("gridLayout")
-    GridLayout gridLayout;
+    private GridLayout gridLayout;
 
     @UiField("ndcFilterDdlb")
     private ComboBox ndcFilterDdlb;
@@ -189,48 +189,48 @@ public class MedicaidURA extends CustomComponent implements View {
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
-    CommonLogic commonLogic = new CommonLogic();
+    private VerticalLayout tableVerticalLayout;
+    private final CommonLogic commonLogic = new CommonLogic();
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO ndcFilterDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
 
-    LazyContainer therapeuticContainer;
+    private LazyContainer therapeuticContainer;
 
-    LazyContainer ndcFilterContainer;
+    private LazyContainer ndcFilterContainer;
 
-    LazyContainer brandContainer;
+    private LazyContainer brandContainer;
     public static final String MEDICAID_URA_RESULTS = "Medicaid URA Results";
-    LazyContainer ndcLevelContainer;
+    private LazyContainer ndcLevelContainer;
 
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
 
-    MedicaidURAResultsTableLogic tableLogic = new MedicaidURAResultsTableLogic();
+    private MedicaidURAResultsTableLogic tableLogic = new MedicaidURAResultsTableLogic();
 
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
 
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
 
-    MedicaidURAResultsLogic medResLogic = new MedicaidURAResultsLogic();
+    private final MedicaidURAResultsLogic medResLogic = new MedicaidURAResultsLogic();
 
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
 
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
 
     /**
      *
      */
     @UiField("panel2")
-    public Panel panel2;
+    private  Panel panel2;
 
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private HorizontalLayout controlLayout;
 
     /**
      * The max split position.
@@ -246,22 +246,15 @@ public class MedicaidURA extends CustomComponent implements View {
      * The split position.
      */
     private final float splitPosition = 300;
-    public final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    public boolean wacFlag = false;
-    public boolean ampFlag = false;
-    public boolean bestPriceFlag = false;
-    public boolean netPrice = false;
-    public boolean basicURAFlag = false;
-    public boolean cpiURAFlag = false;
-    public boolean totalURAFlag = false;
-    NationalAssumptionsForm form;
+    private final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final NationalAssumptionsForm form;
 
     @UiField("priceBasisDdlb")
     private ComboBox priceBasisDdlb;
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
-    SessionDTO sessionDTO;
+    private final Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
+    private final SessionDTO sessionDTO;
     public static final String MEDICAID_URA_WORSHEET_HELPER_TABLE = "Medicaid_Ura_Worsheet_Helper_table";
     public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
     public static final String MEDICAID_URA_CPI_URA = "MEDICAID_URA_CPI_URA";
@@ -271,10 +264,7 @@ public class MedicaidURA extends CustomComponent implements View {
     private final Map<String,String> priceTypeReplaceMap = new HashMap();
     private final Map<String,String> loadPriceActualMap = new HashMap();
 
-    /**
-     * /**
-     * Instantiates a new medicaid ura.
-     */
+    
     public MedicaidURA(NationalAssumptionsForm form,SessionDTO sessionDTO) {
 
         LOGGER.debug("MedicaidURA Constructor initiated ");
@@ -1008,41 +998,8 @@ public class MedicaidURA extends CustomComponent implements View {
                     tempValue = tempValue.trim();
 
                     if (tempValue.equals(WAC.getConstant())) {
-
-                        priceType.select(WAC.getConstant());
-                        wacFlag = true;
+                        priceType.select(tempValue);
                     }
-                    if (tempValue.equals(AMP.getConstant())) {
-
-                        priceType.select(AMP.getConstant());
-                        ampFlag = true;
-                    }
-                    if (tempValue.equals(BEST_PRICE.getConstant())) {
-
-                        priceType.select(BEST_PRICE.getConstant());
-                        bestPriceFlag = true;
-                    }
-                    if (tempValue.equals(NM_NET_PRICE.getConstant())) {
-
-                        priceType.select(NM_NET_PRICE.getConstant());
-                        netPrice = true;
-                    }
-                    if (tempValue.equals(BASIC_URA.getConstant())) {
-
-                        priceType.select(BASIC_URA.getConstant());
-                        basicURAFlag = true;
-                    }
-                    if (tempValue.equals(CPI_URA_SPACE.getConstant())) {
-
-                        priceType.select(CPI_URA_SPACE.getConstant());
-                        cpiURAFlag = true;
-                    }
-                    if (tempValue.equals(projectionDTO.getLoadUraPriceMap().get(MEDICAID_URA_TOTAL_URA))) {
-
-                        priceType.select(projectionDTO.getLoadUraPriceMap().get(MEDICAID_URA_TOTAL_URA));
-                        totalURAFlag = true;
-                    }
-
                 }
             }
         }

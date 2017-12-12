@@ -109,7 +109,7 @@ public class FcpResults extends CustomComponent implements View {
      * The history ddlb.
      */
     @UiField("historyDdlb")
-    public ComboBox historyDdlb;
+    protected ComboBox historyDdlb;
 
     /**
      * The therapeutic ddlb.
@@ -197,66 +197,59 @@ public class FcpResults extends CustomComponent implements View {
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private VerticalLayout tableVerticalLayout;
     @UiField("tablePanel")
-    public Panel tablePanel;
-    CommonLogic commonLogic = new CommonLogic();
-    FcpResultsTableLogic tableLogic = new FcpResultsTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private Panel tablePanel;
+    private final CommonLogic commonLogic = new CommonLogic();
+    private FcpResultsTableLogic tableLogic = new FcpResultsTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    Button detailsField = new Button(StringUtils.EMPTY);
-    LazyContainer therapeuticContainer;
-    LazyContainer brandContainer;
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
-    public boolean wacFlag = false;
-    public boolean fssFlag = false;
-    public boolean nonFAMPFlag = false;
-    public boolean cpiFlag = false;
-    public boolean fcpFlag = false;
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private LazyContainer therapeuticContainer;
+    private LazyContainer brandContainer;
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    
     @UiField("ndcFilterDdlb")
     private ComboBox ndcFilterDdlb;
     private final HelperDTO ndcFilterDTO = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
-    LazyContainer ndcFilterContainer;
-    NationalAssumptionsForm form;
+    private LazyContainer ndcFilterContainer;
+    private final NationalAssumptionsForm form;
 
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
 
-    public LazyContainer ndcLevelContainer;
+    private  LazyContainer ndcLevelContainer;
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private  HorizontalLayout controlLayout;
 
     /**
      * The grid layout.
      */
     @UiField("gridLayout")
-    GridLayout gridLayout;
+    private GridLayout gridLayout;
     /**
      * The price type.
      */
     private final OptionGroup priceType = new OptionGroup();
     
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
+    private final Property.ValueChangeListener ndcValueChange = getNDCFilterValueChangeListener();
     
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
-    /**
-     * Instantiates a new fcp results.
-     */
+
     public FcpResults(NationalAssumptionsForm form,SessionDTO sessionDTO) {
         super();
         LOGGER.debug("FcpResults Constructor initiated ");
@@ -779,7 +772,6 @@ public class FcpResults extends CustomComponent implements View {
      */
 
     public void enter(ViewChangeEvent event) {
-        return;
     }
 
     public void generateLogic() {
@@ -1000,33 +992,7 @@ public class FcpResults extends CustomComponent implements View {
                 for (String tempValue : col) {
 
                     tempValue = tempValue.trim();
-
-                    if (tempValue.equals(WAC.getConstant())) {
-
-                        priceType.select(WAC.getConstant());
-                        wacFlag = true;
-                    }
-                    if (tempValue.equals(FSS.getConstant())) {
-
-                        priceType.select(FSS.getConstant());
-                        fssFlag = true;
-                    }
-                    if (tempValue.equals(NON_FAMP.getConstant())) {
-
-                        priceType.select(NON_FAMP.getConstant());
-                        nonFAMPFlag = true;
-                    }
-                    if (tempValue.equals(CPI_URA.getConstant())) {
-
-                        priceType.select(CPI_URA.getConstant());
-                        cpiFlag = true;
-                    }
-                    if (tempValue.equals(FCP.getConstant())) {
-
-                        priceType.select(FCP.getConstant());
-                        fcpFlag = true;
-                    }
-
+                    priceType.select(tempValue);
                 }
             }
         }
