@@ -16,4 +16,5 @@ public class GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager {
 		GtnUIFrameworkGlobalUI.addSessionProperty("PriceToleranceValueChangeAllowed", value);
 	}
 
+	
 }
