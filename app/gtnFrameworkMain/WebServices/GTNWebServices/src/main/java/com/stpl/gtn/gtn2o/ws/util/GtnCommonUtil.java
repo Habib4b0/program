@@ -247,7 +247,8 @@ public class GtnCommonUtil {
 
 		for (Object[] record : resultList) {
 			int lastItem = record.length - excludedColumnCount;
-			for (int i = 0; i < record.length ; i++) {
+			int size= record.length-(excludedColumnCount-1);
+			for (int i = 0; i < size ; i++) {
 
 				Object value = emptyIfNull(record[i]);
 				if (i == lastItem) {
