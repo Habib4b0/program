@@ -205,7 +205,7 @@ public class MedicaidURAResultsLogic {
 
     public List<TableDTO> getMedicaidChild(ProjectionSelectionDTO projSelDTO, String parentSid, SessionDTO session) {
         LOGGER.debug("getMedicaidChild method started ");
-        List<TableDTO> projDTOList = new ArrayList<>();
+        List<TableDTO> projDTOList = new ArrayList<>(); 
         try {
             List<Object[]> medicaidList;
             if (projSelDTO.getVariables().contains(PERCENTAGE.getConstant())) {
@@ -1067,13 +1067,14 @@ public class MedicaidURAResultsLogic {
         Map<String, String[]> ampNotesMap = new HashMap<>();
         Map<String, String[]> bpNotesMap = new HashMap<>();
         Map<String, String[]> cpiNotesMap = new HashMap<>();
+        Map<String, String[]> cpiUraNotesMap = new HashMap<>();
         List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
         columnList.remove(Constant.GROUP);
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                String group = StringUtils.EMPTY + obj[0];
+                 String group = StringUtils.EMPTY + obj[0];
                 int year = Integer.valueOf(String.valueOf(obj[NumericConstants.THREE]));
                 int period = Integer.valueOf(String.valueOf(obj[NumericConstants.FOUR]));
                 List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
@@ -1126,6 +1127,16 @@ public class MedicaidURAResultsLogic {
                                 notesArray[1] = obj[NumericConstants.FIVE] == null ? StringUtils.EMPTY : StringUtils.EMPTY + obj[NumericConstants.FIVE];
                                 cpiNotesMap.put(column, notesArray);
                             }
+                            if (group.equalsIgnoreCase("CPI URA")) {
+                                if (obj[NumericConstants.SIX] != null) {
+                                    notesArray[0] = Double.valueOf(String.valueOf(obj[NumericConstants.SIX])) == 0 ? StringUtils.EMPTY : CommonUtils.getFormattedValue(CommonUtils.CUR_FOUR, StringUtils.EMPTY + obj[NumericConstants.SIX]);
+                                } else {
+                                    notesArray[0] = StringUtils.EMPTY;
+                                }
+                                value = notesArray[0];
+                                notesArray[1] = obj[NumericConstants.FIVE] == null ? StringUtils.EMPTY : StringUtils.EMPTY + obj[NumericConstants.FIVE];
+                                cpiUraNotesMap.put(column, notesArray);
+                            }
                             medicaidDTO.addStringProperties(column, value);
                             columnList.remove(column);
                         }
@@ -1139,6 +1150,7 @@ public class MedicaidURAResultsLogic {
         projSelDTO.setNotesMap(ampNotesMap);
         projSelDTO.setSecondRowNotesMap(bpNotesMap);
         projSelDTO.setThirdRowNotesMap(cpiNotesMap);
+        projSelDTO.setFourthRowNotesMap(cpiUraNotesMap);
         projDTOList.add(medicaidDTO);
         return projDTOList;
     }

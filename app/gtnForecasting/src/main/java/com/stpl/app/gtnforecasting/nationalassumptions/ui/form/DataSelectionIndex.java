@@ -91,25 +91,25 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * The name.
      */
     @UiField("name")
-    public TextField projectionName;
+    private TextField projectionName;
 
     /**
      * The product group.
      */
     @UiField("productGroup")
-    public CustomTextField productGroup;
+    private CustomTextField productGroup;
 
     /**
      * The therapeutic class.
      */
     @UiField("therapeuticClass")
-    public ComboBox therapeuticClass;
+    private ComboBox therapeuticClass;
 
     /**
      * The company.
      */
     @UiField("company")
-    public ComboBox company;
+    private ComboBox company;
 
     /**
      * The available product.
@@ -129,23 +129,18 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The search table.
      */
-    DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
-    ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
-
-    /**
-     * The dto value.
-     */
-    DataSelectionDTO dtoValue;
+    private final DataSelectionSearchLogic tableLogic = new DataSelectionSearchLogic();
+    private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
 
     /**
      * The available product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The selected product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The table bean.
@@ -189,9 +184,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The logic.
      */
-    DataSelectionLogic logic = new DataSelectionLogic();
+    private DataSelectionLogic logic = new DataSelectionLogic();
 
-    private NationalAssumptions nationalAssumptions;
+    private final NationalAssumptions nationalAssumptions;
 
     /**
      * The move left product.
@@ -225,17 +220,17 @@ public class DataSelectionIndex extends CustomComponent implements View {
     private Integer productGroupId = 0;
     private Object productGroupValue;
 
-    CustomFieldGroup dataSelectionBinder;
+    private final CustomFieldGroup dataSelectionBinder;
 
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
 
-    private TextField projectionId = new TextField();
-    String modifiedDate;
+    private final TextField projectionId = new TextField();
+    private String modifiedDate;
     /**
      * The table bean id.
      */
     private Object tableBeanId;
-    public DataSelectionDTO dsDto = new DataSelectionDTO();
+    private DataSelectionDTO dsDto = new DataSelectionDTO();
             /**
      * The business Unit.
      */
@@ -244,23 +239,15 @@ public class DataSelectionIndex extends CustomComponent implements View {
     
     private String productGroupCompany = StringUtils.EMPTY;
     
-    com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
-    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
-     DataSelectionDTO dataSelectionDTO;
-     SessionDTO sessionDTO;
-    /**
-     * Instantiates a new data selection index.
-     *
-     * @param dtoValue the dto value
-     * @param dataSelectionBinder
-     * @param mode the mode
-     */
+   private final com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
+   private final CommonUiUtils commonUiUtils = new CommonUiUtils();
+   private final SessionDTO sessionDTO;
+ 
     public DataSelectionIndex(DataSelectionDTO dtoValue, CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
         super();
         this.sessionDTO=sessionDTO;
         nationalAssumptions= new NationalAssumptions(sessionDTO);
         this.dataSelectionBinder = dataSelectionBinder;
-        this.dataSelectionDTO=dtoValue;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/DataSelectionIndex.xml"), this));
         init();
     }

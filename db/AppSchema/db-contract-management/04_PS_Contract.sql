@@ -3236,6 +3236,33 @@ IF NOT EXISTS(
   END
 GO
 
+
+-----------------------ALG-2968-----------
+IF EXISTS (SELECT 1
+           FROM   SYS.stats
+           WHERE  NAME = 'RESET_DATE'
+                  AND Object_name(object_id) = 'PS_CONTRACT_DETAILS_PENDING')
+  BEGIN
+      DROP STATISTICS PS_CONTRACT_DETAILS_PENDING.RESET_DATE
+  END 
+
+GO
+
+
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'PS_CONTRACT_DETAILS_PENDING' 
+	  AND COLUMN_NAME  = 'RESET_DATE' 
+	  AND TABLE_SCHEMA = 'DBO'  AND 
+	  DATA_TYPE='NUMERIC')
+ BEGIN     
+      ALTER TABLE PS_CONTRACT_DETAILS_PENDING
+        ALTER COLUMN RESET_DATE DATETIME
+  END
+GO  
+
+ 
+
 ------------------------------------------UNIQUE_CONSTRAINT--------------------------------------
 IF EXISTS (SELECT NAME
            FROM   SYS.TABLES

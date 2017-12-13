@@ -57,6 +57,9 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private Object[] stagingInsertColumns = new Object[0];
 	private Object[] stagingUpdateColumns = new Object[0];
 	private Object[] stagingUpdateColumnsValues = new Object[0];
+	private boolean defaultFocus = false;
+	private boolean decimalFormatNeeded = false;
+	private String pattern;
 
 	public String getColumnID() {
 		return columnID;
@@ -386,6 +389,30 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 
 	public void setStagingUpdateColumnsValues(Object[] stagingUpdateColumnsValues) {
 		this.stagingUpdateColumnsValues = stagingUpdateColumnsValues.clone();
+	}
+
+	public boolean isDefaultFocus() {
+		return defaultFocus;
+	}
+
+	public void setDefaultFocus(boolean defaultFocus) {
+		this.defaultFocus = defaultFocus;
+	}
+
+	public boolean isDecimalFormatNeeded() {
+		return decimalFormatNeeded;
+	}
+
+	public void setDecimalFormatNeeded(boolean decimalFormatNeeded) {
+		this.decimalFormatNeeded = decimalFormatNeeded;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 
 }
