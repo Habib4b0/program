@@ -269,5 +269,6 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 }

@@ -390,6 +390,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
 }

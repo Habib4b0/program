@@ -114,6 +114,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      */
     protected void btnSubmitLogic() {
         // Logic for Submit button
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
     /**
@@ -125,6 +126,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      */
     protected void btnRemoveLogic() {
         // Logic for Remove button
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
     /**
@@ -152,8 +154,6 @@ public class ComparisonLookup extends AbstractComparisonLookup {
     /**
      * The container.
      */
-    private BeanItemContainer<DataSelectionDTO> container;
-
     /**
      * Creates a new Reset button which resets the table content.
      *
@@ -166,6 +166,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
     
     
