@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -153,6 +154,7 @@ public class GtnWsTransactionService {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
 			String type = columnDataTypeMap.get(columns.getFieldId());
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
+			value = replaceSingleQuote(value);
 			columns.setExpression(
 					columns.isFilter() ? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName())
 							: columns.getExpression());
@@ -668,5 +670,18 @@ public class GtnWsTransactionService {
 		columnMap.put("salesAmount", "SALES_AMOUNT");
 		columnMap.put("recordCreatedDate","RECORD_CREATED_DATE");
 		return columnMap.get(columnName);
+	}
+	
+	private String replaceSingleQuote(String searchValue) {
+		int countOfSingleQuote = StringUtils.countMatches(searchValue, "'");
+		StringBuilder finalStr = new StringBuilder();
+		String tempStr;
+		if (countOfSingleQuote > 0) {
+			for (int i = 0; i < countOfSingleQuote / 2; i++) {
+				finalStr.append("'");
+			}
+		}
+		tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
+		return tempStr;
 	}
 }
