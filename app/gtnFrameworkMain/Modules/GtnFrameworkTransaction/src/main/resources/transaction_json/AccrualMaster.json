@@ -30,7 +30,6 @@
         "minLength": 0,
         "maxLength": 100
     },
-    
     {
         "columnID": "companyNo",
         "columnName": "Company No",
