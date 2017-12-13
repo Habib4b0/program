@@ -314,12 +314,12 @@ public class GtnWsItemMasterAddService {
 
 		Criterion itemMasterSIDCriterion = Restrictions.eq(GtnWsTableConstants.ITEM_MASTER_NAME,
 				session.load(ItemMaster.class, itemSystemId));
-
+        Criterion identifierCriterion=Restrictions.ne("inboundStatus", 'D');
 		List<ItemIdentifier> results = (List<ItemIdentifier>) gtnSqlQueryEngine.executeSelectQuery(ItemIdentifier.class,
-				Arrays.asList(new Criterion[] { itemMasterSIDCriterion }), session);
+				Arrays.asList(new Criterion[] { itemMasterSIDCriterion,identifierCriterion }), session);
 
 		if (results != null && !results.isEmpty()) {
-			GtnWsItemIdentifierBean idenBean;
+		    GtnWsItemIdentifierBean idenBean;
 			for (ItemIdentifier object : results) {
 				idenBean = new GtnWsItemIdentifierBean();
 				idenBean.setItemIdentifierSid(object.getItemIdentifierSid());

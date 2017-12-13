@@ -270,9 +270,10 @@ public class DataSelectionForm extends ForecastDataSelection {
 		resultsTableLayout.addComponent(resultTable);
 		resultsTableLayout.addComponent(tableLogic.createControls());
 		tableLogic.setContainerDataSource(resultsContainer);
+                tableLogic.setPageLength(10);
+                resultTable.setItemsPerPage(10);
 		tableLogic.sinkItemPerPageWithPageLength(false);
 		resultTable.setSelectable(true);
-		tableLogic.setPageLength(NumericConstants.TEN);
 		setProductForecastLevelNullSelection();
 		setProductLevelNullSelection();
 		setProductRelationNullSelection();
@@ -351,7 +352,6 @@ public class DataSelectionForm extends ForecastDataSelection {
 		resultTable.setFilterBarVisible(true);
 		resultTable.setSizeFull();
 		resultTable.setImmediate(true);
-		resultTable.setPageLength(NumericConstants.TEN);
 		resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
 		resultTable.addStyleName(Constant.FILTER_TABLE);
 		resultTable.addStyleName("table-header-normal");
@@ -4633,7 +4633,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					final Leveldto cpDto = (Leveldto) selectedProductContainer.getIdByIndex(i);
 					selectedProductsList.add(cpDto);
 				}
-				if (privateView.getValue() != null && privateView.getValue() != StringUtils.EMPTY) {
+				if (privateView.getValue() != null && !StringUtils.EMPTY.equals(privateView.getValue())) {
 					dataSelectionDTO.setViewType("private");
 				} else if (publicView.getValue() != null) {
 					dataSelectionDTO.setViewType("public");

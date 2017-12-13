@@ -23,6 +23,8 @@ public class GtnIFamilyPlanValidationBean {
 	private String startDateNullItemId;
 	private String statusNullItemId;
 	private String startDateGreaterThanEndItemId;
+	private int startDateEqualCount;
+	private String startDateEqualItemId;
 
 	public int getCount() {
 		return count;
@@ -86,6 +88,22 @@ public class GtnIFamilyPlanValidationBean {
 
 	public void setStartDateGreaterThanEndItemId(String startDateGreaterThanEndItemId) {
 		this.startDateGreaterThanEndItemId = startDateGreaterThanEndItemId;
+	}
+
+	public int getStartDateEqualCount() {
+		return startDateEqualCount;
+	}
+
+	public void setStartDateEqualCount(int startDateEqualCount) {
+		this.startDateEqualCount = startDateEqualCount;
+	}
+
+	public String getStartDateEqualItemId() {
+		return startDateEqualItemId;
+	}
+
+	public void setStartDateEqualItemId(String startDateEqualItemId) {
+		this.startDateEqualItemId = startDateEqualItemId;
 	}
 
 }

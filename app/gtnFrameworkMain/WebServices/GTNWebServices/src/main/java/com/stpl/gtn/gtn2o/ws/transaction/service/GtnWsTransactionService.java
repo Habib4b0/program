@@ -456,7 +456,7 @@ public class GtnWsTransactionService {
 			Boolean excelComplete) {
 
 		try {
-			GtnCommonUtil.createDataRows(printWriter, resultList);
+			GtnCommonUtil.createDataRows(printWriter, resultList,2);
 			printWriter.flush();
 			if (excelComplete) {
 				printWriter.close();
@@ -666,6 +666,7 @@ public class GtnWsTransactionService {
 		columnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
 		columnMap.put("quantity", "QUANTITY");
 		columnMap.put("salesAmount", "SALES_AMOUNT");
+		columnMap.put("recordCreatedDate","RECORD_CREATED_DATE");
 		return columnMap.get(columnName);
 	}
 }

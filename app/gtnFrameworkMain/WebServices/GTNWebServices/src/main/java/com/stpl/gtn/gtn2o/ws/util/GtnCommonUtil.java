@@ -243,14 +243,13 @@ public class GtnCommonUtil {
 		pw.println(headers.get(headerListSize));
 	}
 
-	public static void createDataRows(PrintWriter printWriter, List<Object[]> resultList) {
+	public static void createDataRows(PrintWriter printWriter, List<Object[]> resultList,int excludedColumnCount) {
 
 		for (Object[] record : resultList) {
-			int lastItem = record.length - 2;
-			for (int i = 0; i < record.length - 1; i++) {
+			int lastItem = record.length - excludedColumnCount;
+			for (int i = 0; i < record.length ; i++) {
 
 				Object value = emptyIfNull(record[i]);
-
 				if (i == lastItem) {
 					if (value instanceof Date) {
 

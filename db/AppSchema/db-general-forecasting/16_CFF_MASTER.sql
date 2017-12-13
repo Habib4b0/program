@@ -4262,7 +4262,19 @@ DEDUCTION_HIERARCHY_NO	varchar(8000)
 END
 GO
 
------------------
+-----------------ALG-6013
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CCP_DEDUCTION_HIERARCHY'
+                      AND COLUMN_NAME = 'FILTER_CCPD'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE CCP_DEDUCTION_HIERARCHY
+        ADD FILTER_CCPD BIT
+  END
+GO
+-----------------------------------------------------
 
 
 IF NOT EXISTS (

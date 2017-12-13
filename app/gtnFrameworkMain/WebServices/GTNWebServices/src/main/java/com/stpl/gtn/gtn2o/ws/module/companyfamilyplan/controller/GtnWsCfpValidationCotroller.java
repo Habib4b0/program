@@ -22,13 +22,14 @@ import com.stpl.gtn.gtn2o.ws.response.cfpresponse.GtnWsCfpReponse;
 @RestController
 @RequestMapping(value = GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE)
 public class GtnWsCfpValidationCotroller {
-    public GtnWsCfpValidationCotroller(){
-        /**
-         * empty constructor
-         */
-    }
+	public GtnWsCfpValidationCotroller() {
+		/**
+		 * empty constructor
+		 */
+	}
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCfpValidationCotroller.class);
+	
 
 	@Autowired
 	private GtnWsCfpValidationService cfpWebservice;
@@ -41,9 +42,11 @@ public class GtnWsCfpValidationCotroller {
 			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			gtnResponse.getGtnWsGeneralResponse().setSucess(true);
 			logger.info("Enter companyAdditionSearch");
+
 			GtnSerachResponse gtnSerachResponse = new GtnSerachResponse();
 			List<Object> resultList = cfpWebservice.cfpIdAndCfpNoValidation(gtnWsRequest);
 			HashMap<String, Object> map = new HashMap<>();
+
 			boolean cfpId = false;
 			boolean cfpNo = false;
 			if (resultList != null && !resultList.isEmpty()) {
@@ -51,8 +54,10 @@ public class GtnWsCfpValidationCotroller {
 				cfpId = !returnValue.isEmpty() && returnValue.contains("CFP_ID");
 				cfpNo = !returnValue.isEmpty() && returnValue.contains("CFP_NO");
 			}
+
 			map.put("cfpId", cfpId);
 			map.put("cfpNo", cfpNo);
+
 			gtnResponse.setEditRecord(map);
 			gtnResponse.setGtnSerachResponse(gtnSerachResponse);
 			return gtnResponse;
@@ -79,7 +84,6 @@ public class GtnWsCfpValidationCotroller {
 			GtnWsCfpReponse cfpResponse = new GtnWsCfpReponse();
 			cfpResponse.setGtnCFamilyPlanValidationBean(validationBean);
 			gtnResponse.setGtnWsCfpReponse(cfpResponse);
-
 			return gtnResponse;
 		} catch (Exception ex) {
 			gtnResponse.getGtnWsGeneralResponse().setSucess(false);

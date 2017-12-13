@@ -118,13 +118,12 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			tableBaseComponent.setTableRefresh(true);
 
 		}
-		boolean gtnFrameworkPriceProtectionValueChangeManager=GtnFrameworkPriceProtectionValueChangeManager.isValueChangeAllowed();
-		if ((gtnFrameworkPriceProtectionValueChangeManager)&&((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))
-				|| (column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
-			
-				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
-				refreshTable();
-				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);			
+        boolean gtnFrameworkPPPriceToltanceValueChangeManager=GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.isValueChangeAllowed();
+        if ((gtnFrameworkPPPriceToltanceValueChangeManager) && column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20])
+						|| column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])) {
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(false);
+			refreshTable();
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(false);
 		}
 	}
 
@@ -133,8 +132,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 				.getVaadinComponentData("psPriceProtectionTabResultDataTable");
 		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
-		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
-
+		GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 	}
 
 	private Object getFieldValue(GtnWsRecordBean psPriceProtectionBean) {
