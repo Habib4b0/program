@@ -57,7 +57,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -191,7 +190,6 @@ public class AlternateSummery extends CustomComponent {
             levelFilterDdlbChangeOption();
         }
     };
-    private Property.ValueChangeListener groupFilterValueChangeListener = null;
     private ComboBox metohdologyFilter = new ComboBox();
     private ComboBox baseLineFilter = new ComboBox();
     private final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
@@ -284,19 +282,6 @@ public class AlternateSummery extends CustomComponent {
         metohdologyFilter.setNullSelectionAllowed(false);
         baseLineFilter.setNullSelectionAllowed(false);
         baseLineFilter.setContainerDataSource(baseLineBean);
-
-        groupFilterValueChangeListener = new Property.ValueChangeListener() {
-
-            @Override
-            public void valueChange(Property.ValueChangeEvent event) {
-                LOGGER.debug("groupDdlbChangeOption ValueChangeEvent initiated ");
-                String groupValue = String.valueOf(event.getProperty().getValue());
-                groupValue = Constant.SHOW_ALL_GROUPS.equals(groupValue) ? Constant.PERCENT : groupValue;
-                projectionDTO.setGroup(groupValue);
-                summeryTableLogic.setProjectionResultsData(projectionDTO);
-                LOGGER.debug("groupDdlbChangeOption ValueChangeEvent ends ");
-            }
-        };
 
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {

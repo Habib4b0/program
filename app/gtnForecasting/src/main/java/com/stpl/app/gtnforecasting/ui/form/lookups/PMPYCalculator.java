@@ -280,8 +280,6 @@ public class PMPYCalculator extends Window {
 
     private static final String regex = "(^[0-9]+(\\.[0-9])?$)";
 
-    private final SalesProjectionResultsDTO originalBean = new SalesProjectionResultsDTO();
-
     private final Calendar calendar = CommonUtils.getCalendar();
 
     private final FreezeFilterTable contractHolderTable = new FreezeFilterTable();
@@ -672,10 +670,8 @@ public class PMPYCalculator extends Window {
 
             });
             LOGGER.debug("End of configureFields method");
-        }  catch (Exception e) {
-
+        }  catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e);
-
         }
 
     }
@@ -1599,6 +1595,7 @@ public class PMPYCalculator extends Window {
                              * Default method.
                              */
 
+                            @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(Constant.YES)) {
                                     try {

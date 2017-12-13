@@ -10,8 +10,6 @@ import org.asi.ui.customtextfield.CustomTextField;
 
 import com.stpl.app.forecastabstract.lookups.AbstractComparisonLookup;
 import com.stpl.app.gtnforecasting.projectionvariance.dto.ComparisonLookupDTO;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import java.util.List;
@@ -99,7 +97,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
         submitBtn.addClickListener(new Button.ClickListener() {
             @Override
             public void buttonClick(ClickEvent event) {
-                LOGGER.debug("Inside Overriden method: do nothing");
+                LOGGER.debug("Inside Overriden method");
             }
         });
 
@@ -114,7 +112,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      */
     protected void btnSubmitLogic() {
         // Logic for Submit button
-        LOGGER.debug("Inside Overriden method: do nothing");
+        LOGGER.debug("Inside Overriden method:");
     }
 
     /**
@@ -126,7 +124,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
      */
     protected void btnRemoveLogic() {
         // Logic for Remove button
-        LOGGER.debug("Inside Overriden method: do nothing");
+        LOGGER.debug("Inside Overriden method..");
     }
 
     /**

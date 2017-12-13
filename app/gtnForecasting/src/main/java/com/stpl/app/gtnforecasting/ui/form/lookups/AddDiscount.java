@@ -8,7 +8,6 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
-import org.jboss.logging.Logger;
 
 /**
  *

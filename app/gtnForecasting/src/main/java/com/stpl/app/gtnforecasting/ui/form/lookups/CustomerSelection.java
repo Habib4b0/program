@@ -7,7 +7,6 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.AlternateHistoryTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;

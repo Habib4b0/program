@@ -47,10 +47,6 @@ import org.jboss.logging.Logger;
  */
 public class SaveViewPopup extends AbstractSaveViewPopup {
 
-    private BeanItemContainer<Leveldto> availableCustomers;
-    private BeanItemContainer<Leveldto> selectedCustomers;
-    private BeanItemContainer<Leveldto> availableProducts;
-    private BeanItemContainer<Leveldto> selectedProducts;
     private final SaveViewDTO saveViewDTO = new SaveViewDTO();
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<>(saveViewDTO));
     private final ErrorLabel errorMsg = new ErrorLabel();
@@ -107,10 +103,6 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             final BeanItemContainer<Leveldto> availableProducts, final BeanItemContainer<Leveldto> selectedProducts, List<String> customerListEndSids, List<String> productListEndSids) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
-        this.availableCustomers = availableCustomers;
-        this.selectedCustomers = selectedCustomers;
-        this.availableProducts = availableProducts;
-        this.selectedProducts = selectedProducts;
         this.customerListEndSids = customerListEndSids;
         this.productListEndSids = productListEndSids;
         buildPopup();
