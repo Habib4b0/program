@@ -13,14 +13,17 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 
-public class GtnFrameworkUdcSearchAction implements GtnUIFrameWorkAction,GtnUIFrameworkActionShareable,GtnUIFrameworkDynamicClass{
+public class GtnFrameworkUdcSearchAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
+	
 	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkUdcSearchAction.class);
+
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
 		return;
-		
+
 	}
 
 	@Override
@@ -34,36 +37,56 @@ public class GtnFrameworkUdcSearchAction implements GtnUIFrameWorkAction,GtnUIFr
 		if (udcCategory.equals("BRAND")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
 					.setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("valueLayout").setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("addBrandLayout").setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("addLayout").setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnBrandExcelButtonLayout").setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnExcelButtonLayout").setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT).setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE)
 					.setVisible(false);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE)
 					.setVisible(true);
-
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_ALL_RESULT_TABLE)
+					.setVisible(false);
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE);
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
-		} else {
+		}
+		if (udcCategory.equals("ALL")) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
 					.setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("valueLayout").setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("addBrandLayout").setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("addLayout").setVisible(true);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnBrandExcelButtonLayout").setVisible(false);
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("gtnExcelButtonLayout").setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_ALL_RESULT_TABLE)
+					.setVisible(true);
+			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_ALL_RESULT_TABLE);
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
+		} else {
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_CATEGORY_BRANDLAYOUT)
+					.setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.VALUE_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_BRAND_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.ADD_LAYOUT).setVisible(true);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_BRAND_EXCEL_BUTTON_LAYOUT).setVisible(false);
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.GTN_EXCEL_BUTTON_LAYOUT).setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_RESULT_TABLE)
 					.setVisible(true);
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_BRAND_RESULT_TABLE)
 					.setVisible(false);
-
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.UDC_ALL_RESULT_TABLE)
+					.setVisible(false);
 			loadDataTableActionConfig.addActionParameter(GtnFrameworkCommonConstants.UDC_RESULT_TABLE);
 			loadDataTableActionConfig.setFieldDescription(Arrays.asList(GtnFrameworkCommonConstants.UDC_CATEGORY));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, loadDataTableActionConfig);
 		}
-		
+
 	}
 
 	@Override
