@@ -121,7 +121,7 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 				getModifiedSuccessAction(updateActionConfig, componentId, propertyId));
 		if (propertyId.equals(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[7])) {
 			String depandingValue = baseComponent.getCaptionFromComboBox();
-			actionParameter.getItemId().getProperties().set(45, depandingValue);
+			actionParameter.getItemId().getProperties().set(51, depandingValue);
 			Object newValue = getFieldValue(actionParameter.getItemId());
 			actionParameter.getItemId()
 					.addProperties(GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8], newValue);
@@ -170,36 +170,37 @@ public class GtnFrameworkFieldFactoryAction implements GtnUIFrameWorkAction ,Gtn
 	}
 
 	private String getFieldId(String currentPropId, GtnWsRecordBean bean, Object value) {
-		String depandingValue = bean.getStringPropertyByIndex(45);
+		
+		String depandingValue = bean.getStringPropertyByIndex(51);
 		if (depandingValue.startsWith("P")) {
-			bean.getProperties().set(42, value);
+			bean.getProperties().set(52, value);
 			return currentPropId + "Ddlb";
 		}
 		if (depandingValue.startsWith("D")) {
-			bean.getProperties().set(44, value);
+			bean.getProperties().set(53, value);
 			return currentPropId + "Date";
 		}
 		if (depandingValue.startsWith("M")) {
-			bean.getProperties().set(43, value);
+			bean.getProperties().set(54, value);
 			return currentPropId + "Entry";
 		}
 		return "";
 	}
 
 	private Object getFieldValue(GtnWsRecordBean bean) {
-		String depandingValue = bean.getStringPropertyByIndex(45);
+		String depandingValue = bean.getStringPropertyByIndex(51);
 		if (depandingValue.startsWith("P")) {
-			return bean.getPropertyValueByIndex(42);
+			return bean.getPropertyValueByIndex(52);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = bean.getPropertyValueByIndex(44);
+			Object value = bean.getPropertyValueByIndex(53);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
 			return value;
 		}
 		if (depandingValue.startsWith("M")) {
-			return bean.getStringPropertyByIndex(43).trim();
+			return bean.getStringPropertyByIndex(54).trim();
 		}
 		return "";
 	}

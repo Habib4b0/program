@@ -487,7 +487,8 @@ public class DiscountQueryBuilder {
 
             String queryPeriod = SQlUtil.getQuery("PERIOD_TABLE")
                     .replace("?F", String.valueOf(frequency.charAt(0)))
-                    .replace("?R", session.getDedRelationshipBuilderSid());
+                    .replace("?R", session.getDedRelationshipBuilderSid())
+                    .replace("@REFNAME", refreshName);
             if (isCustomHierarchy && CommonUtil.isValueEligibleForLoading()) {
                 customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT_CUSTOM").replace(PERIOD_TABLE, queryPeriod)
                         .replace("@TEMP_TABLE_DISCOUNT", StringUtils.EMPTY)
@@ -496,7 +497,7 @@ public class DiscountQueryBuilder {
             } else if ("RPU".equalsIgnoreCase(refreshName)) {
                 String uomJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"' ";
                 String uomDivJoin=EACH.equals(session.getDiscountUom())?StringUtils.EMPTY:"/nullif(uom_value,0) ";
-                customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT_RPU").replace("@REFRESHAMT", fieldValue).replace(UOM_JOIN,uomJoin).replace(PERIOD_TABLE, queryPeriod)
+                customSql = SQlUtil.getQuery("MANUAL_ENTRY_DISCOUNT").replace("@REFRESHAMT", fieldValue).replace(UOM_JOIN,uomJoin).replace(PERIOD_TABLE, queryPeriod)
                         .replace(RELATION_SID, discountName).replace(BUILDER_SID, session.getDedRelationshipBuilderSid())
                         .replace(Constant.AT_COLUMN_NAME, commonLogic.getColumnNameCustom(hierarchyIndicator)).replace("@UOMDIV", uomDivJoin)
                         .replace("?Y", String.valueOf(year)).replace(Constant.AT_RS_COLUMN, isCustomHierarchy ? Constant.RS_CONTRACT_SID : isProgram ? Constant.RS_CONTRACT_SID : Constant.PRICE_GROUP_TYPE);
@@ -509,7 +510,7 @@ public class DiscountQueryBuilder {
             if ("GROWTH".equals(refreshName)) {
                 customSql = customSql.replace("@SETTER", "DPT.GROWTH = " + fieldValue);
             } else {
-                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue + " ,DPT.refreshed_name = '" + refreshName + "' ");
+                customSql = customSql.replace("@SETTER", "DPT.refreshed_value = " + fieldValue);
             }
 
             if (!frequency.equals(ANNUALLY.getConstant())) {
@@ -643,8 +644,8 @@ public class DiscountQueryBuilder {
                 .replace("@UOMACTUAL",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" ACTUAL_UNITS=Sum(ACTUAL_UNITS) ":" SUM(ISNULL(S.ACTUAL_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  ACTUAL_UNITS ") // Selected RS
                 .replace("@UOMPROJ",(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?" PROJECTION_UNITS=SUM(PROJECTION_UNITS) ":" SUM(ISNULL(S.PROJECTION_UNITS,0)*ISNULL(UOM.UOM_VALUE,0))  PROJECTION_UNITS ") // Selected RS
                 .replace(UOM_JOIN,(EACH.equals(session.getDiscountUom()) || session.getDiscountUom().isEmpty()) ?StringUtils.EMPTY:" LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='"+session.getDiscountUom()+"'")
-                .replace("@HASHDP",("ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?StringUtils.EMPTY:" ,DEDUCTION_INCLUSION ")
-                .replace("@SELCOLDED",("ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?",0 as DEDUCTION_INCLUSION":" ,DPM.DEDUCTION_INCLUSION ")
+                .replace("@HASHDP",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?StringUtils.EMPTY:" ,DEDUCTION_INCLUSION ")
+                .replace("@SELCOLDED",(session.getDeductionInclusion() ==null || "ALL".equals(session.getDeductionInclusion()) || session.getDeductionInclusion().isEmpty()) ?",0 as DEDUCTION_INCLUSION":" ,DPM.DEDUCTION_INCLUSION ")
                 .replace("@DEDCUSTJOIN", commonLogic.getDedCustomJoinGenerate(session, isCustom ? customViewDetails.get(NumericConstants.NINE) : StringUtils.EMPTY, hierarchyIndicator, levelNo))
                 .replace(RELVALUE, session.getDedRelationshipBuilderSid())
                

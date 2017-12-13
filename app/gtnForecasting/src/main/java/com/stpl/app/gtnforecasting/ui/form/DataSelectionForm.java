@@ -4633,7 +4633,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 					final Leveldto cpDto = (Leveldto) selectedProductContainer.getIdByIndex(i);
 					selectedProductsList.add(cpDto);
 				}
-				if (privateView.getValue() != null && privateView.getValue() != StringUtils.EMPTY) {
+				if (privateView.getValue() != null && !StringUtils.EMPTY.equals(privateView.getValue())) {
 					dataSelectionDTO.setViewType("private");
 				} else if (publicView.getValue() != null) {
 					dataSelectionDTO.setViewType("public");

@@ -29,6 +29,8 @@ import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 
 public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
+	
+
 	public GtnUIFrameworkViewConfig getUDCView() {
 		GtnFrameworkComponentConfigProvider componentConfig = GtnFrameworkComponentConfigProvider.getInstance();
 		GtnUIFrameworkViewConfig udcConfigurationView = componentConfig.getViewConfig("Udc View", "UDC001", true);
@@ -100,7 +102,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig categoryConfig = componentConfig.getComboBoxConfig("CategoryName",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		categoryConfig.setItemValues(Arrays.asList("BRAND", "CategoryName"));
+		categoryConfig.setItemValues(Arrays.asList("BRAND", "CategoryName","ALL"));
 		udcCategory.setGtnComboboxConfig(categoryConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
@@ -367,6 +369,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 		addPagedTableComponent(componentList, componentConfig);
 		addBrandPagedTableComponent(componentList, componentConfig);
+		 addAllPagedTableComponent(componentList, componentConfig);
 	}
 
 	private void addPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
@@ -380,7 +383,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 
 		GtnUIFrameworkPagedTableConfig searchResults = componentConfig.getPagedTableConfig(true, true,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH, "Udc Configuration",
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,GtnFrameworkCommonConstants.UDC_CONFIGURATION,
 				"SearchQuery");
 		searchResults.setEditable(false);
 		searchResults.setPageLength(5);
@@ -397,6 +400,35 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		categoryResultsConfig.setGtnPagedTableConfig(searchResults);
 		componentList.add(categoryResultsConfig);
 	}
+	private void addAllPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
+			GtnFrameworkComponentConfigProvider componentConfig) {
+		GtnUIFrameworkComponentConfig allCategoryResultsConfig = componentConfig.getUIFrameworkComponentConfig(
+				GtnFrameworkCommonConstants.UDC_ALL_RESULT_TABLE, true, GtnFrameworkCommonConstants.UDC_RESULTS_LAYOUT,
+				GtnUIFrameworkComponentType.PAGEDTABLE);
+		allCategoryResultsConfig.setAuthorizationIncluded(true);
+		allCategoryResultsConfig.setComponentName("udcAllResults");
+		allCategoryResultsConfig.setComponentWidth(GtnFrameworkCssConstants.PERCENT_100);
+		allCategoryResultsConfig.setVisible(false);
+
+		GtnUIFrameworkPagedTableConfig allSearchResults = componentConfig.getPagedTableConfig(true, true,
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
+				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH, GtnFrameworkCommonConstants.UDC_CONFIGURATION,
+				"AllSearchQuery");
+		allSearchResults.setEditable(false);
+		allSearchResults.setPageLength(5);
+		allSearchResults.setItemPerPage(10);
+		allSearchResults.setSinkItemPerPageWithPageLength(false);
+
+		allSearchResults.setTableColumnDataType(GtnFrameworkUdcStringConstants.getUdcTableColumnType());
+		allSearchResults.setTableColumnMappingId(GtnFrameworkUdcStringConstants.getUdcTableColumns());
+		allSearchResults.setTableVisibleHeader(GtnFrameworkUdcStringConstants.getUdcTableHeader());
+
+		allSearchResults.setExtraColumn(new Object[] { "systemId" });
+		allSearchResults.setExtraColumnDataType(new Class[] { Integer.class });
+		allSearchResults.setSearchQueryConfigLoaderType(GtnWsSearchQueryConfigLoaderType.UDC_CONFIGURATION);
+		allCategoryResultsConfig.setGtnPagedTableConfig(allSearchResults);
+		componentList.add(allCategoryResultsConfig);
+	}
 
 	private void addBrandPagedTableComponent(List<GtnUIFrameworkComponentConfig> componentList,
 			GtnFrameworkComponentConfigProvider componentConfig) {
@@ -412,7 +444,7 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameworkPagedTableConfig searchResults = componentConfig.getPagedTableConfig(true, true,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
 				GtnWebServiceUrlConstants.GTN_COMMON_SEARCH_SERVICE + GtnWebServiceUrlConstants.GTN_COMMON_SEARCH,
-				"Udc Configuration", "BrandSearchQuery");
+				GtnFrameworkCommonConstants.UDC_CONFIGURATION, "BrandSearchQuery");
 		searchResults.setEditable(false);
 		searchResults.setPageLength(5);
 		searchResults.setItemPerPage(10);
