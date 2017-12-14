@@ -433,7 +433,7 @@ public class GtnUIFrameworkPagedTableLogic extends PageTableLogic {
 		setRefresh(Boolean.TRUE);
 	}
 
-	public String loadDataForExcel(int start, int offset, List<String> headers) {
+	public String loadDataForExcel(int start, int offset, List<String> headers, List<String> tableColumnFormatList) {
 
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest serviceRequest = getWSRequest();
@@ -441,6 +441,7 @@ public class GtnUIFrameworkPagedTableLogic extends PageTableLogic {
 		serviceRequest.getGtnWsSearchRequest().setTableRecordStart(start);
 		serviceRequest.getGtnWsGeneralRequest().setExcel(true);
 		serviceRequest.getGtnWsGeneralRequest().setExtraParameter(headers);
+		serviceRequest.getGtnWsGeneralRequest().setTableColumnFormatList(tableColumnFormatList);
 		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(resultSetUrl, serviceRequest,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 

@@ -59,7 +59,7 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private Object[] stagingUpdateColumnsValues = new Object[0];
 	private boolean defaultFocus = false;
 	private boolean decimalFormatNeeded = false;
-	private String pattern;
+	private String pattern = null;
 
 	public String getColumnID() {
 		return columnID;

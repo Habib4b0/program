@@ -57,6 +57,7 @@ public class GtnFrameworkCustomTabChangeAction implements GtnUIFrameWorkAction, 
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(currentTable).getExtPagedTable()
 						.setColumnCheckBox(GtnFrameworkCommonConstants.CHECK_RECORD_ID, true, checkValue);
 			}
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
 
 			return;
 		}
