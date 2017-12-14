@@ -2384,7 +2384,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 		case Constant.EDIT_SMALL:
@@ -2408,7 +2407,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 

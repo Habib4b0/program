@@ -30,6 +30,7 @@ import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
@@ -77,6 +78,7 @@ public class ForecastUI extends UI {
     private RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
     private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
     private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
+    final NonMandatedLogic nmLogic = new NonMandatedLogic();
     /**
      * Logger
      */
@@ -226,7 +228,13 @@ public class ForecastUI extends UI {
                         dto.setProductHierVersionNo(temp.getProductHierVersionNo());
                         dto.setProductRelationShipVersionNo(temp.getProjectionProdVersionNo());
                         dto.setCustomerRelationShipVersionNo(temp.getProjectionCustVersionNo());
+                        sessionDto.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+                        sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
+                        sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+                        sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
+                        sessionDto.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
+                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
                         QueryUtils.createTempTables(sessionDto);
 
                         Map<String, String> tempCustomerDescriptionMap;
@@ -259,6 +267,8 @@ public class ForecastUI extends UI {
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
                         sessionDto.setProductLevelDetails(
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
+                        Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                        sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
                     }
                     editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
                 } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {

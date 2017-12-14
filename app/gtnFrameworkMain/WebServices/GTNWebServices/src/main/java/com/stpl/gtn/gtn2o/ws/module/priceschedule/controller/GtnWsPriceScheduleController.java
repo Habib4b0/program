@@ -476,7 +476,7 @@ public class GtnWsPriceScheduleController {
 		}
 		if (STATUS.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ");
+					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ADD_COPY_INDICATOR is null and ");
 			checkRecord = true;
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
