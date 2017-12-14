@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
-// TODO: Auto-generated Javadoc
+
 
 /**
  * The Class CustomTreeBuild.
@@ -32,32 +32,19 @@ import org.asi.ui.container.ExtTreeContainer;
  */
 public class CustomTreeBuild extends AbstractCustomTreeView {
 
-    SessionDTO session;
-    int customId = 0;
-    boolean isSelect = false;
-    CustomViewMaster customView = null;
-    CustomViewLogic relationBuildLogic = new CustomViewLogic();
+    private SessionDTO session;
+    private int customId = 0;
+    private boolean isSelect = false;
+    private CustomViewMaster customView = null;
+    private final CustomViewLogic relationBuildLogic = new CustomViewLogic();
     
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CustomTreeBuild.class);
 
-    /**
-     * The Constructor.
-     *
-     * @param string the string
-     * @param projectionId the projection id
-     */
     public CustomTreeBuild(SessionDTO session) {
         this(session, 0);
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * The Constructor.
-     *
-     * @param string the string
-     * @param projectionId the projection id
-     * @param customId
-     */
     public CustomTreeBuild(SessionDTO session, int customId) {
         super(session);
         this.session = session;
@@ -188,7 +175,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
                     if (treeTable.removeItem(treeItemId)) {
                         table.addItem(treeItemId);
                     }
-                } catch (Exception e) {
+                } catch (UnsupportedOperationException e) {
                     LOGGER.error(e);
                 }
             }
@@ -347,7 +334,7 @@ public class CustomTreeBuild extends AbstractCustomTreeView {
         List<String> input = new ArrayList<>();
         input.add(session.getProdRelationshipBuilderSid());
         String sql = QueryUtils.getQuery(input, "DEDUCTION_LEVEL_NO");
-        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(sql);
         Object[] res = (Object[])list.get(0);
 
 

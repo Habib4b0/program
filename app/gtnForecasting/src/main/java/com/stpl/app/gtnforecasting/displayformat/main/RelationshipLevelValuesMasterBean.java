@@ -11,7 +11,6 @@ import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.RBSID;
 import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.UNION_ALL;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
