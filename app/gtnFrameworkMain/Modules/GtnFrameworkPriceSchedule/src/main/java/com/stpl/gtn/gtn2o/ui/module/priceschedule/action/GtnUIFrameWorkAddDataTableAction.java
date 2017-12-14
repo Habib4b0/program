@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction ,GtnUIFrameworkDynamicClass{
+public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	@Override
 	public void doAction(final String compontId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
@@ -39,11 +39,14 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction ,G
 			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable")
 					.getValueFromComponent();
 			String ifpId = gtnWsRecordBean.getPropertyValueByIndex(7).toString();
+			String ps_Id = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField();
 
 			Map<String, String> inputValueMap = new HashMap<>();
 			inputValueMap.put("ifpId", ifpId);
-			inputValueMap.put(GtnFrameworkCommonConstants.SESSION_ID, GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+			inputValueMap.put(GtnFrameworkCommonConstants.SESSION_ID,
+					GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
 			inputValueMap.put("userId", GtnUIFrameworkGlobalUI.getCurrentUser());
+			inputValueMap.put("ps_id", ps_Id);
 			loadDataFromService(inputValueMap);
 			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
@@ -60,7 +63,7 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction ,G
 	@Override
 	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-            return;
+		return;
 
 	}
 
@@ -104,7 +107,8 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction ,G
 
 		sessionIdCriteria.setFieldId(GtnFrameworkCommonConstants.SESSION_ID);
 		sessionIdCriteria.setExpression("EQUALS");
-		sessionIdCriteria.setFilterValue1(GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
+		sessionIdCriteria.setFilterValue1(
+				GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
 
 		priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		setTableEnableDisable(Boolean.TRUE);
@@ -122,18 +126,21 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction ,G
 
 	private void setTableEnableDisable(boolean isEditable) throws GtnFrameworkValidationFailedException {
 
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setReadOnly(!isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setEditable(isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setReadOnly(!isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setEditable(isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setFilterBarVisible(isEditable);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE).getExtPagedTable()
-				.setFilterBarVisible(isEditable);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setReadOnly(!isEditable);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setEditable(isEditable);
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setReadOnly(!isEditable);
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setEditable(isEditable);
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setFilterBarVisible(isEditable);
+		GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICE_PROTECTION_TAB_RESULT_DATA_TABLE)
+				.getExtPagedTable().setFilterBarVisible(isEditable);
 
 	}
 
