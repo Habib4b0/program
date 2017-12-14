@@ -1055,7 +1055,6 @@ public class MedicaidURAResultsLogic {
             if (connection != null) {
                 connection.close();
             }
-            System.gc();
         }
         return "SUCCESS";
 

@@ -5,7 +5,6 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;

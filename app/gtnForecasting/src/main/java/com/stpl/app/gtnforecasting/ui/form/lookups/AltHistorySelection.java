@@ -79,57 +79,61 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AltHistorySelection extends CustomComponent implements View {
 
-    SessionDTO session;
+    private SessionDTO session;
+    
     @UiField("actualOrProj")
-    public OptionGroup actualOrProj;
+    private OptionGroup actualOrProj;
+    
     @UiField("periodOrder")
-    public OptionGroup periodOrder;
+    private OptionGroup periodOrder;
+    
     @UiField("frequency")
-    public ComboBox frequency;
+    private  ComboBox frequency;
+   
     @UiField("historyAllocationLayout")
-    public VerticalLayout historyAllocationLayout;
+    private VerticalLayout historyAllocationLayout;
+    
     @UiField("gridLayout")
-    public HorizontalLayout gridLayout;
-    AlternateHistoryAllocationTableLogic tableLogic = new AlternateHistoryAllocationTableLogic();
-    FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
-    CustomTableHeaderDTO rightDTO;
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
+    private HorizontalLayout gridLayout;
+    private AlternateHistoryAllocationTableLogic tableLogic = new AlternateHistoryAllocationTableLogic();
+    private FreezePagedTable resultsTable = new FreezePagedTable(tableLogic);
+    private CustomTableHeaderDTO rightDTO;
+    private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private AlternateHistoryDTO altHistoryDTO;
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
     @UiField("export")
-    public Button export;
+    private Button export;
 
-   @UiField("resetBtn")
-    public Button resetBtn;
+    @UiField("resetBtn")
+    private Button resetBtn;
     
     @UiField("allocate")
-    public Button allocate;
+    private Button allocate;
     
     @UiField("variables")
-    public OptionGroup variables;
+    private OptionGroup variables;
     
     @UiField("variablesLabel")
-    public Label variablesLabel;
+    private Label variablesLabel;
     
-     AlternateHistory altHistory=null;
-      public static final Logger LOGGER = Logger
+    private AlternateHistory altHistory=null;
+    private static final Logger LOGGER = Logger
             .getLogger(AltHistorySelection.class);
-    protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
+    private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    DataFormatConverter format = new DataFormatConverter("#,##0.00");
-    DataFormatConverter formatsalesunit = new DataFormatConverter("#,##0.0");
-    DataFormatConverter priceFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
-    String excelName = "All Item Information";
+    private DataFormatConverter formatsalesunit = new DataFormatConverter("#,##0.0");
+    private DataFormatConverter priceFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
+    private String excelName = "All Item Information";
     private Set ccpSet = new HashSet();
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private AlternateHistoryLogic logic = new AlternateHistoryLogic();
     private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The map right visible columns.
      */
-    ExtPagedTable leftTable;
-    ExtPagedTable rightTable;
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtPagedTable leftTable;
+    private ExtPagedTable rightTable;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
 
     /**
      * The max split position.
@@ -146,17 +150,19 @@ public class AltHistorySelection extends CustomComponent implements View {
      */
     private final float splitPosition = 850;
 
-    SimpleDateFormat formatter = new SimpleDateFormat(Constant.DATE_FORMAT);
+    private SimpleDateFormat formatter = new SimpleDateFormat(Constant.DATE_FORMAT);
 
     @UiField("from")
-    public ComboBox from;
+    private  ComboBox from;
+    
     @UiField("to")
-    public ComboBox to;
+    private ComboBox to;
     private ExtCustomTable exportPeriodViewTable;   
     private boolean isAllocationChanged = false;
-    Set<String> checkboxList=new HashSet<>();
+    private Set<String> checkboxList=new HashSet<>();
 
     public AltHistorySelection(SessionDTO session, AlternateHistory altHistory) {
+        this.altHistoryDTO = new AlternateHistoryDTO();
         try {
             this.session = session;
             this.altHistory = altHistory;
@@ -176,6 +182,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         actualOrProj.setValue(Constant.BOTH);
         projectionDTO.setActualsOrProjections(Constant.BOTH);
         actualOrProj.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 projectionDTO.setActualsOrProjections(actualOrProj.getValue().toString());
             }
@@ -197,6 +204,7 @@ public class AltHistorySelection extends CustomComponent implements View {
 
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadFrequency(frequency.getValue().toString());
             }
@@ -240,7 +248,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                      * Called when a Button has been clicked .
                      *
                      */
-                    @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals("YES")) {
                             resetButtonLogic();
@@ -321,7 +329,7 @@ public class AltHistorySelection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
     private void loadFrequency(String frequency) {
@@ -423,6 +431,7 @@ public class AltHistorySelection extends CustomComponent implements View {
                     check.setValue(false);
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
                                 boolean isCheck = (boolean) container.getContainerProperty(itemId, Constant.CHECK).getValue();
@@ -973,8 +982,9 @@ public class AltHistorySelection extends CustomComponent implements View {
     
      public void altSelectionExport() {
         configureExcelResultTable();
-        AlternateHistoryLogic logic = new AlternateHistoryLogic();
-        List<AlternateHistoryDTO> list = logic.alternateSelectionList(session, altHistoryDTO, null,0,0,true,ccpSet);
+        AlternateHistoryLogic altHistLogic;
+        altHistLogic = new AlternateHistoryLogic();
+        List<AlternateHistoryDTO> list = altHistLogic.alternateSelectionList(session, altHistoryDTO, null,0,0,true,ccpSet);
         excelResultBean.addAll(list);
         ForecastUI.EXCEL_CLOSE=true;
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportPeriodViewTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
@@ -994,10 +1004,7 @@ public class AltHistorySelection extends CustomComponent implements View {
         exportPeriodViewTable.setVisibleColumns(fullHeader.getSingleColumns().toArray());
         exportPeriodViewTable.setColumnHeaders(fullHeader.getSingleHeaders().toArray(new String[fullHeader.getSingleHeaders().size()]));
     }
-    
-    
-
-    ColumnCheckListener checkListener = new ColumnCheckListener() {
+    private ColumnCheckListener checkListener = new ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
             if (Constant.CHECK.equals(event.getPropertyId().toString())) {
