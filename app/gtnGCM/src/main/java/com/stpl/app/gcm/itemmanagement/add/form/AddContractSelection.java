@@ -186,7 +186,7 @@ public class AddContractSelection extends CustomComponent {
         Constants.MEASUREMENT_PRICE_PROPERTY, Constants.NEP_PROPERTY, Constants.NEP_FORMULA_PROPERTY, Constants.BASE_PRICE_PROPERTY,Constants.BASELINE_WAC_PROPERTY,
         Constants.BASELINE_NET_WAC_PROPERTY, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY, 
         Constants.PRICE_TOLERANCE_INTERVAL, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY, Constants.PRICE_TOLERANCE_PROPERTY,
-        Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, "resetInterval", "resetFrequency",
+        Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, Constants.RESET_INTERVAL_PROPERTY, Constants.RESET_FREQUENCY_PROPERTY,
         Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
         "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
 
@@ -347,11 +347,8 @@ public class AddContractSelection extends CustomComponent {
                 massStartDate.setVisible(false);
                 massEndDate.setVisible(false);
                 startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
                 populateBtn.setVisible(true);
                 valuelabel.setVisible(true);
-                startdatelabel.setVisible(false);
                 enddatelabel.setVisible(false);
                 massUpdateText.setVisible(false);
                 loadPriceType(massUpdateValue,false);
@@ -365,6 +362,9 @@ public class AddContractSelection extends CustomComponent {
                 massUpdateText.setVisible(true);
                 populateBtn.setVisible(true);
                 valuelabel.setVisible(true);
+                massUpdateText.removeStyleName(SEARCHICON);
+                massUpdateText.removeClickListener(clickLister);
+             
                 break;
             case Constants.PRICE_PROTECTION_STATUS_LABEL:
                 massUpdateValue.setVisible(true);
@@ -419,13 +419,14 @@ public class AddContractSelection extends CustomComponent {
                 massUpdateText.setVisible(true);
                 populateBtn.setVisible(true);
                 valuelabel.setVisible(true);
+                massUpdateText.removeStyleName(SEARCHICON);
+                massUpdateText.removeClickListener(clickLister);
                 break;
             case Constants.NEP_FORMULA_LABLE_NAME:
                 massUpdateValue.setVisible(false);
                 massStartDate.setVisible(false);
                 massEndDate.setVisible(false);
                 populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
                 startdatelabel.setVisible(false);
                 enddatelabel.setVisible(false);
                 massUpdateText.setVisible(true);
@@ -601,6 +602,8 @@ public class AddContractSelection extends CustomComponent {
                 massUpdateText.setVisible(true);
                 populateBtn.setVisible(true);
                 valuelabel.setVisible(true);
+                massUpdateText.removeStyleName(SEARCHICON);
+                massUpdateText.removeClickListener(clickLister);
                 break;
             case Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME:
                 massUpdateValue.setVisible(false);
@@ -611,6 +614,8 @@ public class AddContractSelection extends CustomComponent {
                 massUpdateText.setVisible(true);
                 populateBtn.setVisible(true);
                 valuelabel.setVisible(true);
+                massUpdateText.removeStyleName(SEARCHICON);
+                massUpdateText.removeClickListener(clickLister);
                 break;
             case Constants.RESET_ELIGIBLE_LABLE_NAME:
                 massUpdateValue.setVisible(true);
@@ -1126,12 +1131,12 @@ public class AddContractSelection extends CustomComponent {
                     CommonUtil.loadComboBoxForGCM(comboBox, Constants.RESET_TYPE_LISTNAME, true);
                     return comboBox;
                 }
-                if ("resetInterval".equals(propertyId)) {
+                if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
                     ComboBox comboBox = new ComboBox();
                     CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
                     return comboBox;
                 }
-                if ("resetFrequency".equals(propertyId)) {
+                if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
                     ComboBox comboBox = new ComboBox();
                     CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
                     return comboBox;
@@ -1733,13 +1738,13 @@ public class AddContractSelection extends CustomComponent {
                         break;
                     case Constants.RESET_INTERVAL_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        addItemTable.getItem(object).getItemProperty("resetInterval").setValue(tempDTO);
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_INTERVAL_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_INTERVAL_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
                     case Constants.RESET_FREQUENCY_LABLE_NAME:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
-                        addItemTable.getItem(object).getItemProperty("resetFrequency").setValue(tempDTO);
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_FREQUENCY_PROPERTY).setValue(tempDTO);
                         columnName = Constants.RESET_FREQUENCY_COLUMN_NAME;
                         value = tempDTO.getId();
                         break;
@@ -1876,8 +1881,8 @@ public class AddContractSelection extends CustomComponent {
         comboToTableMap.put(Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_ELIGIBLE_PROPERTY);
         comboToTableMap.put(Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_TYPE_PROPERTY);
         comboToTableMap.put(Constants.RESET_DATE_LABLE_NAME, Constants.RESET_DATE_PROPERTY);
-        comboToTableMap.put(Constants.RESET_INTERVAL_LABLE_NAME, "resetInterval");
-        comboToTableMap.put(Constants.RESET_FREQUENCY_LABLE_NAME, "resetFrequency");
+        comboToTableMap.put(Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_INTERVAL_PROPERTY);
+        comboToTableMap.put(Constants.RESET_FREQUENCY_LABLE_NAME, Constants.RESET_FREQUENCY_PROPERTY);
         comboToTableMap.put(Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_PROPERTY);
         comboToTableMap.put(Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY);
         comboToTableMap.put(Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.RESET_PRICE_TYPE_PROPERTY);
@@ -1966,8 +1971,8 @@ public class AddContractSelection extends CustomComponent {
         fieldAndPropertyMap.put(Constants.RESET_ELIGIBLE_COLUMN_NAME, Constants.RESET_ELIGIBLE_PROPERTY);
         fieldAndPropertyMap.put(Constants.RESET_TYPE_COLUMN_NAME, Constants.RESET_TYPE_PROPERTY);
         fieldAndPropertyMap.put(Constants.RESET_DATE_COLUMN_NAME, Constants.RESET_DATE_PROPERTY);
-        fieldAndPropertyMap.put(Constants.RESET_INTERVAL_COLUMN_NAME, "resetInterval");
-        fieldAndPropertyMap.put(Constants.RESET_FREQUENCY_COLUMN_NAME, "resetFrequency");
+        fieldAndPropertyMap.put(Constants.RESET_INTERVAL_COLUMN_NAME, Constants.RESET_INTERVAL_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_FREQUENCY_COLUMN_NAME, Constants.RESET_FREQUENCY_PROPERTY);
         fieldAndPropertyMap.put(Constants.NET_PRICE_TYPE_COLUMN_NAME, Constants.NET_PRICE_TYPE_PROPERTY);
         fieldAndPropertyMap.put(Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY);
         fieldAndPropertyMap.put(Constants.RESET_PRICE_TYPE_COLUMN_NAME, Constants.RESET_PRICE_TYPE_PROPERTY);

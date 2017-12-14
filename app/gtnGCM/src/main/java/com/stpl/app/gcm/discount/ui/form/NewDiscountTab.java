@@ -1859,8 +1859,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                 } else {
-                    final String message = "Please remove all children nodes before removing a parent node.";
-                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, message);
+                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please remove all children nodes before removing a parent node.");
                 }
             }
         } else {
