@@ -188,18 +188,14 @@ public abstract class AbstractComparisonLookup extends Window {
      */
     protected final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
     /**
-     * Screen Name
-     */
-    String screenName = StringUtils.EMPTY;
-    /**
      * Comparison custom text field
      */
     protected CustomTextField comparison;
-    CommonUtils commonUtil = new CommonUtils();
+    private CommonUtils commonUtil = new CommonUtils();
 
     /**
      *
-     * @param screenName
+     * @param comparison
      */
     public AbstractComparisonLookup(final CustomTextField comparison) {
         super("Projection lookup");

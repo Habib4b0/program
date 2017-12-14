@@ -81,7 +81,6 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**

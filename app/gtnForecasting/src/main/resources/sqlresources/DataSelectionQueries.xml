@@ -369,36 +369,22 @@ FROM   PROJECTION_CUST_HIERARCHY PCH
 	<entity id="checktpcustomeractual">
 		<query> 
         <![CDATA[            
-        select
-	case
-		when exists(
-			SELECT
-				P.CCP_DETAILS_SID
-			FROM
-				ST_CCP_HIERARCHY P
-			JOIN CCP_DETAILS C ON
-				P.CCP_DETAILS_SID = C.CCP_DETAILS_SID
-			JOIN(
-					SELECT
-						DISTINCT CCP.COMPANY_MASTER_SID
-					FROM
-						ST_CCP_HIERARCHY PD
-					JOIN CCP_DETAILS CCP ON
-						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-					LEFT JOIN ACTUALS_MASTER AM ON
-						AM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
-						AND AM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
-						AND AM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					GROUP BY
-						CCP.COMPANY_MASTER_SID
-					HAVING
-						SUM( AM.SALES_AMOUNT ) = 0
-						OR SUM( AM.SALES_AMOUNT ) IS NULL
-				) COMP ON
-				COMP.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
-		) then 1
-		else 0
-	end
+        SELECT CASE 
+              WHEN EXISTS (
+                       
+                                  SELECT 1
+                                  FROM ST_CCP_HIERARCHY PD
+                                  JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                                  LEFT JOIN ACTUALS_DETAILS AM ON 
+                                          AM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                                  GROUP BY CCP.COMPANY_MASTER_SID
+                                  HAVING SUM(AM.SALES) = 0
+                                         OR SUM(AM.SALES) IS NULL
+                                 
+                           )
+                     THEN 1
+              ELSE 0
+              END 
          ]]>
 		</query>
 	</entity>

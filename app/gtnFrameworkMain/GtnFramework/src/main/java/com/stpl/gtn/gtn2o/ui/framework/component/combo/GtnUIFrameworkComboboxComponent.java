@@ -76,7 +76,7 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 				vaadinComboBox.setNewItemsAllowed(true);
 				vaadinComboBox.setNewItemHandler(new GtnNewItemHandler(componentConfig, vaadinComboBox));
 			}
-
+			setDefaultFocus(vaadinComboBox, componentConfig);
 		} catch (GtnFrameworkGeneralException ex) {
 
 			gtnLogger.error(ex.getMessage(), ex);
@@ -415,5 +415,10 @@ public class GtnUIFrameworkComboboxComponent implements GtnUIFrameworkComponent 
 		}
 		return startIndexTemp;
 	}
-
+	
+	private void setDefaultFocus(ComboBox vaadinComboBox, GtnUIFrameworkComponentConfig componentConfig) {
+		if(componentConfig.isDefaultFocus()) {
+			vaadinComboBox.focus();
+		}
+	}
 }

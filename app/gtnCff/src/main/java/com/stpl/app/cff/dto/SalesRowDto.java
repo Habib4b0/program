@@ -19,7 +19,7 @@ public class SalesRowDto extends ExtMapDTO {
     private String levelName = StringUtils.EMPTY;
     private String actualLevel = StringUtils.EMPTY;
     private String group = StringUtils.EMPTY;
-    String ccpid = "";
+    private String ccpid = "";
     public static final String EMPTY_STRING = "empty";
     private String customer = EMPTY_STRING;
     private String contract = EMPTY_STRING;

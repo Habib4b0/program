@@ -51,18 +51,17 @@ import org.jboss.logging.Logger;
  */
 public class FileSelection extends CustomComponent {
 
-    FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
-    final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
-    VerticalLayout layout = new VerticalLayout();
-    BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
-    BeanItemContainer<FileSelectionDTO> excelContainer = new BeanItemContainer<>(FileSelectionDTO.class);
-    SessionDTO sessionDTO;
-    Button excelExport = new Button();
-    CFFLogic cffLogic = new CFFLogic();
-    SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
+    private FileSelectionTableLogic tableLogic = new FileSelectionTableLogic();
+    private final ExtPagedTable resultsTable = new ExtPagedTable(tableLogic);
+    private VerticalLayout layout = new VerticalLayout();
+    private BeanItemContainer<FileSelectionDTO> searchContainer = new BeanItemContainer<>(FileSelectionDTO.class);
+    private SessionDTO sessionDTO;
+    private Button excelExport = new Button();
+    private CFFLogic cffLogic = new CFFLogic();
+    private SimpleDateFormat DBDate = new SimpleDateFormat("yyyy-MM-dd");
     private static final Logger LOGGER = Logger.getLogger(FileSelection.class);
-    ComboBox businessUnit;
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
+    private ComboBox businessUnit;
+    private CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
 
     public FileSelection(SessionDTO sessionDTO, ComboBox businessUnit) {
         this.setCompositionRoot(addComponent());

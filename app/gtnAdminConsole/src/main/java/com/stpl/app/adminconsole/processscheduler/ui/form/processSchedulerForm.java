@@ -386,7 +386,6 @@ public class processSchedulerForm extends CustomComponent {
             resultTable.setColumnWidth(header, NumericConstants.ONE_FIVE_ZERO);
             resultTable.setColumnAlignment(header, ExtCustomTable.Align.CENTER);
         }
-        tableLogic.setPageLength(NumericConstants.FIVE);
 
         resultTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
@@ -436,13 +435,14 @@ public class processSchedulerForm extends CustomComponent {
     private void configureSchulerTable() {
         LOGGER.debug("Inside configureSchulerTable");
         tableLogic.setContainerDataSource(resultBean);
-        tableLogic.setPageLength(NumericConstants.FIVE);
+        tableLogic.setPageLength(10);
         resultTable.setVisibleColumns(getColumns(true, key));
         resultTable.setColumnHeaders(Arrays.copyOf(getColumns(false, key), getColumns(false, key).length, String[].class));
         resultTable.markAsDirtyRecursive();
         resultTable.setImmediate(true);
-		resultTable.setWidth("100%");
-		resultTable.setHeight("253px");
+	resultTable.setWidth("100%");
+	resultTable.setHeight("253px");
+        resultTable.setItemsPerPage(10);
         resultTable.setSelectable(true);
         resultTable.markAsDirty();
         resultTable.setComponentError(null);
@@ -454,9 +454,10 @@ public class processSchedulerForm extends CustomComponent {
     private void configureManualTable() {
         LOGGER.debug("Inside configureManualTable");
         manualTabLogic.setContainerDataSource(manualProcSchContainerBean);
-        manualTabLogic.setPageLength(NumericConstants.FIFTEEN);
-		manualProcTable.setWidth("100%");
-		manualProcTable.setHeight("560px");
+        manualTabLogic.setPageLength(10);
+        manualTabLogic.sinkItemPerPageWithPageLength(false);
+        manualProcTable.setWidth("100%");
+        manualProcTable.setItemsPerPage(10);
         manualProcTable.setSelectable(true);
         manualProcTable.setMultiSelect(false);
         HorizontalLayout controls = manualTabLogic.createControls();

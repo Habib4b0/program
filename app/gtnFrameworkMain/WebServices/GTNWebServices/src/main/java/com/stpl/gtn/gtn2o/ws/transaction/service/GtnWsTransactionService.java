@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -64,6 +65,7 @@ import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -152,8 +154,10 @@ public class GtnWsTransactionService {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
 			String type = columnDataTypeMap.get(columns.getFieldId());
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
-			columns.setExpression(columns.isFilter()
-					? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName()) : columns.getExpression());
+			value = replaceSingleQuote(value);
+			columns.setExpression(
+					columns.isFilter() ? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName())
+							: columns.getExpression());
 			boolean isUser = columns.getFieldId().contains(GtnFrameworkCommonConstants.CREATED_BY)
 					|| columns.getFieldId().contains(GtnFrameworkCommonConstants.MODIFIED_BY);
 			String dateFormat = columns.isFilter() ? "E MMM dd HH:mm:ss Z yyyy" : "yyyy-MM-dd";
@@ -236,6 +240,8 @@ public class GtnWsTransactionService {
 			return new SimpleDateFormat(dateFormat).parse(filterValue);
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
+			return Integer.parseInt(filterValue);
 		} else {
 			return value;
 		}
@@ -247,8 +253,7 @@ public class GtnWsTransactionService {
 		if ("com.stpl.gtn.gtn2o.ws.entity.HelperTable".equalsIgnoreCase(type)) {
 			criteria.createAlias("c1." + columns.getFieldId(), columns.getFieldId(), JoinType.INNER_JOIN);
 			criteria.add(Restrictions.eq(columns.getFieldId() + "." + "helperTableSid", Integer.valueOf(value)));
-		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
-				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(value)));
 		} else if ("java.util.Date".equalsIgnoreCase(type)) {
 			Date fromDate = new SimpleDateFormat(dateFormat).parse(columns.getFilterValue1());
@@ -356,8 +361,9 @@ public class GtnWsTransactionService {
 						? Order.asc(column.getPropertyId() + "." + "description")
 						: Order.desc(column.getPropertyId() + "." + "description"));
 			} else {
-				criteria.addOrder("ASC".equalsIgnoreCase(column.getOrderByCriteria())
-						? Order.asc(column.getPropertyId()) : Order.desc(column.getPropertyId()));
+				criteria.addOrder(
+						"ASC".equalsIgnoreCase(column.getOrderByCriteria()) ? Order.asc(column.getPropertyId())
+								: Order.desc(column.getPropertyId()));
 			}
 
 		}
@@ -397,6 +403,11 @@ public class GtnWsTransactionService {
 			if (!gtnWsTransactionRequest.getDemandTypeColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getDemandTypeColumnName(),
 						gtnWsTransactionRequest.getDemandTypeColumnValue()));
+			} else if (!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty()) {
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
+						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
+						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
 			}
 			List<Object> resultList = criteria.list();
 			ob = getViewRecord(resultList, gtnWsTransactionRequest);
@@ -429,25 +440,24 @@ public class GtnWsTransactionService {
 		return ob;
 	}
 
-	public List<Object> createFile(File tempFile, PrintWriter printWriter, String modulName, List<String> headers) {
+	public List<Object> createFile(File tempFile, PrintWriter printWriter, List<String> headers,
+			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		List<Object> list = new ArrayList<>();
-		if (modulName.contains("Ivld")) {
-			List<String> headersList = headers.subList(1, headers.size());
-			GtnCommonUtil.createHeaderRow(printWriter, headersList);
-		} else {
-			GtnCommonUtil.createHeaderRow(printWriter, headers);
+		if (headers.remove("      ")) {
+			gtnWsRequest.getGtnWsGeneralRequest().removeTableColumFormatListByIndex(0);
 		}
+		GtnCommonUtil.createHeaderRow(printWriter, headers);
 		list.add(printWriter);
 		list.add(tempFile.getAbsolutePath());
 
 		return list;
 	}
 
-	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer,
-			Boolean excelComplete) {
+	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer, Boolean excelComplete,
+			List<String> columnFormatList) {
 
 		try {
-			GtnCommonUtil.createDataRows(printWriter, resultList);
+			GtnCommonUtil.createDataRows(printWriter, resultList, 2, columnFormatList);
 			printWriter.flush();
 			if (excelComplete) {
 				printWriter.close();
@@ -548,10 +558,9 @@ public class GtnWsTransactionService {
 
 		File tempFile = GtnFileNameUtils.getFile(filePath + filename);
 		try (FileWriter writer = new FileWriter(tempFile, true)) {
-
 			PrintWriter printWriter = new PrintWriter(writer);
-			list = createFile(tempFile, printWriter, gtnWsSearchRequest.getSearchModuleName(),
-					(List<String>) generalRequest.getExtraParameter());
+			list = createFile(tempFile, printWriter, (List<String>) generalRequest.getExtraParameter(), gtnWsRequest);
+			List<String> tableColumnFormatList = gtnWsRequest.getGtnWsGeneralRequest().getTableColumnFormatList();
 			printWriter = (PrintWriter) list.get(GtnWsNumericConstants.ZERO);
 			if (count > GtnWsNumericConstants.BATCH_COUNT) {
 				int maxNbrOfLoop = count / GtnWsNumericConstants.BATCH_COUNT;
@@ -567,13 +576,13 @@ public class GtnWsTransactionService {
 					}
 					List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 							gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-					writeFile(resultList, printWriter, writer, excelComplete);
+					writeFile(resultList, printWriter, writer, excelComplete, tableColumnFormatList);
 				}
 
 			} else {
 				List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 						gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-				writeFile(resultList, printWriter, writer, true);
+				writeFile(resultList, printWriter, writer, true, tableColumnFormatList);
 
 			}
 		} catch (IOException e) {
@@ -657,6 +666,20 @@ public class GtnWsTransactionService {
 		columnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
 		columnMap.put("quantity", "QUANTITY");
 		columnMap.put("salesAmount", "SALES_AMOUNT");
+		columnMap.put("recordCreatedDate", "RECORD_CREATED_DATE");
 		return columnMap.get(columnName);
+	}
+
+	private String replaceSingleQuote(String searchValue) {
+		int countOfSingleQuote = StringUtils.countMatches(searchValue, "'");
+		String tempStr = searchValue;
+		if (countOfSingleQuote > 0) {
+			StringBuilder finalStr = new StringBuilder();
+			for (int i = 0; i < countOfSingleQuote / 2; i++) {
+				finalStr.append("'");
+			}
+			tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
+		}
+		return tempStr;
 	}
 }

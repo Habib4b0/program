@@ -28,7 +28,6 @@ import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -275,7 +274,6 @@ public abstract class AbstractProjectionVariance extends CustomComponent impleme
      */
     @UiField("uomDdlb")
     protected ComboBox uomDdlb;
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(ConstantsUtils.USER_ID));
     /**
      * Screen Name
      */

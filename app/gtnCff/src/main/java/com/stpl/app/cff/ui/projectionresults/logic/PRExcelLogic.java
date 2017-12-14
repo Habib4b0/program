@@ -68,28 +68,22 @@ public class PRExcelLogic {
     private static final String PRC_PROJ_RESULTS_TOTAL = "PRC_CFF_RESULTS";
     private static final String PRC_PROJ_RESULTS_TOTAL_DISCOUNT = "PRC_CFF_PROJECTION_RESULTS_DISCOUNT";
     private final List<Object[]> procRawList_total_discount = new ArrayList();
-    List<Object> pivotDiscountList = new ArrayList<>();
-    List<ProjectionResultsDTO> discountList = new ArrayList<>();
+    private List<Object> pivotDiscountList = new ArrayList<>();
     private static final DecimalFormat RATE = new DecimalFormat("#######0.00");
-    List<Object> pivotTotalList = new ArrayList<>();
-    List<Integer> pivotPriorProjIdList = new ArrayList();
     private final Map<String, String> customView_relationship_hierarchy = new HashMap();
-    PVParameters parameterDto;
     private boolean isCustomView;
     private final int indexDetail = 7;
-    String discountName= StringUtils.EMPTY;
-    Map<String,Map<String,ProjectionResultsDTO>> pivotDiscountMap=new HashMap<>();
-    Map<String,Map<String,ProjectionResultsDTO>> totalpivotDiscountMap=new HashMap<>();
+    private Map<String,Map<String,ProjectionResultsDTO>> pivotDiscountMap=new HashMap<>();
+    private Map<String,Map<String,ProjectionResultsDTO>> totalpivotDiscountMap=new HashMap<>();
     
   
     public PRExcelLogic(Map<String, List<ProjectionResultsDTO>> resultMap, ProjectionSelectionDTO selection,
-            List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto,Map<String, List<List<ProjectionResultsDTO>>> discountMap) {
+            List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, Map<String, List<List<ProjectionResultsDTO>>> discountMap) {
         this.resultMap = resultMap;
         this.selection = selection;
         this.hierarchyKeys = hierarchyKeys;
         this.tradingPartnerKeys = tradingPartnerKeys;
         this.discountKeys = discountKeys;
-        this.parameterDto = parameterDto;
         this.discountMap=discountMap;
        
     }

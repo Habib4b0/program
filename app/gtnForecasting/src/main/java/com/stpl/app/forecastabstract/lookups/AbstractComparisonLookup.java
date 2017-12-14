@@ -75,7 +75,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	public static final String SIX_FIFTY_PX = "650px";
 	public static final String THERAPEUTIC_CLASS = "Therapeutic Class";
 
-	private TextField comparisonLookup;
+	protected TextField comparisonLookup;
 	private NativeSelect workflowStatus;
 	private TextField marketType;
 	private TextField brand;

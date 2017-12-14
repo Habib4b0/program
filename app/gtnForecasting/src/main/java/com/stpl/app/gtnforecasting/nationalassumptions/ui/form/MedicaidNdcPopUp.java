@@ -5,7 +5,6 @@ package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
  * and open the template in the editor.
  */
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.NewNdcDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
@@ -25,7 +24,6 @@ import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
@@ -59,68 +57,64 @@ public class MedicaidNdcPopUp extends CustomComponent {
      * The reset.
      */
     @UiField("reset")
-    Button reset;
+    private Button reset;
 
     /**
      * The ndc.
      */
     @UiField("ndc")
-    ComboBox ndc;
+    private ComboBox ndc;
 
     /**
      * The wac.
      */
     @UiField("wac")
-    TextField wac;
+    private TextField wac;
+    
     @UiField("baseAMP")
-    TextField baseAMP;
+    private TextField baseAMP;
+    
     @UiField("forecastAMP")
-    TextField forecastAMP;
+    private TextField forecastAMP;
+    
     @UiField("baseYearCPI")
-    TextField baseYearCPI;
+    private TextField baseYearCPI;
+    
     @UiField("bestPrice")
-    TextField bestPrice;
+    private TextField bestPrice;
 
     /**
      * The ndc table.
      */
     @UiField("ndcTable")
-    ExtFilterTable ndcTable;
+    private ExtFilterTable ndcTable;
+    
     @UiField("populate")
-    Button populate;
-    List<String> listNDC;
-    Map<String, String> wACList;
-    Map<String, String> cPIList;
-    DecimalFormat dollar4decimal = new DecimalFormat("$#,##0.0000");
+    private Button populate;
+    private final List<String> listNDC;
+    private final Map<String, String> wACList;
+    private final Map<String, String> cPIList;
+    private final DecimalFormat dollar4decimal = new DecimalFormat("$#,##0.0000");
     /**
      * The ndc results bean.
      */
-    BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<>(NewNdcDTO.class);
-    int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID);
-    BeanItemContainer<String> availableNDCBean = new BeanItemContainer<>(
-            String.class);
-    Map<Integer, String> ndc9Map = new HashMap<>();
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    CommonLogic commonLogic = new CommonLogic();
-    DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
-    NdcPopupForm ndcPopupForm = new NdcPopupForm();
-    public boolean flag;
-    public String SelectedNDC = StringUtils.EMPTY;
-    public String ItemName = StringUtils.EMPTY;
-    NewNdcDTO deletedItem = new NewNdcDTO();
-    public NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
-    public List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
-    Map<Integer, Object> medicaidMap;
-    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
+    private final BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<>(NewNdcDTO.class);
+    private Map<Integer, String> ndc9Map = new HashMap<>();
+    private DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
+    private boolean flag;
+    private String SelectedNDC = StringUtils.EMPTY;
+    private final NewNdcDTO deletedItem = new NewNdcDTO();
+    private final NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
+    private final List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
+    private final Map<Integer, Object> medicaidMap;
+    private static final CommonUiUtils commonUiUtils = new CommonUiUtils();
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(MedicaidNdcPopUp.class);
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
-    /**
-     * Instantiates a new new ndc pop up.
-     */
+
     public MedicaidNdcPopUp(NewNdcDTO newNdcDto, Map<Integer, Object> medicaidMap,SessionDTO sessionDTO)  {
         this.sessionDTO=sessionDTO;
         this.listNDC = newNdcDto.getListNDC9();
@@ -147,10 +141,7 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
     }
 
-    /**
-     * Configurefields.
-     */
-    private void configurefields() {
+   private void configurefields() {
         ndc.focus();
         ndc.setNullSelectionItemId(SELECT_ONE.getConstant());
         ndc.addItem(Constant.SELECT_ONE);
@@ -342,7 +333,6 @@ public class MedicaidNdcPopUp extends CustomComponent {
         if (ndcNo.contains(",")) {
             String[] ndcNo1 = ndcNo.split(",");
             newNDC.setNdc9(ndcNo1[1].trim());
-            ItemName = ndcNo1[0].trim();
         } else {
             newNDC.setNdc9(String.valueOf(ndc.getValue()));
         }

@@ -11,6 +11,10 @@ import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterBean;
@@ -18,28 +22,28 @@ import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterIdentifierInfoBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.GtnCMasterValidationBean;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyIdentifier;
-import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyMaster;
 import com.stpl.gtn.gtn2o.ws.entity.companymaster.CompanyQualifier;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.cmresponse.GtnCompanyMasterResponse;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 @RestController
 @RequestMapping(value = GtnWebServiceUrlConstants.GTN_WS_COMPANY_MASTER)
 public class GtnWsCompanyMasterValidationService {
-    public GtnWsCompanyMasterValidationService(){
-        /**
-         * empty constructor
-         */
-    }
-
+	public GtnWsCompanyMasterValidationService() {
+		/**
+		 * empty constructor
+		 */
+	}
+	
+	
 	@Autowired
 	private org.hibernate.SessionFactory sessionFactory;
+
+	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
@@ -119,43 +123,30 @@ public class GtnWsCompanyMasterValidationService {
 		boolean iscompanyNoExist = false;
 		int systemId = companyMasterBean.getGtnCMasterInformationBean().getCompanyMasterSystemId();
 		try {
-			Criterion compIdCriterion = Restrictions.eq("companyId",
-					companyMasterBean.getGtnCMasterInformationBean().getCompanyId());
-			List<Criterion> compValidationCriterionList = new ArrayList<>();
-			compValidationCriterionList.add(compIdCriterion);
-			if (systemId > 0) {
-				Criterion compMasterSIDCriterion = Restrictions.ne("companyMasterSid", systemId);
-				compValidationCriterionList.add(compMasterSIDCriterion);
-			}
-			ProjectionList proj = Projections.projectionList();
-			proj.add(Projections.countDistinct("companyId"));
-
+			
+			List<String> compIdCriteria = new ArrayList<>();
+			compIdCriteria.add(companyMasterBean.getGtnCMasterInformationBean().getCompanyId());
 			@SuppressWarnings("unchecked")
-			List<Long> results = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(CompanyMaster.class,
-					compValidationCriterionList, proj);
-			if (results != null) {
-				iscompanyIdExist = (long) results.get(0) > 0;
+			List<Long> resultsDb = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compIdCriteria, "checkCompanyIDStatusNotD"));
+			if(systemId==0 && resultsDb != null)
+			{
+			
+				iscompanyIdExist = (long) resultsDb.size() > 0;
+		
 			}
-
-			Criterion compNoUniqueValidationCriterion = Restrictions.eq("companyNo",
-					companyMasterBean.getGtnCMasterInformationBean().getCompanyNo());
-			List<Criterion> compNoValidationCriterionList = new ArrayList<>();
-			compNoValidationCriterionList.add(compNoUniqueValidationCriterion);
-			if (systemId > 0) {
-				Criterion compMasterSIDCriterion = Restrictions.ne("companyMasterSid", systemId);
-				compNoValidationCriterionList.add(compMasterSIDCriterion);
-			}
-			ProjectionList proj2 = Projections.projectionList();
-			proj2.add(Projections.countDistinct("companyNo"));
-
+			
+			List<String> compNoCriteria = new ArrayList<>();
+			compNoCriteria.add(companyMasterBean.getGtnCMasterInformationBean().getCompanyNo());
 			@SuppressWarnings("unchecked")
-			List<Long> results2 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(CompanyMaster.class,
-					compNoValidationCriterionList, proj2);
-
-			if (results2 != null) {
-				iscompanyNoExist = (long) results2.get(0) > 0;
+			List<Long> resultsDb2 = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(compNoCriteria, "checkCompanyNoStatusNotD"));
+			if(systemId==0 && resultsDb2 != null )
+			{
+			
+				iscompanyNoExist = (long) resultsDb2.size() > 0;
 			}
-
+			
 			GtnCompanyMasterResponse imResponse = new GtnCompanyMasterResponse();
 			GtnCMasterValidationBean bean = new GtnCMasterValidationBean();
 			bean.setCompanyIdExist(iscompanyIdExist);
@@ -172,4 +163,6 @@ public class GtnWsCompanyMasterValidationService {
 
 	}
 
-}
+	
+	}
+

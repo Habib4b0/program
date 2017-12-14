@@ -7,16 +7,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.Projections;
 import org.hibernate.metadata.ClassMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.querygenerator.GtnFrameworkOperatorType;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.config.GtnWsAllListConfig;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -65,7 +69,7 @@ public class GtnWsTransactionReprocessIOService {
 		if (gtnWsTransactionRequest.isReprocessFlag()) {
 			List<String> selectColumns = new ArrayList<>();
 			selectColumns.addAll(selectedColumn);
-			selectColumns.set(selectColumns.indexOf("batchId"), "'IVLD_' + replace(batchId, 'IVLD_', '')");
+			replaceBatchIdColumn(selectColumns);
 			stagingColumnName = removeUnwantedColumnForStagingtable(selectedColumn, inavlidTableName);
 			invalidColumnName = Arrays.toString(selectColumns.toArray());
 		}
@@ -74,15 +78,17 @@ public class GtnWsTransactionReprocessIOService {
 					.getClassMetadata(gtnWebServiceAllListConfig.getTransctionDynamicClass(
 							GtnFrameworkWebserviceConstant.COMSTPLGTNGTN2OWSENTITYTRANSACTION + inavlidTableName));
 			if (!gtnWsTransactionRequest.getReprocessIds().isEmpty()) {
-				String reprocessid = Arrays.toString(gtnWsTransactionRequest.getReprocessIds().toArray());
-				whereCondition = Projections.property(classMetadata.getIdentifierPropertyName()) + " in ( "
-						+ reprocessid.substring(1, reprocessid.length() - 1) + " )";
+				List<String> reprocessid = gtnWsTransactionRequest.getReprocessIds();
+				whereCondition = getWhereQueries(gtnWsTransactionRequest, classMetadata, reprocessid,
+						GtnFrameworkOperatorType.IN.getOperaterType(), gtnWsTransactionRequest.getStagInsertColumns());
+
 			} else {
 				whereCondition = getWhereClauseForReprocess(gtnWsTransactionRequest);
 				if (!gtnWsTransactionRequest.getUncheckedIds().isEmpty()) {
-					String unCheckedid = Arrays.toString(gtnWsTransactionRequest.getUncheckedIds().toArray());
-					whereCondition += " and " + Projections.property(classMetadata.getIdentifierPropertyName())
-							+ " not in ( " + unCheckedid.substring(1, unCheckedid.length() - 1) + " )";
+					List<String> unCheckedid = gtnWsTransactionRequest.getUncheckedIds();
+					whereCondition += getWhereQueries(gtnWsTransactionRequest, classMetadata, unCheckedid,
+							GtnFrameworkOperatorType.NOT_IN.getOperaterType(),
+							gtnWsTransactionRequest.getStagInsertColumns());
 				}
 			}
 
@@ -91,14 +97,12 @@ public class GtnWsTransactionReprocessIOService {
 						+ stagingColumnName.substring(1, stagingColumnName.length() - 1) + ") " + " SELECT "
 						+ invalidColumnName.substring(1, invalidColumnName.length() - 1) + " FROM " + inavlidTableName
 						+ " WHERE " + whereCondition;
-
+				LOGGER.debug("insertQuery----" + insertQuery);
 				int updatedRecord = gtnSqlQueryEngine.executeInsertAndUpdateHqlQuery(insertQuery);
 				LOGGER.debug("updatedRecord----" + updatedRecord);
 			}
-			updateReprocessFlag(gtnWsTransactionRequest, whereCondition);
-			if (gtnWsTransactionRequest.isReprocessFlag()) {
-				runJobForReprocess(inavlidTableName);
-			}
+			updateConditionAndCallEtlService(gtnWsTransactionRequest, whereCondition, inavlidTableName,
+					inavlidTableName);
 		} catch (Exception ex) {
 			throw new GtnFrameworkGeneralException("Error in search query : ", ex);
 		}
@@ -139,14 +143,23 @@ public class GtnWsTransactionReprocessIOService {
 		return selectedColumnList;
 	}
 
-	private void updateReprocessFlag(GtnWsTransactionRequest gtnWsTransactionRequest, String whereCondition)
-			throws GtnFrameworkGeneralException {
-
-		String reprocessUpdateQuery = "update " + gtnWsTransactionRequest.getTableName()
-				+ " set reprocessedFlag = 'Y' where " + whereCondition;
-
-		int updatedRecordCount = gtnSqlQueryEngine.executeInsertAndUpdateHqlQuery(reprocessUpdateQuery);
-		LOGGER.debug("record updated" + updatedRecordCount);
+	private void updateConditionFlag(GtnWsTransactionRequest gtnWsTransactionRequest, String whereCondition,
+			String tableName) throws GtnFrameworkGeneralException {
+		StringBuilder conditionalUpdate = new StringBuilder(" UPDATE ");
+		conditionalUpdate.append(tableName).append(" SET ");
+		Object[] updateColumn = gtnWsTransactionRequest.getStagUpdateColumns();
+		Object[] updateColumnValues = gtnWsTransactionRequest.getStagUpdateColumnsValues();
+		if (updateColumn.length != 0) {
+			for (int i = 0; i < updateColumn.length; i++) {
+				conditionalUpdate.append(updateColumn[i]).append("= '").append(updateColumnValues[i]).append("' ");
+				if (i != updateColumn.length - 1) {
+					conditionalUpdate.append(",");
+				}
+			}
+			conditionalUpdate.append(" where ").append(whereCondition);
+			int updatedRecordCount = gtnSqlQueryEngine.executeInsertAndUpdateHqlQuery(conditionalUpdate.toString());
+			LOGGER.debug("record updated" + updatedRecordCount);
+		}
 	}
 
 	private String getWhereClauseForReprocess(GtnWsTransactionRequest gtnWsTransactionRequest) {
@@ -264,6 +277,92 @@ public class GtnWsTransactionReprocessIOService {
 		} catch (Exception e) {
 			LOGGER.error("error", e);
 		}
+	}
+
+	private void replaceBatchIdColumn(List<String> selectColumns) {
+		if (selectColumns.contains("batchId")) {
+			selectColumns.set(selectColumns.indexOf("batchId"), "'IVLD_' + replace(batchId, 'IVLD_', '')");
+		}
+	}
+
+	public void outboundRecords(GtnWsTransactionRequest gtnWsTransactionRequest) throws GtnFrameworkGeneralException {
+		String outboundWhereCondition;
+		String inavlidTableName = gtnWsTransactionRequest.getTableName();
+		try {
+			ClassMetadata outboundClassMetadata = gtnSqlQueryEngine.getSessionFactory()
+					.getClassMetadata(gtnWebServiceAllListConfig.getTransctionDynamicClass(
+							GtnFrameworkWebserviceConstant.COMSTPLGTNGTN2OWSENTITYTRANSACTION + inavlidTableName));
+			if (!gtnWsTransactionRequest.getReprocessIds().isEmpty()) {
+				List<String> reprocessid = gtnWsTransactionRequest.getReprocessIds();
+				outboundWhereCondition = getWhereQueries(gtnWsTransactionRequest, outboundClassMetadata, reprocessid,
+						GtnFrameworkOperatorType.IN.getOperaterType(), gtnWsTransactionRequest.getStagInsertColumns());
+
+			} else {
+				outboundWhereCondition = getWhereClauseForReprocess(gtnWsTransactionRequest);
+				if (!gtnWsTransactionRequest.getUncheckedIds().isEmpty()) {
+					List<String> unCheckedid = gtnWsTransactionRequest.getUncheckedIds();
+					outboundWhereCondition += getWhereQueries(gtnWsTransactionRequest, outboundClassMetadata,
+							unCheckedid, GtnFrameworkOperatorType.NOT_IN.getOperaterType(),
+							gtnWsTransactionRequest.getStagInsertColumns());
+				}
+			}
+
+			if (gtnWsTransactionRequest.isReprocessFlag()) {
+				String insertQuery = "INSERT INTO " + gtnWsTransactionRequest.getStagingTableName() + "("
+						+ StringUtils.join(gtnWsTransactionRequest.getStagInsertColumns(), ",") + ") " + " SELECT "
+						+ StringUtils.join(gtnWsTransactionRequest.getStagInsertColumns(), ",") + " FROM "
+						+ gtnWsTransactionRequest.getOutBoundTableName() + " WHERE " + outboundWhereCondition;
+				LOGGER.debug("insertQuery----" + insertQuery);
+				int updatedRecordCount = gtnSqlQueryEngine.executeInsertAndUpdateHqlQuery(insertQuery);
+				LOGGER.debug("updatedRecord----" + updatedRecordCount);
+			}
+			updateConditionAndCallEtlService(gtnWsTransactionRequest, outboundWhereCondition,
+					gtnWsTransactionRequest.getStagingTableName(), inavlidTableName);
+		} catch (Exception ex) {
+			throw new GtnFrameworkGeneralException("Error in search query : ", ex);
+		}
+	}
+
+	private void updateConditionAndCallEtlService(GtnWsTransactionRequest gtnWsTransactionRequest,
+			String whereCondition, String tableName, String etlJobName) {
+		try {
+			updateConditionFlag(gtnWsTransactionRequest, whereCondition, tableName);
+			if (gtnWsTransactionRequest.isReprocessFlag()) {
+				runJobForReprocess(etlJobName);
+			}
+		} catch (Exception ex) {
+			LOGGER.error(ex.getMessage());
+		}
+	}
+
+	private String getWhereQueries(GtnWsTransactionRequest gtnWsTransactionRequest, ClassMetadata classMetadata,
+			List<String> ids, String condition, Object[] extraColumns) {
+		StringBuilder whereQuery = new StringBuilder();
+		if (!gtnWsTransactionRequest.isOutBoundModule()) {
+			return Projections.property(classMetadata.getIdentifierPropertyName()) + condition
+					+ StringUtils.join(ids.toArray(), ",") + " )";
+		}
+		for (int i = 0; i < extraColumns.length; i++) {
+			whereQuery.append(extraColumns[i]).append(condition).append(StringUtils.join(getSidsList(ids, i), ","))
+					.append(" )");
+			if (i != extraColumns.length - 1) {
+				whereQuery.append(" and ");
+			}
+		}
+		return whereQuery.toString();
+	}
+
+	private Object[] getSidsList(List<String> ids, int index) {
+		Set<String> obj = new HashSet<>();
+		for (int i = 0; i < ids.size(); i++) {
+			String value = ids.get(i);
+			if (value.contains("_")) {
+				obj.add(value.split("_")[index]);
+			} else {
+				obj.add(value);
+			}
+		}
+		return obj.toArray();
 	}
 
 }

@@ -180,7 +180,7 @@ public class CommonUtils {
     /**
      * The helper list util.
      */
-    HelperListUtil helperListUtil = HelperListUtil.getInstance();
+    private HelperListUtil helperListUtil = HelperListUtil.getInstance();
 
     public static final String VAR_GTS = "Gross Trade Sales";
     /**
@@ -212,7 +212,7 @@ public class CommonUtils {
     
     public static final String BP_NAME = "ALLERGAN";
 
-    static HashMap<String, String> cffColumnName = new HashMap<>();
+    private static HashMap<String, String> cffColumnName = new HashMap<>();
     public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
     public static final String BUSINESS_PROCESS_TYPE_MANDATED = "Mandated";
     public static final String BUSINESS_PROCESS_TYPE_CHANNELS = "Channel";

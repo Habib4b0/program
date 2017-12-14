@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.contractdashboard.config.tab;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -930,6 +931,8 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
 		attachResults.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
+		
+		
 	}
 
 	private void addExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1464,11 +1467,40 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		cdPricingResultTable.setPageLength(5);
 		cdPricingResultTable.setItemPerPage(5);
 		cdPricingResultTable.setSinkItemPerPageWithPageLength(false);
+		
+		cdPricingResultTable.setColumnToAlign(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignmentHeader());
+		cdPricingResultTable.setColumnAlignment(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignment());
+		
 		cdPricingResultTable
 				.setTableColumnDataType(GtnFrameworkContractDashboardContants.getPriceProtectionColumnType());
 		cdPricingResultTable
 				.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceProtectionColumnHeader());
 		cdPricingResultTable.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceProtectionColumn());
+		cdPricingResultTable.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PP_STATUS_PENDING,
+				GtnFrameworkContractDashboardContants.MEASUREMENT_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.BASE_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING,
+			    GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING3,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING4,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING5,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING6
+		});
+		cdPricingResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class,String.class,Integer.class,Date.class,String.class
+		});
 		cdPricingResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_TABLE_DATA);
 		cdPricingResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
@@ -1484,7 +1516,6 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				cdPricingResultTable.getEditableColumnList().size());
 		getPricingTableEditableField(editableFieldList);
 		cdPricingResultTable.setEditableField(editableFieldList);
-
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameWorkContractTableRecordTypeAction.class.getName());
@@ -1498,6 +1529,9 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		pricingViewResultTable(cdPricingComponentList, gtnLayoutConfig.getComponentId());
 	}
 
+	
+		
+	
 	private void pricingViewResultTable(List<GtnUIFrameworkComponentConfig> cdPricingComponentList, String parent) {
 		String componentId = GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE + "View";
 
@@ -1522,6 +1556,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
 		cdPricingViewResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
+	
 	}
 
 	private void addPricingExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1598,7 +1633,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		addFieldFactoryComboField(cdPricingComponentList, pricingTableFieldFactoryAction,
 				GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME, pricingTableFieldFactoryFocusAction);
 
-		GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
+	GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
 		pricingTableFieldFactoryRegexConfig.setAttachRegxValidatior(true);
 		pricingTableFieldFactoryRegexConfig.setFormatString("([|0-9]*.[0-9]{1,6})");
 		pricingTableFieldFactoryRegexConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
@@ -1644,11 +1679,12 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE, pricingTableFieldFactoryFocusAction);
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
 		valConfig.setAttachRegxValidatior(true);
-		valConfig.setFormatString(GtnFrameworkContractDashboardContants.REGEX_NUM);
+		valConfig.setFormatString("\\$?([0-9]?.?[0-9]){1,6}%?");
 		valConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
 		GtnUIFrameworkComponentConfig priceTolCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,
 				pricingTableFieldFactoryFocusAction);
+		 priceTolCompConfig.setComponentStyle(GtnFrameworkContractDashboardContants.getPriceProtectionTextRightJustified());
 		priceTolCompConfig.setGtnUIFrameworkValidationConfig(valConfig);
 		GtnUIFrameworkComponentConfig incChangeCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,

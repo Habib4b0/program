@@ -18,9 +18,9 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionTableCheckAllBean;
-import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 
-public class GtnUIFrameworkTransactionReprocessRemoveAction implements GtnUIFrameWorkAction,GtnUIFrameworkDynamicClass {
+public class GtnUIFrameworkTransactionReprocessRemoveAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
 	private final GtnWSLogger gtnLogger = GtnWSLogger
 			.getGTNLogger(GtnUIFrameworkTransactionReprocessRemoveAction.class);
@@ -40,11 +40,12 @@ public class GtnUIFrameworkTransactionReprocessRemoveAction implements GtnUIFram
 		GtnWSTransactionTableCheckAllBean checkBean = (GtnWSTransactionTableCheckAllBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParametersList.get(2).toString()).getComponentData().getSharedPopupData();
 
-		List<Integer> checkedIdSet = new ArrayList<>(checkBean.getCheckedIdSet());
-		List<Integer> unCheckedIDSet = new ArrayList<>(checkBean.getUnCheckedIdSet());
+		List<String> checkedIdSet = new ArrayList<>(checkBean.getCheckedIdSet());
+		List<String> unCheckedIDSet = new ArrayList<>(checkBean.getUnCheckedIdSet());
 		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		GtnWsTransactionRequest gtnWsTransactionRequest = new GtnWsTransactionRequest();
+		gtnWsTransactionRequest.setOutBoundTableName(tableName);
 		tableName = getTableNameModuleWise(tableName);
 		gtnWsTransactionRequest.setTableName(tableName);
 		if (GtnTransactionUIConstants.REPROCESS.equals(actionParametersList.get(1).toString())) {
@@ -61,11 +62,14 @@ public class GtnUIFrameworkTransactionReprocessRemoveAction implements GtnUIFram
 			gtnWsTransactionRequest.setReprocessIds(checkedIdSet);
 
 		}
+		gtnWsTransactionRequest.setOutBoundModule((boolean)actionParametersList.get(5));
+		gtnWsTransactionRequest.setStagInsertColumns((Object[])actionParametersList.get(6));
+		gtnWsTransactionRequest.setStagUpdateColumns((Object[])actionParametersList.get(7));
+		gtnWsTransactionRequest.setStagUpdateColumnsValues((Object[])actionParametersList.get(8));
 		request.setGtnWsTransactionRequest(gtnWsTransactionRequest);
-		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(
-				GtnWsTransactionConstants.GTN_WS_TRANSACTION_SERVICE
-						+ GtnWsTransactionConstants.GTN_WS_TRANSACTION_REPROCESS_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		String wsReprocessURL = actionParametersList.get(4).toString();
+		GtnUIFrameworkWebserviceResponse response = wsclient.callGtnWebServiceUrl(wsReprocessURL, request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		gtnLogger.debug("Reprocess----" + response.getGtnWsGeneralResponse().isSucess());
 	}
 
@@ -86,6 +90,9 @@ public class GtnUIFrameworkTransactionReprocessRemoveAction implements GtnUIFram
 
 		case "VwIvldActualsMaster":
 			invalidTableName = "IvldActualMaster";
+			break;
+		case "VwCffOutboundMaster":
+			invalidTableName = "StCffOutboundMaster";
 			break;
 		default:
 			invalidTableName = tableName;

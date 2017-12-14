@@ -35,7 +35,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
     private int currentProjId;
-    List<ComparisonLookupDTO> selectedList;
+    private List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
      */
@@ -43,7 +43,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
   /**
    * Screen Name
    */
-    String screenName = StringUtils.EMPTY;
+    private String screenName = StringUtils.EMPTY;
     /**
      * Constructor for ComparisonLookup.
      *
@@ -118,7 +118,7 @@ public class ComparisonLookup extends AbstractComparisonLookup {
                 comparisonLookup.setCurrentProjId(notSearchProjId);
                 comparisonLookup.setCreatedDateFrom(fromDate.getValue());
                 comparisonLookup.setCreatedDateTo(toDate.getValue());
-                tableLogic.fireSetData(comparisonLookup, false,screenName);
+                tableLogic.fireSetData(comparisonLookup, false);
                 if (resultsTable.size()==0) {
                     MessageBox.showPlain(Icon.INFO, StringConstantsUtil.ERROR, "No results could be found that match the entered search criteria.", ButtonId.OK);
                     addBtn.setEnabled(false);

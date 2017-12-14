@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ui.contractdashboard.config.action;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,9 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 				Object value = record.getPropertyValueByIndex(i);
 				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[8].equals(propertyId)) {
 					value = getFieldValue(record);
+				}
+				if (GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17].equals(propertyId)) {
+					value = getFieldValuePriceTolerance(record);
 				} else {
 					Class<?> type = tableBaseComponent.getTableColumnProperty(propertyId.toString());
 					value = GtnUIFrameworkGlobalUI.getConvertedPropertyValue(type, value);
@@ -75,20 +79,35 @@ public class GtnUIFrameWorkContractTableRecordTypeAction implements GtnUIFrameWo
 	}
 
 	private Object getFieldValue(GtnWsRecordBean contractTableRecordBean) {
-		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(45);
+		String depandingValue = contractTableRecordBean.getStringPropertyByIndex(51);
 		if (depandingValue.startsWith("P")) {
-			return contractTableRecordBean.getPropertyValueByIndex(42);
+			return contractTableRecordBean.getPropertyValueByIndex(52);
 		}
 		if (depandingValue.startsWith("D")) {
-			Object value = contractTableRecordBean.getPropertyValueByIndex(44);
+			Object value = contractTableRecordBean.getPropertyValueByIndex(53);
 			if (value != null && Long.class.isAssignableFrom(value.getClass())) {
 				value = new Date((Long) value);
 			}
 			return value;
 		}
 		if (depandingValue.startsWith("M")) {
-			return contractTableRecordBean.getStringPropertyByIndex(43).trim();
+			return contractTableRecordBean.getStringPropertyByIndex(54).trim();
 		}
 		return "";
+	}
+
+	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
+		String depandingValue = bean.getStringPropertyByIndex(48);
+		if (!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(depandingValue ))&&(!(GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY.equals(bean.getPropertyValueByIndex(22))))&&(bean.getIndex(GtnFrameworkContractDashboardContants.PRICE_TOLERANCE) == 22)) {						
+			DecimalFormat formatDecimal = new DecimalFormat(GtnFrameworkContractDashboardContants.TWODECIMAL_ZERO);
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.PER) || depandingValue.startsWith(GtnFrameworkContractDashboardContants.PERCENTAGE)) {
+				return formatDecimal.format(bean.getDoublePropertyByIndex(22)) + GtnFrameworkContractDashboardContants.PERCENTAGE;
+			}
+			if (depandingValue.startsWith(GtnFrameworkContractDashboardContants.DOL)) {
+				return GtnFrameworkContractDashboardContants.DOLLER + formatDecimal.format(bean.getDoublePropertyByIndex(22));
+
+			}
+		}
+		return GtnFrameworkContractDashboardContants.STRINGUTILS_EMPTY;
 	}
 }

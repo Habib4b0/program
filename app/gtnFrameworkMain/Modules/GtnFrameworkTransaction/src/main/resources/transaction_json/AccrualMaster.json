@@ -1,4 +1,14 @@
-[
+
+{
+"module":[  
+      {  
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
+		 "stagingUpdateColumns":["reprocessedFlag"],
+		 "stagingUpdateColumnsValues": ["Y"]
+	 
+      }
+   ],
+"moduleDetails":[
     {
         "columnID": "checkRecord",
         "columnName": "      ",
@@ -30,6 +40,60 @@
         "listViewIndex": 2
     },
     {
+        "columnID": "itemNo",
+        "columnName": "Item No",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 16,
+        "listViewIndex": 12,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+    {
+        "columnID": "salesMasterId",
+        "columnName": "Sales Master ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "combobox",
+        "listName": "SalesMasterId",
+        "loadDescription": true,
+        "viewModeIndex": 45,
+        "listViewIndex": 41,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+     {
+        "columnID": "accrualPeriodStartDate",
+        "columnName": "Accrual Period Start Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "onlyValidComponent": true,
+        "viewModeIndex": 29,
+        "listViewIndex": 18,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "accrualPeriodStartDate",
+        "columnName": "Accrual Period Start Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "expressionType": "DATE_BETWEEN",
+        "columnAlignment": "CENTER",
+        "isInvalidComponent": true,
+        "listViewIndex": 18,
+        "viewModeIndex": 29,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
         "columnID": "businessUnitNo",
         "columnName": "Business Unit",
         "isSearchCriteria": true,
@@ -51,66 +115,6 @@
         "listViewIndex": 6
     },
     {
-        "columnID": "accountNo",
-        "columnName": "Customer No",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 10,
-        "listViewIndex": 27,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "accountName",
-        "columnName": "Customer Name",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 11,
-        "listViewIndex": 28,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 100
-    },
-    {
-        "columnID": "source",
-        "columnName": "Source",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 27,
-        "listViewIndex": 51,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "batchId",
-        "columnName": "Batch ID",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 55,
-        "listViewIndex": 50,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "itemNo",
-        "columnName": "Item No",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 16,
-        "listViewIndex": 12,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
         "columnID": "itemName",
         "columnName": "Item Name",
         "isSearchCriteria": true,
@@ -123,68 +127,6 @@
         "maxLength": 100
     },
     {
-        "columnID": "contractId",
-        "columnName": "Contract ID",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 21,
-        "listViewIndex": 30,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "contractName",
-        "columnName": "Contract Name",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 23,
-        "listViewIndex": 32,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 100
-    },
-    {
-        "columnID": "contractNo",
-        "columnName": "Contract No",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 22,
-        "listViewIndex": 31,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "accrualId",
-        "columnName": "Accrual ID",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 51,
-        "listViewIndex": 47,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
-        "columnID": "salesMasterId",
-        "columnName": "Sales Master ID",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "combobox",
-        "listName": "SalesMasterId",
-        "loadDescription": true,
-        "viewModeIndex": 45,
-        "listViewIndex": 41,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
-    {
         "columnID": "categoryId",
         "columnName": "Category ID",
         "isSearchCriteria": true,
@@ -194,6 +136,58 @@
         "loadDescription": true,
         "viewModeIndex": 47,
         "listViewIndex": 43,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+     {
+        "columnID": "accrualPeriodEndDate",
+        "columnName": "Accrual Period End Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "onlyValidComponent": true,
+        "viewModeIndex": 30,
+        "listViewIndex": 19,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "accrualPeriodEndDate",
+        "columnName": "Accrual Period End Date",
+        "isSearchCriteria": false,
+        "isResultView": true,
+        "componentType": "date",
+        "expressionType": "DATE_BETWEEN",
+        "columnAlignment": "CENTER",
+        "viewModeIndex": 30,
+        "listViewIndex": 19,
+        "isInvalidComponent": true,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "accountNo",
+        "columnName": "Customer No",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 10,
+        "listViewIndex": 27,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+    {
+        "columnID": "contractId",
+        "columnName": "Contract ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 21,
+        "listViewIndex": 30,
         "lengthValidator": true,
         "minLength": 0,
         "maxLength": 50
@@ -210,6 +204,123 @@
         "lengthValidator": true,
         "minLength": 0,
         "maxLength": 25
+    },
+    {
+        "columnID": "glDate",
+        "columnName": "GL Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "onlyValidComponent": true,
+        "viewModeIndex": 43,
+        "listViewIndex": 20,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "glDate",
+        "columnName": "GL Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "expressionType": "DATE_BETWEEN",
+        "columnAlignment": "CENTER",
+        "viewModeIndex": 43,
+        "listViewIndex": 20,
+        "isInvalidComponent": true,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    
+    {
+        "columnID": "accountName",
+        "columnName": "Customer Name",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 11,
+        "listViewIndex": 28,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 100
+    },
+     {
+        "columnID": "contractName",
+        "columnName": "Contract Name",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 23,
+        "listViewIndex": 32,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 100
+    },
+    {
+        "columnID": "accrualId",
+        "columnName": "Accrual ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 51,
+        "listViewIndex": 47,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+    {
+        "columnID": "postingDate",
+        "columnName": "Posting Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "onlyValidComponent": true,
+        "viewModeIndex": 44,
+        "listViewIndex": 34,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "postingDate",
+        "columnName": "Posting Date",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "date",
+        "expressionType": "DATE_BETWEEN",
+        "columnAlignment": "CENTER",
+        "viewModeIndex": 44,
+        "listViewIndex": 34,
+        "isInvalidComponent": true,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 8
+    },
+    {
+        "columnID": "source",
+        "columnName": "Source",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 27,
+        "listViewIndex": 51,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+     {
+        "columnID": "contractNo",
+        "columnName": "Contract No",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 22,
+        "listViewIndex": 31,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
     },
     {
         "columnID": "accrualType",
@@ -244,6 +355,30 @@
         "listViewIndex": 33,
         "isInvalidComponent": true
     },
+     {
+        "columnID": "glAccount",
+        "columnName": "GL Account",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 42,
+        "listViewIndex": 25,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
+    {
+        "columnID": "batchId",
+        "columnName": "Batch ID",
+        "isSearchCriteria": true,
+        "isResultView": true,
+        "componentType": "text",
+        "viewModeIndex": 55,
+        "listViewIndex": 50,
+        "lengthValidator": true,
+        "minLength": 0,
+        "maxLength": 50
+    },
     {
         "columnID": "documentType",
         "columnName": "Document Type",
@@ -258,130 +393,12 @@
         "minLength": 0,
         "maxLength": 50
     },
-    {
-        "columnID": "accrualPeriodStartDate",
-        "columnName": "Accrual Period Start Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "onlyValidComponent": true,
-        "viewModeIndex": 29,
-        "listViewIndex": 18,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "accrualPeriodStartDate",
-        "columnName": "Accrual Period Start Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "expressionType": "DATE_BETWEEN",
-        "columnAlignment": "CENTER",
-        "isInvalidComponent": true,
-        "listViewIndex": 18,
-        "viewModeIndex": 29,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "accrualPeriodEndDate",
-        "columnName": "Accrual Period End Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "onlyValidComponent": true,
-        "viewModeIndex": 30,
-        "listViewIndex": 19,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "accrualPeriodEndDate",
-        "columnName": "Accrual Period End Date",
-        "isSearchCriteria": false,
-        "isResultView": true,
-        "componentType": "date",
-        "expressionType": "DATE_BETWEEN",
-        "columnAlignment": "CENTER",
-        "viewModeIndex": 30,
-        "listViewIndex": 19,
-        "isInvalidComponent": true,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "glDate",
-        "columnName": "GL Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "onlyValidComponent": true,
-        "viewModeIndex": 43,
-        "listViewIndex": 20,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "glDate",
-        "columnName": "GL Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "expressionType": "DATE_BETWEEN",
-        "columnAlignment": "CENTER",
-        "viewModeIndex": 43,
-        "listViewIndex": 20,
-        "isInvalidComponent": true,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "postingDate",
-        "columnName": "Posting Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "onlyValidComponent": true,
-        "viewModeIndex": 44,
-        "listViewIndex": 34,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "postingDate",
-        "columnName": "Posting Date",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "date",
-        "expressionType": "DATE_BETWEEN",
-        "columnAlignment": "CENTER",
-        "viewModeIndex": 44,
-        "listViewIndex": 34,
-        "isInvalidComponent": true,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 8
-    },
-    {
-        "columnID": "glAccount",
-        "columnName": "GL Account",
-        "isSearchCriteria": true,
-        "isResultView": true,
-        "componentType": "text",
-        "viewModeIndex": 42,
-        "listViewIndex": 25,
-        "lengthValidator": true,
-        "minLength": 0,
-        "maxLength": 50
-    },
+   
+    
+   
+    
+    
+   
     {
         "columnID": "companyCostCenter",
         "columnName": "Company Cost Center",
@@ -781,3 +798,4 @@
         "viewModeIndexFlag": true
     }
 ]
+}

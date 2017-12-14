@@ -23,8 +23,8 @@ import com.stpl.ifs.ui.util.NumericConstants;
  */
 public class FilterGenerator implements ExtFilterGenerator {
 
-    ProjectionSelectionDTO projectionSelectionDTO;
-    boolean isTotal;
+    private ProjectionSelectionDTO projectionSelectionDTO;
+    private boolean isTotal;
 
     public FilterGenerator(ProjectionSelectionDTO projectionSelectionDTO, boolean isTotal) {
         this.projectionSelectionDTO = projectionSelectionDTO;

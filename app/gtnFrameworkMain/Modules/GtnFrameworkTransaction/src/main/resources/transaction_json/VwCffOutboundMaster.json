@@ -1,0 +1,528 @@
+{  
+   "module":[  
+      {  
+         "outBoundModule":true,
+         "reprocessingWebServiceURL":"/gtnTransactionOutbound/reprocess",
+         "stagingInsertColumns":["cffDetailsSid","rsModelSid","periodSid"],
+		 "stagingUpdateColumns":["etlCheckRecord", "userId", "sessionId"],
+		 "stagingUpdateColumnsValues": ["1","1","1"]
+      }
+   ],
+   "moduleDetails":[  
+      {  
+         "columnID":"checkRecord",
+         "columnName":"      ",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"boolean",
+         "viewFlag":false
+      },
+      {  
+         "columnID":"financialForecastId",
+         "columnName":"Financial Forecast ID",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":1,
+		 "defaultFocus":true
+      },
+	  {  
+         "columnID":"financialForecastName",
+         "columnName":"Financial Forecast Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":2
+      },
+	  {  
+         "columnID":"type",
+         "columnName":"Type",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"combobox",
+         "listName":"CFF_TYPE",
+         "loadDescription":true,
+         "listViewIndex":3
+      },
+      {  
+         "columnID":"projectId",
+         "columnName":"Project Id",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":4
+      },
+	  {  
+         "columnID":"projectionName",
+         "columnName":"Projection Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":5
+      },
+	  {  
+         "columnID":"contractNo",
+         "columnName":"Contract No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":9
+      },
+	  {  
+         "columnID":"contractName",
+         "columnName":"Contract Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":10
+      },
+      {  
+         "columnID":"customerNo",
+         "columnName":"Customer No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":16
+      },            
+      {  
+         "columnID":"customerName",
+         "columnName":"Customer Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":17
+      },      
+      {  
+         "columnID":"itemNo",
+         "columnName":"Item No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":19
+      },
+      {  
+         "columnID":"itemName",
+         "columnName":"Item Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":20
+      },
+      {  
+         "columnID":"companyNo",
+         "columnName":"Company No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":46
+      },
+      {  
+         "columnID":"companyName",
+         "columnName":"Company Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":47
+      },
+      {  
+         "columnID":"businessUnitNo",
+         "columnName":"Business Unit No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":48
+      },
+      {  
+         "columnID":"businessUnitName",
+         "columnName":"Business Unit Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":49
+      },
+      {  
+         "columnID":"financialForecastCreationDateFrom",
+         "columnName":"CFF Creation Date From",
+         "isSearchCriteria":true,
+         "isResultView":false,
+         "componentType":"date",
+         "columnMappingId":"financialForecastCreationDate",
+         "expressionType":"GREATER_OR_EQUAL",
+         "listViewIndex":13
+      },
+      {  
+         "columnID":"financialForecastCreationDateTo",
+         "columnName":"CFF Creation Date To",
+         "isSearchCriteria":true,
+         "isResultView":false,
+         "componentType":"date",
+         "columnMappingId":"financialForecastCreationDate",
+         "expressionType":"LESS_OR_EQUAL",
+         "listViewIndex":15
+      },
+      {  
+         "columnID":"financialForecastApprovalDateFrom",
+         "columnName":"CFF Approval Date From",
+         "isSearchCriteria":true,
+         "isResultView":false,
+         "componentType":"date",
+         "columnMappingId":"financialForecastApprovalDate",
+         "expressionType":"GREATER_OR_EQUAL",
+         "listViewIndex":19
+      },
+      {  
+         "columnID":"financialForecastApprovalDateTo",
+         "columnName":"CFF Approval Date To",
+         "isSearchCriteria":true,
+         "isResultView":false,
+         "componentType":"date",
+         "columnMappingId":"financialForecastApprovalDate",
+         "expressionType":"LESS_OR_EQUAL",
+         "listViewIndex":20
+      },
+      {  
+         "columnID":"year",
+         "columnName":"Year",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":6
+      },
+      {  
+         "columnID":"month",
+         "columnName":"Month",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":7
+      },
+      {  
+         "columnID":"contractId",
+         "columnName":"Contract ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":8
+      },
+      {  
+         "columnID":"contractType",
+         "columnName":"Contract Type",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":11
+      },
+      {  
+         "columnID":"contractHolderId",
+         "columnName":"Contract Holder ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":12
+      },
+      {  
+         "columnID":"contractHolderNo",
+         "columnName":"Contract Holder No",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":13
+      },
+      {  
+         "columnID":"contractHolderName",
+         "columnName":"Contract Holder Name",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":14
+      },
+      {  
+         "columnID":"customerId",
+         "columnName":"Customer ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":15
+      },
+      {  
+         "columnID":"itemId",
+         "columnName":"Item ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":18
+      },
+      {  
+         "columnID":"salesDollars",
+         "columnName":"Sales Dollars",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":21,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,##0.00"
+      },
+      {  
+         "columnID":"salesUnits",
+         "columnName":"Sales Units",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":22,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"#,##0"
+      },
+      {  
+         "columnID":"salesInclusion",
+         "columnName":"Sales Inclusion",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":23
+      },
+      {  
+         "columnID":"deductionId",
+         "columnName":"Deduction ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":24
+      },
+      {  
+         "columnID":"deductionNo",
+         "columnName":"Deduction No",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":25
+      },
+      {  
+         "columnID":"deductionName",
+         "columnName":"Deduction Name",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":26
+      },
+      {  
+         "columnID":"deductionCategory",
+         "columnName":"Deduction Category",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":27
+      },
+      {  
+         "columnID":"deductionType",
+         "columnName":"Deduction Type",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":28
+      },
+      {  
+         "columnID":"deductionProgram",
+         "columnName":"Deduction Program",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":29
+      },
+      {  
+         "columnID":"deductionInclusion",
+         "columnName":"Deduction Inclusion",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":30
+      },
+      {  
+         "columnID":"deductionCategory1",
+         "columnName":"Deduction Category 1",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":31
+      },
+      {  
+         "columnID":"deductionCategory2",
+         "columnName":"Deduction Category 2",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":32
+      },
+      {  
+         "columnID":"deductionCategory3",
+         "columnName":"Deduction Category 3",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":33
+      },
+      {  
+         "columnID":"deductionCategory4",
+         "columnName":"Deduction Category 4",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":34
+      },
+      {  
+         "columnID":"deductionCategory5",
+         "columnName":"Deduction Category 5",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":35
+      },
+      {  
+         "columnID":"deductionCategory6",
+         "columnName":"Deduction Category 6",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":36
+      },
+      {  
+         "columnID":"deductionDollars",
+         "columnName":"Deduction Dollars",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":37,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"deductionRate",
+         "columnName":"Deduction Rate",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":38,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"#00.00%"
+      },
+      {  
+         "columnID":"deductionPerUnit",
+         "columnName":"Deduction Per Unit",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":39,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"netSalesDollar",
+         "columnName":"NetSales Dollar",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":40,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"cogsAmount",
+         "columnName":"COGS Amount",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":41,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"cogsPerUnit",
+         "columnName":"COGS Per Unit",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":42,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"netProfitDollars",
+         "columnName":"Net Profit Dollars",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":43,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"netProfitPerUnit",
+         "columnName":"Net Profit Per Unit",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":44,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
+      },
+      {  
+         "columnID":"companyId",
+         "columnName":"Company ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":45
+      },
+      {  
+         "columnID":"businessUnitId",
+         "columnName":"Business Unit ID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":47
+      },
+      {  
+         "columnID":"financialForecastCreationDate",
+         "columnName":"Financial Forecast Creation Date",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"date",
+         "listViewIndex":50,
+		 "columnAlignment": "CENTER"
+      },
+      {  
+         "columnID":"financialForecastApprovalDate",
+         "columnName":"Financial Forecast Approval Date",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"date",
+         "listViewIndex":51,
+		 "columnAlignment": "CENTER"
+      },
+      {  
+         "columnID":"outboundStatus",
+         "columnName":"Outbound Status",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":52
+      },
+      {  
+         "columnID":"originalBatchId",
+         "columnName":"Original BatchID",
+         "isSearchCriteria":false,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":53
+      }
+   ]
+}

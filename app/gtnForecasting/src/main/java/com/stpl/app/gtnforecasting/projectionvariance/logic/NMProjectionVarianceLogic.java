@@ -18,11 +18,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.utils.Constants.LabelConstants.TOTAL_DISCOUNT;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.sql.DataSource;
 
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -64,7 +58,6 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
 import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
@@ -169,6 +162,7 @@ public class NMProjectionVarianceLogic {
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private List chartList;
     private static final CommonDAO commonDao = new CommonDAOImpl();
+    private static final String PARENT_VALIDATE = "PARENT-VALIDATE";
 
     public List getChartList() {
         return chartList;
@@ -1270,7 +1264,7 @@ public class NMProjectionVarianceLogic {
         List< Object[]> gtsResult = null;
         String frequency = pvsdto.getFrequency();
 //        CommonUtils.CollectionToString(pvsdto.getDiscountNoList(), false);
-        String discountId =  CommonUtils.CollectionToString(pvsdto.getDiscountNoList(), false);
+        String discountId =  null;
         List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
         pivotPriorProjIdList = new ArrayList<>();
@@ -1323,7 +1317,9 @@ public class NMProjectionVarianceLogic {
     String getRSIds(PVSelectionDTO pvsdto) {
         String rsIds = StringUtils.EMPTY;
         try{
-        String rsQuery = insertAvailableHierarchyNo(pvsdto) + getRsIdForCurrentHierarchy(pvsdto);
+        String ccpQuery = SQlUtil.getQuery(PARENT_VALIDATE);
+        ccpQuery = ccpQuery.replace(Constant.RELVALUE, pvsdto.getSessionDTO().getDedRelationshipBuilderSid());
+        String rsQuery = ccpQuery + insertAvailableHierarchyNo(pvsdto) + getRsIdForCurrentHierarchy(pvsdto);
         String query = QueryUtil.replaceTableNames(rsQuery.replace("@CCP", Constant.SELECTED_HIERARCHY_NO_HASH), pvsdto.getSessionDTO().getCurrentTableNames());
         List<Object> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         boolean flag = true;
@@ -2929,9 +2925,11 @@ public class NMProjectionVarianceLogic {
     }
     
     public String getCCPQueryForPV(ProjectionSelectionDTO projSelDTO) {
-        String ccpQuery = QueryUtil.replaceTableNames(insertAvailableHierarchyNo(projSelDTO), projSelDTO.getSessionDTO().getCurrentTableNames());
+        String ccpQuery = SQlUtil.getQuery(PARENT_VALIDATE);
+        ccpQuery = ccpQuery.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
+        ccpQuery += insertAvailableHierarchyNo(projSelDTO);
         ccpQuery += " where PV_FILTERS=1 SELECT * FROM #SELECTED_HIERARCHY_NO ";
-        return ccpQuery;
+        return QueryUtil.replaceTableNames(ccpQuery, projSelDTO.getSessionDTO().getCurrentTableNames());
     }
     
     public int getCountForCustomView(final ProjectionSelectionDTO projSelDTO) {
@@ -2941,7 +2939,7 @@ public class NMProjectionVarianceLogic {
             return 0;
         }
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-        String countQuery = SQlUtil.getQuery("PARENT-VALIDATE");
+        String countQuery = SQlUtil.getQuery(PARENT_VALIDATE);
         countQuery = countQuery.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         countQuery += insertAvailableHierarchyNo(projSelDTO);
         countQuery += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
@@ -2961,7 +2959,7 @@ public class NMProjectionVarianceLogic {
     public List getHiearchyNoForCustomView(final ProjectionSelectionDTO projSelDTO, int start, int end) {
         
         int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
-        String query = SQlUtil.getQuery("PARENT-VALIDATE");
+        String query = SQlUtil.getQuery(PARENT_VALIDATE);
         query = query.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         query += insertAvailableHierarchyNo(projSelDTO);
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);

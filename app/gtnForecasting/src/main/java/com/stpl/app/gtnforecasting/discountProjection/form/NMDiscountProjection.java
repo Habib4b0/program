@@ -3654,20 +3654,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 							textField.addBlurListener(blurListener);
 							return textField;
-						}
-						if (rightHeader.getSingleForecastColumns().contains(property)) {
-							TextField textField = new TextField();
-							textField.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-							textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
-							if (property.contains(Constant.PROJECTED_RATE) || property.contains(Constant.GROWTH)) {
-								textField.setConverter(percentFormat);
-							} else {
-								textField.setConverter(getConverter(property));
-
-							}
-							textField.setEnabled(false);
-							return textField;
-						}
+						}					
 					} catch (Exception e) {
 						LOGGER.error(e);
 

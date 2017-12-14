@@ -10,21 +10,26 @@ package com.stpl.gtn.gtn2o.ws.transaction.constants;
  * @author Vinoth.Parthasarathy
  */
 public class GtnWsTransactionConstants {
-    private GtnWsTransactionConstants(){
-        /**
-         * empty constructor
-         */
-    }
+	private GtnWsTransactionConstants() {
+		/**
+		 * empty constructor
+		 */
+	}
 
 	public static final String GTN_WS_TRANSACTION_SERVICE = "/gtnTransaction";
+
+	public static final String GTN_WS_TRANSACTION_OUTBOUND_SERVICE = "/gtnTransactionOutbound";
 
 	public static final String GTN_WS_TRANSACTION_GETDATATYPE_SERVICE = "/getColumnDataType";
 
 	public static final String GTN_WS_TRANSACTION_GETSEARCHRESULTS_SERVICE = "/getSearchResults";
 
 	public static final String GTN_WS_TRANSACTION_GETVIEWRESULTS_SERVICE = "/getViewResults";
-        
+
 	public static final String GTN_WS_TRANSACTION_VALIDATION_SERVICE = "/getValidationRunning";
 
 	public static final String GTN_WS_TRANSACTION_REPROCESS_SERVICE = "/reprocess";
+	
+	public static final String PERCENTAGE = "%";
+
 }

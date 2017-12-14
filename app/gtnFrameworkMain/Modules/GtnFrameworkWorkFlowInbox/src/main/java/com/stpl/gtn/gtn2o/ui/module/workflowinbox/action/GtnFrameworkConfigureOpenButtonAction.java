@@ -77,6 +77,8 @@ public class GtnFrameworkConfigureOpenButtonAction
 					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PROJECTIONMASTER_SID));
 			String customerHierSid = String
 					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID));
+			String productHierSid = String
+					.valueOf(gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID));
 			String customerHierarchyLevel = String.valueOf(
 					gtnWsRecordBean.getPropertyValue(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL));
 			String custRelationshipBuilderSid = String.valueOf(
@@ -162,6 +164,7 @@ public class GtnFrameworkConfigureOpenButtonAction
 
 			if (workflowId.startsWith(GtnFrameworkWorkflowInboxClassConstants.CF)) {
 				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERSID, customerHierSid);
+				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.PRODUCTHIERSID, productHierSid);
 				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTOMERHIERLEVEL, customerHierarchyLevel);
 				opener.setParameter(GtnFrameworkWorkflowInboxClassConstants.CUSTRELATIONSHIPSID,
 						custRelationshipBuilderSid);

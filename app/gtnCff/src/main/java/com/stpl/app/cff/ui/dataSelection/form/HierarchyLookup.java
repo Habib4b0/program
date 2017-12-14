@@ -10,7 +10,6 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.OptionGroup;
