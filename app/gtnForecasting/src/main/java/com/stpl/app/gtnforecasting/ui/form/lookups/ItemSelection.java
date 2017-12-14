@@ -65,68 +65,69 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class ItemSelection extends CustomComponent implements View {
 
     @UiField("businessUnitNo")
-    public TextField businessUnitNo;
+    private TextField businessUnitNo;
+    
     @UiField("itemNo")
-    public TextField itemNo;
+    private TextField itemNo;
+    
     @UiField("itemName")
-    public TextField itemName;
+    private TextField itemName;
+    
     @UiField("businessUnitName")
-    public TextField businessUnitName;
+    private TextField businessUnitName;
+    
     @UiField("theraputicClass")
-    public ComboBox theraputicClass;
+    private ComboBox theraputicClass;
+    
     @UiField("itemIdentifierType")
-    public ComboBox itemIdentifierType;
+    protected ComboBox itemIdentifierType;
+    
     @UiField("brand")
-    public ComboBox brand;
+    private ComboBox brand;
+    
     @UiField("itemIdentifier")
-    public TextField itemIdentifier;
-    @UiField("searchBtn")
-    public Button searchBtn;
-    @UiField("resetBtn")
-    public Button resetBtn;
+    private TextField itemIdentifier;
+    
     @UiField("availableItemsTableLayout")
-    public VerticalLayout availableItemsTableLayout;
+    private VerticalLayout availableItemsTableLayout;
+    
     @UiField("selectedItemsTableLayout")
-    public VerticalLayout selectedItemsTableLayout;
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private String screen_Name = "Item_Selection";
-    @UiField("addBtn")
-    public Button addBtn;
+    private VerticalLayout selectedItemsTableLayout;
+    
+    private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private final String screen_Name = "Item_Selection";
+    
     @UiField("excelBtn")
-    public Button excelBtn;
+    private Button excelBtn;
+    
     @UiField("selectedExport")
-    public Button selectedExport;
-    @UiField("addAllBtn")
-    public Button addAllBtn;
-
-    CommonLogic commonLogic = new CommonLogic();
-    AlternateHistoryTableLogic availableItemTableLoic = new AlternateHistoryTableLogic();
-    ExtPagedTable availableItemsTable = new ExtPagedTable(availableItemTableLoic);
-    AlternateHistoryTableLogic selectedItemsTableLoic = new AlternateHistoryTableLogic();
-    ExtPagedTable selectedItemsTable = new ExtPagedTable(selectedItemsTableLoic);
-    private BeanItemContainer<AlternateHistoryDTO> availableItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
-    private BeanItemContainer<AlternateHistoryDTO> selectedItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
-    public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
+    private Button selectedExport;
+    
+    private final CommonLogic commonLogic = new CommonLogic();
+    private final AlternateHistoryTableLogic availableItemTableLoic = new AlternateHistoryTableLogic();
+    private final ExtPagedTable availableItemsTable = new ExtPagedTable(availableItemTableLoic);
+    private final AlternateHistoryTableLogic selectedItemsTableLoic = new AlternateHistoryTableLogic();
+    private final ExtPagedTable selectedItemsTable = new ExtPagedTable(selectedItemsTableLoic);
+    private final BeanItemContainer<AlternateHistoryDTO> availableItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
+    private final BeanItemContainer<AlternateHistoryDTO> selectedItemsContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
+    private final AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
     private static final Logger LOGGER = Logger.getLogger(ItemSelection.class);
-    public CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
+    private final CustomFieldGroup itemSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    CommonUtil commonMsg = CommonUtil.getInstance();
+    private final CommonUtil commonMsg = CommonUtil.getInstance();
 
-    /**
-     * The Constant Avilable Customer Header.
-     */
-    public final String[] availableItemsHeaders = new String[]{
+    private final String[] availableItemsHeaders = new String[]{
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name", "Item Identifier Type", "Item Identifier"};
-    public final Object[] availableItemsVisibleColumns = new Object[]{
+    private final Object[] availableItemsVisibleColumns = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName", "itemIdentifierType", "itemIdentifier"};
-    public final String[] availableItemHeaders1 = new String[]{
+    private final String[] availableItemHeaders1 = new String[]{
         StringUtils.EMPTY, "Business Unit No", "Business Unit Name", "Theraputic Class", "Brand", "Item No", "Item Name"};
-    public final Object[] availableItemsColumns1 = new Object[]{
+    private final Object[] availableItemsColumns1 = new Object[]{
         Constant.CHECK, "businessUnitNo", "businessUnitName", "theraputicClass", Constant.BRAND, Constant.ITEM_NO, "itemName"};
 
-    SessionDTO session;
+    private final SessionDTO session;
 
     public ItemSelection(SessionDTO session) {
         this.session = session;
@@ -136,10 +137,8 @@ public class ItemSelection extends CustomComponent implements View {
     }
 
     protected void configureFields() {
-
         HelperListUtil helperListUtil = HelperListUtil.getInstance();
         helperListUtil.loadValuesWithListName("alternatehistory");
-
         try {
             commonMsg.loadComboBox(theraputicClass, "THERAPEUTIC_CLASS", false);
         } catch (Exception ex) {
@@ -180,8 +179,9 @@ public class ItemSelection extends CustomComponent implements View {
     public void resetBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered inside reset method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
-                // do nothing
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
             @Override
@@ -231,6 +231,7 @@ public class ItemSelection extends CustomComponent implements View {
         availableItemsTable.setColumnCheckBox(Constant.CHECK, true);
         availableItemsTable.setFilterFieldVisible(Constant.CHECK, false);
         availableItemsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 String checkValue = event.isChecked() ? "1" : "0";
                 logic.updateTableOnAddorCheckAll(altHistoryDTO, null, session, false, checkValue);
@@ -239,10 +240,12 @@ public class ItemSelection extends CustomComponent implements View {
         });
 
         availableItemsTable.setFilterGenerator(new ExtFilterGenerator() {
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -254,14 +257,17 @@ public class ItemSelection extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -286,6 +292,7 @@ public class ItemSelection extends CustomComponent implements View {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setEnabled(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             logic.updateAvailableTableCheckUnCheck(check.getValue(), session, StringUtils.EMPTY + ((AlternateHistoryDTO) itemId).getItemMasterSid());
                         }
@@ -314,6 +321,7 @@ public class ItemSelection extends CustomComponent implements View {
         selectedItemsTable.setColumnCheckBox(Constant.CHECK, true);
         selectedItemsTable.setFilterFieldVisible(Constant.CHECK, false);
         selectedItemsTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 logic.updateSelectedTableOnCheckAll(event.isChecked(),session);
                 selectedItemsTableLoic.loadSetData(itemSearchBinder, altHistoryDTO, session, false);
@@ -335,6 +343,7 @@ public class ItemSelection extends CustomComponent implements View {
                     check.setEnabled(true);
                     check.setImmediate(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             logic.updateSelectedTableCheckUnCheck(check.getValue(), session, StringUtils.EMPTY + ((AlternateHistoryDTO) itemId).getItemMasterSid());
                         }
@@ -541,7 +550,7 @@ public class ItemSelection extends CustomComponent implements View {
             if (recordCount > 0) {
                 createWorkSheet("Available_Items", availableItemsTable, recordCount);
             }
-        } catch (Exception ex) {
+        } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             LOGGER.error(ex);
         } finally {
             contractExcelFlag = false;
@@ -561,7 +570,7 @@ public class ItemSelection extends CustomComponent implements View {
             if (recordCount > 0) {
                 createWorkSheet("Selected_Items", selectedItemsTable, recordCount);
             }
-        } catch (Exception ex) {
+        } catch (SystemException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
             LOGGER.error(ex);
         } finally {
             infoExcelFlag = false;
@@ -591,7 +600,7 @@ public class ItemSelection extends CustomComponent implements View {
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error(e);
         }
     }    
