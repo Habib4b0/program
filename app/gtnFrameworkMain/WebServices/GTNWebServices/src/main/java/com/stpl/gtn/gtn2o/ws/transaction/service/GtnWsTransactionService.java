@@ -440,25 +440,24 @@ public class GtnWsTransactionService {
 		return ob;
 	}
 
-	public List<Object> createFile(File tempFile, PrintWriter printWriter, String modulName, List<String> headers) {
+	public List<Object> createFile(File tempFile, PrintWriter printWriter, List<String> headers,
+			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		List<Object> list = new ArrayList<>();
-		if (modulName.contains("Ivld")) {
-			List<String> headersList = headers.subList(1, headers.size());
-			GtnCommonUtil.createHeaderRow(printWriter, headersList);
-		} else {
-			GtnCommonUtil.createHeaderRow(printWriter, headers);
+		if (headers.remove("      ")) {
+			gtnWsRequest.getGtnWsGeneralRequest().removeTableColumFormatListByIndex(0);
 		}
+		GtnCommonUtil.createHeaderRow(printWriter, headers);
 		list.add(printWriter);
 		list.add(tempFile.getAbsolutePath());
 
 		return list;
 	}
 
-	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer,
-			Boolean excelComplete) {
+	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer, Boolean excelComplete,
+			List<String> columnFormatList) {
 
 		try {
-			GtnCommonUtil.createDataRows(printWriter, resultList,2);
+			GtnCommonUtil.createDataRows(printWriter, resultList, 2, columnFormatList);
 			printWriter.flush();
 			if (excelComplete) {
 				printWriter.close();
@@ -559,10 +558,9 @@ public class GtnWsTransactionService {
 
 		File tempFile = GtnFileNameUtils.getFile(filePath + filename);
 		try (FileWriter writer = new FileWriter(tempFile, true)) {
-
 			PrintWriter printWriter = new PrintWriter(writer);
-			list = createFile(tempFile, printWriter, gtnWsSearchRequest.getSearchModuleName(),
-					(List<String>) generalRequest.getExtraParameter());
+			list = createFile(tempFile, printWriter, (List<String>) generalRequest.getExtraParameter(), gtnWsRequest);
+			List<String> tableColumnFormatList = gtnWsRequest.getGtnWsGeneralRequest().getTableColumnFormatList();
 			printWriter = (PrintWriter) list.get(GtnWsNumericConstants.ZERO);
 			if (count > GtnWsNumericConstants.BATCH_COUNT) {
 				int maxNbrOfLoop = count / GtnWsNumericConstants.BATCH_COUNT;
@@ -578,13 +576,13 @@ public class GtnWsTransactionService {
 					}
 					List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 							gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-					writeFile(resultList, printWriter, writer, excelComplete);
+					writeFile(resultList, printWriter, writer, excelComplete, tableColumnFormatList);
 				}
 
 			} else {
 				List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 						gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-				writeFile(resultList, printWriter, writer, true);
+				writeFile(resultList, printWriter, writer, true, tableColumnFormatList);
 
 			}
 		} catch (IOException e) {
@@ -668,20 +666,20 @@ public class GtnWsTransactionService {
 		columnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
 		columnMap.put("quantity", "QUANTITY");
 		columnMap.put("salesAmount", "SALES_AMOUNT");
-		columnMap.put("recordCreatedDate","RECORD_CREATED_DATE");
+		columnMap.put("recordCreatedDate", "RECORD_CREATED_DATE");
 		return columnMap.get(columnName);
 	}
-	
+
 	private String replaceSingleQuote(String searchValue) {
 		int countOfSingleQuote = StringUtils.countMatches(searchValue, "'");
-		StringBuilder finalStr = new StringBuilder();
-		String tempStr;
+		String tempStr = searchValue;
 		if (countOfSingleQuote > 0) {
+			StringBuilder finalStr = new StringBuilder();
 			for (int i = 0; i < countOfSingleQuote / 2; i++) {
 				finalStr.append("'");
 			}
+			tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
 		}
-		tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
 		return tempStr;
 	}
 }

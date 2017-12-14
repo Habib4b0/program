@@ -62,7 +62,7 @@ public class GtnCsvExportService {
 				Object[] data = { start, offset };
 				List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 						.executeSelectQuery(csvExportBean.getDataQuery(), data, dataType);
-				GtnCommonUtil.createDataRows(printWriter, resultList,excludedColumnCount);
+				GtnCommonUtil.createDataRows(printWriter, resultList,excludedColumnCount, null);
 				printWriter.flush();
 				start = start + offset;
 			}

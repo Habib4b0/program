@@ -99,7 +99,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		addResetButtonComponent(componentList, componentBean.getSearchComponent(),
 				GtnTransactionUIConstants.SEARCH_BUTTON_LAYOUT, GtnTransactionUIConstants.RESET_DEFAULT_ALERT_MSG,
 				!componentBean.isOutBoundModule());
-		addExcelButtonComponent(componentList, portletName);
+		addExcelButtonComponent(componentList, portletName, componentBean);
 	}
 
 	public void seperateComponentsByType(GtnWSTransactionModuleBean transactionModuleBeanList, boolean isInvalid,
@@ -114,7 +114,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				isValidComponentCondition, transactionBeanList, isInvalid);
 		getConfigurationForModules(componentBean, transactionModuleConfigBeanList);
 
-		getVisibleColumnsAndHeader(componentBean.getSearchComponent(), componentBean.getListViewComponent(), isInvalid);
+		getVisibleColumnsAndHeader(componentBean.getSearchComponent(), componentBean.getListViewComponent(), isInvalid, componentBean);
 
 		if (isInvalid) {
 			List<GtnUIFrameworkComponentConfig> staticComponentList1 = new ArrayList<>();
@@ -156,7 +156,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				transactionBean.setReprocessAndRemoveComponentList(reprocessAndRemoveComponentList);
 			}
 			List<GtnUIFrameworkComponentConfig> excelBtnComponentList = new ArrayList<>();
-			addExcelButtonComponent(excelBtnComponentList, portletName.toUpperCase(Locale.ENGLISH));
+			addExcelButtonComponent(excelBtnComponentList, portletName.toUpperCase(Locale.ENGLISH), componentBean);
 			transactionBean.setExcelButtonComponentList(excelBtnComponentList);
 
 		} else {
@@ -263,7 +263,8 @@ public class GtnFrameworkTransactionComponentConfig {
 	}
 
 	private void getVisibleColumnsAndHeader(List<GtnWSTransactionColumnBean> searchComponent,
-			List<GtnWSTransactionColumnBean> listViewComponent, boolean isInvalid) {
+			List<GtnWSTransactionColumnBean> listViewComponent, boolean isInvalid,
+			GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 
 		for (GtnWSTransactionColumnBean obj : listViewComponent) {
 			visibleColumns.add(obj.getColumnID());
@@ -272,6 +273,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				columnToAlign.add(obj.getColumnID());
 				columnAlignments.add(obj.getColumnAlignment());
 			}
+			componentBean.addFormatterList(obj.getPattern());
 		}
 		for (GtnWSTransactionColumnBean gtnWSTransactionColumnBean : searchComponent) {
 			searchComponentID.add(gtnWSTransactionColumnBean.getColumnID());
@@ -1124,7 +1126,7 @@ public class GtnFrameworkTransactionComponentConfig {
 				GtnUIFrameworkTransactionTabsheetBean.class);
 	}
 
-	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String tableName) {
+	private void addExcelButtonComponent(List<GtnUIFrameworkComponentConfig> componentList, String tableName, GtnUIFrameworkTransactionComponentTypeListBean componentBean) {
 		GtnUIFrameworkComponentConfig excelButtonConfig = new GtnUIFrameworkComponentConfig();
 		excelButtonConfig.setComponentType(GtnUIFrameworkComponentType.EXCEL_BUTTON);
 		excelButtonConfig.setAddToParent(true);
@@ -1141,6 +1143,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
 		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);
 		excelAction.addActionParameter(gtnUIFrameworkExcelButtonConfig);
+		excelAction.addActionParameter(componentBean.getFormatterList());
 		excelButtonConfig.setGtnUIFrameWorkActionConfigList(Arrays.asList(excelAction));
 	}
 
@@ -1217,7 +1220,7 @@ public class GtnFrameworkTransactionComponentConfig {
 		if (gtnWSTransactionColumnBean.isDecimalFormatNeeded()) {
 			componentBean.putFormatterMap(gtnWSTransactionColumnBean.getColumnID(),
 					gtnWSTransactionColumnBean.getPattern());
-		}
+		} 
 	}
 
 }
