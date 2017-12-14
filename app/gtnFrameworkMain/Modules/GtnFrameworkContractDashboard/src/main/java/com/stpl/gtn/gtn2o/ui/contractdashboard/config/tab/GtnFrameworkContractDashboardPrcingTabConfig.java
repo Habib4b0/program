@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.contractdashboard.config.tab;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1481,17 +1482,25 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
 				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
 				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_INTERVAL_PENDING,
 				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
 				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
 				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
 				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_INTERVAL_PENDING,
 				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
 				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
 				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
-				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING, });
-		cdPricingResultTable.setExtraColumnDataType(new Class[] { String.class, String.class, String.class,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING,
+			    GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING3,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING4,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING5,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING6
+		});
+		cdPricingResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class });
+				String.class, String.class, String.class, String.class,String.class,Integer.class,Date.class,String.class
+		});
 		cdPricingResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_TABLE_DATA);
 		cdPricingResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
@@ -1670,7 +1679,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE, pricingTableFieldFactoryFocusAction);
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
 		valConfig.setAttachRegxValidatior(true);
-		valConfig.setFormatString("\\$?([|0-9]*.[0-9]{1,6})%?");
+		valConfig.setFormatString("\\$?([0-9]?.?[0-9]){1,6}%?");
 		valConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
 		GtnUIFrameworkComponentConfig priceTolCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,
