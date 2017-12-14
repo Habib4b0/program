@@ -3,6 +3,7 @@ package com.stpl.gtn.gtn2o.ws.request;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class GtnWsGeneralRequest implements GtnWSRequestData {
 	private Object extraParameter;
 
 	private boolean isExcel;
+
+	private List<String> tableColumnFormatList = null;
 
 	public String getComboBoxType() {
 		return comboBoxType;
@@ -101,4 +104,24 @@ public class GtnWsGeneralRequest implements GtnWSRequestData {
 	private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
 		stream.defaultReadObject();
 	}
+
+	public List<String> getTableColumnFormatList() {
+		return tableColumnFormatList == null ? tableColumnFormatList
+				: Collections.unmodifiableList(tableColumnFormatList);
+
+	}
+
+	public void setTableColumnFormatList(List<String> tableColumnFormatList) {
+		this.tableColumnFormatList = tableColumnFormatList == null ? tableColumnFormatList
+				: Collections.unmodifiableList(tableColumnFormatList);
+	}
+
+	public void removeTableColumFormatListByIndex(int index) {
+		if (tableColumnFormatList != null) {
+			List<String> tempList = new ArrayList<>(tableColumnFormatList);
+			tempList.remove(index);
+			tableColumnFormatList = tempList;
+		}
+	}
+
 }
