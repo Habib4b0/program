@@ -1679,7 +1679,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE, pricingTableFieldFactoryFocusAction);
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
 		valConfig.setAttachRegxValidatior(true);
-		valConfig.setFormatString("\\$?([|0-9]*.[0-9]{1,6})%?");
+		valConfig.setFormatString("\\$?([0-9]?.?[0-9]){1,6}%?");
 		valConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
 		GtnUIFrameworkComponentConfig priceTolCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,
