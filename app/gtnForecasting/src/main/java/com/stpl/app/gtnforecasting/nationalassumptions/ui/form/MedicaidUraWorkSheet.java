@@ -1115,11 +1115,7 @@ public class MedicaidUraWorkSheet extends Window {
                 boolean notesFlag = false;
                 boolean adjustFlag = false;
                 boolean isCpiUra= false;
-                if (!adjustedValues.isEmpty()) {
-                    queryUtil.saveNotes(adjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
-                    adjustFlag = true;
-                    adjustedValues.clear();
-                }
+               
                 if (!editedNotes.isEmpty()) {
                     queryUtil.saveNotes(editedNotes,sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
                     notesFlag = true;
@@ -1146,6 +1142,12 @@ public class MedicaidUraWorkSheet extends Window {
                     isCpiUra = true;
                     projectionDTO.setAdjust(true);
                     fourthAdjustedValues.clear();
+                }
+                 if (!adjustedValues.isEmpty()) {
+                    queryUtil.saveNotes(adjustedValues,sessionDTO, projectionDTO.getNdc9(), Constant.AMP);
+                    adjustFlag = true;
+                    isCpiUra = false;
+                    adjustedValues.clear();
                 }
                 if (!thirdEditedNotes.isEmpty()) {
                     queryUtil.saveNotes(thirdEditedNotes, sessionDTO, projectionDTO.getNdc9(), Constant.CPIURA);

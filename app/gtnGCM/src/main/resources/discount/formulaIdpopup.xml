@@ -6,20 +6,23 @@ and open the template in the editor.
 
 <Panel  xmlns:table="urn:import:org.asi.ui.extfilteringtable"
         xmlns:a="urn:import:org.asi.ui.extfilteringtable" 
-        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel">
+        xmlns:b="urn:import:org.asi.ui.customtextfield" id="mainPanel"
+        xmlns:c="urn:import:org.asi.ui.customcombobox">
     <VerticalLayout id="promoteTpToChVerticalLayout" spacing="true"
-                    margin="true" immediate="true" styleName = "width-auto">
+                    margin="true" immediate="true" styleName = "width-auto" >
         
-        <Panel id="removeDiscountPanel1" caption="Search Criteria">
-            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true">
+        <Panel id="removeDiscountPanel1" caption="Search Criteria" width="100%" height="100%">
+            <HorizontalLayout id="horizontalLayout1" spacing="true" margin="true" immediate="true" width="100%" height="100%">
                 <GridLayout spacing="true"  id="promoteTpToChLayout" immediate="true" columns="6" rows="1">
-                    <Label caption="Formula ID: " contentMode="HTML" />
+                    <Label value="Net Sales Formula Type"  contentMode="HTML" />
+                    <c:CustomComboBox id="netSalesFormulaType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
+                    <Label caption="Net Sales Formula ID: " contentMode="HTML" />
                     <TextField id="formulaId" inputPrompt="" immediate="true"/>
                     
-                    <Label caption="Formula No: " contentMode="HTML" />
+                    <Label caption="Net Sales Formula NO: " contentMode="HTML" />
                     <TextField id="formulaNo" inputPrompt="" immediate="true"/>
                     
-                    <Label caption="Formula Name: " contentMode="HTML" />
+                    <Label caption="Net Sales Formula Name: " contentMode="HTML" />
                     <TextField id="formulaName" inputPrompt="" immediate="true"/>
                 </GridLayout>                
             </HorizontalLayout>
@@ -28,9 +31,9 @@ and open the template in the editor.
             <Button id="searchBtn" caption="SEARCH"  />
             <Button id="resetBtn" caption="RESET"  />
         </HorizontalLayout>
-        <Panel id="removeDiscountPanel2" caption="Results">
+            <Panel id="removeDiscountPanel2" caption="Results" width="100%" height="100%" >
             <VerticalLayout styleName="width-auto" >
-                <VerticalLayout id="formulaTableLayout"  immediate="true">
+                <VerticalLayout id="formulaTableLayout"  immediate="true" width="100%" height="100%">
                 </VerticalLayout>
                 <HorizontalLayout spacing="true" margin="true">
                     <Button id="selectBtn" caption="SELECT"  />

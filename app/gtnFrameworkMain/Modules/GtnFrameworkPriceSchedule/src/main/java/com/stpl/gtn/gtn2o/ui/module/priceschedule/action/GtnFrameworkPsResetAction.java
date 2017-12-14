@@ -14,6 +14,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.priceschedule.bean.GtnUIFrameWorkPSInfoBean;
+import com.vaadin.server.Page;
+
 
 public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -93,8 +95,8 @@ public class GtnFrameworkPsResetAction implements GtnUIFrameWorkAction, GtnUIFra
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpPriceProtectionMassCheck", componentId)
 						.setPropertyValue(GtnFrameworkCommonStringConstants.DISABLE);
 				break;
-
-			default:
+            default:
+            	Page.getCurrent().reload();
 				break;
 			}
 		}
