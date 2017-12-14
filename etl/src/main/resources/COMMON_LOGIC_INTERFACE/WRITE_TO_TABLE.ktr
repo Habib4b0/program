@@ -131,7 +131,7 @@
   <hop> <from>Table output</from><to>Write to log</to><enabled>N</enabled> </hop>
   <hop> <from>MAIL ID</from><to>Mail</to><enabled>Y</enabled> </hop>
   <hop> <from>MAIL ID 2</from><to>Mail 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Mail 2</from><to>Abort 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Mail 2</from><to>Abort 2</to><enabled>N</enabled> </hop>
   <hop> <from>Table output</from><to>MAIL ID</to><enabled>Y</enabled> </hop>
   <hop> <from>Table output</from><to>MAIL ID 2</to><enabled>Y</enabled> </hop>
   </order>
@@ -151,8 +151,8 @@
       <always_log_rows>N</always_log_rows>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>867</xloc>
-      <yloc>592</yloc>
+      <xloc>870</xloc>
+      <yloc>619</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -230,7 +230,7 @@
            </partitioning>
     <connection>appunit</connection>
     <rowlimit>0</rowlimit>
-    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;There was an error in moving file to table&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
+    <sql>DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;There was an error in loading file to table&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_FAILURE_CC AS DESTINATION_CC,&#xa;             B.FAILURE_MAIL_SUBJECT        AS SUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.FAILURE_MAIL_BODY&#x29; as CONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;&#x24;&#x7b;WORKFLOW_INTERFACE_NAME&#x7d;&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;</sql>
     <outer_join>N</outer_join>
     <replace_vars>Y</replace_vars>
     <parameter>
