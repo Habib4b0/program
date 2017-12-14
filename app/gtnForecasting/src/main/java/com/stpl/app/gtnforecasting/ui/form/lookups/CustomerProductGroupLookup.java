@@ -29,6 +29,7 @@ import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +47,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	/**
 	 * Indicates whether it is customer lookup or product lookup.
 	 */
-	private String indicator;
+	private final String indicator;
 
 	/**
 	 * The groupName TextField for searching.
@@ -61,37 +62,28 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 	/**
 	 * groupLookup TextField which opened the lookup.
 	 */
-	private TextField groupLookup;
+	private final TextField groupLookup;
 
 	/**
 	 * The search result table.
 	 */
 	private GroupDTO selectedCustHierarchy;
 
-	private Button searchBtn = new Button(BTN_SEARCH.getConstant());
-	private Button resetBtn = new Button(BTN_RESET.getConstant());
+	private final Button searchBtn = new Button(BTN_SEARCH.getConstant());
+	private final Button resetBtn = new Button(BTN_RESET.getConstant());
 	private GroupDTO selectedProdHierarchy;
 	private List<String> itemsOrCompanySids;
 	private List<String> filteredSids;
-	private GroupSearchLogic tableLogic = new GroupSearchLogic();
-	private ExtPagedTable results = new ExtPagedTable(tableLogic);
+	private final GroupSearchLogic tableLogic = new GroupSearchLogic();
+	private final ExtPagedTable results = new ExtPagedTable(tableLogic);
 
 	/**
 	 * Container for results table.
 	 */
 	private final BeanItemContainer<GroupDTO> resultBean = new BeanItemContainer<>(GroupDTO.class);
+        private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(CustomTreeBuild.class);
 
-	/**
-	 * Constructor for CustomerProductGroupLookup.
-	 *
-	 * @param indicator
-	 *            Indicates whether it is customer lookup or product lookup
-	 * @param windowName
-	 *            Name of the window
-	 * @param groupLookup
-	 *            TextField which opened the lookup
-	 * @param sidQuery
-	 */
+
 	public CustomerProductGroupLookup(final String indicator, final String windowName, final TextField groupLookup,
 			final String screenName) {
 		super(indicator, windowName, screenName);
@@ -99,18 +91,6 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 		this.groupLookup = groupLookup;
 	}
 
-	/**
-	 * Constructor for CustomerProductGroupLookup.
-	 *
-	 * @param indicator
-	 *            Indicates whether it is customer lookup or product lookup
-	 * @param windowName
-	 *            Name of the window
-	 * @param groupLookup
-	 *            TextField which opened the lookup
-	 * @param sidQuery
-	 * @param selectedGroupDTO
-	 */
 	public CustomerProductGroupLookup(final String indicator, final String windowName, final TextField groupLookup,
 			final List<String> itemsOrCompanySids, final String screenName) {
 		super(indicator, windowName, screenName);
@@ -161,6 +141,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	/**
 	 * Select button logic.
+     * @throws com.stpl.portal.kernel.exception.SystemException
 	 */
 	protected void btnLookupSelectLogic1() throws SystemException, PortalException {
 		if (results != null && results.getValue() != null) {
@@ -176,7 +157,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 								.getCustomerGroupDetails(Integer.parseInt(selectedCustHierarchy.getCustomerGroupSid()));
 						finalCompanySids.retainAll(sidsFromDetails);
 						setFilteredSids(finalCompanySids);
-					} catch (Exception ex) {
+					} catch (SystemException | NumberFormatException ex) {
 						Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
 					}
 				} else {
@@ -192,7 +173,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 								.getItemGroupDetails(Integer.parseInt(selectedProdHierarchy.getProductGroupSid()));
 						finalItemSids.retainAll(sidsFromDetails);
 						setFilteredSids(finalItemSids);
-					} catch (Exception ex) {
+					} catch (SystemException | NumberFormatException ex) {
 						Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
 					}
 				} else {
@@ -210,6 +191,8 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	/**
 	 * Select button logic.
+     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
 	protected void btnLookupSelectLogic() throws SystemException, PortalException {
@@ -231,7 +214,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 					groupLookup.setValue(String.valueOf(selectedProdHierarchy.getProductGroupName()));
 				}
 				close();
-			} catch (Exception ex) {
+			} catch (SystemException | Property.ReadOnlyException | NumberFormatException ex) {
 				Logger.getLogger(CustomerProductGroupLookup.class.getName()).log(Level.SEVERE, null, ex);
 			}
 		} else {
@@ -243,6 +226,8 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 	/**
 	 * Overload and Customize search logic here.
+     * @throws com.stpl.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.PortalException
 	 */
 	@Override
 	protected void btnSearchLogic() throws SystemException, PortalException {
@@ -336,7 +321,7 @@ public class CustomerProductGroupLookup extends AbstractGroupLookup {
 
 			@Override
 			public void noMethod() {
-				return;
+                            LOGGER.debug("Inside overriden method: Do nothing");
 			}
 		};
 		notificationUtils.getConfirmationMessage("Confirm Reset",

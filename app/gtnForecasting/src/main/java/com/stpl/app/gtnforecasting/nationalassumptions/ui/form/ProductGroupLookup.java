@@ -5,7 +5,6 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
@@ -103,10 +102,6 @@ public class ProductGroupLookup extends Window {
     @UiField("reset")
     private Button reset;
 
-    /**
-     * The logic.
-     */
-    private final ProductGroupLogic productLogic = new ProductGroupLogic();
     private boolean isCancel = false;
     private final SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
@@ -185,7 +180,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        //Default method
                     }
 
                     @Override
@@ -203,7 +198,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-
+                        //Default method
                     }
 
                     @Override

@@ -66,6 +66,10 @@ public class GtnTransactionUIConstants {
 
 	public static final String REPROCESS_BUTTON_LAYOUT = "reprocessButtonlayout";
 	
+	public static final String RESET_DEFAULT_ALERT_MSG = "Are you sure you want to reset the Search section to its default state?";
+	
+	public static final String RESET_REPROCESS_ALERT_MSG = "Are you sure you want to reset the screen to its default state?";
+	
 	private static final String[] VIEW_ENABLE = { "AccrualMaster", "ActualsMaster", "AuditMasterInbound",
 			"CpiIndexMaster", "CustomerGtsActual", "ForecastingMaster", "GlBalanceMaster", "ReturnsMaster",
 			"SalesMaster", "VwCompanyIdentifier", "VwCompanyMaster", "VwCompanyParentDetails", "VwCompanyTradeClass",

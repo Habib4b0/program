@@ -14,6 +14,7 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -76,6 +77,32 @@ public class ItemQueries {
     public static final String CONT_START_DATETO = "contStartDateto";
     public static final String CONT_START_DATEFROM = "contStartDatefrom";
     public static final String SPACE_AND = " AND ";
+    
+    
+    public static List getAppData(List input, String queryName, String quaryName2) {
+        List list = new ArrayList();
+        StringBuilder sql;
+        LOGGER.debug("queryName - - >> " + queryName);
+        if (queryName != null && !queryName.isEmpty()) {
+            try {
+                sql = new StringBuilder(SQlUtil.getQuery(queryName));
+                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
+                    sql.append(" ");
+                    sql.append(SQlUtil.getQuery(queryName));
+                }
+                for (Object temp : input) {
+                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                }
+                LOGGER.debug("sql ==================== " + sql);
+                list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+
+        LOGGER.debug("End getAppData");
+        return list;
+    }
     
     public static List getItemData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");

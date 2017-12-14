@@ -3,7 +3,6 @@ package com.stpl.gtn.gtn2o.ui.module.priceschedule.config.fieldfactory;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkActionShareable;
@@ -118,13 +117,15 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 			tableBaseComponent.setTableRefresh(true);
 
 		}
-		boolean gtnFrameworkPriceProtectionValueChangeManager=GtnFrameworkPriceProtectionValueChangeManager.isValueChangeAllowed();
-		if ((gtnFrameworkPriceProtectionValueChangeManager)&&((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))
-				|| (column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
-			
-				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(false);
-				refreshTable();
-				GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);			
+	
+		boolean gtnFrameworkPPPriceToltanceValueChangeManager = GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager
+				.isValueChangeAllowed();
+		if ((gtnFrameworkPPPriceToltanceValueChangeManager)
+				&& ((column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[20]))|| 
+				(column.equals(GtnFrameworkPSConstants.getPriceProtectionEditableList().toArray()[21])))) {
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(false);
+			refreshTable();
+			GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 		}
 	}
 
@@ -133,8 +134,7 @@ public class GtnFramworkPsPriceProtectionResultsFieldFactoryAction
 				.getVaadinComponentData("psPriceProtectionTabResultDataTable");
 		GtnUIFrameworkPagedTableLogic tableLogic = componentData.getCurrentPageTableLogic();
 		tableLogic.startSearchProcess(new ArrayList<String>(), true);
-		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(true);
-
+		GtnFrameworkPPPriceTolranceFieldFactoryValueChangeManager.setValueChangeAllowed(true);
 	}
 
 	private Object getFieldValue(GtnWsRecordBean psPriceProtectionBean) {

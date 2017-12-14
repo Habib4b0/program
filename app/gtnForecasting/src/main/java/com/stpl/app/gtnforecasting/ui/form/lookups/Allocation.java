@@ -51,11 +51,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -75,25 +71,27 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class Allocation extends CustomComponent implements View {
 
-    SessionDTO session;
+    private SessionDTO session;
+    
     @UiField("selectedCustomerTableLayout")
-    protected VerticalLayout selectedCustomerTableLayout;
+    private VerticalLayout selectedCustomerTableLayout;
+    
     @UiField("allocationDetailsLayout")
-    protected VerticalLayout allocationDetailsLayout;
+    private VerticalLayout allocationDetailsLayout;
 
-    AltAllocTableLogic tableLogic;
-    AltAllocTableLogic tableDetLogic = new AltAllocTableLogic();
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    FreezePagedTable resultsTable ;
-    FreezePagedTable resultsDetTable = new FreezePagedTable(tableDetLogic);
+    private AltAllocTableLogic tableLogic;
+    private AltAllocTableLogic tableDetLogic = new AltAllocTableLogic();
+    private AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private FreezePagedTable resultsTable ;
+    private FreezePagedTable resultsDetTable = new FreezePagedTable(tableDetLogic);
     /* The Right Header Dto */
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     /* The Right Header Dto */
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     /* String to be stored during focus of List View text field */
-    String focusValue = StringUtils.EMPTY;
+    private String focusValue = StringUtils.EMPTY;
     /* String to be stored during blur of List View text field */
-    String blurValue = StringUtils.EMPTY;
+    private String blurValue = StringUtils.EMPTY;
     /**
      * The max split position.
      */
@@ -108,52 +106,49 @@ public class Allocation extends CustomComponent implements View {
      * The split position.
      */
     private final float splitPosition = 900;
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    ExtFilterTable leftTable;
-    ExtFilterTable leftDetTable;
-    ExtFilterTable rightTable;
-    ExtFilterTable rightDetTable;
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullDetHeader = new CustomTableHeaderDTO();
+    private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private ExtFilterTable leftTable;
+    private ExtFilterTable leftDetTable;
+    private ExtFilterTable rightTable;
+    private ExtFilterTable rightDetTable;
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullDetHeader = new CustomTableHeaderDTO();
+    
     @UiField("frequency")
-    public ComboBox frequency;
+    private ComboBox frequency;
+    
     @UiField("from")
-    public ComboBox from;
+    private ComboBox from;
+    
     @UiField("to")
     public ComboBox to;
-    @UiField("refreshBtn")
-    Button refreshBtn;
-    @UiField("export")
-    public Button export;
-    @UiField("exportBtn")
-    public Button exportBtn;
-    CustomTableHeaderDTO rightDTO;
     
-    DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_PERCENT);
-    DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, StringUtils.EMPTY);
+    @UiField("export")
+    private Button export;
+    
+    @UiField("exportBtn")
+    private Button exportBtn;
+    
+    private DataFormatConverter percentFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_PERCENT);
+    private DataFormatConverter salesFormat = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, DataFormatConverter.INDICATOR_DOLLAR);
+    private DataFormatConverter salesFormatallocation = new DataFormatConverter(Constant.TWO_DECIMAL_FORMAT_WITH_COMMA, StringUtils.EMPTY);
     private ExtContainer<AlternateHistoryDTO> resultBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
     private ExtContainer<AlternateHistoryDTO> resultDetBean = new ExtContainer<>(
             AlternateHistoryDTO.class, ExtContainer.DataStructureMode.MAP);
-    AlternateHistoryDTO altDto = new AlternateHistoryDTO();
-    CommonUtils commonUtil = new CommonUtils();
-    boolean addToQueue = false;
-    String projDetSids = StringUtils.EMPTY;
-    String changedProperty = StringUtils.EMPTY;
-    String checkValue = StringUtils.EMPTY;
+    private AlternateHistoryDTO altDto = new AlternateHistoryDTO();
+    private CommonUtils commonUtil = new CommonUtils();
+    private boolean addToQueue = false;
+    
+    private String changedProperty = StringUtils.EMPTY;
+    
     private static final Logger LOGGER = Logger.getLogger(Allocation.class);
-    protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
+    private  final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private ExtCustomTable exportTable;
-    String excelName = "All Item Information";
+    private String excelName = "All Item Information";
     private ExtTreeContainer<AlternateHistoryDTO> excelResultBean = new ExtTreeContainer<>(AlternateHistoryDTO.class,ExtContainer.DataStructureMode.MAP);
-    List<Object> projDetList = new ArrayList<>();
-    boolean allocation = false;
-    Set headerno = new HashSet();
-    Map allocationCheck = new HashMap<>();
-    Integer oldSid=0;
-    Date start_stamp;
-    Date end_stamp;
+    private Date start_stamp;
+    private Date end_stamp;
     private final List allocatedPeriodsList = new ArrayList();
 
     public Allocation(SessionDTO session) {
@@ -203,6 +198,7 @@ public class Allocation extends CustomComponent implements View {
         export.addStyleName("link");
         export.setIcon(excelExportImage, "Excel Export");
         export.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 AvailableExport();
             }
@@ -210,6 +206,7 @@ public class Allocation extends CustomComponent implements View {
         exportBtn.addStyleName("link");
         exportBtn.setIcon(excelExportImage, "Excel Export");
         exportBtn.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 SelectionExport();
             }
@@ -345,6 +342,7 @@ public class Allocation extends CustomComponent implements View {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
                         check.setValue(false);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 try {
                                      logic.check_available_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);
@@ -362,6 +360,7 @@ public class Allocation extends CustomComponent implements View {
         final String frequencyValue = frequency.getValue() == null ? StringUtils.EMPTY : frequency.getValue().toString();
         
         rightTable.setTableFieldFactory(new DefaultFieldFactory() {
+            @Override
             public Field<?> createField(final Container container, final Object itemId,
                     final Object propertyId, Component uiContext) {
                 try {
@@ -574,7 +573,7 @@ public class Allocation extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
     private ForecastDTO getHistoricalPeriods() {
@@ -602,7 +601,7 @@ public class Allocation extends CustomComponent implements View {
         
         return dto;
     }
-    ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
+    private ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
         @Override
         public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
 
@@ -716,8 +715,9 @@ public class Allocation extends CustomComponent implements View {
     public void resetBtnClick(Button.ClickEvent event) {
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
-                return;
+               LOGGER.debug("Inside Overriden method: do nothing");
             }
 
             @Override
@@ -871,8 +871,9 @@ public class Allocation extends CustomComponent implements View {
     
     public void AvailableExport() {
         configureSelectionExcelResultTable();
-        AlternateHistoryLogic logic = new AlternateHistoryLogic();
-        List<AlternateHistoryDTO> list = logic.getAlloc(altDto, session, false, tableLogic.getFilters(), 0, 0, Boolean.TRUE);
+        AlternateHistoryLogic altHistLogic;
+        altHistLogic = new AlternateHistoryLogic();
+        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, false, tableLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
         ForecastUI.EXCEL_CLOSE=true;
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);
@@ -895,8 +896,8 @@ public class Allocation extends CustomComponent implements View {
 
     public void SelectionExport() {
         configureAvailableExcelResultTable();
-        AlternateHistoryLogic logic = new AlternateHistoryLogic();
-        List<AlternateHistoryDTO> list = logic.getAlloc(altDto, session, true, tableDetLogic.getFilters(), 0, 0, Boolean.TRUE);
+        AlternateHistoryLogic altHistLogic = new AlternateHistoryLogic();
+        List<AlternateHistoryDTO> list = altHistLogic.getAlloc(altDto, session, true, tableDetLogic.getFilters(), 0, 0, Boolean.TRUE);
         excelResultBean.addAll(list);
         ForecastUI.EXCEL_CLOSE=true;
         ExcelExport excel = new ExcelExport(new ExtCustomTableHolder(exportTable), excelName, excelName, excelName.replace(" ", "_") + ".xls", false);

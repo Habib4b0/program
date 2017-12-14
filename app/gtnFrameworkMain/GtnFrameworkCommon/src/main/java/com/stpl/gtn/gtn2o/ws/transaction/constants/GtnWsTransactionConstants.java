@@ -29,5 +29,7 @@ public class GtnWsTransactionConstants {
 	public static final String GTN_WS_TRANSACTION_VALIDATION_SERVICE = "/getValidationRunning";
 
 	public static final String GTN_WS_TRANSACTION_REPROCESS_SERVICE = "/reprocess";
+	
+	public static final String PERCENTAGE = "%";
 
 }
