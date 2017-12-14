@@ -454,7 +454,6 @@ public class SPRCommonLogic {
 
 				statement.close();
 				connection.close();
-				System.gc();
 			} catch (Exception ex) {
 				LOGGER.error(ex);
 			}

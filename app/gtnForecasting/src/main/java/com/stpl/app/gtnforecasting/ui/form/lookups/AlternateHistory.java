@@ -40,24 +40,24 @@ public class AlternateHistory extends CustomWindow {
      * The close.
      */
     @UiField("nextBtn")
-    Button nextBtn;
-    @UiField("closeBtn")
-    Button closeBtn;
+    private Button nextBtn;
+    
     @UiField("previousBtn")
-    Button previousBtn;
+    private Button previousBtn;
+    
     @UiField("populateBtn")
-    Button populateBtn;
+    private Button populateBtn;
 
     /**
      * The tab sheet.
      */
     @UiField("tabSheet")
-    TabSheet tabSheet;
+    private TabSheet tabSheet;
 
-    int tabPosition = 0;
-    int lastPosition = 0;
-    int currentPosition = 0;
-    boolean prevflag = false;
+    private int tabPosition = 0;
+    private int lastPosition = 0;
+    private int currentPosition = 0;
+    private boolean prevflag = false;
     private CustomerSelection customerSelection;
     private ItemSelection itemSelection;
     private AltHistorySelection altHistorySelection;
@@ -65,23 +65,16 @@ public class AlternateHistory extends CustomWindow {
     private AlternateSummery summary;
     private AltSummeryDiscount discountSummary;
 
-    SessionDTO session;
+    private final SessionDTO session;
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(AlternateHistory.class);
-    ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
-    NMDiscountTableLoadLogic tableLogic;
-    int rsModelSid = 0;
-    String rsName = StringUtils.EMPTY;
-    String ccpList = StringUtils.EMPTY;
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    List<String> variableList=new ArrayList<>();
+    private ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
+    private final NMDiscountTableLoadLogic tableLogic;
+    private int rsModelSid = 0;
+    private String rsName = StringUtils.EMPTY;
+    private String ccpList = StringUtils.EMPTY;
+    private final AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private List<String> variableList=new ArrayList<>();
 
-    /**
-     *
-     * @param screenIndicator
-     * @param baseRateDTO
-     * @param custom
-     * @throws Exception
-     */
     public AlternateHistory(SessionDTO session,List<String> variableList) {
         this.session = session;
         this.projectionSelection = null;
@@ -357,8 +350,10 @@ public class AlternateHistory extends CustomWindow {
     @UiHandler("closeBtn")
     public void closeBtnLogic(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
+                LOGGER.debug("Inside Overriden method: do nothing");
             }
 
             @Override
@@ -381,7 +376,7 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    return;
+                    LOGGER.debug("Inside Overriden method: do nothing");
                 }
 
                 @Override
@@ -404,7 +399,7 @@ public class AlternateHistory extends CustomWindow {
             new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    return;
+                    LOGGER.debug("Inside Overriden method: do nothing");
                 }
 
                 @Override

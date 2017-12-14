@@ -922,7 +922,7 @@ public class DataSelection extends CustomComponent implements View {
             } catch (Exception ex) {
                 LOGGER.error(ex);
             } finally {
-                System.gc();
+                LOGGER.debug("Inside finally");
             }
         }
     }
