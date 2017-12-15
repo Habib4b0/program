@@ -1594,9 +1594,9 @@ public class Newcomponent extends CustomComponent {
                 }
                 if (component.equals(Constants.PRICE_SCHEDULE)) {
                     if (NumericConstants.THREE - levelNumber == 1) {
-                        String ifpId = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                        String itemFamilyPlanID = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                         String queryName = "temp Table IFP Select";
-                        if (checkSameItemInPs(ifpId, componentDetailsSelectedItem.getItemIds(), queryName)) {
+                        if (checkSameItemInPs(itemFamilyPlanID, componentDetailsSelectedItem.getItemIds(), queryName)) {
                             if (!psId.getValue().equals(Constants.EMPTY) && !psNo.getValue().equals(Constants.EMPTY) && !psName.getValue().equals(Constants.EMPTY) && psStatus.getValue() != null && psStartDate.getValue() != null && !psfileName.getValue().equals(Constants.EMPTY)) {
                                 String query = "select * from PS_MODEL where PS_NAME='" + psName.getValue() + "'";
                                 List list = CompanyMasterLocalServiceUtil.executeQuery(query);
@@ -1730,8 +1730,8 @@ public class Newcomponent extends CustomComponent {
                 }
                 if (component.equals(Constants.REBATE_SCHEDULE)) {
                     if (NumericConstants.FOUR - levelNumber == 1) {
-                        String ifpId = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
-                        if (checkSameItemInPs(ifpId, componentDetailsSelectedItem.getItemIds(), "temp Table PS Select")) {
+                        String itemFamilyPlanId = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
+                        if (checkSameItemInPs(itemFamilyPlanId, componentDetailsSelectedItem.getItemIds(), "temp Table PS Select")) {
                             if (!rsId.getValue().equals(Constants.EMPTY) && !rsNumber.getValue().equals(Constants.EMPTY) && !rsName.getValue().equals(Constants.EMPTY) && !rsStatus.getValue().equals(Constants.ZEROSTRING) && !rsType.getValue().equals(Constants.ZEROSTRING) && rsStartDate.getValue() != null && rsEndDate.getValue() != null && !paymentFrequency.getValue().equals(Constants.ZEROSTRING) && !paymentMethod.getValue().equals(Constants.ZEROSTRING) && !rebatePlanLevel.getValue().equals(Constants.ZEROSTRING) && !rsRarType.getValue().equals(Constants.ZEROSTRING) && !calendar.getValue().equals(Constants.ZEROSTRING)) {
                                 String query = "select * from RS_MODEL where RS_NAME='" + rsName.getValue() + "'";
                                 List list = CompanyMasterLocalServiceUtil.executeQuery(query);

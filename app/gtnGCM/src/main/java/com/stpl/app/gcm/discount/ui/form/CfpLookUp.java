@@ -133,32 +133,30 @@ public class CfpLookUp extends Window {
                 }
 
                 public AbstractField<?> getCustomFilterComponent(Object propertyId) {
+                     CustomComboBox comboBox = new CustomComboBox();
                     if (propertyId.equals("cfpType")) {
                         try {
-                            CustomComboBox cfpType = new CustomComboBox();
-                            cfpType.setImmediate(true);
-                            commonUtil.loadComboBox(cfpType, UiUtils.CFP_TYPE, true);
-                            return cfpType;
+                            comboBox.setImmediate(true);
+                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_TYPE, true);
+                            return comboBox;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }
                     }
                     if (propertyId.equals("cfpCategory")) {
                         try {
-                            CustomComboBox cfpCategory = new CustomComboBox();
-                            cfpCategory.setImmediate(true);
-                            commonUtil.loadComboBox(cfpCategory, UiUtils.CFP_CATEGORY, true);
-                            return cfpCategory;
+                            comboBox.setImmediate(true);
+                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_CATEGORY, true);
+                            return comboBox;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }
                     }
                 if (propertyId.equals("cfpDesignation")) {
                          try {
-                    CustomComboBox cfpDesignation = new CustomComboBox();
-                    cfpDesignation.setImmediate(true);
-                            commonUtil.loadComboBox(cfpDesignation, UiUtils.CFP_DESIGNATION, true);                          
-                             return cfpDesignation;
+                    comboBox.setImmediate(true);
+                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_DESIGNATION, true);                          
+                             return comboBox;
                              } catch (Exception ex) {
                             LOGGER.error(ex);
                              }
@@ -166,20 +164,18 @@ public class CfpLookUp extends Window {
                 }
                     if (propertyId.equals("cfpStatus")) {
                         try {
-                            CustomComboBox cfpStatus = new CustomComboBox();
-                            cfpStatus.setImmediate(true);
-                            commonUtil.loadComboBox(cfpStatus, UiUtils.STATUS, true);
-                            return cfpStatus;
+                            comboBox.setImmediate(true);
+                            commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
+                            return comboBox;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }
                     }
                     if (propertyId.equals("cfpTradeClass")) {
                         try {
-                            CustomComboBox cfpTradeClass = new CustomComboBox();
-                            cfpTradeClass.setImmediate(true);
-                            commonUtil.loadComboBox(cfpTradeClass, UiUtils.CFP_TRADE_CLASS, true);
-                            return cfpTradeClass;
+                            comboBox.setImmediate(true);
+                            commonUtil.loadComboBox(comboBox, UiUtils.CFP_TRADE_CLASS, true);
+                            return comboBox;
                         } catch (Exception ex) {
                             LOGGER.error(ex);
                         }

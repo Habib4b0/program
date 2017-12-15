@@ -1178,13 +1178,13 @@ public class Copycomponents extends CustomComponent {
         try {
             final StplSecurity stplSecurity = new StplSecurity();
             String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "Copy Componenet Screen");
-            setFunctionHM(functionHM);
-            BtnsearchNC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchNC", functionHM));
-            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHM));
-            removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeBtn", functionHM));
-            populateDetails.setVisible(CommonLogic.isButtonVisibleAccess("populateDetails", functionHM));
-            addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
+            Map<String, AppPermission> functionHMPermission = stplSecurity.getBusinessFunctionPermission(userId, "GCM-Contract Management", "Copy Contract", "Copy Componenet Screen");
+            setFunctionHM(functionHMPermission);
+            BtnsearchNC.setVisible(CommonLogic.isButtonVisibleAccess("BtnsearchNC", functionHMPermission));
+            populateBtn.setVisible(CommonLogic.isButtonVisibleAccess("populateBtn", functionHMPermission));
+            removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeBtn", functionHMPermission));
+            populateDetails.setVisible(CommonLogic.isButtonVisibleAccess("populateDetails", functionHMPermission));
+            addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHMPermission));
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

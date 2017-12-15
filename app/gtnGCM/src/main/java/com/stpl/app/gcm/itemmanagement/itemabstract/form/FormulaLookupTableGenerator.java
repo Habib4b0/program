@@ -25,6 +25,7 @@ public class FormulaLookupTableGenerator implements ExtFilterGenerator {
     private static final Logger LOGGER = Logger.getLogger(FormulaLookupTableGenerator.class);
 
     public FormulaLookupTableGenerator() {
+       LOGGER.debug("FormulaLookupTableGenerator");
     }
 
     @Override
