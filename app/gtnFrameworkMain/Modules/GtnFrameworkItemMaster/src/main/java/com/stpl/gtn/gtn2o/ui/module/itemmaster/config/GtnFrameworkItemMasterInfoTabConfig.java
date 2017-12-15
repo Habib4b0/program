@@ -494,13 +494,13 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 		baseLineAMPMaxLengthConfig.setMaximumLength(50);
 		baseLineAMPConfig.setGtnTextBoxConfig(baseLineAMPMaxLengthConfig);
                 
-                List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseline = new ArrayList<>();
-                GtnUIFrameWorkActionConfig blurActionForAMP = new GtnUIFrameWorkActionConfig();
-                blurActionForAMP.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                blurActionForAMP.addActionParameter(GtnFrameworkItemMasterBaselineAMPBlurAction.class.getName());
-                blurActionForAMP.addActionParameter(Arrays.asList("additionalInformationTabBaselineAMP"));
-                actionBlurConfigBaseline.add(blurActionForAMP);
-                baseLineAMPMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseline);
+		List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseline = new ArrayList<>();
+		GtnUIFrameWorkActionConfig blurActionForAMP = new GtnUIFrameWorkActionConfig();
+		blurActionForAMP.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		blurActionForAMP.addActionParameter(GtnFrameworkItemMasterBaselineAMPBlurAction.class.getName());
+		blurActionForAMP.addActionParameter(Arrays.asList("additionalInformationTabBaselineAMP"));
+		actionBlurConfigBaseline.add(blurActionForAMP);
+		baseLineAMPMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseline);
 
 		GtnUIFrameworkValidationConfig baseLineAMPValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,
@@ -575,13 +575,13 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 		baseCPIMaxLengthConfig.setMaximumLength(50);
 		baseCPIConfig.setGtnTextBoxConfig(baseCPIMaxLengthConfig);
                 
-                List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseCpi = new ArrayList<>();
-                GtnUIFrameWorkActionConfig blurActionForCPI = new GtnUIFrameWorkActionConfig();
-                blurActionForCPI.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-                blurActionForCPI.addActionParameter(GtnFrameworkItemMasterBaseCPIBlurAction.class.getName());
-                blurActionForCPI.addActionParameter(Arrays.asList("additionalInformationTabBaseCPI"));
-                actionBlurConfigBaseCpi.add(blurActionForCPI);
-                baseCPIMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseCpi);
+		List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseCpi = new ArrayList<>();
+		GtnUIFrameWorkActionConfig blurActionForCPI = new GtnUIFrameWorkActionConfig();
+		blurActionForCPI.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		blurActionForCPI.addActionParameter(GtnFrameworkItemMasterBaseCPIBlurAction.class.getName());
+		blurActionForCPI.addActionParameter(Arrays.asList("additionalInformationTabBaseCPI"));
+		actionBlurConfigBaseCpi.add(blurActionForCPI);
+		baseCPIMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseCpi);
 
 		GtnUIFrameworkValidationConfig baseCPIValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,

@@ -2575,17 +2575,6 @@ public class ForecastForm extends AbstractForm {
 								discountMasterInsert)) });
 	}
 
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void nmPPAProcedure() {
-		Future ppaInsert = service.submit(CommonUtil.getInstance().createRunnableForPPAProcedureCall(
-				SalesUtils.PRC_NM_PPA_INSERT, dataSelectionDTO.getProjectionId(), session, null));
-		session.addFutureMap(Constant.PPA_PROCEDURE_CALL, new Future[] { ppaInsert });
-	}
-
 	private void nmPPAInitProcedure() {
 		Future ppaInit = service.submit(
 				CommonUtil.getInstance().createRunnableForPPAInitProcedure(SalesUtils.PRC_NM_PPA_PROJ_INIT, session));

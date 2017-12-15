@@ -808,7 +808,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
             final ComboBox priceProtectionStatus = new ComboBox();
             priceProtectionStatus.setImmediate(true);
-            CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS_LISTNAME, false);
+            CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS, false);
             priceProtectionStatus.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {

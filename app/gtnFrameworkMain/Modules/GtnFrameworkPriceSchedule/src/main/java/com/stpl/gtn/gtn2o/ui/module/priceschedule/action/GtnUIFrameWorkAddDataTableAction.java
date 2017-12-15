@@ -39,14 +39,14 @@ public class GtnUIFrameWorkAddDataTableAction implements GtnUIFrameWorkAction, G
 			gtnWsRecordBean = (GtnWsRecordBean) GtnUIFrameworkGlobalUI.getVaadinBaseComponent("CFPleftResultTable")
 					.getValueFromComponent();
 			String ifpId = gtnWsRecordBean.getPropertyValueByIndex(7).toString();
-			String ps_Id = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField();
+			String psId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("priceScheduleId1").getStringFromField();
 
 			Map<String, String> inputValueMap = new HashMap<>();
 			inputValueMap.put("ifpId", ifpId);
 			inputValueMap.put(GtnFrameworkCommonConstants.SESSION_ID,
 					GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SESSION_ID).toString());
 			inputValueMap.put("userId", GtnUIFrameworkGlobalUI.getCurrentUser());
-			inputValueMap.put("ps_id", ps_Id);
+			inputValueMap.put("ps_id", psId);
 			loadDataFromService(inputValueMap);
 			GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
 			GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.FALSE);
