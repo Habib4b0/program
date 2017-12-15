@@ -141,35 +141,31 @@ public class PsLookUp extends Window {
 
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try{
+                    CustomComboBox comboBox = new CustomComboBox();
                 if (propertyId.equals("psType")) {
-                    CustomComboBox psType = new CustomComboBox();
-                    psType.setImmediate(true);
-                    commonUtil.loadComboBox(psType, UiUtils.PS_TYPE, true);
-                    return psType;
+                    comboBox.setImmediate(true);
+                    commonUtil.loadComboBox(comboBox, UiUtils.PS_TYPE, true);
+                    return comboBox;
                 }
                 if (propertyId.equals("psCategory")) {
-                    CustomComboBox psCategory = new CustomComboBox();
-                    psCategory.setImmediate(true);
-                    commonUtil.loadComboBox(psCategory, UiUtils.PS_CATEGORY, true);
-                    return psCategory;
+                    comboBox.setImmediate(true);
+                    commonUtil.loadComboBox(comboBox, UiUtils.PS_CATEGORY, true);
+                    return comboBox;
                 }
                 if (propertyId.equals("psTradeClass")) {
-                    CustomComboBox psTradeClass = new CustomComboBox();
-                    psTradeClass.setImmediate(true);
-                    commonUtil.loadComboBox(psTradeClass, UiUtils.PS_TRADE_CLASS, true);
-                    return psTradeClass;
+                    comboBox.setImmediate(true);
+                    commonUtil.loadComboBox(comboBox, UiUtils.PS_TRADE_CLASS, true);
+                    return comboBox;
                 }
                 if (propertyId.equals("psDesignation")) {
-                    CustomComboBox psDesignation = new CustomComboBox();
-                    psDesignation.setImmediate(true);
-                    commonUtil.loadComboBox(psDesignation, UiUtils.PS_DESIGNATION, true);
-                    return psDesignation;
+                    comboBox.setImmediate(true);
+                    commonUtil.loadComboBox(comboBox, UiUtils.PS_DESIGNATION, true);
+                    return comboBox;
                 }
                 if (propertyId.equals("psStatus")) {
-                    CustomComboBox ifpStatus = new CustomComboBox();
-                    ifpStatus.setImmediate(true);
-                    commonUtil.loadComboBox(ifpStatus, UiUtils.STATUS, true);
-                    return ifpStatus;
+                    comboBox.setImmediate(true);
+                    commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
+                    return comboBox;
                 }
                 }catch(Exception ex){
                     LOGGER.error(ex);
