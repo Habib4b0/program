@@ -21,6 +21,7 @@ import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterManu
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterNewFormulationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingAttachAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingFieldFactoryUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTableConfigureAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterResetAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterSaveAction;
@@ -88,6 +89,8 @@ public class GtnUIFrameworkItemMasterDynamicClassFiller implements GtnUIDynamicO
 				new GtnFrameworkItemMasterPricingTempTableClearAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkItemClickEnableDisableAction.class.getName(),
 				new GtnUIFrameworkItemClickEnableDisableAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterPricingTableConfigureAction.class.getName(),
+				new GtnFrameworkItemMasterPricingTableConfigureAction());
 
 	}
 
