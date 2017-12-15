@@ -32,6 +32,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.math.BigDecimal;
 
 public class GtnFrameworkItemMasterSaveAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -199,12 +200,12 @@ public class GtnFrameworkItemMasterSaveAction
         } else {
             infoBean.setNdc9(String.valueOf(ndc9Value));
         }
-        Double baselineAmp = toDouble(String.valueOf(GtnUIFrameworkGlobalUI
+        BigDecimal baselineAmp = toBigDecimal(String.valueOf(GtnUIFrameworkGlobalUI
                 .getVaadinBaseComponent("additionalInformationTabBaselineAMP").getObjectFromField()));
         if (baselineAmp != null) {
             infoBean.setBaselineAmp(baselineAmp);
         }
-        Double baseCpi = toDouble(String.valueOf(
+        BigDecimal baseCpi = toBigDecimal(String.valueOf(
                 GtnUIFrameworkGlobalUI.getVaadinBaseComponent("additionalInformationTabBaseCPI").getObjectFromField()));
         if (baseCpi != null) {
             infoBean.setBaseCpi(baseCpi);
@@ -354,7 +355,7 @@ public class GtnFrameworkItemMasterSaveAction
 		return this;
 	}
 
-	Double toDouble(String str) {
+	private Double toDouble(String str) {
 		Double deafultValue = null;
 		try {
 			deafultValue = Double.parseDouble(str);
@@ -363,5 +364,16 @@ public class GtnFrameworkItemMasterSaveAction
 		}
 		return deafultValue;
 	}
-
+        
+        
+        private BigDecimal toBigDecimal(String str) {
+		BigDecimal deafultValue = null;
+		try {
+			 Double.parseDouble(str);
+                         deafultValue = new BigDecimal(str);
+		} catch (NumberFormatException e) {
+			logger.error(e.getMessage());
+		}
+		return deafultValue;
+	}
 }
