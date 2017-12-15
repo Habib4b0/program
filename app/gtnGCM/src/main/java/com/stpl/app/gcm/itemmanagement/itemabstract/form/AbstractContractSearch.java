@@ -522,7 +522,9 @@ public abstract class AbstractContractSearch extends CustomComponent {
     @UiHandler("field")
     public void fieldTypeLogic(Property.ValueChangeEvent event) {
         String processName = String.valueOf(field.getValue());
-        massUpdateString = processName;  
+        massUpdateString = processName;
+        massUpdateText.setReadOnly(false);
+        massUpdateText.setValue(StringUtils.EMPTY);
 
         if (null != processName) {
             switch (processName) {

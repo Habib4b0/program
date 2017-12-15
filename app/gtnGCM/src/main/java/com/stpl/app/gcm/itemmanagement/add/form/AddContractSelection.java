@@ -285,6 +285,8 @@ public class AddContractSelection extends CustomComponent {
     public void fieldTypeLogic(Property.ValueChangeEvent event) {
         String processName = String.valueOf(field.getValue());
         massUpdateString = processName;  
+        massUpdateText.setReadOnly(false);
+        massUpdateText.setValue(StringUtils.EMPTY);
 
         if (null != processName) {
             switch (processName) {
