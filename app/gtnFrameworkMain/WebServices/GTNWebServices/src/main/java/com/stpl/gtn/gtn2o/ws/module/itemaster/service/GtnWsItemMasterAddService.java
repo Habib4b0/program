@@ -238,7 +238,8 @@ public class GtnWsItemMasterAddService {
 				infoBean.setNewFormulationIndicator(itemMaster.getNewFormulationIndicator());
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
 				infoBean.setBaselineAmp(itemMaster.getBaselineAmp());
-				infoBean.setBaseCpi(new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
+				infoBean.setBaseCpi(
+						new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
 				if (itemMaster.getAcquiredAmp() != null) {
 					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
 				}
@@ -314,12 +315,12 @@ public class GtnWsItemMasterAddService {
 
 		Criterion itemMasterSIDCriterion = Restrictions.eq(GtnWsTableConstants.ITEM_MASTER_NAME,
 				session.load(ItemMaster.class, itemSystemId));
-        Criterion identifierCriterion=Restrictions.ne("inboundStatus", 'D');
+		Criterion identifierCriterion = Restrictions.ne("inboundStatus", 'D');
 		List<ItemIdentifier> results = (List<ItemIdentifier>) gtnSqlQueryEngine.executeSelectQuery(ItemIdentifier.class,
-				Arrays.asList(new Criterion[] { itemMasterSIDCriterion,identifierCriterion }), session);
+				Arrays.asList(new Criterion[] { itemMasterSIDCriterion, identifierCriterion }), session);
 
 		if (results != null && !results.isEmpty()) {
-		    GtnWsItemIdentifierBean idenBean;
+			GtnWsItemIdentifierBean idenBean;
 			for (ItemIdentifier object : results) {
 				idenBean = new GtnWsItemIdentifierBean();
 				idenBean.setItemIdentifierSid(object.getItemIdentifierSid());
