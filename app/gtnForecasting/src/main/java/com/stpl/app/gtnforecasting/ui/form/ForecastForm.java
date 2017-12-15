@@ -2384,7 +2384,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 		case Constant.EDIT_SMALL:
@@ -2408,7 +2407,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 
@@ -2575,17 +2573,6 @@ public class ForecastForm extends AbstractForm {
 								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,
 								discountMasterInsert)) });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void nmPPAProcedure() {
-		Future ppaInsert = service.submit(CommonUtil.getInstance().createRunnableForPPAProcedureCall(
-				SalesUtils.PRC_NM_PPA_INSERT, dataSelectionDTO.getProjectionId(), session, null));
-		session.addFutureMap(Constant.PPA_PROCEDURE_CALL, new Future[] { ppaInsert });
 	}
 
 	private void nmPPAInitProcedure() {

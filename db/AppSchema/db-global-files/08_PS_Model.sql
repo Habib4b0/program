@@ -3108,6 +3108,16 @@ IF NOT EXISTS (SELECT 1
   END
 
 GO
+---------------------------Adding PS_ID------------------------------------
+IF NOT EXISTS(
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_NAME = 'IMTD_PS_DETAILS' AND COLUMN_NAME  = 'PS_ID' AND TABLE_SCHEMA = 'DBO')
+    BEGIN
+               
+      ALTER TABLE IMTD_PS_DETAILS
+        ADD PS_ID VARCHAR(100)
+  END
+GO
 
 ---------------------------------------------------------------
 IF NOT EXISTS (SELECT 1
