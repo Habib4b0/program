@@ -7,7 +7,6 @@ package com.stpl.gtn.gtn2o.ws.itemmaster.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.Date;
 
 /**
