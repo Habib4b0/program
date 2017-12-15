@@ -369,7 +369,6 @@ public class GtnFrameworkItemMasterSaveAction
         private BigDecimal toBigDecimal(String str) {
 		BigDecimal deafultValue = null;
 		try {
-			 Double.parseDouble(str);
                          deafultValue = new BigDecimal(str);
 		} catch (NumberFormatException e) {
 			logger.error(e.getMessage());
