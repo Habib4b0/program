@@ -59,7 +59,7 @@ public class AbstractFilter {
         filterMap.put("contractPrice", "Temp.contract_price");
         filterMap.put("price", "Temp.price");
         filterMap.put("priceToleranceType", "Temp.price_tolerance_type");
-        filterMap.put("priceTolerance", "Temp.price_tolerance");
+        filterMap.put(Constants.PRICE_TOLERANCE_PROPERTY, "Temp.price_tolerance");
         filterMap.put("priceToleranceFrequency", "Temp.price_tolerance_frequency");
         filterMap.put("priceToleranceInterval", "Temp.price_tolerance_interval");
         filterMap.put("basePrice", "Temp.base_price");
@@ -85,6 +85,29 @@ public class AbstractFilter {
         filterMap.put("priceProtectionEndDate", "Temp.PRICE_PROTECTION_END_DATE");
         filterMap.put("RSStartDate", "Temp.ITEM_REBATE_START_DATE");
         filterMap.put("RSEndDate", "Temp.ITEM_REBATE_End_DATE");
+        filterMap.put(Constants.NEP_PROPERTY, "Temp.NEP");
+        filterMap.put(Constants.NEP_FORMULA_PROPERTY, "Temp.NEP_FORMULA");
+        filterMap.put(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, "Temp.MAX_INCREMENTAL_CHANGE");
+        filterMap.put(Constants.RESET_ELIGIBLE_PROPERTY, "Temp.RESET_ELIGIBLE");
+        filterMap.put(Constants.RESET_TYPE_PROPERTY, "Temp.RESET_TYPE");
+        filterMap.put(Constants.RESET_DATE_PROPERTY, "Temp.RESET_DATE");
+        filterMap.put(Constants.RESET_INTERVAL_PROPERTY, "Temp.RESET_INTERVAL");
+        filterMap.put(Constants.RESET_FREQUENCY_PROPERTY, "Temp.RESET_FREQUENCY");
+        filterMap.put(Constants.NET_PRICE_TYPE_PROPERTY, "Temp.NET_PRICE_TYPE");
+        filterMap.put(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY, "Temp.NET_PRICE_TYPE_FORMULA");
+        filterMap.put(Constants.RESET_PRICE_TYPE_PROPERTY, "Temp.RESET_PRICE_TYPE");
+        filterMap.put(Constants.NET_RESET_PRICE_TYPE_PROPERTY, "Temp.NET_RESET_PRICE_TYPE");
+        filterMap.put(Constants.NET_RESET_PRICE_FORMULA_PROPERTY, "Temp.NET_RESET_PRICE_FORMULA_ID");
+        filterMap.put(Constants.BASE_PRICE_PROPERTY, "Temp.BASE_PRICE_TYPE");
+        filterMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, "Temp.SUBSEQUENT_PERIOD_PRICE_TYPE");
+        filterMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, "Temp.NET_SUBSEQUENT_PERIOD_PRICE");
+        filterMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY, "Temp.NET_SUBSEQUENT_PRICE_FORMULA_ID");
+        filterMap.put(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, "Temp.NET_BASELINE_WAC_FORMULA_ID");
+        filterMap.put(Constants.BASELINE_NET_WAC_PROPERTY, "Temp.NET_BASE_PRICE");
+        filterMap.put(Constants.PRICE_TYPE_PROPERTY, "Temp.PRICE_TYPE");
+        filterMap.put(Constants.MEASUREMENT_PRICE_PROPERTY, "Temp.PRICE_PROTECTION_PRICE_TYPE");
+        filterMap.put(Constants.PRICE_PROTECTION_STATUS_PROPERTY, "Temp.PRICE_PROTECTION_STATUS");
+        
     }
 
     public void setFilterMap(String key, String Value) {
@@ -383,16 +406,36 @@ public class AbstractFilter {
         psComponentInfoMap.put(Constants.END_DATE, "PS_D.CONTRACT_PRICE_END_DATE");
         psComponentInfoMap.put(Constants.BRAND_PROPERTY, " BM.BRAND_NAME");
         psComponentInfoMap.put(Constants.STATUS_S, StringConstantsUtil.ST_DESCRIPTION);
-        psComponentInfoMap.put("priceType", "IPQ.PRICING_QUALIFIER");
-        psComponentInfoMap.put("priceProtectionStatus", StringConstantsUtil.ST_DESCRIPTION);
+        psComponentInfoMap.put(Constants.PRICE_PROTECTION_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
         psComponentInfoMap.put("priceProtectionStartDate", "PS_D.CONTRACT_PRICE_START_DATE");
         psComponentInfoMap.put("priceProtectionEndDate", "PS_D.PRICE_PROTECTION_END_DATE");
-        psComponentInfoMap.put("priceToleranceInterval", "PTI.DESCRIPTION");
-        psComponentInfoMap.put("priceToleranceFrequency", "PTF.DESCRIPTION");
-        psComponentInfoMap.put("priceToleranceType", " PTT.DESCRIPTION");
-        psComponentInfoMap.put("priceTolerance", " PS_D.PRICE_TOLERANCE");
-        psComponentInfoMap.put("resetDate", "Getdate()");
+        psComponentInfoMap.put(Constants.PRICE_TOLERANCE_PROPERTY, " PS_D.PRICE_TOLERANCE");
         psComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "PS_C.PS_CONTRACT_ATTACHED_DATE");
+        psComponentInfoMap.put(Constants.NEP_PROPERTY, "PS_D.NEP");
+        psComponentInfoMap.put(Constants.NEP_FORMULA_PROPERTY, "PS_D.NEP_FORMULA");
+        psComponentInfoMap.put(Constants.BASE_PRICE_PROPERTY, "BASE_PRICE_TYPE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.BASELINE_NET_WAC_PROPERTY, "NET_BASE_PRICE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, "PS_D.NET_BASELINE_WAC_FORMULA_ID");
+        psComponentInfoMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, "NET_SUBSEQUENT_PERIOD_PRICE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY, "PS_D.NET_SUBSEQUENT_PRICE_FORMULA_ID");
+        psComponentInfoMap.put("priceToleranceInterval", "PRICE_TOLERANCE_INTERVAL.DESCRIPTION");
+        psComponentInfoMap.put("priceToleranceFrequency", "PRICE_TOLERANCE_FREQUENCY.DESCRIPTION");
+        psComponentInfoMap.put("priceToleranceType", " PRICE_TOLERANCE_TYPE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.PRICE_TOLERANCE_PROPERTY, " PS_D.PRICE_TOLERANCE");
+        psComponentInfoMap.put(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, "PS_D.MAX_INCREMENTAL_CHANGE");
+        psComponentInfoMap.put(Constants.RESET_ELIGIBLE_PROPERTY, "RESET_ELIGIBLE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.RESET_TYPE_PROPERTY, "RESET_TYPE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.RESET_DATE_PROPERTY, "PS_D.RESET_DATE");
+        psComponentInfoMap.put(Constants.RESET_INTERVAL_PROPERTY, "RESET_INTERVAL.DESCRIPTION");
+        psComponentInfoMap.put(Constants.RESET_FREQUENCY_PROPERTY, "RESET_FREQUENCY.DESCRIPTION");
+        psComponentInfoMap.put(Constants.NET_PRICE_TYPE_PROPERTY, "NET_PRICE_TYPE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY, "PS_D.NET_PRICE_TYPE_FORMULA");
+        psComponentInfoMap.put(Constants.NET_RESET_PRICE_TYPE_PROPERTY, "NET_RESET_PRICE_TYPE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.NET_RESET_PRICE_FORMULA_PROPERTY, "PS_D.NET_RESET_PRICE_FORMULA_ID");
+        psComponentInfoMap.put(Constants.BASELINE_NET_WAC_PROPERTY, "NET_BASE_PRICE.DESCRIPTION");
+        psComponentInfoMap.put(Constants.RESET_PRICE_TYPE_PROPERTY, "PS_D.RESET_PRICE_TYPE");
+        psComponentInfoMap.put(Constants.MEASUREMENT_PRICE_PROPERTY, "PS_D.PRICE_PROTECTION_PRICE_TYPE");
+        psComponentInfoMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, "PS_D.SUBSEQUENT_PERIOD_PRICE_TYPE");
 
     }
 

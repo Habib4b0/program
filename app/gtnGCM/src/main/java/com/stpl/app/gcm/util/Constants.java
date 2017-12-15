@@ -84,7 +84,7 @@ public class Constants {
     public static final String PS_NAME_FIELD = "PS Name";
     public static final String RS_NO_HEADER = "RS No";
     public static final String WORK_FLOW_STATUS_HEADER = "WorkFlow Status";
-
+    
     public final static String IFP_STATUS = "IFP Status";
     public final String[] cfpSearch = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", "Company ID", "Company No", "Company Name", COMPANYSTATUS,
          "Company Type", "Company Category", "Trade Class"};
@@ -158,6 +158,8 @@ public class Constants {
     public static final String THREE = "3";
     public static final String FOUR = "4";
     public static final String PERCENT = "%";
+    public static final String SINGLE_QUOTES = "'";
+    public static final String ASTRICK = "*";
     public static final String CONTRACT_NAME_HEADER = "Contract Name";
     /**
      * The date format.
@@ -482,6 +484,21 @@ public class Constants {
     public static final String RESET_TYPE_PROPERTY = "resetType";
     public static final String RESET_DATE_PROPERTY = "resetDate";
     public static final String RESET_INTERVAL_PROPERTY = "resetInterval";
+    public static final String BASE_PRICE_PROPERTY = "basePriceType";
+    public static final String NEP_PROPERTY = "nep";
+    public static final String NEP_FORMULA_PROPERTY = "nepFormula";
+    public static final String BASELINE_WAC_PROPERTY = "baselineWAC";
+    public static final String BASELINE_NET_WAC_PROPERTY = "baselineNetWAC";
+    public static final String NET_PRICE_TYPE_PROPERTY = "netPriceType";
+    public static final String NET_PRICE_TYPE_FORMULA_PROPERTY = "netPriceTypeFormula";
+    public static final String RESET_PRICE_TYPE_PROPERTY = "resetPriceType";
+    public static final String NET_RESET_PRICE_TYPE_PROPERTY = "netResetPriceType";
+    public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY = "subsequentPeriodPriceType";
+    public static final String MEASUREMENT_PRICE_PROPERTY = "measurementPrice";
+    public static final String NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY = "netSubsequentPeriodPrice";
+    public static final String NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY = "netSubsequentPeriodPriceFormula";
+    public static final String NET_BASELINE_WAC_FORMULA_PROPERTY = "netBaselineWACFormula";
+    public static final String NET_RESET_PRICE_FORMULA_PROPERTY = "netResetPriceFormula";
 
     public final Object tpComponentInformationColumnsPs[] = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S,
@@ -510,7 +527,7 @@ public class Constants {
     public final String tpComponentInformationHeadersPs[] = new String[]{
         Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, PRICE_TYPE_LABEL, PRICE_PLAN_NO_LABEL, PRICE_PLAN_NAME_LABEL, PRICE_PROTECTION_STATUS_LABEL, PRICE_PROTECTION_START_DATE_LABEL, PRICE_PROTECTION_END_DATE_LABEL,
         PRICE_PROTECTION_PRICE_TYPE_LABEL, PRICE_TOLERANCE_INTERVAL_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, PRICE_TOLERANCE_TYPE_LABEL, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL,
-        "Reset Eligible", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
+        RESET_ELIGIBLE_LABLE_NAME, RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
     public final Object tpComponentInformationColumnsIfp[] = new Object[]{
         ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, ATTACHED_DATE_PROPERTY};
     public final String tpComponentInformationHeadersIfp[] = new String[]{
@@ -710,7 +727,7 @@ public class Constants {
     public static final String AND_SESSION_ID = "'AND SESSION_ID like '";
     public static final String AND_OPERATION = "'AND OPERATION like '";
     public static final String AND_CHECK_RECORD = "AND CHECK_RECORD = 1";
-
+    
     /**
      * Enum for Module/Screen/Functionality indicator constants.
      */
@@ -1068,7 +1085,7 @@ public class Constants {
     public final Object[] adComponentDetailsRsColumn = {ITEM_NO_PROPERTY, ITEM_NAME_PROPERTY, BRAND_PROPERTY, STATUS_S, Constants.START_DATE, Constants.END_DATE, FORMULA_TYPE_PROPERTY, FORMULA_ID_PROPERTY, FORMULA_NAME_PROPERTY, REBATE_PLAN_ID_PROPERTY, REBATE_PLAN_NAME_PROPERTY, REBATE_AMOUNT_PROPERTY, BUNDLE_NO_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final String[] adComponentDetailsRsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, STATUS_FIELD, START_DATE_HEADER, END_DATE_HEADER, FORMULA_TYPE_LABEL, FORMULA_ID_LABEL, FORMULA_NAME_LABEL, REBATE_PLAN_ID_LABEL,
         "RebatePlan Name", REBATE_AMOUNT_LABEL, BUNDLE_NO_LABEL, ATTACHED_DATE_FIELD};
-    public final String[] adComponentDetailsPsHeader = {Constants.ITEM_NO, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL, "Reset Eligible", RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
+    public final String[] adComponentDetailsPsHeader = {Constants.ITEM_NO, MAX_INCREMENTAL_CHANGE_LABEL, PRICE_TOLERANCE_LABEL, RESET_ELIGIBLE_LABLE_NAME, RESET_TYPE_LABEL, RESET_DATE_LABEL, RESET_INTERVAL_LABEL, RESET_FREQUENCY_LABEL, ATTACHED_DATE_FIELD};
     public final Object adComponentDetailsPsColumn[] = new Object[]{
         ITEM_NO_PROPERTY, MAX_INCREMENTAL_CHANGE_PROPERTY, PRICE_TOLERANCE_PROPERTY, RESET_ELIGIBLE_PROPERTY, RESET_TYPE_PROPERTY, RESET_DATE_PROPERTY, RESET_INTERVAL_PROPERTY, RESET_FREQUENCY_PROPERTY, ATTACHED_DATE_PROPERTY};
     public final Object componentInfoColumnsCfp[] = new Object[]{
@@ -1335,4 +1352,66 @@ public class Constants {
         }
         return object;
     }
+    
+    /*
+            Constants for Item Management
+     */
+    public static final String MEASUREMENT_PRICE_LABLE_NAME = "Measurement Price";
+    public static final String NEP_LABLE_NAME = "NEP";
+    public static final String NEP_FORMULA_LABLE_NAME = "NEP Formula";
+    public static final String BASE_PRICE_TYPE_LABLE_NAME = "Base Price Type";
+    public static final String NET_PRICE_TYPE_LABLE_NAME = "Net Price Type";
+    public static final String NET_RESET_PRICE_TYPE_LABLE_NAME = "Net Reset Price Type";
+    public static final String RESET_ELIGIBLE_LABLE_NAME = "Reset Eligible";
+    public static final String NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME = "Net Subsequent Period Price";
+    public static final String RESET_FREQUENCY_LABLE_NAME = "Reset Frequency";
+    public static final String RESET_PRICE_TYPE_LABLE_NAME = "Reset Price Type";
+    public static final String RESET_INTERVAL_LABLE_NAME = "Reset Interval";
+    public static final String RESET_TYPE_LABLE_NAME = "Reset Type";
+    public static final String RESET_DATE_LABLE_NAME = "Reset Date";
+    public static final String BASELINE_NET_WAC_LABLE_NAME = "Baseline Net WAC";
+    public static final String NET_PRICE_TYPE_FORMULA_LABLE_NAME = "Net Price Type Formula";
+    public static final String NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME = "Net Subsequent Period Price Formula";
+    public static final String NET_BASELINE_WAC_FORMULA_LABLE_NAME = "Net Baseline WAC Formula";
+    public static final String MAX_INCREMENTAL_CHANGE_LABLE_NAME = "Max Incremental Change";
+    public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME = "Subsequent Period Price Type";
+    public static final String NET_RESET_PRICE_FORMULA_LABLE_NAME = "Net Reset Price Formula";
+    public static final String BASELINE_WAC_LABLE_NAME = "Baseline WAC";
+    /*
+            Constants for Item Management Column
+     */
+
+    public static final String NEP_COLUMN_NAME = "NEP";
+    public static final String MAX_INCREMENTAL_CHANGE_COLUMN_NAME = "MAX_INCREMENTAL_CHANGE";
+    public static final String RESET_ELIGIBLE_COLUMN_NAME = "RESET_ELIGIBLE";
+    public static final String RESET_TYPE_COLUMN_NAME = "RESET_TYPE";
+    public static final String RESET_DATE_COLUMN_NAME = "RESET_DATE";
+    public static final String RESET_INTERVAL_COLUMN_NAME = "RESET_INTERVAL";
+    public static final String RESET_FREQUENCY_COLUMN_NAME = "RESET_FREQUENCY";
+    public static final String NET_PRICE_TYPE_COLUMN_NAME = "NET_PRICE_TYPE";
+    public static final String NET_PRICE_TYPE_FORMULA_COLUMN_NAME = "NET_PRICE_TYPE_FORMULA";
+    public static final String RESET_PRICE_TYPE_COLUMN_NAME = "RESET_PRICE_TYPE";
+    public static final String NET_RESET_PRICE_TYPE_COLUMN_NAME = "NET_RESET_PRICE_TYPE";
+    public static final String NET_RESET_PRICE_FORMULA_COLUMN_NAME = "NET_RESET_PRICE_FORMULA_ID";
+    public static final String BASE_PRICE_TYPE_COLUMN_NAME = "BASE_PRICE_TYPE";
+    public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME = "SUBSEQUENT_PERIOD_PRICE_TYPE";
+    public static final String NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME = "NET_SUBSEQUENT_PERIOD_PRICE";
+    public static final String NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME = "NET_SUBSEQUENT_PRICE_FORMULA_ID";
+    public static final String NET_BASELINE_WAC_FORMULA_COLUMN_NAME = "NET_BASELINE_WAC_FORMULA_ID";
+    public static final String PRICE_TYPE_COLUMN_NAME = "PRICE_TYPE";
+    public static final String MEASUREMENT_PRICE_COLUMN_NAME = "PRICE_PROTECTION_PRICE_TYPE";
+    public static final String NEP_FORMULA_COLUMN_NAME = "NEP_FORMULA";
+    public static final String PRICE_PROTECTION_STATUS_COLUMN_NAME = "PRICE_PROTECTION_STATUS";
+    public static final String BASELINE_NET_WAC_COLUMN_NAME = "NET_BASE_PRICE";
+
+    /*
+            Constants for Item Management List Names
+     */
+    public static final String LOCKED_STATUS_LISTNAME = "LOCKED_STATUS";
+    public static final String RESET_TYPE_LISTNAME = "RESET_TYPE";
+    public static final String BASE_PRICE_TYPE_LISTNAME = "BASE_PRICE_TYPE";
+    public static final String NS_FORMULA_TYPE_LISTNAME = "NS_FORMULA_TYPE";
+    
+    public static final String SEARCH_ICON = "searchicon";
+
 }

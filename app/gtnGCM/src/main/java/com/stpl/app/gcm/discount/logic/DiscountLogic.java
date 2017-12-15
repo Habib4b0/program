@@ -2799,7 +2799,6 @@ public class DiscountLogic {
             inputMapToAppend.put("COMPANY_STATUS", CommonUtil.astToPerConverter(searchValue));
         } else if (Constants.getInstance().cfpSearch[NumericConstants.NINE].equals(searchField)) {
             inputMapToAppend.put("COMPANY_TYPE", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().cfpSearch[NumericConstants.TEN].equals(searchField)) {
         } else if (Constants.getInstance().cfpSearch[NumericConstants.ELEVEN].equals(searchField)) {
             inputMapToAppend.put("CFP_DETAILS_TRADE_CLASS", CommonUtil.astToPerConverter(searchValue));
         }
@@ -2822,7 +2821,6 @@ public class DiscountLogic {
             inputMapToAppend.put("ITEM_NAME", CommonUtil.astToPerConverter(searchValue));
         } else if (Constants.getInstance().ifpSearch[NumericConstants.EIGHT].equals(searchField)) {
             inputMapToAppend.put("ITEM_STATUS", CommonUtil.astToPerConverter(searchValue));
-        } else if (Constants.getInstance().ifpSearch[NumericConstants.NINE].equals(searchField)) {
         } else if (Constants.getInstance().ifpSearch[NumericConstants.TEN].equals(searchField)) {
             inputMapToAppend.put("ITEM_BRAND", CommonUtil.astToPerConverter(searchValue));
         } else if (Constants.getInstance().ifpSearch[NumericConstants.ELEVEN].equals(searchField)) {

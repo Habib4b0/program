@@ -237,8 +237,8 @@ public class GtnWsItemMasterAddService {
 				infoBean.setDualPricingIndicator(itemMaster.getDualPricingIndicator());
 				infoBean.setNewFormulationIndicator(itemMaster.getNewFormulationIndicator());
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
-				infoBean.setBaselineAmp(getDoublevalue(itemMaster.getBaselineAmp()));
-				infoBean.setBaseCpi(getDoublevalue(itemMaster.getBaseCpi()));
+				infoBean.setBaselineAmp(itemMaster.getBaselineAmp());
+				infoBean.setBaseCpi(new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
 				if (itemMaster.getAcquiredAmp() != null) {
 					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
 				}
