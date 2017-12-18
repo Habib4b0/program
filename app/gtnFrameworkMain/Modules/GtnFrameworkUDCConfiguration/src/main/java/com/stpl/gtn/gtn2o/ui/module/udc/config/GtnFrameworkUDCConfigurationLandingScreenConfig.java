@@ -98,12 +98,12 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameworkValidationConfig categoryValidationConfig = new GtnUIFrameworkValidationConfig();
 		categoryValidationConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL));
 		udcCategory.setGtnUIFrameworkValidationConfig(categoryValidationConfig);
+
 		GtnUIFrameworkComboBoxConfig categoryConfig = componentConfig.getComboBoxConfig("CategoryName",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
-				+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		
+						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
 		udcCategory.setGtnComboboxConfig(categoryConfig);
-       
+
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
 		GtnUIFrameWorkActionConfig customActionConfig = componentConfig
