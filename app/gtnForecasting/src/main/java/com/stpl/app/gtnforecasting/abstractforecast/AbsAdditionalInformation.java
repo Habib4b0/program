@@ -382,9 +382,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         });
 
         remove.addClickListener(new Button.ClickListener() {
-            /**
-             *
-             */
+            
             private static final long serialVersionUID = 1L;
 
             @Override

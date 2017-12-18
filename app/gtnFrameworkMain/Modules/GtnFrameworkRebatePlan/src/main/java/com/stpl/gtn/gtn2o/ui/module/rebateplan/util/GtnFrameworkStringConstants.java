@@ -98,6 +98,7 @@ public class GtnFrameworkStringConstants {
 	public static final String REBATE_ADD_VIEW_DELETE_BUTTON = "rebatePlanAddViewAAddDeleteButton";
 	public static final String REBATE_ADD_VIEW_SAVE_BUTTON = "rebatePlanAddViewAddSaveButton";
 	public static final String UPDATE = "UPDATE";
+	public static final String NEW_ITEM = "newItem";
 	public static final String RP_INFO_PLAN_LAYOUT = "rebatePlanInfoPanellayout";
 	public static final String RP_INFO_ADD_VIEW_BUTTON_LAYOUT = "rebatePlanAddViewsaveButtonlayout";
 	public static final String RP_VIEW_BUTTON = "rPAddViewButton";
