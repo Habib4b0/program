@@ -383,6 +383,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         });
 
         remove.addClickListener(new Button.ClickListener() {
+
             /**
              *
              */
