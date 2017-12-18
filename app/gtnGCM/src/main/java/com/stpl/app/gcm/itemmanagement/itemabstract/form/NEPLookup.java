@@ -47,7 +47,6 @@ public class NEPLookup extends Window {
 
     NEPLookuptablelogic tablelogic = new NEPLookuptablelogic();
     FormulaDTO nepDto;
-    private static final Logger LOGGER = Logger.getLogger(NEPLookup.class);
     private final ExtPagedTable resultTable = new ExtPagedTable(tablelogic);
     public BeanItemContainer<FormulaDTO> forumulaLookupBean = new BeanItemContainer<>(FormulaDTO.class);
     @UiField("formulaId")
@@ -162,12 +161,13 @@ public class NEPLookup extends Window {
     }
 
     @UiHandler("closeBtn")
-    public void closeBtn(Button.ClickEvent event) {
+    public void closeButton(Button.ClickEvent event) {
+        getUI().setData(null);
         close();
     }
 
     @UiHandler("selectBtn")
-    public void selectBtn(Button.ClickEvent event) {
+    public void selectButton(Button.ClickEvent event) {
         if (resultTable.getValue() != null) {
             FormulaDTO componentLookUp = (FormulaDTO) resultTable.getValue();
             componentTextField.setReadOnly(false);

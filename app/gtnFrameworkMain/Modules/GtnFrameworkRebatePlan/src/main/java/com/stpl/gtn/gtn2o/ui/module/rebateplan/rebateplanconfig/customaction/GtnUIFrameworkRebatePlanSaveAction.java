@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
+import com.stpl.gtn.gtn2o.ui.module.rebateplan.util.GtnFrameworkStringConstants;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.companymaster.bean.NotesTabBean;
@@ -205,7 +206,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null || String
 						.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
 					Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-					if (mode != null && mode == GtnUIFrameworkModeType.EDIT) {
+					if (mode != null && ((mode == GtnUIFrameworkModeType.EDIT))) {
 						ruleDetailBean.setTo(getdobValue(1, ruleDetail));
 					} else {
 						ruleDetailBean.setTo(getValue(1, ruleDetail));
@@ -225,7 +226,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	private void loadRuleDetailBean(GtnWsRebatePlanRuleDetailBean ruleDetailBean, GtnWsRecordBean ruleDetail,
 			List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList) {
 		ruleDetailBean.setOperator(getValue(2, ruleDetail));
-		if (!ruleDetail.getAdditionalProperties().contains("newItem")) {
+		if (!ruleDetail.getAdditionalProperties().contains(GtnFrameworkStringConstants.NEW_ITEM)) {
 			if ("$".equals(ruleDetail.getStringProperty("tierOperator"))) {
 				ruleDetailBean.setItemPricingQualifierSid(getStringValue(3, ruleDetail));
 			} else {
@@ -250,26 +251,31 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			ruleDetailBean.setFrom(getDoubleValue(0, ruleDetail));
 			if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null
 					|| String.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
-				ruleDetailBean.setTo(getValue(1, ruleDetail));
+				Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+				if (mode != null && (mode == GtnUIFrameworkModeType.EDIT) || (mode == GtnUIFrameworkModeType.COPY)) {
+					ruleDetailBean.setTo(getdobValue(1, ruleDetail));
+				} else {
+					ruleDetailBean.setTo(getValue(1, ruleDetail));
+				}
 			} else {
 				ruleDetailBean.setTo(getDoubleValue(1, ruleDetail));
 			}
-			ruleDetailBean.setOperator(getValue(2, ruleDetail));
-			ruleDetailBean.setOperatorType(getStringValue(4, ruleDetail));
-			ruleDetailBean.setOperatorType2(getStringValue(7, ruleDetail));
-			ruleDetailBean.setOperatorType3(getStringValue(10, ruleDetail));
-			ruleDetailBean.setOperatorType4(getStringValue(13, ruleDetail));
-			ruleDetailBean.setOperatorType5(getStringValue(16, ruleDetail));
-			ruleDetailBean.setAdjustmentOperator1(getStringValue(5, ruleDetail));
-			ruleDetailBean.setAdjustmentOperator2(getStringValue(8, ruleDetail));
-			ruleDetailBean.setAdjustmentOperator3(getStringValue(11, ruleDetail));
-			ruleDetailBean.setAdjustmentOperator4(getStringValue(14, ruleDetail));
-			ruleDetailBean.setAdjustmentOperator5(getStringValue(17, ruleDetail));
-			ruleDetailBean.setAdjustmentValue1itemPricingQualifier(getStringValue(6, ruleDetail));
-			ruleDetailBean.setAdjustmentValue2itemPricingQualifier(getStringValue(9, ruleDetail));
-			ruleDetailBean.setAdjustmentValue3itemPricingQualifier(getStringValue(12, ruleDetail));
-			ruleDetailBean.setAdjustmentValue4itemPricingQualifier(getStringValue(15, ruleDetail));
-			ruleDetailBean.setAdjustmentValue5itemPricingQualifier(getStringValue(18, ruleDetail));
+			ruleDetailBean.setOperator(getOperatorValue(2, ruleDetail));
+			ruleDetailBean.setOperatorType(getStringValueForNewItem(4, ruleDetail));
+			ruleDetailBean.setOperatorType2(getStringValueForNewItem(7, ruleDetail));
+			ruleDetailBean.setOperatorType3(getStringValueForNewItem(10, ruleDetail));
+			ruleDetailBean.setOperatorType4(getStringValueForNewItem(13, ruleDetail));
+			ruleDetailBean.setOperatorType5(getStringValueForNewItem(16, ruleDetail));
+			ruleDetailBean.setAdjustmentOperator1(getStringValueForNewItem(5, ruleDetail));
+			ruleDetailBean.setAdjustmentOperator2(getStringValueForNewItem(8, ruleDetail));
+			ruleDetailBean.setAdjustmentOperator3(getStringValueForNewItem(11, ruleDetail));
+			ruleDetailBean.setAdjustmentOperator4(getStringValueForNewItem(14, ruleDetail));
+			ruleDetailBean.setAdjustmentOperator5(getStringValueForNewItem(17, ruleDetail));
+			ruleDetailBean.setAdjustmentValue1itemPricingQualifier(getStringValueForNewItem(6, ruleDetail));
+			ruleDetailBean.setAdjustmentValue2itemPricingQualifier(getStringValueForNewItem(9, ruleDetail));
+			ruleDetailBean.setAdjustmentValue3itemPricingQualifier(getStringValueForNewItem(12, ruleDetail));
+			ruleDetailBean.setAdjustmentValue4itemPricingQualifier(getStringValueForNewItem(15, ruleDetail));
+			ruleDetailBean.setAdjustmentValue5itemPricingQualifier(getStringValueForNewItem(18, ruleDetail));
 
 			loadFormula(formulaList, ruleDetailBean, ruleDetail);
 
@@ -287,7 +293,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 		}
 		if (ruleDetailBean.getOperatorType() != null) {
-			addValue(formulaList, ruleDetailBean);
+			addValueFirst(formulaList, ruleDetailBean);
 
 		}
 		if (ruleDetailBean.getOperatorType2() != null) {
@@ -324,17 +330,24 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	}
 
-	private int getValue(int index, GtnWsRecordBean ruleDetail) {
+	private int getOperatorValue(int index, GtnWsRecordBean ruleDetail) {
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(mode)) {
+		if (mode != null && ((GtnUIFrameworkModeType.COPY).equals(mode))
+				|| (GtnUIFrameworkModeType.EDIT).equals(mode)) {
 			return (ruleDetail.getAdditionalProperties().get(index) != null
 					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
 		}
+		return (ruleDetail.getAdditionalProperties().get(index) != null
+				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
+						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
+	}
+
+	private int getValue(int index, GtnWsRecordBean ruleDetail) {
 
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
 						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
-                }
+	}
 
 	private double getdobValue(int index, GtnWsRecordBean ruleDetail) {
 		return ((ruleDetail.getAdditionalProperties().get(index) != null
@@ -351,6 +364,13 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	private String getStringValue(int index, GtnWsRecordBean ruleDetail) {
 		String data = String.valueOf(ruleDetail.getAdditionalProperties().get(index));
 		return data.isEmpty() ? "" : data;
+	}
+
+	private String getStringValueForNewItem(int index, GtnWsRecordBean ruleDetail) {
+		String additionalData = String.valueOf(ruleDetail.getAdditionalProperties().get(index));
+		String newItemValue = String.valueOf(ruleDetail.getAdditionalProperties().get(4));
+		return GtnFrameworkStringConstants.NEW_ITEM.equals(newItemValue)
+				? String.valueOf(ruleDetail.getAdditionalProperties().get(index + 1)) : additionalData;
 	}
 
 	@Override
@@ -394,7 +414,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 						: getStringValue(3, ruleDetail) });
 	}
 
-	public void addValue(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
+	public void addValueFirst(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean) {
 		if (getIsEmpty(ruleDetailBean.getOperatorType()) && getIsEmpty(ruleDetailBean.getAdjustmentOperator1())
 				&& getIsEmpty(ruleDetailBean.getAdjustmentValue1itemPricingQualifier())) {
 			formulaList.add(new String[] { ruleDetailBean.getOperatorType(),

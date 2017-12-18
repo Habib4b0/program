@@ -340,7 +340,7 @@
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;DECRYPT.csv</source_filefolder>
+          <source_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Input&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;_DECRYPT.csv</source_filefolder>
           <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;&#x24;&#x7b;AUDIT_INTERFACE_NAME&#x7d;&#x2f;Error&#x2f;</destination_filefolder>
           <wildcard/>
         </field>

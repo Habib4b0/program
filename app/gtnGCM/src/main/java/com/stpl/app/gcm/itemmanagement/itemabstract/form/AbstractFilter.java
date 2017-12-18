@@ -59,7 +59,7 @@ public class AbstractFilter {
         filterMap.put("contractPrice", "Temp.contract_price");
         filterMap.put("price", "Temp.price");
         filterMap.put("priceToleranceType", "Temp.price_tolerance_type");
-        filterMap.put("priceTolerance", "Temp.price_tolerance");
+        filterMap.put(Constants.PRICE_TOLERANCE_PROPERTY, "Temp.price_tolerance");
         filterMap.put("priceToleranceFrequency", "Temp.price_tolerance_frequency");
         filterMap.put("priceToleranceInterval", "Temp.price_tolerance_interval");
         filterMap.put("basePrice", "Temp.base_price");
@@ -409,7 +409,7 @@ public class AbstractFilter {
         psComponentInfoMap.put(Constants.PRICE_PROTECTION_STATUS_PROPERTY, StringConstantsUtil.ST_DESCRIPTION);
         psComponentInfoMap.put("priceProtectionStartDate", "PS_D.CONTRACT_PRICE_START_DATE");
         psComponentInfoMap.put("priceProtectionEndDate", "PS_D.PRICE_PROTECTION_END_DATE");
-        psComponentInfoMap.put("priceTolerance", " PS_D.PRICE_TOLERANCE");
+        psComponentInfoMap.put(Constants.PRICE_TOLERANCE_PROPERTY, " PS_D.PRICE_TOLERANCE");
         psComponentInfoMap.put(Constants.ATTACHED_DATE_PROPERTY, "PS_C.PS_CONTRACT_ATTACHED_DATE");
         psComponentInfoMap.put(Constants.NEP_PROPERTY, "PS_D.NEP");
         psComponentInfoMap.put(Constants.NEP_FORMULA_PROPERTY, "PS_D.NEP_FORMULA");
@@ -421,7 +421,7 @@ public class AbstractFilter {
         psComponentInfoMap.put("priceToleranceInterval", "PRICE_TOLERANCE_INTERVAL.DESCRIPTION");
         psComponentInfoMap.put("priceToleranceFrequency", "PRICE_TOLERANCE_FREQUENCY.DESCRIPTION");
         psComponentInfoMap.put("priceToleranceType", " PRICE_TOLERANCE_TYPE.DESCRIPTION");
-        psComponentInfoMap.put("priceTolerance", " PS_D.PRICE_TOLERANCE");
+        psComponentInfoMap.put(Constants.PRICE_TOLERANCE_PROPERTY, " PS_D.PRICE_TOLERANCE");
         psComponentInfoMap.put(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, "PS_D.MAX_INCREMENTAL_CHANGE");
         psComponentInfoMap.put(Constants.RESET_ELIGIBLE_PROPERTY, "RESET_ELIGIBLE.DESCRIPTION");
         psComponentInfoMap.put(Constants.RESET_TYPE_PROPERTY, "RESET_TYPE.DESCRIPTION");

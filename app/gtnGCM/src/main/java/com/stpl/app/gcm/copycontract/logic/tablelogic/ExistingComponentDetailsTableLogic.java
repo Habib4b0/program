@@ -71,9 +71,9 @@ public class ExistingComponentDetailsTableLogic extends PageTableLogic {
      */
     @Override
     public Object configureContainer(Object object, Container container) {
-        ExistingComponentDTO dto = (ExistingComponentDTO) object;
-        ((BeanItemContainer<ExistingComponentDTO>) container).addBean(dto);
-        return dto;
+        ExistingComponentDTO existingComponentDTO = (ExistingComponentDTO) object;
+        ((BeanItemContainer<ExistingComponentDTO>) container).addBean(existingComponentDTO);
+        return existingComponentDTO;
     }
 
     /**
