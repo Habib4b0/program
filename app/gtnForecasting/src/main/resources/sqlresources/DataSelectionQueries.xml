@@ -245,7 +245,8 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                     TEMP.?FIELD VALUE,
                     LEVEL_NAME,
                     LEVEL_NO,
-                    RELATIONSHIP_LEVEL_VALUES
+                    ? AS SID
+                    ,RELATIONSHIP_LEVEL_VALUES
                     ?DISPLAYFORMATCOLUMN
                 FROM
                     RELATIONSHIP_LEVEL_DEFINITION RLD
@@ -255,6 +256,7 @@ WHEN NOT MATCHED BY SOURCE AND PROJECTION_MASTER_SID = @PROJECTION_SID THEN
                                 AND RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
                                 AND RLD.LEVEL_NO = ?LNO
                                 AND RLD.VERSION_NO = ?RLDV
+                                
             ]]>
 		</query>
 	</entity>

@@ -607,6 +607,7 @@ public class SalesLogic {
         }
         sql= projSelDTO.isExcel() ? sql.replaceAll(",INSTR INT", "").replace(",INSTR", ""):sql;
         String aaa=QueryUtil.replaceTableNames(sql, projSelDTO.getSessionDTO().getCurrentTableNames());
+        System.out.println("*********************************************************sales query" + aaa);
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(aaa);
         return convertfinalResultLists(list, projSelDTO.isIsCustomHierarchy(), projSelDTO.getTreeLevelNo(), projSelDTO.getCustomerHierarchyNo(), projSelDTO.getProductHierarchyNo(), projSelDTO);
     }   
@@ -628,7 +629,9 @@ public class SalesLogic {
         CommonLogic commonLogic = new CommonLogic();
         String sql;
 
-        sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
+       sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
+       // sql = commonLogic.insertAvailableHierarchyNo(projSelDTO);
+
 
         return getSalesResults(projSelDTO, 0, hierarchyNoSet.size(), sql);
     }

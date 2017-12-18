@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -72,7 +73,7 @@ public class SessionDTO implements Serializable {
     private String dedRelationshipBuilderSid = StringUtils.EMPTY;
     private Map<String, String> customerDescription = new HashMap<>();
     private Map<String, String> productDescription = new HashMap<>();
-    private Map<String, List> hierarchyLevelDetails = new HashMap<>();
+    private Map<String, List> hierarchyLevelDetails = new LinkedHashMap<>();
     private int customerHierarchyId;
     private int productHierarchyId;
     private int customerRelationId;
@@ -294,6 +295,7 @@ public class SessionDTO implements Serializable {
      */
     public void setCustomerLevelDetails(Map<String, List> customerLevelDetails) {
         this.hierarchyLevelDetails.putAll(customerLevelDetails);
+        System.out.println("//////////////////" +hierarchyLevelDetails );
     }
 
     /**
@@ -308,14 +310,15 @@ public class SessionDTO implements Serializable {
         this.hierarchyLevelDetails.putAll(deductionLevelDetails);
     }
 
-    public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
-        this.hierarchyLevelDetails = hierarchyLevelDetails;
-    }
-    public Map<String, List> getHierarchyLevelDetails() {
-        return Collections.unmodifiableMap(hierarchyLevelDetails);
-    }
+	public Map<String, List> getHierarchyLevelDetails() {
+		return hierarchyLevelDetails;
+	}
 
-    public Date getCurrentDate() {
+	public void setHierarchyLevelDetails(Map<String, List> hierarchyLevelDetails) {
+		this.hierarchyLevelDetails = hierarchyLevelDetails;
+	}
+
+	public Date getCurrentDate() {
         return currentDate;
     }
 

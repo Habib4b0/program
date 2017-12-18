@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -4252,7 +4253,7 @@ public class DataSelection extends ForecastDataSelection {
 				new Future[] {
 						service.submit(CommonUtil.getInstance().createRunnable(Constant.PROJECTION_DETAILS_INSERT,
 								dataSelectionDTO.getProjectionId(), session.getCurrentTableNames(), Boolean.TRUE)) });
-		session.setHierarchyLevelDetails(new HashMap<String, List>());
+		session.setHierarchyLevelDetails(new LinkedHashMap<String, List>());
 		session.setCustomerLevelDetails(
 				dsLogic.getLevelValueDetails(session, dataSelectionDTO.getCustRelationshipBuilderSid(), true));
 		session.setProductLevelDetails(

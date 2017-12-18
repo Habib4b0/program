@@ -180,8 +180,11 @@ public class NMSalesProjectionTableLogic extends PageTreeTableLogic {
         Set<TreeNode> neededNodeSet = new TreeSet<>();
         for (int i = 0; i < bulkDataMap.size(); i++) {
             String treeLevel = (String) bulkDataMap.getIndex(i).getKey();
+            System.out.println("inside Bulkloaddata******************" + (String) bulkDataMap.getIndex(i).getKey());
             SalesBaseNode parentNode = (SalesBaseNode) tree.getHierarchy(tree.getApex(), treeLevel);
             neededNodeSet.add(parentNode);
+            System.out.println(parentNode);
+            System.out.println(neededNodeSet);
             getCurrentPageData().remove(treeLevel);
         }
         if (projSelDTO.isIsCustomHierarchy()) {

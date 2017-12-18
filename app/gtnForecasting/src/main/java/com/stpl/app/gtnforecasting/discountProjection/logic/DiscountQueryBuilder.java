@@ -659,11 +659,12 @@ public class DiscountQueryBuilder {
                 : queryBuilder.replace(Constant.PROGJOIN, " JOIN #SELECTED_REBATE SR ON SR.PRICE_GROUP_TYPE = SPM.PRICE_GROUP_TYPE ");
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
+        System.out.println("**************************discound query" + QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
         if (queryBuilder.contains("('')")) {
             return Collections.EMPTY_LIST;
         } else {
             return HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
-        }
+        } 
     }
     
     public List getDiscountProjectionLastLevel(final String frequency, final List<String> discountList,
@@ -698,6 +699,7 @@ public class DiscountQueryBuilder {
         }
         queryBuilder = queryBuilder.replace(Constant.AT_USER_GROUP, StringUtils.EMPTY);
         queryBuilder = QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames());
+        System.out.println("**************************discount query FOr last level" + QueryUtil.replaceTableNames(queryBuilder, session.getCurrentTableNames()));
         if (queryBuilder.contains("('')")) {
             return Collections.EMPTY_LIST;
         } else {

@@ -4015,7 +4015,7 @@ public class CommonLogic {
 
     public String insertAvailableHierarchyNoForExpand(ProjectionSelectionDTO projSelDTO) {
         String sql;
-        sql = SQlUtil.getQuery(Constant.SELECTED_HIERARCHY_NO);
+        sql = SQlUtil.getQuery("selected-hierarchy-no-order-values");
         sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
@@ -4085,6 +4085,7 @@ public class CommonLogic {
             if (isNotFirstElement) {
                 stringBuilder.append(",\n");
             }
+            System.out.println("hierachy no repace in sales query " +((TreeNode) object).getHierachyNo());
             stringBuilder.append("('");
             stringBuilder.append(((TreeNode) object).getHierachyNo());
             stringBuilder.append("'," + i++ + ")");
@@ -4143,7 +4144,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
-
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
@@ -4152,7 +4153,8 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
+                stringBuilder.append("'," + i++ + ")");
+             /*   stringBuilder.append("')");*/
 
                 isNotFirstElement = true;
             }
@@ -4175,7 +4177,7 @@ public class CommonLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
-
+        int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.valueOf(entry.getValue().get(2).toString());
             if ((entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
@@ -4184,8 +4186,7 @@ public class CommonLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
-
+                stringBuilder.append("'," + i++ + ")");
                 isNotFirstElement = true;
             }
         }
