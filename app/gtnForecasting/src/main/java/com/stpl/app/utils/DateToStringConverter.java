@@ -17,6 +17,7 @@ public class DateToStringConverter implements Converter<String, Date> {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     public Date convertToModel(String value, Class<? extends Date> targetType,
             Locale locale)
              {
@@ -41,6 +42,7 @@ public class DateToStringConverter implements Converter<String, Date> {
         return parsedValue;
     }
 
+    @Override
     public String convertToPresentation(Date value,
             Class<? extends String> targetType, Locale locale)
              {
@@ -57,6 +59,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * @see com.vaadin.data.util.converter.Converter#getModelType()
      */
 
+    @Override
     public Class<Date> getModelType() {
         return Date.class;
     }
@@ -66,6 +69,7 @@ public class DateToStringConverter implements Converter<String, Date> {
      * 
      * @see com.vaadin.data.util.converter.Converter#getPresentationType()
      */
+    @Override
     public Class<String> getPresentationType() {
         return String.class;
     }

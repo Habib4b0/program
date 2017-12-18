@@ -22,7 +22,7 @@ import org.vaadin.addons.lazycontainer.SearchCriteria;
  */
 public class PPADetailsLazyContainer implements DAO<HelperDTO> {
 
-    private HelperDTO dto;
+    private final HelperDTO dto;
     /**
      * The Constant LOGGER.
      */
@@ -34,7 +34,7 @@ public class PPADetailsLazyContainer implements DAO<HelperDTO> {
 
     PPADetailsDTO ppaDetailsDTO;
 
-    private HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
+    private final HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
 
     int projectionId;
 

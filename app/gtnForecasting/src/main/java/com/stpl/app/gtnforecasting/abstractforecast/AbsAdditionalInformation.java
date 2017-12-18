@@ -65,18 +65,18 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(AbsAdditionalInformation.class);
+    protected static final long serialVersionUID = 1L;
+    protected static final Logger LOGGER = Logger.getLogger(AbsAdditionalInformation.class);
     @UiField("fileNameLb")
     protected Label fileNameLb;
     @UiField("fileNameField")
     protected TextField fileNameField;
     @UiField("cssLayout1")
-    public CssLayout cssLayout1;
+    protected CssLayout cssLayout1;
     @UiField("newNotes")
     protected TextArea newNote;
     @UiField("addNote")
-    public Button addNote;
+    protected Button addNote;
     @UiField("notesHistory")
     protected TextArea internalNotes;
     @UiField("imageLayout")
@@ -84,38 +84,38 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     @UiField("table")
     protected ExtFilterTable table;
     @UiField("remove")
-    public Button remove;
+    protected Button remove;
 
     @UiField("notes")
-    public Panel notes;
+    protected Panel notes;
 
     @UiField("attachment")
-    public Panel attachment;
+    protected Panel attachment;
 
     protected Receiver uploadReceiver;
     protected Upload uploadComponent;
     protected final TextField uploader = new TextField();
-    private Resource wordRes;
-    private Resource pdfRes;
-    public FileDownloader wordDownloader;
-    public FileDownloader pdfDownloader;
-    AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
-    protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
+    protected Resource wordRes;
+    protected Resource pdfRes;
+    protected FileDownloader wordDownloader;
+    protected FileDownloader pdfDownloader;
+    protected AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
+    protected static String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
     protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
     protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
-    private final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
+    protected final File logo = CommonUtil.getFilePath(basepath + "/WEB-INF/images/company_logo.png");
     protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
     protected Object tableBeanId = null;
     protected File fileUpload;
     protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
-    protected String fileName;
-    private String NOTES_HISTORY = "Notes History";
+    protected static String fileName;
+    protected final String NOTES_HISTORY = "Notes History";
     protected File filePath;
     protected File wordFile;
     protected File pdfFile;
-    protected String fileUploadPath;
-    private final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
-    public List<NotesDTO> removeDetailsList = new ArrayList<>();
+    protected static String fileUploadPath;
+    protected final Map<Integer, Boolean> reloadVerticalLayoutTabFiveMap = new HashMap<>();
+    protected List<NotesDTO> removeDetailsList = new ArrayList<>();
     private final NotesTabLogic logic = new NotesTabLogic();
     /**
      * The module name.
@@ -124,24 +124,24 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
     /**
      * The move back.
      */
-    public final String moveBack = "../";
+    public static final String moveBack = "../";
     /**
      * The file path.
      */
-    public final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
-    public List<String> notesList = new ArrayList<>();
-    public List<String> wordList = new ArrayList<>();
+    protected final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + "Documents" + File.separator + "National Assumptions");
+    protected List<String> notesList = new ArrayList<>();
+    protected List<String> wordList = new ArrayList<>();
     protected int projectionId = 0;
-    protected String moduleName = StringUtils.EMPTY;
+    protected static String moduleName = StringUtils.EMPTY;
     private String mode = StringUtils.EMPTY;
-    protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    public static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
-    String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
+    protected static String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected static String alphaNumericChars = "([0-9|a-z|A-Z|\\ |\\*])*";
+    protected static String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
 
     public AbsAdditionalInformation(final String moduleName, final int projectionId, final String mode) {
-        this.fileName = "Notes_History_" + moduleName.replace(" ", StringUtils.EMPTY);
+        AbsAdditionalInformation.fileName = "Notes_History_" + moduleName.replace(" ", StringUtils.EMPTY);
         this.projectionId = projectionId;
-        this.moduleName = moduleName;
+        AbsAdditionalInformation.moduleName = moduleName;
         this.mode = mode;
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
         intailizingObject();
@@ -149,7 +149,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
 
     }
 
-    private void init() {
+    public void init() {
 
         addToContent();
         createExportDocs();
@@ -335,6 +335,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         addNote.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (!flag.isOk()) {
                     flag.setOk(true);
@@ -401,6 +402,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 try {
                     itemClickLogic(event);
@@ -431,6 +433,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         return true;
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
        
     }

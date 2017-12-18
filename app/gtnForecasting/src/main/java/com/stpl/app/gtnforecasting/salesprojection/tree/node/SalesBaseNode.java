@@ -36,6 +36,7 @@ public abstract class SalesBaseNode implements TreeNode, Comparable<SalesBaseNod
         this.hierarchyIndicator = hierarchyIndicator;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }
@@ -49,6 +50,7 @@ public abstract class SalesBaseNode implements TreeNode, Comparable<SalesBaseNod
         this.parentNode = parentNode;
     }
 
+    @Override
     public TreeNode getParentNode() {
         return parentNode;
     }
@@ -102,6 +104,7 @@ public abstract class SalesBaseNode implements TreeNode, Comparable<SalesBaseNod
         this.positiontoParent = positiontoParent;
     }
 
+    @Override
     public List<TreeNode> getAllChildHierarchies() {
         return childTreeList;
     }

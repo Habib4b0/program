@@ -184,7 +184,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
     /**
      * The logic.
      */
-    private DataSelectionLogic logic = new DataSelectionLogic();
+    private final DataSelectionLogic logic = new DataSelectionLogic();
 
     private final NationalAssumptions nationalAssumptions;
 
@@ -240,7 +240,6 @@ public class DataSelectionIndex extends CustomComponent implements View {
     private String productGroupCompany = StringUtils.EMPTY;
     
    private final com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
-   private final CommonUiUtils commonUiUtils = new CommonUiUtils();
    private final SessionDTO sessionDTO;
  
     public DataSelectionIndex(DataSelectionDTO dtoValue, CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
@@ -279,6 +278,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
+    @Override
     public void enter(ViewChangeEvent event) {
         projectionName.setValue(StringUtils.EMPTY);
     }
@@ -297,10 +297,12 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setSortEnabled(true);
         resultTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -312,6 +314,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
 
                 if ("therapeuticClass".equals(propertyId)) {
@@ -332,14 +335,17 @@ public class DataSelectionIndex extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -362,8 +368,8 @@ public class DataSelectionIndex extends CustomComponent implements View {
         modeOption.addItem(Constants.LabelConstants.MODE_SEARCH);
         modeOption.select(Constant.ADD_SMALL);
 
-        resultTable.setColumnAlignment(commonUiUtils.visibleSearchColumn[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
-        resultTable.setColumnAlignment(commonUiUtils.visibleSearchColumn[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(CommonUiUtils.visibleSearchColumn[NumericConstants.FOUR], ExtFilterTable.Align.CENTER);
+        resultTable.setColumnAlignment(CommonUiUtils.visibleSearchColumn[NumericConstants.FIVE], ExtFilterTable.Align.CENTER);
         
             businessUnit.setPageLength(NumericConstants.SEVEN);
             businessUnit.setImmediate(true);
@@ -424,6 +430,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         therapeuticClass.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
                 companyOnChangeEvent();
             }
@@ -481,6 +488,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         });
         moveLeftProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (availableProduct.getValue() != null) {
                     Object item = availableProduct.getValue();
@@ -491,6 +499,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         });
         moveRightProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (selectedProducts.getValue() != null) {
                     Object item = selectedProducts.getValue();
@@ -603,7 +612,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
             availableProductBean.removeAllItems();
             loadData();
             ResultList result = null;
-            if (!"0".equals(company.getValue()) || ((Integer) thearupeticValueId) != 0 || !StringUtils.EMPTY.equals((String) productGroupValue)|| !"0".valueOf(businessUnit.getValue()).isEmpty()) {
+            if (!"0".equals(company.getValue()) || ((Integer) thearupeticValueId) != 0 || !StringUtils.EMPTY.equals((String) productGroupValue)|| !String.valueOf(businessUnit.getValue()).isEmpty()) {
 
                 result = new DataSelectionLogic().searchCCP(company.getValue(), thearupeticValueId, productGroupValue.toString(),businessUnit.getValue());
             } else {
@@ -748,9 +757,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
         availableProduct.setFilterDecorator(new ExtDemoFilterDecorator());
         availableProduct.setStyleName(Constant.FILTER_TABLE);
         availableProduct.setContainerDataSource(availableProductBean);
-        availableProduct.setVisibleColumns(commonUiUtils.visibleColumn);
-        availableProduct.setColumnHeaders(commonUiUtils.visibleHeader);
-        availableProduct.setColumnAlignment(commonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
+        availableProduct.setVisibleColumns(CommonUiUtils.visibleColumn);
+        availableProduct.setColumnHeaders(CommonUiUtils.visibleHeader);
+        availableProduct.setColumnAlignment(CommonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
         availableProduct.setPageLength(NumericConstants.TEN);
         availableProduct.setImmediate(true);
         availableProduct.setSelectable(true);
@@ -762,6 +771,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     Object item = event.getItemId();
@@ -786,9 +796,9 @@ public class DataSelectionIndex extends CustomComponent implements View {
         selectedProducts.setFilterDecorator(new ExtDemoFilterDecorator());
         selectedProducts.setStyleName(Constant.FILTER_TABLE);
         selectedProducts.setContainerDataSource(selectedProductBean);
-        selectedProducts.setVisibleColumns(commonUiUtils.visibleColumn);
-        selectedProducts.setColumnHeaders(commonUiUtils.visibleHeader);
-        selectedProducts.setColumnAlignment(commonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
+        selectedProducts.setVisibleColumns(CommonUiUtils.visibleColumn);
+        selectedProducts.setColumnHeaders(CommonUiUtils.visibleHeader);
+        selectedProducts.setColumnAlignment(CommonUiUtils.visibleColumn[0], ExtCustomTable.Align.RIGHT);
         selectedProducts.setPageLength(NumericConstants.TEN);
         selectedProducts.setImmediate(true);
         selectedProducts.setSelectable(true);
@@ -810,8 +820,8 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.setFilterBarVisible(true);
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.setStyleName(Constant.FILTER_TABLE);
-        resultTable.setVisibleColumns(commonUiUtils.visibleSearchColumn);
-        resultTable.setColumnHeaders(commonUiUtils.visibleSearchHeader);
+        resultTable.setVisibleColumns(CommonUiUtils.visibleSearchColumn);
+        resultTable.setColumnHeaders(CommonUiUtils.visibleSearchHeader);
         resultTable.setPageLength(NumericConstants.TEN);
         resultTable.setItemsPerPage(10);
         resultTable.setImmediate(true);
@@ -821,6 +831,7 @@ public class DataSelectionIndex extends CustomComponent implements View {
         resultTable.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }

@@ -79,7 +79,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(NMSalesProjection.class);
     List<String> projectedPeriodList = new ArrayList();
-    private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
+    private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected String ALL = "ALL";
     public static final String SID = "SID";
@@ -723,9 +723,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 totalLivesLayout.setVisible(false);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
