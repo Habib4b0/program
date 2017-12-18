@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#x2f;</directory>
+  <directory>&#47;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#x2f;07&#x2f;01 19&#x3a;07&#x3a;20.289</created_date>
+  <created_date>2013&#47;07&#47;01 19:07:20.289</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#x2f;07&#x2f;01 19&#x3a;07&#x3a;20.289</modified_date>
+  <modified_date>2013&#47;07&#47;01 19:07:20.289</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>${BPI_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
+    <database>${BPI_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>${STAGING_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>${STAGING_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -85,7 +85,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CONTRACT_HEADER_VALIDATIONS.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;CONTRACT_HEADER_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,7 +93,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -104,7 +104,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -154,7 +153,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CONTRACT_HEADER_DATAFETCH.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;CONTRACT_HEADER_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -173,7 +172,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -209,14 +207,37 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>263</xloc>
-      <yloc>190</yloc>
+      <xloc>385</xloc>
+      <yloc>32</yloc>
       </entry>
     <entry>
       <name>HELPER TABLE</name>
       <description/>
       <type>SQL</type>
-      <sql>INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT CONTRACT_TYPE,&#x27;CONTRACT_TYPE&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;CONTRACT_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or CONTRACT_TYPE IS NOT NULL &#x29; AND CONTRACT_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CONTRACT_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT CONTRACT_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;CONTRACT_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or CONTRACT_STATUS IS NOT NULL &#x29; AND CONTRACT_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT DOC_TYPE,&#x27;DOCUMENT_TYPE&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;DOC_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or DOC_TYPE IS NOT NULL &#x29; AND DOC_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;DOCUMENT_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT DOC_CLASS,&#x27;DOCUMENT_CLASS&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;DOC_CLASS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or DOC_CLASS IS NOT NULL &#x29; AND DOC_CLASS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;DOCUMENT_CLASS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT TRADE_CLASS,&#x27;CONTRACT_TRADE_CLASS&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;TRADE_CLASS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or TRADE_CLASS IS NOT NULL &#x29; AND TRADE_CLASS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;CONTRACT_TRADE_CLASS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT AWARD_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;AWARD_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or AWARD_STATUS IS NOT NULL &#x29; AND AWARD_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT PRICE_RESET_INDICATOR,&#x27;PRICE_RESET_INDICATOR&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;PRICE_RESET_INDICATOR&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or PRICE_RESET_INDICATOR IS NOT NULL &#x29; AND PRICE_RESET_INDICATOR NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;PRICE_RESET_INDICATOR&#x27;&#x29;&#xa;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT PAYMENT_TERMS,&#x27;PAYMENT_TERMS&#x27;,-1 FROM STAG_CONTRACT_HEADER &#xa;WHERE &#x28;upper&#x28;PAYMENT_TERMS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or PAYMENT_TERMS IS NOT NULL &#x29; AND PAYMENT_TERMS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;PAYMENT_TERMS&#x27;&#x29;</sql>
+      <sql>INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT CONTRACT_TYPE,&apos;CONTRACT_TYPE&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(CONTRACT_TYPE)!=&apos;NULL&apos; or CONTRACT_TYPE IS NOT NULL ) AND CONTRACT_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CONTRACT_TYPE&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT CONTRACT_STATUS,&apos;STATUS&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(CONTRACT_STATUS)!=&apos;NULL&apos; or CONTRACT_STATUS IS NOT NULL ) AND CONTRACT_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT DOC_TYPE,&apos;DOCUMENT_TYPE&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(DOC_TYPE)!=&apos;NULL&apos; or DOC_TYPE IS NOT NULL ) AND DOC_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;DOCUMENT_TYPE&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT DOC_CLASS,&apos;DOCUMENT_CLASS&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(DOC_CLASS)!=&apos;NULL&apos; or DOC_CLASS IS NOT NULL ) AND DOC_CLASS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;DOCUMENT_CLASS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT TRADE_CLASS,&apos;CONTRACT_TRADE_CLASS&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(TRADE_CLASS)!=&apos;NULL&apos; or TRADE_CLASS IS NOT NULL ) AND TRADE_CLASS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;CONTRACT_TRADE_CLASS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT AWARD_STATUS,&apos;STATUS&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(AWARD_STATUS)!=&apos;NULL&apos; or AWARD_STATUS IS NOT NULL ) AND AWARD_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PRICE_RESET_INDICATOR,&apos;PRICE_RESET_INDICATOR&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(PRICE_RESET_INDICATOR)!=&apos;NULL&apos; or PRICE_RESET_INDICATOR IS NOT NULL ) AND PRICE_RESET_INDICATOR NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PRICE_RESET_INDICATOR&apos;)
+
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PAYMENT_TERMS,&apos;PAYMENT_TERMS&apos;,-1 FROM STAG_CONTRACT_HEADER 
+WHERE (upper(PAYMENT_TERMS)!=&apos;NULL&apos; or PAYMENT_TERMS IS NOT NULL ) AND PAYMENT_TERMS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;PAYMENT_TERMS&apos;)</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -234,7 +255,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -248,10 +269,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -266,7 +285,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -280,10 +299,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -296,7 +313,23 @@
       <name>Duplicate Record</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE IVLD_CONTRACT_HEADER SET ERROR_CODE&#x3d;&#x27;E04&#x27; WHERE REASON_FOR_FAILURE &#x3d;&#x27;Duplicate Record&#x27;&#xa;&#xa;&#xa;&#xa;update  cm  set CONT_HOLD_COMPANY_MASTER_SID&#x3d;d.company_master_sid&#xa;from CONTRACT_MASTER cm join&#x28;&#xa;select TRADING_PARTNER_NO,b.COMPANY_MASTER_SID,CONTRACT_ID from STAG_CONTRACT_HEADER A&#xa;inner join COMPANY_MASTER b on a.TRADING_PARTNER_NO&#x3d;b.company_no&#x29;d on d.contract_id&#x3d;cm.contract_id&#xa;&#xa;update  cm  set MANF_COMPANY_MASTER_SID&#x3d;d.company_master_sid&#xa;from CONTRACT_MASTER cm join&#x28;&#xa;select TRADING_PARTNER_NO,b.COMPANY_MASTER_SID,CONTRACT_ID from STAG_CONTRACT_HEADER A&#xa;inner join COMPANY_MASTER b on a.COMPANY_NO&#x3d;b.company_no&#x29;d on d.contract_id&#x3d;cm.contract_id&#xa;&#xa;update  cm  set TP_COMPANY_MASTER_SID&#x3d;CONT_HOLD_COMPANY_MASTER_SID&#xa;from CONTRACT_ALIAS_MASTER cm join contract_master d on d.contract_master_sid&#x3d;cm.contract_master_sid&#xa;</sql>
+      <sql>UPDATE IVLD_CONTRACT_HEADER SET ERROR_CODE=&apos;E04&apos; WHERE REASON_FOR_FAILURE =&apos;Duplicate Record&apos;
+
+
+
+update  cm  set CONT_HOLD_COMPANY_MASTER_SID=d.company_master_sid
+from CONTRACT_MASTER cm join(
+select TRADING_PARTNER_NO,b.COMPANY_MASTER_SID,CONTRACT_ID from STAG_CONTRACT_HEADER A
+inner join COMPANY_MASTER b on a.TRADING_PARTNER_NO=b.company_no)d on d.contract_id=cm.contract_id
+
+update  cm  set MANF_COMPANY_MASTER_SID=d.company_master_sid
+from CONTRACT_MASTER cm join(
+select TRADING_PARTNER_NO,b.COMPANY_MASTER_SID,CONTRACT_ID from STAG_CONTRACT_HEADER A
+inner join COMPANY_MASTER b on a.COMPANY_NO=b.company_no)d on d.contract_id=cm.contract_id
+
+update  cm  set TP_COMPANY_MASTER_SID=CONT_HOLD_COMPANY_MASTER_SID
+from CONTRACT_ALIAS_MASTER cm join contract_master d on d.contract_master_sid=cm.contract_master_sid
+</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -314,7 +347,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -333,7 +366,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -347,7 +379,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -366,7 +398,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -380,7 +411,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -399,7 +430,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -413,7 +443,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -432,7 +462,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -444,7 +473,9 @@
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -453,14 +484,18 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>660</xloc>
-      <yloc>48</yloc>
+      <xloc>516</xloc>
+      <yloc>92</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
+      <name>STOP PROCESS AUDIT (3)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
+
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -473,10 +508,15 @@
       <yloc>1404</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
+      <name>STOP PROCESS AUDIT (2)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
+
+
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -494,7 +534,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -513,7 +553,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -525,7 +564,144 @@
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#xa;&#xa;TRUNCATE TABLE STAG_CONTRACT_HEADER&#xa;&#xa;insert into STAG_CONTRACT_HEADER&#x28;&#xa;ORGANIZATION_KEY&#xa;,CONTRACT_ID&#xa;,CONTRACT_NO&#xa;,CONTRACT_NAME&#xa;,CONTRACT_TYPE&#xa;,CONTRACT_STATUS&#xa;,DOC_TYPE&#xa;,DOC_CLASS&#xa;,COMPANY_NO&#xa;,COMPANY_NAME&#xa;,TP_IDENTIFIER_CODE_QUALIFIER&#xa;,TRADING_PARTNER_NO&#xa;,TRADING_PARTNER_NAME&#xa;,TP_CONTRACT_ID&#xa;,TP_CONTRACT_NAME&#xa;,TRADE_CLASS&#xa;,START_DATE&#xa;,END_DATE&#xa;,TERM&#xa;,RENEGOTIATION_START_DATE&#xa;,RENEGOTIATION_END_DATE&#xa;,PRICEPROTECTION_START_DATE&#xa;,PRICEPROTECTION_END_DATE&#xa;,ADVANCE_NOTICE_DAYS&#xa;,INSIDE_OWNER&#xa;,INSIDE_PHONE&#xa;,INSIDE_AUTHOR&#xa;,INSIDE_ADDITIONAL&#xa;,INSIDE_ADDITIONAL_NAME&#xa;,INSIDE_ADDITIONAL_PHONE&#xa;,OUTSIDE_OWNER&#xa;,OUTSIDE_PHONE&#xa;,OUTSIDE_AUTHOR&#xa;,OUTSIDE_ADDITIONAL&#xa;,OUTSIDE_ADDITIONAL_NAME&#xa;,OUTSIDE_ADDITIONAL_PHONE&#xa;,AFFILIATED_CONTRACT_INFO&#xa;,SHIPPING_TERMS&#xa;,PROPOSAL_START_DATE&#xa;,PROPOSAL_END_DATE&#xa;,ORIGINAL_START_DATE&#xa;,ORIGINAL_END_DATE&#xa;,AWARD_STATUS&#xa;,LAST_UPDATED_DATE&#xa;,PRICE_ESCALATION_CLAUSE&#xa;,EXEMPT_FROM_LOW_PRICE&#xa;,PRICE_RESET_INDICATOR&#xa;,CANCELLATION_CLAUSE&#xa;,MOST_FAVORED_NATION&#xa;,CATEGORY&#xa;,CURRENCY&#xa;,MINIMUM_ORDER&#xa;,PAYMENT_TERMS&#xa;,CONTRACT_ALIAS_NO&#xa;,CONTRACT_ALIAS_NAME&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,CONTRACT_HEADER_INTFID&#xa;,COMPANY_IDENT_CODE_QUALIFIER&#xa;&#x29;&#xa;select &#xa;ORGANIZATION_KEY&#xa;,CONTRACT_ID&#xa;,CONTRACT_NO&#xa;,CONTRACT_NAME&#xa;,CONTRACT_TYPE&#xa;,CONTRACT_STATUS&#xa;,DOC_TYPE&#xa;,DOC_CLASS&#xa;,COMPANY_NO&#xa;,COMPANY_NAME&#xa;,TP_IDENTIFIER_CODE_QUALIFIER&#xa;,TRADING_PARTNER_NO&#xa;,TRADING_PARTNER_NAME&#xa;,TP_CONTRACT_ID&#xa;,TP_CONTRACT_NAME&#xa;,TRADE_CLASS&#xa;,START_DATE&#xa;,END_DATE&#xa;,TERM&#xa;,RENEGOTIATION_START_DATE&#xa;,RENEGOTIATION_END_DATE&#xa;,PRICEPROTECTION_START_DATE&#xa;,PRICEPROTECTION_END_DATE&#xa;,ADVANCE_NOTICE_DAYS&#xa;,INSIDE_OWNER&#xa;,INSIDE_PHONE&#xa;,INSIDE_AUTHOR&#xa;,INSIDE_ADDITIONAL&#xa;,INSIDE_ADDITIONAL_NAME&#xa;,INSIDE_ADDITIONAL_PHONE&#xa;,OUTSIDE_OWNER&#xa;,OUTSIDE_PHONE&#xa;,OUTSIDE_AUTHOR&#xa;,OUTSIDE_ADDITIONAL&#xa;,OUTSIDE_ADDITIONAL_NAME&#xa;,OUTSIDE_ADDITIONAL_PHONE&#xa;,AFFILIATED_CONTRACT_INFO&#xa;,SHIPPING_TERMS&#xa;,PROPOSAL_START_DATE&#xa;,PROPOSAL_END_DATE&#xa;,ORIGINAL_START_DATE&#xa;,ORIGINAL_END_DATE&#xa;,AWARD_STATUS&#xa;,LAST_UPDATED_DATE&#xa;,PRICE_ESCALATION_CLAUSE&#xa;,EXEMPT_FROM_LOW_PRICE&#xa;,PRICE_RESET_INDICATOR&#xa;,CANCELLATION_CLAUSE&#xa;,MOST_FAVORED_NATION&#xa;,CATEGORY&#xa;,CURRENCY&#xa;,MINIMUM_ORDER&#xa;,PAYMENT_TERMS&#xa;,CONTRACT_ALIAS_NO&#xa;,CONTRACT_ALIAS_NAME&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,CONTRACT_HEADER_INTERFACE_ID&#xa;,COMPANY_IDENTIFIER_CODE_QUALIFIER&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..CONTRACT_HEADER_INTERFACE</sql>
+      <sql>
+
+
+TRUNCATE TABLE STAG_CONTRACT_HEADER
+
+insert into STAG_CONTRACT_HEADER(
+ORGANIZATION_KEY
+,CONTRACT_ID
+,CONTRACT_NO
+,CONTRACT_NAME
+,CONTRACT_TYPE
+,CONTRACT_STATUS
+,DOC_TYPE
+,DOC_CLASS
+,COMPANY_NO
+,COMPANY_NAME
+,TP_IDENTIFIER_CODE_QUALIFIER
+,TRADING_PARTNER_NO
+,TRADING_PARTNER_NAME
+,TP_CONTRACT_ID
+,TP_CONTRACT_NAME
+,TRADE_CLASS
+,START_DATE
+,END_DATE
+,TERM
+,RENEGOTIATION_START_DATE
+,RENEGOTIATION_END_DATE
+,PRICEPROTECTION_START_DATE
+,PRICEPROTECTION_END_DATE
+,ADVANCE_NOTICE_DAYS
+,INSIDE_OWNER
+,INSIDE_PHONE
+,INSIDE_AUTHOR
+,INSIDE_ADDITIONAL
+,INSIDE_ADDITIONAL_NAME
+,INSIDE_ADDITIONAL_PHONE
+,OUTSIDE_OWNER
+,OUTSIDE_PHONE
+,OUTSIDE_AUTHOR
+,OUTSIDE_ADDITIONAL
+,OUTSIDE_ADDITIONAL_NAME
+,OUTSIDE_ADDITIONAL_PHONE
+,AFFILIATED_CONTRACT_INFO
+,SHIPPING_TERMS
+,PROPOSAL_START_DATE
+,PROPOSAL_END_DATE
+,ORIGINAL_START_DATE
+,ORIGINAL_END_DATE
+,AWARD_STATUS
+,LAST_UPDATED_DATE
+,PRICE_ESCALATION_CLAUSE
+,EXEMPT_FROM_LOW_PRICE
+,PRICE_RESET_INDICATOR
+,CANCELLATION_CLAUSE
+,MOST_FAVORED_NATION
+,CATEGORY
+,CURRENCY
+,MINIMUM_ORDER
+,PAYMENT_TERMS
+,CONTRACT_ALIAS_NO
+,CONTRACT_ALIAS_NAME
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,CONTRACT_HEADER_INTFID
+,COMPANY_IDENT_CODE_QUALIFIER
+)
+select 
+ORGANIZATION_KEY
+,CONTRACT_ID
+,CONTRACT_NO
+,CONTRACT_NAME
+,CONTRACT_TYPE
+,CONTRACT_STATUS
+,DOC_TYPE
+,DOC_CLASS
+,COMPANY_NO
+,COMPANY_NAME
+,TP_IDENTIFIER_CODE_QUALIFIER
+,TRADING_PARTNER_NO
+,TRADING_PARTNER_NAME
+,TP_CONTRACT_ID
+,TP_CONTRACT_NAME
+,TRADE_CLASS
+,START_DATE
+,END_DATE
+,TERM
+,RENEGOTIATION_START_DATE
+,RENEGOTIATION_END_DATE
+,PRICEPROTECTION_START_DATE
+,PRICEPROTECTION_END_DATE
+,ADVANCE_NOTICE_DAYS
+,INSIDE_OWNER
+,INSIDE_PHONE
+,INSIDE_AUTHOR
+,INSIDE_ADDITIONAL
+,INSIDE_ADDITIONAL_NAME
+,INSIDE_ADDITIONAL_PHONE
+,OUTSIDE_OWNER
+,OUTSIDE_PHONE
+,OUTSIDE_AUTHOR
+,OUTSIDE_ADDITIONAL
+,OUTSIDE_ADDITIONAL_NAME
+,OUTSIDE_ADDITIONAL_PHONE
+,AFFILIATED_CONTRACT_INFO
+,SHIPPING_TERMS
+,PROPOSAL_START_DATE
+,PROPOSAL_END_DATE
+,ORIGINAL_START_DATE
+,ORIGINAL_END_DATE
+,AWARD_STATUS
+,LAST_UPDATED_DATE
+,PRICE_ESCALATION_CLAUSE
+,EXEMPT_FROM_LOW_PRICE
+,PRICE_RESET_INDICATOR
+,CANCELLATION_CLAUSE
+,MOST_FAVORED_NATION
+,CATEGORY
+,CURRENCY
+,MINIMUM_ORDER
+,PAYMENT_TERMS
+,CONTRACT_ALIAS_NO
+,CONTRACT_ALIAS_NAME
+,CREATED_BY
+,isnull(CREATED_DATE,getdate())
+,MODIFIED_BY
+,isnull(MODIFIED_DATE,getdate())
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,CONTRACT_HEADER_INTERFACE_ID
+,COMPANY_IDENTIFIER_CODE_QUALIFIER
+
+ FROM ${STAGING_DB}..CONTRACT_HEADER_INTERFACE</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -541,7 +717,232 @@
       <name>Duplicate record in Staging</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#x3b;WITH cte AS &#x28; &#xa;&#xa;&#xa;SELECT &#xa;a.ADD_CHG_DEL_INDICATOR&#xa;,a.ADVANCE_NOTICE_DAYS&#xa;,a.AFFILIATED_CONTRACT_INFO&#xa;,a.AWARD_STATUS&#xa;,a.BATCH_ID&#xa;,a.CANCELLATION_CLAUSE&#xa;,a.CATEGORY&#xa;,a.COMPANY_IDENT_CODE_QUALIFIER&#xa;,a.COMPANY_NAME&#xa;,a.COMPANY_NO&#xa;,a.CONTRACT_ALIAS_NAME&#xa;,a.CONTRACT_ALIAS_NO&#xa;,a.CONTRACT_HEADER_INTFID&#xa;,a.CONTRACT_ID&#xa;,a.CONTRACT_NAME&#xa;,a.CONTRACT_NO&#xa;,a.CONTRACT_STATUS&#xa;,a.CONTRACT_TYPE&#xa;,a.CREATED_BY&#xa;,a.CREATED_DATE&#xa;,a.CURRENCY&#xa;,a.DOC_CLASS&#xa;,a.DOC_TYPE&#xa;,a.END_DATE&#xa;,a.EXEMPT_FROM_LOW_PRICE&#xa;,a.INSIDE_ADDITIONAL&#xa;,a.INSIDE_ADDITIONAL_NAME&#xa;,a.INSIDE_ADDITIONAL_PHONE&#xa;,a.INSIDE_AUTHOR&#xa;,a.INSIDE_OWNER&#xa;,a.INSIDE_PHONE&#xa;,a.LAST_UPDATED_DATE&#xa;,a.MINIMUM_ORDER&#xa;,a.MODIFIED_BY&#xa;,a.MODIFIED_DATE&#xa;,a.MOST_FAVORED_NATION&#xa;,a.ORGANIZATION_KEY&#xa;,a.ORIGINAL_END_DATE&#xa;,a.ORIGINAL_START_DATE&#xa;,a.OUTSIDE_ADDITIONAL&#xa;,a.OUTSIDE_ADDITIONAL_NAME&#xa;,a.OUTSIDE_ADDITIONAL_PHONE&#xa;,a.OUTSIDE_AUTHOR&#xa;,a.OUTSIDE_OWNER&#xa;,a.OUTSIDE_PHONE&#xa;,a.PAYMENT_TERMS&#xa;,a.PRICEPROTECTION_END_DATE&#xa;,a.PRICEPROTECTION_START_DATE&#xa;,a.PRICE_ESCALATION_CLAUSE&#xa;,a.PRICE_RESET_INDICATOR&#xa;,a.PROPOSAL_END_DATE&#xa;,a.PROPOSAL_START_DATE&#xa;,a.RENEGOTIATION_END_DATE&#xa;,a.RENEGOTIATION_START_DATE&#xa;,a.SHIPPING_TERMS&#xa;,a.SOURCE&#xa;,a.START_DATE&#xa;,a.TERM&#xa;,a.TP_CONTRACT_ID&#xa;,a.TP_CONTRACT_NAME&#xa;,a.TP_IDENTIFIER_CODE_QUALIFIER&#xa;,a.TRADE_CLASS&#xa;,a.TRADING_PARTNER_NAME&#xa;,a.TRADING_PARTNER_NO&#xa;&#xa; &#xa;,ROW_NUMBER&#x28;&#x29; OVER&#x28;PARTITION BY CONTRACT_ID ORDER BY CONTRACT_ID&#x29;&#x27;RowRank&#x27;&#xa;        FROM     STAG_CONTRACT_HEADER A &#xa;    --   INNER JOIN COMPANY_MASTER B &#xa;      --        ON A.ORGANIZATION_KEY &#x3d; B.COMPANY_ID                &#xa;	 --  INNER JOIN COMPANY_MASTER F              &#xa;    --             ON A.ACCOUNT_ID &#x3d; F.COMPANY_NO &#xa;    --   INNER JOIN ITEM_MASTER C &#xa;     --         ON A.ITEM_ID &#x3d; C.ITEM_ID &#xa;    --   INNER JOIN CONTRACT_MASTER D &#xa;      --        ON A.CONTRACT_ID &#x3d; D.CONTRACT_ID &#xa;     --  INNER JOIN RS_MODEL E &#xa;      --        ON A.PROVISION_ID &#x3d; E.RS_ID&#xa;where a.ADD_CHG_DEL_INDICATOR &#x3d;&#x27;A&#x27;&#xa;			    &#x29;&#xa;&#xa;insert into IVLD_CONTRACT_HEADER&#x28;&#xa;ADD_CHG_DEL_INDICATOR&#xa;,ADVANCE_NOTICE_DAYS&#xa;,AFFILIATED_CONTRACT_INFO&#xa;,AWARD_STATUS&#xa;,BATCH_ID&#xa;,CANCELLATION_CLAUSE&#xa;,CATEGORY&#xa;,COMPANY_IDENT_CODE_QUALIFIER&#xa;,COMPANY_NAME&#xa;,COMPANY_NO&#xa;,CONTRACT_ALIAS_NAME&#xa;,CONTRACT_ALIAS_NO&#xa;,CONTRACT_HEADER_INTFID&#xa;,CONTRACT_ID&#xa;,CONTRACT_NAME&#xa;,CONTRACT_NO&#xa;,CONTRACT_STATUS&#xa;,CONTRACT_TYPE&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,CURRENCY&#xa;,DOC_CLASS&#xa;,DOC_TYPE&#xa;,END_DATE&#xa;,ERROR_CODE&#xa;,EXEMPT_FROM_LOW_PRICE&#xa;,INSIDE_ADDITIONAL&#xa;,INSIDE_ADDITIONAL_NAME&#xa;,INSIDE_ADDITIONAL_PHONE&#xa;,INSIDE_AUTHOR&#xa;,INSIDE_OWNER&#xa;,INSIDE_PHONE&#xa;,LAST_UPDATED_DATE&#xa;,MINIMUM_ORDER&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,MOST_FAVORED_NATION&#xa;,ORGANIZATION_KEY&#xa;,ORIGINAL_END_DATE&#xa;,ORIGINAL_START_DATE&#xa;,OUTSIDE_ADDITIONAL&#xa;,OUTSIDE_ADDITIONAL_NAME&#xa;,OUTSIDE_ADDITIONAL_PHONE&#xa;,OUTSIDE_AUTHOR&#xa;,OUTSIDE_OWNER&#xa;,OUTSIDE_PHONE&#xa;,PAYMENT_TERMS&#xa;,PRICEPROTECTION_END_DATE&#xa;,PRICEPROTECTION_START_DATE&#xa;,PRICE_ESCALATION_CLAUSE&#xa;,PRICE_RESET_INDICATOR&#xa;,PROPOSAL_END_DATE&#xa;,PROPOSAL_START_DATE&#xa;,REASON_FOR_FAILURE&#xa;,RENEGOTIATION_END_DATE&#xa;,RENEGOTIATION_START_DATE&#xa;,SHIPPING_TERMS&#xa;,SOURCE&#xa;,START_DATE&#xa;,TERM&#xa;,TP_CONTRACT_ID&#xa;,TP_CONTRACT_NAME&#xa;,TP_IDENTIFIER_CODE_QUALIFIER&#xa;,TRADE_CLASS&#xa;,TRADING_PARTNER_NAME&#xa;,TRADING_PARTNER_NO&#xa;&#xa;&#xa;&#x29;&#xa;select &#xa;ADD_CHG_DEL_INDICATOR&#xa;,ADVANCE_NOTICE_DAYS&#xa;,AFFILIATED_CONTRACT_INFO&#xa;,AWARD_STATUS&#xa;,BATCH_ID&#xa;,CANCELLATION_CLAUSE&#xa;,CATEGORY&#xa;,COMPANY_IDENT_CODE_QUALIFIER&#xa;,COMPANY_NAME&#xa;,COMPANY_NO&#xa;,CONTRACT_ALIAS_NAME&#xa;,CONTRACT_ALIAS_NO&#xa;,CONTRACT_HEADER_INTFID&#xa;,CONTRACT_ID&#xa;,CONTRACT_NAME&#xa;,CONTRACT_NO&#xa;,CONTRACT_STATUS&#xa;,CONTRACT_TYPE&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,CURRENCY&#xa;,DOC_CLASS&#xa;,DOC_TYPE&#xa;,END_DATE&#xa;,&#x27;E04&#x27;&#xa;,EXEMPT_FROM_LOW_PRICE&#xa;,INSIDE_ADDITIONAL&#xa;,INSIDE_ADDITIONAL_NAME&#xa;,INSIDE_ADDITIONAL_PHONE&#xa;,INSIDE_AUTHOR&#xa;,INSIDE_OWNER&#xa;,INSIDE_PHONE&#xa;,LAST_UPDATED_DATE&#xa;,MINIMUM_ORDER&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,MOST_FAVORED_NATION&#xa;,ORGANIZATION_KEY&#xa;,ORIGINAL_END_DATE&#xa;,ORIGINAL_START_DATE&#xa;,OUTSIDE_ADDITIONAL&#xa;,OUTSIDE_ADDITIONAL_NAME&#xa;,OUTSIDE_ADDITIONAL_PHONE&#xa;,OUTSIDE_AUTHOR&#xa;,OUTSIDE_OWNER&#xa;,OUTSIDE_PHONE&#xa;,PAYMENT_TERMS&#xa;,PRICEPROTECTION_END_DATE&#xa;,PRICEPROTECTION_START_DATE&#xa;,PRICE_ESCALATION_CLAUSE&#xa;,PRICE_RESET_INDICATOR&#xa;,PROPOSAL_END_DATE&#xa;,PROPOSAL_START_DATE&#xa;,&#x27;Duplicate record in Staging&#x27;&#xa;,RENEGOTIATION_END_DATE&#xa;,RENEGOTIATION_START_DATE&#xa;,SHIPPING_TERMS&#xa;,SOURCE&#xa;,START_DATE&#xa;,TERM&#xa;,TP_CONTRACT_ID&#xa;,TP_CONTRACT_NAME&#xa;,TP_IDENTIFIER_CODE_QUALIFIER&#xa;,TRADE_CLASS&#xa;,TRADING_PARTNER_NAME&#xa;,TRADING_PARTNER_NO&#xa;&#xa;  FROM cte &#xa;WHERE RowRank &#x3e; 1</sql>
+      <sql>
+;WITH cte AS ( 
+
+
+SELECT 
+a.ADD_CHG_DEL_INDICATOR
+,a.ADVANCE_NOTICE_DAYS
+,a.AFFILIATED_CONTRACT_INFO
+,a.AWARD_STATUS
+,a.BATCH_ID
+,a.CANCELLATION_CLAUSE
+,a.CATEGORY
+,a.COMPANY_IDENT_CODE_QUALIFIER
+,a.COMPANY_NAME
+,a.COMPANY_NO
+,a.CONTRACT_ALIAS_NAME
+,a.CONTRACT_ALIAS_NO
+,a.CONTRACT_HEADER_INTFID
+,a.CONTRACT_ID
+,a.CONTRACT_NAME
+,a.CONTRACT_NO
+,a.CONTRACT_STATUS
+,a.CONTRACT_TYPE
+,a.CREATED_BY
+,a.CREATED_DATE
+,a.CURRENCY
+,a.DOC_CLASS
+,a.DOC_TYPE
+,a.END_DATE
+,a.EXEMPT_FROM_LOW_PRICE
+,a.INSIDE_ADDITIONAL
+,a.INSIDE_ADDITIONAL_NAME
+,a.INSIDE_ADDITIONAL_PHONE
+,a.INSIDE_AUTHOR
+,a.INSIDE_OWNER
+,a.INSIDE_PHONE
+,a.LAST_UPDATED_DATE
+,a.MINIMUM_ORDER
+,a.MODIFIED_BY
+,a.MODIFIED_DATE
+,a.MOST_FAVORED_NATION
+,a.ORGANIZATION_KEY
+,a.ORIGINAL_END_DATE
+,a.ORIGINAL_START_DATE
+,a.OUTSIDE_ADDITIONAL
+,a.OUTSIDE_ADDITIONAL_NAME
+,a.OUTSIDE_ADDITIONAL_PHONE
+,a.OUTSIDE_AUTHOR
+,a.OUTSIDE_OWNER
+,a.OUTSIDE_PHONE
+,a.PAYMENT_TERMS
+,a.PRICEPROTECTION_END_DATE
+,a.PRICEPROTECTION_START_DATE
+,a.PRICE_ESCALATION_CLAUSE
+,a.PRICE_RESET_INDICATOR
+,a.PROPOSAL_END_DATE
+,a.PROPOSAL_START_DATE
+,a.RENEGOTIATION_END_DATE
+,a.RENEGOTIATION_START_DATE
+,a.SHIPPING_TERMS
+,a.SOURCE
+,a.START_DATE
+,a.TERM
+,a.TP_CONTRACT_ID
+,a.TP_CONTRACT_NAME
+,a.TP_IDENTIFIER_CODE_QUALIFIER
+,a.TRADE_CLASS
+,a.TRADING_PARTNER_NAME
+,a.TRADING_PARTNER_NO
+
+ 
+,ROW_NUMBER() OVER(PARTITION BY CONTRACT_ID ORDER BY CONTRACT_ID)&apos;RowRank&apos;
+        FROM     STAG_CONTRACT_HEADER A 
+    --   INNER JOIN COMPANY_MASTER B 
+      --        ON A.ORGANIZATION_KEY = B.COMPANY_ID                
+	 --  INNER JOIN COMPANY_MASTER F              
+    --             ON A.ACCOUNT_ID = F.COMPANY_NO 
+    --   INNER JOIN ITEM_MASTER C 
+     --         ON A.ITEM_ID = C.ITEM_ID 
+    --   INNER JOIN CONTRACT_MASTER D 
+      --        ON A.CONTRACT_ID = D.CONTRACT_ID 
+     --  INNER JOIN RS_MODEL E 
+      --        ON A.PROVISION_ID = E.RS_ID
+where a.ADD_CHG_DEL_INDICATOR =&apos;A&apos;
+			    )
+
+insert into IVLD_CONTRACT_HEADER(
+ADD_CHG_DEL_INDICATOR
+,ADVANCE_NOTICE_DAYS
+,AFFILIATED_CONTRACT_INFO
+,AWARD_STATUS
+,BATCH_ID
+,CANCELLATION_CLAUSE
+,CATEGORY
+,COMPANY_IDENT_CODE_QUALIFIER
+,COMPANY_NAME
+,COMPANY_NO
+,CONTRACT_ALIAS_NAME
+,CONTRACT_ALIAS_NO
+,CONTRACT_HEADER_INTFID
+,CONTRACT_ID
+,CONTRACT_NAME
+,CONTRACT_NO
+,CONTRACT_STATUS
+,CONTRACT_TYPE
+,CREATED_BY
+,CREATED_DATE
+,CURRENCY
+,DOC_CLASS
+,DOC_TYPE
+,END_DATE
+,ERROR_CODE
+,EXEMPT_FROM_LOW_PRICE
+,INSIDE_ADDITIONAL
+,INSIDE_ADDITIONAL_NAME
+,INSIDE_ADDITIONAL_PHONE
+,INSIDE_AUTHOR
+,INSIDE_OWNER
+,INSIDE_PHONE
+,LAST_UPDATED_DATE
+,MINIMUM_ORDER
+,MODIFIED_BY
+,MODIFIED_DATE
+,MOST_FAVORED_NATION
+,ORGANIZATION_KEY
+,ORIGINAL_END_DATE
+,ORIGINAL_START_DATE
+,OUTSIDE_ADDITIONAL
+,OUTSIDE_ADDITIONAL_NAME
+,OUTSIDE_ADDITIONAL_PHONE
+,OUTSIDE_AUTHOR
+,OUTSIDE_OWNER
+,OUTSIDE_PHONE
+,PAYMENT_TERMS
+,PRICEPROTECTION_END_DATE
+,PRICEPROTECTION_START_DATE
+,PRICE_ESCALATION_CLAUSE
+,PRICE_RESET_INDICATOR
+,PROPOSAL_END_DATE
+,PROPOSAL_START_DATE
+,REASON_FOR_FAILURE
+,RENEGOTIATION_END_DATE
+,RENEGOTIATION_START_DATE
+,SHIPPING_TERMS
+,SOURCE
+,START_DATE
+,TERM
+,TP_CONTRACT_ID
+,TP_CONTRACT_NAME
+,TP_IDENTIFIER_CODE_QUALIFIER
+,TRADE_CLASS
+,TRADING_PARTNER_NAME
+,TRADING_PARTNER_NO
+
+
+)
+select 
+ADD_CHG_DEL_INDICATOR
+,ADVANCE_NOTICE_DAYS
+,AFFILIATED_CONTRACT_INFO
+,AWARD_STATUS
+,BATCH_ID
+,CANCELLATION_CLAUSE
+,CATEGORY
+,COMPANY_IDENT_CODE_QUALIFIER
+,COMPANY_NAME
+,COMPANY_NO
+,CONTRACT_ALIAS_NAME
+,CONTRACT_ALIAS_NO
+,CONTRACT_HEADER_INTFID
+,CONTRACT_ID
+,CONTRACT_NAME
+,CONTRACT_NO
+,CONTRACT_STATUS
+,CONTRACT_TYPE
+,CREATED_BY
+,CREATED_DATE
+,CURRENCY
+,DOC_CLASS
+,DOC_TYPE
+,END_DATE
+,&apos;E04&apos;
+,EXEMPT_FROM_LOW_PRICE
+,INSIDE_ADDITIONAL
+,INSIDE_ADDITIONAL_NAME
+,INSIDE_ADDITIONAL_PHONE
+,INSIDE_AUTHOR
+,INSIDE_OWNER
+,INSIDE_PHONE
+,LAST_UPDATED_DATE
+,MINIMUM_ORDER
+,MODIFIED_BY
+,MODIFIED_DATE
+,MOST_FAVORED_NATION
+,ORGANIZATION_KEY
+,ORIGINAL_END_DATE
+,ORIGINAL_START_DATE
+,OUTSIDE_ADDITIONAL
+,OUTSIDE_ADDITIONAL_NAME
+,OUTSIDE_ADDITIONAL_PHONE
+,OUTSIDE_AUTHOR
+,OUTSIDE_OWNER
+,OUTSIDE_PHONE
+,PAYMENT_TERMS
+,PRICEPROTECTION_END_DATE
+,PRICEPROTECTION_START_DATE
+,PRICE_ESCALATION_CLAUSE
+,PRICE_RESET_INDICATOR
+,PROPOSAL_END_DATE
+,PROPOSAL_START_DATE
+,&apos;Duplicate record in Staging&apos;
+,RENEGOTIATION_END_DATE
+,RENEGOTIATION_START_DATE
+,SHIPPING_TERMS
+,SOURCE
+,START_DATE
+,TERM
+,TP_CONTRACT_ID
+,TP_CONTRACT_NAME
+,TP_IDENTIFIER_CODE_QUALIFIER
+,TRADE_CLASS
+,TRADING_PARTNER_NAME
+,TRADING_PARTNER_NO
+
+  FROM cte 
+WHERE RowRank &gt; 1</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -559,7 +960,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -578,7 +979,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -592,7 +992,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -606,10 +1006,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -622,7 +1020,7 @@
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Input&#x2f;</foldername>
+      <foldername>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Input&#47;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -638,7 +1036,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -657,7 +1055,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -666,10 +1063,12 @@
       <yloc>242</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
+      <name>STOP PROCESS AUDIT (2) 2</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -685,7 +1084,29 @@
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_CONTRACT_HEADER&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
+      <sql>DECLARE @SQL        VARCHAR(MAX),
+        @TABLE_NAME VARCHAR(100)=&apos;SNAP_CONTRACT_HEADER&apos;,
+        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
+		,@var1 varchar(2)=&apos;&lt;&apos;
+
+
+SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
+
+SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
+
+
+exec( @SQL)
+
+SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;))
+
+exec( @SQL) 
+</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -703,7 +1124,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -722,19 +1143,18 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>435</xloc>
-      <yloc>207</yloc>
+      <xloc>383</xloc>
+      <yloc>113</yloc>
       </entry>
     <entry>
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;CONTRACT_HEADER_INTERFACE&#x2f;Input&#x2f;</foldername>
+      <foldername>${INBOUND_FILE_PATH}&#47;CONTRACT_HEADER_INTERFACE&#47;Input&#47;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -750,7 +1170,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -769,7 +1189,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -783,7 +1202,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -796,8 +1215,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>779</xloc>
-      <yloc>252</yloc>
+      <xloc>814</xloc>
+      <yloc>246</yloc>
       </entry>
     <entry>
       <name>DATABASE FETCH</name>
@@ -805,7 +1224,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -819,17 +1238,15 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>773</xloc>
-      <yloc>426</yloc>
+      <xloc>808</xloc>
+      <yloc>420</yloc>
       </entry>
     <entry>
       <name>Simple evaluation 2 4 2 2 2</name>
@@ -837,7 +1254,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
+      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -850,8 +1267,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>773</xloc>
-      <yloc>333</yloc>
+      <xloc>808</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>TRUNCATE INTERFACE TABLE 2</name>
@@ -868,16 +1285,16 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>773</xloc>
-      <yloc>132</yloc>
+      <xloc>808</xloc>
+      <yloc>126</yloc>
       </entry>
     <entry>
-      <name>MAIL &#x28;2&#x29; 2</name>
+      <name>MAIL (2) 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -896,7 +1313,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -910,7 +1326,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -932,7 +1348,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -949,10 +1365,15 @@
       <yloc>797</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
+      <name>STOP PROCESS AUDIT (2) 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
+
+
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -965,10 +1386,15 @@
       <yloc>932</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
+      <name>STOP PROCESS AUDIT (2) 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;CONTRACT_HEADER_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;CONTRACT_HEADER_INTERFACE&apos;
+
+
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;CONTRACT_HEADER_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -986,7 +1412,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;UNLOCK.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -994,7 +1420,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1005,13 +1431,76 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>943</xloc>
       <yloc>1135</yloc>
+      </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>606</xloc>
+      <yloc>450</yloc>
+      </entry>
+    <entry>
+      <name>SET_STAG_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>600</xloc>
+      <yloc>249</yloc>
       </entry>
   </entries>
   <hops>
@@ -1107,7 +1596,7 @@
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1116,7 +1605,7 @@
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1125,7 +1614,7 @@
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1134,7 +1623,7 @@
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1241,7 +1730,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
+      <from>STOP PROCESS AUDIT (3)</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1251,7 +1740,7 @@
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
+      <to>STOP PROCESS AUDIT (3)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1278,7 +1767,7 @@
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1287,7 +1776,7 @@
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1342,15 +1831,6 @@
     <hop>
       <from>SNAP TABLE PURGE</from>
       <to>PRECISION</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>TRUNCATE INTERFACE TABLE 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1413,7 +1893,7 @@
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL &#x28;2&#x29; 2</to>
+      <to>MAIL (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1421,8 +1901,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL &#x28;2&#x29; 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1440,7 +1920,7 @@
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
+      <to>STOP PROCESS AUDIT (3)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1457,7 +1937,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
+      <from>STOP PROCESS AUDIT (2) 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1466,7 +1946,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
+      <from>STOP PROCESS AUDIT (2)</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1475,8 +1955,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL &#x28;2&#x29; 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1485,7 +1965,7 @@
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1494,7 +1974,7 @@
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1503,7 +1983,7 @@
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1512,7 +1992,7 @@
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1520,7 +2000,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
+      <from>STOP PROCESS AUDIT (2) 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1530,7 +2010,7 @@
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
+      <to>STOP PROCESS AUDIT (2) 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1538,7 +2018,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
+      <from>STOP PROCESS AUDIT (2) 3 2</from>
       <to>STOP PROCESS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1573,8 +2053,43 @@
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_STAG_COUNT</from>
+      <to>REPROCESSING_INVALID_DATA</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>HELPER TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
-
 </job>
