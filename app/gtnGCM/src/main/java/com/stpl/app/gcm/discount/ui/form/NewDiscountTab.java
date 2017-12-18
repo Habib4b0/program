@@ -1449,14 +1449,14 @@ public class NewDiscountTab extends CustomComponent {
                         AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.ITEM_FAMILY_PLAN.toString())) {
-                    String ifpId = this.ifpId.getValue();
-                    String ifpNo = this.ifpNo.getValue();
-                    String ifpName = this.ifpName.getValue();
-                    String ifpStatus = String.valueOf(this.ifpStatus.getValue() != null ? this.ifpStatus.getValue() : StringUtils.EMPTY);
+                    String itemFamilyPlanId = this.ifpId.getValue();
+                    String itemFamilyPlanNo = this.ifpNo.getValue();
+                    String itemFamilyPlanName = this.ifpName.getValue();
+                    String itemFamilyPlanStatus = String.valueOf(this.ifpStatus.getValue() != null ? this.ifpStatus.getValue() : StringUtils.EMPTY);
                     String ifpStartdate = ifpStartDate.getValue() != null ? ifpStartDate.getValue().toString() : StringUtils.EMPTY;
-                    if (StringUtils.isNotBlank(ifpId) && StringUtils.isNotBlank(ifpNo) && StringUtils.isNotBlank(ifpName)
-                            && StringUtils.isNotBlank(ifpStatus) && StringUtils.isNotBlank(ifpStartdate)) {
-                        List list = DiscountLogic.duplicateCheck(compType, ifpId, "IFP_ID");
+                    if (StringUtils.isNotBlank(itemFamilyPlanId) && StringUtils.isNotBlank(itemFamilyPlanNo) && StringUtils.isNotBlank(itemFamilyPlanName)
+                            && StringUtils.isNotBlank(itemFamilyPlanStatus) && StringUtils.isNotBlank(ifpStartdate)) {
+                        List list = DiscountLogic.duplicateCheck(compType, itemFamilyPlanId, "IFP_ID");
                         if (list != null && !list.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Item Family Plan ID already exist. Please enter different ID.");
                             return;
@@ -1464,10 +1464,10 @@ public class NewDiscountTab extends CustomComponent {
                         saveTreeDto = new ContractsDetailsDto();
                         ifpListforMap = new ArrayList<>();
                         saveTreeDto.setCategory(Constants.IndicatorConstants.IFP.getConstant());
-                        saveTreeDto.setId(ifpId);
-                        saveTreeDto.setName(ifpName);
-                        saveTreeDto.setNumber(ifpNo);
-                        saveTreeDto.setStatus(ifpStatus);
+                        saveTreeDto.setId(itemFamilyPlanId);
+                        saveTreeDto.setName(itemFamilyPlanName);
+                        saveTreeDto.setNumber(itemFamilyPlanNo);
+                        saveTreeDto.setStatus(itemFamilyPlanStatus);
                         saveTreeDto.setStartDate(ifpStartdate);
                         saveTreeDto.setLevel(ContractsDetailsDto.LEVEL3);
                         saveTreeDto.setSystemId(contractMasterId);
@@ -1483,29 +1483,29 @@ public class NewDiscountTab extends CustomComponent {
                         AbstractNotificationUtils.getErrorNotification(Constants.ADD_TO_TREE, Constants.PLEASE_ENSURE_ALL_MANDATORY_FIELDS);
                     }
                 } else if (compType.equalsIgnoreCase(Constants.IndicatorConstants.COMPANY_FAMILY_PLAN.getConstant())) {
-                    String cfpId = this.cfpId.getValue();
-                    String cfpNo = this.cfpNo.getValue();
-                    String cfpName = this.cfpName.getValue();
-                    String cfpStatus = String.valueOf(this.cfpStatus.getValue() != null ? this.cfpStatus.getValue() : StringUtils.EMPTY);
+                    String companyFamilyPlanId = this.cfpId.getValue();
+                    String companyFamilyPlanNo = this.cfpNo.getValue();
+                    String companyFamilyPlanName = this.cfpName.getValue();
+                    String companyFamilyPlanStatus = String.valueOf(this.cfpStatus.getValue() != null ? this.cfpStatus.getValue() : StringUtils.EMPTY);
                     String cfpStartdate = cfpStartDate.getValue() != null ? cfpStartDate.getValue().toString() : StringUtils.EMPTY;
-                    if (StringUtils.isNotBlank(cfpId) && StringUtils.isNotBlank(cfpNo) && StringUtils.isNotBlank(cfpName)
-                            && StringUtils.isNotBlank(cfpStatus) && StringUtils.isNotBlank(cfpStartdate)) {
-                        List list = DiscountLogic.duplicateCheck(compType, cfpId, "CFP_ID");
+                    if (StringUtils.isNotBlank(companyFamilyPlanId) && StringUtils.isNotBlank(companyFamilyPlanNo) && StringUtils.isNotBlank(companyFamilyPlanName)
+                            && StringUtils.isNotBlank(companyFamilyPlanStatus) && StringUtils.isNotBlank(cfpStartdate)) {
+                        List list = DiscountLogic.duplicateCheck(compType, companyFamilyPlanId, "CFP_ID");
                         if (list != null && !list.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Company Family Plan ID already exist. Please enter different ID.");
                             return;
                         }
-                        List listNo = DiscountLogic.duplicateCheck(compType, cfpNo, "CFP_NO");
+                        List listNo = DiscountLogic.duplicateCheck(compType, companyFamilyPlanNo, "CFP_NO");
                         if (listNo != null && !listNo.isEmpty()) {
                             AbstractNotificationUtils.getErrorNotification(Constants.ERROR, "Entered Company Family Plan No already exist. Please enter different No.");
                             return;
                         }
                         saveTreeDto = new ContractsDetailsDto();
                         saveTreeDto.setCategory(Constants.IndicatorConstants.CFP.getConstant());
-                        saveTreeDto.setId(cfpId);
-                        saveTreeDto.setName(cfpName);
-                        saveTreeDto.setNumber(cfpNo);
-                        saveTreeDto.setStatus(cfpStatus);
+                        saveTreeDto.setId(companyFamilyPlanId);
+                        saveTreeDto.setName(companyFamilyPlanName);
+                        saveTreeDto.setNumber(companyFamilyPlanNo);
+                        saveTreeDto.setStatus(companyFamilyPlanStatus);
                         saveTreeDto.setStartDate(cfpStartdate);
                         saveTreeDto.setLevel(ContractsDetailsDto.LEVEL2);
                         saveTreeDto.setSystemId(contractMasterId);
@@ -1731,14 +1731,10 @@ public class NewDiscountTab extends CustomComponent {
             }
 
         } // Drop at the top of a subtree -> make it previous
-        else if (location == VerticalDropLocation.TOP) {
+        else if (location == VerticalDropLocation.TOP || location == VerticalDropLocation.BOTTOM) {
             AbstractNotificationUtils.getWarningNotification("Drop Criteria", "Drop the child node on the parent node");
             return;
-        } // Drop below another item -> make it next
-        else if (location == VerticalDropLocation.BOTTOM) {
-            AbstractNotificationUtils.getWarningNotification("Drop Criteria", "Drop the child node on the parent node");
-            return;
-        }
+        } 
         LOGGER.debug("End of setTreeNode method");
     }
 
@@ -1859,8 +1855,7 @@ public class NewDiscountTab extends CustomComponent {
                     }
 
                 } else {
-                    final String message = "Please remove all children nodes before removing a parent node.";
-                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, message);
+                    AbstractNotificationUtils.getWarningNotification(Constants.REMOVE_HEADER, "Please remove all children nodes before removing a parent node.");
                 }
             }
         } else {
@@ -2211,13 +2206,13 @@ public class NewDiscountTab extends CustomComponent {
 
     private void configureSecurityPermissions() {
         try {
-            Map<String, AppPermission> functionHM = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), "GCM-Customer Management", "Add Discount", "NewDiscount Screen");
-            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHM));
-            addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHM));
-            levelRemoveBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelRemoveBtn", functionHM));
-            levelPopulateBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelPopulateBtn", functionHM));
-            removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeBtn", functionHM));
-            addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHM));
+            Map<String, AppPermission> functionHMPermission = stplSecurity.getBusinessFunctionPermission(String.valueOf(session.getUserId()), "GCM-Customer Management", "Add Discount", "NewDiscount Screen");
+            searchBtn.setVisible(CommonLogic.isButtonVisibleAccess("searchBtn", functionHMPermission));
+            addBtn.setVisible(CommonLogic.isButtonVisibleAccess("addBtn", functionHMPermission));
+            levelRemoveBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelRemoveBtn", functionHMPermission));
+            levelPopulateBtn.setVisible(CommonLogic.isButtonVisibleAccess("levelPopulateBtn", functionHMPermission));
+            removeBtn.setVisible(CommonLogic.isButtonVisibleAccess("removeBtn", functionHMPermission));
+            addToTree.setVisible(CommonLogic.isButtonVisibleAccess("addToTree", functionHMPermission));
         } catch (Exception ex) {
             LOGGER.error(ex);
         }

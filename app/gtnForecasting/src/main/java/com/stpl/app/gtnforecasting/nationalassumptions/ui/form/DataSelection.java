@@ -115,24 +115,19 @@ public class DataSelection extends CustomComponent implements View {
     private ExtFilterTable resultTable;
 
     /**
-     * The dto value.
-     */
-    DataSelectionDTO dtoValue;
-
-    /**
      * The available product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> availableProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The selected product bean.
      */
-    private BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> selectedProductBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The table bean.
      */
-    private BeanItemContainer<DataSelectionDTO> tableBean = new BeanItemContainer<>(DataSelectionDTO.class);
+    private final BeanItemContainer<DataSelectionDTO> tableBean = new BeanItemContainer<>(DataSelectionDTO.class);
 
     /**
      * The generate.
@@ -172,7 +167,7 @@ public class DataSelection extends CustomComponent implements View {
     /**
      * The logic.
      */
-    DataSelectionLogic logic = new DataSelectionLogic();
+    private final DataSelectionLogic logic = new DataSelectionLogic();
 
     /**
      * The move left product.
@@ -203,41 +198,29 @@ public class DataSelection extends CustomComponent implements View {
     @UiField("businessUnit")
     private ComboBox businessUnit;
 
-    CustomFieldGroup dataSelectionBinder;
+    private final CustomFieldGroup dataSelectionBinder;
 
-    final ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
 
-    Object companyValueId;
-
-    Object thearupeticValue;
-    Object thearupeticValueId;
-
-    Object productTypeValue;
+    private Object companyValueId;
+    private Object thearupeticValueId;
     private Integer productGroupId = 0;
 
-    private TextField projectionId = new TextField();
+    private final TextField projectionId = new TextField();
 
-    private NationalAssumptions nationalAssumptions ;
+    private final NationalAssumptions nationalAssumptions ;
 
     private boolean updateOnTabChange = false;
     private boolean reloadAfterUpdate = false;
 
-    List<Integer> existItems = new ArrayList<>();
+    private final List<Integer> existItems = new ArrayList<>();
 
-    List<Integer> currentItems = new ArrayList<>();
+    private final List<Integer> currentItems = new ArrayList<>();
 
-    List<NaProjDetails> detailsList;
-     com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
-     SessionDTO sessionDTO;
-     CommonUiUtils commonUiUtils = new CommonUiUtils();
-     
+    private List<NaProjDetails> detailsList;
+    private final com.stpl.app.gtnforecasting.logic.DataSelectionLogic dsLogic = new com.stpl.app.gtnforecasting.logic.DataSelectionLogic();
+    private final SessionDTO sessionDTO;
 
-    /**
-     * Instantiates a new data selection index.
-     *
-     * @param dtoValue the dto value
-     * @param mode the mode
-     */
     public DataSelection(CustomFieldGroup dataSelectionBinder,SessionDTO sessionDTO) {
         super();
         this.sessionDTO=sessionDTO;
@@ -272,8 +255,9 @@ public class DataSelection extends CustomComponent implements View {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
      * .ViewChangeEvent)
      */
+    @Override
     public void enter(ViewChangeEvent event) {
-        return;
+      //Default method
     }
 
     /**
@@ -354,6 +338,7 @@ public class DataSelection extends CustomComponent implements View {
         therapeuticClass.addValueChangeListener(new Property.ValueChangeListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 companyOnChangeEvent();
             }
@@ -362,6 +347,7 @@ public class DataSelection extends CustomComponent implements View {
         editBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (resultTable.getValue() != null) {
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
@@ -374,6 +360,7 @@ public class DataSelection extends CustomComponent implements View {
         viewBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (resultTable.getValue() != null) {
                     getUI().getNavigator().navigateTo(NationalAssumptionsView.NAME);
@@ -386,6 +373,7 @@ public class DataSelection extends CustomComponent implements View {
         deleteBtn.addClickListener(new Button.ClickListener() {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (resultTable.getValue() != null) {
 
@@ -488,11 +476,6 @@ public class DataSelection extends CustomComponent implements View {
 
     }
 
-    /**
-     * Company on change event.
-     *
-     * @param companyValue the company value
-     */
     protected void companyOnChangeEvent() {
         loadOnChangeEvent();
 
@@ -531,10 +514,8 @@ public class DataSelection extends CustomComponent implements View {
         }
         if (therapeuticClass.getValue() != null) {
             thearupeticValueId = ((HelperDTO) therapeuticClass.getValue()).getId();
-            thearupeticValue = ((HelperDTO) therapeuticClass.getValue()).getDescription();
         } else {
             thearupeticValueId = 0;
-            thearupeticValue = StringUtils.EMPTY;
         }
     }
 
@@ -941,7 +922,7 @@ public class DataSelection extends CustomComponent implements View {
             } catch (Exception ex) {
                 LOGGER.error(ex);
             } finally {
-                System.gc();
+                LOGGER.debug("Inside finally");
             }
         }
     }
@@ -1002,11 +983,8 @@ public class DataSelection extends CustomComponent implements View {
             NaProjMaster model = NaProjMasterLocalServiceUtil.getNaProjMaster(Integer.valueOf(VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID).toString()));
             company.setValue(model.getCompanyMasterSid());
             businessUnit.setValue(model.getBusinessUnit());
-        } catch (PortalException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
+        } 
     }
-    
 }

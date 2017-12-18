@@ -43,9 +43,9 @@ public class ComponentInfoTableLogic extends PageTableLogic {
 
     @Override
     public Object configureContainer(Object object, Container container) {
-        RemoveDiscountDto dto = (RemoveDiscountDto) object;
-        ((BeanItemContainer<RemoveDiscountDto>) container).addBean(dto);
-        return dto;
+        RemoveDiscountDto removeDiscountDto = (RemoveDiscountDto) object;
+        ((BeanItemContainer<RemoveDiscountDto>) container).addBean(removeDiscountDto);
+        return removeDiscountDto;
     }
 
     /**

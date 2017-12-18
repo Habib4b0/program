@@ -22,6 +22,7 @@ public class GtnFrameworkItemMasterClassContants {
 			+ "GtnFrameworkItemMasterEditListAction";
 	public static final String ITEM_MASTER_EDIT_ACTION = ITEM_MASTER_PACKAGE + "GtnFrameworkItemMasterEditAction";
 	public static final String ITEM_MASTER_ADD_ACTION = ITEM_MASTER_PACKAGE + "GtnFrameworkItemMasterAddAction";
+	public static final String ITEM_MASTER_PRICING_TABLE_CONFIGURE_ACTION = ITEM_MASTER_PACKAGE + "GtnFrameworkItemMasterPricingTableConfigureAction";
 	public static final String ITEM_MASTER_DELETE_ACTION = ITEM_MASTER_PACKAGE + "GtnFrameworkItemMasterDeleteAction";
 	public static final String ITEM_MASTER_RESET_ACTION = ITEM_MASTER_PACKAGE + "GtnFrameworkItemMasterResetAction";
 

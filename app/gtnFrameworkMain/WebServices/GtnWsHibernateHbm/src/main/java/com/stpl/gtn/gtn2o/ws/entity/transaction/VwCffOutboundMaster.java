@@ -10,7 +10,7 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 	private String type;
 	private String projectId;
 	private String projectionName;
-	private Integer year;
+	private String year;
 	private Integer month;
 	private String contractId;
 	private String contractNo;
@@ -29,8 +29,8 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 	private String itemId;
 	private String itemNo;
 	private String itemName;
-	private Double salesDollars;
-	private Double salesUnits;
+	private String salesDollars;
+	private String salesUnits;
 	private String salesInclusion;
 	private String deductionId;
 	private String deductionNo;
@@ -45,14 +45,14 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 	private String deductionCategory4;
 	private String deductionCategory5;
 	private String deductionCategory6;
-	private Double deductionDollars;
-	private Double deductionRate;
-	private Double deductionPerUnit;
-	private Double netSalesDollar;
-	private Double cogsAmount;
-	private Double cogsPerUnit;
-	private Double netProfitDollars;
-	private Double netProfitPerUnit;
+	private String deductionDollars;
+	private String deductionRate;
+	private String deductionPerUnit;
+	private String netSalesDollar;
+	private String cogsAmount;
+	private String cogsPerUnit;
+	private String netProfitDollars;
+	private String netProfitPerUnit;
 	private String companyId;
 	private String companyNo;
 	private String companyName;
@@ -125,11 +125,11 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 		this.projectionName = projectionName;
 	}
 
-	public Integer getYear() {
+	public String getYear() {
 		return this.year;
 	}
 
-	public void setYear(Integer year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
@@ -277,19 +277,19 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 		this.itemName = itemName;
 	}
 
-	public Double getSalesDollars() {
+	public String getSalesDollars() {
 		return this.salesDollars;
 	}
 
-	public void setSalesDollars(Double salesDollars) {
+	public void setSalesDollars(String salesDollars) {
 		this.salesDollars = salesDollars;
 	}
 
-	public Double getSalesUnits() {
+	public String getSalesUnits() {
 		return this.salesUnits;
 	}
 
-	public void setSalesUnits(Double salesUnits) {
+	public void setSalesUnits(String salesUnits) {
 		this.salesUnits = salesUnits;
 	}
 
@@ -405,67 +405,67 @@ public class VwCffOutboundMaster implements java.io.Serializable {
 		this.deductionCategory6 = deductionCategory6;
 	}
 
-	public Double getDeductionDollars() {
+	public String getDeductionDollars() {
 		return this.deductionDollars;
 	}
 
-	public void setDeductionDollars(Double deductionDollars) {
+	public void setDeductionDollars(String deductionDollars) {
 		this.deductionDollars = deductionDollars;
 	}
 
-	public Double getDeductionRate() {
+	public String getDeductionRate() {
 		return this.deductionRate;
 	}
 
-	public void setDeductionRate(Double deductionRate) {
+	public void setDeductionRate(String deductionRate) {
 		this.deductionRate = deductionRate;
 	}
 
-	public Double getDeductionPerUnit() {
+	public String getDeductionPerUnit() {
 		return this.deductionPerUnit;
 	}
 
-	public void setDeductionPerUnit(Double deductionPerUnit) {
+	public void setDeductionPerUnit(String deductionPerUnit) {
 		this.deductionPerUnit = deductionPerUnit;
 	}
 
-	public Double getNetSalesDollar() {
+	public String getNetSalesDollar() {
 		return this.netSalesDollar;
 	}
 
-	public void setNetSalesDollar(Double netSalesDollar) {
+	public void setNetSalesDollar(String netSalesDollar) {
 		this.netSalesDollar = netSalesDollar;
 	}
 
-	public Double getCogsAmount() {
+	public String getCogsAmount() {
 		return this.cogsAmount;
 	}
 
-	public void setCogsAmount(Double cogsAmount) {
+	public void setCogsAmount(String cogsAmount) {
 		this.cogsAmount = cogsAmount;
 	}
 
-	public Double getCogsPerUnit() {
+	public String getCogsPerUnit() {
 		return this.cogsPerUnit;
 	}
 
-	public void setCogsPerUnit(Double cogsPerUnit) {
+	public void setCogsPerUnit(String cogsPerUnit) {
 		this.cogsPerUnit = cogsPerUnit;
 	}
 
-	public Double getNetProfitDollars() {
+	public String getNetProfitDollars() {
 		return this.netProfitDollars;
 	}
 
-	public void setNetProfitDollars(Double netProfitDollars) {
+	public void setNetProfitDollars(String netProfitDollars) {
 		this.netProfitDollars = netProfitDollars;
 	}
 
-	public Double getNetProfitPerUnit() {
+	public String getNetProfitPerUnit() {
 		return this.netProfitPerUnit;
 	}
 
-	public void setNetProfitPerUnit(Double netProfitPerUnit) {
+	public void setNetProfitPerUnit(String netProfitPerUnit) {
 		this.netProfitPerUnit = netProfitPerUnit;
 	}
 

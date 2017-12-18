@@ -19,7 +19,7 @@ import com.vaadin.ui.Window;
  */
 public class NotesPopup extends Window {
     private TextArea notes = new TextArea();
-    private Button button = new Button("OK");
+    private final Button button = new Button("OK");
     
     public NotesPopup() {
         super(Constant.NOTES);

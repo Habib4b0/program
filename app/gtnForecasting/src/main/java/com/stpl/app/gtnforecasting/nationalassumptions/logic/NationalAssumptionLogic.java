@@ -454,7 +454,7 @@ public class NationalAssumptionLogic {
             if (connection != null) {
                 connection.close();
             }
-            System.gc();
+            
         }
         return objectList;
     }

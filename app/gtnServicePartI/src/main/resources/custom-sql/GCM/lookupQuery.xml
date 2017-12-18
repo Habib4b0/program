@@ -1307,10 +1307,10 @@ FROM   ITEM_MASTER IM
     <sql id="formulaIdCount">
 		<![CDATA[
 SELECT Count(DISTINCT FORMULA_DETAILS_MASTER_SID)
-FROM   FORMULA_DETAILS_MASTER
-WHERE  FORMULA_ID LIKE '?'
-       AND FORMULA_NO LIKE '?'
-       AND FORMULA_DESC LIKE '?' 
+     FROM   FORMULA_DETAILS_MASTER
+     WHERE  FORMULA_ID LIKE '?'
+            AND FORMULA_NO LIKE '?'
+            AND FORMULA_DESC LIKE '?'  
        ]]>
     </sql>
     <sql id="formulaIdRecord">

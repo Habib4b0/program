@@ -52,11 +52,12 @@ public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 		gtnWsSearchQueryConfig.setCountQuerySelectClause("Select count(distinct HT.HELPER_TABLE_SID)");
 
 		udcSearchQueryConfigMap.put("SearchQuery", gtnWsSearchQueryConfig);
-
+		
 		GtnWsSearchQueryConfig gtnWsBrandSearchQueryConfig = new GtnWsSearchQueryConfig();
 
 		gtnWsBrandSearchQueryConfig.setCountQuery(GtnWsUdcQueryConstants.GTN_UDC_BRANDSEARCH_QUERY);
 		gtnWsBrandSearchQueryConfig.setSearchQuery(gtnWsBrandSearchQueryConfig.getCountQuery());
+		
 		loadBrandValues(udcColumnDetailsMap, configProvider);
 
 		gtnWsBrandSearchQueryConfig.setFieldToColumnDetailsMap(udcColumnDetailsMap);
@@ -74,8 +75,7 @@ public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 
 	private void loadValues(Map<String, GtnWsColumnDetailsConfig> udcColumnDetailsMap,
 			GtnWsSearchQueryConfigProvider configProvider) {
-		udcColumnDetailsMap.put("description",
-				configProvider.getColumnStringConfig("DESCRIPTION", "HT"));
+		udcColumnDetailsMap.put("description", configProvider.getColumnStringConfig("DESCRIPTION", "HT"));
 		udcColumnDetailsMap.put("udcCategory", configProvider.getColumnStringConfig("LIST_NAME", "HT"));
 		udcColumnDetailsMap.put("systemId", configProvider.getColumnIntegerConfig("HELPER_TABLE_SID", "HT"));
 	}

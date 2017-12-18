@@ -29,9 +29,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.SPRDASH;
 import static com.stpl.app.utils.Constants.LabelConstants.UNITS;
 import static com.stpl.app.utils.Constants.LabelConstants.UNIT_VOL;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

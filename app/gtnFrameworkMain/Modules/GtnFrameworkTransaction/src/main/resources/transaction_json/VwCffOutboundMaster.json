@@ -4,8 +4,8 @@
          "outBoundModule":true,
          "reprocessingWebServiceURL":"/gtnTransactionOutbound/reprocess",
          "stagingInsertColumns":["cffDetailsSid","rsModelSid","periodSid"],
-		 "stagingUpdateColumns":["etlCheckRecord"],
-		 "stagingUpdateColumnsValues": ["1"]
+		 "stagingUpdateColumns":["etlCheckRecord", "userId", "sessionId"],
+		 "stagingUpdateColumnsValues": ["1","1","1"]
       }
    ],
    "moduleDetails":[  
@@ -23,33 +23,10 @@
          "isSearchCriteria":true,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":1
+         "listViewIndex":1,
+		 "defaultFocus":true
       },
-      {  
-         "columnID":"projectId",
-         "columnName":"Project Id",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":4
-      },
-      {  
-         "columnID":"customerNo",
-         "columnName":"Customer No",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":16
-      },
-      {  
-         "columnID":"companyNo",
-         "columnName":"Company No",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":46
-      },
-      {  
+	  {  
          "columnID":"financialForecastName",
          "columnName":"Financial Forecast Name",
          "isSearchCriteria":true,
@@ -57,31 +34,7 @@
          "componentType":"text",
          "listViewIndex":2
       },
-      {  
-         "columnID":"projectionName",
-         "columnName":"Projection Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":5
-      },
-      {  
-         "columnID":"customerName",
-         "columnName":"Customer Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":17
-      },
-      {  
-         "columnID":"companyName",
-         "columnName":"Company Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":47
-      },
-      {  
+	  {  
          "columnID":"type",
          "columnName":"Type",
          "isSearchCriteria":true,
@@ -92,6 +45,22 @@
          "listViewIndex":3
       },
       {  
+         "columnID":"projectId",
+         "columnName":"Project Id",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":4
+      },
+	  {  
+         "columnID":"projectionName",
+         "columnName":"Projection Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":5
+      },
+	  {  
          "columnID":"contractNo",
          "columnName":"Contract No",
          "isSearchCriteria":true,
@@ -99,6 +68,30 @@
          "componentType":"text",
          "listViewIndex":9
       },
+	  {  
+         "columnID":"contractName",
+         "columnName":"Contract Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":10
+      },
+      {  
+         "columnID":"customerNo",
+         "columnName":"Customer No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":16
+      },            
+      {  
+         "columnID":"customerName",
+         "columnName":"Customer Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":17
+      },      
       {  
          "columnID":"itemNo",
          "columnName":"Item No",
@@ -108,12 +101,44 @@
          "listViewIndex":19
       },
       {  
+         "columnID":"itemName",
+         "columnName":"Item Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":20
+      },
+      {  
+         "columnID":"companyNo",
+         "columnName":"Company No",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":46
+      },
+      {  
+         "columnID":"companyName",
+         "columnName":"Company Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":47
+      },
+      {  
          "columnID":"businessUnitNo",
          "columnName":"Business Unit No",
          "isSearchCriteria":true,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":47
+         "listViewIndex":48
+      },
+      {  
+         "columnID":"businessUnitName",
+         "columnName":"Business Unit Name",
+         "isSearchCriteria":true,
+         "isResultView":true,
+         "componentType":"text",
+         "listViewIndex":49
       },
       {  
          "columnID":"financialForecastCreationDateFrom",
@@ -134,30 +159,6 @@
          "columnMappingId":"financialForecastCreationDate",
          "expressionType":"LESS_OR_EQUAL",
          "listViewIndex":15
-      },
-      {  
-         "columnID":"contractName",
-         "columnName":"Contract Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":10
-      },
-      {  
-         "columnID":"itemName",
-         "columnName":"Item Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":20
-      },
-      {  
-         "columnID":"businessUnitName",
-         "columnName":"Business Unit Name",
-         "isSearchCriteria":true,
-         "isResultView":true,
-         "componentType":"text",
-         "listViewIndex":48
       },
       {  
          "columnID":"financialForecastApprovalDateFrom",
@@ -197,7 +198,7 @@
       },
       {  
          "columnID":"contractId",
-         "columnName":"ContractID",
+         "columnName":"Contract ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -213,7 +214,7 @@
       },
       {  
          "columnID":"contractHolderId",
-         "columnName":"Contract HolderID",
+         "columnName":"Contract Holder ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -237,7 +238,7 @@
       },
       {  
          "columnID":"customerId",
-         "columnName":"CustomerID",
+         "columnName":"Customer ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -245,7 +246,7 @@
       },
       {  
          "columnID":"itemId",
-         "columnName":"ItemID",
+         "columnName":"Item ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -257,7 +258,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":21
+         "listViewIndex":21,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,##0.00"
       },
       {  
          "columnID":"salesUnits",
@@ -265,7 +269,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":22
+         "listViewIndex":22,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"#,##0"
       },
       {  
          "columnID":"salesInclusion",
@@ -277,7 +284,7 @@
       },
       {  
          "columnID":"deductionId",
-         "columnName":"DeductionID",
+         "columnName":"Deduction ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -385,7 +392,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":37
+         "listViewIndex":37,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"deductionRate",
@@ -393,7 +403,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":38
+         "listViewIndex":38,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"#00.00%"
       },
       {  
          "columnID":"deductionPerUnit",
@@ -401,7 +414,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":39
+         "listViewIndex":39,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"netSalesDollar",
@@ -409,23 +425,32 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":40
+         "listViewIndex":40,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"cogsAmount",
-         "columnName":"Cogs Amount",
+         "columnName":"COGS Amount",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":41
+         "listViewIndex":41,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"cogsPerUnit",
-         "columnName":"Cogs Per Unit",
+         "columnName":"COGS Per Unit",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":42
+         "listViewIndex":42,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"netProfitDollars",
@@ -433,7 +458,10 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":43
+         "listViewIndex":43,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"netProfitPerUnit",
@@ -441,11 +469,14 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":44
+         "listViewIndex":44,
+		 "columnAlignment": "RIGHT",
+		 "decimalFormatNeeded":true,
+		 "pattern":"$#,#00.00"
       },
       {  
          "columnID":"companyId",
-         "columnName":"CompanyID",
+         "columnName":"Company ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
@@ -453,11 +484,11 @@
       },
       {  
          "columnID":"businessUnitId",
-         "columnName":"Business UnitID",
+         "columnName":"Business Unit ID",
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":46
+         "listViewIndex":47
       },
       {  
          "columnID":"financialForecastCreationDate",
@@ -465,7 +496,8 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"date",
-         "listViewIndex":49
+         "listViewIndex":50,
+		 "columnAlignment": "CENTER"
       },
       {  
          "columnID":"financialForecastApprovalDate",
@@ -473,7 +505,8 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"date",
-         "listViewIndex":50
+         "listViewIndex":51,
+		 "columnAlignment": "CENTER"
       },
       {  
          "columnID":"outboundStatus",
@@ -481,7 +514,7 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":51
+         "listViewIndex":52
       },
       {  
          "columnID":"originalBatchId",
@@ -489,7 +522,7 @@
          "isSearchCriteria":false,
          "isResultView":true,
          "componentType":"text",
-         "listViewIndex":52
+         "listViewIndex":53
       }
    ]
 }

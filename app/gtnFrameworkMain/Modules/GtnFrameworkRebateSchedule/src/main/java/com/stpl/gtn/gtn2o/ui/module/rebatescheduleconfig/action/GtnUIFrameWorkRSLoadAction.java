@@ -76,9 +76,9 @@ public class GtnUIFrameWorkRSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		loadNotesTab(beanList, rsInfoBean);
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
 		if (mode == GtnUIFrameworkModeType.VIEW) {
-			isEditable = false;
+			isEditable = true;
 			setTableHeaderAndVisibleColumn(isEditable);
-			setTableEnableDisable(isEditable);
+			setTableEnableDisable(false);
 		} else if (mode.equals("EDIT")) {
 			isEditable = true;
 			setTableHeaderAndVisibleColumn(isEditable);

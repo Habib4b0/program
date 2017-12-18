@@ -50,11 +50,12 @@ public class GtnUIFrameWorkCsvExcelExportAction implements GtnUIFrameWorkAction 
 		return;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
-		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) gtnUIFrameWorkActionConfig
-				.getActionParameterList().get(0);
+		List<Object> actionParams = gtnUIFrameWorkActionConfig.getActionParameterList();
+		GtnUIFrameworkExcelButtonConfig inputBean = (GtnUIFrameworkExcelButtonConfig) actionParams.get(0);
 		int count = 0;
 		GtnUIFrameworkComponentData customData = (GtnUIFrameworkComponentData) (GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(inputBean.getExportTableId())).getComponent().getData();
@@ -64,6 +65,10 @@ public class GtnUIFrameWorkCsvExcelExportAction implements GtnUIFrameWorkAction 
 
 		List<Object> propertyIds = new LinkedList<>(Arrays.asList(resultTable.getVisibleColumns()));
 		List<String> headers = new LinkedList<>(Arrays.asList(resultTable.getColumnHeaders()));
+		List<String> tableColumnFormatList = null;
+		if (actionParams.size() > 1) {
+			tableColumnFormatList = (List<String>) actionParams.get(1);
+		}
 		if (tableLogic != null) {
 			Set<Container.Filter> filters = tableLogic.getFilters();
 			tableLogic.clearFilters();
@@ -93,7 +98,8 @@ public class GtnUIFrameWorkCsvExcelExportAction implements GtnUIFrameWorkAction 
 			}
 		}
 		if (count > 0 && tableLogic != null) {
-			String filePath = inputBean.isWriteFileInWebService() ? tableLogic.loadDataForExcel(0, count, headers)
+			String filePath = inputBean.isWriteFileInWebService()
+					? tableLogic.loadDataForExcel(0, count, headers, tableColumnFormatList)
 					: writeFile(tableLogic.loadData(0, count), headers, propertyIds, inputBean);
 			sendTheExcelToUser(inputBean.getExportFileName(), filePath, inputBean.isWriteFileInWebService());
 		}

@@ -104,15 +104,15 @@ public class GtnUIFrameWorkTableRecordTypeAction implements GtnUIFrameWorkAction
 
 	private Object getFieldValuePriceTolerance(GtnWsRecordBean bean) {
 		int size = bean.getProperties().size();
-		String depandingValue = (bean.getStringPropertyByIndex(size - 5));
-		if (!(depandingValue.startsWith("-Sel")) && (!(("").equals(bean.getStringPropertyByIndex(size - 18))))&&(bean.getIndex("psDetailsPriceTol") == size - 18)) {
+		String depandingValue = (bean.getStringPropertyByIndex(size - 6));
+		if (!(depandingValue.startsWith("-Sel")) && (!(("").equals(bean.getStringPropertyByIndex(size - 19))))&&(bean.getIndex("psDetailsPriceTol") == size - 19)) {
 
 			DecimalFormat formatDecimal = new DecimalFormat("0.00");
 			if (depandingValue.startsWith("per") || depandingValue.startsWith("%")) {
-				return formatDecimal.format(bean.getDoublePropertyByIndex(size - 18)) + "%";
+				return formatDecimal.format(bean.getDoublePropertyByIndex(size - 19)) + "%";
 			}
 			if (depandingValue.startsWith("dol")) {
-				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(size - 18));
+				return "$" + formatDecimal.format(bean.getDoublePropertyByIndex(size - 19));
 			}
 
 		}
