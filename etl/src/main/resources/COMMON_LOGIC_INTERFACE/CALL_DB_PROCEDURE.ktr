@@ -137,7 +137,7 @@
   <hop> <from>MAIL ID</from><to>Mail</to><enabled>Y</enabled> </hop>
   <hop> <from>Execute SQL script</from><to>MAIL ID</to><enabled>Y</enabled> </hop>
   <hop> <from>MAIL ID 2</from><to>Mail 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Mail 2</from><to>Abort 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Mail 2</from><to>Abort 2</to><enabled>N</enabled> </hop>
   <hop> <from>Execute SQL script</from><to>MAIL ID 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
@@ -156,8 +156,8 @@
       <always_log_rows>N</always_log_rows>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>727</xloc>
-      <yloc>869</yloc>
+      <xloc>732</xloc>
+      <yloc>942</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

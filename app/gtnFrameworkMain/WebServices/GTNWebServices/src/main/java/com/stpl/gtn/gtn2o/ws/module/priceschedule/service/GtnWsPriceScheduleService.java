@@ -56,13 +56,14 @@ public class GtnWsPriceScheduleService {
 	public void priceScheduleInsert(Map<String, String> inputValueMap) throws GtnFrameworkGeneralException {
 		String psUserId = inputValueMap.get(GtnFrameworkWebserviceConstant.USER_ID);
 		String psSessionId = inputValueMap.get("sessionId");
+		String psId = inputValueMap.get("ps_id");
 		deletePsTemptableRecords(psUserId, psSessionId);
 
 		String imtdPsDetailsInsertQuery = gtnWsSqlService.getQuery("getImtdPsDetailsInsertQuery");
-		Object[] imtdPsDetailsInsertQueryParams = { psUserId, psSessionId,
-				Integer.valueOf(inputValueMap.get("ifpId")) };
+		Object[] imtdPsDetailsInsertQueryParams = { psUserId, psSessionId, Integer.valueOf(inputValueMap.get("ifpId")),
+				psId };
 		GtnFrameworkDataType[] imtdPsDetailsInsertQueryTypes = { GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER };
+				GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING };
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(imtdPsDetailsInsertQuery, imtdPsDetailsInsertQueryParams,
 				imtdPsDetailsInsertQueryTypes);
 

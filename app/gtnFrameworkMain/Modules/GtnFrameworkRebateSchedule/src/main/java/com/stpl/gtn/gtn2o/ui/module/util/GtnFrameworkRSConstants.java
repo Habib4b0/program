@@ -289,6 +289,11 @@ public class GtnFrameworkRSConstants {
 	public static final String REBATE_SETUP_TAB_MASS_DATE_FEILD = "rebateSetupTabMassDateFeild";
 	public static final String REBATE_SETUP_TAB = "RebateSetupTab";
 	public static final String RS_ITEM_ADDITION_SEARCH_FIELD = "RSItemAdditionSearchField";
+	public static final String RS_ITEM_ADDITION_SEARCH_VALUE_TEXT = "RSItemAdditionSearchValueText";
+	public static final String RS_ITEM_ADDITION_SEARCH_VALUE_STATUS_DROP_DOWN = "RSItemAdditionSearchValueStatusDropDown";
+	public static final String RS_ITEM_ADDITION_SEARCH_VALUE_TYPE_DROP_DOWN = "RSItemAdditionSearchValueTypeDropDown";
+	public static final String RS_ITEM_ADDITION_SEARCH_VALUE_DATE = "RSItemAdditionSearchValueDate";
+	public static final String RS_ITEM_ADDITION_SEARCH_VALUE_CATEGORY_DROP_DOWN = "RSItemAdditionSearchValueCategoryDropDown";
 	public static final String REBATE_SCHEDULE_ID = "rebateScheduleId";
 	public static final String REBATE_PLAN_NO = REBATE_PLAN_NO1;
 

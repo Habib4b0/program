@@ -73,6 +73,21 @@ public class ComponentInfoDTO {
     private String rebateFrequency_Value = StringUtils.EMPTY;
     private String itemContractNo = StringUtils.EMPTY;
     private Boolean reset = false;
+    private String measurementPrice;
+    private String resetPriceType;
+    private String netResetPriceType;
+    private String netPriceType;
+    private String subsequentPeriodPriceType;
+    private String netSubsequentPeriodPrice;
+    private String baselineNetWAC;
+    private String basePriceType;
+    private String baselineWAC;
+    private String netResetPriceFormula = StringUtils.EMPTY;
+    private String netPriceTypeFormula = StringUtils.EMPTY;
+    private String netSubsequentPeriodPriceFormula = StringUtils.EMPTY;
+    private String netBaselineWACFormula = StringUtils.EMPTY;
+    private String nepFormula = StringUtils.EMPTY;
+    private String nep = StringUtils.EMPTY;
 
     public String getItemNo() {
         return itemNo;
@@ -546,5 +561,128 @@ public class ComponentInfoDTO {
     public void setReset(Boolean reset) {
         this.reset = reset;
     }
+
+    public String getMeasurementPrice() {
+        return measurementPrice;
+    }
+
+    public void setMeasurementPrice(String measurementPrice) {
+        this.measurementPrice = measurementPrice;
+    }
+
+    public String getResetPriceType() {
+        return resetPriceType;
+    }
+
+    public void setResetPriceType(String resetPriceType) {
+        this.resetPriceType = resetPriceType;
+    }
+
+    public String getNetResetPriceType() {
+        return netResetPriceType;
+    }
+
+    public void setNetResetPriceType(String netResetPriceType) {
+        this.netResetPriceType = netResetPriceType;
+    }
+
+    public String getNetPriceType() {
+        return netPriceType;
+    }
+
+    public void setNetPriceType(String netPriceType) {
+        this.netPriceType = netPriceType;
+    }
+
+    public String getSubsequentPeriodPriceType() {
+        return subsequentPeriodPriceType;
+    }
+
+    public void setSubsequentPeriodPriceType(String subsequentPeriodPriceType) {
+        this.subsequentPeriodPriceType = subsequentPeriodPriceType;
+    }
+
+    public String getNetSubsequentPeriodPrice() {
+        return netSubsequentPeriodPrice;
+    }
+
+    public void setNetSubsequentPeriodPrice(String netSubsequentPeriodPrice) {
+        this.netSubsequentPeriodPrice = netSubsequentPeriodPrice;
+    }
+
+    public String getBaselineNetWAC() {
+        return baselineNetWAC;
+    }
+
+    public void setBaselineNetWAC(String baselineNetWAC) {
+        this.baselineNetWAC = baselineNetWAC;
+    }
+
+    public String getBasePriceType() {
+        return basePriceType;
+    }
+
+    public void setBasePriceType(String basePriceType) {
+        this.basePriceType = basePriceType;
+    }
+
+    public String getBaselineWAC() {
+        return baselineWAC;
+    }
+
+    public void setBaselineWAC(String baselineWAC) {
+        this.baselineWAC = baselineWAC;
+    }
+
+    public String getNetSubsequentPeriodPriceFormula() {
+        return netSubsequentPeriodPriceFormula;
+    }
+
+    public void setNetSubsequentPeriodPriceFormula(String netSubsequentPeriodPriceFormula) {
+        this.netSubsequentPeriodPriceFormula = netSubsequentPeriodPriceFormula;
+    }
+
+
+    public String getNetResetPriceFormula() {
+        return netResetPriceFormula;
+    }
+
+    public void setNetResetPriceFormula(String netResetPriceFormula) {
+        this.netResetPriceFormula = netResetPriceFormula;
+    }
+
+    public String getNetPriceTypeFormula() {
+        return netPriceTypeFormula;
+    }
+
+    public void setNetPriceTypeFormula(String netPriceTypeFormula) {
+        this.netPriceTypeFormula = netPriceTypeFormula;
+    }
+
+    public String getNetBaselineWACFormula() {
+        return netBaselineWACFormula;
+    }
+
+    public void setNetBaselineWACFormula(String netBaselineWACFormula) {
+        this.netBaselineWACFormula = netBaselineWACFormula;
+    }
+
+    public String getNepFormula() {
+        return nepFormula;
+    }
+
+    public void setNepFormula(String nepFormula) {
+        this.nepFormula = nepFormula;
+    }
+
+
+    public String getNep() {
+        return nep;
+    }
+
+    public void setNep(String nep) {
+        this.nep = nep;
+    }
+    
 
 }

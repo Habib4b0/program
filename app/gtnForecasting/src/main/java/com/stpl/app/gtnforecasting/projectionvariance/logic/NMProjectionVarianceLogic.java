@@ -1264,7 +1264,7 @@ public class NMProjectionVarianceLogic {
         List< Object[]> gtsResult = null;
         String frequency = pvsdto.getFrequency();
 //        CommonUtils.CollectionToString(pvsdto.getDiscountNoList(), false);
-        String discountId =  CommonUtils.CollectionToString(pvsdto.getDiscountNoList(), false);
+        String discountId =  null;
         List<String> projectionIdList = new ArrayList<>();
         pivotTotalList = new ArrayList<>();
         pivotPriorProjIdList = new ArrayList<>();

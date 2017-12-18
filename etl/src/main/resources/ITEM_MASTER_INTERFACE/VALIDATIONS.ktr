@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#x2f;</directory>
+    <directory>&#47;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,11 +34,6 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
-<metrics-log-table><connection/>
-<schema/>
-<table/>
-<timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -67,23 +62,21 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2013&#x2f;01&#x2f;13 11&#x3a;26&#x3a;30.436</created_date>
+  <created_date>2013&#47;01&#47;13 11:26:30.436</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#x2f;01&#x2f;13 11&#x3a;26&#x3a;30.436</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
+  <modified_date>2013&#47;01&#47;13 11:26:30.436</modified_date>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>${BPI_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
+    <database>${BPI_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -100,13 +93,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>${STAGING_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>${STAGING_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -122,122 +115,12 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>MASTER UNIQUE</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows</from><to>Unique rows</to><enabled>N</enabled> </hop>
-  <hop> <from>Unique rows</from><to>INVALID 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup</from><to>Update 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup</from><to>Table output</to><enabled>N</enabled> </hop>
-  <hop> <from>ITEM_TYPE</from><to>PRIMARY_UOM</to><enabled>N</enabled> </hop>
-  <hop> <from>PRIMARY_UOM</from><to>SECONDARY_UOM</to><enabled>N</enabled> </hop>
-  <hop> <from>SECONDARY_UOM</from><to>STRENGTH</to><enabled>N</enabled> </hop>
-  <hop> <from>STRENGTH</from><to>FORM</to><enabled>N</enabled> </hop>
-  <hop> <from>THERAPEUTIC_CLASS</from><to>ITEM_TYPE_INDICATION</to><enabled>N</enabled> </hop>
-  <hop> <from>ITEM_TYPE_INDICATION</from><to>SHELF_LIFE_TYPE</to><enabled>N</enabled> </hop>
-  <hop> <from>SHELF_LIFE_TYPE</from><to>ITEM_CATEGORY</to><enabled>N</enabled> </hop>
-  <hop> <from>ITEM_STATUS</from><to>ITEM_TYPE</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC1</from><to>UDC2</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC2</from><to>UDC3</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC3</from><to>UDC4</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC4</from><to>UDC5</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC5</from><to>UDC6</to><enabled>N</enabled> </hop>
-  <hop> <from>Update 2</from><to>UDCS_Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>BRAND LOOKUP 2</from><to>ITEM_STATUS</to><enabled>N</enabled> </hop>
-  <hop> <from>ITEM_CATEGORY</from><to>ITEM_CLASS</to><enabled>N</enabled> </hop>
-  <hop> <from>ITEM_CLASS</from><to>PACKAGE_SIZE</to><enabled>N</enabled> </hop>
-  <hop> <from>Filter rows 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 3</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 4</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 5</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 6</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 6</from><to>Filter rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>UDCS_INSERT</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 3</from><to>Set field value to a constant</to><enabled>N</enabled> </hop>
-  <hop> <from>FORM</from><to>Filter rows 3</to><enabled>N</enabled> </hop>
-  <hop> <from>Filter rows 3</from><to>THERAPEUTIC_CLASS</to><enabled>N</enabled> </hop>
-  <hop> <from>UDCS_Update</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Set field value to a constant</from><to>THERAPEUTIC_CLASS</to><enabled>N</enabled> </hop>
-  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>UDC6</from><to>MANUFACTURER_ID</to><enabled>N</enabled> </hop>
-  <hop> <from>MANUFACTURER_ID</from><to>Select values</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>Database lookup</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC6</from><to>Select values</to><enabled>N</enabled> </hop>
-  <hop> <from>UDC6</from><to>Database lookup</to><enabled>N</enabled> </hop>
-  <hop> <from>Add constants 3</from><to>ADD Audit update 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Database lookup 2</from><to>Update 2 3</to><enabled>N</enabled> </hop>
-  <hop> <from>Memory Group by 2</from><to>Add constants 3</to><enabled>N</enabled> </hop>
-  <hop> <from>Table output 2</from><to>Filter rows 2 7</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 2</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Update 2 3</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Update 2 3</from><to>UDCS_Update 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>MANUFACTURER_ID</from><to>Database lookup 2</to><enabled>N</enabled> </hop>
-  <hop> <from>UDCS_Update 2</from><to>Dummy &#x28;do nothing&#x29; 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup 2</from><to>Table output 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Filter rows 2 7</from><to>Filter rows 2 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 2 2</from><to>Filter rows 2 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 3 2</from><to>Filter rows 2 4 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 4 2</from><to>Filter rows 2 5 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 5 2</from><to>Filter rows 2 6 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 6 2</from><to>Filter rows 4</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 4</from><to>UDCS_INSERT 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 7</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 2 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 3 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 4 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 5 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 2 6 2</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 4</from><to>Dummy &#x28;do nothing&#x29; 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>MASTER UNIQUE</from><to>Sort rows</to><enabled>N</enabled> </hop>
-  <hop> <from>Audit Inbound</from><to>MASTER UNIQUE</to><enabled>N</enabled> </hop>
-  <hop> <from>Unique rows</from><to>BRAND LOOKUP 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Update 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Update 2 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Reason</from><to>INVALID</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table input</from><to>Switch &#x2f; Case</to><enabled>Y</enabled> </hop>
-  <hop> <from>Switch &#x2f; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>
-  <hop> <from>PACKAGE_SIZE</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>
-  <hop> <from>COMPANY_MASTER</from><to>HELPER_TABLE</to><enabled>N</enabled> </hop>
-  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>
-  <hop> <from>Invalid Reason 2</from><to>INVALID 3</to><enabled>N</enabled> </hop>
-  <hop> <from>HELPER_TABLE</from><to>Filter rows 5</to><enabled>N</enabled> </hop>
-  <hop> <from>Filter rows 5</from><to>UDC1</to><enabled>N</enabled> </hop>
-  <hop> <from>Invalid Reason 2 2</from><to>INVALID 3 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 5</from><to>Invalid Reason 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>THERAPEUTIC_CLASS</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>
-  <hop> <from>Unique rows</from><to>Filter rows 3</to><enabled>N</enabled> </hop>
-  <hop> <from>Switch &#x2f; Case</from><to>Audit Inbound</to><enabled>Y</enabled> </hop>
-  <hop> <from>MASTER UNIQUE</from><to>HELPER_TABLE</to><enabled>N</enabled> </hop>
-  <hop> <from>Select values</from><to>Table output</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output</from><to>Database lookup 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup 3</from><to>Update 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table output 2</from><to>Database lookup 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Database lookup 2 2</from><to>Update 2 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 5</from><to>Filter rows 6</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 6</from><to>MANUFACTURER_ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows 6</from><to>Table output 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Audit Inbound</from><to>MASTER SORT</to><enabled>Y</enabled> </hop>
-  <hop> <from>MASTER SORT</from><to>MASTER UNIQUE</to><enabled>Y</enabled> </hop>
-  <hop> <from>MASTER UNIQUE</from><to>NDC9 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>NDC9 2</from><to>Filter rows 5</to><enabled>Y</enabled> </hop>
-  <hop> <from>Invalid Reason 2 2 2</from><to>INVALID 3 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>NDC9 2</from><to>Invalid Reason 2 2 2</to><enabled>Y</enabled> </hop>
-  </order>
+  <hop> <from>MASTER UNIQUE</from><to>A-INVALID1</to><enabled>N</enabled> </hop>  <hop> <from>Sort rows</from><to>Unique rows</to><enabled>N</enabled> </hop>  <hop> <from>Unique rows</from><to>INVALID 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>ADD Audit update</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup</from><to>Update 2</to><enabled>N</enabled> </hop>  <hop> <from>Table output</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup</from><to>Table output</to><enabled>N</enabled> </hop>  <hop> <from>ITEM_TYPE</from><to>PRIMARY_UOM</to><enabled>N</enabled> </hop>  <hop> <from>PRIMARY_UOM</from><to>SECONDARY_UOM</to><enabled>N</enabled> </hop>  <hop> <from>SECONDARY_UOM</from><to>STRENGTH</to><enabled>N</enabled> </hop>  <hop> <from>STRENGTH</from><to>FORM</to><enabled>N</enabled> </hop>  <hop> <from>THERAPEUTIC_CLASS</from><to>ITEM_TYPE_INDICATION</to><enabled>N</enabled> </hop>  <hop> <from>ITEM_TYPE_INDICATION</from><to>SHELF_LIFE_TYPE</to><enabled>N</enabled> </hop>  <hop> <from>SHELF_LIFE_TYPE</from><to>ITEM_CATEGORY</to><enabled>N</enabled> </hop>  <hop> <from>ITEM_STATUS</from><to>ITEM_TYPE</to><enabled>N</enabled> </hop>  <hop> <from>UDC1</from><to>UDC2</to><enabled>N</enabled> </hop>  <hop> <from>UDC2</from><to>UDC3</to><enabled>N</enabled> </hop>  <hop> <from>UDC3</from><to>UDC4</to><enabled>N</enabled> </hop>  <hop> <from>UDC4</from><to>UDC5</to><enabled>N</enabled> </hop>  <hop> <from>UDC5</from><to>UDC6</to><enabled>N</enabled> </hop>  <hop> <from>Update 2</from><to>UDCS_Update</to><enabled>Y</enabled> </hop>  <hop> <from>BRAND LOOKUP 2</from><to>ITEM_STATUS</to><enabled>N</enabled> </hop>  <hop> <from>ITEM_CATEGORY</from><to>ITEM_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>ITEM_CLASS</from><to>PACKAGE_SIZE</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Filter rows 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2</from><to>Filter rows 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3</from><to>Filter rows 2 4</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4</from><to>Filter rows 2 5</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5</from><to>Filter rows 2 6</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>UDCS_INSERT</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 3</from><to>Set field value to a constant</to><enabled>N</enabled> </hop>  <hop> <from>FORM</from><to>Filter rows 3</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 3</from><to>THERAPEUTIC_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>UDCS_Update</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>Set field value to a constant</from><to>THERAPEUTIC_CLASS</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>UDC6</from><to>MANUFACTURER_ID</to><enabled>N</enabled> </hop>  <hop> <from>MANUFACTURER_ID</from><to>Select values</to><enabled>Y</enabled> </hop>  <hop> <from>Select values</from><to>Database lookup</to><enabled>N</enabled> </hop>  <hop> <from>UDC6</from><to>Select values</to><enabled>N</enabled> </hop>  <hop> <from>UDC6</from><to>Database lookup</to><enabled>N</enabled> </hop>  <hop> <from>Add constants 3</from><to>ADD Audit update 2</to><enabled>N</enabled> </hop>  <hop> <from>Database lookup 2</from><to>Update 2 3</to><enabled>N</enabled> </hop>  <hop> <from>Memory Group by 2</from><to>Add constants 3</to><enabled>N</enabled> </hop>  <hop> <from>Table output 2</from><to>Filter rows 2 7</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>  <hop> <from>Update 2 3</from><to>Memory Group by 2</to><enabled>N</enabled> </hop>  <hop> <from>Update 2 3</from><to>UDCS_Update 2</to><enabled>Y</enabled> </hop>  <hop> <from>MANUFACTURER_ID</from><to>Database lookup 2</to><enabled>N</enabled> </hop>  <hop> <from>UDCS_Update 2</from><to>Dummy (do nothing) 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 2</from><to>Table output 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 2 7</from><to>Filter rows 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Filter rows 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 2</from><to>Filter rows 2 4 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 2</from><to>Filter rows 2 5 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 2</from><to>Filter rows 2 6 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 2</from><to>Filter rows 4</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4</from><to>UDCS_INSERT 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 7</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 2</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4</from><to>Dummy (do nothing) 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>MASTER UNIQUE</from><to>Sort rows</to><enabled>N</enabled> </hop>  <hop> <from>Audit Inbound</from><to>MASTER UNIQUE</to><enabled>N</enabled> </hop>  <hop> <from>Unique rows</from><to>BRAND LOOKUP 2</to><enabled>N</enabled> </hop>  <hop> <from>Update 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason</from><to>INVALID</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Switch &#47; Case</to><enabled>Y</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Invalid Reason</to><enabled>Y</enabled> </hop>  <hop> <from>PACKAGE_SIZE</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>HELPER_TABLE</to><enabled>N</enabled> </hop>  <hop> <from>COMPANY_MASTER</from><to>Invalid Reason 2</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2</from><to>INVALID 3</to><enabled>N</enabled> </hop>  <hop> <from>HELPER_TABLE</from><to>Filter rows 5</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 5</from><to>UDC1</to><enabled>N</enabled> </hop>  <hop> <from>Invalid Reason 2 2</from><to>INVALID 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5</from><to>Invalid Reason 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>THERAPEUTIC_CLASS</from><to>COMPANY_MASTER</to><enabled>N</enabled> </hop>  <hop> <from>Unique rows</from><to>Filter rows 3</to><enabled>N</enabled> </hop>  <hop> <from>Switch &#47; Case</from><to>Audit Inbound</to><enabled>Y</enabled> </hop>  <hop> <from>MASTER UNIQUE</from><to>HELPER_TABLE</to><enabled>N</enabled> </hop>  <hop> <from>Select values</from><to>Table output</to><enabled>Y</enabled> </hop>  <hop> <from>Table output</from><to>Database lookup 3</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3</from><to>Update 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2</from><to>Database lookup 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 2 2</from><to>Update 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5</from><to>Filter rows 6</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 6</from><to>MANUFACTURER_ID</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 6</from><to>Table output 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Inbound</from><to>MASTER SORT</to><enabled>N</enabled> </hop>  <hop> <from>MASTER SORT</from><to>MASTER UNIQUE</to><enabled>N</enabled> </hop>  <hop> <from>MASTER UNIQUE</from><to>NDC9 2</to><enabled>N</enabled> </hop>  <hop> <from>NDC9 2</from><to>Filter rows 5</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 2 2 2</from><to>INVALID 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>NDC9 2</from><to>Invalid Reason 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Audit Inbound</from><to>Unique rows (HashSet)</to><enabled>Y</enabled> </hop>  <hop> <from>Unique rows (HashSet)</from><to>A-INVALID1</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 2 2 2</from><to>Update 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database lookup 3 2</from><to>Update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 2 2 3</from><to>INVALID 3 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 2 2 2 2</from><to>INVALID 3 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MANUFACTURER_ID 2</from><to>Select values 2</to><enabled>Y</enabled> </hop>  <hop> <from>NDC9 2 2</from><to>Filter rows 5 2</to><enabled>N</enabled> </hop>  <hop> <from>Select values 2</from><to>Table output 3</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Filter rows 2 8</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2 2</from><to>Filter rows 2 7 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2</from><to>UDCS_Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 3 2</from><to>UDCS_Update 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Unique rows (HashSet)</from><to>Filter rows 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5 3</from><to>NDC9 2 2</to><enabled>N</enabled> </hop>  <hop> <from>NDC9 2 2</from><to>Invalid Reason 2 2 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Filter rows 5 2</from><to>Invalid Reason 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 6 2</from><to>MANUFACTURER_ID 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 6 2</from><to>Table output 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Database lookup 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>UDCS_Update 3</from><to>Dummy (do nothing) 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2 2</from><to>Database lookup 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>UDCS_Update 2 2</from><to>Dummy (do nothing) 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 7</from><to>UDCS_INSERT 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 8</from><to>Filter rows 2 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 3</from><to>Filter rows 2 3 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 3</from><to>Filter rows 2 4 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 3</from><to>Filter rows 2 5 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 3</from><to>Filter rows 2 6 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 3</from><to>Filter rows 7</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 8</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 3</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 3</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 3</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 3</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 3</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 7</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 7 2</from><to>Filter rows 2 2 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2 2</from><to>Filter rows 2 3 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 2 2</from><to>Filter rows 2 4 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 2 2</from><to>Filter rows 2 5 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 2 2</from><to>Filter rows 2 6 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 2 2</from><to>Filter rows 4 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4 2</from><to>UDCS_INSERT 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 7 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 2 2 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 3 2 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 4 2 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 5 2 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 4 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2 6 2 2</from><to>Dummy (do nothing) 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 3 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 2 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Table output 3</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Update 2 2</from><to>Memory Group by</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5 3</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>  <hop> <from>Block this step until steps finish</from><to>NDC9 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5 3</from><to>Filter rows 5 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 5 2</from><to>Invalid Reason 2 2 3 2</to><enabled>Y</enabled> </hop>  <hop> <from>Invalid Reason 2 2 3 2</from><to>Filter rows 6 2</to><enabled>Y</enabled> </hop>  </order>
   <step>
     <name>A-INVALID1</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -595,7 +478,6 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -613,19 +495,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -646,7 +528,6 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -664,13 +545,13 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -691,7 +572,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -708,7 +588,6 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>APPLICATION_PROCESS</name>
@@ -720,7 +599,6 @@
         <nullif>ITEM_MASTER_INTERFACE</nullif>
         <length>100</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -736,7 +614,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -753,7 +630,6 @@
         <nullif>R</nullif>
         <length>5</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -769,7 +645,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -786,7 +661,6 @@
         <nullif>A</nullif>
         <length>5</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>Locked_Status</name>
@@ -798,7 +672,6 @@
         <nullif>1</nullif>
         <length>5</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_Type_LN</name>
@@ -810,7 +683,6 @@
         <nullif>ITEM_TYPE</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_Status_LN</name>
@@ -822,7 +694,6 @@
         <nullif>STATUS</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_prim_uom</name>
@@ -834,7 +705,6 @@
         <nullif>UOM</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_sec_uom</name>
@@ -846,7 +716,6 @@
         <nullif>UOM</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_strength</name>
@@ -858,7 +727,6 @@
         <nullif>STRENGTH</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_form</name>
@@ -870,7 +738,6 @@
         <nullif>FORM</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_therp_class</name>
@@ -882,7 +749,6 @@
         <nullif>THERAPEUTIC_CLASS</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_type_ind</name>
@@ -894,7 +760,6 @@
         <nullif>ITEM_TYPE_INDICATION</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_shelf_life_type</name>
@@ -906,7 +771,6 @@
         <nullif>SHELF_LIFE_TYPE</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_category_LN</name>
@@ -918,7 +782,6 @@
         <nullif>ITEM_CATEGORY</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>master_type</name>
@@ -930,7 +793,6 @@
         <nullif>ITEM_MASTER</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc1</name>
@@ -942,7 +804,6 @@
         <nullif>ITEM_UDC1</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc2</name>
@@ -954,7 +815,6 @@
         <nullif>ITEM_UDC2</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc3</name>
@@ -966,7 +826,6 @@
         <nullif>ITEM_UDC3</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc4</name>
@@ -978,7 +837,6 @@
         <nullif>ITEM_UDC4</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc5</name>
@@ -990,7 +848,6 @@
         <nullif>ITEM_UDC5</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>list_name_udc6</name>
@@ -1002,7 +859,6 @@
         <nullif>ITEM_UDC6</nullif>
         <length>15</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>item_class_LN</name>
@@ -1014,7 +870,6 @@
         <nullif>ITEM_CLASS</nullif>
         <length>10</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>package_size_LN</name>
@@ -1026,7 +881,6 @@
         <nullif>PACKAGE_SIZE</nullif>
         <length>10</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>ERROR_CODE</name>
@@ -1038,7 +892,6 @@
         <nullif>E04</nullif>
         <length>10</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>BUSINESS UNIT</name>
@@ -1050,7 +903,6 @@
         <nullif>BUSINESS UNIT</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>COMPANY_TYPE</name>
@@ -1062,7 +914,6 @@
         <nullif>COMPANY_TYPE</nullif>
         <length>20</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -1078,7 +929,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1116,11 +966,46 @@
     </step>
 
   <step>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Table output 3</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      <step>
+        <name>Update 2 2</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      <step>
+        <name>Table output 2 2</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      <step>
+        <name>Update 2 3 2</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1574</xloc>
+      <yloc>1126</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>COMPANY_MASTER</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1157,8 +1042,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1530</xloc>
-      <yloc>1157</yloc>
+      <xloc>1464</xloc>
+      <yloc>1335</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1168,7 +1053,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1210,7 +1094,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1252,7 +1135,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1290,11 +1172,51 @@
     </step>
 
   <step>
+    <name>Database lookup 2 2 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ITEM_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ITEM_MASTER_SID</name>
+        <rename>ITEM_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3172</xloc>
+      <yloc>2260</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Database lookup 3</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1332,11 +1254,51 @@
     </step>
 
   <step>
-    <name>Dummy &#x28;do nothing&#x29; 2</name>
+    <name>Database lookup 3 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ITEM_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>ITEM_ID</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ITEM_MASTER_SID</name>
+        <rename>ITEM_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2458</xloc>
+      <yloc>2249</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing) 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1351,11 +1313,10 @@
     </step>
 
   <step>
-    <name>Dummy &#x28;do nothing&#x29; 2 2</name>
+    <name>Dummy (do nothing) 2 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1370,11 +1331,28 @@
     </step>
 
   <step>
-    <name>Dummy &#x28;do nothing&#x29; 3</name>
+    <name>Dummy (do nothing) 2 3</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3050</xloc>
+      <yloc>3280</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing) 3</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1389,11 +1367,10 @@
     </step>
 
   <step>
-    <name>Dummy &#x28;do nothing&#x29; 3 2</name>
+    <name>Dummy (do nothing) 3 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1408,11 +1385,46 @@
     </step>
 
   <step>
+    <name>Dummy (do nothing) 3 2 2</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2833</xloc>
+      <yloc>2209</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Dummy (do nothing) 3 3</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2010</xloc>
+      <yloc>2206</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>FORM</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1437,7 +1449,7 @@
       <key>
         <name>item_form</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -1460,14 +1472,13 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
 <send_true_to>UDCS_INSERT</send_true_to>
-<send_false_to>Dummy &#x28;do nothing&#x29; 2</send_false_to>
+<send_false_to>Dummy (do nothing) 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
@@ -1549,19 +1560,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows 2 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC1</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1578,19 +1588,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows 2 3</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC2</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1607,19 +1616,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 2 3 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC2</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1632,23 +1640,78 @@
     </step>
 
   <step>
-    <name>Filter rows 2 3</name>
+    <name>Filter rows 2 2 2 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 3 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC2</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3433</xloc>
+      <yloc>3154</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 2 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 3 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC2</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2662</xloc>
+      <yloc>3057</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows 2 4</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC3</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1665,19 +1728,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 2 4 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC3</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1690,23 +1752,78 @@
     </step>
 
   <step>
-    <name>Filter rows 2 4</name>
+    <name>Filter rows 2 3 2 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 4 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC3</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3433</xloc>
+      <yloc>3232</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 3 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 4 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC3</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2662</xloc>
+      <yloc>3143</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 4</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows 2 5</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC4</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1723,19 +1840,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 2 5 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC4</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1748,23 +1864,78 @@
     </step>
 
   <step>
-    <name>Filter rows 2 5</name>
+    <name>Filter rows 2 4 2 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 5 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC4</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3435</xloc>
+      <yloc>3303</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 4 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 5 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC4</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2662</xloc>
+      <yloc>3220</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 5</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows 2 6</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC5</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1781,19 +1952,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 2 6 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC5</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1806,23 +1976,78 @@
     </step>
 
   <step>
-    <name>Filter rows 2 6</name>
+    <name>Filter rows 2 5 2 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 6 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC5</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3433</xloc>
+      <yloc>3376</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 5 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 6 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC5</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2664</xloc>
+      <yloc>3307</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 6</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2</send_true_to>
 <send_false_to>Filter rows</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC6</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1839,19 +2064,18 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 4</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC6</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1864,23 +2088,78 @@
     </step>
 
   <step>
-    <name>Filter rows 2 7</name>
+    <name>Filter rows 2 6 2 2</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy &#x28;do nothing&#x29; 2 2</send_true_to>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 4 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC6</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3434</xloc>
+      <yloc>3500</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 6 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 7</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC6</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2663</xloc>
+      <yloc>3403</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 7</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 2</send_true_to>
 <send_false_to>Filter rows 2 2 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>UDC1</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -1893,11 +2172,66 @@
     </step>
 
   <step>
+    <name>Filter rows 2 7 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 2 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC1</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3436</xloc>
+      <yloc>3080</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 2 8</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy (do nothing) 2 3</send_true_to>
+<send_false_to>Filter rows 2 2 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>UDC1</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>Null</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2651</xloc>
+      <yloc>2919</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows 3</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1926,14 +2260,13 @@
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
 <send_true_to>UDCS_INSERT 2</send_true_to>
-<send_false_to>Dummy &#x28;do nothing&#x29; 2 2</send_false_to>
+<send_false_to>Dummy (do nothing) 2 2</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
@@ -2011,11 +2344,98 @@
     </step>
 
   <step>
+    <name>Filter rows 4 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>UDCS_INSERT 2 2</send_true_to>
+<send_false_to>Dummy (do nothing) 2 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>UDC1</leftvalue>
+   <function>IS NOT NULL</function>
+   <rightvalue/>
+   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <conditions>
+    <condition>
+     <negated>N</negated>
+     <leftvalue>UDC2</leftvalue>
+     <function>IS NOT NULL</function>
+     <rightvalue/>
+     </condition>
+    <condition>
+     <negated>N</negated>
+     <operator>OR</operator>
+     <conditions>
+      <condition>
+       <negated>N</negated>
+       <leftvalue>UDC3</leftvalue>
+       <function>IS NOT NULL</function>
+       <rightvalue/>
+       </condition>
+      <condition>
+       <negated>N</negated>
+       <operator>OR</operator>
+       <conditions>
+        <condition>
+         <negated>N</negated>
+         <leftvalue>UDC4</leftvalue>
+         <function>IS NOT NULL</function>
+         <rightvalue/>
+         </condition>
+        <condition>
+         <negated>N</negated>
+         <operator>OR</operator>
+         <conditions>
+          <condition>
+           <negated>N</negated>
+           <leftvalue>UDC5</leftvalue>
+           <function>IS NOT NULL</function>
+           <rightvalue/>
+           </condition>
+          <condition>
+           <negated>N</negated>
+           <operator>OR</operator>
+           <leftvalue>UDC6</leftvalue>
+           <function>IS NOT NULL</function>
+           <rightvalue/>
+           </condition>
+          </conditions>
+         </condition>
+        </conditions>
+       </condition>
+      </conditions>
+     </condition>
+    </conditions>
+   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3429</xloc>
+      <yloc>3623</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows 5</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2027,7 +2447,7 @@
 <condition>
  <negated>N</negated>
  <leftvalue>NEW_COMPANY_TYPE</leftvalue>
- <function>&#x3d;</function>
+ <function>=</function>
  <rightvalue>NEW_BUSINESS_UNIT_HELPER_TABLE_SID</rightvalue>
  </condition>
     </compare>
@@ -2040,11 +2460,66 @@
     </step>
 
   <step>
+    <name>Filter rows 5 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Invalid Reason 2 2 3 2</send_true_to>
+<send_false_to>Invalid Reason 2 2 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>NEW_COMPANY_TYPE</leftvalue>
+ <function>=</function>
+ <rightvalue>NEW_BUSINESS_UNIT_HELPER_TABLE_SID</rightvalue>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2853</xloc>
+      <yloc>1673</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 5 3</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Filter rows 5 2</send_true_to>
+<send_false_to>Block this step until steps finish</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>ITEM_TYPE</leftvalue>
+ <function>=</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>NDC-9</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1764</xloc>
+      <yloc>970</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows 6</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2069,11 +2544,126 @@
     </step>
 
   <step>
+    <name>Filter rows 6 2</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>MANUFACTURER_ID 2</send_true_to>
+<send_false_to>Table output 2 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>MANUFACTURER_ID</leftvalue>
+ <function>IS NOT NULL</function>
+ <rightvalue/>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2692</xloc>
+      <yloc>1890</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows 7</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>UDCS_INSERT 3</send_true_to>
+<send_false_to>Dummy (do nothing) 2 3</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>UDC1</leftvalue>
+   <function>IS NOT NULL</function>
+   <rightvalue/>
+   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>OR</operator>
+   <conditions>
+    <condition>
+     <negated>N</negated>
+     <leftvalue>UDC2</leftvalue>
+     <function>IS NOT NULL</function>
+     <rightvalue/>
+     </condition>
+    <condition>
+     <negated>N</negated>
+     <operator>OR</operator>
+     <conditions>
+      <condition>
+       <negated>N</negated>
+       <leftvalue>UDC3</leftvalue>
+       <function>IS NOT NULL</function>
+       <rightvalue/>
+       </condition>
+      <condition>
+       <negated>N</negated>
+       <operator>OR</operator>
+       <conditions>
+        <condition>
+         <negated>N</negated>
+         <leftvalue>UDC4</leftvalue>
+         <function>IS NOT NULL</function>
+         <rightvalue/>
+         </condition>
+        <condition>
+         <negated>N</negated>
+         <operator>OR</operator>
+         <conditions>
+          <condition>
+           <negated>N</negated>
+           <leftvalue>UDC5</leftvalue>
+           <function>IS NOT NULL</function>
+           <rightvalue/>
+           </condition>
+          <condition>
+           <negated>N</negated>
+           <operator>OR</operator>
+           <leftvalue>UDC6</leftvalue>
+           <function>IS NOT NULL</function>
+           <rightvalue/>
+           </condition>
+          </conditions>
+         </condition>
+        </conditions>
+       </condition>
+      </conditions>
+     </condition>
+    </conditions>
+   </condition>
+  </conditions>
+ </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2658</xloc>
+      <yloc>3526</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>HELPER_TABLE</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2110,8 +2700,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1367</xloc>
-      <yloc>1474</yloc>
+      <xloc>1451</xloc>
+      <yloc>1444</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2121,7 +2711,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2475,7 +3064,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2829,7 +3417,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3168,8 +3755,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1714</xloc>
-      <yloc>1329</yloc>
+      <xloc>1546</xloc>
+      <yloc>1509</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3179,7 +3766,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3529,7 +4115,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3883,11 +4468,716 @@
     </step>
 
   <step>
+    <name>INVALID 3 2 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_ITEM_MASTER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ACQUIRED_AMP</column_name>
+          <stream_name>ACQUIRED_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUIRED_BAMP</column_name>
+          <stream_name>ACQUIRED_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUISITION_DATE</column_name>
+          <stream_name>ACQUISITION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC</column_name>
+          <stream_name>AUTHORIZED_GENERIC</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_END_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_START_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BASELINE_AMP</column_name>
+          <stream_name>BASELINE_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI</column_name>
+          <stream_name>BASE_CPI</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI_PERIOD</column_name>
+          <stream_name>BASE_CPI_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND</column_name>
+          <stream_name>BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_END_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_INDICATOR</column_name>
+          <stream_name>CLOTTING_FACTOR_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_START_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DISCONTINUATION_DATE</column_name>
+          <stream_name>DISCONTINUATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DISPLAY_BRAND</column_name>
+          <stream_name>DISPLAY_BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>DIVESTITURE_DATE</column_name>
+          <stream_name>DIVESTITURE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DOSES_PER_UNIT</column_name>
+          <stream_name>DOSES_PER_UNIT</stream_name>
+        </field>
+        <field>
+          <column_name>DRA</column_name>
+          <stream_name>DRA</stream_name>
+        </field>
+        <field>
+          <column_name>DUAL_PRICING_INDICATOR</column_name>
+          <stream_name>DUAL_PRICING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_CODE</column_name>
+          <stream_name>error_code_invalid_ndc9</stream_name>
+        </field>
+        <field>
+          <column_name>ERROR_FIELD</column_name>
+          <stream_name>error_code_COLUMN_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>FIRST_SALE_DATE</column_name>
+          <stream_name>FIRST_SALE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORM</column_name>
+          <stream_name>FORM</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CATEGORY</column_name>
+          <stream_name>ITEM_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CLASS</column_name>
+          <stream_name>ITEM_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CODE</column_name>
+          <stream_name>ITEM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_DESC</column_name>
+          <stream_name>ITEM_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_FAMILY_ID</column_name>
+          <stream_name>ITEM_FAMILY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_MASTER_INTFID</column_name>
+          <stream_name>ITEM_MASTER_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_STATUS</column_name>
+          <stream_name>ITEM_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE</column_name>
+          <stream_name>ITEM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE_INDICATION</column_name>
+          <stream_name>ITEM_TYPE_INDICATION</stream_name>
+        </field>
+        <field>
+          <column_name>LABELER_CODE</column_name>
+          <stream_name>LABELER_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_ID</column_name>
+          <stream_name>MANUFACTURER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_NAME</column_name>
+          <stream_name>MANUFACTURER_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_NO</column_name>
+          <stream_name>MANUFACTURER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_TERMINATION_DATE</column_name>
+          <stream_name>MARKET_TERMINATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NDC8</column_name>
+          <stream_name>NDC8</stream_name>
+        </field>
+        <field>
+          <column_name>NDC9</column_name>
+          <stream_name>NDC9</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION</column_name>
+          <stream_name>NEW_FORMULATION</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_END_DATE</column_name>
+          <stream_name>NEW_FORMULATION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_INDICATOR</column_name>
+          <stream_name>NEW_FORMULATION_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_START_DATE</column_name>
+          <stream_name>NEW_FORMULATION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NON_FEDERAL_EXPIRATION_DATE</column_name>
+          <stream_name>NON_FEDERAL_EXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>OBRA_BAMP</column_name>
+          <stream_name>OBRA_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE</column_name>
+          <stream_name>PACKAGE_SIZE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_CODE</column_name>
+          <stream_name>PACKAGE_SIZE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_INTRO_DATE</column_name>
+          <stream_name>PACKAGE_SIZE_INTRO_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_END_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_INDICATOR</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_START_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM</column_name>
+          <stream_name>PRIMARY_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM</column_name>
+          <stream_name>SECONDARY_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE</column_name>
+          <stream_name>SHELF_LIFE</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE_TYPE</column_name>
+          <stream_name>SHELF_LIFE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>STRENGTH</column_name>
+          <stream_name>STRENGTH</stream_name>
+        </field>
+        <field>
+          <column_name>THERAPEUTIC_CLASS</column_name>
+          <stream_name>THERAPEUTIC_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>UPPS</column_name>
+          <stream_name>UPPS</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3255</xloc>
+      <yloc>1721</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INVALID 3 2 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>IVLD_ITEM_MASTER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field/>
+    <fields>
+        <field>
+          <column_name>ITEM_MASTER_INTFID</column_name>
+          <stream_name>ITEM_MASTER_INTFID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CODE</column_name>
+          <stream_name>ITEM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_DESC</column_name>
+          <stream_name>ITEM_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE</column_name>
+          <stream_name>PACKAGE_SIZE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_CODE</column_name>
+          <stream_name>PACKAGE_SIZE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_INTRO_DATE</column_name>
+          <stream_name>PACKAGE_SIZE_INTRO_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>UPPS</column_name>
+          <stream_name>UPPS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_STATUS</column_name>
+          <stream_name>ITEM_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_ID</column_name>
+          <stream_name>MANUFACTURER_ID</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_NO</column_name>
+          <stream_name>MANUFACTURER_NO</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_NAME</column_name>
+          <stream_name>MANUFACTURER_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>LABELER_CODE</column_name>
+          <stream_name>LABELER_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>ORGANIZATION_KEY</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUISITION_DATE</column_name>
+          <stream_name>ACQUISITION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC</column_name>
+          <stream_name>AUTHORIZED_GENERIC</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_START_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_END_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND</column_name>
+          <stream_name>BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>FORM</column_name>
+          <stream_name>FORM</stream_name>
+        </field>
+        <field>
+          <column_name>STRENGTH</column_name>
+          <stream_name>STRENGTH</stream_name>
+        </field>
+        <field>
+          <column_name>THERAPEUTIC_CLASS</column_name>
+          <stream_name>THERAPEUTIC_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>FIRST_SALE_DATE</column_name>
+          <stream_name>FIRST_SALE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE_INDICATION</column_name>
+          <stream_name>ITEM_TYPE_INDICATION</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CLASS</column_name>
+          <stream_name>ITEM_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE</column_name>
+          <stream_name>ITEM_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_TERMINATION_DATE</column_name>
+          <stream_name>MARKET_TERMINATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_INDICATOR</column_name>
+          <stream_name>NEW_FORMULATION_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION</column_name>
+          <stream_name>NEW_FORMULATION</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_START_DATE</column_name>
+          <stream_name>NEW_FORMULATION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_END_DATE</column_name>
+          <stream_name>NEW_FORMULATION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_INDICATOR</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_START_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_END_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_INDICATOR</column_name>
+          <stream_name>CLOTTING_FACTOR_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_START_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_END_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM</column_name>
+          <stream_name>PRIMARY_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM</column_name>
+          <stream_name>SECONDARY_UOM</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE</column_name>
+          <stream_name>SHELF_LIFE</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE_TYPE</column_name>
+          <stream_name>SHELF_LIFE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>DUAL_PRICING_INDICATOR</column_name>
+          <stream_name>DUAL_PRICING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_FAMILY_ID</column_name>
+          <stream_name>ITEM_FAMILY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>UDC1</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>UDC2</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>UDC3</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>UDC4</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>UDC5</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>UDC6</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUIRED_AMP</column_name>
+          <stream_name>ACQUIRED_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUIRED_BAMP</column_name>
+          <stream_name>ACQUIRED_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>OBRA_BAMP</column_name>
+          <stream_name>OBRA_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>DRA</column_name>
+          <stream_name>DRA</stream_name>
+        </field>
+        <field>
+          <column_name>DOSES_PER_UNIT</column_name>
+          <stream_name>DOSES_PER_UNIT</stream_name>
+        </field>
+        <field>
+          <column_name>STATUS</column_name>
+          <stream_name>STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>DISCONTINUATION_DATE</column_name>
+          <stream_name>DISCONTINUATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DIVESTITURE_DATE</column_name>
+          <stream_name>DIVESTITURE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NON_FEDERAL_EXPIRATION_DATE</column_name>
+          <stream_name>NON_FEDERAL_EXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NDC9</column_name>
+          <stream_name>NDC9</stream_name>
+        </field>
+        <field>
+          <column_name>NDC8</column_name>
+          <stream_name>NDC8</stream_name>
+        </field>
+        <field>
+          <column_name>DISPLAY_BRAND</column_name>
+          <stream_name>DISPLAY_BRAND</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_ID</column_name>
+          <stream_name>BRAND_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CATEGORY</column_name>
+          <stream_name>ITEM_CATEGORY</stream_name>
+        </field>
+        <field>
+          <column_name>BASELINE_AMP</column_name>
+          <stream_name>BASELINE_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI_PERIOD</column_name>
+          <stream_name>BASE_CPI_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI</column_name>
+          <stream_name>BASE_CPI</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_DATE</column_name>
+          <stream_name>CREATED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_BY</column_name>
+          <stream_name>MODIFIED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>MODIFIED_DATE</column_name>
+          <stream_name>MODIFIED_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>ADD_CHG_DEL_INDICATOR</column_name>
+          <stream_name>ADD_CHG_DEL_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>REASON_FOR_FAILURE</column_name>
+          <stream_name>Reason_For_Failure</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3035</xloc>
+      <yloc>1926</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>ITEM_CATEGORY</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3912,7 +5202,7 @@
       <key>
         <name>item_category_LN</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -3935,7 +5225,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3960,7 +5249,7 @@
       <key>
         <name>item_class_LN</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -3983,7 +5272,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4008,7 +5296,7 @@
       <key>
         <name>item_Status_LN</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4031,7 +5319,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4056,7 +5343,7 @@
       <key>
         <name>item_Type_LN</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4079,7 +5366,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4104,7 +5390,7 @@
       <key>
         <name>item_type_ind</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4127,7 +5413,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4144,7 +5429,6 @@
         <nullif>Invalid Indicator</nullif>
         <length>40</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4160,7 +5444,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4177,13 +5460,12 @@
         <nullif>Invalid OrganizationKey</nullif>
         <length>40</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1585</xloc>
-      <yloc>1349</yloc>
+      <xloc>1549</xloc>
+      <yloc>1441</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4193,7 +5475,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4210,7 +5491,6 @@
         <nullif>Invalid OrganizationKey Type</nullif>
         <length>40</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4226,7 +5506,6 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4243,7 +5522,6 @@
         <nullif>Invalid ndc9</nullif>
         <length>0</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_code_invalid_ndc9</name>
@@ -4255,7 +5533,6 @@
         <nullif>E05</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
       <field>
         <name>error_code_COLUMN_NAME</name>
@@ -4267,7 +5544,6 @@
         <nullif>ITEM_ID</nullif>
         <length>-1</length>
         <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -4279,11 +5555,94 @@
     </step>
 
   <step>
+    <name>Invalid Reason 2 2 2 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid ndc9</nullif>
+        <length>0</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>error_code_invalid_ndc9</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>E05</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>error_code_COLUMN_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>ITEM_ID</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3108</xloc>
+      <yloc>1722</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 2 2 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>Reason_For_Failure</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Invalid OrganizationKey Type</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2906</xloc>
+      <yloc>1946</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>MANUFACTURER_ID</name>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4321,17 +5680,57 @@
     </step>
 
   <step>
-    <name>MASTER SORT</name>
-    <type>SortRows</type>
+    <name>MANUFACTURER_ID 2</name>
+    <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>COMPANY_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>MANUFACTURER_ID</name>
+        <field>COMPANY_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>COMPANY_MASTER_SID</name>
+        <rename>new_manufature_company_sid</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2628</xloc>
+      <yloc>2072</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>MASTER SORT</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
       <sort_size>5000</sort_size>
       <free_memory/>
@@ -4343,13 +5742,12 @@
         <name>ITEM_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1106</xloc>
-      <yloc>319</yloc>
+      <xloc>1065</xloc>
+      <yloc>373</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4359,7 +5757,6 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4373,8 +5770,8 @@
         <case_insensitive>N</case_insensitive>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1052</xloc>
-      <yloc>530</yloc>
+      <xloc>1102</xloc>
+      <yloc>519</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4384,7 +5781,6 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4417,7 +5813,6 @@
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4439,8 +5834,8 @@
       </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1527</xloc>
-      <yloc>2555</yloc>
+      <xloc>1505</xloc>
+      <yloc>2461</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4450,7 +5845,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4488,11 +5882,51 @@
     </step>
 
   <step>
+    <name>NDC9 2 2</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>ITEM_MASTER</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>NDC9</name>
+        <field>ITEM_ID</field>
+        <condition>LIKE</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>ITEM_MASTER_SID</name>
+        <rename>NEW_NDC_9_ITEM_MASTER_SID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2890</xloc>
+      <yloc>1505</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>PACKAGE_SIZE</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4517,7 +5951,7 @@
       <key>
         <name>package_size_LN</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4540,7 +5974,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4565,7 +5998,7 @@
       <key>
         <name>item_prim_uom</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4588,7 +6021,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4613,7 +6045,7 @@
       <key>
         <name>item_sec_uom</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4636,7 +6068,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4661,7 +6092,7 @@
       <key>
         <name>item_shelf_life_type</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4684,7 +6115,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4709,7 +6139,7 @@
       <key>
         <name>item_strength</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4732,7 +6162,6 @@
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4746,9 +6175,6 @@
         <precision>-2</precision>
         <conversion_mask/>
         <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
         <encoding/>
         <decimal_symbol/>
         <grouping_symbol/>
@@ -4763,11 +6189,41 @@
     </step>
 
   <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <meta>        <name>new_manufature_company_sid</name>
+        <rename>new_manufature_company_sid</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2600</xloc>
+      <yloc>2165</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Set field value to a constant</name>
     <type>SetValueConstant</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4779,7 +6235,6 @@
         <name>THERAPEUTIC_CLASS</name>
         <value>No Therapy</value>
         <mask/>
-        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -4795,13 +6250,12 @@
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <directory>%%java.io.tmpdir%%</directory>
       <prefix>out</prefix>
       <sort_size>50000</sort_size>
       <free_memory/>
@@ -4813,7 +6267,6 @@
         <name>NDC8</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -4825,11 +6278,10 @@
     </step>
 
   <step>
-    <name>Switch &#x2f; Case</name>
+    <name>Switch &#47; Case</name>
     <type>SwitchCase</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4857,7 +6309,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -4882,7 +6333,7 @@
       <key>
         <name>item_therp_class</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -4905,14 +6356,318 @@
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>&#xa;&#xa;&#xa;&#xa;SELECT&#xa; ITEM_MASTER_INTFID&#xa;,ITEM_ID&#xa;,ITEM_NO&#xa;,ITEM_CODE&#xa;,ITEM_NAME&#xa;,ITEM_DESC&#xa;,PACKAGE_SIZE&#xa;,PACKAGE_SIZE_CODE&#xa;,PACKAGE_SIZE_INTRO_DATE&#xa;,UPPS&#xa;,ITEM_START_DATE&#xa;,ITEM_END_DATE&#xa;,ITEM_STATUS&#xa;,MANUFACTURER_ID&#xa;,MANUFACTURER_NO&#xa;,MANUFACTURER_NAME&#xa;,LABELER_CODE&#xa;,ORGANIZATION_KEY&#xa;,ACQUISITION_DATE&#xa;,AUTHORIZED_GENERIC&#xa;,AUTHORIZED_GENERIC_START_DATE&#xa;,AUTHORIZED_GENERIC_END_DATE&#xa;,BRAND&#xa;,FORM&#xa;,STRENGTH&#xa;,THERAPEUTIC_CLASS&#xa;,FIRST_SALE_DATE&#xa;,ITEM_TYPE_INDICATION&#xa;,ITEM_CLASS&#xa;,ITEM_TYPE&#xa;,MARKET_TERMINATION_DATE&#xa;,NEW_FORMULATION_INDICATOR&#xa;,NEW_FORMULATION&#xa;,NEW_FORMULATION_START_DATE&#xa;,NEW_FORMULATION_END_DATE&#xa;,PEDIATRIC_EXCLUSIVE_INDICATOR&#xa;,PEDIATRIC_EXCLUSIVE_START_DATE&#xa;,PEDIATRIC_EXCLUSIVE_END_DATE&#xa;,CLOTTING_FACTOR_INDICATOR&#xa;,CLOTTING_FACTOR_START_DATE&#xa;,CLOTTING_FACTOR_END_DATE&#xa;,PRIMARY_UOM&#xa;,SECONDARY_UOM&#xa;,SHELF_LIFE&#xa;,SHELF_LIFE_TYPE&#xa;,DUAL_PRICING_INDICATOR&#xa;,ITEM_FAMILY_ID&#xa;,UDC1&#xa;,UDC2&#xa;,UDC3&#xa;,UDC4&#xa;,UDC5&#xa;,UDC6&#xa;,ACQUIRED_AMP&#xa;,ACQUIRED_BAMP&#xa;,OBRA_BAMP&#xa;,DRA&#xa;,DOSES_PER_UNIT&#xa;,STATUS&#xa;,DISCONTINUATION_DATE&#xa;,LASTLOTEXPIRATION_DATE&#xa;,DIVESTITURE_DATE&#xa;,NON_FEDERAL_EXPIRATION_DATE&#xa;,NDC9&#xa;,NDC8&#xa;,DISPLAY_BRAND&#xa;,BRAND_ID&#xa;,ITEM_CATEGORY&#xa;,BASELINE_AMP&#xa;,BASE_CPI_PERIOD&#xa;,BASE_CPI&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BRAND_MASTER_SID&#xa;&#xa;--,CM.CONTRACT_MASTER_SID&#xa;&#xa;, new_item_Status_Code&#xa;, new_item_Type_Code&#xa;, new_primary_uom_code&#xa;, new_secondary_uom_code&#xa;, new_item_strength_code&#xa;, new_item_form_code&#xa;, new_item_type_ind_code&#xa;, new_item_shelf_code&#xa;, new_item_category_code&#xa;, new_item_class_code&#xa;, new_package_size_code&#xa;, new_item_therp_class_code&#xa;, new_udc1_code&#xa;, new_udc2_code&#xa;, new_udc3_code&#xa;, new_udc4_code&#xa;, new_udc5_code&#xa;, new_udc6_code&#xa; , NEW_COMPANY_TYPE&#xa; ,  BUSINESS_COMPANY_MASTER_SID&#xa; ,NEW_BUSINESS_UNIT_HELPER_TABLE_SID&#xa;from&#x28;&#xa;&#xa;&#xa;&#xa;&#xa;SELECT&#xa;  a.ITEM_MASTER_INTFID&#xa;, a.ITEM_ID&#xa;, a.ITEM_NO&#xa;, a.ITEM_CODE&#xa;, a.ITEM_NAME&#xa;, a.ITEM_DESC&#xa;, a.PACKAGE_SIZE&#xa;, a.PACKAGE_SIZE_CODE&#xa;, a.PACKAGE_SIZE_INTRO_DATE&#xa;, a.UPPS&#xa;, a.ITEM_START_DATE&#xa;, a.ITEM_END_DATE&#xa;, a.ITEM_STATUS&#xa;, a.MANUFACTURER_ID&#xa;, a.MANUFACTURER_NO&#xa;, a.MANUFACTURER_NAME&#xa;, a.LABELER_CODE&#xa;, a.ORGANIZATION_KEY&#xa;, a.ACQUISITION_DATE&#xa;, a.AUTHORIZED_GENERIC&#xa;, a.AUTHORIZED_GENERIC_START_DATE&#xa;, a.AUTHORIZED_GENERIC_END_DATE&#xa;, a.BRAND&#xa;, a.FORM&#xa;, a.STRENGTH&#xa;, a.THERAPEUTIC_CLASS&#xa;, a.FIRST_SALE_DATE&#xa;, a.ITEM_TYPE_INDICATION&#xa;, a.ITEM_CLASS&#xa;, a.ITEM_TYPE&#xa;, a.MARKET_TERMINATION_DATE&#xa;, a.NEW_FORMULATION_INDICATOR&#xa;, a.NEW_FORMULATION&#xa;, a.NEW_FORMULATION_START_DATE&#xa;, a.NEW_FORMULATION_END_DATE&#xa;, a.PEDIATRIC_EXCLUSIVE_INDICATOR&#xa;, a.PEDIATRIC_EXCLUSIVE_START_DATE&#xa;, a.PEDIATRIC_EXCLUSIVE_END_DATE&#xa;, a.CLOTTING_FACTOR_INDICATOR&#xa;, a.CLOTTING_FACTOR_START_DATE&#xa;, a.CLOTTING_FACTOR_END_DATE&#xa;, a.PRIMARY_UOM&#xa;, a.SECONDARY_UOM&#xa;, a.SHELF_LIFE&#xa;, a.SHELF_LIFE_TYPE&#xa;, a.DUAL_PRICING_INDICATOR&#xa;, a.ITEM_FAMILY_ID&#xa;, a.UDC1&#xa;, a.UDC2&#xa;, a.UDC3&#xa;, a.UDC4&#xa;, a.UDC5&#xa;, a.UDC6&#xa;, a.ACQUIRED_AMP&#xa;, a.ACQUIRED_BAMP&#xa;, a.OBRA_BAMP&#xa;, a.DRA&#xa;, a.DOSES_PER_UNIT&#xa;, a.STATUS&#xa;, a.DISCONTINUATION_DATE&#xa;, a.LASTLOTEXPIRATION_DATE&#xa;, a.DIVESTITURE_DATE&#xa;, a.NON_FEDERAL_EXPIRATION_DATE&#xa;, a.NDC9&#xa;, a.NDC8&#xa;, a.DISPLAY_BRAND&#xa;, a.BRAND_ID&#xa;, a.ITEM_CATEGORY&#xa;, a.BASELINE_AMP&#xa;, a.BASE_CPI_PERIOD&#xa;, a.BASE_CPI&#xa;, a.CREATED_BY&#xa;, a.CREATED_DATE&#xa;, a.MODIFIED_BY&#xa;, a.MODIFIED_DATE&#xa;, a.BATCH_ID&#xa;, a.SOURCE&#xa;, a.ADD_CHG_DEL_INDICATOR&#xa;,Bm.BRAND_MASTER_SID&#xa;&#xa;--,CM.CONTRACT_MASTER_SID&#xa;&#xa;,D.HELPER_TABLE_SID AS new_item_Status_Code&#xa;,E.HELPER_TABLE_SID AS new_item_Type_Code&#xa;,H.HELPER_TABLE_SID AS new_primary_uom_code&#xa;,G.HELPER_TABLE_SID AS new_secondary_uom_code&#xa;,J.HELPER_TABLE_SID AS new_item_strength_code&#xa;,K.HELPER_TABLE_SID AS new_item_form_code&#xa;,L.HELPER_TABLE_SID AS new_item_type_ind_code&#xa;,M.HELPER_TABLE_SID AS new_item_shelf_code&#xa;,N.HELPER_TABLE_SID AS new_item_category_code&#xa;,O.HELPER_TABLE_SID AS new_item_class_code&#xa;,P.HELPER_TABLE_SID AS new_package_size_code&#xa;,isnull&#x28;Q.HELPER_TABLE_SID,0&#x29; AS new_item_therp_class_code&#xa;--,R.HELPER_TABLE_SID AS payment_terms_code&#xa;--,S.HELPER_TABLE_SID AS calender_code&#xa;--,T.HELPER_TABLE_SID AS rebate_program_type_code&#xa;--,U.HELPER_TABLE_SID AS rebate_attached_status_code&#xa;--,V.HELPER_TABLE_SID AS rebate_rule_type_code&#xa;--,W.HELPER_TABLE_SID AS rebate_rs_state_code&#xa;--,X.HELPER_TABLE_SID AS HELPER_TABLE_INCLUSION_SID&#xa;,U1.HELPER_TABLE_SID AS new_udc1_code&#xa;,U2.HELPER_TABLE_SID AS new_udc2_code&#xa;,U3.HELPER_TABLE_SID AS new_udc3_code&#xa;,U4.HELPER_TABLE_SID AS new_udc4_code&#xa;,U5.HELPER_TABLE_SID AS new_udc5_code&#xa;,U6.HELPER_TABLE_SID AS new_udc6_code&#xa; ,B.COMPANY_TYPE AS NEW_COMPANY_TYPE&#xa; , B.COMPANY_MASTER_SID AS BUSINESS_COMPANY_MASTER_SID&#xa;&#xa; ,BU.HELPER_TABLE_SID AS NEW_BUSINESS_UNIT_HELPER_TABLE_SID&#xa;&#xa; ,ROW_NUMBER&#x28;&#x29; over&#x28;partition by ndc8 order by ndc8&#x29; as rn&#xa;&#xa;&#xa;FROM STAG_ITEM_MASTER A&#xa;&#xa;INNER join COMPANY_MASTER B &#xa;           ON A.ORGANIZATION_KEY&#x3d;B.COMPANY_ID&#xa; INNER join BRAND_MASTER bm &#xa;	          ON bm.BRAND_ID&#x3d;A.BRAND_ID&#xa;&#xa;&#xa;       Left join HELPER_TABLE BU &#xa;	          ON BU.DESCRIPTION&#x3d;&#x27;BUSINESS UNIT&#x27;&#xa;			  AND BU.LIST_NAME&#x3d;&#x27;COMPANY_TYPE&#x27;&#xa;&#xa;&#xa;&#xa;        Left join HELPER_TABLE D &#xa;	          ON D.DESCRIPTION&#x3d;A.ITEM_STATUS&#xa;			  AND D.LIST_NAME&#x3d;&#x27;STATUS&#x27;&#xa;	    left join HELPER_TABLE E &#xa;	          ON E.DESCRIPTION&#x3d;A.ITEM_TYPE&#xa;	   	      AND E.LIST_NAME&#x3d;&#x27;ITEM_TYPE&#x27;&#xa;		left join HELPER_TABLE H &#xa;	          ON H.DESCRIPTION&#x3d;A.PRIMARY_UOM&#xa;	   	      AND H.LIST_NAME&#x3d;&#x27;UOM&#x27;&#xa;	    left join HELPER_TABLE G &#xa;	          ON G.DESCRIPTION&#x3d;A.SECONDARY_UOM&#xa;	   	      AND G.LIST_NAME&#x3d;&#x27;UOM&#x27; &#xa;        left join HELPER_TABLE J&#xa;	          ON J.DESCRIPTION&#x3d;A.STRENGTH&#xa;	   	      AND J.LIST_NAME&#x3d;&#x27;STRENGTH&#x27;&#xa;		left join HELPER_TABLE K&#xa;	          ON K.DESCRIPTION&#x3d;A.FORM&#xa;	   	      AND K.LIST_NAME&#x3d;&#x27;FORM&#x27;&#xa;		left join HELPER_TABLE L&#xa;	          ON L.DESCRIPTION&#x3d;A.ITEM_TYPE_INDICATION&#xa;	   	      AND L.LIST_NAME&#x3d;&#x27;ITEM_TYPE_INDICATION&#x27;&#xa;		left join HELPER_TABLE M&#xa;	          ON M.DESCRIPTION&#x3d;A.SHELF_LIFE_TYPE&#xa;	   	      AND M.LIST_NAME&#x3d;&#x27;SHELF_LIFE_TYPE&#x27;&#xa;		left join HELPER_TABLE N&#xa;	          ON N.DESCRIPTION&#x3d;A.ITEM_CATEGORY&#xa;	   	      AND N.LIST_NAME&#x3d;&#x27;ITEM_CATEGORY&#x27;&#xa;		left join HELPER_TABLE O&#xa;	          ON O.DESCRIPTION&#x3d;A.ITEM_CLASS&#xa;	   	      AND O.LIST_NAME&#x3d;&#x27;ITEM_CLASS&#x27;&#xa;		left join HELPER_TABLE P&#xa;	          ON P.DESCRIPTION&#x3d;A.PACKAGE_SIZE&#xa;	   	      AND P.LIST_NAME&#x3d;&#x27;PACKAGE_SIZE&#x27;&#xa;		left join HELPER_TABLE Q&#xa;	          ON &#x28;&#x28; Q.DESCRIPTION&#x3d;A.THERAPEUTIC_CLASS &#x29; or &#x28; A.THERAPEUTIC_CLASS is null and Q.DESCRIPTION&#x3d;&#x27;No Therapy&#x27;&#x29;&#x29;&#xa;	   	      AND Q.LIST_NAME&#x3d;&#x27;THERAPEUTIC_CLASS&#x27;&#xa;      left join HELPER_TABLE U1&#xa;	          ON U1.DESCRIPTION&#x3d;A.UDC1&#xa;	   	      AND U1.LIST_NAME&#x3d;&#x27;ITEM_UDC1&#x27;&#xa;		left join HELPER_TABLE U2&#xa;	          ON U2.DESCRIPTION&#x3d;A.UDC2&#xa;	   	      AND U2.LIST_NAME&#x3d;&#x27;ITEM_UDC2&#x27;&#xa;		left join HELPER_TABLE U3&#xa;	          ON U3.DESCRIPTION&#x3d;A.UDC3&#xa;	   	      AND U3.LIST_NAME&#x3d;&#x27;ITEM_UDC3&#x27;&#xa;		left join HELPER_TABLE U4&#xa;	          ON U4.DESCRIPTION&#x3d;A.UDC4&#xa;	   	      AND U4.LIST_NAME&#x3d;&#x27;ITEM__UDC4&#x27;&#xa;		left join HELPER_TABLE U5&#xa;	          ON U5.DESCRIPTION&#x3d;A.UDC5&#xa;	   	      AND U5.LIST_NAME&#x3d;&#x27;ITEM_UDC5&#x27;&#xa;		left join HELPER_TABLE U6&#xa;	          ON U6.DESCRIPTION&#x3d;A.UDC6&#xa;	   	      AND U6.LIST_NAME&#x3d;&#x27;ITEM_UDC6&#x27;&#xa;&#xa;&#xa;&#xa;&#xa;&#x29;a where rn&#x3d;1</sql>
+    <sql>
+
+
+
+SELECT
+ ITEM_MASTER_INTFID
+,ITEM_ID
+,ITEM_NO
+,ITEM_CODE
+,ITEM_NAME
+,ITEM_DESC
+,PACKAGE_SIZE
+,PACKAGE_SIZE_CODE
+,PACKAGE_SIZE_INTRO_DATE
+,UPPS
+,ITEM_START_DATE
+,ITEM_END_DATE
+,ITEM_STATUS
+,MANUFACTURER_ID
+,MANUFACTURER_NO
+,MANUFACTURER_NAME
+,LABELER_CODE
+,ORGANIZATION_KEY
+,ACQUISITION_DATE
+,AUTHORIZED_GENERIC
+,AUTHORIZED_GENERIC_START_DATE
+,AUTHORIZED_GENERIC_END_DATE
+,BRAND
+,FORM
+,STRENGTH
+,THERAPEUTIC_CLASS
+,FIRST_SALE_DATE
+,ITEM_TYPE_INDICATION
+,ITEM_CLASS
+,ITEM_TYPE
+,MARKET_TERMINATION_DATE
+,NEW_FORMULATION_INDICATOR
+,NEW_FORMULATION
+,NEW_FORMULATION_START_DATE
+,NEW_FORMULATION_END_DATE
+,PEDIATRIC_EXCLUSIVE_INDICATOR
+,PEDIATRIC_EXCLUSIVE_START_DATE
+,PEDIATRIC_EXCLUSIVE_END_DATE
+,CLOTTING_FACTOR_INDICATOR
+,CLOTTING_FACTOR_START_DATE
+,CLOTTING_FACTOR_END_DATE
+,PRIMARY_UOM
+,SECONDARY_UOM
+,SHELF_LIFE
+,SHELF_LIFE_TYPE
+,DUAL_PRICING_INDICATOR
+,ITEM_FAMILY_ID
+,UDC1
+,UDC2
+,UDC3
+,UDC4
+,UDC5
+,UDC6
+,ACQUIRED_AMP
+,ACQUIRED_BAMP
+,OBRA_BAMP
+,DRA
+,DOSES_PER_UNIT
+,STATUS
+,DISCONTINUATION_DATE
+,LASTLOTEXPIRATION_DATE
+,DIVESTITURE_DATE
+,NON_FEDERAL_EXPIRATION_DATE
+,NDC9
+,NDC8
+,DISPLAY_BRAND
+,BRAND_ID
+,ITEM_CATEGORY
+,BASELINE_AMP
+,BASE_CPI_PERIOD
+,BASE_CPI
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,BATCH_ID
+,SOURCE
+,ADD_CHG_DEL_INDICATOR
+,BRAND_MASTER_SID
+
+--,CM.CONTRACT_MASTER_SID
+
+, new_item_Status_Code
+, new_item_Type_Code
+, new_primary_uom_code
+, new_secondary_uom_code
+, new_item_strength_code
+, new_item_form_code
+, new_item_type_ind_code
+, new_item_shelf_code
+, new_item_category_code
+, new_item_class_code
+, new_package_size_code
+, new_item_therp_class_code
+, new_udc1_code
+, new_udc2_code
+, new_udc3_code
+, new_udc4_code
+, new_udc5_code
+, new_udc6_code
+ , NEW_COMPANY_TYPE
+ ,  BUSINESS_COMPANY_MASTER_SID
+ ,NEW_BUSINESS_UNIT_HELPER_TABLE_SID
+from(
+
+
+
+
+SELECT
+  a.ITEM_MASTER_INTFID
+, a.ITEM_ID
+, a.ITEM_NO
+, a.ITEM_CODE
+, a.ITEM_NAME
+, a.ITEM_DESC
+, a.PACKAGE_SIZE
+, a.PACKAGE_SIZE_CODE
+, a.PACKAGE_SIZE_INTRO_DATE
+, a.UPPS
+, a.ITEM_START_DATE
+, a.ITEM_END_DATE
+, a.ITEM_STATUS
+, a.MANUFACTURER_ID
+, a.MANUFACTURER_NO
+, a.MANUFACTURER_NAME
+, a.LABELER_CODE
+, a.ORGANIZATION_KEY
+, a.ACQUISITION_DATE
+, a.AUTHORIZED_GENERIC
+, a.AUTHORIZED_GENERIC_START_DATE
+, a.AUTHORIZED_GENERIC_END_DATE
+, a.BRAND
+, a.FORM
+, a.STRENGTH
+, a.THERAPEUTIC_CLASS
+, a.FIRST_SALE_DATE
+, a.ITEM_TYPE_INDICATION
+, a.ITEM_CLASS
+, a.ITEM_TYPE
+, a.MARKET_TERMINATION_DATE
+, a.NEW_FORMULATION_INDICATOR
+, a.NEW_FORMULATION
+, a.NEW_FORMULATION_START_DATE
+, a.NEW_FORMULATION_END_DATE
+, a.PEDIATRIC_EXCLUSIVE_INDICATOR
+, a.PEDIATRIC_EXCLUSIVE_START_DATE
+, a.PEDIATRIC_EXCLUSIVE_END_DATE
+, a.CLOTTING_FACTOR_INDICATOR
+, a.CLOTTING_FACTOR_START_DATE
+, a.CLOTTING_FACTOR_END_DATE
+, a.PRIMARY_UOM
+, a.SECONDARY_UOM
+, a.SHELF_LIFE
+, a.SHELF_LIFE_TYPE
+, a.DUAL_PRICING_INDICATOR
+, a.ITEM_FAMILY_ID
+, a.UDC1
+, a.UDC2
+, a.UDC3
+, a.UDC4
+, a.UDC5
+, a.UDC6
+, a.ACQUIRED_AMP
+, a.ACQUIRED_BAMP
+, a.OBRA_BAMP
+, a.DRA
+, a.DOSES_PER_UNIT
+, a.STATUS
+, a.DISCONTINUATION_DATE
+, a.LASTLOTEXPIRATION_DATE
+, a.DIVESTITURE_DATE
+, a.NON_FEDERAL_EXPIRATION_DATE
+, a.NDC9
+, a.NDC8
+, a.DISPLAY_BRAND
+, a.BRAND_ID
+, a.ITEM_CATEGORY
+, a.BASELINE_AMP
+, a.BASE_CPI_PERIOD
+, a.BASE_CPI
+, a.CREATED_BY
+, a.CREATED_DATE
+, a.MODIFIED_BY
+, a.MODIFIED_DATE
+, a.BATCH_ID
+, a.SOURCE
+, a.ADD_CHG_DEL_INDICATOR
+,Bm.BRAND_MASTER_SID
+
+--,CM.CONTRACT_MASTER_SID
+
+,D.HELPER_TABLE_SID AS new_item_Status_Code
+,E.HELPER_TABLE_SID AS new_item_Type_Code
+,H.HELPER_TABLE_SID AS new_primary_uom_code
+,G.HELPER_TABLE_SID AS new_secondary_uom_code
+,J.HELPER_TABLE_SID AS new_item_strength_code
+,K.HELPER_TABLE_SID AS new_item_form_code
+,L.HELPER_TABLE_SID AS new_item_type_ind_code
+,M.HELPER_TABLE_SID AS new_item_shelf_code
+,N.HELPER_TABLE_SID AS new_item_category_code
+,O.HELPER_TABLE_SID AS new_item_class_code
+,P.HELPER_TABLE_SID AS new_package_size_code
+,isnull(Q.HELPER_TABLE_SID,0) AS new_item_therp_class_code
+--,R.HELPER_TABLE_SID AS payment_terms_code
+--,S.HELPER_TABLE_SID AS calender_code
+--,T.HELPER_TABLE_SID AS rebate_program_type_code
+--,U.HELPER_TABLE_SID AS rebate_attached_status_code
+--,V.HELPER_TABLE_SID AS rebate_rule_type_code
+--,W.HELPER_TABLE_SID AS rebate_rs_state_code
+--,X.HELPER_TABLE_SID AS HELPER_TABLE_INCLUSION_SID
+,U1.HELPER_TABLE_SID AS new_udc1_code
+,U2.HELPER_TABLE_SID AS new_udc2_code
+,U3.HELPER_TABLE_SID AS new_udc3_code
+,U4.HELPER_TABLE_SID AS new_udc4_code
+,U5.HELPER_TABLE_SID AS new_udc5_code
+,U6.HELPER_TABLE_SID AS new_udc6_code
+ ,B.COMPANY_TYPE AS NEW_COMPANY_TYPE
+ , B.COMPANY_MASTER_SID AS BUSINESS_COMPANY_MASTER_SID
+
+ ,BU.HELPER_TABLE_SID AS NEW_BUSINESS_UNIT_HELPER_TABLE_SID
+
+ ,ROW_NUMBER() over(partition by ndc8 order by ndc8) as rn
+
+
+FROM STAG_ITEM_MASTER A
+
+INNER join COMPANY_MASTER B 
+           ON A.ORGANIZATION_KEY=B.COMPANY_ID
+ INNER join BRAND_MASTER bm 
+	          ON bm.BRAND_ID=A.BRAND_ID
+
+
+       Left join HELPER_TABLE BU 
+	          ON BU.DESCRIPTION=&apos;BUSINESS UNIT&apos;
+			  AND BU.LIST_NAME=&apos;COMPANY_TYPE&apos;
+
+
+
+        Left join HELPER_TABLE D 
+	          ON D.DESCRIPTION=A.ITEM_STATUS
+			  AND D.LIST_NAME=&apos;STATUS&apos;
+	    left join HELPER_TABLE E 
+	          ON E.DESCRIPTION=A.ITEM_TYPE
+	   	      AND E.LIST_NAME=&apos;ITEM_TYPE&apos;
+		left join HELPER_TABLE H 
+	          ON H.DESCRIPTION=A.PRIMARY_UOM
+	   	      AND H.LIST_NAME=&apos;UOM&apos;
+	    left join HELPER_TABLE G 
+	          ON G.DESCRIPTION=A.SECONDARY_UOM
+	   	      AND G.LIST_NAME=&apos;UOM&apos; 
+        left join HELPER_TABLE J
+	          ON J.DESCRIPTION=A.STRENGTH
+	   	      AND J.LIST_NAME=&apos;STRENGTH&apos;
+		left join HELPER_TABLE K
+	          ON K.DESCRIPTION=A.FORM
+	   	      AND K.LIST_NAME=&apos;FORM&apos;
+		left join HELPER_TABLE L
+	          ON L.DESCRIPTION=A.ITEM_TYPE_INDICATION
+	   	      AND L.LIST_NAME=&apos;ITEM_TYPE_INDICATION&apos;
+		left join HELPER_TABLE M
+	          ON M.DESCRIPTION=A.SHELF_LIFE_TYPE
+	   	      AND M.LIST_NAME=&apos;SHELF_LIFE_TYPE&apos;
+		left join HELPER_TABLE N
+	          ON N.DESCRIPTION=A.ITEM_CATEGORY
+	   	      AND N.LIST_NAME=&apos;ITEM_CATEGORY&apos;
+		left join HELPER_TABLE O
+	          ON O.DESCRIPTION=A.ITEM_CLASS
+	   	      AND O.LIST_NAME=&apos;ITEM_CLASS&apos;
+		left join HELPER_TABLE P
+	          ON P.DESCRIPTION=A.PACKAGE_SIZE
+	   	      AND P.LIST_NAME=&apos;PACKAGE_SIZE&apos;
+		left join HELPER_TABLE Q
+	          ON (( Q.DESCRIPTION=A.THERAPEUTIC_CLASS ) or ( A.THERAPEUTIC_CLASS is null and Q.DESCRIPTION=&apos;No Therapy&apos;))
+	   	      AND Q.LIST_NAME=&apos;THERAPEUTIC_CLASS&apos;
+      left join HELPER_TABLE U1
+	          ON U1.DESCRIPTION=A.UDC1
+	   	      AND U1.LIST_NAME=&apos;ITEM_UDC1&apos;
+		left join HELPER_TABLE U2
+	          ON U2.DESCRIPTION=A.UDC2
+	   	      AND U2.LIST_NAME=&apos;ITEM_UDC2&apos;
+		left join HELPER_TABLE U3
+	          ON U3.DESCRIPTION=A.UDC3
+	   	      AND U3.LIST_NAME=&apos;ITEM_UDC3&apos;
+		left join HELPER_TABLE U4
+	          ON U4.DESCRIPTION=A.UDC4
+	   	      AND U4.LIST_NAME=&apos;ITEM__UDC4&apos;
+		left join HELPER_TABLE U5
+	          ON U5.DESCRIPTION=A.UDC5
+	   	      AND U5.LIST_NAME=&apos;ITEM_UDC5&apos;
+		left join HELPER_TABLE U6
+	          ON U6.DESCRIPTION=A.UDC6
+	   	      AND U6.LIST_NAME=&apos;ITEM_UDC6&apos;
+
+
+
+
+)a where rn=1
+order by 
+ CASE WHEN ITEM_TYPE = &apos;NDC-9&apos; THEN &apos;1&apos;
+              WHEN ITEM_TYPE = &apos;NDC-11&apos; THEN &apos;2&apos;
+              ELSE ITEM_TYPE END ASC</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -4931,7 +6686,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5221,7 +6975,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5503,11 +7256,584 @@
     </step>
 
   <step>
+    <name>Table output 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>ITEM_MASTER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>Y</return_keys>
+    <return_field>ITEM_MASTER_SID</return_field>
+    <fields>
+        <field>
+          <column_name>ACQUIRED_AMP</column_name>
+          <stream_name>ACQUIRED_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUIRED_BAMP</column_name>
+          <stream_name>ACQUIRED_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUISITION_DATE</column_name>
+          <stream_name>ACQUISITION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC</column_name>
+          <stream_name>AUTHORIZED_GENERIC</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_END_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_START_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BASELINE_AMP</column_name>
+          <stream_name>BASELINE_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI</column_name>
+          <stream_name>BASE_CPI</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI_PERIOD</column_name>
+          <stream_name>BASE_CPI_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_MASTER_SID</column_name>
+          <stream_name>BRAND_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_END_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_INDICATOR</column_name>
+          <stream_name>CLOTTING_FACTOR_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_START_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>DISCONTINUATION_DATE</column_name>
+          <stream_name>DISCONTINUATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DIVESTITURE_DATE</column_name>
+          <stream_name>DIVESTITURE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DOSES_PER_UNIT</column_name>
+          <stream_name>DOSES_PER_UNIT</stream_name>
+        </field>
+        <field>
+          <column_name>DRA</column_name>
+          <stream_name>DRA</stream_name>
+        </field>
+        <field>
+          <column_name>DUAL_PRICING_INDICATOR</column_name>
+          <stream_name>DUAL_PRICING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>FIRST_SALE_DATE</column_name>
+          <stream_name>FIRST_SALE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORM</column_name>
+          <stream_name>new_item_form_code</stream_name>
+        </field>
+        <field>
+          <column_name>INBOUND_STATUS</column_name>
+          <stream_name>AUD_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CATEGORY</column_name>
+          <stream_name>new_item_category_code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CLASS</column_name>
+          <stream_name>new_item_class_code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CODE</column_name>
+          <stream_name>ITEM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_DESC</column_name>
+          <stream_name>ITEM_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_FAMILY_ID</column_name>
+          <stream_name>ITEM_FAMILY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_STATUS</column_name>
+          <stream_name>new_item_Status_Code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE</column_name>
+          <stream_name>new_item_Type_Code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE_INDICATION</column_name>
+          <stream_name>new_item_type_ind_code</stream_name>
+        </field>
+        <field>
+          <column_name>LABELER_CODE</column_name>
+          <stream_name>LABELER_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_LOT_EXPIRATION_DATE</column_name>
+          <stream_name>LASTLOTEXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_TERMINATION_DATE</column_name>
+          <stream_name>MARKET_TERMINATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NDC8</column_name>
+          <stream_name>NDC8</stream_name>
+        </field>
+        <field>
+          <column_name>NDC9</column_name>
+          <stream_name>NEW_NDC_9_ITEM_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION</column_name>
+          <stream_name>NEW_FORMULATION</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_END_DATE</column_name>
+          <stream_name>NEW_FORMULATION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_INDICATOR</column_name>
+          <stream_name>NEW_FORMULATION_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_START_DATE</column_name>
+          <stream_name>NEW_FORMULATION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NON_FEDERAL_EXPIRATION_DATE</column_name>
+          <stream_name>NON_FEDERAL_EXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>OBRA_BAMP</column_name>
+          <stream_name>OBRA_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>BUSINESS_COMPANY_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE</column_name>
+          <stream_name>new_package_size_code</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_CODE</column_name>
+          <stream_name>PACKAGE_SIZE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_INTRO_DATE</column_name>
+          <stream_name>PACKAGE_SIZE_INTRO_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_END_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_INDICATOR</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_START_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM</column_name>
+          <stream_name>new_primary_uom_code</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM</column_name>
+          <stream_name>new_secondary_uom_code</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE</column_name>
+          <stream_name>SHELF_LIFE</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE_TYPE</column_name>
+          <stream_name>new_item_shelf_code</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STRENGTH</column_name>
+          <stream_name>new_item_strength_code</stream_name>
+        </field>
+        <field>
+          <column_name>THERAPEUTIC_CLASS</column_name>
+          <stream_name>new_item_therp_class_code</stream_name>
+        </field>
+        <field>
+          <column_name>UPPS</column_name>
+          <stream_name>UPPS</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3335</xloc>
+      <yloc>2305</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Table output 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema/>
+    <table>ITEM_MASTER</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>Y</return_keys>
+    <return_field>ITEM_MASTER_SID</return_field>
+    <fields>
+        <field>
+          <column_name>ACQUIRED_AMP</column_name>
+          <stream_name>ACQUIRED_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUIRED_BAMP</column_name>
+          <stream_name>ACQUIRED_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ACQUISITION_DATE</column_name>
+          <stream_name>ACQUISITION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC</column_name>
+          <stream_name>AUTHORIZED_GENERIC</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_END_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>AUTHORIZED_GENERIC_START_DATE</column_name>
+          <stream_name>AUTHORIZED_GENERIC_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>BASELINE_AMP</column_name>
+          <stream_name>BASELINE_AMP</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI</column_name>
+          <stream_name>BASE_CPI</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_CPI_PERIOD</column_name>
+          <stream_name>BASE_CPI_PERIOD</stream_name>
+        </field>
+        <field>
+          <column_name>BATCH_ID</column_name>
+          <stream_name>BATCH_ID</stream_name>
+        </field>
+        <field>
+          <column_name>BRAND_MASTER_SID</column_name>
+          <stream_name>BRAND_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_END_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_INDICATOR</column_name>
+          <stream_name>CLOTTING_FACTOR_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>CLOTTING_FACTOR_START_DATE</column_name>
+          <stream_name>CLOTTING_FACTOR_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>CREATED_BY</column_name>
+          <stream_name>CREATED_BY</stream_name>
+        </field>
+        <field>
+          <column_name>DISCONTINUATION_DATE</column_name>
+          <stream_name>DISCONTINUATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DIVESTITURE_DATE</column_name>
+          <stream_name>DIVESTITURE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>DOSES_PER_UNIT</column_name>
+          <stream_name>DOSES_PER_UNIT</stream_name>
+        </field>
+        <field>
+          <column_name>DRA</column_name>
+          <stream_name>DRA</stream_name>
+        </field>
+        <field>
+          <column_name>DUAL_PRICING_INDICATOR</column_name>
+          <stream_name>DUAL_PRICING_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>FIRST_SALE_DATE</column_name>
+          <stream_name>FIRST_SALE_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>FORM</column_name>
+          <stream_name>new_item_form_code</stream_name>
+        </field>
+        <field>
+          <column_name>INBOUND_STATUS</column_name>
+          <stream_name>AUD_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CATEGORY</column_name>
+          <stream_name>new_item_category_code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CLASS</column_name>
+          <stream_name>new_item_class_code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_CODE</column_name>
+          <stream_name>ITEM_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_DESC</column_name>
+          <stream_name>ITEM_DESC</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_END_DATE</column_name>
+          <stream_name>ITEM_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_FAMILY_ID</column_name>
+          <stream_name>ITEM_FAMILY_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_ID</column_name>
+          <stream_name>ITEM_ID</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NAME</column_name>
+          <stream_name>ITEM_NAME</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_NO</column_name>
+          <stream_name>ITEM_NO</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_START_DATE</column_name>
+          <stream_name>ITEM_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_STATUS</column_name>
+          <stream_name>new_item_Status_Code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE</column_name>
+          <stream_name>new_item_Type_Code</stream_name>
+        </field>
+        <field>
+          <column_name>ITEM_TYPE_INDICATION</column_name>
+          <stream_name>new_item_type_ind_code</stream_name>
+        </field>
+        <field>
+          <column_name>LABELER_CODE</column_name>
+          <stream_name>LABELER_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>LAST_LOT_EXPIRATION_DATE</column_name>
+          <stream_name>LASTLOTEXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>MANUFACTURER_ID</column_name>
+          <stream_name>new_manufature_company_sid</stream_name>
+        </field>
+        <field>
+          <column_name>MARKET_TERMINATION_DATE</column_name>
+          <stream_name>MARKET_TERMINATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NDC8</column_name>
+          <stream_name>NDC8</stream_name>
+        </field>
+        <field>
+          <column_name>NDC9</column_name>
+          <stream_name>NEW_NDC_9_ITEM_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION</column_name>
+          <stream_name>NEW_FORMULATION</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_END_DATE</column_name>
+          <stream_name>NEW_FORMULATION_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_INDICATOR</column_name>
+          <stream_name>NEW_FORMULATION_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>NEW_FORMULATION_START_DATE</column_name>
+          <stream_name>NEW_FORMULATION_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>NON_FEDERAL_EXPIRATION_DATE</column_name>
+          <stream_name>NON_FEDERAL_EXPIRATION_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>OBRA_BAMP</column_name>
+          <stream_name>OBRA_BAMP</stream_name>
+        </field>
+        <field>
+          <column_name>ORGANIZATION_KEY</column_name>
+          <stream_name>BUSINESS_COMPANY_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE</column_name>
+          <stream_name>new_package_size_code</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_CODE</column_name>
+          <stream_name>PACKAGE_SIZE_CODE</stream_name>
+        </field>
+        <field>
+          <column_name>PACKAGE_SIZE_INTRO_DATE</column_name>
+          <stream_name>PACKAGE_SIZE_INTRO_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_END_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_END_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_INDICATOR</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_INDICATOR</stream_name>
+        </field>
+        <field>
+          <column_name>PEDIATRIC_EXCLUSIVE_START_DATE</column_name>
+          <stream_name>PEDIATRIC_EXCLUSIVE_START_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>PRIMARY_UOM</column_name>
+          <stream_name>new_primary_uom_code</stream_name>
+        </field>
+        <field>
+          <column_name>SECONDARY_UOM</column_name>
+          <stream_name>new_secondary_uom_code</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE</column_name>
+          <stream_name>SHELF_LIFE</stream_name>
+        </field>
+        <field>
+          <column_name>SHELF_LIFE_TYPE</column_name>
+          <stream_name>new_item_shelf_code</stream_name>
+        </field>
+        <field>
+          <column_name>SOURCE</column_name>
+          <stream_name>SOURCE</stream_name>
+        </field>
+        <field>
+          <column_name>STRENGTH</column_name>
+          <stream_name>new_item_strength_code</stream_name>
+        </field>
+        <field>
+          <column_name>THERAPEUTIC_CLASS</column_name>
+          <stream_name>new_item_therp_class_code</stream_name>
+        </field>
+        <field>
+          <column_name>UPPS</column_name>
+          <stream_name>UPPS</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2569</xloc>
+      <yloc>2293</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>UDC1</name>
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5532,7 +7858,7 @@
       <key>
         <name>list_name_udc1</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5555,7 +7881,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5580,7 +7905,7 @@
       <key>
         <name>list_name_udc2</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5603,7 +7928,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5628,7 +7952,7 @@
       <key>
         <name>list_name_udc3</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5651,7 +7975,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5676,7 +7999,7 @@
       <key>
         <name>list_name_udc4</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5699,7 +8022,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5724,7 +8046,7 @@
       <key>
         <name>list_name_udc5</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5747,7 +8069,6 @@
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5772,7 +8093,7 @@
       <key>
         <name>list_name_udc6</name>
         <field>LIST_NAME</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
       </key>
       <value>
@@ -5795,7 +8116,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5865,7 +8185,6 @@
     <type>TableOutput</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5931,11 +8250,148 @@
     </step>
 
   <step>
+    <name>UDCS_INSERT 2 2</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema>DBO</schema>
+    <table>UDCS</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field>COMPANY_SYSTEM_ID</return_field>
+    <fields>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>new_udc1_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>new_udc2_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>new_udc3_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>new_udc4_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>new_udc5_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>new_udc6_code</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_SID</column_name>
+          <stream_name>ITEM_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_TYPE</column_name>
+          <stream_name>master_type</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3430</xloc>
+      <yloc>3771</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_INSERT 3</name>
+    <type>TableOutput</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <schema>DBO</schema>
+    <table>UDCS</table>
+    <commit>10000</commit>
+    <truncate>N</truncate>
+    <ignore_errors>N</ignore_errors>
+    <use_batch>N</use_batch>
+    <specify_fields>Y</specify_fields>
+    <partitioning_enabled>N</partitioning_enabled>
+    <partitioning_field/>
+    <partitioning_daily>N</partitioning_daily>
+    <partitioning_monthly>Y</partitioning_monthly>
+    <tablename_in_field>N</tablename_in_field>
+    <tablename_field/>
+    <tablename_in_table>Y</tablename_in_table>
+    <return_keys>N</return_keys>
+    <return_field>COMPANY_SYSTEM_ID</return_field>
+    <fields>
+        <field>
+          <column_name>UDC1</column_name>
+          <stream_name>new_udc1_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC2</column_name>
+          <stream_name>new_udc2_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC3</column_name>
+          <stream_name>new_udc3_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC4</column_name>
+          <stream_name>new_udc4_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC5</column_name>
+          <stream_name>new_udc5_code</stream_name>
+        </field>
+        <field>
+          <column_name>UDC6</column_name>
+          <stream_name>new_udc6_code</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_SID</column_name>
+          <stream_name>ITEM_MASTER_SID</stream_name>
+        </field>
+        <field>
+          <column_name>MASTER_TYPE</column_name>
+          <stream_name>master_type</stream_name>
+        </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2659</xloc>
+      <yloc>3674</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>UDCS_Update</name>
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -5953,7 +8409,7 @@
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>MASTER_SID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -5994,7 +8450,6 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6012,7 +8467,7 @@
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>MASTER_SID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -6049,11 +8504,126 @@
     </step>
 
   <step>
+    <name>UDCS_Update 2 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>MASTER_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>UDC1</name>
+        <rename>new_udc1_code</rename>
+        </value>
+      <value>
+        <name>UDC2</name>
+        <rename>new_udc2_code</rename>
+        </value>
+      <value>
+        <name>UDC3</name>
+        <rename>new_udc3_code</rename>
+        </value>
+      <value>
+        <name>UDC4</name>
+        <rename>new_udc4_code</rename>
+        </value>
+      <value>
+        <name>UDC5</name>
+        <rename>new_udc5_code</rename>
+        </value>
+      <value>
+        <name>UDC6</name>
+        <rename>new_udc6_code</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2950</xloc>
+      <yloc>2221</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>UDCS_Update 3</name>
+    <type>Update</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema/>
+      <table>UDCS</table>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>MASTER_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>UDC1</name>
+        <rename>new_udc1_code</rename>
+        </value>
+      <value>
+        <name>UDC2</name>
+        <rename>new_udc2_code</rename>
+        </value>
+      <value>
+        <name>UDC3</name>
+        <rename>new_udc3_code</rename>
+        </value>
+      <value>
+        <name>UDC4</name>
+        <rename>new_udc4_code</rename>
+        </value>
+      <value>
+        <name>UDC5</name>
+        <rename>new_udc5_code</rename>
+        </value>
+      <value>
+        <name>UDC6</name>
+        <rename>new_udc6_code</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2166</xloc>
+      <yloc>2189</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Unique rows</name>
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6074,11 +8644,32 @@
     </step>
 
   <step>
+    <name>Unique rows (HashSet)</name>
+    <type>UniqueRowsByHashSet</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <store_values>N</store_values>
+      <reject_duplicate_row>Y</reject_duplicate_row>
+      <error_description>Duplicate record in staging</error_description>
+    <fields>      <field>        <name>ITEM_ID</name>
+        </field>      </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>995</xloc>
+      <yloc>635</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Update 2</name>
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6096,7 +8687,7 @@
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -6365,11 +8956,10 @@
     </step>
 
   <step>
-    <name>Update 2 3</name>
+    <name>Update 2 2</name>
     <type>Update</type>
     <description/>
     <distribute>N</distribute>
-    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -6387,7 +8977,297 @@
       <key>
         <name>ITEM_MASTER_SID</name>
         <field>ITEM_MASTER_SID</field>
-        <condition>&#x3d;</condition>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>ACQUIRED_AMP</name>
+        <rename>ACQUIRED_AMP</rename>
+        </value>
+      <value>
+        <name>ACQUIRED_BAMP</name>
+        <rename>ACQUIRED_BAMP</rename>
+        </value>
+      <value>
+        <name>ACQUISITION_DATE</name>
+        <rename>ACQUISITION_DATE</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC</name>
+        <rename>AUTHORIZED_GENERIC</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC_END_DATE</name>
+        <rename>AUTHORIZED_GENERIC_END_DATE</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC_START_DATE</name>
+        <rename>AUTHORIZED_GENERIC_START_DATE</rename>
+        </value>
+      <value>
+        <name>BASELINE_AMP</name>
+        <rename>BASELINE_AMP</rename>
+        </value>
+      <value>
+        <name>BASE_CPI</name>
+        <rename>BASE_CPI</rename>
+        </value>
+      <value>
+        <name>BASE_CPI_PERIOD</name>
+        <rename>BASE_CPI_PERIOD</rename>
+        </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>BRAND_MASTER_SID</name>
+        <rename>BRAND_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_END_DATE</name>
+        <rename>CLOTTING_FACTOR_END_DATE</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_INDICATOR</name>
+        <rename>CLOTTING_FACTOR_INDICATOR</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_START_DATE</name>
+        <rename>CLOTTING_FACTOR_START_DATE</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>DISCONTINUATION_DATE</name>
+        <rename>DISCONTINUATION_DATE</rename>
+        </value>
+      <value>
+        <name>DIVESTITURE_DATE</name>
+        <rename>DIVESTITURE_DATE</rename>
+        </value>
+      <value>
+        <name>DOSES_PER_UNIT</name>
+        <rename>DOSES_PER_UNIT</rename>
+        </value>
+      <value>
+        <name>DRA</name>
+        <rename>DRA</rename>
+        </value>
+      <value>
+        <name>DUAL_PRICING_INDICATOR</name>
+        <rename>DUAL_PRICING_INDICATOR</rename>
+        </value>
+      <value>
+        <name>FIRST_SALE_DATE</name>
+        <rename>FIRST_SALE_DATE</rename>
+        </value>
+      <value>
+        <name>FORM</name>
+        <rename>new_item_form_code</rename>
+        </value>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>AUD_STATUS</rename>
+        </value>
+      <value>
+        <name>ITEM_CATEGORY</name>
+        <rename>new_item_category_code</rename>
+        </value>
+      <value>
+        <name>ITEM_CLASS</name>
+        <rename>new_item_class_code</rename>
+        </value>
+      <value>
+        <name>ITEM_CODE</name>
+        <rename>ITEM_CODE</rename>
+        </value>
+      <value>
+        <name>ITEM_DESC</name>
+        <rename>ITEM_DESC</rename>
+        </value>
+      <value>
+        <name>ITEM_END_DATE</name>
+        <rename>ITEM_END_DATE</rename>
+        </value>
+      <value>
+        <name>ITEM_FAMILY_ID</name>
+        <rename>ITEM_FAMILY_ID</rename>
+        </value>
+      <value>
+        <name>ITEM_NAME</name>
+        <rename>ITEM_NAME</rename>
+        </value>
+      <value>
+        <name>ITEM_NO</name>
+        <rename>ITEM_NO</rename>
+        </value>
+      <value>
+        <name>ITEM_START_DATE</name>
+        <rename>ITEM_START_DATE</rename>
+        </value>
+      <value>
+        <name>ITEM_STATUS</name>
+        <rename>new_item_Status_Code</rename>
+        </value>
+      <value>
+        <name>ITEM_TYPE</name>
+        <rename>new_item_Type_Code</rename>
+        </value>
+      <value>
+        <name>ITEM_TYPE_INDICATION</name>
+        <rename>new_item_type_ind_code</rename>
+        </value>
+      <value>
+        <name>LABELER_CODE</name>
+        <rename>LABELER_CODE</rename>
+        </value>
+      <value>
+        <name>LAST_LOT_EXPIRATION_DATE</name>
+        <rename>LASTLOTEXPIRATION_DATE</rename>
+        </value>
+      <value>
+        <name>MANUFACTURER_ID</name>
+        <rename>new_manufature_company_sid</rename>
+        </value>
+      <value>
+        <name>MARKET_TERMINATION_DATE</name>
+        <rename>MARKET_TERMINATION_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
+      <value>
+        <name>NDC8</name>
+        <rename>NDC8</rename>
+        </value>
+      <value>
+        <name>NDC9</name>
+        <rename>NEW_NDC_9_ITEM_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION</name>
+        <rename>NEW_FORMULATION</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_END_DATE</name>
+        <rename>NEW_FORMULATION_END_DATE</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_INDICATOR</name>
+        <rename>NEW_FORMULATION_INDICATOR</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_START_DATE</name>
+        <rename>NEW_FORMULATION_START_DATE</rename>
+        </value>
+      <value>
+        <name>NON_FEDERAL_EXPIRATION_DATE</name>
+        <rename>NON_FEDERAL_EXPIRATION_DATE</rename>
+        </value>
+      <value>
+        <name>OBRA_BAMP</name>
+        <rename>OBRA_BAMP</rename>
+        </value>
+      <value>
+        <name>ORGANIZATION_KEY</name>
+        <rename>BUSINESS_COMPANY_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE</name>
+        <rename>new_package_size_code</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE_CODE</name>
+        <rename>PACKAGE_SIZE_CODE</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE_INTRO_DATE</name>
+        <rename>PACKAGE_SIZE_INTRO_DATE</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_END_DATE</name>
+        <rename>PEDIATRIC_EXCLUSIVE_END_DATE</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_INDICATOR</name>
+        <rename>PEDIATRIC_EXCLUSIVE_INDICATOR</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_START_DATE</name>
+        <rename>PEDIATRIC_EXCLUSIVE_START_DATE</rename>
+        </value>
+      <value>
+        <name>PRIMARY_UOM</name>
+        <rename>new_primary_uom_code</rename>
+        </value>
+      <value>
+        <name>SECONDARY_UOM</name>
+        <rename>new_secondary_uom_code</rename>
+        </value>
+      <value>
+        <name>SHELF_LIFE</name>
+        <rename>SHELF_LIFE</rename>
+        </value>
+      <value>
+        <name>SHELF_LIFE_TYPE</name>
+        <rename>new_item_shelf_code</rename>
+        </value>
+      <value>
+        <name>SOURCE</name>
+        <rename>SOURCE</rename>
+        </value>
+      <value>
+        <name>STRENGTH</name>
+        <rename>new_item_strength_code</rename>
+        </value>
+      <value>
+        <name>THERAPEUTIC_CLASS</name>
+        <rename>new_item_therp_class_code</rename>
+        </value>
+      <value>
+        <name>UPPS</name>
+        <rename>UPPS</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2312</xloc>
+      <yloc>2242</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Update 2 3</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema>DBO</schema>
+      <table>ITEM_MASTER</table>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>=</condition>
         <name2/>
         </key>
       <value>
@@ -6651,6 +9531,323 @@
       </GUI>
     </step>
 
+  <step>
+    <name>Update 2 3 2</name>
+    <type>Update</type>
+    <description/>
+    <distribute>N</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>BPI DB</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100000</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema>DBO</schema>
+      <table>ITEM_MASTER</table>
+      <key>
+        <name>ITEM_MASTER_SID</name>
+        <field>ITEM_MASTER_SID</field>
+        <condition>=</condition>
+        <name2/>
+        </key>
+      <value>
+        <name>ACQUIRED_AMP</name>
+        <rename>ACQUIRED_AMP</rename>
+        </value>
+      <value>
+        <name>ACQUIRED_BAMP</name>
+        <rename>ACQUIRED_BAMP</rename>
+        </value>
+      <value>
+        <name>ACQUISITION_DATE</name>
+        <rename>ACQUISITION_DATE</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC</name>
+        <rename>AUTHORIZED_GENERIC</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC_END_DATE</name>
+        <rename>AUTHORIZED_GENERIC_END_DATE</rename>
+        </value>
+      <value>
+        <name>AUTHORIZED_GENERIC_START_DATE</name>
+        <rename>AUTHORIZED_GENERIC_START_DATE</rename>
+        </value>
+      <value>
+        <name>BASELINE_AMP</name>
+        <rename>BASELINE_AMP</rename>
+        </value>
+      <value>
+        <name>BASE_CPI</name>
+        <rename>BASE_CPI</rename>
+        </value>
+      <value>
+        <name>BASE_CPI_PERIOD</name>
+        <rename>BASE_CPI_PERIOD</rename>
+        </value>
+      <value>
+        <name>BATCH_ID</name>
+        <rename>BATCH_ID</rename>
+        </value>
+      <value>
+        <name>BRAND_MASTER_SID</name>
+        <rename>BRAND_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_END_DATE</name>
+        <rename>CLOTTING_FACTOR_END_DATE</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_INDICATOR</name>
+        <rename>CLOTTING_FACTOR_INDICATOR</rename>
+        </value>
+      <value>
+        <name>CLOTTING_FACTOR_START_DATE</name>
+        <rename>CLOTTING_FACTOR_START_DATE</rename>
+        </value>
+      <value>
+        <name>DISCONTINUATION_DATE</name>
+        <rename>DISCONTINUATION_DATE</rename>
+        </value>
+      <value>
+        <name>DIVESTITURE_DATE</name>
+        <rename>DIVESTITURE_DATE</rename>
+        </value>
+      <value>
+        <name>DOSES_PER_UNIT</name>
+        <rename>DOSES_PER_UNIT</rename>
+        </value>
+      <value>
+        <name>DRA</name>
+        <rename>DRA</rename>
+        </value>
+      <value>
+        <name>DUAL_PRICING_INDICATOR</name>
+        <rename>DUAL_PRICING_INDICATOR</rename>
+        </value>
+      <value>
+        <name>FIRST_SALE_DATE</name>
+        <rename>FIRST_SALE_DATE</rename>
+        </value>
+      <value>
+        <name>FORM</name>
+        <rename>new_item_form_code</rename>
+        </value>
+      <value>
+        <name>INBOUND_STATUS</name>
+        <rename>AUD_STATUS</rename>
+        </value>
+      <value>
+        <name>ITEM_CATEGORY</name>
+        <rename>new_item_category_code</rename>
+        </value>
+      <value>
+        <name>ITEM_CLASS</name>
+        <rename>new_item_class_code</rename>
+        </value>
+      <value>
+        <name>ITEM_CODE</name>
+        <rename>ITEM_CODE</rename>
+        </value>
+      <value>
+        <name>ITEM_DESC</name>
+        <rename>ITEM_DESC</rename>
+        </value>
+      <value>
+        <name>ITEM_END_DATE</name>
+        <rename>ITEM_END_DATE</rename>
+        </value>
+      <value>
+        <name>ITEM_FAMILY_ID</name>
+        <rename>ITEM_FAMILY_ID</rename>
+        </value>
+      <value>
+        <name>ITEM_NAME</name>
+        <rename>ITEM_NAME</rename>
+        </value>
+      <value>
+        <name>ITEM_NO</name>
+        <rename>ITEM_NO</rename>
+        </value>
+      <value>
+        <name>ITEM_START_DATE</name>
+        <rename>ITEM_START_DATE</rename>
+        </value>
+      <value>
+        <name>ITEM_STATUS</name>
+        <rename>new_item_Status_Code</rename>
+        </value>
+      <value>
+        <name>ITEM_TYPE</name>
+        <rename>new_item_Type_Code</rename>
+        </value>
+      <value>
+        <name>ITEM_TYPE_INDICATION</name>
+        <rename>new_item_type_ind_code</rename>
+        </value>
+      <value>
+        <name>LABELER_CODE</name>
+        <rename>LABELER_CODE</rename>
+        </value>
+      <value>
+        <name>LAST_LOT_EXPIRATION_DATE</name>
+        <rename>LASTLOTEXPIRATION_DATE</rename>
+        </value>
+      <value>
+        <name>MARKET_TERMINATION_DATE</name>
+        <rename>MARKET_TERMINATION_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_BY</name>
+        <rename>CREATED_BY</rename>
+        </value>
+      <value>
+        <name>NDC8</name>
+        <rename>NDC8</rename>
+        </value>
+      <value>
+        <name>NDC9</name>
+        <rename>NEW_NDC_9_ITEM_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION</name>
+        <rename>NEW_FORMULATION</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_END_DATE</name>
+        <rename>NEW_FORMULATION_END_DATE</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_INDICATOR</name>
+        <rename>NEW_FORMULATION_INDICATOR</rename>
+        </value>
+      <value>
+        <name>NEW_FORMULATION_START_DATE</name>
+        <rename>NEW_FORMULATION_START_DATE</rename>
+        </value>
+      <value>
+        <name>NON_FEDERAL_EXPIRATION_DATE</name>
+        <rename>NON_FEDERAL_EXPIRATION_DATE</rename>
+        </value>
+      <value>
+        <name>OBRA_BAMP</name>
+        <rename>OBRA_BAMP</rename>
+        </value>
+      <value>
+        <name>ORGANIZATION_KEY</name>
+        <rename>BUSINESS_COMPANY_MASTER_SID</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE</name>
+        <rename>new_package_size_code</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE_CODE</name>
+        <rename>PACKAGE_SIZE_CODE</rename>
+        </value>
+      <value>
+        <name>PACKAGE_SIZE_INTRO_DATE</name>
+        <rename>PACKAGE_SIZE_INTRO_DATE</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_END_DATE</name>
+        <rename>PEDIATRIC_EXCLUSIVE_END_DATE</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_INDICATOR</name>
+        <rename>PEDIATRIC_EXCLUSIVE_INDICATOR</rename>
+        </value>
+      <value>
+        <name>PEDIATRIC_EXCLUSIVE_START_DATE</name>
+        <rename>PEDIATRIC_EXCLUSIVE_START_DATE</rename>
+        </value>
+      <value>
+        <name>PRIMARY_UOM</name>
+        <rename>new_primary_uom_code</rename>
+        </value>
+      <value>
+        <name>SECONDARY_UOM</name>
+        <rename>new_secondary_uom_code</rename>
+        </value>
+      <value>
+        <name>SHELF_LIFE</name>
+        <rename>SHELF_LIFE</rename>
+        </value>
+      <value>
+        <name>SHELF_LIFE_TYPE</name>
+        <rename>new_item_shelf_code</rename>
+        </value>
+      <value>
+        <name>SOURCE</name>
+        <rename>SOURCE</rename>
+        </value>
+      <value>
+        <name>STRENGTH</name>
+        <rename>new_item_strength_code</rename>
+        </value>
+      <value>
+        <name>THERAPEUTIC_CLASS</name>
+        <rename>new_item_therp_class_code</rename>
+        </value>
+      <value>
+        <name>UPPS</name>
+        <rename>UPPS</rename>
+        </value>
+      <value>
+        <name>CREATED_DATE</name>
+        <rename>CREATED_DATE</rename>
+        </value>
+      <value>
+        <name>MODIFIED_DATE</name>
+        <rename>MODIFIED_DATE</rename>
+        </value>
+      </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>3055</xloc>
+      <yloc>2294</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Invalid Reason 2 2 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>NEW_NDC_9_ITEM_MASTER_SID</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>0</nullif>
+        <length>40</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>2762</xloc>
+      <yloc>1798</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step_error_handling>
       <error>
         <source_step>COMPANY_MASTER</source_step>
@@ -6725,6 +9922,18 @@
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>NDC9 2 2</source_step>
+        <target_step>Invalid Reason 2 2 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>Table output</source_step>
         <target_step>Database lookup 3</target_step>
         <is_enabled>Y</is_enabled>
@@ -6749,8 +9958,32 @@
         <min_pct_rows/>
       </error>
       <error>
+        <source_step>Table output 2 2</source_step>
+        <target_step>Database lookup 2 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>Table output 3</source_step>
+        <target_step>Database lookup 3 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
         <source_step>UDCS_INSERT</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29; 2</target_step>
+        <target_step>Dummy (do nothing) 2</target_step>
         <is_enabled>N</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -6762,7 +9995,7 @@
       </error>
       <error>
         <source_step>UDCS_Update</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29; 3</target_step>
+        <target_step>Dummy (do nothing) 3</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -6774,7 +10007,31 @@
       </error>
       <error>
         <source_step>UDCS_Update 2</source_step>
-        <target_step>Dummy &#x28;do nothing&#x29; 3 2</target_step>
+        <target_step>Dummy (do nothing) 3 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS_Update 2 2</source_step>
+        <target_step>Dummy (do nothing) 3 2 2</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
+      <error>
+        <source_step>UDCS_Update 3</source_step>
+        <target_step>Dummy (do nothing) 3 3</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -6796,9 +10053,20 @@
         <max_pct_errors/>
         <min_pct_rows/>
       </error>
+      <error>
+        <source_step>Unique rows (HashSet)</source_step>
+        <target_step>A-INVALID1</target_step>
+        <is_enabled>Y</is_enabled>
+        <nr_valuename/>
+        <descriptions_valuename/>
+        <fields_valuename/>
+        <codes_valuename/>
+        <max_errors/>
+        <max_pct_errors/>
+        <min_pct_rows/>
+      </error>
   </step_error_handling>
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
-
 </transformation>

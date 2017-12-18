@@ -52,33 +52,15 @@ public class GtnWsUdcConfig implements GtnWsSearchQueryConfigLoader {
 		gtnWsSearchQueryConfig.setCountQuerySelectClause("Select count(distinct HT.HELPER_TABLE_SID)");
 
 		udcSearchQueryConfigMap.put("SearchQuery", gtnWsSearchQueryConfig);
-		GtnWsSearchQueryConfig gtnWsAllSearchQueryConfig = new GtnWsSearchQueryConfig();
-
-		gtnWsAllSearchQueryConfig.setCountQuery(GtnWsUdcQueryConstants.GTN_UDC_SEARCH_QUERY);
-		gtnWsAllSearchQueryConfig.setSearchQuery(gtnWsAllSearchQueryConfig.getCountQuery());
-		GtnWsSearchQueryConfigProvider allConfigProvider = GtnWsSearchQueryConfigProvider.getInstance();
-		Map<String, GtnWsColumnDetailsConfig> allUdcColumnDetailsMap = new HashMap<>();
-		loadValues(allUdcColumnDetailsMap, allConfigProvider);
-
-		gtnWsAllSearchQueryConfig.setFieldToColumnDetailsMap(allUdcColumnDetailsMap);
-		
-		List<GtnWebServiceOrderByCriteria> gtnWsAllorderByClauseList = new ArrayList<>();
-		gtnWsAllorderByClauseList.add(new GtnWebServiceOrderByCriteria("HT.DESCRIPTION", "ASC"));
-		gtnWsAllSearchQueryConfig.setOrderByClause(gtnWsAllorderByClauseList);
-		gtnWsAllSearchQueryConfig
-		.setWhereClauseList(Arrays.asList(GtnWsUdcQueryConstants.GTN_UDC_SEARCH_WHERE_CLAUSE));
-		gtnWsAllSearchQueryConfig.setCountQuerySelectClause("Select count(distinct HT.HELPER_TABLE_SID)");
-		udcSearchQueryConfigMap.put("AllSearchQuery", gtnWsAllSearchQueryConfig);
 		
 		GtnWsSearchQueryConfig gtnWsBrandSearchQueryConfig = new GtnWsSearchQueryConfig();
 
 		gtnWsBrandSearchQueryConfig.setCountQuery(GtnWsUdcQueryConstants.GTN_UDC_BRANDSEARCH_QUERY);
 		gtnWsBrandSearchQueryConfig.setSearchQuery(gtnWsBrandSearchQueryConfig.getCountQuery());
-		GtnWsSearchQueryConfigProvider brandConfigProvider = GtnWsSearchQueryConfigProvider.getInstance();
-		Map<String, GtnWsColumnDetailsConfig> brandColumnDetailsMap = new HashMap<>();
-		loadBrandValues(brandColumnDetailsMap, brandConfigProvider);
+		
+		loadBrandValues(udcColumnDetailsMap, configProvider);
 
-		gtnWsBrandSearchQueryConfig.setFieldToColumnDetailsMap(brandColumnDetailsMap);
+		gtnWsBrandSearchQueryConfig.setFieldToColumnDetailsMap(udcColumnDetailsMap);
 		
 		List<GtnWebServiceOrderByCriteria> orderByClauseBrandList = new ArrayList<>();
 		orderByClauseBrandList.add(new GtnWebServiceOrderByCriteria("BM.BRAND_ID", "ASC"));

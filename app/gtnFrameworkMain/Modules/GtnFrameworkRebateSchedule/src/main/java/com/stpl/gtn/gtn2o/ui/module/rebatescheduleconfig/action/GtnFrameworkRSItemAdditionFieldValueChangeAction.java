@@ -17,6 +17,7 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
+import com.stpl.gtn.gtn2o.ui.module.rebatescheduleconfig.validation.GtnUIFrameworkRsItemAdditionValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.util.GtnFrameworkRSConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.vaadin.ui.ComboBox;
@@ -53,6 +54,21 @@ public class GtnFrameworkRSItemAdditionFieldValueChangeAction
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig alertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+
+		List<Object> alertParamsList = new ArrayList<>();
+		alertParamsList.add(GtnUIFrameworkRsItemAdditionValidationAction.class.getName());
+		alertParamsList.add(GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
+		alertParamsList.add("");
+		alertParamsList.add(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_FIELD);
+		List<String> fieldId=Arrays.asList(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TEXT,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_STATUS_DROP_DOWN,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TYPE_DROP_DOWN,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_DATE,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_CATEGORY_DROP_DOWN);
+		alertParamsList.add(fieldId);
+		
+		alertActionConfig.setActionParameterList(alertParamsList);
+		actionConfigList.add(alertActionConfig);
+
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
 
@@ -61,6 +77,13 @@ public class GtnFrameworkRSItemAdditionFieldValueChangeAction
 		loadDataTableActionConfig.setActionParameterList(actionParams);
 
 		actionConfigList.add(loadDataTableActionConfig);
+
+		GtnUIFrameWorkActionConfig notificationActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.SEARCH_COMPLETED_NOTIFICATION_ACTION);
+		notificationActionConfig.addActionParameter(GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
+		notificationActionConfig.addActionParameter(0);
+		actionConfigList.add(loadDataTableActionConfig);
+		actionConfigList.add(notificationActionConfig);
 
 		gtnUIFrameworkComponentConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
