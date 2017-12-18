@@ -48,6 +48,7 @@ public class IvldCfp  implements java.io.Serializable {
      private String errorField;
      private boolean checkRecord;
      private String reprocessedFlag;
+     private String salesInclusion;
 
     public IvldCfp() {
     }
@@ -390,6 +391,13 @@ public class IvldCfp  implements java.io.Serializable {
     }
 
 
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
 
 
 }
