@@ -5,22 +5,22 @@
     <extended_description/>
     <job_version/>
     <job_status>0</job_status>
-  <directory>&#x2f;</directory>
+  <directory>&#47;</directory>
   <created_user>-</created_user>
-  <created_date>2013&#x2f;07&#x2f;04 16&#x3a;07&#x3a;10.564</created_date>
+  <created_date>2013&#47;07&#47;04 16:07:10.564</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2013&#x2f;07&#x2f;04 16&#x3a;07&#x3a;10.564</modified_date>
+  <modified_date>2013&#47;07&#47;04 16:07:10.564</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>BPI DB</name>
-    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
+    <server>${BPI_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
+    <database>${BPI_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
-    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
+    <username>${BPI_USER}</username>
+    <password>${BPI_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -37,13 +37,13 @@
   </connection>
   <connection>
     <name>STAGING DB</name>
-    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
+    <server>${STAGING_HOST}</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
+    <database>${STAGING_DB}</database>
     <port>1433</port>
-    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
-    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
+    <username>${STAGING_USER}</username>
+    <password>${STAGING_PASSWORD}</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -66,7 +66,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;IFP_VALIDATIONS.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;IFP_VALIDATIONS.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -94,7 +94,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -105,7 +105,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -155,7 +154,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;IFP_DATAFETCH.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;IFP_DATAFETCH.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -174,7 +173,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -217,7 +215,20 @@
       <name>IFP</name>
       <description/>
       <type>SQL</type>
-      <sql>INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT IFP_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_IFP&#xa;WHERE &#x28;upper&#x28;IFP_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or IFP_STATUS IS NOT NULL &#x29; AND IFP_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT IFP_TYPE,&#x27;IFP_TYPE&#x27;,-1 FROM STAG_IFP&#xa;WHERE &#x28;upper&#x28;IFP_TYPE&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or IFP_TYPE IS NOT NULL &#x29; AND IFP_TYPE NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;IFP_TYPE&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT IFP_DESIGNATION,&#x27;IFP_DESIGNATION&#x27;,-1 FROM STAG_IFP &#xa;WHERE &#x28;upper&#x28;IFP_DESIGNATION&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or IFP_DESIGNATION IS NOT NULL &#x29; AND IFP_DESIGNATION NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;IFP_DESIGNATION&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT IFP_CATEGORY,&#x27;IFP_CATEGORY&#x27;,-1 FROM STAG_IFP&#xa;WHERE &#x28;upper&#x28;IFP_CATEGORY&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or IFP_CATEGORY IS NOT NULL &#x29; AND IFP_CATEGORY NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;IFP_CATEGORY&#x27;&#x29;&#xa;&#xa;INSERT INTO HELPER_TABLE &#x28;DESCRIPTION,LIST_NAME,REF_COUNT&#x29; SELECT DISTINCT ATTACHED_STATUS,&#x27;STATUS&#x27;,-1 FROM STAG_IFP&#xa;WHERE &#x28;upper&#x28;ATTACHED_STATUS&#x29;&#x21;&#x3d;&#x27;NULL&#x27; or ATTACHED_STATUS IS NOT NULL &#x29; AND ATTACHED_STATUS NOT IN &#x28;SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME &#x3d;&#x27;STATUS&#x27;&#x29;</sql>
+      <sql>INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT IFP_STATUS,&apos;STATUS&apos;,-1 FROM STAG_IFP
+WHERE (upper(IFP_STATUS)!=&apos;NULL&apos; or IFP_STATUS IS NOT NULL ) AND IFP_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT IFP_TYPE,&apos;IFP_TYPE&apos;,-1 FROM STAG_IFP
+WHERE (upper(IFP_TYPE)!=&apos;NULL&apos; or IFP_TYPE IS NOT NULL ) AND IFP_TYPE NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;IFP_TYPE&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT IFP_DESIGNATION,&apos;IFP_DESIGNATION&apos;,-1 FROM STAG_IFP 
+WHERE (upper(IFP_DESIGNATION)!=&apos;NULL&apos; or IFP_DESIGNATION IS NOT NULL ) AND IFP_DESIGNATION NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;IFP_DESIGNATION&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT IFP_CATEGORY,&apos;IFP_CATEGORY&apos;,-1 FROM STAG_IFP
+WHERE (upper(IFP_CATEGORY)!=&apos;NULL&apos; or IFP_CATEGORY IS NOT NULL ) AND IFP_CATEGORY NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;IFP_CATEGORY&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT ATTACHED_STATUS,&apos;STATUS&apos;,-1 FROM STAG_IFP
+WHERE (upper(ATTACHED_STATUS)!=&apos;NULL&apos; or ATTACHED_STATUS IS NOT NULL ) AND ATTACHED_STATUS NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;STATUS&apos;)</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -235,7 +246,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;FULL_JOB.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;FULL_JOB.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -249,10 +260,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -267,7 +276,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -281,10 +290,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -297,7 +304,9 @@
       <name>IFP 2</name>
       <description/>
       <type>SQL</type>
-      <sql>UPDATE IVLD_IFP SET ERROR_CODE&#x3d;&#x27;E04&#x27; WHERE REASON_FOR_FAILURE &#x3d;&#x27;Duplicate Record&#x27;&#xa;&#xa;update CONTRACT_MASTER set PROCESS_STATUS&#x3d;1 where CONTRACT_ID IN &#x28;select distinct  CONTRACT_ID from STAG_IFP &#x29;</sql>
+      <sql>UPDATE IVLD_IFP SET ERROR_CODE=&apos;E04&apos; WHERE REASON_FOR_FAILURE =&apos;Duplicate Record&apos;
+
+update CONTRACT_MASTER set PROCESS_STATUS=1 where CONTRACT_ID IN (select distinct  CONTRACT_ID from STAG_IFP )</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -315,7 +324,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;INITIAL_PROCESS_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -334,7 +343,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -348,7 +356,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;VALIDATION_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;VALIDATION_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -367,7 +375,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -381,7 +388,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;TEMP_TABLE_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -400,7 +407,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -414,7 +420,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;STAGING_TRUNCATION_FAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;STAGING_TRUNCATION_FAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -433,7 +439,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -445,7 +450,10 @@
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;Y&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;Y&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -458,10 +466,13 @@
       <yloc>124</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;3&#x29;</name>
+      <name>STOP PROCESS AUDIT (3)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -474,10 +485,13 @@
       <yloc>1851</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29;</name>
+      <name>STOP PROCESS AUDIT (2)</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -495,7 +509,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;HANDLING_NEW_AUDIT.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;HANDLING_NEW_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -514,7 +528,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -526,7 +539,82 @@
       <name>STAG</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;TRUNCATE TABLE STAG_IFP&#xa;&#xa;&#xa;INSERT INTO STAG_IFP&#x28;&#xa;ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ITEM_NAME&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,START_DATE&#xa;,END_DATE&#xa;,TOTAL_VOLUME_COMMITMENT&#xa;,TOTAL_DOLLAR_COMMITMENT&#xa;,TOTAL_MARKETSHARE_COMMITMENT&#xa;,COMMITMENT_PERIOD&#xa;,CONTRACT_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,IFP_INTFID&#xa;,IFP_ID&#xa;,IFP_NO&#xa;,IFP_NAME&#xa;,IFP_TYPE&#xa;,IFP_CATEGORY&#xa;,IFP_DESIGNATION&#xa;,PARENT_IFP_ID&#xa;,PARENT_IFP_NAME&#xa;,IFP_STATUS&#xa;,IFP_START_DATE&#xa;,IFP_END_DATE&#xa;,CFP_ID&#xa;&#xa;&#x29; &#xa;SELECT &#xa;ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ITEM_NAME&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,START_DATE&#xa;,END_DATE&#xa;,TOTAL_VOLUME_COMMITMENT&#xa;,TOTAL_DOLLAR_COMMITMENT&#xa;,TOTAL_MARKETSHARE_COMMITMENT&#xa;,COMMITMENT_PERIOD&#xa;,CONTRACT_ID&#xa;,CREATED_BY&#xa;,isnull&#x28;CREATED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,MODIFIED_BY&#xa;,isnull&#x28;MODIFIED_DATE,getdate&#x28;&#x29;&#x29;&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,ITEM_FAMILY_PLAN_INTERFACE_ID&#xa;,ITEM_FAMILY_PLAN_ID&#xa;,ITEM_FAMILY_PLAN_NO&#xa;,ITEM_FAMILY_PLAN_NAME&#xa;,ITEM_FAMILY_PLAN_TYPE&#xa;,ITEM_FAMILY_PLAN_CATEGORY&#xa;,ITEM_FAMILY_PLAN_DESIGNATION&#xa;,PARENT_ITEM_FAMILY_PLAN_ID&#xa;,PARENT_ITEM_FAMILY_PLAN_NAME&#xa;,ITEM_FAMILY_PLAN_STATUS&#xa;,ITEM_FAMILY_PLAN_START_DATE&#xa;,ITEM_FAMILY_PLAN_END_DATE&#xa;,COMPANY_FAMILY_PLAN_ID&#xa;&#xa; FROM &#x24;&#x7b;STAGING_DB&#x7d;..ITEM_FAMILY_PLAN_INTERFACE </sql>
+      <sql>
+TRUNCATE TABLE STAG_IFP
+
+
+INSERT INTO STAG_IFP(
+ITEM_ID
+,IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,ITEM_NAME
+,ATTACHED_STATUS
+,ATTACHED_DATE
+,START_DATE
+,END_DATE
+,TOTAL_VOLUME_COMMITMENT
+,TOTAL_DOLLAR_COMMITMENT
+,TOTAL_MARKETSHARE_COMMITMENT
+,COMMITMENT_PERIOD
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,IFP_INTFID
+,IFP_ID
+,IFP_NO
+,IFP_NAME
+,IFP_TYPE
+,IFP_CATEGORY
+,IFP_DESIGNATION
+,PARENT_IFP_ID
+,PARENT_IFP_NAME
+,IFP_STATUS
+,IFP_START_DATE
+,IFP_END_DATE
+,CFP_ID
+
+) 
+SELECT 
+ITEM_ID
+,IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,ITEM_NAME
+,ATTACHED_STATUS
+,ATTACHED_DATE
+,START_DATE
+,END_DATE
+,TOTAL_VOLUME_COMMITMENT
+,TOTAL_DOLLAR_COMMITMENT
+,TOTAL_MARKETSHARE_COMMITMENT
+,COMMITMENT_PERIOD
+,CONTRACT_ID
+,CREATED_BY
+,isnull(CREATED_DATE,getdate())
+,MODIFIED_BY
+,isnull(MODIFIED_DATE,getdate())
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,ITEM_FAMILY_PLAN_INTERFACE_ID
+,ITEM_FAMILY_PLAN_ID
+,ITEM_FAMILY_PLAN_NO
+,ITEM_FAMILY_PLAN_NAME
+,ITEM_FAMILY_PLAN_TYPE
+,ITEM_FAMILY_PLAN_CATEGORY
+,ITEM_FAMILY_PLAN_DESIGNATION
+,PARENT_ITEM_FAMILY_PLAN_ID
+,PARENT_ITEM_FAMILY_PLAN_NAME
+,ITEM_FAMILY_PLAN_STATUS
+,ITEM_FAMILY_PLAN_START_DATE
+,ITEM_FAMILY_PLAN_END_DATE
+,COMPANY_FAMILY_PLAN_ID
+
+ FROM ${STAGING_DB}..ITEM_FAMILY_PLAN_INTERFACE </sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -542,7 +630,87 @@
       <name>ITEM VALIDATION</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#xa;INSERT INTO IVLD_IFP&#xa;&#x28;&#xa;ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ITEM_NAME&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,START_DATE&#xa;,END_DATE&#xa;,TOTAL_VOLUME_COMMITMENT&#xa;,TOTAL_DOLLAR_COMMITMENT&#xa;,TOTAL_MARKETSHARE_COMMITMENT&#xa;,COMMITMENT_PERIOD&#xa;,CONTRACT_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,IFP_INTFID&#xa;,IFP_ID&#xa;,IFP_NO&#xa;,IFP_NAME&#xa;,IFP_TYPE&#xa;,IFP_CATEGORY&#xa;,IFP_DESIGNATION&#xa;,PARENT_IFP_ID&#xa;,PARENT_IFP_NAME&#xa;,IFP_STATUS&#xa;,IFP_START_DATE&#xa;,IFP_END_DATE&#xa;,CFP_ID&#xa;&#xa;&#x29;&#xa;&#xa;SELECT&#xa;A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ITEM_NAME&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.START_DATE&#xa;,A.END_DATE&#xa;,A.TOTAL_VOLUME_COMMITMENT&#xa;,A.TOTAL_DOLLAR_COMMITMENT&#xa;,A.TOTAL_MARKETSHARE_COMMITMENT&#xa;,A.COMMITMENT_PERIOD&#xa;,A.CONTRACT_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,&#x27;Invalid ItemId&#x27;&#xa;,A.IFP_INTFID&#xa;,A.IFP_ID&#xa;,A.IFP_NO&#xa;,A.IFP_NAME&#xa;,A.IFP_TYPE&#xa;,A.IFP_CATEGORY&#xa;,A.IFP_DESIGNATION&#xa;,A.PARENT_IFP_ID&#xa;,A.PARENT_IFP_NAME&#xa;,A.IFP_STATUS&#xa;,A.IFP_START_DATE&#xa;,A.IFP_END_DATE&#xa;,A.CFP_ID&#xa;&#xa;&#xa;       FROM STAG_IFP  A &#xa;WHERE NOT EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;</sql>
+      <sql>
+
+INSERT INTO IVLD_IFP
+(
+ITEM_ID
+,IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,ITEM_NAME
+,ATTACHED_STATUS
+,ATTACHED_DATE
+,START_DATE
+,END_DATE
+,TOTAL_VOLUME_COMMITMENT
+,TOTAL_DOLLAR_COMMITMENT
+,TOTAL_MARKETSHARE_COMMITMENT
+,COMMITMENT_PERIOD
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,REASON_FOR_FAILURE
+,IFP_INTFID
+,IFP_ID
+,IFP_NO
+,IFP_NAME
+,IFP_TYPE
+,IFP_CATEGORY
+,IFP_DESIGNATION
+,PARENT_IFP_ID
+,PARENT_IFP_NAME
+,IFP_STATUS
+,IFP_START_DATE
+,IFP_END_DATE
+,CFP_ID
+
+)
+
+SELECT
+A.ITEM_ID
+,A.IDENTIFIER_CODE_QUALIFIER
+,A.ITEM_NO
+,A.ITEM_NAME
+,A.ATTACHED_STATUS
+,A.ATTACHED_DATE
+,A.START_DATE
+,A.END_DATE
+,A.TOTAL_VOLUME_COMMITMENT
+,A.TOTAL_DOLLAR_COMMITMENT
+,A.TOTAL_MARKETSHARE_COMMITMENT
+,A.COMMITMENT_PERIOD
+,A.CONTRACT_ID
+,A.CREATED_BY
+,A.CREATED_DATE
+,A.MODIFIED_BY
+,A.MODIFIED_DATE
+,A.ADD_CHG_DEL_INDICATOR
+,A.BATCH_ID
+,A.SOURCE
+,&apos;Invalid ItemId&apos;
+,A.IFP_INTFID
+,A.IFP_ID
+,A.IFP_NO
+,A.IFP_NAME
+,A.IFP_TYPE
+,A.IFP_CATEGORY
+,A.IFP_DESIGNATION
+,A.PARENT_IFP_ID
+,A.PARENT_IFP_NAME
+,A.IFP_STATUS
+,A.IFP_START_DATE
+,A.IFP_END_DATE
+,A.CFP_ID
+
+
+       FROM STAG_IFP  A 
+WHERE NOT EXISTS (SELECT 1 FROM ITEM_MASTER  B 
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS&lt;&gt;&apos;D&apos;)</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -558,7 +726,104 @@
       <name>CONTRACT VALIDATION </name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#xa;&#xa;&#xa;&#xa;IF OBJECT_ID&#x28;&#x27;TEMPDB..&#x23;temp&#x27;&#x29; IS NOT NULL&#xa;DROP TABLE &#x23;temp&#xa;&#xa;SELECT &#x2a; into &#x23;temp             FROM STAG_IFP  A &#xa;WHERE  EXISTS &#x28;SELECT 1 FROM ITEM_MASTER  B &#xa;           WHERE A.ITEM_ID&#x3d;B.ITEM_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;INSERT INTO IVLD_IFP&#xa;&#x28;ITEM_ID&#xa;,IDENTIFIER_CODE_QUALIFIER&#xa;,ITEM_NO&#xa;,ITEM_NAME&#xa;,ATTACHED_STATUS&#xa;,ATTACHED_DATE&#xa;,START_DATE&#xa;,END_DATE&#xa;,TOTAL_VOLUME_COMMITMENT&#xa;,TOTAL_DOLLAR_COMMITMENT&#xa;,TOTAL_MARKETSHARE_COMMITMENT&#xa;,COMMITMENT_PERIOD&#xa;,CONTRACT_ID&#xa;,CREATED_BY&#xa;,CREATED_DATE&#xa;,MODIFIED_BY&#xa;,MODIFIED_DATE&#xa;,ADD_CHG_DEL_INDICATOR&#xa;,BATCH_ID&#xa;,SOURCE&#xa;,REASON_FOR_FAILURE&#xa;,IFP_INTFID&#xa;,IFP_ID&#xa;,IFP_NO&#xa;,IFP_NAME&#xa;,IFP_TYPE&#xa;,IFP_CATEGORY&#xa;,IFP_DESIGNATION&#xa;,PARENT_IFP_ID&#xa;,PARENT_IFP_NAME&#xa;,IFP_STATUS&#xa;,IFP_START_DATE&#xa;,IFP_END_DATE&#xa;,CFP_ID&#xa;&#xa;&#xa;&#x29;&#xa;&#xa;select &#xa;A.ITEM_ID&#xa;,A.IDENTIFIER_CODE_QUALIFIER&#xa;,A.ITEM_NO&#xa;,A.ITEM_NAME&#xa;,A.ATTACHED_STATUS&#xa;,A.ATTACHED_DATE&#xa;,A.START_DATE&#xa;,A.END_DATE&#xa;,A.TOTAL_VOLUME_COMMITMENT&#xa;,A.TOTAL_DOLLAR_COMMITMENT&#xa;,A.TOTAL_MARKETSHARE_COMMITMENT&#xa;,A.COMMITMENT_PERIOD&#xa;,A.CONTRACT_ID&#xa;,A.CREATED_BY&#xa;,A.CREATED_DATE&#xa;,A.MODIFIED_BY&#xa;,A.MODIFIED_DATE&#xa;,A.ADD_CHG_DEL_INDICATOR&#xa;,A.BATCH_ID&#xa;,A.SOURCE&#xa;,&#x27;Invalid ContractId&#x27;&#xa;,A.IFP_INTFID&#xa;,A.IFP_ID&#xa;,A.IFP_NO&#xa;,A.IFP_NAME&#xa;,A.IFP_TYPE&#xa;,A.IFP_CATEGORY&#xa;,A.IFP_DESIGNATION&#xa;,A.PARENT_IFP_ID&#xa;,A.PARENT_IFP_NAME&#xa;,A.IFP_STATUS&#xa;,A.IFP_START_DATE&#xa;,A.IFP_END_DATE&#xa;,A.CFP_ID&#xa;&#xa; from &#x23;temp  a&#xa;WHERE not  EXISTS &#x28;SELECT 1 FROM CONTRACT_MASTER  B &#xa;           WHERE A.CONTRACT_ID&#x3d;B.CONTRACT_ID and b.INBOUND_STATUS&#x3d;&#x27;A&#x27;&#x29;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;</sql>
+      <sql>
+
+
+
+
+IF OBJECT_ID(&apos;TEMPDB..#temp&apos;) IS NOT NULL
+DROP TABLE #temp
+
+SELECT * into #temp             FROM STAG_IFP  A 
+WHERE  EXISTS (SELECT 1 FROM ITEM_MASTER  B 
+           WHERE A.ITEM_ID=B.ITEM_ID and b.INBOUND_STATUS=&apos;A&apos;)
+
+INSERT INTO IVLD_IFP
+(ITEM_ID
+,IDENTIFIER_CODE_QUALIFIER
+,ITEM_NO
+,ITEM_NAME
+,ATTACHED_STATUS
+,ATTACHED_DATE
+,START_DATE
+,END_DATE
+,TOTAL_VOLUME_COMMITMENT
+,TOTAL_DOLLAR_COMMITMENT
+,TOTAL_MARKETSHARE_COMMITMENT
+,COMMITMENT_PERIOD
+,CONTRACT_ID
+,CREATED_BY
+,CREATED_DATE
+,MODIFIED_BY
+,MODIFIED_DATE
+,ADD_CHG_DEL_INDICATOR
+,BATCH_ID
+,SOURCE
+,REASON_FOR_FAILURE
+,IFP_INTFID
+,IFP_ID
+,IFP_NO
+,IFP_NAME
+,IFP_TYPE
+,IFP_CATEGORY
+,IFP_DESIGNATION
+,PARENT_IFP_ID
+,PARENT_IFP_NAME
+,IFP_STATUS
+,IFP_START_DATE
+,IFP_END_DATE
+,CFP_ID
+
+
+)
+
+select 
+A.ITEM_ID
+,A.IDENTIFIER_CODE_QUALIFIER
+,A.ITEM_NO
+,A.ITEM_NAME
+,A.ATTACHED_STATUS
+,A.ATTACHED_DATE
+,A.START_DATE
+,A.END_DATE
+,A.TOTAL_VOLUME_COMMITMENT
+,A.TOTAL_DOLLAR_COMMITMENT
+,A.TOTAL_MARKETSHARE_COMMITMENT
+,A.COMMITMENT_PERIOD
+,A.CONTRACT_ID
+,A.CREATED_BY
+,A.CREATED_DATE
+,A.MODIFIED_BY
+,A.MODIFIED_DATE
+,A.ADD_CHG_DEL_INDICATOR
+,A.BATCH_ID
+,A.SOURCE
+,&apos;Invalid ContractId&apos;
+,A.IFP_INTFID
+,A.IFP_ID
+,A.IFP_NO
+,A.IFP_NAME
+,A.IFP_TYPE
+,A.IFP_CATEGORY
+,A.IFP_DESIGNATION
+,A.PARENT_IFP_ID
+,A.PARENT_IFP_NAME
+,A.IFP_STATUS
+,A.IFP_START_DATE
+,A.IFP_END_DATE
+,A.CFP_ID
+
+ from #temp  a
+WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS&lt;&gt;&apos;D&apos;)
+
+
+
+
+
+
+
+</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -576,7 +841,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SNAP_INSERT.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;SNAP_INSERT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -595,7 +860,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -609,7 +873,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;ZIP_FILE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;ZIP_FILE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -623,10 +887,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -641,7 +903,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;GETTING_FILE_NAME.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;GETTING_FILE_NAME.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -660,7 +922,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -672,7 +933,7 @@
       <name>Check if a folder is empty</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ITEM_FAMILY_PLAN_INTERFACE&#x2f;Input&#x2f;</foldername>
+      <foldername>${INBOUND_FILE_PATH}&#47;ITEM_FAMILY_PLAN_INTERFACE&#47;Input&#47;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -688,7 +949,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;IFP_VALIDATIONS_AUDIT.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;IFP_VALIDATIONS_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -696,7 +957,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -707,7 +968,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -716,10 +976,13 @@
       <yloc>1417</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 2</name>
+      <name>STOP PROCESS AUDIT (2) 2</name>
       <description/>
       <type>SQL</type>
-      <sql>&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -735,7 +998,29 @@
       <name>SNAP TABLE PURGE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE &#x40;SQL        VARCHAR&#x28;MAX&#x29;,&#xa;        &#x40;TABLE_NAME VARCHAR&#x28;100&#x29;&#x3d;&#x27;SNAP_IFP&#x27;,&#xa;        &#x40;NO_OF_DAYS INT&#x3d;&#x24;&#x7b;FULL_LOAD_PURGE_DAYS&#x7d;&#xa;		,&#x40;var1 varchar&#x28;2&#x29;&#x3d;&#x27;&#x3c;&#x27;&#xa;&#xa;&#xa;SET &#x40;SQL&#x3d;replace&#x28;&#x28;SELECT Concat&#x28;&#x27;DELETE FROM &#x27;, NAME, &#x27; WHERE CONVERT&#x28;DATE,INTF_INSERTED_DATE&#x29;&#x27;,&#x40;var1,&#x27;CONVERT&#x28;DATE,GETDATE&#x28;&#x29;-&#x27;, &#x40;NO_OF_DAYS, &#x27;&#x29;&#x27;, &#x27;&#x27;&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;,&#x27;&#x3b;&#x27;,&#x27;&#x27;&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d; Replace&#x28;&#x40;SQL, &#x27;&#x26;LT&#x27;, &#x27;&#x3c;&#x27;&#x29;&#xa;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29;&#xa;&#xa;SET &#x40;SQL&#x3d;&#x28;SELECT Concat&#x28;&#x27; IF NOT EXISTS &#x28;SELECT 1 FROM &#x27;, NAME, &#x27;&#x29; DROP TABLE &#x27;, NAME&#x29;&#xa;          FROM   SYS.TABLES&#xa;          WHERE  NAME LIKE &#x40;TABLE_NAME &#x2b; &#x27;&#x25;SEMI_ANNUAL&#x25;&#x27;&#xa;          FOR XML PATH&#x28;&#x27;&#x27;&#x29;&#x29;&#xa;&#xa;exec&#x28; &#x40;SQL&#x29; &#xa;</sql>
+      <sql>DECLARE @SQL        VARCHAR(MAX),
+        @TABLE_NAME VARCHAR(100)=&apos;SNAP_IFP&apos;,
+        @NO_OF_DAYS INT=${FULL_LOAD_PURGE_DAYS}
+		,@var1 varchar(2)=&apos;&lt;&apos;
+
+
+SET @SQL=replace((SELECT Concat(&apos;DELETE FROM &apos;, NAME, &apos; WHERE CONVERT(DATE,INTF_INSERTED_DATE)&apos;,@var1,&apos;CONVERT(DATE,GETDATE()-&apos;, @NO_OF_DAYS, &apos;)&apos;, &apos;&apos;)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;)),&apos;;&apos;,&apos;&apos;)
+
+SET @SQL= Replace(@SQL, &apos;&amp;LT&apos;, &apos;&lt;&apos;)
+
+
+exec( @SQL)
+
+SET @SQL=(SELECT Concat(&apos; IF NOT EXISTS (SELECT 1 FROM &apos;, NAME, &apos;) DROP TABLE &apos;, NAME)
+          FROM   SYS.TABLES
+          WHERE  NAME LIKE @TABLE_NAME + &apos;%SEMI_ANNUAL%&apos;
+          FOR XML PATH(&apos;&apos;))
+
+exec( @SQL) 
+</sql>
       <useVariableSubstitution>T</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -753,7 +1038,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
+      <filename>${Internal.Job.Filename.Directory}&#47;SET_ENVIROIMENTAL_VARIABLE.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -772,7 +1057,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -784,7 +1068,7 @@
       <name>Check if a folder is empty 2</name>
       <description/>
       <type>FOLDER_IS_EMPTY</type>
-      <foldername>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;ITEM_FAMILY_PLAN_INTERFACE&#x2f;Input&#x2f;</foldername>
+      <foldername>${INBOUND_FILE_PATH}&#47;ITEM_FAMILY_PLAN_INTERFACE&#47;Input&#47;</foldername>
       <include_subfolders>N</include_subfolders>
       <specify_wildcard>N</specify_wildcard>
       <wildcard/>
@@ -800,7 +1084,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_PRECISION.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_PRECISION.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -819,7 +1103,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -851,7 +1134,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -873,7 +1156,7 @@
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;COMMON_SOURCE_DATABASE.kjb</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;COMMON_SOURCE_DATABASE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -887,10 +1170,8 @@
       <slave_server_name/>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
-      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
       <pass_export>N</pass_export>
-      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <set_append_logfile>N</set_append_logfile>
       <parallel>N</parallel>
@@ -905,7 +1186,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_TABLE_AVAILABLE&#x7d;</variablename>
+      <variablename>${SOURCE_TABLE_AVAILABLE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -922,12 +1203,12 @@
       <yloc>510</yloc>
       </entry>
     <entry>
-      <name>MAIL &#x28;2&#x29; 2</name>
+      <name>MAIL (2) 2</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;SOURCE_TO_TARGET_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -946,7 +1227,6 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -960,7 +1240,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -982,7 +1262,7 @@
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>&#x24;&#x7b;SOURCE_MODE&#x7d;</variablename>
+      <variablename>${SOURCE_MODE}</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>DATABASE</comparevalue>
@@ -999,10 +1279,13 @@
       <yloc>914</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3</name>
+      <name>STOP PROCESS AUDIT (2) 3</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1015,10 +1298,13 @@
       <yloc>1195</yloc>
       </entry>
     <entry>
-      <name>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</name>
+      <name>STOP PROCESS AUDIT (2) 3 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;&#xa;&#xa;&#xa;UPDATE WORKFLOW_PROFILE SET VALIDATION&#x3d;&#x27;N&#x27; where PROCESS_NAME&#x3d;&#x27;ITEM_FAMILY_PLAN_INTERFACE&#x27;</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;
+
+
+UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;ITEM_FAMILY_PLAN_INTERFACE&apos;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1036,7 +1322,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;UNLOCK.ktr</filename>
+      <filename>${COMMON_LOGIC_PATH}&#47;UNLOCK.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1044,7 +1330,7 @@
       <clear_rows>N</clear_rows>
       <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
-      <logfile>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Error_log</logfile>
+      <logfile>${Internal.Job.Filename.Directory}&#47;Error_log</logfile>
       <logext>txt</logext>
       <add_date>N</add_date>
       <add_time>N</add_time>
@@ -1055,13 +1341,76 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>1161</xloc>
       <yloc>1611</yloc>
+      </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>672</xloc>
+      <yloc>710</yloc>
+      </entry>
+    <entry>
+      <name>SET_STAG_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>671</xloc>
+      <yloc>572</yloc>
       </entry>
   </entries>
   <hops>
@@ -1157,7 +1506,7 @@
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1166,7 +1515,7 @@
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1175,7 +1524,7 @@
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1184,7 +1533,7 @@
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29;</to>
+      <to>STOP PROCESS AUDIT (2)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1300,7 +1649,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;3&#x29;</from>
+      <from>STOP PROCESS AUDIT (3)</from>
       <to>RETENTION_LOGIC</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1319,7 +1668,7 @@
     </hop>
     <hop>
       <from>Check if a folder is empty</from>
-      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
+      <to>STOP PROCESS AUDIT (3)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1364,7 +1713,7 @@
     </hop>
     <hop>
       <from>FILE CHECKING</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1373,7 +1722,7 @@
     </hop>
     <hop>
       <from>CSV_TO_INTERFACE</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1428,15 +1777,6 @@
     <hop>
       <from>SNAP TABLE PURGE</from>
       <to>PRECISION</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>TRUNCATE INTERFACE TABLE 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1499,7 +1839,7 @@
     </hop>
     <hop>
       <from>DATABASE FETCH</from>
-      <to>MAIL &#x28;2&#x29; 2</to>
+      <to>MAIL (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1507,8 +1847,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL &#x28;2&#x29; 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 2</to>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1526,7 +1866,7 @@
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3</from>
-      <to>STOP PROCESS AUDIT &#x28;3&#x29;</to>
+      <to>STOP PROCESS AUDIT (3)</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1543,7 +1883,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 2</from>
+      <from>STOP PROCESS AUDIT (2) 2</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1552,7 +1892,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29;</from>
+      <from>STOP PROCESS AUDIT (2)</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1561,8 +1901,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>MAIL &#x28;2&#x29; 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <from>MAIL (2) 2</from>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1571,7 +1911,7 @@
     </hop>
     <hop>
       <from>INITIAL_PROCESS_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1580,7 +1920,7 @@
     </hop>
     <hop>
       <from>VALIDATION_FAIL_MAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1589,7 +1929,7 @@
     </hop>
     <hop>
       <from>TEMP_TABLE_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1598,7 +1938,7 @@
     </hop>
     <hop>
       <from>STAGING_TRUNCATION_FAIL</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3</to>
+      <to>STOP PROCESS AUDIT (2) 3</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1606,7 +1946,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3</from>
+      <from>STOP PROCESS AUDIT (2) 3</from>
       <to>Simple evaluation 2 4 2 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1616,7 +1956,7 @@
     </hop>
     <hop>
       <from>Simple evaluation 2 4 2 2 3 2</from>
-      <to>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</to>
+      <to>STOP PROCESS AUDIT (2) 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1624,7 +1964,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT &#x28;2&#x29; 3 2</from>
+      <from>STOP PROCESS AUDIT (2) 3 2</from>
       <to>Abort job</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1659,8 +1999,43 @@
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_STAG_COUNT</from>
+      <to>REPROCESSING_INVALID_DATA</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>IFP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
   </hops>
   <notepads>
   </notepads>
-
 </job>
