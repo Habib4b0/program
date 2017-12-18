@@ -58,8 +58,7 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ " LEFT JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
 						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE=companyTypeHelper.HELPER_TABLE_SID"
 						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
-
-		gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
+        gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
 		gtnWebServiceSearchQueryConfig.setCountQuerySelectClause(GtnWsCMasterConstants.QUERY_COUNT);
 
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();
