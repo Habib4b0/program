@@ -835,6 +835,248 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>INTERNAL_NOTES</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRICE_PROTECTION_STATUS</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PRICE_PROTECTION_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NEP</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NEP_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BASE_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_BASE_PRICE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_BASE_PRICE_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SUBSEQUENT_PERIOD_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_SUBSEQUENT_PERIOD_PRICE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MAX_INCREMENTAL_CHANGE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_ELIGIBLE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_DATE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_INTERVAL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_FREQUENCY</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>RESET_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_RESET_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_RESET_PRICE_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_PRICE_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_PRICE_TYPE_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1178,6 +1420,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
         </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1414,6 +1744,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>ERROR_FIELD</column_name>
           <stream_name>Invalid Field Length__</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -1652,6 +2070,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
         </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1888,6 +2394,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -2275,6 +2869,58 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_SCHEDULE_NO</name>
+<validation_name>PRICE_SCHEDULE_NO</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>PRICE_SCHEDULE_NO</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_SCHEDULE_NAME</name>
+<validation_name>PRICE_SCHEDULE_NAME</validation_name>
+<max_length/>
+<min_length/>
+<null_allowed>N</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E01</error_code>
+<error_description>PRICE_SCHEDULE_NAME</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>322</xloc>
@@ -2329,7 +2975,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <concat_separator>|</concat_separator>
        <validator_field><name>PRICE_SCHEDULE_ID</name>
 <validation_name>PRICE_SCHEDULE_ID</validation_name>
-<max_length>38</max_length>
+<max_length>50</max_length>
 <min_length/>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
@@ -3081,9 +3727,451 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <sourcing_step/>
 <sourcing_field/>
 <allowed_value></allowed_value></validator_field>
+       <validator_field><name>INTERNAL_NOTES</name>
+<validation_name>INTERNAL_NOTES</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>INTERNAL_NOTES</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_PROTECTION_STATUS</name>
+<validation_name>PRICE_PROTECTION_STATUS</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>PRICE_PROTECTION_STATUS</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_PROTECTION_PRICE_TYPE</name>
+<validation_name>PRICE_PROTECTION_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>PRICE_PROTECTION_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NEP_FORMULA</name>
+<validation_name>NEP_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NEP_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BASE_PRICE_TYPE</name>
+<validation_name>BASE_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>BASE_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_BASE_PRICE_FORMULA</name>
+<validation_name>NET_BASE_PRICE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_BASE_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SUBSEQUENT_PERIOD_PRICE_TYPE</name>
+<validation_name>SUBSEQUENT_PERIOD_PRICE_TYPE</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>SUBSEQUENT_PERIOD_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_SUBSEQUENT_PERIOD_PRICE</name>
+<validation_name>NET_SUBSEQUENT_PERIOD_PRICE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_SUBSEQUENT_PERIOD_PRICE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</name>
+<validation_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_ELIGIBLE</name>
+<validation_name>RESET_ELIGIBLE</validation_name>
+<max_length>10</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>RESET_ELIGIBLE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_TYPE</name>
+<validation_name>RESET_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>RESET_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_FREQUENCY</name>
+<validation_name>RESET_FREQUENCY</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>RESET_FREQUENCY</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_PRICE_TYPE</name>
+<validation_name>RESET_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>RESET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_RESET_PRICE_TYPE</name>
+<validation_name>NET_RESET_PRICE_TYPE</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_RESET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_RESET_PRICE_FORMULA</name>
+<validation_name>NET_RESET_PRICE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_RESET_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_PRICE_TYPE</name>
+<validation_name>NET_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_PRICE_TYPE_FORMULA</name>
+<validation_name>NET_PRICE_TYPE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>N</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E02</error_code>
+<error_description>NET_PRICE_TYPE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>326</xloc>
+      <xloc>327</xloc>
       <yloc>382</yloc>
       <draw>Y</draw>
       </GUI>
@@ -3104,7 +4192,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <concat_separator>|</concat_separator>
        <validator_field><name>PRICE_SCHEDULE_ID</name>
 <validation_name>PRICE_SCHEDULE_ID</validation_name>
-<max_length>38</max_length>
+<max_length>50</max_length>
 <min_length/>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
@@ -3852,6 +4940,448 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
 <regular_expression_not_allowed/>
 <error_code>E03</error_code>
 <error_description>ITEM_FAMILY_PLAN_ID</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>INTERNAL_NOTES</name>
+<validation_name>INTERNAL_NOTES</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>INTERNAL_NOTES</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_PROTECTION_STATUS</name>
+<validation_name>PRICE_PROTECTION_STATUS</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>PRICE_PROTECTION_STATUS</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>PRICE_PROTECTION_PRICE_TYPE</name>
+<validation_name>PRICE_PROTECTION_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>PRICE_PROTECTION_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NEP_FORMULA</name>
+<validation_name>NEP_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NEP_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>BASE_PRICE_TYPE</name>
+<validation_name>BASE_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>BASE_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_BASE_PRICE_FORMULA</name>
+<validation_name>NET_BASE_PRICE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_BASE_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>SUBSEQUENT_PERIOD_PRICE_TYPE</name>
+<validation_name>SUBSEQUENT_PERIOD_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>SUBSEQUENT_PERIOD_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_SUBSEQUENT_PERIOD_PRICE</name>
+<validation_name>NET_SUBSEQUENT_PERIOD_PRICE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_SUBSEQUENT_PERIOD_PRICE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</name>
+<validation_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_ELIGIBLE</name>
+<validation_name>RESET_ELIGIBLE</validation_name>
+<max_length>10</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>RESET_ELIGIBLE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_TYPE</name>
+<validation_name>RESET_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>RESET_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_FREQUENCY</name>
+<validation_name>RESET_FREQUENCY</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>RESET_FREQUENCY</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>RESET_PRICE_TYPE</name>
+<validation_name>RESET_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>RESET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_RESET_PRICE_TYPE</name>
+<validation_name>NET_RESET_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_RESET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_RESET_PRICE_FORMULA</name>
+<validation_name>NET_RESET_PRICE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_RESET_PRICE_FORMULA</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_PRICE_TYPE</name>
+<validation_name>NET_PRICE_TYPE</validation_name>
+<max_length>50</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_PRICE_TYPE</error_description>
+<is_sourcing_values>N</is_sourcing_values>
+<sourcing_step/>
+<sourcing_field/>
+<allowed_value></allowed_value></validator_field>
+       <validator_field><name>NET_PRICE_TYPE_FORMULA</name>
+<validation_name>NET_PRICE_TYPE_FORMULA</validation_name>
+<max_length>100</max_length>
+<min_length/>
+<null_allowed>Y</null_allowed>
+<only_null_allowed>N</only_null_allowed>
+<only_numeric_allowed>N</only_numeric_allowed>
+<data_type>String</data_type>
+<data_type_verified>Y</data_type_verified>
+<conversion_mask/>
+<decimal_symbol/>
+<grouping_symbol/>
+<max_value/>
+<min_value/>
+<start_string/>
+<end_string/>
+<start_string_not_allowed/>
+<end_string_not_allowed/>
+<regular_expression/>
+<regular_expression_not_allowed/>
+<error_code>E03</error_code>
+<error_description>NET_PRICE_TYPE_FORMULA</error_description>
 <is_sourcing_values>N</is_sourcing_values>
 <sourcing_step/>
 <sourcing_field/>
@@ -4112,11 +5642,189 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
         </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>321</xloc>
       <yloc>558</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>BASE_PRICE</in_stream_name>
+        <out_stream_name>BASE_PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>CONTRACT_PRICE</in_stream_name>
+        <out_stream_name>CONTRACT_PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>PRICE</in_stream_name>
+        <out_stream_name>PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>PRICE_REVISION</in_stream_name>
+        <out_stream_name>PRICE_REVISION_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>PRICE_TOLERANCE</in_stream_name>
+        <out_stream_name>PRICE_TOLERANCE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>PRICE_TOLERANCE_INTERVAL</in_stream_name>
+        <out_stream_name>PRICE_TOLERANCE_INTERVAL_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>SUGGESTED_PRICE</in_stream_name>
+        <out_stream_name>SUGGESTED_PRICE_NEW</out_stream_name>
+        <use_regex>no</use_regex>
+        <replace_string>$</replace_string>
+        <replace_by_string/>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>519</xloc>
+      <yloc>502</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -4336,6 +6044,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -4562,6 +6358,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
         </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -4786,6 +6670,94 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <field>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
+        </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
         </field>
     </fields>
      <cluster_schema/>
@@ -5012,101 +6984,99 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
           <column_name>TRADE_CLASS</column_name>
           <stream_name>TRADE_CLASS</stream_name>
         </field>
+        <field>
+          <column_name>INTERNAL_NOTES</column_name>
+          <stream_name>INTERNAL_NOTES</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_STATUS</column_name>
+          <stream_name>PRICE_PROTECTION_STATUS</stream_name>
+        </field>
+        <field>
+          <column_name>PRICE_PROTECTION_PRICE_TYPE</column_name>
+          <stream_name>PRICE_PROTECTION_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NEP</column_name>
+          <stream_name>NEP</stream_name>
+        </field>
+        <field>
+          <column_name>NEP_FORMULA</column_name>
+          <stream_name>NEP_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>BASE_PRICE_TYPE</column_name>
+          <stream_name>BASE_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE</column_name>
+          <stream_name>NET_BASE_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_BASE_PRICE_FORMULA</column_name>
+          <stream_name>NET_BASE_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>SUBSEQUENT_PERIOD_PRICE_TYPE</column_name>
+          <stream_name>SUBSEQUENT_PERIOD_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</column_name>
+          <stream_name>NET_SUBSEQUENT_PERIOD_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>MAX_INCREMENTAL_CHANGE</column_name>
+          <stream_name>MAX_INCREMENTAL_CHANGE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_ELIGIBLE</column_name>
+          <stream_name>RESET_ELIGIBLE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_TYPE</column_name>
+          <stream_name>RESET_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_DATE</column_name>
+          <stream_name>RESET_DATE</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_INTERVAL</column_name>
+          <stream_name>RESET_INTERVAL</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_FREQUENCY</column_name>
+          <stream_name>RESET_FREQUENCY</stream_name>
+        </field>
+        <field>
+          <column_name>RESET_PRICE_TYPE</column_name>
+          <stream_name>RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_TYPE</column_name>
+          <stream_name>NET_RESET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_RESET_PRICE_FORMULA</column_name>
+          <stream_name>NET_RESET_PRICE_FORMULA</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE</column_name>
+          <stream_name>NET_PRICE_TYPE</stream_name>
+        </field>
+        <field>
+          <column_name>NET_PRICE_TYPE_FORMULA</column_name>
+          <stream_name>NET_PRICE_TYPE_FORMULA</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>57</xloc>
       <yloc>617</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Replace in string</name>
-    <type>ReplaceString</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>BASE_PRICE</in_stream_name>
-        <out_stream_name>BASE_PRICE_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>CONTRACT_PRICE</in_stream_name>
-        <out_stream_name>CONTRACT_PRICE_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>PRICE</in_stream_name>
-        <out_stream_name>PRICE_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>PRICE_REVISION</in_stream_name>
-        <out_stream_name>PRICE_REVISION_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>PRICE_TOLERANCE</in_stream_name>
-        <out_stream_name>PRICE_TOLERANCE_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>PRICE_TOLERANCE_INTERVAL</in_stream_name>
-        <out_stream_name>PRICE_TOLERANCE_INTERVAL_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>SUGGESTED_PRICE</in_stream_name>
-        <out_stream_name>SUGGESTED_PRICE_NEW</out_stream_name>
-        <use_regex>no</use_regex>
-        <replace_string>$</replace_string>
-        <replace_by_string/>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>519</xloc>
-      <yloc>502</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

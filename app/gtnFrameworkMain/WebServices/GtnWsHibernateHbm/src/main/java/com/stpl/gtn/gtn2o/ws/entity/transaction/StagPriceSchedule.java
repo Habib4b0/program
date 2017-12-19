@@ -57,6 +57,28 @@ public class StagPriceSchedule implements java.io.Serializable {
 	private String batchId;
 	private String source;
 	private String addChgDelIndicator;
+        private String internalNotes;
+        private String priceProtectionStatus;
+        private String priceProtectionPriceType;
+        private String nep;
+        private String nepFormula;
+        private String basePricetype;
+        private String netbasePrice;
+        private String netbasePriceFormula;
+        private String subsequentPeriodPriceType;
+        private String netsubsequentPeriodPrice;
+        private String netsubsequentPeriodpriceformula;
+        private String maxincrementalChange;
+        private String resetEligible;
+        private String resetType;    
+        private Date resetDate;
+        private String resetInterval;
+        private String resetFrequency;
+        private String resetPriceType;
+        private String netresetPriceType;
+        private String netresetPriceFormula;
+        private String netPriceType;
+        private String netPriceTypeFormula;
 
 	public StagPriceSchedule() {
 	}
@@ -528,4 +550,180 @@ public class StagPriceSchedule implements java.io.Serializable {
 		this.priceProtectionEndDate = priceProtectionEndDate;
 	}
 
+        public String getInternalNotes() {
+            return internalNotes;
+        }
+
+        public void setInternalNotes(String internalNotes) {
+            this.internalNotes = internalNotes;
+        }
+
+        public String getPriceProtectionStatus() {
+            return priceProtectionStatus;
+        }
+
+        public void setPriceProtectionStatus(String priceProtectionStatus) {
+            this.priceProtectionStatus = priceProtectionStatus;
+        }
+
+        public String getPriceProtectionPriceType() {
+            return priceProtectionPriceType;
+        }
+
+        public void setPriceProtectionPriceType(String priceProtectionPriceType) {
+            this.priceProtectionPriceType = priceProtectionPriceType;
+        }
+
+        public String getNep() {
+            return nep;
+        }
+
+        public void setNep(String nep) {
+            this.nep = nep;
+        }
+
+        public String getNepFormula() {
+            return nepFormula;
+        }
+
+        public void setNepFormula(String nepFormula) {
+            this.nepFormula = nepFormula;
+        }
+
+        public String getBasePricetype() {
+            return basePricetype;
+        }
+
+        public void setBasePricetype(String basePricetype) {
+            this.basePricetype = basePricetype;
+        }
+
+        public String getNetbasePrice() {
+            return netbasePrice;
+        }
+
+        public void setNetbasePrice(String netbasePrice) {
+            this.netbasePrice = netbasePrice;
+        }
+
+        public String getNetbasePriceFormula() {
+            return netbasePriceFormula;
+        }
+
+        public void setNetbasePriceFormula(String netbasePriceFormula) {
+            this.netbasePriceFormula = netbasePriceFormula;
+        }
+
+        public String getSubsequentPeriodPriceType() {
+            return subsequentPeriodPriceType;
+        }
+
+        public void setSubsequentPeriodPriceType(String subsequentPeriodPriceType) {
+            this.subsequentPeriodPriceType = subsequentPeriodPriceType;
+        }
+
+        public String getNetsubsequentPeriodPrice() {
+            return netsubsequentPeriodPrice;
+        }
+
+        public void setNetsubsequentPeriodPrice(String netsubsequentPeriodPrice) {
+            this.netsubsequentPeriodPrice = netsubsequentPeriodPrice;
+        }
+
+        public String getNetsubsequentPeriodpriceformula() {
+            return netsubsequentPeriodpriceformula;
+        }
+
+        public void setNetsubsequentPeriodpriceformula(String netsubsequentPeriodpriceformula) {
+            this.netsubsequentPeriodpriceformula = netsubsequentPeriodpriceformula;
+        }
+
+        public String getMaxincrementalChange() {
+            return maxincrementalChange;
+        }
+
+        public void setMaxincrementalChange(String maxincrementalChange) {
+            this.maxincrementalChange = maxincrementalChange;
+        }
+
+        public String getResetEligible() {
+            return resetEligible;
+        }
+
+        public void setResetEligible(String resetEligible) {
+            this.resetEligible = resetEligible;
+        }
+
+        public String getResetType() {
+            return resetType;
+        }
+
+        public void setResetType(String resetType) {
+            this.resetType = resetType;
+        }
+
+        public Date getResetDate() {
+            return resetDate;
+        }
+
+        public void setResetDate(Date resetDate) {
+            this.resetDate = resetDate;
+        }
+
+        public String getResetInterval() {
+            return resetInterval;
+        }
+
+        public void setResetInterval(String resetInterval) {
+            this.resetInterval = resetInterval;
+        }
+
+        public String getResetFrequency() {
+            return resetFrequency;
+        }
+
+        public void setResetFrequency(String resetFrequency) {
+            this.resetFrequency = resetFrequency;
+        }
+
+        public String getResetPriceType() {
+            return resetPriceType;
+        }
+
+        public void setResetPriceType(String resetPriceType) {
+            this.resetPriceType = resetPriceType;
+        }
+
+        public String getNetresetPriceType() {
+            return netresetPriceType;
+        }
+
+        public void setNetresetPriceType(String netresetPriceType) {
+            this.netresetPriceType = netresetPriceType;
+        }
+
+        public String getNetresetPriceFormula() {
+            return netresetPriceFormula;
+        }
+
+        public void setNetresetPriceFormula(String netresetPriceFormula) {
+            this.netresetPriceFormula = netresetPriceFormula;
+        }
+
+        public String getNetPriceType() {
+            return netPriceType;
+        }
+
+        public void setNetPriceType(String netPriceType) {
+            this.netPriceType = netPriceType;
+        }
+
+        public String getNetPriceTypeFormula() {
+            return netPriceTypeFormula;
+        }
+
+        public void setNetPriceTypeFormula(String netPriceTypeFormula) {
+            this.netPriceTypeFormula = netPriceTypeFormula;
+        }
+        
 }
