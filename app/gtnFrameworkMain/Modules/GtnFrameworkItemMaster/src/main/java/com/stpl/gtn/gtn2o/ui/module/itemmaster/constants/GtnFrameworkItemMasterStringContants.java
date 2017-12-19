@@ -18,7 +18,7 @@ public class GtnFrameworkItemMasterStringContants {
 	private static final String ITEM_PRICING_QUALIFIER_NAME = "itemPricingQualifierName";
 	private static final String ITEM_PRICING_ITEM_UOM = "itemPricingItemUOM";
 	private static final String ITEM_PRICING_IDENTIFIER_STATUS = "itemPricingIdentifierStatus";
-	private static final String ITEM_PRICING_ITEM_PRICE = "itemPricingItemPrice";
+	public static final String ITEM_PRICING_ITEM_PRICE = "itemPricingItemPrice";
 	private static final String ITEM_IDENTIFIER_ENTITY_CODE_NAME = "itemIdentifierEntityCodeName";
 	private static final String IDENTIFIER_INFORMATION_IDENTIFIER_STATUS = "identifierInformationIdentifierStatus";
 	private static final String ITEM_IDENTIFIER_END_DATE = "itemIdentifierEndDate";
@@ -120,7 +120,7 @@ public class GtnFrameworkItemMasterStringContants {
 	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_FOR_START_DATE = "New Form Start Date should be greater than Item Start date";
 	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_FOR_END_DATE = "New Form End Date should be Lesser than Item End date";
 
-	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_IDENTIFIER_008 = "Item Identifier is already exist for some other Item";
+	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_IDENTIFIER_008 = GTN_ITEM_MASTER_VALIDATION_MSG_IDENTIFIER_DUPLICATE_WITH_OTHER_ITEM;
 	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_PRICING_001 = "Add at least One Pricing Identifier in Pricing Tab";
 	public static final String GTN_ITEM_MASTER_VALIDATION_MSG_PRICING_002 = "Pricing Qualifier Name is Mandatory";
 

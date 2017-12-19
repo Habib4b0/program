@@ -191,6 +191,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String RESET_FREQUENCY = "Reset Frequency";
 	public static final String NET_PRICE_TYPE = "Net Price Type";
 	public static final String NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
+	public static final String NET_PRICE_TYPE_FORMULA_POPUP = "NetPriceTypeFormulapopup";
 	public static final String NEP = "NEP";
 	public static final String PRICE_TOLERENCE = "Price Tolerance";
 	public static final String BASE_PRICE = "Base Price Type";
@@ -332,7 +333,7 @@ public class GtnFrameworkContractDashboardContants {
 			getPpMassPopulateField()[17].replace(" ", ""), getPpMassPopulateField()[18].replace(" ", ""),
 			getPpMassPopulateField()[19].replace(" ", ""), getPpMassPopulateField()[20].replace(" ", ""),
 			getPpMassPopulateField()[21].replace(" ", ""), "resetPriceType", "netResetPriceType",
-			"netResetPriceTypeFormulapopup", "NetPriceType", "NetPriceTypeFormula", ATTACHED_DATE };
+			"netResetPriceTypeFormulapopup", "NetPriceType", NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
         private static final String[] PRICE_PROTECTION_PENDING_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
 			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
 			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
@@ -345,7 +346,7 @@ public class GtnFrameworkContractDashboardContants {
 			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
 			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
 			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
-			NET_PRICE_TYPE_FORMULAA, ATTACHED_DATE };
+			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, String.class, Integer.class, Date.class, Date.class, Integer.class,
 			String.class, String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class,

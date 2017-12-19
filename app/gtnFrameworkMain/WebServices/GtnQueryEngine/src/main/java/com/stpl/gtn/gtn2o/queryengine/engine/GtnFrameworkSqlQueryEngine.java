@@ -192,6 +192,9 @@ public class GtnFrameworkSqlQueryEngine {
 			case IN_LIST:
 				query.setParameterList("inParameter", (List<Object>) params[i]);
 				break;
+			case BIG_DECIMAL:
+				query.setBigDecimal(i, (BigDecimal) params[i]);
+				break;
 			 
 
 			default:

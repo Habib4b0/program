@@ -47,4 +47,4 @@ public class GtnWSLogger {
 		return;
 	}
 
-}
+    }
