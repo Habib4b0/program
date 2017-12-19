@@ -102,7 +102,6 @@ public class GtnFrameworkUDCConfigurationLandingScreenConfig {
 		GtnUIFrameworkComboBoxConfig categoryConfig = componentConfig.getComboBoxConfig("CategoryName",
 				GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
 						+ GtnWebServiceUrlConstants.GTN_COMMON_LOAD_COMBO_BOX);
-		categoryConfig.setItemValues(Arrays.asList("BRAND", "CategoryName","ALL"));
 		udcCategory.setGtnComboboxConfig(categoryConfig);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();

@@ -258,6 +258,7 @@ public class PPAFormulaLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
             	@SuppressWarnings("PMD")
+                    @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     // Do Nothing
                 }

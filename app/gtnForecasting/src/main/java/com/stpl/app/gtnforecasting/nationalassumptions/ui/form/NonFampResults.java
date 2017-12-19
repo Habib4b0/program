@@ -376,6 +376,7 @@ public class NonFampResults extends Window {
     @UiHandler("nfResetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -509,6 +510,7 @@ public class NonFampResults extends Window {
                 ndcLink.addClickListener(new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
+                    @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                         HelperDTO ndcDto = new HelperDTO();

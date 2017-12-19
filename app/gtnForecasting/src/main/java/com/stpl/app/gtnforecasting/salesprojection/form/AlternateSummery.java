@@ -248,6 +248,7 @@ public class AlternateSummery extends CustomComponent {
      */
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         
+        @Override
         public void valueChange(Property.ValueChangeEvent event) {
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 projectionDTO.setGroup(StringUtils.EMPTY);
@@ -388,6 +389,7 @@ public class AlternateSummery extends CustomComponent {
         
         groupFilterValueChangeListener = new Property.ValueChangeListener() {
             
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 LOGGER.debug("groupDdlbChangeOption ValueChangeEvent initiated ");
                 String groupValue = String.valueOf(event.getProperty().getValue());
@@ -400,6 +402,7 @@ public class AlternateSummery extends CustomComponent {
         
         baseLineFilterValueChangeListener = new Property.ValueChangeListener() {
             
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 return;
             }
@@ -407,6 +410,7 @@ public class AlternateSummery extends CustomComponent {
         
         methodologyFilterValueChangeListener = new Property.ValueChangeListener() {
             
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 return;
             }
@@ -418,6 +422,7 @@ public class AlternateSummery extends CustomComponent {
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {
             
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadOnViewChange();
             }
@@ -463,6 +468,7 @@ public class AlternateSummery extends CustomComponent {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 return;
             }
@@ -473,6 +479,7 @@ public class AlternateSummery extends CustomComponent {
              *
              * @param buttonId The buttonId of the pressed button.
              */
+            @Override
             public void yesMethod() {
                 LOGGER.debug("Entering resetBtn method");
                 resetBtnLogic();
@@ -784,6 +791,7 @@ public class AlternateSummery extends CustomComponent {
         final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
             
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customTree.isIsSelect()) {
                     customIdToSelect = customTree.getCustomId();
@@ -804,6 +812,7 @@ public class AlternateSummery extends CustomComponent {
             final CustomTreeBuild customTree = new CustomTreeBuild( session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
                 
+                @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customTree.getCustomId();
                     loadCustomDDLB();
@@ -822,6 +831,7 @@ public class AlternateSummery extends CustomComponent {
         
         final ExtCustomTable.ColumnCheckListener checkListener = new ExtCustomTable.ColumnCheckListener() {
             
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 checkAll = event.isChecked();
                 checkClearAll(event.isChecked());
@@ -845,6 +855,7 @@ public class AlternateSummery extends CustomComponent {
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -853,6 +864,7 @@ public class AlternateSummery extends CustomComponent {
                     check.setValue(false);
                     check.setEnabled(!Constant.VIEW.equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
                                 SalesRowDto checkDTO = (SalesRowDto) itemId;
@@ -887,12 +899,14 @@ public class AlternateSummery extends CustomComponent {
                         textField.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                         textField.addFocusListener(new FieldEvents.FocusListener() {
                             
+                            @Override
                             public void focus(FieldEvents.FocusEvent event) {
                                 oldGroupValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             }
                         });
                         textField.addBlurListener(new FieldEvents.BlurListener() {
                             
+                            @Override
                             public void blur(FieldEvents.BlurEvent event) {
                                 String newValue = ((TextField) event.getComponent()).getValue();
                                 if (!oldGroupValue.equals(newValue)) {
@@ -927,6 +941,7 @@ public class AlternateSummery extends CustomComponent {
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -951,6 +966,7 @@ public class AlternateSummery extends CustomComponent {
                     
                     textField.addFocusListener(new FieldEvents.FocusListener() {
                         
+                        @Override
                         public void focus(FieldEvents.FocusEvent event) {
                             oldValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             oldValue = oldValue.replace("$", StringUtils.EMPTY);
@@ -960,6 +976,7 @@ public class AlternateSummery extends CustomComponent {
                     });
                     textField.addBlurListener(new FieldEvents.BlurListener() {
                         
+                        @Override
                         public void blur(FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(((TextField) event.getComponent()).getValue());
                             newValue = newValue.replace("$", StringUtils.EMPTY);
@@ -1001,6 +1018,7 @@ public class AlternateSummery extends CustomComponent {
 
         rightTable.addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
             
+            @Override
             public void doubleHeaderColumnCheck(ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                 
                 checkBoxMap.put(event.getPropertyId(), event.isChecked());
@@ -1427,6 +1445,7 @@ public class AlternateSummery extends CustomComponent {
         frequency.setNullSelectionAllowed(false);
         frequency.setImmediate(true);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadFrequency(frequency, history);
             }
@@ -1733,14 +1752,17 @@ public class AlternateSummery extends CustomComponent {
     public void NonMandatedFilter() {
         leftTable.setFilterGenerator(new ExtFilterGenerator() {
             
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
             
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
             
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constant.GROUP.equals(propertyId)) {
                     ComboBox group = new ComboBox();
@@ -1775,14 +1797,17 @@ public class AlternateSummery extends CustomComponent {
                 return null;
             }
             
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
             
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
             
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -1792,14 +1817,17 @@ public class AlternateSummery extends CustomComponent {
     public void MandatedFilter() {
         leftTable.setFilterGenerator(new ExtFilterGenerator() {
             
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
             
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 return null;
             }
             
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 if (Constant.GROUP.equals(propertyId)) {
                 } else if (Constant.METHODOLOGY.equals(propertyId)) {
@@ -1829,14 +1857,17 @@ public class AlternateSummery extends CustomComponent {
                 return null;
             }
             
+            @Override
             public void filterRemoved(Object propertyId) {
                 return;
             }
             
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
                 return;
             }
             
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -1992,6 +2023,7 @@ public class AlternateSummery extends CustomComponent {
                 final NMPmpyCalculator pmpyCalc = new NMPmpyCalculator(historyPeriods, projectionDetailsIdForPMPY, rightHeader, tradeName, tradeNo, contractHolder, session, projectionDTO);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
                     
+                    @Override
                     public void windowClose(Window.CloseEvent e) {
                         if (pmpyCalc.isImportEvent()) {
                             refreshTableData(getCheckedRecordsHierarchyNo());
@@ -2204,9 +2236,7 @@ public class AlternateSummery extends CustomComponent {
                 
             }
             
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
