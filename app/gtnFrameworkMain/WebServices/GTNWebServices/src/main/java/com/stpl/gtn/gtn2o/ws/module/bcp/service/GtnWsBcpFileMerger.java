@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.util.Arrays;
 
 @Service
 public class GtnWsBcpFileMerger {
@@ -35,7 +36,7 @@ public class GtnWsBcpFileMerger {
 		long time = System.currentTimeMillis();
 		String[] command;
 		if (System.getProperty("os.name").toLowerCase(Locale.ENGLISH).contains("windows")) {
-			command = createCommandForWindows(fileList, finalFile);
+                    command = createCommandForWindows(fileList, finalFile);
 		} else {
 			StringBuilder strb = new StringBuilder();
 			strb.append("cat ");
@@ -59,6 +60,8 @@ public class GtnWsBcpFileMerger {
 			command[0] = shellFile.getAbsolutePath();
 			fileList.add(shellFile.getAbsolutePath());
 		}
+                GTNLOGGER.info("fileList size : "+fileList.size());
+                GTNLOGGER.info("mergeFiles command : "+Arrays.toString(command));
 		ProcessBuilder builder = GtnWsProcessService.createProcess(command);
 		Process p = builder.start();
 		p.waitFor();
@@ -67,9 +70,9 @@ public class GtnWsBcpFileMerger {
 			closeable.close();
 		}
 
-		for (String fileName : fileList) {
-			Files.delete(GtnFileNameUtils.getPath(fileName));
-		}
+//		for (String fileName : fileList) {
+//			Files.delete(GtnFileNameUtils.getPath(fileName));
+//		}
 
 		GTNLOGGER.info("Merge Time: " + (System.currentTimeMillis() - time));
 

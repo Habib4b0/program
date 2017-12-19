@@ -2506,50 +2506,19 @@ public class SalesLogic {
      */
     public void adjustSalesProjection(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
             final String adjBasis, final String adsVar, final String adsMeth, final String historyPeriods, String projectionPeriods) throws SystemException, SQLException, PortalException {
-        saveAdjustmentSelections(projectionSelectionDTO, adjType, adjVal, adjBasis, adsVar, adsMeth);
-        callAdjustmentProcedure(projectionSelectionDTO, historyPeriods, projectionPeriods,adjType, adjVal, adjBasis, adsVar, adsMeth);
+        List<String> inputList = new ArrayList<>();
+        inputList.add(projectionSelectionDTO.getFrequency());
+        inputList.add(projectionPeriods);
+        inputList.add(adjBasis);
+        inputList.add(adjVal);
+        inputList.add(adjType);
+        String salesInclusion = ALL.equals(projectionSelectionDTO.getSessionDTO().getSalesInclusion()) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion();
+        inputList.add(salesInclusion);
+        inputList.add(adsVar);
+        inputList.add(projectionPeriods);
+        com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "sales-adjustment-query", projectionSelectionDTO.getSessionDTO());
     }
 
-    /**
-     *
-     * @param projectionSelectionDTO
-     * @param adjType
-     * @param adjVal
-     * @param adjBasis
-     * @param adsVar
-     * @param adsMeth
-     * @throws PortalException
-     * @throws Exception
-     */
-    public void saveAdjustmentSelections(final ProjectionSelectionDTO projectionSelectionDTO, final String adjType, final String adjVal,
-            final String adjBasis, final String adsVar, final String adsMeth) throws PortalException, SystemException {
-
-//        String projectionTable = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? "ST_M_SALES_PROJECTION" : "ST_NM_SALES_PROJECTION";
-//        String masterTable = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? "ST_M_SALES_PROJECTION_MASTER" : "ST_NM_SALES_PROJECTION_MASTER";
-//        String updateQuery;
-        //Need to remove once the dynamic changes is done in Government
-//        if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
-//            updateQuery = CustomSQLUtil.get("save-adjustment-selection");
-//            updateQuery = updateQuery.replace("@USERID_ADD", "SP.USER_ID = @USER_ID AND SP.SESSION_ID = @SESSION_ID AND SPM.USER_ID = @USER_ID AND SPM.SESSION_ID = @SESSION_ID AND ");
-//            updateQuery = updateQuery.replace("@JOIN_CONDITION", "ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID");
-//        } else {
-//            updateQuery = SQlUtil.getQuery("save-adjustment-selection");
-//            updateQuery = updateQuery.replace("@USERID_ADD", StringUtils.EMPTY);
-//            updateQuery = updateQuery.replace("@JOIN_CONDITION", "ON SPM.CCP_DETAILS_SID = SP.CCP_DETAILS_SID");
-//        }
-//        updateQuery = updateQuery.replace("@ADJUSTMENT_TYPE", adjType);
-//        updateQuery = updateQuery.replace("@ADJUSTMENT_VALUES", adjVal);
-//        updateQuery = updateQuery.replace("@ADJUSTMENT_BASIS", adjBasis);
-//        updateQuery = updateQuery.replace("@ADJUSTMENT_VARIABLE", adsVar);
-//        updateQuery = updateQuery.replace("@ADJUSTMENT_METHODOLOGY", adsMeth);
-//        updateQuery = updateQuery.replace("@USER_ID", String.valueOf(projectionSelectionDTO.getUserId()));
-//        updateQuery = updateQuery.replace("@SESSION_ID", String.valueOf(projectionSelectionDTO.getSessionId()));
-//        updateQuery = updateQuery.replace("@PROJECTION_TABLE", projectionTable);
-//        updateQuery = updateQuery.replace("@MASTER_TABLE", masterTable);
-//        SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-//        salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(updateQuery, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
-
-    }
 
     public AlternateLookupSource searchAlternateCustomerAndBrand(final CustomFieldGroup searchBinder, final String searchType, boolean flag) throws SystemException {
 
