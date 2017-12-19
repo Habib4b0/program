@@ -100,14 +100,14 @@ public class MedicaidNdcPopUp extends CustomComponent {
      */
     private final BeanItemContainer<NewNdcDTO> nDCLineExtensionBean = new BeanItemContainer<>(NewNdcDTO.class);
     private Map<Integer, String> ndc9Map = new HashMap<>();
-    private DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
+    private final DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     private boolean flag;
     private String SelectedNDC = StringUtils.EMPTY;
     private final NewNdcDTO deletedItem = new NewNdcDTO();
     private final NationalAssumptionLogic nationalAssumptionLogic = new NationalAssumptionLogic();
     private final List<NewNdcDTO> removedMedicaidNdc = new ArrayList<>();
     private final Map<Integer, Object> medicaidMap;
-    private static final CommonUiUtils commonUiUtils = new CommonUiUtils();
+    
     /**
      * The Constant LOGGER.
      */
@@ -154,16 +154,16 @@ public class MedicaidNdcPopUp extends CustomComponent {
 
         ndcTable.markAsDirty();
         ndcTable.setContainerDataSource(nDCLineExtensionBean);
-        ndcTable.setVisibleColumns(commonUiUtils.newNdcColumns);
-        ndcTable.setColumnHeaders(commonUiUtils.newNdcHeader);
+        ndcTable.setVisibleColumns(CommonUiUtils.newNdcColumns);
+        ndcTable.setColumnHeaders(CommonUiUtils.newNdcHeader);
         ndcTable.setFilterBarVisible(true);
         ndcTable.setFilterDecorator(new ExtDemoFilterDecorator());
         ndcTable.addStyleName(Constant.FILTER_TABLE);
         ndcTable.addStyleName("table-header-center");
-        ndcTable.setColumnAlignment(commonUiUtils.newNdcColumns[0], ExtFilterTable.Align.LEFT);
-        int length = commonUiUtils.newNdcColumns.length;
+        ndcTable.setColumnAlignment(CommonUiUtils.newNdcColumns[0], ExtFilterTable.Align.LEFT);
+        int length = CommonUiUtils.newNdcColumns.length;
         for (int i = 1; i < length; i++) {
-            ndcTable.setColumnAlignment(commonUiUtils.newNdcColumns[i], ExtFilterTable.Align.RIGHT);
+            ndcTable.setColumnAlignment(CommonUiUtils.newNdcColumns[i], ExtFilterTable.Align.RIGHT);
         }
         loadNdcList();
 
@@ -297,10 +297,8 @@ public class MedicaidNdcPopUp extends CustomComponent {
             } else {
                 reset.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
     }
 

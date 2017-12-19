@@ -127,7 +127,7 @@ and open the template in the editor.
        
         <Panel  styleName="adjustCaption" id="MassUpdatePanel1" caption="Mass Update">
             <HorizontalLayout id="horizontalLayout3" spacing="true" margin="true" immediate="true">
-                <GridLayout spacing="true"  id="MassUpdateLayout" immediate="true" columns="10" rows="1">
+                <GridLayout spacing="true"  id="MassUpdateLayout" immediate="true" columns="13" rows="1">
                     <OptionGroup multiSelect="false" id="massUpdateRadio" immediate="true" enable="true" styleName = "horizontal"/>
                     <Label Value="Field:" contentMode="HTML" />
                     <ComboBox id="field" immediate="true" width="199px" />
@@ -138,6 +138,9 @@ and open the template in the editor.
                     <PopupDateField id="massStartDate" dateFormat="MM/dd/yyyy"  styleName="align-center"/>
                     <Label  id="enddatelabel" contentMode="HTML" />
                     <PopupDateField id="massEndDate" dateFormat="MM/dd/yyyy" styleName="align-center"/>
+                    <TextField id="baseWacManual" />
+                    <PopupDateField id="baseWacDate" dateFormat="MM/dd/yyyy" styleName="align-center"/>
+                    <ComboBox id="baseWacPriceType" styleName="comboxsize" enable="true" nullSelectionAllowed="true" immediate="true" />
                     <Button id="populateBtn" caption="POPULATE" />
                 </GridLayout>
                 

@@ -324,6 +324,7 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("BasePriceTypeDate", GtnFrameworkCommonConstants.BASE_PRICE_DATE);
 		itemColumnNameMap.put("BasePriceTypeEntry", GtnFrameworkCommonConstants.BASE_PRICE_ENTRY);
 		itemColumnNameMap.put("BasePriceTypeDdlb", GtnFrameworkCommonConstants.BASE_PRICE_DDLB);
+		itemColumnNameMap.put("NetPriceTypeFormula", GtnFrameworkCommonConstants.NET_PRICE_TYPE_FORMULA);
 		
 	}
 

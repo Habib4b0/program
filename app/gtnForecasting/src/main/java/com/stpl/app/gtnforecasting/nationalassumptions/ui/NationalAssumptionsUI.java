@@ -86,7 +86,7 @@ public class NationalAssumptionsUI extends UI {
             VaadinSession.getCurrent().setAttribute(Constant.PORTLET_NAME, portletConfig.getPortletName());
             CommonUtils.getUserName();
             CommonUtils.getStartandTodate();
-            sessionDto = sessionUtil.createSession();
+            sessionDto = SessionUtil.createSession();
             sessionDto.setScreenName("NationalAssumptions");
             if (projectionId == null) {
                 VaadinSession.getCurrent().setAttribute(PROJECTION_ID, 0);

@@ -312,17 +312,13 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnUpdateLogic();
-				} catch (SystemException ex) {
+				} catch (SystemException | FieldGroup.CommitException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
 				} catch (PortalException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
-				} catch (FieldGroup.CommitException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5019));
 				}
 			}
@@ -342,17 +338,13 @@ public abstract class AbstractLookup extends Window {
 			public void buttonClick(Button.ClickEvent event) {
 				try {
 					btnAddLogic();
-				} catch (SystemException ex) {
+				} catch (SystemException | FieldGroup.CommitException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				} catch (PortalException ex) {
 					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
 					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1000),
-							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
-				} catch (FieldGroup.CommitException ex) {
-					LOGGER.error(ErrorCodeUtil.getErrorMessage(ex));
-					AbstractNotificationUtils.getErrorNotification(ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_1001),
 							ErrorCodeUtil.getEC(ErrorCodes.ERROR_CODE_5018));
 				}
 			}

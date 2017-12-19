@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GntWsItemPricingBean;
 import com.stpl.gtn.gtn2o.ws.itemmaster.constants.GtnWsItemMasterContants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.math.BigDecimal;
 
 public class GtnFrameworkItemMasterPricingAttachAction implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
@@ -37,7 +38,7 @@ public class GtnFrameworkItemMasterPricingAttachAction implements GtnUIFrameWork
 			pricingBean.setItemPricingQualifierSid(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent((String) componentList.get(0), componentId).getIntegerFromField());
 
-			pricingBean.setItemPrice(Double.parseDouble(GtnUIFrameworkGlobalUI
+			pricingBean.setItemPrice(new BigDecimal(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent((String) componentList.get(1), componentId).getStringFromField()));
 
 			pricingBean.setPricingCodeStatus(GtnUIFrameworkGlobalUI

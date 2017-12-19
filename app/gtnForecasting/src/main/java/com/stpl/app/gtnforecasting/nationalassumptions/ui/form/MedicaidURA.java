@@ -286,6 +286,7 @@ public class MedicaidURA extends CustomComponent implements View {
      *
      * @return the caption
      */
+    @Override
     public String getCaption() {
         LOGGER.debug("Inside MedicaidURA getCaption");
         return MEDICAID_URA_RESULTS;
@@ -468,10 +469,8 @@ public class MedicaidURA extends CustomComponent implements View {
             } else {
                 collapse.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
         ndcFilterDdlb.setWidth("176px");
         levelDdlb.setWidth("176px");
@@ -512,6 +511,7 @@ public class MedicaidURA extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -693,6 +693,7 @@ public class MedicaidURA extends CustomComponent implements View {
                     ndcLink.addClickListener(new Button.ClickListener() {
                         private static final long serialVersionUID = 1L;
 
+                        @Override
                         public void buttonClick(final Button.ClickEvent event) {
                             ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                             worksheetProjDto.setNdc9(tableDto.getNdc9());
@@ -900,6 +901,7 @@ public class MedicaidURA extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
+    @Override
     public void enter(ViewChangeEvent event) {
         return;
     }

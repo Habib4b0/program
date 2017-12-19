@@ -286,6 +286,7 @@ public class MSalesProjection extends ForecastSalesProjection {
                 final MPmpyCalculator pmpyCalc = new MPmpyCalculator(session, projectedPeriodList);
                 getUI().addWindow(pmpyCalc);
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
+                    @Override
                     public void windowClose(Window.CloseEvent e) {
                         if (pmpyCalc.isImport) {
                             updateOnPMPYImport(hierarchyNo, pmpyCalc.getUpdateValue(), pmpyCalc.getUpdatePeriod(), pmpyCalc.isSalesOrUnits, salesPMPYDTO);

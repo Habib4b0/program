@@ -59,7 +59,7 @@ public class PrivatePublicView extends AbstractViewLookup {
     private Button btnClose;
     private BeanItemContainer<ViewDTO> viewContainer;
     private ViewDTO viewDTO;
-    private String screenName;
+    private final String screenName;
     private static final Logger LOGGER = Logger.getLogger(PrivatePublicView.class);
 
     public PrivatePublicView(final String indicator,final String windowName, final String screenName) {
