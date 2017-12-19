@@ -6,7 +6,7 @@
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -16,7 +16,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -33,6 +33,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -61,21 +66,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2016&#47;05&#47;24 20:16:22.406</created_date>
+  <created_date>2016&#x2f;05&#x2f;24 20&#x3a;16&#x3a;22.406</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2016&#47;05&#47;24 20:16:22.406</modified_date>
+  <modified_date>2016&#x2f;05&#x2f;24 20&#x3a;16&#x3a;22.406</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>BPI DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -92,13 +99,13 @@
   </connection>
   <connection>
     <name>STAGING</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -114,12 +121,49 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input</from><to>Filter rows</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>Dummy (do nothing)</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL ID</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL ID</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>  <hop> <from>FOR HTML GROUP</from><to>MAIL ID</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows</from><to>LATEST_BATCH</to><enabled>Y</enabled> </hop>  <hop> <from>STAGING AUDIT</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>Update</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy (do nothing) 2</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_BATCH</from><to>SENT_RECORD_COUNT</to><enabled>Y</enabled> </hop>  <hop> <from>SENT_RECORD_COUNT</from><to>FINAL AUDIT GENERATION</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>Y</enabled> </hop>  <hop> <from>LATEST_BATCH</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>  <hop> <from>Add constants</from><to>Set Variables</to><enabled>Y</enabled> </hop>  <hop> <from>Table input</from><to>Add constants</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>Dummy (do nothing) 3</to><enabled>Y</enabled> </hop>  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>Table input</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT COMPLETION WAIT</from><to>SET VARIABLES 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Database join 2 2</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL ID</from><to>MAIL CREATION 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL ID</from><to>MAIL CREATION 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION</from><to>AUDIT COMPLETION WAIT</to><enabled>N</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION</from><to>FINAL AUDIT GENERATION 2 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION</from><to>STAGING AUDIT</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION 2 3</from><to>FOR HTML GROUP</to><enabled>Y</enabled> </hop>
+  <hop> <from>FOR HTML GROUP</from><to>MAIL ID</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET MAIL PARAMETERS</from><to>REMOVE FIELDS 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL CREATION 2</from><to>Split field to rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>MAIL CREATION 3</from><to>Split field to rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>PICK UNIQUE CONTENT 2</from><to>Mail</to><enabled>N</enabled> </hop>
+  <hop> <from>REMOVE FIELDS 2 2</from><to>PICK UNIQUE CONTENT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>SET VARIABLES 2 2</from><to>AUDIT_STATUS_UPDATE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>STAGING AUDIT</from><to>Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>Database join 2 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>GET MAIL PARAMETERS</to><enabled>N</enabled> </hop>
+  <hop> <from>Split field to rows 2</from><to>REMOVE FIELDS 2 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>LATEST_BATCH</to><enabled>Y</enabled> </hop>
+  <hop> <from>STAGING AUDIT</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Update</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT_STATUS_UPDATE 2</from><to>Dummy &#x28;do nothing&#x29; 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>LATEST_BATCH</from><to>SENT_RECORD_COUNT</to><enabled>Y</enabled> </hop>
+  <hop> <from>SENT_RECORD_COUNT</from><to>FINAL AUDIT GENERATION</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID COUNT 2</from><to>INBOUND PROCESSED</to><enabled>Y</enabled> </hop>
+  <hop> <from>LATEST_BATCH</from><to>INVALID COUNT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Set Variables</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>Dummy &#x28;do nothing&#x29; 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>OUTBOUND_FLAG</from><to>Filter rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>INVALID COUNT 2</from><to>OUTBOUND_FLAG</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 2</from><to>OUTBOUND PROCESSED</to><enabled>Y</enabled> </hop>
+  <hop> <from>FINAL AUDIT GENERATION</from><to>SET VARIABLES 2 2</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>AUDIT COMPLETION WAIT</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -133,8 +177,8 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>909</xloc>
-      <yloc>894</yloc>
+      <xloc>1098</xloc>
+      <yloc>781</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -144,6 +188,7 @@
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -161,19 +206,19 @@
       <key>
         <name>LATEST_BATCH</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>STATUS_R</name>
         <field>STATUS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -198,6 +243,7 @@
     <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -214,6 +260,7 @@
         <nullif>SNAP_REBATE_SCHEDULE</nullif>
         <length>-1</length>
         <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
     </fields>
      <cluster_schema/>
@@ -229,6 +276,7 @@
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -236,17 +284,7 @@
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,
-       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,
-	   A.PASSWORD AS SENDER_PASSWORD,
-       A.PORT_NUMBER    AS MAIL_PORT,
-       B.DESTINATION    AS DESTINATION_ADDRESS,
-       B.DESTINATION_CC AS DESTINATION_CC
-FROM   WF_MAIL_CONFIG A
-       JOIN MAIL_DETAILS B
-         ON 1 = 1
-WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos; </sql>
+    <sql>SELECT TOP 1 A.HOST_NAME      AS MAIL_SERVER,&#xa;       A.EMAIL_ADDRESS  AS SENDER_ADDRESS,&#xa;	   A.PASSWORD AS SENDER_PASSWORD,&#xa;       A.PORT_NUMBER    AS MAIL_PORT,&#xa;       B.DESTINATION    AS DESTINATION_ADDRESS,&#xa;       B.DESTINATION_CC AS DESTINATION_CC&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN MAIL_DETAILS B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.INTERFACE_NAME &#x3d; &#x27;company_master_interface&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -260,10 +298,11 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     </step>
 
   <step>
-    <name>Dummy (do nothing)</name>
+    <name>Dummy &#x28;do nothing&#x29;</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -278,10 +317,11 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     </step>
 
   <step>
-    <name>Dummy (do nothing) 2</name>
+    <name>Dummy &#x28;do nothing&#x29; 2</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -296,10 +336,11 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     </step>
 
   <step>
-    <name>Dummy (do nothing) 3</name>
+    <name>Dummy &#x28;do nothing&#x29; 3</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -318,6 +359,7 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -325,10 +367,7 @@ WHERE  b.INTERFACE_NAME = &apos;company_master_interface&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS,CREATED_DATE FROM AUDIT_MASTER_INBOUND  
-where BATCH_ID=?
- and STATUS=&apos;R&apos;
-ORDER BY CREATED_DATE DESC</sql>
+    <sql>SELECT  distinct BATCH_ID AS BATCH,ADD_COUNT,INVALID_RECORD_COUNT,SENT_RECORD_COUNT,RECEIVED_RECORD_COUNT ,STATUS,CREATED_DATE FROM AUDIT_MASTER_INBOUND  &#xa;where BATCH_ID&#x3d;&#x3f;&#xa; and STATUS&#x3d;&#x27;R&#x27;&#xa;ORDER BY CREATED_DATE DESC</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -350,6 +389,7 @@ ORDER BY CREATED_DATE DESC</sql>
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -357,17 +397,7 @@ ORDER BY CREATED_DATE DESC</sql>
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-SELECT REASON_FOR_FAILURE,
-              Count(*) AS &apos;NEW_COUNT&apos;,BATCH_ID as new_batch
-        FROM   IVLD_REBATE_SCHEDULE
-        WHERE  batch_id = ?
-		   AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
-                                   FROM   audit_master_inbound
-                                   WHERE  APPLICATION_PROCESS = &apos;REBATE_SCHEDULE_INTERFACE&apos;
-                                          AND BATCH_ID = ?  ORDER BY CREATED_DATE DESC) ) 
-        GROUP  BY REASON_FOR_FAILURE,BATCH_ID
-</sql>
+    <sql>&#xa;SELECT REASON_FOR_FAILURE,&#xa;              Count&#x28;&#x2a;&#x29; AS &#x27;NEW_COUNT&#x27;,BATCH_ID as new_batch&#xa;        FROM   IVLD_REBATE_SCHEDULE&#xa;        WHERE  batch_id &#x3d; &#x3f;&#xa;		   AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f;  ORDER BY CREATED_DATE DESC&#x29; &#x29; &#xa;        GROUP  BY REASON_FOR_FAILURE,BATCH_ID&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -393,6 +423,7 @@ SELECT REASON_FOR_FAILURE,
     <type>MemoryGroupBy</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -467,20 +498,21 @@ SELECT REASON_FOR_FAILURE,
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Dummy (do nothing)</send_true_to>
+<send_true_to>Dummy &#x28;do nothing&#x29;</send_true_to>
 <send_false_to>LATEST_BATCH</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>NEW_COUNT_LATEST</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
- <value><name>constant</name><type>Integer</type><text>0</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>#;-#</mask></value> </condition>
+ <value><name>constant</name><type>Integer</type><text>0</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value> </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -495,18 +527,19 @@ SELECT REASON_FOR_FAILURE,
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
 <send_true_to>OUTBOUND PROCESSED</send_true_to>
-<send_false_to>Dummy (do nothing) 3</send_false_to>
+<send_false_to>Dummy &#x28;do nothing&#x29; 3</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
  <leftvalue>OUTBOUND_FLAG</leftvalue>
- <function>=</function>
+ <function>&#x3d;</function>
  <rightvalue/>
  <value><name>constant</name><type>String</type><text>Y</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
     </compare>
@@ -523,6 +556,7 @@ SELECT REASON_FOR_FAILURE,
     <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -531,7 +565,7 @@ SELECT REASON_FOR_FAILURE,
     <fields>
       <field>
         <name>DESTINATION_ADDRESS</name>
-        <variable>${DESTINATION_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -543,7 +577,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>DESTINATION_CC</name>
-        <variable>${DESTINATION_CC}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_CC&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -555,7 +589,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_ADDRESS</name>
-        <variable>${SENDER_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;SENDER_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -567,7 +601,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SENDER_NAME</name>
-        <variable>${SENDER_NAME}</variable>
+        <variable>&#x24;&#x7b;SENDER_NAME&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -579,7 +613,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_SERVER</name>
-        <variable>${MAIL_SERVER}</variable>
+        <variable>&#x24;&#x7b;MAIL_SERVER&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -591,7 +625,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAIL_PORT</name>
-        <variable>${MAIL_PORT}</variable>
+        <variable>&#x24;&#x7b;MAIL_PORT&#x7d;</variable>
         <type>Number</type>
         <format/>
         <currency/>
@@ -615,13 +649,14 @@ SELECT REASON_FOR_FAILURE,
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <separator>|</separator>
-    <enclosure>&quot;</enclosure>
+    <separator>&#x7c;</separator>
+    <enclosure>&#x22;</enclosure>
     <enclosure_forced>N</enclosure_forced>
     <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
@@ -634,7 +669,7 @@ SELECT REASON_FOR_FAILURE,
     <fileNameField>a</fileNameField>
     <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>D:\GALDERMA\file</name>
+      <name>D&#x3a;&#x5c;GALDERMA&#x5c;file</name>
       <is_command>N</is_command>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
@@ -654,7 +689,7 @@ SELECT REASON_FOR_FAILURE,
     <fields>
       <field>
         <name>REBATE_SCHEDULE_INTFID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -666,7 +701,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -678,7 +713,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -690,7 +725,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -702,7 +737,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -714,7 +749,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_PROGRAM_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -726,7 +761,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_CATEGORY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -738,7 +773,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>TRADE_CLASS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -750,7 +785,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_DESIGNATION</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -762,7 +797,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PARENT_REBATE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -774,7 +809,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PARENT_REBATE_SCHEDULE_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -786,7 +821,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_STATUS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -798,7 +833,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -810,7 +845,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -822,7 +857,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -834,7 +869,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PAYMENT_METHOD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -846,7 +881,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PAYMENT_FREQUENCY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -858,7 +893,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PAYMENT_TERMS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -870,7 +905,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_FREQUENCY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -882,7 +917,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CALENDAR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -894,7 +929,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_PROCESSING_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -906,7 +941,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>VALIDATION_PROFILE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -918,7 +953,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_RULE_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -930,7 +965,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_RULE_ASSOCIATION</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -942,7 +977,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_PLAN_LEVEL</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -954,7 +989,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>INTEREST_BEARING_INDICATOR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -966,7 +1001,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>INTEREST_BEARING_BASIS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -978,7 +1013,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PAYMENT_GRACE_PERIOD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -990,7 +1025,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MAKE_PAYABLE_TO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1002,7 +1037,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ADDRESS_1</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1014,7 +1049,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ADDRESS_2</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1026,7 +1061,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CITY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1038,7 +1073,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>STATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1050,7 +1085,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ZIP_CODE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1062,7 +1097,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1074,7 +1109,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1086,7 +1121,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1098,7 +1133,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1110,7 +1145,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ATTACHED_STATUS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1122,7 +1157,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ATTACHED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1134,7 +1169,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_START_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1146,7 +1181,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_END_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1158,7 +1193,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>FORMULA_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1170,7 +1205,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>FORMULA_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1182,7 +1217,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>FORMULA_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1194,7 +1229,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>FORMULA_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1206,7 +1241,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_PLAN_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1218,7 +1253,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REBATE_AMOUNT</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1230,7 +1265,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_REBATE_START_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1242,7 +1277,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ITEM_REBATE_END_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1254,7 +1289,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>BUNDLE_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1266,7 +1301,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>INTERNAL_NOTES</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1278,7 +1313,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CONTRACT_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1290,7 +1325,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1302,7 +1337,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1314,7 +1349,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>IFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1326,7 +1361,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>PRICE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1338,7 +1373,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC1</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1350,7 +1385,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC2</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1362,7 +1397,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC3</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1374,7 +1409,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC4</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1386,7 +1421,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC5</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1398,7 +1433,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>UDC6</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1410,7 +1445,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>FORMULA_METHOD_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1422,7 +1457,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CREATED_BY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1434,7 +1469,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>CREATED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1446,7 +1481,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MODIFIED_BY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1458,7 +1493,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>MODIFIED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1470,7 +1505,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>BATCH_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1482,7 +1517,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>SOURCE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1494,7 +1529,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ADD_CHG_DEL_INDICATOR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1506,7 +1541,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>REASON_FOR_FAILURE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1518,7 +1553,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>INTF_INSERTED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1530,7 +1565,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ERROR_CODE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1542,7 +1577,7 @@ SELECT REASON_FOR_FAILURE,
       </field>
       <field>
         <name>ERROR_FIELD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1566,6 +1601,7 @@ SELECT REASON_FOR_FAILURE,
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1573,89 +1609,7 @@ SELECT REASON_FOR_FAILURE,
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT REBATE_SCHEDULE_INTFID,
-       REBATE_SCHEDULE_ID,
-       REBATE_SCHEDULE_NO,
-       REBATE_SCHEDULE_NAME,
-       REBATE_SCHEDULE_TYPE,
-       REBATE_PROGRAM_TYPE,
-       REBATE_SCHEDULE_CATEGORY,
-       TRADE_CLASS,
-       REBATE_SCHEDULE_DESIGNATION,
-       PARENT_REBATE_SCHEDULE_ID,
-       PARENT_REBATE_SCHEDULE_NAME,
-       REBATE_SCHEDULE_STATUS,
-       REBATE_SCHEDULE_TRANS_REF_ID,
-       REBATE_SCHEDULE_TRANS_REF_NO,
-       REBATE_SCHEDULE_TRANS_REF_NAME,
-       PAYMENT_METHOD,
-       PAYMENT_FREQUENCY,
-       PAYMENT_TERMS,
-       REBATE_FREQUENCY,
-       CALENDAR,
-       REBATE_PROCESSING_TYPE,
-       VALIDATION_PROFILE,
-       REBATE_RULE_TYPE,
-       REBATE_RULE_ASSOCIATION,
-       REBATE_PLAN_LEVEL,
-       INTEREST_BEARING_INDICATOR,
-       INTEREST_BEARING_BASIS,
-       PAYMENT_GRACE_PERIOD,
-       MAKE_PAYABLE_TO,
-       ADDRESS_1,
-       ADDRESS_2,
-       CITY,
-       STATE,
-       ZIP_CODE,
-       ITEM_ID,
-       IDENTIFIER_CODE_QUALIFIER,
-       ITEM_NO,
-       ITEM_NAME,
-       ATTACHED_STATUS,
-       ATTACHED_DATE,
-       ITEM_START_DATE,
-       ITEM_END_DATE,
-       FORMULA_TYPE,
-       FORMULA_ID,
-       FORMULA_NO,
-       FORMULA_NAME,
-       REBATE_PLAN_ID,
-       REBATE_AMOUNT,
-       ITEM_REBATE_START_DATE,
-       ITEM_REBATE_END_DATE,
-       BUNDLE_NO,
-       INTERNAL_NOTES,
-       CONTRACT_ID,
-       CFP_ID,
-       MFP_ID,
-       IFP_ID,
-       PRICE_SCHEDULE_ID,
-       UDC1,
-       UDC2,
-       UDC3,
-       UDC4,
-       UDC5,
-       UDC6,
-       FORMULA_METHOD_ID,
-       CREATED_BY,
-       CREATED_DATE,
-       MODIFIED_BY,
-       MODIFIED_DATE,
-       BATCH_ID,
-       SOURCE,
-       ADD_CHG_DEL_INDICATOR,
-       REASON_FOR_FAILURE,
-       INTF_INSERTED_DATE,
-       ERROR_CODE,
-       ERROR_FIELD,
- &apos;${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Processed&#47;REBATE_SCHEDULE_INTERFACE_&apos;+BATCH_ID+&apos;_&apos;+CONVERT(VARCHAR(20),GETDATE(),112)+&apos;_&apos;+replace(convert(varchar(50),GETDATE(),108),&apos;:&apos;,&apos;&apos;) +&apos;-&apos;+&apos;REJECT&apos;  as a,
- &apos;${OUTBOUND_FILE_PATH}&#47;Processed&#47;REBATE_SCHEDULE_INTERFACE_&apos;+BATCH_ID+&apos;_&apos;+CONVERT(VARCHAR(20),GETDATE(),112)+&apos;_&apos;+replace(convert(varchar(50),GETDATE(),108),&apos;:&apos;,&apos;&apos;)+&apos;-&apos;+&apos;REJECT&apos;   as b
-FROM   IVLD_REBATE_SCHEDULE 
- WHERE BATCH_ID=?
- AND ( INTF_INSERTED_DATE &gt; (SELECT TOP 1 CREATED_DATE
-                                   FROM   audit_master_inbound
-                                   WHERE  APPLICATION_PROCESS = &apos;REBATE_SCHEDULE_INTERFACE&apos;
-                                          AND BATCH_ID = ? ORDER BY CREATED_DATE DESC) ) </sql>
+    <sql>SELECT REBATE_SCHEDULE_INTFID,&#xa;       REBATE_SCHEDULE_ID,&#xa;       REBATE_SCHEDULE_NO,&#xa;       REBATE_SCHEDULE_NAME,&#xa;       REBATE_SCHEDULE_TYPE,&#xa;       REBATE_PROGRAM_TYPE,&#xa;       REBATE_SCHEDULE_CATEGORY,&#xa;       TRADE_CLASS,&#xa;       REBATE_SCHEDULE_DESIGNATION,&#xa;       PARENT_REBATE_SCHEDULE_ID,&#xa;       PARENT_REBATE_SCHEDULE_NAME,&#xa;       REBATE_SCHEDULE_STATUS,&#xa;       REBATE_SCHEDULE_TRANS_REF_ID,&#xa;       REBATE_SCHEDULE_TRANS_REF_NO,&#xa;       REBATE_SCHEDULE_TRANS_REF_NAME,&#xa;       PAYMENT_METHOD,&#xa;       PAYMENT_FREQUENCY,&#xa;       PAYMENT_TERMS,&#xa;       REBATE_FREQUENCY,&#xa;       CALENDAR,&#xa;       REBATE_PROCESSING_TYPE,&#xa;       VALIDATION_PROFILE,&#xa;       REBATE_RULE_TYPE,&#xa;       REBATE_RULE_ASSOCIATION,&#xa;       REBATE_PLAN_LEVEL,&#xa;       INTEREST_BEARING_INDICATOR,&#xa;       INTEREST_BEARING_BASIS,&#xa;       PAYMENT_GRACE_PERIOD,&#xa;       MAKE_PAYABLE_TO,&#xa;       ADDRESS_1,&#xa;       ADDRESS_2,&#xa;       CITY,&#xa;       STATE,&#xa;       ZIP_CODE,&#xa;       ITEM_ID,&#xa;       IDENTIFIER_CODE_QUALIFIER,&#xa;       ITEM_NO,&#xa;       ITEM_NAME,&#xa;       ATTACHED_STATUS,&#xa;       ATTACHED_DATE,&#xa;       ITEM_START_DATE,&#xa;       ITEM_END_DATE,&#xa;       FORMULA_TYPE,&#xa;       FORMULA_ID,&#xa;       FORMULA_NO,&#xa;       FORMULA_NAME,&#xa;       REBATE_PLAN_ID,&#xa;       REBATE_AMOUNT,&#xa;       ITEM_REBATE_START_DATE,&#xa;       ITEM_REBATE_END_DATE,&#xa;       BUNDLE_NO,&#xa;       INTERNAL_NOTES,&#xa;       CONTRACT_ID,&#xa;       CFP_ID,&#xa;       MFP_ID,&#xa;       IFP_ID,&#xa;       PRICE_SCHEDULE_ID,&#xa;       UDC1,&#xa;       UDC2,&#xa;       UDC3,&#xa;       UDC4,&#xa;       UDC5,&#xa;       UDC6,&#xa;       FORMULA_METHOD_ID,&#xa;       CREATED_BY,&#xa;       CREATED_DATE,&#xa;       MODIFIED_BY,&#xa;       MODIFIED_DATE,&#xa;       BATCH_ID,&#xa;       SOURCE,&#xa;       ADD_CHG_DEL_INDICATOR,&#xa;       REASON_FOR_FAILURE,&#xa;       INTF_INSERTED_DATE,&#xa;       ERROR_CODE,&#xa;       ERROR_FIELD,&#xd;&#xa;	   DEDUCTION_INCLUSION,&#xd;&#xa;	   REBATE_SCHEDULE_ALIAS_ID,&#xd;&#xa;	   PAYMENT_LEVEL,&#xd;&#xa;	   EVALUATION_RULE_LEVEL,&#xd;&#xa;	   EVALUATION_RULE,&#xd;&#xa;	   EVALUATION_RULE_BUNDLE,&#xd;&#xa;	   CALCULATION_TYPE,&#xd;&#xa;	   CALCULATION_RULE,&#xd;&#xa;	   CALCULATION_RULE_LEVEL,&#xd;&#xa;	   CALCULATION_RULE_BUNDLE&#xd;&#xa;	   NET_SALES_FORMULA,&#xd;&#xa;	   NET_SALES_RULE,&#xd;&#xa;	   DEDUCTION_CALENDAR_NO,&#xd;&#xa;	   DEDUCTION_CALENDAR_NAME,&#xa; &#x27;&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Processed&#x2f;REBATE_SCHEDULE_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29; &#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;  as a,&#xa; &#x27;&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;REBATE_SCHEDULE_INTERFACE_&#x27;&#x2b;BATCH_ID&#x2b;&#x27;_&#x27;&#x2b;CONVERT&#x28;VARCHAR&#x28;20&#x29;,GETDATE&#x28;&#x29;,112&#x29;&#x2b;&#x27;_&#x27;&#x2b;replace&#x28;convert&#x28;varchar&#x28;50&#x29;,GETDATE&#x28;&#x29;,108&#x29;,&#x27;&#x3a;&#x27;,&#x27;&#x27;&#x29;&#x2b;&#x27;-&#x27;&#x2b;&#x27;REJECT&#x27;   as b&#xa;FROM   IVLD_REBATE_SCHEDULE &#xa; WHERE BATCH_ID&#x3d;&#x3f;&#xa; AND &#x28; INTF_INSERTED_DATE &#x3e; &#x28;SELECT TOP 1 CREATED_DATE&#xa;                                   FROM   audit_master_inbound&#xa;                                   WHERE  APPLICATION_PROCESS &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;                                          AND BATCH_ID &#x3d; &#x3f; ORDER BY CREATED_DATE DESC&#x29; &#x29; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1681,6 +1635,7 @@ FROM   IVLD_REBATE_SCHEDULE
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1688,10 +1643,7 @@ FROM   IVLD_REBATE_SCHEDULE
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT BATCH_ID AS LATEST_BATCH
-FROM   audit_master_inbound
-WHERE  received_record_count IS NULL
-       AND application_process = &apos;REBATE_SCHEDULE_INTERFACE&apos; </sql>
+    <sql>SELECT BATCH_ID AS LATEST_BATCH&#xa;FROM   audit_master_inbound&#xa;WHERE  received_record_count IS NULL&#xa;       AND application_process &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27; </sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1709,6 +1661,7 @@ WHERE  received_record_count IS NULL
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1718,34 +1671,7 @@ WHERE  received_record_count IS NULL
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-
-&#47;&#47;var aa=SCONTENT.getString();
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-
-for(i=0;i&lt;batchIds.length;i++){
-
-
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-      
-    
-}
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#xa;var SUBJECT&#x3d;getVariable&#x28;&#x22;COMPANY_MASTER_SUCCESS_SUBJECT&#x22;,&#x22;&#x22;&#x29;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;&#xa;&#x2f;&#x2f;var aa&#x3d;SCONTENT.getString&#x28;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;Company Master Interface completed successfully.The below report has been gathered from the interface process&#x3a;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Name&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Valid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Start Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface End Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x3c;TR&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;Batches.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INTERFACE_NAME.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;123&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;456&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;VALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INVALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;178&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;195&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;TR&#x3e;&#x7d;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Change Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Delete Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x22;&#x3b;&#xa;var batchIds &#x3d; Batches.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var AddCount&#x3d;AddCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ChangeCount&#x3d;ChangeCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var DeleteCount&#x3d;DeleteCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var InvalidCount&#x3d;InvalidCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var SentCount&#x3d;SentCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ReceivedCount&#x3d;ReceivedCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var i&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIds.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;&#xa;&#xa;	CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ChangeCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;DeleteCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;      &#xa;    &#xa;&#x7d;&#xa;&#xa;&#xa;&#x2f;&#x2f;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;&#x22;&#x2b;no_key.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1819,6 +1745,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1828,80 +1755,7 @@ CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;Thanks,&lt;&#47;p&gt
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>
-var SUBJECT=getVariable(&quot;COMPANY_MASTER_SUCCESS_SUBJECT&quot;,&quot;&quot;)+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;Company Master Interface completed successfully.The below report has been gathered from the interface process:&lt;br&gt;&lt;br&gt;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Name&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Valid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface Start Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Interface End Time&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&lt;TR&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+Batches.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INTERFACE_NAME.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+123+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+456+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+VALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+INVALID_COUNT.getString()+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+178+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+195+&quot;&lt;&#47;TD&gt;&lt;&#47;TR&gt;}&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-&#47;&#47;var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Change Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Delete Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;&lt;br&gt;&lt;br&gt;&quot;+SCONTENT.getString()+&quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Batch ID&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Sent Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Received Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Add Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-var batchIds = Batches.getString().split(&quot;,&quot;);
-var AddCount=AddCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var ChangeCount=ChangeCounts.getString().split(&quot;,&quot;);
-&#47;&#47;var DeleteCount=DeleteCounts.getString().split(&quot;,&quot;);
-var InvalidCount=InvalidCounts.getString().split(&quot;,&quot;);
-var SentCount=SentCounts.getString().split(&quot;,&quot;);
-var ReceivedCount=ReceivedCounts.getString().split(&quot;,&quot;);
-var i;
-var j;
-var invalidReason =InvalidReason.getString().split(&quot;,&quot;);
-var invalidCount =Count.getString().split(&quot;,&quot;);
-
-
-var oldBatchId;
-var oldReason;
-
-var batchIdForReason = newbatch.getString().split(&quot;,&quot;);
-
-for(i=0;i&lt;batchIds.length;i++){
-	
-	
-if(oldBatchId != batchIds[i]){
-	&#47;&#47;CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ChangeCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+DeleteCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-	CONTENT+= &quot;&lt;tbody&gt;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+batchIds[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+SentCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+ReceivedCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+AddCount[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+InvalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldBatchId = batchIds[i];
-}
-      
-    
-}
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-
-oldBatchId= &quot;&quot;;
-
-for(i=0;i&lt;batchIdForReason.length;i++){
-
-if(oldBatchId != batchIdForReason[i]){
-if(i&gt;0){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;
-oldReason = &quot;&quot;;
-}
-
-CONTENT+= &quot;&lt;br&gt;&quot;;
-CONTENT+= &quot;Batch ID: &quot;+batchIdForReason[i];
-CONTENT+= &quot;&lt;table cellpadding=&apos;5px&apos; style=&apos;border-collapse:collapse&apos;&gt;&lt;thead&gt;&lt;TR&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Invalid Reason&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;td style=&apos;background-color:#dbe7ed; border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&lt;b&gt;Count&lt;&#47;b&gt;&lt;&#47;td&gt;&lt;&#47;TR&gt;&lt;&#47;thead&gt;&lt;tbody&gt;&quot;;
-}
-
-if(oldReason != invalidReason[i]){
-
-CONTENT+= &quot;&lt;tr&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidReason[i]+&quot;&lt;&#47;TD&gt;&lt;TD style=&apos;border-style:solid; border-color:#bed3dd; border-width:1px&apos;&gt;&quot;+invalidCount[i]+&quot;&lt;&#47;TD&gt;&lt;&#47;tr&gt;&quot;;
-oldReason = invalidReason[i];
-}
-
-if(i==batchIdForReason.length-1){
-CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&quot;;
-}
-oldBatchId = batchIdForReason[i];
-}
-
-
-
-
-
-
-
-
-&#47;&#47;CONTENT+=&quot;&lt;&#47;tbody&gt;&lt;&#47;table&gt;&lt;p&gt;&quot;+no_key.getString()+&quot;&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-
-CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#xa;var SUBJECT&#x3d;getVariable&#x28;&#x22;COMPANY_MASTER_SUCCESS_SUBJECT&#x22;,&#x22;&#x22;&#x29;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;Company Master Interface completed successfully.The below report has been gathered from the interface process&#x3a;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Name&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Valid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface Start Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Interface End Time&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x3c;TR&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;Batches.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INTERFACE_NAME.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;123&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;456&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;VALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;INVALID_COUNT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;178&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;195&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;TR&#x3e;&#x7d;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#x2f;&#x2f;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Change Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Delete Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x22;&#x2b;SCONTENT.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Batch ID&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Sent Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Received Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Add Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;var batchIds &#x3d; Batches.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var AddCount&#x3d;AddCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var ChangeCount&#x3d;ChangeCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#x2f;&#x2f;var DeleteCount&#x3d;DeleteCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var InvalidCount&#x3d;InvalidCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var SentCount&#x3d;SentCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var ReceivedCount&#x3d;ReceivedCounts.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var i&#x3b;&#xa;var j&#x3b;&#xa;var invalidReason &#x3d;InvalidReason.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;var invalidCount &#x3d;Count.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#xa;&#xa;var oldBatchId&#x3b;&#xa;var oldReason&#x3b;&#xa;&#xa;var batchIdForReason &#x3d; newbatch.getString&#x28;&#x29;.split&#x28;&#x22;,&#x22;&#x29;&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIds.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;	&#xa;	&#xa;if&#x28;oldBatchId &#x21;&#x3d; batchIds&#x5b;i&#x5d;&#x29;&#x7b;&#xa;	&#x2f;&#x2f;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ChangeCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;DeleteCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;	CONTENT&#x2b;&#x3d; &#x22;&#x3c;tbody&#x3e;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;batchIds&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;SentCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;ReceivedCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;AddCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;InvalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;oldBatchId &#x3d; batchIds&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;      &#xa;    &#xa;&#x7d;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#x3b;&#xa;&#xa;oldBatchId&#x3d; &#x22;&#x22;&#x3b;&#xa;&#xa;for&#x28;i&#x3d;0&#x3b;i&#x3c;batchIdForReason.length&#x3b;i&#x2b;&#x2b;&#x29;&#x7b;&#xa;&#xa;if&#x28;oldBatchId &#x21;&#x3d; batchIdForReason&#x5b;i&#x5d;&#x29;&#x7b;&#xa;if&#x28;i&#x3e;0&#x29;&#x7b;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#xa;oldReason &#x3d; &#x22;&#x22;&#x3b;&#xa;&#x7d;&#xa;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;br&#x3e;&#x22;&#x3b;&#xa;CONTENT&#x2b;&#x3d; &#x22;Batch ID&#x3a; &#x22;&#x2b;batchIdForReason&#x5b;i&#x5d;&#x3b;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;table cellpadding&#x3d;&#x27;5px&#x27; style&#x3d;&#x27;border-collapse&#x3a;collapse&#x27;&#x3e;&#x3c;thead&#x3e;&#x3c;TR&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Invalid Reason&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;td style&#x3d;&#x27;background-color&#x3a;&#x23;dbe7ed&#x3b; border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x3c;b&#x3e;Count&#x3c;&#x2f;b&#x3e;&#x3c;&#x2f;td&#x3e;&#x3c;&#x2f;TR&#x3e;&#x3c;&#x2f;thead&#x3e;&#x3c;tbody&#x3e;&#x22;&#x3b;&#xa;&#x7d;&#xa;&#xa;if&#x28;oldReason &#x21;&#x3d; invalidReason&#x5b;i&#x5d;&#x29;&#x7b;&#xa;&#xa;CONTENT&#x2b;&#x3d; &#x22;&#x3c;tr&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;invalidReason&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;TD style&#x3d;&#x27;border-style&#x3a;solid&#x3b; border-color&#x3a;&#x23;bed3dd&#x3b; border-width&#x3a;1px&#x27;&#x3e;&#x22;&#x2b;invalidCount&#x5b;i&#x5d;&#x2b;&#x22;&#x3c;&#x2f;TD&#x3e;&#x3c;&#x2f;tr&#x3e;&#x22;&#x3b;&#xa;oldReason &#x3d; invalidReason&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;&#xa;if&#x28;i&#x3d;&#x3d;batchIdForReason.length-1&#x29;&#x7b;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x22;&#x3b;&#xa;&#x7d;&#xa;oldBatchId &#x3d; batchIdForReason&#x5b;i&#x5d;&#x3b;&#xa;&#x7d;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#xa;&#x2f;&#x2f;CONTENT&#x2b;&#x3d;&#x22;&#x3c;&#x2f;tbody&#x3e;&#x3c;&#x2f;table&#x3e;&#x3c;p&#x3e;&#x22;&#x2b;no_key.getString&#x28;&#x29;&#x2b;&#x22;&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;&#xa;CONTENT&#x2b;&#x3d;&#x22;&#x3c;p&#x3e;Thanks,&#x3c;br&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1999,6 +1853,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2006,25 +1861,7 @@ CONTENT+=&quot;&lt;p&gt;Thanks,&lt;br&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>
-
-	   DECLARE @CONTENT VARCHAR(max)= &apos;Hi,&lt;br&gt;&lt;br&gt;&apos;
-SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,
-             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,
-             A.PASSWORD                      AS SENDER_PASSWORD,
-             A.PORT_NUMBER                   AS MAIL_PORT,
-             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,
-             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,
-             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,
-            -- B.FAILURE_MAIL_BODY + @CONTENT  AS CONTENT,
-			 stuff(@CONTENT,charindex(&apos;Hi,&apos;,@CONTENT)+3,0,&apos;&lt;br&gt;&lt;br&gt;&apos;+B.SUCCESS_MAIL_BODY) as SCONTENT
-FROM   WF_MAIL_CONFIG A
-       JOIN WORKFLOW_PROFILE B
-         ON 1 = 1
-WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
-       AND a.SMTP_FLAG = &apos;yes&apos;
-
-</sql>
+    <sql>&#xa;&#xa;	   DECLARE &#x40;CONTENT VARCHAR&#x28;max&#x29;&#x3d; &#x27;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#xa;SELECT TOP 1 A.HOST_NAME                     AS MAIL_SERVER,&#xa;             A.EMAIL_ADDRESS                 AS SENDER_ADDRESS,&#xa;             A.PASSWORD                      AS SENDER_PASSWORD,&#xa;             A.PORT_NUMBER                   AS MAIL_PORT,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_TO AS DESTINATION_ADDRESS,&#xa;             B.EMAIL_NOTIFICATION_SUCCESS_CC AS DESTINATION_CC,&#xa;             B.SUCCESS_MAIL_SUBJECT          AS SSUBJECT,&#xa;            -- B.FAILURE_MAIL_BODY &#x2b; &#x40;CONTENT  AS CONTENT,&#xa;			 stuff&#x28;&#x40;CONTENT,charindex&#x28;&#x27;Hi,&#x27;,&#x40;CONTENT&#x29;&#x2b;3,0,&#x27;&#x3c;br&#x3e;&#x3c;br&#x3e;&#x27;&#x2b;B.SUCCESS_MAIL_BODY&#x29; as SCONTENT&#xa;FROM   WF_MAIL_CONFIG A&#xa;       JOIN WORKFLOW_PROFILE B&#xa;         ON 1 &#x3d; 1&#xa;WHERE  b.PROCESS_NAME &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;       AND a.SMTP_FLAG &#x3d; &#x27;yes&#x27;&#xa;&#xa;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -2042,6 +1879,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>Mail</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -2060,6 +1898,9 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       <include_subfolders>N</include_subfolders>
       <zipFilenameDynamic>N</zipFilenameDynamic>
       <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
       <dynamicFieldname/>
       <dynamicWildcard/>
       <dynamicZipFilename/>
@@ -2082,6 +1923,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <encoding>UTF-8</encoding>
     <priority>normal</priority>
     <importance>normal</importance>
+    <sensitivity/>
     <secureconnectiontype>SSL</secureconnectiontype>
       <embeddedimages>
       </embeddedimages>
@@ -2098,13 +1940,14 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <separator>|</separator>
-    <enclosure>&quot;</enclosure>
+    <separator>&#x7c;</separator>
+    <enclosure>&#x22;</enclosure>
     <enclosure_forced>N</enclosure_forced>
     <enclosure_fix_disabled>N</enclosure_fix_disabled>
     <header>Y</header>
@@ -2117,7 +1960,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <fileNameField>b</fileNameField>
     <create_parent_folder>N</create_parent_folder>
     <file>
-      <name>D:\GALDERMA\file</name>
+      <name>D&#x3a;&#x5c;GALDERMA&#x5c;file</name>
       <is_command>N</is_command>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
@@ -2137,7 +1980,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <fields>
       <field>
         <name>REBATE_SCHEDULE_INTFID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2149,7 +1992,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2161,7 +2004,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2173,7 +2016,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2185,7 +2028,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2197,7 +2040,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_PROGRAM_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2209,7 +2052,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_CATEGORY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2221,7 +2064,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>TRADE_CLASS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2233,7 +2076,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_DESIGNATION</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2245,7 +2088,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PARENT_REBATE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2257,7 +2100,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PARENT_REBATE_SCHEDULE_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2269,7 +2112,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_STATUS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2281,7 +2124,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2293,7 +2136,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2305,7 +2148,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_SCHEDULE_TRANS_REF_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2317,7 +2160,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PAYMENT_METHOD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2329,7 +2172,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PAYMENT_FREQUENCY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2341,7 +2184,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PAYMENT_TERMS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2353,7 +2196,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_FREQUENCY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2365,7 +2208,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CALENDAR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2377,7 +2220,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_PROCESSING_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2389,7 +2232,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>VALIDATION_PROFILE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2401,7 +2244,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_RULE_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2413,7 +2256,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_RULE_ASSOCIATION</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2425,7 +2268,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_PLAN_LEVEL</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2437,7 +2280,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>INTEREST_BEARING_INDICATOR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2449,7 +2292,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>INTEREST_BEARING_BASIS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2461,7 +2304,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PAYMENT_GRACE_PERIOD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2473,7 +2316,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>MAKE_PAYABLE_TO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2485,7 +2328,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ADDRESS_1</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2497,7 +2340,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ADDRESS_2</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2509,7 +2352,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CITY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2521,7 +2364,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>STATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2533,7 +2376,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ZIP_CODE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2545,7 +2388,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2557,7 +2400,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>IDENTIFIER_CODE_QUALIFIER</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2569,7 +2412,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2581,7 +2424,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2593,7 +2436,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ATTACHED_STATUS</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2605,7 +2448,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ATTACHED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2617,7 +2460,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_START_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2629,7 +2472,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_END_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2641,7 +2484,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>FORMULA_TYPE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2653,7 +2496,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>FORMULA_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2665,7 +2508,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>FORMULA_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2677,7 +2520,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>FORMULA_NAME</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2689,7 +2532,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_PLAN_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2701,7 +2544,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REBATE_AMOUNT</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2713,7 +2556,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_REBATE_START_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2725,7 +2568,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ITEM_REBATE_END_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2737,7 +2580,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>BUNDLE_NO</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2749,7 +2592,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>INTERNAL_NOTES</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2761,7 +2604,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CONTRACT_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2773,7 +2616,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2785,7 +2628,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>MFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2797,7 +2640,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>IFP_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2809,7 +2652,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>PRICE_SCHEDULE_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2821,7 +2664,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC1</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2833,7 +2676,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC2</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2845,7 +2688,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC3</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2857,7 +2700,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC4</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2869,7 +2712,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC5</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2881,7 +2724,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>UDC6</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2893,7 +2736,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>FORMULA_METHOD_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2905,7 +2748,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CREATED_BY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2917,7 +2760,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>CREATED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2929,7 +2772,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>MODIFIED_BY</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2941,7 +2784,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>MODIFIED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2953,7 +2796,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>BATCH_ID</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2965,7 +2808,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>SOURCE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2977,7 +2820,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ADD_CHG_DEL_INDICATOR</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -2989,7 +2832,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>REASON_FOR_FAILURE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -3001,7 +2844,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>INTF_INSERTED_DATE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -3013,7 +2856,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ERROR_CODE</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -3025,7 +2868,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
       </field>
       <field>
         <name>ERROR_FIELD</name>
-        <type>-</type>
+        <type>None</type>
         <format/>
         <currency/>
         <decimal/>
@@ -3049,6 +2892,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>DBJoin</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3056,7 +2900,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
            </partitioning>
     <connection>BPI DB</connection>
     <rowlimit>0</rowlimit>
-    <sql>SELECT OUTBOUND_FLAG FROM WORKFLOW_PROFILE WHERE PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;</sql>
+    <sql>SELECT OUTBOUND_FLAG FROM WORKFLOW_PROFILE WHERE PROCESS_NAME &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -3074,6 +2918,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>Unique</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3098,6 +2943,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3129,6 +2975,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>ExecSQL</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3138,12 +2985,9 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
-    <sql>UPDATE audit_master_inbound
-      SET    RECEIVED_RECORD_COUNT = 0,
-             INVALID_RECORD_COUNT = SENT_RECORD_COUNT
-      WHERE  received_record_count IS NULL
-             AND application_process = &apos;REBATE_SCHEDULE_INTERFACE&apos; 
-      </sql>
+    <quoteString>N</quoteString>
+    <sql>UPDATE audit_master_inbound&#xa;      SET    RECEIVED_RECORD_COUNT &#x3d; 0,&#xa;             INVALID_RECORD_COUNT &#x3d; SENT_RECORD_COUNT&#xa;      WHERE  received_record_count IS NULL&#xa;             AND application_process &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27; &#xa;      </sql>
+    <set_params>N</set_params>
     <insert_field/>
     <update_field/>
     <delete_field/>
@@ -3163,6 +3007,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3172,12 +3017,7 @@ WHERE  b.PROCESS_NAME = &apos;REBATE_SCHEDULE_INTERFACE&apos;
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_N=&quot;C&quot;;
-var STATUS_R=&quot;R&quot;;
-var INTERFACE_RUN_END_DATE=new Date();
-var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var STATUS_N&#x3d;&#x22;C&#x22;&#x3b;&#xa;var STATUS_R&#x3d;&#x22;R&#x22;&#x3b;&#xa;var INTERFACE_RUN_END_DATE&#x3d;new Date&#x28;&#x29;&#x3b;&#xa;var APPLICATION_PROCESS&#x3d;&#x22;REBATE_SCHEDULE_INTERFACE&#x22;&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_N</name>
         <rename>STATUS_N</rename>
         <type>String</type>
@@ -3204,8 +3044,8 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
         <replace>N</replace>
       </field>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>992</xloc>
-      <yloc>1081</yloc>
+      <xloc>1031</xloc>
+      <yloc>955</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3215,6 +3055,7 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
     <type>DBLookup</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3233,7 +3074,7 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
       <key>
         <name>BATCH</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -3256,6 +3097,7 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
     <type>SetVariable</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3283,6 +3125,7 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
     <type>SplitFieldToRows3</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3308,17 +3151,14 @@ var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;</jsScript_script>
     <type>TableInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
     <connection>BPI DB</connection>
-    <sql>
-SELECT COUNT(*) AS NEW_COUNT_LATEST
-FROM   audit_master_inbound
-WHERE  received_record_count IS NULL
-       AND application_process = &apos;REBATE_SCHEDULE_INTERFACE&apos; </sql>
+    <sql>&#xa;SELECT COUNT&#x28;&#x2a;&#x29; AS NEW_COUNT_LATEST&#xa;FROM   audit_master_inbound&#xa;WHERE  received_record_count IS NULL&#xa;       AND application_process &#x3d; &#x27;REBATE_SCHEDULE_INTERFACE&#x27; </sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -3337,6 +3177,7 @@ WHERE  received_record_count IS NULL
     <type>Update</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -3354,7 +3195,7 @@ WHERE  received_record_count IS NULL
       <key>
         <name>AUDIT_ID</name>
         <field>AUDIT_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
         </key>
       <value>
@@ -3373,7 +3214,7 @@ WHERE  received_record_count IS NULL
   <step_error_handling>
       <error>
         <source_step>AUDIT_STATUS_UPDATE 2</source_step>
-        <target_step>Dummy (do nothing) 2</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3385,7 +3226,7 @@ WHERE  received_record_count IS NULL
       </error>
       <error>
         <source_step>STAGING AUDIT</source_step>
-        <target_step>Dummy (do nothing) 2</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3397,7 +3238,7 @@ WHERE  received_record_count IS NULL
       </error>
       <error>
         <source_step>Update</source_step>
-        <target_step>Dummy (do nothing) 2</target_step>
+        <target_step>Dummy &#x28;do nothing&#x29; 2</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>
         <descriptions_valuename/>
@@ -3411,4 +3252,5 @@ WHERE  received_record_count IS NULL
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>

@@ -660,6 +660,12 @@ public class GtnFrameworkContractDashboardContants {
 			getCompanyDetailHeader()[12], getCompanyDetailHeader()[13], getCompanyDetailHeader()[14],
 			getCompanyDetailHeader()[15], getCompanyDetailHeader()[16], getCompanyDetailHeader()[17] };
 	private static final String[] COMPANY_DETAIL_VIEW_COLUMN = { getCompanyDetailColumn()[2],
+			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailColumn()[5],
+			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
+			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
+			getCompanyDetailColumn()[12], getCompanyDetailColumn()[13], getCompanyDetailColumn()[14],
+			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17] };
+	private static final String[] COMPANY_DETAIL_VIEW_PENDING_COLUMN = { getCompanyDetailColumn()[2],
 			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailPendingColumn()[4],
 			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
 			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
@@ -888,6 +894,10 @@ public class GtnFrameworkContractDashboardContants {
 		return COMPANY_DETAIL_VIEW_COLUMN.clone();
 	}
 
+	public static String[] getCompanyDetailPendingViewColumn() {
+		return COMPANY_DETAIL_VIEW_PENDING_COLUMN.clone();
+	}
+	
 	public static Class<?>[] getCdHistoryColumnType() {
 		return CD_HISTORY_COLUMN_TYPE.clone();
 	}
