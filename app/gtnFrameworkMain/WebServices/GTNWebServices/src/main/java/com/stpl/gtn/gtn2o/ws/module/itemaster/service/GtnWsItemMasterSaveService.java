@@ -529,7 +529,8 @@ public class GtnWsItemMasterSaveService {
 			identifierCriteriaIdList.add(idenBean.getItemIdentifierSid());
 		}
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery("changeStatusOfItemIdentiferValue"),
-				new Object[]{itemMasterSID,identifierCriteriaIdList}, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.IN_LIST });
+				new Object[] { itemMasterSID, identifierCriteriaIdList },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.IN_LIST });
 	}
 
 	private void setIdentifierValues(GtnWsItemMasterRequest imRquest, ItemIdentifier identifier,

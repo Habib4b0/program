@@ -300,7 +300,7 @@ select count(1) from ##ITEM_PRICING_TEMP_TABLE where  ITEM_PRICING_QUALIFIER_SID
 ]]></query>
 	</entity>
 
-<entity id="getItemIdWithStatusD">
+	<entity id="getItemIdWithStatusD">
 		<query> 
             <![CDATA[     
                   
@@ -310,8 +310,8 @@ SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_ID='?' AND IM.INBOUND_STATUS LIKE 'D'
                     ]]>
 		</query>
 	</entity>
-	
-<entity id="checkItemIDStatusNotD">
+
+	<entity id="checkItemIDStatusNotD">
 		<query> 
             <![CDATA[     
                   
@@ -333,7 +333,7 @@ SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_NO='?' and IM.INBOUND_STATUS<>'D'
 		</query>
 	</entity>
 
-<entity id="checkNDCStatusNotD">
+	<entity id="checkNDCStatusNotD">
 		<query> 
             <![CDATA[     
                   
@@ -343,7 +343,7 @@ SELECT * FROM ITEM_MASTER IM WHERE IM.NDC8='?' and IM.INBOUND_STATUS<>'D'
                     ]]>
 		</query>
 	</entity>
-<entity id="changeStatusOfItemIdentiferValue">
+	<entity id="changeStatusOfItemIdentiferValue">
 		<query> 
             <![CDATA[     
                   
@@ -363,7 +363,7 @@ Select ITEM_MASTER_SID from ITEM_MASTER where ITEM_ID='?'
                     ]]>
 		</query>
 	</entity>
-<entity id="updateIdentifierWithStatusD">
+	<entity id="updateIdentifierWithStatusD">
 		<query> 
             <![CDATA[     
                   
