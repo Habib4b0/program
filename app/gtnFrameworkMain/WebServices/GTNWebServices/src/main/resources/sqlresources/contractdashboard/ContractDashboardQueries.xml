@@ -7697,14 +7697,8 @@ SELECT
                             hresetfrequency.DESCRIPTION AS resetfrequencypending,
                             IQ2.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
                             hnetresetpricetype.DESCRIPTION AS netresetpricetypepending,
-                            hnetpricetype.DESCRIPTION AS netpricetypepending,
-                            BPH.DESCRIPTION AS BDES,
-                            IMTD.BASE_PRICE_DDLB AS IBPDDLB,
-                            IMTD.BASE_PRICE_DATE AS IBPD,
-                                 BASE_PRICE_ENTRYYY=CASE
-                                              WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
-                                              ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
-                                      END
+                            hnetpricetype.DESCRIPTION AS netpricetypepending
+                            
                     FROM
                             dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                     LEFT JOIN BRAND_MASTER BM ON

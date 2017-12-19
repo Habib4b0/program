@@ -52,11 +52,13 @@ public class GtnUIFrameworkPriceProtectionTabTableAction
 			if (String.valueOf(recordType.getValueFromComponent()).replace("[", "").replace("]", "")
 					.equals(GtnFrameworkContractDashboardContants.PENDING)) {
 				configurePendingTable(priceprotectionpricingTable);
-				configurePendingViewTable(priceprotectionviewpricingTable);
+				configureViewTable(priceprotectionviewpricingTable);
+				configurePriceProtectionPendingViewTableColumn(priceprotectionviewpricingTable);
 				
 			} else {
 				configureTable(priceprotectionpricingTable);	
 				configureViewTable(priceprotectionviewpricingTable);
+				configurePriceProtectionViewTableColumn(priceprotectionviewpricingTable);
 			}
 		}
 
@@ -112,14 +114,6 @@ public class GtnUIFrameworkPriceProtectionTabTableAction
 
 	}
 
-	private void configurePendingViewTable(GtnUIFrameworkBaseComponent priceprotectionviewpricingTable) {
-
-		priceprotectionviewpricingTable.getExtPagedTable().setFilterBarVisible(false);
-		priceprotectionviewpricingTable.getExtPagedTable().setEditable(false);
-		priceprotectionviewpricingTable.getExtPagedTable().setReadOnly(true);
-		configurePriceProtectionPendingViewTableColumn(priceprotectionviewpricingTable);
-
-	}
 
 	private void configurePriceProtectionPendingViewTableColumn(
 			GtnUIFrameworkBaseComponent priceprotectionviewpricingTable) {
@@ -136,7 +130,6 @@ public class GtnUIFrameworkPriceProtectionTabTableAction
 		priceprotectionviewpricingTable.getExtPagedTable().setFilterBarVisible(false);
 		priceprotectionviewpricingTable.getExtPagedTable().setEditable(false);
 		priceprotectionviewpricingTable.getExtPagedTable().setReadOnly(true);
-		configurePriceProtectionViewTableColumn(priceprotectionviewpricingTable);
 
 	}
 

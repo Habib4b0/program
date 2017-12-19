@@ -1567,15 +1567,11 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
 				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
 				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
-				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING,
-			    GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING3,
-				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING4,
-				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING5,
-				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING6
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING
 		});
 		cdPricingViewResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
 				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
-				String.class, String.class, String.class, String.class,String.class,Integer.class,Date.class,String.class
+				String.class, String.class, String.class, String.class
 		});
 		cdPricingViewResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
