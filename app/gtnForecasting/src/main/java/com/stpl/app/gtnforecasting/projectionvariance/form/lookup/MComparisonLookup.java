@@ -62,7 +62,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
     String screenName = StringUtils.EMPTY;
       /** To reduce unwanted DB hits **/
     Map<MultiKey,List> contractTypeList;
-    private PVSelectionDTO pvSelectionDTO;
+    private final PVSelectionDTO pvSelectionDTO;
     private final HeaderUtils headerUtils = new HeaderUtils();
 
     /**
@@ -117,6 +117,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -126,6 +127,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -142,6 +144,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void searchBtnLogic() {
         if ((SELECT_ONE).equals(String.valueOf(workFlowStatus.getValue())) || workFlowStatus.getValue() == null) {
             AbstractNotificationUtils.getErrorNotification("Search Error ", "Please select a Workflow Status. ");
@@ -155,6 +158,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     public void closeBtnLogic() {
         return;
     }
@@ -164,8 +168,10 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     public void projectionResetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                return;
             }
@@ -188,6 +194,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     public void addBtnLogic(Button.ClickEvent event) {
         try {
             final java.util.Set<ComparisonLookupDTO> selectedItemId = (java.util.Set<ComparisonLookupDTO>) resultsTable.getValue();
@@ -234,6 +241,7 @@ public class MComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     public void removeBtnLogic(Button.ClickEvent event) {
         if (removeFlag) {
             removeItemsButtonClick();

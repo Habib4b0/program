@@ -63,7 +63,7 @@ public class GtnWsContractWorkFlowController {
 		GtnWsGeneralRequest gtnWsGeneralRequest = gtnUIFrameworkWebserviceRequest.getGtnWsGeneralRequest();
 		try {
 			LOGGER.info("workflowRequest.getPersistanceId() " + workflowRequest.getPersistanceId());
-			workflowId = workflowLogicService.submitContract(workflowRequest);
+			workflowId = workflowLogicService.submitContract(workflowRequest,gtnUIFrameworkWebserviceRequest);
 			User userModel = gtnWsUserRoleService.getUser(Long.parseLong(gtnWsGeneralRequest.getUserId().trim()));
 			TaskSummary taskSummary = workflowLogicService.startAndCompleteContractTask(userModel,
 					workflowRequest.getContractBean().getContractId(), workflowRequest.getPersistanceId(),

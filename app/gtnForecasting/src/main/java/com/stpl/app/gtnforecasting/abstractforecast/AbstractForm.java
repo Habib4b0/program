@@ -13,8 +13,6 @@ import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SAVE;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_SUBMIT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_WITHDRAW;
 
-import java.util.logging.Logger;
-
 import com.stpl.app.utils.UiUtils;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -36,7 +34,6 @@ public abstract class AbstractForm extends VerticalLayout {
 	protected Button btnReject;
 	protected Button btnWithdraw;
 	protected Button btnCancel;
-	protected Logger log = Logger.getAnonymousLogger();
 
 	/**
 	 * Call this method to add Save, Previous, Next, Close and Submit buttons to
@@ -86,12 +83,14 @@ public abstract class AbstractForm extends VerticalLayout {
 		});
 		btnReject.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnRejectLogic();
 			}
 		});
 		btnWithdraw.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnWithdrawLogic();
 			}

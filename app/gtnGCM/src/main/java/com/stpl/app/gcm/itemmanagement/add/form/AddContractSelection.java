@@ -172,6 +172,12 @@ public class AddContractSelection extends CustomComponent {
     public Label enddatelabel;
     @UiField("valuelabel")
     public Label valuelabel;
+    @UiField("baseWacPriceType")
+    private ComboBox baseWacPriceType;
+    @UiField("baseWacManual")
+    protected TextField baseWacManual;
+     @UiField("baseWacDate")
+    public PopupDateField baseWacDate;
     public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
     AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
     public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
@@ -279,6 +285,7 @@ public class AddContractSelection extends CustomComponent {
         allItemsCombo.addItem("NO");
         allItemsCombo.select("NO");
         allItemsCombo.setReadOnly(true);
+        visibilityOptions();
     }
 
     @UiHandler("field")
@@ -510,6 +517,33 @@ public class AddContractSelection extends CustomComponent {
 
         }
 
+    }
+    @UiHandler("massUpdateValue")
+    public void basePriceTypeLogic(Property.ValueChangeEvent event) {
+        String processName = String.valueOf(massUpdateValue.getValue());
+        if (Constants.BASE_PRICE_TYPE_LABLE_NAME.equals(String.valueOf(field.getValue()))) {
+            baseWacDate.setValue(null);
+            baseWacPriceType.setValue(null);
+            baseWacManual.setValue(StringUtils.EMPTY);
+            if (Constants.SELECT_ONE.equals(processName)) {
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.MANUAL_LABLE_NAME.equals(processName)) {
+                baseWacManual.setVisible(true);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.DATE_LABLE_NAME.equals(processName)) {
+                baseWacDate.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+            } else if (Constants.PRICE_TYPE_LABEL.equals(processName)) {
+                baseWacPriceType.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacDate.setVisible(false);
+                loadPriceType(baseWacPriceType, false);
+            }
+        }
     }
 
     @UiHandler("searchBtn")
@@ -1537,8 +1571,12 @@ public class AddContractSelection extends CustomComponent {
         priceType.setItemCaptionPropertyId(null);
         priceType.addItem(0);
         priceType.setItemCaption(0, isFilter ? GlobalConstants.getShowAll() : GlobalConstants.getSelectOne());
-        priceType.setNullSelectionAllowed(true);
-        priceType.setNullSelectionItemId(0);
+        if (isFilter) {
+            priceType.setNullSelectionAllowed(true);
+            priceType.setNullSelectionItemId(0);
+        } else {
+            priceType.setNullSelectionAllowed(false);
+        }
         for (Object[] objects : list) {
             priceType.addItem((int) objects[0]);
             priceType.setItemCaption((int) objects[0], objects[1].toString());
@@ -1723,6 +1761,7 @@ public class AddContractSelection extends CustomComponent {
         startdatelabel.setVisible(false);
         enddatelabel.setVisible(false);
         massUpdateText.setVisible(false);
+        visibilityOptions();
     }
 
     public void loadValueddlbTextField() {
@@ -1734,6 +1773,7 @@ public class AddContractSelection extends CustomComponent {
         massUpdateText.setVisible(true);
         populateBtn.setVisible(true);
         valuelabel.setVisible(true);
+        visibilityOptions();
     }
 
     public void loadValueddlbDateField(String processName) {
@@ -1745,6 +1785,7 @@ public class AddContractSelection extends CustomComponent {
         startdatelabel.setVisible(true);
         massUpdateText.setVisible(false);
         enddatelabel.setVisible(false);
+        visibilityOptions();
 
         switch (processName) {
             case Constants.ITEM_START_DATE:
@@ -1769,5 +1810,10 @@ public class AddContractSelection extends CustomComponent {
                 startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
                 break;
         }
+    }
+    public void visibilityOptions() {
+        baseWacPriceType.setVisible(false);
+        baseWacManual.setVisible(false);
+        baseWacDate.setVisible(false);
     }
 }

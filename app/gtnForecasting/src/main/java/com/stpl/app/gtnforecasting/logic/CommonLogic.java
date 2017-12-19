@@ -85,7 +85,7 @@ public class CommonLogic {
     private static final CommonDAO commonDao = new CommonDAOImpl();
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final CommonQueryUtils commonQueryUtil = new CommonQueryUtils();
-    private static boolean viewFlag = false;
+    private static final boolean viewFlag = false;
     private static String screenName = StringUtils.EMPTY;
     public static final String CCPMAP = ") CCPMAP,";
     final static Map<String, String> fileMap = new HashMap<>();
@@ -428,9 +428,7 @@ public class CommonLogic {
         if (customViewMasterSid != 0) {
             try {
                 cvm = commonDao.getCustomView(customViewMasterSid);
-            } catch (SystemException ex) {
-                LOGGER.error(ex);
-            } catch (PortalException ex) {
+            } catch (SystemException | PortalException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1975,9 +1973,7 @@ public class CommonLogic {
             LOGGER.debug(PROJECTION_ID + projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionList;
@@ -2664,9 +2660,7 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return helperList;
@@ -4689,9 +4683,7 @@ public class CommonLogic {
                 return stockList;
 
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -4738,9 +4730,7 @@ public class CommonLogic {
                 stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionDto.getSessionDTO().getCurrentTableNames()));
                 return stockList;
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -4817,9 +4807,7 @@ public class CommonLogic {
             query.append(" GROUP BY ").append(selectClause);
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionValuesList;

@@ -156,7 +156,6 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                 if (i >= start && i <= offset) {
                     TreeNode parentNode = node.getParentNode();
                     if (!paginatedSalesNode.add(node)) {
-                        System.out.println("" + node.getHierachyNo() + " " + node.getHierarchyForTable() + " " + node.hashCode());
                     }
                     while (!parentNode.isApex()) {
                         paginatedSalesNode.add(parentNode);
@@ -320,7 +319,7 @@ public class NMSalesProjectionResultsTableLogic extends PageTreeTableLogic {
                 for (Container.Filter filter : this.getFilters()) {
                     Compare stringFilter = (Compare) filter;
                     Compare.Operation operation = stringFilter.getOperation();
-                    if (operation.EQUAL.toString().equals(operation.name())) {
+                    if (Compare.Operation.EQUAL.toString().equals(operation.name())) {
                         projSelDTO.setGroupFilter(String.valueOf(stringFilter.getValue()).replace(Constant.SALESWITHMINUS, StringUtils.EMPTY));
                     }
                 }

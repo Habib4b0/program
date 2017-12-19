@@ -264,7 +264,6 @@ public class NationalAssumptions extends CustomComponent implements View {
     private final Label growthLabel = new Label(" ");
 
     private final SessionDTO sessionDTO;
-    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
     private final FieldEvents.BlurListener listener = new FieldEvents.BlurListener() {
         @Override
         public void blur(FieldEvents.BlurEvent event) {
@@ -382,10 +381,10 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setSelectable(true);
             priceTypesTable.markAsDirty();
             priceTypesTable.setContainerDataSource(priceTypesBean);
-            priceTypesTable.setVisibleColumns(commonUiUtils.periodTypeColumns);
-            priceTypesTable.setColumnHeaders(commonUiUtils.periodTypesHeader);
-            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
-            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
+            priceTypesTable.setVisibleColumns(CommonUiUtils.periodTypeColumns);
+            priceTypesTable.setColumnHeaders(CommonUiUtils.periodTypesHeader);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
             loadFrequency();
@@ -429,6 +428,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
                 private static final long serialVersionUID = 1L;
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     if (event.isDoubleClick()) {
                         PriceTypeDTO priceTypesDTO = (PriceTypeDTO) event.getItemId();
@@ -643,8 +643,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
-        periodsForBaselineTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
-        periodsForBaselineTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
+        periodsForBaselineTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
+        periodsForBaselineTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.HUNDRED);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -677,6 +677,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             private static final long serialVersionUID = 1L;
 
             @SuppressWarnings("unchecked")
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (BaselinePeriodDTO obj : baselineResultsBean.getItemIds()) {
                     periodsForBaselineTable.getContainerProperty(obj, Constant.CHECK).setValue(event.isChecked());
@@ -709,8 +710,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
         periodsForRollingAvgTable.setContainerDataSource(rollingAvgResultsBean);
-        periodsForRollingAvgTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
-        periodsForRollingAvgTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
+        periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
+        periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -746,6 +747,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             private static final long serialVersionUID = -1079006445009817635L;
 
             @SuppressWarnings("unchecked")
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (BaselinePeriodDTO obj : rollingAvgResultsBean.getItemIds()) {
                     periodsForRollingAvgTable.getContainerProperty(obj, Constant.CHECK).setValue(event.isChecked());
