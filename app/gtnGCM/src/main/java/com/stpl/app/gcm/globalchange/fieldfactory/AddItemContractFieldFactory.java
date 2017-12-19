@@ -30,6 +30,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -1301,6 +1302,8 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                     saveTempItemDetails(dto);
                                 }
                                 valueChange = true;
+                                contractSelectionTable.getContainerLogic().setCurrentPage(1);
+                                contractSelectionTable.setRefresh(true);
                             }
                         }
                     });
@@ -1308,6 +1311,73 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 }
             });
             return basePriceType;
+        }
+        if (Constants.BASELINE_WAC_PROPERTY.equals(propertyId)) {
+            AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+            if (Constants.MANUAL_LABLE_NAME.equals(dto.getBasePriceType().getDescription().trim())) {
+                final TextField baseLineWacManual = new TextField();
+                baseLineWacManual.setImmediate(true);
+                baseLineWacManual.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+                baseLineWacManual.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                        dto.setBaseLineWacManual(baseLineWacManual.getValue());
+                        dto.setColumnName(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
+                        dto.setCaseNo(NumericConstants.FORTY_SEVEN);
+                        if (dto.getCheckRecord()) {
+                            populateLogic(baseLineWacManual.getValue(), dto.getColumnName());
+                            saveTempPopulateItemDetails(dto);
+                        } else {
+                            saveTempItemDetails(dto);
+                        }
+                        valueChange = true;
+                    }
+                });
+                return baseLineWacManual;
+            } else if (Constants.DATE_LABLE_NAME.equals(dto.getBasePriceType().getDescription())) {
+                final PopupDateField baseLineWacResetDate = new PopupDateField();
+                baseLineWacResetDate.setImmediate(true);
+                baseLineWacResetDate.setRequired(true);
+                baseLineWacResetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
+                baseLineWacResetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+                baseLineWacResetDate.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                        dto.setBaseLineWacDate(baseLineWacResetDate.getValue());
+                        dto.setColumnName(Constants.BASELINE_WAC_DATE_COLUMN_NAME);
+                        dto.setCaseNo(NumericConstants.FORTY_EIGHT);
+                        if (dto.getCheckRecord()) {
+                            populateLogic(baseLineWacResetDate.getValue(), dto.getColumnName());
+                            saveTempPopulateItemDetails(dto);
+                        } else {
+                            saveTempItemDetails(dto);
+                        }
+                    }
+                });
+                return baseLineWacResetDate;
+            } else if (Constants.PRICE_TYPE_LABEL.equals(dto.getBasePriceType().getDescription())) {
+                final ComboBox baseLineWacPriceType = new ComboBox();
+                baseLineWacPriceType.setImmediate(true);
+                final AbstractContractSearchDTO dtoPriceType = loadPricetype(itemId, baseLineWacPriceType);
+                baseLineWacPriceType.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        Object value = baseLineWacPriceType.getValue();
+                        dtoPriceType.setBaseLineWacPriceType((int) value);
+                        dtoPriceType.setColumnName(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME);
+                        dtoPriceType.setCaseNo(NumericConstants.FORTY_NINE);
+                        if (dtoPriceType.getCheckRecord()) {
+                            populateLogic(baseLineWacPriceType.getValue(), dtoPriceType.getColumnName());
+                            saveTempPopulateItemDetails(dtoPriceType);
+                        } else {
+                            saveTempItemDetails(dtoPriceType);
+                        }
+                    }
+                });
+                return baseLineWacPriceType;
+            }
         }
 
         if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {

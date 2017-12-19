@@ -246,7 +246,10 @@ public class AbstractLogic {
             dto.setBaselineNetWAC(str[NumericConstants.SIXTY_SIX] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SIX]) ? new HelperDTO(0, StringUtils.EMPTY) : HelperListUtil.getInstance().getHelperDTObyID(Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_SIX]))));
             dto.setPriceType(str[NumericConstants.SIXTY_SEVEN] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_SEVEN]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_SEVEN])));
             dto.setMeasurementPrice(str[NumericConstants.SIXTY_EIGHT] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_EIGHT]) ? 0 : Integer.valueOf(String.valueOf(str[NumericConstants.SIXTY_EIGHT])));
-            
+            dto.setBaseLineWacManual(str[NumericConstants.SIXTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_NINE]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY_NINE])); // TEXT FIELD
+            dto.setBaseLineWacDate(str[NumericConstants.SEVENTY] == null ? null : (Date) str[NumericConstants.SEVENTY]);
+            dto.setBaseLineWacPriceType(str[71] == null || Constants.NULL.equals(str[71]) ? 0 : Integer.valueOf(String.valueOf(str[71])));
+
 
             resultList.add(dto);
         }
@@ -1874,6 +1877,13 @@ public class AbstractLogic {
         searchColumn.put("formulaName", "NET_SALES_FORMULA_NAME");
         searchColumn.put("netSalesformulaType", "NET_SALES_FORMULA_TYPE");
         return searchColumn;
+    }
+    
+    public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
+        String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " =" + baseLineValue + " WHERE SESSION_ID ='" + selection.getSessionId() + "' "
+                + " AND OPERATION ='" + selection.getButtonMode() + "' " + " AND CHECK_RECORD ='" + dto.getCheckRecord() + "' ";
+        HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
+        return updateQuery;
     }
 
 }
