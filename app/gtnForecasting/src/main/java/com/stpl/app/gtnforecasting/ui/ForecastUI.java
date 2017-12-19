@@ -131,7 +131,6 @@ public class ForecastUI extends UI {
         String userType = null;
         String noOfApprovals = null;
         String approvalLevels = null;
-        SessionUtil sessionUtil = new SessionUtil();
         ForecastEditWindow editWindow = null;
         AccrualRateProjectionView arpView = null;
         String customerHierSid = StringUtils.EMPTY;
