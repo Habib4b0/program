@@ -4,22 +4,22 @@
     <description/>
     <extended_description/>
     <job_version/>
-  <directory>&#47;</directory>
+  <directory>&#x2f;</directory>
   <created_user>-</created_user>
-  <created_date>2015&#47;09&#47;21 11:36:58.947</created_date>
+  <created_date>2015&#x2f;09&#x2f;21 11&#x3a;36&#x3a;58.947</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#47;09&#47;21 11:36:58.947</modified_date>
+  <modified_date>2015&#x2f;09&#x2f;21 11&#x3a;36&#x3a;58.947</modified_date>
     <parameters>
     </parameters>
   <connection>
     <name>DB</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -36,13 +36,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -65,7 +65,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></job-log-table>
+<field><id>ID_JOB</id><enabled>Y</enabled><name>ID_JOB</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>JOBNAME</id><enabled>Y</enabled><name>JOBNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>START_JOB_ENTRY</id><enabled>N</enabled><name>START_JOB_ENTRY</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></job-log-table>
 <jobentry-log-table><connection/>
 <schema/>
 <table/>
@@ -86,7 +86,7 @@
       <filename/>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
         </field>
       </fields>
       <parallel>N</parallel>
@@ -101,7 +101,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE.kjb.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE.kjb.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -120,6 +120,7 @@
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -131,50 +132,7 @@
       <name>ERROR CODE</name>
       <description/>
       <type>SQL</type>
-      <sql>DECLARE @batch_id VARCHAR(20)= (SELECT TOP 1 batch_id
-   FROM   IVLD_REBATE_SCHEDULE
-   ORDER  BY INTF_INSERTED_DATE DESC)
-
-UPDATE IVLD_REBATE_SCHEDULE
-SET    ERROR_FIELD = Substring(CASE WHEN REBATE_SCHEDULE_ID IS NULL THEN &apos;,REBATE_SCHEDULE_ID&apos; ELSE &apos;&apos; END + CASE WHEN REBATE_SCHEDULE_TYPE IS NULL THEN &apos;,REBATE_SCHEDULE_TYPE&apos; ELSE &apos;&apos; END + CASE WHEN REBATE_PROGRAM_TYPE IS NULL THEN &apos;,REBATE_PROGRAM_TYPE&apos; ELSE &apos;&apos; END + CASE WHEN REBATE_FREQUENCY IS NULL THEN &apos;,REBATE_FREQUENCY&apos; ELSE &apos;&apos; END + CASE WHEN CALENDAR IS NULL THEN &apos;,CALENDAR&apos; ELSE &apos;&apos; END + CASE WHEN ITEM_ID IS NULL THEN &apos;,ITEM_ID&apos; ELSE &apos;&apos; END + CASE WHEN ATTACHED_STATUS IS NULL THEN &apos;,ATTACHED_STATUS&apos; ELSE &apos;&apos; END + CASE WHEN ATTACHED_DATE IS NULL THEN &apos;,ATTACHED_DATE&apos; ELSE &apos;&apos; END + CASE WHEN ITEM_START_DATE IS NULL THEN &apos;,ITEM_START_DATE&apos; ELSE &apos;&apos; END + CASE WHEN ITEM_REBATE_START_DATE IS NULL THEN &apos;,ITEM_REBATE_START_DATE&apos; ELSE &apos;&apos; END + CASE WHEN CONTRACT_ID IS NULL THEN &apos;,CONTRACT_ID&apos; ELSE &apos;&apos; END + CASE WHEN IFP_ID IS NULL THEN &apos;,ITEM_FAMILY_PLAN_ID&apos; ELSE &apos;&apos; END + CASE WHEN PRICE_SCHEDULE_ID IS NULL THEN &apos;,PRICE_SCHEDULE_ID&apos; ELSE &apos;&apos; END
-                               + CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &apos;,ADD_CHG_DEL_INDICATOR&apos; ELSE &apos;&apos; END + CASE WHEN BATCH_ID IS NULL THEN &apos;,BATCH_ID&apos; ELSE &apos;&apos; END, 2, 100000)
-WHERE  BATCH_ID = @batch_id   and ERROR_CODE=&apos;E01&apos;
-
-
-update IVLD_REBATE_SCHEDULE set ERROR_FIELD=
-        CASE WHEN  Isdate(ATTACHED_DATE)=0  and ATTACHED_DATE is not null THEN &apos;ATTACHED_DATE&apos; ELSE &apos;&apos; END +
-  CASE WHEN  Isdate(ITEM_START_DATE)=0 and ITEM_START_DATE is not null THEN &apos;,ITEM_START_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(ITEM_END_DATE)=0 and  ITEM_END_DATE is not null THEN &apos;,ITEM_END_DATE&apos; ELSE &apos;&apos; END +
- CASE WHEN   Isdate(ITEM_REBATE_START_DATE)=0 and ITEM_REBATE_START_DATE is not null THEN &apos;,ITEM_REBATE_START_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(ITEM_REBATE_END_DATE)=0 and ITEM_REBATE_END_DATE is not null THEN &apos;,ITEM_REBATE_END_DATE&apos; ELSE &apos;&apos; END  + 
- CASE WHEN   Isdate(CREATED_DATE)=0 and CREATED_DATE is not null THEN &apos;,CREATED_DATE&apos; ELSE &apos;&apos; END  + 
-  CASE WHEN   Isdate(MODIFIED_DATE)=0 and MODIFIED_DATE is not null THEN &apos;,MODIFIED_DATE&apos; ELSE &apos;&apos; END  
-
-WHERE      (Isdate(ATTACHED_DATE) = 0 and ATTACHED_DATE is not null)
- OR (Isdate(ITEM_START_DATE) = 0 and ITEM_START_DATE is not null)
- OR (Isdate(ITEM_END_DATE) = 0 and  ITEM_END_DATE is not null)
- OR (Isdate(ITEM_REBATE_START_DATE) = 0  and ITEM_REBATE_START_DATE is not null)
-  OR (Isdate(ITEM_REBATE_END_DATE) = 0  and ITEM_REBATE_END_DATE is not null)
- OR (Isdate(CREATED_DATE) = 0  and CREATED_DATE is not null)
- OR (Isdate(MODIFIED_DATE) = 0  and MODIFIED_DATE is not null)
-      and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos; and ERROR_FIELD=&apos;ATTACHED_DATE&apos;
-		 
-
-
-
-update IVLD_REBATE_SCHEDULE
-set ERROR_FIELD=
- CASE WHEN  isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_AMOUNT ))=0  and REBATE_AMOUNT is not null THEN &apos;REBATE_AMOUNT&apos; ELSE &apos;&apos; END
-WHERE 
-((isnumeric(TRY_CONVERT(NUMERIC(22,6),REBATE_AMOUNT )) = 0 and  REBATE_AMOUNT is not null)
-
-) 
-and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;ATTACHED_DATE&apos;
-		 
-
-
-
-</sql>
+      <sql>DECLARE &#x40;batch_id VARCHAR&#x28;20&#x29;&#x3d; &#x28;SELECT TOP 1 batch_id&#xa;   FROM   IVLD_REBATE_SCHEDULE&#xa;   ORDER  BY INTF_INSERTED_DATE DESC&#x29;&#xa;&#xa;UPDATE IVLD_REBATE_SCHEDULE&#xa;SET    ERROR_FIELD &#x3d; Substring&#x28;CASE WHEN REBATE_SCHEDULE_ID IS NULL THEN &#x27;,REBATE_SCHEDULE_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN REBATE_SCHEDULE_TYPE IS NULL THEN &#x27;,REBATE_SCHEDULE_TYPE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN REBATE_PROGRAM_TYPE IS NULL THEN &#x27;,REBATE_PROGRAM_TYPE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN REBATE_FREQUENCY IS NULL THEN &#x27;,REBATE_FREQUENCY&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN CALENDAR IS NULL THEN &#x27;,CALENDAR&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ITEM_ID IS NULL THEN &#x27;,ITEM_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ATTACHED_STATUS IS NULL THEN &#x27;,ATTACHED_STATUS&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ATTACHED_DATE IS NULL THEN &#x27;,ATTACHED_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ITEM_START_DATE IS NULL THEN &#x27;,ITEM_START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN ITEM_REBATE_START_DATE IS NULL THEN &#x27;,ITEM_REBATE_START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN CONTRACT_ID IS NULL THEN &#x27;,CONTRACT_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN IFP_ID IS NULL THEN &#x27;,ITEM_FAMILY_PLAN_ID&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN PRICE_SCHEDULE_ID IS NULL THEN &#x27;,PRICE_SCHEDULE_ID&#x27; ELSE &#x27;&#x27; END&#xa;                               &#x2b; CASE WHEN ADD_CHG_DEL_INDICATOR IS NULL THEN &#x27;,ADD_CHG_DEL_INDICATOR&#x27; ELSE &#x27;&#x27; END &#x2b; CASE WHEN BATCH_ID IS NULL THEN &#x27;,BATCH_ID&#x27; ELSE &#x27;&#x27; END, 2, 100000&#x29;&#xa;WHERE  BATCH_ID &#x3d; &#x40;batch_id   and ERROR_CODE&#x3d;&#x27;E01&#x27;&#xa;&#xa;&#xa;update IVLD_REBATE_SCHEDULE set ERROR_FIELD&#x3d;&#xa;        CASE WHEN  Isdate&#x28;ATTACHED_DATE&#x29;&#x3d;0  and ATTACHED_DATE is not null THEN &#x27;ATTACHED_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa;  CASE WHEN  Isdate&#x28;ITEM_START_DATE&#x29;&#x3d;0 and ITEM_START_DATE is not null THEN &#x27;,ITEM_START_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa; CASE WHEN   Isdate&#x28;ITEM_END_DATE&#x29;&#x3d;0 and  ITEM_END_DATE is not null THEN &#x27;,ITEM_END_DATE&#x27; ELSE &#x27;&#x27; END &#x2b;&#xa; CASE WHEN   Isdate&#x28;ITEM_REBATE_START_DATE&#x29;&#x3d;0 and ITEM_REBATE_START_DATE is not null THEN &#x27;,ITEM_REBATE_START_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;  CASE WHEN   Isdate&#x28;ITEM_REBATE_END_DATE&#x29;&#x3d;0 and ITEM_REBATE_END_DATE is not null THEN &#x27;,ITEM_REBATE_END_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa; CASE WHEN   Isdate&#x28;CREATED_DATE&#x29;&#x3d;0 and CREATED_DATE is not null THEN &#x27;,CREATED_DATE&#x27; ELSE &#x27;&#x27; END  &#x2b; &#xa;  CASE WHEN   Isdate&#x28;MODIFIED_DATE&#x29;&#x3d;0 and MODIFIED_DATE is not null THEN &#x27;,MODIFIED_DATE&#x27; ELSE &#x27;&#x27; END  &#xa;&#xa;WHERE      &#x28;Isdate&#x28;ATTACHED_DATE&#x29; &#x3d; 0 and ATTACHED_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;ITEM_START_DATE&#x29; &#x3d; 0 and ITEM_START_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;ITEM_END_DATE&#x29; &#x3d; 0 and  ITEM_END_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;ITEM_REBATE_START_DATE&#x29; &#x3d; 0  and ITEM_REBATE_START_DATE is not null&#x29;&#xa;  OR &#x28;Isdate&#x28;ITEM_REBATE_END_DATE&#x29; &#x3d; 0  and ITEM_REBATE_END_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;CREATED_DATE&#x29; &#x3d; 0  and CREATED_DATE is not null&#x29;&#xa; OR &#x28;Isdate&#x28;MODIFIED_DATE&#x29; &#x3d; 0  and MODIFIED_DATE is not null&#x29;&#xa;      and BATCH_ID &#x3d; &#x40;batch_id and ERROR_CODE&#x3d;&#x27;E03&#x27; and ERROR_FIELD&#x3d;&#x27;ATTACHED_DATE&#x27;&#xa;		 &#xa;&#xa;&#xa;&#xa;update IVLD_REBATE_SCHEDULE&#xa;set ERROR_FIELD&#x3d;&#xa; CASE WHEN  isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,REBATE_AMOUNT &#x29;&#x29;&#x3d;0  and REBATE_AMOUNT is not null THEN &#x27;REBATE_AMOUNT&#x27; ELSE &#x27;&#x27; END&#xa;WHERE &#xa;&#x28;&#x28;isnumeric&#x28;TRY_CONVERT&#x28;NUMERIC&#x28;22,6&#x29;,REBATE_AMOUNT &#x29;&#x29; &#x3d; 0 and  REBATE_AMOUNT is not null&#x29;&#xa;&#xa;&#x29; &#xa;and BATCH_ID &#x3d; &#x40;batch_id and ERROR_CODE&#x3d;&#x27;E03&#x27;  and ERROR_FIELD&#x3d;&#x27;ATTACHED_DATE&#x27;&#xa;		 &#xa;&#xa;&#xa;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -207,18 +165,18 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;A
       <yloc>138</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;REBATE_SCHEDULE_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -236,11 +194,11 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;A
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -254,18 +212,7 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;A
       <name>DATE FORMAT</name>
       <description/>
       <type>SQL</type>
-      <sql>
-
-update rebate_schedule_interface
-set ATTACHED_DATE=cast(left(ATTACHED_DATE,12) as date) 
-update rebate_schedule_interface
-set ITEM_START_DATE=cast(left(ITEM_START_DATE,12) as date) 
-update rebate_schedule_interface
-set ITEM_END_DATE=cast(left(ITEM_END_DATE,12) as date) 
-update rebate_schedule_interface
-set ITEM_REBATE_START_DATE=cast(left(ITEM_REBATE_START_DATE,12) as date) 
-update rebate_schedule_interface
-set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
+      <sql>&#xa;&#xa;update rebate_schedule_interface&#xa;set ATTACHED_DATE&#x3d;cast&#x28;left&#x28;ATTACHED_DATE,12&#x29; as date&#x29; &#xa;update rebate_schedule_interface&#xa;set ITEM_START_DATE&#x3d;cast&#x28;left&#x28;ITEM_START_DATE,12&#x29; as date&#x29; &#xa;update rebate_schedule_interface&#xa;set ITEM_END_DATE&#x3d;cast&#x28;left&#x28;ITEM_END_DATE,12&#x29; as date&#x29; &#xa;update rebate_schedule_interface&#xa;set ITEM_REBATE_START_DATE&#x3d;cast&#x28;left&#x28;ITEM_REBATE_START_DATE,12&#x29; as date&#x29; &#xa;update rebate_schedule_interface&#xa;set ITEM_REBATE_END_DATE&#x3d;cast&#x28;left&#x28;ITEM_REBATE_END_DATE,12&#x29; as date&#x29; </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -327,8 +274,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -346,7 +293,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;REBATE_SCHEDULE_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -362,7 +309,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;csv_inject.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;csv_inject.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -381,6 +328,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -418,8 +366,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -435,7 +383,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACEkjb_AUDIT.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACEkjb_AUDIT.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -454,6 +402,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -462,7 +411,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>418</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO ERROR (2)</name>
+      <name>FILEPROCESS TO ERROR &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -491,8 +440,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -503,14 +452,14 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>675</yloc>
       </entry>
     <entry>
-      <name>DELETE TEMP FIILES IN FILE PROCESS (2)</name>
+      <name>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;REBATE_SCHEDULE_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -524,8 +473,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <name>STOP PROCESS AUDIT</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -538,7 +486,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>1106</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -551,8 +499,10 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -563,7 +513,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>449</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -592,8 +542,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -604,7 +554,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>568</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</name>
       <description/>
       <type>COPY_FILES</type>
       <copy_empty_folders>Y</copy_empty_folders>
@@ -617,8 +567,10 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -629,7 +581,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>921</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</name>
+      <name>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -658,8 +610,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -683,8 +635,10 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <create_destination_folder>N</create_destination_folder>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <source_configuration_name/>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed</destination_filefolder>
+          <destination_configuration_name/>
           <wildcard/>
         </field>
       </fields>
@@ -724,8 +678,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${OUTBOUND_FILE_PATH}&#47;Processed&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;OUTBOUND_FILE_PATH&#x7d;&#x2f;Processed&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -741,7 +695,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${Internal.Job.Filename.Directory}&#47;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CSV_TO_INTERFACE_TRAN_USER.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -760,6 +714,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -773,7 +728,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;HEADER_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;HEADER_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -792,6 +747,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -811,7 +767,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>707</yloc>
       </entry>
     <entry>
-      <name>FILEPROCESS TO ERROR (2) 2</name>
+      <name>FILEPROCESS TO ERROR &#x28;2&#x29; 2</name>
       <description/>
       <type>MOVE_FILES</type>
       <move_empty_folders>N</move_empty_folders>
@@ -840,8 +796,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -852,18 +808,18 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <yloc>479</yloc>
       </entry>
     <entry>
-      <name>DELETE FIILES IN FILE PROCESS (2) 2</name>
+      <name>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</name>
       <description/>
       <type>DELETE_FILES</type>
       <arg_from_previous>N</arg_from_previous>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;REBATE_SCHEDULE_INTERFACE1.csv</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE1.csv</name>
           <filemask/>
         </field>
       </fields>
@@ -903,8 +859,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Processed&#47;${ORG_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;ORG_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -922,11 +878,11 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <include_subfolders>N</include_subfolders>
       <fields>
         <field>
-          <name>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
         <field>
-          <name>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Processed&#47;${FILE_NAME_EXT_NEW}</name>
+          <name>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Processed&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</name>
           <filemask/>
         </field>
       </fields>
@@ -966,8 +922,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <simulate>N</simulate>
       <fields>
         <field>
-          <source_filefolder>${FILE_LOCAL_PATH}&#47;${FILE_NAME_EXT_NEW}</source_filefolder>
-          <destination_filefolder>${INBOUND_FILE_PATH}&#47;REBATE_SCHEDULE_INTERFACE&#47;Error&#47;${ERROR_FILE_NAME}</destination_filefolder>
+          <source_filefolder>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;&#x24;&#x7b;FILE_NAME_EXT_NEW&#x7d;</source_filefolder>
+          <destination_filefolder>&#x24;&#x7b;INBOUND_FILE_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE&#x2f;Error&#x2f;&#x24;&#x7b;ERROR_FILE_NAME&#x7d;</destination_filefolder>
           <wildcard/>
         </field>
       </fields>
@@ -981,8 +937,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <name>STOP PROCESS AUDIT 2</name>
       <description/>
       <type>SQL</type>
-      <sql>update AUDIT_MASTER_INBOUND set status=&apos;E&apos; where STATUS=&apos;R&apos; and APPLICATION_PROCESS=&apos;REBATE_SCHEDULE_INTERFACE&apos;
-</sql>
+      <sql>update AUDIT_MASTER_INBOUND set status&#x3d;&#x27;E&#x27; where STATUS&#x3d;&#x27;R&#x27; and APPLICATION_PROCESS&#x3d;&#x27;REBATE_SCHEDULE_INTERFACE&#x27;&#xa;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -1000,7 +955,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1022,7 +977,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1044,7 +999,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>SIMPLE_EVAL</type>
       <valuetype>variable</valuetype>
       <fieldname/>
-      <variablename>${OUTBOUND_FLAG}</variablename>
+      <variablename>&#x24;&#x7b;OUTBOUND_FLAG&#x7d;</variablename>
       <fieldtype>string</fieldtype>
       <mask/>
       <comparevalue>Y</comparevalue>
@@ -1066,7 +1021,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>${COMMON_LOGIC_PATH}&#47;CSV_TO_INTERFACE_FAIL_MAIL.ktr</filename>
+      <filename>&#x24;&#x7b;COMMON_LOGIC_PATH&#x7d;&#x2f;CSV_TO_INTERFACE_FAIL_MAIL.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -1085,6 +1040,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
       <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
@@ -1159,7 +1115,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED</from>
-      <to>DELETE FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1177,7 +1133,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>REARRANGING THE HEADER IN ORDER</from>
-      <to>DELETE TEMP FIILES IN FILE PROCESS (2)</to>
+      <to>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1194,8 +1150,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (3)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1203,8 +1159,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (3)</from>
-      <to>FILEPROCESS TO ERROR (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;3&#x29;</from>
+      <to>FILEPROCESS TO ERROR &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1212,8 +1168,8 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED (2)</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</to>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</from>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1221,7 +1177,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME (2)</from>
+      <from>FILEPROCESS TO OUTBOUND PROCESSED WITH NEW FILE NAME &#x28;2&#x29;</from>
       <to>FILEPROCESS TO PROCESSED</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1266,7 +1222,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR (2) 2</from>
+      <from>FILEPROCESS TO ERROR &#x28;2&#x29; 2</from>
       <to>Transformation 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1285,7 +1241,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>FILEPROCESS TO PROCESSED 2</from>
-      <to>DELETE FIILES IN FILE PROCESS (2) 2</to>
+      <to>DELETE FIILES IN FILE PROCESS &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1311,7 +1267,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>DELETE TEMP FIILES IN FILE PROCESS (2)</from>
+      <from>DELETE TEMP FIILES IN FILE PROCESS &#x28;2&#x29;</from>
       <to>Simple evaluation 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1321,7 +1277,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>Simple evaluation 2</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (3)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;3&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1330,7 +1286,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>Simple evaluation 2</from>
-      <to>FILEPROCESS TO ERROR (2) 2</to>
+      <to>FILEPROCESS TO ERROR &#x28;2&#x29; 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1375,7 +1331,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
     </hop>
     <hop>
       <from>Simple evaluation 2 3</from>
-      <to>FILEPROCESS TO OUTBOUND PROCESSED (2)</to>
+      <to>FILEPROCESS TO OUTBOUND PROCESSED &#x28;2&#x29;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -1410,7 +1366,7 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>FILEPROCESS TO ERROR (2)</from>
+      <from>FILEPROCESS TO ERROR &#x28;2&#x29;</from>
       <to>Transformation 2 3 2</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -1421,4 +1377,5 @@ set ITEM_REBATE_END_DATE=cast(left(ITEM_REBATE_END_DATE,12) as date) </sql>
   </hops>
   <notepads>
   </notepads>
+
 </job>

@@ -347,6 +347,19 @@ public class GtnFrameworkContractDashboardContants {
 			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
 			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
 			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
+        private static final String[] PRICE_PROTECTION_PENDING_VIEW_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
+    			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
+    			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
+    			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
+    			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
+    			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+    			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, PRICE_TOLERANCE_INTERVAL_PENDING,
+    			PRICE_TOLERANCE_FREQUENCY_PENDING, PRICE_TOLERANCE_TYPE_PENDING,
+    			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+    			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
+    			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
+    			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
+    			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, String.class, Integer.class, Date.class, Date.class, Integer.class,
 			String.class, String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class,
@@ -647,6 +660,12 @@ public class GtnFrameworkContractDashboardContants {
 			getCompanyDetailHeader()[12], getCompanyDetailHeader()[13], getCompanyDetailHeader()[14],
 			getCompanyDetailHeader()[15], getCompanyDetailHeader()[16], getCompanyDetailHeader()[17] };
 	private static final String[] COMPANY_DETAIL_VIEW_COLUMN = { getCompanyDetailColumn()[2],
+			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailColumn()[5],
+			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
+			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
+			getCompanyDetailColumn()[12], getCompanyDetailColumn()[13], getCompanyDetailColumn()[14],
+			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17] };
+	private static final String[] COMPANY_DETAIL_VIEW_PENDING_COLUMN = { getCompanyDetailColumn()[2],
 			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailPendingColumn()[4],
 			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
 			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
@@ -875,6 +894,10 @@ public class GtnFrameworkContractDashboardContants {
 		return COMPANY_DETAIL_VIEW_COLUMN.clone();
 	}
 
+	public static String[] getCompanyDetailPendingViewColumn() {
+		return COMPANY_DETAIL_VIEW_PENDING_COLUMN.clone();
+	}
+	
 	public static Class<?>[] getCdHistoryColumnType() {
 		return CD_HISTORY_COLUMN_TYPE.clone();
 	}
@@ -1246,6 +1269,11 @@ public class GtnFrameworkContractDashboardContants {
 	public static String[] getPriceProtectionPendingColumn() {
 		return PRICE_PROTECTION_PENDING_COLUMN.clone();
 	}
+	
+	public static String[] getPriceProtectionViewPendingColumn() {
+		return PRICE_PROTECTION_PENDING_VIEW_COLUMN.clone();
+	}
+
 
 	public static Class<?>[] getPriceProtectionViewColumnType() {
 		return PRICE_PROTECTION_VIEW_COLUMN_TYPE.clone();
