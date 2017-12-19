@@ -93,18 +93,18 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     @UiField("pivotView")
     protected OptionGroup pivotView;
     
-    public OptionGroup variableCategory;
+    protected OptionGroup variableCategory;
     /**
      * The variable category.
      */
     @UiField("variableCategoryCustomMenuBar")
-    public CustomMenuBar variableCategoryCustomMenuBar;
+    protected CustomMenuBar variableCategoryCustomMenuBar;
     
     protected CustomMenuBar.CustomMenuItem variableCategoryCustomMenuItem;
     /**
      * The variables.
      */
-    public OptionGroup variables = new OptionGroup();
+    protected OptionGroup variables = new OptionGroup();
 
     @UiField("customMenuBar")
     protected CustomMenuBar customMenuBar;
@@ -266,9 +266,9 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     protected CustomMenuBar.CustomMenuItem customerFilterValues;
     protected CustomMenuBar.CustomMenuItem productFilterValues;
     protected CustomMenuBar.CustomMenuItem deductionFilterValues;
-    public static final String VARIANCE = "Variance";
+    protected static final String VARIANCE = "Variance";
 
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
     /**
      * Display Format Custom menu bar
      */
@@ -279,7 +279,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * Session DTO
      */
-    protected SessionDTO sessionDTO;
+    public SessionDTO sessionDTO;
     /**
      * Screen Name
      */
@@ -340,11 +340,11 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    protected HorizontalLayout controlLayout;
     /**
      * Property file for alert message
      */
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    protected static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
     
     protected List<Object> generateDiscountToBeLoaded = new ArrayList<>();
     protected List<Object> generateDiscountNamesToBeLoaded = new ArrayList<>();
@@ -684,6 +684,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
         final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO);
         customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customerTreeLookup.isIsSelect()) {
                     customIdToSelect = customerTreeLookup.getCustomId();
@@ -702,6 +703,7 @@ public abstract class ForecastProjectionVariance extends CustomComponent impleme
             final CustomTreeBuild customerTreeLookup = new CustomTreeBuild(sessionDTO, customId);
             customerTreeLookup.addCloseListener(new Window.CloseListener() {
 
+                @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customerTreeLookup.getCustomId();
                    sessionDTO.setCustomerViewList(CommonLogic.getCustomViewList(sessionDTO.getProjectionId()));

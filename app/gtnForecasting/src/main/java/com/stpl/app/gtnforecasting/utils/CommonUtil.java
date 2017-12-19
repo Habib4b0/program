@@ -415,7 +415,6 @@ public class CommonUtil {
                             if (inputs.length == NumericConstants.THREE) {
                                 waitsForOtherThreadsToComplete((Future) inputs[NumericConstants.TWO]);
                             }
-                            System.out.println("inputs[1].toString()---------------------------------"+inputs[1].toString());
                             HelperTableLocalServiceUtil.executeUpdateQuery(inputs[1].toString());                            
                         break;
                     case Constant.DISCOUNT_LIST_VIEW_SAVE:
@@ -459,7 +458,6 @@ public class CommonUtil {
             try {
                 futureObject.get();
             } catch (InterruptedException | ExecutionException ex) {
-                ex.printStackTrace();
                 LOGGER.error(ex);
             }
         }
@@ -472,7 +470,6 @@ public class CommonUtil {
 }
 
             } catch (InterruptedException | ExecutionException ex) {
-                ex.printStackTrace();
                 LOGGER.error(ex);
             }
         }

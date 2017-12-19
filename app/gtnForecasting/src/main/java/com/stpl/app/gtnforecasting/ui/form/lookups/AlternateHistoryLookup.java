@@ -67,14 +67,14 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
     /** The logic. */
     private final NonMandatedLogic logic = new NonMandatedLogic();
     
-    private SalesLogic saleslogic = new SalesLogic();
+    private final SalesLogic saleslogic = new SalesLogic();
     
    
     
     /** The error msg. */
     private final ErrorLabel errorMsg = new ErrorLabel();
         
-    private SessionDTO session;
+    private final SessionDTO session;
         
     private String type=STRING_EMPTY;
      

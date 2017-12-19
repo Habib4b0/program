@@ -286,6 +286,7 @@ public class AlternateSummery extends CustomComponent {
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadOnViewChange();
             }

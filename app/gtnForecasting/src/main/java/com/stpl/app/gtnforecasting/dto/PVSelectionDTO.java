@@ -172,10 +172,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
     private Map<String, Integer> discountNameMap = new HashMap<>();
     private boolean conversionNeeded = false;
 
+    @Override
     public int getLevelNo() {
         return levelNo;
     }
 
+    @Override
     public void setLevelNo(int levelNo) {
         this.levelNo = levelNo;
     }
@@ -188,10 +190,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.projectionNo = projectionNo;
     }
 
+    @Override
     public String getLevel() {
         return level;
     }
 
+    @Override
     public void setLevel(String level) {
         this.level = level;
     }
@@ -204,10 +208,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.projectionPeriodOrder = projectionPeriodOrder;
     }
 
+    @Override
     public String getDiscountLevel() {
         return discountLevel;
     }
 
+    @Override
     public void setDiscountLevel(String discountLevel) {
         this.discountLevel = discountLevel;
     }
@@ -269,10 +275,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.rightHeader = rightHeader;
     }
 
+    @Override
     public Integer getParent() {
         return parent;
     }
 
+    @Override
     public void setParent(Integer parent) {
         this.parent = parent;
     }
@@ -533,10 +541,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.graphHeader = graphHeader;
     }
 
+    @Override
     public String getScreenName() {
         return screenName;
     }
 
+    @Override
     public void setScreenName(String screenName) {
         this.screenName = screenName;
     }
@@ -765,10 +775,12 @@ public class PVSelectionDTO extends ProjectionSelectionDTO {
         this.netExFactorySalesPerExFactory = netExFactorySalesPerExFactory;
     }
 
+    @Override
     public String getDeductionHierarchyNo() {
         return deductionHierarchyNo;
     }
 
+    @Override
     public void setDeductionHierarchyNo(String deductionHierarchyNo) {
         this.deductionHierarchyNo = deductionHierarchyNo;
     }
