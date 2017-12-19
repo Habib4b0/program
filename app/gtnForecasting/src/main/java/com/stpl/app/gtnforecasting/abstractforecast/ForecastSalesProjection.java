@@ -787,8 +787,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
 
         allocMethodology.addItem(Constant.SELECT_ONE);
         allocMethodology.setNullSelectionItemId(Constant.SELECT_ONE);
-        allocMethodology.addItem(Constant.HISPEROFBUSINESS);
-        allocMethodology.addItem(Constant.FOREPERCOFBUSINESS);
+        CommonUtil.getInstance().loadOnDemandCombobox(allocMethodology, "ADJUSTMENT_METHODOLOGIES");
 
         allocationBasis.addItem(Constant.SELECT_ONE);
         allocationBasis.setNullSelectionItemId(Constant.SELECT_ONE);

@@ -689,6 +689,24 @@ public class CommonUtil {
         double doubleValue = Double.parseDouble(selection.getConversionFactor().toString());
         return value * doubleValue;
     }
+    
+    /**-----------------------------alg-2696--------------------------------------------**/
+    public void loadOnDemandCombobox(final ComboBox allocationBasis, final String listName) {
+        try {
+            final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME, new Object[]{listName}));
+            dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
+            List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);
+            if (list != null && !list.isEmpty()) {
+                for (int i = 0; i < list.size(); i++) {
+                    HelperTable helperTable = list.get(i);
+                    allocationBasis.addItem(helperTable.getDescription());
+                }
+            }
+        } catch (SystemException | UnsupportedOperationException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
 
 }
 
