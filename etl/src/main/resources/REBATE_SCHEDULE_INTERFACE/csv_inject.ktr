@@ -262,6 +262,20 @@
       <line> <item>UDC5</item> </line>
       <line> <item>UDC6</item> </line>
       <line> <item>FORMULA_METHOD_ID</item> </line>
+      <line> <item>DEDUCTION_INCLUSION</item> </line>
+      <line> <item>REBATE_SCHEDULE_ALIAS_ID</item> </line>
+      <line> <item>PAYMENT_LEVEL</item> </line>
+      <line> <item>EVALUATION_RULE_LEVEL</item> </line>
+      <line> <item>EVALUATION_RULE</item> </line>
+      <line> <item>EVALUATION_RULE_BUNDLE</item> </line>
+      <line> <item>CALCULATION_TYPE</item> </line>
+      <line> <item>CALCULATION_RULE</item> </line>
+      <line> <item>CALCULATION_RULE_LEVEL</item> </line>
+      <line> <item>CALCULATION_RULE_BUNDLE</item> </line>
+      <line> <item>NET_SALES_FORMULA</item> </line>
+      <line> <item>NET_SALES_RULE</item> </line>
+      <line> <item>DEDUCTION_CALENDAR_NO</item> </line>
+      <line> <item>DEDUCTION_CALENDAR_NAME</item> </line>
     </data>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -541,6 +555,48 @@
         <norm>col</norm>
         </field>      <field>        <name>col71</name>
         <value>col71</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col72</name>
+        <value>col72</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col73</name>
+        <value>col73</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col74</name>
+        <value>col74</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col75</name>
+        <value>col75</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col76</name>
+        <value>col76</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col77</name>
+        <value>col77</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col78</name>
+        <value>col78</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col79</name>
+        <value>col79</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col80</name>
+        <value>col80</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col81</name>
+        <value>col81</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col82</name>
+        <value>col82</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col83</name>
+        <value>col83</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col84</name>
+        <value>col84</value>
+        <norm>col</norm>
+        </field>      <field>        <name>col85</name>
+        <value>col85</value>
         <norm>col</norm>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1651,6 +1707,216 @@
       </field>
       <field>
         <name>col71</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col72</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col73</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col74</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col75</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col76</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col77</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col78</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col79</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col80</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col81</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col82</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col83</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col84</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <ifnull/>
+        <position>-1</position>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>both</trim_type>
+        <repeat>N</repeat>
+      </field>
+      <field>
+        <name>col85</name>
         <type>None</type>
         <format/>
         <currency/>
