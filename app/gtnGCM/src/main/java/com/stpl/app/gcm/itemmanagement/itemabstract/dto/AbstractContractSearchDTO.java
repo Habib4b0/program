@@ -93,7 +93,7 @@ public class AbstractContractSearchDTO {
     private HelperDTO netSubsequentPeriodPrice;
     private HelperDTO baselineNetWAC;
     private HelperDTO basePriceType;
-    private HelperDTO baselineWAC;
+    private Object baselineWAC;
     private Date resetDate;
     private String netResetPriceFormula = StringUtils.EMPTY;
     private String netSubsequentPeriodPriceFormula = StringUtils.EMPTY;
@@ -729,11 +729,11 @@ public class AbstractContractSearchDTO {
         this.basePriceType = basePriceType;
     }
 
-    public HelperDTO getBaselineWAC() {
+    public Object getBaselineWAC() {
         return baselineWAC;
     }
 
-    public void setBaselineWAC(HelperDTO baselineWAC) {
+    public void setBaselineWAC(Object baselineWAC) {
         this.baselineWAC = baselineWAC;
     }
 

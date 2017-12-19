@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.itemmaster.bean;
 // Generated Feb 18, 2017 12:08:27 PM by Hibernate Tools 3.6.0
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class GntWsItemPricingBean implements java.io.Serializable {
@@ -15,7 +16,7 @@ public class GntWsItemPricingBean implements java.io.Serializable {
 	private int itemPricingQualifierSid;
 	private int itemMasterSid;
 	private int pricingCodeStatus;
-	private Double itemPrice;
+	private BigDecimal itemPrice;
 	private String entityCode;
 	private String itemPricingQualifierName;
 	private Date startDate;
@@ -105,11 +106,11 @@ public class GntWsItemPricingBean implements java.io.Serializable {
 		this.recordLockStatus = recordLockStatus;
 	}
 
-	public Double getItemPrice() {
+	public BigDecimal getItemPrice() {
 		return itemPrice;
 	}
 
-	public void setItemPrice(Double itemPrice) {
+	public void setItemPrice(BigDecimal itemPrice) {
 		this.itemPrice = itemPrice;
 	}
 

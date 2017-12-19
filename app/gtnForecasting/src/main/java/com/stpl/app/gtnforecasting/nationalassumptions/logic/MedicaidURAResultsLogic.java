@@ -74,7 +74,7 @@ public class MedicaidURAResultsLogic {
     public static final String MEDICAID_URA_CPI_U = "MEDICAID_URA_CPI_U";
     public static final String MEDICAID_URA_TOTAL_URA = "MEDICAID_URA_TOTAL_URA";
 
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String ADJUSTMENT_CPI = "Adjustment CPI";
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String CPI_U = "CPI-U";

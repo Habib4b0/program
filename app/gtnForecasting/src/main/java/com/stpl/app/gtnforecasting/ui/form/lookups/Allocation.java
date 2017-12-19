@@ -549,6 +549,7 @@ public class Allocation extends CustomComponent implements View {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setValue(false);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
                                 logic.check_selected_allocationTab(dto, session, check.getValue() ? 1 : 0, start_stamp, end_stamp);

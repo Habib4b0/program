@@ -69,7 +69,6 @@ public class GtnWsPriceScheduleController {
 	private static final String PP_START_DATE_EQUAL = "PPStartDateEqual";
 	private static final String PP_START_DATE_LESS = "PPStartDateLess";
 	private static final String PP_START_DATE_NULL = "PPStartDateNull";
-	private static final String PP_END_DATE_NULL = "PPEndDateNull";
 	
         private static final String IMTD_PS_DETAILS_COUNT = "Imtd_Ps_Details_Count_query";
 
@@ -700,11 +699,6 @@ public class GtnWsPriceScheduleController {
 		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			ppValidateSql.append(
 					"select count(item_No) from dbo.Imtd_Ps_Details where PS_DETAILS_PRIC_PRTCN_STDATE is  null and");
-			checkRecord = true;
-		}
-		if (PP_END_DATE_NULL.equalsIgnoreCase(process)) {
-			ppValidateSql.append(
-					"select count(item_No) from dbo.Imtd_Ps_Details where PS_DETAILS_PRIC_PRTCN_EDDATE is  null and");
 			checkRecord = true;
 		}
 		if (PP_START_DATE_EQUAL.equalsIgnoreCase(process)) {

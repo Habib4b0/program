@@ -25,17 +25,17 @@ import com.stpl.ifs.util.constants.ForecastingConstants;
 
 public class CumulativeCalculationUtils {
 
-	private Object[] procedureInputList;
+	private final Object[] procedureInputList;
 	public static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger
 			.getLogger(CumulativeCalculationUtils.class);
 	private String tabName = StringUtils.EMPTY;
 	boolean salesFlag = false;
-	private StandaloneParser credentials = StandaloneParser.getInstance();
-	private String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
+	private final StandaloneParser credentials = StandaloneParser.getInstance();
+	private final String folderName = System.getProperty(Constant.CUMULATIVE_FILE_PATH);
 	private String methodology = StringUtils.EMPTY;
 	private String userId = StringUtils.EMPTY;
 	private String sessionId = StringUtils.EMPTY;
-	private String tableName;
+	private final String tableName;
 
 	public CumulativeCalculationUtils(Object[] procedureInputList, final String userId, final String sessionId,
 			final String methodology, final String tabName, final String tableName) {

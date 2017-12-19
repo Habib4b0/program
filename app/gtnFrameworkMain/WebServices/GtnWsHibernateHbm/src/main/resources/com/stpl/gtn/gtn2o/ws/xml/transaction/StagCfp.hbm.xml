@@ -110,5 +110,8 @@
         <property name="addChgDelIndicator" type="string">
             <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
         </property>
+         <property name="salesInclusion" type="string">
+            <column name="SALES_INCLUSION" length="10" />
+        </property>
     </class>
 </hibernate-mapping>

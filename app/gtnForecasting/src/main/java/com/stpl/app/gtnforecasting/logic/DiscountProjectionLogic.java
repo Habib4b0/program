@@ -424,36 +424,17 @@ public class DiscountProjectionLogic {
      * @return
      */
     public boolean adjustDiscountProjection(SessionDTO session, final String adjustmentType,
-            final String adjustmentBasis, final String adjustmentValue, final String allocationMethodology) {
-        try (CallableStatement statement = ((DataSource)(new InitialContext().lookup(JBOSS_DATA_POOL))).getConnection().prepareCall("{call PRC_DISCOUNT_MANUAL_ADJUSTMENT (?,?,?,?,?,?,?,?,?,?,?)}")){
-                LOGGER.debug("Frequency      " + session.getFrequency());
-                LOGGER.debug("UserId         " + session.getUserId());
-                LOGGER.debug("SessionId      " + session.getSessionId());
-                LOGGER.debug("adjustmentType  "+adjustmentType);
-                LOGGER.debug("adjustmentBasis "+adjustmentBasis);
-                LOGGER.debug("allocationMethodology "+allocationMethodology);
-                LOGGER.debug("adjustmentValue "+adjustmentValue);
-                LOGGER.debug("baselinePeriods "+baselinePeriods);
-                LOGGER.debug("selectedPeriods "+selectedPeriods);
-                selectedPeriods = ((session.isActualAdjustment() == true)?session.getActualAdjustmentPeriods() :selectedPeriods);
-                statement.setInt(1, session.getProjectionId());
-                statement.setString(NumericConstants.TWO, session.getFrequency());
-                statement.setInt(NumericConstants.THREE, Integer.parseInt(session.getUserId()));
-                statement.setString(NumericConstants.FOUR, session.getSessionId());
-                statement.setString(NumericConstants.FIVE, adjustmentType);
-                statement.setString(NumericConstants.SIX,adjustmentBasis);
-                statement.setString(NumericConstants.SEVEN, allocationMethodology);
-                statement.setString(NumericConstants.EIGHT, adjustmentValue);
-                statement.setString(NumericConstants.NINE, baselinePeriods);
-                statement.setString(NumericConstants.TEN, selectedPeriods);
-                statement.setString(NumericConstants.ELEVEN,  ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
-
-                statement.execute();
-          
-        } catch (NamingException | SQLException ex) {
-            LOGGER.error(ex);
-            return false;
-        } 
+            final String adjustmentBasis, final String adjustmentValue, final String actualOrSalesUnits,List<String> historyPeriods) {
+         List<String> inputList = new ArrayList<>();
+        inputList.add(session.getFrequency());
+        inputList.add(selectedPeriods);
+        inputList.add(adjustmentBasis);
+        inputList.add(adjustmentValue);
+        inputList.add(adjustmentType);
+        inputList.add(actualOrSalesUnits);
+        inputList.add(ALL.equals(session.getDeductionInclusion()) ? null : session.getDeductionInclusion());
+        inputList.add(StringUtils.join(historyPeriods.iterator(),","));
+        com.stpl.app.utils.QueryUtils.updateAppDataUsingSessionTables(inputList, "discount-adjustment-query", session);
         return true;
     }
 
@@ -615,7 +596,6 @@ public class DiscountProjectionLogic {
                         break;
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         } else {
