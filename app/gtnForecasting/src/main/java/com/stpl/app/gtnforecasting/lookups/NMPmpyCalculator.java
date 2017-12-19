@@ -167,7 +167,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * The non mandated logic.
      */
-    private NonMandatedLogic nonMandatedLogic = new NonMandatedLogic();
+    private final NonMandatedLogic nonMandatedLogic = new NonMandatedLogic();
 
     /**
      * The df calculated amount.
@@ -183,17 +183,17 @@ public class NMPmpyCalculator extends Window {
     /**
      * The df calculated unit.
      */
-    private DecimalFormat dfCalculatedUnit = new DecimalFormat("#,###.0");
+    private final DecimalFormat dfCalculatedUnit = new DecimalFormat("#,###.0");
 
     /**
      * The df SALES_SMALL.
      */
-    private DecimalFormat dfSales = new DecimalFormat("#");
+    private final DecimalFormat dfSales = new DecimalFormat("#");
 
     /**
      * The df UNITS_SMALL.
      */
-    private DecimalFormat dfUnits = new DecimalFormat("#.0");
+    private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
      * The calculated SALES_SMALL value.
@@ -278,9 +278,9 @@ public class NMPmpyCalculator extends Window {
     /**
      * The calendar.
      */
-    private Calendar calendar = CommonUtils.getCalendar();
-    private ExtFilterTable contractHolderTable = new ExtFilterTable();
-    private ExtFilterTable tradingHistoryTable = new ExtFilterTable();
+    private final Calendar calendar = CommonUtils.getCalendar();
+    private final ExtFilterTable contractHolderTable = new ExtFilterTable();
+    private final ExtFilterTable tradingHistoryTable = new ExtFilterTable();
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
     private ExtTreeContainer<PMPYRowDto> tpContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
 
@@ -289,8 +289,8 @@ public class NMPmpyCalculator extends Window {
 
     List<Object> visiColumn = new ArrayList<>();
     List<String> visiHeaders = new ArrayList<>();
-    private List<String> chtCheckBoxMap = new ArrayList<>();
-    private List<String> tptCheckBoxMap = new ArrayList<>();
+    private final List<String> chtCheckBoxMap = new ArrayList<>();
+    private final List<String> tptCheckBoxMap = new ArrayList<>();
     boolean valueChange = Boolean.TRUE;
 
     private String tradeName = StringUtils.EMPTY;
@@ -382,6 +382,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
@@ -389,6 +390,7 @@ public class NMPmpyCalculator extends Window {
                          * Default method.
                          */
 
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
 
@@ -408,6 +410,7 @@ public class NMPmpyCalculator extends Window {
                  * Default method.
                  */
 
+                @Override
                 public void error(final com.vaadin.server.ErrorEvent event) {
                     return;
                 }
@@ -417,6 +420,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     MessageBox.showPlain(Icon.QUESTION, "Close Confirmation", "Are you sure you want to Close the Calculator" + " ?", new MessageBoxListener() {
@@ -424,6 +428,7 @@ public class NMPmpyCalculator extends Window {
                          * Default method.
                          */
 
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
                                 close();
@@ -537,6 +542,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
@@ -544,6 +550,7 @@ public class NMPmpyCalculator extends Window {
                          * Default method.
                          */
 
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
                                 valueChange = Boolean.FALSE;
@@ -566,6 +573,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     firstCalculation();
@@ -577,6 +585,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     secondCalculation();
                 }
@@ -585,22 +594,15 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     try {
                         importButtonLogic();
-                    } catch (IllegalAccessException e) {
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
                         LOGGER.error(e);
                            
-                    } catch (InvocationTargetException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (NoSuchMethodException e) {
-
-                        LOGGER.error(e);
-
                     }
 
                 }
@@ -622,6 +624,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     try {
                         if ((contract.getValue() == null || StringUtils.EMPTY.equals(String.valueOf(contract.getValue())) || Constant.NULL.equals(String.valueOf(contract.getValue())) || String.valueOf(contract.getValue()).equals(DASH))
@@ -642,6 +645,7 @@ public class NMPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     final boolean chValue = isContractCheckBoxSelected();
                     final boolean tpValue = isTpCheckBoxSelectd();
@@ -1190,6 +1194,7 @@ public class NMPmpyCalculator extends Window {
                              * Default method.
                              */
 
+                            @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(Constant.YES)) {
                                     try {

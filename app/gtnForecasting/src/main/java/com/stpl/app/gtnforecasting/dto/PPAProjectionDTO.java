@@ -144,6 +144,7 @@ public class PPAProjectionDTO extends ExtMapDTO implements Cloneable {
         this.actualPriceCap = actualPrice;
     }
 
+    @Override
     public Object clone() throws CloneNotSupportedException {
         PPAProjectionDTO dto = new PPAProjectionDTO();
         dto.setActualPriceCap(actualPriceCap);

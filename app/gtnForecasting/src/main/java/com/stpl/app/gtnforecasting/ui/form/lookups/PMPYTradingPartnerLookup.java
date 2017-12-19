@@ -545,6 +545,7 @@ public class PMPYTradingPartnerLookup extends Window {
         });
 
         searchTP.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     searchLogic();
