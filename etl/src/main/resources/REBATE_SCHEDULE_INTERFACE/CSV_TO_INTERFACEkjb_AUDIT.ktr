@@ -7,7 +7,7 @@
     <trans_version/>
     <trans_type>Normal</trans_type>
     <trans_status>0</trans_status>
-    <directory>&#47;</directory>
+    <directory>&#x2f;</directory>
     <parameters>
     </parameters>
     <log>
@@ -17,7 +17,7 @@
 <size_limit_lines/>
 <interval/>
 <timeout_days/>
-<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field></trans-log-table>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STATUS</id><enabled>Y</enabled><name>STATUS</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name><subject/></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name><subject/></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name><subject/></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name><subject/></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name><subject/></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name><subject/></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>STARTDATE</id><enabled>Y</enabled><name>STARTDATE</name></field><field><id>ENDDATE</id><enabled>Y</enabled><name>ENDDATE</name></field><field><id>LOGDATE</id><enabled>Y</enabled><name>LOGDATE</name></field><field><id>DEPDATE</id><enabled>Y</enabled><name>DEPDATE</name></field><field><id>REPLAYDATE</id><enabled>Y</enabled><name>REPLAYDATE</name></field><field><id>LOG_FIELD</id><enabled>Y</enabled><name>LOG_FIELD</name></field><field><id>EXECUTING_SERVER</id><enabled>N</enabled><name>EXECUTING_SERVER</name></field><field><id>EXECUTING_USER</id><enabled>N</enabled><name>EXECUTING_USER</name></field><field><id>CLIENT</id><enabled>N</enabled><name>CLIENT</name></field></trans-log-table>
 <perf-log-table><connection/>
 <schema/>
 <table/>
@@ -34,6 +34,11 @@
 <table/>
 <timeout_days/>
 <field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>TRANSNAME</id><enabled>Y</enabled><name>TRANSNAME</name></field><field><id>STEPNAME</id><enabled>Y</enabled><name>STEPNAME</name></field><field><id>STEP_COPY</id><enabled>Y</enabled><name>STEP_COPY</name></field><field><id>LINES_READ</id><enabled>Y</enabled><name>LINES_READ</name></field><field><id>LINES_WRITTEN</id><enabled>Y</enabled><name>LINES_WRITTEN</name></field><field><id>LINES_UPDATED</id><enabled>Y</enabled><name>LINES_UPDATED</name></field><field><id>LINES_INPUT</id><enabled>Y</enabled><name>LINES_INPUT</name></field><field><id>LINES_OUTPUT</id><enabled>Y</enabled><name>LINES_OUTPUT</name></field><field><id>LINES_REJECTED</id><enabled>Y</enabled><name>LINES_REJECTED</name></field><field><id>ERRORS</id><enabled>Y</enabled><name>ERRORS</name></field><field><id>LOG_FIELD</id><enabled>N</enabled><name>LOG_FIELD</name></field></step-log-table>
+<metrics-log-table><connection/>
+<schema/>
+<table/>
+<timeout_days/>
+<field><id>ID_BATCH</id><enabled>Y</enabled><name>ID_BATCH</name></field><field><id>CHANNEL_ID</id><enabled>Y</enabled><name>CHANNEL_ID</name></field><field><id>LOG_DATE</id><enabled>Y</enabled><name>LOG_DATE</name></field><field><id>METRICS_DATE</id><enabled>Y</enabled><name>METRICS_DATE</name></field><field><id>METRICS_CODE</id><enabled>Y</enabled><name>METRICS_CODE</name></field><field><id>METRICS_DESCRIPTION</id><enabled>Y</enabled><name>METRICS_DESCRIPTION</name></field><field><id>METRICS_SUBJECT</id><enabled>Y</enabled><name>METRICS_SUBJECT</name></field><field><id>METRICS_TYPE</id><enabled>Y</enabled><name>METRICS_TYPE</name></field><field><id>METRICS_VALUE</id><enabled>Y</enabled><name>METRICS_VALUE</name></field></metrics-log-table>
     </log>
     <maxdate>
       <connection/>
@@ -62,21 +67,23 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2015&#47;09&#47;21 11:37:09.155</created_date>
+  <created_date>2015&#x2f;09&#x2f;21 11&#x3a;37&#x3a;09.155</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2015&#47;09&#47;21 11:37:09.155</modified_date>
+  <modified_date>2015&#x2f;09&#x2f;21 11&#x3a;37&#x3a;09.155</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>db</name>
-    <server>${BPI_HOST}</server>
+    <server>&#x24;&#x7b;BPI_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_DB}</database>
+    <database>&#x24;&#x7b;BPI_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_USER}</username>
-    <password>${BPI_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -93,13 +100,13 @@
   </connection>
   <connection>
     <name>staging</name>
-    <server>${STAGING_HOST}</server>
+    <server>&#x24;&#x7b;STAGING_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${STAGING_DB}</database>
+    <database>&#x24;&#x7b;STAGING_DB&#x7d;</database>
     <port>1433</port>
-    <username>${STAGING_USER}</username>
-    <password>${STAGING_PASSWORD}</password>
+    <username>&#x24;&#x7b;STAGING_USER&#x7d;</username>
+    <password>&#x24;&#x7b;STAGING_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -116,13 +123,13 @@
   </connection>
   <connection>
     <name>sys_db</name>
-    <server>${BPI_SYS_HOST}</server>
+    <server>&#x24;&#x7b;BPI_SYS_HOST&#x7d;</server>
     <type>MSSQL</type>
     <access>Native</access>
-    <database>${BPI_SYS_DB}</database>
+    <database>&#x24;&#x7b;BPI_SYS_DB&#x7d;</database>
     <port>1433</port>
-    <username>${BPI_SYS_USER}</username>
-    <password>${BPI_SYS_PASSWORD}</password>
+    <username>&#x24;&#x7b;BPI_SYS_USER&#x7d;</username>
+    <password>&#x24;&#x7b;BPI_SYS_PASSWORD&#x7d;</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -138,18 +145,32 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>AUDIT SORT 2</from><to>AUDIT UNIQUE 2</to><enabled>Y</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>RECEIVED COUNT 2</to><enabled>N</enabled> </hop>  <hop> <from>AUDIT UNIQUE 2</from><to>SET AUDIT STATUS 3</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>AUDIT SORT 2</to><enabled>Y</enabled> </hop>  <hop> <from>CSV file input 3</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>  <hop> <from>Detect empty stream</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>  <hop> <from>GET MAIL PARAMETERS</from><to>Mail</to><enabled>Y</enabled> </hop>  <hop> <from>Modified Java Script Value</from><to>GET MAIL PARAMETERS</to><enabled>Y</enabled> </hop>  <hop> <from>RECEIVED COUNT 2</from><to>SET AUDIT STATUS 3</to><enabled>N</enabled> </hop>  <hop> <from>SET AUDIT STATUS 3</from><to>ETL USER</to><enabled>Y</enabled> </hop>  <hop> <from>If field value is null</from><to>Audit Insert &#47; Update 3</to><enabled>Y</enabled> </hop>  <hop> <from>ETL USER</from><to>MAIL ID</to><enabled>Y</enabled> </hop>  <hop> <from>MAIL ID</from><to>If field value is null</to><enabled>Y</enabled> </hop>  </order>
+  <hop> <from>AUDIT SORT 2</from><to>AUDIT UNIQUE 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>AUDIT UNIQUE 2</from><to>RECEIVED COUNT 2</to><enabled>N</enabled> </hop>
+  <hop> <from>AUDIT UNIQUE 2</from><to>SET AUDIT STATUS 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input 3</from><to>AUDIT SORT 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input 3</from><to>Detect empty stream</to><enabled>Y</enabled> </hop>
+  <hop> <from>Detect empty stream</from><to>Modified Java Script Value</to><enabled>Y</enabled> </hop>
+  <hop> <from>GET MAIL PARAMETERS</from><to>Mail</to><enabled>Y</enabled> </hop>
+  <hop> <from>Modified Java Script Value</from><to>GET MAIL PARAMETERS</to><enabled>Y</enabled> </hop>
+  <hop> <from>RECEIVED COUNT 2</from><to>SET AUDIT STATUS 3</to><enabled>N</enabled> </hop>
+  <hop> <from>SET AUDIT STATUS 3</from><to>ETL USER</to><enabled>Y</enabled> </hop>
+  <hop> <from>If field value is null</from><to>Audit Insert &#x2f; Update 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>ETL USER</from><to>MAIL ID</to><enabled>Y</enabled> </hop>
+  <hop> <from>MAIL ID</from><to>If field value is null</to><enabled>Y</enabled> </hop>
+  </order>
   <step>
     <name>AUDIT SORT 2</name>
     <type>SortRows</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-      <directory>%%java.io.tmpdir%%</directory>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
       <prefix>out</prefix>
       <sort_size>50000</sort_size>
       <free_memory/>
@@ -161,6 +182,7 @@
         <name>BATCH_ID</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
       </field>
     </fields>
      <cluster_schema/>
@@ -176,6 +198,7 @@
     <type>Unique</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -196,10 +219,11 @@
     </step>
 
   <step>
-    <name>Audit Insert &#47; Update 3</name>
+    <name>Audit Insert &#x2f; Update 3</name>
     <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -214,19 +238,19 @@
       <key>
         <name>BATCH_ID</name>
         <field>BATCH_ID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>APPLICATION_PROCESS</name>
         <field>APPLICATION_PROCESS</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <key>
         <name>ZERO</name>
         <field>AUDIT_INBOUND_SID</field>
-        <condition>=</condition>
+        <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
@@ -288,17 +312,18 @@
     <type>CsvInput</type>
     <description/>
     <distribute>N</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>${FILE_LOCAL_PATH}&#47;REBATE_SCHEDULE_INTERFACE1.csv</filename>
+    <filename>&#x24;&#x7b;FILE_LOCAL_PATH&#x7d;&#x2f;REBATE_SCHEDULE_INTERFACE1.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>${DELIMITER}</separator>
-    <enclosure>&quot;</enclosure>
+    <separator>&#x24;&#x7b;DELIMITER&#x7d;</separator>
+    <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>N</lazy_conversion>
@@ -1088,6 +1113,160 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
+      <field>
+        <name>DEDUCTION_INCLUSION</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>REBATE_SCHEDULE_ALIAS_ID</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>PAYMENT_LEVEL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EVALUATION_RULE_LEVEL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EVALUATION_RULE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>EVALUATION_RULE_BUNDLE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CALCULATION_TYPE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CALCULATION_RULE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CALCULATION_RULE_LEVEL</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>CALCULATION_RULE_BUNDLE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_SALES_FORMULA</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NET_SALES_RULE</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>DEDUCTION_CALENDAR_NO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>DEDUCTION_CALENDAR_NAME</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1098,62 +1277,11 @@
     </step>
 
   <step>
-    <name>ETL USER</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>sys_db</connection>
-    <rowlimit>0</rowlimit>
-    <sql>
-SELECT userid as userid
-FROM user_ where screenname=&apos;etluser&apos; </sql>
-    <outer_join>Y</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>695</xloc>
-      <yloc>538</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>MAIL ID</name>
-    <type>DBJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>db</connection>
-    <rowlimit>0</rowlimit>
-    <sql>SELECT GETDATE() AS NEW_DATE</sql>
-    <outer_join>N</outer_join>
-    <replace_vars>N</replace_vars>
-    <parameter>
-    </parameter>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>802</xloc>
-      <yloc>582</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Detect empty stream</name>
     <type>DetectEmptyStream</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1168,10 +1296,37 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </step>
 
   <step>
+    <name>ETL USER</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>sys_db</connection>
+    <rowlimit>0</rowlimit>
+    <sql>&#xa;SELECT userid as userid&#xa;FROM user_ where screenname&#x3d;&#x27;etluser&#x27; </sql>
+    <outer_join>Y</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>695</xloc>
+      <yloc>538</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>GET MAIL PARAMETERS</name>
     <type>GetVariable</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1180,7 +1335,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <fields>
       <field>
         <name>DESTINATION_ADDRESS</name>
-        <variable>${DESTINATION_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1192,7 +1347,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </field>
       <field>
         <name>DESTINATION_CC</name>
-        <variable>${DESTINATION_CC}</variable>
+        <variable>&#x24;&#x7b;DESTINATION_CC&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1204,7 +1359,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </field>
       <field>
         <name>SENDER_ADDRESS</name>
-        <variable>${SENDER_ADDRESS}</variable>
+        <variable>&#x24;&#x7b;SENDER_ADDRESS&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1216,7 +1371,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </field>
       <field>
         <name>SENDER_NAME</name>
-        <variable>${SENDER_NAME}</variable>
+        <variable>&#x24;&#x7b;SENDER_NAME&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1228,7 +1383,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </field>
       <field>
         <name>MAIL_SERVER</name>
-        <variable>${MAIL_SERVER}</variable>
+        <variable>&#x24;&#x7b;MAIL_SERVER&#x7d;</variable>
         <type>String</type>
         <format/>
         <currency/>
@@ -1240,7 +1395,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       </field>
       <field>
         <name>MAIL_PORT</name>
-        <variable>${MAIL_PORT}</variable>
+        <variable>&#x24;&#x7b;MAIL_PORT&#x7d;</variable>
         <type>Number</type>
         <format/>
         <currency/>
@@ -1264,6 +1419,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>IfNull</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1273,6 +1429,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       <replaceAllMask/>
       <selectFields>Y</selectFields>
       <selectValuesType>N</selectValuesType>
+      <setEmptyStringAll>N</setEmptyStringAll>
     <valuetypes>
       </valuetypes>
     <fields>
@@ -1280,6 +1437,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
         <name>userid</name>
         <value>1</value>
         <mask/>
+        <set_empty_string>N</set_empty_string>
         </field>
       </fields>
      <cluster_schema/>
@@ -1291,10 +1449,37 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     </step>
 
   <step>
+    <name>MAIL ID</name>
+    <type>DBJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>db</connection>
+    <rowlimit>0</rowlimit>
+    <sql>SELECT GETDATE&#x28;&#x29; AS NEW_DATE</sql>
+    <outer_join>N</outer_join>
+    <replace_vars>N</replace_vars>
+    <parameter>
+    </parameter>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>802</xloc>
+      <yloc>582</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Mail</name>
     <type>Mail</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1313,6 +1498,9 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
       <include_subfolders>N</include_subfolders>
       <zipFilenameDynamic>N</zipFilenameDynamic>
       <isFilenameDynamic>N</isFilenameDynamic>
+      <attachContentFromField>N</attachContentFromField>
+      <attachContentField/>
+      <attachContentFileNameField/>
       <dynamicFieldname/>
       <dynamicWildcard/>
       <dynamicZipFilename/>
@@ -1335,6 +1523,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <encoding>UTF-8</encoding>
     <priority>normal</priority>
     <importance>normal</importance>
+    <sensitivity/>
     <secureconnectiontype>SSL</secureconnectiontype>
       <embeddedimages>
       </embeddedimages>
@@ -1351,6 +1540,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1360,11 +1550,7 @@ FROM user_ where screenname=&apos;etluser&apos; </sql>
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var SUBJECT=&quot;REBATE_SCHEDULE_INTERFACE&quot;+&quot;[&quot;+(date2str(new Date(),&quot;yyyy-MM-dd HH:mm&quot;))+&quot;]&quot;;
-var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present in CSV file.&lt;br&gt;&lt;br&gt;&lt;p&gt; Thanks,&lt;&#47;p&gt;&lt;p&gt;BPI Support.&lt;&#47;p&gt;&lt;&#47;body&gt;&lt;&#47;HTML&gt;&quot;;
-</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var SUBJECT&#x3d;&#x22;REBATE_SCHEDULE_INTERFACE&#x22;&#x2b;&#x22;&#x5b;&#x22;&#x2b;&#x28;date2str&#x28;new Date&#x28;&#x29;,&#x22;yyyy-MM-dd HH&#x3a;mm&#x22;&#x29;&#x29;&#x2b;&#x22;&#x5d;&#x22;&#x3b;&#xa;var CONTENT&#x3d;&#x22;&#x3c;HTML&#x3e;&#x3c;body&#x3e;Hi,&#x3c;br&#x3e;&#x3c;br&#x3e;No data present in CSV file.&#x3c;br&#x3e;&#x3c;br&#x3e;&#x3c;p&#x3e; Thanks,&#x3c;&#x2f;p&#x3e;&#x3c;p&#x3e;BPI Support.&#x3c;&#x2f;p&#x3e;&#x3c;&#x2f;body&#x3e;&#x3c;&#x2f;HTML&#x3e;&#x22;&#x3b;&#xa;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>SUBJECT</name>
         <rename>SUBJECT</rename>
         <type>String</type>
@@ -1390,6 +1576,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present
     <type>DBJoin</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1397,7 +1584,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present
            </partitioning>
     <connection/>
     <rowlimit>0</rowlimit>
-    <sql>SELECT COUNT(*) AS RECEIVED_COUNT FROM STAG_COMPANY_MASTER  where BATCH_ID=?</sql>
+    <sql>SELECT COUNT&#x28;&#x2a;&#x29; AS RECEIVED_COUNT FROM STAG_COMPANY_MASTER  where BATCH_ID&#x3d;&#x3f;</sql>
     <outer_join>N</outer_join>
     <replace_vars>N</replace_vars>
     <parameter>
@@ -1419,6 +1606,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present
     <type>ScriptValueMod</type>
     <description/>
     <distribute>Y</distribute>
+    <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
@@ -1428,15 +1616,7 @@ var CONTENT=&quot;&lt;HTML&gt;&lt;body&gt;Hi,&lt;br&gt;&lt;br&gt;No data present
     <optimizationLevel>9</optimizationLevel>
     <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
         <jsScript_name>Script 1</jsScript_name>
-        <jsScript_script>&#47;&#47;Script here
-
-var STATUS_A=&quot;R&quot;;
-var APPLICATION_PROCESS=&quot;REBATE_SCHEDULE_INTERFACE&quot;;
-var FILE_NAME=&quot;Rebate_Schedule_Inft.ksh&quot;;
-var Interface_Run_Start_Date=new Date();
-var ZERO=0;
-
-&#47;&#47; var Interface_Run_Start_Date=date2str(new Date(),&quot;dd.MM.yyyy HH:mm:ss&quot;);</jsScript_script>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xa;&#xa;var STATUS_A&#x3d;&#x22;R&#x22;&#x3b;&#xa;var APPLICATION_PROCESS&#x3d;&#x22;REBATE_SCHEDULE_INTERFACE&#x22;&#x3b;&#xa;var FILE_NAME&#x3d;&#x22;Rebate_Schedule_Inft.ksh&#x22;&#x3b;&#xa;var Interface_Run_Start_Date&#x3d;new Date&#x28;&#x29;&#x3b;&#xa;var ZERO&#x3d;0&#x3b;&#xa;&#xa;&#x2f;&#x2f; var Interface_Run_Start_Date&#x3d;date2str&#x28;new Date&#x28;&#x29;,&#x22;dd.MM.yyyy HH&#x3a;mm&#x3a;ss&#x22;&#x29;&#x3b;</jsScript_script>
       </jsScript>    </jsScripts>    <fields>      <field>        <name>STATUS_A</name>
         <rename>STATUS_A</rename>
         <type>String</type>
@@ -1480,4 +1660,5 @@ var ZERO=0;
    <slave-step-copy-partition-distribution>
 </slave-step-copy-partition-distribution>
    <slave_transformation>N</slave_transformation>
+
 </transformation>
