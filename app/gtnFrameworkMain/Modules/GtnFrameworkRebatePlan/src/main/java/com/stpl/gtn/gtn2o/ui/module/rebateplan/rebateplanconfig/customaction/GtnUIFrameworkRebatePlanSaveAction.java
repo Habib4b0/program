@@ -73,12 +73,11 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	@SuppressWarnings("unchecked")
 	private void saveToDb() throws GtnFrameworkGeneralException {
-
-		GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
+        GtnUIFrameworkWebServiceClient wsclient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
 		int sysId = getSystemId();
-
+        
 		GtnWsRebatePlanInfoBean rebatePlanInfoBean = new GtnWsRebatePlanInfoBean();
 		rebatePlanInfoBean.setSystemId(sysId);
 		rebatePlanInfoBean.setUserId(Integer.parseInt(GtnUIFrameworkGlobalUI.getCurrentUser()));
@@ -137,7 +136,6 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 	private void loadRebatePlanInfo(final GtnWsRebatePlanInfoBean rebatePlanInfoBean)
 			throws GtnFrameworkGeneralException {
 		try {
-
 			rebatePlanInfoBean.setRebatePlanType(GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent("rebatePlanInformationTabRebatePlanType").getIntegerFromField());
 			rebatePlanInfoBean.setRebatePlanStatus(GtnUIFrameworkGlobalUI
@@ -242,7 +240,6 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	private void loadRuleDetailsComplexFormula(List<GtnWsRebatePlanRuleDetailBean> ruleDetailBeanList,
 			final List<GtnWsRecordBean> ruleDetailsList) throws GtnFrameworkValidationFailedException {
-
 		GtnWsRebatePlanRuleDetailBean ruleDetailBean;
 
 		for (GtnWsRecordBean ruleDetail : ruleDetailsList) {
@@ -287,7 +284,6 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	public void loadFormula(List<String[]> formulaList, GtnWsRebatePlanRuleDetailBean ruleDetailBean,
 			final GtnWsRecordBean ruleDetail) throws GtnFrameworkValidationFailedException {
-
 		if (ruleDetailBean.getOperator() != null) {
 			addDefaultValue(formulaList, ruleDetailBean, ruleDetail);
 
@@ -332,8 +328,9 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	private int getOperatorValue(int index, GtnWsRecordBean ruleDetail) {
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && ((GtnUIFrameworkModeType.COPY).equals(mode))
-				|| (GtnUIFrameworkModeType.EDIT).equals(mode)) {
+		int sysId=getSystemId();
+		if (mode != null && (((GtnUIFrameworkModeType.COPY).equals(mode))
+				|| ((GtnUIFrameworkModeType.EDIT).equals(mode))|| sysId>0)) {
 			return (ruleDetail.getAdditionalProperties().get(index) != null
 					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
 		}
