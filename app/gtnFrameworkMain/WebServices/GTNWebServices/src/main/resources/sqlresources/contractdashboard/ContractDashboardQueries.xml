@@ -7582,6 +7582,25 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                            
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'                   
+                            
+                            
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'
@@ -7663,20 +7682,23 @@ SELECT
                                                   ELSE NPTF.NET_SALES_FORMULA_NAME
                                           END,
                             IMTD.PS_CONTRACT_ATTACHED_DATE,
-                            IMTD.PS_CONT_DET_PENDING_SID,
-                            IMTD.ITEM_MASTER_SID,
-                            IMTD.NEP_FORMULA,
-                            IMTD.NET_BASE_PRICE_FORMULA_ID,
-                            IMTD.NET_SUBSEQUENT_PRICE_FORMULA_ID,
-                            IMTD.NET_RESET_PRICE_FORMULA_ID,
-                            IMTD.NET_PRICE_TYPE_FORMULA,
-                            IMTD.BASE_PRICE_DDLB,
-                            BASE_PRICE_ENTRY=CASE
-                                                  WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
-                                                  ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
-                                          END,
-                            IMTD.BASE_PRICE_DATE,
-                            BPH.DESCRIPTION
+                            hpriceprotectionstatus.DESCRIPTION AS PP_STATUSPENDING,
+                            IQ.ITEM_PRICING_QUALIFIER_NAME AS MEASUREMENT_PRICEPENDING,
+                            hbasepricetype.DESCRIPTION AS BASE_PRICE_TYPEPENDING,
+                            hnetbaseprice.DESCRIPTION AS NET_BASE_PRICEPENDING,
+                            IQ1.ITEM_PRICING_QUALIFIER_NAME AS SUBSEQUENT_PERIOD_PRICE_TYPEPENDING,
+                            hnetsubsequentperiodprice.DESCRIPTION AS NET_SUBSEQUENT_PERIOD_PRICEPENDING,
+                            hpricetolint.DESCRIPTION AS pricetolintpending,
+                            hpricetolfre.DESCRIPTION AS pricetolfrepending,
+                            hpricetoltype.DESCRIPTION AS pricetoltypepending,
+                            hreseteligible.DESCRIPTION AS reseteligiblepending,
+                            hresettype.DESCRIPTION AS resettypepending,
+                            hresetinterval.DESCRIPTION AS resetintervalpending,
+                            hresetfrequency.DESCRIPTION AS resetfrequencypending,
+                            IQ2.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
+                            hnetresetpricetype.DESCRIPTION AS netresetpricetypepending,
+                            hnetpricetype.DESCRIPTION AS netpricetypepending
+                            
                     FROM
                             dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                     LEFT JOIN BRAND_MASTER BM ON
@@ -7693,6 +7715,24 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                            
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'           
+                            
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'

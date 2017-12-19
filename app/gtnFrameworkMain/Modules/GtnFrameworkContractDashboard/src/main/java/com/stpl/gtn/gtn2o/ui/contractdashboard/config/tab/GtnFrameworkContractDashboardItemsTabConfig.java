@@ -856,6 +856,7 @@ public class GtnFrameworkContractDashboardItemsTabConfig {
 		itemsResultTable.setSelectable(true);
 		itemsResultTable.setPageLength(5);
 		itemsResultTable.setItemPerPage(5);
+		itemsResultTable.setSinkItemPerPageWithPageLength(false);
 		itemsResultTable.setTableColumnDataType(GtnFrameworkContractDashboardContants.getItemDetailColumnType());
 		itemsResultTable.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getItemDetailHeader());
 		itemsResultTable.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getItemDetailColumn());
