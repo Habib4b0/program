@@ -352,10 +352,8 @@ public class MasterPhsWorksheet extends Window {
             } else {
                 close.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
     }
 
@@ -652,6 +650,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -670,6 +669,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("tableReset")
     public void tableReset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -693,6 +693,7 @@ public class MasterPhsWorksheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -708,6 +709,7 @@ public class MasterPhsWorksheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -872,6 +874,7 @@ public class MasterPhsWorksheet extends Window {
     public void submit(Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     //Default method
                 }

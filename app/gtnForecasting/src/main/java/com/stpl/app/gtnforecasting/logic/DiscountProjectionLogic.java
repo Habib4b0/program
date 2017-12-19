@@ -615,7 +615,6 @@ public class DiscountProjectionLogic {
                         break;
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
         } else {

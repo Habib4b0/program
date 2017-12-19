@@ -134,8 +134,8 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     @UiField("tableVerticalLayout")
     protected VerticalLayout tableVerticalLayout;
 
-    final StplSecurity stplSecurity = new StplSecurity();
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    protected final StplSecurity stplSecurity = new StplSecurity();
+    protected final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 
     protected ExtTreeContainer<ProjectionResultsDTO> resultBeanContainer, excelResultBean = new ExtTreeContainer<>(ProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     protected ProjectionResultsTableLogic tableLogic = new ProjectionResultsTableLogic();
@@ -154,8 +154,8 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected List<CustomViewMaster> customViewList = new ArrayList<>();
     protected final float maxSplitPosition = 1000, minSplitPosition = 200, splitPosition = 300;
     protected ExtCustomTreeTable exceltable;
-    int tradingPartnerNo = 0;
-    boolean isTabVisible = true;
+    protected int tradingPartnerNo = 0;
+    protected boolean isTabVisible = true;
 
     protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override

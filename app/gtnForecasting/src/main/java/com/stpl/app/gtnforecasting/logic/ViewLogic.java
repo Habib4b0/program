@@ -152,9 +152,7 @@ public class ViewLogic {
             try {
                 viewMaster = dataSelection.getForecastingViewMaster(viewId);
                 dataSelection.deleteForecastingViewMaster(viewId);
-            } catch (PortalException ex) {
-                java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(ViewLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (saveViewDTO.getViewName() != null
