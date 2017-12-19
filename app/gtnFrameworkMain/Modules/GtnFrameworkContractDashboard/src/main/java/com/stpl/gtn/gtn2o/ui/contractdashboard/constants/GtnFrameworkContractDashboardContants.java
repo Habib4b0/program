@@ -347,6 +347,19 @@ public class GtnFrameworkContractDashboardContants {
 			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
 			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
 			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
+        private static final String[] PRICE_PROTECTION_PENDING_VIEW_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
+    			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
+    			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
+    			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
+    			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
+    			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+    			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, PRICE_TOLERANCE_INTERVAL_PENDING,
+    			PRICE_TOLERANCE_FREQUENCY_PENDING, PRICE_TOLERANCE_TYPE_PENDING,
+    			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+    			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
+    			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
+    			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
+    			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, String.class, Integer.class, Date.class, Date.class, Integer.class,
 			String.class, String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class,
@@ -1246,6 +1259,11 @@ public class GtnFrameworkContractDashboardContants {
 	public static String[] getPriceProtectionPendingColumn() {
 		return PRICE_PROTECTION_PENDING_COLUMN.clone();
 	}
+	
+	public static String[] getPriceProtectionViewPendingColumn() {
+		return PRICE_PROTECTION_PENDING_VIEW_COLUMN.clone();
+	}
+
 
 	public static Class<?>[] getPriceProtectionViewColumnType() {
 		return PRICE_PROTECTION_VIEW_COLUMN_TYPE.clone();
