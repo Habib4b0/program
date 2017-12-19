@@ -524,14 +524,12 @@ public class GtnWsItemMasterSaveService {
 
 	private void updateInboundStatus(List<GtnWsItemIdentifierBean> identifierBeanList, int itemMasterSID)
 			throws GtnFrameworkGeneralException {
-		List<Object> criteria = new ArrayList<>();
-		criteria.add(itemMasterSID);
+		List<Object> identifierCriteriaIdList = new ArrayList<>();
 		for (GtnWsItemIdentifierBean idenBean : identifierBeanList) {
-			criteria.add(idenBean.getItemIdentifierSid());
+			identifierCriteriaIdList.add(idenBean.getItemIdentifierSid());
 		}
-		Object[] paramObject = criteria.toArray(new Object[criteria.size()]);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery("changeStatusOfItemIdentiferValue"),
-				paramObject, new GtnFrameworkDataType[] { GtnFrameworkDataType.IN_LIST });
+				new Object[]{itemMasterSID,identifierCriteriaIdList}, new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.IN_LIST });
 	}
 
 	private void setIdentifierValues(GtnWsItemMasterRequest imRquest, ItemIdentifier identifier,
