@@ -340,11 +340,30 @@ public class ForecastUI extends UI {
                 navigator.setErrorView(view);
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             Logger.getLogger(ForecastUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         // Configure the error handler for the UI
+        
+           UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+            @Override
+            public void error(com.vaadin.server.ErrorEvent event) {
+                // Find the final cause
+                String cause = "The Exception occured because of: ";
+                for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
+                    if (t.getCause() == null) // We're at final cause
+                    {
+                        cause += t.getClass().getName();
+
+    }
+        
+                    LOGGER.error(t.getMessage());
+                }
+
+                LOGGER.error(cause);
+                // Do the default error handling (optional)
+            }
+        });
         
 
     }
