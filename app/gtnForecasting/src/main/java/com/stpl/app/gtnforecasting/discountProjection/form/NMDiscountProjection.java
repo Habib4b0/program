@@ -285,6 +285,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
+        List<String> baselinePeriods= new ArrayList<>();
 
         
         
@@ -505,9 +506,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		allocMethodology.addItem(SELECT_ONE.getConstant());
 		allocMethodology.setNullSelectionItemId(SELECT_ONE.getConstant());
 
-		// The following should be changed in DB procedure if changed below
-		allocMethodology.addItem(Constant.HISTORICAL_OF_BUSINESS);
-		allocMethodology.addItem("Forecast % of Business");
+		 CommonUtil.getInstance().loadOnDemandCombobox(allocMethodology, "ADJUSTMENT_METHODOLOGIES");
 
 		valueDdlb.setEnabled(true);
 		valueDdlb.addItem(SELECT_ONE.getConstant());
@@ -2583,7 +2582,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					List<String> remoList = new ArrayList<>(tripleHeaderForCheckedDoubleHeader.keySet());
 					remoList.removeAll(headerList);
 
-					List<String> baselinePeriods;
 
 					for (Object propertyId : checkedDiscountsPropertyIds) {
 
@@ -2672,11 +2670,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 										}
 									}
 									boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
-									logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
-											isProgram);
+									
 									session.setFrequency(projectionSelection.getFrequency());
+                                                                        String adjustActual=session.isActualAdjustment() ? "0" : "1";
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, adjustActual,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -2737,7 +2735,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 				if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
-					List<String> baselinePeriods;
 
 					if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM) == null) {
 						NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
@@ -2824,7 +2821,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 											isProgram);
 									session.setFrequency(projectionSelection.getFrequency());
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, allocationMethodology,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -5292,7 +5289,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
 		}
 	}
 
