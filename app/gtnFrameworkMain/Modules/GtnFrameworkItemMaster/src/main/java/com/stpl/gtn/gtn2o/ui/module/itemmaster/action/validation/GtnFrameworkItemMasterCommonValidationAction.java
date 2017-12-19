@@ -151,8 +151,7 @@ public class GtnFrameworkItemMasterCommonValidationAction implements GtnUIFrameW
 		getPricingTabValidation(componentId);
 
 		String regexErrorMsg = GtnUIFrameworkGlobalUI.regexValidation(
-				new String[] { GtnFrameworkItemMasterStringContants.ADDITIONAL_INFORMATION_TAB_ACQUIRED_AMP
-						 });
+				new String[] { GtnFrameworkItemMasterStringContants.ADDITIONAL_INFORMATION_TAB_ACQUIRED_AMP });
 		if (!regexErrorMsg.isEmpty()) {
 			throw new GtnFrameworkValidationFailedException(regexErrorMsg, componentId);
 		}

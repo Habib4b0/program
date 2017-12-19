@@ -12,7 +12,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.itemmaster.constants.GtnWsItemMasterContants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -21,27 +20,30 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
  *
  * @author Lokeshwari.Kumarasam
  */
-public class GtnFrameworkItemMasterPricingTableConfigureAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-    
-    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterPricingTableConfigureAction.class);
+public class GtnFrameworkItemMasterPricingTableConfigureAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterPricingTableConfigureAction.class);
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        gtnLogger.info("Entering GtnFrameworkItemMasterPricingTableConfigureAction doAction ");
-        configurePricingTable();
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
-    
-    private void configurePricingTable() throws GtnFrameworkValidationFailedException {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		gtnLogger.info("Entering GtnFrameworkItemMasterPricingTableConfigureAction doAction ");
+		configurePricingTable();
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
+	private void configurePricingTable() {
 
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnItemMasterRequestBuilder().getItemMasterWebServiceRequest();
 		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -50,5 +52,5 @@ public class GtnFrameworkItemMasterPricingTableConfigureAction implements GtnUIF
 				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 	}
-    
+
 }
