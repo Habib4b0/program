@@ -29,14 +29,18 @@ WHERE  CM.INBOUND_STATUS <> 'D'
 		;with CTE as(
 	select
 		IPQ.ITEM_PRICING_QUALIFIER_NAME,
-		CASE 
+                CASE 
                 WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='URA'
-                THEN round(ITEM_PRICE,4)
+                THEN Str(IP.ITEM_PRICE, 12,4)
                 WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPIURA'
-                THEN round(ITEM_PRICE,3)
+                THEN Str(IP.ITEM_PRICE, 12,3)
                 WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPI (Alt) URA'
-                THEN round(ITEM_PRICE,3)
-                ELSE round(ITEM_PRICE,6)
+                THEN Str(IP.ITEM_PRICE, 12,3)
+                WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'AMP'
+		THEN STR(IP.ITEM_PRICE, 12, 6)
+		WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'BP'
+		THEN STR(IP.ITEM_PRICE, 12, 6)
+		ELSE STR(IP.ITEM_PRICE)
                 END as ITEM_PRICE,
 		IP.PRICING_CODE_STATUS,
 		IP.ITEM_UOM,
@@ -78,15 +82,7 @@ where
 		;with CTE as(
 	select
 		IPQ.ITEM_PRICING_QUALIFIER_NAME,
-		CASE 
-                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='URA'
-                THEN round(ITEM_PRICE,4)
-                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPIURA'
-                THEN round(ITEM_PRICE,3)
-                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPI (Alt) URA'
-                THEN round(ITEM_PRICE,3)
-                ELSE round(ITEM_PRICE,6)
-                END as ITEM_PRICE,
+		IP.ITEM_PRICE,
 		IP.PRICING_CODE_STATUS,
 		IP.ITEM_UOM,
 		IP.START_DATE,
