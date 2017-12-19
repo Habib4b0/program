@@ -330,6 +330,7 @@ public class Sales extends CustomComponent {
     public void resetBtn(Button.ClickEvent event) {
         LOGGER.info("Reset button click starts");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 return;
             }
@@ -597,9 +598,7 @@ public class Sales extends CustomComponent {
                 excelBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

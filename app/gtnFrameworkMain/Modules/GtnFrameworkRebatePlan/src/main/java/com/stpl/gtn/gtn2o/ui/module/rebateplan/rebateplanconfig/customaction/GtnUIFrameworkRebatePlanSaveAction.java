@@ -206,7 +206,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null || String
 						.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
 					Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-					if (mode != null && mode == GtnUIFrameworkModeType.EDIT) {
+					if (mode != null && ((mode == GtnUIFrameworkModeType.EDIT))) {
 						ruleDetailBean.setTo(getdobValue(1, ruleDetail));
 					} else {
 						ruleDetailBean.setTo(getValue(1, ruleDetail));
@@ -251,11 +251,16 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 			ruleDetailBean.setFrom(getDoubleValue(0, ruleDetail));
 			if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null
 					|| String.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
-				ruleDetailBean.setTo(getValue(1, ruleDetail));
+				Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+				if (mode != null && (mode == GtnUIFrameworkModeType.EDIT) || (mode == GtnUIFrameworkModeType.COPY)) {
+					ruleDetailBean.setTo(getdobValue(1, ruleDetail));
+				} else {
+					ruleDetailBean.setTo(getValue(1, ruleDetail));
+				}
 			} else {
 				ruleDetailBean.setTo(getDoubleValue(1, ruleDetail));
 			}
-			ruleDetailBean.setOperator(getValue(2, ruleDetail));
+			ruleDetailBean.setOperator(getOperatorValue(2, ruleDetail));
 			ruleDetailBean.setOperatorType(getStringValueForNewItem(4, ruleDetail));
 			ruleDetailBean.setOperatorType2(getStringValueForNewItem(7, ruleDetail));
 			ruleDetailBean.setOperatorType3(getStringValueForNewItem(10, ruleDetail));
@@ -325,17 +330,24 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 
 	}
 
-	private int getValue(int index, GtnWsRecordBean ruleDetail) {
+	private int getOperatorValue(int index, GtnWsRecordBean ruleDetail) {
 		Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-		if (mode != null && (GtnUIFrameworkModeType.COPY).equals(mode)) {
+		if (mode != null && ((GtnUIFrameworkModeType.COPY).equals(mode))
+				|| (GtnUIFrameworkModeType.EDIT).equals(mode)) {
 			return (ruleDetail.getAdditionalProperties().get(index) != null
 					&& String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("$")) ? 180 : 181;
 		}
+		return (ruleDetail.getAdditionalProperties().get(index) != null
+				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
+						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
+	}
+
+	private int getValue(int index, GtnWsRecordBean ruleDetail) {
 
 		return (ruleDetail.getAdditionalProperties().get(index) != null
 				&& !String.valueOf(ruleDetail.getAdditionalProperties().get(index)).equals("-Select One-"))
 						? Integer.parseInt(ruleDetail.getAdditionalProperties().get(index).toString()) : 0;
-                }
+	}
 
 	private double getdobValue(int index, GtnWsRecordBean ruleDetail) {
 		return ((ruleDetail.getAdditionalProperties().get(index) != null
@@ -353,11 +365,12 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 		String data = String.valueOf(ruleDetail.getAdditionalProperties().get(index));
 		return data.isEmpty() ? "" : data;
 	}
-        
+
 	private String getStringValueForNewItem(int index, GtnWsRecordBean ruleDetail) {
 		String additionalData = String.valueOf(ruleDetail.getAdditionalProperties().get(index));
-                String newItemValue=String.valueOf(ruleDetail.getAdditionalProperties().get(4));
-		return GtnFrameworkStringConstants.NEW_ITEM.equals(newItemValue) ? String.valueOf(ruleDetail.getAdditionalProperties().get(index + 1)) : additionalData;
+		String newItemValue = String.valueOf(ruleDetail.getAdditionalProperties().get(4));
+		return GtnFrameworkStringConstants.NEW_ITEM.equals(newItemValue)
+				? String.valueOf(ruleDetail.getAdditionalProperties().get(index + 1)) : additionalData;
 	}
 
 	@Override

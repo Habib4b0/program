@@ -130,7 +130,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger
+    protected static final Logger LOGGER = Logger
             .getLogger(ForecastSalesProjection.class);
     /**
      * The Constant serialVersionUID.
@@ -385,7 +385,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("lblStart")
     protected Label lblStart;
     @UiField("viewLabel")
-    public Label viewLabel;
+    protected Label viewLabel;
     @UiField("channelLayout")
     protected VerticalLayout channelLayout;
     @UiField("calculationPanel")
@@ -393,16 +393,16 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiField("altHistoryBtn")
     protected Button altHistoryBtn;
     @UiField("alternateHistoryPanel")
-    public Panel alternateHistoryPanel;
+    protected Panel alternateHistoryPanel;
     @UiField("buttonLayout")
     protected HorizontalLayout buttonLayout;
 
-    public Button returnsResetBtn = new Button("RESET");
+    protected Button returnsResetBtn = new Button("RESET");
     @UiField("populateLevel")
-    public ComboBox populateLevel;
+    protected ComboBox populateLevel;
     @UiField("populateLabel")
-    public Label populateLabel;
-    public int customId = 0;
+    protected Label populateLabel;
+    protected int customId = 0;
     protected boolean checkAll = false;
     /**
      * The excel export image.
@@ -417,14 +417,14 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     protected ExtFilterTreeTable rightTable;
     protected CustomTableHeaderDTO leftHeader = null;
     protected CustomTableHeaderDTO rightHeader = null;
-    public final BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
-    public final BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
+    protected final BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
+    protected final BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
     protected SessionDTO session;
     protected FreezePagedTreeTable resultsTable;
     protected MSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
     protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class, ExtContainer.DataStructureMode.MAP);
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    protected AlternateHistoryLogic logic = new AlternateHistoryLogic();
     protected int uncheckRecordCount;
 
     public static final String SELECT_ALL_LABEL = "Select All";
@@ -971,6 +971,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 return;
             }
@@ -1531,6 +1532,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
                     check.setImmediate(true);
                     check.setEnabled(!ACTION_VIEW.getConstant().equals(session.getAction()));
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             try {
                                 SalesRowDto checkDTO = (SalesRowDto) itemId;
@@ -2899,6 +2901,7 @@ public abstract class ForecastSalesProjection extends CustomComponent implements
         frequency.setNullSelectionAllowed(false);
         frequency.setImmediate(true);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadFrequency(frequency, history);
             }

@@ -38,6 +38,7 @@ public abstract class SalesPRBaseNode implements TreeNode, Comparable<SalesPRBas
         this.hierarchyIndicator = hierarchyIndicator;
     }
 
+    @Override
     public int getLevel() {
         return level;
     }

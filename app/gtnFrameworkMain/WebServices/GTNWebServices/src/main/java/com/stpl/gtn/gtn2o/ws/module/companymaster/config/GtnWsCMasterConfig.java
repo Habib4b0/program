@@ -43,8 +43,8 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ "udc.master_Sid  AND udc.master_Type = 'COMPANY_MASTER'"
 						+ " LEFT JOIN company_Master comp ON comp.company_Master_Sid = parent.Company_Master_Sid "
 						+ " LEFT JOIN company_Master comp1 ON comp1.company_Master_sid = parent.prior_Parent_Cmpy_Master_Sid "
-						+ " left JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID \n"
-						+ "JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
+						+ " LEFT JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID \n"
+						+ " LEFT JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
 						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE = companyTypeHelper.HELPER_TABLE_SID"
 						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
 		gtnWebServiceSearchQueryConfig.setSearchQuery(
@@ -54,12 +54,11 @@ public class GtnWsCMasterConfig implements GtnWsSearchQueryConfigLoader {
 						+ "udc.master_Sid  AND udc.master_Type = 'COMPANY_MASTER' LEFT JOIN company_Master comp ON comp.company_Master_Sid = "
 						+ "parent.Company_Master_Sid"
 						+ " LEFT JOIN company_Master comp1 ON comp1.company_Master_sid = parent.prior_Parent_Cmpy_Master_Sid"
-						+ " left JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID "
-						+ "JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
+						+ " LEFT JOIN COMPANY_IDENTIFIER CID on CID.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID "
+						+ " LEFT JOIN COMPANY_QUALIFIER CQ ON CQ.COMPANY_QUALIFIER_SID = CID.COMPANY_QUALIFIER_SID"
 						+ " LEFT JOIN HELPER_TABLE companyTypeHelper on cm.COMPANY_TYPE=companyTypeHelper.HELPER_TABLE_SID"
 						+ " LEFT JOIN HELPER_TABLE companyStatusHelper on cm.COMPANY_STATUS = companyStatusHelper.HELPER_TABLE_SID");
-
-		gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
+        gtnWebServiceSearchQueryConfig.setCountAliasAtEnd("A");
 		gtnWebServiceSearchQueryConfig.setCountQuerySelectClause(GtnWsCMasterConstants.QUERY_COUNT);
 
 		GtnWsSearchQueryConfigProvider configProvider = GtnWsSearchQueryConfigProvider.getInstance();

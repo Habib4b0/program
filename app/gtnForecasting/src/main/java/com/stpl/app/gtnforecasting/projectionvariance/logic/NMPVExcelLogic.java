@@ -88,7 +88,7 @@ public class NMPVExcelLogic {
     public static final String PRC_PROJECTION_RESULTS_DISCOUNT_PROCEDURE = "PRC_PROJECTION_RESULTS_DISCOUNT";
     public static final String QUARTERLY1 = "QUARTERLY";
     public static final String PIVOT1 = "PIVOT";
-    private static String DASH = "-";
+    private static final String DASH = "-";
     List<Object> pivotDiscountList = new ArrayList<>();
     List<ProjectionVarianceDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(STRING_FORMAT_TWO_DECIMAL);

@@ -2838,13 +2838,13 @@ public class SalesLogic {
     public void saveSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
             final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException, SystemException {
         CommonLogic logic = new CommonLogic();
-        String startyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : logic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[0];
-        String startperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : logic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[1];
+        String startyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[0];
+        String startperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[1];
         String endyear = Constant.NULL_CAPS;
         String endperiodValue = Constant.NULL_CAPS;
         if (!StringUtils.isEmpty(endPeriod.trim()) && !"null".equals(endPeriod.trim())) {
-            endyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? endPeriod.trim() : logic.getYearAndPeriod(endPeriod, projectionSelectionDTO.getFrequency(), true)[0];
-            endperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? endPeriod.trim() : logic.getYearAndPeriod(endPeriod, projectionSelectionDTO.getFrequency(), true)[1];
+            endyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? endPeriod.trim() : CommonLogic.getYearAndPeriod(endPeriod, projectionSelectionDTO.getFrequency(), true)[0];
+            endperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? endPeriod.trim() : CommonLogic.getYearAndPeriod(endPeriod, projectionSelectionDTO.getFrequency(), true)[1];
             end = getPeriodSid(endPeriod, projectionSelectionDTO.getFrequency(), "Max");
         }
         String masterTable = CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName()) ? Constant.ST_M_SALES_PROJECTION_MASTER : Constant.ST_NM_SALES_PROJECTION_MASTER;
