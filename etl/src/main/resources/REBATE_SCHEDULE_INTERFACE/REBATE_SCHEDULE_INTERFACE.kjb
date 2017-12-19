@@ -288,6 +288,26 @@ WHERE (upper(UDC5)!=&apos;NULL&apos; or UDC5 IS NOT NULL ) AND UDC5 NOT IN (SELE
 INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT UDC6,&apos;RS_UDC6&apos;,-1 FROM STAG_REBATE_SCHEDULE
 WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;RS_UDC6&apos;)
 
+  INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT PAYMENT_LEVEL,&apos;Payment_Level&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(PAYMENT_LEVEL )!=&apos;NULL&apos; or PAYMENT_LEVEL  IS NOT NULL ) AND PAYMENT_LEVEL NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Payment_Level&apos;)
+
+ INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT EVALUATION_RULE_LEVEL,&apos;Evaluation_Rule_Level&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(EVALUATION_RULE_LEVEL )!=&apos;NULL&apos; or EVALUATION_RULE_LEVEL  IS NOT NULL ) AND EVALUATION_RULE_LEVEL NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Evaluation_Rule_Level&apos;)
+
+
+ INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT CALCULATION_RULE_LEVEL,&apos;Calculation_Rule_Level&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(CALCULATION_RULE_LEVEL )!=&apos;NULL&apos; or CALCULATION_RULE_LEVEL  IS NOT NULL ) AND CALCULATION_RULE_LEVEL NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Calculation_Rule_Level&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT NET_SALES_FORMULA,&apos;Net_Sales_Formula&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(NET_SALES_FORMULA )!=&apos;NULL&apos; or NET_SALES_FORMULA  IS NOT NULL ) AND NET_SALES_FORMULA NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Net_Sales_Formula&apos;)
+
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT DEDUCTION_CALENDAR_NO,&apos;Deduction_Calendar_No&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(DEDUCTION_CALENDAR_NO )!=&apos;NULL&apos; or DEDUCTION_CALENDAR_NO  IS NOT NULL ) AND DEDUCTION_CALENDAR_NO NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Deduction_Calendar_No&apos;)
+
+INSERT INTO HELPER_TABLE (DESCRIPTION,LIST_NAME,REF_COUNT) SELECT DISTINCT DEDUCTION_CALENDAR_NAME,&apos;Deduction_Calendar_Name&apos;,-1 FROM STAG_REBATE_SCHEDULE
+WHERE (upper(DEDUCTION_CALENDAR_NAME )!=&apos;NULL&apos; or DEDUCTION_CALENDAR_NAME  IS NOT NULL ) AND DEDUCTION_CALENDAR_NAME NOT IN (SELECT DESCRIPTION  FROM HELPER_TABLE WHERE LIST_NAME =&apos;Deduction_Calendar_Name&apos;)
+
 </sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
@@ -298,7 +318,7 @@ WHERE (upper(UDC6 )!=&apos;NULL&apos; or UDC6  IS NOT NULL ) AND UDC6 NOT IN (SE
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>1371</xloc>
-      <yloc>909</yloc>
+      <yloc>907</yloc>
       </entry>
     <entry>
       <name>STATE_SUPP UPDATE</name>
@@ -696,6 +716,20 @@ REBATE_SCHEDULE_ID
 ,[ITEM-NAME]
 ,[ITEM-START_DATE]
 ,REBATE_SCHEDULE_INTFID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 
 ) 
@@ -770,6 +804,21 @@ SELECT
 ,ITEM_NAME
 ,ITEM_START_DATE
 ,REBATE_SCHEDULE_INTERFACE_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
+
 
 FROM ${STAGING_DB}..REBATE_SCHEDULE_INTERFACE
 
@@ -782,7 +831,7 @@ FROM ${STAGING_DB}..REBATE_SCHEDULE_INTERFACE
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1367</xloc>
+      <xloc>1364</xloc>
       <yloc>585</yloc>
       </entry>
     <entry>
@@ -864,6 +913,20 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 
 )
@@ -941,6 +1004,20 @@ REBATE_SCHEDULE_ID
 ,[ITEM-START_DATE]
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 
        FROM STAG_REBATE_SCHEDULE  A 
@@ -1046,6 +1123,20 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 
 )
@@ -1122,11 +1213,25 @@ select
 ,A.[ITEM-START_DATE]
 ,A.CFP_ID
 ,A.IFP_ID
+,A.DEDUCTION_INCLUSION
+,A.REBATE_SCHEDULE_ALIAS_ID
+,A.PAYMENT_LEVEL
+,A.EVALUATION_RULE_LEVEL
+,A.EVALUATION_RULE
+,A.EVALUATION_RULE_BUNDLE
+,A.CALCULATION_TYPE
+,A.CALCULATION_RULE
+,A.CALCULATION_RULE_LEVEL
+,A.CALCULATION_RULE_BUNDLE
+,A.NET_SALES_FORMULA
+,A.NET_SALES_RULE
+,A.DEDUCTION_CALENDAR_NO
+,A.DEDUCTION_CALENDAR_NAME
 
 
  from #temp  a
 WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B 
-           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS &lt;&gt; &apos;D&apos;)
+           WHERE A.CONTRACT_ID=B.CONTRACT_ID and b.INBOUND_STATUS&lt;&gt;&apos;D&apos;)
 
 
 
@@ -1143,7 +1248,7 @@ WHERE not  EXISTS (SELECT 1 FROM CONTRACT_MASTER  B
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1376</xloc>
+      <xloc>1375</xloc>
       <yloc>1056</yloc>
       </entry>
     <entry>
@@ -1235,6 +1340,20 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 
 )
@@ -1312,6 +1431,20 @@ A.REBATE_SCHEDULE_ID
 ,A.[ITEM-START_DATE]
 ,A.CFP_ID
 ,A.IFP_ID
+,A.DEDUCTION_INCLUSION
+,A.REBATE_SCHEDULE_ALIAS_ID
+,A.PAYMENT_LEVEL
+,A.EVALUATION_RULE_LEVEL
+,A.EVALUATION_RULE
+,A.EVALUATION_RULE_BUNDLE
+,A.CALCULATION_TYPE
+,A.CALCULATION_RULE
+,A.CALCULATION_RULE_LEVEL
+,A.CALCULATION_RULE_BUNDLE
+,A.NET_SALES_FORMULA
+,A.NET_SALES_RULE
+,A.DEDUCTION_CALENDAR_NO
+,A.DEDUCTION_CALENDAR_NAME
 
 
 
@@ -1432,6 +1565,20 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 )
 
@@ -1508,6 +1655,20 @@ select
 ,A.[ITEM-START_DATE]
 ,A.CFP_ID
 ,A.IFP_ID
+,A.DEDUCTION_INCLUSION
+,A.REBATE_SCHEDULE_ALIAS_ID
+,A.PAYMENT_LEVEL
+,A.EVALUATION_RULE_LEVEL
+,A.EVALUATION_RULE
+,A.EVALUATION_RULE_BUNDLE
+,A.CALCULATION_TYPE
+,A.CALCULATION_RULE
+,A.CALCULATION_RULE_LEVEL
+,A.CALCULATION_RULE_BUNDLE
+,A.NET_SALES_FORMULA
+,A.NET_SALES_RULE
+,A.DEDUCTION_CALENDAR_NO
+,A.DEDUCTION_CALENDAR_NAME
 
 
 
@@ -1626,6 +1787,21 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
+
 
 )
 
@@ -1701,6 +1877,20 @@ select
 ,a.[ITEM-START_DATE]
 ,a.CFP_ID
 ,a.IFP_ID
+,a.DEDUCTION_INCLUSION
+,a.REBATE_SCHEDULE_ALIAS_ID
+,a.PAYMENT_LEVEL
+,a.EVALUATION_RULE_LEVEL
+,a.EVALUATION_RULE
+,a.EVALUATION_RULE_BUNDLE
+,a.CALCULATION_TYPE
+,a.CALCULATION_RULE
+,a.CALCULATION_RULE_LEVEL
+,a.CALCULATION_RULE_BUNDLE
+,a.NET_SALES_FORMULA
+,a.NET_SALES_RULE
+,a.DEDUCTION_CALENDAR_NO
+,a.DEDUCTION_CALENDAR_NAME
 
 
 
@@ -1822,6 +2012,20 @@ REBATE_SCHEDULE_ID
 ,ITEM_START_DATE
 ,CFP_ID
 ,IFP_ID
+,DEDUCTION_INCLUSION
+,REBATE_SCHEDULE_ALIAS_ID
+,PAYMENT_LEVEL
+,EVALUATION_RULE_LEVEL
+,EVALUATION_RULE
+,EVALUATION_RULE_BUNDLE
+,CALCULATION_TYPE
+,CALCULATION_RULE
+,CALCULATION_RULE_LEVEL
+,CALCULATION_RULE_BUNDLE
+,NET_SALES_FORMULA
+,NET_SALES_RULE
+,DEDUCTION_CALENDAR_NO
+,DEDUCTION_CALENDAR_NAME
 
 )
 
@@ -1897,6 +2101,20 @@ a.REBATE_SCHEDULE_ID
 ,a.[ITEM-START_DATE]
 ,a.CFP_ID
 ,a.IFP_ID
+,a.DEDUCTION_INCLUSION
+,a.REBATE_SCHEDULE_ALIAS_ID
+,a.PAYMENT_LEVEL
+,a.EVALUATION_RULE_LEVEL
+,a.EVALUATION_RULE
+,a.EVALUATION_RULE_BUNDLE
+,a.CALCULATION_TYPE
+,a.CALCULATION_RULE
+,a.CALCULATION_RULE_LEVEL
+,a.CALCULATION_RULE_BUNDLE
+,a.NET_SALES_FORMULA
+,a.NET_SALES_RULE
+,a.DEDUCTION_CALENDAR_NO
+,a.DEDUCTION_CALENDAR_NAME
 
 
 
@@ -2449,8 +2667,110 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1289</xloc>
-      <yloc>1819</yloc>
+      <xloc>1127</xloc>
+      <yloc>1767</yloc>
+      </entry>
+    <entry>
+      <name>SQL</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DECLARE @A1 INT
+SELECT @A1 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 1&apos;
+UPDATE UDCS SET UDC1 = @A1 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC1 IS NULL
+
+DECLARE @A2 INT
+SELECT @A2 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 2&apos;
+UPDATE UDCS SET UDC2 = @A2 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC2 IS NULL
+
+DECLARE @A3 INT
+SELECT @A3 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 3&apos;
+UPDATE UDCS SET UDC3 = @A3 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC3 IS NULL
+
+DECLARE @A4 INT
+SELECT @A4 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 4&apos;
+UPDATE UDCS SET UDC4 = @A4 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC4 IS NULL
+
+DECLARE @A5 INT
+SELECT @A5 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 5&apos;
+UPDATE UDCS SET UDC5 = @A5 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC5 IS NULL
+
+DECLARE @A6 INT
+SELECT @A6 = HELPER_TABLE_SID FROM HELPER_TABLE WHERE DESCRIPTION = &apos;UDC 6&apos;
+UPDATE UDCS SET UDC6 = @A6 WHERE MASTER_TYPE = &apos;RS_CONTRACT&apos; AND UDC6 IS NULL</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1255</xloc>
+      <yloc>1861</yloc>
+      </entry>
+    <entry>
+      <name>REPROCESSING_INVALID_DATA</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${Internal.Job.Filename.Directory}&#47;REPROCESSING_INVALID_DATA.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>798</xloc>
+      <yloc>589</yloc>
+      </entry>
+    <entry>
+      <name>SET_STAG_COUNT</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>${COMMON_LOGIC_PATH}&#47;SET_STAG_COUNT.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>807</xloc>
+      <yloc>354</yloc>
       </entry>
   </entries>
   <hops>
@@ -2932,15 +3252,6 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>STOP PROCESS AUDIT</from>
-      <to>TRUNCATE INTERFACE TABLE 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>TRUNCATE INTERFACE TABLE 2</from>
       <to>Simple evaluation 2 4 2 2</to>
       <from_nr>0</from_nr>
@@ -3149,11 +3460,56 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     </hop>
     <hop>
       <from>UNLOCK</from>
+      <to>SQL</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SQL</from>
       <to>TRUNCATE STAG TABLE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>STOP PROCESS AUDIT</from>
+      <to>SET_STAG_COUNT</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>SET_STAG_COUNT</from>
+      <to>REPROCESSING_INVALID_DATA</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>TRUNCATE INTERFACE TABLE 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REPROCESSING_INVALID_DATA</from>
+      <to>HELPER TABLE</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
       <unconditional>N</unconditional>
     </hop>
   </hops>
