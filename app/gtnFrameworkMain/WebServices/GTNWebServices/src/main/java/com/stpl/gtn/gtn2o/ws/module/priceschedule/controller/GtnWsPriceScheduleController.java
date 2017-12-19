@@ -476,7 +476,7 @@ public class GtnWsPriceScheduleController {
 		}
 		if (STATUS.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ");
+					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ADD_COPY_INDICATOR is null and ");
 			checkRecord = true;
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
@@ -700,11 +700,6 @@ public class GtnWsPriceScheduleController {
 		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
 			ppValidateSql.append(
 					"select count(item_No) from dbo.Imtd_Ps_Details where PS_DETAILS_PRIC_PRTCN_STDATE is  null and");
-			checkRecord = true;
-		}
-		if (PP_END_DATE_NULL.equalsIgnoreCase(process)) {
-			ppValidateSql.append(
-					"select count(item_No) from dbo.Imtd_Ps_Details where PS_DETAILS_PRIC_PRTCN_EDDATE is  null and");
 			checkRecord = true;
 		}
 		if (PP_START_DATE_EQUAL.equalsIgnoreCase(process)) {

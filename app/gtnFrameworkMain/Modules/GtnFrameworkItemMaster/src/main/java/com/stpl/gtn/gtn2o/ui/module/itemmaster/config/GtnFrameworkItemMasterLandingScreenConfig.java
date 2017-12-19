@@ -756,6 +756,11 @@ public class GtnFrameworkItemMasterLandingScreenConfig {
 		componentList.add(adddButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> addActionConfigList = new ArrayList<>();
+                
+		GtnUIFrameWorkActionConfig configurePricingTableActionConfig = componentConfig
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		configurePricingTableActionConfig.addActionParameter(GtnFrameworkItemMasterClassContants.ITEM_MASTER_PRICING_TABLE_CONFIGURE_ACTION);
+		addActionConfigList.add(configurePricingTableActionConfig);
 
 		GtnUIFrameWorkActionConfig navigationActionConfig = componentConfig
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);

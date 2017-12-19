@@ -27,6 +27,7 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private Object[] stagingUpdateColumns = null;
 	private Object[] stagingInsertColumns = null;
 	private Map<String, String> formatterMap = null;
+	private List<String> formatterList = null;
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
 		return Collections.unmodifiableList(listViewComponent);
@@ -133,6 +134,17 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 			formatterMap = new HashMap<>();
 		}
 		formatterMap.put(propertyId, pattern);
+	}
+
+	public List<String> getFormatterList() {
+		return formatterList == null ? formatterList : Collections.unmodifiableList(formatterList);
+	}
+
+	public void addFormatterList(String value) {
+		if (formatterList == null) {
+			formatterList = new ArrayList<>();
+		}
+		formatterList.add(value);
 	}
 
 }

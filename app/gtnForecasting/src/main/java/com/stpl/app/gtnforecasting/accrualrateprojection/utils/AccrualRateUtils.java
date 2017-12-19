@@ -111,7 +111,7 @@ public class AccrualRateUtils {
         RATE("Rate"),
         ACCRUALS("Accruals"),
         EFFECTIVE_ACCRUAL_RATE("Effective Accrual Rate");
-        private String constant;
+        private final String constant;
 
         private DetailsVariables(String constant) {
             this.constant = constant;
@@ -464,7 +464,7 @@ public class AccrualRateUtils {
         ELIGIBLE_GROSS_TRADE_SALES("Net Units"),
         PERIOD_BASIS_PEICE_CHANGE("Price"),
         GTS_ACCRUAL_BASIS("Sales");
-        private String constant;
+        private final String constant;
 
         private AccrualSalesVariables(String constant) {
             this.constant = constant;

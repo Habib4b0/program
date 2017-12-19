@@ -3,9 +3,7 @@ package com.stpl.app.gtnforecasting.projectionvariance.form;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import com.stpl.app.gtnforecasting.dao.ProjectionVarianceDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.gtnforecasting.dao.impl.ProjectionVarianceDAOImpl;
 import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
 import static com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection.ANULL;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
@@ -143,9 +141,9 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     public List<String> projNameList = new ArrayList<>();
     public List<Integer> projIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
-    private NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
-    private PVQueryUtils queryUtils = new PVQueryUtils();
-    private ForecastForm nonMandatedForm;
+    private final NMProjectionVarianceLogic logic = new NMProjectionVarianceLogic();
+    private final PVQueryUtils queryUtils = new PVQueryUtils();
+    private final ForecastForm nonMandatedForm;
     private List<List<String>> discountlist = new ArrayList<>();
     private boolean firstGenerated = false;
     public List<Integer> comparisonProjId = new ArrayList<>();
@@ -168,10 +166,10 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     protected PVParameters parameterDto = new PVParameters();
     private final NMPVExcelLogic excelLogic = new NMPVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto);
     private int columnSize = 0;
-    private DataSelectionLogic dsLogic = new DataSelectionLogic();
+    private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     public static final String EACH = "EACH";
 
-    private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
+    private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
              generateDiscountToBeLoaded=commonLogic.getFilterValues(deductionFilterValues).get(SID);
@@ -183,7 +181,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
 
     };
-    private CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
+    private final CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             generateProductToBeLoaded=commonLogic.getFilterValues(productFilterValues).get(SID);
@@ -193,7 +191,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     };
 
-    private CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
+    private final CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             generateCustomerToBeLoaded=commonLogic.getFilterValues(customerFilterValues).get(SID);
@@ -557,6 +555,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
+    @Override
     protected void excelBtnLogic() {
         try {
             excelTable.setRefresh(Boolean.FALSE);
@@ -660,6 +659,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
+    @Override
     protected void graphBtnLogic() {
 
         List chartiLst = new ArrayList();
@@ -683,6 +683,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void resetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -802,6 +803,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
      * @param event the event
      */
     @UiHandler("fromDate")
+    @Override
     public void fromDateDdlbChange(Property.ValueChangeEvent event) {
         if (fromDate.getValue() != null && !Constant.NULL.equals(String.valueOf(fromDate.getValue())) && !StringUtils.EMPTY.equals(String.valueOf(fromDate.getValue()))
                 && !Constant.SELECT_ONE.equals(String.valueOf(fromDate.getValue()))) {
@@ -1300,9 +1302,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         int businessProcessType = 0;
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getCommercialConstant());
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
         }
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);

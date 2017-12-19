@@ -121,6 +121,7 @@ public class FileUploader implements Receiver {
 	 * @throws Throwable
 	 *             the throwable
 	 */
+        @Override
 	protected void finalize() throws Throwable {
 		LOGGER.debug("Entering finalize method ");
 

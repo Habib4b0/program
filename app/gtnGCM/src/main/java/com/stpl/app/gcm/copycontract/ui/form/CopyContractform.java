@@ -532,15 +532,15 @@ public class CopyContractform extends CustomComponent implements View {
                     return aliasType;
                 }
                 if ("contractId".equals(propertyId)) {
-                    final TextField contractid = new TextField();
-                    contractid.addBlurListener(new FieldEvents.BlurListener() {
+                    final TextField contractIdTextField = new TextField();
+                    contractIdTextField.addBlurListener(new FieldEvents.BlurListener() {
                         public void blur(FieldEvents.BlurEvent event) {
-                            String newValue = String.valueOf(contractid.getValue());
-                            specValidation(newValue, contractid);
+                            String newValue = String.valueOf(contractIdTextField.getValue());
+                            specValidation(newValue, contractIdTextField);
                         }
                     });
 
-                    return contractid;
+                    return contractIdTextField;
                 }
                 if (Constants.CONTRACT_NO.equals(propertyId)) {
                     final TextField contractNo = new TextField();

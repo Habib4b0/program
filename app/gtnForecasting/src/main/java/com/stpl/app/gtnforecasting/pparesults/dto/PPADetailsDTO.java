@@ -17,7 +17,7 @@ import org.apache.commons.lang.StringUtils;
 public class PPADetailsDTO implements Serializable {
     
     private PPAHelperDTO ppaHelperDTO=new PPAHelperDTO(0,Constant.SELECT_ONE,Constant.SELECT_ONE);
-    private HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
+    private final HelperDTO defaultDTO = new HelperDTO(0, Constant.SELECT_ONE);
     private String period = StringUtils.EMPTY;
     private String priceProtectionPriceType = StringUtils.EMPTY;
     private String price = StringUtils.EMPTY;

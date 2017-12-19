@@ -178,8 +178,8 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
-            Map<String, Integer> historyEndDetails = commonUtils.getHistoryEndDetails(session, frequency);
-            endValue = commonUtils.getProjections(session.getForecastDTO().getHistoryStartDate(), commonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
+            Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(session, frequency);
+            endValue = CommonUtils.getProjections(session.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get(HISTORY_END_MONTH), historyEndDetails.get(HISTORY_END_YEAR)), frequency);
             history = CommonUtils.getHistoryDdlbList(endValue, period);
             session.addFrequencyAndQuater(frequency, history);
         }
@@ -487,6 +487,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
         }
     }
 
+    @Override
     public void loadCustomDDLB() {
         LOGGER.debug("loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
@@ -594,6 +595,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
             rightTable.addDoubleHeaderColumnExpandIconListener(new ExtCustomTable.DoubleHeaderColumnExpandIconListener() {
                 private static final long serialVersionUID = -4215343675341144627L;
 
+                @Override
                 public void doubleHeaderColumnExpandIcon(ExtCustomTable.DoubleHeaderColumnExpandIconEvent event) {
                     LOGGER.debug("SupplementalDiscountProjection addColumnExpandIconListener initiated ");
                     int columnIndex = NumericConstants.TWO;
@@ -917,9 +919,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(MDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(MDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

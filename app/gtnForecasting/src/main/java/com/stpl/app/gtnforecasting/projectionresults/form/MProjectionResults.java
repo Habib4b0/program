@@ -318,6 +318,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
 
                 private static final long serialVersionUID = -4215343675341144627L;
 
+                @Override
                 public void doubleHeaderColumnExpandIcon(ExtCustomTable.DoubleHeaderColumnExpandIconEvent event) {
                     LOGGER.debug("ProjectionResults addColumnExpandIconListener initiated ");
 
@@ -365,6 +366,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
         }
     }
 
+    @Override
     protected void viewChange(boolean viewChange) {
         projectionSelectionDTO.setIsCustomHierarchy(false);
         customDdlb.setEnabled(false);
@@ -466,9 +468,7 @@ public final class MProjectionResults extends ForecastProjectionResults {
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(MProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(MProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

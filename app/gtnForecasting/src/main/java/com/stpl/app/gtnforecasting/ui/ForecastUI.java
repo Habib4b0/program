@@ -30,6 +30,7 @@ import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.logic.RelationShipFilterLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionUtil;
@@ -74,9 +75,10 @@ public class ForecastUI extends UI {
     final StplSecurity stplSecurity = new StplSecurity();
     DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
     SessionDTO sessionDto = new SessionDTO();
-    private RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+    private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
     private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
     private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
+    final NonMandatedLogic nmLogic = new NonMandatedLogic();
     /**
      * Logger
      */
@@ -169,7 +171,7 @@ public class ForecastUI extends UI {
             } else if (getAccrualConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
             }
-            sessionDto = sessionUtil.createSession();
+            sessionDto = SessionUtil.createSession();
             List list = WorkflowPersistance.selectWFInstanceInfo(Integer.valueOf(projectionId));
             Long processId = 0L;
             if (list != null && !list.isEmpty()) {
@@ -226,7 +228,13 @@ public class ForecastUI extends UI {
                         dto.setProductHierVersionNo(temp.getProductHierVersionNo());
                         dto.setProductRelationShipVersionNo(temp.getProjectionProdVersionNo());
                         dto.setCustomerRelationShipVersionNo(temp.getProjectionCustVersionNo());
+                        sessionDto.setCustomerHierarchyVersion(dto.getCustomerHierVersionNo());
+                        sessionDto.setProductHierarchyVersion(dto.getProductHierVersionNo());
+                        sessionDto.setCustomerRelationVersion(dto.getCustomerRelationShipVersionNo());
+                        sessionDto.setProductRelationVersion(dto.getProductRelationShipVersionNo());
                         sessionDto.setScreenName(screenName);
+                        sessionDto.setProductRelationId(Integer.valueOf(dto.getProdRelationshipBuilderSid()));
+                        sessionDto.setProductLevelNumber(dto.getProductHierarchyLevel());
                         QueryUtils.createTempTables(sessionDto);
 
                         Map<String, String> tempCustomerDescriptionMap;
@@ -259,6 +267,8 @@ public class ForecastUI extends UI {
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getCustRelationshipBuilderSid(), true));
                         sessionDto.setProductLevelDetails(
                                 dsLogic.getLevelValueDetails(sessionDto, dto.getProdRelationshipBuilderSid(), false));
+                        Object[] obj = nmLogic.deductionRelationBuilderId(dto.getProdRelationshipBuilderSid());
+                        sessionDto.setDedRelationshipBuilderSid(obj[0].toString());
                     }
                     editWindow = new ForecastEditWindow(projectionName, sessionDto, null, screenName, null);
                 } else if (CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
@@ -278,6 +288,7 @@ public class ForecastUI extends UI {
                                     "A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
                                     new MessageBoxListener() {
                                 @SuppressWarnings("PMD")
+                                @Override
                                 public void buttonClicked(final ButtonId buttonId) {
                                     if (buttonId.name().equals(Constant.YES)) {
                                         sessionDto.setIsNewFileCalculationNeeded(true);

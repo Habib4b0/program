@@ -1177,8 +1177,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
 
                 final Collection childlist = dashboardTreeTable.getChildren(idValue);
-                if (childlist == null || childlist.isEmpty()) {
-                } else {
+                if (childlist != null || !childlist.isEmpty()) {
                     saveTree(childlist);
                 }
             }

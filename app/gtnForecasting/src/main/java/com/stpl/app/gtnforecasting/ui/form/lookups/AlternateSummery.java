@@ -22,7 +22,6 @@ import static com.stpl.app.gtnforecasting.utils.Constant.ANNUAL;
 import static com.stpl.app.gtnforecasting.utils.Constant.MONTHLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.NULL;
 import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.security.StplSecurity;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.FrequencyConstants.QUARTERLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUAL;
@@ -31,7 +30,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.CUSTOM_HIERARCHY;
 import static com.stpl.app.utils.Constants.ResourceConstants.EXCEL_IMAGE_PATH;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -41,14 +39,11 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Panel;
 
@@ -60,11 +55,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -84,14 +76,6 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class AlternateSummery extends CustomComponent {
 
     /**
-     * View name for navigation.
-     */
-    public static final String NAME = StringUtils.EMPTY;
-    /**
-     * The Constant LOGGER.
-     */
-
-    /**
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 1L;
@@ -107,114 +91,77 @@ public class AlternateSummery extends CustomComponent {
      * The split position.
      */
     private final float splitPosition = 300;
-    public ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
-    protected ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    protected ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
-    protected CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
-    protected CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    /**
-     * The history ddlb.
-     */
+    private ExtTreeContainer<SalesRowDto> customContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+    private ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    
     @UiField("historyDdlb")
-    protected ComboBox historyDdlb;
+    private ComboBox historyDdlb;
 
     /**
      * The pro period ord.
      */
     @UiField("proPeriodOrd")
-    protected OptionGroup proPeriodOrd;
+    private OptionGroup proPeriodOrd;
     /**
      * The actuals projections.
      */
     @UiField("ActualsProjections")
-    protected OptionGroup actualsProjections;
+    private OptionGroup actualsProjections;
 
     /**
      * The view.
      */
     @UiField("view")
-    protected OptionGroup view;
+    private OptionGroup view;
     /**
      * The newnew btn.
      */
     @UiField("newBtn")
-    protected Button newBtn;
+    private Button newBtn;
     /**
      * The edit btn.
      */
     @UiField("editBtn")
-    protected Button editBtn;
-
-    /**
-     * The refreshBtn.
-     */
-    @UiField("refreshBtn")
-    protected Button refreshBtn;
-    /**
-     * The reset.
-     */
-    @UiField("resetBtn")
-    protected Button resetBtn;
+    private Button editBtn;
 
     /**
      * The excel export.
      */
     @UiField("excelExport")
-    protected Button excelExport;
+    private Button excelExport;
 
     /**
      * The level
      */
     @UiField("levelDdlb")
-    protected ComboBox level;
+    private ComboBox level;
     /**
      * The level filter ddlb
      */
     @UiField("levelFilterDdlb")
-    protected ComboBox levelFilter;
+    private ComboBox levelFilter;
     /**
      * The view ddlb
      */
     @UiField("viewDdlb")
-    protected ComboBox viewDdlb;
-    /**
-     *
-     * /**
-     * The generate
-     */
-    @UiField("generateBtn")
-    protected Button generate;
+    private ComboBox viewDdlb;
 
     @UiField("tableLayout")
-    protected VerticalLayout tableLayout;
-    @UiField("expand")
-    protected Button expand;
-    @UiField("collapse")
-    protected Button collapse;
-
-    @UiField("viewLabel")
-    public Label viewLabel;
-
-    @UiField("buttonLayout")
-    protected HorizontalLayout buttonLayout;
-
+    private VerticalLayout tableLayout;
+    
     @UiField("pivotViewVar")
-    protected OptionGroup pivotViewVar;
+    private OptionGroup pivotViewVar;
 
-    @UiField("mainPanel")
-    Panel mainPanel;
-    @UiField("salesProjectionSelection")
-    Panel salesProjectionSelection;
-    @UiField("viewLayout")
-    HorizontalLayout viewLayout;
     @UiField("spAdjustment")
-    Panel spAdjustment;
+    private Panel spAdjustment;
+    
     @UiField("nmFrequencyDdlb")
-    protected ComboBox nmFrequencyDdlb;
-    public Button returnsResetBtn = new Button("RESET");
-
-    public int customId = 0;
-    protected boolean checkAll = false;
+    private ComboBox nmFrequencyDdlb;
+    private int customId = 0;
+    
     /**
      * The excel export image.
      */
@@ -223,22 +170,19 @@ public class AlternateSummery extends CustomComponent {
     /**
      * The graph image.
      */
-    protected ExtFilterTreeTable leftTable;
-    protected ExtFilterTreeTable rightTable;
-    protected CustomTableHeaderDTO leftHeader = null;
-    protected CustomTableHeaderDTO rightHeader = null;
-    final public BeanItemContainer<String> groupBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> massGroupBean = new BeanItemContainer<>(String.class);
-    protected SessionDTO session;
-    protected FreezePagedTreeTable resultsTable;
-    protected AHSummeryTableLogic summeryTableLogic;
-    protected ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
-    protected ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
-    /**
-     * Level Filter Listener
-     */
-    protected Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private CustomTableHeaderDTO leftHeader = null;
+    private CustomTableHeaderDTO rightHeader = null;
+    private SessionDTO session;
+    private FreezePagedTreeTable resultsTable;
+    private AHSummeryTableLogic summeryTableLogic;
+    private ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
+    private ExtTreeContainer<SalesRowDto> excelContainer = new ExtTreeContainer<>(SalesRowDto.class,ExtContainer.DataStructureMode.MAP);
+    
+    private Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
+        @Override
         public void valueChange(Property.ValueChangeEvent event) {
             if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
                 projectionDTO.setGroup(StringUtils.EMPTY);
@@ -246,47 +190,21 @@ public class AlternateSummery extends CustomComponent {
             levelFilterDdlbChangeOption();
         }
     };
-    Property.ValueChangeListener groupFilterValueChangeListener = null;
-    ComboBox userGroupTest = new ComboBox();
-    protected ComboBox metohdologyFilter = new ComboBox();
-    protected ComboBox baseLineFilter = new ComboBox();
-    final public BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
-    final public BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
-    protected String screenName;
+    private ComboBox metohdologyFilter = new ComboBox();
+    private ComboBox baseLineFilter = new ComboBox();
+    private final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    private final BeanItemContainer<String> baseLineBean = new BeanItemContainer<>(String.class);
+    private String screenName;
 
-    protected int customIdToSelect = 0;
-    protected List<CustomViewMaster> customViewList = new ArrayList<>();
-    protected final SalesLogic salesLogic = new SalesLogic();
-    protected List<Leveldto> currentHierarchy = new ArrayList<>();
-    DataFormatConverter unitFormat = new DataFormatConverter("#,##0.0");
-    DataFormatConverter salesFormat = new DataFormatConverter("#,##0", DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter growthFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_PERCENT);
-    String oldValue = StringUtils.EMPTY;
-    String oldGroupValue = StringUtils.EMPTY;
-    final Set<String> tableHirarechyNos = new HashSet<>();
+    private int customIdToSelect = 0;
+    private List<CustomViewMaster> customViewList = new ArrayList<>();
+    private final SalesLogic salesLogic = new SalesLogic();
+    private List<Leveldto> currentHierarchy = new ArrayList<>();
     private Map<Object, Boolean> checkBoxMap = new HashMap<>();
     private Map<Object, String> radioMap = new HashMap<>();
-    protected boolean isSalesCalculated;
-    List<String> checkedList;
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
-
-    @UiField("GridLayoutProjection")
-    protected GridLayout GridLayoutProjection;
-
-    @UiField("projPeriodOrdr")
-    protected Label projPeriodOrdr;
-
-    HorizontalLayout forecastReturnsLayout = new HorizontalLayout();
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
-
-    final StplSecurity stplSecurity = new StplSecurity();
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-
-    boolean generated = false;
-    boolean firstGenerated = false;
+    
     private static final Logger LOGGER = Logger.getLogger(AlternateSummery.class);
-    List<String> projectedPeriodList = new ArrayList();
+
 
     public AlternateSummery(SessionDTO session, String screenName) {
         try {
@@ -365,21 +283,10 @@ public class AlternateSummery extends CustomComponent {
         baseLineFilter.setNullSelectionAllowed(false);
         baseLineFilter.setContainerDataSource(baseLineBean);
 
-        groupFilterValueChangeListener = new Property.ValueChangeListener() {
-
-            public void valueChange(Property.ValueChangeEvent event) {
-                LOGGER.debug("groupDdlbChangeOption ValueChangeEvent initiated ");
-                String groupValue = String.valueOf(event.getProperty().getValue());
-                groupValue = Constant.SHOW_ALL_GROUPS.equals(groupValue) ? Constant.PERCENT : groupValue;
-                projectionDTO.setGroup(groupValue);
-                summeryTableLogic.setProjectionResultsData(projectionDTO);
-                LOGGER.debug("groupDdlbChangeOption ValueChangeEvent ends ");
-            }
-        };
-
         loadLevelFilterValue(String.valueOf(view.getValue()));
         view.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadOnViewChange();
             }
@@ -424,8 +331,10 @@ public class AlternateSummery extends CustomComponent {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
+                LOGGER.debug("Inside Overriden method: do nothing");
             }
 
             /**
@@ -434,6 +343,7 @@ public class AlternateSummery extends CustomComponent {
              *
              * @param buttonId The buttonId of the pressed button.
              */
+            @Override
             public void yesMethod() {
                 LOGGER.debug("Entering resetBtn method");
                 resetBtnLogic();
@@ -737,6 +647,7 @@ public class AlternateSummery extends CustomComponent {
         final CustomTreeBuild customTree = new CustomTreeBuild(session);
         customTree.addCloseListener(new Window.CloseListener() {
 
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 if (customTree.isIsSelect()) {
                     customIdToSelect = customTree.getCustomId();
@@ -757,6 +668,7 @@ public class AlternateSummery extends CustomComponent {
             final CustomTreeBuild customTree = new CustomTreeBuild(session, customId);
             customTree.addCloseListener(new Window.CloseListener() {
 
+                @Override
                 public void windowClose(Window.CloseEvent e) {
                     customIdToSelect = customTree.getCustomId();
                     loadCustomDDLB();
@@ -802,6 +714,7 @@ public class AlternateSummery extends CustomComponent {
         frequency.setNullSelectionAllowed(false);
         frequency.setImmediate(true);
         frequency.addValueChangeListener(new Property.ValueChangeListener() {
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadFrequency(frequency, history);
             }
@@ -917,7 +830,7 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setCustomerLevelNo(Integer.valueOf(session.getCustomerLevelNumber()));
             projectionDTO.setProductLevelNo(Integer.valueOf(session.getProductLevelNumber()));
             projectionDTO.clearNonFetchableIndex();
-            int count = 0;
+            int count;
 
             if ("Returns".equalsIgnoreCase(screenName)) {
                 count = salesLogic.getConfiguredSalesProjectionCount(new Object(), projectionDTO, true, initialProjSelDTO);
@@ -1158,10 +1071,7 @@ public class AlternateSummery extends CustomComponent {
 
     protected void generateBtnLogic() {
         try {
-
             LOGGER.debug("generate button click listener starts ");
-            generated = true;
-            firstGenerated = true;
             tableLayout.removeAllComponents();
             summeryTableLogic = new AHSummeryTableLogic();
             resultsTable = new FreezePagedTreeTable(summeryTableLogic);
@@ -1170,8 +1080,6 @@ public class AlternateSummery extends CustomComponent {
             projectionDTO.setRowsPerLevelItem(salesLogic.getHistoryAndProjectionCount(projectionDTO.getSessionDTO(), projectionDTO));
             addResultTable();
             generateLogic();
-            generated = false;
-
         } catch (Exception e) {
             LOGGER.error(e);
         }

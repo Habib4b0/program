@@ -5,7 +5,6 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
@@ -71,7 +70,7 @@ public class ProductGroupLookup extends Window {
     /**
      * The table bean.
      */
-    private BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
+    private final BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
 
     /**
      * The select.
@@ -146,7 +145,7 @@ public class ProductGroupLookup extends Window {
         resultsTableLayout.addComponent(resultTable);
         resultsTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(commonUiUtils.productGroupColumn);
+        resultTable.setVisibleColumns(CommonUiUtils.productGroupColumn);
         resultTable.setColumnHeaders(commonUiUtils.productGroupHeader);
         resultTable.setSelectable(true);
         resultTable.setSortEnabled(true);

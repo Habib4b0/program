@@ -92,7 +92,7 @@ public class NationalAssumptionLogic {
      * The current year.
      */
     private int currentYear;
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     public static final String DESCRIPTION = "description";
     public static final String CALL_BRACKET = "{call ";
     /**
@@ -454,7 +454,7 @@ public class NationalAssumptionLogic {
             if (connection != null) {
                 connection.close();
             }
-            System.gc();
+            
         }
         return objectList;
     }

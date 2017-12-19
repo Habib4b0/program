@@ -72,7 +72,7 @@ public class HeaderUtils {
     /**
      * The quarters.
      */
-    private static String[] quarters = new String[]{" Q1", " Q2", " Q3", " Q4"};
+    private static final String[] quarters = new String[]{" Q1", " Q2", " Q3", " Q4"};
     /**
      * The annual.
      */
@@ -83,11 +83,11 @@ public class HeaderUtils {
     /**
      * The months.
      */
-    private static String[] months = new String[]{" Jan", " Feb", " Mar", " Apr", " May", " Jun", " Jul", " Aug", " Sep", " Oct", " Nov", " Dec"};
+    private static final String[] months = new String[]{" Jan", " Feb", " Mar", " Apr", " May", " Jun", " Jul", " Aug", " Sep", " Oct", " Nov", " Dec"};
     /**
      * The semi annuals.
      */
-    private static String[] semiAnnuals = new String[]{" SA1", " SA2"};
+    private static final String[] semiAnnuals = new String[]{" SA1", " SA2"};
     public static final String PROJECTIONS1 = "projections";
     /**
      * The month.
@@ -419,8 +419,8 @@ public class HeaderUtils {
      * The var net SALES_SMALL.
      */
 
-    private static Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
-    private static Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
+    private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
+    private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
 
     /**
      * Gets the dynamic discount.
