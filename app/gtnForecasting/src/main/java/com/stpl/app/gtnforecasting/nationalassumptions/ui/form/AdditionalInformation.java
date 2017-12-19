@@ -215,8 +215,7 @@ public class AdditionalInformation extends CustomComponent {
     private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
     private List<String> notesList = new ArrayList<>();
     private List<String> wordList = new ArrayList<>();
-    private  String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    private  CommonUiUtils commonUiUtils = new CommonUiUtils();
+    private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
     /**
      * The file path.
@@ -249,12 +248,12 @@ public class AdditionalInformation extends CustomComponent {
         wordBtn.setIcon(wordImage);
         pdfBtn.setIcon(pdfImage);
         resultsTable.setContainerDataSource(attachmentsListBean);
-        resultsTable.setVisibleColumns(commonUiUtils.attachmentColumns);
-        resultsTable.setColumnHeaders(commonUiUtils.attachmentHeader);
+        resultsTable.setVisibleColumns(CommonUiUtils.attachmentColumns);
+        resultsTable.setColumnHeaders(CommonUiUtils.attachmentHeader);
         resultsTable.setSelectable(true);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[0], Table.Align.LEFT);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[1], Table.Align.CENTER);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[0], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[1], Table.Align.CENTER);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
         uploader.setStyleName(Constant.SEARCH_TEXT);
         layout.setStyleName("uploadId");
         notesHistory.setEnabled(false);
@@ -461,6 +460,7 @@ public class AdditionalInformation extends CustomComponent {
             AbstractNotificationUtils.getErrorNotification("Add Note Error", "There is no note to add. Please type a note in the Notes Section. ");
         } else {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }
@@ -507,6 +507,7 @@ public class AdditionalInformation extends CustomComponent {
             if (tableBean.getUserName().equalsIgnoreCase(CommonUtils.getUserNameById(userId))) {
 
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

@@ -32,7 +32,7 @@ public class BrandItemLogic {
     private static final Logger LOGGER = Logger.getLogger(BrandItemLogic.class);
     
     /** The data selection. */
-    private static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
+    private static final DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
 
     /**
      * Gets the brand.

@@ -70,7 +70,7 @@ public class NMProjectionResultsXLLogic {
     private String viewValue = StringUtils.EMPTY;
     private static final String PRC_PROJ_RESULTS = "PRC_PROJECTION_RESULTS";
     private static final String PRC_PR_EXCEL = "PRC_PROJECTION_RESULT_EXCEL_EXPORT";
-    private static String DASH = "-";
+    private static final String DASH = "-";
     List<Object> pivotDiscountList = new ArrayList<>();
     List<ProjectionResultsDTO> discountList = new ArrayList<>();
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat("#,##0.00");
@@ -84,12 +84,12 @@ public class NMProjectionResultsXLLogic {
     PVParameters parameterDto;
     private boolean discountFlag;
     private boolean isCustomView;
-    private String VAR_CONTRACT_UNITS = "Unit Volume";
-    private String VAR_DIS_AMOUNT = "Total Discount $";
-    private String VAR_DIS_PERCENT = "Total Discount %";
+    private final String VAR_CONTRACT_UNITS = "Unit Volume";
+    private final String VAR_DIS_AMOUNT = "Total Discount $";
+    private final String VAR_DIS_PERCENT = "Total Discount %";
     public static final String QUARTERLY = "QUARTERLY";
-    private String VAR_RPU = "Total RPU";
-    private String PERCENT = "%";
+    private final String VAR_RPU = "Total RPU";
+    private final String PERCENT = "%";
 
     public NMProjectionResultsXLLogic(Map<String, List<ProjectionResultsDTO>> resultMap, ProjectionSelectionDTO selection,
             List<String> hierarchyKeys, List<String> tradingPartnerKeys, List<String> discountKeys, PVParameters parameterDto) {

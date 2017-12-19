@@ -18,17 +18,21 @@ import java.util.List;
  */
 public class CommonResultsDAOImpl implements CommonResultsDAO {
 
+    @Override
     public Object executeSelectQuery(String query) throws PortalException, SystemException {
         return FcpActualsLocalServiceUtil.executeSelectQuery(query);
     }
 
+    @Override
     public Object executeBulkUpdateQuery(String query) throws PortalException, SystemException {
         return FcpActualsLocalServiceUtil.executeBulkUpdateQuery(query);
     }
+    @Override
     public Object executeUpdateQuery(String query) throws SystemException, PortalException {
         return FcpActualsLocalServiceUtil.executeUpdateQuery(query);
     }
        
+    @Override
     public Object executeUpdateQuery(List<StringBuilder> fcpList) throws PortalException, SystemException {
         return FcpActualsLocalServiceUtil.executeUpdateQuery(fcpList);
     }

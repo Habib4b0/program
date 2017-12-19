@@ -336,7 +336,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
                 String indicator = projSelDTO.getHierarchyIndicator();
                 int levelNo = projSelDTO.getTreeLevelNo();
                 if (expandLevelNo >= levelNo) {
-                    levelList = new MProjectionVarianceLogic().getConditionalLevelList(projSelDTO.getSession().getProjectionId(), 0, projSelDTO.getLevelCount(), indicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO);
+                    levelList = MProjectionVarianceLogic.getConditionalLevelList(projSelDTO.getSession().getProjectionId(), 0, projSelDTO.getLevelCount(), indicator, levelNo, hierarchyNo, productHierarchyNo, customerHierarchyNo, false, false, projSelDTO.isIsCustomHierarchy(), projSelDTO.getCustomId(), projSelDTO);
                     customizeResult(levelList, count, treeLevel, expandLevelNo, true, indicator, hierarchyNo, productHierarchyNo, customerHierarchyNo);
                 }
             }

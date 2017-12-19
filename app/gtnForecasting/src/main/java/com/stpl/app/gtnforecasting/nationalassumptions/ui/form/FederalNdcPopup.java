@@ -102,7 +102,6 @@ public class FederalNdcPopup extends CustomComponent {
     private static final Logger LOGGER = Logger.getLogger(FederalNdcPopup.class);
     private final DataFormatConverter dollarFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
     private final SessionDTO sessionDTO;
-    private final CommonUiUtils commonUiUtils = new CommonUiUtils();
 
     public FederalNdcPopup(NewNdcDTO newNdcDTO, Map<Integer, Object> federalMap,SessionDTO sessionDTO) {
         this.sessionDTO=sessionDTO;
@@ -139,16 +138,16 @@ public class FederalNdcPopup extends CustomComponent {
 
         federalTable.markAsDirty();
         federalTable.setContainerDataSource(federalBean);
-        federalTable.setVisibleColumns(commonUiUtils.federalNDCColumns);
-        federalTable.setColumnHeaders(commonUiUtils.federalNdcHeader);
+        federalTable.setVisibleColumns(CommonUiUtils.federalNDCColumns);
+        federalTable.setColumnHeaders(CommonUiUtils.federalNdcHeader);
         federalTable.setFilterBarVisible(true);
         federalTable.setFilterDecorator(new ExtDemoFilterDecorator());
         federalTable.addStyleName(Constant.FILTER_TABLE);
         federalTable.addStyleName("table-header-center");
-        federalTable.setColumnAlignment(commonUiUtils.federalNDCColumns[0], ExtFilterTable.Align.LEFT);
-        int length = commonUiUtils.federalNDCColumns.length;
+        federalTable.setColumnAlignment(CommonUiUtils.federalNDCColumns[0], ExtFilterTable.Align.LEFT);
+        int length = CommonUiUtils.federalNDCColumns.length;
         for (int i = 1; i < length; i++) {
-            federalTable.setColumnAlignment(commonUiUtils.federalNDCColumns[i], ExtFilterTable.Align.RIGHT);
+            federalTable.setColumnAlignment(CommonUiUtils.federalNDCColumns[i], ExtFilterTable.Align.RIGHT);
         }
 
         ndc.addValueChangeListener(new Property.ValueChangeListener() {
@@ -269,10 +268,8 @@ public class FederalNdcPopup extends CustomComponent {
             } else {
                 reset.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
 
     }

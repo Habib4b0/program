@@ -227,6 +227,7 @@ public class ContractBrandLookup extends Window {
 
             searchContractBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
 
                     try {

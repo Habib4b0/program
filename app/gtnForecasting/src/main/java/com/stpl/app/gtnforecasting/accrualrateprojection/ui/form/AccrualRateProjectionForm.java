@@ -162,6 +162,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
     protected void btnCloseLogic() {
 
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 return;
             }
@@ -197,6 +198,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
     }
 
+    @Override
     protected void btnSubmitLogic() {
 
         if ((AccrualRateUtils.ADD.equalsIgnoreCase(session.getAction()) && map.containsKey(Constant.IS_SALES_GENERATED) && map.containsKey(Constant.IS_RATES_GENERATED))
@@ -207,6 +209,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                 || (AccrualRateUtils.EDIT.equalsIgnoreCase(session.getAction()) && session.isNewFileCalculationNeeded()
                 && map.containsKey(Constant.IS_SALES_GENERATED) && map.containsKey(Constant.IS_RATES_GENERATED))) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     return;
                 }
@@ -224,7 +227,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                         CommonUtil.getInstance().waitFor(session.getThread(i));
                     }
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
                         @Override
                         public void windowClose(Window.CloseEvent e) {
@@ -297,11 +300,12 @@ public class AccrualRateProjectionForm extends AbstractForm {
     @Override
     protected void btnApproveLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Approve", "Are you sure you want to approve the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
 
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -360,10 +364,11 @@ public class AccrualRateProjectionForm extends AbstractForm {
     @Override
     protected void btnRejectLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Reject", "Are you sure you want to reject the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -408,10 +413,11 @@ public class AccrualRateProjectionForm extends AbstractForm {
     @Override
     protected void btnWithdrawLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Withdraw", "Are you sure you want to withdraw the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -456,10 +462,11 @@ public class AccrualRateProjectionForm extends AbstractForm {
     @Override
     protected void btnCancelLogic() {
         MessageBox.showPlain(Icon.QUESTION, "Confirm Cancel", "Are you sure you want to cancel the projection " + " ?", new MessageBoxListener() {
+            @Override
             public void buttonClicked(ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
                     final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-                    getUI().getCurrent().addWindow(popup);
+                    UI.getCurrent().addWindow(popup);
                     popup.addCloseListener(new Window.CloseListener() {
 
                         @Override
@@ -569,8 +576,8 @@ public class AccrualRateProjectionForm extends AbstractForm {
      private void configureForView() {
 
         if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-            super.getBtnSave().setEnabled(false);
-            super.getBtnSubmit().setEnabled(false);
+            AbstractForm.getBtnSave().setEnabled(false);
+            AbstractForm.getBtnSubmit().setEnabled(false);
         }
 
     }
@@ -626,11 +633,13 @@ public class AccrualRateProjectionForm extends AbstractForm {
      */
     private void configureFields() {
         btnPrev.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnPreviousLogic();
             }
         });
         btnNext.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 btnNextLogic();
             }
@@ -824,6 +833,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     if (session.getWorkflowId() != 0) {
                         getBtnSave().setEnabled(false);
@@ -914,9 +924,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                 btnSave.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
