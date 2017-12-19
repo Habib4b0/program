@@ -84,6 +84,8 @@ public class Constants {
     public static final String PS_NAME_FIELD = "PS Name";
     public static final String RS_NO_HEADER = "RS No";
     public static final String WORK_FLOW_STATUS_HEADER = "WorkFlow Status";
+    public static final String FROM = "from";
+    public static final String TO = "to";
     
     public final static String IFP_STATUS = "IFP Status";
     public final String[] cfpSearch = {CFP_NO_HEADER, CFP_NAME_HEADER, "CFP ID", "CFP Status", "CFP Type", "Company ID", "Company No", "Company Name", COMPANYSTATUS,
@@ -1377,6 +1379,8 @@ public class Constants {
     public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME = "Subsequent Period Price Type";
     public static final String NET_RESET_PRICE_FORMULA_LABLE_NAME = "Net Reset Price Formula";
     public static final String BASELINE_WAC_LABLE_NAME = "Baseline WAC";
+    public static final String MANUAL_LABLE_NAME = "Manual"; 
+    public static final String DATE_LABLE_NAME = "Date";
     /*
             Constants for Item Management Column
      */
@@ -1403,6 +1407,9 @@ public class Constants {
     public static final String NEP_FORMULA_COLUMN_NAME = "NEP_FORMULA";
     public static final String PRICE_PROTECTION_STATUS_COLUMN_NAME = "PRICE_PROTECTION_STATUS";
     public static final String BASELINE_NET_WAC_COLUMN_NAME = "NET_BASE_PRICE";
+    public static final String BASELINE_WAC_DATE_COLUMN_NAME = "BASELINE_WAC_DATE";
+    public static final String BASELINE_WAC_MANUAL_COLUMN_NAME = "BASELINE_WAC_MANUAL";
+    public static final String BASELINE_WAC_PRICE_TYPE_COLUMN_NAME = "BASELINE_WAC_PRICE_TYPE";
 
     /*
             Constants for Item Management List Names
