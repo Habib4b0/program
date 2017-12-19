@@ -4,11 +4,13 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 
+import com.stpl.app.gcm.tp.logic.GcmtFilterLogic;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.filter.Between;
+import com.vaadin.data.util.filter.Compare;
 import com.vaadin.data.util.filter.SimpleStringFilter;
 import java.util.Date;
 import java.util.HashMap;
@@ -260,7 +262,15 @@ public class AbstractFilter {
                             tempEnd.replace(tempEnd.indexOf("?"), tempEnd.indexOf("?") + 1, CommonUtils.DBDate.format(endValue));
                             sql.append(tempEnd);
                         }
-                    } else {
+                    }
+                } else if (filter instanceof Compare) {
+                    Compare stringFilter = (Compare) filter;
+                    if (!queryMap.get(stringFilter.getPropertyId().toString()).isEmpty()) {
+                        Compare.Operation operation = stringFilter.getOperation();
+                        GcmtFilterLogic.getInstance().equalOperator(operation, stringFilter, sql, queryMap);
+                        GcmtFilterLogic.getInstance().greaterlOperator(operation, stringFilter, sql, queryMap);
+                        GcmtFilterLogic.getInstance().lessOperator(operation, stringFilter, sql, queryMap);
+                        GcmtFilterLogic.getInstance().dateOperator(stringFilter, operation, sql, queryMap);
                     }
                 }
 
@@ -270,7 +280,7 @@ public class AbstractFilter {
         return sql;
 
     }
-
+    
     private void setSummaryFilterMap() {
         summaryFilterMap.put(Constants.CONTRACT_HOLDER, "COMP.COMPANY_NAME");
         summaryFilterMap.put(Constants.CONTRACT_NO, StringConstantsUtil.CM_CONTRACT_NO);
