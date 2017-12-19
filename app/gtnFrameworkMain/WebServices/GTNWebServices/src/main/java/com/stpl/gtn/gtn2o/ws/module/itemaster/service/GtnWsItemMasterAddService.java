@@ -645,8 +645,8 @@ public class GtnWsItemMasterAddService {
 
 			Date today = new Date();
 			Object[] params = new Object[] { pricingBean.getItemPricingQualifierSid(), pricingBean.getItemUom(),
-					pricingBean.getItemPrice().toPlainString(), pricingBean.getPricingCodeStatus(), pricingBean.getEntityCode(),
-					pricingBean.getStartDate(), pricingBean.getEndDate(),
+					pricingBean.getItemPrice().toPlainString(), pricingBean.getPricingCodeStatus(),
+					pricingBean.getEntityCode(), pricingBean.getStartDate(), pricingBean.getEndDate(),
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today,
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today };
 			GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,

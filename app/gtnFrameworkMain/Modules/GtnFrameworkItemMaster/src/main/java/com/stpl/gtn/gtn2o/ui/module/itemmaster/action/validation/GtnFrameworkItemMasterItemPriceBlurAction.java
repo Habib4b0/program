@@ -20,49 +20,52 @@ import java.util.List;
  * @author Deepika.krishnakumar
  */
 public class GtnFrameworkItemMasterItemPriceBlurAction extends GtnUIFrameworkValueChangeListener
-		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
+		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        
-        
-               String pricingName = GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("itemPricingQualifierName").getCaptionFromComboBox();
-        
-        List<String> itemPriceValue = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+
+		String pricingName = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("itemPricingQualifierName")
+				.getCaptionFromComboBox();
+
+		List<String> itemPriceValue = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 
 		for (String textFields : itemPriceValue) {
-                    
+
 			String itemValue = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textFields).getStringFromField()
 					.replaceAll(",", "");
-                        
-			if (pricingName.equals("AMP") || pricingName.equals("BP") && !itemValue.isEmpty() && itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
+
+			if (pricingName.equals("AMP") || pricingName.equals("BP") && !itemValue.isEmpty()
+					&& itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textFields)
 						.loadFieldValue(new BigDecimal(itemValue).setScale(6, BigDecimal.ROUND_DOWN));
 
 			}
-			if (pricingName.equals("CPIURA") || pricingName.equals("CPI (Alt) URA") && !itemValue.isEmpty() && itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
+			if (pricingName.equals("CPIURA") || pricingName.equals("CPI (Alt) URA") && !itemValue.isEmpty()
+					&& itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textFields)
 						.loadFieldValue(new BigDecimal(itemValue).setScale(3, BigDecimal.ROUND_DOWN));
 
 			}
-			if (pricingName.equals("URA") && !itemValue.isEmpty() && itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
+			if (pricingName.equals("URA") && !itemValue.isEmpty()
+					&& itemValue.matches(GtnFrameworkRegexStringConstants.NUMERIC_WITH_DOT_REGEX)) {
 				GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textFields)
 						.loadFieldValue(new BigDecimal(itemValue).setScale(4, BigDecimal.ROUND_DOWN));
 
 			}
 		}
-    }
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
-    
-    
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
 }

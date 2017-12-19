@@ -20,27 +20,30 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
  *
  * @author Lokeshwari.Kumarasam
  */
-public class GtnFrameworkItemMasterPricingTableConfigureAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
-    
-    private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterPricingTableConfigureAction.class);
+public class GtnFrameworkItemMasterPricingTableConfigureAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	private GtnWSLogger gtnLogger = GtnWSLogger.getGTNLogger(GtnFrameworkItemMasterPricingTableConfigureAction.class);
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        gtnLogger.info("Entering GtnFrameworkItemMasterPricingTableConfigureAction doAction ");
-        configurePricingTable();
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
-    
-    private void configurePricingTable() {
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		gtnLogger.info("Entering GtnFrameworkItemMasterPricingTableConfigureAction doAction ");
+		configurePricingTable();
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
+	private void configurePricingTable() {
 
 		GtnUIFrameworkWebserviceRequest gtnRequest = new GtnItemMasterRequestBuilder().getItemMasterWebServiceRequest();
 		new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
@@ -49,5 +52,5 @@ public class GtnFrameworkItemMasterPricingTableConfigureAction implements GtnUIF
 				gtnRequest, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 
 	}
-    
+
 }
