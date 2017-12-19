@@ -320,6 +320,7 @@ public class DataSelectionDAOImpl implements DataSelectionDAO {
      * @param hierarchyType the hierarchy type
      * @return the hierarchy data
      */
+    @Override
     public List<HierarchyLookupDTO> getHierarchyData(final String indicator,
             final String hierarchyName, final String hierarchyType) {
 

@@ -84,7 +84,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
     protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
-    private static final Logger LOGGER = Logger.getLogger(ForecastDiscountProjection.class);
+    protected static final Logger LOGGER = Logger.getLogger(ForecastDiscountProjection.class);
     /**
      * The forecastTab VerticalLayout.
      */
@@ -150,7 +150,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      * The basis.
      */
     @UiField("adjustment")
-    public TextField adjustment;
+    protected TextField adjustment;
     /**
      * The value look up.
      */
@@ -215,7 +215,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     protected Label groupFilterLb;
     
     @UiField("variablesForMandated")
-    public OptionGroup variablesForMandated;
+    protected OptionGroup variablesForMandated;
     /**
      * The programSelection ComboBox.
      */
@@ -258,7 +258,7 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
      * The group filter ddlb.
      */
     @UiField("groupFilterDdlb")
-    public ComboBox groupFilterDdlb;
+    protected ComboBox groupFilterDdlb;
     /**
      * The type OptionGroup.
      */
@@ -413,24 +413,24 @@ public abstract class ForecastDiscountProjection extends CustomComponent impleme
     @UiField("calculateBtn")
     protected Button calculateBtn;
 
-    public Label frequency = new Label();
-    public ComboBox frequencyDdlb = new ComboBox();
-    public Label actualsProjections = new Label();
-    public OptionGroup actualsProjs = new OptionGroup();
-    public Label projectionPeriodOrder = new Label();
-    public OptionGroup periodOrder = new OptionGroup();
-    public Label history = new Label();
-    public ComboBox historyDdlb = new ComboBox();
-    public Label variablesLb = new Label();
-    public OptionGroup variables = new OptionGroup();
-    public Label projTypeLb = new Label();
-    public OptionGroup projType = new OptionGroup();
-    public Label discTypeLb = new Label();
-    public OptionGroup discType = new OptionGroup();
-    public Label uomLb = new Label("Unit Of Measure:");
-    public ComboBox uomDdlb = new ComboBox();
-    public Label displayFormatLabel = new Label("Display Format:");
-    public CustomMenuBar displayFormatDdlb = new CustomMenuBar();
+    protected Label frequency = new Label();
+    protected ComboBox frequencyDdlb = new ComboBox();
+    protected Label actualsProjections = new Label();
+    protected OptionGroup actualsProjs = new OptionGroup();
+    protected Label projectionPeriodOrder = new Label();
+    protected OptionGroup periodOrder = new OptionGroup();
+    protected Label history = new Label();
+    protected ComboBox historyDdlb = new ComboBox();
+    protected Label variablesLb = new Label();
+    protected OptionGroup variables = new OptionGroup();
+    protected Label projTypeLb = new Label();
+    protected OptionGroup projType = new OptionGroup();
+    protected Label discTypeLb = new Label();
+    protected OptionGroup discType = new OptionGroup();
+    protected Label uomLb = new Label("Unit Of Measure:");
+    protected ComboBox uomDdlb = new ComboBox();
+    protected Label displayFormatLabel = new Label("Display Format:");
+    protected CustomMenuBar displayFormatDdlb = new CustomMenuBar();
     protected Label conversionFactor = new Label("Deduction Conversion:");
     protected ComboBox conversionFactorDdlb = new ComboBox();
     protected CustomMenuBar.CustomMenuItem deductionInclusionValues;

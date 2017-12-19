@@ -36,36 +36,32 @@ import org.jboss.logging.Logger;
  */
 public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
-    SessionDTO session;
-    String frequency;
-    String history;
-    String actualsOrProjections;
-    String projectionPeriodorder;
-    boolean isProgram;
-    List<String> discountList = new ArrayList<>();
-    List<Integer> startAndEndPeriods = new ArrayList<>();
-    String year;
-    int levelNo;
-    boolean isParent;
-    boolean isCount;
-    List<Leveldto> currentHierarchy;
-    boolean isCustomHierarchy;
-    String hierarchyIndicator;
-    boolean dataLoad = false;
-    boolean isChildrenAllowed = true;
-    int lastLevelNo = 0;
-    String userGroup = StringUtils.EMPTY;
-    int customId = 0;
-    boolean checkAll = false;
-    String relationshipBuilderSid = StringUtils.EMPTY;
-    DiscountProjectionLogic logic = new DiscountProjectionLogic();
-    AltSummeryDiscount altSummeryDiscount;
-    List levelListBeforeUpdate = new ArrayList();
-    ProjectionSelectionDTO projectionSelection;
-
+    private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    private SessionDTO session;
+    private String frequency;
+    private String history;
+    private String projectionPeriodorder;
+    private boolean isProgram;
+    private List<String> discountList = new ArrayList<>();
+    private List<Integer> startAndEndPeriods = new ArrayList<>();
+    private String year;
+    private int levelNo;
+    private boolean isParent;
+    private List<Leveldto> currentHierarchy;
+    private boolean isCustomHierarchy;
+    private String hierarchyIndicator;
+    private boolean dataLoad = false;
+    private boolean isChildrenAllowed = true;
+    private int lastLevelNo = 0;
+    private String userGroup = StringUtils.EMPTY;
+    private int customId = 0;
+    private boolean checkAll = false;
+    private String relationshipBuilderSid = StringUtils.EMPTY;
+    private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
+    private final AltSummeryDiscount altSummeryDiscount;
+    private ProjectionSelectionDTO projectionSelection;
     private int maxExpandLevelNo = 0;
-    ProjectionSelectionDTO alternateProjectionSelection;
+    private ProjectionSelectionDTO alternateProjectionSelection;
 
     /**
      * The Constant LOGGER.
@@ -79,7 +75,6 @@ public class AHSummeryDiscountTableLogic extends PageTreeTableLogic {
         this.session = session;
         this.frequency = projectionSelection.getFrequency();
         this.history = projectionSelection.getHistory();
-        this.actualsOrProjections = projectionSelection.getActualsOrProjections();
         this.projectionPeriodorder = projectionSelection.getProjectionOrder();
         this.isProgram = isProgram;
         this.discountList = discountList;

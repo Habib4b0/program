@@ -384,6 +384,7 @@ public class DataSelection extends CustomComponent implements View {
         });
         moveLeftProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (availableProduct.getValue() != null) {
                     Object item = availableProduct.getValue();
@@ -394,6 +395,7 @@ public class DataSelection extends CustomComponent implements View {
         });
         moveRightProduct.addClickListener(new Button.ClickListener() {
 
+            @Override
             public void buttonClick(Button.ClickEvent event) {
                 if (selectedProducts.getValue() != null) {
                     Object item = selectedProducts.getValue();
@@ -544,6 +546,7 @@ public class DataSelection extends CustomComponent implements View {
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 if (event.isDoubleClick()) {
                     Object item = event.getItemId();
