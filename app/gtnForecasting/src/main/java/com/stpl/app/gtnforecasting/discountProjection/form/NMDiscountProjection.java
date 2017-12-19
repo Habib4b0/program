@@ -3653,7 +3653,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 							textField.addBlurListener(blurListener);
 							return textField;
-						}					
+						}		
+						if (rightHeader.getSingleForecastColumns().contains(property)) {
+							rightTable.setColumnRadioButton(property, (String) property);
+							rightTable.setColumnRadioButtonDisable(property, true);
+								for(int i=0;i<rightHeader.getDoubleColumns().size();i++){
+								if(property.contains((CharSequence) rightHeader.getDoubleColumns().get(i))){									
+									rightTable.setDoubleHeaderColumnCheckBoxDisable(rightHeader.getDoubleColumns().get(i),true);
+								}
+							}
+						}
 					} catch (Exception e) {
 						LOGGER.error(e);
 
