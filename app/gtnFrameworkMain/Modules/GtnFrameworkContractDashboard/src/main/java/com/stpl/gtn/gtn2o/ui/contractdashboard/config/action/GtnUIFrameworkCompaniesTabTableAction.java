@@ -37,6 +37,9 @@ public class GtnUIFrameworkCompaniesTabTableAction
 
 		GtnUIFrameworkBaseComponent companiesDetailTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.COMPANIES_TAB_DETAIL_TABLE);
+		
+		GtnUIFrameworkBaseComponent companiesDetailViewTable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.COMPANIES_TAB_DETAIL_TABLE + "View");	
 
 		GtnUIFrameworkBaseComponent cfpContractId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpContractId",
 				componentId);
@@ -49,8 +52,15 @@ public class GtnUIFrameworkCompaniesTabTableAction
 			if (String.valueOf(recordType.getValueFromComponent()).replace("[", "").replace("]", "")
 					.equals(GtnFrameworkContractDashboardContants.PENDING)) {
 				configurePendingTable(companiesDetailTable);
+				configureViewTable(companiesDetailViewTable);
+				configureCompaniesPendingViewTableColumn(companiesDetailViewTable);
+				
+				
 			} else {
 				configureTable(companiesDetailTable);
+				configureViewTable(companiesDetailViewTable);
+				configureCompaniesViewTableColumn(companiesDetailViewTable);
+				
 
 			}
 		}
@@ -100,6 +110,31 @@ public class GtnUIFrameworkCompaniesTabTableAction
 
 		cfpCompaniesTable.setTableColumns(GtnFrameworkContractDashboardContants.getCompanyDetailColumn());
 		cfpCompaniesTable.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getCompanyDetailHeader());
+
+	}
+
+	private void configureViewTable(GtnUIFrameworkBaseComponent companiesDetailViewTable) {
+
+		companiesDetailViewTable.getExtPagedTable().setFilterBarVisible(false);
+		companiesDetailViewTable.getExtPagedTable().setEditable(false);
+		companiesDetailViewTable.getExtPagedTable().setReadOnly(true);
+
+	}
+
+	private void configureCompaniesPendingViewTableColumn(GtnUIFrameworkBaseComponent companiesDetailViewTable) {
+
+		companiesDetailViewTable
+				.setTableColumns(GtnFrameworkContractDashboardContants.getCompanyDetailPendingViewColumn());
+		companiesDetailViewTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getCompanyDetailViewHeader());
+
+	}
+
+	private void configureCompaniesViewTableColumn(GtnUIFrameworkBaseComponent companiesDetailViewTable) {
+
+		companiesDetailViewTable.setTableColumns(GtnFrameworkContractDashboardContants.getCompanyDetailViewColumn());
+		companiesDetailViewTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getCompanyDetailViewHeader());
 
 	}
 
