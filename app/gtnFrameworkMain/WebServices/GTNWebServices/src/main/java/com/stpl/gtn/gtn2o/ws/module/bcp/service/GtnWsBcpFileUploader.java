@@ -96,10 +96,6 @@ public class GtnWsBcpFileUploader {
 		p.waitFor();
 		fileList.add(finalFile);
 		fileList.add(logPath);
-//		for (String fileName : fileList) {
-//			GTNLOGGER.debug("Deleted filename " + fileName);
-//			Files.delete(GtnFileNameUtils.getPath(fileName));
-//		}
 		GTNLOGGER.info("Upload Complete");
 	}
 

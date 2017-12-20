@@ -1682,6 +1682,49 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <xloc>676</xloc>
       <yloc>418</yloc>
       </entry>
+    <entry>
+      <name>REBATE PLAN INSERT 2</name>
+      <description/>
+      <type>SQL</type>
+      <sql>DELETE FROM REBATE_PLAN_TIER WHERE REBATE_PLAN_MASTER_SID IN (
+SELECT REBATE_PLAN_MASTER_SID FROM REBATE_PLAN_MASTER WHERE REBATE_PLAN_ID IN(
+select REBATE_PLAN_ID from STAG_REBATE_PLAN
+)
+)
+
+UPDATE STATISTICS REBATE_PLAN_TIER
+</sql>
+      <useVariableSubstitution>T</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection>BPI DB</connection>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1097</xloc>
+      <yloc>1088</yloc>
+      </entry>
+    <entry>
+      <name>DUMMY</name>
+      <description/>
+      <type>SPECIAL</type>
+      <start>N</start>
+      <dummy>Y</dummy>
+      <repeat>N</repeat>
+      <schedulerType>0</schedulerType>
+      <intervalSeconds>0</intervalSeconds>
+      <intervalMinutes>60</intervalMinutes>
+      <hour>12</hour>
+      <minutes>0</minutes>
+      <weekDay>1</weekDay>
+      <DayOfMonth>1</DayOfMonth>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1061</xloc>
+      <yloc>1181</yloc>
+      </entry>
   </entries>
   <hops>
     <hop>
@@ -1831,15 +1874,6 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
     <hop>
       <from>DATAFETCH</from>
       <to>STAG</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>REBATE PLAN INSERT</from>
-      <to>VALIDATIONS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -2304,6 +2338,42 @@ UPDATE WORKFLOW_PROFILE SET VALIDATION=&apos;N&apos; where PROCESS_NAME=&apos;RE
       <enabled>Y</enabled>
       <evaluation>N</evaluation>
       <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REBATE PLAN INSERT</from>
+      <to>REBATE PLAN INSERT 2</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REBATE PLAN INSERT 2</from>
+      <to>VALIDATIONS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>REBATE PLAN INSERT 2</from>
+      <to>DUMMY</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>DUMMY</from>
+      <to>VALIDATIONS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
   </hops>
   <notepads>
