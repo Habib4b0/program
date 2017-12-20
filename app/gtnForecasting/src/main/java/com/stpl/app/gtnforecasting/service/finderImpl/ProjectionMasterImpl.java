@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import static com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection.LOGGER;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.CommonUtils;
@@ -17,13 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
  * @author Abishek.Ram
  */
 public class ProjectionMasterImpl {
-
+public static final Logger LOGGER = Logger.getLogger(ProjectionMasterImpl.class);
     public List searchDsProjection(Map<String, Object> parameters) {
         List resultList = null;
         String accProjJoin = "@ACCRUALPROJJOIN";

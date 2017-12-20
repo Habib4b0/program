@@ -1,0 +1,1005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+<sql          
+        id="getMedicaidParent">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+       @TH_CLASS varchar(50)=?TID,
+        @OFFSET   INT=?OFFSET,
+        @LIMIT   INT=?LIMIT
+SELECT NDC9,
+       ITEM_DESC,
+       ROWNUM
+FROM   (SELECT IM.NDC9,
+               ITEM_DESC=CASE
+                           WHEN Count(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                           ELSE Max(ITEM_DESC)
+                         END,
+               Row_number()
+                 OVER (
+                   ORDER BY IM.NDC9) AS ROWNUM
+        FROM   NA_PROJ_MASTER PM,
+               NA_PROJ_DETAILS PD,
+               ITEM_MASTER IM
+        WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+               AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+               AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                      OR @NA_PROJ_MASTER_SID IS NULL )
+               AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                      OR @BRAND_MASTER_SID IS NULL )
+               AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+                      OR @TH_CLASS IS NULL )
+        GROUP  BY IM.NDC9)A
+WHERE  ROWNUM >= @OFFSET
+       AND ROWNUM < @OFFSET + @LIMIT
+ ]]>
+
+    </sql> 
+    <sql          
+        id="getMedicaidParentCount">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+        @TH_CLASS varchar(50)=?TID
+
+
+  SELECT count(*)
+
+         FROM  (
+
+ SELECT  A.NDC9,
+        B.ITEM_DESC,
+        ROW_NUMBER() OVER(
+	ORDER BY
+	A.NDC9
+        ) AS ROWNUM,
+        NEW_FORMULATION ,
+        BASELINE_AMP,
+        BASE_CPI
+ FROM   (SELECT IM.NDC9,
+                ITEM_DESC=CASE 
+ 
+ WHEN COUNT(DISTINCT IM.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                            ELSE MAX(ITEM_DESC)
+                          END
+         FROM   NA_PROJ_MASTER PM,
+                NA_PROJ_DETAILS PD,
+                ITEM_MASTER IM
+         WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+                AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                AND ( PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+                       OR @NA_PROJ_MASTER_SID IS NULL )
+                AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                       OR @BRAND_MASTER_SID IS NULL )
+                AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+                       OR @TH_CLASS IS NULL )
+         GROUP  BY IM.NDC9)A      
+JOIN ITEM_MASTER B ON
+       A.NDC9 = CONVERT(
+              VARCHAR(100),
+              B.ITEM_MASTER_SID
+       ))a  
+        
+        
+
+ ]]>
+
+    </sql>
+        <sql          
+        id="getMedicaidAmount">
+            <![CDATA[ 
+        DECLARE @NA_PROJ_MASTER_SID     INT=?PID,
+        @NDC9               VARCHAR(50)=?NDC9,
+        @PRICE_TYPE             VARCHAR(1000)='?PT'
+
+SELECT @PRICE_TYPE = REPLACE(@PRICE_TYPE, 'LOWEST COMMERCIAL NET PRICE', 'LOWEST COMMERCIAL BEST PRICE')
+
+SELECT @NA_PROJ_MASTER_SID       AS NA_PROJ_MASTER_SID,
+       A.NDC9,
+       ISNULL(A.ACTUAL_PRICE, 0) AS ACTUAL_PRICE,
+       PROJECTION_PRICE=ISNULL(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       CASE
+         WHEN A.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE A.PRICE_TYPE
+       END                       PRICE_TYPE,
+       [SOURCE] = 'ACTUALS'
+FROM   (SELECT IM.NDC9,
+               ACTUAL_PRICE=MIN(ACTUAL_PRICE),
+               P.[YEAR],
+               P.[QUARTER],
+               PRICE_TYPE
+        FROM   ST_MEDICAID_URA_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.NDC9 = @NDC9
+               AND PRICE_TYPE IN(SELECT TOKEN
+                                 FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+        GROUP  BY IM.NDC9,
+                  P.[YEAR],
+                  P.[QUARTER],
+                  PRICE_TYPE) A
+       LEFT OUTER JOIN (SELECT NDC9=@NDC9,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=MIN(ISNULL(PP.PROJECTION_PRICE, 0))
+                        FROM   MEDICAID_URA_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                                   INNER JOIN ITEM_MASTER IM
+                                                                                           ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                                                                            WHERE  NDC9 = @NDC9
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY NPM.MODIFIED_DATE DESC))
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+                        GROUP  BY P.[YEAR],
+                                  P.[QUARTER],
+                                  PP.PRICE_TYPE) B
+                    ON A.NDC9 = B.NDC9
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.NDC9,
+       0   AS ACTUALS_PRICE,
+       PROJECTION_PRICE=MIN(ISNULL(PROJECTION_PRICE, 0)),
+       P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END PRICE_TYPE,
+       'PROJ'
+FROM   ST_MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       AND PRICE_TYPE IN(SELECT TOKEN
+                         FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+GROUP  BY ND.NA_PROJ_MASTER_SID,
+          IM.NDC9,
+          P.[YEAR],
+          P.[QUARTER],
+          CASE
+            WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+            ELSE FA.PRICE_TYPE
+          END 
+
+              ]]>
+
+    </sql>   
+    <sql          
+        id="getMedicaidAmountForView">
+            <![CDATA[ 
+        DECLARE @NA_PROJ_MASTER_SID     INT=?PID,
+        @NDC9               VARCHAR(50)=?NDC9,
+        @PRICE_TYPE             VARCHAR(1000)='?PT'
+       
+SELECT @PRICE_TYPE = REPLACE(@PRICE_TYPE, 'LOWEST COMMERCIAL NET PRICE', 'LOWEST COMMERCIAL BEST PRICE')
+
+SELECT @NA_PROJ_MASTER_SID       AS NA_PROJ_MASTER_SID,
+       A.NDC9,
+       ISNULL(A.ACTUAL_PRICE, 0) AS ACTUAL_PRICE,
+       PROJECTION_PRICE=ISNULL(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       CASE
+         WHEN A.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE A.PRICE_TYPE
+       END                       PRICE_TYPE,
+       [SOURCE] = 'ACTUALS'
+FROM   (SELECT IM.NDC9,
+               ACTUAL_PRICE=MIN(ACTUAL_PRICE),
+               P.[YEAR],
+               P.[QUARTER],
+               PRICE_TYPE
+        FROM   MEDICAID_URA_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.NDC9 = @NDC9
+               AND PRICE_TYPE IN(SELECT TOKEN
+                                 FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+               
+        GROUP  BY IM.NDC9,
+                  P.[YEAR],
+                  P.[QUARTER],
+                  PRICE_TYPE) A
+       LEFT OUTER JOIN (SELECT NDC9=@NDC9,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=MIN(ISNULL(PP.PROJECTION_PRICE, 0))
+                        FROM   MEDICAID_URA_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                                   INNER JOIN ITEM_MASTER IM
+                                                                                           ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                                                                            WHERE  NDC9 = @NDC9
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY NPM.MODIFIED_DATE DESC))
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+                        GROUP  BY P.[YEAR],
+                                  P.[QUARTER],
+                                  PP.PRICE_TYPE) B
+                    ON A.NDC9 = B.NDC9
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.NDC9,
+       0   AS ACTUALS_PRICE,
+       PROJECTION_PRICE=MIN(ISNULL(PROJECTION_PRICE, 0)),
+       P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END PRICE_TYPE,
+       'PROJ'
+FROM   MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       AND PRICE_TYPE IN(SELECT TOKEN
+                         FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+       
+GROUP  BY ND.NA_PROJ_MASTER_SID,
+          IM.NDC9,
+          P.[YEAR],
+          P.[QUARTER],
+          CASE
+            WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+            ELSE FA.PRICE_TYPE
+          END 
+
+              ]]>
+
+    </sql>   
+        <sql          
+        id="getMedicaidPercentage">
+            <![CDATA[ 
+        DECLARE @NA_PROJ_MASTER_SID     INT=?PID,
+        @NDC9               VARCHAR(50)=?NDC9,
+        @PRICE_TYPE             VARCHAR(1000)='?PT'
+
+SELECT @PRICE_TYPE = Replace(@PRICE_TYPE, 'LOWEST COMMERCIAL NET PRICE', 'LOWEST COMMERCIAL BEST PRICE')
+
+SELECT NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID,
+       A.NDC9,
+       Isnull(A.ACTUAL_PRICE, 0) AS ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       CASE
+         WHEN A.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE A.PRICE_TYPE
+       END                       PRICE_TYPE,
+       [SOURCE] = 'ACTUALS'
+FROM   (SELECT IM.NDC9,
+               ACTUAL_PRICE=min(Isnull(FA.ACTUAL_PRICE / NULLIF(PA.ACTUAL_PRICE, 0), 0) * 100),
+               P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+        FROM   ST_MEDICAID_URA_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+               INNER JOIN ST_MEDICAID_URA_ACTUALS PA
+                       ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                          AND FA.PERIOD_SID = PA.PERIOD_SID
+                          AND PA.PRICE_TYPE = 'WAC'
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ndc9 = @NDC9
+               AND FA.PRICE_TYPE IN(SELECT TOKEN
+                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+			   group by IM.NDC9,
+			   P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+			   ) A
+       LEFT OUTER JOIN (SELECT NDC9=@NDC9,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=MIN(ISNULL(PP.PROJECTION_PRICE, 0))
+                        FROM   MEDICAID_URA_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                                   INNER JOIN ITEM_MASTER IM
+                                                                                           ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                                                                            WHERE  NDC9 = @NDC9
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY NPM.MODIFIED_DATE DESC))
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+                        GROUP  BY P.[YEAR],
+                                  P.[QUARTER],
+                                  PP.PRICE_TYPE) B
+                    ON A.NDC9 = B.NDC9
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID,
+       IM.NDC9,
+       ACTUAL_PRICE= 0,
+       PROJECTION_PRICE=min(Isnull(FA.PROJECTION_PRICE / NULLIF(PA.PROJECTION_PRICE, 0), 0) * 100),
+       P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END PRICE_TYPE,
+       'PROJ'
+FROM   ST_MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+       INNER JOIN ST_MEDICAID_URA_PROJ PA
+               ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                  AND FA.PERIOD_SID = PA.PERIOD_SID
+                  AND PA.PRICE_TYPE = 'WAC'
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ndc9 = @ndc9
+       AND FA.PRICE_TYPE IN(SELECT TOKEN
+                            FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+	   group by  IM.NDC9,P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END
+ORDER  BY [SOURCE],
+          PRICE_TYPE,
+          YEAR,
+          QUARTER 
+
+              ]]>
+
+    </sql>   
+    <sql          
+        id="getMedicaidPercentageForView">
+            <![CDATA[ 
+        DECLARE @NA_PROJ_MASTER_SID     INT=?PID,
+        @NDC9               VARCHAR(50)=?NDC9,
+        @PRICE_TYPE             VARCHAR(1000)='?PT'
+       
+
+SELECT @PRICE_TYPE = Replace(@PRICE_TYPE, 'LOWEST COMMERCIAL NET PRICE', 'LOWEST COMMERCIAL BEST PRICE')
+
+SELECT NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID,
+       A.NDC9,
+       Isnull(A.ACTUAL_PRICE, 0) AS ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       CASE
+         WHEN A.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE A.PRICE_TYPE
+       END                       PRICE_TYPE,
+       [SOURCE] = 'ACTUALS'
+FROM   (SELECT IM.NDC9,
+               ACTUAL_PRICE=min(Isnull(FA.ACTUAL_PRICE / NULLIF(PA.ACTUAL_PRICE, 0), 0) * 100),
+               P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+        FROM   MEDICAID_URA_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+               INNER JOIN MEDICAID_URA_ACTUALS PA
+                       ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                          AND FA.PERIOD_SID = PA.PERIOD_SID
+                          AND PA.PRICE_TYPE = 'WAC'
+                         
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ndc9 = @NDC9
+               AND FA.PRICE_TYPE IN(SELECT TOKEN
+                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+              
+			   group by IM.NDC9,
+			   P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+			   ) A
+       LEFT OUTER JOIN (SELECT NDC9=@NDC9,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=MIN(ISNULL(PP.PROJECTION_PRICE, 0))
+                        FROM   MEDICAID_URA_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                                   INNER JOIN ITEM_MASTER IM
+                                                                                           ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                                                                            WHERE  NDC9 = @NDC9
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY NPM.MODIFIED_DATE DESC))
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.UDF_SPLITSTRING(@PRICE_TYPE, ','))
+                        GROUP  BY P.[YEAR],
+                                  P.[QUARTER],
+                                  PP.PRICE_TYPE) B
+                    ON A.NDC9 = B.NDC9
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID,
+       IM.NDC9,
+       ACTUAL_PRICE= 0,
+       PROJECTION_PRICE=min(Isnull(FA.PROJECTION_PRICE / NULLIF(PA.PROJECTION_PRICE, 0), 0) * 100),
+       P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END PRICE_TYPE,
+       'PROJ'
+FROM   MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+       INNER JOIN MEDICAID_URA_PROJ PA
+               ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                  AND FA.PERIOD_SID = PA.PERIOD_SID
+                  AND PA.PRICE_TYPE = 'WAC'
+                 
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ndc9 = @ndc9
+       AND FA.PRICE_TYPE IN(SELECT TOKEN
+                            FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+       
+	   group by  IM.NDC9,P.[YEAR],
+       P.[QUARTER],
+       CASE
+         WHEN FA.PRICE_TYPE = 'LOWEST COMMERCIAL BEST PRICE' THEN 'LOWEST COMMERCIAL NET PRICE'
+         ELSE FA.PRICE_TYPE
+       END
+ORDER  BY [SOURCE],
+          PRICE_TYPE,
+          YEAR,
+          QUARTER 
+
+              ]]>
+
+    </sql>   
+     <sql          
+        id="getMedicaidWorkSheet">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                  @NDC9   VARCHAR(30)= ?NDC9
+SELECT PRICE_TYPE,
+       Min(ACTUAL_PRICE) AS ACTUAL_PRICE,
+       0                 AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       BASE_YEAR=Min(BASE_YEAR),
+       'ACTUALS'         AS [SOURCE],
+       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
+FROM   ST_MEDICAID_URA_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       PROJECTION_PRICE=Min(PROJECTION_PRICE),
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       ADJUSTMENT= Min(Isnull(ADJUSTMENT, 0)),
+       'PROJ',
+       0 ALT_BASE_YEAR
+FROM   ST_MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+ORDER  BY [source],
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER  
+          
+    ]]>
+
+    </sql>   
+    
+     <sql          
+        id="getMedicaidWorkSheetAdjustment">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                  @NDC9   VARCHAR(30)= ?NDC9
+                  
+SELECT PRICE_TYPE,
+       Min(ACTUAL_PRICE) AS ACTUAL_PRICE,
+       0                 AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       BASE_YEAR=Min(BASE_YEAR),
+       'ACTUALS'         AS [SOURCE],
+       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
+FROM   MEDICAID_URA_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       PROJECTION_PRICE=Min(PROJECTION_PRICE),
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       ADJUSTMENT= Min(Isnull(ADJUSTMENT, 0)),
+       'PROJ',
+       0 ALT_BASE_YEAR
+FROM   MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+ORDER  BY [source],
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER  
+          
+    ]]>
+
+    </sql>   
+    
+     
+    
+    
+  <sql          
+        id="getMedicaidWorkSheetAdjustment">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                  @NDC9   VARCHAR(30)= ?NDC9
+SELECT PRICE_TYPE,
+       MIN(ACTUAL_PRICE) AS ACTUAL_PRICE,
+       0                 AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES=MIN(NOTES),
+       BASE_YEAR=MIN(BASE_YEAR),
+       'ACTUALS'         AS [SOURCE],
+       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
+FROM   ST_MEDICAID_URA_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+GROUP  BY NDC9, PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       MIN(COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE)),
+       P.YEAR,
+       P.QUARTER,
+       MIN(NOTES),
+       MIN(ISNULL(ADJUSTMENT, 0)),
+       'PROJ',
+       0 ALT_BASE_YEAR
+FROM   ST_MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+GROUP  BY NDC9,PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+ORDER  BY [SOURCE],
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER 
+          
+    ]]>
+
+    </sql>   
+    
+    <sql          
+        id="getMedicaidWorkSheetAdjustmentForView">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                  @NDC9   VARCHAR(30)= ?NDC9			
+                        
+SELECT PRICE_TYPE,
+       MIN(ACTUAL_PRICE) AS ACTUAL_PRICE,
+       0                 AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES=MIN(NOTES),
+       BASE_YEAR=MIN(BASE_YEAR),
+       'ACTUALS'         AS [SOURCE],
+       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
+FROM   MEDICAID_URA_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+      
+GROUP  BY NDC9, PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       MIN(COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE)),
+       P.YEAR,
+       P.QUARTER,
+       MIN(NOTES),
+       MIN(ISNULL(ADJUSTMENT, 0)),
+       'PROJ',
+       0 ALT_BASE_YEAR
+FROM   MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+      
+GROUP  BY NDC9,PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+ORDER  BY [SOURCE],
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER 
+          
+    ]]>
+
+    </sql>   
+    
+    
+    <sql          
+        id="getMedicaidRowIndex">
+
+<![CDATA[
+
+DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+		@TH_CLASS varchar(50)=?TID,
+		@NDC9 varchar(50)=?NDC9
+
+
+select A.TEMP_INDEX from (
+
+SELECT IM.NDC9,
+       IM.ITEM_DESC,
+	   ROW_NUMBER() OVER (ORDER BY IM.NDC9 ASC) AS TEMP_INDEX
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL ) 
+			  group by IM.NDC9,IM.ITEM_DESC
+) A where A.NDC9=@NDC9;
+
+
+
+
+ ]]>
+
+    </sql>  
+ <sql          
+        id="updateMedicaidAdjustment">
+
+<![CDATA[    
+
+                                                        UPDATE MUP
+SET    PROJECTION_PRICE = COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE),
+		ADJUSTMENT_PRICE = NULL,
+                ADJUSTMENT = NULL
+FROM   ST_MEDICAID_URA_PROJ MUP
+		JOIN NA_PROJ_DETAILS ND
+			ON MUP.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+WHERE  EXISTS (SELECT 1
+				FROM   NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = NPD.ITEM_MASTER_SID 
+				WHERE  MUP.NA_PROJ_DETAILS_SID = NPD.NA_PROJ_DETAILS_SID
+						AND IM.NDC9 = ?NDC9)
+		AND PRICE_TYPE IN ( 'AMP', 'BEST PRICE', 'CPI-U', 'BASIC URA',
+							'CPI URA', 'TOTAL URA' ) 
+                                                         
+
+]]>
+
+    </sql>  
+    
+  <sql          
+        id="removeMedicaidAdjustment">
+
+<![CDATA[     
+       UPDATE MUP
+SET    ADJUSTMENT_PRICE = NULL , ADJUSTMENT = NULL
+FROM   ST_MEDICAID_URA_PROJ MUP
+       JOIN NA_PROJ_DETAILS ND
+         ON MUP.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+WHERE  EXISTS (SELECT 1
+               FROM   NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = NPD.ITEM_MASTER_SID 
+				WHERE  MUP.NA_PROJ_DETAILS_SID = NPD.NA_PROJ_DETAILS_SID
+						AND IM.NDC9 = ?NDC9)
+       AND PRICE_TYPE IN ( 'AMP', 'BEST PRICE', 'CPI-U') 
+    ]]>
+
+    </sql> 
+    <sql          
+        id="getMedicaidFilter">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,        
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID
+
+SELECT IM.NDC9,
+       IM.ITEM_DESC
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL )  
+            GROUP  BY IM.NDC9,IM.ITEM_DESC ORDER  BY IM.NDC9 
+ ]]>
+
+    </sql> 
+     <sql          
+        id="getMedicaidLevelFilter">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,        
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID
+
+SELECT IM.NDC9,
+       IM.ITEM_DESC,
+       IM.ITEM_MASTER_SID
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL )  
+            
+ ]]>
+
+    </sql> 
+     <sql          
+        id="getMedicaidDropDown">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID,
+        @OFFSET   INT=?OFFSET,
+        @LIMIT   INT=?LIMIT1 SELECT
+B.ITEM_NO,
+       B.ITEM_NAME,
+       a.NDC9,
+       b.ITEM_DESC,
+       ROWNUM
+FROM  (SELECT IM.NDC9,
+              ITEM_DESC=CASE
+                          WHEN Count(DISTINCT im.ITEM_MASTER_SID) > 1 THEN 'MULTIPLE'
+                          ELSE maX(ITEM_DESC)
+                        END,
+              Row_number()
+                OVER (
+                  ORDER BY IM.NDC9) AS ROWNUM
+       FROM   NA_PROJ_MASTER PM,
+              NA_PROJ_DETAILS PD,
+              ITEM_MASTER IM
+       WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+              AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+              AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+              AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+                     OR @BRAND_MASTER_SID IS NULL )
+              AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+                     OR @TH_CLASS IS NULL ) AND IM.NDC9 LIKE '?TEXT'
+       GROUP  BY IM.NDC9)A
+       
+       JOIN ITEM_MASTER B ON
+       A.NDC9 = CONVERT(
+              VARCHAR(100),
+              B.ITEM_MASTER_SID
+       )
+
+WHERE  ROWNUM >= @OFFSET AND ROWNUM < @OFFSET + @LIMIT
+
+ ]]>
+
+    </sql> 
+     <sql          
+        id="getMedicaidWorkSheetForView">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                  @NDC9   VARCHAR(30)= ?NDC9
+                  
+SELECT PRICE_TYPE,
+       Min(ACTUAL_PRICE) AS ACTUAL_PRICE,
+       0                 AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       BASE_YEAR=Min(BASE_YEAR),
+       'ACTUALS'         AS [SOURCE],
+       ALT_BASE_YEAR=Min(ALT_BASE_YEAR)
+FROM   MEDICAID_URA_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       PROJECTION_PRICE=Min(PROJECTION_PRICE),
+       P.YEAR,
+       P.QUARTER,
+       NOTES=Min(NOTES),
+       ADJUSTMENT= Min(Isnull(ADJUSTMENT, 0)),
+       'PROJ',
+       0 ALT_BASE_YEAR
+FROM   MEDICAID_URA_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.NDC9 = @NDC9
+       
+GROUP  BY NDC9,
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER
+ORDER  BY [source],
+          PRICE_TYPE,
+          P.YEAR,
+          P.QUARTER  
+          
+    ]]>
+
+    </sql>   
+    
+</custom-sql>
