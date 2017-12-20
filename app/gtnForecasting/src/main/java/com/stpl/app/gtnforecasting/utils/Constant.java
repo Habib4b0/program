@@ -1648,6 +1648,10 @@ public class Constant {
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String RELVALUE = "@RELVALUE";
     public static final String SELECTED_HIERARCHY_CUSTOM = "selected-hierarchy-no-for-custom";
+    public static final String RELJOIN = "@RELJOIN";
+    public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+    public static final String PARENTVALIDATE = "PARENT-VALIDATE";
+    public static final String DED_JOIN = "?DEDJOIN";
     /**
      * Enum for Frequency constants
      */

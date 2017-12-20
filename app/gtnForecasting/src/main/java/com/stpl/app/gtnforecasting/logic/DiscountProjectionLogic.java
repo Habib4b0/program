@@ -351,7 +351,7 @@ public class DiscountProjectionLogic {
                             discountDto.addStringProperties(commonColumn + PROJECTED_AMOUNT, StringUtils.EMPTY);
                             discountDto.addStringProperties(commonColumn + Constant.PROJECTEDRPU, StringUtils.EMPTY);
                             discountDto.addStringProperties(commonColumn + Constant.GROWTH, StringUtils.EMPTY);
-
+                        
                         }
                         
                         if (i == discountProjectionList.size() - 1) {
