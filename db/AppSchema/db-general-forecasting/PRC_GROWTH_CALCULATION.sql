@@ -8,6 +8,7 @@ IF EXISTS (SELECT 'X'
 
 GO
 
+
 CREATE PROCEDURE [dbo].[PRC_GROWTH_CALCULATION]( @PROJECTION        INT,
                                                @USER_ID           INT,
                                                @SESSION_ID        VARCHAR(50),

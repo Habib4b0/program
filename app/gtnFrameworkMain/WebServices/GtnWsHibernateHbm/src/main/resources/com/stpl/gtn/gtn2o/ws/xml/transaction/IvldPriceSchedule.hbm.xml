@@ -167,5 +167,71 @@
         <property name="reprocessedFlag" type="string">
             <column name="REPROCESSED_FLAG" length="1" />
         </property>
+        <property name="internalNotes" type="string">
+            <column name="INTERNAL_NOTES" length="200" />
+        </property>
+        <property name="priceProtectionStatus" type="string">
+            <column name="PRICE_PROTECTION_STATUS" length="200" />
+        </property>
+        <property name="priceProtectionPriceType" type="string">
+            <column name="PRICE_PROTECTION_PRICE_TYPE" length="200" />
+        </property>
+        <property name="nep" type="string">
+            <column name="NEP" length="200" />
+        </property>
+        <property name="nepFormula" type="string">
+            <column name="NEP_FORMULA" length="200" />
+        </property>
+        <property name="basePricetype" type="string">
+            <column name="BASE_PRICE_TYPE" length="200" />
+        </property>
+        <property name="netbasePrice" type="string">
+            <column name="NET_BASE_PRICE" length="200" />
+        </property>
+        <property name="netbasePriceFormula" type="string">
+            <column name="NET_BASE_PRICE_FORMULA" length="200" />
+        </property>
+        <property name="subsequentPeriodPriceType" type="string">
+            <column name="SUBSEQUENT_PERIOD_PRICE_TYPE" length="200" />
+        </property>
+        <property name="netsubsequentPeriodPrice" type="string">
+            <column name="NET_SUBSEQUENT_PERIOD_PRICE" length="200" />
+        </property>
+        <property name="netsubsequentPeriodpriceformula" type="string">
+            <column name="NET_SUBSEQUENT_PERIOD_PRICE_FORMULA" length="200" />
+        </property>
+        <property name="maxincrementalChange" type="string">
+            <column name="MAX_INCREMENTAL_CHANGE" length="200" />
+        </property>
+        <property name="resetEligible" type="string">
+            <column name="RESET_ELIGIBLE" length="200" />
+        </property>
+        <property name="resetType" type="string">
+            <column name="RESET_TYPE" length="200" />
+        </property>
+        <property name="resetDate" type="timestamp">
+            <column name="RESET_DATE" length="23" />
+        </property>
+        <property name="resetInterval" type="string">
+            <column name="RESET_INTERVAL" length="200" />
+        </property>
+        <property name="resetFrequency" type="string">
+            <column name="RESET_FREQUENCY" length="200" />
+        </property>
+        <property name="resetPriceType" type="string">
+            <column name="RESET_PRICE_TYPE" length="200" />
+        </property>
+        <property name="netresetPriceType" type="string">
+            <column name="NET_RESET_PRICE_TYPE" length="200" />
+        </property>
+        <property name="netresetPriceFormula" type="string">
+            <column name="NET_RESET_PRICE_FORMULA" length="200" />
+        </property>
+        <property name="netPriceType" type="string">
+            <column name="NET_PRICE_TYPE" length="200" />
+        </property>
+        <property name="reprocessedFlag" type="string">
+            <column name="netPriceTypeFormula" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

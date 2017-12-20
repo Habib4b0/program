@@ -23,6 +23,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterFocusListnerAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingAttachAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingFieldFactoryUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterItemPriceBlurAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterClassContants;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.constants.GtnFrameworkItemMasterStringContants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
@@ -137,7 +138,7 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		componentList.add(itemPriceLayout);
 
 		GtnUIFrameworkComponentConfig itemPricing = componentConfig.getUIFrameworkComponentConfig(
-				"itemPricingItemPrice", true, "itemPricingItemPricelayout", GtnUIFrameworkComponentType.TEXTBOX);
+				GtnFrameworkItemMasterStringContants.ITEM_PRICING_ITEM_PRICE, true, "itemPricingItemPricelayout", GtnUIFrameworkComponentType.TEXTBOX);
 		itemPricing.setAuthorizationIncluded(true);
 		itemPricing.setComponentName("Item Price");
 		itemPricing.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.GTN_FIELD_MANDATORY));
@@ -146,9 +147,17 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		itemPricing.setGtnTextBoxConfig(itemPricingConfig);
 
 		componentList.add(itemPricing);
+                
+                List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseline = new ArrayList<>();
+		GtnUIFrameWorkActionConfig blurActionForAMP = new GtnUIFrameWorkActionConfig();
+		blurActionForAMP.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		blurActionForAMP.addActionParameter(GtnFrameworkItemMasterItemPriceBlurAction.class.getName());
+		blurActionForAMP.addActionParameter(Arrays.asList(GtnFrameworkItemMasterStringContants.ITEM_PRICING_ITEM_PRICE));
+		actionBlurConfigBaseline.add(blurActionForAMP);
+		itemPricingConfig.setBlurActionConfigList(actionBlurConfigBaseline);
 
-		GtnUIFrameworkValidationConfig itemPricingValConfig = new GtnUIFrameworkValidationConfig();
-		itemPricingValConfig.setConditionList(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY));
+		GtnUIFrameworkValidationConfig itemPricingValConfig = componentConfig.getValidationConfig(Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_EMPTY), true,
+                        "Item Price should be numeric", GtnFrameworkRegexStringConstants.NUMERIC_WITH_SIX_DECIMAL_PRECISION);
 
 		itemPricing.setGtnUIFrameworkValidationConfig(itemPricingValConfig);
 
@@ -339,7 +348,7 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 		attachAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		attachAction.addActionParameter(GtnFrameworkItemMasterPricingAttachAction.class.getName());
 		attachAction.addActionParameter(Arrays.asList(GtnFrameworkCommonConstants.ITEM_PRICING_QUALIFIER_NAME,
-				"itemPricingItemPrice", "itemPricingIdentifierStatus", "itemPricingItemUOM", "itemPricingStartDate",
+				GtnFrameworkItemMasterStringContants.ITEM_PRICING_ITEM_PRICE, "itemPricingIdentifierStatus", "itemPricingItemUOM", "itemPricingStartDate",
 				"itemPricingEndDate", "itemPricingEntityCodeNo"));
 		actionConfigList.add(attachAction);
 		attachButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -533,7 +542,7 @@ public class GtnFrameworkItemMasterPricingTabConfig {
 				GtnUIFrameWorkActionConfig focusAction = componentConfig.getUIFrameworkActionConfig(
 						GtnUIFrameworkActionType.CUSTOM_ACTION,
 						GtnFrameworkItemMasterFocusListnerAction.class.getName(), "isFocused");
-
+                                
 				fieldConfig.setGtnUIFrameWorkValueChangeActionConfigList(Arrays.asList(valueChangeAction));
 				fieldConfig.setGtnUIFrameWorkFocusActionConfigList(Arrays.asList(focusAction));
 

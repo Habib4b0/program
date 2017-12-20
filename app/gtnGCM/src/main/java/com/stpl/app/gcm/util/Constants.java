@@ -1381,6 +1381,9 @@ public class Constants {
     public static final String BASELINE_WAC_LABLE_NAME = "Baseline WAC";
     public static final String MANUAL_LABLE_NAME = "Manual"; 
     public static final String DATE_LABLE_NAME = "Date";
+    public static final String BASELINE_WAC_MANUAL_LABLE_NAME = "baseLineWacManual";
+    public static final String BASELINE_WAC_DATE_LABLE_NAME = "baseLineWacDate";
+    public static final String BASELINE_WAC_PRICE_TYPE_LABLE_NAME = "baseLineWacPriceType";
     /*
             Constants for Item Management Column
      */
