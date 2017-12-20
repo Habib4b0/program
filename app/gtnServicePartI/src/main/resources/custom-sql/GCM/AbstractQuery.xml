@@ -1200,6 +1200,18 @@ WHERE
                         session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
 		]]>
     </sql>
+    <sql id="Submit condition check for Item Update">
+		<![CDATA[
+  SELECT Count(*)
+            FROM   (SELECT 1 AS CO
+                    FROM   GCM_GLOBAL_DETAILS
+                    WHERE  EXISTS(SELECT * FROM GCM_GLOBAL_DETAILS WHERE  
+                                            (ITEM_STATUS IS NULL
+                                            OR START_DATE IS NULL)
+                           AND 
+                        session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
+		]]>
+    </sql>
     <sql id="Contract Insert Add">
 		<![CDATA[
 INSERT INTO GCM_GLOBAL_DETAILS

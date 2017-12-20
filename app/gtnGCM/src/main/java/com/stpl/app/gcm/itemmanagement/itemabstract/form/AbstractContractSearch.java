@@ -1019,7 +1019,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Boolean submitButtonCheck() {
         List input = AbstractLogic.getResultsInput(selection);
-        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
+        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check for Item Update", null);
         if (AbstractLogic.getCount(list) == 0) {
             return true;
         } else {
