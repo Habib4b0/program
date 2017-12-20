@@ -18,7 +18,8 @@ package org.asi.ui.customtextfield.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.vaadin.client.ui.VTextField;
+import com.vaadin.v7.client.ui.VTextField;
+import com.vaadin.client.VConsole;
 import com.vaadin.shared.EventId;
 
 /**
@@ -29,10 +30,12 @@ public class VCustomTextField extends VTextField implements ClickHandler{
     public VCustomTextField(){
         super();
         addClickHandler(this);
+        VConsole.log("I am added");
     }
     @Override
     public void onClick(ClickEvent event) {
         if (client != null && client.hasEventListeners(this, EventId.CLICK_EVENT_IDENTIFIER)) {
+        	  VConsole.log("variable added");
             client.updateVariable(paintableId, EventId.CLICK_EVENT_IDENTIFIER, "", true);
         }
     }

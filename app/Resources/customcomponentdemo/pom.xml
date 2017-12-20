@@ -54,7 +54,7 @@
 			<version>1.0</version>
 		</dependency>
                 <dependency>
-            <groupId>org.asi.ui.galderma</groupId>
+            <groupId>com.stpl.addons</groupId>
 	<artifactId>extfilteringtable</artifactId>
 	<version>1.5</version>
         </dependency>

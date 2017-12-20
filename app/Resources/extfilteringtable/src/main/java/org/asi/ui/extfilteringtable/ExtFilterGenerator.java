@@ -17,9 +17,9 @@ package org.asi.ui.extfilteringtable;
 
 import java.io.Serializable;
 
-import com.vaadin.data.Container.Filter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container.Filter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.Field;
 
 
 /**

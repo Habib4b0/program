@@ -17,16 +17,16 @@
 package org.asi.ui.customcomponentdemo.demo;
 
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.DefaultFieldFactory;
 import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.HashMap;
 import java.util.Map;
 import org.asi.ui.container.ExtTreeContainer;

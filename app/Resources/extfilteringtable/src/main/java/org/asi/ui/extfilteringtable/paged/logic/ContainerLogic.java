@@ -5,10 +5,10 @@
  */
 package org.asi.ui.extfilteringtable.paged.logic;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container.Indexed;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container.Indexed;
+import com.vaadin.v7.data.Property;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;

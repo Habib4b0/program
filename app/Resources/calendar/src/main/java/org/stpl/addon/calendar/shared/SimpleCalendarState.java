@@ -18,7 +18,7 @@ package org.stpl.addon.calendar.shared;
 import java.util.Date;
 import java.util.List;
 
-import com.vaadin.shared.AbstractFieldState;
+import com.vaadin.v7.shared.AbstractFieldState;
 
 
 public class SimpleCalendarState extends AbstractFieldState {

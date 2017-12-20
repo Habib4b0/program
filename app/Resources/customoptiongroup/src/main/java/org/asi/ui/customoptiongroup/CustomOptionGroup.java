@@ -6,14 +6,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
-import com.vaadin.shared.AbstractFieldState;
+import com.vaadin.v7.shared.AbstractFieldState;
 import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.shared.ui.optiongroup.OptionGroupState;
+import com.vaadin.v7.ui.OptionGroup;
 
 /**
  * The goal of {@link CustomOptionGroup} is to provide a very flexible way to
@@ -158,13 +159,11 @@ public class CustomOptionGroup extends OptionGroup {
 		markItemComponentsAsDirty();
 	}
 
-	@Override
-	protected AbstractFieldState getState(boolean markAsDirty) {
-		if (markAsDirty) {
-			markItemComponentsAsDirty();
-		}
-		return super.getState(markAsDirty);
-	}
+    @Override
+    protected OptionGroupState getState() {
+        return super.getState(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
 	private void markItemComponentsAsDirty() {
 		if (itemComponentMap != null) {

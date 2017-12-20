@@ -5,14 +5,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.communication.RpcProxy;
 import com.vaadin.client.communication.StateChangeEvent;
-import com.vaadin.client.ui.AbstractComponentConnector;
+import com.vaadin.v7.client.ui.AbstractFieldConnector;
 import com.vaadin.shared.ui.Connect;
+import com.vaadin.v7.shared.AbstractFieldState;
 import org.asi.ui.customoptiongroup.CustomOptionGroupItemComponent;
 import org.asi.ui.customoptiongroup.client.VCustomOptionGroupItemComponent.ComponentCheckedListener;
 
 @Connect(CustomOptionGroupItemComponent.class)
 public class CustomOptionGroupItemComponentConnector extends
-		AbstractComponentConnector implements ComponentCheckedListener {
+		AbstractFieldConnector implements ComponentCheckedListener {
 
 	private CustomOptionGroupItemComponentServerRpc rpc = RpcProxy.create(
 			CustomOptionGroupItemComponentServerRpc.class, this);
@@ -31,9 +32,10 @@ public class CustomOptionGroupItemComponentConnector extends
 	}
 
 	@Override
-	public CustomOptionGroupItemComponentState getState() {
+	public AbstractFieldState getState() {
 		return (CustomOptionGroupItemComponentState) super.getState();
 	}
+	
 
 	@Override
 	public boolean delegateCaptionHandling() {
@@ -43,9 +45,9 @@ public class CustomOptionGroupItemComponentConnector extends
 	@Override
 	public void onStateChanged(StateChangeEvent stateChangeEvent) {
 		super.onStateChanged(stateChangeEvent);
-		getWidget().setMultiSelect(getState().multiSelect);
-		getWidget().setOwnerId("" + getState().ownerId);
-		getWidget().setSelected(getState().selected);
+		getWidget().setMultiSelect(((CustomOptionGroupItemComponentState)getState()).multiSelect);
+		getWidget().setOwnerId("" + ((CustomOptionGroupItemComponentState)getState()).ownerId);
+		getWidget().setSelected(((CustomOptionGroupItemComponentState)getState()).selected);
 		getWidget().setEnabled(isEnabled() && !isReadOnly());
 
 	}

@@ -15,10 +15,10 @@
  */
 package org.asi.ui.customoptiongroup;
 
-import com.vaadin.data.Container;
-import com.vaadin.data.util.ObjectProperty;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.Table;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.ObjectProperty;
+import com.vaadin.v7.ui.AbstractSelect;
+import com.vaadin.v7.ui.Table;
 
 /**
  *

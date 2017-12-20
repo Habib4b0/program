@@ -4,7 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.customcomponentdemo.demo.ActionButtonLayout;
 import org.asi.ui.customcomponentdemo.demo.CustomMenuBarDemo;
 import org.asi.ui.customcomponentdemo.demo.CustomTextFieldDemo;

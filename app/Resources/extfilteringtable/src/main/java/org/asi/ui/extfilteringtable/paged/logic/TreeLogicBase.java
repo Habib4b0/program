@@ -6,9 +6,9 @@
 
 package org.asi.ui.extfilteringtable.paged.logic;
 
-import com.vaadin.data.Container;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

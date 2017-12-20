@@ -6,10 +6,10 @@
 
 package org.asi.ui.customcomponentdemo.demo;
 
-import com.vaadin.data.Property;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.OptionGroup;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.OptionGroup;
 import com.vaadin.ui.UI;
 import org.asi.ui.customcomponentdemo.demo.util.Utils;
 

@@ -126,15 +126,7 @@ public class CustomOptionGroupItemComponent extends AbstractComponent {
 		owner.setReadOnly(readOnly);
 	}
 
-	@Override
-	public void setImmediate(boolean immediate) {
-		owner.setImmediate(immediate);
-	}
-
-	@Override
-	public boolean isImmediate() {
-		return owner.isImmediate();
-	}
+	
 
 	@Override
 	public CustomOptionGroupItemComponentState getState() {

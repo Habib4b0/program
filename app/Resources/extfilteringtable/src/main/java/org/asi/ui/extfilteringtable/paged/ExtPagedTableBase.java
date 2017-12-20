@@ -5,7 +5,7 @@
  */
 package org.asi.ui.extfilteringtable.paged;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.Set;
 
 /**

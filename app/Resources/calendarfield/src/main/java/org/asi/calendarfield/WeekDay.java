@@ -15,8 +15,6 @@
  */
 package org.asi.calendarfield;
 
-import java.util.Calendar;
-
 /**
  *
  * @author Mina

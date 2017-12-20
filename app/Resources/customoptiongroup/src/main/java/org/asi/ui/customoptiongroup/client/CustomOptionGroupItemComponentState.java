@@ -1,9 +1,9 @@
 package org.asi.ui.customoptiongroup.client;
 
-import com.vaadin.shared.AbstractComponentState;
+import com.vaadin.v7.shared.AbstractFieldState;
 
 public class CustomOptionGroupItemComponentState extends
-		AbstractComponentState {
+		AbstractFieldState {
 
 	public int ownerId;
 

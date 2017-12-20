@@ -1,9 +1,9 @@
 package org.asi.ui.customcombobox;
 
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.util.Collection;
 
 // This is the server-side UI component that provides public API 

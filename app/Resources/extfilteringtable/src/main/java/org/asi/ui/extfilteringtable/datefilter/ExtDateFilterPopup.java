@@ -26,18 +26,18 @@ import org.vaadin.hene.popupbutton.PopupButton;
 import org.vaadin.hene.popupbutton.PopupButton.PopupVisibilityEvent;
 import org.vaadin.hene.popupbutton.PopupButton.PopupVisibilityListener;
 
-import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.v7.data.util.converter.Converter.ConversionException;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.CustomField;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.InlineDateField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.CustomField;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.InlineDateField;
+import com.vaadin.v7.ui.VerticalLayout;
 import org.asi.ui.extfilteringtable.ExtFilterDecorator;
 
 
@@ -122,7 +122,7 @@ public class ExtDateFilterPopup extends CustomField<ExtDateInterval> {
      */
     @Override
     public void setValue(ExtDateInterval newFieldValue)
-            throws com.vaadin.data.Property.ReadOnlyException,
+            throws com.vaadin.v7.data.Property.ReadOnlyException,
             ConversionException {
         if (newFieldValue == null) {
             newFieldValue = new ExtDateInterval(null, null);

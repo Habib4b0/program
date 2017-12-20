@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.data.util.converter.Converter.ConversionException;
+import com.vaadin.v7.ui.AbstractField;
 import org.stpl.addon.calendar.shared.SimpleCalendarState;
 import org.stpl.addon.calendar.shared.Weekday;
 

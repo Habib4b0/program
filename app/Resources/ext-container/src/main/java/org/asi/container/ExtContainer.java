@@ -4,9 +4,9 @@
  */
 package org.asi.container;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -100,7 +100,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
 
     @Override
     protected void fireItemSetChange(
-            com.vaadin.data.Container.ItemSetChangeEvent event) {
+            com.vaadin.v7.data.Container.ItemSetChangeEvent event) {
         if (contentsChangeEventsOn()) {
             super.fireItemSetChange(event);
         } else {

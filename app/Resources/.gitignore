@@ -12,3 +12,12 @@
 /ext-container/target/
 /customcomponentdemo/target/
 /calendarfield/target/
+nb-configuration.xml
+.project
+clara/.settings/
+customdatefield/.settings/
+.classpath
+/.settings/
+*/.settings/*
+target/
+bin
