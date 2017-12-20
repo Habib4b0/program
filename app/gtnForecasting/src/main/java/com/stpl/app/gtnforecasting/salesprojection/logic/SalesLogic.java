@@ -2837,7 +2837,6 @@ public class SalesLogic {
      */
     public void saveSelectionForCalculation(final ProjectionSelectionDTO projectionSelectionDTO, final String methodology, final String calcPeriods, final String calcBased,
             final String startPeriod, final String endPeriod, final String allocationBasis) throws PortalException, SystemException {
-        CommonLogic logic = new CommonLogic();
         String startyear = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[0];
         String startperiodValue = Constant.ANNUAL.equalsIgnoreCase(projectionSelectionDTO.getFrequency()) ? startPeriod.trim() : CommonLogic.getYearAndPeriod(startPeriod, projectionSelectionDTO.getFrequency(), true)[1];
         String endyear = Constant.NULL_CAPS;
