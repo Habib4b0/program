@@ -15,7 +15,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+
 import com.vaadin.server.VaadinSession;
 import java.util.ArrayList;
 import java.util.HashMap;

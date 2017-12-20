@@ -38,7 +38,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import com.stpl.app.exception.NoSuchItemGroupException;
 import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.v7.data.Container;

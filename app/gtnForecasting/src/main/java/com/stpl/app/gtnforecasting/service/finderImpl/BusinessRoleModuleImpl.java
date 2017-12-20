@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 
@@ -79,11 +79,11 @@ public class BusinessRoleModuleImpl {
                         
                         if(mod.equals("Item Hierarchy"))
                         {
-                            sql = CustomSQLUtil.get(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermissionForTransaction");
+                            sql = SQlUtil.getQuery(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermissionForTransaction");
                         }
                         else
                         {
-			sql = CustomSQLUtil.get(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermission");
+			sql = SQlUtil.getQuery(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.fieldPermission");
                         }
 			
 			
@@ -124,7 +124,7 @@ public class BusinessRoleModuleImpl {
 		try {
 			
 
-			sql = CustomSQLUtil.get(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.tabPermission");
+			sql = SQlUtil.getQuery(getClass(),"com.businessRoleModule.service.persistence.BusinessRoleModuleFinder.tabPermission");
 			
 			
 			
@@ -262,7 +262,7 @@ public class BusinessRoleModuleImpl {
 						
 				
 
-				sql = CustomSQLUtil.get(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findModuleAccessDetails");
+				sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findModuleAccessDetails");
 				
 				//LOGGER.debug("sql query------------>"+sql);
 
@@ -297,7 +297,7 @@ public class BusinessRoleModuleImpl {
 	                            LOGGER.debug("----Inside findsubmodulePropertyDetails----");
 					
 
-					sql = CustomSQLUtil.get(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmodulePropertyDetails");
+					sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmodulePropertyDetails");
 					
 					////LOGGER.debug("sql query------------>"+sql);
 
@@ -328,7 +328,7 @@ public class BusinessRoleModuleImpl {
 	                            LOGGER.debug("---Inside findFieldAccessDetails-----");
 					
 
-					sql = CustomSQLUtil.get(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findFieldAccessDetails");
+					sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findFieldAccessDetails");
 					
 					////LOGGER.debug("sql query------------>"+sql);
 
@@ -363,7 +363,7 @@ public class BusinessRoleModuleImpl {
 	                                    LOGGER.debug("---Inside findSubModuleFieldDetails----");
 						
 
-						sql = CustomSQLUtil.get(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmoduleFieldDetails");
+						sql = SQlUtil.getQuery(getClass(),"com.businessRoleModuleMaster.service.persistence.BusinessroleModuleMasterFinder.findsubmoduleFieldDetails");
 						
 						////LOGGER.debug("sql query------------>"+sql);
 
