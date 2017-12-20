@@ -823,10 +823,8 @@ public class AbstractLogic {
             input.add(compDTO.getPsContractSid());
             input.add(compDTO.getRsContractSid());
             input.add(selection.getSessionId());
-            if (!selection.getButtonMode().equals(ConstantsUtil.ADD)) {
-                input.add(compDTO.getProjectionId());
-                input.add(compDTO.getItemMasterSid());
-            }
+            input.add(compDTO.getProjectionId());
+            input.add(compDTO.getItemMasterSid());
 
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
                 if (compDTO.getTransferScreenName().equals(ConstantsUtil.CURRENT_COONTRACT)) {
@@ -1881,7 +1879,7 @@ public class AbstractLogic {
     
     public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
         String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " =" + baseLineValue + " WHERE SESSION_ID ='" + selection.getSessionId() + "' "
-                + " AND OPERATION ='" + selection.getButtonMode() + "' " + " AND CHECK_RECORD ='" + dto.getCheckRecord() + "' ";
+                + " AND OPERATION ='" + selection.getButtonMode() + "' " + Constants.AND_CHECK_RECORD;
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         return updateQuery;
     }

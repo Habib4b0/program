@@ -1318,6 +1318,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 final TextField baseLineWacManual = new TextField();
                 baseLineWacManual.setImmediate(true);
                 baseLineWacManual.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+                baseLineWacManual.setValue(dto.getBaseLineWacManual());
                 baseLineWacManual.addBlurListener(new FieldEvents.BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
@@ -1331,7 +1332,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                         } else {
                             saveTempItemDetails(dto);
                         }
-                        valueChange = true;
                     }
                 });
                 return baseLineWacManual;
@@ -1341,6 +1341,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                 baseLineWacResetDate.setRequired(true);
                 baseLineWacResetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
                 baseLineWacResetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+                baseLineWacResetDate.setValue(dto.getBaseLineWacDate());
                 baseLineWacResetDate.addBlurListener(new FieldEvents.BlurListener() {
                     @Override
                     public void blur(FieldEvents.BlurEvent event) {
@@ -1360,6 +1361,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             } else if (Constants.PRICE_TYPE_LABEL.equals(dto.getBasePriceType().getDescription())) {
                 final ComboBox baseLineWacPriceType = new ComboBox();
                 baseLineWacPriceType.setImmediate(true);
+                baseLineWacPriceType.setValue(dto.getBaseLineWacPriceType());
                 final AbstractContractSearchDTO dtoPriceType = loadPricetype(itemId, baseLineWacPriceType);
                 baseLineWacPriceType.addBlurListener(new FieldEvents.BlurListener() {
                     @Override
