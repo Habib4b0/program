@@ -128,5 +128,8 @@
         <property name="reprocessedFlag" type="string">
             <column name="REPROCESSED_FLAG" length="1" />
         </property>
+        <property name="salesInclusion" type="string">
+            <column name="SALES_INCLUSION" length="200" />
+        </property>
     </class>
 </hibernate-mapping>

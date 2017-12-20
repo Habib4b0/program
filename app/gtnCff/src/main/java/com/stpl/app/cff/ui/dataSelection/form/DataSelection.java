@@ -2889,6 +2889,11 @@ public class DataSelection extends AbstractDataSelection {
 			loadCustomerLevel(viewDTO.getCustomerHierarchySid(), viewDTO.getCustomerLevel(),
 					viewDTO.getCustHierarchyVersion());
 			relationLevelValues.putAll(dataLogic.getLevelValueMap(viewDTO.getCustRelationshipBuilderSid()));
+                        int relationVersionNo = Integer.parseInt(
+						customerRelationVersionComboBox.getItemCaption(customerRelationVersionComboBox.getValue()));
+			int hierarchyVersionNo = Integer.parseInt(String.valueOf(customerRelationVersionComboBox.getValue()));
+                        customerDescriptionMap = relationLogic.getLevelValueMap(String.valueOf(customerRelation.getValue()),
+						customerHierarchyDto.getHierarchyId(), hierarchyVersionNo, relationVersionNo);
 			initializeCustomerHierarchy(UiUtils.parseStringToInteger(viewDTO.getProjectionId()),
 					viewDTO.getCustomerLevel());
 			loadInnerCustomerLevel(Integer.parseInt(viewDTO.getCustomerLevel()),

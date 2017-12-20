@@ -42,6 +42,7 @@ public class BrandContainer implements DAO<HelperDTO> {
         this.preBrandValue=preBrandValue;
     }
 
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             LOGGER.debug("Entering BrandContainer Count method :");
@@ -55,6 +56,7 @@ public class BrandContainer implements DAO<HelperDTO> {
     /**
      * Method used for get the results.
      */
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering BrandContainer find method :");

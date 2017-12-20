@@ -21,14 +21,18 @@ import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterManu
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterNewFormulationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingAttachAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingFieldFactoryUpdateAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTableConfigureAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterPricingTempTableClearAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterResetAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterSaveAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterBaseCPIBlurAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterBaselineAMPBlurAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterCommonValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterEditListIndentifierValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterEditListPricingValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterIdEditListDeleteValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterIndentifierValidationAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterItemPriceBlurAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterLandingScreenValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterPricingResultsTableValidationAction;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterPricingValidationAction;
@@ -88,6 +92,8 @@ public class GtnUIFrameworkItemMasterDynamicClassFiller implements GtnUIDynamicO
 				new GtnFrameworkItemMasterPricingTempTableClearAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnUIFrameworkItemClickEnableDisableAction.class.getName(),
 				new GtnUIFrameworkItemClickEnableDisableAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterPricingTableConfigureAction.class.getName(),
+				new GtnFrameworkItemMasterPricingTableConfigureAction());
 
 	}
 
@@ -119,6 +125,12 @@ public class GtnUIFrameworkItemMasterDynamicClassFiller implements GtnUIDynamicO
 				new GtnFrameworkItemMasterRefreshPrcingEditListIdentifierAction());
 		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterIdEditListRefreshAction.class.getName(),
 				new GtnFrameworkItemMasterIdEditListRefreshAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterBaselineAMPBlurAction.class.getName(),
+				new GtnFrameworkItemMasterBaselineAMPBlurAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterBaseCPIBlurAction.class.getName(),
+				new GtnFrameworkItemMasterBaseCPIBlurAction());
+		GtnUIFrameworkGlobalUI.addDynamicClassObjects(GtnFrameworkItemMasterItemPriceBlurAction.class.getName(),
+				new GtnFrameworkItemMasterItemPriceBlurAction());
 
 	}
 

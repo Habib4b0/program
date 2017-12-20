@@ -33,7 +33,7 @@ public class PPAItemLazyContainer implements DAO<PPAHelperDTO>{
      String ddlbType= StringUtils.EMPTY;
     PPADetailsDTO ppaDetailsDTO;
     
-    private PPAHelperDTO defaultDTO = new PPAHelperDTO(0, Constant.SELECT_ONE,Constant.SELECT_ONE);
+    private final PPAHelperDTO defaultDTO = new PPAHelperDTO(0, Constant.SELECT_ONE,Constant.SELECT_ONE);
     
     
     int count;

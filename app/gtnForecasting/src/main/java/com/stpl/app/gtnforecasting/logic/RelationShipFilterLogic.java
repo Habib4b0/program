@@ -40,10 +40,10 @@ import com.vaadin.server.VaadinSession;
 
 public class RelationShipFilterLogic {
 
-	private GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
+	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
-	private CommonDAO daoImpl = new CommonDAOImpl();
-	private FileReadWriteService fileReadWriteService = new FileReadWriteService();
+	private final CommonDAO daoImpl = new CommonDAOImpl();
+	private final FileReadWriteService fileReadWriteService = new FileReadWriteService();
 	private static final String RS_CONTRACT = "RS_CONTRACT";
 	private static final String CFP_CONTRACT_SID = "CFP_CONTRACT.CFP_CONTRACT_SID";
 	private static final String RS_CONTRACT_DETAILS = "RS_CONTRACT_DETAILS";

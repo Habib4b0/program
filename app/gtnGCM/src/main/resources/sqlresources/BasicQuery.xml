@@ -500,4 +500,60 @@ AND MODULE_NAME='CUSTOMER_MANAGEMENT'
      </query>
     </entity>
     
+    
+    <entity id="formulaIdCount">
+      <query>
+       <![CDATA[
+SELECT COUNT(DISTINCT NET_SALES_FORMULA_MASTER_SID)
+     FROM   NET_SALES_FORMULA_MASTER
+     WHERE  NET_SALES_FORMULA_ID LIKE '?'
+            AND NET_SALES_FORMULA_NO LIKE '?'
+            AND NET_SALES_FORMULA_NAME LIKE '?'    
+            AND NET_SALES_FORMULA_TYPE LIKE '?'  
+            ?  
+		]]>
+     </query>
+    </entity>
+    
+    
+        <entity id="formulaIdRecord">
+      <query>
+       <![CDATA[
+SELECT 
+       NET_SALES_FORMULA_ID, 
+             NET_SALES_FORMULA_NO, 
+             NET_SALES_FORMULA_NAME, 
+             NET_SALES_FORMULA_MASTER_SID,  
+             NET_SALES_FORMULA_TYPE 
+             
+              FROM   NET_SALES_FORMULA_MASTER
+     WHERE  NET_SALES_FORMULA_ID LIKE '?'
+            AND NET_SALES_FORMULA_NO LIKE '?'
+            AND NET_SALES_FORMULA_NAME LIKE '?'    
+            AND NET_SALES_FORMULA_TYPE LIKE '?' 
+            ? ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ;
+		]]>
+     </query>
+    </entity>
+    
+    
+    
+    <entity id="Submit condition check">
+        <query>
+		<![CDATA[
+            SELECT Count(*)
+            FROM   (SELECT 1 AS CO
+                    FROM   GCM_GLOBAL_DETAILS
+                    WHERE  EXISTS(SELECT * FROM GCM_GLOBAL_DETAILS WHERE  
+                                            (ITEM_STATUS IS NULL
+                                            OR START_DATE IS NULL
+                                            OR CONTRACT_PRICE_START_DATE IS NULL
+                                            OR PRICE_TYPE IS NULL)
+                           AND 
+                        session_id = '?' AND OPERATION = '?' AND MODULE_NAME = 'ITEM_MANAGEMENT' AND CHECK_RECORD = 1)) a 
+		]]>
+        </query>
+    </entity>
+    
+    
 </sql>

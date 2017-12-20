@@ -244,7 +244,6 @@ public class GtnFrameworkRSItemAdditionConfig {
 				"rsItemAdditionSearchButtonlayout", true, GtnFrameworkRSConstants.RS_ITEM_ADDITION_INFORMATION_LAYOUT);
 		gtnLayout.setComponentStyle(Arrays.asList(GtnFrameworkCssConstants.STPL_MARGIN_TOP_30));
 		componentList.add(gtnLayout);
-
 		GtnUIFrameworkComponentConfig searchButtonConfig = configProvider.getUIFrameworkComponentConfig(
 				"RSItemAdditiongtnSearch01", true, "rsItemAdditionSearchButtonlayout",
 				GtnUIFrameworkComponentType.BUTTON);
@@ -254,16 +253,27 @@ public class GtnFrameworkRSItemAdditionConfig {
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
 
+		GtnUIFrameWorkActionConfig searchAlertActionConfig = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+
+		List<Object> alertParameterList = new ArrayList<>();
+		alertParameterList.add(GtnUIFrameworkRsItemAdditionValidationAction.class.getName());
+		alertParameterList.add(GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
+		alertParameterList.add("");
+		alertParameterList.add(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_FIELD);		
+		List<String> fieldIds=Arrays.asList(GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TEXT,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_STATUS_DROP_DOWN,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_TYPE_DROP_DOWN,
+				GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_DATE,GtnFrameworkRSConstants.RS_ITEM_ADDITION_SEARCH_VALUE_CATEGORY_DROP_DOWN);
+		alertParameterList.add(fieldIds);
+		searchAlertActionConfig.setActionParameterList(alertParameterList);
+		
+		actionConfigList.add(searchAlertActionConfig);
+		
 		GtnUIFrameWorkActionConfig loadDataTableActionConfig = configProvider
-				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION);
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_TABLE_ACTION,GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
 
-		List<Object> actionParams = new ArrayList<>();
-		actionParams.add(GtnFrameworkRSConstants.R_SLEFT_RESULT_TABLE);
-		loadDataTableActionConfig.setActionParameterList(actionParams);
-
-		loadDataTableActionConfig.setFieldValues(Arrays.asList("RSItemAdditionSearchField"));
+		loadDataTableActionConfig.setFieldValues(Arrays.asList("RSItemAdditionSearchField","RSItemAdditionSearchValueText"));
 		actionConfigList.add(loadDataTableActionConfig);
-
+		
 		searchButtonConfig.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 	}

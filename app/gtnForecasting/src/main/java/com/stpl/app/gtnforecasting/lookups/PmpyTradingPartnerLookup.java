@@ -443,8 +443,10 @@ public class PmpyTradingPartnerLookup extends Window {
         tradingPartnerNo.setMaxLength(NumericConstants.THIRTY_SIX);
         resultsTableTP.addStyleName(Constant.TABLE_HEADER_STYLE);
         resetTP.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             tradingPartnerName.setValue(EMPTY);
@@ -457,6 +459,7 @@ public class PmpyTradingPartnerLookup extends Window {
         });
 
         searchTP.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     searchLogic();
@@ -549,6 +552,7 @@ public class PmpyTradingPartnerLookup extends Window {
              *
              */
 
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
                     tableLogic.clearAll();
@@ -608,6 +612,7 @@ public class PmpyTradingPartnerLookup extends Window {
              *
              */
 
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 if (buttonId.name().equals(Constant.YES)) {
                     close();

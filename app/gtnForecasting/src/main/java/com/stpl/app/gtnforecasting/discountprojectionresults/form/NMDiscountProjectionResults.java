@@ -81,7 +81,6 @@ import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_
 import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
 import com.stpl.ifs.ui.util.NumericConstants;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -107,6 +106,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     boolean isTabVisible = true;
     Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
+        @Override
         public void valueChange(Property.ValueChangeEvent event) {            
             levelFilterDdlbChangeOption(false);
         }
@@ -136,6 +136,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     @Override
     protected void resetButtonLogic() {
          new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -361,9 +362,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
         try {
             loadGroupFilter();
-        } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
         initializeResultTable();
@@ -684,6 +683,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
  }
  
 
+    @Override
     public void loadCustomDDLB() {
         LOGGER.debug("discount projection results loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
@@ -898,9 +898,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

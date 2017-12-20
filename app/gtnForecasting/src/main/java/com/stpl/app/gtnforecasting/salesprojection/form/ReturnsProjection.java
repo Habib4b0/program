@@ -54,7 +54,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
     boolean generated = false;
     boolean firstGenerated = false;
     private static final Logger LOGGER = Logger.getLogger(ReturnsProjection.class);
-    private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
+    private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
 
     public ReturnsProjection(SessionDTO session, String screenName) throws Exception  {
         super(session, screenName);
@@ -393,6 +393,7 @@ public class ReturnsProjection extends ForecastSalesProjection {
             @Override
             public void buttonClick(Button.ClickEvent event) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

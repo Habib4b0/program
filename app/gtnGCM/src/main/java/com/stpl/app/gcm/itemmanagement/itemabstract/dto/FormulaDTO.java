@@ -4,6 +4,7 @@
  */
 package com.stpl.app.gcm.itemmanagement.itemabstract.dto;
 
+import com.stpl.ifs.util.HelperDTO;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -19,6 +20,7 @@ public class FormulaDTO {
     private Integer startIndex = 0;
     private Integer endIndex = 0;
     private boolean isCount = false;
+    private HelperDTO netSalesformulaType;
 
     public String getFormulaId() {
         return formulaId;
@@ -76,4 +78,11 @@ public class FormulaDTO {
         this.formulaSid = formulaSid;
     }
 
+    public HelperDTO getNetSalesformulaType() {
+        return netSalesformulaType;
+    }
+
+    public void setNetSalesformulaType(HelperDTO netSalesformulaType) {
+        this.netSalesformulaType = netSalesformulaType;
+    }
 }

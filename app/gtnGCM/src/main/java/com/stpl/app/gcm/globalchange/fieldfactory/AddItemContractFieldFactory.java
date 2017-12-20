@@ -15,6 +15,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentLookUpDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.FormulaDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.FormulaLookUp;
+import com.stpl.app.gcm.itemmanagement.itemabstract.form.NEPLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.serviceUtils.UIUtils;
@@ -29,6 +30,7 @@ import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
@@ -406,6 +408,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("priceTolerance")) {
             final CustomTextField priceTolerance = new CustomTextField();
             priceTolerance.setImmediate(true);
+            priceTolerance.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
             priceTolerance.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
                     priceTolerance.addValueChangeListener(new Property.ValueChangeListener() {
@@ -537,21 +540,21 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             return basePrice;
         }
         if (propertyId.equals("price")) {
-            final CustomTextField Price = new CustomTextField();
-            Price.setImmediate(true);
-            Price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            Price.addFocusListener(new FieldEvents.FocusListener() {
+            final CustomTextField price = new CustomTextField();
+            price.setImmediate(true);
+            price.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+            price.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
-                    Price.addValueChangeListener(new Property.ValueChangeListener() {
+                    price.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
                             if (valueChange) {
                                 valueChange = false;
                                 AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
-                                dto.setPrice(Price.getValue());
+                                dto.setPrice(price.getValue());
                                 dto.setColumnName("PRICE");
                                 dto.setCaseNo(NumericConstants.FIFTEEN);
                                 if (dto.getCheckRecord()) {
-                                    populateLogic(Price.getValue(), dto.getColumnName());
+                                    populateLogic(price.getValue(), dto.getColumnName());
                                     saveTempPopulateItemDetails(dto);
                                 } else {
                                     saveTempItemDetails(dto);
@@ -561,27 +564,27 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
 
                         }
                     });
-                    Price.removeFocusListener(this);
+                    price.removeFocusListener(this);
                 }
             });
-            return Price;
+            return price;
         }
         if (propertyId.equals("contractPrice")) {
-            final CustomTextField Contractprice = new CustomTextField();
-            Contractprice.setImmediate(true);
-            Contractprice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
-            Contractprice.addFocusListener(new FieldEvents.FocusListener() {
+            final CustomTextField contractPrice = new CustomTextField();
+            contractPrice.setImmediate(true);
+            contractPrice.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+            contractPrice.addFocusListener(new FieldEvents.FocusListener() {
                 public void focus(FieldEvents.FocusEvent event) {
-                    Contractprice.addValueChangeListener(new Property.ValueChangeListener() {
+                    contractPrice.addValueChangeListener(new Property.ValueChangeListener() {
                         public void valueChange(Property.ValueChangeEvent event) {
-                            if (Contractprice.getValue() != null && valueChange) {
+                            if (contractPrice.getValue() != null && valueChange) {
                                     valueChange = false;
                                     AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
-                                    dto.setContractPrice(Contractprice.getValue());
+                                    dto.setContractPrice(contractPrice.getValue());
                                     dto.setColumnName("CONTRACT_PRICE");
                                     dto.setCaseNo(NumericConstants.EIGHTEEN);
                                     if (dto.getCheckRecord()) {
-                                        populateLogic(Contractprice.getValue(), dto.getColumnName());
+                                        populateLogic(contractPrice.getValue(), dto.getColumnName());
                                         saveTempPopulateItemDetails(dto);
                                     } else {
                                         saveTempItemDetails(dto);
@@ -591,11 +594,11 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                             }
                         }
                     });
-                    Contractprice.removeFocusListener(this);
+                    contractPrice.removeFocusListener(this);
                 }
             });
 
-            return Contractprice;
+            return contractPrice;
         }
 
         if (propertyId.equals("RSStartDate")) {
@@ -676,7 +679,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
             final CustomTextField formulaId = new CustomTextField();
             formulaId.setImmediate(true);
             formulaId.setReadOnly(true);
-            formulaId.addStyleName("searchicon");
+            formulaId.addStyleName(Constants.SEARCH_ICON);
             formulaId.addClickListener(new CustomTextField.ClickListener() {
                 public void click(CustomTextField.ClickEvent event) {
                     FormulaLookUp formulaLookUp = new FormulaLookUp(formulaId);
@@ -709,7 +712,7 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         if (propertyId.equals("rebatePlan")) {
             final CustomTextField rebatePlan = new CustomTextField();
             rebatePlan.setImmediate(true);
-            rebatePlan.addStyleName("searchicon");
+            rebatePlan.addStyleName(Constants.SEARCH_ICON);
             rebatePlan.setReadOnly(true);
             rebatePlan.addClickListener(new CustomTextField.ClickListener() {
                 public void click(CustomTextField.ClickEvent event) {
@@ -793,7 +796,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                                 }
                                 valueChange = true;
                             }
-
                         }
                     });
                     rebateAmount.removeFocusListener(this);
@@ -804,8 +806,818 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
         
         
-    return null;
+        if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
+            final ComboBox priceProtectionStatus = new ComboBox();
+            priceProtectionStatus.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(priceProtectionStatus, Constants.STATUS, false);
+            priceProtectionStatus.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    priceProtectionStatus.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object itemStatusValue = priceProtectionStatus.getValue();
+                                HelperDTO helperDto = null;
+                                if (itemStatusValue != null) {
+                                    helperDto = (HelperDTO) priceProtectionStatus.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setPriceProtectionStatus(helperDto);
+                                dto.setColumnName(Constants.PRICE_PROTECTION_STATUS_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.TWENTY_SIX);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(priceProtectionStatus.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    priceProtectionStatus.removeFocusListener(this);
+                }
+            });
+            return priceProtectionStatus;
         }
+        if (Constants.NEP_PROPERTY.equals(propertyId)) {
+            final CustomTextField nep = new CustomTextField();
+            nep.setImmediate(true);
+            nep.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+            nep.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    nep.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setNep(nep.getValue());
+                                dto.setColumnName(Constants.NEP_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.TWENTY_FIVE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(nep.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    nep.removeFocusListener(this);
+                }
+            });
+            return nep;
+        }
+        if (Constants.NEP_FORMULA_PROPERTY.equals(propertyId)) {
+            final CustomTextField nepFormula = new CustomTextField();
+            nepFormula.setImmediate(true);
+            nepFormula.setReadOnly(true);
+            nepFormula.addStyleName(Constants.SEARCH_ICON);
+            nepFormula.addClickListener(new CustomTextField.ClickListener() {
+                public void click(CustomTextField.ClickEvent event) {
+                    NEPLookup formulaLookUp = new NEPLookup(nepFormula, Constants.NEP_FORMULA_LABLE_NAME);
+                    formulaLookUp.addCloseListener(new Window.CloseListener() {
+                        @Override
+                        public void windowClose(Window.CloseEvent e) {
+                            nepFormula.setReadOnly(false);
+                            if (nepFormula.getData() != null) {
+                                FormulaDTO object = (FormulaDTO) nepFormula.getData();
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setTempSid(object.getFormulaSid());
+                                dto.setNepFormula(object.getFormulaName());
+                                dto.setColumnName(Constants.NEP_FORMULA_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.TWENTY_SEVEN);
+                                nepFormula.setValue(object.getFormulaName());
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(nepFormula.getValue(), Constants.NEP_FORMULA_COLUMN_NAME);
+                                    saveTempPopulateItemDetails(dto);
+                                }
+
+                            }
+                            nepFormula.setReadOnly(true);
+                        }
+                    });
+                    UI.getCurrent().addWindow(formulaLookUp);
+                }
+            });
+            nepFormula.setReadOnly(true);
+            return nepFormula;
+        }
+        if (Constants.MAX_INCREMENTAL_CHANGE_PROPERTY.equals(propertyId)) {
+            final CustomTextField maxIncrementalChange = new CustomTextField();
+            maxIncrementalChange.setImmediate(true);
+            maxIncrementalChange.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+            maxIncrementalChange.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    maxIncrementalChange.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setMaxIncrementalChange(maxIncrementalChange.getValue());
+                                dto.setColumnName(Constants.MAX_INCREMENTAL_CHANGE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.TWENTY_EIGHT);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(maxIncrementalChange.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    maxIncrementalChange.removeFocusListener(this);
+                }
+            });
+            return maxIncrementalChange;
+        }
+        if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
+            final ComboBox resetEligible = new ComboBox();
+            resetEligible.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(resetEligible, Constants.LOCKED_STATUS_LISTNAME, false);
+            resetEligible.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    resetEligible.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = resetEligible.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) resetEligible.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setResetEligible(helperDto);
+                                dto.setColumnName(Constants.RESET_ELIGIBLE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.TWENTY_NINE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetEligible.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    resetEligible.removeFocusListener(this);
+                }
+            });
+            return resetEligible;
+        }
+        if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox resetType = new ComboBox();
+            resetType.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(resetType, Constants.RESET_TYPE_LISTNAME, false);
+            resetType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    resetType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = resetType.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) resetType.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setResetType(helperDto);
+                                dto.setColumnName(Constants.RESET_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    resetType.removeFocusListener(this);
+                }
+            });
+            return resetType;
+        }
+
+        if (Constants.RESET_DATE_PROPERTY.equals(propertyId)) {
+            final PopupDateField resetDate = new PopupDateField();
+            resetDate.setImmediate(true);
+            resetDate.setRequired(true);
+            resetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
+            resetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+            resetDate.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    Property.ValueChangeListener valueChangeListner = new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setResetDate(resetDate.getValue());
+                                dto.setColumnName(Constants.RESET_DATE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_ONE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetDate.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    };
+                    resetDate.addValueChangeListener(valueChangeListner);
+                    valueChangeListner.valueChange(null);
+                    resetDate.removeFocusListener(this);
+                }
+            });
+
+            return resetDate;
+        }
+
+        if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
+            final ComboBox resetInterval = new ComboBox();
+            resetInterval.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(resetInterval, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, false);
+            resetInterval.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    resetInterval.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = resetInterval.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) resetInterval.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setResetInterval(helperDto);
+                                dto.setColumnName(Constants.RESET_INTERVAL_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_TWO);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetInterval.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    resetInterval.removeFocusListener(this);
+                }
+            });
+            return resetInterval;
+        }
+        if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
+            final ComboBox resetFrequency = new ComboBox();
+            resetFrequency.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(resetFrequency, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, false);
+            resetFrequency.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    resetFrequency.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = resetFrequency.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) resetFrequency.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setResetFrequency(helperDto);
+                                dto.setColumnName(Constants.RESET_FREQUENCY_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_THREE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetFrequency.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    resetFrequency.removeFocusListener(this);
+                }
+            });
+            return resetFrequency;
+        }
+        if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox netPriceType = new ComboBox();
+            netPriceType.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(netPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
+            netPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    netPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = netPriceType.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) netPriceType.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setNetPriceType(helperDto);
+                                dto.setColumnName(Constants.NET_PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_FOUR);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netPriceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    netPriceType.removeFocusListener(this);
+                }
+            });
+            return netPriceType;
+        }
+        if (Constants.NET_PRICE_TYPE_FORMULA_PROPERTY.equals(propertyId)) {
+            final CustomTextField netPriceTypeFormula = new CustomTextField();
+            netPriceTypeFormula.setImmediate(true);
+            netPriceTypeFormula.setReadOnly(true);
+            netPriceTypeFormula.addStyleName(Constants.SEARCH_ICON);
+            netPriceTypeFormula.addClickListener(new CustomTextField.ClickListener() {
+                public void click(CustomTextField.ClickEvent event) {
+                    NEPLookup formulaLookUp = new NEPLookup(netPriceTypeFormula, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME);
+                    formulaLookUp.addCloseListener(new Window.CloseListener() {
+                        @Override
+                        public void windowClose(Window.CloseEvent e) {
+                            netPriceTypeFormula.setReadOnly(false);
+                            if (netPriceTypeFormula.getData() != null) {
+                                FormulaDTO object = (FormulaDTO) netPriceTypeFormula.getData();
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setTempSid(object.getFormulaSid());
+                                dto.setNetPriceTypeFormula(object.getFormulaName());
+                                dto.setColumnName(Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_FIVE);
+                                netPriceTypeFormula.setValue(object.getFormulaNo());
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netPriceTypeFormula.getValue(), Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME);
+                                    saveTempPopulateItemDetails(dto);
+                                }
+
+                            }
+                            netPriceTypeFormula.setReadOnly(true);
+                        }
+                    });
+                    UI.getCurrent().addWindow(formulaLookUp);
+                }
+            });
+            netPriceTypeFormula.setReadOnly(true);
+            return netPriceTypeFormula;
+        }
+
+        if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox resetPriceType = new ComboBox();
+            resetPriceType.setImmediate(true);
+            final AbstractContractSearchDTO dto = loadPricetype(itemId, resetPriceType);
+            resetPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    resetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = resetPriceType.getValue();
+                                dto.setResetPriceType((int) value);
+                                dto.setColumnName(Constants.RESET_PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_SIX);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(resetPriceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    resetPriceType.removeFocusListener(this);
+                }
+            });
+            return resetPriceType;
+        }
+
+        if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox netResetPriceType = new ComboBox();
+            netResetPriceType.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(netResetPriceType, Constants.LOCKED_STATUS_LISTNAME, false);
+            netResetPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    netResetPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = netResetPriceType.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) netResetPriceType.getValue();
+                                }
+
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setNetResetPriceType(helperDto);
+                                dto.setColumnName(Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_SEVEN);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netResetPriceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    netResetPriceType.removeFocusListener(this);
+                }
+            });
+            return netResetPriceType;
+        }
+        if ("netResetPriceFormula".equals(propertyId)) {
+            final CustomTextField netResetPriceFormulaId = new CustomTextField();
+            netResetPriceFormulaId.setImmediate(true);
+            netResetPriceFormulaId.setReadOnly(true);
+            netResetPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
+            netResetPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                public void click(CustomTextField.ClickEvent event) {
+                    NEPLookup formulaLookUp = new NEPLookup(netResetPriceFormulaId, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
+                    formulaLookUp.addCloseListener(new Window.CloseListener() {
+                        @Override
+                        public void windowClose(Window.CloseEvent e) {
+                            netResetPriceFormulaId.setReadOnly(false);
+                            if (netResetPriceFormulaId.getData() != null) {
+                                FormulaDTO object = (FormulaDTO) netResetPriceFormulaId.getData();
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setTempSid(object.getFormulaSid());
+                                dto.setNetResetPriceFormula(object.getFormulaName());
+                                dto.setColumnName(Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_EIGHT);
+                                netResetPriceFormulaId.setValue(object.getFormulaNo());
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netResetPriceFormulaId.getValue(), Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME);
+                                    saveTempPopulateItemDetails(dto);
+                                }
+
+                            }
+                            netResetPriceFormulaId.setReadOnly(true);
+                        }
+                    });
+                    UI.getCurrent().addWindow(formulaLookUp);
+                }
+            });
+            netResetPriceFormulaId.setReadOnly(true);
+            return netResetPriceFormulaId;
+        }
+
+        if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
+            final ComboBox basePriceType = new ComboBox();
+            basePriceType.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, false);
+            basePriceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    basePriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = basePriceType.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) basePriceType.getValue();
+                                }
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setBasePriceType(helperDto);
+                                dto.setColumnName(Constants.BASE_PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.THIRTY_NINE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(basePriceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                                contractSelectionTable.getContainerLogic().setCurrentPage(1);
+                                contractSelectionTable.setRefresh(true);
+                            }
+                        }
+                    });
+                    basePriceType.removeFocusListener(this);
+                }
+            });
+            return basePriceType;
+        }
+        if (Constants.BASELINE_WAC_PROPERTY.equals(propertyId)) {
+            AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+            if (Constants.MANUAL_LABLE_NAME.equals(dto.getBasePriceType().getDescription().trim())) {
+                final TextField baseLineWacManual = new TextField();
+                baseLineWacManual.setImmediate(true);
+                baseLineWacManual.addValidator(new RegexpValidator(ConstantsUtil.NUMERIC, StringConstantsUtil.ONLY_NUMERIC_CHARACTERS_CAN_BE_ENTERED));
+                baseLineWacManual.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                        dto.setBaseLineWacManual(baseLineWacManual.getValue());
+                        dto.setColumnName(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
+                        dto.setCaseNo(NumericConstants.FORTY_SEVEN);
+                        if (dto.getCheckRecord()) {
+                            populateLogic(baseLineWacManual.getValue(), dto.getColumnName());
+                            saveTempPopulateItemDetails(dto);
+                        } else {
+                            saveTempItemDetails(dto);
+                        }
+                        valueChange = true;
+                    }
+                });
+                return baseLineWacManual;
+            } else if (Constants.DATE_LABLE_NAME.equals(dto.getBasePriceType().getDescription())) {
+                final PopupDateField baseLineWacResetDate = new PopupDateField();
+                baseLineWacResetDate.setImmediate(true);
+                baseLineWacResetDate.setRequired(true);
+                baseLineWacResetDate.addStyleName(ConstantsUtil.ALIGN_CENTER);
+                baseLineWacResetDate.setDateFormat(ConstantsUtil.DATE_FORMAT);
+                baseLineWacResetDate.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                        dto.setBaseLineWacDate(baseLineWacResetDate.getValue());
+                        dto.setColumnName(Constants.BASELINE_WAC_DATE_COLUMN_NAME);
+                        dto.setCaseNo(NumericConstants.FORTY_EIGHT);
+                        if (dto.getCheckRecord()) {
+                            populateLogic(baseLineWacResetDate.getValue(), dto.getColumnName());
+                            saveTempPopulateItemDetails(dto);
+                        } else {
+                            saveTempItemDetails(dto);
+                        }
+                    }
+                });
+                return baseLineWacResetDate;
+            } else if (Constants.PRICE_TYPE_LABEL.equals(dto.getBasePriceType().getDescription())) {
+                final ComboBox baseLineWacPriceType = new ComboBox();
+                baseLineWacPriceType.setImmediate(true);
+                final AbstractContractSearchDTO dtoPriceType = loadPricetype(itemId, baseLineWacPriceType);
+                baseLineWacPriceType.addBlurListener(new FieldEvents.BlurListener() {
+                    @Override
+                    public void blur(FieldEvents.BlurEvent event) {
+                        Object value = baseLineWacPriceType.getValue();
+                        dtoPriceType.setBaseLineWacPriceType((int) value);
+                        dtoPriceType.setColumnName(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME);
+                        dtoPriceType.setCaseNo(NumericConstants.FORTY_NINE);
+                        if (dtoPriceType.getCheckRecord()) {
+                            populateLogic(baseLineWacPriceType.getValue(), dtoPriceType.getColumnName());
+                            saveTempPopulateItemDetails(dtoPriceType);
+                        } else {
+                            saveTempItemDetails(dtoPriceType);
+                        }
+                    }
+                });
+                return baseLineWacPriceType;
+            }
+        }
+
+        if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox subsequentPeriodPriceType = new ComboBox();
+            subsequentPeriodPriceType.setImmediate(true);
+            final AbstractContractSearchDTO dto = loadPricetype(itemId, subsequentPeriodPriceType);
+            subsequentPeriodPriceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    subsequentPeriodPriceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = subsequentPeriodPriceType.getValue();
+                                dto.setSubsequentPeriodPriceType((int) value);
+                                dto.setColumnName(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(subsequentPeriodPriceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    subsequentPeriodPriceType.removeFocusListener(this);
+                }
+            });
+            return subsequentPeriodPriceType;
+        }
+        if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
+            final ComboBox netSubsequentPeriodPrice = new ComboBox();
+            netSubsequentPeriodPrice.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(netSubsequentPeriodPrice, Constants.LOCKED_STATUS_LISTNAME, false);
+            netSubsequentPeriodPrice.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    netSubsequentPeriodPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = netSubsequentPeriodPrice.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) netSubsequentPeriodPrice.getValue();
+                                }
+
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setNetSubsequentPeriodPrice(helperDto);
+                                dto.setColumnName(Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_ONE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netSubsequentPeriodPrice.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    netSubsequentPeriodPrice.removeFocusListener(this);
+                }
+            });
+            return netSubsequentPeriodPrice;
+        }
+
+        if ("netSubsequentPeriodPriceFormula".equals(propertyId)) {
+            final CustomTextField netSubsequentPriceFormulaId = new CustomTextField();
+            netSubsequentPriceFormulaId.setImmediate(true);
+            netSubsequentPriceFormulaId.setReadOnly(true);
+            netSubsequentPriceFormulaId.addStyleName(Constants.SEARCH_ICON);
+            netSubsequentPriceFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                public void click(CustomTextField.ClickEvent event) {
+                    NEPLookup formulaLookUp = new NEPLookup(netSubsequentPriceFormulaId, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
+                    formulaLookUp.addCloseListener(new Window.CloseListener() {
+                        @Override
+                        public void windowClose(Window.CloseEvent e) {
+                            netSubsequentPriceFormulaId.setReadOnly(false);
+                            if (netSubsequentPriceFormulaId.getData() != null) {
+                                FormulaDTO object = (FormulaDTO) netSubsequentPriceFormulaId.getData();
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setTempSid(object.getFormulaSid());
+                                dto.setNetSubsequentPeriodPriceFormula(object.getFormulaName());
+                                
+                                dto.setColumnName(Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_TWO);
+                                netSubsequentPriceFormulaId.setValue(object.getFormulaName());
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netSubsequentPriceFormulaId.getValue(), Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME);
+                                    saveTempPopulateItemDetails(dto);
+                                }
+
+                            }
+                            netSubsequentPriceFormulaId.setReadOnly(true);
+                        }
+                    });
+                    UI.getCurrent().addWindow(formulaLookUp);
+                }
+            });
+            netSubsequentPriceFormulaId.setReadOnly(true);
+            return netSubsequentPriceFormulaId;
+        }
+        if (Constants.NET_BASELINE_WAC_FORMULA_PROPERTY.equals(propertyId)) {
+            final CustomTextField netBaselineWacFormulaId = new CustomTextField();
+            netBaselineWacFormulaId.setImmediate(true);
+            netBaselineWacFormulaId.setReadOnly(true);
+            netBaselineWacFormulaId.addStyleName(Constants.SEARCH_ICON);
+            netBaselineWacFormulaId.addClickListener(new CustomTextField.ClickListener() {
+                public void click(CustomTextField.ClickEvent event) {
+                    NEPLookup formulaLookUp = new NEPLookup(netBaselineWacFormulaId, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
+                    formulaLookUp.addCloseListener(new Window.CloseListener() {
+                        @Override
+                        public void windowClose(Window.CloseEvent e) {
+                            netBaselineWacFormulaId.setReadOnly(false);
+                            if (netBaselineWacFormulaId.getData() != null) {
+                                FormulaDTO object = (FormulaDTO) netBaselineWacFormulaId.getData();
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setTempSid(object.getFormulaSid());
+                                dto.setNetBaselineWACFormula(object.getFormulaName());
+                                dto.setColumnName(Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_THREE);
+                                netBaselineWacFormulaId.setValue(object.getFormulaNo());
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(netBaselineWacFormulaId.getValue(), Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME);
+                                    saveTempPopulateItemDetails(dto);
+                                }
+
+                            }
+                            netBaselineWacFormulaId.setReadOnly(true);
+                        }
+                    });
+                    UI.getCurrent().addWindow(formulaLookUp);
+                }
+            });
+            netBaselineWacFormulaId.setReadOnly(true);
+            return netBaselineWacFormulaId;
+        }
+        if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
+            final ComboBox baselineNetWAC = new ComboBox();
+            baselineNetWAC.setImmediate(true);
+            CommonUtil.loadComboBoxForGCM(baselineNetWAC, Constants.LOCKED_STATUS_LISTNAME, false);
+            baselineNetWAC.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    baselineNetWAC.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = baselineNetWAC.getValue();
+                                HelperDTO helperDto = null;
+                                if (value != null) {
+                                    helperDto = (HelperDTO) baselineNetWAC.getValue();
+                                }
+
+                                AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+                                dto.setBaselineNetWAC(helperDto);
+                                dto.setColumnName(Constants.BASELINE_NET_WAC_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_FOUR);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(baselineNetWAC.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    baselineNetWAC.removeFocusListener(this);
+                }
+            });
+            return baselineNetWAC;
+        }
+        if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
+            final ComboBox priceType = new ComboBox();
+            priceType.setImmediate(true);
+            final AbstractContractSearchDTO dto = loadPricetype(itemId, priceType);
+            priceType.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    priceType.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = priceType.getValue();
+                                dto.setPriceType((int) value);
+                                dto.setColumnName(Constants.PRICE_TYPE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_FIVE);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(priceType.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    priceType.removeFocusListener(this);
+                }
+            });
+            return priceType;
+        }
+
+        if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
+            final ComboBox measurementPrice = new ComboBox();
+            measurementPrice.setImmediate(true);
+            final AbstractContractSearchDTO dto = loadPricetype(itemId, measurementPrice);
+            measurementPrice.addFocusListener(new FieldEvents.FocusListener() {
+                public void focus(FieldEvents.FocusEvent event) {
+                    measurementPrice.addValueChangeListener(new Property.ValueChangeListener() {
+                        public void valueChange(Property.ValueChangeEvent event) {
+                            if (valueChange) {
+                                valueChange = false;
+                                Object value = measurementPrice.getValue();
+                                dto.setMeasurementPrice((int) value);
+                                dto.setColumnName(Constants.MEASUREMENT_PRICE_COLUMN_NAME);
+                                dto.setCaseNo(NumericConstants.FORTY_SIX);
+                                if (dto.getCheckRecord()) {
+                                    populateLogic(measurementPrice.getValue(), dto.getColumnName());
+                                    saveTempPopulateItemDetails(dto);
+                                } else {
+                                    saveTempItemDetails(dto);
+                                }
+                                valueChange = true;
+                            }
+                        }
+                    });
+                    measurementPrice.removeFocusListener(this);
+                }
+            });
+            return measurementPrice;
+        }
+        return null;
+    }
+
+    public AbstractContractSearchDTO loadPricetype(final Object itemId, final ComboBox name) {
+        final AbstractContractSearchDTO dto = (AbstractContractSearchDTO) itemId;
+        AddContractSelection.loadPriceType(name, false);
+        return dto;
+    }
 
     private void saveTempItemDetails(final AbstractContractSearchDTO dto) {
         boolean flag = logic.getEditedItemDetails(dto, selection);
@@ -823,12 +1635,12 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
         }
     }
 
-    public void populateLogic(Object massUpdateString, Object ColumnName) {
+    public void populateLogic(Object massUpdateString, Object columnName) {
         Collection itemId = contractSelectionTable.getItemIds();
         for (Object object : itemId) {
             AbstractContractSearchDTO dto = (AbstractContractSearchDTO) object;
             if (dto.getCheckRecord()) {
-                contractSelectionTable.getItem(object).getItemProperty(tempTableMap.get(ColumnName)).setValue(massUpdateString);
+                contractSelectionTable.getItem(object).getItemProperty(tempTableMap.get(columnName)).setValue(massUpdateString);
             }
         }
     }

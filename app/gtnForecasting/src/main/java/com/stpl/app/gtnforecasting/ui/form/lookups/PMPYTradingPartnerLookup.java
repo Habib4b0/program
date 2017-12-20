@@ -94,12 +94,12 @@ public class PMPYTradingPartnerLookup extends Window {
     /**
      * The Constant TRADING_PARTNER_COLUMNS.
      */
-    public final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
+    private final Object[] tradingPartnerColumns = new Object[]{"tradingPartnerNo", "tradingPartnerName"};
 
     /**
      * The Constant TRADING_PARTNER_HEADER.
      */
-    public final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
+    private final String[] tradingPartnerHeaders = new String[]{"Trading Partner #", "Trading Partner Name"};
 
     /**
      * The results table tp.
@@ -131,7 +131,7 @@ public class PMPYTradingPartnerLookup extends Window {
      */
     private ErrorLabel errorMsg = new ErrorLabel();
 
-    public static final String ALPHA_NUMERIC = "([0-9|a-z|A-Z|\\ |\\*])*";
+    private static final String ALPHA_NUMERIC = "([0-9|a-z|A-Z|\\ |\\*])*";
 
     private Object contractHolder;
 
@@ -369,11 +369,6 @@ public class PMPYTradingPartnerLookup extends Window {
         this.errorMsg = errorMsg;
     }
 
-    /**
-     * Instantiates a new PMPY trading partner lookup.
-     *
-     * @param tradingPartner the trading partner
-     */
     public PMPYTradingPartnerLookup(final TextField tradingPartner, Object contractHolder) {
         super("Trading Partner Lookup");
         this.tradingPartner = tradingPartner;
@@ -514,7 +509,6 @@ public class PMPYTradingPartnerLookup extends Window {
                 if (!String.valueOf(event.getText()).matches(ALPHA_NUMERIC)) {
                     AbstractNotificationUtils.getErrorNotification("Field Error", "Special Characters are not allowed");
                     tradingPartnerNo.setValue(StringUtils.EMPTY);
-                    return;
                 }
             }
 
@@ -527,7 +521,6 @@ public class PMPYTradingPartnerLookup extends Window {
                 if (!String.valueOf(event.getText()).matches(ALPHA_NUMERIC)) {
                     AbstractNotificationUtils.getErrorNotification("Field Error", "Special Characters are not allowed");
                     tradingPartnerName.setValue(StringUtils.EMPTY);
-                    return;
                 }
             }
 
@@ -536,8 +529,10 @@ public class PMPYTradingPartnerLookup extends Window {
         tradingPartnerNo.setMaxLength(NumericConstants.THIRTY_SIX);
         resultsTableTP.addStyleName(Constant.TABLE_HEADER_STYLE);
         resetTP.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             tradingPartnerName.setValue(EMPTY);
@@ -550,6 +545,7 @@ public class PMPYTradingPartnerLookup extends Window {
         });
 
         searchTP.addClickListener(new Button.ClickListener() {
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 try {
                     searchLogic();
@@ -601,6 +597,7 @@ public class PMPYTradingPartnerLookup extends Window {
              *
              */
 
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
 
                 if (resultsTableTP.getValue() == null) {
@@ -635,6 +632,7 @@ public class PMPYTradingPartnerLookup extends Window {
              *
              */
 
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
                     /**
@@ -642,6 +640,7 @@ public class PMPYTradingPartnerLookup extends Window {
                      *
                      */
 
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             resultsTableTP.removeAllItems();
@@ -669,6 +668,7 @@ public class PMPYTradingPartnerLookup extends Window {
              *
              */
 
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
                 MessageBox.showPlain(Icon.QUESTION, "Close Confirmation", "Are you sure you want to close the trading partner lookup" + " ?", new MessageBoxListener() {
                     /**
@@ -676,6 +676,7 @@ public class PMPYTradingPartnerLookup extends Window {
                      *
                      */
 
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             close();
@@ -743,11 +744,11 @@ public class PMPYTradingPartnerLookup extends Window {
      */
     private void searchLogic() throws CommitException, SystemException {
         LOGGER.debug("Entering searchLogic method");
-        if (StringUtils.isEmpty(tradingPartnerNo.getValue().toString()) && StringUtils.isEmpty(tradingPartnerName.getValue().toString())) {
+        if (StringUtils.isEmpty(tradingPartnerNo.getValue()) && StringUtils.isEmpty(tradingPartnerName.getValue().toString())) {
             AbstractNotificationUtils.getErrorNotification("No Search Criteria", "Please enter a value to search for.");
         } else {
-            String tpNo = tradingPartnerNo.getValue().toString();
-            String tpName = tradingPartnerName.getValue().toString();
+            String tpNo = tradingPartnerNo.getValue();
+            String tpName = tradingPartnerName.getValue();
             searchBinder.commit();
             resultsTPBean.removeAllItems();
             final List<PMPYTradingPartnerDTO> tpResult = nonMandatedLogic.tradingPartnerLookUp(tpNo, tpName, contractHolder);

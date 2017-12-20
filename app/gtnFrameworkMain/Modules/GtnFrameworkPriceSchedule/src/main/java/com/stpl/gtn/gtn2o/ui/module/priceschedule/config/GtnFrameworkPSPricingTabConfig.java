@@ -296,10 +296,6 @@ public class GtnFrameworkPSPricingTabConfig {
 		componentList.add(massUpdatePopulateAllButton);
 
 		List<GtnUIFrameWorkActionConfig> actionConfigList = new ArrayList<>();
-		GtnUIFrameWorkActionConfig populateCheck = new GtnUIFrameWorkActionConfig();
-		populateCheck.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
-		populateCheck.addActionParameter(GtnUIFrameworkPSPopulateCheckAction.class.getName());
-		actionConfigList.add(populateCheck);
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameworkPSPriceTabPopulateAction.class.getName());

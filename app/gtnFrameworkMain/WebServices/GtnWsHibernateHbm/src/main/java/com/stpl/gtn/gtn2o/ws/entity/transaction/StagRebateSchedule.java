@@ -79,6 +79,21 @@ public class StagRebateSchedule  implements java.io.Serializable {
      private String batchId;
      private String source;
      private String addChgDelIndicator;
+     
+     private String deductionInclusion;
+     private String rebateScheduleAliasId;
+     private String paymentLevel;
+     private String evaluationRuleLevel;
+     private String evaluationRule;
+     private String evaluationRuleBundle;
+     private String calculationType;
+     private String calculationRule;
+     private String calculationRuleLevel;
+     private String calculationRuleBundle;
+     private String netSalesFormula;
+     private String nestSalesRule;
+     private String deductionCalendarNo;
+     private String deductionCalendarName;
 
     public StagRebateSchedule() {
     }
@@ -688,7 +703,119 @@ public class StagRebateSchedule  implements java.io.Serializable {
         this.itemRebateEndDate = itemRebateEndDate;
     }
 
+    public String getDeductionInclusion() {
+        return deductionInclusion;
+    }
 
+    public void setDeductionInclusion(String deductionInclusion) {
+        this.deductionInclusion = deductionInclusion;
+    }
+
+    public String getRebateScheduleAliasId() {
+        return rebateScheduleAliasId;
+    }
+
+    public void setRebateScheduleAliasId(String rebateScheduleAliasId) {
+        this.rebateScheduleAliasId = rebateScheduleAliasId;
+    }
+
+    public String getPaymentLevel() {
+        return paymentLevel;
+    }
+
+    public void setPaymentLevel(String paymentLevel) {
+        this.paymentLevel = paymentLevel;
+    }
+
+    public String getEvaluationRuleLevel() {
+        return evaluationRuleLevel;
+    }
+
+    public void setEvaluationRuleLevel(String evaluationRuleLevel) {
+        this.evaluationRuleLevel = evaluationRuleLevel;
+    }
+
+    public String getEvaluationRule() {
+        return evaluationRule;
+    }
+
+    public void setEvaluationRule(String evaluationRule) {
+        this.evaluationRule = evaluationRule;
+    }
+
+    public String getEvaluationRuleBundle() {
+        return evaluationRuleBundle;
+    }
+
+    public void setEvaluationRuleBundle(String evaluationRuleBundle) {
+        this.evaluationRuleBundle = evaluationRuleBundle;
+    }
+
+    public String getCalculationType() {
+        return calculationType;
+    }
+
+    public void setCalculationType(String calculationType) {
+        this.calculationType = calculationType;
+    }
+
+    public String getCalculationRule() {
+        return calculationRule;
+    }
+
+    public void setCalculationRule(String calculationRule) {
+        this.calculationRule = calculationRule;
+    }
+
+    public String getCalculationRuleLevel() {
+        return calculationRuleLevel;
+    }
+
+    public void setCalculationRuleLevel(String calculationRuleLevel) {
+        this.calculationRuleLevel = calculationRuleLevel;
+    }
+
+    public String getCalculationRuleBundle() {
+        return calculationRuleBundle;
+    }
+
+    public void setCalculationRuleBundle(String calculationRuleBundle) {
+        this.calculationRuleBundle = calculationRuleBundle;
+    }
+
+    public String getNetSalesFormula() {
+        return netSalesFormula;
+    }
+
+    public void setNetSalesFormula(String netSalesFormula) {
+        this.netSalesFormula = netSalesFormula;
+    }
+
+    public String getNestSalesRule() {
+        return nestSalesRule;
+    }
+
+    public void setNestSalesRule(String nestSalesRule) {
+        this.nestSalesRule = nestSalesRule;
+    }
+
+    public String getDeductionCalendarNo() {
+        return deductionCalendarNo;
+    }
+
+    public void setDeductionCalendarNo(String deductionCalendarNo) {
+        this.deductionCalendarNo = deductionCalendarNo;
+    }
+
+    public String getDeductionCalendarName() {
+        return deductionCalendarName;
+    }
+
+    public void setDeductionCalendarName(String deductionCalendarName) {
+        this.deductionCalendarName = deductionCalendarName;
+    }
+
+    
 
 
 }

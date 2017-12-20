@@ -140,29 +140,27 @@ public class IfpLookUp extends Window {
 
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 try {
+                     CustomComboBox comboBox = new CustomComboBox();
                     if (propertyId.equals("ifpType")) {
-                        CustomComboBox ifpType = new CustomComboBox();
-                        ifpType.setImmediate(true);
-                        commonUtil.loadComboBox(ifpType, UiUtils.IFP_TYPE, true);
-                        return ifpType;
+                        comboBox.setImmediate(true);
+                        commonUtil.loadComboBox(comboBox, UiUtils.IFP_TYPE, true);
+                        return comboBox;
                     }
                     if (propertyId.equals("ifpCategory")) {
-                        CustomComboBox ifpCategory = new CustomComboBox();
-                        ifpCategory.setImmediate(true);
-                        commonUtil.loadComboBox(ifpCategory, UiUtils.IFP_CATEGORY, true);
+                        comboBox.setImmediate(true);
+                        commonUtil.loadComboBox(comboBox, UiUtils.IFP_CATEGORY, true);
                         return ifpCategory;
                     }
                     if (propertyId.equals("ifpDesignation")) {
-                        CustomComboBox ifpDesignation = new CustomComboBox();
-                        ifpDesignation.setImmediate(true);
-                        commonUtil.loadComboBox(ifpDesignation, UiUtils.IFP_DESIGNATION, true);
-                        return ifpDesignation;
+                        comboBox.setImmediate(true);
+                        commonUtil.loadComboBox(comboBox, UiUtils.IFP_DESIGNATION, true);
+                        return comboBox;
                     }
                     if (propertyId.equals("ifpStatus")) {
-                        CustomComboBox ifpStatus = new CustomComboBox();
+                       
                         ifpStatus.setImmediate(true);
-                        commonUtil.loadComboBox(ifpStatus, UiUtils.STATUS, true);
-                        return ifpStatus;
+                        commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
+                        return comboBox;
                     }
 
                 } catch (Exception ex) {

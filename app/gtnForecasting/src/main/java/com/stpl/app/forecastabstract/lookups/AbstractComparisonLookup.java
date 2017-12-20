@@ -75,7 +75,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	public static final String SIX_FIFTY_PX = "650px";
 	public static final String THERAPEUTIC_CLASS = "Therapeutic Class";
 
-	private TextField comparisonLookup;
+	protected TextField comparisonLookup;
 	private NativeSelect workflowStatus;
 	private TextField marketType;
 	private TextField brand;
@@ -90,13 +90,13 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	private ExtFilterTable results;
 	private ExtFilterTable selectedProjection;
 	private int currentProjId;
-	List<ComparisonLookupDTO> selectedList;
+	private List<ComparisonLookupDTO> selectedList;
 	/**
 	 * The record selected flag.
 	 */
 	private Boolean recordSelectedFlag = false;
-	private BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
-	private BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(
+	private final BeanItemContainer<ComparisonLookupDTO> resultsBean = new BeanItemContainer<>(ComparisonLookupDTO.class);
+	private final BeanItemContainer<ComparisonLookupDTO> selectedResultsBean = new BeanItemContainer<>(
 			ComparisonLookupDTO.class);
 	/**
 	 * The Constant COMPARISON_RESULTS_COLUMNS.
@@ -277,6 +277,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 			 * Method called when available results value is changed.
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void valueChange(final Property.ValueChangeEvent event) {
 				resultsItemClick(event.getProperty().getValue());
 			}
@@ -328,6 +329,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 			 * Method called when available results value is changed.
 			 */
 			@SuppressWarnings("PMD")
+                        @Override
 			public void valueChange(final Property.ValueChangeEvent event) {
 				resultsItemClick(event.getProperty().getValue());
 			}
@@ -519,6 +521,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		Button search = new Button("Search");
 
 		search.addClickListener(new Button.ClickListener() {
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				PVQueryUtils logic = new PVQueryUtils();
 				NMProjectionVarianceLogic pvLogic = new NMProjectionVarianceLogic();
@@ -587,9 +590,11 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 		return search;
 	}
 
+        @Override
 	protected Button getResetCriteriaButton(final Component... components) {
 		Button reset = new Button(BTN_RESET.getConstant());
 		reset.addClickListener(new Button.ClickListener() {
+                @Override
 			public void buttonClick(Button.ClickEvent event) {
 				MessageBox.showPlain(Icon.QUESTION, "Confirm Reset",
 						"Are you sure you want to reset the page to default values?"
@@ -600,6 +605,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 							 * Called when reset button is clicked
 							 */
 							@SuppressWarnings("PMD")
+                        @Override
 							public void buttonClicked(final ButtonId buttonId) {
 								if (buttonId.name().equals(Constant.YES)) {
 									UiUtils.componentResetLogic(workflowStatus, marketType, brand, projectionName,
@@ -619,9 +625,11 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	 *
 	 * @return
 	 */
+        @Override
 	protected Button getAddButton() {
 
 		addButton.addClickListener(new Button.ClickListener() {
+                @Override
 			public void buttonClick(Button.ClickEvent event) {
 				if (recordSelectedFlag) {
 					addItemsButtonClick();
@@ -709,6 +717,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	public Button getRemoveBtn() {
 		Button btnRemove = new Button(BTN_REMOVE.getConstant());
 		btnRemove.addClickListener(new Button.ClickListener() {
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				if (recordSelectedFlag) {
 					removeItemsButtonClick();
@@ -768,6 +777,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	protected Button getResetResultsButton(final ExtFilterTable results) {
 		Button reset = new Button(BTN_RESET.getConstant());
 		reset.addClickListener(new Button.ClickListener() {
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				MessageBox.showPlain(Icon.QUESTION, "Confirm Reset",
 						"Are you sure you want to reset the page to default values?"
@@ -778,6 +788,7 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 							 * Called when reset button is clicked
 							 */
 							@SuppressWarnings("PMD")
+                                @Override
 							public void buttonClicked(final ButtonId buttonId) {
 								if (buttonId.name().equals(Constant.YES)) {
 									UiUtils.componentResetLogic(results);
@@ -811,9 +822,11 @@ public abstract class AbstractComparisonLookup extends AbstractLookup {
 	 *
 	 * @return Submit button
 	 */
+        @Override
 	public Button getSubmitBtn() {
 		Button btnSubmit = new Button(BTN_SUBMIT.getConstant());
 		btnSubmit.addClickListener(new Button.ClickListener() {
+                @Override
 			public void buttonClick(Button.ClickEvent event) {
 				if (!selectedProjection.getItemIds().isEmpty()) {
 					ComparisonLookupDTO dto = new ComparisonLookupDTO();

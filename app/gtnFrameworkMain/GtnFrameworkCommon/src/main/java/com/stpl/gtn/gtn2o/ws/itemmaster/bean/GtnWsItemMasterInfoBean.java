@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.itemmaster.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -74,10 +75,10 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 	private Date clottingFactorEndDate;
 	private Date divestitureDate;
 	private String newFormulationIndicator;
-	private Double baselineAmp;
+	private BigDecimal baselineAmp;
 	private Date acquisitionDate;
 	private Date nonFederalExpirationDate;
-	private Double baseCpi;
+	private BigDecimal baseCpi;
 	private Integer acquiredAmp;
 	private Date marketTerminationDate;
 	private Date newFormulationStartDate;
@@ -531,11 +532,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.newFormulationIndicator = newFormulationIndicator;
 	}
 
-	public Double getBaselineAmp() {
+	public BigDecimal getBaselineAmp() {
 		return baselineAmp;
 	}
 
-	public void setBaselineAmp(Double baselineAmp) {
+	public void setBaselineAmp(BigDecimal baselineAmp) {
 		this.baselineAmp = baselineAmp;
 	}
 
@@ -556,11 +557,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 				: (Date) nonFederalExpirationDate.clone();
 	}
 
-	public Double getBaseCpi() {
+	public BigDecimal getBaseCpi() {
 		return baseCpi;
 	}
 
-	public void setBaseCpi(Double baseCpi) {
+	public void setBaseCpi(BigDecimal baseCpi) {
 		this.baseCpi = baseCpi;
 	}
 

@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemIdentifier;
-import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemMaster;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemPricing;
 import com.stpl.gtn.gtn2o.ws.entity.itemmaster.ItemQualifier;
 import com.stpl.gtn.gtn2o.ws.entity.priceshedule.ItemPricingQualifier;
@@ -30,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GtnWsValidationBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.itemmaster.GtnWsItemMasterResponse;
+import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 
 /**
  *
@@ -49,6 +49,10 @@ public class GtnWsItemMasterValidationService {
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
+	@Autowired
+	private GtnWsSqlService gtnWsSqlService;
+
+	
 	public org.hibernate.SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
@@ -207,63 +211,35 @@ public class GtnWsItemMasterValidationService {
 		boolean isNdc8Exist = false;
 		int systemId = itemMasterBean.getGtnWsItemMasterInfoBean().getItemMasterSid();
 		try {
-			Criterion itemIdCriterion = Restrictions.eq("itemId",
-					itemMasterBean.getGtnWsItemMasterInfoBean().getItemId());
-			List<Criterion> itemValidationCriterionList = new ArrayList<>();
-			itemValidationCriterionList.add(itemIdCriterion);
-			if (systemId > 0) {
-				Criterion itemMasterSIDCriterion = Restrictions.ne(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID,
-						systemId);
-				itemValidationCriterionList.add(itemMasterSIDCriterion);
+			List<String> itemIdCriteria = new ArrayList<>();
+			itemIdCriteria.add(itemMasterBean.getGtnWsItemMasterInfoBean().getItemId());
+			List<Long> resultsDb = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(itemIdCriteria, "checkItemIDStatusNotD"));
+			if(systemId==0 && resultsDb != null)
+			{
+			
+				isItemIdExist = (long) resultsDb.size() > 0;
+		
 			}
-			ProjectionList proj = Projections.projectionList();
-			proj.add(Projections.countDistinct("itemId"));
-
-			List<Long> results = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemMaster.class,
-					itemValidationCriterionList, proj);
-			if (results != null) {
-				isItemIdExist = (long) results.get(0) > 0;
+			List<String> itemNoCriteria = new ArrayList<>();
+			itemNoCriteria.add(itemMasterBean.getGtnWsItemMasterInfoBean().getItemNo());
+			List<Long> resultsDb2 = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(itemNoCriteria, "checkItemNoStatusNotD"));
+			if(systemId==0 && resultsDb2 != null )
+			{
+			
+				isItemNoExist = (long) resultsDb2.size() > 0;
 			}
-
-			Criterion itemNoUniqueValidationCriterion = Restrictions.eq("itemNo",
-					itemMasterBean.getGtnWsItemMasterInfoBean().getItemNo());
-			List<Criterion> itemNoValidationCriterionList = new ArrayList<>();
-			itemNoValidationCriterionList.add(itemNoUniqueValidationCriterion);
-			if (systemId > 0) {
-				Criterion itemMasterSIDCriterion = Restrictions.ne(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID,
-						systemId);
-				itemNoValidationCriterionList.add(itemMasterSIDCriterion);
+			List<String> ndc8Criteria = new ArrayList<>();
+			ndc8Criteria.add(itemMasterBean.getGtnWsItemMasterInfoBean().getNdc8());
+			List<Long> resultsDb3 = (List<Long>) gtnSqlQueryEngine
+					.executeSelectQuery(gtnWsSqlService.getQuery(ndc8Criteria, "checkNDCStatusNotD"));
+			if(systemId==0 && resultsDb3 != null )
+			{
+			
+				isNdc8Exist = (long) resultsDb3.size() > 0;
 			}
-			ProjectionList proj2 = Projections.projectionList();
-			proj2.add(Projections.countDistinct("itemNo"));
-
-			List<Long> results2 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemMaster.class,
-					itemNoValidationCriterionList, proj2);
-
-			if (results2 != null) {
-				isItemNoExist = (long) results2.get(0) > 0;
-			}
-
-			Criterion ndc8Criterion = Restrictions.eq("ndc8", itemMasterBean.getGtnWsItemMasterInfoBean().getNdc8());
-			// ndc8Criterion
-			List<Criterion> ndcValidationCriterionList = new ArrayList<>();
-			ndcValidationCriterionList.add(ndc8Criterion);
-
-			if (systemId > 0) {
-				Criterion itemMasterSIDCriterion = Restrictions.ne(GtnFrameworkWebserviceConstant.ITEM_MASTER_SID,
-						systemId);
-				ndcValidationCriterionList.add(itemMasterSIDCriterion);
-			}
-
-			ProjectionList proj3 = Projections.projectionList();
-			proj3.add(Projections.countDistinct("ndc8"));
-
-			List<Long> results3 = (List<Long>) gtnSqlQueryEngine.executeSelectQuery(ItemMaster.class,
-					ndcValidationCriterionList, proj3);
-			if (results3 != null) {
-				isNdc8Exist = (long) results3.get(0) > 0;
-			}
-			GtnWsItemMasterResponse imResponse = new GtnWsItemMasterResponse();
+		    GtnWsItemMasterResponse imResponse = new GtnWsItemMasterResponse();
 			GtnWsValidationBean bean = new GtnWsValidationBean();
 			bean.setItemIdExist(isItemIdExist);
 			bean.setItemNoExist(isItemNoExist);

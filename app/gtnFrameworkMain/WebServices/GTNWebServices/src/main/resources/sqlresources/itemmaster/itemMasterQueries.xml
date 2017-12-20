@@ -29,7 +29,19 @@ WHERE  CM.INBOUND_STATUS <> 'D'
 		;with CTE as(
 	select
 		IPQ.ITEM_PRICING_QUALIFIER_NAME,
-		IP.ITEM_PRICE,
+                CASE 
+                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='URA'
+                THEN Str(IP.ITEM_PRICE, 12,4)
+                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPIURA'
+                THEN Str(IP.ITEM_PRICE, 12,3)
+                WHEN  IPQ.ITEM_PRICING_QUALIFIER_NAME='CPI (Alt) URA'
+                THEN Str(IP.ITEM_PRICE, 12,3)
+                WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'AMP'
+		THEN STR(IP.ITEM_PRICE, 12, 6)
+		WHEN IPQ.ITEM_PRICING_QUALIFIER_NAME = 'BP'
+		THEN STR(IP.ITEM_PRICE, 12, 6)
+		ELSE STR(IP.ITEM_PRICE)
+                END as ITEM_PRICE,
 		IP.PRICING_CODE_STATUS,
 		IP.ITEM_UOM,
 		IP.START_DATE,
@@ -221,7 +233,7 @@ INSERT
 	);]]></query>
 	</entity>
 
-<entity id="insertIntoMainTable">
+	<entity id="insertIntoMainTable">
 		<query> 
 		<![CDATA[
 INSERT
@@ -266,33 +278,110 @@ INSERT
 			##ITEM_PRICING_TEMP_TABLE
 			]]></query>
 	</entity>
-	
+
 	<entity id="deleteOldPricingData">
 		<query> 
 		<![CDATA[
 Delete from ITEM_PRICING where ITEM_MASTER_SID = ?
 ]]></query>
 	</entity>
-	
+
 	<entity id="pricingvalidation">
 		<query> 
 		<![CDATA[
 select count(1) from ##ITEM_PRICING_TEMP_TABLE where  COLUMNNAME = 0	OR  COLUMNNAME	= NULL 
 ]]></query>
 	</entity>
-	
+
 	<entity id="pricingUniqueValidation">
 		<query> 
 		<![CDATA[
 select count(1) from ##ITEM_PRICING_TEMP_TABLE where  ITEM_PRICING_QUALIFIER_SID = ? and ITEM_UOM = ? and PRICING_CODE_STATUS =? and START_DATE = ?
 ]]></query>
 	</entity>
-	
-	
-	
+
+	<entity id="getItemIdWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_ID='?' AND IM.INBOUND_STATUS LIKE 'D' 
+            
+                    ]]>
+		</query>
+	</entity>
+
+	<entity id="checkItemIDStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
 
 
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_ID='?' and IM.INBOUND_STATUS<>'D'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="checkItemNoStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
 
+SELECT * FROM ITEM_MASTER IM WHERE IM.ITEM_NO='?' and IM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
 
+	<entity id="checkNDCStatusNotD">
+		<query> 
+            <![CDATA[     
+                  
+
+SELECT * FROM ITEM_MASTER IM WHERE IM.NDC8='?' and IM.INBOUND_STATUS<>'D' 
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="changeStatusOfItemIdentiferValue">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID = ? AND ITEM_IDENTIFIER_SID NOT IN (:inParameter)
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="selectItemMasterSysId">
+		<query> 
+            <![CDATA[     
+                  
+
+Select ITEM_MASTER_SID from ITEM_MASTER where ITEM_ID='?'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="updateIdentifierWithStatusD">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_IDENTIFIER SET INBOUND_STATUS='D' WHERE ITEM_MASTER_SID='?'
+            
+                    ]]>
+		</query>
+	</entity>
+	<entity id="updateItemIdWithStatusA">
+		<query> 
+            <![CDATA[     
+                  
+
+UPDATE ITEM_MASTER SET INBOUND_STATUS='A' WHERE ITEM_ID='?' AND INBOUND_STATUS='D'
+            
+                    ]]>
+		</query>
+	</entity>
 
 </sql>

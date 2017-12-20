@@ -59,21 +59,21 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     /**
      * hierarchyLookup TextField.
      */
-    private TextField hierarchyLookup;
+    private final TextField hrchyLookup;
 
     /**
      * The search result table.
      */
     private ExtFilterTable results;
 
-    private Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
+    private final Button selectBtn = new Button(Constants.ButtonConstants.BTN_SELECT.getConstant());
     /**
      * Container for results table.
      */
     private OptionGroup hierarchyType;
 
-    private Button searchBtn = new Button(BTN_SEARCH.getConstant());
-    private Button resetBtn = new Button(BTN_RESET.getConstant());
+    private final Button searchBtn = new Button(BTN_SEARCH.getConstant());
+    private final Button resetBtn = new Button(BTN_RESET.getConstant());
     /**
      * Container for results table.
      */
@@ -95,7 +95,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
         super(windowName);
         this.indicator = indicator;
-        this.hierarchyLookup = hierarchyLookup;
+        this.hrchyLookup = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
         initializeComponents();
         setContent(buildHierarchyLookup(hierarchyName, hierarchyType, results, searchBtn, resetBtn, selectBtn));
@@ -175,7 +175,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
             @Override
             public void noMethod() {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
         };
         notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -189,7 +189,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
     protected void btnLookupSelectLogic() {
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
-            hierarchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
+            hrchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
             try {
             } catch (Exception ex) {
                 Logger.getLogger(HierarchyLookup.class.getName()).log(Level.SEVERE, null, ex);
@@ -269,6 +269,6 @@ public class HierarchyLookup extends AbstractHierarchyLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-        return;
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 }

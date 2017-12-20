@@ -24,7 +24,6 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -58,7 +57,7 @@ public class NationalAssumptionsForm extends CustomComponent {
      * The Constant serialVersionUID.
      */
     private static final long serialVersionUID = 8263036364877609281L;
-    public String viewMode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final String viewMode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
     /**
      * The Constant LOGGER.
@@ -69,120 +68,97 @@ public class NationalAssumptionsForm extends CustomComponent {
      * The tabSheet.
      */
     @UiField("tabSheet")
-    TabSheet tabSheet;
+    private TabSheet tabSheet;
 
-    /**
-     * The tabSheet map.
-     */
-    Map<Integer, Boolean> tabSheetMap = new HashMap<>();
     /**
      * The button layout.
      */
     @UiField("buttonLayout")
-    HorizontalLayout buttonLayout;
+    private HorizontalLayout buttonLayout;
 
     /**
      * The previous btn.
      */
     @UiField("previousBtn")
-    Button previousBtn;
+    private Button previousBtn;
 
     /**
      * The next btn.
      */
     @UiField("nextBtn")
-    Button nextBtn;
+    private Button nextBtn;
 
     /**
      * The close btn.
      */
     @UiField("closeBtn")
-    Button closeBtn;
+    private Button closeBtn;
 
     /**
      * The save btn.
      */
     @UiField("saveBtn")
-    Button saveBtn;
+    private Button saveBtn;
 
     /**
      * The tab position.
      */
-    public int tabPosition = 0;
+    private int tabPosition = 0;
 
     /**
      * The national assumptions.
      */
-    private NationalAssumptions nationalAssumptions;
+    private final NationalAssumptions nationalAssumptions;
     /**
      * The medicaid ura.
      */
-    private MedicaidURA medicaidURA;
+    private final MedicaidURA medicaidURA;
 
     /**
      * The fcp results.
      */
-    private FcpResults fcpResults;
+    private final FcpResults fcpResults;
 
     /**
      * The phs results.
      */
-    private PhsResults phsResults;
+    private final PhsResults phsResults;
 
     /**
      * The additional information.
      */
-    private AdditionalInformationForm additionalInformation;
+    private final AdditionalInformationForm additionalInformation;
 
     /**
      * The data selection.
      */
-    private DataSelection dataSelection;
+    private final DataSelection dataSelection;
     /**
      * The tabsheet map.
      */
-    Map<Integer, Boolean> tabsheetMap = new HashMap<>();
+    private final Map<Integer, Boolean> tabsheetMap = new HashMap<>();
 
-    CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class));
+    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem(DataSelectionDTO.class));
 
-    /**
-     * The mode.
-     */
-    OptionGroup mode;
+    private int lastPosition;
 
+    private final String getmode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private boolean naTabChange = true;
 
-    /**
-     * The dto value.
-     */
-    DataSelectionDTO dtoValue;
-
-    int lastPosition;
-
-    public String getmode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    boolean naTabChange = true;
-
-    boolean dsFlag = true;
+    private boolean dsFlag = true;
 
     /**
      * The tab position.
      */
-    public int tempTabPosition = 0;
-    FieldGroup binder;
-
-    TabSheet.SelectedTabChangeListener tabSheetListner;
-
-    public SessionDTO sessionDTO;
-    ExecutorService service = ThreadPool.getInstance().getService();
+    private int tempTabPosition = 0;
+    private final SessionDTO sessionDTO;
+    private final ExecutorService service = ThreadPool.getInstance().getService();
     
     private boolean isDataSelectionupdateforFcp;
     private boolean isDataSelectionupdatedforMedicaid;
     private boolean isDataSelectionupdatedPhs;
-    /**
-     * Instantiates a new national assumptions form.
-     *
-     * @param dtoValue the dto value
-     * @param mode the mode
-     */
+    
+    
     public NationalAssumptionsForm(DataSelectionDTO dtoValue, OptionGroup mode,SessionDTO sessionDTO) throws SystemException, PortalException  {
         LOGGER.info("NationalAssumptionsForm Constructor initiated ");
         setCompositionRoot(Clara.create(getClass().getResourceAsStream("/nationalassumption/NationalAssumptionsForm.xml"), this));
@@ -195,8 +171,6 @@ public class NationalAssumptionsForm extends CustomComponent {
         if (!Constant.VIEW.equalsIgnoreCase(getmode)) {
             QueryUtils.createTempTables(sessionDTO);
         }
-        this.dtoValue = dtoValue;
-        this.mode = mode;
         this.dataSelection = new DataSelection(dataSelectionBinder,sessionDTO);
         this.nationalAssumptions = new NationalAssumptions(sessionDTO);
         this.medicaidURA = new MedicaidURA(this,sessionDTO);
@@ -290,11 +264,9 @@ public class NationalAssumptionsForm extends CustomComponent {
             } else {
                 saveBtn.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
-        }
+        } 
     }
 
     /**
@@ -305,12 +277,7 @@ public class NationalAssumptionsForm extends CustomComponent {
         tabSheet.setSelectedTab(1);
     }
 
-    /**
-     * method to load Tab sheet.
-     *
-     * @param position the position
-     * @throws Exception the exception
-     */
+   
     public void loadTabsheet(int position)  {
         LOGGER.info("Entering loadTabsheet method ");
         if (position == 0) {
@@ -591,13 +558,14 @@ public class NationalAssumptionsForm extends CustomComponent {
 
                 @Override
                 public void noMethod() {
-                    return;
+                    //Default method
                 }
             }.getConfirmationMessage(Constant.UPDATE_CONFIRMATION_ALERT, Constant.ADDEDREMOVED_NDCS_ALERT);
         }
 
         if (!updateflag) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }
