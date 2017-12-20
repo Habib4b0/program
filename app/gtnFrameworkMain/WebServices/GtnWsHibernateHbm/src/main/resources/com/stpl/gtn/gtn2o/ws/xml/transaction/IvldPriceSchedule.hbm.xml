@@ -230,8 +230,8 @@
         <property name="netPriceType" type="string">
             <column name="NET_PRICE_TYPE" length="200" />
         </property>
-        <property name="reprocessedFlag" type="string">
-            <column name="netPriceTypeFormula" length="200" />
+        <property name="netPriceTypeFormula" type="string">
+            <column name="NET_PRICE_TYPE_FORMULA" length="200" />
         </property>
     </class>
 </hibernate-mapping>
