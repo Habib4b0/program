@@ -2,4 +2,4 @@ Bundle-Name: ${project.name}
 Bundle-Version: ${project.version}
 Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
 Import-Package:*
-Export-Package:com.stpl*
+Export-Package:com.stpl.ifs*,com.stpl.app.security.permission.model*

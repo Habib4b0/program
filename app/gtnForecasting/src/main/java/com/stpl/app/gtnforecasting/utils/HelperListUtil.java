@@ -149,7 +149,7 @@ public class HelperListUtil {
 		if (listNames != null && !listNames.isEmpty()) {
 			try {
 				List<HelperDTO> helperList = null;
-				final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+				final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME, listNames));
 				dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));
 				dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
@@ -257,7 +257,7 @@ public class HelperListUtil {
 		if (listNames != null && !listNames.isEmpty()) {
 			try {
 				List<HelperDTO> helperList = null;
-				final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+				final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 				dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.LIST_NAME, listNames));
 				dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.LIST_NAME));
 				dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));

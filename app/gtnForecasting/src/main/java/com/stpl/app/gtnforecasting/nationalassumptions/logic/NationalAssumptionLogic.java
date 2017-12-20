@@ -22,7 +22,6 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.FederalNewNdc;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.ItemMaster;
@@ -39,7 +38,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -47,6 +45,9 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
+import com.stpl.app.service.NaProjDetailsLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.util.BeanItem;
 import java.sql.CallableStatement;
@@ -399,8 +400,7 @@ public class NationalAssumptionLogic {
 
         StNewNdc newNDC = null;
         try {
-            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(StNewNdc.class);
+            DynamicQuery naDynamicQuery = StNewNdcLocalServiceUtil.dynamicQuery();
             naDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.ITEM_MASTER_SID, itemNo));
             @SuppressWarnings("unchecked")
             List<StNewNdc> resultList = StNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
@@ -473,7 +473,7 @@ public class NationalAssumptionLogic {
     public static Object[] getBrandDynamicQuery(HelperDTO theraupticsid) throws SystemException, PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
         projDetailsQuery.add(RestrictionsFactoryUtil.eq(Constant.NA_PROJ_MASTER_SID, projectionId));
 
         List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
@@ -482,7 +482,7 @@ public class NationalAssumptionLogic {
         for (int i = 0; i < naProjDetailsList.size(); i++) {
             itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
         }
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
         if (theraupticsid != null && theraupticsid.getId() != 0) {
             dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.THERAPEUTIC_CLASS, theraupticsid.getId()));
@@ -517,7 +517,7 @@ public class NationalAssumptionLogic {
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
 
-        final DynamicQuery brandQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        final DynamicQuery brandQuery = BrandMasterLocalServiceUtil.dynamicQuery();
 
         if (brandSid.length != 0) {
             brandQuery.add(RestrictionsFactoryUtil.in(Constant.BRAND_MASTER_SID, brandSid));
@@ -558,7 +558,7 @@ public class NationalAssumptionLogic {
 
         Object[] brandSid = getBrandDynamicQuery(theraupticSid);
 
-        DynamicQuery brandQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        DynamicQuery brandQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         brandQuery.setLimit(startValue, endValue);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(Constant.BRAND_MASTER_SID));
@@ -600,7 +600,7 @@ public class NationalAssumptionLogic {
     public static DynamicQuery getTheraupeuticDynamicQuery(String filterText) throws SystemException, PortalException {
 
         int projectionId = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
-        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
         projDetailsQuery.add(RestrictionsFactoryUtil.eq(Constant.NA_PROJ_MASTER_SID, projectionId));
         List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
         Object[] itemMasterSid = new Object[naProjDetailsList.size() + 1];
@@ -608,7 +608,7 @@ public class NationalAssumptionLogic {
         for (int i = 0; i < naProjDetailsList.size(); i++) {
             itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
         }
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
         List<ItemMaster> list = DAO.getItemMaster(dynamicQuery);
@@ -670,7 +670,7 @@ public class NationalAssumptionLogic {
     }
 
     public static DynamicQuery getHelperTableByListTypeAndDescription(final Object[] id, final String description) {
-        final DynamicQuery htDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery htDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         htDynamicQuery.add(RestrictionsFactoryUtil.in(HELPER_TABLE_SID, id));
         if (description.contains(Constant.PERCENT)) {
             htDynamicQuery.add(RestrictionsFactoryUtil.ilike(DESCRIPTION, description));
@@ -821,7 +821,7 @@ public class NationalAssumptionLogic {
     public static DynamicQuery getNdcDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag) throws SystemException, PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
-        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
         projDetailsQuery.add(RestrictionsFactoryUtil.eq(Constant.NA_PROJ_MASTER_SID, naProjMasterSid));
 
         List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
@@ -830,7 +830,7 @@ public class NationalAssumptionLogic {
         for (int i = 0; i < naProjDetailsList.size(); i++) {
             itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
         }
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
         if (brandMasterSid != null && brandMasterSid.getId() != 0) {
             dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.BRAND_MASTER_SID, brandMasterSid.getId()));
@@ -1024,7 +1024,7 @@ public class NationalAssumptionLogic {
     public static DynamicQuery getNdcFilterDynamicQuery(HelperDTO brandMasterSid, boolean itemFlag, HelperDTO therapeuticSid) throws SystemException, PortalException {
         int naProjMasterSid = (Integer) (VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID) == null ? 0 : VaadinSession.getCurrent().getAttribute(Constant.PROJECTION_ID));
 
-        final DynamicQuery projDetailsQuery = DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+        final DynamicQuery projDetailsQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
         projDetailsQuery.add(RestrictionsFactoryUtil.eq(Constant.NA_PROJ_MASTER_SID, naProjMasterSid));
 
         List<NaProjDetails> naProjDetailsList = DAO.getNaProjDetails(projDetailsQuery);
@@ -1033,7 +1033,7 @@ public class NationalAssumptionLogic {
         for (int i = 0; i < naProjDetailsList.size(); i++) {
             itemMasterSid[i] = naProjDetailsList.get(i).getItemMasterSid();
         }
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(Constant.ITEM_MASTER_SID, itemMasterSid));
         if (brandMasterSid != null && brandMasterSid.getId() != 0) {
             dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.BRAND_MASTER_SID, brandMasterSid.getId()));
@@ -1156,8 +1156,7 @@ public class NationalAssumptionLogic {
     public void federalMainDelete(int itemMasterSid) {
         try {
             LOGGER.debug("federalMainDelete Starts");
-            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(FederalNewNdc.class);
+            DynamicQuery naDynamicQuery = FederalNewNdcLocalServiceUtil.dynamicQuery();
             List<FederalNewNdc> list;
             naDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.ITEM_MASTER_SID, itemMasterSid));
             list = FederalNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
@@ -1174,8 +1173,7 @@ public class NationalAssumptionLogic {
     public void medicaidMainDelete(String ndc9) {
         try {
             LOGGER.debug("medicaidMainDelete Starts");
-            DynamicQuery naDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(MedicaidNewNdc.class);
+            DynamicQuery naDynamicQuery = MedicaidNewNdcLocalServiceUtil.dynamicQuery();
             List<MedicaidNewNdc> list;
             naDynamicQuery.add(RestrictionsFactoryUtil.eq("ndc9", ndc9));
             list = MedicaidNewNdcLocalServiceUtil.dynamicQuery(naDynamicQuery);
@@ -1195,7 +1193,7 @@ public class NationalAssumptionLogic {
         Map<String, Object> input = new HashMap<>();
 
         input.put("?IMID", itemId);
-        String customSql = CustomSQLUtil.get("getFederalNdcDesc");
+        String customSql = SQlUtil.getQuery(getClass(),"getFederalNdcDesc");
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -1214,7 +1212,7 @@ public class NationalAssumptionLogic {
         Map<String, Object> input = new HashMap<>();
 
         input.put("?PID", projectionId);
-        String customSql = CustomSQLUtil.get("getNewNdcCount");
+        String customSql = SQlUtil.getQuery(getClass(),"getNewNdcCount");
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));

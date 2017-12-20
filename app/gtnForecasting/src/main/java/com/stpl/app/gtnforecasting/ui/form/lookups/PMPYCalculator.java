@@ -47,7 +47,7 @@ import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.v7.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;

@@ -45,10 +45,10 @@ public class PPAQuerys {
         StringBuilder sql = new StringBuilder();
         try {
           
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(PPAQuerys.class,queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                 sql.append(" ");
-                sql.append(CustomSQLUtil.get(quaryName2));
+                sql.append(SQlUtil.getQuery(PPAQuerys.class,quaryName2));
             }
 
             for (Object temp : input) {
@@ -98,7 +98,7 @@ public class PPAQuerys {
         StringBuilder sql = new StringBuilder();
         try {
 
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(PPAQuerys.class,queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
@@ -167,7 +167,7 @@ public class PPAQuerys {
             sql = new StringBuilder(SQlUtil.getQuery(queryName));
             if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
                 sql.append(" ");
-                sql.append(CustomSQLUtil.get(quaryName2));
+                sql.append(SQlUtil.getQuery(PPAQuerys.class,quaryName2));
             }
 
             for (Object temp : input) {

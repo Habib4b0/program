@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -45,9 +45,9 @@ public class ProjectionCustHierarchyImpl {
                 isProjectionStatus = true;
             }
             if (isProjectionStatus) {
-                customSql = new StringBuilder(CustomSQLUtil.get("getProjectionLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getProjectionLists"));
             } else {
-                customSql = new StringBuilder(CustomSQLUtil.get("getWorkFlowLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowLists"));
             }
 
             if (marketType == null || marketType.equals(StringUtils.EMPTY)) {

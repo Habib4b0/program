@@ -18,13 +18,11 @@ import static com.stpl.app.gtnforecasting.utils.Constant.ANNUALLY;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.MANDATED_DISCOUNT;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.PERIOD;
 import static com.stpl.app.gtnforecasting.utils.Constant.LabelConstants.SUPPLEMENTAL_DISCOUNT;
-import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -2274,7 +2272,7 @@ public class DPRLogic {
     public static Map<Object, Object> getMProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+        DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();

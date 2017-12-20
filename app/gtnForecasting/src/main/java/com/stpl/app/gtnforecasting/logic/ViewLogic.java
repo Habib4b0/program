@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.ForecastingViewMaster;
 import com.stpl.app.service.ForecastingViewMasterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -54,7 +53,7 @@ public class ViewLogic {
      */
     public boolean isDuplicateView(final String viewName) throws SystemException{
         LOGGER.debug("Entering isDuplicateView method with viewName " + viewName);
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingViewMaster.class);
+        final DynamicQuery dynamicQuery = ForecastingViewMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.VIEW_NAME, viewName));
         final long count = dataSelection.getForecastViewMasterdynamicQueryCount(dynamicQuery);
         LOGGER.debug("End of isDuplicateView with size: " + count);
@@ -132,7 +131,7 @@ public class ViewLogic {
         ForecastingViewMaster updatedViewMaster = null;
         try {
             int viewId = 0;
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastingViewMaster.class);
+            DynamicQuery dynamicQuery = ForecastingViewMasterLocalServiceUtil.dynamicQuery();
             dynamicQuery.add(RestrictionsFactoryUtil.eq("viewName", viewName));
             dynamicQuery.add(RestrictionsFactoryUtil.eq("viewType", viewType));
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();

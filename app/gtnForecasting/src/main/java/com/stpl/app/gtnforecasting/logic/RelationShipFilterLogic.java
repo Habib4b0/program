@@ -3,7 +3,7 @@ package com.stpl.app.gtnforecasting.logic;
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.service.FileReadWriteService;
+import com.stpl.app.gtnforecasting.service.FileReadWriteService;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;

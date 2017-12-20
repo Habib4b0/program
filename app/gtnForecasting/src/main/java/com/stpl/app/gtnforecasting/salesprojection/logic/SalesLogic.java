@@ -29,9 +29,7 @@ import static com.stpl.app.gtnforecasting.utils.HeaderUtils.getCommonColumnHeade
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.model.ChProjectionSelection;
 import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ContractMaster;
 import com.stpl.app.model.CustomViewDetails;
-import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
@@ -50,7 +48,6 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -58,6 +55,9 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.sql.CallableStatement;
@@ -131,7 +131,7 @@ public class SalesLogic {
      * @throws Exception
      */
     public int getHistoryAndProjectionCount(final SessionDTO sessionDTO, final ProjectionSelectionDTO projectionSelectionDTO)  {
-        String query = CustomSQLUtil.get("rows-per-level-item");
+        String query = SQlUtil.getQuery(getClass(),"rows-per-level-item");
         if (Constant.VIEW.equals(projectionSelectionDTO.getSessionDTO().getAction()) && CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS.equals(projectionSelectionDTO.getScreenName())) {
             query = SQlUtil.getQuery("rows-per-level-item-view");
         }
@@ -1468,7 +1468,7 @@ public class SalesLogic {
     public void saveProjectionSelection(Map<String, Object> projectionSelectionDTO, int projectionId) throws PortalException {
         List<ChProjectionSelection> list = null;
         CommonLogic logic = new CommonLogic();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
+        DynamicQuery query = ChProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, projectionSelectionDTO.get(Constant.SCREEN_NAME)));
         try {
@@ -2465,7 +2465,7 @@ public class SalesLogic {
 //        String updateQuery;
         //Need to remove once the dynamic changes is done in Government
 //        if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
-//            updateQuery = CustomSQLUtil.get("save-adjustment-selection");
+//            updateQuery = SQlUtil.getQuery(getClass(),"save-adjustment-selection");
 //            updateQuery = updateQuery.replace("@USERID_ADD", "SP.USER_ID = @USER_ID AND SP.SESSION_ID = @SESSION_ID AND SPM.USER_ID = @USER_ID AND SPM.SESSION_ID = @SESSION_ID AND ");
 //            updateQuery = updateQuery.replace("@JOIN_CONDITION", "ON SPM.PROJECTION_DETAILS_SID = SP.PROJECTION_DETAILS_SID");
 //        } else {
@@ -2495,7 +2495,7 @@ public class SalesLogic {
         LOGGER.debug("Entering searchAlternateBrand  ::::");
 
         if (Constant.TP.equalsIgnoreCase(searchType)) {
-            final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+            final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
             if (!flag) {
                 if (String.valueOf(searchBinder.getField(Constant.CONTRACT_HOLDER).getValue()) != null
@@ -2521,7 +2521,7 @@ public class SalesLogic {
 
             }
             dynamicQuery.add(PropertyFactoryUtil.forName(Constant.COMPANYMASTERSID).in(
-                    DynamicQueryFactoryUtil.forClass(ContractMaster.class).setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
+                    ContractMasterLocalServiceUtil.dynamicQuery().setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
             resultTPList = dataSelection.getCompanyMasterList(dynamicQuery);
             LOGGER.debug("Size of resultTPList " + resultTPList.size());
 
@@ -2819,7 +2819,7 @@ public class SalesLogic {
         String updateQuery;
         //Need to remove once the dynamic changes is done in Government
         if (CommonUtils.BUSINESS_PROCESS_TYPE_MANDATED.equals(projectionSelectionDTO.getScreenName())) {
-            updateQuery = CustomSQLUtil.get("saveCalculationSelectionForSP");
+            updateQuery = SQlUtil.getQuery(getClass(),"saveCalculationSelectionForSP");
         } else {
             updateQuery = SQlUtil.getQuery("save-calculation-selection");
             updateQuery = updateQuery.replace(Constant.USERID_ADD, StringUtils.EMPTY);
@@ -2994,7 +2994,7 @@ public class SalesLogic {
     }
 
     public void saveNonMandatedSalesProjection(SessionDTO session) throws PortalException, SystemException {
-        String saveQuery = CustomSQLUtil.get("nm.saveToMainTable");
+        String saveQuery = SQlUtil.getQuery(getClass(),"nm.saveToMainTable");
         SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
         salesProjectionDAO.executeUpdateQuery(QueryUtil.replaceTableNames(saveQuery, session.getCurrentTableNames()));
     }
@@ -3180,7 +3180,7 @@ public class SalesLogic {
         List list = null;
         try {
             CommonDAO commonDao = new CommonDAOImpl();
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
+            DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
                 query.add(RestrictionsFactoryUtil.eq("relationshipBuilderSid", customerRelationshipId));

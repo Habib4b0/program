@@ -21,7 +21,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -3712,7 +3712,7 @@ public class MProjectionResultsLogic {
     private int getProgramCodeCount(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException{
         CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
-        sql += CustomSQLUtil.get("m.program-code-count-query");
+        sql += SQlUtil.getQuery(getClass(),"m.program-code-count-query");
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
         List list = (List) dao.executeSelectQuery(QueryUtil.replaceTableNames(sql, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
         LOGGER.debug("getProgramCodeCount = = = = =" + (Integer) list.get(NumericConstants.ZERO));
@@ -3722,7 +3722,7 @@ public class MProjectionResultsLogic {
     private List getProgramCodeList(final ProjectionSelectionDTO projectionSelectionDTO) throws PortalException, SystemException {
            CommonLogic commonLogic = new CommonLogic();
         String sql = commonLogic.insertAvailableHierarchyNo(projectionSelectionDTO);
-        sql += CustomSQLUtil.get("m.program-code-query");
+        sql += SQlUtil.getQuery(getClass(),"m.program-code-query");
         SalesProjectionDAO dao = new SalesProjectionDAOImpl();
         List<Object> list = (List) dao.executeSelectQuery(QueryUtil.replaceTableNames(sql, projectionSelectionDTO.getSessionDTO().getCurrentTableNames()));
         List finalList = new ArrayList();

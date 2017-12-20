@@ -1,0 +1,957 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="getProjectionRecords">
+<query> <![CDATA[
+		
+			
+DECLARE @CNT                   INT=0,
+        @I                     INT=1,
+        @PROJECTION_MASTER_SID INT,
+        @FORECASTING_TYPE      VARCHAR(50),
+        @PROJECTION            INT=?PROJECTION_ID,
+        @START_PERIOD_SID      INT,
+        @END_PERIOD_SID        INT,
+        @STARTFROM             DATE,
+        @PROJECTION_DATE       DATE,
+        @CURR_FOR_TYPE         VARCHAR(50),
+        @USER_ID               INT=?USER_ID,
+        @SESSION_ID            INT=?SESSION_ID
+DECLARE @TEMP_MASTER AS TABLE
+  (
+     ID                     INT IDENTITY(1, 1),
+     PROJECTION_MASTER_SID  INT,
+     PROJECTION_DETAILS_SID INT,
+     CCP_DETAILS_SID        INT
+  )
+DECLARE @TEMP_MIN_MAX AS TABLE
+  (
+     PROJECTED_CONTRACT_SALES_DOLLARS       NUMERIC(22, 6),
+     PROJECTED_CONTRACT_SALES_UNITS         NUMERIC(22, 6),
+     PROJECTED_DISCOUNT_DOLLARS             NUMERIC(22, 6),
+     PROJECTED_DISCOUNT_RATE                NUMERIC(22, 6),
+     NET_SALES                              NUMERIC(22, 6),
+     NET_PROFIT                             NUMERIC(22, 6),
+     YEAR                                   INT,
+     QUARTER                                INT,
+     CCP_DETAILS_SID                        INT,
+     APPRV_PROJECTED_CONTRACT_SALES_DOLLARS NUMERIC(22, 6),
+     APPRV_PROJECTED_CONTRACT_SALES_UNITS   NUMERIC(22, 6),
+     APPRV_PROJECTED_DISCOUNT_DOLLARS       NUMERIC(22, 6),
+     APPRV_PROJECTED_DISCOUNT_RATE          NUMERIC(22, 6),
+     APPRV_NET_SALES                        NUMERIC(22, 6),
+     DIFF_SALES                             NUMERIC(22, 6),
+     DIFF_UNITS                             NUMERIC(22, 6),
+     DIFF_AMOUNT                            NUMERIC(22, 6),
+     DIFF_RATE                              NUMERIC(22, 6),
+     DIFF_NETSALES                          NUMERIC(22, 6),
+     DIFF_NETPROFIT                         NUMERIC(22, 6),
+     [DIFF_SALES_%]                         NUMERIC(22, 6),
+     [DIFF_UNITS_%]                         NUMERIC(22, 6),
+     [DIFF_AMOUNT_%]                        NUMERIC(22, 6),
+     [DIFF_RATE_%]                          NUMERIC(22, 6),
+     [DIFF_NETSALES_%]                      NUMERIC(22, 6),
+     [DIFF_NETPROFIT_%]                     NUMERIC(22, 6)
+  )
+DECLARE @TEMP_APPROVED AS TABLE
+  (
+     CCP_DETAILS_SID                  INT,
+     PROJECTED_CONTRACT_SALES_DOLLARS NUMERIC(22, 6),
+     PROJECTED_CONTRACT_SALES_UNITS   NUMERIC(22, 6),
+     PROJECTED_DISCOUNT_DOLLARS       NUMERIC(22, 6),
+     PROJECTED_DISCOUNT_RATE          NUMERIC(22, 6),
+     NET_SALES                        NUMERIC(22, 6),
+     NET_PROFIT                       NUMERIC(22, 6),
+     YEAR                             INT,
+     QUARTER                          INT
+  )
+DECLARE @ITEMID [DBO].[UDT_ITEM]
+DECLARE @ITEMID_APPRVD [DBO].[UDT_ITEM]
+ 
+INSERT INTO @TEMP_MASTER
+            (PROJECTION_MASTER_SID,
+             PROJECTION_DETAILS_SID,
+             CCP_DETAILS_SID)
+SELECT @PROJECTION,
+       PROJECTION_DETAILS_SID,
+       CCP_DETAILS_SID
+FROM   PROJECTION_DETAILS
+WHERE  PROJECTION_MASTER_SID = @PROJECTION
+ 
+INSERT INTO @ITEMID
+SELECT DISTINCT IM.ITEM_MASTER_SID
+FROM   ITEM_MASTER IM
+WHERE  EXISTS (SELECT 1
+               FROM   @TEMP_MASTER A
+               JOIN CCP_DETAILS B ON A.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+               WHERE  PROJECTION_MASTER_SID = @PROJECTION
+                      AND IM.ITEM_MASTER_SID = B.ITEM_MASTER_SID)
+ 
+SELECT TOP 1 @STARTFROM = Dateadd(YY, Datediff(YY, 0, Dateadd(YY, -3, Getdate())), 0),
+             @PROJECTION_DATE = Dateadd(M, Datediff(M, 0, Dateadd(DAY, -1, Dateadd(QQ, Datediff(QQ, 0, TO_DATE) + 1, 0))), 0),
+             @CURR_FOR_TYPE = FORECASTING_TYPE
+FROM   PROJECTION_MASTER
+WHERE  PROJECTION_MASTER_SID = @PROJECTION
+ 
+SELECT @START_PERIOD_SID = PERIOD_SID
+FROM   PERIOD
+WHERE  PERIOD_DATE = @STARTFROM
+ 
+SELECT @END_PERIOD_SID = PERIOD_SID
+FROM   PERIOD
+WHERE  PERIOD_DATE = @PROJECTION_DATE
+ 
+ 
+if object_id('tempdb.dbo.#udf_item_pricing') is not null
+drop table #udf_item_pricing
+ 
+select * into #udf_item_pricing  from [dbo].[Udf_item_pricing](@ITEMID, 'COGS', @START_PERIOD_SID, @END_PERIOD_SID, 'UN')
+ 
+if object_id('tempdb.dbo.#test') is not null
+drop table #test
+ 
+;WITH cte
+     AS (SELECT WM.PROJECTION_MASTER_SID,
+                OUT_P.FORECASTING_TYPE,
+                Row_number()
+                  OVER(
+                    partition BY WM.PROJECTION_MASTER_SID,CCP_DETAILS_sid
+                    ORDER BY WM.MODIFIED_DATE DESC) AS rn,
+                                  CCP_DETAILS_sid,
+                                  PROJECTION_DETAILS_SID
+         FROM   WORKFLOW_MASTER WM
+                JOIN (SELECT PM.PROJECTION_MASTER_SID,
+                             FORECASTING_TYPE,
+                                                pd.CCP_DETAILS_SID,
+                                                pd.PROJECTION_DETAILS_SID
+                      FROM   @TEMP_MASTER TMP
+                             JOIN PROJECTION_DETAILS PD
+                               ON TMP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                             JOIN PROJECTION_MASTER PM
+                               ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                      WHERE  PM.SAVE_FLAG = 1) OUT_P
+                  ON WM.PROJECTION_MASTER_SID = OUT_P.PROJECTION_MASTER_SID
+         WHERE  WM.WORKFLOW_STATUS_ID = (SELECT HELPER_TABLE_SID
+                                         FROM   HELPER_TABLE
+                                         WHERE  LIST_NAME = 'WorkFlowStatus'
+                                                AND DESCRIPTION = 'Approved'))
+SELECT PROJECTION_MASTER_SID,FORECASTING_TYPE,CCP_DETAILS_sid,PROJECTION_DETAILS_SID into #test
+FROM   cte
+WHERE  rn = 1
+ 
+ 
+ 
+      IF exists (select 1 from #test where  FORECASTING_TYPE = 'Non Mandated')
+        BEGIN ;
+            WITH MYCTE
+                 AS (SELECT CCP_DETAILS_SID,
+                            PROJECTION_MASTER_SID,
+                            PROJECTION_DETAILS_SID
+                     FROM   @TEMP_MASTER)
+            INSERT INTO @TEMP_APPROVED
+                        (CCP_DETAILS_SID,
+                         PROJECTED_CONTRACT_SALES_DOLLARS,
+                         PROJECTED_CONTRACT_SALES_UNITS,
+                         PROJECTED_DISCOUNT_DOLLARS,
+                         PROJECTED_DISCOUNT_RATE,
+                         NET_SALES,
+                         NET_PROFIT,
+                         YEAR,
+                         QUARTER)
+            SELECT CT.CCP_DETAILS_SID,
+                   C.PROJECTED_CONTRACT_SALES_DOLLARS,
+                   C.PROJECTED_CONTRACT_SALES_UNITS,
+                   C.PROJECTED_DISCOUNT_DOLLARS,
+                   C.PROJECTED_DISCOUNT_RATE,
+                   C.NET_SALES,
+                   C.NET_PROFIT,
+                   C.YEAR,
+                   C.QUARTER
+            FROM   MYCTE CT
+                   LEFT JOIN (SELECT Sum(PROJECTED_CONTRACT_SALES_DOLLARS)                                                                                         AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                                     Sum(PROJECTED_CONTRACT_SALES_UNITS)                                                                                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                                     Sum(PROJECTED_DISCOUNT_DOLLARS)                                                                                               AS PROJECTED_DISCOUNT_DOLLARS,
+                                     COALESCE(Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0) / NULLIF(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0), 0) * 100              AS PROJECTED_DISCOUNT_RATE,
+                                     Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                                          + Isnull(Sum(PROJECTED_PPA_SALES), 0) )                                  AS NET_SALES,
+                                     ( Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                                            + Isnull(Sum(PROJECTED_PPA_SALES), 0) ) ) - Isnull(Sum(COGS_VALUE), 0) AS NET_PROFIT,
+                                     A.YEAR,
+                                     A.QUARTER,
+                                     A.CCP_DETAILS_SID
+                              FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                                             Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                                             Isnull(D.DISCOUNT_AMOUNT, 0)                            AS PROJECTED_DISCOUNT_DOLLARS,
+                                             Isnull(PPA.PROJECTION_SALES, 0)                         AS PROJECTED_PPA_SALES,
+                                             Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
+                                             P.YEAR,
+                                             P.QUARTER,
+                                             B.CCP_DETAILS_SID
+                                      FROM #test b join  NM_SALES_PROJECTION_MASTER A
+                                               ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                             JOIN NM_SALES_PROJECTION C
+                                               ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
+                                             JOIN NM_PPA_PROJECTION PPA
+                                               ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                                                  AND PPA.PERIOD_SID = C.PERIOD_SID
+                                             JOIN PERIOD P
+                                               ON P.PERIOD_SID = C.PERIOD_SID
+                                             JOIN CCP_DETAILS CCP
+                                               ON CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                             LEFT JOIN #udf_item_pricing U
+                                                    ON U.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                                                       AND U.PERIOD_SID = P.PERIOD_SID
+                                             CROSS APPLY (SELECT Sum(PROJECTION_SALES) AS DISCOUNT_AMOUNT
+                                                          FROM   NM_DISCOUNT_PROJECTION NM_D
+                                                          WHERE  NM_D.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                                                 AND NM_D.PERIOD_SID = C.PERIOD_SID
+                                                          GROUP  BY PROJECTION_DETAILS_SID,
+                                                                    PERIOD_SID)D
+                                      WHERE  YEAR >= Year(Getdate()))A
+                              GROUP  BY A.YEAR,
+                                        A.QUARTER,
+                                        A.CCP_DETAILS_SID) C
+                          ON CT.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+        END
+     IF exists (select 1 from #test where  FORECASTING_TYPE = 'Mandated') 
+        BEGIN ;
+            WITH MYCTE
+                 AS (SELECT CCP_DETAILS_SID,
+                            PROJECTION_MASTER_SID,
+                            PROJECTION_DETAILS_SID
+                     FROM   @TEMP_MASTER)
+            INSERT INTO @TEMP_APPROVED
+                        (CCP_DETAILS_SID,
+                         PROJECTED_CONTRACT_SALES_DOLLARS,
+                         PROJECTED_CONTRACT_SALES_UNITS,
+                         PROJECTED_DISCOUNT_DOLLARS,
+                         PROJECTED_DISCOUNT_RATE,
+                         NET_SALES,
+                         YEAR,
+                         QUARTER)
+            SELECT CT.CCP_DETAILS_SID,
+                   C.PROJECTED_CONTRACT_SALES_DOLLARS,
+                   C.PROJECTED_CONTRACT_SALES_UNITS,
+                   C.PROJECTED_DISCOUNT_DOLLARS,
+                   C.PROJECTED_DISCOUNT_RATE,
+                   C.NET_SALES,
+                   C.YEAR,
+                   C.QUARTER
+            FROM   MYCTE CT
+                   LEFT JOIN (SELECT Sum(PROJECTED_CONTRACT_SALES_DOLLARS)                                                                                          AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                                     Sum(PROJECTED_CONTRACT_SALES_UNITS)                                                                                            AS PROJECTED_CONTRACT_SALES_UNITS,
+                                     Sum(PROJECTED_DISCOUNT_DOLLARS)                                                                                                AS PROJECTED_DISCOUNT_DOLLARS,
+                                     COALESCE(Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0) / NULLIF(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0), 0) * 100               AS PROJECTED_DISCOUNT_RATE,
+                                     Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                                          + Isnull(Sum(PROJECTED_SUPP_SALES), 0) )                                  AS NET_SALES,
+                                     ( Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                                            + Isnull(Sum(PROJECTED_SUPP_SALES), 0) ) ) - Isnull(Sum(COGS_VALUE), 0) AS NET_PROFIT,
+                                     A.YEAR,
+                                     A.QUARTER,
+                                     A.CCP_DETAILS_SID
+                              FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                                             Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                                             Isnull(D.PROJECTION_SALES, 0)                           AS PROJECTED_DISCOUNT_DOLLARS,
+                                             Isnull(SUPP.PROJECTION_SALES, 0)                        AS PROJECTED_SUPP_SALES,
+                                             Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
+                                             P.YEAR,
+                                             P.QUARTER,
+                                             B.CCP_DETAILS_SID
+                                      FROM  #test b join  M_SALES_PROJECTION_MASTER A
+                                               ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                             JOIN M_SALES_PROJECTION C
+                                               ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
+                                             JOIN M_SUPPLEMENTAL_DISC_PROJ SUPP
+                                               ON SUPP.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                                                  AND SUPP.PERIOD_SID = C.PERIOD_SID
+                                             JOIN PERIOD P
+                                               ON P.PERIOD_SID = C.PERIOD_SID
+                                             JOIN M_DISCOUNT_PROJECTION D
+                                               ON D.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                                  AND P.PERIOD_SID = D.PERIOD_SID
+                                                  AND D.SAVE_FLAG = 1
+                                             JOIN CCP_DETAILS CCP
+                                               ON CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                                             LEFT JOIN #udf_item_pricing U
+                                                    ON U.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                                                       AND U.PERIOD_SID = P.PERIOD_SID
+                                      WHERE   YEAR >= Year(Getdate()))A
+                              GROUP  BY A.YEAR,
+                                        A.QUARTER,
+                                        A.CCP_DETAILS_SID) C
+                          ON CT.CCP_DETAILS_SID = C.CCP_DETAILS_SID
+        END
+ 
+ 
+IF @CURR_FOR_TYPE = 'Non Mandated'
+  BEGIN
+      INSERT INTO @TEMP_MIN_MAX
+                  (PROJECTED_CONTRACT_SALES_DOLLARS,
+                   PROJECTED_CONTRACT_SALES_UNITS,
+                   PROJECTED_DISCOUNT_DOLLARS,
+                   PROJECTED_DISCOUNT_RATE,
+                   NET_SALES,
+                   NET_PROFIT,
+                   YEAR,
+                   QUARTER,
+                   CCP_DETAILS_SID,
+                   APPRV_PROJECTED_CONTRACT_SALES_DOLLARS,
+                   APPRV_PROJECTED_CONTRACT_SALES_UNITS,
+                   APPRV_PROJECTED_DISCOUNT_DOLLARS,
+                   APPRV_PROJECTED_DISCOUNT_RATE,
+                   APPRV_NET_SALES,
+                   DIFF_SALES,
+                   DIFF_UNITS,
+                  DIFF_AMOUNT,
+                   DIFF_RATE,
+                   DIFF_NETSALES,
+                   DIFF_NETPROFIT,
+                   [DIFF_SALES_%],
+                   [DIFF_UNITS_%],
+                   [DIFF_AMOUNT_%],
+                   [DIFF_RATE_%],
+                   [DIFF_NETSALES_%],
+                   [DIFF_NETPROFIT_%])
+      SELECT A.PROJECTED_CONTRACT_SALES_DOLLARS,
+             A.PROJECTED_CONTRACT_SALES_UNITS,
+             A.PROJECTED_DISCOUNT_DOLLARS,
+             A.PROJECTED_DISCOUNT_RATE,
+             A.NET_SALES,
+             A.NET_PROFIT,
+             A.YEAR,
+             A.QUARTER,
+             A.CCP_DETAILS_SID,
+             Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) AS APPRV_PROJECTED_CONTRACT_SALES_DOLLARS,
+             Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0)   AS APPRV_PROJECTED_CONTRACT_SALES_UNITS,
+             Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0)       AS APPRV_PROJECTED_DISCOUNT_DOLLARS,
+             Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0)          AS APPRV_PROJECTED_DISCOUNT_RATE,
+             Isnull(TEMP_APP.NET_SALES, 0)                        AS APPRV_NET_SALES,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) )
+             END                                                  AS DIFF_SALES,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) )
+             END                                                  AS DIFF_UNITS,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) )
+             END                                                  AS DIFF_AMOUNT,
+             CASE
+               WHEN ( ( COALESCE(Isnull(A.PROJECTED_DISCOUNT_RATE, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0) ) < 0 THEN 0
+               ELSE ( ( COALESCE(Isnull(A.PROJECTED_DISCOUNT_RATE, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0) )
+             END                                                  AS DIFF_RATE,
+             CASE
+               WHEN ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) < 0 THEN 0
+               ELSE A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0)
+             END                                                  AS DIFF_NETSALES,
+             CASE
+               WHEN ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) < 0 THEN 0
+               ELSE A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0)
+             END                                                  AS DIFF_NETPROFIT,
+             CASE
+               WHEN ( ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) )
+             END                                                  AS [DIFF_SALES_%],
+             CASE
+               WHEN ( ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_UNITS, 0) ) < 0 THEN 0
+               ELSE ( ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_UNITS, 0) )
+             END                                                  AS [DIFF_UNITS_%],
+             CASE
+               WHEN COALESCE(( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) / NULLIF(A.PROJECTED_DISCOUNT_DOLLARS, 0), 0) < 0 THEN 0
+               ELSE COALESCE(( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) / NULLIF(A.PROJECTED_DISCOUNT_DOLLARS, 0), 0)
+             END                                                  AS [DIFF_AMOUNT_%],
+             CASE
+               WHEN ( COALESCE(( COALESCE(Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0), 0) ) < 0 THEN 0
+               ELSE ( COALESCE(( COALESCE(Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0), 0) )
+             END                                                  AS [DIFF_RATE_%],
+             CASE
+               WHEN ( ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) / NULLIF(A.NET_SALES, 0) ) < 0 THEN 0
+               ELSE ( ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) / NULLIF(A.NET_SALES, 0) )
+             END                                                  AS [DIFF_NETSALES_%],
+             CASE
+               WHEN ( ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) / NULLIF(A.NET_PROFIT, 0) ) < 0 THEN 0
+               ELSE ( ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) / NULLIF(A.NET_PROFIT, 0) )
+             END                                                  AS [DIFF_NETPROFIT_%]
+      FROM   (SELECT Sum(PROJECTED_CONTRACT_SALES_DOLLARS)                                                                                         AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                     Sum(PROJECTED_CONTRACT_SALES_UNITS)                                                                                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                     Sum(PROJECTED_DISCOUNT_DOLLARS)                                                                                               AS PROJECTED_DISCOUNT_DOLLARS,
+                     COALESCE(Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0) / NULLIF(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0), 0) * 100              AS PROJECTED_DISCOUNT_RATE,
+                     Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                          + Isnull(Sum(PROJECTED_PPA_SALES), 0) )                                  AS NET_SALES,
+                     ( Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                            + Isnull(Sum(PROJECTED_PPA_SALES), 0) ) ) - Isnull(Sum(COGS_VALUE), 0) AS NET_PROFIT,
+                     B.YEAR,
+                     B.QUARTER,
+                     B.CCP_DETAILS_SID
+              FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                             Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                             Isnull(D.DISCOUNT_AMOUNT, 0)                            AS PROJECTED_DISCOUNT_DOLLARS,
+                             Isnull(PPA.PROJECTION_SALES, 0)                         AS PROJECTED_PPA_SALES,
+                             Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
+                             P.YEAR,
+                             P.QUARTER,
+                             B.CCP_DETAILS_SID
+                      FROM   ST_NM_SALES_PROJECTION_MASTER A
+                             JOIN PROJECTION_DETAILS B
+                               ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                             JOIN ST_NM_SALES_PROJECTION C
+                               ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
+                                  AND C.USER_ID = A.USER_ID
+                                  AND C.SESSION_ID = A.SESSION_ID
+                             LEFT JOIN ST_NM_PPA_PROJECTION PPA
+                                    ON PPA.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                                       AND PPA.PERIOD_SID = C.PERIOD_SID
+                                       AND C.USER_ID = A.USER_ID
+                                       AND C.SESSION_ID = A.SESSION_ID
+                             JOIN PERIOD P
+                               ON P.PERIOD_SID = C.PERIOD_SID
+                             JOIN CCP_DETAILS CCP
+                               ON CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                             LEFT JOIN #Udf_item_pricing U
+                                    ON U.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                                       AND U.PERIOD_SID = P.PERIOD_SID
+                             CROSS APPLY (SELECT Sum(PROJECTION_SALES) AS DISCOUNT_AMOUNT
+                                          FROM   ST_NM_DISCOUNT_PROJECTION NM_D
+                                          WHERE  NM_D.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                                 AND NM_D.PERIOD_SID = C.PERIOD_SID
+                                                 AND NM_D.USER_ID = C.USER_ID
+                                                 AND NM_D.SESSION_ID = C. SESSION_ID
+                                          GROUP  BY PROJECTION_DETAILS_SID,
+                                                    PERIOD_SID)D
+                      WHERE  B.PROJECTION_MASTER_SID = @PROJECTION
+                             AND A.USER_ID = @USER_ID
+                             AND A.SESSION_ID = @SESSION_ID
+                             AND P.YEAR >= Year(Getdate()))B
+              GROUP  BY B.YEAR,
+                        B.QUARTER,
+                        B.CCP_DETAILS_SID)A
+             LEFT JOIN @TEMP_APPROVED TEMP_APP
+                    ON TEMP_APP.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND TEMP_APP.YEAR = A.YEAR
+                       AND TEMP_APP.QUARTER = A.QUARTER
+  END
+ELSE IF @CURR_FOR_TYPE = 'Mandated'
+  BEGIN
+      INSERT INTO @TEMP_MIN_MAX
+                  (PROJECTED_CONTRACT_SALES_DOLLARS,
+                   PROJECTED_CONTRACT_SALES_UNITS,
+                   PROJECTED_DISCOUNT_DOLLARS,
+                   PROJECTED_DISCOUNT_RATE,
+                   NET_SALES,
+                   NET_PROFIT,
+                   YEAR,
+                   QUARTER,
+                   CCP_DETAILS_SID,
+                   APPRV_PROJECTED_CONTRACT_SALES_DOLLARS,
+                   APPRV_PROJECTED_CONTRACT_SALES_UNITS,
+                   APPRV_PROJECTED_DISCOUNT_DOLLARS,
+                   APPRV_PROJECTED_DISCOUNT_RATE,
+                   APPRV_NET_SALES,
+                   DIFF_SALES,
+                   DIFF_UNITS,
+                   DIFF_AMOUNT,
+                   DIFF_RATE,
+                   DIFF_NETSALES,
+                   DIFF_NETPROFIT,
+                   [DIFF_SALES_%],
+                   [DIFF_UNITS_%],
+                   [DIFF_AMOUNT_%],
+                   [DIFF_RATE_%],
+                   [DIFF_NETSALES_%],
+                   [DIFF_NETPROFIT_%])
+      SELECT A.PROJECTED_CONTRACT_SALES_DOLLARS,
+             A.PROJECTED_CONTRACT_SALES_UNITS,
+             A.PROJECTED_DISCOUNT_DOLLARS,
+             A.PROJECTED_DISCOUNT_RATE,
+             A.NET_SALES,
+             A.NET_PROFIT,
+             A.YEAR,
+             A.QUARTER,
+             A.CCP_DETAILS_SID,
+             Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) AS APPRV_PROJECTED_CONTRACT_SALES_DOLLARS,
+             Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0)   AS APPRV_PROJECTED_CONTRACT_SALES_UNITS,
+             Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0)       AS APPRV_PROJECTED_DISCOUNT_DOLLARS,
+             Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0)          AS APPRV_PROJECTED_DISCOUNT_RATE,
+             Isnull(TEMP_APP.NET_SALES, 0)                        AS APPRV_NET_SALES,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) )
+             END                                                  AS DIFF_SALES,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) )
+             END                                                  AS DIFF_UNITS,
+             CASE
+               WHEN ( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) )
+             END                                                  AS DIFF_AMOUNT,
+            CASE
+               WHEN ( ( COALESCE(Isnull(A.PROJECTED_DISCOUNT_RATE, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0) ) < 0 THEN 0
+               ELSE ( ( COALESCE(Isnull(A.PROJECTED_DISCOUNT_RATE, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0) )
+             END                                                  AS DIFF_RATE,
+             CASE
+               WHEN ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) < 0 THEN 0
+               ELSE A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0)
+             END                                                  AS DIFF_NETSALES,
+             CASE
+               WHEN ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) < 0 THEN 0
+               ELSE A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0)
+             END                                                  AS DIFF_NETPROFIT,
+             CASE
+               WHEN ( ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) < 0 THEN 0
+               ELSE ( ( Isnull(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_DOLLARS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0) )
+             END                                                  AS [DIFF_SALES_%],
+             CASE
+               WHEN ( ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_UNITS, 0) ) < 0 THEN 0
+               ELSE ( ( Isnull(A.PROJECTED_CONTRACT_SALES_UNITS, 0) - Isnull(TEMP_APP.PROJECTED_CONTRACT_SALES_UNITS, 0) ) / NULLIF(A.PROJECTED_CONTRACT_SALES_UNITS, 0) )
+             END                                                  AS [DIFF_UNITS_%],
+             CASE
+               WHEN COALESCE(( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) / NULLIF(A.PROJECTED_DISCOUNT_DOLLARS, 0), 0) < 0 THEN 0
+               ELSE COALESCE(( Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_DOLLARS, 0) ) / NULLIF(A.PROJECTED_DISCOUNT_DOLLARS, 0), 0)
+             END                                                  AS [DIFF_AMOUNT_%],
+             CASE
+               WHEN ( COALESCE(( COALESCE(Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0), 0) ) < 0 THEN 0
+               ELSE ( COALESCE(( COALESCE(Isnull(A.PROJECTED_DISCOUNT_DOLLARS, 0) / NULLIF(A.PROJECTED_CONTRACT_SALES_DOLLARS, 0), 0) * 100 ) - Isnull(TEMP_APP.PROJECTED_DISCOUNT_RATE, 0), 0) )
+             END                                                  AS [DIFF_RATE_%],
+             CASE
+               WHEN ( ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) / NULLIF(A.NET_SALES, 0) ) < 0 THEN 0
+               ELSE ( ( A.NET_SALES - Isnull(TEMP_APP.NET_SALES, 0) ) / NULLIF(A.NET_SALES, 0) )
+             END                                                  AS [DIFF_NETSALES_%],
+             CASE
+               WHEN ( ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) / NULLIF(A.NET_PROFIT, 0) ) < 0 THEN 0
+               ELSE ( ( A.NET_PROFIT - Isnull(TEMP_APP.NET_PROFIT, 0) ) / NULLIF(A.NET_PROFIT, 0) )
+             END                                                  AS [DIFF_NETPROFIT_%]
+      FROM   (SELECT Sum(PROJECTED_CONTRACT_SALES_DOLLARS)                                                                                          AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                     Sum(PROJECTED_CONTRACT_SALES_UNITS)                                                                                            AS PROJECTED_CONTRACT_SALES_UNITS,
+                     Sum(PROJECTED_DISCOUNT_DOLLARS)                                                                                                AS PROJECTED_DISCOUNT_DOLLARS,
+                     COALESCE(Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0) / NULLIF(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0), 0) * 100               AS PROJECTED_DISCOUNT_RATE,
+                     Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                          + Isnull(Sum(PROJECTED_SUPP_SALES), 0) )                                  AS NET_SALES,
+                     ( Isnull(Sum(PROJECTED_CONTRACT_SALES_DOLLARS), 0) - ( Isnull(Sum(PROJECTED_DISCOUNT_DOLLARS), 0)
+                                                                            + Isnull(Sum(PROJECTED_SUPP_SALES), 0) ) ) - Isnull(Sum(COGS_VALUE), 0) AS NET_PROFIT,
+                     A.YEAR,
+                     A.QUARTER,
+                     A.CCP_DETAILS_SID
+              FROM   (SELECT Isnull(C.PROJECTION_SALES, 0)                           AS PROJECTED_CONTRACT_SALES_DOLLARS,
+                             Isnull(C.PROJECTION_UNITS, 0)                           AS PROJECTED_CONTRACT_SALES_UNITS,
+                             Isnull(D.PROJECTION_SALES, 0)                           AS PROJECTED_DISCOUNT_DOLLARS,
+                             Isnull(SUPP.PROJECTION_SALES, 0)                        AS PROJECTED_SUPP_SALES,
+                             Isnull(U.ITEM_PRICE, 0) * Isnull(C.PROJECTION_UNITS, 0) AS COGS_VALUE,
+                             P.YEAR,
+                             P.QUARTER,
+                             B.CCP_DETAILS_SID
+                      FROM   ST_M_SALES_PROJECTION_MASTER A
+                             JOIN PROJECTION_DETAILS B
+                               ON A.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                             JOIN ST_M_SALES_PROJECTION C
+                               ON A.PROJECTION_DETAILS_SID = C.PROJECTION_DETAILS_SID
+                             JOIN ST_M_SUPPLEMENTAL_DISC_PROJ SUPP
+                               ON SUPP.PROJECTION_DETAILS_SID = A.PROJECTION_DETAILS_SID
+                                  AND SUPP.PERIOD_SID = C.PERIOD_SID
+                             JOIN PERIOD P
+                               ON P.PERIOD_SID = C.PERIOD_SID
+                             JOIN M_DISCOUNT_PROJECTION D
+                               ON D.PROJECTION_DETAILS_SID = B.PROJECTION_DETAILS_SID
+                                  AND P.PERIOD_SID = D.PERIOD_SID
+                             JOIN CCP_DETAILS CCP
+                               ON CCP.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+                             LEFT JOIN #Udf_item_pricing U
+                                    ON U.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+                                       AND U.PERIOD_SID = P.PERIOD_SID
+                      WHERE  B.PROJECTION_MASTER_SID = @PROJECTION
+                             AND A.USER_ID = @USER_ID
+                             AND A.SESSION_ID = @SESSION_ID
+                             AND YEAR >= Year(Getdate()))A
+              GROUP  BY A.YEAR,
+                        A.QUARTER,
+                        A.CCP_DETAILS_SID)A
+             LEFT JOIN @TEMP_APPROVED TEMP_APP
+                    ON TEMP_APP.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                       AND TEMP_APP.YEAR = A.YEAR
+                       AND TEMP_APP.QUARTER = A.QUARTER
+  END
+ 
+SELECT Isnull(Min(DIFF_SALES), 0)         AS MIN_DIFF_SALES,
+       Isnull(Max(DIFF_SALES), 0)         AS MAX_DIFF_SALES,
+       Isnull(Min(DIFF_UNITS), 0)         AS MIN_DIFF_UNITS,
+       Isnull(Max(DIFF_UNITS), 0)         AS MAX_DIFF_UNITS,
+       Isnull(Min(DIFF_AMOUNT), 0)        AS MIN_DIFF_AMOUNT,
+       Isnull(Max(DIFF_AMOUNT), 0)        AS MAX_DIFF_AMOUNT,
+       Isnull(Min(DIFF_RATE), 0)          AS MIN_DIFF_RATE,
+       Isnull(Max(DIFF_RATE), 0)          AS MAX_DIFF_RATE,
+       Isnull(Min(DIFF_NETSALES), 0)      AS MIN_DIFF_NETSALES,
+       Isnull(Max(DIFF_NETSALES), 0)      AS MAX_DIFF_NETSALES,
+       Isnull(Min(DIFF_NETPROFIT), 0)     AS MIN_DIFF_NETPROFIT,
+       Isnull(Max(DIFF_NETPROFIT), 0)     AS MAX_DIFF_NETPROFIT,
+       Isnull(Min([DIFF_SALES_%]), 0)     AS [MIN_DIFF_SALES_%],
+       Isnull(Max([DIFF_SALES_%]), 0)     AS [MAX_DIFF_SALES_%],
+       Isnull(Min([DIFF_UNITS_%]), 0)     AS [MIN_DIFF_UNITS_%],
+       Isnull(Max([DIFF_UNITS_%]), 0)     AS [MAX_DIFF_UNITS_%],
+       Isnull(Min([DIFF_AMOUNT_%]), 0)    AS [MIN_DIFF_AMOUNT_%],
+       Isnull(Max([DIFF_AMOUNT_%]), 0)    AS [MAX_DIFF_AMOUNT_%],
+       Isnull(Min([DIFF_RATE_%]), 0)      AS [MIN_DIFF_RATE_%],
+       Isnull(Max([DIFF_RATE_%]), 0)      AS [MAX_DIFF_RATE_%],
+       Isnull(Min([DIFF_NETSALES_%]), 0)  AS [MIN_DIFF_NETSALES_%],
+       Isnull(Max([DIFF_NETSALES_%]), 0)  AS [MAX_DIFF_NETSALES_%],
+       Isnull(Min([DIFF_NETPROFIT_%]), 0) AS [MIN_DIFF_NETPROFIT_%],
+       Isnull(Max([DIFF_NETPROFIT_%]), 0) AS [MAX_DIFF_NETPROFIT_%]
+FROM   @TEMP_MIN_MAX
+
+		
+	]]> </query>
+</entity>
+<entity id="getProjectionRecordsForAccrual">
+<query> <![CDATA[
+		
+       DECLARE @CNT                   INT=0,
+        @I                     INT=1,
+        @PROJECTION_MASTER_SID INT,
+        @PROJECTION            INT=?PROJECTION_ID,
+        @SESSION_ID            INT=?SESSION_ID,
+        @USER_ID               INT=?USER_ID
+DECLARE @TEMP_MASTER AS TABLE
+  (
+     ID                       INT IDENTITY(1, 1),
+     PROJECTION_MASTER_SID    INT,
+     ACCRUAL_PROJ_DETAILS_SID INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT
+  )
+DECLARE @TEMP_MIN_MAX AS TABLE
+  (
+     PROJECTED_ACCRUAL_AMOUNT       NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE         NUMERIC(22, 6),
+     YEAR                           INT,
+     QUARTER                        INT,
+     CCP_DETAILS_SID                INT,
+     RS_MODEL_SID                   INT,
+     APPRV_PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     APPRV_PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     DIFF_AMOUNT                    NUMERIC(22, 6),
+     DIFF_RATE                      NUMERIC(22, 6),
+     [DIFF_AMOUNT_%]                NUMERIC(22, 6),
+     [DIFF_RATE_%]                  NUMERIC(22, 6)
+  )
+DECLARE @TEMP_APPROVED AS TABLE
+  (
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     PROJECTED_ACCRUAL_AMOUNT NUMERIC(22, 6),
+     PROJECTED_ACCRUAL_RATE   NUMERIC(22, 6),
+     YEAR                     INT,
+     QUARTER                  INT
+  )
+
+INSERT INTO @TEMP_MASTER
+            (PROJECTION_MASTER_SID,
+             ACCRUAL_PROJ_DETAILS_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID)
+SELECT @PROJECTION,
+       ACCRUAL_PROJ_DETAILS_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID
+FROM   ACCRUAL_PROJ_DETAILS
+WHERE  PROJECTION_MASTER_SID = @PROJECTION
+
+DECLARE @TEMP_PROJ_DETAILS TABLE
+  (
+     PROJECTION_MASTER_SID    INT,
+     CCP_DETAILS_SID          INT,
+     RS_MODEL_SID             INT,
+     ACCRUAL_PROJ_DETAILS_SID INT
+  )
+
+INSERT INTO @TEMP_PROJ_DETAILS
+            (PROJECTION_MASTER_SID,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             ACCRUAL_PROJ_DETAILS_SID)
+SELECT PROJECTION_MASTER_SID,
+       CCP_DETAILS_SID,
+       RS_MODEL_SID,
+       ACCRUAL_PROJ_DETAILS_SID
+FROM   (SELECT WM.PROJECTION_MASTER_SID,
+               OUT_P.CCP_DETAILS_SID,
+               OUT_P.RS_MODEL_SID,
+               OUT_P.ACCRUAL_PROJ_DETAILS_SID,
+               ROW_NUMBER()
+                 OVER(
+                   PARTITION BY CCP_DETAILS_SID, RS_MODEL_SID
+                   ORDER BY WM.MODIFIED_DATE DESC) RNO
+        FROM   WORKFLOW_MASTER WM
+               JOIN (SELECT PM.PROJECTION_MASTER_SID,
+                            TMP.CCP_DETAILS_SID,
+                            TMP.RS_MODEL_SID,
+                            PD.ACCRUAL_PROJ_DETAILS_SID
+                     FROM   @TEMP_MASTER TMP
+                            JOIN ACCRUAL_PROJ_DETAILS PD
+                              ON TMP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                                 AND TMP.RS_MODEL_SID = PD.RS_MODEL_SID
+                            JOIN PROJECTION_MASTER PM
+                              ON PM.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID
+                     WHERE  PM.SAVE_FLAG = 1
+                            AND PM.FORECASTING_TYPE = 'AccrualRateProjection') OUT_P
+                 ON WM.PROJECTION_MASTER_SID = OUT_P.PROJECTION_MASTER_SID
+        WHERE  WM.WORKFLOW_STATUS_ID = (SELECT HELPER_TABLE_SID
+                                        FROM   HELPER_TABLE
+                                        WHERE  LIST_NAME = 'WorkFlowStatus'
+                                               AND DESCRIPTION = 'Approved'))A
+WHERE  RNO = 1
+
+INSERT INTO @TEMP_APPROVED
+            (CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+             YEAR,
+             QUARTER)
+SELECT B.CCP_DETAILS_SID,
+       B.RS_MODEL_SID,
+       Sum(A.ACCRUAL_AMOUNT) AS ACCRUAL_AMOUNT,
+       Sum(A.ACCRUAL_RATE)   AS ACCRUAL_RATE,
+       YEAR,
+       QUARTER
+FROM   ACCRUAL_RATE_DETAILS A
+       JOIN ACCRUAL_PROJ_DETAILS B
+         ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN @TEMP_PROJ_DETAILS CT
+         ON CT.CCP_DETAILS_SID = B.CCP_DETAILS_SID
+            AND CT.RS_MODEL_SID = B.RS_MODEL_SID
+            AND CT.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = A.PERIOD_SID
+WHERE  P.YEAR >= Year(Getdate())
+GROUP  BY P.YEAR,
+          P.QUARTER,
+          B.CCP_DETAILS_SID,
+          B.RS_MODEL_SID
+
+INSERT INTO @TEMP_MIN_MAX
+            (PROJECTED_ACCRUAL_AMOUNT,
+             PROJECTED_ACCRUAL_RATE,
+            YEAR,
+             QUARTER,
+             CCP_DETAILS_SID,
+             RS_MODEL_SID,
+             APPRV_PROJECTED_ACCRUAL_AMOUNT,
+             APPRV_PROJECTED_ACCRUAL_RATE,
+             DIFF_AMOUNT,
+             DIFF_RATE,
+             [DIFF_AMOUNT_%],
+             [DIFF_RATE_%])
+SELECT A.PROJECTED_ACCRUAL_AMOUNT,
+       A.PROJECTED_ACCRUAL_RATE,
+       A.YEAR,
+       A.QUARTER,
+       A.CCP_DETAILS_SID,
+       A.RS_MODEL_SID,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) AS APPRV_PROJECTED_ACCRUAL_AMOUNT,
+       ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0)   AS APPRV_PROJECTED_ACCRUAL_RATE,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS DIFF_AMOUNT,
+       CASE
+         WHEN ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS DIFF_RATE,
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) - ISNULL(A.PROJECTED_ACCRUAL_AMOUNT, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_AMOUNT, 0) )
+       END                                          AS [DIFF_AMOUNT_%],
+       CASE
+         WHEN ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) ) < 0 THEN 0
+         ELSE ( ( ISNULL(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) - ISNULL(A.PROJECTED_ACCRUAL_RATE, 0) ) / NULLIF(TEMP_APP.PROJECTED_ACCRUAL_RATE, 0) )
+       END                                          AS [DIFF_RATE_%]
+FROM   (SELECT B.CCP_DETAILS_SID,
+               B.RS_MODEL_SID,
+               Sum(A.ACCRUAL_AMOUNT) AS PROJECTED_ACCRUAL_AMOUNT,
+               Sum(A.ACCRUAL_RATE)   AS PROJECTED_ACCRUAL_RATE,
+               YEAR,
+               QUARTER
+        FROM   ST_ACCRUAL_RATE_DETAILS A
+               JOIN ACCRUAL_PROJ_DETAILS B
+                 ON A.ACCRUAL_PROJ_DETAILS_SID = B.ACCRUAL_PROJ_DETAILS_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = A.PERIOD_SID
+        WHERE  USER_ID = @USER_ID
+               AND SESSION_ID = @SESSION_ID
+        GROUP  BY P.YEAR,
+                  P.QUARTER,
+                  B.CCP_DETAILS_SID,
+                  B.RS_MODEL_SID) A
+       LEFT JOIN @TEMP_APPROVED TEMP_APP
+              ON TEMP_APP.CCP_DETAILS_SID = A.CCP_DETAILS_SID
+                 AND TEMP_APP.RS_MODEL_SID = A.RS_MODEL_SID
+                 AND TEMP_APP.YEAR = A.YEAR
+                 AND TEMP_APP.QUARTER = A.QUARTER
+
+SELECT ISNULL(Min(DIFF_AMOUNT), 0)     AS MIN_DIFF_AMOUNT,
+       ISNULL(Max(DIFF_AMOUNT), 0)     AS MAX_DIFF_AMOUNT,
+       ISNULL(Min(DIFF_RATE), 0)       AS MIN_DIFF_RATE,
+       ISNULL(Max(DIFF_RATE), 0)       AS MAX_DIFF_RATE,
+       ISNULL(Min([DIFF_AMOUNT_%]), 0) AS [MIN_DIFF_AMOUNT_%],
+       ISNULL(Max([DIFF_AMOUNT_%]), 0) AS [MAX_DIFF_AMOUNT_%],
+       ISNULL(Min([DIFF_RATE_%]), 0)   AS [MIN_DIFF_RATE_%],
+       ISNULL(Max([DIFF_RATE_%]), 0)   AS [MAX_DIFF_RATE_%]
+FROM   @TEMP_MIN_MAX 
+
+                
+	]]> </query>
+</entity>
+<entity id="getProjectionRecordsForReturns">
+<query> <![CDATA[
+        
+            DECLARE @PROJECTION INT=?PROJECTION_ID
+            DECLARE @TEMP_MASTER AS TABLE
+              (
+                 ID                    INT IDENTITY(1, 1),
+                 PROJECTION_MASTER_SID INT,
+                 RETURNS_DETAILS_SID   INT,
+                 ITEM_MASTER_SID       INT
+              )
+            DECLARE @TEMP_APPROVED AS TABLE
+              (
+                 ITEM_MASTER_SID          INT,
+                 PROJECTED_RETURN_PERCENT NUMERIC(22, 6),
+                 PROJECTED_RPU            NUMERIC(22, 6),
+                 PROJECTED_RETURN_AMOUNT  NUMERIC(22, 6),
+                 PROJECTED_RETURN_UNITS   NUMERIC(22, 6),
+                 YEAR                     INT,
+                 QUARTER                  INT
+              )
+            DECLARE @TEMP_MIN_MAX AS TABLE
+              (
+                 PROJECTED_RETURN_PERCENT       NUMERIC(22, 6),
+                 YEAR                           INT,
+                 QUARTER                        INT,
+                 ITEM_MASTER_SID                INT,
+                 APPRV_PROJECTED_RETURN_PERCENT NUMERIC(22, 6),
+                 DIFF_RETURN_PERCENT            NUMERIC(22, 6),
+                 [DIFF_RETURN_PERCENT_%]        NUMERIC(22, 6)
+              )
+
+            INSERT INTO @TEMP_MASTER
+                        (PROJECTION_MASTER_SID,
+                         RETURNS_DETAILS_SID,
+                         ITEM_MASTER_SID)
+            SELECT @PROJECTION,
+                   RETURNS_DETAILS_SID,
+                   ITEM_MASTER_SID
+            FROM   RETURNS_DETAILS
+            WHERE  PROJECTION_MASTER_SID = @PROJECTION
+
+            DECLARE @TEMP_PROJ_DETAILS TABLE
+              (
+                 PROJECTION_MASTER_SID INT,
+                 ITEM_MASTER_SID       INT,
+                 RETURNS_DETAILS_SID   INT
+              )
+
+            INSERT INTO @TEMP_PROJ_DETAILS
+                        (PROJECTION_MASTER_SID,
+                         ITEM_MASTER_SID,
+                         RETURNS_DETAILS_SID)
+            SELECT PROJECTION_MASTER_SID,
+                   ITEM_MASTER_SID,
+                   RETURNS_DETAILS_SID
+            FROM   (SELECT WM.PROJECTION_MASTER_SID,
+                           OUT_P.ITEM_MASTER_SID,
+                           OUT_P.RETURNS_DETAILS_SID,
+                           ROW_NUMBER()
+                             OVER(
+                               PARTITION BY ITEM_MASTER_SID
+                               ORDER BY WM.MODIFIED_DATE DESC) RNO
+                    FROM   WORKFLOW_MASTER WM
+                           JOIN (SELECT PM.PROJECTION_MASTER_SID,
+                                        TMP.ITEM_MASTER_SID,
+                                        RD.RETURNS_DETAILS_SID
+                                 FROM   @TEMP_MASTER TMP
+                                        JOIN RETURNS_DETAILS RD
+                                          ON TMP.ITEM_MASTER_SID = RD.ITEM_MASTER_SID
+                                        JOIN PROJECTION_MASTER PM
+                                          ON PM.PROJECTION_MASTER_SID = RD.PROJECTION_MASTER_SID
+                                 WHERE  PM.SAVE_FLAG = 1
+                                        AND PM.FORECASTING_TYPE = 'Returns') OUT_P
+                             ON WM.PROJECTION_MASTER_SID = OUT_P.PROJECTION_MASTER_SID
+                    WHERE  WM.WORKFLOW_STATUS_ID = (SELECT HELPER_TABLE_SID
+                                                    FROM   HELPER_TABLE
+                                                    WHERE  LIST_NAME = 'WorkFlowStatus'
+                                                           AND DESCRIPTION = 'Approved'))A
+            WHERE  RNO = 1
+
+            INSERT INTO @TEMP_APPROVED
+                        (ITEM_MASTER_SID,
+                         PROJECTED_RETURN_PERCENT,
+                         YEAR,
+                         QUARTER)
+            SELECT B.ITEM_MASTER_SID,
+                   AVG(A.PROJECTED_RETURN_PERCENT) AS PROJECTED_RETURN_PERCENT,
+                   YEAR,
+                   QUARTER
+            FROM   RETURNS_PROJ_DETAILS A
+                   JOIN RETURNS_DETAILS B
+                     ON A.RETURNS_DETAILS_SID = B.RETURNS_DETAILS_SID
+                   JOIN @TEMP_PROJ_DETAILS CT
+                     ON CT.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                        AND CT.RETURNS_DETAILS_SID = B.RETURNS_DETAILS_SID
+                   JOIN PERIOD P
+                     ON P.PERIOD_SID = A.PERIOD_SID
+            WHERE  P.YEAR >= Year(Getdate())
+            GROUP  BY P.YEAR,
+                      P.QUARTER,
+                      B.ITEM_MASTER_SID
+
+            INSERT INTO @TEMP_MIN_MAX
+                        (PROJECTED_RETURN_PERCENT,
+                         YEAR,
+                         QUARTER,
+                         ITEM_MASTER_SID,
+                         APPRV_PROJECTED_RETURN_PERCENT,
+                         DIFF_RETURN_PERCENT,
+                         [DIFF_RETURN_PERCENT_%])
+            SELECT A.PROJECTED_RETURN_PERCENT,
+                   A.YEAR,
+                   A.QUARTER,
+                   A.ITEM_MASTER_SID,
+                   ISNULL(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) AS APPRV_PROJECTED_RETURN_PERCENT,
+                   CASE
+                     WHEN ( ISNULL(A.PROJECTED_RETURN_PERCENT, 0) - ISNULL(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) ) < 0 THEN 0
+                     ELSE ( ISNULL(A.PROJECTED_RETURN_PERCENT, 0) - ISNULL(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) )
+                   END                                          AS DIFF_RETURN_PERCENT,
+                   CASE
+                     WHEN ( ( ISNULL(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) - ISNULL(A.PROJECTED_RETURN_PERCENT, 0) ) / NULLIF(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) ) < 0 THEN 0
+                     ELSE ( ( ISNULL(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) - ISNULL(A.PROJECTED_RETURN_PERCENT, 0) ) / NULLIF(TEMP_APP.PROJECTED_RETURN_PERCENT, 0) )
+                   END                                          AS [DIFF_RETURN_PERCENT_%]
+            FROM   (SELECT B.ITEM_MASTER_SID,
+                           AVG(A.PROJECTED_RETURN_PERCENT) AS PROJECTED_RETURN_PERCENT,
+                           YEAR,
+                           QUARTER
+                    FROM   ST_RETURNS_PROJ_DETAILS A
+                           JOIN RETURNS_DETAILS B
+                             ON A.RETURNS_DETAILS_SID = B.RETURNS_DETAILS_SID
+                           JOIN @TEMP_PROJ_DETAILS CT
+                             ON CT.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                                AND CT.RETURNS_DETAILS_SID = B.RETURNS_DETAILS_SID
+                           JOIN PERIOD P
+                             ON P.PERIOD_SID = A.PERIOD_SID
+                    GROUP  BY P.YEAR,
+                              P.QUARTER,
+                              B.ITEM_MASTER_SID) A
+                   LEFT JOIN @TEMP_APPROVED TEMP_APP
+                          ON TEMP_APP.ITEM_MASTER_SID = A.ITEM_MASTER_SID
+                             AND TEMP_APP.YEAR = A.YEAR
+                             AND TEMP_APP.QUARTER = A.QUARTER
+
+            SELECT ISNULL(Min(DIFF_RETURN_PERCENT), 0)     AS MIN_DIFF_RETURN_PERCENT,
+                   ISNULL(Max(DIFF_RETURN_PERCENT), 0)     AS MAX_DIFF_RETURN_PERCENT,
+                   ISNULL(Min([DIFF_RETURN_PERCENT_%]), 0) AS [MIN_DIFF_RETURN_PERCENT_%],
+                   ISNULL(Max([DIFF_RETURN_PERCENT_%]), 0) AS [MAX_DIFF_RETURN_PERCENT_%]
+            FROM   @TEMP_MIN_MAX 
+
+                
+        ]]> </query>
+</entity>
+</sql>

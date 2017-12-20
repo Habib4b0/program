@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<custom-sql>
+        
+    <sql          
+        id="getPhsParent">
+
+<![CDATA[  
+     DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID,
+        @OFFSET   INT=?OFFSET,
+        @LIMIT   INT=?LIMIT
+
+SELECT ITEM_NO,ITEM_MASTER_SID,ITEM_DESC,ROWNUM
+FROM(
+SELECT IM.ITEM_NO,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_DESC,
+       ROW_NUMBER() OVER (ORDER BY IM.ITEM_MASTER_SID ASC) AS ROWNUM 
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL ))A
+WHERE ROWNUM >= @OFFSET
+AND ROWNUM < @OFFSET + @LIMIT 
+]]>
+       
+    </sql> 
+    <sql          
+        id="getPhsPercentage">
+
+<![CDATA[   DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @ITEM_MASTER_SID    INT=?IMID,
+        @PRICE_TYPE         VARCHAR(1000)='?PT'
+
+SELECT A.NA_PROJ_MASTER_SID,
+       A.ITEM_MASTER_SID,
+       A.NDC11,
+       Isnull(A.ACTUAL_PRICE, 0) ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       A.PRICE_TYPE,
+       'ACTUALS'                 AS [SOURCE]
+FROM   (SELECT ND.NA_PROJ_MASTER_SID,
+               IM.ITEM_MASTER_SID,
+               IM.ITEM_NO AS NDC11,
+               ACTUAL_PRICE=Isnull(FA.ACTUAL_PRICE / NULLIF(PA.ACTUAL_PRICE, 0), 0) * 100,
+               P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+        FROM   ST_PHS_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+               INNER JOIN ST_PHS_ACTUALS PA
+                       ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                          AND FA.PERIOD_SID = PA.PERIOD_SID
+                          AND PA.PRICE_TYPE = 'WAC'
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+               AND FA.PRICE_TYPE IN(SELECT TOKEN
+                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+             ) A
+       LEFT OUTER JOIN (SELECT ITEM_MASTER_SID=@ITEM_MASTER_SID,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=Isnull(PP.PROJECTION_PRICE / NULLIF(PP_WAC.PROJECTION_PRICE, 0), 0) * 100
+                        FROM   PHS_PROJ PP
+                               INNER JOIN PHS_PROJ PP_WAC
+                                       ON PP.NA_PROJ_DETAILS_SID = PP_WAC.NA_PROJ_DETAILS_SID
+                                          AND PP.PERIOD_SID = PP_WAC.PERIOD_SID
+                                          AND PP_WAC.PRICE_TYPE = 'WAC'
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                            WHERE  ITEM_MASTER_SID = @ITEM_MASTER_SID
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY MODIFIED_DATE DESC)
+                                              AND NPD.ITEM_MASTER_SID = @ITEM_MASTER_SID)
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))) B
+                    ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_NO AS NDC11,
+       ACTUAL_PRICE= 0,
+       PROJECTION_PRICE=Isnull(FA.PROJECTION_PRICE / NULLIF(PA.PROJECTION_PRICE, 0), 0) * 100,
+       P.[YEAR],
+       P.[QUARTER],
+       FA.PRICE_TYPE,
+       'PROJ'
+FROM   ST_PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+       INNER JOIN ST_PHS_PROJ PA
+               ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                  AND FA.PERIOD_SID = PA.PERIOD_SID
+                  AND PA.PRICE_TYPE = 'WAC'
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+       AND FA.PRICE_TYPE IN(SELECT TOKEN
+                            FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+ORDER  BY PRICE_TYPE,
+          YEAR,
+          QUARTER 
+
+  ]]>
+
+    </sql>
+     
+     <sql          
+        id="getPhsPercentageForView">
+
+<![CDATA[   DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @ITEM_MASTER_SID    INT=?IMID,
+        @PRICE_TYPE         VARCHAR(1000)='?PT'       
+
+SELECT A.NA_PROJ_MASTER_SID,
+       A.ITEM_MASTER_SID,
+       A.NDC11,
+       Isnull(A.ACTUAL_PRICE, 0) ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       A.PRICE_TYPE,
+       'ACTUALS'                 AS [SOURCE]
+FROM   (SELECT ND.NA_PROJ_MASTER_SID,
+               IM.ITEM_MASTER_SID,
+               IM.ITEM_NO AS NDC11,
+               ACTUAL_PRICE=Isnull(FA.ACTUAL_PRICE / NULLIF(PA.ACTUAL_PRICE, 0), 0) * 100,
+               P.[YEAR],
+               P.[QUARTER],
+               FA.PRICE_TYPE
+        FROM   PHS_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+               INNER JOIN PHS_ACTUALS PA
+                       ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                          AND FA.PERIOD_SID = PA.PERIOD_SID
+                          AND PA.PRICE_TYPE = 'WAC'
+                          
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+               AND FA.PRICE_TYPE IN(SELECT TOKEN
+                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+               ) A
+       LEFT OUTER JOIN (SELECT ITEM_MASTER_SID=@ITEM_MASTER_SID,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=Isnull(PP.PROJECTION_PRICE / NULLIF(PP_WAC.PROJECTION_PRICE, 0), 0) * 100
+                        FROM   PHS_PROJ PP
+                               INNER JOIN PHS_PROJ PP_WAC
+                                       ON PP.NA_PROJ_DETAILS_SID = PP_WAC.NA_PROJ_DETAILS_SID
+                                          AND PP.PERIOD_SID = PP_WAC.PERIOD_SID
+                                          AND PP_WAC.PRICE_TYPE = 'WAC'
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                            WHERE  ITEM_MASTER_SID = @ITEM_MASTER_SID
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY MODIFIED_DATE DESC)
+                                              AND NPD.ITEM_MASTER_SID = @ITEM_MASTER_SID)
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))) B
+                    ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_NO AS NDC11,
+       ACTUAL_PRICE= 0,
+       PROJECTION_PRICE=Isnull(FA.PROJECTION_PRICE / NULLIF(PA.PROJECTION_PRICE, 0), 0) * 100,
+       P.[YEAR],
+       P.[QUARTER],
+       FA.PRICE_TYPE,
+       'PROJ'
+FROM   PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+       INNER JOIN PHS_PROJ PA
+               ON PA.NA_PROJ_DETAILS_SID = FA.NA_PROJ_DETAILS_SID
+                  AND FA.PERIOD_SID = PA.PERIOD_SID
+                  AND PA.PRICE_TYPE = 'WAC'
+                 
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+       AND FA.PRICE_TYPE IN(SELECT TOKEN
+                            FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+      
+ORDER  BY PRICE_TYPE,
+          YEAR,
+          QUARTER 
+
+  ]]>
+
+    </sql>
+     
+    <sql          
+        id="getPhsAmount">
+        
+<![CDATA[    DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @ITEM_MASTER_SID    INT=?IMID,
+        @PRICE_TYPE         VARCHAR(1000)='?PT'
+
+SELECT A.NA_PROJ_MASTER_SID,
+       A.ITEM_MASTER_SID,
+       A.NDC11,
+       Isnull(A.ACTUAL_PRICE, 0) ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       A.PRICE_TYPE,
+       'ACTUALS'                 AS [SOURCE]
+FROM   (SELECT ND.NA_PROJ_MASTER_SID,
+               IM.ITEM_MASTER_SID,
+               IM.ITEM_NO AS NDC11,
+               ACTUAL_PRICE,
+               P.[YEAR],
+               P.[QUARTER],
+               PRICE_TYPE
+        FROM   ST_PHS_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+               AND PRICE_TYPE IN(SELECT TOKEN
+                                 FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+          ) A
+       LEFT OUTER JOIN (SELECT ITEM_MASTER_SID=@ITEM_MASTER_SID,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=Isnull(PP.PROJECTION_PRICE, 0)
+                        FROM   PHS_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                            WHERE  ITEM_MASTER_SID = @ITEM_MASTER_SID
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY MODIFIED_DATE DESC)
+                                              AND NPD.ITEM_MASTER_SID = @ITEM_MASTER_SID)
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))) B
+                    ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_NO                  AS NDC11,
+       0                           AS ACTUALS_PRICE,
+       Isnull(PROJECTION_PRICE, 0) PROJECTION_PRICE,
+       P.[YEAR],
+       P.[QUARTER],
+       PRICE_TYPE,
+       'PROJ'
+FROM   ST_PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+       AND PRICE_TYPE IN(SELECT TOKEN
+                         FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+	   ]]>
+
+    </sql>    
+     <sql          
+        id="getPhsAmountForView">
+        
+<![CDATA[    DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @ITEM_MASTER_SID    INT=?IMID,
+        @PRICE_TYPE         VARCHAR(1000)='?PT'
+
+SELECT A.NA_PROJ_MASTER_SID,
+       A.ITEM_MASTER_SID,
+       A.NDC11,
+       Isnull(A.ACTUAL_PRICE, 0) ACTUAL_PRICE,
+       PROJECTION_PRICE=Isnull(B.PROJECTION_PRICE, 0),
+       A.[YEAR],
+       A.[QUARTER],
+       A.PRICE_TYPE,
+       'ACTUALS'                 AS [SOURCE]
+FROM   (SELECT ND.NA_PROJ_MASTER_SID,
+               IM.ITEM_MASTER_SID,
+               IM.ITEM_NO AS NDC11,
+               ACTUAL_PRICE,
+               P.[YEAR],
+               P.[QUARTER],
+               PRICE_TYPE
+        FROM   PHS_ACTUALS FA
+               JOIN NA_PROJ_DETAILS ND
+                 ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+               JOIN ITEM_MASTER IM
+                 ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+               JOIN PERIOD P
+                 ON P.PERIOD_SID = FA.PERIOD_SID
+        WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+               AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+               AND PRICE_TYPE IN(SELECT TOKEN
+                                 FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+              ) A
+       LEFT OUTER JOIN (SELECT ITEM_MASTER_SID=@ITEM_MASTER_SID,
+                               P.[YEAR],
+                               P.[QUARTER],
+                               PP.PRICE_TYPE,
+                               PROJECTION_PRICE=Isnull(PP.PROJECTION_PRICE, 0)
+                        FROM   PHS_PROJ PP
+                               INNER JOIN PERIOD P
+                                       ON PP.PERIOD_SID = P.PERIOD_SID
+                        WHERE  EXISTS (SELECT 1
+                                       FROM   NA_PROJ_DETAILS NPD
+                                       WHERE  NPD.NA_PROJ_DETAILS_SID = PP.NA_PROJ_DETAILS_SID
+                                              AND NPD.NA_PROJ_MASTER_SID = (SELECT TOP 1 NPM.NA_PROJ_MASTER_SID
+                                                                            FROM   NA_PROJ_MASTER NPM
+                                                                                   INNER JOIN NA_PROJ_DETAILS NPD
+                                                                                           ON NPM.NA_PROJ_MASTER_SID = NPD.NA_PROJ_MASTER_SID
+                                                                            WHERE  ITEM_MASTER_SID = @ITEM_MASTER_SID
+                                                                                   AND SAVE_FLAG = 1
+                                                                            ORDER  BY MODIFIED_DATE DESC)
+                                              AND NPD.ITEM_MASTER_SID = @ITEM_MASTER_SID)
+                               AND PP.PRICE_TYPE IN(SELECT TOKEN
+                                                    FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))) B
+                    ON A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+                       AND A.PRICE_TYPE = B.PRICE_TYPE
+                       AND A.[YEAR] = B.[YEAR]
+                       AND A.[QUARTER] = B.[QUARTER]
+UNION ALL
+SELECT ND.NA_PROJ_MASTER_SID,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_NO                  AS NDC11,
+       0                           AS ACTUALS_PRICE,
+       Isnull(PROJECTION_PRICE, 0) PROJECTION_PRICE,
+       P.[YEAR],
+       P.[QUARTER],
+       PRICE_TYPE,
+       'PROJ'
+FROM   PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+       AND PRICE_TYPE IN(SELECT TOKEN
+                         FROM   DBO.Udf_splitstring(@PRICE_TYPE, ','))
+      
+	   ]]>
+
+    </sql>    
+    
+    <sql          
+        id="getPhsWorkSheet">
+
+    <![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+            @ITEM_MASTER_SID INT=?IMID
+
+SELECT PRICE_TYPE,
+       ACTUAL_PRICE AS ACTUAL_PRICE,
+       0            AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       0            AS ADJUSTMENT,
+       'ACTUALS'    AS [SOURCE]
+FROM   ST_PHS_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       Isnull(ADJUSTMENT, 0),
+       'PROJ'
+FROM   ST_PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+ORDER  BY P.YEAR,
+          P.QUARTER 
+ ]]>
+
+    </sql>    
+    
+    <sql          
+        id="getPhsWorkSheetForView">
+
+    <![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+            @ITEM_MASTER_SID INT=?IMID
+
+SELECT PRICE_TYPE,
+       ACTUAL_PRICE AS ACTUAL_PRICE,
+       0            AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       0            AS ADJUSTMENT,
+       'ACTUALS'    AS [SOURCE]
+FROM   PHS_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+       
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       Isnull(ADJUSTMENT, 0),
+       'PROJ'
+FROM   PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID       
+ORDER  BY P.YEAR,
+          P.QUARTER 
+ ]]>
+
+    </sql>    
+    
+    <sql          
+        id="getPhsParentCount">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+        @TH_CLASS varchar(50)=?TID
+
+SELECT count(distinct IM.ITEM_MASTER_SID)
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL )  ]]>
+
+    </sql>
+    
+   <sql          
+        id="getPhsRowIndex">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+                @BRAND_MASTER_SID   INT=?BID,
+		@TH_CLASS varchar(50)=?TID,
+		@NA_ITEM_MASTER_SID INT=?IMD
+
+
+select A.TEMP_INDEX from (
+
+SELECT IM.ITEM_NO,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_DESC,
+	   ROW_NUMBER() OVER (ORDER BY IM.ITEM_MASTER_SID ASC) AS TEMP_INDEX
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL ) 
+			
+) A where A.ITEM_MASTER_SID=@NA_ITEM_MASTER_SID;
+ ]]>
+
+    </sql>
+    
+      <sql          
+        id="getPhsWorkSheetAdjustment">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+            @ITEM_MASTER_SID INT=?IMID
+
+SELECT PRICE_TYPE,
+       ACTUAL_PRICE AS ACTUAL_PRICE,
+       0            AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       0            AS ADJUSTMENT,
+       'ACTUALS'    AS [SOURCE]
+FROM   ST_PHS_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE),
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       Isnull(ADJUSTMENT, 0),
+       'PROJ'
+FROM   ST_PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+ORDER  BY source,price_type,P.YEAR,
+          P.QUARTER 
+ ]]>
+       
+    </sql> 
+    <sql          
+        id="getPhsWorkSheetAdjustmentForView">
+
+<![CDATA[ DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+            @ITEM_MASTER_SID INT=?IMID
+
+SELECT PRICE_TYPE,
+       ACTUAL_PRICE AS ACTUAL_PRICE,
+       0            AS PROJECTION_PRICE,
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       0            AS ADJUSTMENT,
+       'ACTUALS'    AS [SOURCE]
+FROM   PHS_ACTUALS FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID
+      
+UNION ALL
+SELECT PRICE_TYPE,
+       0 AS ACTUAL_PRICE,
+       COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE),
+       P.YEAR,
+       P.QUARTER,
+       NOTES,
+       Isnull(ADJUSTMENT, 0),
+       'PROJ'
+FROM   PHS_PROJ FA
+       JOIN NA_PROJ_DETAILS ND
+         ON FA.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = ND.ITEM_MASTER_SID
+       JOIN PERIOD P
+         ON P.PERIOD_SID = FA.PERIOD_SID
+WHERE  ND.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND IM.ITEM_MASTER_SID = @ITEM_MASTER_SID      
+ORDER  BY source,price_type,P.YEAR,
+          P.QUARTER 
+ ]]>
+       
+    </sql> 
+    
+       <sql          
+        id="getPhsAdjSumbitUpdate">
+
+<![CDATA[
+ UPDATE MUP
+SET    PROJECTION_PRICE = COALESCE(ADJUSTMENT_PRICE, PROJECTION_PRICE),
+       ADJUSTMENT_PRICE = NULL,
+       ADJUSTMENT = NULL
+FROM   ST_PHS_PROJ MUP
+       JOIN NA_PROJ_DETAILS ND
+         ON MUP.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+WHERE  EXISTS (SELECT 1
+               FROM   NA_PROJ_DETAILS NPD
+                      INNER JOIN ITEM_MASTER IM
+                              ON IM.ITEM_MASTER_SID = NPD.ITEM_MASTER_SID
+               WHERE  MUP.NA_PROJ_DETAILS_SID = NPD.NA_PROJ_DETAILS_SID
+                      AND IM.ITEM_MASTER_SID = ?IMID)
+       AND PRICE_TYPE = 'PHS'
+ ]]>
+       
+    </sql> 
+    
+       <sql          
+        id="getPhsAdjCloseUpdate">
+
+<![CDATA[ UPDATE MUP
+SET    ADJUSTMENT_PRICE = NULL, ADJUSTMENT = NULL
+FROM   ST_PHS_PROJ MUP
+       JOIN NA_PROJ_DETAILS ND
+         ON MUP.NA_PROJ_DETAILS_SID = ND.NA_PROJ_DETAILS_SID
+WHERE  EXISTS (SELECT 1
+               FROM   NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = NPD.ITEM_MASTER_SID
+				WHERE  MUP.NA_PROJ_DETAILS_SID = NPD.NA_PROJ_DETAILS_SID
+						AND IM.ITEM_MASTER_SID = ?IMID)
+       AND PRICE_TYPE = 'PHS'
+]]>
+       
+    </sql> 
+    <sql          
+        id="getPhsLevelFilter">
+
+<![CDATA[  DECLARE @NA_PROJ_MASTER_SID INT=?PID,
+        @BRAND_MASTER_SID   INT=?BID,
+	@TH_CLASS varchar(50)=?TID
+
+SELECT IM.ITEM_NO,
+       IM.ITEM_MASTER_SID,
+       IM.ITEM_DESC
+FROM   NA_PROJ_MASTER PM,
+       NA_PROJ_DETAILS PD,
+       ITEM_MASTER IM
+WHERE  PM.NA_PROJ_MASTER_SID = PD.NA_PROJ_MASTER_SID
+       AND PD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+       AND PM.NA_PROJ_MASTER_SID = @NA_PROJ_MASTER_SID
+       AND ( IM.BRAND_MASTER_SID = @BRAND_MASTER_SID
+              OR @BRAND_MASTER_SID IS NULL ) 
+		AND ( IM.THERAPEUTIC_CLASS = @TH_CLASS
+              OR @TH_CLASS IS NULL )
+ ]]>
+       
+    </sql> 
+       
+</custom-sql>

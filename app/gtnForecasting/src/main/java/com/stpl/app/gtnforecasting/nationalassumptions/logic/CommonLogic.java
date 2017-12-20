@@ -20,13 +20,12 @@ import com.stpl.app.service.NaProjectionSelectionLocalServiceUtil;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ public class CommonLogic {
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
         PhsQueryUtils phsQueryUtils = new PhsQueryUtils();
         List<NaProjectionSelection> list = new ArrayList<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
+        DynamicQuery query = NaProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionID));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
         try {
@@ -69,7 +68,7 @@ public class CommonLogic {
     public static Map<Object, Object> getProjectionSelection(final int projectionId, final String screenName) {
         List<Object[]> list = new ArrayList<>();
         Map<Object, Object> map = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
+        DynamicQuery query = NaProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -114,7 +113,7 @@ public class CommonLogic {
             LOGGER.debug("Entering tempOperation method ");
             NACommonResultsDAO DAO = new NACommonResultsDAOImpl();
             LOGGER.debug("Query Name : " + queryName);
-             String customSql = CustomSQLUtil.get(queryName);
+             String customSql = SQlUtil.getQuery(getClass(),queryName);
             for (String key : input.keySet()) {
                 LOGGER.debug("Key : " + key);
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));

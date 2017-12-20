@@ -18,21 +18,19 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.app.model.ItemPricingQualifier;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.sql.CallableStatement;
@@ -599,7 +597,7 @@ public class PPAProjectionLogic {
         final String filter = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
         LOGGER.debug("Entering getLazyPriceTypeCount method with filterText :" + filterText);
         List<Object[]> qualifierList;
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
+        final DynamicQuery cfpDynamicQuery = ItemPricingQualifierLocalServiceUtil.dynamicQuery();
         if (priceType != null && priceType.getId() != 0) {
             cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.ITEM_PRICING_QUALIFIER_SID, priceType.getId()));
         }
@@ -616,7 +614,7 @@ public class PPAProjectionLogic {
         final List<HelperDTO> list = new ArrayList<>();
         LOGGER.debug("Entering getLazyPriceTypeResults method with filterText :" + filter);
         final String filterString = StringUtils.trimToEmpty(filter) + Constant.PERCENT;
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
+        final DynamicQuery cfpDynamicQuery = ItemPricingQualifierLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.setLimit(startIndex, end);
         if (priceType != null && priceType.getId() != 0) {
             cfpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.ITEM_PRICING_QUALIFIER_SID, priceType.getId()));

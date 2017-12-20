@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.salesprojection.utils;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 
 /**
  *
@@ -16,26 +16,26 @@ public class QueryUtils {
     public static String addDeclareQueryJoin(final boolean isCustomHierarchy, final boolean isUpdate) {
         if (isUpdate) {
             if (isCustomHierarchy) {
-                return CustomSQLUtil.get("declareCustomCcpUpdate");
+                return SQlUtil.getQuery(QueryUtils.class,"declareCustomCcpUpdate");
             } else {
-                return CustomSQLUtil.get("declareCcpUpdate");
+                return SQlUtil.getQuery(QueryUtils.class,"declareCcpUpdate");
             }
         } else {
-            return CustomSQLUtil.get("declareCcp");
+            return SQlUtil.getQuery(QueryUtils.class,"declareCcp");
         }
     }
 
     public static String addCcpJoinQuery(boolean isCustomHierarchy, final boolean isUpdate) {
         if (isUpdate) {
             if (isCustomHierarchy) {
-                return CustomSQLUtil.get("customUpdateJoin");
+                return SQlUtil.getQuery(QueryUtils.class,"customUpdateJoin");
             }
-            return CustomSQLUtil.get("updateJoin");
+            return SQlUtil.getQuery(QueryUtils.class,"updateJoin");
         } else {
             if (isCustomHierarchy) {
-                return CustomSQLUtil.get("customJoin");
+                return SQlUtil.getQuery(QueryUtils.class,"customJoin");
             }
-            return CustomSQLUtil.get("generateJoin");
+            return SQlUtil.getQuery(QueryUtils.class,"generateJoin");
         }
     }
 

@@ -1,0 +1,1 @@
+$wnd.com_stpl_app_v8_AppWidgetSet.runAsyncCallback2('defineClass(2351, 1, $intern_83);\n_.onSuccess_1 = function onSuccess_6(){\n  $setLoaded_0((!impl_5 && (impl_5 = new ConnectorBundleLoaderImpl) , impl_5), this.this$11.packageName);\n}\n;\n$entry(onLoad)(2);\n\n//# sourceURL=com.stpl.app.v8.AppWidgetSet-2.js\n')

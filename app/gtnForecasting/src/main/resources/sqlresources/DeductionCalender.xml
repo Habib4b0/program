@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="getItemCountForCustomer">
+<query> <![CDATA[
+        
+            SELECT COUNT(DISTINCT ITEM_MASTER_SID) FROM ST_DEDUCTION_CALENDAR_DETAILS WHERE COMPANY_MASTER_SID = '@SID' AND INBOUND_STATUS <> 'D' AND USER_ID='@USERID' AND SESSION_ID='@SESSIONID' ;
+        
+    ]]> </query>
+</entity>
+<entity id="getItemCountForBrand">
+<query> <![CDATA[
+        
+            SELECT COUNT(DISTINCT SD.ITEM_MASTER_SID) FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+            JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = SD.ITEM_MASTER_SID WHERE IM.BRAND_MASTER_SID = '@SID' AND SD.INBOUND_STATUS <> 'D' AND SD.USER_ID='@USERID' AND SD.SESSION_ID='@SESSIONID';
+        
+    ]]> </query>
+</entity>
+<entity id="getLineLevelUpdateForCust">
+<query> <![CDATA[
+        
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   CP_DETAILS CD
+                               INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+                                       ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                        WHERE  SI.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+                               AND SI.USER_ID = SC.USER_ID
+                               AND SI.SESSION_ID = SC.SESSION_ID
+                               AND SC.COMPANY_MASTER_SID = @SID)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON SD.CP_DETAILS_SID = CD.CP_DETAILS_SID
+       INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+               ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                  AND SC.USER_ID = SD.USER_ID
+                  AND SC.SESSION_ID = SD.SESSION_ID
+WHERE  SC.COMPANY_MASTER_SID = @SID
+       AND YEAR = @YEAR
+       AND SD.USER_ID = '@USERID'
+       AND SD.SESSION_ID = '@SESSIONID';
+       
+        
+    ]]> </query>
+</entity>
+<entity id="getLineLevelUpdateForCustinProd">
+<query> <![CDATA[
+        
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   ITEM_MASTER IM
+                        WHERE  SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               AND IM.BRAND_MASTER_SID = @BRAND_SID
+                               ?FILTER)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND SC.USER_ID = SD.USER_ID
+            AND SC.SESSION_ID = SD.SESSION_ID
+WHERE  IM.BRAND_MASTER_SID = @BRAND_SID
+       ?FILTER
+       AND CD.COMPANY_MASTER_SID = @SID
+       AND YEAR = @YEAR
+       AND SD.USER_ID = '@USERID'
+       AND SD.SESSION_ID = '@SESSIONID'
+
+       
+        
+    ]]> </query>
+</entity>
+<entity id="getLineLevelUpdateForBrand">
+<query> <![CDATA[
+        
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT COUNT(SI.ITEM_MASTER_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_ITEM SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   ITEM_MASTER IM
+                        WHERE  SI.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
+                               AND IM.BRAND_MASTER_SID = @SID)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND SC.USER_ID = SD.USER_ID
+            AND SC.SESSION_ID = SD.SESSION_ID
+WHERE  IM.BRAND_MASTER_SID = @SID
+       AND CD.COMPANY_MASTER_SID = @COMPANY_SID
+       AND YEAR = @YEAR
+       AND SD.USER_ID = '@USERID'
+       AND SD.SESSION_ID = '@SESSIONID'
+        
+    ]]> </query>
+</entity>
+<entity id="getLineLevelUpdateForBrandinProd">
+<query> <![CDATA[
+        
+        declare @VALUE numeric(22,6) = ?VALUE
+        ;WITH CTE
+     AS (SELECT Count(DISTINCT CP_DETAILS_SID) AS CNT
+         FROM   ST_DEDUCTION_CALENDAR_DETAILS SI
+         WHERE  EXISTS (SELECT 1
+                        FROM   CP_DETAILS cd
+                               JOIN ST_DEDUCTION_CALENDAR_item sc
+                                 ON sc.ITEM_MASTER_sid = cd.ITEM_MASTER_SID
+                               JOIN ITEM_MASTER im
+                                 ON im.ITEM_MASTER_SID = cd.ITEM_MASTER_SID
+                        WHERE  si.CP_DETAILS_SID = cd.CP_DETAILS_SID
+                               AND si.USER_ID = sc.USER_ID
+                               AND si.SESSION_ID = sc.SESSION_ID
+                               AND im.BRAND_MASTER_SID = @SID
+                               ?FILTER)
+                AND USER_ID = '@USERID'
+                AND SESSION_ID = '@SESSIONID')
+UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE / NULLIF((SELECT CNT
+                                             FROM   CTE), 0)
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON SD.CP_DETAILS_SID = CD.CP_DETAILS_SID
+       INNER JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+               ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+                  AND SC.USER_ID = SD.USER_ID
+                  AND SC.SESSION_ID = SD.SESSION_ID
+       JOIN ST_DEDUCTION_CALENDAR_item si
+         ON si.ITEM_MASTER_sid = cd.ITEM_MASTER_SID
+            AND si.USER_ID = sc.USER_ID
+            AND si.SESSION_ID = sc.SESSION_ID
+       JOIN ITEM_MASTER im
+         ON im.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+WHERE  im.BRAND_MASTER_SID = @SID
+       ?FILTER
+       AND YEAR = @YEAR
+       AND SD.USER_ID = '@USERID'
+       AND SD.SESSION_ID = '@SESSIONID'; 
+
+        
+    ]]> </query>
+</entity>
+<entity id="getLineLevelUpdateForItem">
+<query> <![CDATA[
+        
+        declare @VALUE numeric(22,6) = ?VALUE
+        UPDATE SD
+SET    @MONTH_DISCOUNT_AMOUNT = @VALUE 
+FROM   ST_DEDUCTION_CALENDAR_DETAILS SD
+       JOIN CP_DETAILS CD
+         ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+       JOIN ITEM_MASTER IM
+         ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+       JOIN ST_DEDUCTION_CALENDAR_COMPANY SC
+         ON SC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+            AND SC.USER_ID = SD.USER_ID
+            AND SC.SESSION_ID = SD.SESSION_ID
+WHERE  IM.ITEM_MASTER_SID = @SID
+       AND IM.BRAND_MASTER_SID = @BRAND_SID
+       AND SC.COMPANY_MASTER_SID = @COMPANY_SID
+       AND YEAR = @YEAR
+       AND SD.USER_ID = '@USERID'
+       AND SD.SESSION_ID = '@SESSIONID' 
+        
+    ]]> </query>
+</entity>
+<entity id="checkTempTable">
+<query> <![CDATA[
+        
+        UPDATE SD SET SD.CHECK_RECORD = '@CHECK' 
+        FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+        JOIN CP_DETAILS CD ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+        @JOIN
+        WHERE @WHERE AND SD.USER_ID='@USERID' AND SD.SESSION_ID='@SESSIONID' 
+        
+    ]]> </query>
+</entity>
+<entity id="checkTempTableBrand">
+<query> <![CDATA[
+        
+        UPDATE SD SET CHECK_RECORD = '@CHECK'
+        FROM ST_DEDUCTION_CALENDAR_DETAILS SD
+        JOIN CP_DETAILS CD ON CD.CP_DETAILS_SID = SD.CP_DETAILS_SID
+        JOIN ITEM_MASTER IM ON IM.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+        WHERE @WHERE AND SD.USER_ID='@USERID' AND SD.SESSION_ID='@SESSIONID' 
+        
+    ]]> </query>
+</entity>
+<entity id="checkAllTemp">
+<query> <![CDATA[
+        
+            UPDATE ST_DEDUCTION_CALENDAR_DETAILS SET CHECK_RECORD = '@CHECK' WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID' ;
+        
+    ]]> </query>
+</entity>
+<entity id="deleteSelectionTable">
+<query> <![CDATA[
+        
+            DELETE FROM ST_DEDUCTION_CALENDAR_COMPANY WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+            DELETE FROM ST_DEDUCTION_CALENDAR_ITEM WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+        
+    ]]> </query>
+</entity>
+<entity id="deleteDeductionDetails">
+<query> <![CDATA[
+        
+            DELETE FROM ST_DEDUCTION_CALENDAR_DETAILS WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+        
+    ]]> </query>
+</entity>
+<entity id="insertToTempForCust">
+<query> <![CDATA[
+        
+            DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID, @USER_ID INT =?UID
+	,@SESSION_ID VARCHAR(100) =?SID
+        INSERT INTO ST_DEDUCTION_CALENDAR_COMPANY
+(COMPANY_MASTER_SID
+,USER_ID
+,SESSION_ID
+)
+SELECT COMPANY_MASTER_SID
+,@USER_ID
+,@SESSION_ID
+ FROM DEDUCTION_CALENDAR_COMPANY
+WHERE DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+AND INBOUND_STATUS <>'D';
+        
+    ]]> </query>
+</entity>
+<entity id="insertToTempForProd">
+<query> <![CDATA[
+        
+            DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID, @USER_ID INT =?UID
+	,@SESSION_ID VARCHAR(100) =?SID
+        INSERT INTO ST_DEDUCTION_CALENDAR_ITEM
+(ITEM_MASTER_SID
+,USER_ID
+,SESSION_ID
+)
+SELECT ITEM_MASTER_SID
+,@USER_ID
+,@SESSION_ID
+ FROM DEDUCTION_CALENDAR_ITEM
+WHERE DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+AND INBOUND_STATUS <>'D'
+        
+    ]]> </query>
+</entity>
+<entity id="insertToTempForDetails">
+<query> <![CDATA[
+        
+            DECLARE @DEDUCTION_CALENDAR_MASTER_SID INT = ?DCID, @USER_ID INT =?UID
+	,@SESSION_ID VARCHAR(100) =?SID
+        
+        INSERT INTO ST_DEDUCTION_CALENDAR_DETAILS (
+	CP_DETAILS_SID
+	,YEAR
+	,JAN_DISCOUNT_AMOUNT
+	,FEB_DISCOUNT_AMOUNT
+	,MAR_DISCOUNT_AMOUNT
+	,APR_DISCOUNT_AMOUNT
+	,MAY_DISCOUNT_AMOUNT
+	,JUN_DISCOUNT_AMOUNT
+	,JUL_DISCOUNT_AMOUNT
+	,AUG_DISCOUNT_AMOUNT
+	,SEP_DISCOUNT_AMOUNT
+	,OCT_DISCOUNT_AMOUNT
+	,NOV_DISCOUNT_AMOUNT
+	,DEC_DISCOUNT_AMOUNT
+	,CHECK_RECORD
+	,USER_ID
+	,SESSION_ID
+	)
+SELECT CP_DETAILS_SID
+	,YEAR
+	,JAN_DISCOUNT_AMOUNT
+	,FEB_DISCOUNT_AMOUNT
+	,MAR_DISCOUNT_AMOUNT
+	,APR_DISCOUNT_AMOUNT
+	,MAY_DISCOUNT_AMOUNT
+	,JUN_DISCOUNT_AMOUNT
+	,JUL_DISCOUNT_AMOUNT
+	,AUG_DISCOUNT_AMOUNT
+	,SEP_DISCOUNT_AMOUNT
+	,OCT_DISCOUNT_AMOUNT
+	,NOV_DISCOUNT_AMOUNT
+	,DEC_DISCOUNT_AMOUNT
+	,CHECK_RECORD
+	,@USER_ID
+	,@SESSION_ID
+FROM DEDUCTION_CALENDAR_DETAILS
+WHERE CP_DETAILS_SID IN (
+		SELECT CP_DETAILS_SID
+		FROM CP_DETAILS CD
+		WHERE EXISTS (
+				SELECT 1
+				FROM DEDUCTION_CALENDAR_COMPANY DC
+				WHERE DC.COMPANY_MASTER_SID = CD.COMPANY_MASTER_SID
+					AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+					AND INBOUND_STATUS <> 'D'
+				)
+			AND EXISTS (
+				SELECT 1
+				FROM DEDUCTION_CALENDAR_ITEM DI
+				WHERE DI.ITEM_MASTER_SID = CD.ITEM_MASTER_SID
+					AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+					AND INBOUND_STATUS <> 'D'
+				)
+		) AND DEDUCTION_CALENDAR_MASTER_SID = @DEDUCTION_CALENDAR_MASTER_SID
+        
+        
+    ]]> </query>
+</entity>
+<entity id="forecast-config">
+<query> <![CDATA[
+        
+            ;WITH CTE_FORECAST
+     AS (SELECT TOP 1 FROM_DATE,
+                      TO_DATE
+         FROM   FORECAST_CONFIG FG
+                JOIN HELPER_TABLE HT
+                  ON HT.HELPER_TABLE_SID = FG.BUSINESS_PROCESS_TYPE
+         WHERE  DESCRIPTION = 'Government'
+         ORDER  BY VERSION_NO DESC
+         UNION ALL
+         SELECT TOP 1 FROM_DATE,
+                      TO_DATE
+         FROM   FORECAST_CONFIG FG
+                JOIN HELPER_TABLE HT
+                  ON HT.HELPER_TABLE_SID = FG.BUSINESS_PROCESS_TYPE
+         WHERE  DESCRIPTION = 'Commercial'
+         ORDER  BY VERSION_NO DESC)
+SELECT Min(Cast(FROM_DATE AS DATE)) FROM_DATE,
+       Max(Cast(TO_DATE AS DATE))   TO_DATE
+FROM   CTE_FORECAST
+        
+    ]]> </query>
+</entity>
+<entity id="check-validation">
+<query> <![CDATA[
+        
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS
+           WHERE  CHECK_RECORD = 1
+                  AND USER_ID = ?UID
+                  AND SESSION_ID = ?SID)
+  SELECT 1
+ELSE
+  SELECT 0
+        
+    ]]> </query>
+</entity>
+<entity id="check-filter-comp-validation">
+<query> <![CDATA[
+        
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS SDC
+                  INNER JOIN CP_DETAILS CD
+                          ON SDC.CP_DETAILS_SID = CD.CP_DETAILS_SID
+           WHERE  CHECK_RECORD = 1
+                  AND USER_ID = ?UID
+                  AND SESSION_ID = ?SID
+                  AND COMPANY_MASTER_SID = ?FILTER)
+  SELECT 1
+ELSE
+  SELECT 0 
+
+        
+    ]]> </query>
+</entity>
+<entity id="check-filter-item-validation">
+<query> <![CDATA[
+        
+            IF EXISTS (SELECT 1
+           FROM   ST_DEDUCTION_CALENDAR_DETAILS SDC
+                  INNER JOIN CP_DETAILS CD
+                          ON SDC.CP_DETAILS_SID = CD.CP_DETAILS_SID
+           WHERE  CHECK_RECORD = 1
+                  AND USER_ID = ?UID
+                  AND SESSION_ID = ?SID
+                  AND ITEM_MASTER_SID = ?FILTER)
+  SELECT 1
+ELSE
+  SELECT 0 
+
+        
+    ]]> </query>
+</entity>
+<entity id="deleteCustomer_Selection_Table">
+<query> <![CDATA[
+        
+            DELETE FROM ST_DEDUCTION_CALENDAR_COMPANY WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+        
+    ]]> </query>
+</entity>
+<entity id="deleteItem_Selection_Table">
+<query> <![CDATA[
+        
+            DELETE FROM ST_DEDUCTION_CALENDAR_ITEM WHERE USER_ID='@USERID' AND SESSION_ID='@SESSIONID';
+        
+    ]]> </query>
+</entity>
+</sql>

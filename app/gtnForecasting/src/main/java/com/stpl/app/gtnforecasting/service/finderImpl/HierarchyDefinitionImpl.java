@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import java.util.ArrayList;
@@ -71,12 +71,12 @@ public class HierarchyDefinitionImpl {
         try {
             LOGGER.debug("Entering findViewByName method ");
 
-            customSql = CustomSQLUtil.get("getLevelsFromHierarchy");
+            customSql = SQlUtil.getQuery(getClass(),"getLevelsFromHierarchy");
             if (StringUtils.isNotEmpty(String.valueOf(parameters.get("hierarchyId")))
                     && StringUtils.isNotBlank(String.valueOf(parameters.get("hierarchyId")))) {
                 customSql += String.valueOf(parameters.get("hierarchyId")).trim();
             }
-            customSql += CustomSQLUtil.get("getLevelsFromHierarchy2");
+            customSql += SQlUtil.getQuery(getClass(),"getLevelsFromHierarchy2");
 //            LOGGER.debug("\n\nSearch query is -----> " + customSql + "\n\n");
             LOGGER.debug("End of findViewByName method");
             return HelperTableLocalServiceUtil.executeSelectQuery(customSql);

@@ -44,7 +44,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.v7.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.v7.ui.PopupDateField;

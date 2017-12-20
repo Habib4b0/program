@@ -25,7 +25,7 @@ import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.GtnAutomaticRelationServiceRunnable;
+import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.app.utils.Constants;
@@ -4302,7 +4302,7 @@ public class DataSelection extends ForecastDataSelection {
 
 	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId, ExecutorService executorService) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId,String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID)));
 		Future future = executorService.submit(wsClientRunnableTarget);
 		executorService.shutdown();
 		return future;

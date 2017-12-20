@@ -6,8 +6,8 @@
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
 import com.stpl.app.utils.Constants;
@@ -94,14 +94,14 @@ public class NmDiscountImpl {
         String discountTableName = !viewFlag ? "ST_NM_DISCOUNT_PROJECTION" : "NM_DISCOUNT_PROJECTION";
         String salesTableName = !viewFlag ? "ST_NM_SALES_PROJECTION" : "NM_SALES_PROJECTION";
         if (isCustom) {
-            genQuery = CustomSQLUtil.get(!viewFlag ? "nm.discCustomGen" : "nm.discCustomGenView");
+            genQuery = SQlUtil.getQuery(getClass(),!viewFlag ? "nm.discCustomGen" : "nm.discCustomGenView");
         } else {
-            genQuery = CustomSQLUtil.get(!viewFlag ? "nm.discountGenerate" : "nm.discountGenerateView");
+            genQuery = SQlUtil.getQuery(getClass(),!viewFlag ? "nm.discountGenerate" : "nm.discountGenerateView");
         }
 
         LOGGER.debug(" Entering getDiscountProjection");
         try {
-//            String customSql = CustomSQLUtil.get("findViewByName");
+//            String customSql = SQlUtil.getQuery(getClass(),"findViewByName");
             String declareStatement = "";
             String selectClause = "";
             String whereClause = "";
@@ -856,7 +856,7 @@ public class NmDiscountImpl {
             }
 
             if (HelperTableLocalServiceUtil.executeSelectQuery(sb.toString()).isEmpty() && viewFlag) {
-                String query = CustomSQLUtil.get("nm.ProgramTypeInView");
+                String query = SQlUtil.getQuery(getClass(),"nm.ProgramTypeInView");
                 if ("DiscountType".equals(programType)) {
                     query = query.replace("[$Select_STATEMENT]", "SELECT DISTINCT '' AS DISCOUNT_ID, PRICE_GROUP_TYPE AS DISCOUNT_NAME, RS_MODEL_SID,RS_NAME");
                     query = query.replace("[$PROJECTION_ID]", String.valueOf(projectionId));
@@ -1145,7 +1145,7 @@ public class NmDiscountImpl {
                         + " DECLARE @END_YEAR INT=" + endYear + "\n";
 
                 if ("Discount Rate".equals(selectedField) || "RPU".equals(selectedField)) {
-                    customSql = declareStatement + CustomSQLUtil.get("discRatemassPopulate");
+                    customSql = declareStatement + SQlUtil.getQuery(getClass(),"discRatemassPopulate");
                     customSql = customSql.replaceAll("@UID", userId);
                     customSql = customSql.replaceAll("@SNID", sessionId);
                     customSql = customSql.replaceAll("@PERIODLIST", getPeriodFilter());
@@ -2032,7 +2032,7 @@ public class NmDiscountImpl {
 
         String customQuery = "";
         try {
-//                String customSql = CustomSQLUtil.get("findViewByName");
+//                String customSql = SQlUtil.getQuery(getClass(),"findViewByName");
             String selectClause = " select H.LEVEL_NO, H.LEVEL_NAME, H.RELATIONSHIP_LEVEL_VALUES, I.\"YEAR\" , ";
             String whereClause = "";
             String groupBy = ",H.LEVEL_NAME , I.\"YEAR\"";

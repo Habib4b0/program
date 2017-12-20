@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import java.util.HashMap;
@@ -33,42 +33,42 @@ public class StChSalesProjectionImpl  {
         
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("getListViewProductLevel");
+            String query = SQlUtil.getQuery(getClass(),"getListViewProductLevel");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "getListViewProductLevelCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("getProdViewBrandNdcCount");
+            String query = SQlUtil.getQuery(getClass(),"getProdViewBrandNdcCount");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "getListViewCustomerLevel".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("getListViewCustomerLevel");
+            String query = SQlUtil.getQuery(getClass(),"getListViewCustomerLevel");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "getListViewCustomerLevelCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("getListViewCustomerLevelCount");
+            String query = SQlUtil.getQuery(getClass(),"getListViewCustomerLevelCount");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "customerUnderProductView".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("customerUnderProductView");
+            String query = SQlUtil.getQuery(getClass(),"customerUnderProductView");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "customerUnderProductViewCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("customerUnderProductViewCount");
+            String query = SQlUtil.getQuery(getClass(),"customerUnderProductViewCount");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
@@ -79,14 +79,14 @@ public class StChSalesProjectionImpl  {
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && "generateSalesProjectionCount".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
             parameters.put(Constants.QUERY_NAME, "generateSalesProjectionCount");
-            String query = CustomSQLUtil.get("generateSalesProjectionCount");
+            String query = SQlUtil.getQuery(getClass(),"generateSalesProjectionCount");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "totalSales".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("totalSales");
+            String query = SQlUtil.getQuery(getClass(),"totalSales");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             Map<String, Object> joinMap = (HashMap<String, Object>) parameters.get(Constants.JOIN_MAP);
             if (joinMap != null) {
@@ -101,7 +101,7 @@ public class StChSalesProjectionImpl  {
         } else if (parameters.get(Constants.INDICATOR) != null
                 && ("loadLevelForExpandCollapse".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))
                 || "excelExport".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR))))) {
-            String query = CustomSQLUtil.get(String.valueOf(parameters.get("query")));
+            String query = SQlUtil.getQuery(getClass(),String.valueOf(parameters.get("query")));
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
@@ -118,7 +118,7 @@ public class StChSalesProjectionImpl  {
             parameters.put(Constants.QUERY_NAME, "saveCheckRecord");
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && "gettherapeuticclass".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("gettherapeuticclass");
+            String query = SQlUtil.getQuery(getClass(),"gettherapeuticclass");
             String value = (String) parameters.get("input");
             query = query.replace("?", value);
             queryString.append(query);
@@ -132,21 +132,21 @@ public class StChSalesProjectionImpl  {
             parameters.put(Constants.QUERY_NAME, "getSelectedBaseLine");
             queryString.append(generateQuery(parameters, true));
         } else if (parameters.get(Constants.INDICATOR) != null && "checkSelectAll".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("checkSelectAll");
+            String query = SQlUtil.getQuery(getClass(),"checkSelectAll");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "getLevelName".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("getLevelName");
+            String query = SQlUtil.getQuery(getClass(),"getLevelName");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
             }
             queryString.append(query);
         } else if (parameters.get(Constants.INDICATOR) != null && "isCheckAll".equalsIgnoreCase(String.valueOf(parameters.get(Constants.INDICATOR)))) {
-            String query = CustomSQLUtil.get("isCheckAll");
+            String query = SQlUtil.getQuery(getClass(),"isCheckAll");
             Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
             for (String key : inputs.keySet()) {
                 query = query.replace(key, String.valueOf(inputs.get(key)));
@@ -194,7 +194,7 @@ public class StChSalesProjectionImpl  {
     }
     
      private String generateQuery(final Map<String, Object> parameters, final boolean joinAllowed) {
-        String query = CustomSQLUtil.get(String.valueOf(parameters.get(Constants.QUERY_NAME)));
+        String query = SQlUtil.getQuery(getClass(),String.valueOf(parameters.get(Constants.QUERY_NAME)));
         Map<String, Object> inputs = (HashMap<String, Object>) parameters.get(Constants.INPUT_MAP);
         inputs.put("?MASTER_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION_MASTER));
         inputs.put("?PROJECTION_TABLE?", tableNameBundle.getString(Constants.ST_CH_SALES_PROJECTION));

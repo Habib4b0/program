@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="getResults">
+<query> <![CDATA[
+
+      SELECT DISTINCT FM.FORECAST_NAME,FM.SOURCE,FM.COUNTRY,FM.FORECAST_VER FROM FORECASTING_MASTER FM
+
+    ]]> </query>
+</entity>
+<entity id="getDetailsResults">
+<query> <![CDATA[
+
+      SELECT DISTINCT IM.ITEM_NO,IM.ITEM_NAME,FM.FORECAST_YEAR,FM.FORECAST_MONTH,FM.FORECAST_DATE,
+      FM.PRICE,FM.UNITS,FM.DOLLARS,FM.RECORD_LOCK_STATUS,FM.FORECAST_MASTER_SID 
+      FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+      AND FORECAST_NAME=  
+
+    ]]> </query>
+</entity>
+<entity id="getCustomerDetails">
+<query> <![CDATA[
+
+    
+    
+SELECT CM.ORGANIZATION_KEY,CM.COMPANY_ID,CM.COMPANY_NO,CM.COMPANY_NAME,HT_TC.DESCRIPTION   COMPANY_TRADE_CLASS,CTC.TRADE_CLASS_START_DATE,CTC.TRADE_CLASS_END_DATE,
+HT_CT.DESCRIPTION   COMPANY_TYPE,HT_CS.DESCRIPTION   COMPANY_STATUS,CM.COMPANY_END_DATE,HT_UDC1.DESCRIPTION UDC1,
+HT_UDC2.DESCRIPTION UDC2,HT_UDC3.DESCRIPTION UDC3,HT_UDC4.DESCRIPTION UDC4,HT_UDC5.DESCRIPTION UDC5,HT_UDC6.DESCRIPTION UDC6,
+CM.COMPANY_GROUP,CM.FINANCIAL_SYSTEM,CM.ADDRESS1,CM.ADDRESS2,CM.CITY,HT_ST.DESCRIPTION   STATE,
+CM.ZIP_CODE,HT_CN.DESCRIPTION   COUNTRY,CM.REGION_CODE,CPD.PARENT_COMPANY_MASTER_SID,CPD.PARENT_START_DATE,
+CPD.PARENT_END_DATE,CM.COMPANY_START_DATE,CPD.PRIOR_PARENT_START_DATE,CPD.PRIOR_PARENT_CMPY_MASTER_SID,
+CM.COMPANY_MASTER_SID,CTC.COMPANY_TRADE_CLASS_SID,CPD.COMPANY_PARENT_DETAILS_SID,CM.LIVES
+FROM   COMPANY_MASTER CM
+        LEFT JOIN COMPANY_TRADE_CLASS CTC
+              ON CM.COMPANY_MASTER_SID = CTC.COMPANY_MASTER_SID
+        LEFT JOIN COMPANY_PARENT_DETAILS CPD
+              ON CM.COMPANY_MASTER_SID = CPD.COMPANY_MASTER_SID
+        JOIN HELPER_TABLE HT_CT
+              ON CM.COMPANY_TYPE = HT_CT.HELPER_TABLE_SID
+        JOIN HELPER_TABLE HT_CS
+              ON CM.COMPANY_STATUS = HT_CS.HELPER_TABLE_SID
+        JOIN HELPER_TABLE HT_TC
+              ON CTC.COMPANY_TRADE_CLASS = HT_TC.HELPER_TABLE_SID
+        LEFT JOIN HELPER_TABLE HT_ST
+              ON CM.STATE = HT_ST.HELPER_TABLE_SID
+        LEFT JOIN HELPER_TABLE HT_CN
+              ON CM.COUNTRY = HT_CN.HELPER_TABLE_SID
+        JOIN UDCS UDC
+              ON CM.COMPANY_MASTER_SID = UDC.MASTER_SID
+                 AND UDC.MASTER_TYPE = 'COMPANY_MASTER'
+        JOIN HELPER_TABLE HT_UDC1
+              ON UDC.UDC1 = HT_UDC1.HELPER_TABLE_SID and HT_UDC1.HELPER_TABLE_SID<>0
+        JOIN HELPER_TABLE HT_UDC2
+              ON UDC.UDC2 = HT_UDC2.HELPER_TABLE_SID and HT_UDC2.HELPER_TABLE_SID<>0
+        JOIN HELPER_TABLE HT_UDC3
+              ON UDC.UDC3 = HT_UDC3.HELPER_TABLE_SID and HT_UDC3.HELPER_TABLE_SID<>0
+        JOIN HELPER_TABLE HT_UDC4
+              ON UDC.UDC4 = HT_UDC4.HELPER_TABLE_SID and HT_UDC4.HELPER_TABLE_SID<>0
+        JOIN HELPER_TABLE HT_UDC5
+              ON UDC.UDC5 = HT_UDC5.HELPER_TABLE_SID and HT_UDC5.HELPER_TABLE_SID<>0
+        JOIN HELPER_TABLE HT_UDC6
+              ON UDC.UDC6 = HT_UDC6.HELPER_TABLE_SID and HT_UDC6.HELPER_TABLE_SID<>0 
+        WHERE CM.inbound_Status not like 'D'
+
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getPriorCustomerNo">
+<query> <![CDATA[
+
+   SELECT COMPANY_MASTER.COMPANY_NO FROM COMPANY_MASTER 
+    
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getTradeClassDetails">
+<query> <![CDATA[
+
+   SELECT COMPANY_TRADE_CLASS.COMPANY_TRADE_CLASS,COMPANY_TRADE_CLASS.TRADE_CLASS_START_DATE,COMPANY_TRADE_CLASS.TRADE_CLASS_END_DATE FROM COMPANY_TRADE_CLASS 
+    
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getParentDetails">
+<query> <![CDATA[
+
+   SELECT COMPANY_PARENT_DETAILS.PARENT_COMPANY_MASTER_SID,COMPANY_PARENT_DETAILS.PARENT_START_DATE,COMPANY_PARENT_DETAILS.PARENT_END_DATE,COMPANY_PARENT_DETAILS.PRIOR_PARENT_START_DATE,COMPANY_PARENT_DETAILS.PRIOR_PARENT_CMPY_MASTER_SID FROM COMPANY_PARENT_DETAILS 
+    
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getItemDetails">
+<query> <![CDATA[
+
+    
+
+
+ SELECT distinct IM.item_Id,IM.item_No,IM.item_Code,IM.item_Name,IM.item_Desc,IM.item_Start_Date,IM.item_End_Date,HT_IS.description AS ITEM_STATUS,HT_TC.description AS THERAPAUTIC_CLASS,
+BM.brand_Name,HT_F.description AS FORM,
+         HT_STRENGTH.description as strength,IM.package_Size_Code,IM.package_Size_Intro_Date,IM.upps,IM.labeler_Code,IM.organization_Key,
+         IM.acquisition_Date,IM.authorized_Generic,IM.authorized_Generic_Start_Date,IM.authorized_Generic_End_Date,IM.first_Sale_Date,
+IM.item_Type_Indication,HT_CL.description AS ITEM_CLASS,HT_IT.description AS ITEM_TYPE,
+IM.market_Termination_Date,IM.new_Formulation_Indicator,IM.new_Formulation,IM.new_Formulation_Start_Date,
+IM.new_Formulation_End_Date,IM.pediatric_Exclusive_Indicator,
+IM.pediatric_Exclusive_Start_Date,IM.pediatric_Exclusive_End_Date,
+IM.clotting_Factor_Indicator,IM.clotting_Factor_Start_Date,IM.clotting_Factor_End_Date,HT_PU.description AS PRIMARY_UOM,HT_SU.description AS SECONDARY,
+IM.shelf_Life,HT_SLT.description AS SHELF_LIFE_TYPE,IM.dual_Pricing_Indicator,IM.item_Family_Id,HT_UDC1.description AS UDC1,HT_UDC2.description AS UDC2,HT_UDC3.description AS UDC3,
+HT_UDC4.description AS UDC4,HT_UDC5.description AS UDC5,HT_UDC6.description AS UDC6,IM.acquired_Amp,IM.acquired_Bamp,IM.obra_Bamp,IM.dra,
+IM.doses_Per_Unit,IM.discontinuation_Date,IM.last_Lot_Expiration_Date,IM.ndc9,IM.ndc8,BM.display_Brand,IM.baseline_Amp,IM.base_Cpi,IM.manufacturer_Id,IM.item_Master_Sid
+         
+        FROM   ITEM_MASTER IM
+       LEFT JOIN HELPER_TABLE HT_IS
+              ON IM.ITEM_STATUS = HT_IS.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_IC
+              ON IM.ITEM_CATEGORY = HT_IC.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_TC
+              ON IM.THERAPEUTIC_CLASS = HT_TC.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_F
+              ON IM.FORM = HT_F.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_CL
+              ON IM.ITEM_CLASS = HT_CL.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_IT
+              ON IM.ITEM_TYPE = HT_IT.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_PU
+              ON IM.PRIMARY_UOM = HT_PU.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_SU
+              ON IM.SECONDARY_UOM = HT_SU.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_SLT
+              ON IM.SHELF_LIFE_TYPE = HT_SLT.HELPER_TABLE_SID
+       LEFT JOIN BRAND_MASTER BM
+              ON IM.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+       LEFT JOIN UDCS UDC
+              ON IM.ITEM_MASTER_SID = UDC.MASTER_SID AND UDC.MASTER_TYPE = 'ITEM_MASTER'
+       LEFT JOIN HELPER_TABLE HT_UDC1
+              ON UDC.UDC1 = HT_UDC1.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_UDC2
+              ON UDC.UDC2 = HT_UDC2.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_UDC3
+              ON UDC.UDC3 = HT_UDC3.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_UDC4
+              ON UDC.UDC4 = HT_UDC4.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_UDC5
+              ON UDC.UDC5 = HT_UDC5.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_UDC6
+              ON UDC.UDC6 = HT_UDC6.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE HT_STRENGTH
+              ON IM.STRENGTH = HT_STRENGTH.HELPER_TABLE_SID
+              
+
+
+    ]]> </query>
+</entity>
+<entity id="getDemandDetailsResults">
+<query> <![CDATA[
+
+    SELECT DISTINCT DF.FORECAST_TYPE,DF.FORECAST_YEAR,DF.FORECAST_MONTH,
+    DF.ITEM_ID,DF.ITEM_IDENTIFIER_CODE_QUALIFIER,DF.ITEM_IDENTIFIER,
+    DF.BRAND_ID,DF.SEGMENT,DF.MARKET_SIZE_UNITS,DF.MARKET_SHARE_UNITS,
+    DF.MARKET_SHARE_RATIO,DF.MARKET_SHARE_UNITS,DF.UNCAPTURED_UNITS,DF.UNCAPTURED_UNITS_RATIO,DF.TOTAL_DEMAND_UNITS,DF.TOTAL_DEMAND_AMOUNT,
+    DF.INVENTORY_UNIT_CHANGE,DF.GROSS_UNITS,DF.GROSS_PRICE,
+    DF.GROSS_AMOUNT,DF.NET_SALES_PRICE,DF.NET_SALES_AMOUNT,DF.FORECAST_NAME,
+    DF.BATCH_ID,DF."SOURCE",DF.ORGANIZATION_KEY
+    FROM DEMAND_FORECAST DF
+    WHERE FORECAST_NAME=
+
+    ]]> </query>
+</entity>
+<entity id="getInventorySearchResults">
+<query> <![CDATA[
+        
+        SELECT FORECAST_NAME,FORECAST_VER,"SOURCE",COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, 
+        Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  
+        Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,
+        Month(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH,  
+        Year(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-'+ Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR 
+        FROM  INVENTORY_WD_PROJ_MAS FM  
+        CROSS APPLY(SELECT Min(Cast(( Cast("YEAR" AS VARCHAR(4)) + '-'+ Cast("MONTH" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE 
+        FROM INVENTORY_WD_PROJ_MAS   
+        WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS 
+        WHERE
+        
+    ]]> </query>
+</entity>
+<entity id="getInventorySearchResults">
+<query> <![CDATA[
+        
+        SELECT FORECAST_NAME,FORECAST_VER,"SOURCE",COUNTRY, Min(FT_MIN_DATE) AS FT_MIN_DATE, 
+        Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)) AS FT_MAX_DATE,  
+        Month(Min(FT_MIN_DATE)) AS MIN_MONTH,Year(Min(FT_MIN_DATE)) AS MIN_YEAR,
+        Month(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-' + Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE))) AS MAX_MONTH,  
+        Year(Max(Cast(( Cast(fm."YEAR" AS VARCHAR(4)) + '-'+ Cast(fm."MONTH" AS VARCHAR(2))+ '-01' ) AS DATE)))  AS MAX_YEAR 
+        FROM  INVENTORY_WD_PROJ_MAS FM  
+        CROSS APPLY(SELECT Min(Cast(( Cast("YEAR" AS VARCHAR(4)) + '-'+ Cast("MONTH" AS VARCHAR(2)) + '-01' ) AS DATE)) AS FT_MIN_DATE 
+        FROM INVENTORY_WD_PROJ_MAS   
+        WHERE  FORECAST_VER = Floor(FM.FORECAST_VER) AND forecast_name = fm.forecast_name) CS 
+        WHERE
+        
+    ]]> </query>
+</entity>
+<entity id="getForecastConfigurationSearchResults">
+<query> <![CDATA[
+        
+;WITH CTE
+                     AS (SELECT RN=Row_number()
+                                     OVER(
+                                       PARTITION BY BUSINESS_PROCESS_TYPE
+                                       ORDER BY VERSION_NO DESC),
+                                *
+                         FROM   FORECAST_CONFIG),
+                     inter
+                     AS (SELECT *,
+                                CASE
+                                  WHEN rn = 1 THEN 'Active'
+                                  ELSE 'Inactive'
+                                END     AS [Active_Inactive],
+                                ( CASE
+                                    WHEN PROCESS_MODE = 1 THEN 'Interval'
+                                    ELSE 'Period'
+                                  END ) AS MODE,
+                                ( CASE
+                                    WHEN PROCESS_TYPE = 1 THEN 'Auto Update'
+                                    ELSE 'Defined'
+                                  END ) AS PROCESS_TYPE_1
+                         FROM   CTE)
+                SELECT BUSINESS_PROCESS_TYPE,PROCESS_TYPE_1,MODE,FROM_DATE,TO_DATE,HIST_FREQ,HIST_VALUE,PROJ_FREQ,PROJ_VALUE,VERSION_NO,ACTIVE_START_DATE,ACTIVE_END_DATE,inter.CREATED_BY,Active_Inactive 
+                FROM inter 
+				JOIN HELPER_TABLE HT on inter.BUSINESS_PROCESS_TYPE = HT.HELPER_TABLE_SID
+                JOIN HELPER_TABLE HTF on inter.HIST_FREQ = HTF.HELPER_TABLE_SID    
+                JOIN HELPER_TABLE HTP on inter.PROJ_FREQ = HTP.HELPER_TABLE_SID 
+                JOIN ?.DBO.USER_ USR  ON inter.CREATED_BY = USR.userId
+        
+    ]]> </query>
+</entity>
+<entity id="getForecastConfigurationSearchCount">
+<query> <![CDATA[
+        
+;WITH CTE
+                           AS (SELECT RN=Row_number()
+                                           OVER(   
+                                             PARTITION BY BUSINESS_PROCESS_TYPE
+                                             ORDER BY VERSION_NO DESC),   
+                                      *   
+                               FROM   FORECAST_CONFIG),   
+                           inter
+                           AS (SELECT *,   
+                                      CASE
+                                        WHEN rn = 1 THEN 'Active'   
+                                        ELSE 'Inactive'   
+                                      END     AS [Active_Inactive],   
+                                      ( CASE
+                                          WHEN PROCESS_MODE = 1 THEN 'Interval'   
+                                          ELSE 'Period'   
+                                        END ) AS MODE,   
+                                      ( CASE
+                                          WHEN PROCESS_TYPE = 1 THEN 'Auto Update'   
+                                          ELSE 'Defined'   
+                                        END ) AS PROCESS_TYPE_1
+                               FROM   CTE)   
+                       SELECT COUNT(*)    
+                       FROM   inter
+					            JOIN ?.DBO.USER_ USR  ON inter.CREATED_BY = USR.userId
+
+      
+    ]]> </query>
+</entity>
+<entity id="updateForecastConfigEndDate">
+<query> <![CDATA[
+        
+     UPDATE forecast_config 
+               SET    active_end_date = convert(datetime, '?activeEndDate')  
+               WHERE  forecast_config_sid = (SELECT Max(forecast_config_sid)
+                                             FROM   forecast_config 
+                                             WHERE  business_process_type = '?businessType') 
+        
+    ]]> </query>
+</entity>
+<entity id="getRelationshipBuilderOutbound">
+<query> <![CDATA[
+        
+    
+    DECLARE @RELATIONSHIP_BUILDER_SID VARCHAR(4000)='?RELATIONSHIP_BUILDER_SID';
+
+WITH RELATION
+     AS (SELECT TOKEN AS RELATIONSHIP_BUILDER_SID
+         FROM   [dbo].[Udf_splitstring] (@RELATIONSHIP_BUILDER_SID, ',')),
+     LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY RC.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY RC.RELATIONSHIP_BUILDER_SID) RN,
+                        RC.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATION RC
+                                ON RC.RELATIONSHIP_BUILDER_SID = R.RELATIONSHIP_BUILDER_SID
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE')A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                RC.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                INNER JOIN RELATION RC
+                        ON RC.RELATIONSHIP_BUILDER_SID = R.RELATIONSHIP_BUILDER_SID
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+     
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionCount">
+<query> <![CDATA[
+
+
+SELECT  COUNT(HD.HIERARCHY_DEFINITION_SID) FROM HIERARCHY_DEFINITION HD
+WHERE HD.HIERARCHY_TYPE=    
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionResults">
+<query> <![CDATA[
+
+
+SELECT  HD.HIERARCHY_DEFINITION_SID,HD.HIERARCHY_NAME, HD.HIERARCHY_TYPE, HD.HIERARCHY_CATEGORY, HD.NO_OF_LEVELS, HD.CREATED_BY, HD.CREATED_DATE, HD.MODIFIED_BY, HD.MODIFIED_DATE, HD.VERSION_NO FROM HIERARCHY_DEFINITION HD
+WHERE HD.HIERARCHY_TYPE=      
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionOutbound">
+<query> <![CDATA[
+
+
+DECLARE @HIERARCHY_DEFINITION_SID VARCHAR(4000)='?HIERARCHY_DEFINITION_SID';
+
+WITH HIERARCHY
+     AS (SELECT TOKEN AS HIERARCHY_DEFINITION_SID
+         FROM   [dbo].[Udf_splitstring] (@HIERARCHY_DEFINITION_SID, ','))
+SELECT C.HIERARCHY_DEFINITION_SID,
+       H.HIERARCHY_NAME,
+       HT.DESCRIPTION  AS HIERARCHY_TYPE,
+       HTC.DESCRIPTION AS HIERARCHY_CATEGORY,
+       H.NO_OF_LEVELS,
+       H.VERSION_NO    AS VERSION,
+       HL.LEVEL_NAME,
+       HL.LEVEL_NO,
+       HL.LEVEL_VALUE_REFERENCE,
+       HL.TABLE_NAME,
+       HL.FIELD_NAME,
+       HL.INCLUSION_RULE_TYPE,
+       HL.INCLUSION_RULE,
+       HL.INCLUSION_CONDITION,
+       HL.EXCLUSION_RULE_TYPE,
+       HL.EXCLUSION_RULE,
+       HL.EXCLUSION_CONDITION
+FROM   HIERARCHY_DEFINITION H
+       INNER JOIN HIERARCHY C
+               ON H.HIERARCHY_DEFINITION_SID = C.HIERARCHY_DEFINITION_SID
+       INNER JOIN HIERARCHY_LEVEL_DEFINITION HL
+               ON H.HIERARCHY_DEFINITION_SID = HL.HIERARCHY_DEFINITION_SID
+       LEFT JOIN HELPER_TABLE HT
+              ON HT.HELPER_TABLE_SID = H.HIERARCHY_TYPE
+                 AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+       LEFT JOIN HELPER_TABLE HTC
+              ON HTC.HELPER_TABLE_SID = H.HIERARCHY_CATEGORY
+                 AND HTC.LIST_NAME = 'HIERARCHY_CATEGORY' 
+
+ 
+
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionOutboundMaxLevel">
+<query> <![CDATA[
+
+
+    DECLARE @HIERARCHY_DEFINITION_SID VARCHAR(4000)='?HIERARCHY_DEFINITION_SID'
+
+SELECT Max(NO_OF_LEVELS)
+FROM   (SELECT TOKEN AS HIERARCHY_DEFINITION_SID,
+               NO_OF_LEVELS
+        FROM   [dbo].[Udf_splitstring] (@HIERARCHY_DEFINITION_SID, ',')F
+               INNER JOIN HIERARCHY_DEFINITION H
+                       ON F.TOKEN = H.HIERARCHY_DEFINITION_SID)A  
+
+
+
+    ]]> </query>
+</entity>
+<entity id="getCffOuboundSearchResults">
+<query> <![CDATA[
+        
+               ;WITH CFF
+    AS (SELECT cm.CFF_MASTER_SID,
+            cff_name,
+            cff_type= ht.description,
+            rn = Row_number()OVER(partition BY cm.cff_master_sid ORDER BY approval_sequence DESC),
+            approval_status= h.DESCRIPTION,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            cm.inbound_status,
+            CM.CREATED_DATE
+            FROM   cff_master cm
+                INNER JOIN CFF_APPROVAL_DETAILS cad
+                           ON cm.CFF_MASTER_SID = cad.CFF_MASTER_SID
+                INNER JOIN helper_table ht
+                           ON cm.CFF_TYPE = ht.helper_table_sid
+                INNER JOIN HELPER_TABLE h
+                           ON h.HELPER_TABLE_SID = cad.APPROVAL_STATUS
+          
+),
+                Pagination
+        AS (SELECT CFF_MASTER_SID,
+            cff_name,
+            cff_type,
+            approval_status,
+            APPROVED_DATE,
+            APPROVED_BY,
+            ACTIVE_FROM_DATE,
+            ACTIVE_TO_DATE,
+            inbound_status,
+            CREATED_DATE,
+            pag=Row_number()OVER(ORDER BY CFF_MASTER_SID)
+            FROM   CFF
+            WHERE  rn = 1)
+    SELECT CFF_MASTER_SID
+    FROM   Pagination where inbound_status <> 'D'
+         
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionOutboundAllMaxLevel">
+<query> <![CDATA[
+    
+    SELECT Max(NO_OF_LEVELS) FROM HIERARCHY_DEFINITION
+      
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionOuboundScheduleResults">
+<query> <![CDATA[
+        
+        
+    SELECT H.HIERARCHY_DEFINITION_SID,
+       H.HIERARCHY_NAME,
+       HT.DESCRIPTION  AS HIERARCHY_TYPE,
+       HTC.DESCRIPTION AS HIERARCHY_CATEGORY,
+       H.NO_OF_LEVELS,
+       H.VERSION_NO    AS VERSION,
+       HL.LEVEL_NAME,
+       HL.LEVEL_NO,
+       HL.LEVEL_VALUE_REFERENCE,
+       HL.TABLE_NAME,
+       HL.FIELD_NAME,
+       HL.INCLUSION_RULE_TYPE,
+       HL.INCLUSION_RULE,
+       HL.INCLUSION_CONDITION,
+       HL.EXCLUSION_RULE_TYPE,
+       HL.EXCLUSION_RULE,
+       HL.EXCLUSION_CONDITION
+FROM   dbo.HIERARCHY_DEFINITION H
+                       INNER JOIN HIERARCHY_LEVEL_DEFINITION HL
+               ON H.HIERARCHY_DEFINITION_SID = HL.HIERARCHY_DEFINITION_SID
+                       LEFT JOIN HELPER_TABLE HT
+              ON HT.HELPER_TABLE_SID = H.HIERARCHY_TYPE
+                                 AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+                       LEFT JOIN HELPER_TABLE HTC
+              ON HTC.HELPER_TABLE_SID = H.HIERARCHY_CATEGORY
+                                 AND HTC.LIST_NAME = 'HIERARCHY_CATEGORY'
+
+      
+    ]]> </query>
+</entity>
+<entity id="getHierarchyDefinitionOuboundCheckAllResults">
+<query> <![CDATA[
+        
+    
+    
+WITH HIERARCHY
+     AS ( SELECT HIERARCHY_DEFINITION_SID from HIERARCHY_DEFINITION HD
+WHERE HD.HIERARCHY_TYPE= ?CONDITIONS )
+SELECT C.HIERARCHY_DEFINITION_SID,
+       H.HIERARCHY_NAME,
+       HT.DESCRIPTION  AS HIERARCHY_TYPE,
+       HTC.DESCRIPTION AS HIERARCHY_CATEGORY,
+       H.NO_OF_LEVELS,
+       H.VERSION_NO    AS VERSION,
+       HL.LEVEL_NAME,
+       HL.LEVEL_NO,
+       HL.LEVEL_VALUE_REFERENCE,
+       HL.TABLE_NAME,
+       HL.FIELD_NAME,
+       HL.INCLUSION_RULE_TYPE,
+       HL.INCLUSION_RULE,
+       HL.INCLUSION_CONDITION,
+       HL.EXCLUSION_RULE_TYPE,
+       HL.EXCLUSION_RULE,
+       HL.EXCLUSION_CONDITION
+FROM   HIERARCHY_DEFINITION H
+       INNER JOIN HIERARCHY C
+               ON H.HIERARCHY_DEFINITION_SID = C.HIERARCHY_DEFINITION_SID
+       INNER JOIN HIERARCHY_LEVEL_DEFINITION HL
+               ON H.HIERARCHY_DEFINITION_SID = HL.HIERARCHY_DEFINITION_SID
+       LEFT JOIN HELPER_TABLE HT
+              ON HT.HELPER_TABLE_SID = H.HIERARCHY_TYPE
+                 AND HT.LIST_NAME = 'RELATIONSHIP_TYPE'
+       LEFT JOIN HELPER_TABLE HTC
+              ON HTC.HELPER_TABLE_SID = H.HIERARCHY_CATEGORY
+                 AND HTC.LIST_NAME = 'HIERARCHY_CATEGORY' 
+
+    
+      
+    ]]> </query>
+</entity>
+<entity id="getRelationshipOuboundCheckAllResults">
+<query> <![CDATA[
+        
+    WITH  LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY R.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY R.RELATIONSHIP_BUILDER_SID) RN,
+                        R.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   dbo.RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                       
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                                  ?LWHEREQUERY
+                                  
+)A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                R.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+               
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )
+         ?ANDQUERY
+),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+       
+    ]]> </query>
+</entity>
+<entity id="getRelationshipOuboundScheduleResults">
+<query> <![CDATA[
+        
+    WITH  LINKED
+     AS (SELECT *
+         FROM   (SELECT Row_number()
+                          OVER (
+                            PARTITION BY R.RELATIONSHIP_BUILDER_SID, HLV.LEVEL_VALUES
+                            ORDER BY R.RELATIONSHIP_BUILDER_SID) RN,
+                        R.RELATIONSHIP_BUILDER_SID,
+                        HLV.LEVEL_VALUES                          AS RELATIONSHIP_TREE,
+                        R.RELATIONSHIP_NAME,
+                        R.RELATIONSHIP_DESCRIPTION,
+                        H.DESCRIPTION                             AS RELATIONSHIP_TYPE,
+                        HD.HIERARCHY_NAME,
+                        HLD.LEVEL_NAME                            AS HIERARCHY_LEVEL_NAME,
+                        HD.VERSION_NO                             AS HIERARCHY_VERSION_NO,
+                        R.START_DATE,
+                        R.BUILD_TYPE,
+                        RLD.HIERARCHY_NO,
+                        RLD.LEVEL_NO,
+                        RLD.PARENT_NODE
+                 FROM   dbo.RELATIONSHIP_BUILDER R
+                        INNER JOIN HIERARCHY_DEFINITION HD
+                                ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_DEFINITION HLD
+                                ON HD.HIERARCHY_DEFINITION_SID = HLD.HIERARCHY_DEFINITION_SID
+                        INNER JOIN HIERARCHY_LEVEL_VALUES HLV
+                                ON HLV.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                        INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                                ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+                                   AND RLD.HIERARCHY_LEVEL_DEFINITION_SID = HLD.HIERARCHY_LEVEL_DEFINITION_SID
+                       
+                        LEFT JOIN HELPER_TABLE H
+                               ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                                  AND LIST_NAME = 'RELATIONSHIP_TYPE'
+)A
+         WHERE  RN = 1),
+     DEFINED
+     AS (SELECT NULL                          AS RN,
+                R.RELATIONSHIP_BUILDER_SID,
+                RLD.RELATIONSHIP_LEVEL_VALUES AS RELATIONSHIP_TREE,
+                R.RELATIONSHIP_NAME,
+                R.RELATIONSHIP_DESCRIPTION,
+                H.DESCRIPTION                 AS RELATIONSHIP_TYPE,
+                HD.HIERARCHY_NAME,
+                RLD.LEVEL_NAME                AS HIERARCHY_LEVEL_NAME,
+                HD.VERSION_NO                 AS HIERARCHY_VERSION_NO,
+                R.START_DATE,
+                R.BUILD_TYPE,
+                RLD.HIERARCHY_NO,
+                RLD.LEVEL_NO,
+                RLD.PARENT_NODE
+         FROM   RELATIONSHIP_BUILDER R
+                INNER JOIN HIERARCHY_DEFINITION HD
+                        ON R.HIERARCHY_DEFINITION_SID = HD.HIERARCHY_DEFINITION_SID
+                LEFT JOIN HELPER_TABLE H
+                       ON H.HELPER_TABLE_SID = R.RELATIONSHIP_TYPE
+                          AND LIST_NAME = 'RELATIONSHIP_TYPE'
+                INNER JOIN RELATIONSHIP_LEVEL_DEFINITION RLD
+                        ON R.RELATIONSHIP_BUILDER_SID = RLD.RELATIONSHIP_BUILDER_SID
+               
+         WHERE  RLD.LEVEL_NAME NOT IN ( 'SEGMENT', 'SEGMENT GROUP' )
+),
+     LIN_DEF
+     AS (SELECT HIERARCHY_PARENT=Row_number()
+                                   OVER (
+                                     PARTITION BY A.RELATIONSHIP_BUILDER_SID, Len(HIERARCHY_NO)
+                                     ORDER BY A.RELATIONSHIP_BUILDER_SID),
+                *
+         FROM   (SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   LINKED
+                 UNION ALL
+                 SELECT RELATIONSHIP_BUILDER_SID,
+                        RELATIONSHIP_TREE,
+                        RELATIONSHIP_NAME,
+                        RELATIONSHIP_DESCRIPTION,
+                        RELATIONSHIP_TYPE,
+                        HIERARCHY_NAME,
+                        HIERARCHY_LEVEL_NAME,
+                        HIERARCHY_VERSION_NO,
+                        START_DATE,
+                        BUILD_TYPE,
+                        HIERARCHY_NO,
+                        LEVEL_NO,
+                        PARENT_NODE
+                 FROM   DEFINED)A)
+SELECT *
+FROM   LIN_DEF
+ORDER  BY RELATIONSHIP_BUILDER_SID,
+          HIERARCHY_PARENT,
+          HIERARCHY_NO 
+
+
+       
+    ]]> </query>
+</entity>
+<entity id="getDetailsResultsExcel">
+<query> <![CDATA[
+
+       SELECT DISTINCT FM.FORECAST_YEAR,FM.FORECAST_MONTH,IM.ITEM_NO,QUOTENAME(IM.ITEM_NAME, CHAR(34)),
+      CONVERT(VARCHAR(10),FM.FORECAST_DATE,101)  AS FORECAST_DATE,
+      FM.PRICE,FM.UNITS,FM.DOLLARS 
+      FROM FORECASTING_MASTER FM,ITEM_MASTER IM WHERE FM.NDC=IM.ITEM_ID 
+      AND FORECAST_NAME=   
+
+    ]]> </query>
+</entity>
+</sql>

@@ -758,13 +758,13 @@ public class PPAProjectionResultsLogic {
         String value;
         switch (ddlbType) {
             case Constant.CONTRACT:
-                query = CustomSQLUtil.get("contract-ddlb");
+                query = SQlUtil.getQuery(getClass(),"contract-ddlb");
                 break;
             case Constant.CUSTOMER1_SMALL:
-                query = CustomSQLUtil.get("customer-ddlb");
+                query = SQlUtil.getQuery(getClass(),"customer-ddlb");
                 break;
             case Constant.BRAND:
-                query = CustomSQLUtil.get("brand-ddlb");
+                query = SQlUtil.getQuery(getClass(),"brand-ddlb");
                 break;
             default:
                 break;
@@ -829,13 +829,13 @@ public class PPAProjectionResultsLogic {
         switch (ddlbType) {
 
             case Constant.CONTRACT:
-                query = CustomSQLUtil.get("contract-ddlb");
+                query = SQlUtil.getQuery(getClass(),"contract-ddlb");
                 break;
             case Constant.CUSTOMER1_SMALL:
-                query = CustomSQLUtil.get("customer-ddlb");
+                query = SQlUtil.getQuery(getClass(),"customer-ddlb");
                 break;
             case Constant.BRAND:
-                query = CustomSQLUtil.get("brand-ddlb");
+                query = SQlUtil.getQuery(getClass(),"brand-ddlb");
                 break;
             default:
                 break;
@@ -906,7 +906,7 @@ public class PPAProjectionResultsLogic {
     }
 
     public int getPPAItemCount(PPADetailsDTO ppaDetailsDTO, final String filterText, String ddlbtype) {
-        String query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
+        String query = SQlUtil.getQuery(getClass(),Constant.ITEMNO_DDLB);
         String searchFilter;
         if (ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId() != 0) {
             query = query.replace(Constant.ITEMSID_AT, StringUtils.EMPTY + ppaDetailsDTO.getPpaHelperDTO().getItemMasterSysId());
@@ -961,10 +961,10 @@ public class PPAProjectionResultsLogic {
         final List<PPAHelperDTO> list = new ArrayList<>();
         switch (ddlbtype) {
             case Constant.ITEM_NO:
-                query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
+                query = SQlUtil.getQuery(getClass(),Constant.ITEMNO_DDLB);
                 break;
             case Constant.ITEM_NAME_SMALL_PROPERY:
-                query = CustomSQLUtil.get(Constant.ITEMNO_DDLB);
+                query = SQlUtil.getQuery(getClass(),Constant.ITEMNO_DDLB);
                 break;
             default:
                 break;

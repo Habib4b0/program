@@ -17,7 +17,6 @@ import com.stpl.app.service.AdditionalNotesLocalServiceUtil;
 import com.stpl.app.service.DocDetailsLocalServiceUtil;
 import com.stpl.ifs.util.CommonUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -68,7 +67,7 @@ public class AdditionalInfoLogic {
     public Boolean saveUploadedFile(final int projectionId, final String fileName, final String uploadedBy, final Double fileSize, final String moduleName) throws SystemException{
 
         final DecimalFormat formatter = new DecimalFormat("#.#");
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         if (fileName.indexOf('.') == -1) {
@@ -135,7 +134,7 @@ public class AdditionalInfoLogic {
     public List<AttachmentDTO> getAttachmentDTOList(final int projectionId, final String moduleName,final File filePath) throws SystemException{
         final SimpleDateFormat dateTimeFormat = new SimpleDateFormat(DATE_FORMAT.getConstant());
         final List<AttachmentDTO> attachmentDTOList = new ArrayList<>();
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<DocDetails> docDetailsList;
@@ -243,7 +242,7 @@ public class AdditionalInfoLogic {
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
           
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(AdditionalNotes.class);
+        final DynamicQuery dynamicQuery = AdditionalNotesLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<AdditionalNotes> notesList;

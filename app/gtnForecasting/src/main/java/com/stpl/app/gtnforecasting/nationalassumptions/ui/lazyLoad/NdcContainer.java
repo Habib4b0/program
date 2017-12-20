@@ -9,12 +9,10 @@ import com.stpl.app.gtnforecasting.nationalassumptions.logic.NationalAssumptionL
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Collections;
 import java.util.List;
+import org.jboss.logging.Logger;
 import org.asi.ui.addons.lazycontainer.DAO;
 import org.asi.ui.addons.lazycontainer.OrderByColumn;
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
-import org.jboss.logging.Logger;
-
-
 
 /**
  *

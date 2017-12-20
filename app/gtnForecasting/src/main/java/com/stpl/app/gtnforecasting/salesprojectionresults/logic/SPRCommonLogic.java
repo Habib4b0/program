@@ -27,7 +27,6 @@ import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.MProjectionSelection;
 import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.model.RelationshipLevelDefinition;
 import com.stpl.app.service.ChProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
 import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
@@ -39,13 +38,15 @@ import com.stpl.ifs.util.HelperDTO;
 import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
@@ -97,7 +98,7 @@ public class SPRCommonLogic {
 	public static List<CustomViewMaster> getCustomViewList(int projectionId) {
 		List<CustomViewMaster> list = null;
 		try {
-			DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewMaster.class);
+			DynamicQuery query = CustomViewMasterLocalServiceUtil.dynamicQuery();
 			query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 			list = commonDao.getCustomViewList(query);
 		} catch (Exception ex) {
@@ -814,7 +815,7 @@ public class SPRCommonLogic {
 	public static List getRelationshipLevels(int hierarchyLevelId) {
 		List list = null;
 		try {
-			DynamicQuery query = DynamicQueryFactoryUtil.forClass(RelationshipLevelDefinition.class);
+			DynamicQuery query = RelationshipLevelDefinitionLocalServiceUtil.dynamicQuery();
 			query.add(RestrictionsFactoryUtil.eq("hierarchyLevelDefinitionSid", hierarchyLevelId));
 			ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
 			projectionListFrom.add(ProjectionFactoryUtil.property(Constant.LEVELNAME));
@@ -836,7 +837,7 @@ public class SPRCommonLogic {
 	public static List<CustomViewDetails> getCustomViewDetails(int customId) {
 		List<CustomViewDetails> list = null;
 		try {
-			DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+			DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
 			query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, customId));
 			query.addOrder(OrderFactoryUtil.asc(LEVEL_NO_PROPERTY));
 			list = commonDao.getCustomViewDetailsList(query);
@@ -877,7 +878,7 @@ public class SPRCommonLogic {
 	public static List<CustomViewMaster> getCustomViewforViewName(int projectionId, String viewName, int customId) {
 		List<CustomViewMaster> list = null;
 		try {
-			DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewMaster.class);
+			DynamicQuery query = CustomViewMasterLocalServiceUtil.dynamicQuery();
 			query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 			query.add(RestrictionsFactoryUtil.eq("viewName", viewName));
 			if (customId != 0) {
@@ -1021,7 +1022,7 @@ public class SPRCommonLogic {
 	 */
 	public void saveMandatedSRPSelection(Map map, int projectionID, String screenName) throws PortalException {
 		List<MProjectionSelection> list = new ArrayList<>();
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+		DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionID));
 		query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
 		try {
@@ -1045,7 +1046,7 @@ public class SPRCommonLogic {
 	 */
 	public void saveNMSRPSelection(Map map, int projectionID, String screenName) {
 		List<NmProjectionSelection> list = new ArrayList<>();
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+		DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionID));
 		query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
 		try {
@@ -1072,7 +1073,7 @@ public class SPRCommonLogic {
 	 */
 	public void saveCHSPRSelection(Map<String, Object> projectionSelectionDTO, int projectionId) {
 		List<ChProjectionSelection> list = null;
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(ChProjectionSelection.class);
+		DynamicQuery query = ChProjectionSelectionLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 		query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, projectionSelectionDTO.get(Constant.SCREEN_NAME)));
 		try {
@@ -1128,7 +1129,7 @@ public class SPRCommonLogic {
 	public static String getIndicator(int levelNo, int viewName) {
 		List<CustomViewDetails> list = null;
 		String indicator = StringUtils.EMPTY;
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+		DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
 		query.add(RestrictionsFactoryUtil.eq(LEVEL_NO_PROPERTY, levelNo));
 		try {
@@ -1147,7 +1148,7 @@ public class SPRCommonLogic {
 
 	public static int getIndicatorCount(int viewName) {
 		List<CustomViewDetails> list = null;
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(CustomViewDetails.class);
+		DynamicQuery query = CustomViewDetailsLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
 		try {
 			list = commonDao.getCustomViewDetailsList(query);
@@ -1168,7 +1169,7 @@ public class SPRCommonLogic {
 		} catch (SystemException ex) {
 			java.util.logging.Logger.getLogger(SPRCommonLogic.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+		DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
 		dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
 		try {
@@ -1268,7 +1269,7 @@ public class SPRCommonLogic {
 	public static Map<Object, Object> getMProjectionSelection(final int projectionId, final String screenName) {
 		List<Object[]> list = new ArrayList<>();
 		Map<Object, Object> map = new HashMap<>();
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+		DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
 		query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
 		ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
@@ -1759,7 +1760,7 @@ public class SPRCommonLogic {
 		try {
 			SalesProjectionDAO dao = new SalesProjectionDAOImpl();
 			LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
-			final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+			final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 			cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constant.LIST_NAME, listType),
 					RestrictionsFactoryUtil.like(Constant.LIST_NAME, "ALL")));
 			cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constant.DESCRIPTION));
@@ -1786,7 +1787,7 @@ public class SPRCommonLogic {
 
 	public static int getHelperTableSID(String listName, String description) throws PortalException, SystemException {
 		SalesProjectionDAO dao = new SalesProjectionDAOImpl();
-		final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.LIST_NAME, listName));
 		dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.DESCRIPTION, description));
 		final List<HelperTable> list = dao.getHelperTableList(dynamicQuery);
@@ -1882,7 +1883,7 @@ public class SPRCommonLogic {
 	 */
 	public void saveReturnsSPSelection(Map map, int projectionID, String screenName) {
 		List<NmProjectionSelection> list = new ArrayList<>();
-		DynamicQuery query = DynamicQueryFactoryUtil.forClass(NmProjectionSelection.class);
+		DynamicQuery query = NmProjectionSelectionLocalServiceUtil.dynamicQuery();
 		query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionID));
 		query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
 		try {

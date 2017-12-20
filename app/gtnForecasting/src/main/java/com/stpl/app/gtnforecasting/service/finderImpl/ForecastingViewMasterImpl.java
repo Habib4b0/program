@@ -6,7 +6,7 @@
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
 import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class ForecastingViewMasterImpl {
             LOGGER.debug("Entering findViewByName method with viewName " + viewName + " forecastType " + forecastType + " userId " + userId + " viewType " + viewType);
 
 
-            customSql = CustomSQLUtil.get("findViewByNameJoin");
+            customSql = SQlUtil.getQuery(getClass(),"findViewByNameJoin");
 //            customSql += " PM.projection_Master_Sid = FVM.projection_Id "; 
             if (StringUtils.isNotEmpty(viewType)
                     && StringUtils.isNotBlank(viewType)) {

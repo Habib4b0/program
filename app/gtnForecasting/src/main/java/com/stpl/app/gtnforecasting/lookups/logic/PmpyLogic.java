@@ -23,23 +23,20 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
-import com.stpl.app.model.CcpDetails;
-import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ContractMaster;
-import com.stpl.app.model.ProjectionDetails;
 import com.stpl.app.service.CcpDetailsLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.utils.Constants;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.ui.UI;
 import com.vaadin.v7.data.Container;
@@ -222,7 +219,7 @@ public class PmpyLogic {
         StringBuilder sql = new StringBuilder();
         try {
 
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(getClass(),queryName));
 
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
@@ -636,7 +633,7 @@ public class PmpyLogic {
         String tradingNo = StringUtils.EMPTY;
         String contractHolder = StringUtils.EMPTY;
 
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CcpDetails.class);
+        DynamicQuery dynamicQuery = CcpDetailsLocalServiceUtil.dynamicQuery();
 
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 
@@ -644,7 +641,7 @@ public class PmpyLogic {
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.CONTRACT_MASTER_SID));
 
         dynamicQuery.add(PropertyFactoryUtil.forName(Constant.CCP_DETAILS_SID).in(
-                DynamicQueryFactoryUtil.forClass(ProjectionDetails.class)
+                ProjectionDetailsLocalServiceUtil.dynamicQuery()
                 .add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_DETAILS_SID, prDetId))
                 .setProjection(ProjectionFactoryUtil.property(Constant.CCP_DETAILS_SID))));
 
@@ -661,7 +658,7 @@ public class PmpyLogic {
 
             int contractMasterSid = Integer.parseInt(String.valueOf(obj[1]));
             list = new ArrayList();
-            DynamicQuery dynamicQuery1 = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+            DynamicQuery dynamicQuery1 = CompanyMasterLocalServiceUtil.dynamicQuery();
 
             final ProjectionList productProjectionList1 = ProjectionFactoryUtil.projectionList();
 
@@ -680,14 +677,14 @@ public class PmpyLogic {
                 tradingName = String.valueOf(obj1[0]);
                 tradingNo = String.valueOf(obj1[1]);
                 list = new ArrayList();
-                DynamicQuery dynamicQuery2 = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+                DynamicQuery dynamicQuery2 = CompanyMasterLocalServiceUtil.dynamicQuery();
 
                 final ProjectionList productProjectionList2 = ProjectionFactoryUtil.projectionList();
 
                 productProjectionList2.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
 
                 dynamicQuery2.add(PropertyFactoryUtil.forName(Constant.COMPANYMASTERSID).in(
-                        DynamicQueryFactoryUtil.forClass(ContractMaster.class)
+                        ContractMasterLocalServiceUtil.dynamicQuery()
                         .add(RestrictionsFactoryUtil.eq(Constant.CONTRACT_MASTER_SID, contractMasterSid))
                         .setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
 
@@ -881,7 +878,7 @@ public class PmpyLogic {
         StringBuilder sql = new StringBuilder();
         try {
 
-            sql = new StringBuilder(CustomSQLUtil.get(queryName));
+            sql = new StringBuilder(SQlUtil.getQuery(PmpyLogic.class,queryName));
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }

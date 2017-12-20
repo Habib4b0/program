@@ -29,6 +29,7 @@ import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.stpl.app.service.MailNotificationMasterLocalServiceUtil;
 import com.vaadin.server.VaadinService;
 import java.io.IOException;
 import java.sql.Connection;
@@ -347,7 +348,7 @@ public class WorkflowLogic {
         String subject = null;
         String body = null;
         int helperId;
-        DynamicQuery mailDynamicQuery = DynamicQueryFactoryUtil.forClass(MailNotificationMaster.class);
+        DynamicQuery mailDynamicQuery = MailNotificationMasterLocalServiceUtil.dynamicQuery();
         mailDynamicQuery.add(RestrictionsFactoryUtil.ilike("notificationModule", CommonUtils.FORECAST_NON_MANDATED));
         helperId = getCodeFromHelperTable(approveORsubmit, "MailNotificationCategory");
 
@@ -420,8 +421,7 @@ public class WorkflowLogic {
      */
 
     public static int getCodeFromHelperTable(String description, String listName) {
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         int helperTableId = 0;
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.DESCRIPTION,
                 description));

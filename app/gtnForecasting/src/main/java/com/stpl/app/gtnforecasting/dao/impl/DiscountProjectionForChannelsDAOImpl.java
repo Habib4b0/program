@@ -13,14 +13,12 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.model.StChDiscountProjMaster;
-import com.stpl.app.service.ChSalesProjectionMasterLocalServiceUtil;
-import com.stpl.app.service.StChDiscountProjMasterLocalServiceUtil;
 import static com.stpl.app.utils.Constants.FrequencyConstants.*;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -185,7 +183,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
                 input.put("?SP", DBDate.format(projectionSelection.getStartDate()));
                 input.put("?FRE", freq);
 
-                String custSql = CustomSQLUtil.get("ch.generateQuery");
+                String custSql = SQlUtil.getQuery(getClass(),"ch.generateQuery");
 
                 for (String key : input.keySet()) {
                     LOGGER.debug("Key : " + key);
@@ -697,7 +695,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
         try {
             LOGGER.debug("Query Name : " + queryName);
-            String customSql = CustomSQLUtil.get(queryName);
+            String customSql = SQlUtil.getQuery(getClass(),queryName);
 
             for (String key : input.keySet()) {
                 LOGGER.debug("Key : " + key);

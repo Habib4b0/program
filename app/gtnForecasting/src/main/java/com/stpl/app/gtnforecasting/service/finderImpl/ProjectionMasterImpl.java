@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import static com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection.LOGGER;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.CommonUtils;
 import com.stpl.app.serviceUtils.Constants;
@@ -35,14 +35,14 @@ public class ProjectionMasterImpl {
             LOGGER.debug("Entering searchDsProjection method");
             if ("Returns".equals(parameters.get("moduleName"))) {
                 if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
-                    queryString.append(CustomSQLUtil.get("searchProjectionForReturns"));
+                    queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionForReturns"));
                     queryString.append(" AND PM.FORECASTING_TYPE like '" + String.valueOf(parameters.get("moduleName")) + "'");
                 } else {
-                    queryString.append(CustomSQLUtil.get("searchProjectionCountForReturns"));
+                    queryString.append(SQlUtil.getQuery(getClass(),"searchProjectionCountForReturns"));
                     queryString.append(" AND PM.FORECASTING_TYPE like '" + String.valueOf(parameters.get("moduleName")) + "'");
                 }
             } else if (parameters.get("lazyLoadResults") != null && "lazyLoadResults".equalsIgnoreCase(String.valueOf(parameters.get("lazyLoadResults")))) {
-                queryString.append(CustomSQLUtil.get("searchProjection"));
+                queryString.append(SQlUtil.getQuery(getClass(),"searchProjection"));
 //                    LOGGER.debug("String.valueOf(parameters.get(\"selectValue\"))================================>"+String.valueOf(parameters.get("selectValue")));
 //                    LOGGER.debug("String.valueOf(parameters.get(\"leftJoinValue\"))===================================================>"+String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(accFieldValue), queryString.indexOf(accFieldValue) + accFieldValue.length(), String.valueOf(parameters.get("selectValue")));
@@ -51,7 +51,7 @@ public class ProjectionMasterImpl {
                 queryString.append(" AND PM.FORECASTING_TYPE like '" + String.valueOf(parameters.get("moduleName")) + "'");
 
             } else {
-                queryString.append(CustomSQLUtil.get("searchProjectionCount"));
+                queryString.append(SQlUtil.getQuery(HelperTableLocalServiceUtil.class,"searchProjectionCount"));
                 queryString.replace(queryString.indexOf(accProjJoin), queryString.indexOf(accProjJoin) + accProjJoin.length(), String.valueOf(parameters.get("leftJoinValue")));
                 queryString.replace(queryString.indexOf(filterValue), queryString.indexOf(filterValue) + filterValue.length(), String.valueOf(parameters.get("whereFilterValue")));
                 queryString.append(" AND PM.FORECASTING_TYPE like '" + String.valueOf(parameters.get("moduleName")) + "'");
@@ -442,7 +442,7 @@ public class ProjectionMasterImpl {
 
     public List getRelationshipHierarchy(final Map<String, Object> parameters) {
 
-        StringBuilder customSql = new StringBuilder(CustomSQLUtil.get("getRelationForCCP1"));
+        StringBuilder customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getRelationForCCP1"));
         try {
             LOGGER.debug("Entering getRelationshipHierarchy method");
 
@@ -453,7 +453,7 @@ public class ProjectionMasterImpl {
             }
             customSql.append(String.valueOf(parameters.get("projectionId")));
             customSql.append("'");
-            customSql.append(CustomSQLUtil.get("getRelationForCCP2"));
+            customSql.append(SQlUtil.getQuery(getClass(),"getRelationForCCP2"));
             if (parameters.get("projectionCustHierarchy") != null) {
                 customSql.append(" ProjectionCustHierarchy PHT where PHT.projectionMasterSid='");
             } else if (parameters.get("projectionProdHierarchy") != null) {
@@ -461,7 +461,7 @@ public class ProjectionMasterImpl {
             }
             customSql.append(String.valueOf(parameters.get("projectionId")));
             customSql.append("'");
-            customSql.append(CustomSQLUtil.get("getRelationForCCP3"));
+            customSql.append(SQlUtil.getQuery(getClass(),"getRelationForCCP3"));
 
 //            LOGGER.debug("\n\n getRelationshipHierarchy query is -----> " + customSql.toString() + "\n\n");
             LOGGER.debug("End of getRelationshipHierarchy method");
@@ -498,7 +498,7 @@ public class ProjectionMasterImpl {
         try {
             LOGGER.debug("Entering getCustomerProductGroup method");
             if (parameters.get("indicator") != null && "CustomerGroup".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-                queryString.append(CustomSQLUtil.get("getCustomerGroup"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getCustomerGroup"));
                 if (parameters.get("customerNo") != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get("customerNo")))
                         && !StringUtils.isBlank(String.valueOf(parameters.get("customerNo")))) {
@@ -532,7 +532,7 @@ public class ProjectionMasterImpl {
                 }
 
             } else if (parameters.get("indicator") != null && "ProductGroup".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-                queryString.append(CustomSQLUtil.get("getProductGroup"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getProductGroup"));
                 if (parameters.get("productNo") != null
                         && !StringUtils.isEmpty(String.valueOf(parameters.get("productNo")))
                         && !StringUtils.isBlank(String.valueOf(parameters.get("productNo")))) {
@@ -584,7 +584,7 @@ public class ProjectionMasterImpl {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         try {
             LOGGER.debug("Entering getProjection method");
-            queryString.append(CustomSQLUtil.get("getProjectionJoin"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getProjectionJoin"));
             queryString.append(" where PM.projection_Master_Sid = ");
             queryString.append(projectionId);
             return HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
@@ -601,12 +601,12 @@ public class ProjectionMasterImpl {
         try {
             LOGGER.debug("Entering getRelationShipValues method");
             if ("forecastDate".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-                queryString.append(CustomSQLUtil.get(String.valueOf(parameters.get("Query"))));
+                queryString.append(SQlUtil.getQuery(getClass(),String.valueOf(parameters.get("Query"))));
                 for (Object input : (List<Object>) parameters.get("input")) {
                     queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(input));
                 }
             } else {
-                queryString.append(CustomSQLUtil.get("getRelationshipValues"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getRelationshipValues"));
                 if ("customer".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
 //                    queryString.append(" Projection_Cust_Hierarchy PH ");
                     queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, " Projection_Cust_Hierarchy ");
@@ -636,13 +636,13 @@ public class ProjectionMasterImpl {
         String foreignKeyTableName = StringUtils.EMPTY;
         String primarykeyTableName = StringUtils.EMPTY;
         if (screenName.equals("Non Mandated")) {
-            foreignKeyTableName = CustomSQLUtil.get("NM_FK_TableNamesFordelete");
+            foreignKeyTableName = SQlUtil.getQuery(getClass(),"NM_FK_TableNamesFordelete");
         } else if (screenName.equals("Mandated")) {
-            foreignKeyTableName = CustomSQLUtil.get("M_FK_TableNamesFordelete");
+            foreignKeyTableName = SQlUtil.getQuery(getClass(),"M_FK_TableNamesFordelete");
         } else {
-            foreignKeyTableName = CustomSQLUtil.get("R_FK_TableNamesFordelete");
+            foreignKeyTableName = SQlUtil.getQuery(getClass(),"R_FK_TableNamesFordelete");
         }
-        primarykeyTableName = CustomSQLUtil.get("TableNamesFordelete");
+        primarykeyTableName = SQlUtil.getQuery(getClass(),"TableNamesFordelete");
         String sql1 = StringUtils.EMPTY;
         String sql = StringUtils.EMPTY;
         String sql2 = StringUtils.EMPTY;
@@ -706,10 +706,10 @@ public class ProjectionMasterImpl {
         try {
             if (parameters.get("indicator") != null && !StringUtils.isBlank(String.valueOf(parameters.get("indicator")))
                     && !ConstantsUtils.NULL.equals(String.valueOf(parameters.get("indicator"))) && "getParentLevelsWithHierarchyNo".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-                queryBuilder.append(CustomSQLUtil.get("getParentLevelsWithHierarchyNo"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getParentLevelsWithHierarchyNo"));
                 queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNos")));
             } else {
-                queryBuilder.append(CustomSQLUtil.get("getParentLevels"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getParentLevels"));
                 queryBuilder.append(" RBLD.relationshipLevelSid = '");
                 queryBuilder.append(relationshipLevelSid);
                 queryBuilder.append("')");
@@ -732,12 +732,12 @@ public class ProjectionMasterImpl {
         LOGGER.debug("----inside executeQuery in finder Impl-----------");
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get("indicator") != null && "hasTradingPartner".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("hasTradingPartner"));
+            queryString.append(SQlUtil.getQuery(getClass(),"hasTradingPartner"));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("projectionId")));
             queryString.append("'");
         } else if (parameters.get("indicator") != null && "getUnsavedProjectionIds".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getUnsavedProjectionIds"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getUnsavedProjectionIds"));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
         } else if (parameters.get("indicator") != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
 
@@ -753,7 +753,7 @@ public class ProjectionMasterImpl {
                     }
                 }
                 String hierarchyExclusion = CommonUtils.stringListToString(rlSids);
-                String query = CustomSQLUtil.get("get-lower-levels-based-on-hierarchy-no");
+                String query = SQlUtil.getQuery(getClass(),"get-lower-levels-based-on-hierarchy-no");
                 query = query.replace("[?BU_COMPANY_MASTER_SID]", StringUtils.EMPTY + parameters.get("businessUnit"));
                 query = query.replace("[?PROJECTION_MASTER_SID]", StringUtils.EMPTY + parameters.get("projectionId"));
                 query = query.replace("[?HIERARCHY_INCLUDE]", hierarchyInclusion);
@@ -770,7 +770,7 @@ public class ProjectionMasterImpl {
             } else if (parameters.get("rlSids") != null) {
                 List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
                 if (rlSids != null && !rlSids.isEmpty()) {
-                    queryString.append(CustomSQLUtil.get("getChildLevelRLSidRestricted"));
+                    queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
                     for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                         queryString.append("HIERARCHY_NO LIKE '");
@@ -799,7 +799,7 @@ public class ProjectionMasterImpl {
         } else if (parameters.get("indicator") != null && "getChildLevelRL".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
             List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
             if (rlSids != null && !rlSids.isEmpty()) {
-                queryString.append(CustomSQLUtil.get("getChildLevelRL"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRL"));
                 queryString.append(" and (");
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     queryString.append("HIERARCHY_NO like '");
@@ -820,7 +820,7 @@ public class ProjectionMasterImpl {
             }
 //            LOGGER.debug("executeQuery queryString for getChildLevelRL " + queryString.toString());
         } else if (parameters.get("indicator") != null && "getRemovableChildren".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getRemovableChildren"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getRemovableChildren"));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
 //            LOGGER.debug("getRemovableChildren queryString " + queryString.toString());
@@ -829,7 +829,7 @@ public class ProjectionMasterImpl {
             String projectionId = String.valueOf(parameters.get("projectionId"));
             String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
             for (String table : CommonUtils.getTempTableList()) {
-                queryString.append(CustomSQLUtil.get("deleteTempOnUpdate"));
+                queryString.append(SQlUtil.getQuery(getClass(),"deleteTempOnUpdate"));
                 queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + 5, table);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
                 queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
@@ -843,11 +843,11 @@ public class ProjectionMasterImpl {
             }
 //            LOGGER.debug("deleteTempOnUpdate queryString " + queryString.toString());
         } else if (parameters.get("indicator") != null && "getFSValue".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getFSValue"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getFSValue"));
             queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + 5, String.valueOf(parameters.get("relationshipLevelValue")));
 //            queryString.replace(queryString.indexOf("?FIELD?"), queryString.indexOf("?FIELD?") + 7, String.valueOf(parameters.get("fieldName")));
         } else if (parameters.get("indicator") != null && "companyFilter".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("companyFilter"));
+            queryString.append(SQlUtil.getQuery(getClass(),"companyFilter"));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("companySid")));
             queryString.append("'");
@@ -892,7 +892,7 @@ public class ProjectionMasterImpl {
     public List getItemsFromBrand(Map<String, Object> parameters) {
 
         StringBuilder queryBuilder = new StringBuilder(StringUtils.EMPTY);
-        queryBuilder.append(CustomSQLUtil.get("getItemsFromBrand"));
+        queryBuilder.append(SQlUtil.getQuery(getClass(),"getItemsFromBrand"));
         try {
             List<Integer> itemMasterSids = (ArrayList<Integer>) parameters.get("itemMasterSids");
             if (itemMasterSids != null && !itemMasterSids.isEmpty()) {
@@ -924,7 +924,7 @@ public class ProjectionMasterImpl {
             if ((parameters.get("isNdc") != null && "true".equals(String.valueOf(parameters.get("isNdc"))))
                     || (!Constants.BUSINESS_PROCESS_TYPE_CHENNALS.equals(parameters.get("screenName")) && parameters.get("level") != null && ("Ndc".equalsIgnoreCase(String.valueOf(parameters.get("level"))) || "Item".equalsIgnoreCase(String.valueOf(parameters.get("level"))) || "Product".equalsIgnoreCase(String.valueOf(parameters.get("level")))))) {
 
-                queryBuilder.append(CustomSQLUtil.get("get-inner-level-products"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"get-inner-level-products"));
                 if ("Product".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
                     queryBuilder.append(" AND ( RLD.LEVEL_NAME='PRODUCT') ");
                 } else {
@@ -940,24 +940,24 @@ public class ProjectionMasterImpl {
                 //queryBuilder.append(" AND ( RLD.LEVEL_NAME='PRODUCT' or RLD.LEVEL_NAME='NDC' ) ");
             } else if (parameters.get("levelName") != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get("isNdc"))) && "company".equalsIgnoreCase(String.valueOf(parameters.get("levelName")))) {
 
-                queryBuilder.append(CustomSQLUtil.get("get-inner-level-companies"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"get-inner-level-companies"));
 
             } else if (parameters.get("levelName") != null && !"true".equalsIgnoreCase(String.valueOf(parameters.get("isNdc")))
                     && ("therapeutic class".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))) || "brand".equalsIgnoreCase(String.valueOf(parameters.get("levelName"))))) {
 
-                queryBuilder.append(CustomSQLUtil.get("get-inner-level-brand-therapeutic-class"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"get-inner-level-brand-therapeutic-class"));
 
             } else if (parameters.get("level") != null && Constants.INDICATOR_LEVEL_CUSTOMER.equalsIgnoreCase(String.valueOf(parameters.get("level")))) {
-                queryBuilder.append(CustomSQLUtil.get("getInnerLevelCustomer"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getInnerLevelCustomer"));
 
             } else if (parameters.get("level") != null && Constants.INDICATOR_LEVEL_CONTRACT.equalsIgnoreCase(String.valueOf(parameters.get("level")))) {
-                queryBuilder.append(CustomSQLUtil.get("getInnerLevelContract"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getInnerLevelContract"));
 
             } else {
-                queryBuilder.append(CustomSQLUtil.get("getInnerLevel"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getInnerLevel"));
             }
 
-//        queryBuilder.append(CustomSQLUtil.get("getInnerLevel"));
+//        queryBuilder.append(SQlUtil.getQuery(getClass(),"getInnerLevel"));
             if (parameters.get("hierarchyDefinitionSid") != null) {
                 queryBuilder.append(" and RB.hierarchy_Definition_Sid = ");
                 queryBuilder.append(String.valueOf(parameters.get("hierarchyDefinitionSid")));
@@ -1065,7 +1065,7 @@ public class ProjectionMasterImpl {
         try {
             LOGGER.debug("Entering getCcpMap method ");
             if (parameters.get("indicator") != null && "getRbId".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-                customSql.append(CustomSQLUtil.get("getRbIdFromHier"));
+                customSql.append(SQlUtil.getQuery(getClass(),"getRbIdFromHier"));
                 if (parameters.get("hierarchyDefinitionSid") != null) {
                     customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyDefinitionSid")));
                 }
@@ -1079,9 +1079,9 @@ public class ProjectionMasterImpl {
 //                customSql.append(" AND HIERARCHY_NO = ");
 //                customSql.append(String.valueOf(parameters.get("hierarchyNo")));
 //            }
-//                customSql.append(CustomSQLUtil.get("getCcp"));
-//                customSql.append(CustomSQLUtil.get("getCcpV2Insert"));
-                customSql.append(CustomSQLUtil.get("saveCcpMerge"));
+//                customSql.append(SQlUtil.getQuery(getClass(),"getCcp"));
+//                customSql.append(SQlUtil.getQuery(getClass(),"getCcpV2Insert"));
+                customSql.append(SQlUtil.getQuery(getClass(),"saveCcpMerge"));
 
                 if (parameters.get("projectionId") != null) {
                     customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
@@ -1140,7 +1140,7 @@ public class ProjectionMasterImpl {
 //                customSql.append(" AND HIERARCHY_NO = ");
 //                customSql.append(String.valueOf(parameters.get("hierarchyNo")));
 //            }
-                customSql.append(CustomSQLUtil.get("saveCcp"));
+                customSql.append(SQlUtil.getQuery(getClass(),"saveCcp"));
 
                 if (parameters.get("projectionId") != null) {
                     customSql.replace(customSql.indexOf("?"), customSql.indexOf("?") + 1, String.valueOf(parameters.get("projectionId")));
@@ -1165,7 +1165,7 @@ public class ProjectionMasterImpl {
                     if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
                         for (Object temp : relationshipBuilderSids) {
                             Integer level;
-                            hierarchyQuery = CustomSQLUtil.get("getHierarchyMapQuery").replace("?", String.valueOf(temp));
+                            hierarchyQuery = SQlUtil.getQuery(getClass(),"getHierarchyMapQuery").replace("?", String.valueOf(temp));
                             levelQuery = "SELECT max(RLD.LEVEL_NO)\n"
                                     + "FROM RELATIONSHIP_LEVEL_DEFINITION RLD, \n"
                                     + "HIERARCHY_LEVEL_DEFINITION HLD \n"
@@ -1413,7 +1413,7 @@ public class ProjectionMasterImpl {
     }
 
     public Object tempOperation(final Map<String, Object> input, final String queryName) {
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
         String finalQuery = StringUtils.EMPTY;
         try {
             Object temp;
@@ -1428,7 +1428,7 @@ public class ProjectionMasterImpl {
                 Map<String, String> valueList = new HashMap<>();
 
                 for (int i = tempList.size() - 1; i >= 0; i--) {
-                    customSql = CustomSQLUtil.get("getRelationshipLevelValues");
+                    customSql = SQlUtil.getQuery(getClass(),"getRelationshipLevelValues");
                     Object[] tempListObject = (Object[]) tempList.get(i);
                     customSql = customSql.replace("?FIELD", String.valueOf(tempListObject[0]));
                     customSql = customSql.replace("?TABLE", String.valueOf(tempListObject[1]));
@@ -1474,14 +1474,14 @@ public class ProjectionMasterImpl {
         try {
             String finalQuery;
             if (parameters.containsKey("businessUnit")) {
-                finalQuery = CustomSQLUtil.get("getChildLevelsBasedonBU");
+                finalQuery = SQlUtil.getQuery(getClass(),"getChildLevelsBasedonBU");
                 finalQuery = finalQuery.replace("@HIERNO1", String.valueOf(parameters.get("hierarchyNo")));
                 finalQuery = finalQuery.replace("@HIERNO2", String.valueOf(parameters.get("hierarchyNo")));
                 finalQuery = finalQuery.replace("@LVLNO", String.valueOf(parameters.get("lowestLevelNo")));
                 finalQuery = finalQuery.replace("@BU_COMPANY_MASTER_SID", String.valueOf(parameters.get("businessUnit")));
 
             } else {
-                queryBuilder.append(CustomSQLUtil.get("getChildLevelsWithHierarchyNo"));
+                queryBuilder.append(SQlUtil.getQuery(getClass(),"getChildLevelsWithHierarchyNo"));
                 queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
                 queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("hierarchyNo")));
                 queryBuilder.replace(queryBuilder.indexOf("?"), queryBuilder.indexOf("?") + 1, String.valueOf(parameters.get("lowestLevelNo")));
@@ -1498,18 +1498,18 @@ public class ProjectionMasterImpl {
     public List executeQueryforchannel(final Map<String, Object> parameters) {
         StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
         if (parameters.get("indicator") != null && "hasTradingPartner".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("hasTradingPartner"));
+            queryString.append(SQlUtil.getQuery(getClass(),"hasTradingPartner"));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("projectionId")));
             queryString.append("'");
         } else if (parameters.get("indicator") != null && "getUnsavedProjectionIds".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getUnsavedProjectionIds"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getUnsavedProjectionIds"));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("deleteDate")));
         } else if (parameters.get("indicator") != null && "getChildLevelRLSid".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
             if (parameters.get("rlSids") != null) {
                 List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
                 if (rlSids != null && !rlSids.isEmpty()) {
-                    queryString.append(CustomSQLUtil.get("getChildLevelRLSidRestricted"));
+                    queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRLSidRestricted"));
                     queryString.append(" WHERE (");
                     for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                         queryString.append("HIERARCHY_NO LIKE '");
@@ -1532,7 +1532,7 @@ public class ProjectionMasterImpl {
         } else if (parameters.get("indicator") != null && "getChildLevelRL".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
             List<String> rlSids = (ArrayList<String>) parameters.get("rlSids");
             if (rlSids != null && !rlSids.isEmpty()) {
-                queryString.append(CustomSQLUtil.get("getChildLevelRL"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getChildLevelRL"));
                 queryString.append(" and (");
                 for (int loop = 0, limit = rlSids.size(); loop < limit; loop++) {
                     queryString.append("HIERARCHY_NO like '");
@@ -1552,7 +1552,7 @@ public class ProjectionMasterImpl {
                 queryString.append(") ");
             }
         } else if (parameters.get("indicator") != null && "getRemovableChildren".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getRemovableChildren"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getRemovableChildren"));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
             queryString.replace(queryString.indexOf("?"), queryString.indexOf("?") + 1, String.valueOf(parameters.get("removeLevels")));
         } else if (parameters.get("indicator") != null && "deleteTempOnUpdate".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
@@ -1560,7 +1560,7 @@ public class ProjectionMasterImpl {
             String projectionId = String.valueOf(parameters.get("projectionId"));
             String projectionHierarchyTable = String.valueOf(parameters.get("projectionHierarchyTable"));
             for (String table : CommonUtils.getTempTableList()) {
-                queryString.append(CustomSQLUtil.get("deleteTempOnUpdate"));
+                queryString.append(SQlUtil.getQuery(getClass(),"deleteTempOnUpdate"));
                 queryString.replace(queryString.indexOf("?DTBL"), queryString.indexOf("?DTBL") + 5, table);
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
                 queryString.replace(queryString.indexOf("?HTBL"), queryString.indexOf("?HTBL") + 5, projectionHierarchyTable);
@@ -1571,17 +1571,17 @@ public class ProjectionMasterImpl {
                 queryString.replace(queryString.indexOf("?PID"), queryString.indexOf("?PID") + 4, projectionId);
             }
         } else if (parameters.get("indicator") != null && "getFSValue".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("getFSValue"));
+            queryString.append(SQlUtil.getQuery(getClass(),"getFSValue"));
             queryString.replace(queryString.indexOf("?RLC?"), queryString.indexOf("?RLC?") + 5, String.valueOf(parameters.get("relationshipLevelValue")));
         } else if (parameters.get("indicator") != null && "companyFilter".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))) {
-            queryString.append(CustomSQLUtil.get("companyFilter"));
+            queryString.append(SQlUtil.getQuery(getClass(),"companyFilter"));
             queryString.append("'");
             queryString.append(String.valueOf(parameters.get("companySid")));
             queryString.append("'");
         } else if (parameters.get("indicator") != null
                 && ("getHierarchyGroup".equalsIgnoreCase(String.valueOf(parameters.get("indicator")))
                 || "getHierarchyGroupCount".equalsIgnoreCase(String.valueOf(parameters.get("indicator"))))) { //searchGroup
-            String query = CustomSQLUtil.get("getHierarchyGroup");
+            String query = SQlUtil.getQuery(getClass(),"getHierarchyGroup");
 
             if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
                     && !"count".equals(String.valueOf(parameters.get("action")))) {
@@ -1818,13 +1818,13 @@ public class ProjectionMasterImpl {
             String sids = null;
             StringBuilder queryString = new StringBuilder(StringUtils.EMPTY);
             if (parameters.get("groupIdentifier") != null && Constants.INDICATOR_CUSTOMER_GROUP.equalsIgnoreCase(String.valueOf(parameters.get("groupIdentifier")))) {
-                queryString.append(CustomSQLUtil.get("getCustomerGroupPaged"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getCustomerGroupPaged"));
                 name = " CG.COMPANY_GROUP_NAME ";
                 no = " CG.COMPANY_GROUP_NO ";
                 desc = " CG.COMPANY_GROUP_DESCRIPTION ";
                 sids = " CGD.COMPANY_MASTER_SID ";
             } else {
-                queryString.append(CustomSQLUtil.get("getProductGroupPaged"));
+                queryString.append(SQlUtil.getQuery(getClass(),"getProductGroupPaged"));
                 no = " IG.ITEM_GROUP_NO ";
                 name = " IG.ITEM_GROUP_NAME ";
                 desc = " IG.ITEM_GROUP_DESCRIPTION ";
@@ -2016,7 +2016,7 @@ public class ProjectionMasterImpl {
     private String prepareSearchViewQuery(final Map<String, Object> parameters) {
         String query = StringUtils.EMPTY;
         try {
-            StringBuilder queryString = new StringBuilder(CustomSQLUtil.get("findViewByNameJoin"));
+            StringBuilder queryString = new StringBuilder(SQlUtil.getQuery(getClass(),"findViewByNameJoin"));
             if (parameters.get("viewType") != null
                     && !StringUtils.isEmpty(String.valueOf(parameters.get("viewType")))
                     && !StringUtils.isBlank(String.valueOf(parameters.get("viewType")))) {
@@ -2055,7 +2055,7 @@ public class ProjectionMasterImpl {
             try {
                 if (parameters.get("action") != null && !StringUtils.isBlank(String.valueOf(parameters.get("action")))
                         && !"count".equals(String.valueOf(parameters.get("action")))) {
-                    query = query.replace("?SELECTION?", CustomSQLUtil.get("searchViewFindSelection"));
+                    query = query.replace("?SELECTION?", SQlUtil.getQuery(getClass(),"searchViewFindSelection"));
                     if (String.valueOf(parameters.get("isFiltered")).equals("true")) {
                         StringBuilder filterAppender = new StringBuilder(StringUtils.EMPTY);
                         if ((parameters.get("filter~createdDateSearch~from") != null && !Constants.NULL.equals(String.valueOf(parameters.get("filter~createdDateSearch~from")))

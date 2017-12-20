@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="findViewByNameOld">
+		<![CDATA[
+			SELECT FVM.viewName, PM.projectionDescription,
+                        PM.customerHierarchySid, PM.customerHierarchyLevel, PM.companyGroupSid,
+                        PM.companyMasterSid, PM.brandType, 
+                        PM.productHierarchySid, PM.productHierarchyLevel, PM.itemGroupSid, 
+                        PM.createdDate, PM.createdBy, PM.modifiedDate, 
+                        PM.projectionMasterSid, PM.projectionName, FVM.viewId
+			FROM ProjectionMaster PM, ForecastingViewMaster FVM
+			WHERE 
+		]]>
+    </sql>
+
+    <sql id="findViewByName">
+		<![CDATA[
+			Select FVM.VIEW_NAME ViewName, PM.PROJECTION_DESCRIPTION ProjectionDescription , PM.PROJECTION_NAME ProjectionName, PM.BRAND_TYPE BrandType,PM.MODIFIED_DATE ModifiedDate, PM.CREATED_BY CreatedBy,
+                        PM.CREATED_DATE CreatedDate, PM.PRODUCT_HIERARCHY_LEVEL PHLevel, PM.CUSTOMER_HIERARCHY_LEVEL CHLevel, CUST_HD.HIERARCHY_NAME CHName, PROD_HD.HIERARCHY_NAME PHName,
+                        CM.COMPANY_NAME Company, CMG.COMPANY_GROUP_NAME CGName, IG.ITEM_GROUP_NAME IGName, PM.PROJECTION_MASTER_SID ProjectionMasterSid, FVM.VIEW_ID ViewId, PM.CUSTOMER_HIERARCHY_SID CHSid,
+                        PM.PRODUCT_HIERARCHY_SID PHSid, PM.COMPANY_GROUP_SID CGSid, PM.ITEM_GROUP_SID IGSid, PM.COMPANY_MASTER_SID CMSid
+                        from 
+                        FORECASTING_VIEW_MASTER FVM ,
+                        PROJECTION_MASTER PM ,
+                        HIERARCHY_DEFINITION CUST_HD,
+                        HIERARCHY_DEFINITION PROD_HD,
+                        COMPANY_MASTER CM ,COMPANY_GROUP CMG , ITEM_GROUP IG
+                        WHERE
+                        CUST_HD.HIERARCHY_DEFINITION_SID =PM.CUSTOMER_HIERARCHY_SID AND
+                        PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID AND
+                        PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID AND
+                        PM.ITEM_GROUP_SID = IG.ITEM_GROUP_SID AND
+                        PM.COMPANY_GROUP_SID = CMG.COMPANY_GROUP_SID AND
+		]]>
+    </sql>
+
+    <sql id="findViewByNameJoin">
+		<![CDATA[
+			Select FVM.VIEW_NAME viewName, PM.PROJECTION_DESCRIPTION description, PM.PROJECTION_NAME projectionName, PM.BRAND_TYPE brandType, PM.MODIFIED_DATE modifiedDate, PM.CREATED_BY createdBy,
+                        PM.CREATED_DATE createdDate, PM.PRODUCT_HIERARCHY_LEVEL productLevel, PM.CUSTOMER_HIERARCHY_LEVEL customerLevel, CUST_HD.HIERARCHY_NAME customerHierarchy, PROD_HD.HIERARCHY_NAME productHierarchy,
+                        CM.COMPANY_NAME company, CMG.COMPANY_GROUP_NAME customerGroup, IG.ITEM_GROUP_NAME productGroup, PM.PROJECTION_MASTER_SID projectionId, FVM.VIEW_ID viewId, PM.CUSTOMER_HIERARCHY_SID customerHierarchySid,
+                        PM.PRODUCT_HIERARCHY_SID productHierarchySid, PM.COMPANY_GROUP_SID companyGroupSid, PM.ITEM_GROUP_SID productGroupSid, PM.COMPANY_MASTER_SID companyMasterSid, PM.FROM_DATE fromDate, PM.TO_DATE toDate, 
+                        PM.CUSTOMER_HIERARCHY_INNER_LEVEL customerInnerLevel,PM.PRODUCT_HIERARCHY_INNER_LEVEL productInnerLevel, PM.CUST_RELATIONSHIP_BUILDER_SID custRelationshipBuilderSid, PM.PROD_RELATIONSHIP_BUILDER_SID prodRelationshipBuilderSid,PM.BUSINESS_UNIT AS BUSINESSUNIT, CM1.COMPANY_NAME AS  BUSINESSUNITNAME             
+                        from PROJECTION_MASTER PM 
+                        
+                        LEFT JOIN FORECASTING_VIEW_MASTER FVM 
+                        on FVM.projection_Id  = PM.projection_Master_Sid 
+
+                        LEFT JOIN HIERARCHY_DEFINITION CUST_HD 
+                        on CUST_HD.HIERARCHY_DEFINITION_SID =PM.CUSTOMER_HIERARCHY_SID 
+
+                        LEFT JOIN HIERARCHY_DEFINITION PROD_HD 
+                        on PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID 
+
+                        LEFT JOIN COMPANY_GROUP CMG 
+                        on CMG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID
+
+                        LEFT JOIN ITEM_GROUP IG 
+                        on IG.ITEM_GROUP_SID  = PM.ITEM_GROUP_SID
+
+                        LEFT JOIN COMPANY_MASTER CM 
+                        on PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+                        
+                        LEFT JOIN COMPANY_MASTER CM1
+                        on PM.BUSINESS_UNIT = CM1.COMPANY_MASTER_SID 
+
+                        WHERE 
+		]]>
+    </sql>
+
+    <sql id="findViewByNameJoinforchannel">
+		<![CDATA[
+			SELECT ?SELECTION? FROM PROJECTION_MASTER PM 
+                        
+                        LEFT JOIN FORECASTING_VIEW_MASTER FVM 
+                        on FVM.PROJECTION_ID  = PM.PROJECTION_MASTER_SID 
+
+                        LEFT JOIN HIERARCHY_DEFINITION CUST_HD 
+                        on CUST_HD.HIERARCHY_DEFINITION_SID =PM.CUSTOMER_HIERARCHY_SID 
+
+                        LEFT JOIN HIERARCHY_DEFINITION PROD_HD 
+                        on PROD_HD.HIERARCHY_DEFINITION_SID = PM.PRODUCT_HIERARCHY_SID 
+
+                        LEFT JOIN COMPANY_GROUP CMG 
+                        on CMG.COMPANY_GROUP_SID  = PM.COMPANY_GROUP_SID
+
+                        LEFT JOIN ITEM_GROUP IG 
+                        on IG.ITEM_GROUP_SID  = PM.ITEM_GROUP_SID
+
+                        LEFT JOIN COMPANY_MASTER CM 
+                        on PM.COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID 
+
+                        WHERE 
+		]]>
+    </sql>
+    
+    </custom-sql>

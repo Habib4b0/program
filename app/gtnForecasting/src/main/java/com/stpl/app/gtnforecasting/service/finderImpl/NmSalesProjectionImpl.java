@@ -5,8 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUAL;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.QUARTERLY;
@@ -2569,7 +2569,7 @@ if(!custom){
     public List getAssumptionResult(List input, String queryName) {
         List list = new ArrayList();
         
-        StringBuilder sql = new StringBuilder(CustomSQLUtil.get(queryName));
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(getClass(),queryName));
 
         try {
             if ("update".equals(input.get(0))) {
@@ -2778,7 +2778,7 @@ if(!custom){
         
         String customQuery = "";
         try {
-//                String customSql = CustomSQLUtil.get("findViewByName\n");
+//                String customSql = SQlUtil.getQuery(getClass(),"findViewByName\n");
             String selectClause = " select H.LEVEL_NO, H.LEVEL_NAME, H.RELATIONSHIP_LEVEL_VALUES, I.\"YEAR\" , ";
             String whereClause = "";
             String groupBy = ",H.LEVEL_NAME , I.\"YEAR\"";

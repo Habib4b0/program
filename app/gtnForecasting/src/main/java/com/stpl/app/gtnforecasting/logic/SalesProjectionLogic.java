@@ -17,18 +17,11 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import static com.stpl.app.gtnforecasting.utils.Constant.STRING_EMPTY;
-import com.stpl.app.model.CcpDetails;
-import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ContractMaster;
-import com.stpl.app.model.ProjectionDetails;
-import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.CcpDetailsLocalServiceUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.MasterDataAttributeLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -36,6 +29,8 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.service.finderImpl.MasterDataAttributeFinderImpl;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
+import com.stpl.app.service.ProjectionDetailsLocalServiceUtil;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -233,7 +228,7 @@ public class SalesProjectionLogic {
 
     public int LoadHistoryValues(int projectionId) {
         int totalQuators = NumericConstants.FOUR;
-        DynamicQuery dynamicquerryFrom = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+        DynamicQuery dynamicquerryFrom = ProjectionMasterLocalServiceUtil.dynamicQuery();
         ProjectionList projectionListFrom = ProjectionFactoryUtil.projectionList();
 
         dynamicquerryFrom.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
@@ -819,13 +814,13 @@ public class SalesProjectionLogic {
         List list = new ArrayList();
 
         try {
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CcpDetails.class);
+            DynamicQuery dynamicQuery = CcpDetailsLocalServiceUtil.dynamicQuery();
 
             final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 
             productProjectionList.add(ProjectionFactoryUtil.property(Constant.ITEM_MASTER_SID));
             dynamicQuery.add(PropertyFactoryUtil.forName(Constant.CCP_DETAILS_SID).in(
-                    DynamicQueryFactoryUtil.forClass(ProjectionDetails.class)
+                    ProjectionDetailsLocalServiceUtil.dynamicQuery()
                     .add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, prMasterSId)).setProjection(ProjectionFactoryUtil.property(Constant.CCP_DETAILS_SID))));
             dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
             list = CcpDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -851,7 +846,7 @@ public class SalesProjectionLogic {
         String tradingNo = StringUtils.EMPTY;
         String contractHolder = StringUtils.EMPTY;
 
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CcpDetails.class);
+        DynamicQuery dynamicQuery = CcpDetailsLocalServiceUtil.dynamicQuery();
 
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 
@@ -859,7 +854,7 @@ public class SalesProjectionLogic {
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.CONTRACT_MASTER_SID));
 
         dynamicQuery.add(PropertyFactoryUtil.forName(Constant.CCP_DETAILS_SID).in(
-                DynamicQueryFactoryUtil.forClass(ProjectionDetails.class)
+                ProjectionDetailsLocalServiceUtil.dynamicQuery()
                 .add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_DETAILS_SID, prDetId))
                 .setProjection(ProjectionFactoryUtil.property(Constant.CCP_DETAILS_SID))));
 
@@ -877,7 +872,7 @@ public class SalesProjectionLogic {
 
             int contractMasterSid = Integer.parseInt(String.valueOf(obj[1]));
             list = new ArrayList();
-            DynamicQuery dynamicQuery1 = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+            DynamicQuery dynamicQuery1 = CompanyMasterLocalServiceUtil.dynamicQuery();
 
             final ProjectionList productProjectionList1 = ProjectionFactoryUtil.projectionList();
 
@@ -896,14 +891,14 @@ public class SalesProjectionLogic {
                 tradingName = String.valueOf(obj1[0]);
                 tradingNo = String.valueOf(obj1[1]);
                 list = new ArrayList();
-                DynamicQuery dynamicQuery2 = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+                DynamicQuery dynamicQuery2 = CompanyMasterLocalServiceUtil.dynamicQuery();
 
                 final ProjectionList productProjectionList2 = ProjectionFactoryUtil.projectionList();
 
                 productProjectionList2.add(ProjectionFactoryUtil.property(Constant.COMPANY_NAME));
 
                 dynamicQuery2.add(PropertyFactoryUtil.forName(Constant.COMPANYMASTERSID).in(
-                        DynamicQueryFactoryUtil.forClass(ContractMaster.class)
+                        ContractMasterLocalServiceUtil.dynamicQuery()
                         .add(RestrictionsFactoryUtil.eq(Constant.CONTRACT_MASTER_SID, contractMasterSid))
                         .setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
 

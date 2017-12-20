@@ -17,7 +17,6 @@ import static com.stpl.app.gtnforecasting.utils.CommonUtils.getStartMonth;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.ZERO;
 import com.stpl.app.model.ForecastConfig;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.ANNUALLY;
 import com.stpl.app.serviceUtils.ConstantsUtils;
@@ -53,7 +52,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.constants.GlobalConstants;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
@@ -63,6 +61,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinPortletService;
 import com.vaadin.shared.Position;
@@ -610,7 +609,7 @@ public class CommonUtils {
         } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+        DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
         dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
         try {
@@ -1346,7 +1345,7 @@ public class CommonUtils {
     public static Map<String, String> getAllUsers()  {
         List<Object> userList = new ArrayList<>();
         Map<String, String> userMap = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery query = UserLocalServiceUtil.dynamicQuery();
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.USER_ID));
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.FIRSTNAME));
@@ -1379,7 +1378,7 @@ public class CommonUtils {
     public static Map<String, String> getAllUserIds()  {
         List<Object> userList = new ArrayList<>();
         Map<String, String> userMap = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery query = UserLocalServiceUtil.dynamicQuery();
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.USER_ID));
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.FIRSTNAME));
@@ -1400,7 +1399,7 @@ public class CommonUtils {
     public static Map<String, String> getAllDiscounts()  {
         List<Object> discountList = new ArrayList<>();
         Map<String, String> userMap = new HashMap<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
         final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.HELPER_TABLE_SID));
         productProjectionList.add(ProjectionFactoryUtil.property(Constant.DESCRIPTION));
@@ -1635,7 +1634,7 @@ public class CommonUtils {
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));

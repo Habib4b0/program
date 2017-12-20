@@ -32,7 +32,6 @@ import com.stpl.app.service.NaProjMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -41,6 +40,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
 import com.stpl.app.exception.NoSuchItemGroupException;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -187,7 +187,7 @@ public class DataSelectionLogic {
                 }
                 Map<String, Object> input = new HashMap<>();
                 input.put("?PID", naProjDetailsID);
-                String customSql = CustomSQLUtil.get("na.update");
+                String customSql = SQlUtil.getQuery(getClass(),"na.update");
                 
                 for (String key : input.keySet()) {
                     customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -301,8 +301,7 @@ public class DataSelectionLogic {
             }
              dsQueryUtils.deleteResultsTable(projectionId);
              
-            DynamicQuery projectioncProdDetailsDynamicQuery = DynamicQueryFactoryUtil
-                    .forClass(NaProjDetails.class);
+            DynamicQuery projectioncProdDetailsDynamicQuery = NaProjDetailsLocalServiceUtil.dynamicQuery();
             projectioncProdDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(
                     "naProjMasterSid", projectionId));
             naProjDetails = NaProjDetailsLocalServiceUtil
@@ -334,7 +333,7 @@ public class DataSelectionLogic {
     }
     public List getProjection(int projectionId){
        List finalList=new ArrayList();
-       DynamicQuery query =DynamicQueryFactoryUtil.forClass(NaProjDetails.class);
+       DynamicQuery query =NaProjDetailsLocalServiceUtil.dynamicQuery();
        query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionId));
         NaProjMaster naProjMaster=NaProjMasterLocalServiceUtil.createNaProjMaster(0);
          List<NaProjDetails> detailsList=new ArrayList<>();
@@ -365,7 +364,7 @@ public class DataSelectionLogic {
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, "National Assumptions");
 
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
+            DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
             dynamicQuery.add(RestrictionsFactoryUtil.eq("businessProcessType", businessProcessType));
             dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
@@ -415,7 +414,7 @@ public class DataSelectionLogic {
           try{
             if (!String.valueOf(companyValue).equals("0") || (!String.valueOf(therapeuticClassValue).equals("") && 
                     !therapeuticClassValue.toString().equals("0") )|| !String.valueOf(businessUnit).equals("0")) {
-                sql = new StringBuilder(CustomSQLUtil.get("loadAvailableProducts"));
+                sql = new StringBuilder(SQlUtil.getQuery(getClass(),"loadAvailableProducts"));
                 if (String.valueOf(businessUnit).equals("0") || String.valueOf(businessUnit).equals("null") || String.valueOf(businessUnit).isEmpty()) {
                     sql = sql.append(" WHERE  IM.ORGANIZATION_KEY like '%' ");
                 } else {

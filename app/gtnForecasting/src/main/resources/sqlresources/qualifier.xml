@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="com.global.qualifer.service.persistence.Qualifier.customquery">
+<query> <![CDATA[
+
+select ListType.listTypeId from ListType where 
+
+]]> </query>
+</entity>
+</sql>

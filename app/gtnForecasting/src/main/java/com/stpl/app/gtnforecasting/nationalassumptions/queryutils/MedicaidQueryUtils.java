@@ -61,7 +61,7 @@ public class MedicaidQueryUtils {
             input.put(Constant.NDC_NINE_QUESTION, ndc9Level);
 
             String customSql = CustomSQLUtil
-                    .get(queryName);
+                    .get(getClass(),queryName);
             for (String key : input.keySet()) {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
@@ -92,9 +92,9 @@ public class MedicaidQueryUtils {
         input.put("?PT", priceType);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidPercentageForView" : "getMedicaidPercentage");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidPercentageForView" : "getMedicaidPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidAmountForView" : "getMedicaidAmount");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getMedicaidAmountForView" : "getMedicaidAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -279,7 +279,7 @@ public class MedicaidQueryUtils {
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", session.getProjectionId());
         input.put(Constant.NDC_NINE_QUESTION, ndc9);
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -349,7 +349,7 @@ public class MedicaidQueryUtils {
         ndc9 = "'" + ndc9 + "'";
         input.put(Constant.NDC_NINE_QUESTION, ndc9);
 
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -375,7 +375,7 @@ public class MedicaidQueryUtils {
         input.put("?OFFSET", start + 1);
         input.put("?LIMIT", end);
         input.put("?TEXT", filterText);
-        String customSql = CustomSQLUtil.get("getMedicaidDropDown");
+        String customSql = SQlUtil.getQuery(getClass(),"getMedicaidDropDown");
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
         }

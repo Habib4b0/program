@@ -63,7 +63,7 @@ public class NotesTabLogic {
         TimeZone central = TimeZone.getTimeZone("CST");
         dateTimeFormat.setTimeZone(central);
         final List<NotesDTO> attachmentDTOList = new ArrayList<>();
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<DocDetails> docDetailsList;
@@ -116,7 +116,7 @@ public class NotesTabLogic {
 
     public void saveUploadedFile(int projectionId, String fileName, String uploadedBy, int fileSize, String moduleName) throws SystemException {
         final DecimalFormat formatter = new DecimalFormat("#.#");
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         if (fileName.indexOf('.') == -1) {
@@ -232,7 +232,7 @@ public class NotesTabLogic {
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
 
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(AdditionalNotes.class);
+        final DynamicQuery dynamicQuery = AdditionalNotesLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(PROJECTION_ID.getConstant(), projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<AdditionalNotes> notesList;

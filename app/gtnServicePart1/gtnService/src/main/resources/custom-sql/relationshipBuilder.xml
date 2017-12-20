@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<custom-sql>
+    <sql id="getGenericLinkedLevelValues">
+<![CDATA[
+      SELECT DISTINCT 
+]]>
+    </sql>
+</custom-sql>

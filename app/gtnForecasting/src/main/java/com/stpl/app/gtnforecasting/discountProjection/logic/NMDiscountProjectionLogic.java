@@ -171,7 +171,7 @@ public class NMDiscountProjectionLogic {
     }
      public int getRsModelSid(String rsName){
      
-       final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(RsModel.class);
+       final DynamicQuery dynamicQuery = RsModelLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq("rsName", rsName));
         List<RsModel> rsModelDetailsList=new ArrayList<>();
         try {

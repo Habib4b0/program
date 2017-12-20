@@ -26,6 +26,8 @@ import static com.stpl.ifs.util.constants.GlobalConstants.getGovernmentConstant;
 import static com.stpl.ifs.util.constants.GlobalConstants.getReturnsConstant;
 import com.stpl.ifs.util.constants.WorkflowConstants;
 import com.liferay.portal.kernel.util.JavaConstants;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
 import com.vaadin.server.Page;
@@ -48,6 +50,8 @@ import java.util.logging.Logger;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletRequest;
 import org.apache.commons.lang.StringUtils;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 import org.vaadin.alump.beforeunload.BeforeUnload;
 
 // TODO: Auto-generated Javadoc
@@ -57,6 +61,13 @@ import org.vaadin.alump.beforeunload.BeforeUnload;
  * @author soundarrajan
  * @version 1.0
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=Forecast and Planning",
+        "javax.portlet.name=Commercial",
+        "javax.portlet.display-name=Commercial",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 public class ForecastUI extends UI {
 
 	/**
@@ -87,9 +98,7 @@ public class ForecastUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 		addStyleName("bootstrap bootstrap-ui bootstrap-forecast bootstrap-nm");
-		final String userId = request.getRemoteUser();
-
-
+		final String userId = "10948";
 		beforeUnloadCloseUi();
 		PortletConfig portletConfig = (PortletConfig) request.getAttribute(JavaConstants.JAVAX_PORTLET_CONFIG);
 		PortletRequest portletRequest = (PortletRequest) request.getAttribute(JavaConstants.JAVAX_PORTLET_REQUEST);
@@ -330,18 +339,18 @@ public class ForecastUI extends UI {
 			@Override
 			public void error(com.vaadin.server.ErrorEvent event) {
 				// Find the final cause
-				String cause = "The Exception occured because of: ";
-				for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
-					if (t.getCause() == null) // We're at final cause
-					{
-						cause += t.getClass().getName();
+//				String cause = "The Exception occured because of: ";
+//				for (Throwable t = event.getThrowable(); t != null; t = t.getCause()) {
+//					if (t.getCause() == null) // We're at final cause
+//					{
+//						cause += t.getClass().getName();
+//
+//					}
+//					
+//					LOGGER.error(t.getMessage());
+//				}
 
-					}
-					
-					LOGGER.error(t.getMessage());
-				}
-
-				LOGGER.error(cause);
+				LOGGER.error(event.getThrowable());
 				// Do the default error handling (optional)
 			}
 		});

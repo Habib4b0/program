@@ -16,7 +16,7 @@ import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -89,7 +89,7 @@ public class DataSelectionQueryUtils {
 
         List resultsList;
         StringBuilder sql = null;
-        sql = new StringBuilder(CustomSQLUtil.get("getTableResults"));
+        sql = new StringBuilder(SQlUtil.getQuery(getClass(),"getTableResults"));
 
         String projName = projectionName;
         Integer companyId = (Integer) companyValueId;
@@ -435,7 +435,7 @@ public class DataSelectionQueryUtils {
         }
 
         List countList;
-        StringBuilder sql = new StringBuilder(CustomSQLUtil.get("getTableResultsCount"));
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(getClass(),"getTableResultsCount"));
         int count = 0;
         String projName = projectionName;
         Integer companyId = (Integer) companyValueId;
@@ -691,7 +691,7 @@ public class DataSelectionQueryUtils {
     }
 
     public List getPriceTypesList(SessionDTO session) throws PortalException, SystemException {
-        String sql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode)?"getNaPriceTypesForView":"getNaPriceTypes");
+        String sql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode)?"getNaPriceTypesForView":"getNaPriceTypes");
      if (session.getProjectionId() != 0) {
          if (Constant.VIEW.equalsIgnoreCase(mode)) {
              sql += "   NA_PROJ_MASTER_SID =  "
@@ -709,7 +709,7 @@ public class DataSelectionQueryUtils {
 
         Map<String, Object> input = new HashMap<>();
         input.put("?PID", projMasterId);
-        String customSql = CustomSQLUtil.get("na.deleteMain");
+        String customSql = SQlUtil.getQuery(getClass(),"na.deleteMain");
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -720,14 +720,14 @@ public class DataSelectionQueryUtils {
     }
 
     public List getNdcList(SessionDTO session) throws PortalException, SystemException {
-        String sql = CustomSQLUtil.get("getNdcList");
+        String sql = SQlUtil.getQuery(getClass(),"getNdcList");
 
 
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
     public List getFederalList(SessionDTO session) throws PortalException, SystemException {
-        String sql = CustomSQLUtil.get("getFederalList");
+        String sql = SQlUtil.getQuery(getClass(),"getFederalList");
         return (List) DAO.executeSelectQuery(QueryUtil.replaceTableNames(sql,session.getCurrentTableNames()));
     }
 
@@ -744,7 +744,7 @@ public class DataSelectionQueryUtils {
         }
 
         List countList = null;
-        String sql = CustomSQLUtil.get("getProductGroupsCount");
+        String sql = SQlUtil.getQuery(DataSelectionQueryUtils.class,"getProductGroupsCount");
         boolean andAppend = false;
         boolean whereAppend = true;
         if (StringUtils.isNotBlank(productGroupNo)) {
@@ -850,7 +850,7 @@ public class DataSelectionQueryUtils {
                     }
                 }
             }
-            String sql = CustomSQLUtil.get("getProductGroups");
+            String sql = SQlUtil.getQuery(getClass(),"getProductGroups");
             boolean andAppend = false;
             boolean whereAppend = true;
             if (StringUtils.isNotBlank(productGroupNo)) {
@@ -975,7 +975,7 @@ public class DataSelectionQueryUtils {
     public List getProductGroupresults(Object companyValue, Object therapeuticClassValue, Object productGroupValue,Object businessUnit) {
         try {
             Map<String, Object> input = new HashMap<>();
-            String customSql = CustomSQLUtil.get("getProductNamesFromGroup");
+            String customSql = SQlUtil.getQuery(getClass(),"getProductNamesFromGroup");
             input.put("?PGQUERY", "AND IG.ITEM_GROUP_NAME LIKE '" + productGroupValue.toString().trim() + "'");
             if (!StringUtils.EMPTY.equals(companyValue.toString())) {
                 input.put("?CMQUERY", "AND CM.COMPANY_NAME= '" + companyValue.toString() + "'");

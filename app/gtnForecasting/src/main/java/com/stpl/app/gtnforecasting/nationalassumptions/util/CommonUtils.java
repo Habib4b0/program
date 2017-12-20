@@ -11,10 +11,8 @@ import static com.stpl.app.gtnforecasting.utils.Constant.CalculatePeriods.CALCUL
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import static com.stpl.app.gtnforecasting.utils.Constant.ZERO;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.ForecastConfig;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.ItemMaster;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ItemMasterLocalServiceUtil;
@@ -22,7 +20,6 @@ import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -293,7 +290,7 @@ public class CommonUtils {
         LOGGER.debug("getManufacturesWithIds() starts");
         List<HelperDTO> results = new ArrayList<>();
         try {
-            DynamicQuery helper = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+            DynamicQuery helper = HelperTableLocalServiceUtil.dynamicQuery();
             final ProjectionList helperProjectionList = ProjectionFactoryUtil.projectionList();
             helperProjectionList.add(ProjectionFactoryUtil.property(Constant.HELPER_TABLE_SID));
             helper.add(RestrictionsFactoryUtil.eq(Constant.LIST_NAME, "COMPANY_TYPE"));
@@ -304,8 +301,7 @@ public class CommonUtils {
             if (!companyTypeIds.isEmpty()) {
                 companyTypeId = Integer.valueOf(String.valueOf(companyTypeIds.get(0)));
             }
-        DynamicQuery companyDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(CompanyMaster.class);
+        DynamicQuery companyDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 
         companyDynamicQuery.add(RestrictionsFactoryUtil.eq("companyType",
                companyTypeId));
@@ -370,7 +366,7 @@ public class CommonUtils {
      */
     @SuppressWarnings("unchecked")
     public static List<HelperDTO> getTherapeuticClass() {
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.isNotNull(Constant.THERAPEUTIC_CLASS));
         dynamicQuery.add(RestrictionsFactoryUtil.ne(Constant.THERAPEUTIC_CLASS,0));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.THERAPEUTIC_CLASS)));
@@ -512,7 +508,7 @@ public class CommonUtils {
      */      
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             String formattedUN= user.getLastName()+", "+user.getFirstName();
@@ -648,7 +644,7 @@ public class CommonUtils {
     public static int getHelperCode(String listName, String description) throws PortalException, SystemException {
         final DataSelectionDAO DAO = new DataSelectionDAOImpl();
         int code = 0;
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.LIST_NAME, listName));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.DESCRIPTION, description));
         dynamicQuery.setProjection(ProjectionFactoryUtil.property(ConstantsUtils.HELPER_TABLE_SID));

@@ -14,6 +14,7 @@ import com.stpl.ifs.util.ExportWord;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.ifs.ui.forecastds.form.ForecastDataSelection;
 import com.vaadin.event.FieldEvents.FocusEvent;
 import com.vaadin.event.FieldEvents.FocusListener;
 import com.vaadin.event.LayoutEvents;
@@ -145,7 +146,7 @@ public abstract class AbsAdditionalInformation extends CustomComponent implement
         this.projectionId = projectionId;
         this.moduleName = moduleName;
         this.mode = mode;
-        setCompositionRoot(Clara.create(getClass().getResourceAsStream("/ui/notestabform.xml"), this));
+        setCompositionRoot(Clara.create(ForecastDataSelection.class.getResourceAsStream("/ui/notestabform.xml"), this));
         intailizingObject();
         init();
 

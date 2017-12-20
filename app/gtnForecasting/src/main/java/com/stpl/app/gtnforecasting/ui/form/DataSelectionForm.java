@@ -29,7 +29,7 @@ import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.GtnAutomaticRelationServiceRunnable;
+import com.stpl.app.gtnforecasting.service.GtnAutomaticRelationServiceRunnable;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
@@ -4234,7 +4234,7 @@ public class DataSelectionForm extends ForecastDataSelection {
 
 	private Future checkAndDoAutomaticUpdate(Object value, int hierarchyId) {
 		GtnAutomaticRelationServiceRunnable wsClientRunnableTarget = new GtnAutomaticRelationServiceRunnable(value,
-				hierarchyId);
+				hierarchyId,String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID)));
 		ExecutorService customerExecutorService = Executors.newSingleThreadExecutor();
 		Future future = customerExecutorService.submit(wsClientRunnableTarget);
 		customerExecutorService.shutdown();

@@ -1,4 +1,4 @@
-<VerticalLayout id="vlayout" spacing="true" xmlns="urn:import:com.vaadin.ui" xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:org.asi.ui.extfilteringtable">
+<VerticalLayout id="vlayout" spacing="true"  xmlns:p="urn:vaadin:parent" xmlns:ef="urn:import:org.asi.ui.extfilteringtable">
     <Panel id="panelnotes">     
     <HorizontalLayout id="root" margin="true" space="true" >
             <Panel id="notes" caption="Notes" styleName="attachmentpanel" >

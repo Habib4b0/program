@@ -5,6 +5,8 @@
  */
 package com.stpl.app.gtnforecasting.ui;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.ui.form.DataSelectionForm;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -80,7 +82,7 @@ public class ForecastMainView extends VerticalLayout implements View {
         }
         try {
             addComponent(new DataSelectionForm(dataSelectionBinder, dataSelectionDTO, screenName));
-        } catch (Exception exception) {
+        } catch (SystemException | PortalException exception) {
             LOGGER.error(exception.getMessage());
         }
     } // Ends here

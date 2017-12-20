@@ -98,7 +98,7 @@ public class DiscountProjectionResultsLogic {
             }
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
-                final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -228,7 +228,7 @@ public class DiscountProjectionResultsLogic {
                 ccpid = null;
             }
             if (ccpid != null && !ccpid.isEmpty()) {
-                final DynamicQuery projectionDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectionDetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpid));
                 projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
                 ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -300,7 +300,7 @@ public class DiscountProjectionResultsLogic {
             }
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
-                final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -374,7 +374,7 @@ public class DiscountProjectionResultsLogic {
                 ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             }
             if (ccpId != null && !ccpId.isEmpty()) {
-                final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -589,7 +589,7 @@ public class DiscountProjectionResultsLogic {
             List ccpId = new NmDiscountImpl().getCCPDetailsID(projectionId, PERCENTAGE, Constant.STRING_ONE);
             if (ccpId != null && !ccpId.isEmpty()) {
                 List<Integer> proDetailsSid;
-                final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -1753,7 +1753,7 @@ public class DiscountProjectionResultsLogic {
         }
         if (ccpId != null && !ccpId.isEmpty()) {
             List<Integer> proDetailsSid;
-            final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+            final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
             projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
             projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
             final ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -2973,7 +2973,7 @@ public class DiscountProjectionResultsLogic {
         List ccpId = new NmDiscountImpl().getCCPDetailsID(projectionMasterId, hierachyNumber, String.valueOf(levelNo));
         String frequency = String.valueOf(selection.get(Constant.FREQUENCY));
         if (ccpId != null && !ccpId.isEmpty()) {
-            final DynamicQuery projectionDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+            final DynamicQuery projectionDetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
             projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
             projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
             ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -4210,7 +4210,7 @@ public class DiscountProjectionResultsLogic {
                 ccpId = ccp;
             }
             if (ccpId != null && !ccpId.isEmpty()) {
-                final DynamicQuery projectionDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectionDetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 projectionDetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
                 ProjectionList projList = ProjectionFactoryUtil.projectionList();
@@ -4343,7 +4343,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
             if (ccpId != null && !ccpId.isEmpty()) {
-                final DynamicQuery projectiondetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionDetails.class);
+                final DynamicQuery projectiondetailsDynamicQuery = ProjectionDetailsLocalServiceUtil.dynamicQuery();
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionMasterId));
                 projectiondetailsDynamicQuery.add(RestrictionsFactoryUtil.in(Constant.CCP_DETAILS_SID, ccpId));
                 final ProjectionList projList = ProjectionFactoryUtil.projectionList();

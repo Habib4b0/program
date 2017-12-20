@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.service.finderImpl;
 
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +60,7 @@ public class NMSalesProjectionMasterImpl {
     
     public List getAssumptionResult(List input, String queryName) {
         List list = new ArrayList();
-        StringBuilder sql = new StringBuilder(CustomSQLUtil.get(queryName));
+        StringBuilder sql = new StringBuilder(SQlUtil.getQuery(getClass(),queryName));
 
         try {
             if ("update".equals(input.get(0))) {

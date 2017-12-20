@@ -7,16 +7,15 @@ package com.stpl.app.gtnforecasting.ppaprojection.logic;
 
 import com.stpl.app.gtnforecasting.dao.PPAProjectionDao;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
-import com.stpl.app.model.ItemPricingQualifier;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.ItemPricingQualifierLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -65,7 +64,7 @@ public class PPAServiceSupport {
 
         priceResultList.clear();
 
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemPricingQualifier.class);
+        final DynamicQuery cfpDynamicQuery = ItemPricingQualifierLocalServiceUtil.dynamicQuery();
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         try {
             projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_PRICING_QUALIFIER_SID));

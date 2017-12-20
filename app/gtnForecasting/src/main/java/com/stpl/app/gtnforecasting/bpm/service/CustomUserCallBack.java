@@ -45,10 +45,12 @@ public class CustomUserCallBack implements UserGroupCallback {
         }
     }
 
+    @Override
     public boolean existsUser(String userId) {
         return userMap.containsKey(userId) || userId.equals(Constant.ADMINISTRATOR);
     }
 
+    @Override
     public boolean existsGroup(String groupId) {
         if (groupId.contains(",")) {
             String[] groups = groupId.split(",");
@@ -70,6 +72,25 @@ public class CustomUserCallBack implements UserGroupCallback {
         if (userMap.containsKey(userId)) {
             try {
                 roles = RoleLocalServiceUtil.getUserRoles(userMap.get(userId).getUserId());
+            } catch (SystemException e) {
+                LOGGER.error(e);
+            }
+            for (Role role : roles) {
+                if (!Constant.ADMINISTRATOR.equals(role.getName())) {
+                    userRoles.add(role.getName());
+                }
+            }
+        }
+        return userRoles;
+    }
+
+    @Override
+    public List<String> getGroupsForUser(String string) {
+         List<String> userRoles = new ArrayList<>();
+        List<Role> roles = null;
+        if (userMap.containsKey(string)) {
+            try {
+                roles = RoleLocalServiceUtil.getUserRoles(userMap.get(string).getUserId());
             } catch (SystemException e) {
                 LOGGER.error(e);
             }

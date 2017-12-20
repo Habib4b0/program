@@ -33,9 +33,7 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.gtnforecasting.workflow.logic.WorkflowLogic;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ContractMaster;
 import com.stpl.app.model.ForecastingViewMaster;
-import com.stpl.app.model.HelperTable;
 import com.stpl.app.model.ProjectionMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.ProjectionMasterLocalServiceUtil;
@@ -53,7 +51,6 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -61,6 +58,9 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ContractMasterLocalServiceUtil;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.v7.data.Container;
@@ -312,7 +312,7 @@ public class NonMandatedLogic {
 		LOGGER.debug("Entering searchAlternateBrand  ::::");
 
 		if (Constant.TP.equalsIgnoreCase(searchType)) {
-			final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+			final DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 			if (!flag) {
 				if (String.valueOf(searchBinder.getField(Constant.CONTRACT_HOLDER).getValue()) != null
 						&& !StringUtils.EMPTY
@@ -346,7 +346,7 @@ public class NonMandatedLogic {
 
 			}
 			dynamicQuery.add(PropertyFactoryUtil.forName(Constant.COMPANYMASTERSID)
-					.in(DynamicQueryFactoryUtil.forClass(ContractMaster.class)
+					.in(ContractMasterLocalServiceUtil.dynamicQuery()
 							.setProjection(ProjectionFactoryUtil.property("contHoldCompanyMasterSid"))));
 			resultTPList = dataSelection.getCompanyMasterList(dynamicQuery);
 			LOGGER.debug("Size of resultTPList " + resultTPList.size());
@@ -357,7 +357,7 @@ public class NonMandatedLogic {
 		}
 
 		if (CommonUtils.BRAND.equalsIgnoreCase(searchType)) {
-			final DynamicQuery brandDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+			final DynamicQuery brandDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
 
 			String brandName = String.valueOf(searchBinder.getField(Constant.BRAND_SEARCH).getValue()) == null
 					|| CommonUtils.STRING_NULL
@@ -1514,7 +1514,7 @@ public class NonMandatedLogic {
 	public List<DataSelectionDTO> searchDSProjections(final DataSelectionDTO dataSelectionDTO)
 			throws SystemException, ParseException {
 		Map<String, Object> parameters = new HashMap<>();
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+		DynamicQuery dynamicQuery = ProjectionMasterLocalServiceUtil.dynamicQuery();
 		List resultList;
 		List<DataSelectionDTO> returnList = null;
 
@@ -1632,7 +1632,7 @@ public class NonMandatedLogic {
 	public String submitProjection(int projectionId, String userId, String notes, int noOfApprovals, String screenName,
 			List<NotesDTO> getUploadedData, String description) {
 		LOGGER.debug("Entering submitProjection method");
-		DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+		DynamicQuery projectionDynamicQuery = ProjectionMasterLocalServiceUtil.dynamicQuery();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));
@@ -1690,7 +1690,7 @@ public class NonMandatedLogic {
 	 */
 	public List<CompanyMaster> getCompanyFromSid(final int companyMasterSid) throws SystemException {
 		List<CompanyMaster> companyMasterList;
-		DynamicQuery companyQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+		DynamicQuery companyQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		companyQuery.add(RestrictionsFactoryUtil.eq(Constant.COMPANYMASTERSID, companyMasterSid));
 		companyMasterList = dataSelection.getCompanyMasterList(companyQuery);
 		return companyMasterList;
@@ -1706,10 +1706,10 @@ public class NonMandatedLogic {
 	 * @throws Exception
 	 */
 	public List<HelperDTO> getCompanies(int startIndex, int endIndex, String filterText) throws SystemException {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
-				.in(DynamicQueryFactoryUtil.forClass(HelperTable.class)
+				.in(HelperTableLocalServiceUtil.dynamicQuery()
 						.add(RestrictionsFactoryUtil.eq(Constant.DESCRIPTION, "GLCOMP"))
 						.setProjection(ProjectionFactoryUtil.property(Constant.HELPER_TABLE_SID))));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1747,9 +1747,9 @@ public class NonMandatedLogic {
 	 */
 	public int getCompaniesCount(String filterText) throws SystemException {
 		filterText = StringUtils.trimToEmpty(filterText) + Constant.PERCENT;
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+		DynamicQuery dynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
 		dynamicQuery.add(PropertyFactoryUtil.forName("companyType")
-				.in(DynamicQueryFactoryUtil.forClass(HelperTable.class)
+				.in(HelperTableLocalServiceUtil.dynamicQuery()
 						.add(RestrictionsFactoryUtil.eq(Constant.DESCRIPTION, "GLCOMP"))
 						.setProjection(ProjectionFactoryUtil.property(Constant.HELPER_TABLE_SID))));
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
@@ -1796,7 +1796,7 @@ public class NonMandatedLogic {
 	}
 
 	public List<String> getHelperTableListNames() throws SystemException {
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+		DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
 		final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
 		productProjectionList.add(ProjectionFactoryUtil.property(Constant.LIST_NAME));
 		dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
@@ -1811,7 +1811,7 @@ public class NonMandatedLogic {
 	public int searchDSProjectionsCount(final DataSelectionDTO dataSelectionDTO, Set<Container.Filter> filters)
 			throws SystemException {
 		Map<String, Object> parameters = new HashMap<>();
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+		DynamicQuery dynamicQuery = ProjectionMasterLocalServiceUtil.dynamicQuery();
 		List resultList;
 		parameters.put(Constant.LAZY_LOAD_RESULTS, null);
 		parameters.put("moduleName", dataSelectionDTO.getModulName());
@@ -1972,7 +1972,7 @@ public class NonMandatedLogic {
 			int offset, Set<Container.Filter> filters, List<SortByColumn> sortByColumns)
 			throws ParseException, SystemException {
 		Map<String, Object> parameters = new HashMap<>();
-		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+		DynamicQuery dynamicQuery = ProjectionMasterLocalServiceUtil.dynamicQuery();
 		List resultList;
 		List<DataSelectionDTO> returnList = null;
 		parameters.put("startIndex", startIndex);
@@ -2163,7 +2163,7 @@ public class NonMandatedLogic {
 		input.put("?PID", inputDto.getProjectionId());
 		input.put("?PSY", inputDto.getForecastDTO().getProjectionStartYear());
 		input.put("?PEY", inputDto.getForecastDTO().getForecastEndYear());
-		String customSql = CustomSQLUtil.get(customSqlId);
+		String customSql = SQlUtil.getQuery(getClass(),customSqlId);
 		for (String key : input.keySet()) {
 			if (customSql.contains(key)) {
 				customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -2439,7 +2439,7 @@ public class NonMandatedLogic {
 	}
 
 	public String getWorkflowStatus(int projectionId, final String screenName) {
-		DynamicQuery projectionDynamicQuery = DynamicQueryFactoryUtil.forClass(ProjectionMaster.class);
+		DynamicQuery projectionDynamicQuery = ProjectionMasterLocalServiceUtil.dynamicQuery();
 		if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
 			projectionDynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.FORECASTING_TYPE,
 					CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED));

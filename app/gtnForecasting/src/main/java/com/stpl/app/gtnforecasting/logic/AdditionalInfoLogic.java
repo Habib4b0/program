@@ -61,7 +61,7 @@ public class AdditionalInfoLogic {
     public Boolean saveUploadedFile(final int projectionId, final String fileName, final String uploadedBy, final Double fileSize, final String moduleName) throws SystemException {
 
         final DecimalFormat formatter = new DecimalFormat("#.#");
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_ID, projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         if (fileName.indexOf('.') == -1) {
@@ -127,7 +127,7 @@ public class AdditionalInfoLogic {
      */
     public List<AttachmentDTO> getAttachmentDTOList(final int projectionId, final String moduleName) throws SystemException {
         final List<AttachmentDTO> attachmentDTOList = new ArrayList<>();
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(DocDetails.class);
+        final DynamicQuery dynamicQuery = DocDetailsLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_ID, projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<DocDetails> docDetailsList;
@@ -239,7 +239,7 @@ public class AdditionalInfoLogic {
     public String getNotes(final int projectionId, final String moduleName, final String userName, List wordList) throws SystemException{
         final StringBuilder notes = new StringBuilder();
         notes.append(StringUtils.EMPTY);
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(AdditionalNotes.class);
+        final DynamicQuery dynamicQuery = AdditionalNotesLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_ID, projectionId));
         dynamicQuery.add(RestrictionsFactoryUtil.ilike(Constant.FORECAST_TYPE, moduleName));
         List<AdditionalNotes> notesList;

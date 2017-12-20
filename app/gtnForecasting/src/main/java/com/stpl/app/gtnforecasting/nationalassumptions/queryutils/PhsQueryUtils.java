@@ -52,9 +52,9 @@ public class PhsQueryUtils {
         input.put("?PT", priceType);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsPercentageForView" : "getPhsPercentage");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsPercentageForView" : "getPhsPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsAmountForView" : "getPhsAmount");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsAmountForView" : "getPhsAmount");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
             LOGGER.debug(" Key : " + entry.getKey());
@@ -82,7 +82,7 @@ public class PhsQueryUtils {
             input.put("?TID", therapeuticSid);
         }
         input.put("?IMD", itemMasterSID);
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (Map.Entry<String, Object> entry : input.entrySet()) {
             LOGGER.debug(" Key : " + entry.getKey());
@@ -124,9 +124,9 @@ public class PhsQueryUtils {
         input.put("?IMID", ndcSid);
         String customSql;
         if (adjustFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetAdjustmentForView" : "getPhsWorkSheetAdjustment");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetAdjustmentForView" : "getPhsWorkSheetAdjustment");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetForView" : "getPhsWorkSheet");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getPhsWorkSheetForView" : "getPhsWorkSheet");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
             LOGGER.debug("Key : " + entry.getKey());
@@ -243,10 +243,10 @@ public class PhsQueryUtils {
         String customSql;
 
         if (parentLevelId != 0) {
-            customSql = CustomSQLUtil.get("getPhsLevelFilter");
+            customSql = SQlUtil.getQuery(getClass(),"getPhsLevelFilter");
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         } else {
-            customSql = CustomSQLUtil.get("getPhsParent");
+            customSql = SQlUtil.getQuery(getClass(),"getPhsParent");
         }
         for (Map.Entry<String, Object> entry : input.entrySet()) {
             LOGGER.debug("Key : " + entry.getKey());

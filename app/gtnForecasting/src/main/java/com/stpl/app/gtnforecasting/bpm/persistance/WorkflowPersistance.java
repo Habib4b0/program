@@ -45,11 +45,11 @@ public class WorkflowPersistance extends BasePersistanceProvider {
         List<Object[]> obj = null;
         try {
             if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_RETURNS)) {
-                String customSql = CustomSQLUtil.get("getProjectionRecordsForReturns");
+                String customSql = SQlUtil.getQuery(WorkflowPersistance.class,"getProjectionRecordsForReturns");
                 customSql = customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
                 obj = executeSelectQuery(QueryUtil.replaceTableNames(customSql,sessionDto.getCurrentTableNames()), null, null);
             } else {
-                String customSql =CustomSQLUtil.get("getProjectionRecords");
+                String customSql =SQlUtil.getQuery(WorkflowPersistance.class,"getProjectionRecords");
                 customSql=customSql.replace(Constant.QUESTION_PROJECTION_ID, String.valueOf(projectionId));
                 customSql=customSql.replace("?USER_ID", String.valueOf(userId));
                 customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));

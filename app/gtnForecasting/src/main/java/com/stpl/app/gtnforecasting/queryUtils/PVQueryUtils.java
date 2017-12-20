@@ -14,7 +14,6 @@ import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -141,9 +140,9 @@ public class PVQueryUtils {
                 isProjectionStatus = true;
             }
             if (isProjectionStatus) {
-                customSql = new StringBuilder(CustomSQLUtil.get(Constant.GET_PROJECTION_LISTS));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),Constant.GET_PROJECTION_LISTS));
             } else {
-                customSql = new StringBuilder(CustomSQLUtil.get("getWorkFlowLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowLists"));
             }
 
             if (marketType == null || marketType.equals(StringUtils.EMPTY)) {
@@ -237,7 +236,7 @@ public class PVQueryUtils {
      */
     public String getPVComparisonProjections(final List<Integer> projId) {
         try {
-            String customSql = CustomSQLUtil.get(Constant.GET_PROJECTION_LISTS);
+            String customSql = SQlUtil.getQuery(getClass(),Constant.GET_PROJECTION_LISTS);
             if (projId != null && !projId.isEmpty()) {
                 customSql += (" PM.PROJECTION_MASTER_SID IN (" + CommonUtils.CollectionToString(projId, false) + ")");
             } else {
@@ -367,9 +366,9 @@ public class PVQueryUtils {
                 isProjectionStatus = true;
             }
             if (isProjectionStatus) {
-                customSql = new StringBuilder(CustomSQLUtil.get("getProjectionListsCount"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getProjectionListsCount"));
             } else {
-                customSql = new StringBuilder(CustomSQLUtil.get("getWorkFlowListsCount"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowListsCount"));
             }
 
             if (comparisonLookupDTO.getMarketType() == null || comparisonLookupDTO.getMarketType().equals(StringUtils.EMPTY)) {
@@ -490,7 +489,7 @@ public class PVQueryUtils {
             }
             if ((parameters.get(Constant.FILTERCREATED_BY) != null) && (parameters.get(Constant.FILTERCREATED_BY) != null)) {
                     List<String> strList;
-                    final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+                    final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
                     Criterion criterion = RestrictionsFactoryUtil.ilike(Constant.FIRSTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                     Criterion criterion1 = RestrictionsFactoryUtil.ilike(Constant.LASTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                     dynamicQuery.add(RestrictionsFactoryUtil.or(criterion, criterion1));
@@ -547,9 +546,9 @@ public class PVQueryUtils {
             }
 
             if (isProjectionStatus) {
-                customSql = new StringBuilder(CustomSQLUtil.get(Constant.GET_PROJECTION_LISTS));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),Constant.GET_PROJECTION_LISTS));
             } else {
-                customSql = new StringBuilder(CustomSQLUtil.get("getWorkFlowLists"));
+                customSql = new StringBuilder(SQlUtil.getQuery(getClass(),"getWorkFlowLists"));
             }
 
             if (comparisonLookupDTO.getMarketType() == null || comparisonLookupDTO.getMarketType().equals(StringUtils.EMPTY)) {
@@ -670,7 +669,7 @@ public class PVQueryUtils {
             }
             if (parameters.get(Constant.FILTERCREATED_BY) != null) {
                 List<String> strList;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+                final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
                 Criterion criterion = RestrictionsFactoryUtil.ilike(Constant.FIRSTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                 Criterion criterion1 = RestrictionsFactoryUtil.ilike(Constant.LASTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                 dynamicQuery.add(RestrictionsFactoryUtil.or(criterion, criterion1));
@@ -868,7 +867,7 @@ public class PVQueryUtils {
             }
             if (parameters.get(Constant.FILTERCREATED_BY) != null) {
                 List<String> strList;
-                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+                final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
                 Criterion criterion = RestrictionsFactoryUtil.ilike(Constant.FIRSTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                 Criterion criterion1 = RestrictionsFactoryUtil.ilike(Constant.LASTNAME, Constant.PERCENT + parameters.get(Constant.FILTERCREATED_BY) + Constant.PERCENT);
                 dynamicQuery.add(RestrictionsFactoryUtil.or(criterion, criterion1));

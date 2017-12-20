@@ -1,11 +1,8 @@
 package com.stpl.app.ui;
 
-import com.stpl.app.gtnforecasting.logic.PPAProjectionLogic;
 import com.stpl.ifs.ui.errorhandling.ErrorLabel;
 import com.vaadin.v7.data.Item;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
-import org.jboss.logging.Logger;
-
 
 
 /**

@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +53,7 @@ public class BrandItemLogic {
             itemNos.add(selectedProducts.get(i).getProductNo());
             itemNames.add(selectedProducts.get(i).getProductName());
         }
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        final DynamicQuery dynamicQuery = ItemMasterLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.in(Constant.ITEM_NO, itemNos), RestrictionsFactoryUtil.in("itemName", itemNames)));
         dynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(Constant.BRAND)));
         List<String> brands;

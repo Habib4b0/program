@@ -29,15 +29,13 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.dao.orm.custom.sql.CustomSQLUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.Between;
@@ -273,7 +271,7 @@ public class MProjectionVarianceLogic {
                                 customSql.append("AND PM.CREATED_DATE LIKE ").append(filterString);
                             } else if (Constant.CREATED_BY_SMALL.equals(stringFilter.getPropertyId())) {
                                 List<String> strList;
-                                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+                                final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
                                 Criterion criterion = RestrictionsFactoryUtil.ilike(Constant.FIRSTNAME, Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT);
                                 Criterion criterion1 = RestrictionsFactoryUtil.ilike(Constant.LASTNAME, Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT);
                                 dynamicQuery.add(RestrictionsFactoryUtil.or(criterion, criterion1));
@@ -501,7 +499,7 @@ public class MProjectionVarianceLogic {
                                 customSql.append("AND PM.CREATED_DATE LIKE ").append(filterString);
                             } else if (Constant.CREATED_BY_SMALL.equals(stringFilter.getPropertyId())) {
                                 List<String> strList;
-                                final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+                                final DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
                                 Criterion criterion = RestrictionsFactoryUtil.ilike(Constant.FIRSTNAME, Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT);
                                 Criterion criterion1 = RestrictionsFactoryUtil.ilike(Constant.LASTNAME, Constant.PERCENT + stringFilter.getFilterString() + Constant.PERCENT);
                                 dynamicQuery.add(RestrictionsFactoryUtil.or(criterion, criterion1));
@@ -2152,22 +2150,22 @@ public class MProjectionVarianceLogic {
      * @return
      */
     private String getProjectionVarianceQuery(PVSelectionDTO projSelDTO) {
-        String query = CustomSQLUtil.get("projection-variance-select-periods");
-        query += CustomSQLUtil.get("gov-projection-variance-select-columns-query");
+        String query = SQlUtil.getQuery(getClass(),"projection-variance-select-periods");
+        query += SQlUtil.getQuery(getClass(),"gov-projection-variance-select-columns-query");
         query = query.replace(Constant.PROJ_NUM_AT, "C0");
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             query += ", ";
-            query += CustomSQLUtil.get("gov-projection-variance-select-columns-query");
+            query += SQlUtil.getQuery(getClass(),"gov-projection-variance-select-columns-query");
             query = query.replace(Constant.PROJ_NUM_AT, Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY + i);
         }
-        query +="FROM " + CustomSQLUtil.get("gov-current-projection-query");
+        query +="FROM " + SQlUtil.getQuery(getClass(),"gov-current-projection-query");
         query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
         query = query.replace(Constant.PROJ_NUM_AT, "D");
 
         for (int i = 0; i < projSelDTO.getProjIdList().size(); i++) {
             projSelDTO.setProjectionId(projSelDTO.getProjIdList().get(i));
             String projectionNumber = Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY + i;
-            query += " LEFT JOIN \n" + CustomSQLUtil.get("gov-prior-projection-query") + projectionNumber + " \n";
+            query += " LEFT JOIN \n" + SQlUtil.getQuery(getClass(),"gov-prior-projection-query") + projectionNumber + " \n";
             query = query.replace("@PROJECTION_MASTER_SID", String.valueOf(projSelDTO.getProjectionId()));
             query = query.replace(Constant.PROJ_NUM_AT, "D");
             query += " ON C0.YEARS = " + projectionNumber + ".YEARS AND C0.PERIODS = " + projectionNumber + ".PERIODS ";
@@ -6715,7 +6713,7 @@ public class MProjectionVarianceLogic {
 
     public void saveMPVSelection(Map map, int projectionID, String screenName) {
         List<MProjectionSelection> list = new ArrayList<>();
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(MProjectionSelection.class);
+        DynamicQuery query = MProjectionSelectionLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(Constant.PROJECTION_MASTER_SID, projectionID));
         query.add(RestrictionsFactoryUtil.eq(Constant.SCREEN_NAME, screenName));
 

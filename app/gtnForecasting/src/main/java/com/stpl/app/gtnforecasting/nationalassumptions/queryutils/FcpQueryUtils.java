@@ -58,7 +58,7 @@ public class FcpQueryUtils {
             input.put("?TID", therapeuticSid);
         }
 
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -94,9 +94,9 @@ public class FcpQueryUtils {
         input.put("?PT", priceType);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpPercentageForView" : "getFcpPercentage");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpPercentageForView" : "getFcpPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpAmountForView" : "getFcpAmount");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpAmountForView" : "getFcpAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -123,9 +123,9 @@ public class FcpQueryUtils {
         input.put("?LID", query);
 
         if (percentFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampPercentageForView" : "getNonFampPercentage");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampPercentageForView" : "getNonFampPercentage");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampAmountForView" : "getNonFampAmount");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getNonFampAmountForView" : "getNonFampAmount");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -262,11 +262,11 @@ public class FcpQueryUtils {
         String customSql;
 
         if (annualFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetYearValuesForView" : "getFcpWorkSheetYearValues");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetYearValuesForView" : "getFcpWorkSheetYearValues");
         } else if (adjustFlag) {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrAdjustmentForView" : "getFcpWorkSheetQtrAdjustment");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrAdjustmentForView" : "getFcpWorkSheetQtrAdjustment");
         } else {
-            customSql = CustomSQLUtil.get(Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrValuesForView" : "getFcpWorkSheetQtrValues");
+            customSql = SQlUtil.getQuery(getClass(),Constant.VIEW.equalsIgnoreCase(mode) ? "getFcpWorkSheetQtrValuesForView" : "getFcpWorkSheetQtrValues");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -301,10 +301,10 @@ public class FcpQueryUtils {
         String customSql;
 
         if (parentLevelId != 0) {
-            customSql = CustomSQLUtil.get("getFCPLevelFilter");
+            customSql = SQlUtil.getQuery(getClass(),"getFCPLevelFilter");
             customSql += " AND IM.ITEM_MASTER_SID = " + parentLevelId;
         } else {
-            customSql = CustomSQLUtil.get("getFcpParent");
+            customSql = SQlUtil.getQuery(getClass(),"getFcpParent");
         }
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));
@@ -320,7 +320,7 @@ public class FcpQueryUtils {
 
         input.put(Constant.IMID1, itemSid);
 
-        String customSql = CustomSQLUtil.get(queryName);
+        String customSql = SQlUtil.getQuery(getClass(),queryName);
 
         for (String key : input.keySet()) {
             customSql = customSql.replace(key, String.valueOf(input.get(key)));

@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<sql>
+<entity id="com.contractDashboard.process.loadTempCFP">
+<query> <![CDATA[
+        
+        INSERT INTO dbo.IMTD_CFP_DETAILS
+        (COMPANY_ID, COMPANY_NO, COMPANY_NAME, COMPANY_TYPE, COMPANY_STATUS, COMPANY_START_DATE, COMPANY_END_DATE, CFP_MODEL_SID, 
+        COMPANY_MASTER_SID, CFP_DETAILS_START_DATE, CFP_DETAILS_END_DATE, CFP_DETAILS_ATTACHED_STATUS, CFP_DETAILS_ATTACHED_DATE, CFP_DETAILS_TRADE_CLASS, CFP_DETAILS_TC_START_DATE, CFP_DETAILS_TC_END_DATE,  
+        CFP_DETAILS_SID, USERS_SID, SESSION_ID, CHECK_RECORD, IMTD_CREATED_DATE, "Operation", CREATED_BY, CREATED_DATE, MODIFIED_BY, MODIFIED_DATE, TRADING_PARTNER_CONTRACT_NO) 
+        SELECT A.COMPANY_ID,
+                   A.COMPANY_NO,
+                   A.COMPANY_NAME,
+                   A.COMPANY_TYPE,
+                   A.COMPANY_STATUS,
+                   A.COMPANY_START_DATE,
+                   A.COMPANY_END_DATE,
+                   A.CFP_MODEL_SID,
+                   A.COMPANY_MASTER_SID,
+                   A.CFP_DETAILS_START_DATE,
+                   A.CFP_DETAILS_END_DATE,
+                   A.CFP_CONTRACT_ATTACHED_STATUS,
+                   A.CFP_CONTRACT_ATTACHED_DATE,
+                   A.TRADE_CLASS,
+                   A.TRADE_CLASS_START_DATE,
+                   A.TRADE_CLASS_END_DATE,
+                   A.CFP_CONTRACT_DETAILS_SID,
+                   A.USERS_SID,
+                   A.SESSION_ID,
+                   A.CHECK_RECORD,
+                   A.IMTD_CREATED_DATE,
+                   A."Operation",
+                   A.CREATED_BY,
+                   A.CREATED_DATE,
+                   A.MODIFIED_BY,
+                   A.MODIFIED_DATE,
+                   A.COMPANY_TRADE_CLASS
+FROM   (SELECT     ROW_NUMBER()
+                     OVER(
+                       PARTITION BY CM.COMPANY_MASTER_SID
+                       ORDER BY CTC.TRADE_CLASS_START_DATE ASC) AS RN, 
+        CM.COMPANY_ID, CM.COMPANY_NO, CM.COMPANY_NAME, CM.COMPANY_TYPE, CM.COMPANY_STATUS, CM.COMPANY_START_DATE AS COMPANY_START_DATE, CM.COMPANY_END_DATE AS COMPANY_END_DATE, CFPC.CFP_MODEL_SID, 
+        CDA.COMPANY_MASTER_SID, CDA.COMPANY_START_DATE AS CFP_DETAILS_START_DATE, CDA.COMPANY_END_DATE AS CFP_DETAILS_END_DATE, CDA.CFP_CONTRACT_ATTACHED_STATUS, CFPC.CFP_CONTRACT_ATTACHED_DATE,  CDA.TRADE_CLASS,CDA.TRADE_CLASS_START_DATE, CDA.TRADE_CLASS_END_DATE, 
+        CDA.CFP_CONTRACT_DETAILS_SID, '?' USERS_SID, '?' SESSION_ID, 1 CHECK_RECORD, '?' IMTD_CREATED_DATE, 'U' "Operation", CDA.CREATED_BY, CDA.CREATED_DATE, CDA.MODIFIED_BY, CDA.MODIFIED_DATE , ctc.COMPANY_TRADE_CLASS
+
+        FROM COMPANY_MASTER CM inner join  CFP_CONTRACT_DETAILS CDA on CDA.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID inner join  CFP_CONTRACT CFPC on  CDA.CFP_CONTRACT_SID=CFPC.CFP_CONTRACT_SID LEFT JOIN COMPANY_TRADE_CLASS ctc on ctc.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID AND ctc.INBOUND_STATUS <> 'D'
+        WHERE CFPC.CFP_CONTRACT_SID=? AND CFPC.CONTRACT_MASTER_SID=? AND CM.COMPANY_MASTER_SID=CDA.COMPANY_MASTER_SID 
+        AND CDA.INBOUND_STATUS <> 'D'  and Getdate() BETWEEN ISNULL(CDA.TRADE_CLASS_START_DATE,Getdate()) AND ISNULL(CDA.TRADE_CLASS_END_DATE,Getdate()))A
+WHERE  RN = 1 ;
+
+        
+       
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.addToTempCFP">
+<query> <![CDATA[
+        
+        
+        ; WITH CTE
+     AS (SELECT DISTINCT CM.COMPANY_MASTER_SID,
+                         CM.COMPANY_ID,
+                         CM.COMPANY_NO,
+                         CM.COMPANY_NAME,
+                         CM.COMPANY_TYPE,
+                         CM.COMPANY_STATUS,
+                         CM.COMPANY_START_DATE,
+                         CM.COMPANY_END_DATE,
+                         COMPANY_TRADE_CLASS,
+                         CTC.TRADE_CLASS_START_DATE,
+                         CTC. TRADE_CLASS_END_DATE,
+                         CM.COMPANY_CATEGORY,
+                         CM.COMPANY_GROUP,
+                         PROCESS = CASE
+                                     WHEN COMPANY_TRADE_CLASS IS NOT NULL THEN 1
+                                   END
+         FROM   COMPANY_MASTER CM
+                LEFT JOIN COMPANY_TRADE_CLASS CTC
+                       ON CM.COMPANY_MASTER_SID = CTC.COMPANY_MASTER_SID
+                          AND CM.INBOUND_STATUS <> 'D'
+                          AND GETDATE() BETWEEN CTC.TRADE_CLASS_START_DATE AND CTC.TRADE_CLASS_END_DATE
+                LEFT JOIN HELPER_TABLE HT
+                       ON HT.HELPER_TABLE_SID = CTC.COMPANY_TRADE_CLASS
+                       WHERE ? like '?'
+         ),TRADE_CLASS AS
+(
+   SELECT
+   COMPANY_MASTER_SID,COMPANY_TRADE_CLASS
+   FROM COMPANY_TRADE_CLASS C
+   LEFT JOIN HELPER_TABLE HT ON HT.HELPER_TABLE_SID = C.COMPANY_TRADE_CLASS
+   WHERE EXISTS
+   (
+      SELECT
+      1
+      FROM CTE CT
+      WHERE C.COMPANY_MASTER_SID = CT.COMPANY_MASTER_SID
+      AND COMPANY_TRADE_CLASS IS NULL
+   )
+)
+INSERT INTO IMTD_CFP_DETAILS
+            (COMPANY_MASTER_SID,
+             COMPANY_ID,
+             COMPANY_NO,
+             COMPANY_NAME,
+             COMPANY_TYPE,
+             COMPANY_STATUS,
+             COMPANY_START_DATE,
+             COMPANY_END_DATE,
+             CFP_MODEL_SID,
+             CFP_DETAILS_SID,
+             CFP_DETAILS_ATTACHED_DATE,
+             USERS_SID,
+             SESSION_ID,
+             CHECK_RECORD,
+             IMTD_CREATED_DATE,
+             "OPERATION",
+             CREATED_BY,
+             CREATED_DATE,
+             MODIFIED_BY,
+             MODIFIED_DATE,
+             TRADING_PARTNER_CONTRACT_NO)
+SELECT A.COMPANY_MASTER_SID,
+       A.COMPANY_ID,
+       A.COMPANY_NO,
+       A.COMPANY_NAME,
+       A.COMPANY_TYPE,
+       A.COMPANY_STATUS,
+       A.COMPANY_START_DATE,
+       A.COMPANY_END_DATE,
+       A.CFP_MODEL_SID,
+       A.CFP_DETAILS_SID,
+       A.ATTACHED_DATE,
+       A.USERS_SID,
+       A.SESSION_ID,
+       A.CHECK_RECORD,
+       A.IMTD_CREATED_DATE,
+       A."OPERATION",
+       A.CREATED_BY,
+       A.CREATED_DATE,
+       A.MODIFIED_BY,
+       A.MODIFIED_DATE,
+       A.COMPANY_TRADE_CLASS
+FROM   (SELECT ROW_NUMBER()
+                 OVER(
+                   PARTITION BY C.COMPANY_MASTER_SID
+                   ORDER BY C.TRADE_CLASS_START_DATE ASC ) AS RN,
+               C.COMPANY_MASTER_SID,
+               C.COMPANY_ID,
+               C.COMPANY_NO,
+               C.COMPANY_NAME,
+               C.COMPANY_TYPE,
+               C.COMPANY_STATUS,
+               C.COMPANY_START_DATE,
+               C.COMPANY_END_DATE,
+               ?                          CFP_MODEL_SID,
+               ?                          CFP_DETAILS_SID,
+               '?'                        ATTACHED_DATE,
+               '?'                        USERS_SID,
+               '?'                        SESSION_ID,
+               0                          CHECK_RECORD,
+               '?'                        IMTD_CREATED_DATE,
+               'A'                        "OPERATION",
+               '?'                        CREATED_BY,
+               '?'                        CREATED_DATE,
+               '?'                        MODIFIED_BY,
+               '?'                        MODIFIED_DATE,
+             COMPANY_TRADE_CLASS= CASE WHEN PROCESS = 1 THEN C.COMPANY_TRADE_CLASS ELSE T.COMPANY_TRADE_CLASS END
+   FROM CTE C
+   LEFT JOIN TRADE_CLASS T ON C.COMPANY_MASTER_SID = T.COMPANY_MASTER_SID ) A
+WHERE  RN = 1;
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.populateAllTempCFP">
+<query> <![CDATA[
+        
+        UPDATE dbo.IMTD_CFP_DETAILS SET ?='?', MODIFIED_BY=?, MODIFIED_DATE=? WHERE USERS_SID='?' AND SESSION_ID='?'
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.populateTempCFP">
+<query> <![CDATA[
+        
+        UPDATE dbo.IMTD_CFP_DETAILS SET ?='?', MODIFIED_BY=?, MODIFIED_DATE=? WHERE USERS_SID='?' AND SESSION_ID='?' AND CHECK_RECORD=1;
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.deleteOnBackTempCFP">
+<query> <![CDATA[
+        
+        DELETE FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?';
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.deleteOnLoadTempCFP">
+<query> <![CDATA[
+        
+        DELETE FROM dbo.IMTD_CFP_DETAILS WHERE (USERS_SID='?' AND SESSION_ID='?') OR IMTD_CREATED_DATE < '?';
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.deleteByDTempCFP">
+<query> <![CDATA[
+        
+        DELETE FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?' AND "Operation" = 'D';
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.deleteByNotDTempCFP">
+<query> <![CDATA[
+        
+        DELETE FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?' AND "Operation" <> 'D';
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.updateOperation">
+<query> <![CDATA[
+        
+        UPDATE dbo.IMTD_CFP_DETAILS SET "Operation"='D' WHERE USERS_SID='?' AND SESSION_ID='?' AND "Operation"='U';
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.populateValidation">
+<query> <![CDATA[
+        
+        SELECT CompanyNo FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='295' AND SESSION_ID='1120201407070575' AND CHECK_RECORD=1
+        GROUP BY TradingPartnerSystemId, CompanyNo 
+        HAVING COUNT(TradingPartnerSystemId)>1;
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.populateAllValidation">
+<query> <![CDATA[
+        
+        SELECT CompanyNo  FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='295' AND SESSION_ID='1120201407070575' 
+        GROUP BY TradingPartnerSystemId, CompanyNo 
+        HAVING COUNT(TradingPartnerSystemId)>1;
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.saveCFP">
+<query> <![CDATA[
+        
+        UPDATE CFP_CONTRACT_DETAILS SET INBOUND_STATUS='D' WHERE CFP_CONTRACT_DETAILS_SID in 
+        (SELECT CFP_DETAILS_SID FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?' AND (CHECK_RECORD=0 OR "Operation" = 'D'));
+        
+        DELETE FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?' AND (CHECK_RECORD=0 OR "Operation" = 'D');
+        
+        MERGE CFP_CONTRACT_DETAILS AS Target USING 
+        (SELECT  CFP_DETAILS_START_DATE, CFP_DETAILS_END_DATE, CFP_DETAILS_ATTACHED_STATUS, CFP_DETAILS_ATTACHED_DATE, CFP_DETAILS_SID, 
+        CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY ,COMPANY_MASTER_SID,COMPANY_START_DATE,COMPANY_END_DATE
+
+        FROM dbo.IMTD_CFP_DETAILS WHERE USERS_SID='?' AND SESSION_ID='?' AND ( "Operation" = 'U'
+                    OR "Operation" = 'A' )
+) AS Source 
+        ON (Target.CFP_CONTRACT_SID = ?
+    AND TARGET.COMPANY_MASTER_SID = SOURCE.COMPANY_MASTER_SID 
+) 
+        WHEN MATCHED THEN 
+        UPDATE SET 
+        Target.CFP_CONTRACT_ATTACHED_STATUS = Source.CFP_DETAILS_ATTACHED_STATUS,
+        Target.COMPANY_START_DATE = Source.CFP_DETAILS_START_DATE, 
+        Target.COMPANY_END_DATE = Source.CFP_DETAILS_END_DATE, 
+        Target.CREATED_DATE = Source.CREATED_DATE, 
+        Target.CREATED_BY = Source.CREATED_BY, 
+        Target.MODIFIED_DATE = Source.MODIFIED_DATE, 
+        Target.MODIFIED_BY = Source.MODIFIED_BY, 
+        Target.INBOUND_STATUS = 'U'
+WHEN NOT MATCHED THEN
+  INSERT (
+COMPANY_MASTER_SID, CFP_CONTRACT_SID,COMPANY_START_DATE, COMPANY_END_DATE, INBOUND_STATUS, CREATED_DATE, CREATED_BY, MODIFIED_DATE, MODIFIED_BY,CFP_CONTRACT_ATTACHED_STATUS) 
+ VALUES( SOURCE.COMPANY_MASTER_SID,'?' , SOURCE.CFP_DETAILS_START_DATE, SOURCE.CFP_DETAILS_END_DATE, 'A' , SOURCE.CREATED_DATE, SOURCE.CREATED_BY, SOURCE.MODIFIED_DATE, SOURCE.MODIFIED_BY ,SOURCE.CFP_DETAILS_ATTACHED_STATUS);        
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.saveCFPNullValidation">
+<query> <![CDATA[
+        
+        select count(IMTD_CFP_DETAILS_SID) from dbo.IMTD_CFP_DETAILS where CHECK_RECORD=1 AND USERS_SID='?' AND SESSION_ID = '?' AND (? is null OR ? ='');
+        
+    ]]> </query>
+</entity>
+<entity id="com.contractDashboard.process.getOverlappedCompines">
+<query> <![CDATA[
+        
+        SELECT COMPANY_MASTER_SID, COMPANY_START_DATE, COMPANY_END_DATE FROM dbo.CFP_CONTRACT_DETAILS WHERE CFP_CONTRACT_SID <> ? 
+        AND COMPANY_MASTER_SID IN (SELECT COMPANY_MASTER_SID FROM dbo.IMTD_CFP_DETAILS 
+        WHERE USERS_SID='?' AND SESSION_ID='?' AND "Operation" <> 'D');
+        
+    ]]> </query>
+</entity>
+<entity id="findIFP">
+<query> <![CDATA[
+         
+    Select Distinct im.ITEM_MASTER_SID, im.ITEM_ID, im.ITEM_NO, im.ITEM_NAME, im.ITEM_STATUS, hstate.DESCRIPTION as status, im.PACKAGE_SIZE, im.PRIMARY_UOM, hstatus.DESCRIPTION as hform, htype.DESCRIPTION as hpackage, im.ITEM_DESC, hstrength.DESCRIPTION as strength
+    , htherapeutic.DESCRIPTION as therapeutic,BM.BRAND_NAME AS BRAND,im."SOURCE" as source,im.BRAND_MASTER_SID
+    From IFP_MODEL ifp join IFP_DETAILS ifpd on ifp.IFP_MODEL_SID=ifpd.IFP_MODEL_SID
+   and ifpd.INBOUND_STATUS <> 'D' join ITEM_MASTER im  on ifpd.ITEM_MASTER_SID=im.ITEM_MASTER_SID and im.INBOUND_STATUS <> 'D'
+   LEFT Join HELPER_TABLE htype on htype.HELPER_TABLE_SID = im.PACKAGE_SIZE 
+   Join HELPER_TABLE hstate on hstate.HELPER_TABLE_SID = im.ITEM_STATUS 
+   Join HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  im.form 
+   Join HELPER_TABLE hstrength on hstrength.HELPER_TABLE_SID = im.strength 
+  Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+ LEFT Join HELPER_TABLE htherapeutic on htherapeutic.HELPER_TABLE_SID = im.THERAPEUTIC_CLASS  
+                         
+		
+    ]]> </query>
+</entity>
+<entity id="findItems">
+<query> <![CDATA[
+          
+         Select Distinct im.ITEM_MASTER_SID, im.ITEM_ID, im.ITEM_NO, im.ITEM_NAME, im.ITEM_STATUS, hstate.DESCRIPTION as status, im.PACKAGE_SIZE, im.PRIMARY_UOM, hstatus.DESCRIPTION as hform, htype.DESCRIPTION as hpackage, im.ITEM_DESC, hstrength.DESCRIPTION as strength,
+        htherapeutic.DESCRIPTION as therapeutic,BM.BRAND_NAME AS BRAND ,im."SOURCE" as source,im.BRAND_MASTER_SID   
+        From IFP_MODEL ifp
+        INNER JOIN IFP_DETAILS ifpd
+               ON IFP.IFP_MODEL_SID = IFPD.IFP_MODEL_SID
+        INNER JOIN ITEM_MASTER im
+               ON IM.ITEM_MASTER_SID = IFPD.ITEM_MASTER_SID
+        Left Join HELPER_TABLE htype on htype.HELPER_TABLE_SID =  im.PACKAGE_SIZE
+        Left Join HELPER_TABLE hstate on hstate.HELPER_TABLE_SID =  im.ITEM_STATUS
+        Left Join HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  im.form
+        Left Join HELPER_TABLE hstrength on hstrength.HELPER_TABLE_SID =  im.strength
+        Left Join HELPER_TABLE htherapeutic on htherapeutic.HELPER_TABLE_SID =  im.THERAPEUTIC_CLASS
+        Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+        Where  im.INBOUND_STATUS <> 'D' 
+                         
+		
+    ]]> </query>
+</entity>
+<entity id="findBrand">
+<query> <![CDATA[
+           Select Distinct im.ITEM_MASTER_SID, im.ITEM_ID, im.ITEM_NO, im.ITEM_NAME, im.ITEM_STATUS, hstate.DESCRIPTION as status, im.PACKAGE_SIZE, im.PRIMARY_UOM, hstatus.DESCRIPTION as hform, htype.DESCRIPTION as hpackage, im.ITEM_DESC, hstrength.DESCRIPTION as strength
+        , htherapeutic.DESCRIPTION as therapeutic,BM.BRAND_NAME AS BRAND,im."SOURCE" as source,im.BRAND_MASTER_SID
+        From ITEM_MASTER im Left Join HELPER_TABLE htype on htype.HELPER_TABLE_SID =  im.PACKAGE_SIZE
+                    Left Join HELPER_TABLE hstate on hstate.HELPER_TABLE_SID =  im.ITEM_STATUS
+                    Left Join HELPER_TABLE hstatus on hstatus.HELPER_TABLE_SID =  im.form
+                    Left Join HELPER_TABLE hstrength on hstrength.HELPER_TABLE_SID =  im.strength
+                    Left Join HELPER_TABLE htherapeutic on htherapeutic.HELPER_TABLE_SID =  im.THERAPEUTIC_CLASS
+                     Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
+                    Where im.INBOUND_STATUS <> 'D' 
+                         
+		     
+                
+    ]]> </query>
+</entity>
+</sql>

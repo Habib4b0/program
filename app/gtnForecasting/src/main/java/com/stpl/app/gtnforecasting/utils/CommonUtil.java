@@ -207,7 +207,7 @@ public class CommonUtil {
         select.markAsDirty();
         select.setDescription((String) (select.getValue() == null ? ConstantsUtils.SELECT_ONE : select.getValue()));
 
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.DESCRIPTION, new Object[]{Constant.ACTIVE, Constant.INACTIVE}));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
         List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);
@@ -245,7 +245,7 @@ public class CommonUtil {
         select.setItemCaption(0, ConstantsUtils.SELECT_ONE);
         select.markAsDirty();
         select.setDescription((String) (select.getValue() == DASH ? ConstantsUtils.SELECT_ONE : select.getItemCaption(select.getValue())));
-        final DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery dynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         dynamicQuery.add(RestrictionsFactoryUtil.in(ConstantsUtils.DESCRIPTION, new Object[]{Constant.ACTIVE, Constant.INACTIVE}));
         dynamicQuery.addOrder(OrderFactoryUtil.asc(ConstantsUtils.DESCRIPTION));
         List<HelperTable> list = helperListUtil.getDynamicQuery(dynamicQuery);
