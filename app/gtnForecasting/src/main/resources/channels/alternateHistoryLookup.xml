@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Panel xmlns="urn:import:com.vaadin.ui"   xmlns:p="urn:vaadin:parent">
+<Panel    xmlns:p="urn:vaadin:parent">
 
  <VerticalLayout styleName = "width-auto" spacing="true" margin="true" caption="Contract"
 			immediate="true">

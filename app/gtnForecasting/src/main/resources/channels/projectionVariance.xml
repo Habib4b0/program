@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Panel xmlns="urn:import:com.vaadin.ui" xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:b="urn:import:org.asi.ui.customtextfield"  xmlns:p="urn:vaadin:parent">
+<Panel  xmlns:a="urn:import:org.asi.ui.extfilteringtable.freezetable" xmlns:b="urn:import:org.asi.ui.customtextfield"  xmlns:p="urn:vaadin:parent">
     <VerticalLayout margin="true" spacing="true" >
         <Panel caption="Projection Variance Selection" margin="false"
                spacing="true">
