@@ -100,9 +100,9 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
-    SessionDTO session;
-    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
+    private HorizontalLayout controlLayout;
+    private final SessionDTO session;
+    private final List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     private ExtCustomTreeTable exceltable;
     /**
      * The excel export image.
@@ -118,7 +118,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The history bean.
      */
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(
             String.class);
     /**
      * The max split position.
@@ -132,18 +132,18 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      * The split position.
      */
     private final float splitPosition = 300;
-    MSalesProjectionResultsTableLogic tableLogic = new MSalesProjectionResultsTableLogic();
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private MSalesProjectionResultsTableLogic tableLogic = new MSalesProjectionResultsTableLogic();
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     private ExtTreeContainer<SalesProjectionResultsDTO> excelResultBean = new ExtTreeContainer<>(
             SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     public ExtTreeContainer<SalesProjectionResultsDTO> resultBeanContainer = new ExtTreeContainer<>(SalesProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
-    ExtPagedTreeTable leftTable;
-    ExtPagedTreeTable rightTable;
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private ExtPagedTreeTable leftTable;
+    private ExtPagedTreeTable rightTable;
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             levelFilterDdlbChangeOption(false);
@@ -329,8 +329,8 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         history = session.getFrequencyAndQuaterValue(frequency);
         Integer endValue = 0;
         if (history == null || history.isEmpty()) {
-            Map<String, Integer> historyEndDetails = commonUtils.getHistoryEndDetails(session, frequency);
-            endValue = commonUtils.getProjections(session.getForecastDTO().getHistoryStartDate(), commonUtils.getDate(historyEndDetails.get("historyEndMonth"), historyEndDetails.get("historyEndYear")), frequency);
+            Map<String, Integer> historyEndDetails = CommonUtils.getHistoryEndDetails(session, frequency);
+            endValue = CommonUtils.getProjections(session.getForecastDTO().getHistoryStartDate(), CommonUtils.getDate(historyEndDetails.get("historyEndMonth"), historyEndDetails.get("historyEndYear")), frequency);
 
             history = CommonUtils.getHistoryDdlbList(endValue, period);
             session.addFrequencyAndQuater(frequency, history);
@@ -403,6 +403,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
      * .ViewChangeEvent)
      */
+    @Override
     public void enter(ViewChangeEvent event) {
         // TODO Auto-generated method stub
     }
@@ -1000,9 +1001,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(MSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(MSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

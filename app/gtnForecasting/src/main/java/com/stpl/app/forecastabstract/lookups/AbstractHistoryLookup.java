@@ -44,7 +44,7 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 	/**
 	 * indicates whether the module is NonMandated or Mandated or Channels
 	 */
-	private String moduleIndicator;
+	private final String moduleIndicator;
 
 	/**
 	 * Used to search brandSearch
@@ -90,9 +90,9 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 	 */
 	private Button btnBrandReset;
 
-	private Label tempLable = new Label();
+	private final Label tempLable = new Label();
 
-	private Label tempLable1 = new Label();
+	private final Label tempLable1 = new Label();
 
 	/**
 	 * Constructor for AbstractHistoryLookup
@@ -339,14 +339,17 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 		buttonLayout.setMargin(true);
 		btnCustomerSearch.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnCustomerSearchLogic();
 			}
 		});
 		btnCustomerReset.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				new AbstractNotificationUtils() {
+                                @Override
 					public void noMethod() {
 						return;
 					}
@@ -389,15 +392,18 @@ public abstract class AbstractHistoryLookup extends AbstractLookup {
 
 		btnBrandSearch.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnBrandSearchLogic();
 			}
 		});
 		btnBrandReset.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 
 				new AbstractNotificationUtils() {
+                                @Override
 					public void noMethod() {
 						return;
 					}

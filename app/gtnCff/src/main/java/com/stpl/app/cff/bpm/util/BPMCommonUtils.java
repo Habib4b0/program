@@ -13,10 +13,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class BPMCommonUtils {
 
-    public static String groupId = "com.stpl.app.bpm";
-    public static String artifactId = "Non-Mandated";
-    public static String version = "1.0";
-
     public static List<Date> getPreviousQuarterDates() {
         Calendar cal = Calendar.getInstance();
         int prevQ = getPrevQuarter(cal.get(Calendar.MONTH));

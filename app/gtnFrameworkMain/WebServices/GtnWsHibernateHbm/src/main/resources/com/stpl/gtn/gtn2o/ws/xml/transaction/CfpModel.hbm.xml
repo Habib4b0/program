@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated Jun 29, 2017 4:15:35 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.CfpModel" table="CFP_MODEL" schema="dbo" catalog="BPIGTN_AGN_APP_UNIT" optimistic-lock="version">
+    <class name="com.stpl.gtn.gtn2o.ws.entity.transaction.CfpModel" table="CFP_MODEL" schema="dbo">
         <id name="cfpModelSid" type="int">
             <column name="CFP_MODEL_SID" />
             <generator class="assigned" />

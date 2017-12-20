@@ -83,30 +83,30 @@ public class AdditionalInformation extends CustomComponent {
      * The excelBtn btn.
      */
     @UiField("wordBtn")
-    public Button wordBtn;
+    private Button wordBtn;
 
     /**
      * The add notes btn.
      */
     @UiField("addNotesBtn")
-    public Button addNotesBtn;
+    private Button addNotesBtn;
 
     /**
      * The pdf btn.
      */
     @UiField("pdfBtn")
-    public Button pdfBtn;
+    private Button pdfBtn;
 
     /**
      * The remove btn.
      */
     @UiField("removeBtn")
-    public Button removeBtn;
+    private Button removeBtn;
     /**
      * The results table.
      */
     @UiField("resultsTable")
-    public Table resultsTable;
+    private Table resultsTable;
     /**
      * The basepath.
      */
@@ -119,7 +119,7 @@ public class AdditionalInformation extends CustomComponent {
      * The new notes.
      */
     @UiField("newNotes")
-    public TextArea newNotes;
+    private TextArea newNotes;
 
     /**
      * The notes history.
@@ -131,7 +131,7 @@ public class AdditionalInformation extends CustomComponent {
      * The layout.
      */
     @UiField("layout")
-    VerticalLayout layout;
+    private VerticalLayout layout;
     /**
      * The table bean.
      */
@@ -148,7 +148,7 @@ public class AdditionalInformation extends CustomComponent {
      */
     private BeanItemContainer<AttachmentDTO> attachmentsListBean = new BeanItemContainer<>(AttachmentDTO.class);
 
-    List<AttachmentDTO> newFileDto = new ArrayList<>();
+    private List<AttachmentDTO> newFileDto = new ArrayList<>();
 
     /**
      * The move back.
@@ -158,7 +158,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The user id.
      */
-    final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
+    private final String userId = (String) VaadinSession.getCurrent().getAttribute(USER_ID.getConstant());
     /**
      * The file size.
      */
@@ -167,7 +167,7 @@ public class AdditionalInformation extends CustomComponent {
     /**
      * The file path.
      */
-    final File filePath = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
+    private final File filePath = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME + File.separator + userId);
     
     /**
      * The upload receiver.
@@ -210,20 +210,19 @@ public class AdditionalInformation extends CustomComponent {
      * The pdf downloader.
      */
     private FileDownloader pdfDownloader;
-    public List<AttachmentDTO> removedDetailsList = new ArrayList<>();
+    private  List<AttachmentDTO> removedDetailsList = new ArrayList<>();
     /**
      * The common logic.
      */
     private AdditionalInfoLogic addInfoLogic = new AdditionalInfoLogic();
-    List<String> notesList = new ArrayList<>();
-    List<String> wordList = new ArrayList<>();
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    public CommonUiUtils commonUiUtils = new CommonUiUtils();
+    private List<String> notesList = new ArrayList<>();
+    private List<String> wordList = new ArrayList<>();
+    private String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
 
     /**
      * The file path.
      */
-    final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
+    private final File filePathForLink = CommonUtil.getFilePath(basepath + File.separator + moveBack + moveBack + moveBack + File.separator + DOCUMENTS + File.separator + MODULE_NAME);
 
     /**
      * Instantiates a new additional information.
@@ -251,12 +250,12 @@ public class AdditionalInformation extends CustomComponent {
         wordBtn.setIcon(wordImage);
         pdfBtn.setIcon(pdfImage);
         resultsTable.setContainerDataSource(attachmentsListBean);
-        resultsTable.setVisibleColumns(commonUiUtils.attachmentColumns);
-        resultsTable.setColumnHeaders(commonUiUtils.attachmentHeader);
+        resultsTable.setVisibleColumns(CommonUiUtils.attachmentColumns);
+        resultsTable.setColumnHeaders(CommonUiUtils.attachmentHeader);
         resultsTable.setSelectable(true);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[0], Table.Align.LEFT);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[1], Table.Align.CENTER);
-        resultsTable.setColumnAlignment(commonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[0], Table.Align.LEFT);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[1], Table.Align.CENTER);
+        resultsTable.setColumnAlignment(CommonUiUtils.attachmentColumns[NumericConstants.TWO], Table.Align.LEFT);
         uploader.setStyleName(Constant.SEARCH_TEXT);
         layout.setStyleName("uploadId");
         notesHistory.setEnabled(false);
@@ -460,6 +459,7 @@ public class AdditionalInformation extends CustomComponent {
             AbstractNotificationUtils.getErrorNotification("Add Note Error", "There is no note to add. Please type a note in the Notes Section. ");
         } else {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }
@@ -506,6 +506,7 @@ public class AdditionalInformation extends CustomComponent {
             if (tableBean.getUserName().equalsIgnoreCase(CommonUtils.getUserNameById(userId))) {
 
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }

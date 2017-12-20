@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import java.util.Date;
 
 public class GtnFrameworkCfpCommonValidationAction
 		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
@@ -36,11 +37,17 @@ public class GtnFrameworkCfpCommonValidationAction
 		gtnWsGeneralRequest.setUserId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("userId")));
 		gtnWsGeneralRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
+		Date cfpStartDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpInformationCFPStartDate")
+				.getDateFromDateField();
+		Date cfpEndDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpInformationCFPEndDate")
+				.getDateFromDateField();
 		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
 						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_COMMON_VALIDATION_SERVICE,
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnCFamilyPlanValidationBean validationBean = response.getGtnWsCfpReponse().getGtnCFamilyPlanValidationBean();
+
+		validateDateEqualOrGreater(cfpStartDate, cfpEndDate, componentId);
 		validateAtleastOneCompanySelected(componentId, validationBean);
 		validateStartDate(componentId, validationBean);
 		validateStatus(componentId, validationBean);
@@ -85,8 +92,12 @@ public class GtnFrameworkCfpCommonValidationAction
 
 	private void validateIsEndBeforeStartDate(String componentId, GtnCFamilyPlanValidationBean validationBean)
 			throws GtnFrameworkValidationFailedException {
-		String msg;
-		if (validationBean.getStartDateGreaterThanEndCount() > 0) {
+		String msg= "";
+	   if (validationBean.getStartDateGreaterThanEndCount() == 0 && validationBean.getStartDateEqualsEndCount() > 0 ) {
+			msg = GtnFrameworkCfpStringContants.CFP_DATE_EQUAL_VALIDATION;
+			throw new GtnFrameworkValidationFailedException(msg, componentId);
+		}
+	   if (validationBean.getStartDateGreaterThanEndCount() > 0  ) {
 			if (validationBean.getStartDateGreaterThanEndCount() > 1) {
 				msg = GtnFrameworkCfpStringContants.GTN_CFP_START_DATE_REQUIRED_VALIDATION_MSG_001
 						+ validationBean.getStartDateGreaterThanEndCount()
@@ -98,6 +109,7 @@ public class GtnFrameworkCfpCommonValidationAction
 			}
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
 		}
+		
 	}
 
 	private void validateStatus(String componentId, GtnCFamilyPlanValidationBean validationBean)
@@ -127,6 +139,20 @@ public class GtnFrameworkCfpCommonValidationAction
 						+ GtnFrameworkCfpStringContants.GTN_CFP_START_DATE_REQUIRED_VALIDATION_MSG_004;
 			}
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
+		}
+	}
+
+	public void validateDateEqualOrGreater(Date cfpStartDate, Date cfpEndDate, String componentId)
+			throws GtnFrameworkValidationFailedException {
+		if (cfpEndDate != null) {
+			if (cfpStartDate.equals(cfpEndDate)) {
+				throw new GtnFrameworkValidationFailedException(GtnFrameworkCfpStringContants.CFP_DATE_EQUAL_VALIDATION,
+						componentId);
+			}
+			if (cfpStartDate.after(cfpEndDate)) {
+				throw new GtnFrameworkValidationFailedException(
+						GtnFrameworkCfpStringContants.CFP_DATE_LESS_THAN_VALIDATION, componentId);
+			}
 		}
 	}
 

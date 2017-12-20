@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
  */
 public class QueryReader {
 
-    private static ResourceBundle listNameBundle = ResourceBundle.getBundle("custom-sql.PPAQueries");
+    private static final ResourceBundle listNameBundle = ResourceBundle.getBundle("custom-sql.PPAQueries");
 
     public static void main(String[] arg) {
         ComboBox box1 = new ComboBox();

@@ -9,14 +9,17 @@ package com.stpl.app.gcm.itemmanagement.itemabstract.form;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gcm.util.StringConstantsUtil;
 import com.stpl.app.gcm.common.CommonLogic;
+import com.stpl.app.gcm.common.CommonUtil;
 import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
+import static com.stpl.app.gcm.itemmanagement.add.form.AddContractSelection.loadPriceType;
 import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.AbstractLogic;
 import com.stpl.app.gcm.itemmanagement.itemabstract.logic.abstracttablelogic.ComponentInfoTableLogic;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.ConstantsUtils;
+import com.stpl.app.serviceUtils.UIUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -146,8 +149,24 @@ public class AbstractComponentInfo extends CustomComponent {
     public final String[] ifpHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.ATTACHED_DATE_FIELD};
     public final Object[] cfpCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, "itemStatus", Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "tradeClass", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] cfpHeader = {Constants.COMPANYNO, Constants.COMPANYNAME, "Company status", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.TRADECLASS, Constants.ATTACHED_DATE_FIELD};
-    public final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "priceType", "pricePlanNo", "pricePlanName", "priceProtectionStatus", "priceProtectionStartDate", "priceProtectionEndDate", "priceProtectionPriceType", "priceToleranceInterval", "priceToleranceFrequency", "priceToleranceType", "priceTolerance", "maxIncrementalChange", "resetEligible", "resetType", "resetDate", "resetInterval", "resetFrequency", Constants.ATTACHED_DATE_PROPERTY};
-    public final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Price Type", "Price Plan No", "Price Plan Name", "Price Protection Status", "Price Protection Start Date", "Price Protection EndDate", "PriceProtection Price Type", "Price Tolerance Interval", "Price Tolerance Frequency", "Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type", "Reset Date", "Reset Interval", "Reset Frequency", Constants.ATTACHED_DATE_FIELD};
+
+    public final Object[] psCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY,
+        Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
+        Constants.MEASUREMENT_PRICE_PROPERTY, Constants.NEP_PROPERTY, Constants.NEP_FORMULA_PROPERTY, Constants.BASE_PRICE_PROPERTY, Constants.BASELINE_WAC_PROPERTY,
+        Constants.BASELINE_NET_WAC_PROPERTY, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY,
+        Constants.PRICE_TOLERANCE_INTERVAL, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY, Constants.PRICE_TOLERANCE_PROPERTY,
+        Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, Constants.RESET_INTERVAL_PROPERTY, Constants.RESET_FREQUENCY_PROPERTY,
+        Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY, Constants.ATTACHED_DATE_PROPERTY};
+
+    public final String[] psHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND,
+        Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
+        Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.NEP_LABLE_NAME, Constants.NEP_FORMULA_LABLE_NAME, Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASELINE_WAC_LABLE_NAME,
+        Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME,
+        Constants.PRICE_TOLERANCE_INTERVAL_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL, Constants.PRICE_TOLERANCE_LABEL,
+        Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME, Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_DATE_LABLE_NAME, Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_FREQUENCY_LABLE_NAME,
+        Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.ATTACHED_DATE_FIELD};
+
+
     public final Object[] rsCol = {Constants.ITEM_NO_PROPERTY, Constants.ITEM_NAME_PROPERTY, Constants.BRAND_PROPERTY, Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, "formulaType", "formulaId", "formulaName", "rebatePlanId", "rebatePlanName", "rebateAmount", "bundleNo", Constants.ATTACHED_DATE_PROPERTY};
     public final String[] rsHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, "Formula Type", "Formula ID", "Formula Name", "RebatePlan ID", "RebatePlan Name", "Rebate Amount", "Bundle No", Constants.ATTACHED_DATE_FIELD};
     ComponentInfoDTO binderDto = new ComponentInfoDTO();
@@ -341,9 +360,12 @@ public class AbstractComponentInfo extends CustomComponent {
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
-                        HelperDTO dto = (HelperDTO) originatingField.getValue();
-
-                        return new SimpleStringFilter(propertyId, String.valueOf(dto.getDescription()), false, false);
+                        Object id = originatingField.getValue();
+                        if (originatingField.getValue() instanceof HelperDTO) {
+                            HelperDTO dto = (HelperDTO) originatingField.getValue();
+                            id = dto.getId();
+                        }
+                        return new SimpleStringFilter(propertyId, String.valueOf(id), false, false);
                     } else {
                         return null;
                     }
@@ -386,22 +408,96 @@ public class AbstractComponentInfo extends CustomComponent {
                     }
 
                     if (componentSelection.getValue().equals(Constants.PS)) {
-                        if (Constants.STATUS_S.equals(propertyId)) {
-                            ComboBox status = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(status, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
-                            return status;
-                        }
                         if (Constants.BRAND_PROPERTY.equals(propertyId)) {
                             ComboBox brandDdlb = new ComboBox();
                             abstractLogic.LazyLoadDdlb(brandDdlb, StringConstantsUtil.LOAD_BRAND_COUNT, StringConstantsUtil.LOAD_BRAND, true);
                             return brandDdlb;
                         }
-                        if ("priceProtectionStatus".equals(propertyId)) {
-                            ComboBox priceToleranceType = new ComboBox();
-                            abstractLogic.LazyLoadDdlb(priceToleranceType, StringConstantsUtil.LOAD_ITEM_STATUS_COUNT, StringConstantsUtil.LOAD_ITEM_STATUS, true);
-                            return priceToleranceType;
+                        if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
+                            ComboBox priceProtectionDdlb = new ComboBox();
+                            CommonUtil.getComboBoxByListName(priceProtectionDdlb, UIUtils.STATUS, true);
+                            return priceProtectionDdlb;
                         }
-
+                        if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
+                            ComboBox basePriceType = new ComboBox();
+                            CommonUtil.getComboBoxByListName(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, true);
+                            return basePriceType;
+                        }
+                        if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            loadPriceType(comboBox, true);
+                            return comboBox;
+                        }
+                        if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            loadPriceType(comboBox, true);
+                            return comboBox;
+                        }
+                        if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            loadPriceType(comboBox, true);
+                            return comboBox;
+                        }
+                        if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            loadPriceType(comboBox, true);
+                            return comboBox;
+                        }
+                        if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.RESET_TYPE_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
+                            return comboBox;
+                        }
+                        if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
+                            return comboBox;
+                        }
+                        if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
+                            ComboBox comboBox = new ComboBox();
+                            CommonUtil.getComboBoxByListName(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                            return comboBox;
+                        }
+                        if (Constants.PRICE_TOLERANCE_INTERVAL.equals(propertyId)) {
+                            ComboBox pricetolerenceintDdlb = new ComboBox();
+                            logic.LazyLoadDdlb(pricetolerenceintDdlb, "Load PS_INTERVAL Count", "Load PS_INTERVAL", true);
+                            return pricetolerenceintDdlb;
+                        }
+                        if (Constants.PRICE_TOLERANCE_TYPE_PROPERTY.equals(propertyId)) {
+                            ComboBox pricetolerencetypeDdlb = new ComboBox();
+                            logic.LazyLoadDdlb(pricetolerencetypeDdlb, "Load PS_TYPE Count", "Load PS_TYPE", true);
+                            return pricetolerencetypeDdlb;
+                        }
+                        if (Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY.equals(propertyId)) {
+                            ComboBox pricetolerencefreqDdlb = new ComboBox();
+                            logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", true);
+                            return pricetolerencefreqDdlb;
+                        }
                     }
 
                     if (componentSelection.getValue().equals(Constants.RS)) {

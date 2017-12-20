@@ -523,7 +523,7 @@ public class Details extends CustomComponent {
     private void configureOnEditOrView() {
         Map<Object, Object> editviewMap = null;
 
-        editviewMap = dsLogic.getProjectionSelection(session.getProjectionId(), Constant.DETAILS);
+        editviewMap = DSLogic.getProjectionSelection(session.getProjectionId(), Constant.DETAILS);
         if (editviewMap != null && !editviewMap.isEmpty()) {
             Object value = editviewMap.get(Constant.FREQUENCY_SMALL);
             if (value != null) {
@@ -619,9 +619,7 @@ public class Details extends CustomComponent {
                 excelBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

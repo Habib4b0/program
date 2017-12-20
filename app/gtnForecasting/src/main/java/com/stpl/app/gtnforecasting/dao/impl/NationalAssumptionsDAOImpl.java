@@ -31,21 +31,26 @@ import java.util.List;
  */
 public class NationalAssumptionsDAOImpl implements NationalAssumptionsDAO {
 
+    @Override
     public List getBrandList(final DynamicQuery brandQuery) throws PortalException, SystemException {
         return BrandMasterLocalServiceUtil.dynamicQuery(brandQuery);
     }
 
+    @Override
     public List getItemList(final DynamicQuery therapeuticQuery) throws PortalException, SystemException {
         return ItemMasterLocalServiceUtil.dynamicQuery(therapeuticQuery);
     }
+    @Override
     public  List<HelperTable> getHelperTable(final DynamicQuery dynamicQuery)
 			throws PortalException, SystemException{
             return HelperTableLocalServiceUtil.dynamicQuery(dynamicQuery);
       }
+    @Override
     public  List<ItemMaster> getItemMaster(final DynamicQuery dynamicQuery)
 			throws PortalException, SystemException{
            return ItemMasterLocalServiceUtil.dynamicQuery(dynamicQuery);
       }
+    @Override
     public  List<NaProjDetails> getNaProjDetails(final DynamicQuery dynamicQuery)
 			throws PortalException, SystemException{
                return NaProjDetailsLocalServiceUtil.dynamicQuery(dynamicQuery);

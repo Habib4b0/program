@@ -110,7 +110,7 @@ public class PhsResults extends CustomComponent implements View {
      * The history ddlb.
      */
     @UiField("historyDdlb")
-    public ComboBox historyDdlb;
+    protected ComboBox historyDdlb;
 
     /**
      * The therapeutic ddlb.
@@ -168,40 +168,37 @@ public class PhsResults extends CustomComponent implements View {
      */
     @UiField("excelBtn")
     private Button excelBtn;
-    PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
+    private final PhsResultsLogic phsResultsLogic = new PhsResultsLogic();
 
     @UiField("levelDdlb")
     private ComboBox levelDdlb;
     
-    LazyContainer ndcLevelContainer;
+    private LazyContainer ndcLevelContainer;
 
     /**
      * The excel export image.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private VerticalLayout tableVerticalLayout;
     /**
      * The Table Panel
      */
     @UiField("tablePanel")
-    public Panel tablePanel;
-    CommonLogic commonLogic = new CommonLogic();
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    public HorizontalLayout controlLayout;
-    public boolean wacFlag = false;
-    public boolean phsFlag = false;
-    public boolean totalURAFlag = false;
-    public boolean ampFlag = false;
-    public String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private Panel tablePanel;
+    
+    private final CommonLogic commonLogic = new CommonLogic();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private HorizontalLayout controlLayout;
+    private final String MODE = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     private final HelperDTO therapyDto = new HelperDTO(0, SELECT_ONE.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    public final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
+    private final int projectionId = (Integer) VaadinSession.getCurrent().getAttribute(
             Constant.PROJECTION_ID);
 
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The max split position.
      */
@@ -216,36 +213,37 @@ public class PhsResults extends CustomComponent implements View {
      * The split position.
      */
     private static final float SPLIT_POSITION = 300;
-    LazyContainer therapeuticContainer;
-    LazyContainer brandContainer;
+    private LazyContainer therapeuticContainer;
+    private LazyContainer brandContainer;
 
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private PhsResultsTableLogic tableLogic = new PhsResultsTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
 
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    
     @UiField("ndcFilterDdlb")
     private ComboBox ndcFilterDdlb;
     private final HelperDTO ndcHelperDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    LazyContainer ndcFilterContainer;
+    private LazyContainer ndcFilterContainer;
     private final HelperDTO levelDTO = new HelperDTO(0, SELECT_ONE.getConstant());
 
     /**
      * The grid layout.
      */
     @UiField("gridLayout")
-    GridLayout gridLayout;
+    private GridLayout gridLayout;
 
     /**
      * The price type.
      */
     private final OptionGroup priceType = new OptionGroup();
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
-     NationalAssumptionsForm form;
-     SessionDTO sessionDTO;
+    private final Property.ValueChangeListener ndcValuChange = getNDCFilterValueChangeListener();
+    private final NationalAssumptionsForm form;
+    private final SessionDTO sessionDTO;
     private final Map<String,String> priceTypeReplaceMap = new HashMap();
     private final Map<String,String> loadPriceActualMap = new HashMap();
 
@@ -996,34 +994,10 @@ public class PhsResults extends CustomComponent implements View {
                     final String[] col = value1.split(",");
 
                     for (String tempValue : col) {
-
                         tempValue = tempValue.trim();
-
-                        if (tempValue.equals(WAC.getConstant())) {
-
-                            priceType.select(WAC.getConstant());
-                            wacFlag = true;
-                        }
-                        if (tempValue.equals(PHS.getConstant())) {
-
-                            priceType.select(PHS.getConstant());
-                            phsFlag = true;
-                        }
-                        if (tempValue.equals(projectionDTO.getLoadPhsPriceMap().get(Constant.PHS_TOTAL_URA))) {
-
-                            priceType.select(projectionDTO.getLoadPhsPriceMap().get(Constant.PHS_TOTAL_URA));
-                            totalURAFlag = true;
-                        }
-                        if (tempValue.equals(AMP.getConstant())) {
-
-                            priceType.select(AMP.getConstant());
-                            ampFlag = true;
-                        }
-
+                        priceType.select(tempValue);
                     }
-
                 }
-
             }
         } catch (Property.ReadOnlyException | NumberFormatException ex) {
             LOGGER.error(ex);

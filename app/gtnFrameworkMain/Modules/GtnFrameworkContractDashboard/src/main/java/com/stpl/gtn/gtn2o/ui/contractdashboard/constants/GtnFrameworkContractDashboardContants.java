@@ -5,8 +5,11 @@
  */
 package com.stpl.gtn.gtn2o.ui.contractdashboard.constants;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.contractdashboard.constants.GtnWsContractDashboardContants;
@@ -67,6 +70,22 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String CATEGORY = "category";
 	public static final String CFP_STATUS = "cfpStatus";
 	public static final String CFP_PENDING_STATUS = "companiessStatusHelperValue";
+	public static final String PP_STATUS_PENDING = "ppStatusHelperValue";
+	public static final String BASE_PRICE_TYPE_PENDING = "basepricetypeHelperValue";
+	public static final String NET_BASE_PRICE_PENDING = "netbasepriceHelperValue";
+	public static final String SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING = "subsequentperiodpriceHelperValue";
+	public static final String NET_SUBSEQUENT_PERIOD_PRICE_PENDING = "netsubsequentperiodpriceHelperValue";
+	public static final String PRICE_TOLERANCE_INTERVAL_PENDING = "pricetoleranceintervalHelperValue";
+	public static final String MEASUREMENT_PRICE_PENDING = "measurementHelperValue";
+	public static final String PRICE_TOLERANCE_FREQUENCY_PENDING = "pricetolerancefrequencyHelperValue";
+	public static final String PRICE_TOLERANCE_TYPE_PENDING = "pricetolerancetypeHelperValue";
+	public static final String RESET_ELIGIBLE_PENDING = "reseteligibleHelperValue";
+	public static final String RESET_TYPE_PENDING = "resettypeHelperValue";
+	public static final String RESET_INTERVAL_PENDING = "resetintervalHelperValue";
+	public static final String RESET_FREQUENCY_PENDING = "resetfrequencyHelperValue";
+	public static final String RESET_PRICE_TYPE_PENDING = "resetpricetypeHelperValue";
+	public static final String NET_RESET_PRICE_TYPE_PENDING = "netresetpricetypeHelperValue";
+	public static final String NET_PRICE_TYPE_PENDING = "netpricetypeHelperValue";
 	public static final String CHECK_RECORD_ID = "checkRecordId";
 	public static final String CREATED_BY = "createdBy";
 	public static final String DEDUCTION_CALENDAR_NOPOPUP = "deductionCalendarNopopup";
@@ -172,6 +191,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String RESET_FREQUENCY = "Reset Frequency";
 	public static final String NET_PRICE_TYPE = "Net Price Type";
 	public static final String NET_PRICE_TYPE_FORMULA = "Net Price Type Formula";
+	public static final String NET_PRICE_TYPE_FORMULA_POPUP = "NetPriceTypeFormulapopup";
 	public static final String NEP = "NEP";
 	public static final String PRICE_TOLERENCE = "Price Tolerance";
 	public static final String BASE_PRICE = "Base Price Type";
@@ -194,7 +214,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String CDPROCESSVIEW_ITRECORD = "CDProcessView_ITrecord";
 	public static final String CDPROCESSVIEW_PTRECORD = "CDProcessView_PTrecord";
 	public static final String CDPROCESSVIEW_RTRECORD = "CDProcessView_RTrecord";
-        
+
 	public static final String BASELINE_NET_WAC = "Baseline Net WAC";
 	public static final String BASELINE_PRICE_TYPE = BASE_PRICE;
 	public static final String NET_BASELINE_WAC_FORMULA = "Net Baseline WAC Formula";
@@ -204,7 +224,7 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String RESET_PRICE_TYPE = "Reset Price Type";
 	public static final String NET_RESET_PRICE_TYPE = "Net Reset Price Type";
 	public static final String NET_RESET_PRICE_FORMULA = "Net Reset Price Formula";
-        
+
 	public static final String PENDING = "Pending";
 	public static final String ITEMS_HELPER_VALUE = "itemsStatusHelperValue";
 	public static final String REBATES_HELPER_VALUE = "rebatesStatusHelperValue";
@@ -267,13 +287,29 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String CD_RESET_FREQUENCY = "CDProcessView_PTPPlvl_ResetFrequency_";
 	public static final String CD_NET_PRICE_TYPE = "CDProcessView_PTPPlvl_NetPriceType_";
 	public static final String CD_NET_PRICE_TYPE_FORMULA = "CDProcessView_PTPPlvl_NetPriceTypeFormula_popup";
+	public static final String NET_BASEPRICE_FORMULA_POPUP = "netBasePriceFormulapopup";
+	public static final String NET_SUBSEQUENT_PRICE_FORMULA_POPUP = "netSubsequentPriceFormulapopup";
+	public static final String NET_RESET_PRICE_TYPE_FORMULA_POPUP = "netResetPriceTypeFormulapopup";
+	public static final String NET_PRICE_TYPE_FORMULAA = "NetPriceTypeFormula";
+	public static final String NEP_LOWER = "nep";
+	public static final String POPUP = "popup";
+	public static final String BASELINE_WAC = "Baseline WAC";
+	public static final String STRINGUTILS_EMPTY = "";
+	public static final String PRICE_TOLERANCE = "PriceTolerance";	
+	public static final String PER = "per";
+	public static final String TWODECIMAL_ZERO = "0.00";
+	public static final String PERCENTAGE = "%";
+	public static final String DOL = "dol";
+	public static final String DOLLER = "$";
 
-    private static final String[] PP_MASS_POPULATE_FIELD = {PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE, PRICE_PROTECTION_END_DATE,
-        PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASELINE_PRICE_TYPE, BASELINE_NET_WAC, NET_BASELINE_WAC_FORMULA, SUBSEQUENT_PERIOD_PRICE_TYPE,
-        NET_SUBSEQUEN_PERIOD_PRICE, NET_SUBSEQUENT_PERIOD_PRICE_FORMULA, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY, PRICE_TOLERANCE_TYPE, PRICE_TOLERENCE, MAX_INCREMENTAL_CHANGE,
-        RESET_ELIGIBLE, RESET_TYPE, RESET_DATE, RESET_INTERVAL, RESET_FREQUENCY, RESET_PRICE_TYPE, NET_RESET_PRICE_TYPE, NET_RESET_PRICE_FORMULA, NET_PRICE_TYPE, NET_PRICE_TYPE_FORMULA
-    };
-    
+	private static final String[] PP_MASS_POPULATE_FIELD = { PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE,
+			PRICE_PROTECTION_END_DATE, PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_NET_WAC,
+			NET_BASELINE_WAC_FORMULA, SUBSEQUENT_PERIOD_PRICE_TYPE, NET_SUBSEQUEN_PERIOD_PRICE,
+			NET_SUBSEQUENT_PERIOD_PRICE_FORMULA, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY,
+			PRICE_TOLERANCE_TYPE, PRICE_TOLERENCE, MAX_INCREMENTAL_CHANGE, RESET_ELIGIBLE, RESET_TYPE, RESET_DATE,
+			RESET_INTERVAL, RESET_FREQUENCY, RESET_PRICE_TYPE, NET_RESET_PRICE_TYPE, NET_RESET_PRICE_FORMULA,
+			NET_PRICE_TYPE, NET_PRICE_TYPE_FORMULA_POPUP };
+
 	private static final String[] PP_MASS_POPULATE_FIELDS = { CD_PRICE_PROTECTION_STATUS,
 			CD_PRICE_PROTECTION_START_DATE, CD_PRICE_PROTECTION_END_DATE, CD_PRICE_PROTECTION_PRICE_TYPE, CD_NEP,
 			CD_NEP_FORMULA, CD_BASE_PRICE, CD_PRICE_TOLERANCE_INTERVAL, CD_PRICE_TOLERANCE_FREQUENCY,
@@ -291,14 +327,39 @@ public class GtnFrameworkContractDashboardContants {
 			getPpMassPopulateField()[3].replace(" ", ""), "nep", getPpMassPopulateField()[5].replace(" ", "") + "popup",
 			getPpMassPopulateField()[6].replace(" ", "") + "Type", getPpMassPopulateField()[6].replace(" ", ""),
 			"netBasePrice", "netBasePriceFormulapopup", "subsequentPeriodPriceType", "netSubsequentPeriodPrice",
-			"netSubsequentPriceFormulapopup", getPpMassPopulateField()[7].replace(" ", ""),
-			getPpMassPopulateField()[8].replace(" ", ""), getPpMassPopulateField()[9].replace(" ", ""),
-			getPpMassPopulateField()[11].replace(" ", ""), getPpMassPopulateField()[10].replace(" ", ""),
-			getPpMassPopulateField()[12].replace(" ", ""), getPpMassPopulateField()[13].replace(" ", ""),
-			getPpMassPopulateField()[14].replace(" ", ""), getPpMassPopulateField()[15].replace(" ", ""),
-			getPpMassPopulateField()[16].replace(" ", ""), "resetPriceType", "netResetPriceType",
-			"netResetPriceTypeFormulapopup", getPpMassPopulateField()[17].replace(" ", ""),
-			getPpMassPopulateField()[18].replace(" ", "") + "popup", ATTACHED_DATE };
+			"netSubsequentPriceFormulapopup", getPpMassPopulateField()[12].replace(" ", ""),
+			getPpMassPopulateField()[13].replace(" ", ""), getPpMassPopulateField()[14].replace(" ", ""),
+			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+			getPpMassPopulateField()[17].replace(" ", ""), getPpMassPopulateField()[18].replace(" ", ""),
+			getPpMassPopulateField()[19].replace(" ", ""), getPpMassPopulateField()[20].replace(" ", ""),
+			getPpMassPopulateField()[21].replace(" ", ""), "resetPriceType", "netResetPriceType",
+			"netResetPriceTypeFormulapopup", "NetPriceType", NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
+        private static final String[] PRICE_PROTECTION_PENDING_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
+			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
+			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
+			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
+			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
+			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, PRICE_TOLERANCE_INTERVAL_PENDING,
+			PRICE_TOLERANCE_FREQUENCY_PENDING, PRICE_TOLERANCE_TYPE_PENDING,
+			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
+			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
+			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
+			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
+        private static final String[] PRICE_PROTECTION_PENDING_VIEW_COLUMN = { RECORD_TYPE, PRICE_ID, PRICE_NO, PRICE_NAME,
+    			BRAND, PP_STATUS_PENDING, getPpMassPopulateField()[1].replace(" ", ""),
+    			getPpMassPopulateField()[2].replace(" ", ""), MEASUREMENT_PRICE_PENDING, NEP_LOWER,
+    			getPpMassPopulateField()[5].replace(" ", "") + POPUP, BASE_PRICE_TYPE_PENDING,
+    			getPpMassPopulateField()[6].replace(" ", ""), NET_BASE_PRICE_PENDING, NET_BASEPRICE_FORMULA_POPUP,
+    			SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING, NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+    			NET_SUBSEQUENT_PRICE_FORMULA_POPUP, PRICE_TOLERANCE_INTERVAL_PENDING,
+    			PRICE_TOLERANCE_FREQUENCY_PENDING, PRICE_TOLERANCE_TYPE_PENDING,
+    			getPpMassPopulateField()[15].replace(" ", ""), getPpMassPopulateField()[16].replace(" ", ""),
+    			RESET_ELIGIBLE_PENDING, RESET_TYPE_PENDING, getPpMassPopulateField()[19].replace(" ", ""),
+    			RESET_INTERVAL_PENDING, RESET_FREQUENCY_PENDING, RESET_PRICE_TYPE_PENDING,
+    			NET_RESET_PRICE_TYPE_PENDING, NET_RESET_PRICE_TYPE_FORMULA_POPUP, NET_PRICE_TYPE_PENDING,
+    			NET_PRICE_TYPE_FORMULA_POPUP, ATTACHED_DATE };
 	private static final Class<?>[] PRICE_PROTECTION_COLUMN_TYPE = { Boolean.class, String.class, String.class,
 			String.class, String.class, String.class, Integer.class, Date.class, Date.class, Integer.class,
 			String.class, String.class, Integer.class, Object.class, Integer.class, String.class, Integer.class,
@@ -324,6 +385,14 @@ public class GtnFrameworkContractDashboardContants {
 			"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 			"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
 			"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", ATTACHED_DATE2 };
+	private static final String[] PRICE_PROTECTION_PENDING_COLUMN_HEADER = { RECORD_TYPE2, ITEM_ID, ITEM_NO, ITEM_NAME,
+			BRAND2, PRICE_PROTECTION_STATUS, PRICE_PROTECTION_START_DATE, PRICE_PROTECTION_END_DATE,
+			PRICE_PROTECTION_PRICE_TYPE, NEP, NEP_FORMULA, BASE_PRICE, BASELINE_WAC, BASELINE_NET_WAC,
+			NET_BASELINE_WAC_FORMULA, SUBSEQUENT_PERIOD_PRICE_TYPE, NET_SUBSEQUEN_PERIOD_PRICE,
+			NET_SUBSEQUENT_PERIOD_PRICE_FORMULA, PRICE_TOLERANCE_INTERVAL, PRICE_TOLERANCE_FREQUENCY,
+			PRICE_TOLERANCE_TYPE, PRICE_TOLERENCE, MAX_INCREMENTAL_CHANGE, RESET_ELIGIBLE, RESET_TYPE, RESET_DATE,
+			RESET_INTERVAL, RESET_FREQUENCY, RESET_PRICE_TYPE, NET_RESET_PRICE_TYPE, NET_RESET_PRICE_FORMULA,
+			NET_PRICE_TYPE, NET_PRICE_TYPE_FORMULA, ATTACHED_DATE2 };
 	private static final String[] PRICE_PROTECTION_VIEW_COLUMN = { getPriceProtectionColumn()[1],
 			getPriceProtectionColumn()[2], getPriceProtectionColumn()[3], getPriceProtectionColumn()[4],
 			getPriceProtectionColumn()[5], getPriceProtectionColumn()[6], getPriceProtectionColumn()[7],
@@ -591,6 +660,12 @@ public class GtnFrameworkContractDashboardContants {
 			getCompanyDetailHeader()[12], getCompanyDetailHeader()[13], getCompanyDetailHeader()[14],
 			getCompanyDetailHeader()[15], getCompanyDetailHeader()[16], getCompanyDetailHeader()[17] };
 	private static final String[] COMPANY_DETAIL_VIEW_COLUMN = { getCompanyDetailColumn()[2],
+			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailColumn()[5],
+			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
+			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
+			getCompanyDetailColumn()[12], getCompanyDetailColumn()[13], getCompanyDetailColumn()[14],
+			getCompanyDetailColumn()[15], getCompanyDetailColumn()[16], getCompanyDetailColumn()[17] };
+	private static final String[] COMPANY_DETAIL_VIEW_PENDING_COLUMN = { getCompanyDetailColumn()[2],
 			getCompanyDetailColumn()[3], getCompanyDetailColumn()[4], getCompanyDetailPendingColumn()[4],
 			getCompanyDetailColumn()[6], getCompanyDetailColumn()[7], getCompanyDetailColumn()[8],
 			getCompanyDetailColumn()[9], getCompanyDetailColumn()[10], getCompanyDetailColumn()[11],
@@ -712,6 +787,10 @@ public class GtnFrameworkContractDashboardContants {
 	public static final String DETAILS_RESULT_TABLE = "detailsResultTable";
 	public static final String RESET_CONSTANT = "Are you sure you want to reset the page to default/previous values  ?";
 	public static final String RESETMSG = "Are you sure you want to reset the values in the Search Criteria group box?";
+	public static final String EXTRACOLUMN_PENDING3 = "bDesHelperValue";
+	public static final String EXTRACOLUMN_PENDING4 = "iBPDDLBHelperValue";
+	public static final String EXTRACOLUMN_PENDING5 = "iBPDHelperValue";
+	public static final String EXTRACOLUMN_PENDING6 = "bASEPRICEENTRYYYHelperValue";
 
 	private GtnFrameworkContractDashboardContants() {
 
@@ -765,6 +844,12 @@ public class GtnFrameworkContractDashboardContants {
 		return COMPONENT_MEMBER_HEADER_MAP.get(value);
 	}
 
+	private static final List<String> PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED=Arrays.asList("v-textfield-txtRightAlign");
+	
+	private static final String[] PRICE_PROTECTION_COLUMN_ALIGNMENT={"RIGHT"};
+	
+	private static final Object[] PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER={GtnFrameworkContractDashboardContants.getPriceProtectionEditableColumn()[17]};
+	
 	public static Class<?>[] getCompanyHistoryColumnType() {
 		return COMPANY_HISTORY_COLUMN_TYPE.clone();
 	}
@@ -809,6 +894,10 @@ public class GtnFrameworkContractDashboardContants {
 		return COMPANY_DETAIL_VIEW_COLUMN.clone();
 	}
 
+	public static String[] getCompanyDetailPendingViewColumn() {
+		return COMPANY_DETAIL_VIEW_PENDING_COLUMN.clone();
+	}
+	
 	public static Class<?>[] getCdHistoryColumnType() {
 		return CD_HISTORY_COLUMN_TYPE.clone();
 	}
@@ -1169,9 +1258,22 @@ public class GtnFrameworkContractDashboardContants {
 		return PRICE_PROTECTION_COLUMN_HEADER.clone();
 	}
 
+	public static String[] getPriceProtectionPendingColumnHeader() {
+		return PRICE_PROTECTION_PENDING_COLUMN_HEADER.clone();
+	}
+
 	public static String[] getPriceProtectionColumn() {
 		return PRICE_PROTECTION_COLUMN.clone();
 	}
+
+	public static String[] getPriceProtectionPendingColumn() {
+		return PRICE_PROTECTION_PENDING_COLUMN.clone();
+	}
+	
+	public static String[] getPriceProtectionViewPendingColumn() {
+		return PRICE_PROTECTION_PENDING_VIEW_COLUMN.clone();
+	}
+
 
 	public static Class<?>[] getPriceProtectionViewColumnType() {
 		return PRICE_PROTECTION_VIEW_COLUMN_TYPE.clone();
@@ -1197,6 +1299,18 @@ public class GtnFrameworkContractDashboardContants {
 		return PS_LOOKUP_COLUMN.clone();
 	}
 
+	public static String[] getPriceProtectionColumnAlignment() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT.clone();
+	}
+	
+	public static Object[] getPriceProtectionColumnAlignmentHeader() {
+		return PRICE_PROTECTION_COLUMN_ALIGNMENT_HEADER.clone();
+	}
+	
+	public static List<String> getPriceProtectionTextRightJustified() {
+		return Collections.unmodifiableList(PRICE_PROTECTION_TEXT_RIGHT_JUSTIFIED);
+	}
+	
 	public static Class<?>[] getRpLookupColumnType() {
 		return RP_LOOKUP_COLUMN_TYPE.clone();
 	}

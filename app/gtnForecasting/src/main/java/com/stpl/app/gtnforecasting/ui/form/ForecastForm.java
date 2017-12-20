@@ -10,8 +10,6 @@ import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
 import com.stpl.app.gtnforecasting.bpm.service.MailWorkItemHandler;
 import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
-import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
-import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dataassumptions.form.DataAssumptions;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
 import com.stpl.app.gtnforecasting.discountProjection.form.MSupplementalDiscountProjection;
@@ -145,7 +143,7 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Sales Projection Tab.
 	 */
-	MSalesProjection salesProjectionForMandated;
+	private MSalesProjection salesProjectionForMandated;
 	/**
 	 * Object for Sales Projection Tab.
 	 */
@@ -181,8 +179,8 @@ public class ForecastForm extends AbstractForm {
 	/**
 	 * Object for Projection Results Tab.
 	 */
-	MProjectionResults mandatedprojectionResults;
-	NMProjectionResults nonmandatedprojectionResults;
+	private MProjectionResults mandatedprojectionResults;
+	private NMProjectionResults nonmandatedprojectionResults;
 	/**
 	 * Object for Projection Variance Tab.
 	 */
@@ -202,7 +200,7 @@ public class ForecastForm extends AbstractForm {
 	 * Object for Additional Information Tab.
 	 */
 	private ManagedDiscountProjectionResult mmdiscountProjectionResultsForMandated;
-	public ReturnsProjection returnsProjection;
+	private ReturnsProjection returnsProjection;
 	private DataAssumptions dataAssumptions;
 	/**
 	 * Tabsheet containing all the screens.
@@ -212,45 +210,41 @@ public class ForecastForm extends AbstractForm {
 	 * The projection id.
 	 */
 
-	boolean validationFlag = true;
+	private boolean validationFlag = true;
 	/**
 	 * Map for lazy loading.
 	 */
 	private final Map<Integer, Boolean> tabLazyLoadMap = new HashMap<>();
 	private final Map<String, Boolean> pushMap = new HashMap<>();
-	final StplSecurity stplSecurity = new StplSecurity();
-	final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+	private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
 	/**
 	 * Position of the tab.
 	 */
 	private int tabPosition;
 	private CustomFieldGroup dataSelectionBinder;
 	private DataSelectionDTO dataSelectionDTO;
-	SessionDTO session;
-	ForecastEditWindow editWindow;
-	ForecastWindow forecastWindow;
-	int lastPosition;
+	private SessionDTO session;
+	private ForecastEditWindow editWindow;
+	private ForecastWindow forecastWindow;
+	private int lastPosition;
 	private Button btnNext = new Button(BTN_NEXT.getConstant());
 	private Button btnPrev = new Button(BTN_PREVIOUS.getConstant());
 	private Button btnRefresh = new Button("REFRESH");
-	ExtFilterTable resultTable;
-	NonMandatedViewWindow viewWindow;
-	public int tempTabPosition = 0;
-	boolean dsFlag = true;
-	String screenName;
-	final DataSelectionForm dataSelectionForm;
-	DataSelectionLogic dsLogic = new DataSelectionLogic();
-	NonMandatedLogic logic = new NonMandatedLogic();
-	DataAssumptionsLogic dataAssumption = new DataAssumptionsLogic();
-	public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
-	boolean discountFlag = true;
-	boolean ppaFlag = true;
-	public static DataSelectionDAO dataSelection = new DataSelectionDAOImpl();
-	// To run the dataselection tab separate thread
+	private ExtFilterTable resultTable;
+	private NonMandatedViewWindow viewWindow;
+	private int tempTabPosition = 0;
+	private boolean dsFlag = true;
+	private String screenName;
+	private final DataSelectionForm dataSelectionForm;
+	private DataSelectionLogic dsLogic = new DataSelectionLogic();
+	private NonMandatedLogic logic = new NonMandatedLogic();
+	private DataAssumptionsLogic dataAssumption = new DataAssumptionsLogic();
+	private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+	private boolean discountFlag = true;
 	private static Thread dsThread;
 	private static CountDownLatch latch;
-	boolean isCommercialGovernment = Boolean.FALSE;
-	ExecutorService service = ThreadPool.getInstance().getService();
+	private boolean isCommercialGovernment = Boolean.FALSE;
+	private ExecutorService service = ThreadPool.getInstance().getService();
 
 	public ForecastForm(CustomFieldGroup dataSelectionBinder, DataSelectionDTO dataSelectionDTO, SessionDTO session,
 			ForecastEditWindow editWindow, final ExtFilterTable resultTable, final String screenName,
@@ -599,11 +593,13 @@ public class ForecastForm extends AbstractForm {
 	private void configureFields() {
 		
 		btnPrev.addClickListener(new Button.ClickListener() {
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnPreviousLogic();
 			}
 		});
 		btnNext.addClickListener(new Button.ClickListener() {
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 
 				if (data.isUpdateOnTabChange()) {
@@ -926,7 +922,7 @@ public class ForecastForm extends AbstractForm {
 								salesProjectionForMandated.init();
 								salesProjectionResultsForMandated.resultBeanContainer.removeAllItems();
 								discountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
-								projectionVarianceForMandated.resultBeanContainer.removeAllItems();
+								projectionVarianceForMandated.beanContainerResult.removeAllItems();
 								mmdiscountProjectionResultsForMandated.resultBeanContainer.removeAllItems();
 							} else {
 
@@ -1087,6 +1083,7 @@ public class ForecastForm extends AbstractForm {
 	protected void btnSaveLogic() {
 		MessageBox.showPlain(Icon.QUESTION, "Save Confirmation", "Are you sure you want to save the projection?",
 				new MessageBoxListener() {
+                                        @Override
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							try {
@@ -1363,7 +1360,7 @@ public class ForecastForm extends AbstractForm {
 			@Override
 			public void yesMethod() {
 				final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-				getUI().getCurrent().addWindow(popup);
+				UI.getCurrent().addWindow(popup);
 				popup.addCloseListener(new Window.CloseListener() {
 					@Override
 					public void windowClose(Window.CloseEvent e) {
@@ -1600,6 +1597,7 @@ public class ForecastForm extends AbstractForm {
 								 *            button.
 								 */
 								@SuppressWarnings("PMD")
+                                                                @Override
 								public void buttonClicked(final ButtonId buttonId) {
 									if (session.getWorkflowId() != 0) {
 										getBtnSave().setEnabled(false);
@@ -1658,8 +1656,8 @@ public class ForecastForm extends AbstractForm {
 	private void configureForView() {
 
 		if (Constant.VIEW.equalsIgnoreCase(session.getAction())) {
-			super.getBtnSave().setEnabled(false);
-			super.getBtnSubmit().setEnabled(false);
+			AbstractForm.getBtnSave().setEnabled(false);
+			AbstractForm.getBtnSubmit().setEnabled(false);
 		}
 
 	}
@@ -1997,11 +1995,12 @@ public class ForecastForm extends AbstractForm {
 
 		MessageBox.showPlain(Icon.QUESTION, "Confirm Approve",
 				"Are you sure you want to approve the projection " + " ?", new MessageBoxListener() {
+                                        @Override
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 
 							final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-							getUI().getCurrent().addWindow(popup);
+							UI.getCurrent().addWindow(popup);
 							popup.addCloseListener(new Window.CloseListener() {
 								@Override
 								public void windowClose(Window.CloseEvent e) {
@@ -2063,10 +2062,11 @@ public class ForecastForm extends AbstractForm {
 	protected void btnRejectLogic() {
 		MessageBox.showPlain(Icon.QUESTION, "Confirm Reject", "Are you sure you want to reject the projection " + " ?",
 				new MessageBoxListener() {
+                                        @Override
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-							getUI().getCurrent().addWindow(popup);
+							UI.getCurrent().addWindow(popup);
 							popup.addCloseListener(new Window.CloseListener() {
 								@Override
 								public void windowClose(Window.CloseEvent e) {
@@ -2119,10 +2119,11 @@ public class ForecastForm extends AbstractForm {
 
 		MessageBox.showPlain(Icon.QUESTION, "Confirm Withdraw",
 				"Are you sure you want to withdraw the projection " + " ?", new MessageBoxListener() {
+                                        @Override
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-							getUI().getCurrent().addWindow(popup);
+							UI.getCurrent().addWindow(popup);
 							popup.addCloseListener(new Window.CloseListener() {
 								@Override
 								public void windowClose(Window.CloseEvent e) {
@@ -2177,10 +2178,11 @@ public class ForecastForm extends AbstractForm {
 	protected void btnCancelLogic() {
 		MessageBox.showPlain(Icon.QUESTION, "Confirm Cancel", "Are you sure you want to cancel the projection " + " ?",
 				new MessageBoxListener() {
+                                        @Override
 					public void buttonClicked(ButtonId buttonId) {
 						if (buttonId.name().equals(Constant.YES)) {
 							final WorkFlowNotesLookup popup = new WorkFlowNotesLookup();
-							getUI().getCurrent().addWindow(popup);
+							UI.getCurrent().addWindow(popup);
 							popup.addCloseListener(new Window.CloseListener() {
 								@Override
 								public void windowClose(Window.CloseEvent e) {
@@ -2381,7 +2383,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 		case Constant.EDIT_SMALL:
@@ -2405,7 +2406,6 @@ public class ForecastForm extends AbstractForm {
 			nmDiscountInsertProcedure();
 			// Discount Contrat Details Methodology Procedure
 			callContractDetailsPrcForDiscount();
-			nmPPAProcedure();
 
 			break;
 
@@ -2572,17 +2572,6 @@ public class ForecastForm extends AbstractForm {
 								SalesUtils.PRC_NM_PROJECTION_INSERT, dataSelectionDTO.getProjectionId(),
 								session.getUserId(), session.getSessionId(), Constant.DISCOUNT3,
 								discountMasterInsert)) });
-	}
-
-	/**
-	 * To call the PPA insert procedure and calculation procedure calculation
-	 * procedure will be triggered once the insert procedure is done
-	 * 
-	 */
-	private void nmPPAProcedure() {
-		Future ppaInsert = service.submit(CommonUtil.getInstance().createRunnableForPPAProcedureCall(
-				SalesUtils.PRC_NM_PPA_INSERT, dataSelectionDTO.getProjectionId(), session, null));
-		session.addFutureMap(Constant.PPA_PROCEDURE_CALL, new Future[] { ppaInsert });
 	}
 
 	private void nmPPAInitProcedure() {

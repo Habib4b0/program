@@ -97,17 +97,17 @@ public class NonMandatedLogic {
 	/**
 	 * The SALES_SMALL projection dao.
 	 */
-	private SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+	private final SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
 
 	/**
 	 * The p pa projection dao.
 	 */
-	private PPAProjectionDao pPAProjectionDao = new PPAProjectionDaoImpl();
+	private final PPAProjectionDao pPAProjectionDao = new PPAProjectionDaoImpl();
 
 	/**
 	 * The projection variance dao.
 	 */
-	private ProjectionVarianceDAO projectionVarianceDAO = new ProjectionVarianceDAOImpl();
+	private final ProjectionVarianceDAO projectionVarianceDAO = new ProjectionVarianceDAOImpl();
 	/**
 	 * The data selection.
 	 */
@@ -1955,7 +1955,7 @@ public class NonMandatedLogic {
 					Compare compare = (Compare) filter;
 					Compare.Operation operation = compare.getOperation();
 					Date value = (Date) compare.getValue();
-					if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+					if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
 						parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM,
 								String.valueOf(value));
 					} else {
@@ -2114,7 +2114,7 @@ public class NonMandatedLogic {
 					Compare compare = (Compare) filter;
 					Compare.Operation operation = compare.getOperation();
 					Date value = (Date) compare.getValue();
-					if (operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
+					if (Compare.Operation.GREATER_OR_EQUAL.toString().equals(operation.name())) {
 						parameters.put(Constant.FILTER + compare.getPropertyId() + Constant.TILT_FROM,
 								String.valueOf(value));
 					} else {
@@ -2460,9 +2460,7 @@ public class NonMandatedLogic {
 			for (ProjectionMaster pm : resultList) {
 				workflowStatus = pm.getIsApproved();
 			}
-		} catch (PortalException ex) {
-			LOGGER.error(ex);
-		} catch (SystemException ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return workflowStatus;

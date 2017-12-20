@@ -66,6 +66,7 @@ public class CustomUserCallBack implements UserGroupCallback {
         return roleMap.containsKey(groupId);
     }
 
+    @Override
     public List<String> getGroupsForUser(String userId, List<String> roleIds, List<String> allExistingGroupIds) {
         List<String> userRoles = new ArrayList<>();
         List<Role> roles = null;

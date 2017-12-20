@@ -42,7 +42,7 @@ import org.jboss.logging.Logger;
 public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
-    private int currentProjId;
+    private final int currentProjId;
     List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
@@ -90,6 +90,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void searchBtnLogic() {
         LOGGER.info("Inside searchBtnLogic");
 
@@ -156,6 +157,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void resetBtnLogic() {
         LOGGER.info("Inside resetBtnLogic");
         new AbstractNotificationUtils() {
@@ -188,6 +190,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void addBtnLogic(Button.ClickEvent event) {
         LOGGER.info("Inside addBtnLogic");
 
@@ -206,6 +209,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void projectionResetBtnLogic() {
         LOGGER.info("Inside projectionResetBtnLogic");
         new AbstractNotificationUtils() {
@@ -230,6 +234,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void closeBtnLogic() {
         LOGGER.info("Inside closeBtnLogic");
         if (projectionTable.getItemIds().isEmpty()) {
@@ -248,6 +253,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
      *
      * @param event the event
      */
+    @Override
     protected void removeBtnLogic(Button.ClickEvent event) {
         LOGGER.info("Inside removeBtnLogic");
         if (recordSelectedFlag) {
@@ -275,6 +281,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }
@@ -289,6 +296,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
              * Method called when available results value is changed.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void valueChange(final Property.ValueChangeEvent event) {
                 resultsItemClick(event.getProperty().getValue());
             }

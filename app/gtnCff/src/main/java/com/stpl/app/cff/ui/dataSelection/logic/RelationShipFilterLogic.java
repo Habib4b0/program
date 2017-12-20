@@ -140,7 +140,7 @@ public class RelationShipFilterLogic {
 		return new Object[0];
 	}
 
-	@SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked")
 	public List<Object[]> getRelationshipList(Leveldto selectedHierarchyLevelDto, int relationshipSid) {
 		List<Object> relationInput = new ArrayList<>();
 		relationInput.add(relationshipSid);
@@ -332,8 +332,8 @@ public class RelationShipFilterLogic {
 		String finalQuery = CommonQueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
 		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		for (Object[] object : results) {
-			customerSidSet.add(getIntegerValue(object, 2));
-			contractSidSet.add(getIntegerValue(object, 3));
+			customerSidSet.add(getIntegerValue(object, 0));
+			contractSidSet.add(getIntegerValue(object, 1));
 		}
 		finalList.add(customerSidSet);
 		finalList.add(contractSidSet);
@@ -346,12 +346,14 @@ public class RelationShipFilterLogic {
 			return null;
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(
 				Leveldto.getLastLinkedLevel(customerHierarchyLevelDefinitionList), Collections.<String>emptyList());
+                queryBean.removeSelectClauseByIndex(0);
+		queryBean.removeSelectClauseByIndex(0);
 		if (isProduct) {
-			queryBean.addSelectClauseBean("ITEM_MASTER.ITEM_MASTER_SID", null, Boolean.TRUE, null);
+			queryBean.addSelectClauseBean("ITEM_MASTER.ITEM_MASTER_SID", "ITEM_MASTER_SID1", Boolean.TRUE, null);
 			return queryBean;
 		}
 		queryBean.addSelectClauseBean("COMPANY_MASTER.COMPANY_MASTER_SID", "COMPANY_MASTER_SID1", Boolean.TRUE, null);
-		queryBean.addSelectClauseBean("CONTRACT_MASTER.CONTRACT_MASTER_SID", null, Boolean.TRUE, null);
+		queryBean.addSelectClauseBean("CONTRACT_MASTER.CONTRACT_MASTER_SID", "CONTRACT_MASTER_SID1", Boolean.TRUE, null);
 		return queryBean;
 	}
 
@@ -527,7 +529,9 @@ public class RelationShipFilterLogic {
 			query.append(hierarchyNo);
 			query.append("'),");
 		}
+                if (query.length() != 0) {
 		query.deleteCharAt(query.length() - 1);
+                }
 		return query;
 	}
 

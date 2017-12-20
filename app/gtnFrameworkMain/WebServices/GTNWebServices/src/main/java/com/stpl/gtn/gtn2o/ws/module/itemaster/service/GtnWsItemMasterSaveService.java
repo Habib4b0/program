@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.module.itemaster.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +53,7 @@ import com.stpl.gtn.gtn2o.ws.util.GtnWsCommonQueryContants;
 @Service()
 @Scope(value = "singleton")
 public class GtnWsItemMasterSaveService {
+
 	public GtnWsItemMasterSaveService() {
 		/**
 		 * empty constructor
@@ -319,11 +321,10 @@ public class GtnWsItemMasterSaveService {
 		itemMasterData.setClottingFactorEndDate(infoBean.getClottingFactorEndDate());
 		itemMasterData.setDivestitureDate(infoBean.getDivestitureDate());
 		itemMasterData.setNewFormulationIndicator(infoBean.getNewFormulationIndicator());
-		itemMasterData
-				.setBaselineAmp(infoBean.getBaselineAmp() == null ? null : new BigDecimal(infoBean.getBaselineAmp()));
+		itemMasterData.setBaselineAmp(infoBean.getBaselineAmp() == null ? null : infoBean.getBaselineAmp());
 		itemMasterData.setAcquisitionDate(infoBean.getAcquisitionDate());
 		itemMasterData.setNonFederalExpirationDate(infoBean.getNonFederalExpirationDate());
-		itemMasterData.setBaseCpi(infoBean.getBaseCpi() == null ? null : new BigDecimal(infoBean.getBaseCpi()));
+		itemMasterData.setBaseCpi(infoBean.getBaseCpi() == null ? null : infoBean.getBaseCpi());
 		itemMasterData
 				.setAcquiredAmp(infoBean.getAcquiredAmp() == null ? null : new BigDecimal(infoBean.getAcquiredAmp()));
 		itemMasterData.setMarketTerminationDate(infoBean.getMarketTerminationDate());
@@ -448,10 +449,10 @@ public class GtnWsItemMasterSaveService {
 			itemMasterEditData.setClottingFactorEndDate(infoBean.getClottingFactorEndDate());
 			itemMasterEditData.setDivestitureDate(infoBean.getDivestitureDate());
 			itemMasterEditData.setNewFormulationIndicator(infoBean.getNewFormulationIndicator());
-			itemMasterEditData.setBaselineAmp(getBigDecimalValue(infoBean.getBaselineAmp()));
+			itemMasterEditData.setBaselineAmp(infoBean.getBaselineAmp());
 			itemMasterEditData.setAcquisitionDate(infoBean.getAcquisitionDate());
 			itemMasterEditData.setNonFederalExpirationDate(infoBean.getNonFederalExpirationDate());
-			itemMasterEditData.setBaseCpi(getBigDecimalValue(infoBean.getBaseCpi()));
+			itemMasterEditData.setBaseCpi(infoBean.getBaseCpi());
 			itemMasterEditData.setAcquiredAmp(getBigDecimalValue(infoBean.getAcquiredAmp()));
 			itemMasterEditData.setMarketTerminationDate(infoBean.getMarketTerminationDate());
 			itemMasterEditData.setNewFormulationStartDate(infoBean.getNewFormulationStartDate());
@@ -485,12 +486,19 @@ public class GtnWsItemMasterSaveService {
 		return value == null ? null : new BigDecimal(value);
 	}
 
-	private void saveOrUpdateItemIdentifier(GtnWsItemMasterRequest imRquest, Session session, int itemSystemId) {
+	BigDecimal getBigDecimalValue(Integer value) {
+		return value == null ? new BigDecimal(0) : new BigDecimal(value);
+	}
+
+	private void saveOrUpdateItemIdentifier(GtnWsItemMasterRequest imRquest, Session session, int itemSystemId)
+			throws GtnFrameworkGeneralException {
 		List<GtnWsItemIdentifierBean> identifierBeanList = imRquest.getGtnWsItemMasterBean()
 				.getGtnWsItemIdentifierBeanList();
+
 		LOGGER.info("identifierBeanList---save zise-----" + identifierBeanList.size());
 		for (GtnWsItemIdentifierBean idenBean : identifierBeanList) {
 			ItemIdentifier identifier = null;
+			LOGGER.info("Identifier SId:" + idenBean.getItemIdentifierSid());
 			if (idenBean.getItemIdentifierSid() == 0) {
 				identifier = new ItemIdentifier();
 				identifier.setCreatedBy(Integer.valueOf(imRquest.getUserId()));
@@ -502,6 +510,8 @@ public class GtnWsItemMasterSaveService {
 				idenBean.setItemIdentifierSid(itemIdentifierSid);
 				idenBean.setItemQualifierName(identifier.getItemQualifier().getItemQualifierName());
 			} else {
+				updateInboundStatus(identifierBeanList,
+						imRquest.getGtnWsItemMasterBean().getGtnWsItemMasterInfoBean().getItemMasterSid());
 				identifier = session.get(ItemIdentifier.class, idenBean.getItemIdentifierSid());
 				identifier.setItemIdentifierSid(idenBean.getItemIdentifierSid());
 				setIdentifierValues(imRquest, identifier, idenBean, session, itemSystemId);
@@ -510,6 +520,17 @@ public class GtnWsItemMasterSaveService {
 			}
 
 		}
+	}
+
+	private void updateInboundStatus(List<GtnWsItemIdentifierBean> identifierBeanList, int itemMasterSID)
+			throws GtnFrameworkGeneralException {
+		List<Object> identifierCriteriaIdList = new ArrayList<>();
+		for (GtnWsItemIdentifierBean idenBean : identifierBeanList) {
+			identifierCriteriaIdList.add(idenBean.getItemIdentifierSid());
+		}
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(gtnWsSqlService.getQuery("changeStatusOfItemIdentiferValue"),
+				new Object[] { itemMasterSID, identifierCriteriaIdList },
+				new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.IN_LIST });
 	}
 
 	private void setIdentifierValues(GtnWsItemMasterRequest imRquest, ItemIdentifier identifier,

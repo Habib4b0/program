@@ -1,9 +1,21 @@
 package com.stpl.app.gtnforecasting.logic;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+
 import com.stpl.app.gtnforecasting.dao.CommonDAO;
 import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.service.FileReadWriteService;
+import com.stpl.app.service.FileReadWriteService;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.bean.GtnFrameworkJoinClauseBean;
@@ -25,23 +37,13 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.vaadin.server.VaadinSession;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.lang.StringUtils;
 
 public class RelationShipFilterLogic {
 
-	private GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
+	private final GtnFrameworkEntityMasterBean masterBean = GtnFrameworkEntityMasterBean.getInstance();
 	private static final RelationShipFilterLogic instance = new RelationShipFilterLogic();
-	private CommonDAO daoImpl = new CommonDAOImpl();
-	private FileReadWriteService fileReadWriteService = new FileReadWriteService();
+	private final CommonDAO daoImpl = new CommonDAOImpl();
+	private final FileReadWriteService fileReadWriteService = new FileReadWriteService();
 	private static final String RS_CONTRACT = "RS_CONTRACT";
 	private static final String CFP_CONTRACT_SID = "CFP_CONTRACT.CFP_CONTRACT_SID";
 	private static final String RS_CONTRACT_DETAILS = "RS_CONTRACT_DETAILS";
@@ -51,6 +53,7 @@ public class RelationShipFilterLogic {
 	private static final String RELATIONSHIP_BUILD_HIERARCHY_NO = "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO";
 	private static final String RELATIONSHIP_LEVEL_DEFN = "RELATIONSHIP_LEVEL_DEFINITION";
 	private static final String RELATION_HIERARCHY_JOIN = "HIERARCHY_NO_JOIN.HIERARCHY_NO";
+	private static final String RELATION_HIERARCHY_LEVEL_JOIN = "HIERARCHY_NO_JOIN.LEVEL_NO";
 
 	private RelationShipFilterLogic() {
 		// Singleton constructor
@@ -391,8 +394,8 @@ public class RelationShipFilterLogic {
 		String finalQuery = QueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
 		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
 		for (Object[] object : results) {
-			customerSidSet.add(getIntegerValue(object, 2));
-			contractSidSet.add(getIntegerValue(object, 3));
+			customerSidSet.add(getIntegerValue(object, 0));
+			contractSidSet.add(getIntegerValue(object, 1));
 		}
 		finalList.add(customerSidSet);
 		finalList.add(contractSidSet);
@@ -405,12 +408,15 @@ public class RelationShipFilterLogic {
 			return null;
 		GtnFrameworkQueryGeneratorBean queryBean = getQueryForLinkedLevel(
 				Leveldto.getLastLinkedLevel(customerHierarchyLevelDefinitionList), Collections.<String>emptyList());
+		queryBean.removeSelectClauseByIndex(0);
+		queryBean.removeSelectClauseByIndex(0);
 		if (isProduct) {
-			queryBean.addSelectClauseBean("ITEM_MASTER.ITEM_MASTER_SID", null, Boolean.TRUE, null);
+			queryBean.addSelectClauseBean("ITEM_MASTER.ITEM_MASTER_SID", "ITEM_MASTER_SID1", Boolean.TRUE, null);
 			return queryBean;
 		}
 		queryBean.addSelectClauseBean("COMPANY_MASTER.COMPANY_MASTER_SID", "COMPANY_MASTER_SID1", Boolean.TRUE, null);
-		queryBean.addSelectClauseBean("CONTRACT_MASTER.CONTRACT_MASTER_SID", null, Boolean.TRUE, null);
+		queryBean.addSelectClauseBean("CONTRACT_MASTER.CONTRACT_MASTER_SID", "CONTRACT_MASTER_SID1", Boolean.TRUE,
+				null);
 		return queryBean;
 	}
 
@@ -635,7 +641,9 @@ public class RelationShipFilterLogic {
 			query.append(hierarchyNo);
 			query.append("'),");
 		}
+                if (query.length() != 0) {
 		query.deleteCharAt(query.length() - 1);
+                }
 		return query;
 	}
 
@@ -888,7 +896,7 @@ public class RelationShipFilterLogic {
 		GtnFrameworkQueryGeneratorBean finalQueryBean = queryBean.getQuery();
 		finalQueryBean.removeSelectClauseByIndex(0);
 		finalQueryBean.removeSelectClauseByIndex(0);
-		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.LEVEL_NO", null, Boolean.TRUE, null);
+		finalQueryBean.addSelectClauseBean(RELATION_HIERARCHY_LEVEL_JOIN, null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.RELATIONSHIP_LEVEL_VALUES", null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.PARENT_NODE", null, Boolean.TRUE, null);
 		finalQueryBean.addSelectClauseBean("HIERARCHY_NO_JOIN.LEVEL_NAME", null, Boolean.TRUE, null);
@@ -913,7 +921,7 @@ public class RelationShipFilterLogic {
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, "RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO+'%'",
 				GtnFrameworkOperatorType.LIKE);
 		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.VERSION_NO", null, GtnFrameworkOperatorType.EQUAL_TO);
-		hierarchyTableJoin.addConditionBean("HIERARCHY_NO_JOIN.LEVEL_NO", null, GtnFrameworkOperatorType.LESSTHAN);
+		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_LEVEL_JOIN, null, GtnFrameworkOperatorType.LESSTHAN);
 		hierarchyTableJoin.addConditionBean(RELATION_HIERARCHY_JOIN, null, GtnFrameworkOperatorType.NOT_IN);
 		GtnFrameworkJoinClauseBean hierarchyLevelDefnTableJoin = finalQueryBean.addJoinClauseBean(
 				"HIERARCHY_LEVEL_DEFINITION", "HIERARCHY_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
@@ -921,6 +929,7 @@ public class RelationShipFilterLogic {
 				"HIERARCHY_NO_JOIN.HIERARCHY_LEVEL_DEFINITION_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		finalQueryBean.addWhereClauseBean("ITEM_MASTER.ORGANIZATION_KEY", null, GtnFrameworkOperatorType.EQUAL_TO,
 				GtnFrameworkDataType.STRING, businessUnitValue);
+                finalQueryBean.addOrderByClauseBean(RELATION_HIERARCHY_LEVEL_JOIN, "ASC");
 		return QueryUtils.getQuery(finalQueryBean.generateQuery(), input);
 	}
 
@@ -958,3 +967,4 @@ public class RelationShipFilterLogic {
 		return token;
 	}
 }
+

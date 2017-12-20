@@ -35,7 +35,7 @@ public class ForecastEditView extends VerticalLayout {
     /**
      * Binder for DataSelection.
      */
-    private CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
+    private final CustomFieldGroup dataSelectionBinder = new CustomFieldGroup(new BeanItem<>(dataSelectionDTO));
 
     ForecastForm forecastName;
     ForecastEditWindow editWindow;

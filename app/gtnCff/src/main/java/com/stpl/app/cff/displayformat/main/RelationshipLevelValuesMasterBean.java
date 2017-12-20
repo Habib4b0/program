@@ -27,7 +27,7 @@ public class RelationshipLevelValuesMasterBean {
 	private List<Object[]> tempList = null;
 	private final String relationshipBuilderSid;
 	private final String hierarchyNoType;
-	List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
+	private List<RelationshipLevelValuesBean> queryList = new ArrayList<>();
 	private int defaultCount = 0;
 	private final GtnDisplayFormatMasterBean masterBean = new GtnDisplayFormatMasterBean();
 	private final StringBuilder finalQry = new StringBuilder();

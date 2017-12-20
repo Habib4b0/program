@@ -31,12 +31,9 @@ public class VarianceTableLogic extends PageTreeTableLogic{
 	public VarianceTableLogic() {
 		super();
 	}
-    List<Leveldto> currentHierarchy = new ArrayList<>();
     private PVSelectionDTO projSelDTO = new PVSelectionDTO();
-    int levelNo;
     private String hierarchyNo;
-    boolean firstGenerated = false;
-    boolean isChild = false;
+    private boolean firstGenerated = false;
     public static final Logger LOGGER = Logger.getLogger(VarianceTableLogic.class);
     private String screenName = StringUtils.EMPTY;
     private String productHierarchyNo = StringUtils.EMPTY;
@@ -119,16 +116,12 @@ public class VarianceTableLogic extends PageTreeTableLogic{
     /**
      * Method for reloading the table
      *
-     * @param currentHierarchy
      * @param projSelDTO
-     * @param levelNo
      * @param hierarchyNo
      */
-    public void setProjectionResultsData(List<Leveldto> currentHierarchy, PVSelectionDTO projSelDTO, int levelNo, String hierarchyNo) {
+    public void setProjectionResultsData(PVSelectionDTO projSelDTO, String hierarchyNo) {
         LOGGER.debug("setProjectionResultsData Starts");
-        this.currentHierarchy = currentHierarchy;
         this.projSelDTO = projSelDTO;
-        this.levelNo = levelNo;
         this.hierarchyNo = hierarchyNo;
         clearAll();
         firstGenerated = true;
@@ -233,7 +226,7 @@ public class VarianceTableLogic extends PageTreeTableLogic{
                         if (projSelDTO.isIsCustomHierarchy()) {
                             String hierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list = new ProjectionVarianceLogic().getHiearchyNoForCustomView(projSelDTO, 0, projSelDTO.getLevelCount());
 
                             int size = list.size();
                             int index = count - size + 1;

@@ -43,8 +43,8 @@ public class Converters {
      * @param list the list
      * @return the customized views
      * @throws java.text.ParseException
-     * @throws com.liferay.portal.kernel.exception.PortalException
-     * @throws com.liferay.portal.kernel.exception.SystemException
+     * @throws com.stpl.portal.kernel.exception.PortalException
+     * @throws com.stpl.portal.kernel.exception.SystemException
      */
     public static List<ViewDTO> getCustomizedViews(final List list, boolean flagValue) throws ParseException, PortalException, SystemException {
         final List<ViewDTO> results = new ArrayList<>();
@@ -101,6 +101,8 @@ public class Converters {
             } else {
                 result.setBusinessUnitSystemId((Integer) obj[NumericConstants.TWENTY_SEVEN]);
                 result.setBusinessUnitSystemName((String) obj[NumericConstants.TWENTY_EIGHT]);
+                result.setCustHierarchyVersion((Integer) obj[NumericConstants. TWENTY_NINE]);
+                result.setProdHierarchyVersion((Integer) obj[NumericConstants.THIRTY]);
             }
             results.add(result);
         }

@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Nov 28, 2017 11:29:51 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+	<class name="com.stpl.gtn.gtn2o.ws.entity.transaction.VwCffOutboundMaster" table="VW_CFF_OUTBOUND_MASTER" >
+		<id name="cffOutboundSid" type="string">
+			<column name="CFF_OUTBOUND_SID" />
+			<generator class="assigned" />
+		</id>
+		<property name="cffDetailsSid" type="int">
+			<column name="CFF_DETAILS_SID" />
+		</property>
+		<property name="rsModelSid" type="int">
+			<column name="RS_MODEL_SID" />
+		</property>
+		<property name="periodSid" type="int">
+			<column name="PERIOD_SID" />
+		</property>
+		<property name="financialForecastId" type="string">
+			<column name="FINANCIAL_FORECAST_ID" not-null="true" />
+		</property>
+		<property name="financialForecastName" type="string">
+			<column name="FINANCIAL_FORECAST_NAME" length="50" />
+		</property>
+		<property name="type" type="string">
+			<column name="TYPE" />
+		</property>
+		<property name="projectId" type="string">
+			<column name="PROJECT_ID" length="50" not-null="true" />
+		</property>
+		<property name="projectionName" type="string">
+			<column name="PROJECTION_NAME" length="50" />
+		</property>
+		<property name="year" type="string">
+			<column name="YEAR" />
+		</property>
+		<property name="month" type="java.lang.Integer">
+			<column name="MONTH" />
+		</property>
+		<property name="contractId" type="string">
+			<column name="CONTRACT_ID" length="50" />
+		</property>
+		<property name="contractNo" type="string">
+			<column name="CONTRACT_NO" length="50" />
+		</property>
+		<property name="contractName" type="string">
+			<column name="CONTRACT_NAME" length="50" />
+		</property>
+		<property name="contractType" type="string">
+			<column name="CONTRACT_TYPE" />
+		</property>
+		<property name="contractHolderId" type="string">
+			<column name="CONTRACT_HOLDER_ID" length="50" />
+		</property>
+		<property name="contractHolderNo" type="string">
+			<column name="CONTRACT_HOLDER_NO" length="50" />
+		</property>
+		<property name="contractHolderName" type="string">
+			<column name="CONTRACT_HOLDER_NAME" length="50" />
+		</property>
+		<property name="customerId" type="string">
+			<column name="CUSTOMER_ID" length="50" />
+		</property>
+		<property name="customerNo" type="string">
+			<column name="CUSTOMER_NO" length="50" />
+		</property>
+		<property name="customerName" type="string">
+			<column name="CUSTOMER_NAME" length="50" />
+		</property>
+		<property name="itemMasterSid" type="java.lang.Integer">
+			<column name="ITEM_MASTER_SID" />
+		</property>
+		<property name="companyMasterSid" type="java.lang.Integer">
+			<column name="COMPANY_MASTER_SID" />
+		</property>
+		<property name="contractMasterSid" type="java.lang.Integer">
+			<column name="CONTRACT_MASTER_SID" />
+		</property>
+		<property name="glCompanyMasterSid" type="java.lang.Integer">
+			<column name="GL_COMPANY_MASTER_SID" />
+		</property>
+		<property name="itemId" type="string">
+			<column name="ITEM_ID" length="50" />
+		</property>
+		<property name="itemNo" type="string">
+			<column name="ITEM_NO" length="50" />
+		</property>
+		<property name="itemName" type="string">
+			<column name="ITEM_NAME" length="50" />
+		</property>
+		<property name="salesDollars" type="string">
+			<column name="SALES_DOLLARS" length="50" />
+		</property>
+		<property name="salesUnits" type="string">
+			<column name="SALES_UNITS" length="50" />
+		</property>
+		<property name="salesInclusion" type="string">
+			<column name="SALES_INCLUSION" length="50" />
+		</property>
+		<property name="deductionId" type="string">
+			<column name="DEDUCTION_ID" length="50" />
+		</property>
+		<property name="deductionNo" type="string">
+			<column name="DEDUCTION_NO" length="50" />
+		</property>
+		<property name="deductionName" type="string">
+			<column name="DEDUCTION_NAME" length="50" />
+		</property>
+		<property name="deductionCategory" type="string">
+			<column name="DEDUCTION_CATEGORY" />
+		</property>
+		<property name="deductionType" type="string">
+			<column name="DEDUCTION_TYPE" />
+		</property>
+		<property name="deductionProgram" type="string">
+			<column name="DEDUCTION_PROGRAM" />
+		</property>
+		<property name="deductionInclusion" type="string">
+			<column name="DEDUCTION_INCLUSION" />
+		</property>
+		<property name="deductionCategory1" type="string">
+			<column name="DEDUCTION_CATEGORY1" />
+		</property>
+		<property name="deductionCategory2" type="string">
+			<column name="DEDUCTION_CATEGORY2" />
+		</property>
+		<property name="deductionCategory3" type="string">
+			<column name="DEDUCTION_CATEGORY3" />
+		</property>
+		<property name="deductionCategory4" type="string">
+			<column name="DEDUCTION_CATEGORY4" />
+		</property>
+		<property name="deductionCategory5" type="string">
+			<column name="DEDUCTION_CATEGORY5" />
+		</property>
+		<property name="deductionCategory6" type="string">
+			<column name="DEDUCTION_CATEGORY6" />
+		</property>
+		<property name="deductionDollars" type="string">
+			<column name="DEDUCTION_DOLLARS" length="50" />
+		</property>
+		<property name="deductionRate" type="string">
+			<column name="DEDUCTION_RATE" length="50" />
+		</property>
+		<property name="deductionPerUnit" type="string">
+			<column name="DEDUCTION_PER_UNIT" length="50" />
+		</property>
+		<property name="netSalesDollar" type="string">
+			<column name="NET_SALES_DOLLAR" length="50" />
+		</property>
+		<property name="cogsAmount" type="string">
+			<column name="COGS_AMOUNT" length="50" />
+		</property>
+		<property name="cogsPerUnit" type="string">
+			<column name="COGS_PER_UNIT" length="50" />
+		</property>
+		<property name="netProfitDollars" type="string">
+			<column name="NET_PROFIT_DOLLARS" length="50" />
+		</property>
+		<property name="netProfitPerUnit" type="string">
+			<column name="NET_PROFIT_PER_UNIT" length="50" />
+		</property>
+		<property name="companyId" type="string">
+			<column name="COMPANY_ID" length="50" />
+		</property>
+		<property name="companyNo" type="string">
+			<column name="COMPANY_NO" length="50" />
+		</property>
+		<property name="companyName" type="string">
+			<column name="COMPANY_NAME" length="50" />
+		</property>
+		<property name="businessUnitId" type="string">
+			<column name="BUSINESS_UNIT_ID" length="50" />
+		</property>
+		<property name="businessUnitNo" type="string">
+			<column name="BUSINESS_UNIT_NO" length="50" />
+		</property>
+		<property name="businessUnitName" type="string">
+			<column name="BUSINESS_UNIT_NAME" length="50" />
+		</property>
+		<property name="financialForecastCreationDate" type="timestamp">
+			<column name="FINANCIAL_FORECAST_CREATION_DATE" length="23" />
+		</property>
+		<property name="financialForecastApprovalDate" type="timestamp">
+			<column name="FINANCIAL_FORECAST_APPROVAL_DATE" length="23" />
+		</property>
+		<property name="batchId" type="string">
+			<column name="BATCH_ID" length="50" />
+		</property>
+		<property name="source" type="string">
+			<column name="SOURCE" length="50" />
+		</property>
+		<property name="createdBy" type="string">
+			<column name="CREATED_BY" length="50" />
+		</property>
+		<property name="createdDate" type="timestamp">
+			<column name="CREATED_DATE" length="23" />
+		</property>
+		<property name="modifiedBy" type="string">
+			<column name="MODIFIED_BY" length="50" />
+		</property>
+		<property name="modifiedDate" type="timestamp">
+			<column name="MODIFIED_DATE" length="23" />
+		</property>
+		<property name="outboundStatus" type="string">
+			<column name="OUTBOUND_STATUS" length="50" />
+		</property>
+		<property name="originalBatchId" type="string">
+			<column name="ORIGINAL_BATCH_ID" length="50" />
+		</property>
+		<property name="checkRecord" type="boolean">
+			<column name="CHECK_RECORD" />
+		</property>
+	</class>
+</hibernate-mapping>

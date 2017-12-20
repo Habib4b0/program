@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ui.contractdashboard.config.tab;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -930,6 +931,8 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
 		attachResults.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_DETAIL_VIEW_TABLE_DATA);
+		
+		
 	}
 
 	private void addExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1159,13 +1162,13 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[2], gtnLayoutConfig.getComponentId(),
 				GtnUIFrameworkComponentType.DATEFIELD, pricingMassPopulateFieldValConfig);
 		addField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[14], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[19], gtnLayoutConfig.getComponentId(),
 				GtnUIFrameworkComponentType.DATEFIELD, pricingMassPopulateFieldValConfig);
 		addField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[10], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[16], gtnLayoutConfig.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX, pricingMassPopulateFieldRegexValConfig);
 		addField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[11], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[15], gtnLayoutConfig.getComponentId(),
 				GtnUIFrameworkComponentType.TEXTBOX, pricingMassPopulateFieldRegexValConfig);
 		addField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[4], gtnLayoutConfig.getComponentId(),
@@ -1175,17 +1178,17 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[5], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig);
 		addLookUpField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[18], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[26], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig);
 
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[0], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.STATUS);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[19], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[7], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.LOCKED_STATUS);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[22], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[17], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.LOCKED_STATUS);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[25], gtnLayoutConfig.getComponentId(),
@@ -1218,46 +1221,45 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[3], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[21], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[9], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[24], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[22], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME);
 
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[7], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[20], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_INTERVAL);
-		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[8], gtnLayoutConfig.getComponentId(),
-				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_FRERQUENCY);
-		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[9], gtnLayoutConfig.getComponentId(),
-				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE);
-		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[12], gtnLayoutConfig.getComponentId(),
-				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.LOCKED_STATUS);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
 				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[13], gtnLayoutConfig.getComponentId(),
-				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.RESET_TYPE);
-		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[15], gtnLayoutConfig.getComponentId(),
-				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_INTERVAL);
-		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[16], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_FRERQUENCY);
 		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[17], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[14], gtnLayoutConfig.getComponentId(),
+				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE);
+		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[23], gtnLayoutConfig.getComponentId(),
+				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.LOCKED_STATUS);
+		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[18], gtnLayoutConfig.getComponentId(),
+				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.RESET_TYPE);
+		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[12], gtnLayoutConfig.getComponentId(),
+				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_INTERVAL);
+		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[21], gtnLayoutConfig.getComponentId(),
+				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.PRICE_TOLERANCE_FRERQUENCY);
+		addComboField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[10], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig, GtnWsContractDashboardContants.LOCKED_STATUS);
 		addLookUpField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[26], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[24], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig);
 		addLookUpField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[23], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[11], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig);
 		addLookUpField(cdPricingComponentList, componentIdList, cdPricingTabPrefix,
-				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[20], gtnLayoutConfig.getComponentId(),
+				GtnFrameworkContractDashboardContants.getPpMassPopulateField()[8], gtnLayoutConfig.getComponentId(),
 				pricingMassPopulateFieldValConfig);
-
 	}
 
 	private void addField(List<GtnUIFrameworkComponentConfig> cdPricingComponentList, List<String> componentIdList,
@@ -1465,11 +1467,40 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		cdPricingResultTable.setPageLength(5);
 		cdPricingResultTable.setItemPerPage(5);
 		cdPricingResultTable.setSinkItemPerPageWithPageLength(false);
+		
+		cdPricingResultTable.setColumnToAlign(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignmentHeader());
+		cdPricingResultTable.setColumnAlignment(GtnFrameworkContractDashboardContants.getPriceProtectionColumnAlignment());
+		
 		cdPricingResultTable
 				.setTableColumnDataType(GtnFrameworkContractDashboardContants.getPriceProtectionColumnType());
 		cdPricingResultTable
 				.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceProtectionColumnHeader());
 		cdPricingResultTable.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceProtectionColumn());
+		cdPricingResultTable.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PP_STATUS_PENDING,
+				GtnFrameworkContractDashboardContants.MEASUREMENT_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.BASE_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING,
+			    GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING3,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING4,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING5,
+				GtnFrameworkContractDashboardContants.EXTRACOLUMN_PENDING6
+		});
+		cdPricingResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class,String.class,Integer.class,Date.class,String.class
+		});
 		cdPricingResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_TABLE_DATA);
 		cdPricingResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
@@ -1485,7 +1516,6 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				cdPricingResultTable.getEditableColumnList().size());
 		getPricingTableEditableField(editableFieldList);
 		cdPricingResultTable.setEditableField(editableFieldList);
-
 		GtnUIFrameWorkActionConfig customAction = new GtnUIFrameWorkActionConfig();
 		customAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		customAction.addActionParameter(GtnUIFrameWorkContractTableRecordTypeAction.class.getName());
@@ -1499,6 +1529,9 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		pricingViewResultTable(cdPricingComponentList, gtnLayoutConfig.getComponentId());
 	}
 
+	
+		
+	
 	private void pricingViewResultTable(List<GtnUIFrameworkComponentConfig> cdPricingComponentList, String parent) {
 		String componentId = GtnFrameworkContractDashboardContants.PRICING_TAB_PRICING_TABLE + "View";
 
@@ -1519,10 +1552,32 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				.setTableVisibleHeader(GtnFrameworkContractDashboardContants.getPriceProtectionViewHeader());
 		cdPricingViewResultTable
 				.setTableColumnMappingId(GtnFrameworkContractDashboardContants.getPriceProtectionViewColumn());
+		cdPricingViewResultTable.setExtraColumn(new Object[] { GtnFrameworkContractDashboardContants.PP_STATUS_PENDING,
+				GtnFrameworkContractDashboardContants.MEASUREMENT_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.BASE_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_BASE_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.SUBSEQUENT_PERIOD_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_SUBSEQUENT_PERIOD_PRICE_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.PRICE_TOLERANCE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_ELIGIBLE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_INTERVAL_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_FREQUENCY_PENDING,
+				GtnFrameworkContractDashboardContants.RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_RESET_PRICE_TYPE_PENDING,
+				GtnFrameworkContractDashboardContants.NET_PRICE_TYPE_PENDING
+		});
+		cdPricingViewResultTable.setExtraColumnDataType(new Class[] { String.class, String.class,String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class, String.class, String.class, String.class,
+				String.class, String.class, String.class, String.class
+		});
 		cdPricingViewResultTable.setCountUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
 		cdPricingViewResultTable.setResultSetUrl(GtnWsContractDashboardContants.GTN_CONTRACT_DASHBOARD_SERVICE
 				+ GtnWsContractDashboardContants.GET_CD_PRICING_PROTECTION_VIEW_TABLE_DATA);
+	
 	}
 
 	private void addPricingExcelButtonLayout(List<GtnUIFrameworkComponentConfig> cdPricingComponentList,
@@ -1599,7 +1654,7 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 		addFieldFactoryComboField(cdPricingComponentList, pricingTableFieldFactoryAction,
 				GtnWsContractDashboardContants.PRICE_CODE_QUALIFIER_NAME, pricingTableFieldFactoryFocusAction);
 
-		GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
+	GtnUIFrameworkValidationConfig pricingTableFieldFactoryRegexConfig = new GtnUIFrameworkValidationConfig();
 		pricingTableFieldFactoryRegexConfig.setAttachRegxValidatior(true);
 		pricingTableFieldFactoryRegexConfig.setFormatString("([|0-9]*.[0-9]{1,6})");
 		pricingTableFieldFactoryRegexConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
@@ -1645,11 +1700,12 @@ public class GtnFrameworkContractDashboardPrcingTabConfig {
 				GtnWsContractDashboardContants.PRICE_TOLERANCE_TYPE, pricingTableFieldFactoryFocusAction);
 		GtnUIFrameworkValidationConfig valConfig = new GtnUIFrameworkValidationConfig();
 		valConfig.setAttachRegxValidatior(true);
-		valConfig.setFormatString(GtnFrameworkContractDashboardContants.REGEX_NUM);
+		valConfig.setFormatString("\\$?([0-9]?.?[0-9]){1,6}%?");
 		valConfig.setRegxValidationMessage(GtnFrameworkContractDashboardContants.REGEX_ERROR);
 		GtnUIFrameworkComponentConfig priceTolCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,
 				pricingTableFieldFactoryFocusAction);
+		 priceTolCompConfig.setComponentStyle(GtnFrameworkContractDashboardContants.getPriceProtectionTextRightJustified());
 		priceTolCompConfig.setGtnUIFrameworkValidationConfig(valConfig);
 		GtnUIFrameworkComponentConfig incChangeCompConfig = addFieldFactoryField(cdPricingComponentList,
 				GtnUIFrameworkComponentType.TEXTBOX, pricingTableFieldFactoryAction,

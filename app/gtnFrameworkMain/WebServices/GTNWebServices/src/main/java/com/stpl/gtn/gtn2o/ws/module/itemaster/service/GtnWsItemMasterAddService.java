@@ -202,8 +202,7 @@ public class GtnWsItemMasterAddService {
 				infoBean.setManufacturerId(
 						(itemMaster.getManufacturerId() == null || itemMaster.getManufacturerId().isEmpty()
 								|| GtnFrameworkCommonStringConstants.STRING_NULL.equals(itemMaster.getManufacturerId()))
-										? 0
-										: Integer.valueOf(itemMaster.getManufacturerId()));
+										? 0 : Integer.valueOf(itemMaster.getManufacturerId()));
 				Udcs udcs = getUdcs(infoBean, session);
 				if (udcs != null) {
 					infoBean.setUdc1(getHelpervalue(udcs.getHelperTableByUdc1()));
@@ -238,13 +237,21 @@ public class GtnWsItemMasterAddService {
 				infoBean.setDualPricingIndicator(itemMaster.getDualPricingIndicator());
 				infoBean.setNewFormulationIndicator(itemMaster.getNewFormulationIndicator());
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
-				infoBean.setBaselineAmp(getDoublevalue(itemMaster.getBaselineAmp()));
-				infoBean.setBaseCpi(getDoublevalue(itemMaster.getBaseCpi()));
-				infoBean.setAcquiredAmp(getDoublevalue(itemMaster.getAcquiredAmp()));
-				infoBean.setAcquiredBamp(getDoublevalue(itemMaster.getAcquiredBamp()));
-				infoBean.setDra(getDoublevalue(itemMaster.getDra()));
-				infoBean.setObraBamp(getDoublevalue(itemMaster.getObraBamp()));
-
+				infoBean.setBaselineAmp(itemMaster.getBaselineAmp());
+				infoBean.setBaseCpi(
+						new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
+				if (itemMaster.getAcquiredAmp() != null) {
+					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
+				}
+				if (itemMaster.getAcquiredBamp() != null) {
+					infoBean.setAcquiredBamp(Integer.valueOf(itemMaster.getAcquiredBamp().intValue()));
+				}
+				if (itemMaster.getDra() != null) {
+					infoBean.setDra(Integer.valueOf(itemMaster.getDra().intValue()));
+				}
+				if (itemMaster.getObraBamp() != null) {
+					infoBean.setObraBamp(Integer.valueOf(itemMaster.getObraBamp().intValue()));
+				}
 				infoBean.setCreatedBy(itemMaster.getCreatedBy());
 				infoBean.setCreatedByUserName(
 						gtnWebServiceAllListConfig.getUserIdNameMap().get(itemMaster.getCreatedBy()));
@@ -308,9 +315,9 @@ public class GtnWsItemMasterAddService {
 
 		Criterion itemMasterSIDCriterion = Restrictions.eq(GtnWsTableConstants.ITEM_MASTER_NAME,
 				session.load(ItemMaster.class, itemSystemId));
-
+		Criterion identifierCriterion = Restrictions.ne("inboundStatus", 'D');
 		List<ItemIdentifier> results = (List<ItemIdentifier>) gtnSqlQueryEngine.executeSelectQuery(ItemIdentifier.class,
-				Arrays.asList(new Criterion[] { itemMasterSIDCriterion }), session);
+				Arrays.asList(new Criterion[] { itemMasterSIDCriterion, identifierCriterion }), session);
 
 		if (results != null && !results.isEmpty()) {
 			GtnWsItemIdentifierBean idenBean;
@@ -638,12 +645,12 @@ public class GtnWsItemMasterAddService {
 
 			Date today = new Date();
 			Object[] params = new Object[] { pricingBean.getItemPricingQualifierSid(), pricingBean.getItemUom(),
-					pricingBean.getItemPrice(), pricingBean.getPricingCodeStatus(), pricingBean.getEntityCode(),
-					pricingBean.getStartDate(), pricingBean.getEndDate(),
+					pricingBean.getItemPrice().toPlainString(), pricingBean.getPricingCodeStatus(),
+					pricingBean.getEntityCode(), pricingBean.getStartDate(), pricingBean.getEndDate(),
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today,
 					gtnWsRequest.getGtnWsGeneralRequest().getUserId(), today };
 			GtnFrameworkDataType[] typeParams = new GtnFrameworkDataType[] { GtnFrameworkDataType.INTEGER,
-					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.DOUBLE, GtnFrameworkDataType.INTEGER,
+					GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.DATE,
 					GtnFrameworkDataType.STRING, GtnFrameworkDataType.DATE, GtnFrameworkDataType.STRING,
 					GtnFrameworkDataType.DATE };

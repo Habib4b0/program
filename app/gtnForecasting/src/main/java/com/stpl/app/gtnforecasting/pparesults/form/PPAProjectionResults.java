@@ -212,7 +212,7 @@ public class PPAProjectionResults extends CustomComponent implements View {
     /**
      * The result bean.
      */
-    private ExtTreeContainer<PPAProjectionResultsDTO> resultBean = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final ExtTreeContainer<PPAProjectionResultsDTO> resultBean = new ExtTreeContainer<>(PPAProjectionResultsDTO.class,ExtContainer.DataStructureMode.MAP);
     List<Leveldto> viewChangeHierarchy = new ArrayList<>();
     ExtCustomTreeTable excelTable;
     /**

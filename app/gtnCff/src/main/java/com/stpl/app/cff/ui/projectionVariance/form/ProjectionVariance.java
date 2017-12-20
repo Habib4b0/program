@@ -77,7 +77,6 @@ import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.asi.ui.extfilteringtable.freezetable.FreezePagedTreeTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTreeTable;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -85,9 +84,9 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class ProjectionVariance extends AbstractProjectionVariance {
 
-    boolean editFlag = false;
-    List<ComparisonLookupDTO> selectedList = new ArrayList<>();
-    PVQueryUtils queryUtils = new PVQueryUtils();
+    private boolean editFlag = false;
+    private List<ComparisonLookupDTO> selectedList = new ArrayList<>();
+    private PVQueryUtils queryUtils = new PVQueryUtils();
     
     public static final String SELECT_VARIABLES = "-Select Variables-";
     public static final String PROJECTION_VARIANCE = "Projection Variance";
@@ -100,25 +99,22 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
-    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    boolean firstGenerated = false;
-    List<Leveldto> currentHierarchy = new ArrayList<>();
-    Map<Integer, String> projectionMap = new HashMap<>();
+    private List<Leveldto> viewChangeHierarchy = new ArrayList<>();
+    private boolean firstGenerated = false;
+    private List<Leveldto> currentHierarchy = new ArrayList<>();
+    private Map<Integer, String> projectionMap = new HashMap<>();
     public List<String> projNameList = new ArrayList<>();
     public List<Integer> projIdList = new ArrayList<>();
-    ExtPagedTreeTable leftTable;
-    ExtPagedTreeTable rightTable;
-    ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
+    private ProjectionVarianceLogic pvLogic = new ProjectionVarianceLogic();
     public ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
-    int tradingPartnerNo = 0;
+    private int tradingPartnerNo = 0;
     /**
      * The graph image.
      */
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
-    CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
     public List<Integer> comparisonProjId = new ArrayList<>();
-    PVSelectionDTO baseVariables = new PVSelectionDTO();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -132,21 +128,21 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
     private final PVExcelLogic excelLogic = new PVExcelLogic(resultMap, pvSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto, discountMap, discountMapDetails);
 
-    String toDateValue;
 
-    DataSelectionDTO dataSelectionDTO;
-    int columnSize = 0;
+    private DataSelectionDTO dataSelectionDTO;
+    private int columnSize = 0;
     public static final String ANULL = "null";
     public static final String DEDUCTION = "DEDUCTION";
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
     public static final String SELECT_VALUES = "-Select Values-";
-    List<String[]> deductionLevel = new ArrayList<>();
+    private List<String[]> deductionLevel = new ArrayList<>();
     public static final String SID = "SID";
      
      public static final CommonLogic commonLogic = new CommonLogic();
-     private CommonUtils commonUtils = new CommonUtils();
 
+     private CommonUtils commonUtils = new CommonUtils();
+     
     public ProjectionVariance(SessionDTO sessionDTO, final DataSelectionDTO dataSelectionDTO) {
         super(sessionDTO);
         LOGGER.debug("Inside Projection Varaince Constructor");
@@ -157,7 +153,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         configureFields();
     }
     
-     CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
+     private CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setDeductionLevelFilter((List) CommonLogic.getFilterValues(deductionFilterValues).get(SID));
@@ -168,7 +164,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
 
         }
     };
-       CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
+       private CustomMenuBar.SubMenuCloseListener productlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setProductLevelFilter((List) CommonLogic.getFilterValues(productFilterValues).get(SID));
@@ -178,7 +174,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         }
     };
         
-        CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
+        private CustomMenuBar.SubMenuCloseListener customerlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
             pvSelectionDTO.setCustomerLevelFilter((List) CommonLogic.getFilterValues(customerFilterValues).get(SID));
@@ -424,7 +420,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setProjectionId(sessionDTO.getProjectionId());
 
             UiUtils.setExtFilterTreeTableColumnWidth(rightTable, NumericConstants.ONE_SEVEN_ZERO, TAB_PROJECTION_VARIANCE.getConstant());
-            toDateValue = String.valueOf(toDate.getValue());
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue()))
                     && toDate.getValue() != null && !"null".equals(String.valueOf(toDate.getValue())) && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(toDate.getValue()))) {
                 if (pivotView.getValue().equals("Period")) {
@@ -743,6 +738,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
+
                 periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
@@ -772,6 +768,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 Collections.reverse(periodList);
             }
             for (int i = 0; i < periodList.size(); i++) {
+
                 periodList.set(i, String.valueOf(periodList.get(i)).toLowerCase());
             }
             for (Map.Entry<String, String> entry : pvSelectionDTO.getPeriodListMap().entrySet()) {
@@ -780,6 +777,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             if (fromDate.getValue() != null && !"null".equals(String.valueOf(fromDate.getValue())) && !"".equals(String.valueOf(fromDate.getValue()))
                     && !Constants.SELECT_ONE_LABEL.equals(String.valueOf(fromDate.getValue())) && !fromDateVal.equals(Constants.SELECT_ONE_LABEL)) {
                 String fromVal = fromDateVal.replace(" ", "");
+
                 fromVal = fromVal.toLowerCase();
                 start = periodList.indexOf(fromVal);
             }
@@ -879,6 +877,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             toDate.setValue(Constants.SELECT_ONE_LABEL);
         }
         LOGGER.debug("ProjectionVariance ValueChangeEvent ends ");
+
     }
 
     @Override
@@ -1574,11 +1573,14 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             if (!pvSelectionDTO.isIsCustomHierarchy()) {
                 Collections.sort(hierarchyKeys);
             }
+            List<ProjectionVarianceDTO> varibaleListDetails = new ArrayList<>();
             for (Iterator<String> it = hierarchyKeys.listIterator(); it.hasNext();) {
                 String newKey = it.next();
                 it.remove();
-                List<ProjectionVarianceDTO> varibaleListDetails = resultMap.get(newKey);
-                resultMap.remove(newKey);
+                if (resultMap.containsKey(newKey)) {
+                    varibaleListDetails = resultMap.get(newKey);
+                    resultMap.remove(newKey);
+                }
                 Object parentItemId = null;
                 int index = 0;
                 for (Iterator<ProjectionVarianceDTO> it1 = varibaleListDetails.listIterator(); it1.hasNext();) {
@@ -1806,7 +1808,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                         }
                     }
                 }
-            }
+                }
         } catch (Exception e) {
             LOGGER.error(e);
         }
@@ -1857,27 +1859,28 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     
     
       private String getParentKeyforCustom(ProjectionVarianceDTO itemId, String key, String parentKey) {
+        String parentKeyCustom = parentKey;
         if (itemId.getParentHierarchyNo() == null) {
-            parentKey = key;
+            parentKeyCustom = key;
         } else {
-            parentKey = itemId.getParentHierarchyNo();
+            parentKeyCustom = itemId.getParentHierarchyNo();
                 if (pvSelectionDTO.isIsCustomHierarchy()) {
                 String var;
-                if (parentKey.contains("~")) {
-                    String[] str = parentKey.split("~");
+                if (parentKeyCustom.contains("~")) {
+                    String[] str = parentKeyCustom.split("~");
                     var = str[str.length - 1] + "$";
-                    parentKey = var + parentKey.substring(0, parentKey.lastIndexOf('~'));
+                    parentKeyCustom = var + parentKeyCustom.substring(0, parentKeyCustom.lastIndexOf('~'));
                 } else {
-                    parentKey = key.substring(key.lastIndexOf('$') + 1);
+                    parentKeyCustom = key.substring(key.lastIndexOf('$') + 1);
                 }
-            } else if (parentKey.contains("~")) {
-                parentKey = parentKey.substring(parentKey.lastIndexOf('~') + 1);
+            } else if (parentKeyCustom.contains("~")) {
+                parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.lastIndexOf('~') + 1);
                 if (!pvSelectionDTO.isIsCustomHierarchy() || !Constants.LabelConstants.PERIOD.toString().equalsIgnoreCase(pvSelectionDTO.getPivotView())) {
-                    parentKey = parentKey.substring(parentKey.indexOf('-') + 1);
+                    parentKeyCustom = parentKeyCustom.substring(parentKeyCustom.indexOf('-') + 1);
                 }
             }
         }
-        return parentKey;
+        return parentKeyCustom;
     }
 
     public void configurePermission() {
@@ -1916,11 +1919,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 editViewBtn.setVisible(true);
             }
 
-        } catch (PortalException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        }
+        } 
     }
     
     public void getUnCheckedVariableMenuItem(CustomMenuBar.CustomMenuItem customMenuItem) {
@@ -1973,6 +1974,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             productFilterDdlb.removeSubMenuCloseListener(productlistener);
             
             productFilterDdlb.removeItems();
+
             productFilterValues = productFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
 
             if (!levelNo.isEmpty() ) {
@@ -1990,6 +1992,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         List<Object[]> deductionLevelFilter = new ArrayList<>();
             deductionFilterDdlb.removeSubMenuCloseListener(deductionlistener);
             deductionFilterDdlb.removeItems();
+
             deductionFilterValues = deductionFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             
             if (!levelNo.isEmpty()) {
@@ -2027,6 +2030,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         
             customerFilterDdlb.removeSubMenuCloseListener(customerlistener);
             customerFilterDdlb.removeItems();
+
             customerFilterValues = customerFilterDdlb.addItem(StringConstantsUtil.SELECT_LEVEL, null);
             if (!levelNo.isEmpty()) {
                 customerLevelFilter.add(0, new Object[]{0, StringConstantsUtil.SELECT_ALL});
@@ -2106,6 +2110,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
         displayFormatDdlb.setScrollable(true);
         displayFormatDdlb.setPageLength(NumericConstants.TEN);
     }
+
 
     public void loadAllDdbls() {
         if (CommonUtils.isValueEligibleForLoading()) {

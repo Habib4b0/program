@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.TWO_DECIMAL_FORMAT;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -15,7 +14,9 @@ import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.LabelConstants.PERCENT;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
+import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -28,15 +29,16 @@ public class PVCommonLogic {
     private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final String CURRENT = "Current";
-    private static String ACCRUAL = "Accrual";
-    private static String ACTUAL = "Actual";
-    private static String actualDASH = "-";
+    private static final String ACCRUAL = "Accrual";
+    private static final String ACTUAL = "Actual";
+    private static final String actualDASH = "-";
+    private static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
+
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
         LOGGER.debug("Inside getPivotCommonCustomization");
         String visibleColumn;
-
-        String priorVal = StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)];
+        String priorVal = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index + ((priorIndex + 1) * columnCountTotal)])));
         boolean actualBasis = Constant.ACTUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
         boolean accrualBasis = Constant.ACCRUALS.equalsIgnoreCase(pvsdto.getComparisonBasis());
         boolean actualCheck = "null".equalsIgnoreCase(StringUtils.EMPTY + row[index - 1]);
@@ -45,11 +47,10 @@ public class PVCommonLogic {
         String currValue = String.valueOf(Double.valueOf(isNull(StringUtils.EMPTY + row[index])));
         if (variableCategory.equalsIgnoreCase(Constant.VALUE)) {
             visibleColumn = column;
-            //String baseValue = getFormattedValue(format, priorVal);
             String baseValue = pvsdto.isConversionNeeded() ? !isPer
                     ? CommonUtil.getConversionFormattedValue(pvsdto, priorVal, true)
                     : getFormattedValue(format, priorVal)
-                    : getFormattedValue(format, priorVal);
+                     : getFormattedValue(format, priorVal);
             projDTO.addStringProperties(visibleColumn, isPer ? baseValue + PERCENT : baseValue);
         } else if (variableCategory.equalsIgnoreCase(Constant.VARIANCE)) {
             visibleColumn = column;
@@ -183,10 +184,7 @@ public class PVCommonLogic {
 
             if (variableCategory.equalsIgnoreCase(Constant.VALUE)) {
                 //for ACTUAL
-               // String baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true) : getFormattedValue(format, actualValue);
-               String baseValue = pvsdto.isConversionNeeded() ? !isPer
-                        ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
-                        : getFormattedValue(format, actualValue)
+               String baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, actualValue, true)
                         : getFormattedValue(format, actualValue);
                if (!actualCheck) {
                     pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
@@ -194,18 +192,12 @@ public class PVCommonLogic {
                     pvDTO.addStringProperties(commonColumn + ACTUAL + pvsdto.getCurrentProjId(), actualDASH);
                 }
                 //for CURRENT
-               // baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true) : getFormattedValue(format, currentValue);
-               baseValue = pvsdto.isConversionNeeded() ? !isPer
-                        ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true)
-                        : getFormattedValue(format, currentValue)
+               baseValue = pvsdto.isConversionNeeded() && !isPer ? CommonUtil.getConversionFormattedValue(pvsdto, currentValue, true)
                         : getFormattedValue(format, currentValue); 
                pvDTO.addStringProperties(commonColumn + CURRENT + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 //for Accrual
                 if (!nullCheck(StringUtils.EMPTY + obj[index - 2])) {
-                   // baseValue = !isPer || pvsdto.isConversionNeeded() ? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true) :  getFormattedValue(format, accrualValue);
-                   baseValue = pvsdto.isConversionNeeded() ? !isPer
-                            ? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
-                            : getFormattedValue(format, accrualValue)
+                   baseValue = pvsdto.isConversionNeeded() && !isPer? CommonUtil.getConversionFormattedValue(pvsdto, accrualValue, true)
                             : getFormattedValue(format, accrualValue);
                     pvDTO.addStringProperties(commonColumn + ACCRUAL + pvsdto.getCurrentProjId(), isPer ? baseValue + PERCENT : baseValue);
                 } else {
@@ -225,6 +217,16 @@ public class PVCommonLogic {
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
         }
+    }
+    
+    public static String removeBracesInList(List<String> bracesList) {
+        String removedString = StringUtils.EMPTY;
+        for (String string : bracesList) {
+            removedString =  removedString.concat(",").concat(string) ;
+        }
+        
+        removedString=removedString.replaceFirst(",","");
+        return removedString;
     }
 
 }

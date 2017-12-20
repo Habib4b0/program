@@ -976,7 +976,6 @@ public class GtnFrameworkRebateScheduleLandingScreenConfig {
 				GtnFrameworkRSConstants.CALCULATION_TYPE1, GtnFrameworkRSConstants.CALCULATION_LEVEL,
 				GtnFrameworkRSConstants.REBATE_RULE_TYPE, GtnFrameworkRSConstants.REBATE_SCHEDULE_START_DATE,
 				GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE, GtnFrameworkRSConstants.REBATE_SCHEDULE_END_DATE,
-				GtnFrameworkRSConstants.PS_REBATE_SETUP_TAB_RESULT_DATA_TABLE,
 				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVERIGHT_BUTTONS,
 				GtnFrameworkRSConstants.RS_ITEM_ADDITIONMOVE_LEFT_BUTTONS,
 				GtnFrameworkRSConstants.CFP_COMPANY_ADDITION_REBATE_PROCESSING_TYPE,

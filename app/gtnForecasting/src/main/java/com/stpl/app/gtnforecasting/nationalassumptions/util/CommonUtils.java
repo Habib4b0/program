@@ -395,10 +395,7 @@ public class CommonUtils {
                  helperTable = HelperTableLocalServiceUtil.getHelperTable(id);
             }
             return id == 0 ? StringUtils.EMPTY : helperTable.getDescription();
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            return StringUtils.EMPTY;
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return StringUtils.EMPTY;
         }

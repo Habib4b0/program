@@ -160,6 +160,7 @@ public class ExclusionDetailsLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     return;
                 }
@@ -175,6 +176,7 @@ public class ExclusionDetailsLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     return;
                 }
@@ -213,6 +215,7 @@ public class ExclusionDetailsLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     return;
                 }
@@ -228,6 +231,7 @@ public class ExclusionDetailsLookup extends Window {
                  * @param buttonId The buttonId of the pressed button.
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void buttonClicked(final ButtonId buttonId) {
                     return;
                 }
@@ -281,6 +285,7 @@ public class ExclusionDetailsLookup extends Window {
     public void resetBtn(Button.ClickEvent event) {
         LOGGER.debug("Reset button click starts");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 return;
             }

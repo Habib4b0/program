@@ -170,11 +170,13 @@ public class DataSelectionLogic {
 	 *            the hierarchy name
 	 * @return the list
 	 */
-	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName) {
+	public List<Leveldto> loadCustomerForecastLevel(int hierarchyId, String hierarchyName, int hierarchyVersion) {
+		LOGGER.debug(" hierarchyName "+hierarchyName);
 		List<Leveldto> resultList = new ArrayList<>();
 		Leveldto leveldto;
 		List<Object> input = new ArrayList<>();
 		input.add(hierarchyId);
+		input.add(hierarchyVersion);
 		try {
 			List<Object[]> returnlist = QueryUtils.getAppData(input, "selectHierarchyDetails", null);
 			for (Object[] object : returnlist) {

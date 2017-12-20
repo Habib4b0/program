@@ -11,11 +11,11 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
+import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
-import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.constants.GtnWsRelationshipBuilderConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -57,13 +57,12 @@ public class GtnUIFrameworkDeleteButtonAction implements GtnUIFrameWorkAction, G
 				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		GtnWsRelationshipBuilderResponse rbNewResponse = newResponse.getGtnWsRelationshipBuilderResponse();
 		if (rbNewResponse.isSuccess()) {
-			GtnUIFrameworkGlobalUI.getVaadinBaseComponent(parameters.get(2).toString())
-					.removeItemFromDataTable(parameters.get(1));
-			GtnUIFrameWorkActionConfig deleteNotifAction = new GtnUIFrameWorkActionConfig(
-					GtnUIFrameworkActionType.NOTIFICATION_ACTION);
-			deleteNotifAction.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-			deleteNotifAction.addActionParameter(rbNewResponse.getMessage());
-			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, deleteNotifAction);
+			GtnUIFrameworkBaseComponent removeItem = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(parameters.get(2).toString());
+			removeItem.removeItemFromDataTable(parameters.get(1));
+			removeItem.setTableValue(null);
+			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.NOTIFICATION_ACTION,
+					rbNewResponse.getMessage(), null);
 			return;
 		}
 		GtnUIFrameWorkActionConfig rbDeleteSuccessAlertAction = new GtnUIFrameWorkActionConfig(

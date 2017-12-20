@@ -2823,7 +2823,7 @@
            </partitioning>
     <connection>BPI DB</connection>
     <cache>Y</cache>
-    <cache_load_all>N</cache_load_all>
+    <cache_load_all>Y</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
@@ -4556,7 +4556,7 @@ INTO   #ITEM
 	FROM   (SELECT DISTINCT ITEM_ID
 			FROM   STAG_IFP) a
 		   JOIN ITEM_MASTER im
-			 ON im.ITEM_ID = a.ITEM_ID WHERE IM.INBOUND_STATUS=&apos;A&apos;
+			 ON im.ITEM_ID = a.ITEM_ID WHERE IM.INBOUND_STATUS&lt;&gt;&apos;D&apos;
 
 
 

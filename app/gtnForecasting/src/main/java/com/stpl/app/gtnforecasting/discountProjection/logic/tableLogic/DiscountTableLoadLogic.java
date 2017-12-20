@@ -24,28 +24,13 @@ import org.jboss.logging.Logger;
 
 public class DiscountTableLoadLogic extends PageTreeTableLogic {
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
-    SessionDTO session;
-    ProjectionSelectionDTO projectionSelection;
-    String frequency;
-    String history;
-    String actualsOrProjections;
-    String projectionPeriodorder;
-    String discountType;
-    String projectionType;
-    int discountList = 0;
-    List<Integer> startAndEndPeriods = new ArrayList<>();
-    String year;
-    int levelNo;
-    boolean isParent;
-    boolean isCount;
-    List<Leveldto> currentHierarchy;
-    boolean isCustomHierarchy;
-    String hierarchyIndicator;
-    boolean dataLoad = false;
-    boolean isChildrenAllowed = true;
-    int lastLevelNo = 0;
-    int customId = 0;
+    private int levelNo;
+    private List<Leveldto> currentHierarchy;
+    private boolean isCustomHierarchy;
+    private boolean dataLoad = false;
+    private boolean isChildrenAllowed = true;
+    private int lastLevelNo = 0;
+    private int customId = 0;
     private int maxExpandLevelNo = 0;
     /**
      * The Constant LOGGER.
@@ -56,24 +41,10 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             int levelNo, boolean isParent, CustomTableHeaderDTO rightDto, String hierarchyIndicator, List<Leveldto> currentHierarchy,
             boolean isCustomHierarchy, int customId) {
         clearAll();
-        this.rightDto = rightDto;
-        this.session = session;
-        this.frequency = projectionSelection.getFrequency();
-        this.history = projectionSelection.getHistory();
-        this.actualsOrProjections = projectionSelection.getActualsOrProjections();
-        this.projectionPeriodorder = projectionSelection.getProjectionOrder();
-        this.discountType = projectionSelection.getDiscountType();
-        this.projectionType = projectionSelection.getProjectionType();
-        this.discountList = session.getDiscountTypeId();
-        this.year = projectionSelection.getYear();
         this.isCustomHierarchy = isCustomHierarchy;
         this.levelNo = levelNo;
-        this.hierarchyIndicator = hierarchyIndicator;
         this.currentHierarchy = currentHierarchy;
-        this.isParent = isParent;
-        this.startAndEndPeriods = startAndEndPeriods;
         this.customId = customId;
-        this.projectionSelection = projectionSelection;
         if (!isCustomHierarchy) {
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
                 lastLevelNo = session.getLowerMostCustomerLevelNo();
@@ -425,7 +396,6 @@ public class DiscountTableLoadLogic extends PageTreeTableLogic {
             tempMap.put(tempLevelValue, bulkDataMap.getIndex(i).getKey());
             hiearchyNoList.add(tempLevelValue);
         }
-
 
         List customDetailsList = new ArrayList();
         customDetailsList.add(0);

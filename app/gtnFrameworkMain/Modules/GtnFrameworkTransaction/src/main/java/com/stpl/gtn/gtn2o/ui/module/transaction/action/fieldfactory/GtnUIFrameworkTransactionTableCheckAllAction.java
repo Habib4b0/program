@@ -34,8 +34,8 @@ public class GtnUIFrameworkTransactionTableCheckAllAction implements GtnUIFrameW
 		GtnWSTransactionTableCheckAllBean checkBean = (GtnWSTransactionTableCheckAllBean) GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParametersList.get(1).toString()).getComponentData().getSharedPopupData();
 		checkBean.setCheckAll(check);
-		checkBean.setCheckedIdSet(new HashSet<Integer>());
-		checkBean.setUnCheckedIdSet(new HashSet<Integer>());
+		checkBean.setCheckedIdSet(new HashSet<String>());
+		checkBean.setUnCheckedIdSet(new HashSet<String>());
 		refreshTable(baseComponent, actionParameter.getPropertyId(), actionParameter.getCurrentValue());
 
 	}

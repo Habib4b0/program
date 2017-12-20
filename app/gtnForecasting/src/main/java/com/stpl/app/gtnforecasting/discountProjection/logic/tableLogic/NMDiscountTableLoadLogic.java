@@ -16,10 +16,7 @@ import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.utils.Constants;
-import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.GtnSmallHashMap;
-import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
@@ -29,6 +26,9 @@ import java.util.List;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
+import com.stpl.ifs.ui.util.GtnSmallHashMap;
+import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;
+import com.stpl.ifs.ui.util.NumericConstants;
 import org.jboss.logging.Logger;
 
 /**
@@ -37,38 +37,32 @@ import org.jboss.logging.Logger;
  */
 public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
-    SessionDTO session;
-    String frequency;
-    String history;
-    String actualsOrProjections;
-    String projectionPeriodorder;
-    boolean isProgram;
-    List<String> discountList = new ArrayList<>();
-    List<Integer> startAndEndPeriods = new ArrayList<>();
-    String year;
-    int levelNo;
-    boolean isParent;
-    boolean isCount;
-    List<Leveldto> currentHierarchy;
-    boolean isCustomHierarchy;
-    String hierarchyIndicator;
-    boolean dataLoad = false;
-    boolean isChildrenAllowed = true;
-    int lastLevelNo = 0;
-    String userGroup = StringUtils.EMPTY;
-    int customId = 0;
-    boolean checkAll = false;
-    String relationshipBuilderSid = StringUtils.EMPTY;
-    DiscountProjectionLogic logic = new DiscountProjectionLogic();
-    NMDiscountProjection nmDiscountProjection;
-    List levelListBeforeUpdate = new ArrayList();
-    ProjectionSelectionDTO projectionSelection;
-    List<String> forecastConfigList;
-
+    private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    private SessionDTO session;
+    private String frequency;
+    private String history;
+    private String projectionPeriodorder;
+    private boolean isProgram;
+    private List<String> discountList = new ArrayList<>();
+    private List<Integer> startAndEndPeriods = new ArrayList<>();
+    private String year;
+    private int levelNo;
+    private boolean isParent;
+    private List<Leveldto> currentHierarchy;
+    private boolean isCustomHierarchy;
+    private String hierarchyIndicator;
+    private boolean dataLoad = false;
+    private boolean isChildrenAllowed = true;
+    private int lastLevelNo = 0;
+    private String userGroup = StringUtils.EMPTY;
+    private int customId = 0;
+    private boolean checkAll = false;
+    private String relationshipBuilderSid = StringUtils.EMPTY;
+    private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
+    private final NMDiscountProjection nmDiscountProjection;
+    private ProjectionSelectionDTO projectionSelection;
+    private List<String> forecastConfigList;
     private int maxExpandLevelNo = 0;
-
-
     private String refreshHierarchyNumbers = StringUtils.EMPTY;
 
     /**
@@ -86,7 +80,6 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         this.session = session;
         this.frequency = projectionSelection.getFrequency();
         this.history = projectionSelection.getHistory();
-        this.actualsOrProjections = projectionSelection.getActualsOrProjections();
         this.projectionPeriodorder = projectionSelection.getProjectionOrder();
         this.isProgram = isProgram;
         this.discountList = discountList;
@@ -101,7 +94,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         this.userGroup = userGroup;
         this.relationshipBuilderSid = relationshipBuilderSid;
         this.forecastConfigList = projectionSelection.getForecastConfigPeriods();
-        this.projectionSelection=projectionSelection;
+        this.projectionSelection = projectionSelection;
         if (!isCustomHierarchy) {
             if (Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY.equals(hierarchyIndicator)) {
                 lastLevelNo = session.getLowerMostCustomerLevelNo();
@@ -216,8 +209,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
             } else // For parent
             {
                 if (currentHierarchy != null) {
-                LOGGER.debug(" This is parent");
-                LOGGER.debug(" level No" + levelNo);
+                    LOGGER.debug(" This is parent");
+                    LOGGER.debug(" level No" + levelNo);
                     Leveldto levelDto = CommonLogic.getNextLevel(levelNo, currentHierarchy);
 
                     if (levelDto != null) {
@@ -244,7 +237,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 String customerLevelNo;
                 String productLevelNo;
                 String deductionLevelNo;
-              
+
                 if (Constant.INDICATOR_LOGIC_DEDUCTION_HIERARCHY.equals(tempHierarchyIndicator)) {
                     customerLevelNo = Constant.PERCENT;
                     productLevelNo = Constant.PERCENT;
@@ -288,7 +281,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                 list = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                         history, tempHierarchyIndicator, projectionPeriodorder, userGroup,
                         isProgram, discountList, year, customDetailsList, isParent, isCustomHierarchy, rightDto, start, offset, false, isParentChecked, customViewDetails, false, false,
-                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList,projectionSelection);
+                        StringUtils.EMPTY, relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
             }
 
         } catch (Exception ex) {
@@ -430,7 +423,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
                     return logic.getDiscountCustomCount(session, tempHierarchyIndicator, levelNumber, customerHierarchyNo, productHierarchyNo, deductionHierarchyNo, discountList, isProgram, userGroup);
                 } else {
 
-                    return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup,projectionSelection);
+                    return logic.getDiscountCount(session, hierarchyNo, treeLevelNo, tempHierarchyIndicator, isProgram, discountList, userGroup, projectionSelection);
                 }
 
             }
@@ -589,9 +582,8 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
         List<DiscountProjectionDTO> refreshedDataList = logic.getDiscountProjection(session, frequency, startAndEndPeriods,
                 history, hierarchyIndicator, projectionPeriodorder, userGroup,
                 isProgram, discountList, year,
-
                 customDetailsList, true, isCustomHierarchy, rightDto, 0, 0, false, false, customViewDetails, false, true, hierarchyNumbers,
-                relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList,projectionSelection);
+                relationshipBuilderSid, false, Collections.EMPTY_LIST, false, StringUtils.EMPTY, StringUtils.EMPTY, Collections.EMPTY_LIST, new HashMap<String, String>(), forecastConfigList, projectionSelection);
 
         for (DiscountProjectionDTO dto : refreshedDataList) {
             bulkDataMap.put(tempMap.get(dto.getHierarchyNo()), dto);
@@ -672,6 +664,7 @@ public class NMDiscountTableLoadLogic extends PageTreeTableLogic {
     /**
      * To set the Hierarchy to refresh
      *
+     * @param hierarchyNo
      * @param tableLevelNo
      * @param b
      */

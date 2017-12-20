@@ -102,18 +102,18 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
-    public ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
-    public static List<Integer> projectionIdList = new ArrayList<>();
-    Map<Integer, String> projectionMap = new HashMap<>();
-    public static List<String> projectionNameList = new ArrayList<>();
-    MProjectionVarianceLogic pvLogic = new MProjectionVarianceLogic();
-    boolean firstGenerated = false;
-    boolean canLoad = true;
+    private HorizontalLayout horizontalLayout;
+    public  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+    private static List<Integer> projectionIdList = new ArrayList<>();
+    private Map<Integer, String> projectionMap = new HashMap<>();
+    private static List<String> projectionNameList = new ArrayList<>();
+    private final MProjectionVarianceLogic pvLogic = new MProjectionVarianceLogic();
+    private boolean firstGenerated = false;
+    private boolean canLoad = true;
     /**
      * The Session DTO.
      */
-    SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
     /**
      * The custom id.
      */
@@ -121,12 +121,12 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The custom id to select.
      */
-    List<Leveldto> currentHierarchy = new ArrayList<>();
-    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    List<CustomViewMaster> customViewList = new ArrayList<>();
-    ExtPagedTreeTable leftTable;
-    ExtPagedTreeTable rightTable;
-    private String screenName;
+    private List<Leveldto> currentHierarchy = new ArrayList<>();
+    private final List<Leveldto> viewChangeHierarchy = new ArrayList<>();
+    private final List<CustomViewMaster> customViewMasterList = new ArrayList<>();
+    private ExtPagedTreeTable leftTable;
+    private ExtPagedTreeTable rightTable;
+    private final String scrnName;
     private boolean isComparisonLookupOpened;
      /** To reduce unwanted DB hits **/
     public Map<MultiKey,List> contractTypeList=new HashMap<>();
@@ -136,7 +136,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      */
     public MProjectionVariance(SessionDTO sessionDTO, String screenName) {
         super(sessionDTO, screenName);
-        this.screenName = screenName;
+        this.scrnName = screenName;
         groupLabel.setVisible(false);
         group.setVisible(false);
         excelTable.setVisible(false);
@@ -278,7 +278,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void comparisonLookupLogic() {
         LOGGER.debug("Comparision lookup started");
-        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, sessionDTO, screenName,contractTypeList,pvSelectionDTO,tableLogic);
+        MComparisonLookup comparisonLookupWindow = new MComparisonLookup(comparison, sessionDTO, scrnName,contractTypeList,pvSelectionDTO,tableLogic);
         UI.getCurrent().addWindow(comparisonLookupWindow);
         isComparisonLookupOpened = true;
         LOGGER.debug("Comparision lookup ends");
@@ -292,6 +292,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     @Override
     protected void resetBtnLogic() {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -357,11 +358,11 @@ public class MProjectionVariance extends ForecastProjectionVariance {
         rightHeader = (CustomTableHeaderDTO) HeaderPropertyIds.get(0);
         pvSelectionDTO.setRightHeaderPeriod(rightHeader);
         alignRight();
-        resultBeanContainer = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
-        resultBeanContainer.setColumnProperties(leftHeader.getProperties());
-        resultBeanContainer.setColumnProperties(rightHeader.getProperties());
-        tableLogic.setScreenName(screenName);
-        tableLogic.setContainerDataSource(resultBeanContainer);
+        beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
+        beanContainerResult.setColumnProperties(leftHeader.getProperties());
+        beanContainerResult.setColumnProperties(rightHeader.getProperties());
+        tableLogic.setScreenName(scrnName);
+        tableLogic.setContainerDataSource(beanContainerResult);
         tableLogic.setTreeNodeMultiClick(false);
         tableLogic.setPageLength(NumericConstants.TWENTY);
         tableLogic.sinkItemPerPageWithPageLength(false);
@@ -420,6 +421,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
             rightTable.addDoubleHeaderColumnExpandIconListener(new ExtCustomTable.DoubleHeaderColumnExpandIconListener() {
                 private static final long serialVersionUID = -4215343675341144627L;
 
+                @Override
                 public void doubleHeaderColumnExpandIcon(ExtCustomTable.DoubleHeaderColumnExpandIconEvent event) {
                     LOGGER.debug("Projection Variance addColumnExpandIconListener initiated ");
 
@@ -892,6 +894,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      *
      * @param event the event
      */
+    @Override
     protected void excelBtnLogic() {
         try {
             configureExcelTable();
@@ -951,6 +954,7 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
+    @Override
     protected void graphBtnLogic() {
         List chartList = new ArrayList();
 

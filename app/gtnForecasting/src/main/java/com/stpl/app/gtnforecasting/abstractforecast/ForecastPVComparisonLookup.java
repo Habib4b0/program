@@ -172,11 +172,11 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Visible columns for the tables
      */
-    public final Object[] comparisonResultsColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
+    protected final Object[] comparisonResultsColumns = new Object[]{Constant.PROJECTION_NAME, Constant.PROJECTIONDESCRIPTION, Constant.MARKET_TYPE, "customer", Constant.CONTRACT, Constant.BRAND, "createdDateFrom", "createdBy"};
     /**
      * The Constant COMPARISON_RESULTS_HEADER.
      */
-    public final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
+    protected final String[] comparisonResultsHeader = new String[]{"Projection Name", "Description", "Market Type", "Contract Holder", Constant.CONTRACT_SMALL, Constant.BRAND_CAPS, "Created Date", "Created By"};
     /**
      * Logger
      */
@@ -192,7 +192,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
     /**
      * Screen Name
      */
-    String screenName = StringUtils.EMPTY;
+    protected String screenName = StringUtils.EMPTY;
     /**
      * Comparison custom text field
      */
@@ -406,6 +406,7 @@ public abstract class ForecastPVComparisonLookup extends Window{
     
     protected void resetBtnLogic(){
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                return;
             }

@@ -57,99 +57,99 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
 
     public static final Logger LOGGER = Logger
             .getLogger(ForecastDiscountProjectionResults.class);
-    private String flavourName;
+    protected final String flavourName;
 
     @UiField("discountProjectionResultsSelection")
-    public Panel discountProjectionResultsSelection;
+    protected Panel discountProjectionResultsSelection;
 
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    protected VerticalLayout tableVerticalLayout;
 
     @UiField("tablePanel")
-    public Panel tablePanel;
+    protected Panel tablePanel;
 
     @UiField("groupDdlbLabel")
-    public Label groupDdlbLabel;
+    protected Label groupDdlbLabel;
 
     @UiField("discountOpgLabel")
-    public Label discountOpgLabel;
+    protected Label discountOpgLabel;
 
     @UiField("frequencyDdlb")
-    public ComboBox frequencyDdlb;
+    protected ComboBox frequencyDdlb;
 
     @UiField("historyDdlb")
-    public ComboBox historyDdlb;
+    protected ComboBox historyDdlb;
 
     @UiField("levelDdlb")
-    public ComboBox levelDdlb;
+    protected ComboBox levelDdlb;
 
     @UiField("groupDdlb")
-    public NativeSelect groupDdlb;
+    protected NativeSelect groupDdlb;
 
     @UiField("customDdlb")
-    public ComboBox customDdlb;
+    protected ComboBox customDdlb;
 
     @UiField("levelFilterDdlb")
-    public ComboBox levelFilterDdlb;
+    protected ComboBox levelFilterDdlb;
 
     @UiField("periodOrderOpg")
-    public OptionGroup periodOrderOpg;
+    protected OptionGroup periodOrderOpg;
 
     @UiField("actualOrProjectionsOpg")
-    public OptionGroup actualOrProjectionsOpg;
+    protected OptionGroup actualOrProjectionsOpg;
 
     @UiField("pivotViewOpg")
-    public OptionGroup pivotViewOpg;
+    protected OptionGroup pivotViewOpg;
 
     @UiField("discountOpg")
-    public OptionGroup discountOpg;
+    protected OptionGroup discountOpg;
 
     @UiField("viewOpg")
-    public OptionGroup viewOpg;
+    protected OptionGroup viewOpg;
 
     @UiField("generateBtn")
-    public Button generateBtn;
+    protected Button generateBtn;
 
     @UiField("resetBtn")
-    public Button resetBtn;
+    protected Button resetBtn;
 
     @UiField("expandBtn")
-    public Button expandBtn;
+    protected Button expandBtn;
 
     @UiField("collapseBtn")
-    public Button collapseBtn;
+    protected Button collapseBtn;
 
     @UiField("newBtn")
-    public Button newBtn;
+    protected Button newBtn;
 
     @UiField("editBtn")
-    public Button editBtn;
+    protected Button editBtn;
 
     @UiField("excelBtn")
-    public Button excelBtn;
+    protected Button excelBtn;
 
     @UiField("graphBtn")
-    public Button graphBtn;
+    protected Button graphBtn;
 
     @UiField("dprGridLayoutScreen")
-    public GridLayout dprGridLayoutScreen;
+    protected GridLayout dprGridLayoutScreen;
     @UiField("labelActualsProjections")
-    public Label labelActualsProjections;
+    protected Label labelActualsProjections;
     @UiField("labelPivotView")
-    public Label labelPivotView;
+    protected Label labelPivotView;
     @UiField("labelBrand")
-    public Label labelBrand;
+    protected Label labelBrand;
     @UiField("labelTherapeutic")
-    public Label labelTherapeutic;
+    protected Label labelTherapeutic;
     @UiField("brand")
-    public ComboBox brand;
+    protected ComboBox brand;
     @UiField("therapeuticClass")
-    public ComboBox therapeuticClass;
+    protected ComboBox therapeuticClass;
     @UiField("verticalLayout")
-    public VerticalLayout layout;
+    protected VerticalLayout layout;
     @UiField("optionalLayout")
-    public HorizontalLayout optionalLayout;
-    SessionDTO session;
+    protected HorizontalLayout optionalLayout;
+    protected SessionDTO session;
     protected VerticalLayout verticalLayout;
      
      @UiField("variableMenu")
@@ -158,13 +158,13 @@ public abstract class ForecastDiscountProjectionResults extends CustomComponent 
     protected CustomMenuBar.CustomMenuItem customMenuItem;
 
     @UiField("labelVar")
-    public Label labelVar;
+    protected Label labelVar;
     @UiField("levelLab")
-    public Label levelLab;
+    protected Label levelLab;
     @UiField("levelFilterLab")
-    public Label levelFilterLab;
+    protected Label levelFilterLab;
     @UiField("viewLab")
-    public Label viewLab;
+    protected Label viewLab;
     protected int customIdToSelect = 0;
     protected int customId = 0;
 

@@ -22,7 +22,7 @@ AS
   BEGIN
       SET NOCOUNT ON
 
-   DECLARE @ACTUAL_START_DATE   DATETIME,
+    DECLARE @ACTUAL_START_DATE   DATETIME,
               @COMPANY_MASTER_SID  INT,
               @PROJ_END_DATE       DATETIME,
               @PROJ_START_DATE     DATETIME,
@@ -200,6 +200,8 @@ AS
         @ADJUSTED_DEMAND = @ADJUSTED_DEMAND,
         @PROJ_END_PERIOD_SID = @PROJ_END_PERIOD_SID
 
+
+						  
       DECLARE @SQL NVARCHAR(MAX)
 
       SET @SQL= Concat('
@@ -448,7 +450,7 @@ SET @D_SQL13 = CONCAT (
 AS (
 	SELECT CDP.CCP_DETAILS_SID
 		,P.PERIOD_SID
-		,(EXFACTORY_FORECAST_SALES / EXFACTORY_FORECAST_UNITS) WAC_PRICE
+		, case when A.period_sid<',@ACTUAL_PERIOD,' then  A.ITEM_PRICE  else  isnull(EXFACTORY_FORECAST_SALES,0) / nullif(isnull(EXFACTORY_FORECAST_UNITS,0),0) end  as  WAC_PRICE
 	FROM ' + @PRODUCT_FILE_TABLE + ' a
 	JOIN #CCP_DETAILS_TEMP CDP ON CDP.ITEM_MASTER_SID = A.ITEM_MASTER_SID
 	JOIN #PERIOD P ON P.PERIOD_SID = A.PERIOD_SID 
@@ -468,7 +470,7 @@ SELECT CDP.CCP_DETAILS_SID
 		,@CALCULATION_BASED
 		,''' = ''UNITS''
 			THEN AMOUNT
-		ELSE (AMOUNT / WAC_PRICE) 
+		ELSE (AMOUNT / nullif(WAC_PRICE,0)) 
 		END  PROJECTION_UNITS
 FROM CTE CDP
 JOIN #MUTLIPICATION MP ON MP.CCP_DETAILS_SID = CDP.CCP_DETAILS_SID
@@ -480,6 +482,8 @@ EXEC (@D_SQL13)
 
 
 END
+
+
 
       IF EXISTS(SELECT 1
                 FROM   #CCP_DETAILS_TEMP CCP
@@ -537,12 +541,13 @@ END
               @AVERAGE_METHOD = @AVERAGE_METHOD,
               @ROLLING_ANNUAL = @ROLLING_ANNUAL,
               @FREQUENCY =@FREQUENCY
+			  
 
             -----------------SALES PROJECTION CALCULATION END-----------------------------
             --------------------------MONTHLY ALLOCATION(EX-FACTORY) START------------------------------
             DECLARE @l_sql NVARCHAR(max)
 
-            SET @l_sql = '
+            SET @l_sql = concat('
             WITH MONTHLY_PER_BUSINESS
                  AS (SELECT A.ITEM_MASTER_SID,
                             A.PERIOD_SID,
@@ -557,13 +562,13 @@ END
                             PROJECTED_SALES = CASE
                                                 WHEN BASED_ON = ''SALES'' THEN SR.PROJECTED_SALES_UNITS
                                                 ELSE '
-                         + @UNITS_BASED_SALES
-                         + '
+                         , @UNITS_BASED_SALES
+                         , '
                                               END,
                             PROJECTED_UNITS = CASE
                                                 WHEN BASED_ON = ''SALES'' THEN  '
-                         + @SALES_BASED_UNITS
-                         + '
+                         , @SALES_BASED_UNITS
+                         , '
 												ELSE PROJECTED_SALES_UNITS
                                               END
                      FROM   (SELECT GW.ITEM_MASTER_SID,
@@ -590,10 +595,10 @@ END
                                     IW_MONTHLY_PER_BUSINESS_UNITS =COALESCE(INVENTORY_FORECAST_UNITS, INVENTORY_ACTUAL_UNITS) / NULLIF(SUM(COALESCE(INVENTORY_FORECAST_UNITS, INVENTORY_ACTUAL_UNITS))
                                                                                       OVER(
                                                                                         PARTITION BY GW.ITEM_MASTER_SID, PERIOD),0),
-                                    COALESCE(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0), GW.ITEM_PRICE) WAC_PRICE
+                                     case when gw.period_sid<',@ACTUAL_PERIOD,' then  Gw.ITEM_PRICE  else  COALESCE(EXFACTORY_FORECAST_SALES/NULLIF(EXFACTORY_FORECAST_UNITS,0),0) end AS WAC_PRICE
                              FROM   '
-                         + @PRODUCT_FILE_TABLE
-                         + ' gw 
+                         , @PRODUCT_FILE_TABLE
+                         , ' gw 
                                     INNER JOIN #PERIOD P
                                             ON GW.PERIOD_SID = P.PERIOD_SID) A
                             INNER JOIN #SALES_UNIT_RESULT SR INNER JOIN #CCP_DETAILS_TEMP TC ON TC.CCP_DETAILS_SID = SR.CCP_DETAILS_SID
@@ -612,13 +617,15 @@ END
                          + CASE WHEN @FREQUENCY <> 'M' THEN @MONTHLY_PROJECTED_UNITS ELSE 'PROJECTED_UNITS' END
                          + ',
                    MPB.PERIOD_SID
-            FROM   MONTHLY_PER_BUSINESS MPB'
+            FROM   MONTHLY_PER_BUSINESS MPB','')
 
-            --print @l_sql
             EXEC Sp_executesql
               @l_sql
         --------------------------MONTHLY ALLOCATION(EX-FACTORY) END------------------------------
         END
+
+		
+
 
       IF EXISTS(SELECT 1
                 FROM   #CCP_DETAILS_TEMP CCP
@@ -651,13 +658,13 @@ END
 								
                               END         AS ACTUALS,
                               G.PERIOD_SID,                                
-                                 case TC.METHODOLOGY  
+                                  case TC.METHODOLOGY  
 								 when @XFACTORY_METHOD then
-								 case when g.period_sid<',@ACTUAL_PERIOD,' then  COALESCE(G.EXFACTORY_ACTUAL_SALES, 0) else COALESCE(G.EXFACTORY_FORECAST_SALES, 0) end/   nullif(case when g.period_sid<',@ACTUAL_PERIOD,' then COALESCE(G.EXFACTORY_ACTUAL_UNITS, 0) else COALESCE(G.EXFACTORY_FORECAST_UNITS, 0) end,0)
-								 when @DEMAND_METHOD then isnull(COALESCE(G.DEMAND_FORECAST_SALES, G.DEMAND_ACTUAL_SALES, 0)/NULLIF(COALESCE(G.DEMAND_FORECAST_UNITS, G.DEMAND_ACTUAL_UNITS, 0),0),0)
-								 when @INVENTORY_METHOD then isnull(COALESCE(G.INVENTORY_FORECAST_SALES, G.INVENTORY_ACTUAL_SALES, 0)/NULLIF(COALESCE(G.INVENTORY_FORECAST_UNITS, G.INVENTORY_ACTUAL_UNITS, 0),0),0)
-								 when @ADJUSTED_DEMAND then isnull(COALESCE(G.ADJUSTED_DEMAND_FORECAST_SALES, G.ADJUSTED_DEMAND_ACTUAL_SALES, 0)/NULLIF(COALESCE(G.ADJUSTED_DEMAND_FORECAST_UNITS, G.ADJUSTED_DEMAND_ACTUAL_UNITS, 0),0),0)
-								  end
+								 case when g.period_sid<',@ACTUAL_PERIOD,' then  G.ITEM_PRICE  else  COALESCE(G.EXFACTORY_FORECAST_SALES, 0) / Nullif(COALESCE(G.EXFACTORY_FORECAST_UNITS, 0),0) END
+								 when @DEMAND_METHOD then  case when g.period_sid<',@ACTUAL_PERIOD,' then  G.ITEM_PRICE  else COALESCE(G.DEMAND_FORECAST_SALES,0)/NULLIF(COALESCE(G.DEMAND_FORECAST_UNITS, 0),0) end
+								 when @INVENTORY_METHOD then  case when g.period_sid<',@ACTUAL_PERIOD,' then  G.ITEM_PRICE  else  COALESCE (G.INVENTORY_FORECAST_SALES, 0)/NULLIF(COALESCE(G.INVENTORY_FORECAST_UNITS,0),0) end
+								 when @ADJUSTED_DEMAND then   case when g.period_sid<',@ACTUAL_PERIOD,' then  G.ITEM_PRICE  else   isnull(COALESCE(G.ADJUSTED_DEMAND_FORECAST_SALES, 0)/NULLIF(COALESCE(G.ADJUSTED_DEMAND_FORECAST_UNITS, 0),0),0)
+								  end end
                                  PRICE,
                               TC.CALC_START_PERIOD_SID,
                               TC.CALC_END_PERIOD_SID
@@ -750,6 +757,11 @@ END
               @ADJUSTED_DEMAND=@ADJUSTED_DEMAND
         END
 
+
+  
+
+		 
+  
       --------------------------------CUSTOMER_GTS_SALES--------------------------------------
       IF EXISTS (SELECT 1
                  FROM   #CCP_DETAILS_TEMP CCP
@@ -793,6 +805,8 @@ END
             INTO   #cust_gts_wac
             FROM   [DBO].[Udf_cust_gts_wac](@CUST_ITEM_DETAILS, @ACTUAL_PERIOD_SID - 3, @PROJ_END_PERIOD_SID, @CUSTOMER_FILE_NAME, @CUSTOMER_VERSION) CGS
 
+
+
             SET @SQL=''
  SET @SQL=concat('WITH CTE
 AS (
@@ -811,19 +825,12 @@ AS (
 					THEN COALESCE(CGS.CUST_ACT_GTS_UNITS, 0)
 				ELSE COALESCE(CGS.CUST_FORE_GTS_UNITS, 0)
 				END
-			) * coalesce(nullif((
+			) * coalesce(
 					CASE 
 						WHEN IW.period_sid <  ', @ACTUAL_PERIOD,'
-							THEN COALESCE(CGS.CUST_ACT_GTS_SALES, 0)
-						ELSE COALESCE(CGS.CUST_FORE_GTS_SALES, 0)
-						END
-					) / nullif((
-						CASE 
-							WHEN IW.period_sid <  ', @ACTUAL_PERIOD,'
-								THEN COALESCE(CGS.CUST_ACT_GTS_UNITS, 0)
-							ELSE COALESCE(CGS.CUST_FORE_GTS_UNITS, 0)
-							END
-						), 0), 0), IW.ITEM_PRICE) AS PROJECTED_SALES ----CEL-366
+				then IW.ITEM_PRICE
+						ELSE COALESCE(CGS.CUST_FORE_GTS_SALES, 0)/ nullif(COALESCE(CGS.CUST_FORE_GTS_UNITS, 0),0)
+							END,0) AS PROJECTED_SALES ----CEL-366
 	FROM #CCP_DETAILS_TEMP TCCP
 	INNER JOIN #cust_gts_wac CGS ON TCCP.COMPANY_MASTER_SID = CGS.COMPANY_MASTER_SID
 		AND TCCP.ITEM_MASTER_SID = CGS.ITEM_MASTER_SID
@@ -845,6 +852,7 @@ GROUP BY CCP_DETAILS_SID
 	,PERIOD_SID ','')
     EXEC Sp_executesql
               @SQL
+	
 			        END
 
 
@@ -868,7 +876,11 @@ and  FILTER_CCP=1  AND  (SALES_INCLUSION=@SALES_INCLUSION OR @SALES_INCLUSION IS
             N'@SALES_INCLUSION BIT',
             @SALES_INCLUSION = @SALES_INCLUSION
 
-      --------GALUAT_229 CHANGE, PERIODS OTHER THAN EFFECTIVE RANGE SHOULD BE UPDATED TO 0
+           --------GALUAT_229 CHANGE, PERIODS OTHER THAN EFFECTIVE RANGE SHOULD BE UPDATED TO 0
+	  
+	UPDATE NSPM SET FREQ_CAL_START_PERIOD_SID = EFFECTIVE_START_PERIOD_SID - ( ( EFFECTIVE_START_PERIOD_SID - 1 ) % @PERIOD_COUNT ),
+							  FREQ_CAL_END_PERIOD_SID = EFFECTIVE_END_PERIOD_SID - ( ( EFFECTIVE_END_PERIOD_SID - 1 ) % @PERIOD_COUNT ) + ( @PERIOD_COUNT - 1 )
+							 FROM #CCP_DETAILS_TEMP NSPM
       IF Object_id('tempdb..#zeroout_period') IS NOT NULL
         DROP TABLE #zeroout_period
 

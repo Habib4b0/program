@@ -6,7 +6,6 @@
  */
 package com.stpl.app.cff.ui;
 
-import javax.portlet.PortletMode;
 
 import org.jboss.logging.Logger;
 import org.vaadin.alump.beforeunload.BeforeUnload;
@@ -40,7 +39,6 @@ public class ConsolidatedFinancialForecastUI extends UI {
 	 * navigator
 	 */
 	private Navigator navigator;
-	PortletMode customMode;
 	public static boolean EXCEL_CLOSE = false;
 	/**
 	 * Logger constant for the class ConsolidatedFinancialForecastUI

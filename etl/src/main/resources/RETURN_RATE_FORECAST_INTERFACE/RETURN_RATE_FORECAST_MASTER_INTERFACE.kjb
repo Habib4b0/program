@@ -1096,7 +1096,8 @@ END
                    INBOUND_STATUS,
                    BATCH_ID,
                    SOURCE,
-                  [ACTION_FLAG])
+                  [ACTION_FLAG],
+				  RETURN_RATE_FORECAST_INTERFACE_ID)
       SELECT RETURN_RATE_FORECAST_SID,
              ITEM_MASTER_SID,
              ITEM_ID,
@@ -1114,7 +1115,8 @@ END
              INBOUND_STATUS,
              BATCH_ID,
              SOURCE,
-             &apos;D&apos;
+             &apos;D&apos;,
+			 RETURN_RATE_FORECAST_INTERFACE_ID
       FROM   RETURN_RATE_FORECAST
 </sql>
       <useVariableSubstitution>T</useVariableSubstitution>

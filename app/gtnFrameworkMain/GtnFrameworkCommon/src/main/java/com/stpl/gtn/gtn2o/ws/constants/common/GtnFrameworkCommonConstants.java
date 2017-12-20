@@ -676,7 +676,9 @@ public class GtnFrameworkCommonConstants {
 	public static final String VERSION_NO = "versionNo";
 	public static final String RELATIONSHIP_TYPE = "relationshipType";
 	public static final String REMOVE_FROM_TREE_BTN = "removeFromTreeBtn";
+	public static final String TREE_PANEL = "treePanel";
 	public static final String TREE_RESULT_LAYOUT = "treeResultLayout";
+	public static final String TREE_HORIZONTAL_RESULT_LAYOUT = "treeHorizontalResultLayout";
 	public static final String MAIN_CSS_LAYOUT = "mainCssLayout";
 	public static final String MAIN_HIERARCHY_CSS_LAYOUT = "mainHierarchyCssLayout";
 	public static final String RB_TREE = "rbTree";
@@ -814,6 +816,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String PRICE_SCHEDULE_NO_TOP = "priceScheduleNoTop";
 	public static final String RULE_TYPE = "Rule Type";
 	public static final String ADD_LINE = "gtnAddLineButtonlayout";
+	public static final String PS_ALERT_MSG = "Add atleast One Item in Item Addition tab for PS";
 
 	/**
 	 * Process Monitor
@@ -1060,4 +1063,33 @@ public class GtnFrameworkCommonConstants {
 	public static final String NET_PRICE_TYPE = "Net Price Type";
 	public static final String RESET_PRICE_TYPE_HEADER = "Reset Price Type";
 	public static final String NET_RESET_PRICE_TYPE_HEADER = "Net Reset Price Type";
+	public static final String PRICE_PROTECTION_PRICE_TYPE = "PRICE_PROTECTION_PRICE_TYPE";
+	public static final String BASE_PRICE_TYPE_CD = "BASE_PRICE_TYPE";
+	public static final String BASE_PRICE_DATE = "BASE_PRICE_DATE";
+	public static final String BASE_PRICE_ENTRY = "BASE_PRICE_ENTRY";
+	public static final String BASE_PRICE_DDLB = "BASE_PRICE_DDLB";
+	public static final String NET_PRICE_TYPE_FORMULA = "NET_PRICE_TYPE_FORMULA";
+	
+	/*
+	 * Udc Configuration
+	 *
+	 */
+	
+	public static final String UDC_CATEGORYLAYOUT = "udcCategoryLayout";
+	public static final String UDC_CATEGORY_BRANDLAYOUT = "udcCategoryBrandLayout";
+	public static final String UDC_CATEGORY = "udcCategory";
+	public static final String UDC_VALUE = "udcValue";
+	public static final String UDC_RESULT_TABLE = "udcResultTable";
+	public static final String UDC_BRAND_RESULT_TABLE = "udcBrandResultTable";
+	public static final String UDC_EXCEL_BUTTONLAYOUT = "excelButtonLayout";
+	public static final String UDC_BRAND_ID = "brandId";
+	public static final String UDC_BRAND_NAME = "brandName";
+	public static final String UDC_DISPLAY_BRAND = "displayBrand";
+	public static final String UDC_RESULTS_LAYOUT = "categoryResultsLayout";
+	public static final String GTN_EXCEL_BUTTON_LAYOUT = "gtnExcelButtonLayout";
+	public static final String GTN_BRAND_EXCEL_BUTTON_LAYOUT = "gtnBrandExcelButtonLayout";
+	public static final String ADD_LAYOUT = "addLayout";
+	public static final String ADD_BRAND_LAYOUT = "addBrandLayout";
+	public static final String VALUE_LAYOUT = "valueLayout";
+	public static final String UDC_CONFIGURATION = "Udc Configuration";
 }

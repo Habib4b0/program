@@ -39,59 +39,58 @@
 	<entity id="getImtdPsDetailsInsertQuery">
 		<query> 
             <![CDATA[ 
-			DECLARE 
-			@USERS_SID VARCHAR(10) = ?,
-			@SESSION_ID VARCHAR(10)=?,
-			@IFP_MODEL_SID INT=?
-			
-			INSERT
-	INTO
-		dbo.Imtd_Ps_Details(
-			item_Master_Sid,
-			item_Id,
-			item_No,
-			item_Name,
-			ifp_Model_Sid,
-			ifp_No,
-			ps_Details_Attached_Date,
-			BRAND_MASTER_SID,
-			ps_Details_Pricetype,
-			ps_Details_Price,
-			ps_Details_Created_By,
-			ps_Details_Created_Date,
-			created_Date,
-			check_Record,
-			session_Id,
-			users_Sid,
-			operation,
-			ps_Model_Sid
-		) select
-			IM.item_Master_Sid,
-			IM.item_Id,
-			IM.item_No,
-			IM.item_Name,
-			IFD.ifp_Model_Sid,
-			IFM.ifp_No,
-			IFD.Item_Ifp_Attached_Date,
-			IM.BRAND_MASTER_SID,
-			0,
-			0,
-			@USERS_SID as userId,
-			getDate(),
-			getDate(),
-			0 as Check_Record,
-			@SESSION_ID as sessionId,
-			@USERS_SID ,
-			'A',
-			null
-		from
-			IFP_MODEL IFM
-		JOIN IFP_DETAILS IFD ON
-			IFD.IFP_MODEL_SID = IFM.IFP_MODEL_SID
-		JOIN ITEM_MASTER IM ON
-			IM.ITEM_MASTER_SID = IFD.ITEM_MASTER_SID
-		where
-			IFM.IFP_MODEL_SID =@IFP_MODEL_SID
+			DECLARE
+@USERS_SID VARCHAR(10) = ?,
+@SESSION_ID VARCHAR(10)=?,
+@IFP_MODEL_SID INT=?,
+@PS_ID VARCHAR(100)=?;
+ 
+INSERT INTO DBO.IMTD_PS_DETAILS (
+       ITEM_MASTER_SID,
+       ITEM_ID,
+       ITEM_NO,
+       ITEM_NAME,
+       IFP_MODEL_SID,
+       IFP_NO,
+       PS_DETAILS_ATTACHED_DATE,
+       BRAND_MASTER_SID,
+       PS_DETAILS_PRICETYPE,
+       PS_DETAILS_PRICE,
+       PS_DETAILS_CREATED_BY,
+       PS_DETAILS_CREATED_DATE,
+       CREATED_DATE,
+       CHECK_RECORD,
+       SESSION_ID,
+       USERS_SID,
+       OPERATION,
+       PS_MODEL_SID,
+       PS_ID
+       )
+SELECT IM.ITEM_MASTER_SID,
+       IM.ITEM_ID,
+       IM.ITEM_NO,
+       IM.ITEM_NAME,
+       IFD.IFP_MODEL_SID,
+       IFM.IFP_NO,
+       IFD.ITEM_IFP_ATTACHED_DATE,
+       IM.BRAND_MASTER_SID,
+       0,
+       0,
+       @USERS_SID AS USERID,
+       GETDATE(),
+       GETDATE(),
+       0 AS CHECK_RECORD,
+       @SESSION_ID AS SESSIONID,
+       @USERS_SID,
+       'A',
+       NULL,
+       @PS_ID PS_ID
+FROM IFP_MODEL IFM
+INNER JOIN IFP_DETAILS IFD
+       ON IFD.IFP_MODEL_SID = IFM.IFP_MODEL_SID
+INNER JOIN ITEM_MASTER IM
+       ON IM.ITEM_MASTER_SID = IFD.ITEM_MASTER_SID
+WHERE IFM.IFP_MODEL_SID = @IFP_MODEL_SID
 		]]>
 		</query>
 	</entity>
@@ -163,7 +162,8 @@
 			created_Date,
                         ADD_COPY_INDICATOR,
 			check_Record,
-			operation
+			operation,
+                        PPA_INDEX_NO
 		) select
 			PSD.ps_Model_Sid,
 			PSD.ps_Details_Sid,
@@ -228,7 +228,8 @@
 					'U'
 				) THEN 'U'
 				else 'F'
-			END
+			END,
+                        PSD.PPA_INDEX_NO
 		from
 			item_Master IM,
 			Ps_Details PSD,
@@ -384,121 +385,207 @@
 	,@SESSION_ID VARCHAR(50) = ?
 	,@PS_MODEL_SID INT = ?
 
-INSERT INTO DBO.PS_DETAILS (
-       ITEM_MASTER_SID
-       ,CONTRACT_PRICE_START_DATE
-       ,CONTRACT_PRICE_END_DATE
-       ,ITEM_PRICING_QUALIFIER_SID
-       ,CONTRACT_PRICE
-       ,PRICE_PROTECTION_START_DATE
-       ,PRICE_PROTECTION_END_DATE
-       ,PRICE_TOLERANCE_TYPE
-       ,PRICE_TOLERANCE
-       ,BASE_PRICE
-       ,PRICE_TOLERANCE_FREQUENCY
-       ,PRICE_TOLERANCE_INTERVAL
-       ,IFP_MODEL_SID
-       ,PRICE
-       ,ITEM_PS_ATTACHED_STATUS
-       ,ITEM_PS_ATTACHED_DATE
-       ,STATUS
-       ,PRICE_PROTECTION_STATUS
-       ,PRICE_PROTECTION_PRICE_TYPE
-       ,NEP
-       ,NEP_FORMULA
-       ,MAX_INCREMENTAL_CHANGE
-       ,RESET_ELIGIBLE
-       ,RESET_TYPE
-       ,RESET_DATE
-       ,RESET_INTERVAL
-       ,RESET_FREQUENCY
-       ,NET_PRICE_TYPE
-       ,NET_PRICE_TYPE_FORMULA
-       ,BRAND_MASTER_SID
-       ,SUGGESTED_PRICE
-       ,BASE_PRICE_TYPE
-       ,BASE_PRICE_ENTRY
-       ,BASE_PRICE_DATE
-       ,NET_BASE_PRICE
-       ,BASE_PRICE_DDLB
-       ,SUBSEQUENT_PERIOD_PRICE_TYPE
-       ,NET_SUBSEQUENT_PERIOD_PRICE
-       ,NET_SUBSEQUENT_PRICE_FORMULA_ID
-       ,RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_FORMULA_ID
-       ,NET_BASE_PRICE_FORMULA_ID
-       ,CREATED_BY
-       ,CREATED_DATE
-       ,MODIFIED_BY
-       ,MODIFIED_DATE
-       ,PS_MODEL_SID
-       ,INBOUND_STATUS
-       ,RECORD_LOCK_STATUS
-       ,PPA_INDEX_NO
-       ,ADD_COPY_INDICATOR
-       )
-SELECT NULLIF(ITEM_MASTER_SID, 0)
-       ,PS_DTLS_CONT_PRICE_STARTDATE
-       ,PS_DTLS_CONT_PRICE_ENDDATE
-       ,CASE
-              WHEN PS_DETAILS_PRICETYPE = 0
-                     THEN NULL
-              ELSE PS_DETAILS_PRICETYPE
-              END
-       ,PS_DETAILS_CONTRACT_PRICE
-       ,PS_DETAILS_PRIC_PRTCN_STDATE
-       ,PS_DETAILS_PRIC_PRTCN_EDDATE
-       ,PS_DTLS_PRICE_TOLERANCE_TYPE
-       ,PS_DETAILS_PRICE_TOLERANCE
-       ,PS_DETAILS_BASE_PRICE
-       ,PS_DTLS_PRICE_TOLERANCE_FREQ
-       ,PS_DTLS_PRICE_TOLERANCE_INTRVL
-       ,NULLIF(IFP_MODEL_SID, 0)
-       ,PS_DETAILS_PRICE
-       ,PS_DETAILS_ATTACHED_STATUS
-       ,PS_DETAILS_ATTACHED_DATE
-       ,STATUS
-       ,PRICE_PROTECTION_STATUS
-       ,PRICE_PROTECTION_PRICE_TYPE
-       ,NEP
-       ,NEP_FORMULA
-       ,MAX_INCREMENTAL_CHANGE
-       ,RESET_ELIGIBLE
-       ,RESET_TYPE
-       ,RESET_DATE
-       ,RESET_INTERVAL
-       ,RESET_FREQUENCY
-       ,NET_PRICE_TYPE
-       ,NULLIF(NET_PRICE_TYPE_FORMULA, 0)
-       ,NULLIF(BRAND_MASTER_SID, 0)
-       ,PS_DETAILS_SUGGESTED_PRICE
-       ,BASE_PRICE_TYPE
-       ,BASE_PRICE_ENTRY
-       ,BASE_PRICE_DATE
-       ,NET_BASE_PRICE
-       ,BASE_PRICE_DDLB
-       ,SUBSEQUENT_PERIOD_PRICE_TYPE
-       ,NET_SUBSEQUENT_PERIOD_PRICE
-       ,NET_SUBSEQUENT_PRICE_FORMULA_ID
-       ,RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_TYPE
-       ,NET_RESET_PRICE_FORMULA_ID
-       ,NET_BASE_PRICE_FORMULA_ID
-       ,@USERS_SID AS USERID
-       ,GETDATE()
-       ,@USERS_SID AS USERID
-       ,GETDATE()
-       ,@PS_MODEL_SID
-       ,'A'
-       ,0
-       ,COUNT(PPA_INDEX_NO) OVER (PARTITION BY PS_MODEL_SID ,IFP_MODEL_SID,ITEM_MASTER_SID ,PS_DTLS_CONT_PRICE_STARTDATE) +
-       ROW_NUMBER() OVER ( PARTITION BY PS_MODEL_SID ,IFP_MODEL_SID,ITEM_MASTER_SID,PS_DTLS_CONT_PRICE_STARTDATE  ORDER BY PS_DETAILS_PRIC_PRTCN_STDATE )-1
-       ,ADD_COPY_INDICATOR
-FROM DBO.IMTD_PS_DETAILS
-WHERE CHECK_RECORD = 1
-	AND USERS_SID = @USERS_SID
-	AND SESSION_ID = @SESSION_ID;
+DECLARE @COUNT INT;
+ 
+UPDATE IPD
+SET IPD.PS_MODEL_SID = PM.PS_MODEL_SID
+FROM IMTD_PS_DETAILS IPD
+INNER JOIN PS_MODEL PM
+       ON PM.PS_ID = IPD.PS_ID
+              AND IPD.USERS_SID = @USERS_SID
+              AND IPD.SESSION_ID = @SESSION_ID
+              AND (
+                     PM.PS_MODEL_SID = @PS_MODEL_SID
+                     OR @PS_MODEL_SID IS NULL
+                     )
+ 
+ 
+SELECT @COUNT = MAX(PPA_INDEX_NO)
+FROM PS_DETAILS
+WHERE PS_MODEL_SID = @PS_MODEL_SID
+ 
+ 
+MERGE DBO.PS_DETAILS AS TARGET
+USING (select * FROM IMTD_PS_DETAILS WHERE USERS_SID = @USERS_SID
+               AND SESSION_ID = @SESSION_ID)
+AS SOURCE
+       ON (
+                     TARGET.PS_MODEL_SID = SOURCE.PS_MODEL_SID
+                     AND TARGET.IFP_MODEL_SID = SOURCE.IFP_MODEL_SID
+                     AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID
+                     AND TARGET.CONTRACT_PRICE_START_DATE = SOURCE.PS_DTLS_CONT_PRICE_STARTDATE
+                     AND TARGET.PPA_INDEX_NO = SOURCE.PPA_INDEX_NO
+                     )
+WHEN MATCHED
+       THEN
+              UPDATE
+              SET TARGET.PS_MODEL_SID = SOURCE.PS_MODEL_SID,
+                     TARGET.IFP_MODEL_SID = SOURCE.IFP_MODEL_SID,
+                     TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID,
+                     TARGET.CONTRACT_PRICE = SOURCE.PS_DETAILS_CONTRACT_PRICE,
+                     TARGET.CONTRACT_PRICE_START_DATE = SOURCE.PS_DTLS_CONT_PRICE_STARTDATE,
+                     TARGET.CONTRACT_PRICE_END_DATE = SOURCE.PS_DTLS_CONT_PRICE_ENDDATE,
+                     TARGET.ITEM_PS_ATTACHED_STATUS = SOURCE.PS_DETAILS_ATTACHED_STATUS,
+                     TARGET.ITEM_PS_ATTACHED_DATE = SOURCE.PS_DETAILS_ATTACHED_DATE,
+                     TARGET.BASE_PRICE = SOURCE.PS_DETAILS_BASE_PRICE,
+                     TARGET.PRICE_TOLERANCE = SOURCE.PS_DETAILS_PRICE_TOLERANCE,
+                     TARGET.PRICE_TOLERANCE_TYPE = SOURCE.PS_DTLS_PRICE_TOLERANCE_TYPE,
+                     TARGET.PRICE_TOLERANCE_FREQUENCY = SOURCE.PS_DTLS_PRICE_TOLERANCE_FREQ,
+                     TARGET.PRICE_TOLERANCE_INTERVAL = SOURCE.PS_DTLS_PRICE_TOLERANCE_INTRVL,
+                     TARGET.PRICE_PROTECTION_START_DATE = SOURCE.PS_DETAILS_PRIC_PRTCN_STDATE,
+                     TARGET.PRICE_PROTECTION_END_DATE = SOURCE.PS_DETAILS_PRIC_PRTCN_EDDATE,
+                     TARGET.PRICE_REVISION = SOURCE.PS_DETAILS_PRICE_REVISION,
+                     TARGET.REVISION_DATE = SOURCE.PS_DETAILS_REVISION_DATE,
+                     TARGET.SUGGESTED_PRICE = SOURCE.PS_DETAILS_SUGGESTED_PRICE,
+                     TARGET.PRICE = SOURCE.PS_DETAILS_PRICE,
+                     TARGET.STATUS = SOURCE.STATUS,
+                     TARGET.BRAND_MASTER_SID = SOURCE.BRAND_MASTER_SID,
+                     TARGET.NEP = SOURCE.NEP,
+                     TARGET.PRICE_PROTECTION_STATUS = SOURCE.PRICE_PROTECTION_STATUS,
+                     TARGET.PRICE_PROTECTION_PRICE_TYPE = SOURCE.PRICE_PROTECTION_PRICE_TYPE,
+                     TARGET.NEP_FORMULA = SOURCE.NEP_FORMULA,
+                     TARGET.MAX_INCREMENTAL_CHANGE = SOURCE.MAX_INCREMENTAL_CHANGE,
+                     TARGET.RESET_ELIGIBLE = SOURCE.RESET_ELIGIBLE,
+                     TARGET.RESET_TYPE = SOURCE.RESET_TYPE,
+                     TARGET.RESET_DATE = SOURCE.RESET_DATE,
+                     TARGET.RESET_INTERVAL = SOURCE.RESET_INTERVAL,
+                     TARGET.RESET_FREQUENCY = SOURCE.RESET_FREQUENCY,
+                     TARGET.NET_PRICE_TYPE = SOURCE.NET_PRICE_TYPE,
+                     TARGET.NET_PRICE_TYPE_FORMULA = SOURCE.NET_PRICE_TYPE_FORMULA,
+                     TARGET.CREATED_BY = SOURCE.PS_DETAILS_CREATED_BY,
+                     TARGET.CREATED_DATE = SOURCE.PS_DETAILS_CREATED_DATE,
+                     TARGET.MODIFIED_BY = SOURCE.PS_DETAILS_MODIFIED_BY,
+                     TARGET.MODIFIED_DATE = SOURCE.PS_DETAILS_MODIFIED_DATE,
+                     TARGET.BASE_PRICE_TYPE = SOURCE.BASE_PRICE_TYPE,
+                     TARGET.BASE_PRICE_ENTRY = SOURCE.BASE_PRICE_ENTRY,
+                     TARGET.BASE_PRICE_DATE = SOURCE.BASE_PRICE_DATE,
+                     TARGET.NET_BASE_PRICE = SOURCE.NET_BASE_PRICE,
+                     TARGET.BASE_PRICE_DDLB = SOURCE.BASE_PRICE_DDLB,
+                     TARGET.NET_BASE_PRICE_FORMULA_ID = SOURCE.NET_BASE_PRICE_FORMULA_ID,
+                     TARGET.SUBSEQUENT_PERIOD_PRICE_TYPE = SOURCE.SUBSEQUENT_PERIOD_PRICE_TYPE,
+                     TARGET.NET_SUBSEQUENT_PERIOD_PRICE = SOURCE.NET_SUBSEQUENT_PERIOD_PRICE,
+                     TARGET.NET_SUBSEQUENT_PRICE_FORMULA_ID = SOURCE.NET_SUBSEQUENT_PRICE_FORMULA_ID,
+                     TARGET.RESET_PRICE_TYPE = SOURCE.RESET_PRICE_TYPE,
+                     TARGET.NET_RESET_PRICE_TYPE = SOURCE.NET_RESET_PRICE_TYPE,
+                     TARGET.NET_RESET_PRICE_FORMULA_ID = SOURCE.NET_RESET_PRICE_FORMULA_ID,
+                     TARGET.PPA_INDEX_NO = SOURCE.PPA_INDEX_NO,
+                     TARGET.ADD_COPY_INDICATOR = SOURCE.ADD_COPY_INDICATOR
+WHEN NOT MATCHED
+       THEN
+              INSERT (
+                     ITEM_MASTER_SID,
+                     CONTRACT_PRICE_START_DATE,
+                     CONTRACT_PRICE_END_DATE,
+                     ITEM_PRICING_QUALIFIER_SID,
+                     CONTRACT_PRICE,
+                     PRICE_PROTECTION_START_DATE,
+                     PRICE_PROTECTION_END_DATE,
+                     PRICE_TOLERANCE_TYPE,
+                     PRICE_TOLERANCE,
+                     BASE_PRICE,
+                     PRICE_TOLERANCE_FREQUENCY,
+                     PRICE_TOLERANCE_INTERVAL,
+                     IFP_MODEL_SID,
+                     PRICE,
+                     ITEM_PS_ATTACHED_STATUS,
+                     ITEM_PS_ATTACHED_DATE,
+                     STATUS,
+                     PRICE_PROTECTION_STATUS,
+                     PRICE_PROTECTION_PRICE_TYPE,
+                     NEP,
+                     NEP_FORMULA,
+                     MAX_INCREMENTAL_CHANGE,
+                     RESET_ELIGIBLE,
+                     RESET_TYPE,
+                     RESET_DATE,
+                     RESET_INTERVAL,
+                     RESET_FREQUENCY,
+                     NET_PRICE_TYPE,
+                     NET_PRICE_TYPE_FORMULA,
+                     BRAND_MASTER_SID,
+                     SUGGESTED_PRICE,
+                     BASE_PRICE_TYPE,
+                     BASE_PRICE_ENTRY,
+                     BASE_PRICE_DATE,
+                     NET_BASE_PRICE,
+                     BASE_PRICE_DDLB,
+                     SUBSEQUENT_PERIOD_PRICE_TYPE,
+                     NET_SUBSEQUENT_PERIOD_PRICE,
+                     NET_SUBSEQUENT_PRICE_FORMULA_ID,
+                     RESET_PRICE_TYPE,
+                     NET_RESET_PRICE_TYPE,
+                     NET_RESET_PRICE_FORMULA_ID,
+                     NET_BASE_PRICE_FORMULA_ID,
+                     CREATED_BY,
+                     CREATED_DATE,
+                     MODIFIED_BY,
+                     MODIFIED_DATE,
+                     PS_MODEL_SID,
+                     INBOUND_STATUS,
+                     RECORD_LOCK_STATUS,
+                     PPA_INDEX_NO,
+                     ADD_COPY_INDICATOR
+                     )
+              VALUES (
+                     NULLIF(ITEM_MASTER_SID, 0),
+                     PS_DTLS_CONT_PRICE_STARTDATE,
+                     PS_DTLS_CONT_PRICE_ENDDATE,
+                     CASE
+                           WHEN PS_DETAILS_PRICETYPE = 0
+                                  THEN NULL
+                           ELSE PS_DETAILS_PRICETYPE
+                           END,
+                     PS_DETAILS_CONTRACT_PRICE,
+                     PS_DETAILS_PRIC_PRTCN_STDATE,
+                     PS_DETAILS_PRIC_PRTCN_EDDATE,
+                     PS_DTLS_PRICE_TOLERANCE_TYPE,
+                     PS_DETAILS_PRICE_TOLERANCE,
+                     PS_DETAILS_BASE_PRICE,
+                     PS_DTLS_PRICE_TOLERANCE_FREQ,
+                     PS_DTLS_PRICE_TOLERANCE_INTRVL,
+                     NULLIF(IFP_MODEL_SID, 0),
+                     PS_DETAILS_PRICE,
+                     PS_DETAILS_ATTACHED_STATUS,
+                     PS_DETAILS_ATTACHED_DATE,
+                     STATUS,
+                     PRICE_PROTECTION_STATUS,
+                     PRICE_PROTECTION_PRICE_TYPE,
+                     NEP,
+                     NEP_FORMULA,
+                     MAX_INCREMENTAL_CHANGE,
+                     RESET_ELIGIBLE,
+                     RESET_TYPE,
+                     RESET_DATE,
+                     RESET_INTERVAL,
+                     RESET_FREQUENCY,
+                     NET_PRICE_TYPE,
+                     NULLIF(NET_PRICE_TYPE_FORMULA, 0),
+                     NULLIF(BRAND_MASTER_SID, 0),
+                     PS_DETAILS_SUGGESTED_PRICE,
+                     BASE_PRICE_TYPE,
+                     BASE_PRICE_ENTRY,
+                     BASE_PRICE_DATE,
+                     NET_BASE_PRICE,
+                     BASE_PRICE_DDLB,
+                     SUBSEQUENT_PERIOD_PRICE_TYPE,
+                     NET_SUBSEQUENT_PERIOD_PRICE,
+                     NET_SUBSEQUENT_PRICE_FORMULA_ID,
+                     RESET_PRICE_TYPE,
+                     NET_RESET_PRICE_TYPE,
+                     NET_RESET_PRICE_FORMULA_ID,
+                     NET_BASE_PRICE_FORMULA_ID,
+                     @USERS_SID,
+                     GETDATE(),
+                     @USERS_SID,
+                     GETDATE(),
+                     @PS_MODEL_SID,
+                     'A',
+                     0,
+                     PPA_INDEX_NO,
+                     ADD_COPY_INDICATOR
+                     );
+ 
+ 
         	
  		]]>
 		</query>
@@ -613,245 +700,278 @@ WHERE CHECK_RECORD = 1
 	<entity id="getImtdPsDetailsInsertQueryAddLine">
 		<query> 
             <![CDATA[ 
-			 DECLARE
-                @USERS_SID VARCHAR(10) = ?,
-		@SESSION_ID VARCHAR(10)=?                
-
-                  INSERT
-  INTO
-          dbo.Imtd_Ps_Details(
-                  ps_Model_Sid,
-			ps_Details_Sid,
-			item_Master_Sid,
-			item_Id,
-			item_No,
-			item_Name,
-			ifp_Model_Sid,
-			ifp_No,
-                        BRAND_MASTER_SID,
-			ps_Details_Price,
-			ps_Details_Pricetype,
-			ps_Details_Base_Price,
-			ps_Details_Contract_Price,
-			ps_Dtls_Cont_Price_Startdate,
-			ps_Dtls_Cont_Price_Enddate,
-			ps_Details_Revision_Date,
-			ps_Details_Attached_Date,
-			ps_Details_Attached_Status,
-			ps_Details_Created_Date,
-			ps_Details_Created_By,
-			status,			
-			users_Sid,
-			session_Id,
-			created_Date,
-			check_Record,
-			operation,
-                        ADD_COPY_INDICATOR
-          ) 
-          select
-                ps_Model_Sid,
-			ps_Details_Sid,
-			item_Master_Sid,
-			item_Id,
-			item_No,
-			item_Name,
-			ifp_Model_Sid,
-			ifp_No,
-                        BRAND_MASTER_SID,
-			ps_Details_Price,
-			ps_Details_Pricetype,
-			ps_Details_Base_Price,
-			ps_Details_Contract_Price,
-			ps_Dtls_Cont_Price_Startdate,
-			ps_Dtls_Cont_Price_Enddate,
-			ps_Details_Revision_Date,
-			ps_Details_Attached_Date,
-			ps_Details_Attached_Status,
-			ps_Details_Created_Date,
-			ps_Details_Created_By,
-			status,			
-			users_Sid,
-			session_Id,
-			created_Date,
-                  0 as check_Record,
-                  operation,
-                  'A' as ADD_COPY_INDICATOR
-                  
-          from
-                  IMTD_PS_DETAILS
-          where
-                  CHECK_RECORD = 1
-                  AND USERS_SID=@USERS_SID        AND SESSION_ID= @SESSION_ID; 
+		DECLARE @USERS_SID VARCHAR(10) = ?,
+       @SESSION_ID VARCHAR(10) = ?
+ 
+INSERT INTO DBO.IMTD_PS_DETAILS (
+       PS_MODEL_SID,
+       PS_DETAILS_SID,
+       ITEM_MASTER_SID,
+       ITEM_ID,
+       ITEM_NO,
+       ITEM_NAME,
+       IFP_MODEL_SID,
+       IFP_NO,
+       BRAND_MASTER_SID,
+       PS_DETAILS_PRICE,
+       PS_DETAILS_PRICETYPE,
+       PS_DETAILS_BASE_PRICE,
+       PS_DETAILS_CONTRACT_PRICE,
+       PS_DTLS_CONT_PRICE_STARTDATE,
+       PS_DTLS_CONT_PRICE_ENDDATE,
+       PS_DETAILS_REVISION_DATE,
+       PS_DETAILS_ATTACHED_DATE,
+       PS_DETAILS_ATTACHED_STATUS,
+       PS_DETAILS_CREATED_DATE,
+       PS_DETAILS_CREATED_BY,
+       STATUS,
+       USERS_SID,
+       SESSION_ID,
+       CREATED_DATE,
+       CHECK_RECORD,
+       OPERATION,
+       ADD_COPY_INDICATOR,
+       PPA_INDEX_NO,
+       PS_ID
+       )
+SELECT PS_MODEL_SID,
+       PS_DETAILS_SID,
+       ITEM_MASTER_SID,
+       ITEM_ID,
+       ITEM_NO,
+       ITEM_NAME,
+       IFP_MODEL_SID,
+       IFP_NO,
+       BRAND_MASTER_SID,
+       PS_DETAILS_PRICE,
+       PS_DETAILS_PRICETYPE,
+       PS_DETAILS_BASE_PRICE,
+       PS_DETAILS_CONTRACT_PRICE,
+       PS_DTLS_CONT_PRICE_STARTDATE,
+       PS_DTLS_CONT_PRICE_ENDDATE,
+       PS_DETAILS_REVISION_DATE,
+       PS_DETAILS_ATTACHED_DATE,
+       PS_DETAILS_ATTACHED_STATUS,
+       PS_DETAILS_CREATED_DATE,
+       PS_DETAILS_CREATED_BY,
+       STATUS,
+       USERS_SID,
+       SESSION_ID,
+       CREATED_DATE,
+       0 AS CHECK_RECORD,
+       OPERATION,
+       'A' AS ADD_COPY_INDICATOR,
+            COALESCE(CS.COUNT_VALUE, 0) + ROW_NUMBER() OVER (
+              PARTITION BY ITEM_MASTER_SID,
+              COALESCE(PS_ID, convert(varchar(50),PS_MODEL_SID)),
+              IFP_MODEL_SID,
+              PS_DTLS_CONT_PRICE_STARTDATE ORDER BY PS_DETAILS_PRIC_PRTCN_STDATE
+              ) PPA_INDEX_NO,
+       PS_ID
+FROM IMTD_PS_DETAILS A
+OUTER APPLY (
+       SELECT TOP 1 MAX(B.PPA_INDEX_NO) OVER (
+                     PARTITION BY ITEM_MASTER_SID,
+                     COALESCE(PS_ID, convert(varchar(50),PS_MODEL_SID)),
+                     IFP_MODEL_SID,
+                     PS_DTLS_CONT_PRICE_STARTDATE
+                     ) COUNT_VALUE
+       FROM IMTD_PS_DETAILS B
+       WHERE A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND COALESCE(A.PS_ID, convert(varchar(50),A.PS_MODEL_SID)) = COALESCE(B.PS_ID, convert(varchar(50),B.PS_MODEL_SID))
+              AND A.PS_DTLS_CONT_PRICE_STARTDATE = B.PS_DTLS_CONT_PRICE_STARTDATE
+              AND A.USERS_SID = B.USERS_SID
+              AND A.SESSION_ID = B.SESSION_ID
+       ) CS
+WHERE A.CHECK_RECORD = 1
+       AND USERS_SID = @USERS_SID
+       AND SESSION_ID = @SESSION_ID;
 		]]>
 		</query>
 	</entity>
 	<entity id="getPsEditInsertMainToTempCopyQuery">
 		<query> 
             <![CDATA[ 
-			DECLARE 
-			@USERS_SID VARCHAR(10) = ?,
-			@SESSION_ID VARCHAR(10)=?
-                        
-			
-			INSERT
-	INTO
-		dbo.Imtd_Ps_Details(
-PS_MODEL_SID,
-PS_DETAILS_SID,
-CONTRACT_MASTER_SID,
-CFP_MODEL_SID,
-ITEM_MASTER_SID,
-ITEM_ID,
-ITEM_NO,
-ITEM_NAME,
-IFP_MODEL_SID,
-IFP_NO,
-PS_DETAILS_PRICE,
-PS_DETAILS_PRICETYPE,
-PS_DETAILS_PRICE_TOLERANCE,
-PS_DTLS_PRICE_TOLERANCE_TYPE,
-PS_DTLS_PRICE_TOLERANCE_INTRVL,
-PS_DTLS_PRICE_TOLERANCE_FREQ,
-PS_DETAILS_PRIC_PRTCN_STDATE,
-PS_DETAILS_PRIC_PRTCN_EDDATE,
-PS_DETAILS_BASE_PRICE,
-PS_DETAILS_CONTRACT_PRICE,
-PS_DTLS_CONT_PRICE_STARTDATE,
-PS_DTLS_CONT_PRICE_ENDDATE,
-PS_DETAILS_REVISION_DATE,
-PS_DETAILS_ATTACHED_DATE,
-PS_DETAILS_ATTACHED_STATUS,
-PS_DETAILS_PRICE_REVISION,
-PS_DETAILS_PRICE_PLAN_ID,
-PS_DETAILS_SUGGESTED_PRICE,
-STATUS,
-BRAND_MASTER_SID,
-NEP,
-PRICE_PROTECTION_STATUS,
-PRICE_PROTECTION_PRICE_TYPE,
-NEP_FORMULA,
-MAX_INCREMENTAL_CHANGE,
-RESET_ELIGIBLE,
-RESET_TYPE,
-RESET_DATE,
-RESET_INTERVAL,
-RESET_FREQUENCY,
-NET_PRICE_TYPE,
-NET_PRICE_TYPE_FORMULA,
-PS_DETAILS_CREATED_DATE,
-PS_DETAILS_CREATED_BY,
-PS_DETAILS_MODIFIED_DATE,
-PS_DETAILS_MODIFIED_BY,
-USERS_SID,
-SESSION_ID,
-IMTD_CREATED_DATE,
-CREATED_BY,
-CREATED_DATE,
-MODIFIED_BY,
-MODIFIED_DATE,
-BASE_PRICE_TYPE,
-BASE_PRICE_ENTRY,
-BASE_PRICE_DATE,
-BASE_PRICE_DDLB,
-NET_BASE_PRICE,
-NET_BASE_PRICE_FORMULA_ID,
-NET_BASE_PRICE_FORMULA_NAME,
-NET_BASE_PRICE_FORMULA_NO,
-SUBSEQUENT_PERIOD_PRICE_TYPE,
-NET_SUBSEQUENT_PERIOD_PRICE,
-NET_SUBSEQUENT_PRICE_FORMULA_ID,
-NET_SUBSEQUENT_PRICE_FORMULA_NO,
-NET_SUBSEQUENT_PRICE_FORMULA_NAME,
-RESET_PRICE_TYPE,
-NET_RESET_PRICE_TYPE,
-NET_RESET_PRICE_FORMULA_ID,
-NET_RESET_PRICE_FORMULA_NO,
-NET_RESET_PRICE_FORMULA_NAME,
-CHECK_RECORD,
-OPERATION,
-ADD_COPY_INDICATOR 
-		) 
-		select
-	PS_MODEL_SID,
-PS_DETAILS_SID,
-CONTRACT_MASTER_SID,
-CFP_MODEL_SID,
-ITEM_MASTER_SID,
-ITEM_ID,
-ITEM_NO,
-ITEM_NAME,
-IFP_MODEL_SID,
-IFP_NO,
-PS_DETAILS_PRICE,
-PS_DETAILS_PRICETYPE,
-PS_DETAILS_PRICE_TOLERANCE,
-PS_DTLS_PRICE_TOLERANCE_TYPE,
-PS_DTLS_PRICE_TOLERANCE_INTRVL,
-PS_DTLS_PRICE_TOLERANCE_FREQ,
-PS_DETAILS_PRIC_PRTCN_STDATE,
-PS_DETAILS_PRIC_PRTCN_EDDATE,
-PS_DETAILS_BASE_PRICE,
-PS_DETAILS_CONTRACT_PRICE,
-PS_DTLS_CONT_PRICE_STARTDATE,
-PS_DTLS_CONT_PRICE_ENDDATE,
-PS_DETAILS_REVISION_DATE,
-PS_DETAILS_ATTACHED_DATE,
-PS_DETAILS_ATTACHED_STATUS,
-PS_DETAILS_PRICE_REVISION,
-PS_DETAILS_PRICE_PLAN_ID,
-PS_DETAILS_SUGGESTED_PRICE,
-STATUS,
-BRAND_MASTER_SID,
-NEP,
-PRICE_PROTECTION_STATUS,
-PRICE_PROTECTION_PRICE_TYPE,
-NEP_FORMULA,
-MAX_INCREMENTAL_CHANGE,
-RESET_ELIGIBLE,
-RESET_TYPE,
-RESET_DATE,
-RESET_INTERVAL,
-RESET_FREQUENCY,
-NET_PRICE_TYPE,
-NET_PRICE_TYPE_FORMULA,
-PS_DETAILS_CREATED_DATE,
-PS_DETAILS_CREATED_BY,
-PS_DETAILS_MODIFIED_DATE,
-PS_DETAILS_MODIFIED_BY,
-USERS_SID,
-SESSION_ID,
-IMTD_CREATED_DATE,
-CREATED_BY,
-CREATED_DATE,
-MODIFIED_BY,
-MODIFIED_DATE,
-BASE_PRICE_TYPE,
-BASE_PRICE_ENTRY,
-BASE_PRICE_DATE,
-BASE_PRICE_DDLB,
-NET_BASE_PRICE,
-NET_BASE_PRICE_FORMULA_ID,
-NET_BASE_PRICE_FORMULA_NAME,
-NET_BASE_PRICE_FORMULA_NO,
-SUBSEQUENT_PERIOD_PRICE_TYPE,
-NET_SUBSEQUENT_PERIOD_PRICE,
-NET_SUBSEQUENT_PRICE_FORMULA_ID,
-NET_SUBSEQUENT_PRICE_FORMULA_NO,
-NET_SUBSEQUENT_PRICE_FORMULA_NAME,
-RESET_PRICE_TYPE,
-NET_RESET_PRICE_TYPE,
-NET_RESET_PRICE_FORMULA_ID,
-NET_RESET_PRICE_FORMULA_NO,
-NET_RESET_PRICE_FORMULA_NAME,
-0 as check_Record,
-operation,
-'A' as ADD_COPY_INDICATOR			
-		from
-		
-			Imtd_Ps_Details 
-			
-		where
-		check_Record=1 and users_Sid=@USERS_SID and session_Id=@SESSION_ID
+			DECLARE @USERS_SID VARCHAR(10) = ?,
+       @SESSION_ID VARCHAR(10) = ?
+ 
+INSERT INTO DBO.IMTD_PS_DETAILS (
+       PS_MODEL_SID,
+       PS_DETAILS_SID,
+       CONTRACT_MASTER_SID,
+       CFP_MODEL_SID,
+       ITEM_MASTER_SID,
+       ITEM_ID,
+       ITEM_NO,
+       ITEM_NAME,
+       IFP_MODEL_SID,
+       IFP_NO,
+       PS_DETAILS_PRICE,
+       PS_DETAILS_PRICETYPE,
+       PS_DETAILS_PRICE_TOLERANCE,
+       PS_DTLS_PRICE_TOLERANCE_TYPE,
+       PS_DTLS_PRICE_TOLERANCE_INTRVL,
+       PS_DTLS_PRICE_TOLERANCE_FREQ,
+       PS_DETAILS_PRIC_PRTCN_STDATE,
+       PS_DETAILS_PRIC_PRTCN_EDDATE,
+       PS_DETAILS_BASE_PRICE,
+       PS_DETAILS_CONTRACT_PRICE,
+       PS_DTLS_CONT_PRICE_STARTDATE,
+       PS_DTLS_CONT_PRICE_ENDDATE,
+       PS_DETAILS_REVISION_DATE,
+       PS_DETAILS_ATTACHED_DATE,
+       PS_DETAILS_ATTACHED_STATUS,
+       PS_DETAILS_PRICE_REVISION,
+       PS_DETAILS_PRICE_PLAN_ID,
+       PS_DETAILS_SUGGESTED_PRICE,
+       STATUS,
+       BRAND_MASTER_SID,
+       NEP,
+       PRICE_PROTECTION_STATUS,
+       PRICE_PROTECTION_PRICE_TYPE,
+       NEP_FORMULA,
+       MAX_INCREMENTAL_CHANGE,
+       RESET_ELIGIBLE,
+       RESET_TYPE,
+       RESET_DATE,
+       RESET_INTERVAL,
+       RESET_FREQUENCY,
+       NET_PRICE_TYPE,
+       NET_PRICE_TYPE_FORMULA,
+       PS_DETAILS_CREATED_DATE,
+       PS_DETAILS_CREATED_BY,
+       PS_DETAILS_MODIFIED_DATE,
+       PS_DETAILS_MODIFIED_BY,
+       USERS_SID,
+       SESSION_ID,
+       IMTD_CREATED_DATE,
+       CREATED_BY,
+       CREATED_DATE,
+       MODIFIED_BY,
+       MODIFIED_DATE,
+       BASE_PRICE_TYPE,
+       BASE_PRICE_ENTRY,
+       BASE_PRICE_DATE,
+       BASE_PRICE_DDLB,
+       NET_BASE_PRICE,
+       NET_BASE_PRICE_FORMULA_ID,
+       NET_BASE_PRICE_FORMULA_NAME,
+       NET_BASE_PRICE_FORMULA_NO,
+       SUBSEQUENT_PERIOD_PRICE_TYPE,
+       NET_SUBSEQUENT_PERIOD_PRICE,
+       NET_SUBSEQUENT_PRICE_FORMULA_ID,
+       NET_SUBSEQUENT_PRICE_FORMULA_NO,
+       NET_SUBSEQUENT_PRICE_FORMULA_NAME,
+       RESET_PRICE_TYPE,
+       NET_RESET_PRICE_TYPE,
+       NET_RESET_PRICE_FORMULA_ID,
+       NET_RESET_PRICE_FORMULA_NO,
+       NET_RESET_PRICE_FORMULA_NAME,
+       CHECK_RECORD,
+       OPERATION,
+       ADD_COPY_INDICATOR,
+       PPA_INDEX_NO,
+       PS_ID
+       )
+SELECT PS_MODEL_SID,
+       PS_DETAILS_SID,
+       CONTRACT_MASTER_SID,
+       CFP_MODEL_SID,
+       ITEM_MASTER_SID,
+       ITEM_ID,
+       ITEM_NO,
+       ITEM_NAME,
+       IFP_MODEL_SID,
+       IFP_NO,
+       PS_DETAILS_PRICE,
+       PS_DETAILS_PRICETYPE,
+       PS_DETAILS_PRICE_TOLERANCE,
+       PS_DTLS_PRICE_TOLERANCE_TYPE,
+       PS_DTLS_PRICE_TOLERANCE_INTRVL,
+       PS_DTLS_PRICE_TOLERANCE_FREQ,
+       PS_DETAILS_PRIC_PRTCN_STDATE,
+       PS_DETAILS_PRIC_PRTCN_EDDATE,
+       PS_DETAILS_BASE_PRICE,
+       PS_DETAILS_CONTRACT_PRICE,
+       PS_DTLS_CONT_PRICE_STARTDATE,
+       PS_DTLS_CONT_PRICE_ENDDATE,
+       PS_DETAILS_REVISION_DATE,
+       PS_DETAILS_ATTACHED_DATE,
+       PS_DETAILS_ATTACHED_STATUS,
+       PS_DETAILS_PRICE_REVISION,
+       PS_DETAILS_PRICE_PLAN_ID,
+       PS_DETAILS_SUGGESTED_PRICE,
+       STATUS,
+       BRAND_MASTER_SID,
+       NEP,
+       PRICE_PROTECTION_STATUS,
+       PRICE_PROTECTION_PRICE_TYPE,
+       NEP_FORMULA,
+       MAX_INCREMENTAL_CHANGE,
+       RESET_ELIGIBLE,
+       RESET_TYPE,
+       RESET_DATE,
+       RESET_INTERVAL,
+       RESET_FREQUENCY,
+       NET_PRICE_TYPE,
+       NET_PRICE_TYPE_FORMULA,
+       PS_DETAILS_CREATED_DATE,
+       PS_DETAILS_CREATED_BY,
+       PS_DETAILS_MODIFIED_DATE,
+       PS_DETAILS_MODIFIED_BY,
+       USERS_SID,
+       SESSION_ID,
+       IMTD_CREATED_DATE,
+       CREATED_BY,
+       CREATED_DATE,
+       MODIFIED_BY,
+       MODIFIED_DATE,
+       BASE_PRICE_TYPE,
+       BASE_PRICE_ENTRY,
+       BASE_PRICE_DATE,
+       BASE_PRICE_DDLB,
+       NET_BASE_PRICE,
+       NET_BASE_PRICE_FORMULA_ID,
+       NET_BASE_PRICE_FORMULA_NAME,
+       NET_BASE_PRICE_FORMULA_NO,
+       SUBSEQUENT_PERIOD_PRICE_TYPE,
+       NET_SUBSEQUENT_PERIOD_PRICE,
+       NET_SUBSEQUENT_PRICE_FORMULA_ID,
+       NET_SUBSEQUENT_PRICE_FORMULA_NO,
+       NET_SUBSEQUENT_PRICE_FORMULA_NAME,
+       RESET_PRICE_TYPE,
+       NET_RESET_PRICE_TYPE,
+       NET_RESET_PRICE_FORMULA_ID,
+       NET_RESET_PRICE_FORMULA_NO,
+       NET_RESET_PRICE_FORMULA_NAME,
+       0 AS CHECK_RECORD,
+       OPERATION,
+       'A' AS ADD_COPY_INDICATOR,
+            COALESCE(CS.COUNT_VALUE, 0) + ROW_NUMBER() OVER (
+              PARTITION BY ITEM_MASTER_SID,
+              COALESCE(PS_ID, convert(varchar(50),PS_MODEL_SID)),
+              IFP_MODEL_SID,
+              PS_DTLS_CONT_PRICE_STARTDATE ORDER BY PS_DETAILS_PRIC_PRTCN_STDATE
+              ) PPA_INDEX_NO,
+       PS_ID
+FROM IMTD_PS_DETAILS A
+OUTER APPLY (
+       SELECT TOP 1 MAX(B.PPA_INDEX_NO) OVER (
+                     PARTITION BY ITEM_MASTER_SID,
+                     COALESCE(PS_ID, convert(varchar(50),PS_MODEL_SID)),
+                     IFP_MODEL_SID,
+                     PS_DTLS_CONT_PRICE_STARTDATE
+                     ) COUNT_VALUE
+       FROM IMTD_PS_DETAILS B
+       WHERE A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND COALESCE(A.PS_ID, convert(varchar(50),A.PS_MODEL_SID)) = COALESCE(B.PS_ID, convert(varchar(50),B.PS_MODEL_SID))
+              AND A.PS_DTLS_CONT_PRICE_STARTDATE = B.PS_DTLS_CONT_PRICE_STARTDATE
+              AND A.USERS_SID = B.USERS_SID
+              AND A.SESSION_ID = B.SESSION_ID
+       ) CS
+WHERE A.CHECK_RECORD = 1
+       AND USERS_SID = @USERS_SID
+       AND SESSION_ID = @SESSION_ID
 			
 		]]>
 		</query>
@@ -903,5 +1023,14 @@ operation,
 		]]>
 		</query>
 	</entity>
+        
+        	<entity id="Imtd_Ps_Details_Count_query">
+		<query> 
+            <![CDATA[ 
+			select count(item_No) from Imtd_Ps_Details where   
+		]]>
+		</query>
+	</entity>
+
 
 </sql>

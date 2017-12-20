@@ -60,8 +60,8 @@ public class MedicaidQueryUtils {
             }
             input.put(Constant.NDC_NINE_QUESTION, ndc9Level);
 
-            String customSql = CustomSQLUtil
-                    .get(getClass(),queryName);
+            String customSql = SQlUtil
+                    .getQuery(getClass(),queryName);
             for (String key : input.keySet()) {
                 customSql = customSql.replace(key, String.valueOf(input.get(key)));
             }
@@ -137,6 +137,9 @@ public class MedicaidQueryUtils {
                         } else {
                             queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT='").append(finalvalue).append("' ");
                         }
+                        if (Constant.CPIURA.equals(pricetype)) {
+                            queryBuilder1.append(" , ADJUSTMENT_PRICE = '").append(finalvalue).append("'");
+                        }
                     } else {
                         queryBuilder1.append(" UPDATE dbo.ST_MEDICAID_URA_PROJ SET ADJUSTMENT=").append(Constant.NULL_CAPS);
                     }
@@ -150,11 +153,11 @@ public class MedicaidQueryUtils {
 
                 queryBuilder1.append("  in ( ");
 
-                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID =" + session.getProjectionId());
+                queryBuilder1.append(" SELECT NA_PROJ_DETAILS_SID FROM  NA_PROJ_DETAILS NPD INNER JOIN ITEM_MASTER IM ON NPD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID WHERE  NA_PROJ_MASTER_SID =").append(session.getProjectionId());
 
-                queryBuilder1.append("  AND NDC9 = '" + ndc9.trim());
+                queryBuilder1.append("  AND NDC9 = '").append(ndc9.trim());
 
-                queryBuilder1.append("') AND PRICE_TYPE ='" + pricetype + "'");
+                queryBuilder1.append("') AND PRICE_TYPE ='").append(pricetype).append("'");
 
                 queryBuilder1.append(" AND PERIOD_SID in(SELECT PERIOD_SID FROM PERIOD where YEAR ='").append(year).append("'  and QUARTER ='").append(quarter).append("' ) ");
 

@@ -1181,6 +1181,8 @@ public class GtnFrameworkNSFDeductionTabConfig {
 
 		GtnUIFrameworkExcelButtonConfig gtnUIFrameworkExcelButtonConfig = componentConfigProvider
 				.getExcelBtnconfig("Deductions", true, viewId + "selectedDeductionsResultTable", false);
+		 gtnUIFrameworkExcelButtonConfig
+			.setExcludeColumnsList(Arrays.asList(GtnFrameworkCommonConstants.CHECK_RECORD_ID));
 		selectedDeductionsTableExcelButtonConfig.setGtnUIFrameworkExcelButtonConfig(gtnUIFrameworkExcelButtonConfig);
 		GtnUIFrameWorkActionConfig excelAction = new GtnUIFrameWorkActionConfig();
 		excelAction.setActionType(GtnUIFrameworkActionType.EXCEL_EXPORT_CSV_ACTION);

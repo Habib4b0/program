@@ -64,9 +64,9 @@ public class PPAProjectionLogic {
 
     static RunnableJob runnableJob;
     static PPAProjectionDao DAO = new PPAProjectionDaoImpl();
-    private static Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
-    private static Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
-    private static Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
+    private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
+    private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
+    private static final Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
 
     private static List getInputForMassUpdate(int startQuater, int endQuater, int startYear, int endYear, Object priceCap, ProjectionSelectionDTO selection) {
         List input = new ArrayList();

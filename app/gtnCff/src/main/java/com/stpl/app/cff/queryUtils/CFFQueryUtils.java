@@ -15,7 +15,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.portal.kernel.exception.PortalException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +34,6 @@ public class CFFQueryUtils {
      */
     private static final Logger LOGGER = LogManager.getLogger(CFFQueryUtils.class);
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-    final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     /**
      * Gets the CCP combination

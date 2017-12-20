@@ -11,9 +11,11 @@ import com.stpl.app.gcm.common.dao.impl.CommonImpl;
 import com.stpl.app.gcm.copycontract.dao.ContractHeaderDAO;
 import com.stpl.app.gcm.copycontract.impl.ContractHeaderLogicDAOImpl;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
+import com.stpl.app.gcm.transfercontract.util.Constant;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
 import com.stpl.app.model.HelperTable;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.portal.kernel.dao.orm.DynamicQuery;
@@ -55,6 +57,7 @@ public class ItemQueries {
     public static final String END_DATEFROM = "endDatefrom";
     public static final String END_DATETO = "endDateto";
     public static final String ATTACHED_DATETO = "attachedDateto";
+    public static final String ATTACHED_DATE = "attachedDate";
     
     public static final String STATUS_DESCRIPTION = "statusDescription";
     public static final String CONTRACT_TYPE = "contractType";
@@ -76,6 +79,32 @@ public class ItemQueries {
     public static final String CONT_START_DATETO = "contStartDateto";
     public static final String CONT_START_DATEFROM = "contStartDatefrom";
     public static final String SPACE_AND = " AND ";
+    
+    
+    public static List getAppData(List input, String queryName, String quaryName2) {
+        List list = new ArrayList();
+        StringBuilder sql;
+        LOGGER.debug("queryName - - >> " + queryName);
+        if (queryName != null && !queryName.isEmpty()) {
+            try {
+                sql = new StringBuilder(SQlUtil.getQuery(queryName));
+                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) {
+                    sql.append(" ");
+                    sql.append(SQlUtil.getQuery(queryName));
+                }
+                for (Object temp : input) {
+                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                }
+                LOGGER.debug("sql ==================== " + sql);
+                list = (List<Object[]>) HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
+            } catch (Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+
+        LOGGER.debug("End getAppData");
+        return list;
+    }
     
     public static List getItemData(List input, String queryName, String quaryName2) {
         LOGGER.debug("Inside item get data");
@@ -261,6 +290,7 @@ public class ItemQueries {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
                     parameters.put(stringFilter.getPropertyId().toString(), filterValue);
+                    dateCondition(stringFilter, parameters, filterValue);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
                     Date startValue = (Date) betweenFilter.getStartValue();
@@ -324,6 +354,7 @@ public class ItemQueries {
                     Compare stringFilter = (Compare) filter;
                     String filterValue = String.valueOf(stringFilter.getValue());
                     parameters.put(stringFilter.getPropertyId().toString(), filterValue);
+                    dateCondition(stringFilter, parameters, filterValue);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
 
@@ -409,7 +440,8 @@ public class ItemQueries {
                     if (StringConstantsUtil.RESET_FREQUENCY.equals(stringFilter.getPropertyId())) {
                         parameters.put(StringConstantsUtil.RESET_FREQUENCY, filterValue);
                     }
-
+                    dateCondition(stringFilter, parameters, filterValue);
+                            
                 } 
             }
 
@@ -518,6 +550,7 @@ public class ItemQueries {
                     if (Constants.FORMULA_TYPE_PROPERTY.equals(stringFilter.getPropertyId())) {
                         parameters.put(Constants.FORMULA_TYPE_PROPERTY, filterValue);
                     }
+                    dateCondition(stringFilter, parameters, filterValue);
                 } else if (filter instanceof Between) {
                     Between betweenFilter = (Between) filter;
 
@@ -527,7 +560,7 @@ public class ItemQueries {
                     parameters.put(betweenFilter.getPropertyId() + "from", String.valueOf(dateFormat.format(startValue)));
 
                     parameters.put(betweenFilter.getPropertyId() + "to", String.valueOf(dateFormat.format(endValue)));
-
+                    
                 }
             }
 
@@ -581,6 +614,9 @@ public class ItemQueries {
             }
             if (parameters.get(ATTACHED_DATETO) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATETO)))) {
                 query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE <='").append(String.valueOf(parameters.get(ATTACHED_DATETO))).append("'");
+            }
+            if (parameters.get(ATTACHED_DATE) != null && !StringUtils.EMPTY.equals(String.valueOf(parameters.get(ATTACHED_DATE)))) {
+                query.append(" AND RSD.RS_CONTRACT_ATTACHED_DATE >='").append(String.valueOf(parameters.get(ATTACHED_DATE))).append("'");
             }
         }
         return query;
@@ -733,5 +769,16 @@ public class ItemQueries {
 
     public static List<Object[]> execute(String query) {
       return (List<Object[]>) ITEMDAO.executeSelect(query);
+    }
+     public static void dateCondition(Compare stringFilter, Map<String, Object> parameters, String filterValue) {
+        if (Constants.START_DATE.equals(stringFilter.getPropertyId())) {
+            parameters.put(stringFilter.getPropertyId() + Constants.FROM, filterValue);
+        }
+        if (Constant.END_DATE.equals(stringFilter.getPropertyId())) {
+            parameters.put(stringFilter.getPropertyId() + Constants.TO, filterValue);
+        }
+        if (Constants.ATTACHED_DATE_PROPERTY.equals(stringFilter.getPropertyId())) {
+            parameters.put(String.valueOf(stringFilter.getPropertyId()), filterValue);
+        }
     }
 }

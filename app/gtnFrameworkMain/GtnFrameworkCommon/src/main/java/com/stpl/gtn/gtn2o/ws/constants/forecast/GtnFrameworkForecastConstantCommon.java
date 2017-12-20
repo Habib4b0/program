@@ -92,5 +92,11 @@ public class GtnFrameworkForecastConstantCommon {
 	public static final String TIER_1_METHODOLOGY = "Tier 1";
 
 	public static final String TIER_2_METHODOLOGY = "Tier 2";
+        
+    public static final String ACCRUAL_MASTER_SALES_MASTER_ID = "SalesMasterId";
+
+    public static final String ACCRUAL_MASTER_CATEGORY_ID = "CategoryId";
+
+    public static final String ACCRUAL_MASTER_DOC_TYPE = "DocType";
 
 }

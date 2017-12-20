@@ -1,4 +1,13 @@
-[
+{
+"module":[  
+      {  
+         "reprocessingWebServiceURL":"/gtnTransaction/reprocess",
+		 "stagingUpdateColumns":["reprocessedFlag"],
+		 "stagingUpdateColumnsValues": ["Y"]
+	 
+      }
+   ],
+"moduleDetails":[
 	{
 		"columnID": "checkRecord",
 		"columnName": "      ",
@@ -138,3 +147,4 @@
 		"isInvalidComponent": true
 	}
 ]
+}

@@ -71,8 +71,8 @@ public class MProjectionVarianceLogic {
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MProjectionVarianceLogic.class);
     private static final String C = Constant.INDICATOR_LOGIC_CUSTOMER_HIERARCHY;
     private static final String P = "P";
-    private static String DASH = "-";
-    private static String CURRENT = "Current";
+    private static final String DASH = "-";
+    private static final String CURRENT = "Current";
     private static final DecimalFormat RATE = new DecimalFormat("#,##0.00");
     private static final DecimalFormat RATE_PER = new DecimalFormat("#,##0.00");
     private static final DecimalFormat AMOUNT_UNITS = new DecimalFormat("#,##0");
@@ -87,7 +87,7 @@ public class MProjectionVarianceLogic {
     public static final String YYYY_MM_DD_ZERO = "yyyy-MM-dd 00:00:00.000";
     public static final String YYYY_M_MDD_HH = "yyyy-MM-dd 23:59:59.999";
     List<Object> pivotTotalList = new ArrayList<>();
-    private CommonLogic commonLogic = new CommonLogic();
+    private final CommonLogic commonLogic = new CommonLogic();
     /**
      * The Constant AMOUNT.
      */
@@ -582,7 +582,7 @@ public class MProjectionVarianceLogic {
             if (obj[NumericConstants.TEN] == null) {
                 lookupDTO.setCreatedBy(StringUtils.EMPTY);
             } else {
-                lookupDTO.setCreatedBy(new Converters().getUserFLName(new Converters().convertNullToEmpty(obj[NumericConstants.TEN].toString())));
+                lookupDTO.setCreatedBy(Converters.getUserFLName(Converters.convertNullToEmpty(obj[NumericConstants.TEN].toString())));
             }
             resultList.add(lookupDTO);
         }

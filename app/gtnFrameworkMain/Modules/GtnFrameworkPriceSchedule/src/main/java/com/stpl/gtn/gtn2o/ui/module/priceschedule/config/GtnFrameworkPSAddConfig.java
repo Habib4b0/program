@@ -20,6 +20,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkModeType;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkCustomTabChangeAction;
+import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPSPriceProtectionTabAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnFrameworkPsResetAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSSaveMandatoryAlertAction;
 import com.stpl.gtn.gtn2o.ui.module.priceschedule.action.GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction;
@@ -221,14 +222,16 @@ public class GtnFrameworkPSAddConfig {
 		alertParams.add(" Back Confirmation ");
 		alertParams.add(
 				" Are you sure you want to navigate back to the Price Schedule landing screen? \nYou will lose all unsaved data if you proceed ?");
-
+		GtnUIFrameWorkActionConfig resetActionConfig = new GtnUIFrameWorkActionConfig();
+		resetActionConfig.setActionType(GtnUIFrameworkActionType.SET_DEFAULT_ACTION);
+		GtnUIFrameWorkActionConfig reset = new GtnUIFrameWorkActionConfig();
+		reset.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		reset.addActionParameter(GtnFrameworkPsResetAction.class.getName());
 		List<GtnUIFrameWorkActionConfig> onSucessActionConfig = new ArrayList<>();
-
 		GtnUIFrameWorkActionConfig navigationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.NAVIGATION_ACTION);
-
 		navigationActionConfig.addActionParameter(GtnFrameworkCommonStringConstants.STRING_EMPTY);
-
+		onSucessActionConfig.add(reset);
 		onSucessActionConfig.add(navigationActionConfig);
 		alertParams.add(onSucessActionConfig);
 
@@ -262,6 +265,11 @@ public class GtnFrameworkPSAddConfig {
 				.addActionParameter(GtnUIFrameWorkPSSavePriceTabMandatoryAlertAction.class.getName());
 
 		actionConfigList.add(priceTabcustomValidationAction);
+
+		GtnUIFrameWorkActionConfig customPsCommonValidationAction = configProvider
+				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		customPsCommonValidationAction.addActionParameter(GtnFrameworkPSPriceProtectionTabAlertAction.class.getName());
+		actionConfigList.add(customPsCommonValidationAction);
 
 		GtnUIFrameWorkActionConfig custoSavemAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);

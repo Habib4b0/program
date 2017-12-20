@@ -66,6 +66,11 @@ public class GtnWsPriceScheduleController {
 	private static final String CP_START_DATE_NULL = "CPStartDateNull";
 	private static final String CP_START_DATE_EQUAL = "CPStartDateEqual";
 	private static final String CP_START_DATE_LESS = "CPStartDateLess";
+	private static final String PP_START_DATE_EQUAL = "PPStartDateEqual";
+	private static final String PP_START_DATE_LESS = "PPStartDateLess";
+	private static final String PP_START_DATE_NULL = "PPStartDateNull";
+	
+        private static final String IMTD_PS_DETAILS_COUNT = "Imtd_Ps_Details_Count_query";
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsPriceScheduleController.class);
 
@@ -311,7 +316,7 @@ public class GtnWsPriceScheduleController {
 		try {
 			GtnWsCheckAllUpdateRequest gtnWsPSUpdateRequest = gtnWsRequest.getGtnWsCheckAllUpdateRequest();
 			GtnWsCheckAllUpdateBean psPricePopulateUpdateBean = gtnWsPSUpdateRequest.getUpdateBean();
-                   			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
+			GtnWsGeneralRequest generalWSRequest = gtnWsRequest.getGtnWsGeneralRequest();
 
 			GtnWsSearchQueryConfigLoader searchQueryConfigLoader = (GtnWsSearchQueryConfigLoader) GtnWsSearchQueryConfigLoaderType.PRICE_SCHEDULE
 					.returnSearchQueryConfigLoader(gtnWebServiceAllListConfig.getDynamicClassObjectMap());
@@ -435,13 +440,13 @@ public class GtnWsPriceScheduleController {
 			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
 			List<Object> inputList = gtnWsGeneralRequest.getComboBoxWhereclauseParamList();
 			String processName = String.valueOf(inputList.get(0));
-			Object resulList = validateTempPSDeatils(gtnWsGeneralRequest.getUserId(),
+			Object resulListData = validateTempPSDeatils(gtnWsGeneralRequest.getUserId(),
 					gtnWsGeneralRequest.getSessionId(), processName);
 			gtnResponse.setOutBountData(new Object[] { 0 });
-			if (resulList != null) {
+			if (resulListData != null) {
 
-				List<Integer> list = (List<Integer>) resulList;
-				gtnResponse.setOutBountData(new Object[] { list.get(0) });
+				List<Integer> resultDataList = (List<Integer>) resulListData;
+				gtnResponse.setOutBountData(new Object[] { resultDataList.get(0) });
 			}
 
 		} catch (Exception ex) {
@@ -464,16 +469,17 @@ public class GtnWsPriceScheduleController {
 		boolean checkRecord = false;
 
 		if (TEMP_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+
+			psValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 
 		}
 		if (STATUS.equalsIgnoreCase(process)) {
 			psValidateSql.append(
-					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ");
+					"select  count(item_No) from dbo.Imtd_Ps_Details where (status is null OR status = '0') and ADD_COPY_INDICATOR is null and ");
 			checkRecord = true;
 		}
 		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
-			psValidateSql.append("select count(item_No) from dbo.Imtd_Ps_Details where ");
+                         psValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
 			checkRecord = true;
 		}
 		if (PRICE_TYPE.equalsIgnoreCase(process)) {
@@ -504,8 +510,8 @@ public class GtnWsPriceScheduleController {
 			psValidateSql.append(" and session_Id='").append(sessionId).append("'");
 		}
 
-		if ("Price".equalsIgnoreCase(process) || "PPStartDateEqual".equalsIgnoreCase(process)
-				|| "PPStartDateLess".equalsIgnoreCase(process) || checkRecord) {
+		if ("Price".equalsIgnoreCase(process) || PP_START_DATE_EQUAL.equalsIgnoreCase(process)
+				|| PP_START_DATE_LESS.equalsIgnoreCase(process) || checkRecord) {
 			psValidateSql.append(" and check_record = 1");
 		}
 
@@ -649,4 +655,80 @@ public class GtnWsPriceScheduleController {
 
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/" + GtnWsCDRContants.PS_PP_VALIDATION_SERVICE, method = RequestMethod.POST)
+	public GtnUIFrameworkWebserviceResponse priceProtectionValidationService(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnWsRequest) {
+		logger.info("Enter validationService");
+		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
+		try {
+			GtnWsGeneralRequest gtnWsGeneralRequest = gtnWsRequest.getGtnWsGeneralRequest();
+			List<Object> inputList = gtnWsGeneralRequest.getComboBoxWhereclauseParamList();
+			String processName = String.valueOf(inputList.get(0));
+			Object resulList = validateTempPriceProtectionDeatils(gtnWsGeneralRequest.getUserId(),
+					gtnWsGeneralRequest.getSessionId(), processName);
+			gtnResponse.setOutBountData(new Object[] { 0 });
+			if (resulList != null) {
+
+				List<Integer> list = (List<Integer>) resulList;
+				gtnResponse.setOutBountData(new Object[] { list.get(0) });
+			}
+
+		} catch (Exception ex) {
+			logger.error(ex.getMessage());
+		}
+
+		logger.info("Exit validationService");
+		return gtnResponse;
+	}
+
+	public Object validateTempPriceProtectionDeatils(String userId, String sessionId, String process)
+			throws GtnFrameworkGeneralException {
+
+		StringBuilder ppValidateSql = new StringBuilder("");
+		boolean checkRecord = false;
+
+		if (TEMP_COUNT.equalsIgnoreCase(process)) {
+                      ppValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
+
+		}
+		if (TEMP_CHECKED_COUNT.equalsIgnoreCase(process)) {
+			ppValidateSql.append(gtnWsSqlService.getQuery(IMTD_PS_DETAILS_COUNT));
+			checkRecord = true;
+		}
+		if (PP_START_DATE_NULL.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select count(item_No) from dbo.Imtd_Ps_Details where PS_DETAILS_PRIC_PRTCN_STDATE is  null and");
+			checkRecord = true;
+		}
+		if (PP_START_DATE_EQUAL.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate = ps_Details_Pric_Prtcn_Eddate and");
+			checkRecord = true;
+		}
+		if (PP_START_DATE_LESS.equalsIgnoreCase(process)) {
+			ppValidateSql.append(
+					"select  count(item_No) from dbo.Imtd_Ps_Details where ps_Details_Pric_Prtcn_Stdate > ps_Details_Pric_Prtcn_Eddate and");
+			checkRecord = true;
+		}
+		
+
+		if (userId != null) {
+			ppValidateSql.append("  users_Sid='").append(userId).append("'");
+		}
+		if (sessionId != null) {
+			ppValidateSql.append(" and session_Id='").append(sessionId).append("'");
+		}
+
+		if ("Price".equalsIgnoreCase(process) ||  checkRecord ) {
+			ppValidateSql.append(" and check_record = 1");
+		}
+
+		if ("itemDuplicationCheck".equalsIgnoreCase(process)) {
+			ppValidateSql.append(" group by item_Id,ps_Dtls_Cont_Price_Startdate) a where a.countA >1;");
+		}
+
+		return queryEngine.executeSelectQuery(ppValidateSql.toString());
+
+	}
 }

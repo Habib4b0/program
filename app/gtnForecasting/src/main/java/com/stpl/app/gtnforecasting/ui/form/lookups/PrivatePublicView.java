@@ -29,6 +29,7 @@ import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.v7.ui.TextField;
+import java.text.ParseException;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
@@ -46,61 +47,18 @@ public class PrivatePublicView extends AbstractViewLookup {
     /**
      * Indicator to indicate private or public view lookup.
      */
-    private String indicator;
-
-    /**
-     * To refer the textfield that opens this lookup.
-     */
-    /**
-     * The view name textfield for searching the view.
-     */
+    private final String indicator;
     private TextField viewName;
-
-    /**
-     * Result Table.
-     */
     private ExtFilterTable results;
-
-    /**
-     * The search button.
-     */
     private Button btnSearch;
-
-    /**
-     * The reset button.
-     */
     private Button btnReset;
-
-    /**
-     * The select button.
-     */
     private Button btnSelect;
-
-    /**
-     * The close button.
-     */
     private Button btnClose;
-
-    /**
-     * Default container to results table.
-     */
     private BeanItemContainer<ViewDTO> viewContainer;
-
     private ViewDTO viewDTO;
-
-    private String screenName;
-    /**
-     * The Constant LOGGER.
-     */
+    private final String screenName;
     private static final Logger LOGGER = Logger.getLogger(PrivatePublicView.class);
 
-    /**
-     * Constructor for PrivatePublicView.
-     *
-     * @param indicator to indicate whether the view is private or public
-     * @param lookup To refer the textfield that opens this lookup
-     * @param windowName the window name for lookup
-     */
     public PrivatePublicView(final String indicator,final String windowName, final String screenName) {
         super(windowName);
         LOGGER.debug("Entering PrivatePublicView");
@@ -186,7 +144,7 @@ public class PrivatePublicView extends AbstractViewLookup {
 
                     @Override
                     public void noMethod() {
-                        return;
+                        LOGGER.debug("Inside overriden method: Do nothing");
                     }
                 };
                 notificationUtils.getConfirmationMessage("Confirm Reset", "Are you sure you want to reset the page to default values?");
@@ -258,13 +216,9 @@ public class PrivatePublicView extends AbstractViewLookup {
 
                 }
             }
-        } catch (SystemException se) {
+        } catch (SystemException | PortalException | ParseException se) {
             LOGGER.error(se);
-        } catch (PortalException pe) {
-            LOGGER.error(pe);
-        } catch (Exception e) {
-            LOGGER.error(e);
-        }
+        } 
         LOGGER.debug("End of btnSearchLogic method");
     }
 

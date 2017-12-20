@@ -32,7 +32,7 @@ public class NonFampTableLogic extends PageTreeTableLogic {
     String hierarchyNo;
     boolean firstGenerated = false;
     ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    private FcpResultsLogic fcpResLogic = new FcpResultsLogic();
+    private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
     SessionDTO sessionDTO;
      /**
      * The Constant LOGGER.

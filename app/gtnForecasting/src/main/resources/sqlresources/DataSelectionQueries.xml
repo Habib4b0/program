@@ -310,37 +310,6 @@ from
 		</query>
 	</entity>
 
-	<entity id="getRelationshipLevelValuesForDeduction">
-		<query> 
-            <![CDATA[ 
-                SELECT  
-                    RLD.HIERARCHY_NO,
-                    ?HTDESCRIPTION as DESCRIPTION,
-                    LEVEL_NAME,
-                    LEVEL_NO,
-                    RELATIONSHIP_LEVEL_VALUES
-                    ?DISPLAYFORMATCOLUMN
-                FROM
-                    RELATIONSHIP_LEVEL_DEFINITION RLD
-                                  ?UDCJOIN
-                                  join RS_CONTRACT RS ON ?FIELD_VALUE
-                                  ?REBATEJOIN
-                                  JOIN ST_NM_DISCOUNT_PROJ_MASTER ST ON ST.RS_CONTRACT_SID=RS.RS_CONTRACT_SID
-                                  ?HELPERTABLEJOIN
-             where 
-                                 RLD.RELATIONSHIP_BUILDER_SID = ?RBSID
-                                AND RLD.LEVEL_NO = ?LNO
-
-             GROUP BY   RLD.HIERARCHY_NO,
-                    ?DEDGROUPBY,
-                    LEVEL_NAME,
-                    LEVEL_NO,
-                    RELATIONSHIP_LEVEL_VALUES    
-                    ?DEFGRPBY               
-            ]]>
-		</query>
-	</entity>
-
 	<entity id="GET_TOP_LEVEL_NAME">
 		<query> 
             <![CDATA[ 
@@ -400,36 +369,22 @@ FROM   PROJECTION_CUST_HIERARCHY PCH
 	<entity id="checktpcustomeractual">
 		<query> 
         <![CDATA[            
-        select
-	case
-		when exists(
-			SELECT
-				P.CCP_DETAILS_SID
-			FROM
-				ST_CCP_HIERARCHY P
-			JOIN CCP_DETAILS C ON
-				P.CCP_DETAILS_SID = C.CCP_DETAILS_SID
-			JOIN(
-					SELECT
-						DISTINCT CCP.COMPANY_MASTER_SID
-					FROM
-						ST_CCP_HIERARCHY PD
-					JOIN CCP_DETAILS CCP ON
-						CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
-					LEFT JOIN ACTUALS_MASTER AM ON
-						AM.COMPANY_MASTER_SID = CCP.COMPANY_MASTER_SID
-						AND AM.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
-						AND AM.CONTRACT_MASTER_SID = CCP.CONTRACT_MASTER_SID
-					GROUP BY
-						CCP.COMPANY_MASTER_SID
-					HAVING
-						SUM( AM.SALES_AMOUNT ) = 0
-						OR SUM( AM.SALES_AMOUNT ) IS NULL
-				) COMP ON
-				COMP.COMPANY_MASTER_SID = C.COMPANY_MASTER_SID
-		) then 1
-		else 0
-	end
+        SELECT CASE 
+              WHEN EXISTS (
+                       
+                                  SELECT 1
+                                  FROM ST_CCP_HIERARCHY PD
+                                  JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID = PD.CCP_DETAILS_SID
+                                  LEFT JOIN ACTUALS_DETAILS AM ON 
+                                          AM.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+                                  GROUP BY CCP.COMPANY_MASTER_SID
+                                  HAVING SUM(AM.SALES) = 0
+                                         OR SUM(AM.SALES) IS NULL
+                                 
+                           )
+                     THEN 1
+              ELSE 0
+              END 
          ]]>
 		</query>
 	</entity>
@@ -437,11 +392,11 @@ FROM   PROJECTION_CUST_HIERARCHY PCH
 	<entity id="DeductionRelationshipId">
 		<query> 
         <![CDATA[            
-        select
+        select  DISTINCT
 	RELATIONSHIP_BUILDER_SID,
 	HIERARCHY_DEFINITION_SID
 from
-	dbo.RELATIONSHIP_BUILDER
+	RELATIONSHIP_BUILDER
 where
 	DEDUCTION_RELATION = ?;
          ]]>
@@ -603,16 +558,14 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 							#COMP_CONT CREATE
 								TABLE
 									#COMP_CONT(
-									    TEMP_NAME VARCHAR(50),
-									    TEMP_ID INT ,
+									   
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#COMP_CONT(
-											    TEMP_NAME ,
-									            TEMP_ID  ,
+											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
 												HIERARCHY_NO
@@ -636,15 +589,13 @@ CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
 							#ITEM CREATE
 								TABLE
 									#ITEM(
-										TEMP_NAME VARCHAR(50),
-										TEMP_ID INT,
+										
 										ITEM_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#ITEM(
-												TEMP_NAME,
-												TEMP_ID,
+												
 												ITEM_MASTER_SID,
 												HIERARCHY_NO
 											)  ?
@@ -691,16 +642,14 @@ CREATE TABLE #SELECTED_CUST_HIERARCHY_NO
 							#COMP_CONT CREATE
 								TABLE
 									#COMP_CONT(
-									    TEMP_NAME VARCHAR(50),
-									    TEMP_ID INT ,
+									    
 										COMPANY_MASTER_SID INT,
 										CONTRACT_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#COMP_CONT(
-											    TEMP_NAME ,
-									            TEMP_ID  ,
+											   
 												COMPANY_MASTER_SID,
 												CONTRACT_MASTER_SID,
 												HIERARCHY_NO
@@ -724,15 +673,13 @@ CREATE TABLE #SELECTED_PROD_HIERARCHY_NO
 							#ITEM CREATE
 								TABLE
 									#ITEM(
-										TEMP_NAME VARCHAR(50),
-										TEMP_ID INT,
+										
 										ITEM_MASTER_SID INT,
 										HIERARCHY_NO VARCHAR(50)
 									) INSERT
 										INTO
 											#ITEM(
-												TEMP_NAME,
-												TEMP_ID,
+												
 												ITEM_MASTER_SID,
 												HIERARCHY_NO
 											)  ?
@@ -931,7 +878,7 @@ select
 from
 	HIERARCHY_LEVEL_DEFINITION HLD
 where
-	HIERARCHY_DEFINITION_SID = '?'
+	HIERARCHY_DEFINITION_SID = '?' AND HLD.VERSION_NO = ?
 	and EXISTS(
 		SELECT
 			1
@@ -1142,7 +1089,7 @@ where
                     AND RLD.VERSION_NO = ?
                     AND HLD.VERSION_NO = ?
                 ORDER BY
-                    RLD.hierarchy_No ASC              
+                    RLD.LEVEL_NO ASC              
             ]]>
             </query>
         </entity>

@@ -75,43 +75,31 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 public class RelationshipOutboundProcess extends Window {
 
     private static final Logger LOGGER = Logger.getLogger(RelationshipOutboundProcess.class);
-    @UiField("relationshipName")
-    private TextField relationshipName;
+    
     @UiField("hierarchyNameDDLB")
     private ComboBox hierarchyNameDDLB;
-    @UiField("relationshipDescription")
-    private TextField relationshipDescription;
-    @UiField("startDateFrom")
-    private PopupDateField startDateFrom;
-    @UiField("startDateTo")
-    private PopupDateField startDateTo;
+    
     @UiField("relationshipType")
     private OptionGroup relationshipType;
-    @UiField("creationDateFrom")
-    private PopupDateField creationDateFrom;
-    @UiField("creationDateTo")
-    private PopupDateField creationDateTo;
-    @UiField("searchBtn")
-    private Button searchBtn;
-    @UiField("outboundBtn")
-    private Button outboundBtn;
-    @UiField("closeBtn")
-    private Button closeBtn;
+     
     @UiField("tableLayout")
     private VerticalLayout tableLayout;
+    
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
+    
     @UiField("errorMsg")
     public ErrorLabel errorMsg;
-    RelationshipOutboundTableLogic tableLogic = new RelationshipOutboundTableLogic();
+    
+    private RelationshipOutboundTableLogic tableLogic = new RelationshipOutboundTableLogic();
     private final OutboundLogic searchLogic = new OutboundLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<RelationshipOutboundDTO> resultBean = new BeanItemContainer<>(RelationshipOutboundDTO.class);
     final CommonUtils commonsUtil = new CommonUtils();
     private ErrorfulFieldGroup binder;
-    Map<String, RelationshipOutboundDTO> checkedHierarchy = new HashMap<>();
-    OutboundLogic outboundLogic = new OutboundLogic();
-    List<OutboundTableDTO> rbCsvList = null;
+    private Map<String, RelationshipOutboundDTO> checkedHierarchy = new HashMap<>();
+    private OutboundLogic outboundLogic = new OutboundLogic();
+    private List<OutboundTableDTO> rbCsvList = null;
 
     public RelationshipOutboundProcess() {
         super("Relationship Builder Outbound Process");

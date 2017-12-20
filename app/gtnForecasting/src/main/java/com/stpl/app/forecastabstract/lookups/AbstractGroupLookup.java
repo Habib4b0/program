@@ -47,7 +47,7 @@ public abstract class AbstractGroupLookup extends AbstractLookup {
 	/**
 	 * To indicate customer or product lookup
 	 */
-	private String indicator;
+	private final String indicator;
 	/**
 	 * To label groupName TextField Differs based on indicator.
 	 */

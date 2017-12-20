@@ -105,4 +105,52 @@ EXEC( @SQL )
    ]]>
         </query> 
     </entity>
+    
+    <entity id="selected-hierarchy-no-for-custom">
+        <query>
+            <![CDATA[
+                IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+                DROP TABLE #SELECTED_HIERARCHY_NO
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+
+                INSERT INTO #SELECTED_HIERARCHY_NO
+                (HIERARCHY_NO,
+                CCP_DETAILS_SID)
+                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID
+                FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
+                [?SELECTED_HIERARCHY_JOIN]
+            ]]>
+        </query>
+    </entity>
+    
+    <entity id="PARENT-VALIDATE">
+        <query>
+            <![CDATA[
+            
+                  IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL DROP
+	TABLE
+		#PARENT_VALIDATE CREATE
+			TABLE
+				#PARENT_VALIDATE(
+					RS_CONTRACT_SID INT,
+					PARENT_HIERARCHY VARCHAR(MAX)
+				) INSERT
+					into
+						#PARENT_VALIDATE(
+							RS_CONTRACT_SID,
+							PARENT_HIERARCHY
+						) SELECT
+							DISTINCT mas.RS_CONTRACT_SID,
+							RLD.PARENT_HIERARCHY_NO
+						FROM
+							ST_CCP_DEDUCTION_HIERARCHY MAS
+						JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON
+							LEVEL_NO = 10
+							AND relationship_builder_sid = @RELVALUE
+							AND RLD.RELATIONSHIP_LEVEL_VALUES = MAS.RS_CONTRACT_SID
+ 
+ 
+            ]]>
+        </query>
+    </entity> 
 </sql>

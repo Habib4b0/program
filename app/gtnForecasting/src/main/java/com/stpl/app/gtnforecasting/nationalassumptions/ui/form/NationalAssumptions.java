@@ -116,161 +116,159 @@ public class NationalAssumptions extends CustomComponent implements View {
      * The price type ddlb.
      */
     @UiField("priceTypeDdlb")
-    ComboBox priceTypeDdlb;
+    protected ComboBox priceTypeDdlb;
 
     /**
      * The baseline start period.
      */
     @UiField("baselineStartPeriod")
-    ComboBox baselineStartPeriod;
+    private ComboBox baselineStartPeriod;
 
     /**
      * The baseline end period.
      */
     @UiField("baselineEndPeriod")
-    ComboBox baselineEndPeriod;
+    private ComboBox baselineEndPeriod;
 
     /**
      * The rolling start period.
      */
     @UiField("rollingStartPeriod")
-    ComboBox rollingStartPeriod;
+    private ComboBox rollingStartPeriod;
 
     /**
      * The rolling end period.
      */
     @UiField("rollingEndPeriod")
-    ComboBox rollingEndPeriod;
+    private ComboBox rollingEndPeriod;
 
     /**
      * The priceBasisDdlb.
      */
-    ComboBox priceBasisDdlb;
-    ComboBox priceTrendDdlb = new ComboBox();
+    private final ComboBox priceBasisDdlb;
+    private final ComboBox priceTrendDdlb = new ComboBox();
 
     /**
      * The baseline methodology.
      */
     @UiField("baselineMethodology")
-    OptionGroup baselineMethodology;
+    private OptionGroup baselineMethodology;
 
-    public ExtFilterTable periodsForBaselineTable = new ExtFilterTable();
+    private final ExtFilterTable periodsForBaselineTable = new ExtFilterTable();
 
     /**
      * The periods for rolling avg table.
      */
-    public ExtFilterTable periodsForRollingAvgTable = new ExtFilterTable();
+    private final ExtFilterTable periodsForRollingAvgTable = new ExtFilterTable();
 
     /**
      * The effective start period.
      */
     @UiField("effectiveStartPeriod")
-    ComboBox effectiveStartPeriod;
+    private ComboBox effectiveStartPeriod;
 
     /**
      * The effective end period.
      */
     @UiField("effectiveEndPeriod")
-    ComboBox effectiveEndPeriod;
+    private ComboBox effectiveEndPeriod;
 
     /**
      * The price types table.
      */
     @UiField("priceTypesTable")
-    Table priceTypesTable;
+    private Table priceTypesTable;
 
     /**
      * The ndc btn.
      */
     @UiField("ndcBtn")
-    Button ndcBtn;
+    private Button ndcBtn;
 
     /**
      * The v layout.
      */
     @UiField("vLayout")
-    VerticalLayout vLayout;
+    private VerticalLayout vLayout;
 
     /**
      * The v layout avg.
      */
     @UiField("vLayoutAvg")
-    VerticalLayout vLayoutAvg;
+    private VerticalLayout vLayoutAvg;
 
     @UiField("forecastMethodologyLayout")
-    GridLayout forecastMethodologyLayout;
+    private GridLayout forecastMethodologyLayout;
 
-    OptionGroup forecastMethodology = new OptionGroup(StringUtils.EMPTY);
-    ComboBox frequencyDdlb = new ComboBox(StringUtils.EMPTY);
+    private final OptionGroup forecastMethodology = new OptionGroup(StringUtils.EMPTY);
+    private final ComboBox frequencyDdlb = new ComboBox(StringUtils.EMPTY);
 
-    TextField growthValue = new TextField();
-    TextField wacvalue = new TextField();
-    DecimalFormat twoDecimalFormat = new DecimalFormat("#,##0.00");
-    DecimalFormat fourDecimalFormat = new DecimalFormat("#,##0.0000");
+    private final TextField growthValue = new TextField();
+    private final TextField wacvalue = new TextField();
+    private final DecimalFormat twoDecimalFormat = new DecimalFormat("#,##0.00");
+    private final DecimalFormat fourDecimalFormat = new DecimalFormat("#,##0.0000");
     public static final String PERCENT = "%";
+    
     @UiField("populateBtn")
-    Button populateBtn;
+    private Button populateBtn;
     /**
      * The ndc btn.
      */
     @UiField("resetBtn")
-    Button resetBtn;
-    Button deleteBtn = new Button(EMPTYSTRING.getConstant());
-    Set<String> ndcList = new HashSet<>();
-    final List<String> listNDC9 = new ArrayList<>();
-    final Map<String, String> wacHashMap = new HashMap<>();
-    final Map<String, String> federalWacMap = new HashMap<>();
-    final Map<String, String> cpiHashMap = new HashMap<>();
+    private Button resetBtn;
+    
+    private Button deleteBtn = new Button(EMPTYSTRING.getConstant());
+    private final Set<String> ndcList = new HashSet<>();
+    private final List<String> listNDC9 = new ArrayList<>();
+    private final Map<String, String> wacHashMap = new HashMap<>();
+    private final Map<String, String> federalWacMap = new HashMap<>();
+    private final Map<String, String> cpiHashMap = new HashMap<>();
 
-    final Map<Integer, String> ndc9Map = new HashMap<>();
-    final Map<String, String> itemNo = new HashMap<>();
-    final Map<String, String> ampHashMap = new HashMap<>();
+    private final Map<Integer, String> ndc9Map = new HashMap<>();
+    private final Map<String, String> ampHashMap = new HashMap<>();
 
-    final Map<String, String> nonFampMap = new HashMap<>();
-    final Map<String, String> fssMap = new HashMap<>();
+    private final Map<String, String> nonFampMap = new HashMap<>();
+    private final Map<String, String> fssMap = new HashMap<>();
 
-    final Map<Integer, String> itemMasterSidMap = new HashMap<>();
-    NewNdcDTO newNdcDto = new NewNdcDTO();
-    final List<String> listItemNo = new ArrayList<>();
-    public NdcPopupForm ndcPopup;
-    String growthValueUnFormated = StringUtils.EMPTY;
+    private final Map<Integer, String> itemMasterSidMap = new HashMap<>();
+    private final NewNdcDTO newNdcDto = new NewNdcDTO();
+    private final List<String> listItemNo = new ArrayList<>();
+    private NdcPopupForm ndcPopup;
     public static final String NDC_CREATED = "ndcCreated";
-    public final Resource deleteImage = new ThemeResource("../../../icons/delete.png");
+    private final Resource deleteImage = new ThemeResource("../../../icons/delete.png");
     /**
      * The baseline results bean.
      */
-    BeanItemContainer<BaselinePeriodDTO> baselineResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
+    private final BeanItemContainer<BaselinePeriodDTO> baselineResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
 
     /**
      * The rolling avg results bean.
      */
-    BeanItemContainer<BaselinePeriodDTO> rollingAvgResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
+    private final BeanItemContainer<BaselinePeriodDTO> rollingAvgResultsBean = new BeanItemContainer<>(BaselinePeriodDTO.class);
 
     /**
      * The price types bean.
      */
-    BeanItemContainer<PriceTypeDTO> priceTypesBean = new BeanItemContainer<>(PriceTypeDTO.class);
-
-    /**
-     * The baseline period dto.
-     */
-    BaselinePeriodDTO baselinePeriodDto = new BaselinePeriodDTO();
+    private final BeanItemContainer<PriceTypeDTO> priceTypesBean = new BeanItemContainer<>(PriceTypeDTO.class);
 
     /**
      * The logic.
      */
-    NationalAssumptionLogic logic = new NationalAssumptionLogic();
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
-    public List<PriceTypeDTO> removedList = new ArrayList<>();
-    final Map<Integer, Object> medicaidMap = new HashMap<>();
-    final Map<Integer, Object> federalMap = new HashMap<>();
+    private final NationalAssumptionLogic logic = new NationalAssumptionLogic();
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final List<PriceTypeDTO> removedList = new ArrayList<>();
+    private final Map<Integer, Object> medicaidMap = new HashMap<>();
+    private final Map<Integer, Object> federalMap = new HashMap<>();
+    
     @UiField("cpiCompounding")
-    OptionGroup cpiCompounding;
-    Label growthLabel = new Label(" ");
+    private OptionGroup cpiCompounding;
+    private final Label growthLabel = new Label(" ");
 
-    SessionDTO sessionDTO;
+
+    private final SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
     private final BlurListener listener = new BlurListener() {
+
         @Override
         public void blur(BlurEvent event) {
             final TextField field = (TextField) event.getComponent();
@@ -279,9 +277,7 @@ public class NationalAssumptions extends CustomComponent implements View {
         }
     };
 
-    /**
-     * Instantiates a new national assumptions.
-     */
+   
     public NationalAssumptions(SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
@@ -296,7 +292,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             forecastMethodologyLayout.addComponent(new Label(" "), 1, 1, 1, 1);
             forecastMethodologyLayout.addComponent(priceTrendDdlb, 1, 2, 1, 2);
             forecastMethodologyLayout.addComponent(wacvalue, 1, 3, 1, 3);
-           
+
             forecastMethodologyLayout.addComponent(priceBasisDdlb, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
 //            forecastMethodologyLayout.addComponent(growthLabel, 1, NumericConstants.FOUR, 1, NumericConstants.FOUR);
             forecastMethodologyLayout.addComponent(growthValue, 1, NumericConstants.FIVE, 1, NumericConstants.FIVE);
@@ -352,7 +348,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             } else {
                 cpiCompounding.setEnabled(false);
             }
-
+            priceBasisDdlb.addStyleName("fieldPositionPrice");
             priceBasisDdlb.setImmediate(true);
 
             priceBasisDdlb.addItem(SELECT_ONE.getConstant());
@@ -374,11 +370,11 @@ public class NationalAssumptions extends CustomComponent implements View {
                 priceTrendDdlb.addItem(DAY_WEIGHTED_WAC.getConstant());
                 priceTrendDdlb.addItem(SALES_WEIGHTED_WAC.getConstant());
                 priceTrendDdlb.select(SELECT_ONE.getConstant());
-            } else {
-                priceBasisDdlb.addStyleName("fieldPositionWac");
-                priceTrendDdlb.addStyleName("fieldPositionWac");
-                priceTypeDdlb.addStyleName("table-header-center");
             }
+
+            priceTrendDdlb.addStyleName("fieldPositionPriceTrend");
+            priceTypeDdlb.addStyleName("table-header-center");
+
             priceBasisDdlb.setNullSelectionAllowed(false);
             priceTrendDdlb.setNullSelectionAllowed(false);
 
@@ -388,10 +384,10 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.setSelectable(true);
             priceTypesTable.markAsDirty();
             priceTypesTable.setContainerDataSource(priceTypesBean);
-            priceTypesTable.setVisibleColumns(commonUiUtils.periodTypeColumns);
-            priceTypesTable.setColumnHeaders(commonUiUtils.periodTypesHeader);
-            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
-            priceTypesTable.setColumnAlignment(commonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
+            priceTypesTable.setVisibleColumns(CommonUiUtils.periodTypeColumns);
+            priceTypesTable.setColumnHeaders(CommonUiUtils.periodTypesHeader);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.FIVE], Table.Align.RIGHT);
+            priceTypesTable.setColumnAlignment(CommonUiUtils.periodTypeColumns[NumericConstants.NINE], Table.Align.CENTER);
             priceTypesTable.setPageLength(NumericConstants.SEVEN);
 
             loadFrequency();
@@ -435,6 +431,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             priceTypesTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
                 private static final long serialVersionUID = 1L;
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     if (event.isDoubleClick()) {
                         PriceTypeDTO priceTypesDTO = (PriceTypeDTO) event.getItemId();
@@ -624,13 +621,9 @@ public class NationalAssumptions extends CustomComponent implements View {
                 }
             });
 
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
+        } 
         LOGGER.debug("End of configurefields method");
     }
 
@@ -653,8 +646,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForBaselineTable.setContainerDataSource(baselineResultsBean);
         periodsForBaselineTable.addStyleName(Constant.FILTER_TABLE);
         periodsForBaselineTable.addStyleName("valo-theme-extfiltertable");
-        periodsForBaselineTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
-        periodsForBaselineTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
+        periodsForBaselineTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
+        periodsForBaselineTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
         periodsForBaselineTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.HUNDRED);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -687,6 +680,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             private static final long serialVersionUID = 1L;
 
             @SuppressWarnings("unchecked")
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (BaselinePeriodDTO obj : baselineResultsBean.getItemIds()) {
                     periodsForBaselineTable.getContainerProperty(obj, Constant.CHECK).setValue(event.isChecked());
@@ -719,8 +713,8 @@ public class NationalAssumptions extends CustomComponent implements View {
         periodsForRollingAvgTable.setWidth("292px");
         periodsForRollingAvgTable.setPageLength(NumericConstants.FIVE);
         periodsForRollingAvgTable.setContainerDataSource(rollingAvgResultsBean);
-        periodsForRollingAvgTable.setVisibleColumns(commonUiUtils.baselinePeriodColumns);
-        periodsForRollingAvgTable.setColumnHeaders(commonUiUtils.baselinePeriodHeader);
+        periodsForRollingAvgTable.setVisibleColumns(CommonUiUtils.baselinePeriodColumns);
+        periodsForRollingAvgTable.setColumnHeaders(CommonUiUtils.baselinePeriodHeader);
         periodsForRollingAvgTable.setColumnWidth(CHECK.getConstant(), NumericConstants.FORTY_FIVE);
         periodsForBaselineTable.setColumnWidth(PERIOD.getConstant(), NumericConstants.NINTY_FIVE);
         periodsForBaselineTable.setColumnWidth(TYPE.getConstant(), NumericConstants.ONE_TWO_SIX);
@@ -756,6 +750,7 @@ public class NationalAssumptions extends CustomComponent implements View {
             private static final long serialVersionUID = -1079006445009817635L;
 
             @SuppressWarnings("unchecked")
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 for (BaselinePeriodDTO obj : rollingAvgResultsBean.getItemIds()) {
                     periodsForRollingAvgTable.getContainerProperty(obj, Constant.CHECK).setValue(event.isChecked());
@@ -973,7 +968,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                                     excuteFlag = true;
                                 }
 
-                            } 
+                            }
                             if (CommonUtil.isValueEligibleForLoading() && PER_OF_WAC.getConstant().equalsIgnoreCase(forecastMethodology.getValue().toString())) {
                                 if ((priceBasisDdlb.getValue() == null || priceBasisDdlb.getValue() == SELECT_ONE.getConstant())) {
                                     AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_BASIS_SELECTED, Constant.PLEASE_SELECT_A_PRICE_BASIS);
@@ -1077,7 +1072,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                         if (selecteditems > 1) {
                             if ((PRICE_TRENDING.getConstant().equalsIgnoreCase(String.valueOf(forecastMethodology.getValue())))
                                     && ((priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())
-                                        || (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
+                                    || (CommonUtil.isValueEligibleForLoading() && (priceTrendDdlb.getValue() == null || priceTrendDdlb.getValue() == SELECT_ONE.getConstant())))) {
                                 AbstractNotificationUtils.getErrorNotification(Constant.NO_PRICE_TREND_SELECTED, Constant.PLEASE_SELECT_A_PRICE_TREND);
                                 return;
                             }
@@ -1122,7 +1117,6 @@ public class NationalAssumptions extends CustomComponent implements View {
                     populateBtnOnClick();
                 }
 
-                
             } else {
                 AbstractNotificationUtils.getErrorNotification("Alert",
                         "Not all required fields are selected.");
@@ -1297,8 +1291,9 @@ public class NationalAssumptions extends CustomComponent implements View {
         return flag;
     }
 
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
+        //Default method
     }
 
     @UiHandler("resetBtn")
@@ -1461,7 +1456,7 @@ public class NationalAssumptions extends CustomComponent implements View {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        return;
+                        //Default method
                     }
 
                     @Override
@@ -1752,7 +1747,7 @@ public class NationalAssumptions extends CustomComponent implements View {
 
                     @Override
                     public void noMethod() {
-                        return;
+
                         // TODO Auto-generated method stub
                     }
                 }.getConfirmationMessage("Delete Confirmation",

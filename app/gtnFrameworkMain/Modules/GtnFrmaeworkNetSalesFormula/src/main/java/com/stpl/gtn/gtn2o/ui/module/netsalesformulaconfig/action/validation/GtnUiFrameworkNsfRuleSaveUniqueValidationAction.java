@@ -41,6 +41,8 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 			throws GtnFrameworkGeneralException {
 		List<Object> actionParemeterList = gtnUIFrameWorkActionConfig.getActionParameterList();
 		String viewId = (String) actionParemeterList.get(1);
+		String mode = (String) GtnUIFrameworkGlobalUI.getSessionProperty("mode");
+		boolean isEditMode = "edit".equalsIgnoreCase(mode);
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 
 		GtnUIFrameworkNsfInfoBean nsfInfoBean = new GtnUIFrameworkNsfInfoBean();
@@ -51,7 +53,7 @@ public class GtnUiFrameworkNsfRuleSaveUniqueValidationAction
 		GtnUIFrameworkWebserviceResponse gtnWsresponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
 				"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_SAVE_UNIQUE_VALIDATION, request,
 				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
-		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess()) {
+		if (!gtnWsresponse.getGtnWsGeneralResponse().isSucess() && !isEditMode) {
 			String msg = "Entered Net Sales Formula Rule is already exists  ";
 			GtnUIFrameWorkActionConfig nsfAlertActionConfig = new GtnUIFrameWorkActionConfig();
 			nsfAlertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);

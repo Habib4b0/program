@@ -6,7 +6,6 @@ package com.stpl.app.adminconsole.quartz;
 
 import static com.stpl.ifs.util.constants.GlobalConstants.getTimeConstant;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,10 +41,9 @@ import com.stpl.portal.kernel.exception.SystemException;
  */
 public class QuartzListener implements ServletContextListener {
 
-	static Scheduler scheduler = null;
-	static String ACTION_JOB_DATA_MAP_KEY = "jobData";
+	private static Scheduler scheduler = null;
+	protected static String ACTION_JOB_DATA_MAP_KEY = "jobData";
 	private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(QuartzListener.class);
-	static SimpleDateFormat sdf = new SimpleDateFormat(ConstantsUtils.DATE_FORMAT_TO_PARSE);
 
 
 	/**

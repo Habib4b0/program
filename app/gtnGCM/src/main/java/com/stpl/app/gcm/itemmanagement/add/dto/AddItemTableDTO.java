@@ -85,6 +85,33 @@ public class AddItemTableDTO {
     private String ps_SID = StringUtils.EMPTY;
     private String rs_SID = StringUtils.EMPTY;
     private String customer_SID = StringUtils.EMPTY;
+    
+    private HelperDTO priceType;
+    private HelperDTO priceProtectionStatus;
+    private HelperDTO measurementPrice;
+    private HelperDTO resetEligible;
+    private HelperDTO resetType;
+    private HelperDTO resetInterval;
+    private HelperDTO resetFrequency;
+    private HelperDTO resetPriceType;
+    private HelperDTO netResetPriceType;
+    private HelperDTO netPriceType;
+    private HelperDTO subsequentPeriodPriceType;
+    private HelperDTO netSubsequentPeriodPrice;
+    private HelperDTO baselineNetWAC;
+    private HelperDTO basePriceType;
+    private HelperDTO baselineWAC;
+    private Date resetDate;
+    private String netResetPriceFormula = StringUtils.EMPTY;
+    private String netPriceTypeFormula = StringUtils.EMPTY;
+    private String maxIncrementalChange = StringUtils.EMPTY;
+    private String netBaselineWACFormula = StringUtils.EMPTY;
+    private String netSubsequentPeriodPriceFormula = StringUtils.EMPTY;
+    private String nepFormula = StringUtils.EMPTY;
+    private String nep = StringUtils.EMPTY;
+    private String baseLineWacManual = StringUtils.EMPTY;
+    private int baseLineWacPriceType;
+    private Date baseLineWacDate;
 
     public String getColumnName() {
         return columnName;
@@ -622,4 +649,211 @@ public class AddItemTableDTO {
         this.customer_SID = customer_SID;
     }
 
+    public HelperDTO getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(HelperDTO priceType) {
+        this.priceType = priceType;
+    }
+
+    public HelperDTO getPriceProtectionStatus() {
+        return priceProtectionStatus;
+    }
+
+    public void setPriceProtectionStatus(HelperDTO priceProtectionStatus) {
+        this.priceProtectionStatus = priceProtectionStatus;
+    }
+
+    public HelperDTO getMeasurementPrice() {
+        return measurementPrice;
+    }
+
+    public void setMeasurementPrice(HelperDTO measurementPrice) {
+        this.measurementPrice = measurementPrice;
+    }
+
+    public HelperDTO getResetEligible() {
+        return resetEligible;
+    }
+
+    public void setResetEligible(HelperDTO resetEligible) {
+        this.resetEligible = resetEligible;
+    }
+
+    public HelperDTO getResetType() {
+        return resetType;
+    }
+
+    public void setResetType(HelperDTO resetType) {
+        this.resetType = resetType;
+    }
+
+    public HelperDTO getResetInterval() {
+        return resetInterval;
+    }
+
+    public void setResetInterval(HelperDTO resetInterval) {
+        this.resetInterval = resetInterval;
+    }
+
+    public HelperDTO getResetFrequency() {
+        return resetFrequency;
+    }
+
+    public void setResetFrequency(HelperDTO resetFrequency) {
+        this.resetFrequency = resetFrequency;
+    }
+
+    public HelperDTO getResetPriceType() {
+        return resetPriceType;
+    }
+
+    public void setResetPriceType(HelperDTO resetPriceType) {
+        this.resetPriceType = resetPriceType;
+    }
+
+    public HelperDTO getNetResetPriceType() {
+        return netResetPriceType;
+    }
+
+    public void setNetResetPriceType(HelperDTO netResetPriceType) {
+        this.netResetPriceType = netResetPriceType;
+    }
+
+    public HelperDTO getNetPriceType() {
+        return netPriceType;
+    }
+
+    public void setNetPriceType(HelperDTO netPriceType) {
+        this.netPriceType = netPriceType;
+    }
+
+    public HelperDTO getSubsequentPeriodPriceType() {
+        return subsequentPeriodPriceType;
+    }
+
+    public void setSubsequentPeriodPriceType(HelperDTO subsequentPeriodPriceType) {
+        this.subsequentPeriodPriceType = subsequentPeriodPriceType;
+    }
+
+    public HelperDTO getNetSubsequentPeriodPrice() {
+        return netSubsequentPeriodPrice;
+    }
+
+    public void setNetSubsequentPeriodPrice(HelperDTO netSubsequentPeriodPrice) {
+        this.netSubsequentPeriodPrice = netSubsequentPeriodPrice;
+    }
+
+    public String getNetSubsequentPeriodPriceFormula() {
+        return netSubsequentPeriodPriceFormula;
+    }
+
+    public void setNetSubsequentPeriodPriceFormula(String netSubsequentPeriodPriceFormula) {
+        this.netSubsequentPeriodPriceFormula = netSubsequentPeriodPriceFormula;
+    }
+
+    public HelperDTO getBaselineNetWAC() {
+        return baselineNetWAC;
+    }
+
+    public void setBaselineNetWAC(HelperDTO baselineNetWAC) {
+        this.baselineNetWAC = baselineNetWAC;
+    }
+
+    public HelperDTO getBasePriceType() {
+        return basePriceType;
+    }
+
+    public void setBasePriceType(HelperDTO basePriceType) {
+        this.basePriceType = basePriceType;
+    }
+
+    public HelperDTO getBaselineWAC() {
+        return baselineWAC;
+    }
+
+    public void setBaselineWAC(HelperDTO baselineWAC) {
+        this.baselineWAC = baselineWAC;
+    }
+
+    public Date getResetDate() {
+        return resetDate;
+    }
+
+    public void setResetDate(Date resetDate) {
+        this.resetDate = resetDate;
+    }
+
+    public String getNetResetPriceFormula() {
+        return netResetPriceFormula;
+    }
+
+    public void setNetResetPriceFormula(String netResetPriceFormula) {
+        this.netResetPriceFormula = netResetPriceFormula;
+    }
+
+    public String getNetPriceTypeFormula() {
+        return netPriceTypeFormula;
+    }
+
+    public void setNetPriceTypeFormula(String netPriceTypeFormula) {
+        this.netPriceTypeFormula = netPriceTypeFormula;
+    }
+
+    public String getMaxIncrementalChange() {
+        return maxIncrementalChange;
+    }
+
+    public void setMaxIncrementalChange(String maxIncrementalChange) {
+        this.maxIncrementalChange = maxIncrementalChange;
+    }
+
+    public String getNetBaselineWACFormula() {
+        return netBaselineWACFormula;
+    }
+
+    public void setNetBaselineWACFormula(String netBaselineWACFormula) {
+        this.netBaselineWACFormula = netBaselineWACFormula;
+    }
+
+    public String getNepFormula() {
+        return nepFormula;
+    }
+
+    public void setNepFormula(String nepFormula) {
+        this.nepFormula = nepFormula;
+    }
+
+    public String getNep() {
+        return nep;
+    }
+
+    public void setNep(String nep) {
+        this.nep = nep;
+    }
+
+    public String getBaseLineWacManual() {
+        return baseLineWacManual;
+    }
+
+    public void setBaseLineWacManual(String baseLineWacManual) {
+        this.baseLineWacManual = baseLineWacManual;
+    }
+
+    public int getBaseLineWacPriceType() {
+        return baseLineWacPriceType;
+    }
+
+    public void setBaseLineWacPriceType(int baseLineWacPriceType) {
+        this.baseLineWacPriceType = baseLineWacPriceType;
+    }
+
+    public Date getBaseLineWacDate() {
+        return baseLineWacDate;
+    }
+
+    public void setBaseLineWacDate(Date baseLineWacDate) {
+        this.baseLineWacDate = baseLineWacDate;
+    }
 }

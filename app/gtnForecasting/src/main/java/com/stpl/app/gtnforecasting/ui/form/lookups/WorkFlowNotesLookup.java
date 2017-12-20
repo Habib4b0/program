@@ -5,6 +5,7 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
+import com.google.gwt.json.client.JSONException;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUIUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -21,15 +22,13 @@ import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.JavaScript;
 import com.vaadin.ui.JavaScriptFunction;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.StringLengthValidator;
@@ -64,22 +63,22 @@ public class WorkFlowNotesLookup extends Window {
     private static final Logger LOGGER = Logger.getLogger(WorkFlowNotesLookup.class);
 
     @UiField("fileNameField")
-    protected TextField fileNameField;
+    private TextField fileNameField;
 
     @UiField("cssLayout1")
-    public CssLayout cssLayout1;
+    private CssLayout cssLayout1;
 
     @UiField("notes")
-    protected TextArea notes;
+    private TextArea notes;
 
     @UiField("okBtn")
-    public Button okBtn;
+    private Button okBtn;
 
     @UiField("table")
-    protected ExtFilterTable table;
+    private ExtFilterTable table;
 
     @UiField("remove")
-    public Button remove;
+    private Button remove;
 
     public TextArea getNotes() {
         return notes;
@@ -89,25 +88,20 @@ public class WorkFlowNotesLookup extends Window {
         this.notes = notes;
     }
 
-    protected Receiver uploadReceiver;
-    protected Upload uploadComponent;
-    protected final TextField uploader = new TextField();
-    AbstractNotificationUtils.Parameter flag = new AbstractNotificationUtils.Parameter();
-    protected String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() != null ? VaadinService.getCurrent().getBaseDirectory().getAbsolutePath() : StringUtils.EMPTY;
-    protected Image wordPngImage = new Image(null, new ThemeResource("../../icons/word.png"));
-    protected Image pdfPngImage = new Image(null, new ThemeResource("../../icons/pdf.png"));
-    protected final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
-    protected Object tableBeanId = null;
-    protected File fileUpload;
-    protected final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
-    protected String fileName;
-    protected String fileUploadPath;
-    public List<NotesDTO> removeDetailsList = new ArrayList<>();
-    protected String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    String screenName = (String) VaadinSession.getCurrent().getAttribute(Constant.PORTLET_NAME);
+    private Receiver uploadReceiver;
+    private Upload uploadComponent;
+    private final TextField uploader = new TextField();
+    private final BeanItemContainer<NotesDTO> attachmentsListBean = new BeanItemContainer<>(NotesDTO.class);
+    private Object tableBeanId = null;
+    private File fileUpload;
+    private final FileDownloader fileDownloader = new FileDownloader(new FileResource(CommonUtil.getFilePath("tst")));
+    private String fileUploadPath;
+    private final List<NotesDTO> removeDetailsList = new ArrayList<>();
+    private final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
+    
     private NotesDTO tableBean = new NotesDTO();
-
     public static String submitFlag="";
+
     public WorkFlowNotesLookup() {
         init();
     }
@@ -198,7 +192,7 @@ public class WorkFlowNotesLookup extends Window {
                         uploader.setValue(StringUtils.EMPTY);
                         fileNameField.setValue(StringUtils.EMPTY);
                     }
-                } catch (Exception ex) {
+                } catch (Property.ReadOnlyException | JSONException ex) {
                     LOGGER.error(ex);
                 }
                 uploader.focus();
@@ -256,6 +250,7 @@ public class WorkFlowNotesLookup extends Window {
              */
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void itemClick(ItemClickEvent event) {
                 try {
                     itemClickLogic(event);
@@ -335,7 +330,7 @@ public class WorkFlowNotesLookup extends Window {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
 
@@ -375,7 +370,7 @@ public class WorkFlowNotesLookup extends Window {
                 uploader.setValue(StringUtils.EMPTY);
                 fileNameField.setValue(StringUtils.EMPTY);
             }
-        } catch (Exception ex) {
+        } catch (Property.ReadOnlyException ex) {
             LOGGER.error(ex);
         }
 
@@ -392,7 +387,7 @@ public class WorkFlowNotesLookup extends Window {
             AbstractNotificationUtils notification = new AbstractNotificationUtils() {
                 @Override
                 public void noMethod() {
-                    return;
+                    LOGGER.debug("Inside overriden method: Do nothing");
                 }
 
                 @Override

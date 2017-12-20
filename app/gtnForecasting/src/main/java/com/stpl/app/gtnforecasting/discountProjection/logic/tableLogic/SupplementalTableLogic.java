@@ -34,20 +34,10 @@ public class SupplementalTableLogic extends PageTreeTableLogic {
      */
     private static final Logger LOGGER = Logger.getLogger(SupplementalTableLogic.class);
 
-    int levelNo;
-    String hierarchyNo;
-    boolean firstGenerated = false;
-    SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();
-    ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    Object expandedValue;
-    String tempArr[] = new String[NumericConstants.THREE];
-    int selectedSupplementalLevelNo;
-    int selectedParentID;
-    String selectedSupplementalLevelName = StringUtils.EMPTY;
-    int supplementalLevelNo;
-    int parentID;
-    String supplementalLevelName = StringUtils.EMPTY;
-
+    private boolean firstGenerated = false;
+    private final SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();
+    private ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
+   
     @Override
     public Map<Integer, Object> loadData(int start, int offset) {
         LOGGER.debug("loadData initiated with firstGenerated=" + firstGenerated + " and start=" + start + " and offset=" + offset);

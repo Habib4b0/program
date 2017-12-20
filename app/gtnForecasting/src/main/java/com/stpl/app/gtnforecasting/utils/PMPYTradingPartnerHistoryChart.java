@@ -37,7 +37,7 @@ public class PMPYTradingPartnerHistoryChart {
     /**
      * The dto.
      */
-    private List<PMPYRowDto> dto;
+    private final List<PMPYRowDto> dto;
 
     /**
      * The chart.

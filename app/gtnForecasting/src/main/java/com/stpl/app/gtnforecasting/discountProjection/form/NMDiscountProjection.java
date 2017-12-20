@@ -1,41 +1,7 @@
 package com.stpl.app.gtnforecasting.discountProjection.form;
 
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
-import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
-import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
-import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
-import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SaveDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
-import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
-import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
-import com.stpl.app.gtnforecasting.logic.Utility;
-import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
-import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
-import com.stpl.app.gtnforecasting.ui.ForecastUI;
-import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
-import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
-import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
-import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
-import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import static com.stpl.app.gtnforecasting.utils.CommonUtil.stringNullCheck;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
-import com.stpl.app.gtnforecasting.utils.Constant;
-import com.stpl.app.gtnforecasting.utils.CustomExcelNM;
-import com.stpl.app.gtnforecasting.utils.HeaderUtils;
-import com.stpl.app.gtnforecasting.utils.NotificationUtils;
-import com.stpl.app.gtnforecasting.utils.TabNameUtil;
-import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
-import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.security.StplSecurity;
-import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
-import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.ButtonConstants.SELECT;
 import static com.stpl.app.utils.Constants.CalendarConstants.CURRENT_YEAR;
@@ -72,6 +38,41 @@ import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM;
 import static com.stpl.app.utils.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.utils.Constants.LabelConstants.REBATE_PER_UNIT;
 import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
+import static com.stpl.ifs.util.constants.GlobalConstants.getCommercialConstant;
+import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
+import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
+import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
+import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
+import com.stpl.app.gtnforecasting.dto.SaveDTO;
+import com.stpl.app.gtnforecasting.logic.CommonLogic;
+import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
+import com.stpl.app.gtnforecasting.logic.DiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
+import com.stpl.app.gtnforecasting.logic.Utility;
+import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
+import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
+import com.stpl.app.gtnforecasting.ui.ForecastUI;
+import com.stpl.app.gtnforecasting.ui.form.lookups.AlternateHistory;
+import com.stpl.app.gtnforecasting.ui.form.lookups.CustomTreeBuild;
+import com.stpl.app.gtnforecasting.ui.form.lookups.DiscountSelection;
+import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
+import com.stpl.app.gtnforecasting.utils.CommonUtil;
+import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.CustomExcelNM;
+import com.stpl.app.gtnforecasting.utils.HeaderUtils;
+import com.stpl.app.gtnforecasting.utils.NotificationUtils;
+import com.stpl.app.gtnforecasting.utils.TabNameUtil;
+import com.stpl.app.gtnforecasting.utils.UISecurityUtil;
+import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.app.model.CustomViewMaster;
+import com.stpl.app.security.StplSecurity;
+import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.utils.Constants;
 import com.stpl.app.utils.CumulativeCalculationUtils;
 import com.stpl.app.utils.UiUtils;
 import com.stpl.ifs.ui.extfilteringtable.ExtPagedTreeTable;
@@ -83,7 +84,6 @@ import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.ifs.util.QueryUtil;
-import static com.stpl.ifs.util.constants.GlobalConstants.*;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.event.FieldEvents.BlurEvent;
@@ -147,6 +147,7 @@ import org.jboss.logging.Logger;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
+
 /**
  *
  * @author shyam.d
@@ -181,7 +182,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/* table Logic to load the table Data */
 	private NMDiscountTableLoadLogic tableLogic;
 	/* To hold the selections on generate button click. */
-	ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
+	protected ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
 	/* The custom id. */
 	private int customId = 0;
 	/* To check whether list view is generated or not */
@@ -237,16 +238,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private Map<String, List<String>> checkedDoubleHeaders = new HashMap<>();
 
 	@UiField("endPeriodForecastTab")
-	protected ComboBox endPeriodForecastTab;
+	private ComboBox endPeriodForecastTab;
 	/**
 	 * The startPeriodForecastTab ComboBox.
 	 */
 	@UiField("startPeriodForecastTab")
-	protected ComboBox startPeriodForecastTab;
+	private ComboBox startPeriodForecastTab;
 
 	@UiField("gridlay")
-	public GridLayout gridlay;
-        public static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
+	private GridLayout gridlay;
+        private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
 	private List<String> checkedList;
 
 	private String calcBase = StringUtils.EMPTY;
@@ -271,7 +272,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int rsModelSid = 0;
 	private int totalccpCount = 0;
 	private boolean flag = false;
-	private CommonLogic commonLogic = new CommonLogic();
+	protected CommonLogic commonLogic = new CommonLogic();
 	private DataSelectionLogic dsLogic = new DataSelectionLogic();
         public static final String SELECT_LEVEL_LABEL = "-Select Level-";
         public static final String SELECT_ALL_LABEL = "Select All";
@@ -283,6 +284,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
+        List<String> baselinePeriods= new ArrayList<>();
 
         
         
@@ -503,9 +505,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		allocMethodology.addItem(SELECT_ONE.getConstant());
 		allocMethodology.setNullSelectionItemId(SELECT_ONE.getConstant());
 
-		// The following should be changed in DB procedure if changed below
-		allocMethodology.addItem(Constant.HISTORICAL_OF_BUSINESS);
-		allocMethodology.addItem("Forecast % of Business");
+		 CommonUtil.getInstance().loadOnDemandCombobox(allocMethodology, "ADJUSTMENT_METHODOLOGIES");
 
 		valueDdlb.setEnabled(true);
 		valueDdlb.addItem(SELECT_ONE.getConstant());
@@ -822,7 +822,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private ClickListener clickListener = new ClickListener() {
+	private final ClickListener clickListener = new ClickListener() {
 		@Override
 		public void click(ExtCustomCheckBox.ClickEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
@@ -1253,6 +1253,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		logic.callDiscountProjectionProcedure(session);
 	}
 
+        @Override
 	public List<String> loadYearSelection() {
 		List<String> year = new ArrayList();
 		Calendar historyCalendar = Calendar.getInstance();
@@ -1528,6 +1529,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		try {
 			resultsTable.getLeftFreezeAsTable().addColumnCheckListener(checkListener);
 			resultsTable.getLeftFreezeAsTable().setTableFieldFactory(new DefaultFieldFactory() {
+                                @Override
 				public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 						Component uiContext) {
 					String property = String.valueOf(propertyId);
@@ -2578,7 +2580,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					List<String> remoList = new ArrayList<>(tripleHeaderForCheckedDoubleHeader.keySet());
 					remoList.removeAll(headerList);
 
-					List<String> baselinePeriods;
 
 					for (Object propertyId : checkedDiscountsPropertyIds) {
 
@@ -2667,11 +2668,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 										}
 									}
 									boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
-									logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
-											isProgram);
+									
 									session.setFrequency(projectionSelection.getFrequency());
+                                                                        String adjustActual=session.isActualAdjustment() ? "0" : "1";
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, adjustActual,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -2732,7 +2733,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 				if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
-					List<String> baselinePeriods;
 
 					if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM) == null) {
 						NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
@@ -2819,7 +2819,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 											isProgram);
 									session.setFrequency(projectionSelection.getFrequency());
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, allocationMethodology,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -2849,7 +2849,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						"Please select an Allocation Methodology");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -3617,6 +3616,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			}
 		}
 		rightTable.setTableFieldFactory(new DefaultFieldFactory() {
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					Component uiContext) {
 				if (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -3651,19 +3651,15 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 							textField.addBlurListener(blurListener);
 							return textField;
-						}
+						}		
 						if (rightHeader.getSingleForecastColumns().contains(property)) {
-							TextField textField = new TextField();
-							textField.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
-							textField.addStyleName(Constant.TXT_RIGHT_ALIGN);
-							if (property.contains(Constant.PROJECTED_RATE) || property.contains(Constant.GROWTH)) {
-								textField.setConverter(percentFormat);
-							} else {
-								textField.setConverter(getConverter(property));
-
+							rightTable.setColumnRadioButton(property, (String) property);
+							rightTable.setColumnRadioButtonDisable(property, true);
+								for(int i=0;i<rightHeader.getDoubleColumns().size();i++){
+								if(property.contains((CharSequence) rightHeader.getDoubleColumns().get(i))){									
+									rightTable.setDoubleHeaderColumnCheckBoxDisable(rightHeader.getDoubleColumns().get(i),true);
+								}
 							}
-							textField.setEnabled(false);
-							return textField;
 						}
 					} catch (Exception e) {
 						LOGGER.error(e);
@@ -4195,9 +4191,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				calculateBtn.setVisible(false);
 				adjustBtn.setVisible(false);
 			}
-		} catch (PortalException ex) {
-			java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (SystemException ex) {
+		} catch (PortalException | SystemException ex) {
 			java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -5106,8 +5100,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					projectionSelection.getSessionDTO().getSessionId(), projectionSelection.getTabName(), methodology,
 					projectionSelection.getFrequency(), UiUtils.getDate(), level, projectionSelection.getFromDateDdlb(),
 					projectionSelection.getToDateDdlb(), discountId };
-			List<Object[]> list = CommonLogic.callProcedure("PRC_GROWTH_CALCULATION", procedureInputs);
-	           new CumulativeCalculationUtils(list, String.valueOf(projectionSelection.getUserId()),
+			new CumulativeCalculationUtils(procedureInputs, String.valueOf(projectionSelection.getUserId()),
                     projectionSelection.getSessionDTO().getSessionId(), methodology, projectionSelection.getTabName(),
                     tableName);
         } catch (Exception ex) {
@@ -5200,7 +5193,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			productLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			productLevelFilter
 					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded));
-			commonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
+			CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
 		}
 
 		productFilterDdlb.setScrollable(true);
@@ -5222,7 +5215,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			deductionLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			deductionLevelFilter.addAll(
 					commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateCustomerToBeLoaded));
-			commonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+			CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
 		}
 
 		deductionFilterDdlb.setScrollable(true);
@@ -5264,7 +5257,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			customerLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			customerLevelFilter.addAll(
 					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded));
-			commonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
+			CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
 		}
 		customerFilterDdlb.setScrollable(true);
 		customerFilterDdlb.setPageLength(NumericConstants.TEN);
@@ -5302,7 +5295,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
 		}
 	}
 

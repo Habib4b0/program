@@ -11,7 +11,6 @@ import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.RBSID;
 import static com.stpl.app.gtnforecasting.logic.DataSelectionLogic.UNION_ALL;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
-import static com.stpl.app.utils.Constants.LabelConstants.TAB_DISCOUNT_PROJECTION;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,12 +101,8 @@ public class RelationshipLevelValuesMasterBean {
 
 	private RelationshipLevelValuesBean getDeductionCustomisedQuery(Object[] tempListObject, SessionDTO sessionDTO) {
 		RelationshipLevelValuesBean bean = new RelationshipLevelValuesBean();
-		String customSql;
-		if (sessionDTO.getTabNameCaption().equals(TAB_DISCOUNT_PROJECTION.getConstant())) {
-			customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
-		} else {
-			customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeduction");
-		}
+                String customSql;
+		customSql = SQlUtil.getQuery("getRelationshipLevelValuesForDeductionCustom");
 		customSql = customSql.replace("?LNO", String.valueOf(tempListObject[NumericConstants.ZERO]));
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
 		boolean isUDC = tempListObject[2].equals(1) && tempListObject[3].equals(1);

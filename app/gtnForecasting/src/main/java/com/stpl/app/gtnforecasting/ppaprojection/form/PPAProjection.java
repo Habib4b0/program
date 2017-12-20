@@ -9,7 +9,6 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.dto.ForecastDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.RSFormulaDTO;
-import com.stpl.app.gtnforecasting.dto.SaveDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.RunnableJob;
 import com.stpl.app.gtnforecasting.logic.Utility;
@@ -94,7 +93,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtListDTO;
@@ -134,80 +132,80 @@ public class PPAProjection extends CustomComponent implements View {
      * The field ddlb.
      */
     @UiField("fieldDdlb")
-    public ComboBox fieldDdlb;
+    private ComboBox fieldDdlb;
     /**
      * The value ddlb.
      */
     @UiField("valueDdlb")
-    public CustomComboBox valueDdlb;
+    private CustomComboBox valueDdlb;
     /**
      * The value txt.
      */
     @UiField("valueTxt")
-    public TextField valueTxt;
+    private TextField valueTxt;
     /**
      * The mass update.
      */
     @UiField("massUpdate")
-    public OptionGroup massUpdate;
+    private OptionGroup massUpdate;
     /**
      * The mass update.
      */
     @UiField("massDate")
-    public PopupDateField massDate;
+    private PopupDateField massDate;
     /**
      * The populate.
      */
     @UiField("populate")
-    public Button populate;
+    private Button populate;
     /**
      * The excel export.
      */
     @UiField("excelExport")
-    public Button excelExport;
+    private Button excelExport;
     /**
      * The start period.
      */
     @UiField("startPeriod")
-    public ComboBox startPeriod;
+    private ComboBox startPeriod;
     /**
      * The end period.
      */
     @UiField("endPeriod")
-    public ComboBox endPeriod;
+    private ComboBox endPeriod;
     /**
      * The level.
      */
     @UiField("levelDdlb")
-    public ComboBox level;
+    private ComboBox level;
     /**
      * The level ddlb.
      */
     @UiField("levelFilterDdlb")
-    public ComboBox levelFilter;
+    private ComboBox levelFilter;
     @UiField("tableLayout")
-    public VerticalLayout tableLayout;
+    private VerticalLayout tableLayout;
     @UiField("lblStart")
-    public Label lblStart;
+    private Label lblStart;
     @UiField("lblEnd")
-    public Label lblEnd;
+    private Label lblEnd;
     /**
      * The reset.
      */
     @UiField("expand")
-    public Button expandBtn;
+    private Button expandBtn;
     @UiField("generateBtn")
-    public Button generateBtn;
+    private Button generateBtn;
     @UiField("resetBtn")
-    public Button resetBtn;
+    private Button resetBtn;
     /**
      * The reset.
      */
     @UiField("collapse")
-    public Button collapseBtn;
-    public ComboBox groupFilterDdlb;
+    private Button collapseBtn;
+    private ComboBox groupFilterDdlb;
     @UiField("groupLabel")
-    public Label groupLabel;
+    private Label groupLabel;
     @UiField("frequencyDdlb")
     protected ComboBox frequencyDdlb;
     @UiField("fromDateDdlb")
@@ -226,11 +224,11 @@ public class PPAProjection extends CustomComponent implements View {
      */
     @UiField("massLookup")
     private CustomTextField massLookup;
-    PPAFormulaLookup formulaLookup = null;
-    Set<String> propertyIdSet = new HashSet<>();
-    Set<String> hierarchyNoSet = new HashSet<>();
+    private PPAFormulaLookup formulaLookup = null;
+    private final Set<String> propertyIdSet = new HashSet<>();
+    private final Set<String> hierarchyNoSet = new HashSet<>();
     @UiField("massGroup")
-    CustomComboBox massGroup;
+    private CustomComboBox massGroup;
     /**
      * The max split position.
      */
@@ -257,53 +255,39 @@ public class PPAProjection extends CustomComponent implements View {
      */
     private Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
     public static final String FORMULA_SYSTEM_SID1 = "formulaSystemSID";
-    final StplSecurity stplSecurity = new StplSecurity();
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    private SessionDTO session;
-    int projectionId;
-    PPAProjectionTableLogic tableLogic = new PPAProjectionTableLogic(this);
-    FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
-    PPAProjectionLogic logic = new PPAProjectionLogic();
-    ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
-    List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    IndexedContainer groupContainer = new IndexedContainer();
-    List<SaveDTO> saveList = new CopyOnWriteArrayList<>();
-    BlurListener saveValueChangeListener = null;
-    ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO leftdto;
-    ExtTreeContainer<PPAProjectionDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
+    private final StplSecurity stplSecurity = new StplSecurity();
+    private final SessionDTO session;
+    private int projectionId;
+    private PPAProjectionTableLogic tableLogic = new PPAProjectionTableLogic(this);
+    private FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
+    private final PPAProjectionLogic logic = new PPAProjectionLogic();
+    private final ProjectionSelectionDTO selection = new ProjectionSelectionDTO();
+    private final IndexedContainer groupContainer = new IndexedContainer();
+    private ExtCustomTreeTable excelTable = new ExtCustomTreeTable();
+    private final CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO leftdto;
+    private ExtTreeContainer<PPAProjectionDTO> excelContainer = new ExtTreeContainer<>(PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
     private ExtTreeContainer<PPAProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(
             PPAProjectionDTO.class, ExtContainer.DataStructureMode.LIST);
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    CustomTableHeaderDTO ridhtdto;
-    CustomTableHeaderDTO initialDTO;
-    public boolean ppaSubmitFlag = false;
-    Button refresh = new Button("REFRESH");
-    int endQuater;
-    int endYear;
-    boolean groupChangeFlag = false;
-    int tradingPartnerNo = 0;
-    boolean isGenerated;
-    boolean valueChangeForColumnCheckBox;
-    boolean resetChange;
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private CustomTableHeaderDTO ridhtdto;
+    private final Button refresh = new Button("REFRESH");
+    private int endQuater;
+    private int endYear;
+    private boolean groupChangeFlag = false;
+    private boolean valueChangeForColumnCheckBox;
     private boolean checkedAllRecords;
-    static List<Thread> manualSaveRunnableThreads = new ArrayList<>();
-    Set<String> tableHirarechyNos = new HashSet<>();
-    List<String> dateList = new ArrayList<>();
+    private static final List<Thread> manualSaveRunnableThreads = new ArrayList<>();
+    private final Set<String> tableHirarechyNos = new HashSet<>();
+    private final List<String> dateList = new ArrayList<>();
     private CustomMenuBar.CustomMenuItem customMenuItem;
-    List newList = new ArrayList();
-    List<String> visibleList = new ArrayList<>();
-    String fromDateValue, toDateValue;
-    Object visibleColoumns[];
-    int startOffset, endOffset;
-    Object fromDate;
-    Object toDate;
+    private Object fromDate;
+    private Object toDate;
     /**
      * Property file for alert message
      */
-    public static ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
+    private static final ResourceBundle alertMsg = ResourceBundle.getBundle("properties.alertmessage");
     private final List<String> DEFAULT_VARIABLE_VALUES = new ArrayList<>();
     /**
      * Set to store all the unchecked records in result table this is used while
@@ -317,18 +301,18 @@ public class PPAProjection extends CustomComponent implements View {
     private static final Map<String, List<String>> populateIdentifier = Constant.getPopulateIdentifier();
     private static final Map<String, String> dbColumnIdentifier = Constant.getDatabaseColumnIdentifier();
     private static final Map<String, String> columnHeaderMap = Constant.getColumnHeaderMap();
-    private CommonUtil commonUtil = CommonUtil.getInstance();
-    final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
+    private final CommonUtil commonUtil = CommonUtil.getInstance();
+    private final HelperDTO defaultValue = new HelperDTO(0, ConstantsUtils.SELECT_ONE);
     /**
      * variable to stop executing value change listener every time Except while
      * doing value change
      */
-    public static boolean valueChangeAllowed = Boolean.FALSE;
+    private static boolean valueChangeAllowed = Boolean.FALSE;
     private boolean generateFlag = true;
-    Date oldDate;
-    TableFieldFactory leftTableFieldFactory = getLeftTableFieldFactory();
-    TableFieldFactory rightTableFieldFactory = getRightTableFieldFactory();
-    ExtCustomTable.ColumnCheckListener olumnCheckListener = getColumnCheckListener();
+    private Date oldDate;
+    private final TableFieldFactory leftTableFieldFactory = getLeftTableFieldFactory();
+    private final TableFieldFactory rightTableFieldFactory = getRightTableFieldFactory();
+    private final ExtCustomTable.ColumnCheckListener olumnCheckListener = getColumnCheckListener();
 
     /**
      * Instantiates a new SALES_SMALL projection.
@@ -368,6 +352,7 @@ public class PPAProjection extends CustomComponent implements View {
             /**
              * To create editable fields inside resultsTable .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -523,12 +508,11 @@ public class PPAProjection extends CustomComponent implements View {
             /**
              * To create editable fields inside resultsTable .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
                 Field component = null;
-
-                resetChange = false;
 
                 String tempProId = ExtListDTO.getPropertyId(propertyId.toString());
                 String customizedPropertyId = tempProId.substring(tempProId.indexOf(Constant.Q_SMALL) + NumericConstants.SIX);
@@ -728,7 +712,6 @@ public class PPAProjection extends CustomComponent implements View {
                 } catch (Exception e) {
                     LOGGER.error(e);
                 }
-                resetChange = true;
                 return component;
             }
         };
@@ -941,7 +924,7 @@ public class PPAProjection extends CustomComponent implements View {
         massDate.setDateFormat(Constant.DATE);
 
         if (resultBeanContainer.getItemIds().size() > 0) {
-            ppaSubmitFlag = true;
+            LOGGER.debug("PPASubmitFlag: True"); 
         }
         level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);
         level.setImmediate(true);

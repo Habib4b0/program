@@ -164,48 +164,48 @@ public class MasterPhsWorksheet extends Window {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private HorizontalLayout controlLayout;
 
-    public String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
+    private final String mode = (String) VaadinSession.getCurrent().getAttribute(Constant.MODE);
     /**
      * The TableVerticalLayout.
      */
     @UiField("tableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
+    private VerticalLayout tableVerticalLayout;
 
     /**
      * The excel export image.
      */
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
     private final HelperDTO brandDto = new HelperDTO(0, SELECT_ONE.getConstant());
-    PhsWorksheetTableLogic tableLogic = new PhsWorksheetTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private PhsWorksheetTableLogic tableLogic = new PhsWorksheetTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
     public static final String MASTER_PHS_WORKSHEET = "Master PHS Worksheet";
-    ProjectionSelectionDTO projectionDTO;
-    LazyContainer ndcContainer;
-    LazyContainer brandContainer;
+    private final ProjectionSelectionDTO projectionDTO;
+    private LazyContainer ndcContainer;
+    private LazyContainer brandContainer;
     private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
-    private PhsResultsLogic phsResLogic = new PhsResultsLogic();
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    Property.ValueChangeListener valueChangeListener = null;
-    Property.ValueChangeListener valueChangeListenerTA = null;
+    private final PhsResultsLogic phsResLogic = new PhsResultsLogic();
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private Property.ValueChangeListener valueChangeListener = null;
+    private Property.ValueChangeListener valueChangeListenerTA = null;
     private boolean valueChange = false;
     private boolean valueTAChange = false;
-    String description = StringUtils.EMPTY;
-    Map<String, String> adjustedValues = new HashMap<>();
-    Map<String, String> editedNotes = new HashMap<>();
-    PhsQueryUtils queryUtil = new PhsQueryUtils();
-    FcpQueryUtils fcpQueryUtil = new FcpQueryUtils();    
-    boolean submitFlag = false;
-    boolean submitMsg = false;
-    HelperDTO ndcResultdto;
-    HelperDTO brandResultdto;
-    SessionDTO sessionDTO;
+    private String description = StringUtils.EMPTY;
+    private final Map<String, String> adjustedValues = new HashMap<>();
+    private final Map<String, String> editedNotes = new HashMap<>();
+    private final PhsQueryUtils queryUtil = new PhsQueryUtils();
+    private final FcpQueryUtils fcpQueryUtil = new FcpQueryUtils();    
+    private boolean submitFlag = false;
+    private boolean submitMsg = false;
+    private final HelperDTO ndcResultdto;
+    private final HelperDTO brandResultdto;
+    private final SessionDTO sessionDTO;
 
     /**
      * Instantiates a new master PHS work sheet.
@@ -355,10 +355,8 @@ public class MasterPhsWorksheet extends Window {
             } else {
                 close.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
     }
 
@@ -654,6 +652,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("reset")
     public void reset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -672,6 +671,7 @@ public class MasterPhsWorksheet extends Window {
     @UiHandler("tableReset")
     public void tableReset(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -695,6 +695,7 @@ public class MasterPhsWorksheet extends Window {
         if (!Constant.VIEW.equalsIgnoreCase(mode)) {
             if (submitFlag) {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -710,6 +711,7 @@ public class MasterPhsWorksheet extends Window {
                 }.getOkCancelMessage("Close Confirmation", "Are you sure you want to close the Worksheet? ");
             } else {
                 new AbstractNotificationUtils() {
+                    @Override
                     public void noMethod() {
                         // do nothing
                     }
@@ -874,8 +876,9 @@ public class MasterPhsWorksheet extends Window {
     public void submit(Button.ClickEvent event) {
         if (submitMsg) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
-                    return;
+                    //Default method
                 }
 
                 @Override

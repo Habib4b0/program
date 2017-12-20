@@ -4262,7 +4262,19 @@ DEDUCTION_HIERARCHY_NO	varchar(8000)
 END
 GO
 
------------------
+-----------------ALG-6013
+
+IF NOT EXISTS (SELECT 1
+               FROM   INFORMATION_SCHEMA.COLUMNS
+               WHERE  TABLE_NAME = 'CCP_DEDUCTION_HIERARCHY'
+                      AND COLUMN_NAME = 'FILTER_CCPD'
+					  AND TABLE_SCHEMA='DBO')
+  BEGIN
+      ALTER TABLE CCP_DEDUCTION_HIERARCHY
+        ADD FILTER_CCPD BIT
+  END
+GO
+-----------------------------------------------------
 
 
 IF NOT EXISTS (
@@ -4356,6 +4368,26 @@ BEGIN
       
  
 END
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.ST_CFF_OUTBOUND_MASTER')
+                      AND NAME = 'DF_ST_CFF_OUTBOUND_MASTER_USER_ID')
+  BEGIN
+      ALTER TABLE [dbo].ST_CFF_OUTBOUND_MASTER
+        ADD CONSTRAINT DF_ST_CFF_OUTBOUND_MASTER_USER_ID DEFAULT (0) FOR USER_ID
+  END
+GO
+
+IF NOT EXISTS (SELECT 'X'
+               FROM   SYS.DEFAULT_CONSTRAINTS
+               WHERE  parent_object_id = Object_id('dbo.ST_CFF_OUTBOUND_MASTER')
+                      AND NAME = 'DF_ST_CFF_OUTBOUND_MASTER_SESSION_ID')
+ BEGIN
+      ALTER TABLE [dbo].ST_CFF_OUTBOUND_MASTER
+        ADD CONSTRAINT DF_ST_CFF_OUTBOUND_MASTER_SESSION_ID DEFAULT (0) FOR SESSION_ID
+ END
 GO
 
 

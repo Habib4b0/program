@@ -61,6 +61,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 	@Override
 	public void doAction(final String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+		try{
 		GtnUIFrameWorkPSInfoBean priceScheduleInfoBean;
 		List<NotesTabBean> noteBeanList = new ArrayList<>();
 		priceScheduleInfoBean = loadDataFromService(noteBeanList);
@@ -111,7 +112,11 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 				(Integer) GtnUIFrameworkGlobalUI.getSessionProperty(GtnFrameworkCommonConstants.SYSTEM_ID));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPricingTabResultDataTable")
 				.setFilterFieldVisible(GtnFrameworkCommonConstants.CHECK_RECORD_ID, Boolean.FALSE);
-
+		}
+		catch(Exception e)
+		{
+			throw new GtnFrameworkGeneralException(e.getMessage(),e);
+		}
 	}
 
 	private GtnUIFrameWorkPSInfoBean loadDataFromService(List<NotesTabBean> noteBeanList) {
@@ -213,6 +218,8 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		} else {
 			loadPriceTabsForView(sysid, Boolean.TRUE);
 		}
+                
+                
 		GtnFrameworkPriceProtectionValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
 		GtnFrameworkPriceTabValueChangeManager.setValueChangeAllowed(Boolean.TRUE);
 
@@ -225,6 +232,7 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		if ("Child".equals(pSDesignation)) {
 			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("parentPriceScheduleID").setEnable(isEditable);
 		}
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psPriceProtectionMainButtonLayout").setEnable(isEditable);
 		GtnUIFrameworkBaseComponent pricingResultDataTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkCommonConstants.PS_PRICING_TAB_RESULT_DATA_TABLE);
 		GtnUIFrameworkBaseComponent priceProtectionResultDataTable = GtnUIFrameworkGlobalUI
@@ -331,15 +339,14 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					Object.class, Integer.class, String.class, Integer.class, Integer.class, String.class,
 					Integer.class, Integer.class, Integer.class, String.class, String.class, Integer.class,
 					Integer.class, Date.class, Integer.class, Integer.class, Integer.class, Integer.class, String.class,
-					Integer.class, String.class, Date.class, Date.class, Integer.class, String.class };
+					Integer.class, String.class, Date.class};
 
 		} else {
 			return new Class<?>[] { String.class, String.class, String.class, String.class, String.class, Date.class,
 					Date.class, String.class, String.class, String.class, String.class, Object.class, String.class,
 					String.class, String.class, String.class, String.class, String.class, String.class, String.class,
 					String.class, String.class, String.class, String.class, Date.class, String.class, String.class,
-					String.class, String.class, String.class, String.class, String.class, Date.class, Date.class,
-					Integer.class, String.class };
+					String.class, String.class, String.class, String.class, String.class, Date.class};
 		}
 	}
 
@@ -375,20 +382,20 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"NetSubsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
-					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " AttachedDate" };
+					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
 		} else {
 
 			return new String[] { "Item Id", "Item No", GtnFrameworkCommonConstants.LABEL_ITEM_NAME, "Brand",
 					"Price Protection Status", "Price Protection Start Date", "Price Protection End Date",
 					"Measurement Price", "NEP", "NEP Formula", "Base Price Type", "Baseline WAC", "Baseline Net WAC",
 					"Net Baseline WAC Formula", "Subsequent Period Price Type", "Net Subsequent Period Price",
-					"NetSubsequent Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
+					"Net Subsequent Period Price Formula", "Price Tolerance Interval", "Price Tolerance Frequency",
 					"Price Tolerance Type", "Price Tolerance", "Max Incremental Change", "Reset Eligible", "Reset Type",
 					"Reset Date", "Reset Interval", "Reset Frequency", "Reset Price Type", "Net Reset Price Type",
-					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " AttachedDate" };
+					"Net Reset Price Formula", "Net Price Type", "Net Price Type Formula", " Attached Date" };
 		}
 
 	}
@@ -408,7 +415,6 @@ public class GtnUIFrameWorkPSLoadAction implements GtnUIFrameWorkAction, GtnUIFr
 		priceTabTableLogic.resetSearchCriteriaList();
 		priceTabTableLogic.setAdditioanlSearchCriteriaList(additioanlSearchCriteriaList);
 		priceTabTableLogic.startSearchProcess(new ArrayList<String>(), true);
-
 	}
 
 	private void configureTableURL(GtnUIFrameworkPagedTableConfig pricingTabPagedTableConfig) {

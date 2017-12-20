@@ -146,13 +146,10 @@ public class DataSelectionLogic {
                     return Constant.FAIL;
                 }
                 
-            } catch (PortalException ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
                 return Constant.FAIL;
-            } catch (SystemException ex) {
-                LOGGER.error(ex);
-                return Constant.FAIL;
-        }
+            }
         return result;
     }
     private String saveProducts(int projectionId, List<DataSelectionDTO> selectedProducts) {
@@ -201,9 +198,7 @@ public class DataSelectionLogic {
                         LOGGER.error(e);
                     }
                 }
-            } catch (PortalException ex) {            
-                LOGGER.error(ex);
-            } catch (SystemException ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }

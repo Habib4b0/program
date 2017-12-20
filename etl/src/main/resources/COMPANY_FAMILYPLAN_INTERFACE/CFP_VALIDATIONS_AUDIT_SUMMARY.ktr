@@ -2065,6 +2065,18 @@ SELECT REASON_FOR_FAILURE,
         <length>-1</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>SALES_INCLUSION</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -2162,6 +2174,7 @@ FROM IVLD_CFP WHERE BATCH_ID=?
        INTF_INSERTED_DATE,
        ERROR_CODE,
        ERROR_FIELD,
+	   SALES_INCLUSION,
  &apos;${INBOUND_FILE_PATH}&#47;COMPANY_FAMILY_PLAN_INTERFACE&#47;Processed&#47;COMPANY_FAMILY_PLAN_INTERFACE_&apos;+BATCH_ID+&apos;_&apos;+CONVERT(VARCHAR(20),GETDATE(),112)+&apos;_&apos;+replace(convert(varchar(50),GETDATE(),108),&apos;:&apos;,&apos;&apos;)+&apos;-&apos;+&apos;REJECT&apos;  as a,
   &apos;${OUTBOUND_FILE_PATH}&#47;Processed&#47;COMPANY_FAMILY_PLAN_INTERFACE_&apos;+BATCH_ID+&apos;_&apos;+CONVERT(VARCHAR(20),GETDATE(),112)+&apos;_&apos;+replace(convert(varchar(50),GETDATE(),108),&apos;:&apos;,&apos;&apos;)+&apos;-&apos;+&apos;REJECT&apos;  as b
 FROM   IVLD_CFP 
@@ -3501,6 +3514,18 @@ var RECENT_CONTENT=&quot;&quot;;</jsScript_script>
         <length>-1</length>
         <precision>-1</precision>
       </field>
+      <field>
+        <name>SALES_INCLUSION</name>
+        <type>-</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -3651,6 +3676,7 @@ var RECENT_CONTENT=&quot;&quot;;</jsScript_script>
       </remove>      <remove>        <name>MODIFIED_DATE</name>
       </remove>      <remove>        <name>ADD_CHG_DEL_INDICATOR</name>
       </remove>      <remove>        <name>SOURCE</name>
+      </remove>      <remove>        <name>SALES_INCLUSION</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>948</xloc>
@@ -4193,6 +4219,7 @@ var APPLICATION_PROCESS=&quot;COMPANY_FAMILY_PLAN_INTERFACE&quot;;</jsScript_scr
 , BATCH_ID
 , SOURCE
 , ADD_CHG_DEL_INDICATOR
+,SALES_INCLUSION
 FROM STAG_CFP
 </sql>
     <limit>0</limit>

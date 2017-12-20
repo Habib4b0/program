@@ -112,7 +112,7 @@ public final class CommonUtils {
      *
      */
     public static void createlog() throws IOException {
-        commonCode(FilePathUtil.LOG_PATH);
+       commonCode(FilePathUtil.getLOG_PATH());
     }
 
     /**
@@ -149,7 +149,7 @@ public final class CommonUtils {
      * This method is used to create the log file.
      */
     public static void createErrorlog() throws IOException {
-        commonCode(FilePathUtil.ERROR_LOG_PATH);
+        commonCode(FilePathUtil.getERROR_LOG_PATH());
     }
 
     public static void commonLogicReadWrite(File logfile, BufferedReader reader) throws IOException {

@@ -20,12 +20,12 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class GroupSearchLogic extends PageTableLogic{
     public static final String CUSTOMER_INDICATOR = "C";
     public static final String PRODUCT_INDICATOR = "P";
-    boolean loadData = false;
+    private boolean loadData = false;
     private List<String> itemsOrCompanySids;
     private String groupName;
     private String groupNo;
     private String groupIdentifier;
-    DataSelectionLogic logic = new DataSelectionLogic();
+    private DataSelectionLogic logic = new DataSelectionLogic();
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(GroupSearchLogic.class);
 
     @Override

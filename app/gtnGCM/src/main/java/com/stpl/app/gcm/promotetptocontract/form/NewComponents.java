@@ -2078,7 +2078,11 @@ public class NewComponents extends CustomComponent implements View {
      */
     public void createWorkSheet(String moduleName, ExtCustomTable resultTable, int count) throws SystemException, PortalException, NoSuchMethodException, IllegalAccessException,  InvocationTargetException {
         String[] header = resultTable.getColumnHeaders();
-        header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY); //used to remove checkbox header in excel
+        if ("ComponentDetails".equals(moduleName)) {
+            header = (String[]) ArrayUtils.removeElement(header, StringUtils.EMPTY); //used to remove checkbox header in excel
+        } else {
+            header = (String[]) ArrayUtils.removeElement(header, Constants.SPACE);
+        }
         ExcelExportforBB.createWorkSheet(header, count, this, UI.getCurrent(), moduleName.replace(" ", "_").toUpperCase());
     }
 

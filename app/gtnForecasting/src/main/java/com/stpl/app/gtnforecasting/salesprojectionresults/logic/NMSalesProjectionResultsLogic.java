@@ -42,9 +42,6 @@ import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -218,8 +215,7 @@ public class NMSalesProjectionResultsLogic {
 				paramArray[2] = StringUtils.EMPTY;
 				paramArray[3] = Integer.parseInt(String.valueOf(selections[NumericConstants.EIGHT]));
 				paramArray[4] = Integer.parseInt(String.valueOf(selections[NumericConstants.SEVEN]));
-				List gtsList = convertResultSetToList(
-						GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+				List gtsList = GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 				if (sprList != null && !sprList.isEmpty()) {
 					List<List> list = getRowList(selections);
 					for (int j = 0; j < levelCount.size(); j++) {
@@ -361,8 +357,7 @@ public class NMSalesProjectionResultsLogic {
 		List<SalesProjectionResultsDTO> gtsList = new ArrayList<>();
 
 		try {
-			List list = convertResultSetToList(
-					GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray));
+			List list =GtnSqlUtil.getResultFromProcedure(statementBuilder.toString(), paramArray);
 			if (!list.isEmpty()) {
 				if ("period".equalsIgnoreCase(pivotView)) {
 					for (int i = 0; i < list.size(); i++) {
@@ -408,38 +403,6 @@ public class NMSalesProjectionResultsLogic {
 		return gtsList;
 	}
 
-	private List<Object[]> convertResultSetToList(ResultSet rs) {
-		LOGGER.debug("convertResultSetToList method starts");
-		List<Object[]> objList = new ArrayList<>();
-
-		try {
-			ResultSetMetaData rsMetaData = rs.getMetaData();
-			int columnCount = rsMetaData.getColumnCount();
-			Object[] header = new Object[columnCount];
-			for (int i = 1; i <= columnCount; ++i) {
-				Object label = rsMetaData.getColumnLabel(i);
-				header[i - 1] = label;
-			}
-			while (rs.next()) {
-				Object[] str = new Object[columnCount];
-				for (int i = 1; i <= columnCount; ++i) {
-					Object obj = rs.getObject(i);
-					str[i - 1] = obj;
-				}
-				objList.add(str);
-			}
-			LOGGER.debug("convertResultSetToList method ends");
-		} catch (Exception e) {
-			LOGGER.error(e);
-		} finally {
-			try {
-				rs.close();
-			} catch (SQLException ex) {
-				LOGGER.error(ex);
-			}
-		}
-		return objList;
-	}
 
 	public List<List> getRowList(Object[] selections) {
 		LOGGER.debug("getRowList method starts");

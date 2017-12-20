@@ -28,6 +28,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
      */
     private static final org.jboss.logging.Logger LOGGER = org.jboss.logging.Logger.getLogger(MailWorkItemHandler.class);
 
+    @Override
     public void executeWorkItem(WorkItem workItem, WorkItemManager manager) {
         Map<String, Object> map = workItem.getParameters();
         String to = (String) map.get("To");
@@ -138,6 +139,7 @@ public class MailWorkItemHandler implements WorkItemHandler {
         }
     }
 
+    @Override
     public void abortWorkItem(WorkItem workItem, WorkItemManager manager) {
         manager.abortWorkItem(workItem.getId());
     }

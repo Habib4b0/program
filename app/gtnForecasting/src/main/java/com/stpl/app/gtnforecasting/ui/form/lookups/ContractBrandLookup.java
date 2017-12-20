@@ -5,7 +5,6 @@
  */
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
-import com.stpl.app.gtnforecasting.abstractforecast.ForecastSalesProjection;
 import com.stpl.app.gtnforecasting.dto.ContractBrandDTO;
 import com.stpl.app.gtnforecasting.salesprojection.logic.SalesLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -51,62 +50,60 @@ public class ContractBrandLookup extends Window {
      */
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(ContractBrandLookup.class);
-    @UiField("closeBtn")
-    public Button closeBtn;
-
+   
     @UiField("contractResultsTable")
-    public ExtFilterTable contractResultsTable;
+    private ExtFilterTable contractResultsTable;
 
     @UiField("brandResultsTable")
-    public ExtFilterTable brandResultsTable;
+    private ExtFilterTable brandResultsTable;
 
     @UiField("searchContract")
-    public Button searchContractBtn;
+    private Button searchContractBtn;
 
     @UiField("resetContract")
-    public Button resetContractBtn;
+    private Button resetContractBtn;
 
     @UiField("searchBrand")
-    public Button searchBrandBtn;
+    private Button searchBrandBtn;
 
     @UiField("resetBrand")
-    public Button resetBrandBtn;
+    private Button resetBrandBtn;
 
     @UiField("importBtn")
-    public Button importBtn;
+    private Button importBtn;
 
     @UiField("customerDdlb")
-    public ComboBox customerDdlb;
+    private ComboBox customerDdlb;
 
     @UiField("contractNo")
-    public TextField contractNo;
+    private TextField contractNo;
 
     @UiField("contractName")
-    public TextField contractName;
+    private TextField contractName;
 
     @UiField("brandSearch")
-    public TextField brandName;
+    private TextField brandName;
 
     @UiField("customerId")
-    public TextField customerId;
+    private TextField customerId;
 
     @UiField("contractHolderName")
-    public TextField contractHolder;
+    private TextField contractHolder;
 
     @UiField("customerDdlbLabel")
-    public Label customerDdlbLabel;
+    private Label customerDdlbLabel;
 
     @UiField("contractNoLb")
-    public Label contractNoLb;
+    private Label contractNoLb;
 
     @UiField("contractNameLb")
-    public Label contractNameLb;
+    private Label contractNameLb;
 
     @UiField("contractHolderNameLb")
-    public Label contractHolderNameLb;
+    private Label contractHolderNameLb;
 
     @UiField("customerIdLb")
-    public Label customerIdLb;
+    private Label customerIdLb;
 
     /**
      * Container for contractResults table.
@@ -127,9 +124,7 @@ public class ContractBrandLookup extends Window {
      * Container for contractResults table.
      */
 
-    SalesLogic logic = new SalesLogic();
-
-    ForecastSalesProjection forecastSalesProjection;
+    private final SalesLogic logic = new SalesLogic();
 
     private CustomFieldGroup searchBinder;
 
@@ -137,23 +132,16 @@ public class ContractBrandLookup extends Window {
 
     private ContractBrandDTO contractBrandDTO = new ContractBrandDTO();    
 
-    final private String lookupType;
+    private final String lookupType;
 
     private final SessionDTO sessionDTO;
 
     private String hierarchyNo = StringUtils.EMPTY;
     
     private SessionDTO session;
-    String screenName;    
-    CommonUtils commonUtils = new CommonUtils();
-    /**
-     * Instantiates a new contract brand lookup.
-     *
-     * @param windowName
-     * @param sessionDTO
-     * @param type
-     * @param hierarchyNo
-     */
+    private final String screenName;    
+    private final CommonUtils commonUtils = new CommonUtils();
+    
     public ContractBrandLookup(final SessionDTO sessionDTO, final String type, final String hierarchyNo, String screenName) {
         super(StringUtils.EMPTY);
         LOGGER.debug("ContractBrandLookup Constructor initiated ");
@@ -239,6 +227,7 @@ public class ContractBrandLookup extends Window {
 
             searchContractBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
 
                     try {
@@ -256,10 +245,11 @@ public class ContractBrandLookup extends Window {
 
             searchBrandBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     try {
                         brandSearchLogic();
-                    } catch (Exception ex) {
+                    } catch (PortalException | SystemException ex) {
                         LOGGER.error(ex);
                     }
                 }
@@ -267,10 +257,11 @@ public class ContractBrandLookup extends Window {
 
             importBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     try {
                         importButtonLogic();
-                    } catch (Exception e) {
+                    } catch (SystemException | SQLException e) {
                         LOGGER.error(e);
                     }
                 }
@@ -278,6 +269,7 @@ public class ContractBrandLookup extends Window {
 
             brandResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     contractBrandDTO = (ContractBrandDTO) getBeanFromId(event.getItem());
                 }
@@ -285,6 +277,7 @@ public class ContractBrandLookup extends Window {
 
             contractResultsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     contractBrandDTO = (ContractBrandDTO) getBeanFromId(event.getItem());
                 }
@@ -306,8 +299,9 @@ public class ContractBrandLookup extends Window {
     @UiHandler("closeBtn")
     public void editCustomertree(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
-               return;
+                LOGGER.debug("Inside Overriden method: do nothing");
             }
 
             @Override
@@ -363,11 +357,6 @@ public class ContractBrandLookup extends Window {
         }
     }
 
-    /**
-     * Search Logic For Mandated Forecasting
-     *
-     * @throws Exception
-     */
     public void mandatedContractSearchLogic()  {
         try{
         LOGGER.debug("Entering the Mandated Contract Search Logic");
@@ -398,20 +387,11 @@ public class ContractBrandLookup extends Window {
             }
         }
         LOGGER.debug("Ending the Mandated Contract Search Logic");
-        }catch(PortalException e){
-        LOGGER.error(e);
-        }catch(SystemException e){
+        }catch(PortalException | SystemException e){
         LOGGER.error(e);
         }
     }
 
-    /**
-     * Loading Customer DDLB when the Alternate History is launched from Mandated.
-     *
-     * @param customerDDLB
-     * @throws SystemException
-     * @throws Exception
-     */
     public void loadCustomerDDLB(ComboBox customerDDLB) throws SystemException {
         try{
         customerDDLB.addItem(Constant.SELECT_ONE);
@@ -422,16 +402,11 @@ public class ContractBrandLookup extends Window {
             customerDDLB.addItem(obj[0]);
             customerDDLB.setItemCaption(obj[0], String.valueOf(obj[1]));
         }
-        }catch(Exception e){
+        }catch(PortalException | SystemException | UnsupportedOperationException e){
         LOGGER.error(e);
         }
     }
 
-    /**
-     * Search Logic for Brand
-     *
-     * @throws Exception
-     */
     public void brandSearchLogic() throws PortalException, SystemException {
         LOGGER.debug("Entering the Brand Search Logic");
         String tempbrandName = brandName.getValue();
@@ -458,9 +433,6 @@ public class ContractBrandLookup extends Window {
         LOGGER.debug("Ending the Brand Search Logic");
     }
 
-    /**
-     * Import Button Logic
-     */
     public void importButtonLogic() throws SQLException, SystemException {
         LOGGER.debug("Entering Import Logic Button Listener");
         ContractBrandDTO item;
@@ -523,12 +495,6 @@ public class ContractBrandLookup extends Window {
 
     }
 
-    /**
-     * Gets the bean from id.
-     *
-     * @param obj the obj
-     * @return the bean from id
-     */
     public ContractBrandDTO getBeanFromId(Object obj) {
 
         BeanItem<?> targetItem = null;
@@ -601,5 +567,4 @@ public class ContractBrandLookup extends Window {
     public void setContractBrandDTO(ContractBrandDTO contractBrandDTO) {
         this.contractBrandDTO = contractBrandDTO;
     }    
-    
 }

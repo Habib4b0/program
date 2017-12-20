@@ -12,7 +12,8 @@ import java.io.Serializable;
  * @author Abishek.Ram
  */
 public enum GtnFrameworkDataType implements Serializable {
-	STRING("String"), DATE("Date"), INTEGER("Integer"), LIST("List"), NULL_ALLOWED("Null_allowed"), DOUBLE("Double"), IN_LIST("In_Lists");
+	STRING("String"), DATE("Date"), INTEGER("Integer"), LIST("List"), NULL_ALLOWED("Null_allowed"), DOUBLE(
+			"Double"), IN_LIST("In_Lists"), BIG_DECIMAL("Big_Decimal");
 
 	private String constant;
 

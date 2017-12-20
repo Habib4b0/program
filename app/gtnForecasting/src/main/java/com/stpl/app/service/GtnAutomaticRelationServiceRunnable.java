@@ -12,10 +12,10 @@ import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.vaadin.server.VaadinSession;
 import java.util.Calendar;
 
-public class GtnAutomaticRelationServiceRunnable implements Callable {
+public class GtnAutomaticRelationServiceRunnable implements Callable<Boolean> {
 
-	private Object value;
-	private int hierarchySid;
+	private final Object value;
+	private final int hierarchySid;
 
 	public GtnAutomaticRelationServiceRunnable(Object value, int hierarchySid) {
 		super();
@@ -40,7 +40,7 @@ public class GtnAutomaticRelationServiceRunnable implements Callable {
 	}
 
 	@Override
-	public Object call() throws Exception {
+	public Boolean call() throws Exception {
 		if (value == null)
 			return Boolean.FALSE;
 

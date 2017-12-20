@@ -7,7 +7,6 @@
 package com.stpl.app.gtnforecasting.ui.form.lookups;
 
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
-import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.AlternateHistoryLogic;
 import com.stpl.app.gtnforecasting.salesprojection.logic.tablelogic.AlternateHistoryTableLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -68,53 +67,53 @@ public class CustomerSelection extends CustomComponent implements View {
      */
     private static final Logger LOGGER = Logger.getLogger(CustomerSelection.class);
 
-    SessionDTO session;
+    private SessionDTO session;
+    
     @UiField("contractHolder")
-    public TextField contractHolder;
+    private  TextField contractHolder;
+    
     @UiField("contractNo")
-    public TextField contractNo;
+    private  TextField contractNo;
+    
     @UiField("customerNo")
-    public TextField customerNo;
+    private  TextField customerNo;
+    
     @UiField("marketType")
-    public ComboBox marketType;
+    private  ComboBox marketType;
+    
     @UiField("contractName")
-    public TextField contractName;
+    private  TextField contractName;
+    
     @UiField("customerName")
-    public TextField customerName;
-    @UiField("searchBtn")
-    public Button searchBtn;
-    @UiField("resetBtn")
-    public Button resetBtn;
+    private  TextField customerName;
+    
     @UiField("availableCustomerTableLayout")
-    public VerticalLayout availableCustomerTableLayout;
-    @UiField("selectedCustomerTableLayout")
-    public VerticalLayout selectedCustomerTableLayout;
-    AlternateHistoryLogic logic = new AlternateHistoryLogic();
-    private String screen_Name = "Customer_Selection";
-    @UiField("addBtn")
-    public Button addBtn;
-    @UiField("excelBtn")
-    public Button excelBtn;
-    @UiField("selectedExport")
-    public Button selectedExport;
-    Boolean contractExcelFlag = false;
-    Boolean infoExcelFlag = false;
+    private  VerticalLayout availableCustomerTableLayout;
 
-    AlternateHistoryTableLogic availablecustomerTableLoic = new AlternateHistoryTableLogic();
-    ExtPagedTable availableCustomerTable = new ExtPagedTable(availablecustomerTableLoic);
-    AlternateHistoryTableLogic selectedcustomerTableLoic = new AlternateHistoryTableLogic();
-    ExtPagedTable selectedCustomerTable = new ExtPagedTable(selectedcustomerTableLoic);
+    @UiField("selectedCustomerTableLayout")
+    private  VerticalLayout selectedCustomerTableLayout;
+    private AlternateHistoryLogic logic = new AlternateHistoryLogic();
+    private String screen_Name = "Customer_Selection";
+    
+    @UiField("excelBtn")
+    private  Button excelBtn;
+    
+    @UiField("selectedExport")
+    private  Button selectedExport;
+    private Boolean contractExcelFlag = false;
+    private Boolean infoExcelFlag = false;
+
+    private AlternateHistoryTableLogic availablecustomerTableLoic = new AlternateHistoryTableLogic();
+    private ExtPagedTable availableCustomerTable = new ExtPagedTable(availablecustomerTableLoic);
+    private AlternateHistoryTableLogic selectedcustomerTableLoic = new AlternateHistoryTableLogic();
+    private ExtPagedTable selectedCustomerTable = new ExtPagedTable(selectedcustomerTableLoic);
     private BeanItemContainer<AlternateHistoryDTO> availableCustomerContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
     private BeanItemContainer<AlternateHistoryDTO> selectedCustomerContainer = new BeanItemContainer<>(AlternateHistoryDTO.class);
-    public AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
-    public CustomFieldGroup customerSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
-    CommonLogic commonLogic = new CommonLogic();
-    CommonUtil commonUtil = CommonUtil.getInstance();
+    private AlternateHistoryDTO altHistoryDTO = new AlternateHistoryDTO();
+    private CustomFieldGroup customerSearchBinder = new CustomFieldGroup(new BeanItem<>(altHistoryDTO));
+    private CommonUtil commonUtil = CommonUtil.getInstance();
     private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
-    /**
-     * The Constant Avilable Customer Header.
-     */
     public final String[] availableCustomerHeader = new String[]{
         StringUtils.EMPTY, "Contract Holder", "Market Type", "Contract No", "Contract Name", "Customer No", "Customer Name"};
     public final Object[] availableCustomerColumns = new Object[]{
@@ -133,7 +132,7 @@ public class CustomerSelection extends CustomComponent implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        return;
+        LOGGER.debug("Inside overriden method: Do nothing");
     }
 
     /**
@@ -187,8 +186,9 @@ public class CustomerSelection extends CustomComponent implements View {
     public void resetBtnClick(Button.ClickEvent event) {
         LOGGER.debug("Entered inside reset method");
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
-                // do nothing
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
             @Override
@@ -332,10 +332,12 @@ public class CustomerSelection extends CustomComponent implements View {
         }
         availableCustomerTable.setFilterGenerator(new ExtFilterGenerator() {
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Object value) {
                 return null;
             }
 
+            @Override
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
@@ -348,18 +350,22 @@ public class CustomerSelection extends CustomComponent implements View {
                 return null;
             }
 
+            @Override
             public AbstractField<?> getCustomFilterComponent(Object propertyId) {
                 return null;
             }
 
+            @Override
             public void filterRemoved(Object propertyId) {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
+            @Override
             public void filterAdded(Object propertyId, Class<? extends Container.Filter> filterType, Object value) {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
 
+            @Override
             public Container.Filter filterGeneratorFailed(Exception reason, Object propertyId, Object value) {
                 return null;
             }
@@ -383,6 +389,7 @@ public class CustomerSelection extends CustomComponent implements View {
                     final ExtCustomCheckBox check = new ExtCustomCheckBox();
                     check.setEnabled(true);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             AlternateHistoryDTO alternateHistoryDTO = (AlternateHistoryDTO) itemId;
                             if (check.getValue()) {
@@ -531,7 +538,7 @@ public class CustomerSelection extends CustomComponent implements View {
                     ExcelExportforBB.createFileContent(visibleColumns.toArray(new String[visibleColumns.size()]), searchList, printWriter);
                 }
             }
-        } catch (Exception e) {
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchFieldException | NoSuchMethodException | InvocationTargetException e) {
             LOGGER.error(e);
         }
     }

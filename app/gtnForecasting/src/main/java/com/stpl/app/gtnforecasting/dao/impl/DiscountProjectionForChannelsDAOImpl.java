@@ -67,6 +67,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
      * @param refreshHierarchyNumbers
      * @return
      */
+    @Override
     public List<DiscountProjectionDTO> getDiscountProjection(
             SessionDTO session, String parentName, String year, int historyNumber, int levelNo, String hierarchyIndicator, int start, int offset, boolean isCount, boolean isCustom, List<String> customViewDetails, boolean isRefresh, String refreshHierarchyNumbers, ProjectionSelectionDTO projectionSelection) {
         LOGGER.debug("Entering getDiscountProjection");
@@ -614,6 +615,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
 
     }
 
+    @Override
     public List loadLevels(int projectionId, String hierarchyIndicator, int startLevelNo, int endLevelNo, int customId, boolean isCustomHierarchy, boolean isLevelFilter) {
         LOGGER.debug(" entering getLevelvalues");
         try {
@@ -646,6 +648,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
      * @param contractquery
      * @return
      */
+    @Override
     public List getAlternateContract(String contractquery) {
 
         List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(contractquery);
@@ -659,6 +662,7 @@ public class DiscountProjectionForChannelsDAOImpl extends BasePersistenceImpl<St
      * @param query
      * @return
      */
+    @Override
     public List<String> getCompanyForAlternate(String query) {
         List<String> list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug(" getCompany values" + list.size());

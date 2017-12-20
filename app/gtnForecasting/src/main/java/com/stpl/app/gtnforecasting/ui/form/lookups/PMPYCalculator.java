@@ -92,34 +92,34 @@ public class PMPYCalculator extends Window {
     /**
      * The space.
      */
-    private Label space = new Label(Constant.ADD_SPACE, ContentMode.HTML);
+    private final Label space = new Label(Constant.ADD_SPACE, ContentMode.HTML);
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
 
     /**
      * The effective date.
      */
-    private NativeSelect effectivePeriod = new NativeSelect();
+    private final NativeSelect effectivePeriod = new NativeSelect();
 
     /**
      * The btn reset search.
      */
-    private Button btnResetSearch = new Button(Constant.RESET);
+    private final Button btnResetSearch = new Button(Constant.RESET);
 
     /**
      * The pmpy contract holder.
      */
-    private TextField pmpyContractHolder = new TextField();
+    private final TextField pmpyContractHolder = new TextField();
 
     /**
      * The trading partner no.
      */
-    private TextField tradingPartnerNo = new TextField();
+    private final TextField tradingPartnerNo = new TextField();
 
     /**
      * The trading partner name.
      */
-    private TextField tradingPartnerName = new TextField();
+    private final TextField tradingPartnerName = new TextField();
 
     /**
      * The contract.
@@ -129,109 +129,109 @@ public class PMPYCalculator extends Window {
     /**
      * The frequency.
      */
-    private TextField frequency = new TextField();
+    private final TextField frequency = new TextField();
 
     /**
      * The history.
      */
-    private TextField history = new TextField();
+    private final TextField history = new TextField();
 
     /**
      * The trading partner.
      */
-    private CustomTextField tradingPartner = new CustomTextField();
+    private final CustomTextField tradingPartner = new CustomTextField();
 
     /**
      * The generate.
      */
-    private Button generate = new Button(Constant.GENERATE);
+    private final Button generate = new Button(Constant.GENERATE);
 
     /**
      * The btn reset calculation.
      */
-    private Button btnResetCalculation = new Button(Constant.RESET);
+    private final Button btnResetCalculation = new Button(Constant.RESET);
     /**
      * The btnimport.
      */
-    private Button btnimport = new Button(Constant.IMPORT);
+    private final Button btnimport = new Button(Constant.IMPORT);
 
     /**
      * The SALES_SMALL.
      */
-    private TextField sales = new TextField();
+    private final TextField sales = new TextField();
 
     /**
      * The market share.
      */
-    private TextField marketShare = new TextField();
+    private final TextField marketShare = new TextField();
 
     /**
      * The market share1.
      */
-    private TextField marketShare1 = new TextField();
+    private final TextField marketShare1 = new TextField();
 
     /**
      * The analog lives.
      */
-    private TextField analogLives = new TextField();
+    private final TextField analogLives = new TextField();
 
     /**
      * The value per life.
      */
-    private TextField valuePerLife = new TextField();
+    private final TextField valuePerLife = new TextField();
 
     /**
      * The projected lives.
      */
-    private TextField projectedLives = new TextField();
+    private final TextField projectedLives = new TextField();
 
     /**
      * The total SALES_SMALL.
      */
-    private TextField totalSales = new TextField();
+    private final TextField totalSales = new TextField();
 
     /**
      * The projection period total.
      */
-    private TextField projectionPeriodTotal = new TextField();
+    private final TextField projectionPeriodTotal = new TextField();
 
     /**
      * The SALES_SMALL or UNITS_SMALL.
      */
-    private OptionGroup salesOrUnits = new OptionGroup();
+    private final OptionGroup salesOrUnits = new OptionGroup();
 
     /**
      * The populate.
      */
-    private Button populate = new Button(Constant.POPULATE);
+    private final Button populate = new Button(Constant.POPULATE);
 
     /**
      * The non mandated logic.
      */
-    private NonMandatedLogic nonMandatedLogic = new NonMandatedLogic();
+    private final NonMandatedLogic nonMandatedLogic = new NonMandatedLogic();
 
     /**
      * The df calculated amount.
      */
 
-    final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
-    public static final DecimalFormat MONEY_TWO_DECIMAL = new DecimalFormat("$#,###.00");
-    public static final DecimalFormat MONEY_NO_DECIMAL = new DecimalFormat("$#,###");
-    final DecimalFormat noDecimalPlace = new DecimalFormat("####");
+    private final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
+    private static final DecimalFormat MONEY_TWO_DECIMAL = new DecimalFormat("$#,###.00");
+    private static final DecimalFormat MONEY_NO_DECIMAL = new DecimalFormat("$#,###");
+    private final DecimalFormat noDecimalPlace = new DecimalFormat("####");
     /**
      * The df calculated unit.
      */
-    private DecimalFormat dfCalculatedUnit = new DecimalFormat("#,###.0");
+    private final DecimalFormat dfCalculatedUnit = new DecimalFormat("#,###.0");
 
     /**
      * The df SALES_SMALL.
      */
-    private DecimalFormat dfSales = new DecimalFormat("#");
+    private final DecimalFormat dfSales = new DecimalFormat("#");
 
     /**
      * The df UNITS_SMALL.
      */
-    private DecimalFormat dfUnits = new DecimalFormat("#.0");
+    private final DecimalFormat dfUnits = new DecimalFormat("#.0");
 
     /**
      * The calculated SALES_SMALL value.
@@ -246,86 +246,55 @@ public class PMPYCalculator extends Window {
     /**
      * The excel export ch.
      */
-    private Image excelExportCh = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
+    private final Image excelExportCh = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
 
     /**
      * The excel export tp.
      */
-    private Image excelExportTp = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
+    private final Image excelExportTp = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
 
     /**
      * The excel export calculation.
      */
-    private Image excelExportCalculation = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
+    private final Image excelExportCalculation = new Image(null, new ThemeResource(PMPYCalculationExporter.EXCEL_ICON));
 
     /**
      * The total lives chart ch.
      */
-    private Image totalLivesChartCh = new Image(null, new ThemeResource(PMPYCalculationExporter.CHART_ICON));
+    private final Image totalLivesChartCh = new Image(null, new ThemeResource(PMPYCalculationExporter.CHART_ICON));
 
     /**
      * The total lives chart tp.
      */
-    private Image totalLivesChartTp = new Image(null, new ThemeResource(PMPYCalculationExporter.CHART_ICON));
+    private final Image totalLivesChartTp = new Image(null, new ThemeResource(PMPYCalculationExporter.CHART_ICON));
 
     /**
      * The calculate one.
      */
-    private Button calculateOne = new Button(Constant.CALCULATE);
+    private final Button calculateOne = new Button(Constant.CALCULATE);
 
     /**
      * The calculate two.
      */
-    private Button calculateTwo = new Button(Constant.CALCULATE);
+    private final Button calculateTwo = new Button(Constant.CALCULATE);
 
-    /**
-     * The regex.
-     */
-    public static String regex = "(^[0-9]+(\\.[0-9])?$)";
+    private static final String regex = "(^[0-9]+(\\.[0-9])?$)";
 
-    /**
-     * The generate btn.
-     */
+    private final Calendar calendar = CommonUtils.getCalendar();
 
-    /**
-     * The uncheckimg.
-     */
-
-    /**
-     * The checkedimg.
-     */
-
-    /**
-     * The checkboxes1.
-     */
-
-    /**
-     * The checkboxes2.
-     */
-
-    /**
-     * The original bean.
-     */
-    public SalesProjectionResultsDTO originalBean = new SalesProjectionResultsDTO();
-
-    /**
-     * The calendar.
-     */
-    private Calendar calendar = CommonUtils.getCalendar();
-
-    private FreezeFilterTable contractHolderTable = new FreezeFilterTable();
-    private FreezeFilterTable tradingHistoryTable = new FreezeFilterTable();
+    private final FreezeFilterTable contractHolderTable = new FreezeFilterTable();
+    private final FreezeFilterTable tradingHistoryTable = new FreezeFilterTable();
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
     private ExtTreeContainer<PMPYRowDto> tpContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
 
-    String historyPeriods = StringUtils.EMPTY;
-    List projectionDetailsId;
+    private String historyPeriods = StringUtils.EMPTY;
+    private final List projectionDetailsId;
 
-    List<Object> visiColumn = new ArrayList<>();
-    List<String> visiHeaders = new ArrayList<>();
-    private List<String> chtCheckBoxMap = new ArrayList<>();
-    private List<String> tptCheckBoxMap = new ArrayList<>();
-    boolean valueChange = Boolean.TRUE;
+    private final List<Object> visiColumn = new ArrayList<>();
+    private final List<String> visiHeaders = new ArrayList<>();
+    private final List<String> chtCheckBoxMap = new ArrayList<>();
+    private final List<String> tptCheckBoxMap = new ArrayList<>();
+    private boolean valueChange = Boolean.TRUE;
 
     /**
      * The max split position.
@@ -348,24 +317,17 @@ public class PMPYCalculator extends Window {
 
     private String contHolder = StringUtils.EMPTY;
 
-    ExtFilterTreeTable excelTable1 = new ExtFilterTreeTable();
+    private final ExtFilterTreeTable excelTable1 = new ExtFilterTreeTable();
 
-    ExtFilterTreeTable excelTable2 = new ExtFilterTreeTable();
+    private final ExtFilterTreeTable excelTable2 = new ExtFilterTreeTable();
 
     private int projectionId = 0;
 
     private boolean importEvent = false;
 
-    SessionDTO session;
-    List doubleProjectedColumns;
+    private final SessionDTO session;
+    private final List doubleProjectedColumns;
 
-    /**
-     * The Constructor.
-     *
-     * @param tpInfo the tp info
-     * @param originalBean the original bean
-     * @param generateBtn the generate btn
-     */
     public PMPYCalculator(final String history, final List projectionDetailsId, final CustomTableHeaderDTO rightHeader, String tradeName, String tradeNo, String contractHolder, SessionDTO session, List doubleProjectedColumns) {
         super(Constant.PMPY_CALCULATOR);
         LOGGER.debug("Entering PMPYCalculator");
@@ -450,6 +412,7 @@ public class PMPYCalculator extends Window {
                  * Default method.
                  */
 
+                @Override
                 public void click(final MouseEvents.ClickEvent event) {
                     // Excel export functionality here
                     exportCalculatedExcel();
@@ -524,6 +487,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
@@ -531,6 +495,7 @@ public class PMPYCalculator extends Window {
                          * Default method.
                          */
 
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             if (buttonId.name().equals(Constant.YES)) {
                                 // reset the fields here
@@ -554,6 +519,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     firstCalculation();
@@ -565,6 +531,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     secondCalculation();
                 }
@@ -573,19 +540,12 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
 
                     try {
                         importButtonLogic();
-                    } catch (IllegalAccessException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (InvocationTargetException e) {
-
-                        LOGGER.error(e);
-
-                    } catch (NoSuchMethodException e) {
+                    } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
 
                         LOGGER.error(e);
 
@@ -597,6 +557,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void click(final MouseEvents.ClickEvent event) {
                     final PMPYContractHolderHistoryChart chart = new PMPYContractHolderHistoryChart(chContainer.getBeans(), (String) contract.getValue(), rightDto.getDoubleHistoryColumns());
 
@@ -608,6 +569,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void click(final MouseEvents.ClickEvent event) {
                     excelTable1.setContainerDataSource(chContainer);
                     ExtFilterTable leftTable = contractHolderTable.getLeftFreezeAsTable();
@@ -625,6 +587,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void click(final MouseEvents.ClickEvent event) {
                     final PMPYTradingPartnerHistoryChart chart = new PMPYTradingPartnerHistoryChart(tpContainer.getBeans(), tradingPartner.getValue(), rightDto.getDoubleHistoryColumns());
 
@@ -637,6 +600,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void click(final MouseEvents.ClickEvent event) {
                     excelTable2.setContainerDataSource(tpContainer);
                     ExtFilterTable leftTable = tradingHistoryTable.getLeftFreezeAsTable();
@@ -667,6 +631,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     try {
                         if ((contract.getValue() == null || StringUtils.EMPTY.equals(String.valueOf(contract.getValue())) || Constant.NULL.equals(String.valueOf(contract.getValue())) || String.valueOf(contract.getValue()).equals(DASH))
@@ -687,6 +652,7 @@ public class PMPYCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final ClickEvent event) {
                     final boolean chValue = isContractCheckBoxSelected();
                     final boolean tpValue = isTpCheckBoxSelectd();
@@ -702,10 +668,8 @@ public class PMPYCalculator extends Window {
 
             });
             LOGGER.debug("End of configureFields method");
-        }  catch (Exception e) {
-
+        }  catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e);
-
         }
 
     }
@@ -882,6 +846,7 @@ public class PMPYCalculator extends Window {
             /**
              * Default method.
              */
+            @Override
             public void buttonClick(final ClickEvent event) {
 
                 MessageBox.showPlain(Icon.QUESTION, "Confirm Reset", "Are you sure you want to reset the page to default values?", new MessageBoxListener() {
@@ -889,6 +854,7 @@ public class PMPYCalculator extends Window {
                      * Default method.
                      */
 
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             // reset the fields here
@@ -1127,8 +1093,9 @@ public class PMPYCalculator extends Window {
              * Default method.
              */
 
+            @Override
             public void error(final com.vaadin.server.ErrorEvent event) {
-                return;
+                LOGGER.debug("Inside overriden method: Do nothing");
             }
         });
         btnRemove.addClickListener(new ClickListener() {
@@ -1136,6 +1103,7 @@ public class PMPYCalculator extends Window {
             /**
              * Default method.
              */
+            @Override
             public void buttonClick(final ClickEvent event) {
 
                 MessageBox.showPlain(Icon.QUESTION, "Close Confirmation", "Are you sure you want to Close the Calculator" + " ?", new MessageBoxListener() {
@@ -1143,6 +1111,7 @@ public class PMPYCalculator extends Window {
                      * Default method.
                      */
 
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (buttonId.name().equals(Constant.YES)) {
                             close();
@@ -1379,8 +1348,8 @@ public class PMPYCalculator extends Window {
                 salesValue = Double.valueOf(salesFormat.format(Double.valueOf(tempSales)));
 
             } else if (Constant.UNITS.equalsIgnoreCase(getVariableValue())) {
-                final DecimalFormat unitFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
-                salesValue = Double.valueOf(unitFormat.format(Double.valueOf(tempSales)));
+                final DecimalFormat decFormat = new DecimalFormat(Constant.SINGLE_DECIMAL_FORMAT);
+                salesValue = Double.valueOf(decFormat.format(Double.valueOf(tempSales)));
 
             }
         } else {
@@ -1625,6 +1594,7 @@ public class PMPYCalculator extends Window {
                              * Default method.
                              */
 
+                            @Override
                             public void buttonClicked(final ButtonId buttonId) {
                                 if (buttonId.name().equals(Constant.YES)) {
                                     try {

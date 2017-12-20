@@ -703,7 +703,9 @@ Reset_Price_Type,
 Net_Reset_Price_Type,
 Net_Reset_Price_Formula_Id,
 STATUS,
-@ATTACHDATE ATTACH_DATE
+@ATTACHDATE ATTACH_DATE,
+PPA_INDEX_NO,
+ADD_COPY_INDICATOR
         FROM dbo.PS_DETAILS
         WHERE INBOUND_STATUS NOT IN('D') AND PS_MODEL_SID=?
         AND ITEM_PRICING_QUALIFIER_SID IS NOT NULL
@@ -715,7 +717,8 @@ STATUS,
               OR CONTRACT_PRICE_END_DATE IS NULL )) AS Source
 
         ON (Target.PS_CONTRACT_SID = Source.PS_CONTRACT_SID AND Target.ITEM_MASTER_SID=Source.ITEM_MASTER_SID  AND
-        	Target.CONTRACT_PRICE_START_DATE=Source.CONTRACT_PRICE_START_DATE)
+        	Target.CONTRACT_PRICE_START_DATE=Source.CONTRACT_PRICE_START_DATE
+AND Target.PPA_INDEX_NO=Source.PPA_INDEX_NO)
 
         WHEN MATCHED THEN
 
@@ -766,7 +769,8 @@ STATUS,
         Target.Net_Reset_Price_Type = Source.Net_Reset_Price_Type,
         Target.Net_Reset_Price_Formula_Id = Source.Net_Reset_Price_Formula_Id,
         Target.PS_CONTRACT_ATTACHED_STATUS = Source.STATUS,
-        Target.PS_CONTRACT_ATTACHED_DATE = Source.ATTACH_DATE
+        Target.PS_CONTRACT_ATTACHED_DATE = Source.ATTACH_DATE,
+        Target.ADD_COPY_INDICATOR=Source.ADD_COPY_INDICATOR
 
         WHEN NOT matched THEN
 
@@ -777,7 +781,7 @@ STATUS,
         BRAND_MASTER_SID,NEP,PRICE_PROTECTION_STATUS,PRICE_PROTECTION_PRICE_TYPE,NEP_FORMULA,MAX_INCREMENTAL_CHANGE,RESET_ELIGIBLE,RESET_TYPE,RESET_DATE,RESET_INTERVAL,
         RESET_FREQUENCY,NET_PRICE_TYPE,NET_PRICE_TYPE_FORMULA,Base_Price_Type,Base_Price_Entry,Base_Price_Date,Net_Base_Price,Base_Price_ddlb,Net_Base_Price_Formula_ID,Subsequent_Period_Price_Type,
         Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id, PS_CONTRACT_ATTACHED_STATUS, PS_CONTRACT_ATTACHED_DATE
-        )
+        ,PPA_INDEX_NO,ADD_COPY_INDICATOR)
 
   		VALUES(Source.PS_CONTRACT_SID, Source.ITEM_MASTER_SID, Source.CONTRACT_PRICE_START_DATE, Source.CONTRACT_PRICE_END_DATE, Source.CONTRACT_PRICE,
         Source.PRICE_REVISION, Source.REVISION_DATE, Source.PRICE_PROTECTION_START_DATE ,Source.PRICE_PROTECTION_END_DATE, Source.PRICE_TOLERANCE_TYPE,
@@ -786,7 +790,7 @@ STATUS,
         Source.CREATED_BY, Source.CREATED_DATE, Source.MODIFIED_BY, Source.MODIFIED_DATE, Source.PRICE,'A', 0,
         Source.BRAND_MASTER_SID,Source.NEP,Source.PRICE_PROTECTION_STATUS,Source.PRICE_PROTECTION_PRICE_TYPE,Source.NEP_FORMULA,Source.MAX_INCREMENTAL_CHANGE,Source.RESET_ELIGIBLE,Source.RESET_TYPE,Source.RESET_DATE,
         Source.RESET_INTERVAL,Source.RESET_FREQUENCY,Source.NET_PRICE_TYPE,Source.NET_PRICE_TYPE_FORMULA,Source.Base_Price_Type,Source.Base_Price_Entry,Source.Base_Price_Date,Source.Net_Base_Price,Source.Base_Price_ddlb,Source.Net_Base_Price_Formula_ID,
-        Source.Subsequent_Period_Price_Type,Source.Net_Subsequent_Period_price,Source.Net_Subsequent_Price_Formula_Id,Source.Reset_Price_Type,Source.Net_Reset_Price_Type,Source.Net_Reset_Price_Formula_Id, Source.STATUS, Source.ATTACH_DATE
+        Source.Subsequent_Period_Price_Type,Source.Net_Subsequent_Period_price,Source.Net_Subsequent_Price_Formula_Id,Source.Reset_Price_Type,Source.Net_Reset_Price_Type,Source.Net_Reset_Price_Formula_Id, Source.STATUS, Source.ATTACH_DATE,Source.PPA_INDEX_NO,Source.ADD_COPY_INDICATOR
         );
 
 
@@ -1750,6 +1754,7 @@ WHEN NOT MATCHED BY TARGET THEN INSERT
                 LEFT JOIN HELPER_TABLE hpackageSize on hpackageSize.HELPER_TABLE_SID=im.PACKAGE_SIZE
                 Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
                 WHERE OPERATION <> 'D' and impr.USERS_SID = '?' and impr.SESSION_ID='?'
+                AND impr.ADD_COPY_INDICATOR IS NULL
                      ?
             ]]>
 		</query>
@@ -1778,6 +1783,7 @@ WHEN NOT MATCHED BY TARGET THEN INSERT
                 LEFT JOIN HELPER_TABLE hpackageSize on hpackageSize.HELPER_TABLE_SID=im.PACKAGE_SIZE
                 Left Join BRAND_MASTER BM ON im.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
                 WHERE OPERATION <> 'D' and impr.USERS_SID = '?' and impr.SESSION_ID='?'
+                AND impr.ADD_COPY_INDICATOR IS NULL
                      ?
                      ORDER BY ?
                     OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
@@ -2192,6 +2198,7 @@ SET
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
                         and ppa_index_no = 1
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -2256,6 +2263,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2326,6 +2334,7 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2354,6 +2363,7 @@ SET
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
                                 and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -2405,6 +2415,7 @@ SET
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2454,6 +2465,7 @@ SET
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
@@ -2673,6 +2685,7 @@ WHERE
                             NRPF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_RESET_PRICE_FORMULA_ID
                     LEFT JOIN NET_SALES_FORMULA_MASTER NPTF ON
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
+                       
                 WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
@@ -2761,8 +2774,22 @@ WHERE
                                                   WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
                                                   ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
                                           END,
-                            IMTD.BASE_PRICE_DATE,
-                            BPH.DESCRIPTION
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES3,
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES4,
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES5,
+                            BPH.DESCRIPTION,
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES,
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES1, 
+                            PTH.DESCRIPTION as PRICE_TOLERANCE_TYPE_DES2, 
+                            BPH.DESCRIPTION AS BDES,
+                            IMTD.BASE_PRICE_DDLB AS IBPDDLB,
+                            IMTD.BASE_PRICE_DATE AS IBPD,
+                                    BASE_PRICE_ENTRYYY=CASE
+                                                  WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
+                                                  ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
+                                          END
+                            
+                            
                     FROM
                             IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
                     LEFT JOIN BRAND_MASTER BM ON
@@ -2779,12 +2806,14 @@ WHERE
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                    LEFT JOIN HELPER_TABLE PTH ON
+                            PTH.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE
                 WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
                 ORDER BY
-                        ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+                        ? ,IMTD.IMTD_ITEM_PRICE_REBATE_SID ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
         ]]>
 		</query>
 	</entity>
@@ -2994,6 +3023,7 @@ WHERE
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
                                 and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -3095,6 +3125,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
 
@@ -3119,6 +3150,7 @@ WHERE
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
                                 and ppa_index_no = 1
+                                AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
 	</entity>
@@ -3152,6 +3184,7 @@ WHERE
                         OPERATION NOT IN ('D','F')
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
+                        AND IMTD.ADD_COPY_INDICATOR IS NULL
                 ORDER BY
                         ? OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
 
@@ -3904,7 +3937,7 @@ WHERE  RN = 1 ;
             AND IM.ITEM_MASTER_SID=IFP.ITEM_MASTER_SID
             AND IM.INBOUND_STATUS <> 'D'
             AND IFP.INBOUND_STATUS <> 'D'
-            AND IFPC.INBOUND_STATUS <> 'D';
+            AND IFPC.INBOUND_STATUS <> 'D'
         ]]>
 		</query>
 	</entity>
@@ -3920,7 +3953,7 @@ WHERE  RN = 1 ;
             USERS_SID, SESSION_ID, CHECK_RECORD,  IMTD_CREATED_DATE, "Operation", CREATED_BY, CREATED_DATE, MODIFIED_BY, MODIFIED_DATE, ATTACHED_STATUS,
             MAX_INCREMENTAL_CHANGE,RESET_ELIGIBLE,RESET_TYPE,RESET_DATE,RESET_INTERVAL,RESET_FREQUENCY,NET_PRICE_TYPE,NET_PRICE_TYPE_FORMULA,PRICE_PROTECTION_PRICE_TYPE,
             NEP,NEP_FORMULA,BRAND_MASTER_SID,PRICE_PROTECTION_STATUS,Base_Price_Type,Base_Price_Entry,Base_Price_Date,Base_Price_ddlb,Net_Base_Price,Net_Base_Price_Formula_ID,Subsequent_Period_Price_Type,
-            Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id,"SOURCE",SUGGESTED_PRICE, ATTACHED_DATE,PPA_INDEX_NO )
+            Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id,"SOURCE",SUGGESTED_PRICE, ATTACHED_DATE,PPA_INDEX_NO,ADD_COPY_INDICATOR )
         SELECT Distinct
             IM.ITEM_MASTER_SID, IM.ITEM_ID,  IM.ITEM_NO, IM.ITEM_NAME,IM.PRIMARY_UOM,IM.PACKAGE_SIZE, 0 UDC1, 0 UDC2, 0 UDC3, 0 UDC4, 0 UDC5, 0 UDC6,
             IFP.ITEM_START_DATE, IFP.ITEM_END_DATE,
@@ -3933,7 +3966,7 @@ WHERE  RN = 1 ;
             PS.MAX_INCREMENTAL_CHANGE,PS.RESET_ELIGIBLE,PS.RESET_TYPE,PS.RESET_DATE,PS.RESET_INTERVAL,PS.RESET_FREQUENCY,PS.NET_PRICE_TYPE,PS.NET_PRICE_TYPE_FORMULA,PS.PRICE_PROTECTION_PRICE_TYPE,
             PS.NEP,PS.NEP_FORMULA,PS.BRAND_MASTER_SID,PS.PRICE_PROTECTION_STATUS,PS.Base_Price_Type,PS.Base_Price_Entry,PS.Base_Price_Date,PS.Base_Price_ddlb,PS.Net_Base_Price,PS.Net_Base_Price_Formula_ID,
             PS.Subsequent_Period_Price_Type,PS.Net_Subsequent_Period_price,PS.Net_Subsequent_Price_Formula_Id,PS.Reset_Price_Type,PS.Net_Reset_Price_Type,PS.Net_Reset_Price_Formula_Id
-            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO
+            ,PS."SOURCE",PS.SUGGESTED_PRICE, IFP.IFP_CONTRACT_ATTACHED_DATE,PS.PPA_INDEX_NO,PS.ADD_COPY_INDICATOR
         FROM
             PS_CONTRACT_DETAILS PS,
             PS_CONTRACT PSC,
@@ -3979,7 +4012,7 @@ WHERE  RN = 1 ;
             ,RESET_FREQUENCY,NET_PRICE_TYPE,NET_PRICE_TYPE_FORMULA,Base_Price_Type,Base_Price_Entry,Base_Price_Date,Net_Base_Price,Base_Price_ddlb,Net_Base_Price_Formula_ID,Subsequent_Period_Price_Type
             ,Net_Subsequent_Period_price,Net_Subsequent_Price_Formula_Id,Reset_Price_Type,Net_Reset_Price_Type,Net_Reset_Price_Formula_Id, RS_ATTACHED_STATUS, NET_SALES_FORMULA_MASTER_SID,
             NET_SALES_RULE, EVALUATION_RULE, EVALUATION_RULE_BUNDLE, CALCULATION_RULE, CALCULATION_RULE_BUNDLE,DEDUCTION_CALENDAR_MASTER_SID
-            ,"SOURCE",SUGGESTED_PRICE, MODIFIED_DATE)
+            ,"SOURCE",SUGGESTED_PRICE, MODIFIED_DATE,ADD_COPY_INDICATOR,PPA_INDEX_NO)
         SELECT DISTINCT
             IM.ITEM_MASTER_SID, IM.ITEM_ID,  IM.ITEM_NO, IM.ITEM_NAME,IM.ITEM_TYPE,IM.PRIMARY_UOM,IM.PACKAGE_SIZE, 0 UDC1, 0 UDC2, 0 UDC3, 0 UDC4, 0 UDC5, 0 UDC6,
             IFPCD.ITEM_START_DATE, IFPCD.ITEM_END_DATE, IFPCD.ITEM_STATUS, IFPCD.IFP_CONTRACT_ATTACHED_DATE, IFPCD.IFP_CONTRACT_DETAILS_SID,
@@ -3996,36 +4029,18 @@ WHERE  RN = 1 ;
              PSCD.Base_Price_ddlb,PSCD.Net_Base_Price_Formula_ID,PSCD.Subsequent_Period_Price_Type,PSCD.Net_Subsequent_Period_price,PSCD.Net_Subsequent_Price_Formula_Id,PSCD.Reset_Price_Type,PSCD.Net_Reset_Price_Type,
              PSCD.Net_Reset_Price_Formula_Id, RSCD.RS_CONTRACT_ATTACHED_STATUS,
             RSCD.NET_SALES_FORMULA_MASTER_SID, RSCD.NET_SALES_RULE, RSCD.EVALUATION_RULE, RSCD.EVALUATION_RULE_BUNDLE, RSCD.CALCULATION_RULE, RSCD.CALCULATION_RULE_BUNDLE, RSCD.DEDUCTION_CALENDAR_MASTER_SID
-            ,PSCD."SOURCE",PSCD.SUGGESTED_PRICE, IFPCD.MODIFIED_DATE
-        FROM
+            ,PSCD."SOURCE",PSCD.SUGGESTED_PRICE, IFPCD.MODIFIED_DATE,PSCD.ADD_COPY_INDICATOR,PSCD.PPA_INDEX_NO
 
-            IFP_CONTRACT_DETAILS IFPCD,
-            PS_CONTRACT_DETAILS PSCD,
-            RS_CONTRACT RSC,
-            RS_CONTRACT_DETAILS RSCD,
-            ITEM_MASTER IM,PS_CONTRACT PS
-        WHERE
-            RSC.CONTRACT_MASTER_SID ?
-            AND RSC.CFP_CONTRACT_SID ?
-            AND RSC.IFP_CONTRACT_SID ?
-            AND RSC.PS_CONTRACT_SID ?
-            AND RSC.RS_CONTRACT_SID ?
-
-            AND PSCD.PS_CONTRACT_SID ?
-            AND IFPCD.IFP_CONTRACT_SID ?
-
-            AND RSC.RS_CONTRACT_SID=RSCD.RS_CONTRACT_SID
-
-            AND RSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-            AND PSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-            AND IFPCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID
-            AND PS.PS_CONTRACT_SID=PSCD.PS_CONTRACT_SID
-
-
-            AND IM.INBOUND_STATUS <> 'D'
-            AND IFPCD.INBOUND_STATUS <> 'D'
-            AND PSCD.INBOUND_STATUS <> 'D'
-            AND RSCD.INBOUND_STATUS <> 'D';
+               FROM ITEM_MASTER IM
+JOIN IFP_CONTRACT_DETAILS IFPCD ON IFPCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID AND IFPCD.INBOUND_STATUS <> 'D'   AND IM.INBOUND_STATUS <> 'D'   AND IFPCD.IFP_CONTRACT_SID   ?  AND IM.INBOUND_STATUS <> 'D'    AND IFPCD.INBOUND_STATUS <> 'D'
+LEFT JOIN PS_CONTRACT_DETAILS PSCD ON PSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID   AND PSCD.PS_CONTRACT_SID  ?    AND PSCD.INBOUND_STATUS <> 'D'
+LEFT JOIN ps_contract ps ON PS.PS_CONTRACT_SID = PSCD.PS_CONTRACT_SID
+LEFT JOIN RS_CONTRACT_DETAILS RSCD ON RSCD.ITEM_MASTER_SID = IM.ITEM_MASTER_SID   AND RSCD.INBOUND_STATUS <> 'D'     AND RSCD.RS_CONTRACT_SID  ?
+LEFT JOIN rs_contract RSC ON RSC.RS_CONTRACT_SID = RSCD.RS_CONTRACT_SID   AND RSC.CONTRACT_MASTER_SID ?  AND RSC.CFP_CONTRACT_SID  ?       
+       
+        AND RSC.IFP_CONTRACT_SID ?
+        AND RSC.PS_CONTRACT_SID  ?
+        AND RSC.RS_CONTRACT_SID ?
         ]]>
 		</query>
 	</entity>
@@ -4156,7 +4171,7 @@ WHERE  RN = 1 ;
             CONTRACT_MASTER_SID, CFP_MODEL_SID, IFP_MODEL_SID, PS_MODEL_SID,
             RS_MODEL_SID, FORMULA_ID, REBATE_AMOUNT, RS_DETAILS_SID,
             ITEM_REBATE_START_DATE, ITEM_REBATE_END_DATE, REBATE_PLAN_SYSTEM_ID, BUNDLE_NO,
-            USERS_SID, SESSION_ID, CHECK_RECORD,  IMTD_CREATED_DATE, "OPERATION", CREATED_BY, CREATED_DATE, ATTACHED_DATE, MODIFIED_DATE)
+            USERS_SID, SESSION_ID, CHECK_RECORD,  IMTD_CREATED_DATE, "OPERATION", CREATED_BY, CREATED_DATE, MODIFIED_DATE)
         SELECT DISTINCT
             IM.ITEM_MASTER_SID, IM.ITEM_ID,  IM.ITEM_NO, IM.ITEM_NAME, IFPCD.ITEM_STATUS,IM.PRIMARY_UOM,IM.PACKAGE_SIZE, 0 UDC1, 0 UDC2, 0 UDC3, 0 UDC4, 0 UDC5, 0 UDC6,
             IFPCD.ITEM_START_DATE, IFPCD.ITEM_END_DATE, IFPCD.ITEM_STATUS, IFPCD.IFP_CONTRACT_ATTACHED_DATE, IFPCD.IFP_CONTRACT_DETAILS_SID,
@@ -4164,7 +4179,7 @@ WHERE  RN = 1 ;
             RSC.PS_CONTRACT_SID,
             RSC.RS_MODEL_SID,RSCD.FORMULA_ID, RSCD.REBATE_AMOUNT, RSCD.RS_CONTRACT_DETAILS_SID,
             RSCD.ITEM_REBATE_START_DATE, RSCD.ITEM_REBATE_END_DATE, RSCD.REBATE_PLAN_MASTER_SID, RSCD.BUNDLE_NO,
-            '?' USERS_SID, '?' SESSION_ID, 0 CHECK_RECORD, '?' IMTD_CREATED_DATE, 'U' "Operation", IFPCD.CREATED_BY, IFPCD.CREATED_DATE , IFPCD.IFP_CONTRACT_ATTACHED_DATE, IFPCD.MODIFIED_DATE
+            '?' USERS_SID, '?' SESSION_ID, 0 CHECK_RECORD, '?' IMTD_CREATED_DATE, 'U' "Operation", IFPCD.CREATED_BY, IFPCD.CREATED_DATE , IFPCD.MODIFIED_DATE
         FROM
             IFP_CONTRACT_DETAILS IFPCD,
             RS_CONTRACT RSC,
@@ -4329,7 +4344,7 @@ WHERE  RN = 1 ;
         <![CDATA[
             SELECT
                     CFM.CFP_ID
-                    ,CFM.CFP_NO
+                    ,CFC.CFP_NO
                     ,CFC.CFP_NAME
                     ,CFC.CFP_STATUS
                     ,CFC.CFP_START_DATE
@@ -4368,7 +4383,7 @@ WHERE  RN = 1 ;
         <![CDATA[
                 SELECT
                         IFM.IFP_ID
-                        ,IFM.IFP_NO
+                        ,IFC.IFP_NO
                         ,IFC.IFP_NAME
                         ,IFC.IFP_STATUS
                         ,IFC.IFP_START_DATE
@@ -4400,7 +4415,7 @@ WHERE  RN = 1 ;
         <![CDATA[
             SELECT
                     PSM.PS_ID
-                    ,PSM.PS_NO
+                    ,PSC.PS_NO
                     ,PSC.PS_NAME
                     ,PSC.PS_STATUS
                     ,PSC.PS_START_DATE
@@ -4434,7 +4449,7 @@ WHERE  RN = 1 ;
         <![CDATA[
                             SELECT
                                     RSM.RS_ID
-                                    ,RSM.RS_NO
+                                    ,RSC.RS_NO
                                     ,RSC.RS_NAME
                                     ,RSC.RS_STATUS
                                     ,RSC.RS_TYPE
@@ -5689,9 +5704,9 @@ JOIN RS_CONTRACT RC ON RC.RS_MODEL_SID = IMTD.RS_MODEL_SID
  JOIN RS_CONTRACT_DETAILS CC1 ON RC.RS_CONTRACT_SID = CC1.RS_CONTRACT_SID
        AND CC1.RS_CONTRACT_SID =@RS_CONTRACT_ID
        AND CC1.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
-       AND CC1.REBATE_PLAN_MASTER_SID = IMTD.REBATE_PLAN_SYSTEM_ID
        AND CC1.INBOUND_STATUS <> 'D'
-       AND ( 
+       AND (
+        CC1.REBATE_PLAN_MASTER_SID <> IMTD.REBATE_PLAN_SYSTEM_ID OR
 		COALESCE(IMTD.ITEM_REBATE_START_DATE,1) <> COALESCE(CC1.ITEM_REBATE_START_DATE,1) 
 		OR COALESCE(IMTD.ITEM_REBATE_END_DATE,1) <> COALESCE(CC1.ITEM_REBATE_END_DATE,1)
 		OR COALESCE(IMTD.ATTACHED_STATUS,1) <> COALESCE(CC1.RS_CONTRACT_ATTACHED_STATUS,1)
@@ -5953,9 +5968,7 @@ ORDER BY
 	,@PS_CONTRACT_ID INT = ?
 	,@CREATED_BY INT = ?
 	,@MODIFIED_BY INT = ?;
-        DECLARE @COUNT INT
-SELECT @COUNT=COUNT(1) FROM PS_CONTRACT_DETAILS WHERE PS_CONTRACT_SID = @PS_CONTRACT_ID;
- 
+
 WITH CTE AS (
               SELECT DISTINCT @PS_CONTRACT_ID AS PS_CONTRACT_SID
                      ,IMTD.ITEM_MASTER_SID
@@ -6115,6 +6128,7 @@ WITH CTE AS (
                            END NET_PRICE_TYPE_FORMULA
                      ,@CREATED_BY CREATED_BY
                      ,@MODIFIED_BY MODIFIED_BY
+                     ,IMTD.ADD_COPY_INDICATOR
                      ,CC1.PPA_INDEX_NO
               FROM IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
               JOIN PS_CONTRACT RC ON RC.PS_MODEL_SID = IMTD.PS_MODEL_SID
@@ -6125,11 +6139,11 @@ WITH CTE AS (
               JOIN PS_CONTRACT_DETAILS CC1 ON RC.PS_CONTRACT_SID = CC1.PS_CONTRACT_SID
                      AND CC1.PS_CONTRACT_SID = @PS_CONTRACT_ID
                      AND CC1.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
-                     AND CC1.PRICE_PROTECTION_START_DATE <> IMTD.PRICE_PROTECTION_START_DATE
                      AND CC1.PPA_INDEX_NO=IMTD.PPA_INDEX_NO
+                     AND CC1.PRICE_PROTECTION_START_DATE = IMTD.PRICE_PROTECTION_START_DATE
                      AND CC1.INBOUND_STATUS <> 'D'
-                     AND (
-                           COALESCE(IMTD.CONTRACT_PRICE_START_DATE, 1) <> COALESCE(CC1.CONTRACT_PRICE_START_DATE, 1)
+                     AND (  CC1.PRICE_PROTECTION_START_DATE <> IMTD.PRICE_PROTECTION_START_DATE
+                           OR COALESCE(IMTD.CONTRACT_PRICE_START_DATE, 1) <> COALESCE(CC1.CONTRACT_PRICE_START_DATE, 1)
                            OR COALESCE(IMTD.CONTRACT_PRICE_END_DATE, 1) <> COALESCE(CC1.CONTRACT_PRICE_END_DATE, 1)
                            OR COALESCE(IMTD.PRICE_TOLERANCE, 1) <> COALESCE(CC1.PRICE_TOLERANCE, 1)
                            OR COALESCE(IMTD.PRICE_TOLERANCE_TYPE, 1) <> COALESCE(CC1.PRICE_TOLERANCE_TYPE, 1)
@@ -6209,7 +6223,8 @@ WITH CTE AS (
                      ,IMTD.NET_PRICE_TYPE_FORMULA
                      ,@CREATED_BY
                      ,@MODIFIED_BY
-                     ,0 PPA_INDEX_NO
+                     ,IMTD.ADD_COPY_INDICATOR
+                     ,IMTD.PPA_INDEX_NO
 FROM IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
        WHERE IMTD.USERS_SID = @USERS_SID
               AND SESSION_ID = @SESSION_ID
@@ -6219,6 +6234,7 @@ FROM IMTD_ITEM_PRICE_REBATE_DETAILS IMTD
                      INNER JOIN PS_CONTRACT_DETAILS CC1
                            ON RC.PS_CONTRACT_SID = CC1.PS_CONTRACT_SID
                                   AND RC.PS_CONTRACT_SID = @PS_CONTRACT_ID
+						   AND RC.PS_MODEL_SID=IMTD.PS_MODEL_SID
                      WHERE RC.CONTRACT_MASTER_SID = IMTD.CONTRACT_MASTER_SID
                            AND CC1.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND CC1.PRICE_PROTECTION_START_DATE = IMTD.PRICE_PROTECTION_START_DATE
@@ -6277,6 +6293,7 @@ INSERT INTO PS_CONTRACT_DETAILS_PENDING (
        ,NET_PRICE_TYPE_FORMULA
        ,CREATED_BY
        ,MODIFIED_BY
+       ,ADD_COPY_INDICATOR
        ,PPA_INDEX_NO
        )
 SELECT PS_CONTRACT_SID
@@ -6329,8 +6346,8 @@ SELECT PS_CONTRACT_SID
        ,NET_PRICE_TYPE_FORMULA
        ,CREATED_BY
        ,MODIFIED_BY
-       ,COALESCE(@COUNT,0) + ROW_NUMBER() OVER (
-              PARTITION BY PS_CONTRACT_SID ,ITEM_MASTER_SID ,CONTRACT_PRICE_START_DATE ORDER BY PRICE_PROTECTION_START_DATE ) PPA_INDEX_NO
+       ,ADD_COPY_INDICATOR
+       ,PPA_INDEX_NO
 FROM CTE
 		
         ]]>
@@ -6451,7 +6468,8 @@ SET
                      RESET_FREQUENCY,
                      NET_PRICE_TYPE,
                      NET_PRICE_TYPE_FORMULA,
-                     PPA_INDEX_NO
+                     PPA_INDEX_NO,
+                     ADD_COPY_INDICATOR
               )
        VALUES(
               PS_CONTRACT_SID,
@@ -6502,7 +6520,8 @@ SET
               SOURCE.RESET_FREQUENCY,
               SOURCE.NET_PRICE_TYPE,
               SOURCE.NET_PRICE_TYPE_FORMULA,
-              SOURCE.PPA_INDEX_NO
+              SOURCE.PPA_INDEX_NO,
+              SOURCE.ADD_COPY_INDICATOR
        );
  
 ;
@@ -6622,6 +6641,20 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  on IQ.ITEM_PRICING_QUALIFIER_SID=Imtd.ITEM_PRICING_QUALIFIER_SID AND IQ.ITEM_PRICING_QUALIFIER_NAME  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'      
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'
@@ -6703,20 +6736,29 @@ SELECT
                                                   ELSE NPTF.NET_SALES_FORMULA_NAME
                                           END,
                             IMTD.PS_CONTRACT_ATTACHED_DATE,
-                            IMTD.PS_CONT_DET_PENDING_SID,
-                            IMTD.ITEM_MASTER_SID,
-                            IMTD.NEP_FORMULA,
-                            IMTD.NET_BASE_PRICE_FORMULA_ID,
-                            IMTD.NET_SUBSEQUENT_PRICE_FORMULA_ID,
-                            IMTD.NET_RESET_PRICE_FORMULA_ID,
-                            IMTD.NET_PRICE_TYPE_FORMULA,
-                            IMTD.BASE_PRICE_DDLB,
-                            BASE_PRICE_ENTRY=CASE
-                                                  WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
-                                                  ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
-                                          END,
-                            IMTD.BASE_PRICE_DATE,
-                            BPH.DESCRIPTION
+                            hpriceprotectionstatus.DESCRIPTION AS PP_STATUSPENDING,
+                            IQ.ITEM_PRICING_QUALIFIER_NAME AS MEASUREMENT_PRICEPENDING,
+                            hbasepricetype.DESCRIPTION AS BASE_PRICE_TYPEPENDING,
+                            hnetbaseprice.DESCRIPTION AS NET_BASE_PRICEPENDING,
+                            IQ.ITEM_PRICING_QUALIFIER_NAME AS SUBSEQUENT_PERIOD_PRICE_TYPEPENDING,
+                            hnetsubsequentperiodprice.DESCRIPTION AS NET_SUBSEQUENT_PERIOD_PRICEPENDING,
+                            hpricetolint.DESCRIPTION AS pricetolintpending,
+                            hpricetolfre.DESCRIPTION AS pricetolfrepending,
+                            hpricetoltype.DESCRIPTION AS pricetoltypepending,
+                            hreseteligible.DESCRIPTION AS reseteligiblepending,                          
+                            hresettype.DESCRIPTION AS resettypepending,
+                            hresetinterval.DESCRIPTION AS resetintervalpending,
+                            hresetfrequency.DESCRIPTION AS resetfrequencypending,
+                            IQ.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
+                            hnetresetpricetype.DESCRIPTION AS netresetpricetypepending,    
+                            hnetpricetype.DESCRIPTION AS netpricetypepending,
+                            BPH.DESCRIPTION AS BDES,
+                            IMTD.BASE_PRICE_DDLB AS IBPDDLB,
+                            IMTD.BASE_PRICE_DATE AS IBPD,
+                                BASE_PRICE_ENTRYYY=CASE
+                                             WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
+                                             ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
+                                     END
                     FROM
                             dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                     LEFT JOIN BRAND_MASTER BM ON
@@ -6733,6 +6775,20 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  on IQ.ITEM_PRICING_QUALIFIER_SID=Imtd.ITEM_PRICING_QUALIFIER_SID AND IQ.ITEM_PRICING_QUALIFIER_NAME  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'      
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'
@@ -6786,12 +6842,7 @@ SELECT
         <![CDATA[
         DECLARE @USERS_SID int =?,
             @SESSION_ID VARCHAR(15)=?
-            DECLARE @COUNT INT
-SELECT @COUNT=COUNT(1) FROM IMTD_ITEM_PRICE_REBATE_DETAILS
-                WHERE
-                       USERS_SID = @USERS_SID
-                       AND SESSION_ID = @SESSION_ID
-         
+                
 INSERT INTO IMTD_ITEM_PRICE_REBATE_DETAILS (
        ITEM_MASTER_SID
        ,ITEM_ID
@@ -6957,11 +7008,24 @@ SELECT ITEM_MASTER_SID
        ,BASE_PRICE_TYPE
        ,BASE_PRICE_ENTRY
        ,'A' AS ADD_COPY_INDICATOR
-       ,@COUNT + ROW_NUMBER() OVER (
-              PARTITION BY ITEM_MASTER_SID
-              ,PS_MODEL_SID,CONTRACT_PRICE_START_DATE ORDER BY IMTD_ITEM_PRICE_REBATE_SID
-              )
-FROM IMTD_ITEM_PRICE_REBATE_DETAILS
+       ,COALESCE(CS.COUNT_VALUE, 0) + ROW_NUMBER() OVER (
+               PARTITION BY ITEM_MASTER_SID
+               ,PS_MODEL_SID,CONTRACT_PRICE_START_DATE ORDER BY PRICE_PROTECTION_START_DATE
+               )
+FROM IMTD_ITEM_PRICE_REBATE_DETAILS A
+OUTER APPLY (
+       SELECT TOP 1 MAX(B.PPA_INDEX_NO) OVER (
+                     PARTITION BY ITEM_MASTER_SID,
+                     PS_MODEL_SID,
+                     CONTRACT_PRICE_START_DATE
+                     ) COUNT_VALUE
+       FROM IMTD_ITEM_PRICE_REBATE_DETAILS B
+       WHERE A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND A.PS_MODEL_SID = B.PS_MODEL_SID
+              AND A.CONTRACT_PRICE_START_DATE = B.CONTRACT_PRICE_START_DATE
+              AND A.USERS_SID = B.USERS_SID
+              AND A.SESSION_ID = B.SESSION_ID
+       ) CS
                 WHERE
                        USERS_SID = @USERS_SID
                        and SESSION_ID = @SESSION_ID
@@ -6975,12 +7039,7 @@ FROM IMTD_ITEM_PRICE_REBATE_DETAILS
         DECLARE @USERS_SID int =?,
             @SESSION_ID VARCHAR(15)=?
             
-            DECLARE @COUNT INT
- 
-SELECT @COUNT=COUNT(1) FROM IMTD_ITEM_PRICE_REBATE_DETAILS
-                WHERE
-                       USERS_SID = @USERS_SID
-                       AND SESSION_ID = @SESSION_ID
+        
           INSERT INTO IMTD_ITEM_PRICE_REBATE_DETAILS (
        ITEM_MASTER_SID
        ,ITEM_ID
@@ -7184,11 +7243,24 @@ SELECT ITEM_MASTER_SID
        ,BASE_PRICE_TYPE
        ,BASE_PRICE_ENTRY
        ,'A' AS ADD_COPY_INDICATOR
-      ,@COUNT + ROW_NUMBER() OVER (
-              PARTITION BY ITEM_MASTER_SID
-              ,PS_MODEL_SID,CONTRACT_PRICE_START_DATE ORDER BY IMTD_ITEM_PRICE_REBATE_SID
-              )
-FROM IMTD_ITEM_PRICE_REBATE_DETAILS
+      ,COALESCE(CS.COUNT_VALUE, 0) + ROW_NUMBER() OVER (
+               PARTITION BY ITEM_MASTER_SID
+               ,PS_MODEL_SID,CONTRACT_PRICE_START_DATE ORDER BY PRICE_PROTECTION_START_DATE
+               ) 
+FROM IMTD_ITEM_PRICE_REBATE_DETAILS A
+OUTER APPLY (
+       SELECT TOP 1 MAX(B.PPA_INDEX_NO) OVER (
+                     PARTITION BY ITEM_MASTER_SID,
+                     PS_MODEL_SID,
+                     CONTRACT_PRICE_START_DATE
+                     ) COUNT_VALUE
+       FROM IMTD_ITEM_PRICE_REBATE_DETAILS B
+       WHERE A.ITEM_MASTER_SID = B.ITEM_MASTER_SID
+              AND A.PS_MODEL_SID = B.PS_MODEL_SID
+              AND A.CONTRACT_PRICE_START_DATE = B.CONTRACT_PRICE_START_DATE
+              AND A.USERS_SID = B.USERS_SID
+              AND A.SESSION_ID = B.SESSION_ID
+       ) CS
                 WHERE
                        USERS_SID = @USERS_SID
                        and SESSION_ID = @SESSION_ID
@@ -7506,6 +7578,25 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                            
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'                   
+                            
+                            
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'
@@ -7587,20 +7678,23 @@ SELECT
                                                   ELSE NPTF.NET_SALES_FORMULA_NAME
                                           END,
                             IMTD.PS_CONTRACT_ATTACHED_DATE,
-                            IMTD.PS_CONT_DET_PENDING_SID,
-                            IMTD.ITEM_MASTER_SID,
-                            IMTD.NEP_FORMULA,
-                            IMTD.NET_BASE_PRICE_FORMULA_ID,
-                            IMTD.NET_SUBSEQUENT_PRICE_FORMULA_ID,
-                            IMTD.NET_RESET_PRICE_FORMULA_ID,
-                            IMTD.NET_PRICE_TYPE_FORMULA,
-                            IMTD.BASE_PRICE_DDLB,
-                            BASE_PRICE_ENTRY=CASE
-                                                  WHEN IMTD.BASE_PRICE_ENTRY IS NULL THEN ''
-                                                  ELSE str(IMTD.BASE_PRICE_ENTRY,16,2)
-                                          END,
-                            IMTD.BASE_PRICE_DATE,
-                            BPH.DESCRIPTION
+                            hpriceprotectionstatus.DESCRIPTION AS PP_STATUSPENDING,
+                            IQ.ITEM_PRICING_QUALIFIER_NAME AS MEASUREMENT_PRICEPENDING,
+                            hbasepricetype.DESCRIPTION AS BASE_PRICE_TYPEPENDING,
+                            hnetbaseprice.DESCRIPTION AS NET_BASE_PRICEPENDING,
+                            IQ1.ITEM_PRICING_QUALIFIER_NAME AS SUBSEQUENT_PERIOD_PRICE_TYPEPENDING,
+                            hnetsubsequentperiodprice.DESCRIPTION AS NET_SUBSEQUENT_PERIOD_PRICEPENDING,
+                            hpricetolint.DESCRIPTION AS pricetolintpending,
+                            hpricetolfre.DESCRIPTION AS pricetolfrepending,
+                            hpricetoltype.DESCRIPTION AS pricetoltypepending,
+                            hreseteligible.DESCRIPTION AS reseteligiblepending,
+                            hresettype.DESCRIPTION AS resettypepending,
+                            hresetinterval.DESCRIPTION AS resetintervalpending,
+                            hresetfrequency.DESCRIPTION AS resetfrequencypending,
+                            IQ2.ITEM_PRICING_QUALIFIER_NAME AS RESET_PRICE_TYPEPENDING,
+                            hnetresetpricetype.DESCRIPTION AS netresetpricetypepending,
+                            hnetpricetype.DESCRIPTION AS netpricetypepending
+                            
                     FROM
                             dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                     LEFT JOIN BRAND_MASTER BM ON
@@ -7617,6 +7711,24 @@ SELECT
                             NPTF.NET_SALES_FORMULA_MASTER_SID=IMTD.NET_PRICE_TYPE_FORMULA
                     LEFT JOIN HELPER_TABLE BPH ON
                             BPH.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE
+                            
+                    LEFT JOIN HELPER_TABLE hpriceprotectionstatus on hpriceprotectionstatus.HELPER_TABLE_SID=IMTD.PRICE_PROTECTION_STATUS AND hpriceprotectionstatus.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ  ON IQ.ITEM_PRICING_QUALIFIER_SID = IMTD.PRICE_PROTECTION_PRICE_TYPE AND IQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ1 ON IQ1.ITEM_PRICING_QUALIFIER_SID = IMTD.SUBSEQUENT_PERIOD_PRICE_TYPE AND IQ1.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN ITEM_PRICING_QUALIFIER IQ2 ON IQ2.ITEM_PRICING_QUALIFIER_SID = IMTD.RESET_PRICE_TYPE AND IQ2.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
+                    LEFT JOIN HELPER_TABLE hbasepricetype on hbasepricetype.HELPER_TABLE_SID=IMTD.BASE_PRICE_TYPE AND hbasepricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetbaseprice on hnetbaseprice.HELPER_TABLE_SID=IMTD.NET_BASE_PRICE AND hnetbaseprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetsubsequentperiodprice on hnetsubsequentperiodprice.HELPER_TABLE_SID=IMTD.NET_SUBSEQUENT_PERIOD_PRICE AND hnetsubsequentperiodprice.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolint on hpricetolint.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_INTERVAL AND hpricetolint.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetolfre on hpricetolfre.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_FREQUENCY AND hpricetolfre.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hpricetoltype on hpricetoltype.HELPER_TABLE_SID=IMTD.PRICE_TOLERANCE_TYPE AND hpricetoltype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hreseteligible on hreseteligible.HELPER_TABLE_SID=IMTD.RESET_ELIGIBLE AND hreseteligible.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresettype on hresettype.HELPER_TABLE_SID=IMTD.RESET_TYPE AND hresettype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetinterval on hresetinterval.HELPER_TABLE_SID=IMTD.RESET_INTERVAL AND hresetinterval.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hresetfrequency on hresetfrequency.HELPER_TABLE_SID=IMTD.RESET_FREQUENCY AND hresetfrequency.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetresetpricetype on hnetresetpricetype.HELPER_TABLE_SID=IMTD.NET_RESET_PRICE_TYPE AND hnetresetpricetype.DESCRIPTION  NOT like '%Select One%'
+                    LEFT JOIN HELPER_TABLE hnetpricetype on hnetpricetype.HELPER_TABLE_SID=IMTD.NET_PRICE_TYPE AND hnetpricetype.DESCRIPTION  NOT like '%Select One%'           
+                            
                     LEFT JOIN ITEM_MASTER im on
                             im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                             AND im.INBOUND_STATUS <> 'D'
@@ -7647,6 +7759,20 @@ SELECT
 			@SESSION_ID VARCHAR(10)=?
 			
 			select count(1) from dbo.IMTD_ITEM_PRICE_REBATE_DETAILS where USERS_SID=@USERS_SID AND SESSION_ID= @SESSION_ID and CHECK_RECORD = 1 and ADD_COPY_INDICATOR = 'A';
+		]]>
+		</query>
+	</entity>
+        <entity id="contractPriceProtectionStartDateAlertQuery">
+		<query> 
+            <![CDATA[ 
+			DECLARE 
+			@USERS_SID VARCHAR(10) = ?,
+			@SESSION_ID VARCHAR(10)=?
+			
+			Select MAX(mycount) from
+                        (SELECT ITEM_ID,COUNT(PRICE_PROTECTION_START_DATE)mycount
+                        FROM dbo.IMTD_ITEM_PRICE_REBATE_DETAILS where USERS_SID=@USERS_SID AND SESSION_ID= @SESSION_ID
+                        GROUP BY PRICE_PROTECTION_START_DATE,ITEM_ID) a
 		]]>
 		</query>
 	</entity>

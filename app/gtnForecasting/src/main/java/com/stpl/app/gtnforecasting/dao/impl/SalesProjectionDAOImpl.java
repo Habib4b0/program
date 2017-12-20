@@ -143,6 +143,7 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
      * @throws PortalException the portal exception
      * @throws Exception the exception
      */
+    @Override
     public List executeQuery(Map<String, Object> parameters) throws SystemException, PortalException {
         return new StChSalesProjectionImpl().executeQuery(parameters);
     }
@@ -152,6 +153,8 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
         return HelperTableLocalServiceUtil.executeSelectQuery(query);
     }
 
+    
+    @Override
     public List<HelperTable> getHelperTableList(final DynamicQuery query) throws PortalException, SystemException {
         return HelperTableLocalServiceUtil.dynamicQuery(query);
     }
@@ -162,7 +165,8 @@ public class SalesProjectionDAOImpl implements SalesProjectionDAO {
         list.add(HelperTableLocalServiceUtil.executeUpdateQueryCount(queryList));
         return list;
     }
-
+   
+    @Override
     public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
         new NACommonResultsDAOImpl().executeUpdateQuery(queryList);
     }

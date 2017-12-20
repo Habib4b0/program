@@ -59,7 +59,7 @@ public class TotalLivesChart extends Window {
      */
     private static final Logger LOGGER = Logger.getLogger(TotalLivesChart.class);
 
-    private SessionDTO session;
+    private final SessionDTO session;
 
     /**
      * The Constructor.
@@ -70,7 +70,7 @@ public class TotalLivesChart extends Window {
      */
     public TotalLivesChart(SessionDTO dto) {
 //        super("Total Lives");
-//        this.session = dto;
+        this.session = dto;
 //        setClosable(true);
 //        setModal(true);
 //        center();

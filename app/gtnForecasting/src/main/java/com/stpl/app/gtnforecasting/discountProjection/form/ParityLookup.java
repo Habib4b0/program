@@ -53,57 +53,58 @@ public class ParityLookup extends Window {
 	
 	/** The contract ddlb. */
 	@UiField("contractDdlb")
-	ComboBox contractDdlb;
+	private ComboBox contractDdlb;
 	
 	/** The ndc. */
 	@UiField("ndc")
-	TextField ndc;
+	private TextField ndc;
 	
 	/** The brand name. */
 	@UiField("brandName")
-	TextField brandName;
+	private TextField brandName;
 	
 	/** The ndc desc. */
 	@UiField("ndcDesc")
-	TextField ndcDesc;
+	private TextField ndcDesc;
 	
 	/** The search btn. */
 	@UiField("searchBtn")
-	Button searchBtn;
+	private Button searchBtn;
 	
 	/** The reset btn. */
 	@UiField("resetBtn")
-	Button resetBtn;
+	private Button resetBtn;
 	
 	/** The results table. */
 	@UiField("resultsTable")
-	ExtFilterTable resultsTable;
+	private ExtFilterTable resultsTable;
 	
 	/** The add btn. */
 	@UiField("addBtn")
-	Button addBtn;
+	private Button addBtn;
 	
 	/** The parity table. */
 	@UiField("parityTable")
-	ExtFilterTable parityTable;
+	private ExtFilterTable parityTable;
 	
 	/** The submit btn. */
 	@UiField("submitBtn")
-	Button submitBtn;
+	private Button submitBtn;
 	
 	/** The product reset btn. */
 	@UiField("productResetBtn")
-	Button productResetBtn;
+	private Button productResetBtn;
 	
 	/** The close btn. */
 	@UiField("closeBtn")
-	Button closeBtn;
+	private Button closeBtn;
 	
 	/** The remove btn. */
 	@UiField("removeBtn")
-	Button removeBtn;
-       @UiField("errorLB")
-       private ErrorLabel errorMsg;
+	private Button removeBtn;
+        
+        @UiField("errorLB")
+        private ErrorLabel errorMsg;
 
 	/** The results container. */
 	private final BeanItemContainer<LookUpDTO> resultsContainer = new BeanItemContainer<>(LookUpDTO.class);
@@ -113,18 +114,16 @@ public class ParityLookup extends Window {
          
 	private CustomTextField parity;
         
-        DiscountProjectionDTO supplementalDto= new DiscountProjectionDTO();
+        private SessionDTO sessionDto;
         
-        SessionDTO sessionDto;
+        private final SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();
         
-        SupplementalDiscountProjectionLogic sdpLogic = new SupplementalDiscountProjectionLogic();
+        private final LookUpDTO lookUpDTO = new LookUpDTO();
         
-        LookUpDTO lookUpDTO = new LookUpDTO();
+        private Object period = null;
         
-        Object period = null;
-        
-        boolean populateFlag= false;
-        List<LookUpDTO> dtoListValue ;
+        private boolean populateFlag= false;
+        private List<LookUpDTO> dtoListValue ;
         private final HeaderUtils headerUtils = new HeaderUtils();
 
     public ParityLookup() {
@@ -235,6 +234,7 @@ public class ParityLookup extends Window {
 	@UiHandler("closeBtn")
 	public void closeBtn(Button.ClickEvent event) {
 		new AbstractNotificationUtils() {
+                        @Override
 			public void noMethod() {
 			    return;
 			}
@@ -262,6 +262,7 @@ public class ParityLookup extends Window {
 	@UiHandler("resetBtn")
 	public void resetBtn(ClickEvent event) {
 		new AbstractNotificationUtils() {
+                        @Override
 			public void noMethod() {
                             return;
 			}
@@ -290,6 +291,7 @@ public class ParityLookup extends Window {
 	@UiHandler("productResetBtn")
 	public void productResetBtn(ClickEvent event) {
 		new AbstractNotificationUtils() {
+                        @Override
 			public void noMethod() {
 				// do nothing
 			}
@@ -429,6 +431,7 @@ public class ParityLookup extends Window {
     public void submitBtn(Button.ClickEvent event) {
         if (parityTable.size() > 0) {
             new AbstractNotificationUtils() {
+                @Override
                 public void noMethod() {
                     // do nothing
                 }

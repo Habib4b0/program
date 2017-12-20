@@ -36,19 +36,19 @@ public class ChannelSPRChart1 {
     /**
      * The annual.
      */
-    public static String annual = "Annual";
+    public static final String annual = "Annual";
     /**
      * The semi annual.
      */
-    public static String semiAnnual = "semi-Annual";
+    public static final String semiAnnual = "semi-Annual";
     /**
      * The month.
      */
-    public static String month = "monthly";
+    public static final String month = "monthly";
     /**
      * The quarter.
      */
-    public static String quarter = "quarterly";
+    public static final String quarter = "quarterly";
     /**
      * The dto.
      */
@@ -60,7 +60,7 @@ public class ChannelSPRChart1 {
     /**
      * The history.
      */
-    public String history;
+    private static String history;
 
     CustomTableHeaderDTO rightDto;
     /**
@@ -79,7 +79,7 @@ public class ChannelSPRChart1 {
     public ChannelSPRChart1(final List<SalesProjectionResultsDTO> dto, CustomTableHeaderDTO rightDto, ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("Entering SPRChart method ");
         this.frequency = projSelDTO.getFrequency();
-        this.history = projSelDTO.getHistory();
+        ChannelSPRChart1.history = projSelDTO.getHistory();
         this.dto = dto;
         this.rightDto = rightDto;
         this.projSelDTO = projSelDTO;
@@ -239,6 +239,6 @@ public class ChannelSPRChart1 {
      * @param history the new history
      */
     public void setHistory(final String history) {
-        this.history = history;
+        ChannelSPRChart1.history = history;
     }
 }

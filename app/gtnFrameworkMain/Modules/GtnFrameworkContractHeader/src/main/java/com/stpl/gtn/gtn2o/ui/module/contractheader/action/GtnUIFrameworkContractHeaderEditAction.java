@@ -92,7 +92,7 @@ public class GtnUIFrameworkContractHeaderEditAction
 	}
 
 	public void setValueToComponents(GtnWsContractMasterBean info, boolean isEditable, String componentId) {
-		try {
+		try {			
 			GtnUIFrameworkBaseComponent contractHeaderTabTradingPartner = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
 					GtnUIFrameworkContractHeaderStringContants.CONTRACT_HEADER_TAB_TRADING_PARTNER);
 			contractHeaderTabTradingPartner.setComponentReadOnly(false);
@@ -131,9 +131,8 @@ public class GtnUIFrameworkContractHeaderEditAction
 					info.getPriceEscalationClause(), info.getExemptFromLowPrice(), info.getPriceResetIndicator(),
 					info.getCancellationClause(), info.getMostFavoredNation(), info.getCategory(), info.getCurrency(),
 					info.getMinimumOrder(), null, null, null, GtnFrameworkCommonStringConstants.STRING_EMPTY,
-					GtnFrameworkCommonStringConstants.STRING_EMPTY, info.getTerm() == null, info.getPaymentTerms(),
-					info.getAdvanceNoticeDays() == null ? GtnFrameworkCommonStringConstants.STRING_EMPTY
-							: String.valueOf(info.getAdvanceNoticeDays().intValue())
+					GtnFrameworkCommonStringConstants.STRING_EMPTY, info.getTerm()==0?GtnFrameworkCommonStringConstants.STRING_EMPTY:String.valueOf(info.getTerm()),
+					info.getPaymentTerms(),info.getAdvanceNoticeDays().intValue() == 0 ? GtnFrameworkCommonStringConstants.STRING_EMPTY: String.valueOf(info.getAdvanceNoticeDays().intValue())
 
 			}));
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, chEditDefaultValueActionConfig);

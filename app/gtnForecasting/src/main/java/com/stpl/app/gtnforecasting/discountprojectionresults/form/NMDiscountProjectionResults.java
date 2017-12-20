@@ -50,8 +50,6 @@ import static com.stpl.app.utils.Constants.LabelConstants.PERIOD;
 import static com.stpl.app.utils.Constants.LabelConstants.PRODUCT;
 import com.stpl.app.utils.ExcelUtils;
 import com.stpl.app.utils.UiUtils;
-import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
-import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import static com.stpl.ifs.util.constants.GlobalConstants.*;
@@ -77,10 +75,12 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
-import org.asi.ui.custommenubar.CustomMenuBar;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
+import com.stpl.ifs.ui.extfilteringtable.FreezePagedTreeTable;
+import com.stpl.ifs.ui.util.NumericConstants;
+import org.asi.ui.custommenubar.CustomMenuBar;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
 /**
@@ -106,6 +106,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     boolean isTabVisible = true;
     Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
+        @Override
         public void valueChange(Property.ValueChangeEvent event) {            
             levelFilterDdlbChangeOption(false);
         }
@@ -135,6 +136,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
     @Override
     protected void resetButtonLogic() {
          new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -360,9 +362,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
         }
         try {
             loadGroupFilter();
-        } catch (SystemException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
         initializeResultTable();
@@ -682,6 +682,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
  }
  
 
+    @Override
     public void loadCustomDDLB() {
         LOGGER.debug("discount projection results loadCustomDDLB initiated ");
         customDdlb.setEnabled(true);
@@ -896,9 +897,7 @@ public class NMDiscountProjectionResults extends ForecastDiscountProjectionResul
                 newBtn.setVisible(Boolean.FALSE);
                 editBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

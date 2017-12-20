@@ -898,5 +898,32 @@
 			<keywords>put keywords here</keywords>
 		</portlet-info>
 	</portlet>
+	<portlet>
+		<description>Write here a short description about your portlet.</description>
+		<portlet-name>VwCffOutboundMaster</portlet-name>
+		<display-name>Consolidated Financial Forecast</display-name>
+
+		<portlet-class>com.vaadin.server.VaadinPortlet</portlet-class>
+
+		<init-param>
+			<name>UI</name>
+			<value>com.stpl.gtn.gtn2o.ui.GtnFrameworkTransactionPortlet</value>
+
+		</init-param>
+
+		<supports>
+			<mime-type>text/html</mime-type>
+			<portlet-mode>view</portlet-mode>
+			<portlet-mode>edit</portlet-mode>
+			<portlet-mode>help</portlet-mode>
+		</supports>
+
+
+		<portlet-info>
+			<title>Consolidated Financial Forecast</title>
+			<short-title>Portlet Short Title</short-title>
+			<keywords>put keywords here</keywords>
+		</portlet-info>
+	</portlet>
 
 </portlet-app>

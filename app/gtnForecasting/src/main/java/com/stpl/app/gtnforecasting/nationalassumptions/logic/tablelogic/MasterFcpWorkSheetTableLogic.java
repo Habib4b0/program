@@ -29,7 +29,7 @@ public class MasterFcpWorkSheetTableLogic  extends PageTreeTableLogic {
     String hierarchyNo;
     boolean firstGenerated = false;
     ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    private FcpResultsLogic fcpResLogic = new FcpResultsLogic();
+    private final FcpResultsLogic fcpResLogic = new FcpResultsLogic();
     boolean firstTotal = false;
     int totalCount = 0;
     List totalList = new ArrayList();

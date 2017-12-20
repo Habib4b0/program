@@ -64,10 +64,10 @@ public class CustomTrees extends Window {
 	private ExtTreeContainer<SalesProjectionDTO> beanContainer = new ExtTreeContainer<>(SalesProjectionDTO.class);
 
 	/** The Constant CUST_ID_TRANSF_COLUMNS. */
-	public final Object[] custIdTransfColumns = new Object[] { "level" };
+	private final Object[] custIdTransfColumns = new Object[] { "level" };
 
 	/** The Constant CUST_ID_TRANSF_HEADER. */
-	public final String[] custIdTransfHeader = new String[] { "LEVEL" };
+	private final String[] custIdTransfHeader = new String[] { "LEVEL" };
 
 	/** The add customer. */
 	private final Button addCustomer = new Button(ADD_TO_SELECTED.getConstant());
@@ -99,57 +99,20 @@ public class CustomTrees extends Window {
 	/** The tree table id. */
 	private Object treeTableId;
 
-	/** The hierarchy tree. */
-
-	/** The tree bean. */
-
-	/** The total levels. */
-
-	/** The available table list. */
-
-	/** The final selected results bean. */
-
-	/** The level values list. */
-
-	/** The saved level values list. */
-
-	/** The level layout. */
-
-	/** The layout. */
-
-	/** The main panel. */
-	private Panel mainPanel = new Panel();
+	private final Panel mainPanel = new Panel();
 
 	/** The sub panel. */
-	private Panel subPanel = new Panel("Relationship Tree");
+	private final Panel subPanel = new Panel("Relationship Tree");
 
-	/** The level panel. */
-
-	/** The selected levels bean list. */
-
-	/**
-	 * Instantiates a new custom trees.
-	 */
 	public CustomTrees() {
 		super("Custom Tree look Up");
 		init();
 	}
 
-	/**
-	 * Instantiates a new custom trees.
-	 *
-	 * @param add
-	 *            the add
-	 * @param projectionId
-	 *            the projection id
-	 */
 	public CustomTrees(String add, String projectionId) {
 
 	}
 
-	/**
-	 * Inits the.
-	 */
 	public void init() {
 		center();
 		setClosable(true);

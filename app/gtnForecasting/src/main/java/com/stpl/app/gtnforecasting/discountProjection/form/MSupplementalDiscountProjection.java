@@ -112,8 +112,8 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
      * The period table id.
      */
     
-    SupplementalTableLogic tableLogic = new SupplementalTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private SupplementalTableLogic tableLogic = new SupplementalTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
     /**
      * The max split position.
      */
@@ -131,47 +131,46 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
-    final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private HorizontalLayout controlLayout;
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The result bean Container .
      */
-    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtPagedTreeTable leftTable;
-    ExtPagedTreeTable rightTable;
+    private ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtPagedTreeTable leftTable;
+    private ExtPagedTreeTable rightTable;
     private ExtCustomTreeTable exportPeriodViewTable;
 
-    boolean firstGenerated = false;
-    public boolean checkAll = false;
+    private boolean firstGenerated = false;
+    private boolean checkAll = false;
     private boolean valueChange = false;
 
-    Object propertyIdValue = null;
-    Object itemIdValue = null;
-    Property.ValueChangeListener valueChangeListener = null;
+    private Object propertyIdValue = null;
+    private Object itemIdValue = null;
+    private Property.ValueChangeListener valueChangeListener = null;
 
-    String focusValue = StringUtils.EMPTY;
-    String blurValue = StringUtils.EMPTY;
-    String dtoItemValue = StringUtils.EMPTY;
+    private String blurValue = StringUtils.EMPTY;
+    private String dtoItemValue = StringUtils.EMPTY;
 
-    List<LookUpDTO> dtoListValue = new ArrayList<>();
-    static Map columnName = new HashMap();
-    DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
-    DataFormatConverter contractPriceFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
-    SupplementalDiscountProjectionLogic supplementalDiscountProjectionLogic = new SupplementalDiscountProjectionLogic();
-    CommonLogic commonLogic = new CommonLogic();
+    private List<LookUpDTO> dtoListValue = new ArrayList<>();
+    private static final Map columnName = new HashMap();
+    private final DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
+    private final DataFormatConverter contractPriceFormat = new DataFormatConverter("#,##0.0000", DataFormatConverter.INDICATOR_DOLLAR);
+    private final SupplementalDiscountProjectionLogic supplementalDiscountProjectionLogic = new SupplementalDiscountProjectionLogic();
+    private final CommonLogic commonLogic = new CommonLogic();
     private ExtTreeContainer<DiscountProjectionDTO> excelResultBean = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
     /**
      * The bean for loading Field drop down.
      */
     final private BeanItemContainer<String> fieldDdlbBean = new BeanItemContainer<>(String.class);
-    private DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
-    private static BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
+    private final DecimalFormat dollZeroDec = new DecimalFormat("$###,##0.00");
+    private static final BeanItemContainer<String> methdologyBean = new BeanItemContainer<>(String.class);
     private final HeaderUtils headerUtils = new HeaderUtils();
-    Object formulaList;
-    boolean canLoad = true;
+    private Object formulaList;
+    private boolean canLoad = true;
 
     public MSupplementalDiscountProjection(SessionDTO session, String screenName)  {
         super(session, screenName);
@@ -238,6 +237,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
         fieldDdlb.setContainerDataSource(fieldDdlbBean);
         fieldDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 fieldDdlb();
                 setPeriod();
@@ -482,6 +482,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
         parityLookup.addCloseListener(new Window.CloseListener() {
 
+            @Override
             public void windowClose(Window.CloseEvent e) {
                 dtoListValue = (List<LookUpDTO>) parityLookup.getDtoListValue();
                 setDtoListValue(dtoListValue);
@@ -556,6 +557,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
         leftTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
 
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 tableLogic.setRefresh(false);
                 if (event.isChecked()) {
@@ -582,6 +584,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -606,6 +609,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     if (checkEnbl1) {
 
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                            @Override
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 tableLogic.setRefresh(false);
                                 DiscountProjectionDTO itemDto = getBeanFromId(itemId);
@@ -718,6 +722,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             /**
              * To create editable fields inside table .
              */
+            @Override
             public Field<?> createField(final Container container,
                     final Object itemId, final Object propertyId,
                     final Component uiContext) {
@@ -750,6 +755,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     });
                     comboBox.addBlurListener(new BlurListener() {
 
+                        @Override
                         public void blur(BlurEvent event) {
                             try {
                                 detachLisener(comboBox);
@@ -799,6 +805,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     parityLookUp.setImmediate(true);
                     parityLookUp.addClickListener(new CustomTextField.ClickListener() {
 
+                        @Override
                         public void click(CustomTextField.ClickEvent event) {
 
                             String splitPeriodYear = parityLookUp.getData().toString().replace("ParityReference", StringUtils.EMPTY).concat("Parity");
@@ -814,6 +821,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                      * Close listener for windowClose
                                      */
                                     @SuppressWarnings("PMD")
+                                    @Override
                                     public void windowClose(final Window.CloseEvent e) {
                                         if (parityLookUp.getValue() != null) {
                                             saveFromTableField(itemId, propertyId, parityLookUp.getValue(), false);
@@ -832,6 +840,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                     check.setValue(false);
                     check.setWidth(NumericConstants.HUNDRED, UNITS_PERCENTAGE);
                     check.addClickListener(new ExtCustomCheckBox.ClickListener() {
+                        @Override
                         public void click(ExtCustomCheckBox.ClickEvent event) {
                             saveFromTableField(itemId, propertyId, "CheckFlag", check.getValue());
                         }
@@ -848,6 +857,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         /**
                          * Method used for formulaNo
                          */
+                        @Override
                         public void click(final CustomTextField.ClickEvent event) {
 
                             try {
@@ -1321,6 +1331,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                         AbstractNotificationUtils.getErrorNotification("Populate Error", "In NDC:" + notifyContent + " are not having any prior values");
                     } else {
                         new AbstractNotificationUtils() {
+                            @Override
                             public void noMethod() {
 
                                 valueLookUp.setValue(StringUtils.EMPTY);
@@ -1697,9 +1708,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             if (functionPsHM.get(FunctionNameUtil.POPULATE_BTN) != null && !((AppPermission) functionPsHM.get(FunctionNameUtil.POPULATE_BTN)).isFunctionFlag()) {
                 populateBtn.setVisible(Boolean.FALSE);
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(MSupplementalDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(MSupplementalDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

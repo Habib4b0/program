@@ -474,6 +474,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
         }
     }
 
+    @Override
     public int getTabNumber() {
         return Constant.SEVEN;
     }

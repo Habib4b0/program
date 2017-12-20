@@ -150,7 +150,7 @@ public abstract class ForecastSalesProjectionResults extends CustomComponent imp
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        
+        return;
     }
     public void configureField(){
     level.addStyleName(Constant.POPUPCONTENTCOMBOSIZE);

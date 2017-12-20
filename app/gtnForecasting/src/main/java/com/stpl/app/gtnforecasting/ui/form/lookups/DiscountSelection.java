@@ -42,42 +42,39 @@ public class DiscountSelection extends Window {
 	/**
 	 * The table.
 	 */
-	public ExtFilterTable table = new ExtFilterTable();
+	private final ExtFilterTable table = new ExtFilterTable();
 
 	/**
 	 * The btn close.
 	 */
-	public Button btnClose = new Button("CLOSE");
+	private final Button btnClose = new Button("CLOSE");
 
 	/**
 	 * The btn select.
 	 */
-	public Button btnSelect = new Button("SELECT");
+	private final Button btnSelect = new Button("SELECT");
 
 	/**
 	 * The Boolean variable to check whether discount program must be shown or
 	 * not
 	 */
-	boolean isProgram;
+	private final boolean isProgram;
 
 	/**
 	 * The Session Dto
 	 */
-	SessionDTO session;
+	private final SessionDTO session;
 	/**
 	 * Logic class for Discount
 	 */
-	DiscountProjectionLogic logic = new DiscountProjectionLogic();
+	private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
 
 	/**
 	 * Count for the no of checked records
 	 */
-	int checkCount = 0;
+	private int checkCount = 0;
 
-	/**
-	 * The branditem bean.
-	 */
-	private BeanItemContainer<DiscountSelectionDTO> discountSelectionBean = new BeanItemContainer<>(
+	private final BeanItemContainer<DiscountSelectionDTO> discountSelectionBean = new BeanItemContainer<>(
 			DiscountSelectionDTO.class);
 
 	/**
@@ -88,15 +85,18 @@ public class DiscountSelection extends Window {
 	/**
 	 * Discount Names list
 	 */
-	List<String> selectedDiscounts = new ArrayList<>();
+	private List<String> selectedDiscounts = new ArrayList<>();
 
 	/**
 	 * Discount Names list
 	 */
-	List<String> selectedDiscountsNoList = new ArrayList<>();
+	private final List<String> selectedDiscountsNoList = new ArrayList<>();
 
 	/**
 	 * The Constructor.
+     * @param session
+     * @param selectedDiscounts
+     * @param discountProgram
 	 */
 	public DiscountSelection(SessionDTO session, List<String> selectedDiscounts, boolean discountProgram) {
 		super("Discount Selection look Up");
@@ -223,6 +223,7 @@ public class DiscountSelection extends Window {
 			/**
 			 * Called when close button is clicked
 			 */
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				List<List<String>> discountRSlist = new ArrayList<>();
 				List<String> rsIdList = new ArrayList<>();
@@ -266,12 +267,13 @@ public class DiscountSelection extends Window {
 			/**
 			 * Called when close button is clicked
 			 */
+                        @Override
 			public void buttonClick(final Button.ClickEvent event) {
 				new AbstractNotificationUtils() {
 
 					@Override
 					public void noMethod() {
-						return;
+                                            LOGGER.debug("Inside overriden method: Do nothing");
 					}
 
 					@Override

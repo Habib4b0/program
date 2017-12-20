@@ -23,13 +23,13 @@ import org.jboss.logging.Logger;
 public class HierarchyTableLogic extends PageTableLogic {
 
     private static final Logger LOGGER = Logger.getLogger(HierarchyTableLogic.class);
-    final OutboundLogic searchLogic = new OutboundLogic();
+    private final OutboundLogic searchLogic = new OutboundLogic();
     private boolean isFirstLoad = false;
     private boolean isResultsEmpty;
     private boolean isReset = false;
-    String hierarchyType = StringUtils.EMPTY;
+    private String hierarchyType = StringUtils.EMPTY;
     private ErrorfulFieldGroup binder;
-    boolean isCheckAll=false;
+    private boolean isCheckAll=false;
 
     @Override
     public int getCount() {

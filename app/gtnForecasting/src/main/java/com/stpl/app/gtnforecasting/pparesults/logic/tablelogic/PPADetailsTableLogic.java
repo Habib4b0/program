@@ -20,7 +20,7 @@ import org.asi.ui.extfilteringtable.paged.logic.PageTableLogic;
 public class PPADetailsTableLogic extends PageTableLogic{
     
     private PPADetailsDTO ppaDetailsDTO;
-    private PPAProjectionResultsLogic logic =new PPAProjectionResultsLogic();
+    private final PPAProjectionResultsLogic logic =new PPAProjectionResultsLogic();
     private boolean isGenerate;
     SessionDTO sessionDTO;
     

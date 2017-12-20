@@ -136,9 +136,9 @@ public class MPmpyCalculator extends Window {
     @UiField("allBtn")
     public Button allBtn;
 
-    private BeanItemContainer<MPmpyDTO> availableProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
+    private final BeanItemContainer<MPmpyDTO> availableProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
 
-    private BeanItemContainer<MPmpyDTO> selectedProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
+    private final BeanItemContainer<MPmpyDTO> selectedProductsBean = new BeanItemContainer<>(MPmpyDTO.class);
 
     /**
      * The excel export image.
@@ -150,9 +150,9 @@ public class MPmpyCalculator extends Window {
      */
     private final Resource graphImage = new ThemeResource(GRAPH_IMAGE_PATH.getConstant());
 
-    private PmpyLogic pmpyLogic = new PmpyLogic();
+    private final PmpyLogic pmpyLogic = new PmpyLogic();
 
-    private SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
 
     private ExtTreeContainer<MPmpyDTO> pmpyContainer = new ExtTreeContainer<>(MPmpyDTO.class,ExtContainer.DataStructureMode.MAP);
 
@@ -250,7 +250,7 @@ public class MPmpyCalculator extends Window {
     
     int projectionDetailsId = 0;
     
-    private Map<Object, Boolean> chtCheckBoxMap = new HashMap<>();    
+    private final Map<Object, Boolean> chtCheckBoxMap = new HashMap<>();    
     
     String updateValue;
     
@@ -379,6 +379,7 @@ public class MPmpyCalculator extends Window {
             
             graphBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
 
                     List chartList = new ArrayList();
@@ -397,6 +398,7 @@ public class MPmpyCalculator extends Window {
             
             salesOrUnits.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {                    
                     if(event.getProperty().getValue().toString().contains(Constant.SALES_SMALL)){
                         isSalesOrUnits = true;
@@ -409,6 +411,7 @@ public class MPmpyCalculator extends Window {
             
             populateBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     calculateSalesOrUnits(salesOrUnits.getValue().toString());
                 }
@@ -416,6 +419,7 @@ public class MPmpyCalculator extends Window {
             
             resetCalcBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     
                     new AbstractNotificationUtils() {
@@ -437,6 +441,7 @@ public class MPmpyCalculator extends Window {
             
             customerDDLB.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
                         loadContractDDLB(Integer.valueOf(String.valueOf(event.getProperty().getValue())));
@@ -450,6 +455,7 @@ public class MPmpyCalculator extends Window {
 
             availableProductsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     
                     itemId = event.getItemId();
@@ -458,6 +464,7 @@ public class MPmpyCalculator extends Window {
 
             selectedProductsTable.addItemClickListener(new ItemClickEvent.ItemClickListener() {
 
+                @Override
                 public void itemClick(ItemClickEvent event) {
                     
                     itemId = event.getItemId();
@@ -466,6 +473,7 @@ public class MPmpyCalculator extends Window {
 
             contractDDLB.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     try {
                         int customerSid = Integer.valueOf(String.valueOf(customerDDLB.getValue()));
@@ -481,6 +489,7 @@ public class MPmpyCalculator extends Window {
 
             allBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     try {
                         moveAllProducts();
@@ -493,6 +502,7 @@ public class MPmpyCalculator extends Window {
 
             moveRight.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     moveProductsRight();
                 }
@@ -500,6 +510,7 @@ public class MPmpyCalculator extends Window {
 
             moveLeft.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     moveProductsLeft();
                 }
@@ -507,6 +518,7 @@ public class MPmpyCalculator extends Window {
 
             generateBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                         if(checkSelection()){
                         tableLayout.removeAllComponents();
@@ -525,6 +537,7 @@ public class MPmpyCalculator extends Window {
                 /**
                  * Default method.
                  */
+                @Override
                 public void buttonClick(final Button.ClickEvent event) {
                         importButtonLogic();
 
@@ -532,6 +545,7 @@ public class MPmpyCalculator extends Window {
             });
             livesCalcBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {                    
                     final boolean chValue = isContractHistorySelected();
                     if (chValue) {
@@ -552,6 +566,7 @@ public class MPmpyCalculator extends Window {
             
             totLivesCalcBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
 
                     String tempVPL = isSalesOrUnits ? String.valueOf(SalesUtils.currencyToValue(valuePerLifeField.getValue())) : valuePerLifeField.getValue();
@@ -568,6 +583,7 @@ public class MPmpyCalculator extends Window {
             
             closeBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     String messageHeader = "Close Confirmation";
                     String messageBody = "Are you sure you want to Close the Worksheet?";
@@ -589,6 +605,7 @@ public class MPmpyCalculator extends Window {
             
             livesField.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     String tempLives = String.valueOf(event.getProperty().getValue());
                       if(StringUtils.isNotBlank(tempLives)){
@@ -603,6 +620,7 @@ public class MPmpyCalculator extends Window {
 
             totalLivesField.addValueChangeListener(new Property.ValueChangeListener() {
 
+                @Override
                 public void valueChange(Property.ValueChangeEvent event) {
                     String tempTotalLives = String.valueOf(event.getProperty().getValue());
                     if(StringUtils.isNotBlank(tempTotalLives)){
@@ -617,6 +635,7 @@ public class MPmpyCalculator extends Window {
             
             resetBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     String messageHeader = RESET_CONFIRMATION.getConstant();
                     String messageBody = "Are you sure you want to reset the page to default/previous values?";
@@ -638,6 +657,7 @@ public class MPmpyCalculator extends Window {
             
             excelCalcBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     exportCalculatedExcel();
                 }
@@ -645,6 +665,7 @@ public class MPmpyCalculator extends Window {
             
             excelBtn.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
 
                         ExtFilterTable excelFilterTable = new ExtFilterTable();
@@ -813,6 +834,7 @@ public class MPmpyCalculator extends Window {
         
         pmpyTable.addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
 
+            @Override
             public void columnCheck(ExtCustomTable.ColumnCheckEvent event) {
                 
                 if (event.isChecked()) {
@@ -828,6 +850,7 @@ public class MPmpyCalculator extends Window {
         
         pmpyTable.addDoubleHeaderColumnRadioCheckListener(new ExtCustomTable.DoubleHeaderColumnRadioCheckListener() {
 
+            @Override
             public void doubleHeaderColumnRadioCheck(ExtCustomTable.DoubleHeaderColumnRadioCheckEvent event) {
                 
                 if(pmpyTable.getColumnCheckBox(event.getRadioButtonName())){
@@ -840,6 +863,7 @@ public class MPmpyCalculator extends Window {
         
         pmpyTable.addTripleHeaderColumnRadioCheckListener(new ExtCustomTable.TripleHeaderColumnRadioCheckListener() {
 
+            @Override
             public void tripleHeaderColumnRadioCheck(ExtCustomTable.TripleHeaderColumnRadioCheckEvent event) {
                 
                 if(pmpyTable.getColumnCheckBox(event.getRadioButtonName())){

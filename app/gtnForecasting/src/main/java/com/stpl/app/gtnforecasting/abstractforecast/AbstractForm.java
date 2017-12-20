@@ -34,7 +34,6 @@ public abstract class AbstractForm extends VerticalLayout {
 	protected Button btnReject;
 	protected Button btnWithdraw;
 	protected Button btnCancel;
-	protected Logger log = Logger.getAnonymousLogger();
 
 	/**
 	 * Call this method to add Save, Previous, Next, Close and Submit buttons to
@@ -84,12 +83,14 @@ public abstract class AbstractForm extends VerticalLayout {
 		});
 		btnReject.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnRejectLogic();
 			}
 		});
 		btnWithdraw.addClickListener(new Button.ClickListener() {
 
+                        @Override
 			public void buttonClick(Button.ClickEvent event) {
 				btnWithdrawLogic();
 			}

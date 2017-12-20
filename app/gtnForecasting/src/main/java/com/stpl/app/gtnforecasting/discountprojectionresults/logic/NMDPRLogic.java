@@ -60,7 +60,7 @@ public class NMDPRLogic {
      *
      */
     private static final long serialVersionUID = 4428373722392530081L;
-    private Map<String, String> periodMap = new HashMap<>();
+    private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat DOLLAR_RPU = new DecimalFormat("#,##0.00");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.000");
@@ -80,8 +80,8 @@ public class NMDPRLogic {
     private static final String TWO = "2";
     private static final String THREE = "3";
     private static final String FOUR = "4";
-    private Map<String, String> valueMap = new HashMap<>();
-    private List<Integer> startAndEndPeriods = new ArrayList<>();
+    private final Map<String, String> valueMap = new HashMap<>();
+    private final List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
     Map<MultiKey, List> customerccpId = new HashMap<>();
     Map<MultiKey, List> productccpId = new HashMap<>();

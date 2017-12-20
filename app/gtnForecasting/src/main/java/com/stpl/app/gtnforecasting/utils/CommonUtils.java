@@ -323,9 +323,9 @@ public class CommonUtils {
     public static PortletConfig portletConfig;
     public static PortletSession portletSession;
 
-    private static ResourceBundle constantProperties = ResourceBundle.getBundle("properties.Constants");
+    private static final ResourceBundle constantProperties = ResourceBundle.getBundle("properties.Constants");
 
-    private static ResourceBundle returnsProperties = ResourceBundle.getBundle("custom-sql.ReturnsProjectionQueries");
+    private static final ResourceBundle returnsProperties = ResourceBundle.getBundle("custom-sql.ReturnsProjectionQueries");
     public static final String BUSINESS_PROCESS_TYPE = "BUSINESS_PROCESS_TYPE";
     public static final String BUSINESS_PROCESS_TYPE_COMMERCIAL = "Commercial";
     public static final String BUSINESS_PROCESS_TYPE_GOVERNMENT = "Government";
@@ -604,9 +604,7 @@ public class CommonUtils {
         int businessProcessType = 0;
         try {
             businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, GlobalConstants.getCommercialConstant());
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         DynamicQuery dynamicQuery = ForecastConfigLocalServiceUtil.dynamicQuery();
@@ -1332,6 +1330,7 @@ public class CommonUtils {
              * @param buttonId The buttonId of the pressed button.
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClicked(final ButtonId buttonId) {
                 // Do Nothing
             }

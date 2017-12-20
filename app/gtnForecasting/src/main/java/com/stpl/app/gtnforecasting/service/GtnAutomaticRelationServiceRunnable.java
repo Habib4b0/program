@@ -2,15 +2,12 @@ package com.stpl.app.gtnforecasting.service;
 
 import java.util.concurrent.Callable;
 
-import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.UI;
 import java.util.Calendar;
 
 public class GtnAutomaticRelationServiceRunnable implements Callable {

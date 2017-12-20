@@ -6,6 +6,7 @@
 package com.stpl.gtn.gtn2o.ws.itemmaster.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -74,18 +75,18 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 	private Date clottingFactorEndDate;
 	private Date divestitureDate;
 	private String newFormulationIndicator;
-	private Double baselineAmp;
+	private BigDecimal baselineAmp;
 	private Date acquisitionDate;
 	private Date nonFederalExpirationDate;
-	private Double baseCpi;
-	private Double acquiredAmp;
+	private BigDecimal baseCpi;
+	private Integer acquiredAmp;
 	private Date marketTerminationDate;
 	private Date newFormulationStartDate;
 	private Date baseCpiPeriod;
-	private Double acquiredBamp;
+	private Integer acquiredBamp;
 	private Date newFormulationEndDate;
-	private Double dra;
-	private Double obraBamp;
+	private Integer dra;
+	private Integer obraBamp;
 
 	private String internalNotes;
 	private char inboundStatus;
@@ -531,11 +532,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.newFormulationIndicator = newFormulationIndicator;
 	}
 
-	public Double getBaselineAmp() {
+	public BigDecimal getBaselineAmp() {
 		return baselineAmp;
 	}
 
-	public void setBaselineAmp(Double baselineAmp) {
+	public void setBaselineAmp(BigDecimal baselineAmp) {
 		this.baselineAmp = baselineAmp;
 	}
 
@@ -556,19 +557,19 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 				: (Date) nonFederalExpirationDate.clone();
 	}
 
-	public Double getBaseCpi() {
+	public BigDecimal getBaseCpi() {
 		return baseCpi;
 	}
 
-	public void setBaseCpi(Double baseCpi) {
+	public void setBaseCpi(BigDecimal baseCpi) {
 		this.baseCpi = baseCpi;
 	}
 
-	public Double getAcquiredAmp() {
+	public Integer getAcquiredAmp() {
 		return acquiredAmp;
 	}
 
-	public void setAcquiredAmp(Double acquiredAmp) {
+	public void setAcquiredAmp(Integer acquiredAmp) {
 		this.acquiredAmp = acquiredAmp;
 	}
 
@@ -596,19 +597,19 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.baseCpiPeriod = baseCpiPeriod != null ? (Date) baseCpiPeriod.clone() : baseCpiPeriod;
 	}
 
-	public Double getAcquiredBamp() {
+	public Integer getAcquiredBamp() {
 		return acquiredBamp;
 	}
 
-	public void setAcquiredBamp(Double acquiredBamp) {
+	public void setAcquiredBamp(Integer acquiredBamp) {
 		this.acquiredBamp = acquiredBamp;
 	}
 
-	public Double getDra() {
+	public Integer getDra() {
 		return dra;
 	}
 
-	public void setDra(Double dra) {
+	public void setDra(Integer dra) {
 		this.dra = dra;
 	}
 
@@ -628,11 +629,11 @@ public class GtnWsItemMasterInfoBean implements Serializable {
 		this.recordLockStatus = recordLockStatus;
 	}
 
-	public Double getObraBamp() {
+	public Integer getObraBamp() {
 		return obraBamp;
 	}
 
-	public void setObraBamp(Double obraBamp) {
+	public void setObraBamp(Integer obraBamp) {
 		this.obraBamp = obraBamp;
 	}
 

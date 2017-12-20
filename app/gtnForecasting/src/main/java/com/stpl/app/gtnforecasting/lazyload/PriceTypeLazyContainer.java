@@ -27,7 +27,7 @@ import org.asi.ui.addons.lazycontainer.SearchCriteria;
  */
 public class PriceTypeLazyContainer implements DAO<HelperDTO> {
 
-    private HelperDTO priceType;
+    private final HelperDTO priceType;
     /**
      * The Constant LOGGER.
      */
@@ -41,6 +41,7 @@ public class PriceTypeLazyContainer implements DAO<HelperDTO> {
     }
 
 
+    @Override
     public int count(final SearchCriteria searchCriteria) {
         try {
             return PPAProjectionLogic.getPriceTypeCount(searchCriteria.getFilter(), priceType);
@@ -55,6 +56,7 @@ public class PriceTypeLazyContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.     
                          */           
                         @SuppressWarnings("PMD")           
+                @Override
                         public void buttonClicked(final ButtonId buttonId) { 
                             // Do Nothing     
                         }           
@@ -64,6 +66,7 @@ public class PriceTypeLazyContainer implements DAO<HelperDTO> {
         return 0;
     }
 
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             return PPAProjectionLogic.getPriceTypeResults(startIndex, startIndex + offset, searchCriteria.getFilter(), priceType);
@@ -78,6 +81,7 @@ public class PriceTypeLazyContainer implements DAO<HelperDTO> {
                          * @param buttonId The buttonId of the pressed button.     
                          */           
                         @SuppressWarnings("PMD")           
+                @Override
                         public void buttonClicked(final ButtonId buttonId) { 
                             // Do Nothing     
                         }           

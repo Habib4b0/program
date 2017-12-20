@@ -53,9 +53,7 @@ public class AssumptionPVSContainer  implements DAO<AssumptionPVDTO> {
                 saveContainer.removeAllItems();
             }
             resultList = logic.getPVSResult(session, pageLength*currentPage,currentPage*pageLength+offset);
-        } catch (SystemException ex) {
-           LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
            LOGGER.error(ex);
         }
         return resultList;

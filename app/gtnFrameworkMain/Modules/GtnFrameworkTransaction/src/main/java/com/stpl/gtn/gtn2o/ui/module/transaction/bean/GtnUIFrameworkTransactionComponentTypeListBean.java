@@ -2,12 +2,13 @@ package com.stpl.gtn.gtn2o.ui.module.transaction.bean;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.transaction.bean.GtnWSTransactionColumnBean;
 
 public class GtnUIFrameworkTransactionComponentTypeListBean {
-	
 
 	public GtnUIFrameworkTransactionComponentTypeListBean() {
 		super();
@@ -20,6 +21,13 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 	private List<GtnWSTransactionColumnBean> viewModeOrderComponents;
 	private List<GtnWSTransactionColumnBean> staticComponent;
 	private boolean viewIndexFlag = false;
+	private boolean outBoundModule = false;
+	private String reprocessingWebServiceURL;
+	private Object[] stagingUpdateColumnsValues = null;
+	private Object[] stagingUpdateColumns = null;
+	private Object[] stagingInsertColumns = null;
+	private Map<String, String> formatterMap = null;
+	private List<String> formatterList = null;
 
 	public List<GtnWSTransactionColumnBean> getListViewComponent() {
 		return Collections.unmodifiableList(listViewComponent);
@@ -75,6 +83,68 @@ public class GtnUIFrameworkTransactionComponentTypeListBean {
 
 	public void setViewIndexFlag(boolean viewIndexFlag) {
 		this.viewIndexFlag = viewIndexFlag;
+	}
+
+	public boolean isOutBoundModule() {
+		return outBoundModule;
+	}
+
+	public void setOutBoundModule(boolean outBoundModule) {
+		this.outBoundModule = outBoundModule;
+	}
+
+	public String getReprocessingWebServiceURL() {
+		return reprocessingWebServiceURL;
+	}
+
+	public void setReprocessingWebServiceURL(String reprocessingWebServiceURL) {
+		this.reprocessingWebServiceURL = reprocessingWebServiceURL;
+	}
+
+	public Object[] getStagingUpdateColumnsValues() {
+		return stagingUpdateColumnsValues.length == 0 ? stagingUpdateColumnsValues : stagingUpdateColumnsValues.clone();
+	}
+
+	public Object[] getStagingInsertColumns() {
+		return stagingInsertColumns.length == 0 ? stagingInsertColumns : stagingInsertColumns.clone();
+	}
+
+	public Object[] getStagingUpdateColumns() {
+		return stagingUpdateColumns.length == 0 ? stagingUpdateColumns : stagingUpdateColumns.clone();
+	}
+
+	public void setStagingUpdateColumnsValues(Object[] stagingUpdateColumnsValues) {
+		this.stagingUpdateColumnsValues = stagingUpdateColumnsValues.clone();
+	}
+
+	public void setStagingInsertColumns(Object[] stagingInsertColumns) {
+		this.stagingInsertColumns = stagingInsertColumns.clone();
+	}
+
+	public void setStagingUpdateColumns(Object[] stagingUpdateColumns) {
+		this.stagingUpdateColumns = stagingUpdateColumns.clone();
+	}
+
+	public String getFormatterMap(String property) {
+		return formatterMap.get(property);
+	}
+
+	public void putFormatterMap(String propertyId, String pattern) {
+		if (formatterMap == null) {
+			formatterMap = new HashMap<>();
+		}
+		formatterMap.put(propertyId, pattern);
+	}
+
+	public List<String> getFormatterList() {
+		return formatterList == null ? formatterList : Collections.unmodifiableList(formatterList);
+	}
+
+	public void addFormatterList(String value) {
+		if (formatterList == null) {
+			formatterList = new ArrayList<>();
+		}
+		formatterList.add(value);
 	}
 
 }

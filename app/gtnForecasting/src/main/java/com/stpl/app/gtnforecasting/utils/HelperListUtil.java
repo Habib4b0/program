@@ -111,7 +111,7 @@ public class HelperListUtil {
 	/**
 	 * The list name bundle.
 	 */
-	private static ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
+	private static final ResourceBundle listNameBundle = ResourceBundle.getBundle("properties.listname");
 
 	/**
 	 * The Constant LOGGER.

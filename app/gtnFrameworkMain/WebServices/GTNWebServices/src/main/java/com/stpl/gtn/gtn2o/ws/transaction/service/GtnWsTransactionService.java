@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
@@ -64,6 +65,7 @@ import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.service.GtnWsSqlService;
 import com.stpl.gtn.gtn2o.ws.util.GtnCommonUtil;
+import com.stpl.gtn.gtn2o.ws.util.GtnWsConstants;
 
 /**
  *
@@ -150,10 +152,12 @@ public class GtnWsTransactionService {
 	private void appendWhereCondition(GtnWsSearchRequest gtnWsSearchRequest, Map<String, String> columnDataTypeMap,
 			Criteria criteria, ClassMetadata classMetadata, boolean isInvalid) throws ParseException {
 		for (GtnWebServiceSearchCriteria columns : gtnWsSearchRequest.getGtnWebServiceSearchCriteriaList()) {
-			String type = columnDataTypeMap.get(columns.getFieldId()); 
+			String type = columnDataTypeMap.get(columns.getFieldId());
 			String value = columns.isFilter() ? "%" + columns.getFilterValue1() + "%" : columns.getFilterValue1();
-			columns.setExpression(columns.isFilter()
-					? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName()) : columns.getExpression());
+			value = replaceSingleQuote(value);
+			columns.setExpression(
+					columns.isFilter() ? getExpressionType(columns, gtnWsSearchRequest.getSearchModuleName())
+							: columns.getExpression());
 			boolean isUser = columns.getFieldId().contains(GtnFrameworkCommonConstants.CREATED_BY)
 					|| columns.getFieldId().contains(GtnFrameworkCommonConstants.MODIFIED_BY);
 			String dateFormat = columns.isFilter() ? "E MMM dd HH:mm:ss Z yyyy" : "yyyy-MM-dd";
@@ -163,14 +167,14 @@ public class GtnWsTransactionService {
 				betweenConditon(criteria, columns, type, dateFormat);
 				break;
 			case "LIKE":
-				likeCriteria(criteria, classMetadata, columns, value, isUser, isInvalidFilter,type);
+				likeCriteria(criteria, columns, value, isUser, isInvalidFilter, type);
 				break;
 			case "EQUAL":
-				equalCriteria(criteria, classMetadata, columns, type, dateFormat, value);
+				equalCriteria(criteria, columns, type, dateFormat, value);
 				break;
 
 			case "EQUALS":
-				equalsCriteria(criteria,columns, type, value, dateFormat);
+				equalsCriteria(criteria, columns, type, value, dateFormat);
 
 				break;
 			case "GREATER":
@@ -218,27 +222,27 @@ public class GtnWsTransactionService {
 
 	private void andCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, String type,
 			String dateFormat) throws ParseException {
-		if(GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) )
-		{
-			criteria.add(Restrictions.gt(columns.getFieldId(),Double.valueOf(columns.getFilterValue2())));
-			criteria.add(Restrictions.lt(columns.getFieldId(),Double.valueOf(columns.getFilterValue1())));
+		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.gt(columns.getFieldId(), Double.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(), Double.valueOf(columns.getFilterValue1())));
+		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
+				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.gt(columns.getFieldId(), Integer.valueOf(columns.getFilterValue2())));
+			criteria.add(Restrictions.lt(columns.getFieldId(), Integer.valueOf(columns.getFilterValue1())));
+		} else {
+			criteria.add(Restrictions.lt(columns.getFieldId(),
+					getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
 		}
-		else if("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type))
-		{
-			criteria.add(Restrictions.gt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue2())));
-			criteria.add(Restrictions.lt(columns.getFieldId(),Integer.valueOf(columns.getFilterValue1())));
-		}else{
-		criteria.add(Restrictions.lt(columns.getFieldId(),
-				getValueBasedOnType(type, value, columns.getFilterValue2(), dateFormat)));
-		}
-		}
+	}
 
 	Object getValueBasedOnType(String type, String value, String filterValue, String dateFormat) throws ParseException {
 		if (Date.class.getName().equalsIgnoreCase(type)) {
 			return new SimpleDateFormat(dateFormat).parse(filterValue);
 		} else if ("java.lang.Double".equalsIgnoreCase(type)) {
 			return Double.valueOf(filterValue);
-		}else {
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
+			return Integer.parseInt(filterValue);
+		} else {
 			return value;
 		}
 
@@ -249,42 +253,47 @@ public class GtnWsTransactionService {
 		if ("com.stpl.gtn.gtn2o.ws.entity.HelperTable".equalsIgnoreCase(type)) {
 			criteria.createAlias("c1." + columns.getFieldId(), columns.getFieldId(), JoinType.INNER_JOIN);
 			criteria.add(Restrictions.eq(columns.getFieldId() + "." + "helperTableSid", Integer.valueOf(value)));
-		} else if ("Integer".equalsIgnoreCase(type) || "java.lang.Integer".equalsIgnoreCase(type)) {
+		} else if (GtnWsConstants.INTEGER.equalsIgnoreCase(type) || Integer.class.getName().equalsIgnoreCase(type)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(value)));
 		} else if ("java.util.Date".equalsIgnoreCase(type)) {
 			Date fromDate = new SimpleDateFormat(dateFormat).parse(columns.getFilterValue1());
 			Date toDate = getDateForSearch(fromDate);
 			criteria.add(Restrictions.between(columns.getFieldId(), fromDate, toDate));
 
-		} 
-		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			criteria.add(Restrictions.eq(columns.getFieldId(), Double.valueOf(value)));
-		}
-		else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
+		} else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			Object doubleFilterValues = columns.getFilterValue1();
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			String columnName = getColumnName(columns.getFieldId());
+			criteria.add(Restrictions.sqlRestriction(" round(" + columnName + " ,3) = ?", doubleFilterValues,
+					doubleFilterTypes));
+		} else if (columns.getFieldId().equals(GtnFrameworkWebserviceConstant.CHECK_RECORD)) {
 			criteria.add(Restrictions.eq(columns.getFieldId(), true));
-		}
-		 else {
+		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(), value));
 		}
 	}
 
-	private void equalCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
-			String type, String dateFormat, String value) throws ParseException {
+	private void equalCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String type, String dateFormat,
+			String value) throws ParseException {
 		if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type) && columns.isFilter()) {
-			String columnName = ((AbstractEntityPersister) classMetadata)
-					.getPropertyColumnNames(columns.getFieldId())[0];
-			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
-			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
-			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
+			Object doubleFilterValues = columns.getFilterValue1();
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			String columnName = getColumnName(columns.getFieldId());
+			criteria.add(Restrictions.sqlRestriction(" round(" + columnName + " ,3) = ?", doubleFilterValues,
+					doubleFilterTypes));
+		} else if (GtnFrameworkWebserviceConstant.INTEGER.equalsIgnoreCase(type)
+				|| GtnFrameworkWebserviceConstant.JAVA_LANG_INTEGER.equalsIgnoreCase(type)) {
+			criteria.add(Restrictions.eq(columns.getFieldId(), Integer.valueOf(columns.getFilterValue1())));
 		} else {
 			criteria.add(Restrictions.eq(columns.getFieldId(),
 					getValueBasedOnType(type, value, columns.getFilterValue1(), dateFormat)));
 
 		}
 	}
-	
-	private void likeCriteria(Criteria criteria, ClassMetadata classMetadata, GtnWebServiceSearchCriteria columns,
-			String value, boolean isUser, boolean isInvalidFilter,String type) {
+
+	private void likeCriteria(Criteria criteria, GtnWebServiceSearchCriteria columns, String value, boolean isUser,
+			boolean isInvalidFilter, String type) {
+		String columnName = getColumnName(columns.getFieldId());
 		if (isUser) {
 			Set<String> keys = new HashSet<>();
 			for (Entry<Integer, String> entry : gtnWebServiceAllListConfig.getUserIdNameMap().entrySet()) {
@@ -296,29 +305,25 @@ public class GtnWsTransactionService {
 				}
 			}
 			criteria.add(Restrictions.in(columns.getFieldId(), keys));
-		}
-		else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
-			String columnName = columns.getFieldId();
-			Object[] doubleFilterValues ={columnName ,columns.getFilterValue1().replaceAll("\\*", "%")};
-			Type[] doubleFilterTypes = {StandardBasicTypes.STRING,StandardBasicTypes.STRING} ;
-			criteria.add(Restrictions.sqlRestriction( " ? like ? ", doubleFilterValues, doubleFilterTypes));
-		}
-		else {
-			
+		} else if (GtnFrameworkWebserviceConstant.DOUBLE.equalsIgnoreCase(type)) {
+			Object doubleFilterValues = columns.getFilterValue1().replaceAll("\\*", "%");
+			Type doubleFilterTypes = StandardBasicTypes.STRING;
+			criteria.add(Restrictions.sqlRestriction(columnName + " like ?", doubleFilterValues, doubleFilterTypes));
+
+		} else {
+
 			if ("%".equals(value)) {
 				Criterion c1 = Restrictions.isNull(columns.getFieldId());
 				Criterion c2 = Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%"));
 				criteria.add(Restrictions.or(c1, c2));
 			} else if (isInvalidFilter) {
-				String columnName = ((AbstractEntityPersister) classMetadata)
-						.getPropertyColumnNames(columns.getFieldId())[0];
-				Object[] invalidFilterValues = { columnName, value };
-				Type[] invalidFilterTypes = { StandardBasicTypes.STRING, StandardBasicTypes.STRING };
-				criteria.add(
-						Restrictions.sqlRestriction("REPLACE(REPLACE(REPLACE( ? ,' ','{}'),'}{',''),'{}',' ') like ?",
-								invalidFilterValues, invalidFilterTypes));
+				Object invalidFilterValues = value;
+				Type invalidFilterTypes = StandardBasicTypes.STRING;
+				criteria.add(Restrictions.sqlRestriction(
+						"REPLACE(REPLACE(REPLACE(" + columnName + " ,' ','{}'),'}{',''),'{}',' ') like ?",
+						invalidFilterValues, invalidFilterTypes));
 			} else {
-				criteria.add(Restrictions.ilike(columns.getFieldId(),value.replaceAll("\\*", "%")));
+				criteria.add(Restrictions.ilike(columns.getFieldId(), value.replaceAll("\\*", "%")));
 			}
 		}
 	}
@@ -356,8 +361,9 @@ public class GtnWsTransactionService {
 						? Order.asc(column.getPropertyId() + "." + "description")
 						: Order.desc(column.getPropertyId() + "." + "description"));
 			} else {
-				criteria.addOrder("ASC".equalsIgnoreCase(column.getOrderByCriteria())
-						? Order.asc(column.getPropertyId()) : Order.desc(column.getPropertyId()));
+				criteria.addOrder(
+						"ASC".equalsIgnoreCase(column.getOrderByCriteria()) ? Order.asc(column.getPropertyId())
+								: Order.desc(column.getPropertyId()));
 			}
 
 		}
@@ -397,6 +403,11 @@ public class GtnWsTransactionService {
 			if (!gtnWsTransactionRequest.getDemandTypeColumnName().isEmpty()) {
 				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getDemandTypeColumnName(),
 						gtnWsTransactionRequest.getDemandTypeColumnValue()));
+			} else if (!gtnWsTransactionRequest.getInventoryLevelColumnName().isEmpty()) {
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryTypeColumnName(),
+						gtnWsTransactionRequest.getInventoryTypeColumnValue()));
+				criteria.add(Restrictions.eq(gtnWsTransactionRequest.getInventoryLevelColumnName(),
+						gtnWsTransactionRequest.getInventoryLevelColumnValue()));
 			}
 			List<Object> resultList = criteria.list();
 			ob = getViewRecord(resultList, gtnWsTransactionRequest);
@@ -429,25 +440,24 @@ public class GtnWsTransactionService {
 		return ob;
 	}
 
-	public List<Object> createFile(File tempFile, PrintWriter printWriter, String modulName, List<String> headers) {
+	public List<Object> createFile(File tempFile, PrintWriter printWriter, List<String> headers,
+			GtnUIFrameworkWebserviceRequest gtnWsRequest) {
 		List<Object> list = new ArrayList<>();
-		if (modulName.contains("Ivld")) {
-			List<String> headersList = headers.subList(1, headers.size());
-			GtnCommonUtil.createHeaderRow(printWriter, headersList);
-		} else {
-			GtnCommonUtil.createHeaderRow(printWriter, headers);
+		if (headers.remove("      ")) {
+			gtnWsRequest.getGtnWsGeneralRequest().removeTableColumFormatListByIndex(0);
 		}
+		GtnCommonUtil.createHeaderRow(printWriter, headers);
 		list.add(printWriter);
 		list.add(tempFile.getAbsolutePath());
 
 		return list;
 	}
 
-	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer,
-			Boolean excelComplete) {
+	public void writeFile(List<Object[]> resultList, PrintWriter printWriter, FileWriter writer, Boolean excelComplete,
+			List<String> columnFormatList) {
 
 		try {
-			GtnCommonUtil.createDataRows(printWriter, resultList);
+			GtnCommonUtil.createDataRows(printWriter, resultList, 2, columnFormatList);
 			printWriter.flush();
 			if (excelComplete) {
 				printWriter.close();
@@ -548,10 +558,9 @@ public class GtnWsTransactionService {
 
 		File tempFile = GtnFileNameUtils.getFile(filePath + filename);
 		try (FileWriter writer = new FileWriter(tempFile, true)) {
-
 			PrintWriter printWriter = new PrintWriter(writer);
-			list = createFile(tempFile, printWriter, gtnWsSearchRequest.getSearchModuleName(),
-					(List<String>) generalRequest.getExtraParameter());
+			list = createFile(tempFile, printWriter, (List<String>) generalRequest.getExtraParameter(), gtnWsRequest);
+			List<String> tableColumnFormatList = gtnWsRequest.getGtnWsGeneralRequest().getTableColumnFormatList();
 			printWriter = (PrintWriter) list.get(GtnWsNumericConstants.ZERO);
 			if (count > GtnWsNumericConstants.BATCH_COUNT) {
 				int maxNbrOfLoop = count / GtnWsNumericConstants.BATCH_COUNT;
@@ -567,13 +576,13 @@ public class GtnWsTransactionService {
 					}
 					List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 							gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-					writeFile(resultList, printWriter, writer, excelComplete);
+					writeFile(resultList, printWriter, writer, excelComplete, tableColumnFormatList);
 				}
 
 			} else {
 				List<Object[]> resultList = (List<Object[]>) getSearchDetails(gtnWsRequest.getGtnWsSearchRequest(),
 						gtnWsRequest.getGtnWsSearchRequest().isCount(), true);
-				writeFile(resultList, printWriter, writer, true);
+				writeFile(resultList, printWriter, writer, true, tableColumnFormatList);
 
 			}
 		} catch (IOException e) {
@@ -644,5 +653,33 @@ public class GtnWsTransactionService {
 			logger.info(ex.getMessage());
 		}
 		return String.valueOf(validationList.get(0));
+	}
+
+	public String getColumnName(String columnName) {
+		Map<String, String> columnMap = new HashMap<>();
+		columnMap.put("rate", "Rate");
+		columnMap.put("secondaryUomConversionFactor", "SECONDARY_UOM_CONVERSION_FACTOR");
+		columnMap.put("accrualPeriodStartDate", "ACCRUAL_PERIOD_START_DATE");
+		columnMap.put("accrualPeriodEndDate", "ACCRUAL_PERIOD_END_DATE");
+		columnMap.put("postingDate", "POSTING_DATE");
+		columnMap.put("glDate", "GL_DATE");
+		columnMap.put("deductionAmount", "DEDUCTION_AMOUNT");
+		columnMap.put("quantity", "QUANTITY");
+		columnMap.put("salesAmount", "SALES_AMOUNT");
+		columnMap.put("recordCreatedDate", "RECORD_CREATED_DATE");
+		return columnMap.get(columnName);
+	}
+
+	private String replaceSingleQuote(String searchValue) {
+		int countOfSingleQuote = StringUtils.countMatches(searchValue, "'");
+		String tempStr = searchValue;
+		if (countOfSingleQuote > 0) {
+			StringBuilder finalStr = new StringBuilder();
+			for (int i = 0; i < countOfSingleQuote / 2; i++) {
+				finalStr.append("'");
+			}
+			tempStr = searchValue.replace("'", StringUtils.EMPTY) + finalStr.toString();
+		}
+		return tempStr;
 	}
 }

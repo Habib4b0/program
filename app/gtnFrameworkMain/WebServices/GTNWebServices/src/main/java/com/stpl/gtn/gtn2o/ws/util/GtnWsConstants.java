@@ -25,6 +25,7 @@ public final class GtnWsConstants {
 	public static final String GET_COMPANY_HEADER = "/getCompanyHeader/";
 	public static final String MODULE_NAME = "moduleName";
 	public static final String COMPANY = "company";
+	public static final String DESCRIPTION = "DESCRIPTION";
 	// Logger variables
 	public static final String CLASS = "Class";
 	public static final String METHOD = "Method";
@@ -42,6 +43,7 @@ public final class GtnWsConstants {
 
 	public static final char CHAR_PERCENT = '%';
 	public static final char CHAR_ASTERISK = '*';
+	public static final String INTEGER = "Integer";
 
 	private GtnWsConstants() {
 		super();

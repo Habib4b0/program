@@ -64,6 +64,7 @@ public class NdcFilterContainer implements DAO<HelperDTO>{
     /**
      * Method used for get the results.
      */
+    @Override
     public List<HelperDTO> find(final SearchCriteria searchCriteria, final int startIndex, final int offset, final List<OrderByColumn> list) {
         try {
             LOGGER.debug("Entering find method :");

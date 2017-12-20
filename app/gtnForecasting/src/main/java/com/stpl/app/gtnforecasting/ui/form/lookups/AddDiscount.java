@@ -14,10 +14,7 @@ import com.vaadin.v7.ui.Label;
  * @author sriram
  */
 public class AddDiscount extends Window {
-
-	/**
-	 * The Constructor.
-	 */
+	
 	public AddDiscount(String title) {
 		super(title);
 		addStyleName(Constant.BOOTSTRAP_NM);

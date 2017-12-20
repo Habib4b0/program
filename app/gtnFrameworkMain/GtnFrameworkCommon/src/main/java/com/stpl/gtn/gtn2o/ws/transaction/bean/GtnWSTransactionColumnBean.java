@@ -52,6 +52,14 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 	private boolean lengthValidator = false;
 	private int minLength;
 	private int maxLength;
+	private boolean outBoundModule = false;
+	private String reprocessingWebServiceURL;
+	private Object[] stagingInsertColumns = new Object[0];
+	private Object[] stagingUpdateColumns = new Object[0];
+	private Object[] stagingUpdateColumnsValues = new Object[0];
+	private boolean defaultFocus = false;
+	private boolean decimalFormatNeeded = false;
+	private String pattern = null;
 
 	public String getColumnID() {
 		return columnID;
@@ -341,6 +349,70 @@ public class GtnWSTransactionColumnBean implements Comparable<GtnWSTransactionCo
 
 	public void setLengthValidator(boolean lengthValidator) {
 		this.lengthValidator = lengthValidator;
+	}
+
+	public boolean isOutBoundModule() {
+		return outBoundModule;
+	}
+
+	public void setOutBoundModule(boolean outBoundModule) {
+		this.outBoundModule = outBoundModule;
+	}
+
+	public String getReprocessingWebServiceURL() {
+		return reprocessingWebServiceURL;
+	}
+
+	public void setReprocessingWebServiceURL(String reprocessingWebServiceURL) {
+		this.reprocessingWebServiceURL = reprocessingWebServiceURL;
+	}
+
+	public Object[] getStagingInsertColumns() {
+		return stagingInsertColumns.length == 0 ? stagingInsertColumns : stagingInsertColumns.clone();
+	}
+
+	public void setStagingInsertColumns(Object[] stagingInsertColumns) {
+		this.stagingInsertColumns = stagingInsertColumns.clone();
+	}
+
+	public Object[] getStagingUpdateColumns() {
+		return stagingUpdateColumns.length == 0 ? stagingUpdateColumns : stagingUpdateColumns.clone();
+	}
+
+	public void setStagingUpdateColumns(Object[] stagingUpdateColumns) {
+		this.stagingUpdateColumns = stagingUpdateColumns.clone();
+	}
+
+	public Object[] getStagingUpdateColumnsValues() {
+		return stagingUpdateColumnsValues.length == 0 ? stagingUpdateColumnsValues : stagingUpdateColumnsValues.clone();
+	}
+
+	public void setStagingUpdateColumnsValues(Object[] stagingUpdateColumnsValues) {
+		this.stagingUpdateColumnsValues = stagingUpdateColumnsValues.clone();
+	}
+
+	public boolean isDefaultFocus() {
+		return defaultFocus;
+	}
+
+	public void setDefaultFocus(boolean defaultFocus) {
+		this.defaultFocus = defaultFocus;
+	}
+
+	public boolean isDecimalFormatNeeded() {
+		return decimalFormatNeeded;
+	}
+
+	public void setDecimalFormatNeeded(boolean decimalFormatNeeded) {
+		this.decimalFormatNeeded = decimalFormatNeeded;
+	}
+
+	public String getPattern() {
+		return pattern;
+	}
+
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
 	}
 
 }

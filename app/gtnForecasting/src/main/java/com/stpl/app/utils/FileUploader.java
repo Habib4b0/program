@@ -38,6 +38,7 @@ public class FileUploader implements Receiver {
      * @param mimeType
      * @return
      */
+    @Override
     public OutputStream receiveUpload(String filename, String mimeType) {
         try {
 
@@ -77,6 +78,7 @@ public class FileUploader implements Receiver {
     /**
      * method should be called at the end
      */
+    @Override
     protected void finalize() throws Throwable {
         try {
 

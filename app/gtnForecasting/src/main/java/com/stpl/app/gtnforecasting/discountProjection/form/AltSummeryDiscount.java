@@ -25,7 +25,6 @@ import com.stpl.app.gtnforecasting.utils.HeaderUtils;
 import com.stpl.app.gtnforecasting.utils.NotificationUtils;
 import com.stpl.app.gtnforecasting.utils.TabNameUtil;
 import com.stpl.app.model.CustomViewMaster;
-import com.stpl.app.security.StplSecurity;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.CalendarConstants.CURRENT_YEAR;
@@ -55,7 +54,6 @@ import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.vaadin.server.Resource;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Panel;
@@ -73,11 +71,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
@@ -94,57 +90,56 @@ import org.vaadin.teemu.clara.binder.annotation.UiHandler;
  */
 public class AltSummeryDiscount extends CustomComponent {
 
-    protected SessionDTO session;
-    protected String screenName;
-
+    private final SessionDTO session;
+    
     /* The Excel table */
-    protected ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
+    private final ExtFilterTreeTable excelTable = new ExtFilterTreeTable();
     /* The excel export image */
-    protected final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
+    private final Resource excelExportImage = new ThemeResource(EXCEL_IMAGE_PATH.getConstant());
 
     /**
      * The resultsTableLayout VerticalLayout.
      */
     @UiField("resultsTableLayout1")
-    protected VerticalLayout resultsTableLayout;
+    private VerticalLayout resultsTableLayout;
     /**
      * The excelTableLayout VerticalLayout.
      */
     @UiField("excelTableLayout")
-    protected VerticalLayout excelTableLayout;
+    private VerticalLayout excelTableLayout;
     /**
      * The viewHlayout HorizontalLayout.
      */
     @UiField("viewHlayout")
-    protected HorizontalLayout viewHlayout;
+    private HorizontalLayout viewHlayout;
 
     /**
      * The Non Mandated Panel.
      */
     @UiField("panelNM")
-    protected Panel panelNM;
+    private Panel panelNM;
 
     /**
      * The frequency ddlb.
      */
     @UiField("frequencyDdlb")
-    protected ComboBox frequencyDdlb;
+    private ComboBox frequencyDdlb;
     /**
      * The history Ddlb.
      */
     @UiField("historyDdlb")
-    protected ComboBox historyDdlb;
+    private ComboBox historyDdlb;
 
     /**
      * The periodOrder OptionGroup.
      */
     @UiField("periodOrder")
-    protected OptionGroup periodOrder;
+    private OptionGroup periodOrder;
     /**
      * The periodOrder OptionGroup.
      */
     @UiField("actualsProjs")
-    protected OptionGroup actualsProjs;
+    private OptionGroup actualsProjs;
     
     /**
      * The pivotView OptionGroup.
@@ -152,161 +147,122 @@ public class AltSummeryDiscount extends CustomComponent {
     
     
     @UiField("pivotView")
-    protected OptionGroup pivotView;
+    private OptionGroup pivotView;
 
     @UiField("levelDdlb")
-    protected ComboBox levelDdlb;
+    private ComboBox levelDdlb;
     /**
      * The levelFilterDdlb ComboBox.
      */
     @UiField("levelFilterDdlb")
-    protected ComboBox levelFilterDdlb;
+    private ComboBox levelFilterDdlb;
 
     /**
      * The viewDdlb ComboBox.
      */
     @UiField("viewDdlb")
-    protected ComboBox viewDdlb;
+    private ComboBox viewDdlb;
 
     /**
      * The adjperiods OptionGroup.
      */
     @UiField(Constant.VIEW)
-    protected OptionGroup view;
+    private OptionGroup view;
 
     /**
      * The generate Button.
      */
     @UiField("generateBtn")
-    protected Button generateBtn;
+    private Button generateBtn;
     /**
      * The editBtn Button.
      */
     @UiField("editBtn")
-    protected Button editBtn;
+    private Button editBtn;
     /**
      * The newBtn Button.
      */
     @UiField("newBtn")
-    protected Button newBtn;
+    private Button newBtn;
     /**
      * The excelExport Button.
      */
     @UiField("excelExport")
-    protected Button excelExport;
+    private Button excelExport;
 
     /**
      * The reset Button.
      */
     @UiField("resetBtn")
-    protected Button resetBtn;
+    private Button resetBtn;
     /**
      * The expandBtn Button.
      */
     @UiField("expandBtn")
-    protected Button expandBtn;
+    private Button expandBtn;
     /**
      * The collapseBtn Button.
      */
     @UiField("collapseBtn")
-    protected Button collapseBtn;
+    private Button collapseBtn;
 
-    /**
-     * The bean for loading Start Period drop down.
-     */
-    final protected BeanItemContainer<String> startPeriodBean = new BeanItemContainer<>(String.class);
-    /**
-     * The bean for loading End Period drop down.
-     */
-    final protected BeanItemContainer<String> endPeriodBean = new BeanItemContainer<>(String.class);
-    /**
-     * The bean for loading Start Period drop down.
-     */
-    final protected BeanItemContainer<String> forecaststartBean = new BeanItemContainer<>(String.class);
-    /**
-     * The bean for loading End Period drop down.
-     */
-    final protected BeanItemContainer<String> forecastendBean = new BeanItemContainer<>(String.class);
-
-    final StplSecurity stplSecurity = new StplSecurity();
-    final String userId = String.valueOf(VaadinSession.getCurrent().getAttribute(Constant.USER_ID));
-    ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    Map<String, String> manualEntryMap = new HashMap<>();
-    /* Discount Bean */
-    protected BeanItemContainer<String> programBean = new BeanItemContainer<>(String.class);
+    private final ExtTreeContainer<DiscountProjectionDTO> resultBeanContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
     /* To store the current hierarchy */
-    List<Leveldto> currentHierarchy = new ArrayList<>();
+    private List<Leveldto> currentHierarchy = new ArrayList<>();
     /* To enable or disable level filter listener */
-    boolean enableLevelFilterListener = true;
-    /* The bean used to load the Mass Update - value Ddlb */
-    BeanItemContainer<String> valueDdlbBean = new BeanItemContainer<>(String.class);
+    private boolean enableLevelFilterListener = true;
+    
     /* To hold the selected discounts in program selection lookup */
-    List<String> discountProgramsList = new LinkedList<>();
+    private final List<String> discountProgramsList = new LinkedList<>();
     /* To hold the selected program from the program selection combo box */
-    List<String> programSelectionList = new ArrayList<>();
+    private final List<String> programSelectionList = new ArrayList<>();
     /* The hierarchy indicator to indicate whether customer or Product */
-    String hierarchyIndicator = StringUtils.EMPTY;
+    private String hierarchyIndicator = StringUtils.EMPTY;
     /*  Non Mandated Logic */
     private final DiscountProjectionLogic logic = new DiscountProjectionLogic();
     /* table Logic to load the table Data */
-    AHSummeryDiscountTableLogic tableLogic;
+    private final AHSummeryDiscountTableLogic tableLogic;
     /* To hold the selections on generate button click. */
-    ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
+    private ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
     /* The custom id. */
-    int customId = 0;
+    private int customId = 0;
     /* To check whether list view is generated or not */
-    public boolean isListviewGenerated = false;
-    boolean isGroupUpdatedManually = false;
+    private boolean isListviewGenerated = false;
     /* The custom id to select. */
-    int customIdToSelect = 0;
+    private int customIdToSelect = 0;
     /* The Right Header Dto */
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
     /* The Right Header Dto */
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
     /* The Excel header Dto (Right Header) */
-    CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO excelHeaderLeft = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO excelHeader = new CustomTableHeaderDTO();
     /* The Results table */
-    FreezePagedTreeTable resultsTable;
+    private final FreezePagedTreeTable resultsTable;
     /* Group filter selected value */
     private String userGroup = StringUtils.EMPTY;
-    /* String to be stored during focus of List View text field */
-    String focusValue = StringUtils.EMPTY;
-    /* String to be stored during blur of List View text field */
-    String blurValue = StringUtils.EMPTY;
     /* Discount Names to be used in Projection results */
-    List<String> discountNamesList = new ArrayList<>();
+    private final List<String> discountNamesList = new ArrayList<>();
     /* Discount No to be used in Projection results */
-    List<String> discountNoList = new ArrayList<>();
-
+    
     /* Start and End Periods to be loaded */
-    List<Integer> startAndEndPeriods = new ArrayList<>();
+    private final List<Integer> startAndEndPeriods = new ArrayList<>();
     /* Data Format Converter */
-    DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
-    DataFormatConverter priceFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
+    private final DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
+    private final DataFormatConverter priceFormat = new DataFormatConverter("#,##0.00", DataFormatConverter.INDICATOR_DOLLAR);
     /**
      * To store the details of the checked double header with its corresponding
      * Triple header and History, Projected values
      */
-    Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
-    /* To store the name of the discounts selected in the Triple header */
-    List<Object> checkedDiscountsPropertyIds = new ArrayList<>();
+    private final Map<String, Map<String, List<String>>> tripleHeaderForCheckedDoubleHeader = new HashMap<>();
     /* List to have the items to be saved */
-    List<SaveDTO> saveList = new ArrayList<>();
-    /* To store the hierarchy numbers to refresh in table */
-    Set<String> refreshTableHierarchySet = new HashSet<>();
+    private final List<SaveDTO> saveList = new ArrayList<>();
     /* To store the custom View */
-    List<CustomViewMaster> customViewList = new ArrayList<>();
+    private List<CustomViewMaster> customViewList = new ArrayList<>();
     /* The Excel container */
-    ExtTreeContainer<DiscountProjectionDTO> excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
-    boolean errorFlag = false;
+    private ExtTreeContainer<DiscountProjectionDTO> excelContainer = new ExtTreeContainer<>(DiscountProjectionDTO.class,ExtContainer.DataStructureMode.MAP);
+    private List<String> checkedList;
 
-    Set<String> tableHirarechyNos = new HashSet<>();
-    DataFormatConverter dollarFormat = new DataFormatConverter("###,###,##0", DataFormatConverter.INDICATOR_DOLLAR);
-    List<String> checkedList;
-
-    String calcBase = StringUtils.EMPTY;
-    private int ccpsCount = 1;
+    private final int ccpsCount = 1;
     /**
      * The Constant LOGGER.
      */
@@ -315,18 +271,13 @@ public class AltSummeryDiscount extends CustomComponent {
  * boolean for generate
  */
     private boolean isDiscountGenerated;
-    boolean isRateUpdatedManually = false;
-    boolean isRPUUpdatedManually = false;
-    boolean isAmountUpdatedManually = false;
-    BeanItemContainer<String> tableGroupDdlbBean = new BeanItemContainer<>(String.class);
-    NMDiscountTableLoadLogic discountTableLogic;
+    private final NMDiscountTableLoadLogic discountTableLogic;
     private boolean initialLoad = true;
-    String rsName = StringUtils.EMPTY;
+    private String rsName = StringUtils.EMPTY;
 
     public AltSummeryDiscount(SessionDTO session, String screenName, ProjectionSelectionDTO projectionSelection, NMDiscountTableLoadLogic discountTableLogic, String rsName)  {
 
         this.session = session;
-        this.screenName = screenName;
         this.rsName = rsName;
         this.projectionSelection = projectionSelection;
         this.discountTableLogic = discountTableLogic;
@@ -358,6 +309,7 @@ public class AltSummeryDiscount extends CustomComponent {
 
         frequencyDdlb.addValueChangeListener(new Property.ValueChangeListener() {
 
+            @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 loadFrequency(frequencyDdlb.getValue().toString());
             }
@@ -1061,13 +1013,8 @@ public class AltSummeryDiscount extends CustomComponent {
     }
 
     protected void generateBtnClickLogic() {
-
-        isRateUpdatedManually = false;
-        isRPUUpdatedManually = false;
-        isAmountUpdatedManually = false;
         saveList.clear();
         generateListView(true);
-
     }
 
     /**

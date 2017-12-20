@@ -4,6 +4,7 @@ import com.stpl.gtn.gtn2o.ws.request.authorization.GtnWsModuleAuthorizationGener
 import com.stpl.gtn.gtn2o.ws.request.automaticrelationupdate.GtnFrameworkAutomaticRelationshipRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.GtnWSAdjusmentSummaryRequest;
 import com.stpl.gtn.gtn2o.ws.request.balancesummaryrequest.dataselection.GtnBSTimePeriodRequest;
+import com.stpl.gtn.gtn2o.ws.request.bcp.GtnWsBcpServiceRequest;
 import com.stpl.gtn.gtn2o.ws.request.calendarconfiguration.GtnWsCalendarConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.request.cfprequest.GtnWsCfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.cmrequest.GtnCMasterRequest;
@@ -32,6 +33,7 @@ import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
+import com.stpl.gtn.gtn2o.ws.request.udc.GtnWsUdcRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
 
 public class GtnUIFrameworkWebserviceRequest {
@@ -113,7 +115,11 @@ public class GtnUIFrameworkWebserviceRequest {
 	private GtnFrameworkAutomaticRelationshipRequest automaticRelationEequest;
 	private GtnWsCsvExportRequest gtnWsCsvExportRequest;
 
-private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
+	private GtnWsBcpServiceRequest gtnWsBcpServiceRequest;
+
+	private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
+
+	private GtnWsUdcRequest gtnWsUdcRequest;
 
 	public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
 		return gtnWshirarchyInsertRequest;
@@ -122,6 +128,7 @@ private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 	public void setGtnWshirarchyInsertRequest(GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest) {
 		this.gtnWshirarchyInsertRequest = gtnWshirarchyInsertRequest;
 	}
+
 	public GtnBSTimePeriodRequest getGtnBSTimePeriodRequest() {
 		return gtnBSTimePeriodRequest;
 	}
@@ -404,6 +411,7 @@ private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 			GtnWsModuleAuthorizationGeneralRequest gtnWsModuleAuthorizationGeneralRequest) {
 		this.gtnWsModuleAuthorizationGeneralRequest = gtnWsModuleAuthorizationGeneralRequest;
 	}
+
 	public GtnFrameworkAutomaticRelationshipRequest getAutomaticRelationEequest() {
 		return automaticRelationEequest;
 	}
@@ -412,13 +420,28 @@ private GtnWsForecastHierarchyInsertRequest gtnWshirarchyInsertRequest;
 		this.automaticRelationEequest = automaticRelationEequest;
 	}
 
-
 	public GtnWsCsvExportRequest getGtnWsCsvExportRequest() {
 		return gtnWsCsvExportRequest;
 	}
 
 	public void setGtnWsCsvExportRequest(GtnWsCsvExportRequest gtnWsCsvExportRequest) {
 		this.gtnWsCsvExportRequest = gtnWsCsvExportRequest;
+	}
+
+	public GtnWsBcpServiceRequest getGtnWsBcpServiceRequest() {
+		return gtnWsBcpServiceRequest;
+	}
+
+	public void setGtnWsBcpServiceRequest(GtnWsBcpServiceRequest gtnWsBcpServiceRequest) {
+		this.gtnWsBcpServiceRequest = gtnWsBcpServiceRequest;
+	}
+
+	public GtnWsUdcRequest getGtnWsUdcRequest() {
+		return gtnWsUdcRequest;
+	}
+
+	public void setGtnWsUdcRequest(GtnWsUdcRequest gtnWsUdcRequest) {
+		this.gtnWsUdcRequest = gtnWsUdcRequest;
 	}
 
 }

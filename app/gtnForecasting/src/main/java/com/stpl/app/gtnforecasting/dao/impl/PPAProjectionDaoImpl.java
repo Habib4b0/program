@@ -72,6 +72,7 @@ public class PPAProjectionDaoImpl implements PPAProjectionDao {
      * @return list of ItemPricingQualifier
      * @throws SystemException 
      */
+        @Override
     public List getItemPricingTypeList(final DynamicQuery query) throws SystemException {
        return ItemPricingQualifierLocalServiceUtil.dynamicQuery(query);
     }

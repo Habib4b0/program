@@ -5,6 +5,23 @@
  */
 package com.stpl.app.adminconsole.abstractsearch.ui;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
+import org.jboss.logging.Logger;
+import org.vaadin.teemu.clara.Clara;
+import org.vaadin.teemu.clara.binder.annotation.UiField;
+import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchCriteriaDTO;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
@@ -13,7 +30,6 @@ import com.stpl.app.adminconsole.abstractsearch.logic.tableLogic.AbstractSearchT
 import com.stpl.app.adminconsole.abstractsearch.util.MessageUtil;
 import com.stpl.app.adminconsole.abstractsearch.util.ValidationUtil;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
-import com.stpl.app.adminconsole.common.util.CommonUtil;
 import com.stpl.app.adminconsole.discount.logic.DiscountLogic;
 import com.stpl.app.adminconsole.discount.ui.view.DiscountAddView;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
@@ -24,53 +40,37 @@ import com.stpl.app.adminconsole.util.Message;
 import com.stpl.app.adminconsole.util.ResponsiveUtils;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
-import com.stpl.app.ui.errorhandling.ErrorLabel;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.CustomComponent;
-import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.serviceUtils.ConstantUtil;
 import com.stpl.app.serviceUtils.ErrorCodeUtil;
-import com.stpl.ifs.ui.CommonSecurityLogic;
+import com.stpl.app.ui.errorhandling.ErrorLabel;
+import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExtCustomTableHolder;
 import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.vaadin.data.fieldgroup.FieldGroup;
-import org.apache.commons.lang.StringUtils;
-import org.vaadin.teemu.clara.Clara;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.ItemClickEvent;
 import com.vaadin.server.Resource;
-import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import org.jboss.logging.Logger;
-import org.vaadin.teemu.clara.binder.annotation.UiField;
-import org.vaadin.teemu.clara.binder.annotation.UiHandler;
+
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
-import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
 
 /**
  *
@@ -110,15 +110,6 @@ public class AbstractSearchForm extends CustomComponent {
 
     @UiField("combo3")
     private ComboBox combo3;
-
-    @UiField("label1")
-    private Label label1;
-
-    @UiField("label2")
-    private Label label2;
-
-    @UiField("label3")
-    private Label label3;
 
     @UiField("label4")
     private Label label4;
@@ -189,9 +180,6 @@ public class AbstractSearchForm extends CustomComponent {
     @UiField("controlLayout")
     private HorizontalLayout controlLayout;
 
-    @UiField("searchBtn")
-    private Button searchBtn;
-
     @UiField("resetBtn")
     private Button resetBtn;
 
@@ -231,21 +219,20 @@ public class AbstractSearchForm extends CustomComponent {
     @UiField("buttonLayout")
     private HorizontalLayout buttonLayout;
 
-    AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
+    private AbstractSearchTableLogic tableLogic = new AbstractSearchTableLogic();
     private ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     private BeanItemContainer<SearchResultsDTO> resultBean = new BeanItemContainer<>(SearchResultsDTO.class);
-    final Map<String, String> SecuritymoduleName = new HashMap<>();
-    CommonUtils commonUtil = CommonUtils.getInstance();
+    private final Map<String, String> SecuritymoduleName = new HashMap<>();
+    private CommonUtils commonUtil = CommonUtils.getInstance();
     private final Resource excelExportImage = new ThemeResource("../../icons/excel.png");
     private static final Logger LOGGER = Logger.getLogger(AbstractSearchForm.class);
     private final AbstractSearchLogic searchLogic = new AbstractSearchLogic();
     public static ResourceBundle columnBundle = ResourceBundle.getBundle("properties.tableColumns");
-    DiscountLogic discountLogic = new DiscountLogic();
+    private DiscountLogic discountLogic = new DiscountLogic();
     private String moduleName = StringUtils.EMPTY;
-    final CommonUtils commonsUtil = new CommonUtils();
+    private final CommonUtils commonsUtil = new CommonUtils();
     public static final String NAME = ConstantsUtils.EMPTY;
     public static final String ERROR_MSG = "No Record has been selected.  Please select a Record and try again.";
-    CommonUtil common = new CommonUtil();
     /**
      * The ErrorLabel.
      */
@@ -257,14 +244,12 @@ public class AbstractSearchForm extends CustomComponent {
     private int versionNo;
 
     private String searchCriteria = ConstantsUtils.EMPTY;
-    CommonUtil commonUtilSecurity = new CommonUtil();
-    CommonSecurityLogic commonSecurityLogic = new CommonSecurityLogic();
     /**
      * The Excel table.
      */
     private ExtFilterTable excelTable;
     private BeanItemContainer<SearchResultsDTO> excelTableBean;
-    SessionDTO sessionDTO;
+    private SessionDTO sessionDTO;
     /**
      * The Constructor.
      *

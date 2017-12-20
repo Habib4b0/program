@@ -105,6 +105,7 @@ public class DataAssumptions extends CustomComponent {
         excelExport.setHtmlContentAllowed(true);
         excelExport.addClickListener(new Button.ClickListener() {
 
+                @Override
                 public void buttonClick(Button.ClickEvent event) {
                     try {
                        createWorkSheet();
