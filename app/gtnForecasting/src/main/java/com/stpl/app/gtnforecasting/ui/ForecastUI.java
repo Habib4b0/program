@@ -131,7 +131,6 @@ public class ForecastUI extends UI {
         String userType = null;
         String noOfApprovals = null;
         String approvalLevels = null;
-        SessionUtil sessionUtil = new SessionUtil();
         ForecastEditWindow editWindow = null;
         AccrualRateProjectionView arpView = null;
         String customerHierSid = StringUtils.EMPTY;
@@ -344,7 +343,8 @@ public class ForecastUI extends UI {
         }
 
         // Configure the error handler for the UI
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+        
+           UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
@@ -355,7 +355,7 @@ public class ForecastUI extends UI {
                         cause += t.getClass().getName();
 
     }
-
+        
                     LOGGER.error(t.getMessage());
                 }
 
@@ -363,6 +363,7 @@ public class ForecastUI extends UI {
                 // Do the default error handling (optional)
             }
         });
+        
 
     }
 
