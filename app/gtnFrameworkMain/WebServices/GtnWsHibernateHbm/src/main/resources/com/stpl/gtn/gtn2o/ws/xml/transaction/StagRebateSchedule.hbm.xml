@@ -12,13 +12,13 @@
             <column name="REBATE_SCHEDULE_INTFID" precision="38" scale="0" not-null="true" />
         </property>
         <property name="rebateScheduleId" type="string">
-            <column name="REBATE_SCHEDULE_ID" length="38" not-null="true" />
+            <column name="REBATE_SCHEDULE_ID" length="50" not-null="true" />
         </property>
         <property name="rebateScheduleNo" type="string">
-            <column name="REBATE_SCHEDULE_NO" length="50" />
+            <column name="REBATE_SCHEDULE_NO" length="50" not-null="true"/>
         </property>
         <property name="rebateScheduleName" type="string">
-            <column name="REBATE_SCHEDULE_NAME" length="100" />
+            <column name="REBATE_SCHEDULE_NAME" length="100" not-null="true"/>
         </property>
         <property name="rebateScheduleType" type="string">
             <column name="REBATE_SCHEDULE_TYPE" length="25" not-null="true" />
@@ -27,7 +27,7 @@
             <column name="REBATE_PROGRAM_TYPE" length="25" not-null="true" />
         </property>
         <property name="rebateScheduleCategory" type="string">
-            <column name="REBATE_SCHEDULE_CATEGORY" length="25" />
+            <column name="REBATE_SCHEDULE_CATEGORY" length="25" not-null="true" />
         </property>
         <property name="tradeClass" type="string">
             <column name="TRADE_CLASS" length="100" />
@@ -221,5 +221,50 @@
         <property name="addChgDelIndicator" type="string">
             <column name="ADD_CHG_DEL_INDICATOR" length="10" not-null="true" />
         </property>
+        <property name="deductionInclusion" type="string">
+            <column name="DEDUCTION_INCLUSION" length="10" not-null="true"/>
+        </property>
+         <property name="rebateScheduleAliasId" type="string">
+            <column name="REBATE_SCHEDULE_ALIAS_ID" length="38" />
+        </property>
+         <property name="paymentLevel" type="string">
+            <column name="PAYMENT_LEVEL" length="38" />
+        </property>
+         <property name="evaluationRuleLevel" type="string">
+            <column name="EVALUATION_RULE_LEVEL" length="38" />
+        </property> 
+        <property name="evaluationRule" type="string">
+            <column name="EVALUATION_RULE" length="100" />
+        </property>
+        <property name="evaluationRuleBundle" type="string">
+            <column name="EVALUATION_RULE_BUNDLE" length="38" />
+        </property> 
+        <property name="calculationType" type="string">
+            <column name="CALCULATION_TYPE" length="38" />
+        </property>
+         <property name="calculationRule" type="string">
+            <column name="CALCULATION_RULE" length="100" />
+        </property>
+         <property name="calculationRuleLevel" type="string">
+            <column name="CALCULATION_RULE_LEVEL" length="38" />
+        </property>
+         <property name="calculationRuleBundle" type="string">
+            <column name="CALCULATION_RULE_BUNDLE" length="38" />
+        </property>
+         <property name="netSalesFormula" type="string">
+            <column name="NET_SALES_FORMULA" length="100" />
+        </property>
+         <property name="nestSalesRule" type="string">
+            <column name="NET_SALES_RULE" length="100" />
+        </property>
+         <property name="deductionCalendarNo" type="string">
+            <column name="DEDUCTION_CALENDAR_NO" length="38" />
+        </property>
+         <property name="deductionCalendarName" type="string">
+            <column name="DEDUCTION_CALENDAR_NAME" length="100" />
+        </property>
+
+
+
     </class>
 </hibernate-mapping>

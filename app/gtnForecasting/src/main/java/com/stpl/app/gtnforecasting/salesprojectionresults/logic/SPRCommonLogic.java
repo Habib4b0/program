@@ -83,7 +83,7 @@ public class SPRCommonLogic {
 	 */
 	private static final CommonDAO commonDao = new CommonDAOImpl();
 	private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-	private CommonLogic commonLogic = new CommonLogic();
+	private final CommonLogic commonLogic = new CommonLogic();
 	public static final String JOIN_SPACE = " JOIN ";
 	public static final String LEVEL_NO_PROPERTY = "levelNo";
 	public static final String IS_NULL = "Isnull(";
@@ -946,9 +946,7 @@ public class SPRCommonLogic {
 
 						customViewDetailsSaveLogic(customId, levelList);
 					}
-				} catch (SystemException ex) {
-					LOGGER.error(ex);
-				} catch (PortalException ex) {
+				} catch (SystemException | PortalException ex) {
 					LOGGER.error(ex);
 				}
 			}
@@ -1166,9 +1164,7 @@ public class SPRCommonLogic {
 		int businessProcessType = 0;
 		try {
 			businessProcessType = CommonUtils.getHelperCode(CommonUtils.BUSINESS_PROCESS_TYPE, getGovernmentConstant());
-		} catch (PortalException ex) {
-			java.util.logging.Logger.getLogger(SPRCommonLogic.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (SystemException ex) {
+		} catch (PortalException | SystemException ex) {
 			java.util.logging.Logger.getLogger(SPRCommonLogic.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(ForecastConfig.class);
@@ -1779,9 +1775,7 @@ public class SPRCommonLogic {
 
 			LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
-		} catch (PortalException ex) {
-			LOGGER.error(ex);
-		} catch (SystemException ex) {
+		} catch (PortalException | SystemException ex) {
 			LOGGER.error(ex);
 		}
 		return helperList;

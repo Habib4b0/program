@@ -128,7 +128,7 @@ public class PPADetailsLookup extends Window {
     ExtFilterTable leftTable;
     ExtFilterTable rightTable;
 
-    private PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
+    private final PPAProjectionResultsLogic logic = new PPAProjectionResultsLogic();
     /**
      * The max split position.
      */
@@ -144,7 +144,7 @@ public class PPADetailsLookup extends Window {
     BeanItemContainer<PPADetailsDTO> resultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
     BeanItemContainer<PPADetailsDTO> excelResultsContainer = new BeanItemContainer<>(PPADetailsDTO.class);
     PPAHelperDTO itemDefaultValue = new PPAHelperDTO(0, Constant.SELECT_ONE, Constant.SELECT_ONE);
-    private PPADetailsDTO ppaDetailsDTO = new PPADetailsDTO();
+    private final PPADetailsDTO ppaDetailsDTO = new PPADetailsDTO();
     private final ExtCustomTable excelTable = new ExtCustomTable();
     CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
     SessionDTO sessionDTO;
@@ -311,6 +311,7 @@ public class PPADetailsLookup extends Window {
                  * @param event - ErrorEvent
                  */
                 @SuppressWarnings("PMD")
+                @Override
                 public void error(final com.vaadin.server.ErrorEvent event) {
                     return;
                 }
@@ -362,6 +363,7 @@ public class PPADetailsLookup extends Window {
              * @param event
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
 
                 LOGGER.debug("Entering Close Logic");
@@ -371,6 +373,7 @@ public class PPADetailsLookup extends Window {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (ButtonId.YES.equals(buttonId)) {
                             close();
@@ -395,6 +398,7 @@ public class PPADetailsLookup extends Window {
              * @param event
              */
             @SuppressWarnings("PMD")
+            @Override
             public void buttonClick(final Button.ClickEvent event) {
 
                 LOGGER.debug("Entering Reset Logic");
@@ -404,6 +408,7 @@ public class PPADetailsLookup extends Window {
                      *
                      */
                     @SuppressWarnings("PMD")
+                    @Override
                     public void buttonClicked(final ButtonId buttonId) {
                         if (ButtonId.YES.equals(buttonId)) {
                             contract.setValue(defaultValue);
@@ -428,6 +433,7 @@ public class PPADetailsLookup extends Window {
              *
              * @param event - Mouse Click event
              */
+            @Override
             public void buttonClick(final ClickEvent event) {
                 try {
                     LOGGER.debug("Entering EXCEL Export Button Click :::: ");
@@ -444,6 +450,7 @@ public class PPADetailsLookup extends Window {
                          * @param buttonId The buttonId of the pressed button.
                          */
                         @SuppressWarnings("PMD")
+                        @Override
                         public void buttonClicked(final ButtonId buttonId) {
                             return;
                         }

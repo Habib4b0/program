@@ -28,7 +28,7 @@ public class MedicaidWorkSheetTableLogic extends PageTreeTableLogic {
     String hierarchyNo;
     boolean firstGenerated = false;
     ProjectionSelectionDTO projSelDTO = new ProjectionSelectionDTO();
-    private MedicaidURAResultsLogic medicaidResLogic = new MedicaidURAResultsLogic();
+    private final MedicaidURAResultsLogic medicaidResLogic = new MedicaidURAResultsLogic();
     /**
      * The Constant LOGGER.
      */

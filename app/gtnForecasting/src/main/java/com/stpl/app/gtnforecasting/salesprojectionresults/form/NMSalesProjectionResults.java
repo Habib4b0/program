@@ -89,11 +89,11 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The Constant LOGGER.
      */
-    public static final Logger LOGGER = Logger.getLogger(NMSalesProjectionResults.class);
+    private static final Logger LOGGER = Logger.getLogger(NMSalesProjectionResults.class);
 
-    List<Object> possibleKeyList = new ArrayList<>();
-    boolean sales;
-    boolean units;
+    private final List<Object> possibleKeyList = new ArrayList<>();
+    private boolean sales;
+    private boolean units;
 
     /**
      * The excel export image.
@@ -109,7 +109,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
     /**
      * The history bean.
      */
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(
             String.class);
     /**
      * The map left visible columns.
@@ -119,23 +119,23 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      * The map right visible columns.
      */
     private Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-    ExtFilterTreeTable leftTable;
-    ExtFilterTreeTable rightTable;
-    SessionDTO session;
-    List<Object> headerList;
-    List<CustomViewMaster> customViewList = new ArrayList<>();
-    int customIdToSelect = 0;
+    private ExtFilterTreeTable leftTable;
+    private ExtFilterTreeTable rightTable;
+    private final SessionDTO session;
+    private List<Object> headerList;
+    private List<CustomViewMaster> customViewList = new ArrayList<>();
+    private int customIdToSelect = 0;
     private ExtCustomTreeTable exportPeriodViewTable;
     public static final String SALES_RESULTS = Constant.SALES_PROJECTION_RESULTS;
-    int customId = 0;
-    List<Date> startAndTodate;
+    private int customId = 0;
+    private List<Date> startAndTodate;
 
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    boolean firstGenerated = false;
-    boolean generated = false;
-    int tradingPartnerNo = 0;
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private boolean firstGenerated = false;
+    private boolean generated = false;
+    private int tradingPartnerNo = 0;
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
 
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
@@ -179,7 +179,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
             SalesProjectionResultsDTO.class, ExtContainer.DataStructureMode.MAP);
     CustomTableHeaderDTO rightDTO;
     NMSalesProjectionResultsTableLogic tableLogic = new NMSalesProjectionResultsTableLogic();
-    private SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
+    private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     FreezePagedTreeTable resultsTable = new FreezePagedTreeTable(tableLogic);
     boolean flag = false;
     boolean isTabVisible = true;
@@ -377,6 +377,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
      * com.vaadin.navigator.View#enter(com.vaadin.navigator.ViewChangeListener
      * .ViewChangeEvent)
      */
+    @Override
     public void enter(ViewChangeEvent event) {
         // TODO Auto-generated method stub
     }
@@ -434,6 +435,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
         resultsTable.setDoubleHeaderMap(mapLeftVisibleColumns, mapRightVisibleColumns);
         rightTable
                 .addDoubleHeaderColumnCheckListener(new ExtCustomTable.DoubleHeaderColumnCheckListener() {
+                    @Override
                     public void doubleHeaderColumnCheck(
                             ExtCustomTable.DoubleHeaderColumnCheckEvent event) {
                                 Notification.show("Current Value: " + event.isChecked()
@@ -442,6 +444,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
                 });
         rightTable
                 .addColumnCheckListener(new ExtCustomTable.ColumnCheckListener() {
+                    @Override
                     public void columnCheck(
                             ExtCustomTable.ColumnCheckEvent event) {
                                 Notification.show("Current Value: " + event.isChecked()
@@ -1302,9 +1305,7 @@ public class NMSalesProjectionResults extends ForecastSalesProjectionResults {
 
             }
 
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(NMSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(NMSalesProjectionResults.class.getName()).log(Level.SEVERE, null, ex);
         }
 

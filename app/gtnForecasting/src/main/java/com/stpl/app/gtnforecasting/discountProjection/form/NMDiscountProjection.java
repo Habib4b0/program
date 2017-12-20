@@ -183,7 +183,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	/* table Logic to load the table Data */
 	private NMDiscountTableLoadLogic tableLogic;
 	/* To hold the selections on generate button click. */
-	ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
+	protected ProjectionSelectionDTO projectionSelection = new ProjectionSelectionDTO();
 	/* The custom id. */
 	private int customId = 0;
 	/* To check whether list view is generated or not */
@@ -239,16 +239,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private Map<String, List<String>> checkedDoubleHeaders = new HashMap<>();
 
 	@UiField("endPeriodForecastTab")
-	protected ComboBox endPeriodForecastTab;
+	private ComboBox endPeriodForecastTab;
 	/**
 	 * The startPeriodForecastTab ComboBox.
 	 */
 	@UiField("startPeriodForecastTab")
-	protected ComboBox startPeriodForecastTab;
+	private ComboBox startPeriodForecastTab;
 
 	@UiField("gridlay")
-	public GridLayout gridlay;
-        public static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
+	private GridLayout gridlay;
+        private static final String PLEASE_SELECT_A_HISTORIC_ALERT = "Please select a Historic Period for each discount selected.";
 	private List<String> checkedList;
 
 	private String calcBase = StringUtils.EMPTY;
@@ -273,7 +273,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 	private int rsModelSid = 0;
 	private int totalccpCount = 0;
 	private boolean flag = false;
-	private CommonLogic commonLogic = new CommonLogic();
+	protected CommonLogic commonLogic = new CommonLogic();
 	private DataSelectionLogic dsLogic = new DataSelectionLogic();
         public static final String SELECT_LEVEL_LABEL = "-Select Level-";
         public static final String SELECT_ALL_LABEL = "Select All";
@@ -285,6 +285,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
         private List<Object> generateDiscountNamesToBeLoaded=new ArrayList<>();
         private List<Object> generateProductToBeLoaded=new ArrayList<>();
         private List<Object> generateCustomerToBeLoaded=new ArrayList<>();
+        List<String> baselinePeriods= new ArrayList<>();
 
         
         
@@ -505,9 +506,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		allocMethodology.addItem(SELECT_ONE.getConstant());
 		allocMethodology.setNullSelectionItemId(SELECT_ONE.getConstant());
 
-		// The following should be changed in DB procedure if changed below
-		allocMethodology.addItem(Constant.HISTORICAL_OF_BUSINESS);
-		allocMethodology.addItem("Forecast % of Business");
+		 CommonUtil.getInstance().loadOnDemandCombobox(allocMethodology, "ADJUSTMENT_METHODOLOGIES");
 
 		valueDdlb.setEnabled(true);
 		valueDdlb.addItem(SELECT_ONE.getConstant());
@@ -824,7 +823,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		}
 	};
 
-	private ClickListener clickListener = new ClickListener() {
+	private final ClickListener clickListener = new ClickListener() {
 		@Override
 		public void click(ExtCustomCheckBox.ClickEvent event) {
 			Object[] obj = (Object[]) ((AbstractComponent) event.getComponent()).getData();
@@ -1255,6 +1254,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		logic.callDiscountProjectionProcedure(session);
 	}
 
+        @Override
 	public List<String> loadYearSelection() {
 		List<String> year = new ArrayList();
 		Calendar historyCalendar = Calendar.getInstance();
@@ -1530,6 +1530,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 		try {
 			resultsTable.getLeftFreezeAsTable().addColumnCheckListener(checkListener);
 			resultsTable.getLeftFreezeAsTable().setTableFieldFactory(new DefaultFieldFactory() {
+                                @Override
 				public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 						Component uiContext) {
 					String property = String.valueOf(propertyId);
@@ -2581,7 +2582,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 					List<String> remoList = new ArrayList<>(tripleHeaderForCheckedDoubleHeader.keySet());
 					remoList.removeAll(headerList);
 
-					List<String> baselinePeriods;
 
 					for (Object propertyId : checkedDiscountsPropertyIds) {
 
@@ -2670,11 +2670,11 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 										}
 									}
 									boolean isProgram = PROGRAM.getConstant().equals(level.getValue());
-									logic.checkUncheckRebateBeforeAdjust(false, checkedDiscountList, session, true,
-											isProgram);
+									
 									session.setFrequency(projectionSelection.getFrequency());
+                                                                        String adjustActual=session.isActualAdjustment() ? "0" : "1";
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, adjustActual,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -2735,7 +2735,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 				if (!adjustmentValue.replace(" ", StringUtils.EMPTY).isEmpty()) {
 
-					List<String> baselinePeriods;
 
 					if (tripleHeaderForCheckedDoubleHeaderCustom.get(Constant.CUSTOM) == null) {
 						NotificationUtils.getErrorNotification(Constant.NO_PERIOD_SELECTED,
@@ -2822,7 +2821,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 											isProgram);
 									session.setFrequency(projectionSelection.getFrequency());
 									if (logic.adjustDiscountProjection(session, adjustmentType, adjustmentBasis,
-											adjustmentValue, allocationMethodology)) {
+											adjustmentValue, allocationMethodology,baselinePeriods)) {
 										LOGGER.debug(" Procedure executed Successfully");
 										logic.checkUncheckRebateBeforeAdjust(true, selectedDiscountList, session, false,
 												isProgram);
@@ -2852,7 +2851,6 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 						"Please select an Allocation Methodology");
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -3620,6 +3618,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			}
 		}
 		rightTable.setTableFieldFactory(new DefaultFieldFactory() {
+                        @Override
 			public Field<?> createField(final Container container, final Object itemId, final Object propertyId,
 					Component uiContext) {
 				if (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction())) {
@@ -3654,7 +3653,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 							textField.addBlurListener(blurListener);
 							return textField;
-						}					
+						}		
+						if (rightHeader.getSingleForecastColumns().contains(property)) {
+							rightTable.setColumnRadioButton(property, (String) property);
+							rightTable.setColumnRadioButtonDisable(property, true);
+								for(int i=0;i<rightHeader.getDoubleColumns().size();i++){
+								if(property.contains((CharSequence) rightHeader.getDoubleColumns().get(i))){									
+									rightTable.setDoubleHeaderColumnCheckBoxDisable(rightHeader.getDoubleColumns().get(i),true);
+								}
+							}
+						}
 					} catch (Exception e) {
 						LOGGER.error(e);
 
@@ -4186,9 +4194,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 				calculateBtn.setVisible(false);
 				adjustBtn.setVisible(false);
 			}
-		} catch (PortalException ex) {
-			java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (SystemException ex) {
+		} catch (PortalException | SystemException ex) {
 			java.util.logging.Logger.getLogger(NMDiscountProjection.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
@@ -5190,7 +5196,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			productLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			productLevelFilter
 					.addAll(commonLogic.getProductLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateCustomerToBeLoaded,generateDiscountToBeLoaded));
-			commonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
+			CommonLogic.loadCustomMenuBar(productLevelFilter, productFilterValues);
 		}
 
 		productFilterDdlb.setScrollable(true);
@@ -5212,7 +5218,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			deductionLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			deductionLevelFilter.addAll(
 					commonLogic.getDeductionLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateCustomerToBeLoaded));
-			commonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
+			CommonLogic.loadCustomMenuBar(deductionLevelFilter, deductionFilterValues);
 		}
 
 		deductionFilterDdlb.setScrollable(true);
@@ -5254,7 +5260,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 			customerLevelFilter.add(0, new Object[] { 0, SELECT_ALL_LABEL});
 			customerLevelFilter.addAll(
 					commonLogic.getCustomerLevelValues(session.getProjectionId(), levelNo, projectionSelection,generateProductToBeLoaded,generateDiscountToBeLoaded));
-			commonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
+			CommonLogic.loadCustomMenuBar(customerLevelFilter, customerFilterValues);
 		}
 		customerFilterDdlb.setScrollable(true);
 		customerFilterDdlb.setPageLength(NumericConstants.TEN);
@@ -5292,7 +5298,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
 	private void callAdjustmentProcedure(SessionDTO session) {
 		if (session.isActualAdjustment()) {
-			logic.adjustDiscountProjection(session, "Override", "Amount","0", null);
+			logic.adjustDiscountProjection(session, "Override", "Amount","0", null,baselinePeriods);
 		}
 	}
 
