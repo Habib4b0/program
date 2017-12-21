@@ -5,4 +5,6 @@ Export-Package: com.stpl.app.gtnforecasting.ui
 Import-Package: !com.google*,\
     !com.vaadin.client*,\
 	!javax.mail*,\
+	!org.drools*,\
+	!org.kie*,\
     *

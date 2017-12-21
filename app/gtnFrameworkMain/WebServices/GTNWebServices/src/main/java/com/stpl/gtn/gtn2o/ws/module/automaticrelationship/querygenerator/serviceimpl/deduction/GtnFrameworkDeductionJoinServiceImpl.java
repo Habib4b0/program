@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.serviceimpl.deduction;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,7 @@ public class GtnFrameworkDeductionJoinServiceImpl implements GtnFrameworkJoinQue
 
 	@Override
 	public void addJoinClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
-			HierarchyLevelDefinitionBean hierarchyLevelBean) {
+			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList, int levelNo) {
 		GtnFrameworkJoinClauseBean rsDetailsJoin = querygeneratorBean.addJoinClauseBean("RS_CONTRACT_DETAILS",
 				"RS_CONTRACT_DETAILS", GtnFrameworkJoinType.JOIN);
 		rsDetailsJoin.addConditionBean("RS_CONTRACT.RS_CONTRACT_SID", "RS_CONTRACT_DETAILS.RS_CONTRACT_SID",
