@@ -128,6 +128,13 @@
 		"listName": "RS_DESIGNATION",
 		"loadDescription": true
 	},
+         {
+		"columnID": "rebateScheduleAliasId",
+		"columnName": "Rebate Schedule Alias ID",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "text"
+	},
 	{
 		"columnID": "udc1",
 		"columnName": "UDC 1",
@@ -279,6 +286,15 @@
 		"columnAlignment": "CENTER",
 		"componentType": "date",
 		"isInvalidComponent": false
+	},
+        {
+		"columnID": "deductionInclusion",
+		"columnName": "Deduction Inclusion",
+		"isSearchCriteria": true,
+		"isResultView": true,
+		"componentType": "combobox",
+		"listName": "LOCKED_STATUS",
+		"loadDescription": true
 	},
         {
 		"columnID": "batchId",
