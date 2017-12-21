@@ -238,9 +238,10 @@ public class GtnWsItemMasterAddService {
 				infoBean.setNewFormulationIndicator(itemMaster.getNewFormulationIndicator());
 				infoBean.setUpps(getDoublevalue(itemMaster.getUpps()));
 				infoBean.setBaselineAmp(itemMaster.getBaselineAmp());
-                                if(itemMaster.getBaseCpi()!=null){
-                                    infoBean.setBaseCpi(new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
-                                }
+				if (itemMaster.getBaseCpi() != null) {
+					infoBean.setBaseCpi(
+							new BigDecimal(itemMaster.getBaseCpi().toString()).setScale(3, BigDecimal.ROUND_DOWN));
+				}
 				if (itemMaster.getAcquiredAmp() != null) {
 					infoBean.setAcquiredAmp(Integer.valueOf(itemMaster.getAcquiredAmp().intValue()));
 				}
