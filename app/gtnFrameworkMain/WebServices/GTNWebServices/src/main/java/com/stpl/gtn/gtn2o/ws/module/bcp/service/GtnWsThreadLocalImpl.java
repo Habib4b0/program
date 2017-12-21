@@ -36,7 +36,7 @@ public class GtnWsThreadLocalImpl extends ThreadLocal {
 			fileList.add(fileName);
                         LOGGER.info("file name in initial value ======"+fileName);
                         LOGGER.info("fileList size in initialValue ======"+fileList.size());
-			FileWriter fileWriter = GtnFileNameUtils.getFileWriter(Paths.get(finalPath), fileName);
+			FileWriter fileWriter = GtnFileNameUtils.getFileWriter(fileName);
 			LOGGER.info(Thread.currentThread().getName());
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			fileOperationList.add(fileWriter);
@@ -50,11 +50,13 @@ public class GtnWsThreadLocalImpl extends ThreadLocal {
 	}
 
     public List<String> getFileList() {
-        return fileList;
+        return fileList != null ? new ArrayList<>(fileList)
+				: fileList;
     }
 
     public List<Closeable> getFileOperationList() {
-        return fileOperationList;
+        return fileOperationList != null ? new ArrayList<>(fileOperationList)
+				: fileOperationList;
     }
     
 }

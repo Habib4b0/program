@@ -46,7 +46,7 @@ public class GtnFileNameUtils {
 		return new FileOutputStream(fileName);
 	}
 
-	public static FileWriter getFileWriter(Path path, String fileName) throws IOException {
-		return new FileWriter(path+"/"+FilenameUtils.getName(fileName));
+	public static FileWriter getFileWriter(String fileName) throws IOException {
+		return new FileWriter(fileName);
 	}
 }
