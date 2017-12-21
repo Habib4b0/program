@@ -38,6 +38,9 @@ public class GtnUIFrameworkItemsTabTableAction
 		GtnUIFrameworkBaseComponent itemDetailTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.ITEMS_TAB_DETAIL_TABLE);
 
+		GtnUIFrameworkBaseComponent itemDetailViewTable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.ITEMS_TAB_DETAIL_TABLE + "View");
+					
 		GtnUIFrameworkBaseComponent ifpContractId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("ifpContractId",
 				componentId);
 
@@ -49,8 +52,12 @@ public class GtnUIFrameworkItemsTabTableAction
 			if (String.valueOf(recordType.getValueFromComponent()).replace("[", "").replace("]", "")
 					.equals(GtnFrameworkContractDashboardContants.PENDING)) {
 				configurePendingTable(itemDetailTable);
+				configureViewTable(itemDetailViewTable);
+				configureItemsPendingViewTableColumn(itemDetailViewTable);		
 			} else {
 				configureTable(itemDetailTable);
+				configureViewTable(itemDetailViewTable);
+				configureItemsViewTableColumn(itemDetailViewTable);
 			}
 		}
 
@@ -99,6 +106,28 @@ public class GtnUIFrameworkItemsTabTableAction
 
 		ifpCompaniesTable.setTableColumns(GtnFrameworkContractDashboardContants.getItemDetailColumn());
 		ifpCompaniesTable.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getItemDetailHeader());
+
+	}
+
+	private void configureViewTable(GtnUIFrameworkBaseComponent itemDetailViewTable) {
+
+		itemDetailViewTable.getExtPagedTable().setFilterBarVisible(false);
+		itemDetailViewTable.getExtPagedTable().setEditable(false);
+		itemDetailViewTable.getExtPagedTable().setReadOnly(true);
+
+	}
+
+	private void configureItemsPendingViewTableColumn(GtnUIFrameworkBaseComponent itemDetailViewTable) {
+
+		itemDetailViewTable.setTableColumns(GtnFrameworkContractDashboardContants.getItemDetailPendingViewColumn());
+		itemDetailViewTable.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getItemDetailViewHeader());
+
+	}
+
+	private void configureItemsViewTableColumn(GtnUIFrameworkBaseComponent itemDetailViewTable) {
+
+		itemDetailViewTable.setTableColumns(GtnFrameworkContractDashboardContants.getItemDetailViewColumn());
+		itemDetailViewTable.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getItemDetailViewHeader());
 
 	}
 
