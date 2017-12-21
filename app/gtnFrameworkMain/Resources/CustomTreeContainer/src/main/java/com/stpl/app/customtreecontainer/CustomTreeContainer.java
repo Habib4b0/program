@@ -11,12 +11,12 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.HierarchicalContainer;
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.HierarchicalContainer;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -421,7 +421,7 @@ public class CustomTreeContainer<BEANTYPE> extends CustomContainer<BEANTYPE> imp
 
     @Override
     protected void fireItemSetChange(
-            com.vaadin.data.Container.ItemSetChangeEvent event) {
+            com.vaadin.v7.data.Container.ItemSetChangeEvent event) {
         if (contentsChangeEventsOn()) {
             super.fireItemSetChange(event);
         } else {

@@ -633,7 +633,7 @@ public class VCustomMenuBar extends SimpleFocusablePanel implements
             closePopup.hide(true);
         }
 
-        closePopup = new VOverlay(true, false, true);
+        closePopup = new VOverlay(true, false);
         closePopup.setOwner(this);
 
         if (client != null) {
@@ -748,7 +748,7 @@ public class VCustomMenuBar extends SimpleFocusablePanel implements
     protected void showChildMenuAt(CustomMenuItem item, int top, int left) {
         final int shadowSpace = 10;
 
-        popup = new VOverlay(true, false, true);
+        popup = new VOverlay(true, false);
         popup.setOwner(this);
 
         /*

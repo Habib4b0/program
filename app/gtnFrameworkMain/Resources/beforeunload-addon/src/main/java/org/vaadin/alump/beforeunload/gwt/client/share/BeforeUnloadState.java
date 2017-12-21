@@ -24,6 +24,6 @@ import com.vaadin.shared.communication.SharedState;
  * State of BeforeUnload extension
  */
 public class BeforeUnloadState extends SharedState {
-	public String message = null;
-	// public UI ui = null;
+    public String message = null;
+//    public UI ui = null;
 }

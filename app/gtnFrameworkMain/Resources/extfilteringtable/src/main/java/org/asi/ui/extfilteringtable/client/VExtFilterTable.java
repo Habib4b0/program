@@ -31,7 +31,7 @@ import com.vaadin.client.MeasuredSize;
 import com.vaadin.client.Util;
 import com.vaadin.client.ui.dd.VLazyInitItemIdentifiers;
 import com.vaadin.shared.ui.dd.AcceptCriterion;
-import com.vaadin.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import java.util.HashMap;
 import java.util.Map;
 import org.asi.ui.extfilteringtable.client.VExtCustomScrollTable.VScrollTableBody.VScrollTableRow;
@@ -239,7 +239,7 @@ public class VExtFilterTable extends VExtCustomScrollTable {
             // Remember height
             MeasuredSize ms = new MeasuredSize();
             ms.measure(container.getElement());
-            int height = ms.getInnerHeight();
+            int height = (int)ms.getInnerHeight();
 
             int visibleCellCount = tHead.getVisibleCellCount();
             for (int i = 0; i < visibleCellCount; i++) {

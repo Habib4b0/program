@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:osgi="http://www.springframework.org/schema/osgi" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+	<bean class="com.stpl.app.parttwo.service.impl.AcBaseRateBaselineDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.AcBaseRateBaselineDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AcBaseRateBaselineDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AcBaseRateBaselineDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AcBrMethodologyDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.AcBrMethodologyDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AcBrMethodologyDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AcBrMethodologyDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AccClosureDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.AccClosureDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AccClosureDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AccClosureDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AccClosureMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.AccClosureMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AccClosureMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AccClosureMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AccClosureViewMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.AccClosureViewMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AccClosureViewMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AccClosureViewMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AcFdAdjustmentSelectionLocalServiceImpl" id="com.stpl.app.parttwo.service.AcFdAdjustmentSelectionLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AcFdAdjustmentSelectionPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AcFdAdjustmentSelectionPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AdjustedDemandForecastLocalServiceImpl" id="com.stpl.app.parttwo.service.AdjustedDemandForecastLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AdjustedDemandForecastPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AdjustedDemandForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.AhTempDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.AhTempDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.AhTempDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.AhTempDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.ArpOutboundLocalServiceImpl" id="com.stpl.app.parttwo.service.ArpOutboundLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.ArpOutboundPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.ArpOutboundPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffAdditionalInfoLocalServiceImpl" id="com.stpl.app.parttwo.service.CffAdditionalInfoLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffAdditionalInfoPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffAdditionalInfoPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffApprovalDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.CffApprovalDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffApprovalDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffApprovalDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffCustHierarchyLocalServiceImpl" id="com.stpl.app.parttwo.service.CffCustHierarchyLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffCustHierarchyPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffCustHierarchyPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffCustomViewDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.CffCustomViewDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffCustomViewDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffCustomViewDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffCustomViewMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.CffCustomViewMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffCustomViewMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffCustomViewMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.CffDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffDocDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.CffDocDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffDocDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffDocDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.CffMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffProdHierarchyLocalServiceImpl" id="com.stpl.app.parttwo.service.CffProdHierarchyLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffProdHierarchyPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffProdHierarchyPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CffViewMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.CffViewMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CffViewMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CffViewMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CustomerGtsActualLocalServiceImpl" id="com.stpl.app.parttwo.service.CustomerGtsActualLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CustomerGtsActualPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CustomerGtsActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.CustomerGtsForecastLocalServiceImpl" id="com.stpl.app.parttwo.service.CustomerGtsForecastLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.CustomerGtsForecastPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.CustomerGtsForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldAccrualInboundLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldAccrualInboundLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldAccrualInboundPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldAccrualInboundPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldcompanyIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldcompanyIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldcompanyIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCompanyMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCompanyMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCompanyMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCompanyMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCompanyParentLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCompanyParentLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCompanyParentPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCompanyParentPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCompanyTradeClassLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCompanyTradeClassLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCompanyTradeClassPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCompanyTradeClassPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCustomerGtsActualLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCustomerGtsActualLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCustomerGtsActualPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCustomerGtsActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCustomerGtsForecastLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCustomerGtsForecastLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCustomerGtsForecastPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCustomerGtsForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldItemIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldItemIdentifierLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldItemIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldItemIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldItemMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldItemMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldItemMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldItemMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.IvldItemPricingLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldItemPricingLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldItemPricingPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldItemPricingPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.SlaCalendarDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.SlaCalendarDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.SlaCalendarDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.SlaCalendarDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.SlaCalendarMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.SlaCalendarMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.SlaCalendarMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.SlaCalendarMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.StAccClosureDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.StAccClosureDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.StAccClosureDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.StAccClosureDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.StAdjustmentGtnDetailLocalServiceImpl" id="com.stpl.app.parttwo.service.StAdjustmentGtnDetailLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.StAdjustmentGtnDetailPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.StAdjustmentGtnDetailPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.StAdjustmentReserveDetailLocalServiceImpl" id="com.stpl.app.parttwo.service.StAdjustmentReserveDetailLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.StAdjustmentReserveDetailPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.StAdjustmentReserveDetailPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.StArpOutboundLocalServiceImpl" id="com.stpl.app.parttwo.service.StArpOutboundLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.StArpOutboundPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.StArpOutboundPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.StCffOutboundMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.StCffOutboundMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.StCffOutboundMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.StCffOutboundMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwAdjustDemandForecastActLocalServiceImpl" id="com.stpl.app.parttwo.service.VwAdjustDemandForecastActLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwAdjustDemandForecastActPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwAdjustDemandForecastActPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwcompanyIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.VwcompanyIdentifierLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwcompanyIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwcompanyIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwCompanyMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.VwCompanyMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwCompanyMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwCompanyMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwCompanyParentDetailsLocalServiceImpl" id="com.stpl.app.parttwo.service.VwCompanyParentDetailsLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwCompanyParentDetailsPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwCompanyParentDetailsPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwCompanyTradeClassLocalServiceImpl" id="com.stpl.app.parttwo.service.VwCompanyTradeClassLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwCompanyTradeClassPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwCompanyTradeClassPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwCustomerGtsForecastLocalServiceImpl" id="com.stpl.app.parttwo.service.VwCustomerGtsForecastLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwCustomerGtsForecastPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwCustomerGtsForecastPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwItemIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.VwItemIdentifierLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwItemIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwItemIdentifierPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwItemMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.VwItemMasterLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwItemMasterPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwItemMasterPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwItemPricingLocalServiceImpl" id="com.stpl.app.parttwo.service.VwItemPricingLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwItemPricingPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwItemPricingPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwIvldAdjDemandForeActualLocalServiceImpl" id="com.stpl.app.parttwo.service.VwIvldAdjDemandForeActualLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwIvldAdjDemandForeActualPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwIvldAdjDemandForeActualPersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwIvldReturnReserveLocalServiceImpl" id="com.stpl.app.parttwo.service.VwIvldReturnReserveLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwIvldReturnReservePersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwIvldReturnReservePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+	<bean class="com.stpl.app.parttwo.service.impl.VwReturnReserveLocalServiceImpl" id="com.stpl.app.parttwo.service.VwReturnReserveLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.VwReturnReservePersistenceImpl" id="com.stpl.app.parttwo.service.persistence.VwReturnReservePersistence" parent="basePersistence">
+		<property name="dataSource" ref="extDataSource" />
+	</bean>
+</beans>

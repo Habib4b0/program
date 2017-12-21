@@ -1,8 +1,8 @@
 package org.asi.ui.extcustomcheckbox;
 
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.shared.EventId;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
 import java.io.Serializable;
 import java.lang.reflect.Method;

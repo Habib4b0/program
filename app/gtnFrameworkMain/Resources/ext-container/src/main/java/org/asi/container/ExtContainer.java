@@ -4,9 +4,9 @@
  */
 package org.asi.container;
 
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.IndexedContainer;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -109,7 +109,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
 
     @Override
     protected void fireItemSetChange(
-            com.vaadin.data.Container.ItemSetChangeEvent event) {
+            com.vaadin.v7.data.Container.ItemSetChangeEvent event) {
         if (contentsChangeEventsOn()) {
             super.fireItemSetChange(event);
         } else {
@@ -129,7 +129,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
         if (contentChangedEventsDisabledCount <= 0) {
             getLogger()
                     .log(Level.WARNING,
-                            "Mismatched calls to disable and enable contents change events in ExtContainer");
+                    "Mismatched calls to disable and enable contents change events in ExtContainer");
             contentChangedEventsDisabledCount = 0;
         } else {
             contentChangedEventsDisabledCount--;
@@ -193,7 +193,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
                         }
                         item.getItemProperty(descriptior.getName()).setValue(descriptior.getReadMethod().invoke(itemId));
                     } else if (descriptior.getPropertyType().equals(List.class) && getDataStructureMode() == DataStructureMode.LIST && getRecordHeader() != null && descriptior.getName().equalsIgnoreCase(getDescriptorName())) {//                        
-                        List results = (List) descriptior.getReadMethod().invoke(itemId);
+                        List results = (List) descriptior.getReadMethod().invoke(itemId);                        
                         for (int j = 0; j < getRecordHeader().size(); j++) {
                             Object key = getRecordHeader().get(j);
                             setProperty(key, getColumnProperty(key));
@@ -208,14 +208,14 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
                             }
                         }
                         item.getItemProperty(descriptior.getName()).setValue(descriptior.getReadMethod().invoke(itemId));
-                    } else {                        
+                    } else {
                         item.getItemProperty(descriptior.getName()).setValue(descriptior.getReadMethod().invoke(itemId));
                     }
                 }
             }catch (NullPointerException ex) {
              Logger.getLogger(ExtContainer.class.getName()).log(Level.WARNING, "descriptior.getName()="+descriptior.getName()+" descriptior.getReadMethod()= "+descriptior.getReadMethod()+ " getItemProperty= "+item.getItemProperty(descriptior.getName()));
             throw ex;
-        }
+            }
             }
         } catch (IntrospectionException ex) {
             Logger.getLogger(ExtContainer.class.getName()).log(Level.SEVERE, null, ex);
@@ -232,7 +232,7 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
         }
     }
 
-    
+
     public void setColumnProperties(Map<Object, Class> propertiesMap) {
         setColumnProperties(propertiesMap, null);
     }
@@ -331,10 +331,10 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
                             List returnList = (List) item.getItemProperty(descriptior.getName()).getValue();
                             for (int k = 0; k < getRecordHeader().size(); k++) {
                                 addProperties(k, item.getItemProperty(getRecordHeader().get(k)).getValue(), returnList);
+                                }
                             }
                         }
                     }
-                }
             } catch (IntrospectionException ex) {
                 Logger.getLogger(ExtContainer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IllegalArgumentException ex) {
@@ -355,22 +355,22 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
                 PropertyDescriptor[] descriptiors = info.getPropertyDescriptors();
                 for (int j = 0; j < descriptiors.length; j++) {
                     PropertyDescriptor descriptior = descriptiors[j];
-                    if (descriptior.getPropertyType() != null && !descriptior.getPropertyType().equals(Class.class)) {
-                        if (descriptior.getPropertyType().equals(Map.class) && getDataStructureMode() == DataStructureMode.MAP && descriptior.getName().equalsIgnoreCase(getDescriptorName())) {
-                            Map properites = (Map) item.getItemProperty(descriptior.getName()).getValue();
-                            for (Iterator it = properites.keySet().iterator(); it.hasNext();) {
-                                Object key = it.next();
-                                properites.put(key, item.getItemProperty(key).getValue());
-                            }
-                        } else if (descriptior.getPropertyType().equals(List.class) && getRecordHeader() != null && getDataStructureMode() == DataStructureMode.LIST && descriptior.getName().equalsIgnoreCase(getDescriptorName())) {
+                     if (descriptior.getPropertyType() != null && !descriptior.getPropertyType().equals(Class.class)) {
+                    if (descriptior.getPropertyType().equals(Map.class) && getDataStructureMode() == DataStructureMode.MAP && descriptior.getName().equalsIgnoreCase(getDescriptorName())) {
+                        Map properites = (Map) item.getItemProperty(descriptior.getName()).getValue();
+                        for (Iterator it = properites.keySet().iterator(); it.hasNext();) {
+                            Object key = it.next();
+                            properites.put(key, item.getItemProperty(key).getValue());
+                        }
+                    } else if (descriptior.getPropertyType().equals(List.class) && getRecordHeader() != null && getDataStructureMode() == DataStructureMode.LIST && descriptior.getName().equalsIgnoreCase(getDescriptorName())) {
 
-                            List returnMap = (List) item.getItemProperty(descriptior.getName()).getValue();
+                        List returnMap = (List) item.getItemProperty(descriptior.getName()).getValue();
                             for (int k = 0; k < 10; k++) {
                                 addProperties(k, item.getItemProperty(getRecordHeader().get(k)).getValue(), returnMap);
-                            }
+                                }
                         }
                     }
-                }
+                     }
                 returnList.add((BEANTYPE) listItem);
             } catch (IntrospectionException ex) {
                 Logger.getLogger(ExtContainer.class.getName()).log(Level.SEVERE, null, ex);
@@ -423,10 +423,10 @@ public class ExtContainer<BEANTYPE> extends IndexedContainer {
             } else {
                 for (int i = propertyList.size(); i < index; i++) {
                     propertyList.add(i, null);
-                }
+    }
                 propertyList.add(index, value);
-            }
-        }
+    }
+}
         return added;
     }
 }

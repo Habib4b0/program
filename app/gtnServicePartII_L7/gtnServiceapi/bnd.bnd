@@ -1,0 +1,9 @@
+Bundle-Name: ${project.name}
+Bundle-Version: ${project.version}
+Bundle-SymbolicName: ${project.groupId}.${project.artifactId}
+Export-Package:\
+	com.stpl.app.exception,\
+	com.stpl.app.model,\
+	com.stpl.app.service*
+Import-Package: *
+-includeresource: META-INF/service.xml=../gtnService/service.xml
