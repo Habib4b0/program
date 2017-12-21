@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.stpl.gtn.gtn2o.ws.GtnFileNameUtils;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.nio.file.Paths;
 
 public class GtnWsThreadLocalImpl extends ThreadLocal {
 	public static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsThreadLocalImpl.class);
@@ -30,9 +31,12 @@ public class GtnWsThreadLocalImpl extends ThreadLocal {
 		try {
 			String finalPath = System.getProperty(GtnFrameworkCommonStringConstants.GTN_BASE_PATH)
 					+ System.getProperty(GtnFrameworkCommonStringConstants.CUMULATIVE_FILE_PATH) + "/Cumulative_Logic/";
+                        LOGGER.info("final path in initialValue method ========"+finalPath);
 			String fileName = finalPath + "File" + atomicInteger.getAndIncrement() + ".csv";
 			fileList.add(fileName);
-			FileWriter fileWriter = GtnFileNameUtils.getFileWriter(fileName);
+                        LOGGER.info("file name in initial value ======"+fileName);
+                        LOGGER.info("fileList size in initialValue ======"+fileList.size());
+			FileWriter fileWriter = GtnFileNameUtils.getFileWriter(Paths.get(finalPath), fileName);
 			LOGGER.info(Thread.currentThread().getName());
 			BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 			fileOperationList.add(fileWriter);
@@ -44,4 +48,13 @@ public class GtnWsThreadLocalImpl extends ThreadLocal {
 		}
 		return null;
 	}
+
+    public List<String> getFileList() {
+        return fileList;
+    }
+
+    public List<Closeable> getFileOperationList() {
+        return fileOperationList;
+    }
+    
 }
