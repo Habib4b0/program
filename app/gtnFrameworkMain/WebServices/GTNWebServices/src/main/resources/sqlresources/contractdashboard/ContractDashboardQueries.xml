@@ -6588,10 +6588,10 @@ SET
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'
@@ -6629,24 +6629,16 @@ SELECT
                          usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as CREATED_BY,
                          IMTD.CREATED_DATE,
                          IMTD.PS_CONTRACT_ATTACHED_DATE,
-                         IMTD.PS_CONT_DET_PENDING_SID,
-                         IMTD.ITEM_MASTER_SID,
-                         ptype=CASE
-                                               WHEN (IMTD.ITEM_PRICING_QUALIFIER_SID<>0 AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE 'Contract Price') THEN 1
-                                               ELSE 0
-                                       END,
-                         PRICEVAL=CASE
-                                               WHEN IMTD.PRICE<>0 THEN 1
-                                               ELSE 0
-                                       END
+                         hpricedetailsstatus.DESCRIPTION AS PD_STATUSPENDING,
+                         IPQ.ITEM_PRICING_QUALIFIER_NAME AS PD_PRICETYPEPENDING
                  FROM
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'
@@ -7564,24 +7556,16 @@ SELECT
                          usr1.firstName + ' ' + usr1.middleName + ' ' + usr1.lastName as CREATED_BY,
                          IMTD.CREATED_DATE,
                          IMTD.PS_CONTRACT_ATTACHED_DATE,
-                         IMTD.PS_CONT_DET_PENDING_SID,
-                         IMTD.ITEM_MASTER_SID,
-                         ptype=CASE
-                                               WHEN (IMTD.ITEM_PRICING_QUALIFIER_SID<>0 AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE 'Contract Price') THEN 1
-                                               ELSE 0
-                                       END,
-                         PRICEVAL=CASE
-                                               WHEN IMTD.PRICE<>0 THEN 1
-                                               ELSE 0
-                                       END
+                         hpricedetailsstatus.DESCRIPTION AS PD_STATUSVIEWPENDING,
+                         IPQ.ITEM_PRICING_QUALIFIER_NAME AS PD_PRICETYPEVIEWPENDING
                  FROM
                          dbo.PS_CONTRACT_DETAILS_PENDING IMTD
                  LEFT JOIN BRAND_MASTER BM ON
                          IMTD.BRAND_MASTER_SID = BM.BRAND_MASTER_SID
-                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ ON
-                         IPQ.ITEM_PRICING_QUALIFIER_SID=IMTD.ITEM_PRICING_QUALIFIER_SID
                  LEFT JOIN ?.dbo.User_ usr1 ON
                          usr1.UserId = IMTD.CREATED_BY
+                 LEFT JOIN HELPER_TABLE hpricedetailsstatus on hpricedetailsstatus.HELPER_TABLE_SID=IMTD.PS_CONTRACT_ATTACHED_STATUS AND hpricedetailsstatus.DESCRIPTION  NOT like '%Select One%'
+                 LEFT JOIN ITEM_PRICING_QUALIFIER IPQ  ON IPQ.ITEM_PRICING_QUALIFIER_SID = IMTD.ITEM_PRICING_QUALIFIER_SID AND IPQ.ITEM_PRICING_QUALIFIER_NAME NOT LIKE '%SELECT ONE%'
                  LEFT JOIN ITEM_MASTER im on
                          im.ITEM_MASTER_SID = IMTD.ITEM_MASTER_SID
                          AND im.INBOUND_STATUS <> 'D'
