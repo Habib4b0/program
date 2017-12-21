@@ -936,7 +936,6 @@ public class GtnWsRelationshipBuilderService {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		List<String> inputlist = new ArrayList<>();
-		boolean isRelationSaved;
 		try {
 			RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 			Date date = new Date();
@@ -946,7 +945,6 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setModifiedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo());
-				isRelationSaved = false;
 			} else {
 				relationshipBuilder = session.load(RelationshipBuilder.class, rbRequest.getRbSysId());
 				relationshipBuilder = new RelationshipBuilder();
@@ -956,7 +954,6 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setCreatedBy(rbRequest.getCreatedById());
 				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo() + 1);
-				isRelationSaved = true;
 			}
 			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session);
 			session.saveOrUpdate(relationshipBuilder);
@@ -968,8 +965,6 @@ public class GtnWsRelationshipBuilderService {
 			rbResponse.setMessage("'" + rbRequest.getRelationshipName() + "' has been saved successfully.");
 			inputlist.add(String.valueOf(rbRequest.getHierarchyDefSId()));
 			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
-			List<Object> result = executeQuery(
-					gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist, "getHierarchyCatBySid"));
 			tx.commit();
 			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
 					relationshipBuilder.getRelationshipBuilderSid(),

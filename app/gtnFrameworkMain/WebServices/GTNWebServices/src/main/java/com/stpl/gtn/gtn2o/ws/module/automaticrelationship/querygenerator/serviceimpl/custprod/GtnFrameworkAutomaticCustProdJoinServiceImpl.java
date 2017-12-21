@@ -35,8 +35,9 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
-		GtnFrameworkJoinClauseBean relationJoin = querygeneratorBean.addJoinClauseBean("RELATIONSHIP_LEVEL_DEFINITION",
-				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
+		String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
+		GtnFrameworkJoinClauseBean relationJoin = querygeneratorBean.addJoinClauseBean(relationShipLevelDef,
+				relationShipLevelDef, GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
 				GtnFrameworkOperatorType.EQUAL_TO);
@@ -47,7 +48,7 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
 		GtnFrameworkJoinClauseBean relationHIerachyJOin = querygeneratorBean.addJoinClauseBean(
-				"RELATIONSHIP_LEVEL_DEFINITION", "RELATIONSHIP_LEVEL_DEFINITION1", GtnFrameworkJoinType.LEFT_JOIN);
+				relationShipLevelDef, "RELATIONSHIP_LEVEL_DEFINITION1", GtnFrameworkJoinType.LEFT_JOIN);
 		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID",
 				"RELATIONSHIP_LEVEL_DEFINITION1.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
 		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION1.level_no", null,
@@ -61,32 +62,32 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 	}
 
 	public String getHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
-			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder query = new StringBuilder();
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
+		StringBuilder custProdQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		HierarchyLevelDefinitionBean previousHierarchyBean = HierarchyLevelDefinitionBean
-				.getPreviousLinkedLevel(customerHierarchyLevelDefinitionList, selectedCustomerHierarchyLevelDto);
+				.getPreviousLinkedLevel(customerHierarchyLevelDefinitionList, selectedHierarchyLevelDto);
 		int i;
 		if (previousHierarchyBean == null)
-			i = selectedCustomerHierarchyLevelDto.getLevelNo() - 1;
+			i = selectedHierarchyLevelDto.getLevelNo() - 1;
 		else
 			i = previousHierarchyBean.getLevelNo();
-		for (; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
+		for (; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
 			HierarchyLevelDefinitionBean leveldto = customerHierarchyLevelDefinitionList.get(i);
 			if (leveldto.getTableName().isEmpty()) {
-				query.append(", '%'");
-				query.append(",'.'");
+				custProdQuery.append(", '%'");
+				custProdQuery.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			custProdQuery.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
+			custProdQuery.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
-			query.append(",'.'");
+			custProdQuery.append(",'.'");
 		}
 		finalQuery.append(" concat(RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO");
-		finalQuery.append(query);
+		finalQuery.append(custProdQuery);
 		finalQuery.append(")");
 		return finalQuery.toString();
 	}

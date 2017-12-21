@@ -167,7 +167,6 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 		input.add(relationBean.getRelationshipBuilderSid());
 
 		String finalInsertQuery = gtnWsSqlService.getQuery(input, "RelationInsertForIntermediate userDefined");
-		System.out.println(finalInsertQuery);
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 	}
 

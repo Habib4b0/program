@@ -145,28 +145,27 @@ public class GtnFrameworkCustProdAutoUpdateServiceImpl implements GtnFrameworkAu
 
 	private void checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
 			HierarchyLevelDefinitionBean customerHierarchyLevelBean) throws GtnFrameworkGeneralException {
-		List<Object> input = new ArrayList<>();
+		List<Object> inputList = new ArrayList<>();
 
-		input.add(customerHierarchyLevelBean.getHierarchyLevelDefinitionSid());
-		input.add(customerHierarchyLevelBean.getDefaultVlaue());
-		input.add(customerHierarchyLevelBean.getLevelNo());
-		input.add(customerHierarchyLevelBean.getLevelName());
-		input.add(customerHierarchyLevelBean.getDefaultVlaue());
-		input.add(customerHierarchyLevelBean.getDefaultVlaue());
-		input.add(customerHierarchyLevelBean.getLevelNo() - 1);
-		input.add(relationBean.getVersionNo() + 1);
-		input.add(relationBean.getRelationshipBuilderSid());
+		inputList.add(customerHierarchyLevelBean.getHierarchyLevelDefinitionSid());
+		inputList.add(customerHierarchyLevelBean.getDefaultVlaue());
+		inputList.add(customerHierarchyLevelBean.getLevelNo());
+		inputList.add(customerHierarchyLevelBean.getLevelName());
+		inputList.add(customerHierarchyLevelBean.getDefaultVlaue());
+		inputList.add(customerHierarchyLevelBean.getDefaultVlaue());
+		inputList.add(customerHierarchyLevelBean.getLevelNo() - 1);
+		inputList.add(relationBean.getVersionNo() + 1);
+		inputList.add(relationBean.getRelationshipBuilderSid());
 
-		input.add(customerHierarchyLevelBean.getLevelNo());
-		input.add(customerHierarchyLevelBean.getLevelName());
-		input.add(customerHierarchyLevelBean.getLevelNo() - 1);
-		input.add(customerHierarchyLevelBean.getLevelNo());
-		input.add(relationBean.getVersionNo());
-		input.add(relationBean.getVersionNo() + 1);
-		input.add(relationBean.getRelationshipBuilderSid());
+		inputList.add(customerHierarchyLevelBean.getLevelNo());
+		inputList.add(customerHierarchyLevelBean.getLevelName());
+		inputList.add(customerHierarchyLevelBean.getLevelNo() - 1);
+		inputList.add(customerHierarchyLevelBean.getLevelNo());
+		inputList.add(relationBean.getVersionNo());
+		inputList.add(relationBean.getVersionNo() + 1);
+		inputList.add(relationBean.getRelationshipBuilderSid());
 
-		String finalInsertQuery = gtnWsSqlService.getQuery(input, "RelationInsertForIntermediate userDefined");
-		System.out.println(finalInsertQuery);
+		String finalInsertQuery = gtnWsSqlService.getQuery(inputList, "RelationInsertForIntermediate userDefined");
 		gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 	}
 

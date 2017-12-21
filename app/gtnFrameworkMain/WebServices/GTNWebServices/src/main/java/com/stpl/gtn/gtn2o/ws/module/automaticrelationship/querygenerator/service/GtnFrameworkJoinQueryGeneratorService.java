@@ -8,6 +8,6 @@ import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyLevelDefinitionBe
 public interface GtnFrameworkJoinQueryGeneratorService {
 
 	void addJoinClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
-			List<HierarchyLevelDefinitionBean> HierarchyLevelDefinitionList, int levelNo);
+			List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList, int levelNo);
 
 }

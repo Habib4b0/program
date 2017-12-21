@@ -153,7 +153,6 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 					atomicBoolean.compareAndSet(Boolean.FALSE, Boolean.TRUE);
 			}
 		} catch (GtnFrameworkGeneralException e) {
-			e.printStackTrace();
 			LOGGER.error(" Error " + e.getErrorMessage());
 		}
 	}
@@ -207,26 +206,26 @@ public class GtnFramworkCheckForAutoUpdateRunnable implements Runnable {
 				GtnFrameworkOperatorType.EQUAL_TO);
 	}
 
-	public StringBuilder getHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
+	public StringBuilder getHierarchyNo(List<HierarchyLevelDefinitionBean> hierarchyLevelDefinitionList,
 			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
-		StringBuilder query = new StringBuilder();
+		StringBuilder tempQuery = new StringBuilder();
 		StringBuilder finalQuery = new StringBuilder();
 		for (int i = 0; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
-			HierarchyLevelDefinitionBean leveldto = customerHierarchyLevelDefinitionList.get(i);
+			HierarchyLevelDefinitionBean leveldto = hierarchyLevelDefinitionList.get(i);
 			if (leveldto.getTableName().isEmpty()) {
-				query.append(",'%'");
-				query.append(",'.'");
+				tempQuery.append(",'%'");
+				tempQuery.append(",'.'");
 				continue;
 			}
-			query.append(",");
+			tempQuery.append(",");
 			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
 					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
-			query.append(singleColumnRelationBean.getActualTtableName() + "."
+			tempQuery.append(singleColumnRelationBean.getActualTtableName() + "."
 					+ singleColumnRelationBean.getWhereClauseColumn());
-			query.append(",'.'");
+			tempQuery.append(",'.'");
 		}
 		finalQuery.append("concat( RELATIONSHIP_BUILDER_SID,'-'");
-		finalQuery.append(query);
+		finalQuery.append(tempQuery);
 		finalQuery.append(")");
 		return finalQuery;
 	}

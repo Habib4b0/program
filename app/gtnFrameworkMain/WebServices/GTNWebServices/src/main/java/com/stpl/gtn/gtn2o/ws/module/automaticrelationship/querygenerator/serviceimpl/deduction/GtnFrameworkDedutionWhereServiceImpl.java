@@ -128,16 +128,16 @@ public class GtnFrameworkDedutionWhereServiceImpl implements GtnFrameworkWhereQu
 	public List<String> getRelationQueries(int relationshipSid,
 			List<HierarchyLevelDefinitionBean> levelHierarchyLevelDefinitionList, int versionNo) {
 		List<String> queryList = new ArrayList<>();
-		List<String> input = new ArrayList<>();
+		List<String> inputData = new ArrayList<>();
 		for (HierarchyLevelDefinitionBean levelDto : levelHierarchyLevelDefinitionList) {
 			if (!levelDto.isUserDefined()) {
-				input.add(String.valueOf(levelDto.getLevelNo()));
-				input.add(String.valueOf(relationshipSid));
-				input.add(String.valueOf(versionNo));
-				String relationQuery = gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(input,
+				inputData.add(String.valueOf(levelDto.getLevelNo()));
+				inputData.add(String.valueOf(relationshipSid));
+				inputData.add(String.valueOf(versionNo));
+				String relationQuery = gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputData,
 						"relationShipSubQueryForSubQuery");
 				queryList.add(relationQuery);
-				input.clear();
+				inputData.clear();
 			}
 		}
 		return queryList;
