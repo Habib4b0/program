@@ -1992,7 +1992,11 @@ SET
               With CDT as(
                 SELECT
 				IMTD.CHECK_RECORD,
-                recordType='',
+                CASE
+                WHEN CAST(CFP_DETAILS_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                WHEN CAST(CFP_DETAILS_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CFP_DETAILS_START_DATE AS DATE) AND CAST(ISNULL(CFP_DETAILS_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                END AS recordType,
                 IMTD.COMPANY_ID,
                 IMTD.COMPANY_NO,
                 IMTD.COMPANY_NAME,
@@ -2039,7 +2043,11 @@ SET
            With CDT as(
                 SELECT
 				IMTD.CHECK_RECORD,
-                recordType='?',
+                CASE
+                WHEN CAST(CFP_DETAILS_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                WHEN CAST(CFP_DETAILS_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CFP_DETAILS_START_DATE AS DATE) AND CAST(ISNULL(CFP_DETAILS_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'    
+                END AS recordType,
                 IMTD.COMPANY_ID,
                 IMTD.COMPANY_NO,
                 IMTD.COMPANY_NAME,
@@ -2197,7 +2205,6 @@ SET
                         OPERATION <> 'D'
                         and IMTD.USERS_SID = '?'
                         and IMTD.SESSION_ID = '?' ?
-                        and ppa_index_no = 1
                         AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -2207,7 +2214,11 @@ SET
                 <![CDATA[
                 SELECT
                         IMTD.CHECK_RECORD,
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(START_DATE AS DATE) AND CAST(ISNULL(END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         im.ITEM_NO,
                         im.ITEM_NAME,
                         im.ITEM_DESC,
@@ -2362,7 +2373,6 @@ SET
                                 OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -2372,7 +2382,11 @@ SET
                 <![CDATA[
                 SELECT
                         IMTD.CHECK_RECORD,
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(CONTRACT_PRICE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(CONTRACT_PRICE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CONTRACT_PRICE_START_DATE AS DATE) AND CAST(ISNULL(CONTRACT_PRICE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         IMTD.ITEM_ID,
                         IMTD.ITEM_NO,
                         IMTD.ITEM_NAME,
@@ -2698,7 +2712,11 @@ WHERE
                 <![CDATA[
                     SELECT
                             IMTD.CHECK_RECORD,
-                            recordType = '?',
+                            CASE
+                            WHEN CAST(PRICE_PROTECTION_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                            WHEN CAST(PRICE_PROTECTION_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                            WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(PRICE_PROTECTION_START_DATE AS DATE) AND CAST(ISNULL(PRICE_PROTECTION_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                            END AS recordType,
                             IMTD.ITEM_ID,
                             IMTD.ITEM_NO,
                             IMTD.ITEM_NAME,
@@ -3022,7 +3040,6 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -3032,7 +3049,11 @@ WHERE
                 <![CDATA[
                         SELECT
                                 IMTD.CHECK_RECORD,
-                                recordType='?',
+                                CASE
+                                WHEN CAST(ITEM_REBATE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                                WHEN CAST(ITEM_REBATE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(ITEM_REBATE_START_DATE AS DATE) AND CAST(ISNULL(ITEM_REBATE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                                END AS recordType,
                                 IMTD.ITEM_NO,
                                 IMTD.ITEM_NAME,
                                 itemType=CASE
@@ -3149,7 +3170,6 @@ WHERE
                         OPERATION NOT IN ('D','F')
                                 and IMTD.USERS_SID = '?'
                                 and IMTD.SESSION_ID = '?' ?
-                                and ppa_index_no = 1
                                 AND IMTD.ADD_COPY_INDICATOR IS NULL
         ]]>
 		</query>
@@ -5482,7 +5502,7 @@ SELECT
        ) AS SOURCE
          ON (Target.IFP_CONTRACT_SID = @IFP_CONTRACT_ID
      AND TARGET.ITEM_MASTER_SID = SOURCE.ITEM_MASTER_SID
-     AND Target.ITEM_START_DATE = Source.ITEM_START_DATE
+    
  )
          WHEN MATCHED THEN
          UPDATE SET
