@@ -85,7 +85,7 @@ public class CommonLogic {
     private static final CommonDAO commonDao = new CommonDAOImpl();
     private static final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     private static final CommonQueryUtils commonQueryUtil = new CommonQueryUtils();
-    private static boolean viewFlag = false;
+    private static final boolean viewFlag = false;
     private static String screenName = StringUtils.EMPTY;
     public static final String CCPMAP = ") CCPMAP,";
     final static Map<String, String> fileMap = new HashMap<>();
@@ -428,9 +428,7 @@ public class CommonLogic {
         if (customViewMasterSid != 0) {
             try {
                 cvm = commonDao.getCustomView(customViewMasterSid);
-            } catch (SystemException ex) {
-                LOGGER.error(ex);
-            } catch (PortalException ex) {
+            } catch (SystemException | PortalException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -1975,9 +1973,7 @@ public class CommonLogic {
             LOGGER.debug(PROJECTION_ID + projectionId);
             String levelQuery = SQlUtil.getQuery("deduction-loading").replace("@PROJID", String.valueOf(projectionId));
             deductionList = (List<String[]>) salesProjectionDAO.executeSelectQuery(levelQuery);
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionList;
@@ -2664,9 +2660,7 @@ public class CommonLogic {
 
             LOGGER.debug(" getDropDownList method ends with return value strList size =" + helperList.size());
 
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return helperList;
@@ -4150,6 +4144,7 @@ public class CommonLogic {
         System.out.println("inside selected Hierachy" + relationshipLevelDetailsMap);
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
+
             	
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
@@ -4158,8 +4153,9 @@ public class CommonLogic {
                 stringBuilder.append(entry.getKey());
                 stringBuilder.append("'," + i++ + ")");
                 isNotFirstElement = true;
+
+                }
             }
-        }
         if (sessionDTO.getHierarchyLevelDetails().isEmpty()) {
             stringBuilder.append("('");
             stringBuilder.append("')");
@@ -4694,9 +4690,7 @@ public class CommonLogic {
                 return stockList;
 
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -4743,9 +4737,7 @@ public class CommonLogic {
                 stockList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query, projectionDto.getSessionDTO().getCurrentTableNames()));
                 return stockList;
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return stockList;
@@ -4822,9 +4814,7 @@ public class CommonLogic {
             query.append(" GROUP BY ").append(selectClause);
             deductionValuesList = (List<Object[]>) salesProjectionDao.executeSelectQuery(QueryUtil.replaceTableNames(query.toString(),projectionDto.getSessionDTO().getCurrentTableNames()));
 
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (PortalException ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
         return deductionValuesList;
@@ -5019,9 +5009,9 @@ public class CommonLogic {
     public String getDedCustomJoinGenerate(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
         String columnName;
         if (hierarchyIndicator.equalsIgnoreCase("C")) {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+            columnName = Constant.RELATIONSHIPJOIN;
         } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
-            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO ";
+            columnName = Constant.RELATIONSHIPJOIN;
         } else {
             String parentHierarchyNo =  replacePercentHierarchy(hierarchyNo);
             columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD ON RLD.relationship_level_values=A.HIERARCHY_NO AND LEVEL_NO = "+ levelNo +" AND RLD.PARENT_HIERARCHY_NO LIKE '"+ parentHierarchyNo +"' and relationship_builder_sid = "+ sessionDTO.getDedRelationshipBuilderSid() +" JOIN #PARENT_VALIDATE PR ON PR.RS_CONTRACT_SID=SPM.RS_CONTRACT_SID\n " +
@@ -5030,6 +5020,17 @@ public class CommonLogic {
         return columnName;
     }
     
+     public String getRelJoinGenerate(String hierarchyIndicator) {
+        String columnName;
+        if (hierarchyIndicator.equalsIgnoreCase("C")) {
+            columnName = Constant.RELATIONSHIPJOIN;
+        } else if (hierarchyIndicator.equalsIgnoreCase("P")) {
+            columnName = Constant.RELATIONSHIPJOIN;
+        } else {
+            columnName = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.RELATIONSHIP_LEVEL_VALUES = A.HIERARCHY_NO ";       
+        }
+        return columnName;
+    }
     
     public String getSelectStatementCustom(final String hierarchyIndicator) {
         String columnName;

@@ -2978,7 +2978,6 @@ public class NMProjectionVarianceLogic {
         query = query.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         query += insertAvailableHierarchyNo(projSelDTO);
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
-        //query += SQlUtil.getQuery("custom-view-hiearchy-no-query-order");
         query = query.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         query += SQlUtil.getQuery("custom-view-condition-query");
         query = query.replace(Constant.RELJOIN, commonLogic.getRelJoinGenerate(commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO)));
@@ -3090,7 +3089,7 @@ public class NMProjectionVarianceLogic {
                     }
                     stringBuilder.append("('");
                     stringBuilder.append(entry.getKey());
-                    stringBuilder.append("')");
+                    stringBuilder.append("'," + i++ + ")");
 
                     isNotFirstElement = true;
                 } else {
