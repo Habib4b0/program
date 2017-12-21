@@ -249,8 +249,17 @@ public class AbstractLogic {
             dto.setBaseLineWacManual(str[NumericConstants.SIXTY_NINE] == null || Constants.NULL.equals(str[NumericConstants.SIXTY_NINE]) ? StringUtils.EMPTY : String.valueOf(str[NumericConstants.SIXTY_NINE])); // TEXT FIELD
             dto.setBaseLineWacDate(str[NumericConstants.SEVENTY] == null ? null : (Date) str[NumericConstants.SEVENTY]);
             dto.setBaseLineWacPriceType(str[71] == null || Constants.NULL.equals(str[71]) ? 0 : Integer.valueOf(String.valueOf(str[71])));
-
-
+            
+            String basePriceType = dto.getBasePriceType().getDescription();
+            if (!Constants.EMPTY.equals(dto.getBaseLineWacManual()) && Constants.MANUAL_LABLE_NAME.equals(basePriceType)) {
+                dto.setBaselineWAC(dto.getBaseLineWacManual());
+            } else if (!Constants.NULL.equals(dto.getBaseLineWacDate()) && Constants.DATE_LABLE_NAME.equals(basePriceType)) {
+                dto.setBaselineWAC(dto.getBaseLineWacDate());
+            } else if (!Constants.ZEROSTRING.equals(dto.getBaseLineWacPriceType()) && Constants.PRICE_TYPE_LABEL.equals(basePriceType)) {
+                dto.setBaselineWAC(dto.getBaseLineWacPriceType());
+            } else {
+                dto.setBaselineWAC(Constants.EMPTY);
+            }
             resultList.add(dto);
         }
         return resultList;
@@ -823,10 +832,8 @@ public class AbstractLogic {
             input.add(compDTO.getPsContractSid());
             input.add(compDTO.getRsContractSid());
             input.add(selection.getSessionId());
-            if (!selection.getButtonMode().equals(ConstantsUtil.ADD)) {
-                input.add(compDTO.getProjectionId());
-                input.add(compDTO.getItemMasterSid());
-            }
+            input.add(compDTO.getProjectionId());
+            input.add(compDTO.getItemMasterSid());
 
             if (selection.getButtonMode().equals(ConstantsUtil.TRANSFER)) {
                 if (compDTO.getTransferScreenName().equals(ConstantsUtil.CURRENT_COONTRACT)) {
@@ -1880,8 +1887,8 @@ public class AbstractLogic {
     }
     
     public String updateBaseLineWacColumn(String baseLineColumnName, Object baseLineValue, AbstractContractSearchDTO dto, SelectionDTO selection) {
-        String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " =" + baseLineValue + " WHERE SESSION_ID ='" + selection.getSessionId() + "' "
-                + " AND OPERATION ='" + selection.getButtonMode() + "' " + " AND CHECK_RECORD ='" + dto.getCheckRecord() + "' ";
+        String updateQuery = "UPDATE GCM_GLOBAL_DETAILS SET " + baseLineColumnName + " ='" + baseLineValue + "' WHERE SESSION_ID ='" + selection.getSessionId() + "' "
+                + " AND OPERATION ='" + selection.getButtonMode() + "' " + Constants.AND_CHECK_RECORD;
         HelperTableLocalServiceUtil.executeUpdateQuery(updateQuery);
         return updateQuery;
     }
