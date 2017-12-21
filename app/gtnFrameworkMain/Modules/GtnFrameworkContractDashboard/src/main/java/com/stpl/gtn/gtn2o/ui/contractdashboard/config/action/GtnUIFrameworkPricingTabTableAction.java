@@ -38,6 +38,9 @@ public class GtnUIFrameworkPricingTabTableAction
 		GtnUIFrameworkBaseComponent pricingDetailTable = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.PRICING_TAB_DETAIL_TABLE);
 
+		GtnUIFrameworkBaseComponent pricingDetailViewTable = GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(GtnFrameworkContractDashboardContants.PRICING_TAB_DETAIL_TABLE + "View");
+
 		GtnUIFrameworkBaseComponent psContractId = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("psContractId",
 				componentId);
 
@@ -49,8 +52,12 @@ public class GtnUIFrameworkPricingTabTableAction
 			if (String.valueOf(recordType.getValueFromComponent()).replace("[", "").replace("]", "")
 					.equals(GtnFrameworkContractDashboardContants.PENDING)) {
 				configurePendingTable(pricingDetailTable);
+				configureViewTable(pricingDetailViewTable);
+				configurePriceDetailsPendingViewTableColumn(pricingDetailViewTable);
 			} else {
 				configureTable(pricingDetailTable);
+				configureViewTable(pricingDetailViewTable);
+				configurePriceDetailsViewTableColumn(pricingDetailViewTable);
 
 			}
 		}
@@ -79,6 +86,7 @@ public class GtnUIFrameworkPricingTabTableAction
 		pricingDetailTable.getExtPagedTable().setFilterBarVisible(false);
 		pricingDetailTable.getExtPagedTable().setEditable(false);
 		pricingDetailTable.getExtPagedTable().setReadOnly(true);
+		configurePriceDetailsPendingTableColumn(pricingDetailTable);
 
 	}
 
@@ -87,6 +95,46 @@ public class GtnUIFrameworkPricingTabTableAction
 		pricingDetailTable.getExtPagedTable().setFilterBarVisible(true);
 		pricingDetailTable.getExtPagedTable().setEditable(true);
 		pricingDetailTable.getExtPagedTable().setReadOnly(false);
+		configurePriceDetailsTableColumn(pricingDetailTable);
+
+	}
+
+	private void configurePriceDetailsPendingTableColumn(GtnUIFrameworkBaseComponent pricingDetailTable) {
+
+		pricingDetailTable.setTableColumns(GtnFrameworkContractDashboardContants.getPriceDetailPendingColumn());
+		pricingDetailTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceDetailPendingColumnHeader());
+
+	}
+
+	private void configurePriceDetailsTableColumn(GtnUIFrameworkBaseComponent pricingDetailTable) {
+
+		pricingDetailTable.setTableColumns(GtnFrameworkContractDashboardContants.getPriceDetailColumn());
+		pricingDetailTable.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceDetailColumnHeader());
+
+	}
+
+	private void configureViewTable(GtnUIFrameworkBaseComponent pricingDetailViewTable) {
+
+		pricingDetailViewTable.getExtPagedTable().setFilterBarVisible(false);
+		pricingDetailViewTable.getExtPagedTable().setEditable(false);
+		pricingDetailViewTable.getExtPagedTable().setReadOnly(true);
+
+	}
+
+	private void configurePriceDetailsPendingViewTableColumn(GtnUIFrameworkBaseComponent pricingDetailViewTable) {
+
+		pricingDetailViewTable.setTableColumns(GtnFrameworkContractDashboardContants.getPriceDetailPendingViewColumn());
+		pricingDetailViewTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceDetailViewColumnHeader());
+
+	}
+
+	private void configurePriceDetailsViewTableColumn(GtnUIFrameworkBaseComponent pricingDetailViewTable) {
+
+		pricingDetailViewTable.setTableColumns(GtnFrameworkContractDashboardContants.getPriceDetailViewColumn());
+		pricingDetailViewTable
+				.setTableColumnHeaders(GtnFrameworkContractDashboardContants.getPriceDetailViewColumnHeader());
 
 	}
 

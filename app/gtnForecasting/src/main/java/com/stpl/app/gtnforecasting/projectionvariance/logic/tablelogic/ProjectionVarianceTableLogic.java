@@ -309,7 +309,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
                         } else {
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list =  new NMProjectionVarianceLogic().getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {
