@@ -216,12 +216,12 @@ and open the template in the editor.
             <![CDATA[
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO
                 (HIERARCHY_NO,
-                CCP_DETAILS_SID)
-                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID
+                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
+                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
                 FROM   (VALUES 	[?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)                
                 [?SELECTED_HIERARCHY_JOIN]
             ]]>
@@ -965,7 +965,7 @@ FROM ST_NM_SALES_PROJECTION)
                     #SELECTED_HIERARCHY_NO SHN;        
             ]]>
         </query>
-    </entity>	
+    </entity>
     
     <entity id="custom-view-hiearchy-no-query">
         <query>
@@ -985,18 +985,15 @@ FROM ST_NM_SALES_PROJECTION)
             <![CDATA[    
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO 
                 (HIERARCHY_NO,
-                CCP_DETAILS_SID)
-                SELECT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
+                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
                 FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
                 JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
                 [?TAB_BASED_JOIN]
-
-                SELECT COUNT(DISTINCT HIERARCHY_NO) 
-                FROM #SELECTED_HIERARCHY_NO;
             ]]>
         </query>
     </entity>
@@ -1006,19 +1003,15 @@ FROM ST_NM_SALES_PROJECTION)
             <![CDATA[    
                 IF Object_id('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
                 DROP TABLE #SELECTED_HIERARCHY_NO
-                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT)
+                CREATE TABLE #SELECTED_HIERARCHY_NO (HIERARCHY_NO varchar(50),CCP_DETAILS_SID INT,RELATIONSHIP_LEVEL_VALUES VARCHAR(50))
 
                 INSERT INTO #SELECTED_HIERARCHY_NO 
                 (HIERARCHY_NO,
-                CCP_DETAILS_SID)
-                SELECT DISTINCT HIERARCHY_NO,CH.CCP_DETAILS_SID
+                CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES)
+                SELECT DISTINCT A.HIERARCHY_NO,CH.CCP_DETAILS_SID,RELATIONSHIP_LEVEL_VALUES
                 FROM   (VALUES [?HIERARCHY_NO_VALUES])A(HIERARCHY_NO)
                 JOIN ST_CCP_HIERARCHY CH ON CH.[?HIERARCHY_COLUMN] LIKE A.HIERARCHY_NO+'%'
                 [?TAB_BASED_JOIN]
-
-                SELECT DISTINCT HIERARCHY_NO FROM #SELECTED_HIERARCHY_NO
-                ORDER BY HIERARCHY_NO
-                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;
             ]]>
         </query>
     </entity>	
@@ -1913,7 +1906,54 @@ WHERE P.PERIOD_SID BETWEEN @START_PERIOD_SID
    ]]>
     </query>
     </entity>
+    <entity id="custom-view-condition-query">
+        <query>
+            <![CDATA[    
+      SELECT DISTINCT convert(VARCHAR(8000),HIERARCHY_NO) HIERARCHY_NO   FROM (SELECT HIERARCHY_NO = STUFF((
+			SELECT DISTINCT ', ' + HIERARCHY_NO
+			FROM #SELECTED_HIERARCHY_NO B
+			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+			FOR XML PATH('')
+			), 1, 2, '')
+FROM #SELECTED_HIERARCHY_NO A
+@RELJOIN )S
+ORDER BY HIERARCHY_NO
+                OFFSET [?START] ROWS FETCH NEXT [?END] ROWS ONLY;   
+            ]]>
+        </query>
+        </entity>
+        
+         <entity id="get-ccp-query">
+        <query>
+            <![CDATA[  
+            IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO_TEMP') IS NOT NULL
+                 DROP TABLE #SELECTED_HIERARCHY_NO_TEMP  
+      SELECT CCP_DETAILS_SID,CONVERT(VARCHAR(8000),HIERARCHY_NO) HIERARCHY_NO  INTO #SELECTED_HIERARCHY_NO_TEMP  FROM (SELECT CCP_DETAILS_SID,HIERARCHY_NO = STUFF((
+			SELECT DISTINCT ', ' + HIERARCHY_NO
+			FROM #SELECTED_HIERARCHY_NO B
+			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+			FOR XML PATH('')
+			), 1, 2, '')
+FROM #SELECTED_HIERARCHY_NO A
+@RELJOIN )S
+            ]]>
+        </query>
+    </entity>
     
+                <entity id="custom-view-count-condition-query">
+        <query>
+            <![CDATA[  
+              SELECT COUNT(DISTINCT HIERARCHY_NO)   FROM (SELECT HIERARCHY_NO = STUFF((
+			SELECT DISTINCT ', ' + HIERARCHY_NO
+			FROM #SELECTED_HIERARCHY_NO B
+			WHERE B.RELATIONSHIP_LEVEL_VALUES = A.RELATIONSHIP_LEVEL_VALUES
+			FOR XML PATH('')
+			), 1, 2, '')
+FROM #SELECTED_HIERARCHY_NO A
+@RELJOIN )S
+            ]]>
+        </query>
+    </entity>			
      <entity id="sales-adjustment-query">
 <query>
     <![CDATA[
