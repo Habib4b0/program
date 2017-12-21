@@ -630,7 +630,6 @@ public class SalesLogic {
         String sql;
 
        sql = commonLogic.insertSelectedHierarchHierarchyNo(hierarchyNoSet, projSelDTO);
-       // sql = commonLogic.insertAvailableHierarchyNo(projSelDTO);
 
 
         return getSalesResults(projSelDTO, 0, hierarchyNoSet.size(), sql);

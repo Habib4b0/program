@@ -1059,6 +1059,7 @@ public class NMProjectionVarianceLogic {
     public int configureLevelsCount(PVSelectionDTO selection) {
         CommonLogic commonLogic = new CommonLogic();
         int count;
+        System.out.println("is customHierachy" + selection.isIsCustomHierarchy());
         if (selection.isIsCustomHierarchy()) {
             count = getCountForCustomView(selection);
         } else {
@@ -2963,10 +2964,11 @@ public class NMProjectionVarianceLogic {
         query = query.replace(Constant.RELVALUE, projSelDTO.getSessionDTO().getDedRelationshipBuilderSid());
         query += insertAvailableHierarchyNo(projSelDTO);
         query += commonLogic.getDedCustomJoinGenerate(projSelDTO.getSessionDTO(), projSelDTO.getDeductionHierarchyNo(), commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), levelNo);
-        query += SQlUtil.getQuery("custom-view-hiearchy-no-query");
+        query += SQlUtil.getQuery("custom-view-hiearchy-no-query-order");
         query = query.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         query = query.replace(Constant.START_QUESTION, String.valueOf(start));
         query = query.replace(Constant.END_QUESTION, String.valueOf(end));
+        System.out.println(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return list;
@@ -3047,7 +3049,7 @@ public class NMProjectionVarianceLogic {
 
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo) || "D".equals(hierarchyIndicator);
-
+        int i=1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
 
@@ -3056,7 +3058,7 @@ public class NMProjectionVarianceLogic {
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
-                stringBuilder.append("')");
+                stringBuilder.append("'," + i++ + ")");
 
                 isNotFirstElement = true;
             }

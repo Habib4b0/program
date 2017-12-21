@@ -2271,7 +2271,7 @@ public class DataSelectionLogic {
 			detailsList.add(object[NumericConstants.FOUR]); // RL Level Value -
 															// Actual System Id
 			detailsList.add(isCustomerHierarchy ? "C" : "P"); // HIERARCHY
-			System.out.println("*******detailsList" + detailsList);													// INDICATOR
+		/*	System.out.println("*******detailsList" + detailsList);	*/												// INDICATOR
 			updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
 			resultMap.put(String.valueOf(object[0]), detailsList);
 

@@ -3769,6 +3769,7 @@ public class CommonLogic {
         query = query.replace(Constant.HIERARCHY_COLUMN_QUESTION, getColumnName(projSelDTO.getHierarchyIndicator()));
         query = query.replace("[?TAB_BASED_JOIN]", getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName()));
         query = query.replace("?DEDJOIN",projSelDTO.getTabName().equals("Variance")?" WHERE PV_FILTERS=1 ":StringUtils.EMPTY);
+        System.out.println(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         List list = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(query, projSelDTO.getSessionDTO().getCurrentTableNames()));
         if (list != null && !list.isEmpty()) {
             return list;
@@ -4016,6 +4017,7 @@ public class CommonLogic {
     public String insertAvailableHierarchyNoForExpand(ProjectionSelectionDTO projSelDTO) {
         String sql;
         sql = SQlUtil.getQuery("selected-hierarchy-no-order-values");
+        System.out.println("level NO" + projSelDTO.getTreeLevelNo());
         sql = sql.replace(Constant.QUESTION_HIERARCHY_NO_VALUES, getSelectedHierarchyForExpand(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(), projSelDTO.getHierarchyIndicator(), projSelDTO.getTreeLevelNo()));
         sql = sql.replace(Constant.SELECTED_HIERARCHY_JOIN, getHierarchyJoinQuery(projSelDTO));
         sql += getJoinBasedOnTab(projSelDTO.getTabName(), projSelDTO.getGroupFilter(), projSelDTO.getScreenName());
@@ -4085,7 +4087,6 @@ public class CommonLogic {
             if (isNotFirstElement) {
                 stringBuilder.append(",\n");
             }
-            System.out.println("hierachy no repace in sales query " +((TreeNode) object).getHierachyNo());
             stringBuilder.append("('");
             stringBuilder.append(((TreeNode) object).getHierachyNo());
             stringBuilder.append("'," + i++ + ")");
@@ -4145,17 +4146,17 @@ public class CommonLogic {
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i=1;
+
+        System.out.println("inside selected Hierachy" + relationshipLevelDetailsMap);
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             if ((Integer.valueOf(entry.getValue().get(2).toString()) == levelNo && hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
-
+            	
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
                 }
                 stringBuilder.append("('");
                 stringBuilder.append(entry.getKey());
                 stringBuilder.append("'," + i++ + ")");
-             /*   stringBuilder.append("')");*/
-
                 isNotFirstElement = true;
             }
         }
@@ -4166,6 +4167,7 @@ public class CommonLogic {
         return stringBuilder.toString();
     }
     
+ 
     public String getSelectedHierarchyForExpand(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo) {
 
         if (levelNo == 0) {
@@ -4175,11 +4177,13 @@ public class CommonLogic {
         Map<String, List> relationshipLevelDetailsMap = sessionDTO.getHierarchyLevelDetails();
         StringBuilder stringBuilder = new StringBuilder();
 
+       
         boolean isNotFirstElement = false;
         boolean isHierarchyNoNotAvailable = StringUtils.isEmpty(hierarchyNo) || "%".equals(hierarchyNo);
         int i = 1;
         for (Map.Entry<String, List> entry : relationshipLevelDetailsMap.entrySet()) {
             int entryLevel = Integer.valueOf(entry.getValue().get(2).toString());
+            //System.out.println("entery Level" + Integer.valueOf(entry.getValue().get(2).toString()));
             if ((entryLevel >= levelNo) && (hierarchyIndicator.equals(entry.getValue().get(4).toString())) && (isHierarchyNoNotAvailable || entry.getKey().startsWith(hierarchyNo))) {
                 if (isNotFirstElement) {
                     stringBuilder.append(",\n");
