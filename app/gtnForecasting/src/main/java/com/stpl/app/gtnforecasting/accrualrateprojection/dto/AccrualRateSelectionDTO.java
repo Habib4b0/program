@@ -9,7 +9,7 @@ import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import org.drools.core.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *

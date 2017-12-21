@@ -3,7 +3,6 @@ package com.stpl.app.gtnforecasting.ui;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.ui.view.AccrualRateProjectionView;
 import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
-import com.stpl.app.gtnforecasting.bpm.service.BPMManagerBean;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -329,7 +328,7 @@ public class ForecastUI extends UI {
                 navigator.addView(AccrualRateProjectionView.ARP_VIEW, arpView);
             }
             ExecutorService serviec = Executors.newSingleThreadExecutor();
-            serviec.submit(new BPMJob());
+//            serviec.submit(new BPMJob());
             if (projectionId != null
                     && !CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION.equalsIgnoreCase(screenName)) {
 				getUI().getNavigator().navigateTo(ForecastWorkflowView.NAME + "/" + pageParameters);
@@ -355,15 +354,6 @@ public class ForecastUI extends UI {
         
     }
 
-    class BPMJob implements Runnable {
-
-        @Override
-        public void run() {
-            LOGGER.info("Intailizing BPM Engine:");
-            BPMManagerBean.getEngine().getRuntimeEngine().getKieSession();
-        }
-
-    }
 
     /**
      * Used to invalidate the session
