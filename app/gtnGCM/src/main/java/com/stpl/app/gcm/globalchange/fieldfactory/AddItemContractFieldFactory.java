@@ -42,7 +42,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
