@@ -34,6 +34,7 @@ import com.stpl.gtn.gtn2o.ws.entity.user.User;
 import com.stpl.gtn.gtn2o.ws.entity.workflow.WorkflowMaster;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.contract.GtnWsContractDashboardRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
@@ -406,13 +407,13 @@ public class WorkflowLogicService {
 		return workflowMaster.getWorkflowId();
 	}
 
-	public String submitContract(GtnWsCommonWorkflowRequest workflowRequest) throws GtnFrameworkGeneralException {
+	public String submitContract(GtnWsCommonWorkflowRequest workflowRequest,GtnUIFrameworkWebserviceRequest generalWSRequest) throws GtnFrameworkGeneralException {
 		LOGGER.debug("Entering submitContract method");
 		Session session = databaseService.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		String returnValue;
 		try {
-			returnValue = saveContractWorkflow(workflowRequest, session);
+			returnValue = saveContractWorkflow(workflowRequest, session,generalWSRequest.getGtnWsGeneralRequest());
 			tx.commit();
 		} catch (HibernateException e) {
 			LOGGER.error("Exception in submitContract() method." + e);
@@ -455,9 +456,10 @@ public class WorkflowLogicService {
 		return returnValue;
 	}
 
-	public String saveContractWorkflow(GtnWsCommonWorkflowRequest workflowRequest, Session session)
+	public String saveContractWorkflow(GtnWsCommonWorkflowRequest workflowRequest, Session session,GtnWsGeneralRequest generalWSRequest)
 			throws GtnFrameworkGeneralException {
 		WorkflowMaster workflowMaster = new WorkflowMaster();
+		int userId = Integer.parseInt(generalWSRequest.getUserId().trim());
 		try {
 			GtnWsContractWorkflowBean contractBean = workflowRequest.getContractBean();
 			workflowMaster = getWorkFlowMasterBasedOnContract(contractBean.getWorkflowMasterSystemId(),
@@ -474,8 +476,8 @@ public class WorkflowLogicService {
 					.getHelperTableSid());
 			workflowMaster.setWorkflowId(contractBean.getWorkflowId());
 			workflowMaster.setWorkflowStatusId(contractBean.getWorkflowStatus());
-			workflowMaster.setCreatedBy(contractBean.getCreatedBy());
-			workflowMaster.setCreatedDate(contractBean.getCreatedDate());
+			workflowMaster.setCreatedBy(userId);
+			workflowMaster.setCreatedDate(new Date());
 			workflowMaster.setNotes(contractBean.getNotes());
 			workflowMaster.setNoOfApproval(contractBean.getNoOfApprovals());
 			workflowMaster.setApprovalLevel(contractBean.getApprovalLevel());
@@ -483,6 +485,8 @@ public class WorkflowLogicService {
 			workflowMaster.setWorkflowDescrption(contractBean.getWorkflowDescription());
 			workflowMaster.setContractMasterSid(contractBean.getContractId());
 			workflowMaster.setContractStructure(contractBean.getContractStructure());
+			workflowMaster.setApprovedBy(null);
+			workflowMaster.setApprovedDate(null);
 
 			workflowMaster.setModifiedDate(new Date());
 			session.saveOrUpdate(workflowMaster);

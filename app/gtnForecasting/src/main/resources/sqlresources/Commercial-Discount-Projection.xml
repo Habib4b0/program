@@ -307,7 +307,7 @@ UNION ALL
      <entity id="discountGenerateCustom">
         <query> 
             <![CDATA[            
-              DECLARE @VAR CHAR(1)='?RS'
+            DECLARE @VAR CHAR(1)='?RS'
             DECLARE @FREQUENCY CHAR(1)='?F'
             DECLARE @PARENT varchar(1000)='?P'
              
@@ -527,7 +527,7 @@ GROUP  BY I.PERIOD,
                     FROM #SELECTED_HIERARCHY_NO
                     GROUP BY HIERARCHY_NO
                     
-                    DECLARE @STAT_SALES INT
+                 DECLARE @STAT_SALES INT
 	,@EN_SALES INT
 	,@ACTUAL_END_PERIOD INT
 	,@ACTUAL_START_PERIOD INT
@@ -585,8 +585,6 @@ LEFT JOIN #ACTUAL_DISCOUNT AD ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
 LEFT JOIN #ACTUAL_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
-LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
-
 UNION ALL
 
 SELECT CHECK_RECORD
@@ -595,7 +593,7 @@ SELECT CHECK_RECORD
 	,AD.PERIOD
         ,'' DISCOUNT
 	,NULL AS ACTUAL_RATE
-	,COALESCE((PROJECTED_DISCOUNT / NULLIF(CCPS_COUNT, 0)) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE
+	,COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE
 	,1 AS AP_TABLE_INDICATOR
 	,USER_GROUP
 	,CCP_COUNT
@@ -603,7 +601,7 @@ SELECT CHECK_RECORD
 	,NULL AS ACTUAL_SALES
 	,NULL AS ACTUAL_RPU
 	,PROJECTED_DISCOUNT AS PROJECTION_SALES
-	,COALESCE((PROJECTED_DISCOUNT / NULLIF(CCPS_COUNT, 0)) / NULLIF(PROJECTION_UNITS, 0), 0) AS PROJECTION_RPU
+	,COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0) AS PROJECTION_RPU
 	,GROWTH @SELCOLDED
 FROM (
 	SELECT HIERARCHY_NO
@@ -624,7 +622,6 @@ LEFT JOIN #DISCOUNT_PROJECTION AD ON AD.HIERARCHY_NO = DPM.HIERARCHY_NO
 LEFT JOIN #PROJECTION_SALES SA ON SA.HIERARCHY_NO = AD.HIERARCHY_NO
 	AND SA.YEAR = SH.YEAR
 	AND SA.PERIOD = SH.PERIOD
-LEFT JOIN #CCP_COUNT cc ON cc.HIERARCHY_NO = ad.HIERARCHY_NO
 ORDER BY HIERARCHY_NO
 	,YEAR
 	,PERIOD
@@ -854,20 +851,71 @@ WHERE RELATIONSHIP_LEVEL_VALUES IN (
              @RELATIONSIDS
               )
        AND RELATIONSHIP_BUILDER_SID = @BUILDERSID
-                
-                UPDATE DPT 
-                SET    @SETTER
-                FROM   st_nm_discount_projection DPT 
-                       JOIN st_nm_discount_proj_master MAS 
-                         ON MAS.ccp_details_sid = DPT.ccp_details_sid 
-                         and dpt.rs_contract_sid = MAS.rs_contract_sid
-                       JOIN st_ccp_hierarchy CCPH 
-                         ON CCPH.ccp_details_sid = DPT.ccp_details_sid 
-                            AND @COLUMN_NAME LIKE '@HIERARCHY_NO%' @CUSTOM_VIEW 
-                       JOIN #period I 
-                         ON I.period_sid = DPT.period_sid 
-                       JOIN #SELECTED_REBATE SR ON MAS.deduction_hierarchy_no like SR.HIERARCHY_NO+'%'
-                WHERE  I.year = ?Y  
+       
+       
+       IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+       DROP TABLE #SELECTED_HIERARCHY_NO
+
+CREATE TABLE #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO VARCHAR(50),
+       CCP_DETAILS_SID INT,
+       DISCOUNT VARCHAR(8000),
+       RS_CONTRACT_SID INT
+       )
+
+INSERT INTO #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO,
+       CCP_DETAILS_SID,
+       DISCOUNT,
+       RS_CONTRACT_SID
+       )
+SELECT A.HIERARCHY_NO,
+       CCPH.CCP_DETAILS_SID,
+       SR.HIERARCHY_NO,
+       M.RS_CONTRACT_SID
+FROM (
+       VALUES ('@HIERARCHY_NO')
+       ) A(HIERARCHY_NO)
+INNER JOIN ST_CCP_HIERARCHY CCPH
+       ON (
+                     CCPH.PROD_HIERARCHY_NO LIKE HIERARCHY_NO + '%'
+                     OR CCPH.CUST_HIERARCHY_NO LIKE HIERARCHY_NO + '%'
+                     )
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER M
+       ON CCPH.CCP_DETAILS_SID = M.CCP_DETAILS_SID
+INNER JOIN #SELECTED_REBATE SR
+       ON M.DEDUCTION_HIERARCHY_NO LIKE SR.HIERARCHY_NO + '%';
+
+WITH CTE
+AS (
+       SELECT COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO,
+                     DISCOUNT
+                     ) AMOUNT_COUNT,
+              SR.*,
+              COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO,
+                     SR.CCP_DETAILS_SID,
+                     DISCOUNT
+                     ) RATE_RPU_COUNT
+       FROM #SELECTED_HIERARCHY_NO SR
+       )
+UPDATE DPT
+SET @SETTER / (
+              CASE 
+                     WHEN @REFRESHED_NAME = 'AMOUNT'
+                           THEN AMOUNT_COUNT * @PERIOD_COUNT
+                     ELSE RATE_RPU_COUNT
+                     END
+              ),
+       DPT.REFRESHED_NAME = @REFRESHED_NAME
+FROM ST_NM_DISCOUNT_PROJECTION DPT
+INNER JOIN CTE M
+       ON M.CCP_DETAILS_SID = DPT.CCP_DETAILS_SID
+              AND DPT.RS_CONTRACT_SID = M.RS_CONTRACT_SID
+INNER JOIN #PERIOD I
+       ON I.PERIOD_SID = DPT.PERIOD_SID
+WHERE I.YEAR = ?Y
         ]]>
         </query>
     </entity>    
@@ -920,6 +968,7 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
          <![CDATA[
             DECLARE @FREQUENCY CHAR(1)='?F'
             DECLARE @RELVALUE VARCHAR(20)='?R'
+            DECLARE @REFRESHED_NAME VARCHAR(10) = '@REFNAME'
              
             IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
             DROP TABLE #PERIOD
@@ -934,6 +983,17 @@ JOIN ST_CCP_HIERARCHY CCPH ON  CCPH.ccp_details_sid = DPT.ccp_details_sid
             END
             INTO   #PERIOD
             FROM   PERIOD
+            
+            DECLARE @PERIOD_COUNT INT = CASE 
+              WHEN @FREQUENCY = 'M'
+                     THEN 1
+              WHEN @FREQUENCY = 'Q'
+                     THEN 3
+              WHEN @FREQUENCY = 'S'
+                     THEN 6
+              ELSE 12
+              END
+
             
              IF Object_id('TEMPDB..#PARENT_VALIDATE') IS NOT NULL
                 DROP TABLE #PARENT_VALIDATE
@@ -1229,20 +1289,63 @@ WHERE CCPH.CUST_HIERARCHY_NO  LIKE '@HIERARCHYNO%'
         <entity id="MANUAL_ENTRY_DISCOUNT_CUSTOM">
         <query> 
             <![CDATA[
-                @PERIOD_TABLE
+                 @PERIOD_TABLE
                 @TEMP_TABLE_DISCOUNT
-                UPDATE DPT 
-                SET    @SETTER
-                FROM   st_nm_discount_projection DPT 
-                       JOIN st_nm_discount_proj_master MAS 
-                         ON MAS.ccp_details_sid = DPT.ccp_details_sid 
-                         and dpt.rs_contract_sid = MAS.rs_contract_sid
-                       JOIN st_ccp_hierarchy CCPH 
-                         ON CCPH.ccp_details_sid = DPT.ccp_details_sid 
-                            @COLUMN_NAME @CUSTOM_VIEW 
-                       JOIN #period I 
-                         ON I.period_sid = DPT.period_sid 
-                WHERE  I.year = ?Y  
+                IF OBJECT_ID('TEMPDB..#SELECTED_HIERARCHY_NO') IS NOT NULL
+       DROP TABLE #SELECTED_HIERARCHY_NO
+ 
+CREATE TABLE #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO_1 VARCHAR(1000),
+       CCP_DETAILS_SID INT,
+       HIERARCHY_NO_2 VARCHAR(8000),
+       RS_CONTRACT_SID INT
+       )
+ 
+INSERT INTO #SELECTED_HIERARCHY_NO (
+       HIERARCHY_NO_1,
+       CCP_DETAILS_SID,
+       HIERARCHY_NO_2,
+       RS_CONTRACT_SID
+       )
+SELECT DISTINCT CUST_HIERARCHY_NO,
+       CCPH.CCP_DETAILS_SID,
+       PROD_HIERARCHY_NO,
+       MAS.RS_CONTRACT_SID
+FROM ST_CCP_HIERARCHY CCPH
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER MAS
+       ON CCPH.CCP_DETAILS_SID = MAS.CCP_DETAILS_SID
+       @COLUMN_NAME @CUSTOM_VIEW;
+ 
+WITH CTE
+AS (
+       SELECT COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO_1,
+                     HIERARCHY_NO_2
+                     ) AMOUNT_COUNT,
+              SR.*,
+              COUNT(SR.RS_CONTRACT_SID) OVER (
+                     PARTITION BY HIERARCHY_NO_1,
+                     SR.CCP_DETAILS_SID,
+                     HIERARCHY_NO_2
+                     ) RATE_RPU_COUNT
+       FROM #SELECTED_HIERARCHY_NO SR
+       )
+               UPDATE DPT
+SET @SETTER / (
+              CASE 
+                     WHEN @REFRESHED_NAME = 'AMOUNT'
+                           THEN AMOUNT_COUNT * @PERIOD_COUNT
+                     ELSE RATE_RPU_COUNT
+                     END
+              ),
+       DPT.REFRESHED_NAME = @REFRESHED_NAME
+FROM ST_NM_DISCOUNT_PROJECTION DPT
+INNER JOIN CTE M
+       ON M.CCP_DETAILS_SID = DPT.CCP_DETAILS_SID
+              AND DPT.RS_CONTRACT_SID = M.RS_CONTRACT_SID
+INNER JOIN #PERIOD I
+       ON I.PERIOD_SID = DPT.PERIOD_SID
+WHERE I.YEAR = ?Y
         ]]>
         </query>
     </entity>  
@@ -1645,14 +1748,7 @@ GROUP  BY I.PERIOD,DISCOUNT
                          DM.RS_CONTRACT_SID, 
                         P.HIERARCHY_NO @HASHDP
                         
-                  IF Object_id('TEMPDB..#CCP_COUNT') IS NOT NULL
-                    DROP TABLE #CCP_COUNT
-                    SELECT HIERARCHY_NO,DISCOUNT,COUNT(DISTINCT RS_CONTRACT_SID) CCPS_COUNT
-                    INTO #CCP_COUNT
-                    FROM #SELECTED_HIERARCHY_NO
-                    GROUP BY HIERARCHY_NO,DISCOUNT
-
-
+              
 
                      DECLARE @STAT_SALES INT
                         ,@EN_SALES INT
@@ -1686,14 +1782,14 @@ GROUP  BY I.PERIOD,DISCOUNT
                      sh.YEAR,
                      sh.PERIOD,
                      SH.DISCOUNT,
-                     COALESCE((DISCOUNT_ACTUALS/NULLIF(CCPS_COUNT,0)) / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
+                     COALESCE((DISCOUNT_ACTUALS) / NULLIF(ACTUAL_SALES, 0), 0) * 100 AS ACTUAL_RATE,
                      NULL PROJECTION_RATE,
                      0                                                             AS AP_TABLE_INDICATOR,
                      SH.USER_GROUP,
                      CCP_COUNT,
                      UNCHECK_COUNT,
                      DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
-                     COALESCE((DISCOUNT_ACTUALS /NULLIF(CCPS_COUNT,0))/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
+                     COALESCE((DISCOUNT_ACTUALS )/ NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
                      NULL                                      AS PROJECTION_SALES,
                      NULL                                                          AS PROJECTION_RPU,
                      NULL                                                          AS GROWTH
@@ -1713,8 +1809,6 @@ GROUP  BY I.PERIOD,DISCOUNT
                                 AND SA.PERIOD = SH.PERIOD
                                 AND SA.DISCOUNT = AD.DISCOUNT
 				       AND SA.RS_CONTRACT_SID = AD.RS_CONTRACT_SID 
-                                      left join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
-                                     AND cc.DISCOUNT = AD.DISCOUNT
                                        LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
               UNION ALL
               SELECT   CHECK_RECORD,
@@ -1723,7 +1817,7 @@ GROUP  BY I.PERIOD,DISCOUNT
                      sh.PERIOD,
                      SH.DISCOUNT,
                      NULL AS                                                              ACTUAL_RATE,
-                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
                      1                                                                   AS AP_TABLE_INDICATOR,
                      SH.USER_GROUP,
                      CCP_COUNT,
@@ -1731,7 +1825,7 @@ GROUP  BY I.PERIOD,DISCOUNT
                      NULL                                                                AS ACTUAL_SALES,
                      NULL                                                                AS ACTUAL_RPU,
                      PROJECTED_DISCOUNT                                                   AS PROJECTION_SALES,
-                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
+                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
                      GROWTH
                       ,sh.RS_CONTRACT_SID AS RS_CONTRACT_SID  ,RELATIONSHIP_LEVEL_VALUES @SELCOLDED
               FROM  (SELECT HIERARCHY_NO,year,P.PERIOD,DISCOUNT,RS_CONTRACT_SID,USER_GROUP FROM #SELECTED_HIERARCHY_NO SHS CROSS JOIN #PERIOD P WHERE P.PERIOD_SID BETWEEN @ACTUAL_START_PERIOD AND @ACTUAL_END_PERIOD GROUP BY  year,P.PERIOD,HIERARCHY_NO,DISCOUNT,RS_CONTRACT_SID,USER_GROUP) SH  LEFT JOIN 
@@ -1748,8 +1842,6 @@ GROUP  BY I.PERIOD,DISCOUNT
                                 AND SA.discount = AD.discount
                                 AND SA.YEAR = SH.YEAR
                                 AND SA.PERIOD = SH.PERIOD
-                              left     join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
-                                AND cc.DISCOUNT = AD.DISCOUNT
                                 LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
               ORDER  BY 
                           HIERARCHY_NO  ,
@@ -1971,7 +2063,6 @@ INTO   #PROJECTION_SALES
                              ON C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
                      INNER JOIN #PERIOD I
                              ON I.PERIOD_SID = S.PERIOD_SID
-                     join  ccp_details c1 on C.CCP_DETAILS_SID = S.CCP_DETAILS_SID
 							 JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=S.CCP_DETAILS_SID
 							
                                                           @UOMJOIN  
@@ -2044,12 +2135,7 @@ GROUP  BY I.PERIOD,
               GROUP  BY DISCOUNT @HASHDP ,
                         P.HIERARCHY_NO
                         
-                  IF Object_id('TEMPDB..#CCP_COUNT') IS NOT NULL
-                    DROP TABLE #CCP_COUNT
-                    SELECT HIERARCHY_NO,DISCOUNT,COUNT(DISTINCT RS_CONTRACT_SID) CCPS_COUNT
-                    INTO #CCP_COUNT
-                    FROM #SELECTED_HIERARCHY_NO
-                    GROUP BY HIERARCHY_NO,DISCOUNT
+                 
 
            DECLARE @STAT_SALES INT
                         ,@EN_SALES INT
@@ -2080,6 +2166,7 @@ GROUP  BY I.PERIOD,
                      sh.YEAR,
                      sh.PERIOD,
                      sh.DISCOUNT,
+
                      COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_SALES,0), 0) * 100 AS ACTUAL_RATE,
                      NULL PROJECTION_RATE,
                      0                                                             AS AP_TABLE_INDICATOR,
@@ -2087,6 +2174,7 @@ GROUP  BY I.PERIOD,
                      CCP_COUNT,
                      UNCHECK_COUNT,
                      DISCOUNT_ACTUALS                           AS ACTUAL_SALES,
+
                      COALESCE(DISCOUNT_ACTUALS / NULLIF(ACTUAL_UNITS, 0), 0)       AS ACTUAL_RPU,
                      NULL                                      AS PROJECTION_SALES,
                      NULL                                                          AS PROJECTION_RPU,
@@ -2107,8 +2195,7 @@ GROUP  BY I.PERIOD,
                                 AND SA.PERIOD = SH.PERIOD
                                 AND SA.DISCOUNT = AD.DISCOUNT
 				       
-                                      left join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
-                                     AND cc.DISCOUNT = AD.DISCOUNT
+                                     
                                      LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON sh.DISCOUNT=rl.HIERARCHY_NO
               UNION ALL
               SELECT  CHECK_RECORD,
@@ -2117,7 +2204,7 @@ GROUP  BY I.PERIOD,
                      sh.PERIOD,
                      sh.DISCOUNT,
                      NULL AS                                                              ACTUAL_RATE,
-                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
+                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_SALES, 0), 0) * 100 AS PROJECTION_RATE,
                      1                                                                   AS AP_TABLE_INDICATOR,
                      SH.USER_GROUP,
                      CCP_COUNT,
@@ -2125,7 +2212,7 @@ GROUP  BY I.PERIOD,
                      NULL                                                                AS ACTUAL_SALES,
                      NULL                                                                AS ACTUAL_RPU,
                      PROJECTED_DISCOUNT                                                   AS PROJECTION_SALES,
-                     COALESCE((PROJECTED_DISCOUNT/NULLIF(CCPS_COUNT,0)) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
+                     COALESCE((PROJECTED_DISCOUNT) / NULLIF(PROJECTION_UNITS, 0), 0)       AS PROJECTION_RPU,
                      GROWTH,RELATIONSHIP_LEVEL_VALUES @SELCOLDED
 
                      
@@ -2143,8 +2230,7 @@ GROUP  BY I.PERIOD,
                                 AND SA.discount = AD.discount
                                 AND SA.YEAR = SH.YEAR
                                 AND SA.PERIOD = SH.PERIOD
-                              left     join #CCP_COUNT cc on cc.HIERARCHY_NO=ad.HIERARCHY_NO
-                                AND cc.DISCOUNT = AD.DISCOUNT
+                             
                                 LEFT JOIN  RELATIONSHIP_LEVEL_DEFINITION RL ON SH.DISCOUNT=RL.HIERARCHY_NO
               
              ORDER  BY 
@@ -2170,6 +2256,181 @@ from
 where
 	relationship_builder_sid = ?
 	and relationship_level_values = ?;
+ 
+                  ]]>
+        </query>
+    </entity>
+    
+   <entity id="discount-adjustment-query">
+        <query> 
+            <![CDATA[
+            DECLARE @FREQUENCY VARCHAR(50) = '?',
+@ADJUSTED_PERIODS VARCHAR(1000) ='?',
+@ADJUSTMENT_BASIS VARCHAR(20) = '?',
+@ADJUSTED_VALUE NUMERIC(22, 6) = '?',
+@ADJUEST_METHOD VARCHAR(100) = '?',
+@ADJUSTMENT_FLAG BIT=?,
+@DEDUCTION_INCLUSION BIT=?,
+@BASELINE_PERIODS VARCHAR(1000)='?'
+
+SET @FREQUENCY = LEFT(@FREQUENCY, 1)
+
+IF Object_id('TEMPDB.DBO.#PERIOD', 'U') IS NOT NULL
+	DROP TABLE #PERIOD;
+
+CREATE TABLE #PERIOD (
+	PERIOD_SID INT,
+	PERIOD_DATE DATE,
+	PERIOD_MONTH INT,
+	PERIOD_QUARTER INT,
+	PERIOD_SEMI INT,
+	PERIOD_YEAR INT,
+	PERIOD VARCHAR(10) PRIMARY KEY (PERIOD_SID)
+	)
+
+
+INSERT INTO #PERIOD
+            (PERIOD_SID,
+             PERIOD_DATE,
+             PERIOD_MONTH,
+             PERIOD_QUARTER,
+             PERIOD_SEMI,
+             PERIOD_YEAR,
+             PERIOD)
+SELECT PERIOD_SID,
+       PERIOD_DATE,
+       MONTH AS PERIOD_MONTH,
+       QUARTER AS PERIOD_QUARTER,
+       SEMI_ANNUAL AS PERIOD_SEMI,
+       YEAR AS PERIOD_YEAR,
+       CASE
+                  WHEN @FREQUENCY = 'M' THEN Concat ('M', MONTH, ' ', YEAR)
+                  WHEN @FREQUENCY = 'Q' THEN Concat ('Q', QUARTER, ' ', YEAR)
+                  WHEN @FREQUENCY = 'S' THEN Concat ('S', SEMI_ANNUAL, ' ', YEAR)
+                  ELSE Cast(YEAR AS CHAR(4))
+                END AS PERIOD  
+FROM   PERIOD
+WHERE  EXISTS  (
+				SELECT 1
+				FROM DBO.UDF_SPLITSTRING(@ADJUSTED_PERIODS, ',') A
+				WHERE A.TOKEN = CASE
+                  WHEN @FREQUENCY = 'M' THEN Concat ('M', MONTH, ' ', YEAR)
+                  WHEN @FREQUENCY = 'Q' THEN Concat ('Q', QUARTER, ' ', YEAR)
+                  WHEN @FREQUENCY = 'S' THEN Concat ('S', SEMI_ANNUAL, ' ', YEAR)
+                  ELSE Cast(YEAR AS CHAR(4))
+                END
+				)
+IF Object_id('TEMPDB..#CCP_DETAILS_TEMP') IS NOT NULL
+	DROP TABLE #CCP_DETAILS_TEMP
+
+CREATE TABLE #CCP_DETAILS_TEMP (
+	CCP_DETAILS_SID INT,
+	COMPANY_MASTER_SID INT,
+	ITEM_MASTER_SID INT,
+	CONTRACT_MASTER_SID INT,
+	NEW BIT DEFAULT(0),
+	RS_CONTRACT_SID INT,
+	ADJUSTED_CCP INT,
+	SALES_INCLUSION INT,
+	DEDUCTION_INCLUSION INT
+	)
+
+INSERT INTO #CCP_DETAILS_TEMP (
+	CCP_DETAILS_SID,
+	COMPANY_MASTER_SID,
+	ITEM_MASTER_SID,
+	CONTRACT_MASTER_SID,
+	RS_CONTRACT_SID,
+	ADJUSTED_CCP,
+	SALES_INCLUSION,
+	DEDUCTION_INCLUSION
+	)
+SELECT CH.CCP_DETAILS_SID,
+	COMPANY_MASTER_SID,
+	ITEM_MASTER_SID,
+	CONTRACT_MASTER_SID,
+	RS_CONTRACT_SID,
+	ADJUSTED_CCP,
+	SALES_INCLUSION,
+	DEDUCTION_INCLUSION
+FROM ST_CCP_HIERARCHY CH
+INNER JOIN CCP_DETAILS CD
+	ON CH.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+INNER JOIN ST_NM_DISCOUNT_PROJ_MASTER NDP
+	ON NDP.CCP_DETAILS_SID = CD.CCP_DETAILS_SID
+		AND NDP.CHECK_RECORD = 1
+INNER JOIN ST_NM_SALES_PROJECTION_MASTER NSP
+	ON NSP.CCP_DETAILS_SID = CD.CCP_DETAILS_SID;
+
+IF (@ADJUSTMENT_FLAG = 0)
+BEGIN
+	UPDATE NDP
+SET NDP.PROJECTION_SALES = IIF((
+			DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION
+			OR @DEDUCTION_INCLUSION IS NULL
+			), NAD.ACTUAL_SALES, NULL)
+FROM ST_NM_DISCOUNT_PROJECTION NDP
+INNER JOIN #PERIOD P
+	ON P.PERIOD_SID = NDP.PERIOD_SID
+        AND P.PERIOD  NOT IN   (SELECT TOP 1 PERIOD FROM #PERIOD)
+LEFT JOIN  (
+	SELECT TOP 1 CCP_DETAILS_SID,
+		RS_CONTRACT_SID,
+		SUM(ACTUAL_SALES) ACTUAL_SALES
+	FROM ST_NM_ACTUAL_DISCOUNT ST
+	INNER JOIN #PERIOD P
+		ON P.PERIOD_SID = ST.PERIOD_SID
+		GROUP BY CCP_DETAILS_SID,RS_CONTRACT_SID,PERIOD
+	) NAD
+ON NAD.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+		AND NAD.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+INNER JOIN #CCP_DETAILS_TEMP CCP
+	ON CCP.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+		AND CCP.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+		AND ADJUSTED_CCP = 1
+END
+ELSE
+BEGIN
+	WITH FINAL_RESULT
+	AS (
+		SELECT distinct CCP.CCP_DETAILS_SID,
+			CCP.RS_CONTRACT_SID,
+			COALESCE(CASE 
+					WHEN @ADJUSTMENT_BASIS = 'AMOUNT'
+						THEN @ADJUSTED_VALUE
+					ELSE COALESCE(SUM(IIF((
+										DEDUCTION_INCLUSION = @DEDUCTION_INCLUSION
+										OR @DEDUCTION_INCLUSION IS NULL
+										), NDP.PROJECTION_SALES, NULL)) OVER (PARTITION BY CCP.RS_CONTRACT_SID), 0) * (@ADJUSTED_VALUE / 100)
+					END * (COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES) / (COALESCE(SUM(COALESCE(EXFACTORY_FORECAST_SALES, EXFACTORY_ACTUAL_SALES)) OVER (PARTITION BY CCP.RS_CONTRACT_SID), 0))), 0) DISCOUNT_AMOUNT,
+			P.PERIOD_SID
+		FROM #CCP_DETAILS_TEMP CCP
+		CROSS JOIN #PERIOD P
+		LEFT JOIN ST_NM_ACTUAL_DISCOUNT NAD
+			ON NAD.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+				AND NAD.RS_CONTRACT_SID = CCP.RS_CONTRACT_SID
+				AND P.PERIOD_SID = NAD.PERIOD_SID
+		LEFT JOIN ST_NM_DISCOUNT_PROJECTION NDP
+			ON NDP.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+				AND NDP.RS_CONTRACT_SID = CCP.RS_CONTRACT_SID
+				AND P.PERIOD_SID = NDP.PERIOD_SID
+		LEFT JOIN ST_PRODUCT_FILE PF
+			ON PF.ITEM_MASTER_SID = CCP.ITEM_MASTER_SID
+				AND PF.PERIOD_SID = P.PERIOD_SID
+		LEFT JOIN ST_NM_SALES_PROJECTION NSP
+			ON NSP.CCP_DETAILS_SID = CCP.CCP_DETAILS_SID
+				AND NSP.PERIOD_SID = P.PERIOD_SID
+		)
+	UPDATE NDP
+	SET NDP.PROJECTION_SALES = DISCOUNT_AMOUNT + IIF(@ADJUEST_METHOD = 'OVERRIDE', 0, ISNULL(NDP.PROJECTION_SALES, 0))
+	FROM ST_NM_DISCOUNT_PROJECTION NDP
+	INNER JOIN FINAL_RESULT FR
+		ON FR.CCP_DETAILS_SID = NDP.CCP_DETAILS_SID
+			AND FR.RS_CONTRACT_SID = NDP.RS_CONTRACT_SID
+			AND NDP.PERIOD_SID = FR.PERIOD_SID
+END
+
+
  
                   ]]>
         </query>

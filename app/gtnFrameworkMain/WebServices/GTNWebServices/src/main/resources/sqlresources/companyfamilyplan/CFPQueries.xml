@@ -554,14 +554,14 @@ SET
 	<entity id="getCfpCfpIdAndCfpNoValidationQuery">
 		<query> 
             <![CDATA[    
-            DECLARE @CFP_ID varchar(500)= ? ,
+           DECLARE @CFP_ID varchar(500)= ?,
             @CFP_NO varchar(500)= ? 
 
             SELECT CASE WHEN CFP_ID = @CFP_ID AND CFP_NO = @CFP_NO THEN 'CFP_ID, CFP_NO'
                         WHEN  CFP_ID = @CFP_ID THEN 'CFP_ID'
                         WHEN CFP_NO = @CFP_NO THEN 'CFP_NO'
                         ELSE '' END   AS COULMN1
-             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO)
+             FROM CFP_MODEL WHERE (CFP_ID =@CFP_ID OR CFP_NO = @CFP_NO) AND INBOUND_STATUS<>'D'
              
  ]]>
 		</query>
@@ -793,6 +793,27 @@ DECLARE @USERS_SID VARCHAR(10)=?,
 	HAVING COUNT(*) >1
 	
 	
+                ]]>
+		</query>
+	</entity>
+	<entity id="getCfpIdWithStatusD">
+		<query> 
+            <![CDATA[   
+             Select * from CFP_MODEL where INBOUND_STATUS<>'A' and CFP_ID='?' and CFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+	<entity id="getSysIdCfpIdAndCfpNoWithStatusD">
+		<query> 
+            <![CDATA[   
+            Select CFP_MODEL_SID from CFP_MODEL where CFP_ID='?' AND CFP_NO='?'
+                ]]>
+		</query>
+	</entity>
+	<entity id="UpdateCfpIdAndCfpNoWithStatusA">
+		<query> 
+            <![CDATA[   
+          UPDATE CFP_MODEL SET INBOUND_STATUS='A' WHERE CFP_ID='?' AND CFP_NO='?' AND INBOUND_STATUS like 'D'
                 ]]>
 		</query>
 	</entity>

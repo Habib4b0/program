@@ -185,7 +185,7 @@ public class Constants {
         ADDITIONAL_INFORMATION("Additional Information"),
         RETURNS("Returns"),
         PER_OF_WAC("% of WAC");
-        private String constant;
+        private final String constant;
 
         private LabelConstants(String constant) {
             this.constant = constant;
@@ -222,7 +222,7 @@ public class Constants {
         BASEYEAR("baseYear"),
         PROJ_CAPS("PROJ");
 
-        private String constant;
+        private final String constant;
 
         private IndicatorConstants(String constant) {
             this.constant = constant;
@@ -259,7 +259,7 @@ public class Constants {
         BRAND_NAME ("brandName"),
         SHOW_ALL("Show All");
 
-        private String constant;
+        private final String constant;
 
         private CommonConstants(String constant) {
             this.constant = constant;
@@ -292,7 +292,7 @@ public class Constants {
         QUARTERS("Quarters"),
         YEAR("Year");
       
-        private String frequencyValue;
+        private final String frequencyValue;
 
         private FrequencyConstants(String frequencyValue) {
             this.frequencyValue = frequencyValue;
@@ -341,7 +341,7 @@ public class Constants {
         LEVEL_5("Level 5"),
         LEVEL_6("Level 6");
 
-        private String constant;
+        private final String constant;
 
         private LevelConstants(String constant) {
             this.constant = constant;
@@ -369,7 +369,7 @@ public class Constants {
 
         REGEX_EXTRACT_DIGITS("\\D+"),;
 
-        private String constant;
+        private final String constant;
 
         private RegexConstants(String constant) {
             this.constant = constant;
@@ -394,7 +394,7 @@ public class Constants {
         EXCEL_IMAGE_PATH("../../icons/excel.png"),
         GRAPH_IMAGE_PATH("../../icons/chart.png");
 
-        private String constant;
+        private final String constant;
 
         private ResourceConstants(String constant) {
             this.constant = constant;
@@ -421,7 +421,7 @@ public class Constants {
         HISTORY_YEAR_COUNT(3),
         PROJECTION_YEAR_COUNT(3);
 
-        private int constant;
+        private final int constant;
 
         private CalendarConstants(int constant) {
             this.constant = constant;
@@ -468,7 +468,7 @@ public class Constants {
         HEADER_NDC("NDC"),
         NDC11("NDC 11");
 
-        private String constant;
+        private final String constant;
 
         private HeaderConstants(String constant) {
             this.constant = constant;
@@ -517,7 +517,7 @@ public class Constants {
         MESSAGE_BOX_OK("OK"),
         MESSAGE_BOX("OK");
 
-        private String constant;
+        private final String constant;
 
         private WindowMessagesMain(String constant) {
             this.constant = constant;
@@ -559,7 +559,7 @@ public class Constants {
         CONFIRM_RESET("Reset?"),
         MESSAGE_BOX("OK");
 
-        private String constant;
+        private final String constant;
 
         private WindowMessagesName(String constant) {
             this.constant = constant;
@@ -591,7 +591,7 @@ public class Constants {
         MESSAGE_BOX_OK("OK"),
         MESSAGE_BOX("OK");
 
-        private String constant;
+        private final String constant;
 
         private WindowMessagesPopups(String constant) {
             this.constant = constant;
@@ -620,6 +620,7 @@ public class Constants {
                      *
                      * @return the annual count
                      */
+                    @Override
                     public int getAnnualCount() {
                         return CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
                     }
@@ -631,6 +632,7 @@ public class Constants {
                      * @param historyYearCount historyYearCount value
                      * @return the semi-annual count
                      */
+                    @Override
                     public int getSemiAnnualCount() {
                         return NumericConstants.TWO * CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
                     }
@@ -642,6 +644,7 @@ public class Constants {
                      * @param historyYearCount historyYearCount value
                      * @return the Quarterly count
                      */
+                    @Override
                     public int getQuarterCount() {
                         return NumericConstants.FOUR  * CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
                     }
@@ -653,6 +656,7 @@ public class Constants {
                      * @param historyYearCount historyYearCount value
                      * @return the Monthly count
                      */
+                    @Override
                     public int getMonthCount() {
                         return NumericConstants.TWELVE * CalendarConstants.HISTORY_YEAR_COUNT.getConstant();
                     }
@@ -662,6 +666,7 @@ public class Constants {
                      *
                      * @return
                      */
+                    @Override
                     public int getCurrentQuarter() {
                         return CalendarConstants.CURRENT_MONTH.getConstant() / NumericConstants.THREE + 1;
                     }
@@ -671,6 +676,7 @@ public class Constants {
                      *
                      * @return returns the total no. of projection periods
                      */
+                    @Override
                     public int getProjectionYear() {
                         return CalendarConstants.CURRENT_YEAR.getConstant() + CalendarConstants.PROJECTION_YEAR_COUNT.getConstant();
                     }

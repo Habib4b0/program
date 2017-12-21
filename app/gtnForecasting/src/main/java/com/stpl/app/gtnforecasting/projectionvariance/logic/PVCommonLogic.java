@@ -7,7 +7,6 @@ package com.stpl.app.gtnforecasting.projectionvariance.logic;
 
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
-import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.LOGGER;
 import static com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic.TWO_DECIMAL_FORMAT;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.Constant;
@@ -17,6 +16,7 @@ import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -29,9 +29,11 @@ public class PVCommonLogic {
     private static final DecimalFormat RATE_PER = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final DecimalFormat RATE_PER_THREE = new DecimalFormat(TWO_DECIMAL_FORMAT);
     private static final String CURRENT = "Current";
-    private static String ACCRUAL = "Accrual";
-    private static String ACTUAL = "Actual";
-    private static String actualDASH = "-";
+    private static final String ACCRUAL = "Accrual";
+    private static final String ACTUAL = "Actual";
+    private static final String actualDASH = "-";
+    private static final Logger LOGGER = Logger.getLogger(PVCommonLogic.class);
+
 
     static void getPriorCommonCustomization(String variableCategory, PVSelectionDTO pvsdto, final Object[] row, ProjectionVarianceDTO projDTO, String column, int index, int priorIndex, final Boolean isPer, int columnCountTotal, DecimalFormat format) {
         LOGGER.debug("Inside getPivotCommonCustomization");

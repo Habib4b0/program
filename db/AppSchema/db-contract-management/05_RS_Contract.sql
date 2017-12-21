@@ -729,6 +729,79 @@ IF EXISTS (SELECT 1
 GO
 
 -----------------------DATATPE CHANGE ENDS----------------------------
+-------------------------DROP STATISTICS-----------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_NAME'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_CONTRACT.RS_NAME
+  END
+  GO
+-------------------------DROP STATISTICS-----------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_CATEGORY'
+                  AND OBJECT_NAME(OBJECT_ID) = 'HIST_RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.HIST_RS_CONTRACT.RS_CATEGORY
+ END
+ GO
+
+----------------------- ALTER NOT NULL -------------------
+IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_CONTRACT'
+                  AND COLUMN_NAME = 'RS_NAME'
+                  AND IS_NULLABLE = 'YES')
+  BEGIN
+	  UPDATE HIST_RS_CONTRACT SET RS_NAME = 0 WHERE RS_NAME IS NULL
+
+      ALTER TABLE HIST_RS_CONTRACT
+        ALTER COLUMN RS_NAME VARCHAR(100) NOT NULL
+  END 
+  GO
+
+
+  IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'HIST_RS_CONTRACT'
+                  AND COLUMN_NAME = 'RS_CATEGORY'
+                  AND IS_NULLABLE = 'YES')
+  BEGIN
+	  UPDATE HIST_RS_CONTRACT SET RS_CATEGORY = 0 WHERE RS_CATEGORY IS NULL
+
+      ALTER TABLE HIST_RS_CONTRACT
+        ALTER COLUMN RS_CATEGORY INT NOT NULL
+  END 
+  GO
+  ----------------------- COLUMN ADDITION IN HIST_RS_CONTRACT --------------------------------
+ IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'HIST_RS_CONTRACT'
+			AND COLUMN_NAME = 'DEDUCTION_CALENDAR_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_RS_CONTRACT 
+		ADD DEDUCTION_CALENDAR_NO INT 
+END
+GO
+
+ IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'HIST_RS_CONTRACT'
+			AND COLUMN_NAME = 'DEDUCTION_CALENDAR_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE HIST_RS_CONTRACT 
+		ADD DEDUCTION_CALENDAR_NAME INT 
+END
+GO
+---------------------HIST_RS_CONTRACT STATISTICS--------------------
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
 DECLARE @STATSNAME VARCHAR(200)
@@ -828,6 +901,82 @@ DEALLOCATE CUR1
 
 GO
 
+-------------------------DROP STATITICS-----------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_NAME'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.RS_CONTRACT.RS_NAME
+  END
+  GO
+-------------------------DROP STATITICS---------------------
+IF EXISTS (SELECT *
+           FROM   SYS.STATS
+           WHERE  NAME = 'RS_CATEGORY'
+                  AND OBJECT_NAME(OBJECT_ID) = 'RS_CONTRACT')
+  BEGIN
+      DROP STATISTICS DBO.RS_CONTRACT.RS_CATEGORY
+  END
+  GO
+
+--------------------- RS_CONTRACT -----------------------
+
+----------------------- ALTER NOT NULL -------------------
+ 
+    IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_CONTRACT'
+                  AND COLUMN_NAME = 'RS_NAME'
+                  AND IS_NULLABLE = 'YES')
+  BEGIN
+	  UPDATE RS_CONTRACT SET RS_NAME = 0 WHERE RS_NAME IS NULL
+
+      ALTER TABLE RS_CONTRACT
+        ALTER COLUMN RS_NAME VARCHAR(100) NOT NULL
+  END 
+  GO
+
+
+  IF EXISTS (SELECT 1
+           FROM   INFORMATION_SCHEMA.COLUMNS
+           WHERE  TABLE_NAME = 'RS_CONTRACT'
+                  AND COLUMN_NAME = 'RS_CATEGORY'
+                  AND IS_NULLABLE = 'YES')
+  BEGIN
+	  UPDATE RS_CONTRACT SET RS_CATEGORY = 0 WHERE RS_CATEGORY IS NULL
+
+      ALTER TABLE RS_CONTRACT
+        ALTER COLUMN RS_CATEGORY INT NOT NULL
+  END 
+  GO
+  ----------------------- COLUMN ADDITION IN RS_CONTRACT --------------------------------
+ IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'RS_CONTRACT'
+			AND COLUMN_NAME = 'DEDUCTION_CALENDAR_NO'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE RS_CONTRACT 
+		ADD DEDUCTION_CALENDAR_NO INT 
+END
+GO
+
+ IF NOT EXISTS (
+		SELECT 1
+		FROM INFORMATION_SCHEMA.COLUMNS
+		WHERE TABLE_NAME = 'RS_CONTRACT'
+			AND COLUMN_NAME = 'DEDUCTION_CALENDAR_NAME'
+			AND TABLE_SCHEMA = 'DBO'
+		)
+BEGIN
+	ALTER TABLE RS_CONTRACT 
+		ADD DEDUCTION_CALENDAR_NAME INT 
+END
+GO
+------------------------- RS_CONTRACT STATISTICS --------------------------
 DECLARE @SQL NVARCHAR(MAX)
 DECLARE @TABLENAME VARCHAR(100)
 DECLARE @STATSNAME VARCHAR(200)
@@ -1007,7 +1156,9 @@ AS
                      EVALUATION_RULE_LEVEL,
                      EVALUATION_RULE_OR_ASSOCIATION,
                      DEDUCTION_INCLUSION,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 DEDUCTION_CALENDAR_NO,
+					 DEDUCTION_CALENDAR_NAME)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1069,7 +1220,9 @@ AS
                EVALUATION_RULE_LEVEL,
                EVALUATION_RULE_OR_ASSOCIATION,
                DEDUCTION_INCLUSION,
-               'A'
+               'A',
+			   DEDUCTION_CALENDAR_NO,
+			   DEDUCTION_CALENDAR_NAME
         FROM   INSERTED
   END
 
@@ -1156,7 +1309,9 @@ AS
                      EVALUATION_RULE_LEVEL,
                      EVALUATION_RULE_OR_ASSOCIATION,
                      DEDUCTION_INCLUSION,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 DEDUCTION_CALENDAR_NO,
+					 DEDUCTION_CALENDAR_NAME)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1218,7 +1373,9 @@ AS
                EVALUATION_RULE_LEVEL,
                EVALUATION_RULE_OR_ASSOCIATION,
                DEDUCTION_INCLUSION,
-               'C'
+               'C',
+			   DEDUCTION_CALENDAR_NO,
+			   DEDUCTION_CALENDAR_NAME
         FROM   INSERTED
   END
 
@@ -1303,7 +1460,9 @@ AS
                      EVALUATION_RULE_LEVEL,
                      EVALUATION_RULE_OR_ASSOCIATION,
                      DEDUCTION_INCLUSION,
-                     ACTION_FLAG)
+                     ACTION_FLAG,
+					 DEDUCTION_CALENDAR_NO,
+					 DEDUCTION_CALENDAR_NAME)
         SELECT RS_CONTRACT_SID,
                RS_MODEL_SID,
                RS_ID,
@@ -1365,7 +1524,9 @@ AS
                EVALUATION_RULE_LEVEL,
                EVALUATION_RULE_OR_ASSOCIATION,
                DEDUCTION_INCLUSION,
-               'D'
+               'D',
+			   DEDUCTION_CALENDAR_NO,
+			   DEDUCTION_CALENDAR_NAME
         FROM   DELETED
   END
 
@@ -2369,82 +2530,82 @@ IF EXISTS (SELECT 'X'
            FROM   SYS.TRIGGERS
            WHERE  [NAME] = N'TRG_RS_CONTRACT_DTLS_DYNAMIC_INS')
   BEGIN
-      DROP TRIGGER DBO.TRG_RS_CONTRACT_DTLS_DYNAMIC_INS
+         ALTER TABLE RS_CONTRACT_DETAILS DISABLE TRIGGER  TRG_RS_CONTRACT_DTLS_DYNAMIC_INS
   END
 
 GO
 
-CREATE TRIGGER [dbo].[TRG_RS_CONTRACT_DTLS_DYNAMIC_INS]
-ON [dbo].[RS_CONTRACT_DETAILS]
-AFTER INSERT
-AS
-  BEGIN
-      SET NOCOUNT ON
+--CREATE TRIGGER [dbo].[TRG_RS_CONTRACT_DTLS_DYNAMIC_INS]
+--ON [dbo].[RS_CONTRACT_DETAILS]
+--AFTER INSERT
+--AS
+--  BEGIN
+--      SET NOCOUNT ON
 
-      IF Object_id('tempdb..#TEMP_DEDUCTION_HIERARCHY') IS NOT NULL
-        DROP TABLE #TEMP_DEDUCTION_HIERARCHY
+--      IF Object_id('tempdb..#TEMP_DEDUCTION_HIERARCHY') IS NOT NULL
+--        DROP TABLE #TEMP_DEDUCTION_HIERARCHY
 
-      CREATE TABLE #TEMP_DEDUCTION_HIERARCHY
-        (
-           ITEM_MASTER_SID          INT,
-           RS_CONTRACT_SID          INT,
-           REBATE_SCHEDULE_CATEGORY INT,
-           REBATE_SCHEDULE_TYPE     INT,
-           REBATE_PROGRAM_TYPE      INT,
-           UDC1                     INT,
-           UDC2                     INT,
-           UDC3                     INT,
-           UDC4                     INT,
-           UDC5                     INT,
-           UDC6                     INT
-        )
+--      CREATE TABLE #TEMP_DEDUCTION_HIERARCHY
+--        (
+--           ITEM_MASTER_SID          INT,
+--           RS_CONTRACT_SID          INT,
+--           REBATE_SCHEDULE_CATEGORY INT,
+--           REBATE_SCHEDULE_TYPE     INT,
+--           REBATE_PROGRAM_TYPE      INT,
+--           UDC1                     INT,
+--           UDC2                     INT,
+--           UDC3                     INT,
+--           UDC4                     INT,
+--           UDC5                     INT,
+--           UDC6                     INT
+--        )
 
-      INSERT INTO #TEMP_DEDUCTION_HIERARCHY
-                  (ITEM_MASTER_SID,
-                   RS_CONTRACT_SID,
-                   REBATE_SCHEDULE_CATEGORY,
-                   REBATE_SCHEDULE_TYPE,
-                   REBATE_PROGRAM_TYPE,
-                   UDC1,
-                   UDC2,
-                   UDC3,
-                   UDC4,
-                   UDC5,
-                   UDC6)
-      SELECT a.ITEM_MASTER_SID,
-             A.RS_CONTRACT_SID,
-             rs.RS_CATEGORY,
-             rs.RS_TYPE,
-             rs.REBATE_PROGRAM_TYPE,
-             U.UDC1,
-             U.UDC2,
-             U.UDC3,
-             U.UDC4,
-             U.UDC5,
-             U.UDC6
-      FROM   INSERTED A
-             JOIN RS_CONTRACT rs
-               ON rs.RS_CONTRACT_SID = a.RS_CONTRACT_SID AND RS.INBOUND_STATUS<>'D'
-             LEFT JOIN UDCS U
-                    ON U.MASTER_SID = A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
+--      INSERT INTO #TEMP_DEDUCTION_HIERARCHY
+--                  (ITEM_MASTER_SID,
+--                   RS_CONTRACT_SID,
+--                   REBATE_SCHEDULE_CATEGORY,
+--                   REBATE_SCHEDULE_TYPE,
+--                   REBATE_PROGRAM_TYPE,
+--                   UDC1,
+--                   UDC2,
+--                   UDC3,
+--                   UDC4,
+--                   UDC5,
+--                   UDC6)
+--      SELECT a.ITEM_MASTER_SID,
+--             A.RS_CONTRACT_SID,
+--             rs.RS_CATEGORY,
+--             rs.RS_TYPE,
+--             rs.REBATE_PROGRAM_TYPE,
+--             U.UDC1,
+--             U.UDC2,
+--             U.UDC3,
+--             U.UDC4,
+--             U.UDC5,
+--             U.UDC6
+--      FROM   INSERTED A
+--             JOIN RS_CONTRACT rs
+--               ON rs.RS_CONTRACT_SID = a.RS_CONTRACT_SID AND RS.INBOUND_STATUS<>'D'
+--             LEFT JOIN UDCS U
+--                    ON U.MASTER_SID = A.RS_CONTRACT_SID AND U.MASTER_TYPE='RS_CONTRACT'
 
-      -------------------------Procedure Call ---------------------------------------
-      IF @@ROWCOUNT > 0
-        BEGIN
-            BEGIN TRY
-                BEGIN TRANSACTION
+--      -------------------------Procedure Call ---------------------------------------
+--      IF @@ROWCOUNT > 0
+--        BEGIN
+--            BEGIN TRY
+--                BEGIN TRANSACTION
 
-                EXEC Prc_deduction_hierarchy_dynamic_add --DEDUCTION
-                COMMIT
-            END TRY
+--                EXEC Prc_deduction_hierarchy_dynamic_add --DEDUCTION
+--                COMMIT
+--            END TRY
 
-            BEGIN CATCH
-                IF @@TRANCOUNT <> 0
-                  ROLLBACK
-            END CATCH
-        END
-  END
-GO
+--            BEGIN CATCH
+--                IF @@TRANCOUNT <> 0
+--                  ROLLBACK
+--            END CATCH
+--        END
+--  END
+--GO
 
 
 
@@ -2979,3 +3140,7 @@ CLOSE CUR1
 DEALLOCATE CUR1
 
 GO
+
+
+
+

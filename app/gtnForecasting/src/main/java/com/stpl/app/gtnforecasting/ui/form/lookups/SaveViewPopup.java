@@ -25,12 +25,14 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.converters.TextFieldConverter;
 import com.stpl.portal.kernel.exception.PortalException;
 import com.stpl.portal.kernel.exception.SystemException;
+import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
+import java.text.ParseException;
 import java.util.List;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
@@ -45,45 +47,17 @@ import org.jboss.logging.Logger;
  */
 public class SaveViewPopup extends AbstractSaveViewPopup {
 
-    /**
-     * The available customers.
-     */
-    public BeanItemContainer<Leveldto> availableCustomers;
-
-    /**
-     * The selected customers.
-     */
-    public BeanItemContainer<Leveldto> selectedCustomers;
-
-    /**
-     * The available products.
-     */
-    public BeanItemContainer<Leveldto> availableProducts;
-
-    /**
-     * The selected products.
-     */
-    public BeanItemContainer<Leveldto> selectedProducts;
-    /**
-     * The save view dto.
-     */
     private final SaveViewDTO saveViewDTO = new SaveViewDTO();
-    /**
-     * The view binder.
-     */
     private final CustomFieldGroup viewBinder = new CustomFieldGroup(new BeanItem<>(saveViewDTO));
-
-    final ErrorLabel errorMsg = new ErrorLabel();
-    private TextField viewId = new TextField();
-
-    private TextField viewName = new TextField();
-
-    private OptionGroup viewType = new OptionGroup();
+    private final ErrorLabel errorMsg = new ErrorLabel();
+    private final TextField viewId = new TextField();
+    private final TextField viewName = new TextField();
+    private final OptionGroup viewType = new OptionGroup();
 
     /**
      * The view logic.
      */
-    public ViewLogic viewLogic = new ViewLogic();
+    private final ViewLogic viewLogic = new ViewLogic();
 
     /**
      * The data selection binder.
@@ -92,10 +66,10 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     /**
      * The logic.
      */
-    public NonMandatedLogic logic = new NonMandatedLogic();
+    private final NonMandatedLogic logic = new NonMandatedLogic();
 
-    List<String> customerListEndSids;
-    List<String> productListEndSids;
+    private final List<String> customerListEndSids;
+    private final List<String> productListEndSids;
 
     /**
      * The Constant LOGGER.
@@ -107,30 +81,28 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
     private List<Leveldto> selectedProductsList;
     private List<Leveldto> selectedCustomersList;
     private int projectionId = 0;
-    List<Leveldto> customerHierarchyEndLevels;
-    String productHierarchyEndLevelsHierNos;
-    ViewDTO viewDTO;
-    String screenName = StringUtils.EMPTY;
-    String updateOrSave;
+    private List<Leveldto> customerHierarchyEndLevels;
+    private String productHierarchyEndLevelsHierNos;
+    private ViewDTO viewDTO;
+    private String screenName = StringUtils.EMPTY;
+
+    /**/
 
     /**
-     * Save view popup constructor.
      *
-     * @param windowName Name of the popup
-     * @param dataSelectionBinder the data selection binder
-     * @param availableCustomers the available customers
-     * @param selectedCustomers the selected customers
-     * @param availableProducts the available products
-     * @param selectedProducts the selected products
+     * @param windowName
+     * @param customerListEndSids
+     * @param availableCustomers
+     * @param availableProducts
+     * @param selectedProducts
+     * @param selectedCustomers
+     * @param productListEndSids
      */
+
     public SaveViewPopup(final String windowName, final BeanItemContainer<Leveldto> availableCustomers, final BeanItemContainer<Leveldto> selectedCustomers,
             final BeanItemContainer<Leveldto> availableProducts, final BeanItemContainer<Leveldto> selectedProducts, List<String> customerListEndSids, List<String> productListEndSids) {
         super(windowName);
         LOGGER.debug("Entering saveViewPopup");
-        this.availableCustomers = availableCustomers;
-        this.selectedCustomers = selectedCustomers;
-        this.availableProducts = availableProducts;
-        this.selectedProducts = selectedProducts;
         this.customerListEndSids = customerListEndSids;
         this.productListEndSids = productListEndSids;
         buildPopup();
@@ -146,6 +118,9 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @param customerHierarchyEndLevels
      * @param productHierarchyEndLevelsHierNos
      * @param viewDTO
+     * @param customerListEndSids
+     * @param productListEndSids
+     * @param screenName
      */
     public SaveViewPopup(String windowName, DataSelectionDTO dataselectionDtoToSave, List<Leveldto> selectedCustomersList,
             List<Leveldto> selectedProductsList, List<Leveldto> customerHierarchyEndLevels, String productHierarchyEndLevelsHierNos, ViewDTO viewDTO, List<String> customerListEndSids, List<String> productListEndSids, final String screenName) {
@@ -204,11 +179,9 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     saveView(selectedCustomersList, selectedProductsList, Constant.SAVE);
                 }
             }
-        } catch (SystemException sysException) {
+        } catch (SystemException | PortalException sysException) {
             LOGGER.error(sysException);
-        } catch (Exception exception) {
-            LOGGER.error(exception);
-        }
+        } 
         LOGGER.debug("End of btnAddLogic");
     }
 
@@ -233,7 +206,6 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
      * @param actionFlag the action flag
      * @throws SystemException the system exception
      * @throws PortalException the portal exception
-     * @throws Exception the exception
      */
     public void saveView(final List<Leveldto> selectedCustomersList, final List<Leveldto> selectedProductsList,
             final String actionFlag) throws SystemException, PortalException {
@@ -313,7 +285,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                         }
                     }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | Property.ReadOnlyException | FieldGroup.CommitException | ParseException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End of saveView");
@@ -335,7 +307,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
             } else if (non_creatoralert != 0) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update public view", "You cannot update Public View (" + viewDTO.getViewName() + ") because it was created by another user.You can choose to save a new profile under a different profile name");
 
-            } else if (!viewName.getValue().toString().equals(viewDTO.getViewName())) {
+            } else if (!viewName.getValue().equals(viewDTO.getViewName())) {
                 AbstractNotificationUtils.getErrorNotification("Cannot update view name", "View  name can't be Changed");
             } else {
                 if (isDuplicateView(viewName.getValue())) {
@@ -348,7 +320,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
     }
@@ -410,7 +382,7 @@ public class SaveViewPopup extends AbstractSaveViewPopup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-        return;
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
 
 }

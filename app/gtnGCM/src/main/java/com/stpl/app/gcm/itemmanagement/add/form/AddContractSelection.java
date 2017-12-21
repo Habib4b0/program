@@ -23,7 +23,7 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.dto.FormulaDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractAllItemLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
-import com.stpl.app.gcm.itemmanagement.itemabstract.form.FormulaLookUp;
+import com.stpl.app.gcm.itemmanagement.itemabstract.form.NEPLookup;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.lookup.CFPLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.lookup.IFPLookUp;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.lookup.PSLookUp;
@@ -36,12 +36,13 @@ import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.DISABLE;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.UIUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.stpl.ifs.util.constants.GlobalConstants;
 import com.vaadin.data.Container;
 import com.vaadin.data.Property;
 import com.vaadin.data.fieldgroup.FieldGroup;
@@ -170,6 +171,12 @@ public class AddContractSelection extends CustomComponent {
     public Label enddatelabel;
     @UiField("valuelabel")
     public Label valuelabel;
+    @UiField("baseWacPriceType")
+    private ComboBox baseWacPriceType;
+    @UiField("baseWacManual")
+    protected TextField baseWacManual;
+     @UiField("baseWacDate")
+    public PopupDateField baseWacDate;
     public static final Logger LOGGER = Logger.getLogger(AddContractSelection.class);
     AddItemDetailsTableLogic addItemTableLogic = new AddItemDetailsTableLogic();
     public static final String PRICE_TOLERANCE_FREQUENCY_LABEL = "Price ToleranceFrequency";
@@ -178,16 +185,28 @@ public class AddContractSelection extends CustomComponent {
     public List<ItemIndexDto> selecteditemList;
     Object[] componentColumn = {"itemNo", "itemName", "therapyClass", "brand", Constants.STATUS_S, Constants.START_DATE, Constants.END_DATE, Constants.REBATE_PLAN_PROPERTY, Constants.FORMULA_ID_PROPERTY};
     String[] componentHeader = {Constants.ITEM_NO, Constants.ITEM_NAME, Constants.THERAPY_CLASS, Constants.BRAND, Constants.STATUS_FIELD, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.REBATE_PLAN_LABEL, "Formula Id"};
-    Object[] addColumn = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, 
-        Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate", "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, StringConstantsUtil.CONTRACT_PRICE_PROPERTY,
-        StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY, Constants.PRICE_TOLERANCE_PROPERTY, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY,
-        Constants.PRICE_TOLERANCE_INTERVAL, StringConstantsUtil.BASE_PRICE_PROPERTY, StringConstantsUtil.RS_START_DATE_LABEL, StringConstantsUtil.RS_END_DATE_COLUMN, Constants.FORMULA_ID_PROPERTY, Constants.REBATE_PLAN_PROPERTY, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY, Constants.REBATE_AMOUNT_PROPERTY, "cfpNO", Constants.CFP_NAME,
-        "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
-    String[] addHeader = {"", "Projection ID", "WorkFlow Status", "Contract Holder", "Contract No",
-        "Contract Name", "Market Type", Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
-        Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, StringConstantsUtil.CONTRACT_PRICE_LABEL, StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, 
-        Constants.PRICE_PROTECTION_END_DATE_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL, Constants.PRICE_TOLERANCE_LABEL, PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_INTERVAL_LABEL, StringConstantsUtil.BASE_PRICE_LABEL, StringConstantsUtil.RS_START_DATE_LABEL_CAPS, StringConstantsUtil.RS_END_DATE_LABEL, Constants.FORMULA_ID_LABEL, Constants.REBATE_PLAN_LABEL, StringConstantsUtil.FORMULA_METHOD_ID_LABEL, Constants.REBATE_AMOUNT_LABEL, "CFP NO", "CFP Name",
-        Constants.IFP_NO, Constants.IFP_NAME_LABEL, "PS No", " PS Name", "RS No", "RS Name", "RAR Category"};
+    Object[] addColumn = {Constants.CHECK_RECORD, "projectionIdLink", "workFlowStatus", Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO,
+        Constants.CONTRACT_NAME, Constants.MARKET_TYPE, Constants.START_DATE, Constants.END_DATE, Constants.STATUS_S, "itemStartDate",
+        "itemEndDate", StringConstantsUtil.CP_START_DATE, StringConstantsUtil.CP_END_DATE, Constants.PRICE_TYPE_PROPERTY,
+        StringConstantsUtil.PRICE_PROPERTY, Constants.PRICE_PROTECTION_STATUS_PROPERTY, Constants.PRICE_PROTECTION_START_DATE_PROPERTY, Constants.PRICE_PROTECTION_END_DATE_PROPERTY,
+        Constants.MEASUREMENT_PRICE_PROPERTY, Constants.NEP_PROPERTY, Constants.NEP_FORMULA_PROPERTY, Constants.BASE_PRICE_PROPERTY,Constants.BASELINE_WAC_PROPERTY,
+        Constants.BASELINE_NET_WAC_PROPERTY, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY, 
+        Constants.PRICE_TOLERANCE_INTERVAL, Constants.PRICE_TOLERANCE_FREQUENCY_PROPERTY, Constants.PRICE_TOLERANCE_TYPE_PROPERTY, Constants.PRICE_TOLERANCE_PROPERTY,
+        Constants.MAX_INCREMENTAL_CHANGE_PROPERTY, Constants.RESET_ELIGIBLE_PROPERTY, Constants.RESET_TYPE_PROPERTY, Constants.RESET_DATE_PROPERTY, Constants.RESET_INTERVAL_PROPERTY, Constants.RESET_FREQUENCY_PROPERTY,
+        Constants.RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_TYPE_PROPERTY, Constants.NET_RESET_PRICE_FORMULA_PROPERTY, Constants.NET_PRICE_TYPE_PROPERTY, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY,
+        "cfpNO", Constants.CFP_NAME, "ifpNo", Constants.IFPNAME, "psNo", Constants.PSNAME, "rsNo", Constants.RSNAME, "rarCategory"};
+
+    String[] addHeader = {StringUtils.EMPTY, Constants.PROJECTION_ID_HEADER, Constants.WORK_FLOW_STATUS_HEADER, Constants.CONTRACT_HOLDER_HEADER, Constants.CONTRACT_NO_HEADER,
+        Constants.CONTRACT_NAME_HEADER, Constants.MARKET_TYPE_HEADER, Constants.START_DATE_HEADER, Constants.END_DATE_HEADER, Constants.STATUS_FIELD, Constants.ITEM_START_DATE,
+        Constants.ITEM_END_DATE, StringConstantsUtil.CP_START_DATE_LABEL, StringConstantsUtil.CP_END_DATE_LABEL, Constants.PRICE_TYPE_LABEL,
+        StringConstantsUtil.PRICE_LABEL, Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_START_DATE_LABEL, Constants.PRICE_PROTECTION_END_DATE_LABEL,
+        Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.NEP_LABLE_NAME, Constants.NEP_FORMULA_LABLE_NAME,  Constants.BASE_PRICE_TYPE_LABLE_NAME ,Constants.BASELINE_WAC_LABLE_NAME,
+        Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME,Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME,
+        Constants.PRICE_TOLERANCE_INTERVAL_LABEL, Constants.PRICE_TOLERANCE_FREQUENCY_LABEL, Constants.PRICE_TOLERANCE_TYPE_LABEL, Constants.PRICE_TOLERANCE_LABEL,
+        Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME,  Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_DATE_LABLE_NAME, Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_FREQUENCY_LABLE_NAME,
+        Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME,  Constants.NET_PRICE_TYPE_LABLE_NAME,  Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME,
+        Constants.CFP_NO_HEADER, Constants.CFP_NAME_HEADER, Constants.IFP_NO, Constants.IFP_NAME_LABEL, Constants.PS_NO_LABEL, Constants.PS_NAME_LABEL, Constants.RS_NO_HEADER, Constants.RS_NAME_LABEL, Constants.RAR_CATEGORY_HEADER};
+    
     AbstractLogic logic = AbstractLogic.getInstance();
     AddItemTableDTO binderDto = new AddItemTableDTO();
     public static final String CONFIRMATION_HEADER = "Confirmation";
@@ -265,284 +284,210 @@ public class AddContractSelection extends CustomComponent {
         allItemsCombo.addItem("NO");
         allItemsCombo.select("NO");
         allItemsCombo.setReadOnly(true);
+        visibilityOptions();
     }
 
     @UiHandler("field")
     public void fieldTypeLogic(Property.ValueChangeEvent event) {
         String processName = String.valueOf(field.getValue());
-        massUpdateString = processName;
+        massUpdateString = processName;  
         massUpdateText.setReadOnly(false);
         massUpdateText.setValue(StringUtils.EMPTY);
-        switch (processName) {
-            case Constants.STATUS_FIELD:
-                massUpdateValue.setVisible(true);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                loadStatus();
-                break;
-            case Constants.START_DATE_HEADER:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(true);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(true);
-                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.START_DATE.getConstant());
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                break;
-            case Constants.END_DATE_HEADER:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(true);
-                massUpdateText.setVisible(false);
-                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.END_DATE.getConstant());
-                break;
-            case StringConstantsUtil.CP_START_DATE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(true);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(true);
-                massUpdateText.setVisible(false);
-                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_START_DATE.getConstant());
-                enddatelabel.setVisible(false);
-                break;
-            case StringConstantsUtil.CP_END_DATE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_END_DATE.getConstant());
-                enddatelabel.setVisible(true);
-                break;
-            case StringConstantsUtil.CONTRACT_PRICE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
-            case StringConstantsUtil.PRICE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
-            case Constants.PRICE_PROTECTION_START_DATE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(true);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(true);
-                massUpdateText.setVisible(false);
-                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_START_DATE.getConstant());
-                enddatelabel.setVisible(false);
-                break;
-            case Constants.PRICE_PROTECTION_END_DATE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_END_DATE.getConstant());
-                enddatelabel.setVisible(true);
-                break;
-            case Constants.PRICE_TOLERANCE_TYPE_LABEL:
-                massUpdateValue.setVisible(true);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                loadPriceTolerenceType();
-                break;
-            case Constants.PRICE_TOLERANCE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
-            case Constants.PRICE_TOLERANCE_FREQUENCY_LABEL:
-                massUpdateValue.setVisible(true);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                loadPriceToleranceFrequency();
-                break;
-            case Constants.PRICE_TOLERANCE_INTERVAL_LABEL:
-                massUpdateValue.setVisible(true);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                loadPriceToleranceInterval();
-                break;
-            case StringConstantsUtil.BASE_PRICE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
-            case StringConstantsUtil.RS_START_DATE_LABEL_CAPS:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(true);
-                massEndDate.setVisible(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(true);
-                massUpdateText.setVisible(false);
-                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RS_START_DATE.getConstant());
-                enddatelabel.setVisible(false);
-                break;
-            case StringConstantsUtil.RS_END_DATE_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(false);
-                startdatelabel.setVisible(false);
-                massUpdateText.setVisible(false);
-                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.RS_END_DATE.getConstant());
-                enddatelabel.setVisible(true);
-                break;
-            case Constants.FORMULA_ID_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                massUpdateText.addStyleName(SEARCHICON);
-                if (clickLister != null) {
-                    massUpdateText.removeClickListener(clickLister);
-                }
 
-                clickLister = new CustomTextField.ClickListener() {
-                    public void click(CustomTextField.ClickEvent event) {
-                        FormulaLookUp formulaLookUp = new FormulaLookUp(massUpdateText);
-                        formulaLookUp.addCloseListener(new Window.CloseListener() {
-                            @Override
-                            public void windowClose(Window.CloseEvent e) {
-                                massUpdateText.setReadOnly(false);
-                                if (massUpdateText.getData() != null) {
-                                    FormulaDTO object = (FormulaDTO) massUpdateText.getData();
-                                    massUpdateText.setValue(object.getFormulaNo());
-                                }
-                                massUpdateText.setReadOnly(true);
-                            }
-                        });
-                        UI.getCurrent().addWindow(formulaLookUp);
+        if (null != processName) {
+            switch (processName) {
+                case Constants.PRICE_TYPE_LABEL:
+                case Constants.MEASUREMENT_PRICE_LABLE_NAME:
+                case Constants.RESET_PRICE_TYPE_LABLE_NAME:
+                case Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME:
+                    loadValueddlbField();
+                    loadPriceType(massUpdateValue, false);
+                    break;
+                case Constants.NET_PRICE_TYPE_LABLE_NAME:
+                case Constants.NET_RESET_PRICE_TYPE_LABLE_NAME:
+                case Constants.RESET_ELIGIBLE_LABLE_NAME:
+                case Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME:
+                case Constants.BASELINE_NET_WAC_LABLE_NAME:
+                    loadValueddlbField();
+                    CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.LOCKED_STATUS_LISTNAME, false);
+                    break;
+                case StringConstantsUtil.PRICE_LABEL:
+                case Constants.NEP_LABLE_NAME:
+                case Constants.PRICE_TOLERANCE_LABEL:
+                case Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.removeStyleName(SEARCHICON);
+                    massUpdateText.removeClickListener(clickLister);
+                    break;
+                case Constants.ITEM_START_DATE:
+                case Constants.ITEM_END_DATE:
+                case StringConstantsUtil.CP_START_DATE_LABEL:
+                case StringConstantsUtil.CP_END_DATE_LABEL:
+                case Constants.PRICE_PROTECTION_START_DATE_LABEL:
+                case Constants.PRICE_PROTECTION_END_DATE_LABEL:
+                case Constants.RESET_DATE_LABLE_NAME:
+                    loadValueddlbDateField(processName);
+                    break;
+                case Constants.STATUS_FIELD:
+                case Constants.PRICE_PROTECTION_STATUS_LABEL:
+                    loadValueddlbField();
+                    loadStatus();
+                    break;
+                case Constants.RESET_FREQUENCY_LABLE_NAME:
+                case Constants.PRICE_TOLERANCE_FREQUENCY_LABEL:
+                    loadValueddlbField();
+                    loadPriceToleranceFrequency();
+                    break;
+                case Constants.PRICE_TOLERANCE_INTERVAL_LABEL:
+                case Constants.RESET_INTERVAL_LABLE_NAME:
+                    loadValueddlbField();
+                    loadPriceToleranceInterval();
+                    break;
+                case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                    loadValueddlbField();
+                    CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.BASE_PRICE_TYPE_LISTNAME, false);
+                    break;
+                case Constants.PRICE_TOLERANCE_TYPE_LABEL:
+                    loadValueddlbField();
+                    loadPriceTolerenceType();
+                    break;
+                case Constants.RESET_TYPE_LABLE_NAME:
+                    loadValueddlbField();
+                    CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.RESET_TYPE_LISTNAME, false);
+                    break;
+                case Constants.NEP_FORMULA_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.addStyleName(SEARCHICON);
+                    if (clickLister != null) {
+                        massUpdateText.removeClickListener(clickLister);
                     }
-                };
-                massUpdateText.addClickListener(clickLister);
-                massUpdateText.setReadOnly(true);
-                break;
-            case Constants.REBATE_PLAN_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                if (clickLister != null) {
-                    massUpdateText.removeClickListener(clickLister);
-                }
-                clickLister = new CustomTextField.ClickListener() {
-                    public void click(CustomTextField.ClickEvent event) {
-                        final ComponentLookUp contractNum = new ComponentLookUp(Constants.REBATE_PLAN_LABEL, "Rebate Plan Lookup", massUpdateText);
-                        contractNum.addCloseListener(new Window.CloseListener() {
-                            @Override
-                            public void windowClose(Window.CloseEvent e) {
-                                massUpdateText.setReadOnly(false);
-                                if (massUpdateText.getData() != null) {
-                                    ComponentLookUpDTO object = (ComponentLookUpDTO) massUpdateText.getData();
-                                    massUpdateText.setValue(object.getComponentNo());
+                    clickLister = new CustomTextField.ClickListener() {
+                        public void click(CustomTextField.ClickEvent event) {
+                            NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NEP_FORMULA_LABLE_NAME);
+                            formulaLookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(Window.CloseEvent e) {
+                                    massUpdateText.setReadOnly(false);
+                                    if (massUpdateText.getData() != null) {
+                                        FormulaDTO object = (FormulaDTO) massUpdateText.getData();
+                                        massUpdateText.setValue(object.getFormulaName());
+                                    }
+                                    massUpdateText.setReadOnly(true);
                                 }
-                                massUpdateText.setReadOnly(true);
-                            }
-                        });
-
-                        UI.getCurrent().addWindow(contractNum);
+                            });
+                            UI.getCurrent().addWindow(formulaLookUp);
+                        }
+                    };
+                    massUpdateText.addClickListener(clickLister);
+                    massUpdateText.setReadOnly(true);
+                    break;
+                case Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.addStyleName(SEARCHICON);
+                    if (clickLister != null) {
+                        massUpdateText.removeClickListener(clickLister);
                     }
-                };
-                massUpdateText.addClickListener(clickLister);
-                massUpdateText.setReadOnly(true);
-                break;
-            case StringConstantsUtil.FORMULA_METHOD_ID_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                if (clickLister != null) {
-                    massUpdateText.removeClickListener(clickLister);
-                }
-                massUpdateText.removeStyleName(SEARCHICON);
-                massUpdateText.setReadOnly(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
-            case Constants.REBATE_AMOUNT_LABEL:
-                massUpdateValue.setVisible(false);
-                massStartDate.setVisible(false);
-                massEndDate.setVisible(false);
-                startdatelabel.setVisible(false);
-                enddatelabel.setVisible(false);
-                massUpdateText.setVisible(true);
-                if (clickLister != null) {
-                    massUpdateText.removeClickListener(clickLister);
-                }
-                massUpdateText.removeStyleName(SEARCHICON);
-                massUpdateText.setReadOnly(false);
-                populateBtn.setVisible(true);
-                valuelabel.setVisible(true);
-                break;
+                    clickLister = new CustomTextField.ClickListener() {
+                        public void click(CustomTextField.ClickEvent event) {
+                            NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME);
+                            formulaLookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(Window.CloseEvent e) {
+                                    massUpdateText.setReadOnly(false);
+                                    if (massUpdateText.getData() != null) {
+                                        FormulaDTO object = (FormulaDTO) massUpdateText.getData();
+                                        massUpdateText.setValue(object.getFormulaName());
+                                    }
+                                    massUpdateText.setReadOnly(true);
+                                }
+                            });
+                            UI.getCurrent().addWindow(formulaLookUp);
+                        }
+                    };
+                    massUpdateText.addClickListener(clickLister);
+                    massUpdateText.setReadOnly(true);
+                    break;
+                case Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.addStyleName(SEARCHICON);
+                    if (clickLister != null) {
+                        massUpdateText.removeClickListener(clickLister);
+                    }
+                    clickLister = new CustomTextField.ClickListener() {
+                        public void click(CustomTextField.ClickEvent event) {
+                            NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME);
+                            formulaLookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(Window.CloseEvent e) {
+                                    massUpdateText.setReadOnly(false);
+                                    if (massUpdateText.getData() != null) {
+                                        FormulaDTO object = (FormulaDTO) massUpdateText.getData();
+                                        massUpdateText.setValue(object.getFormulaName());
+                                    }
+                                    massUpdateText.setReadOnly(true);
+                                }
+                            });
+                            UI.getCurrent().addWindow(formulaLookUp);
+                        }
+                    };
+                    massUpdateText.addClickListener(clickLister);
+                    massUpdateText.setReadOnly(true);
+                    break;
+                case Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.addStyleName(SEARCHICON);
+                    if (clickLister != null) {
+                        massUpdateText.removeClickListener(clickLister);
+                    }
+                    clickLister = new CustomTextField.ClickListener() {
+                        public void click(CustomTextField.ClickEvent event) {
+                            NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME);
+                            formulaLookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(Window.CloseEvent e) {
+                                    massUpdateText.setReadOnly(false);
+                                    if (massUpdateText.getData() != null) {
+                                        FormulaDTO object = (FormulaDTO) massUpdateText.getData();
+                                        massUpdateText.setValue(object.getFormulaName());
+                                    }
+                                    massUpdateText.setReadOnly(true);
+                                }
+                            });
+                            UI.getCurrent().addWindow(formulaLookUp);
+                        }
+                    };
+                    massUpdateText.addClickListener(clickLister);
+                    massUpdateText.setReadOnly(true);
+                    break;
+                case Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME:
+                    loadValueddlbTextField();
+                    massUpdateText.addStyleName(SEARCHICON);
+                    if (clickLister != null) {
+                        massUpdateText.removeClickListener(clickLister);
+                    }
+                    clickLister = new CustomTextField.ClickListener() {
+                        public void click(CustomTextField.ClickEvent event) {
+                            NEPLookup formulaLookUp = new NEPLookup(massUpdateText, Constants.NET_PRICE_TYPE_LABLE_NAME);
+                            formulaLookUp.addCloseListener(new Window.CloseListener() {
+                                @Override
+                                public void windowClose(Window.CloseEvent e) {
+                                    massUpdateText.setReadOnly(false);
+                                    if (massUpdateText.getData() != null) {
+                                        FormulaDTO object = (FormulaDTO) massUpdateText.getData();
+                                        massUpdateText.setValue(object.getFormulaName());
+                                    }
+                                    massUpdateText.setReadOnly(true);
+                                }
+                            });
+                            UI.getCurrent().addWindow(formulaLookUp);
+                        }
+                    };
+                    massUpdateText.addClickListener(clickLister);
+                    massUpdateText.setReadOnly(true);
+                    break;
+                default:
+                    break;
+            }
         }
         massStartDate.setValue(null);
         massEndDate.setValue(null);
@@ -571,6 +516,33 @@ public class AddContractSelection extends CustomComponent {
 
         }
 
+    }
+    @UiHandler("massUpdateValue")
+    public void basePriceTypeLogic(Property.ValueChangeEvent event) {
+        String processName = String.valueOf(massUpdateValue.getValue());
+        if (Constants.BASE_PRICE_TYPE_LABLE_NAME.equals(String.valueOf(field.getValue()))) {
+            baseWacDate.setValue(null);
+            baseWacPriceType.setValue(null);
+            baseWacManual.setValue(StringUtils.EMPTY);
+            if (Constants.SELECT_ONE.equals(processName) || Constants.NULL.equals(processName)){
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.MANUAL_LABLE_NAME.equals(processName)) {
+                baseWacManual.setVisible(true);
+                baseWacPriceType.setVisible(false);
+                baseWacDate.setVisible(false);
+            } else if (Constants.DATE_LABLE_NAME.equals(processName)) {
+                baseWacDate.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacPriceType.setVisible(false);
+            } else if (Constants.PRICE_TYPE_LABEL.equals(processName)) {
+                baseWacPriceType.setVisible(true);
+                baseWacManual.setVisible(false);
+                baseWacDate.setVisible(false);
+                loadPriceType(baseWacPriceType, false);
+            }
+        }
     }
 
     @UiHandler("searchBtn")
@@ -791,9 +763,13 @@ public class AddContractSelection extends CustomComponent {
             public Container.Filter generateFilter(Object propertyId, Field<?> originatingField) {
                 if (originatingField instanceof ComboBox) {
                     if (originatingField.getValue() != null) {
-                        HelperDTO dto = (HelperDTO) originatingField.getValue();
+                        Object id=originatingField.getValue();
+                        if(originatingField.getValue() instanceof HelperDTO){
+                            HelperDTO dto = (HelperDTO) originatingField.getValue();
+                            id=dto.getId();
+                        }
 
-                        return new SimpleStringFilter(propertyId, String.valueOf(dto.getId()), false, false);
+                        return new SimpleStringFilter(propertyId, String.valueOf(id), false, false);
                     } else {
                         return null;
                     }
@@ -845,6 +821,76 @@ public class AddContractSelection extends CustomComponent {
                     logic.LazyLoadDdlb(pricetolerencefreqDdlb, "Load PS_FREQ Count", "Load PS_FREQ", true);
                     return pricetolerencefreqDdlb;
                 }
+                if (Constants.PRICE_PROTECTION_STATUS_PROPERTY.equals(propertyId)) {
+                    ComboBox priceProtectionDdlb = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(priceProtectionDdlb, UIUtils.STATUS, true);
+                    return priceProtectionDdlb;
+                }
+                if (Constants.BASE_PRICE_PROPERTY.equals(propertyId)) {
+                    ComboBox basePriceType = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(basePriceType, Constants.BASE_PRICE_TYPE_LISTNAME, true);
+                    return basePriceType;
+                }
+                if (Constants.PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    loadPriceType(comboBox, true);
+                    return comboBox;
+                }
+                if (Constants.MEASUREMENT_PRICE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    loadPriceType(comboBox, true);
+                    return comboBox;
+                }
+                if (Constants.RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    loadPriceType(comboBox, true);
+                    return comboBox;
+                }
+                if (Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    loadPriceType(comboBox, true);
+                    return comboBox;
+                }
+                if (Constants.RESET_ELIGIBLE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBox;
+                }
+                if (Constants.RESET_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.RESET_TYPE_LISTNAME, true);
+                    return comboBox;
+                }
+                if (Constants.RESET_INTERVAL_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, true);
+                    return comboBox;
+                }
+                if (Constants.RESET_FREQUENCY_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, StringConstantsUtil.PRICE_TOLERANCE_FREQUENCY_LABEL, true);
+                    return comboBox;
+                }
+                if (Constants.NET_RESET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBox;
+                }
+                if (Constants.NET_PRICE_TYPE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBox;
+                }
+                if (Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBox;
+                }
+                if (Constants.BASELINE_NET_WAC_PROPERTY.equals(propertyId)) {
+                    ComboBox comboBox = new ComboBox();
+                    CommonUtil.loadComboBoxForGCM(comboBox, Constants.LOCKED_STATUS_LISTNAME, true);
+                    return comboBox;
+                }
                 return null;
             }
         });
@@ -864,7 +910,7 @@ public class AddContractSelection extends CustomComponent {
         return addItemTable;
     }
 
-    @UiHandler(Constants.CONTRACT_HOLDER)
+    @UiHandler(Constants.CONTRACT_HOLDER) 
     public void contractHolder(CustomTextField.ClickEvent event) {
         ComponentLookUp chHolder = new ComponentLookUp("Contract Holder", "Contract Holder Lookup", contractHolder);
         chHolder.addCloseListener(new Window.CloseListener() {
@@ -1234,8 +1280,11 @@ public class AddContractSelection extends CustomComponent {
         Collection itemId = addItemTable.getItemIds();
         List list = new ArrayList();
         Object value = null;
+        Object baseLineValue = null;
         String columnName = StringUtils.EMPTY;
+        String baseLineColumnName = StringUtils.EMPTY;
         String textValue;
+        String baseLineTextValue;
         HelperDTO tempDTO;
         Date tempDdate;
         for (Object object : itemId) {
@@ -1248,12 +1297,12 @@ public class AddContractSelection extends CustomComponent {
                         columnName = StringConstantsUtil.ITEM_STATUS_COLUMN;
                         value = tempDTO.getId();
                         break;
-                    case Constants.START_DATE_HEADER:
+                    case Constants.ITEM_START_DATE:
                         addItemTable.getItem(object).getItemProperty("itemStartDate").setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.START_DATE_COLUMN;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
-                    case Constants.END_DATE_HEADER:
+                    case Constants.ITEM_END_DATE:
                         tempDdate = dto.getItemStartDate();
                         if (tempDdate != null && massEndDate.getValue().before(tempDdate)) {
                             MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.END_DATE_AFTER_START_DATE, ButtonId.OK);
@@ -1282,18 +1331,24 @@ public class AddContractSelection extends CustomComponent {
 
                         }
                         break;
-                    case StringConstantsUtil.CONTRACT_PRICE_LABEL:
-                        textValue = massUpdateText.getValue();
-                        addItemTable.getItem(object).getItemProperty(StringConstantsUtil.CONTRACT_PRICE_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.CONTRACT_PRICE_COLUMN;
-                        value = textValue;
-                        break;
+                        
+                     case Constants.PRICE_TYPE_LABEL:
+                        value = massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.PRICE_TYPE_PROPERTY).setValue(value);
+                        columnName = Constants.PRICE_TYPE_COLUMN_NAME;
+                        break;   
                     case StringConstantsUtil.PRICE_LABEL:
                         textValue = massUpdateText.getValue();
                         addItemTable.getItem(object).getItemProperty(StringConstantsUtil.PRICE_PROPERTY).setValue(textValue);
                         columnName = StringConstantsUtil.PRICE_COLUMN;
                         value = textValue;
                         break;
+                    case Constants.PRICE_PROTECTION_STATUS_LABEL:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_STATUS_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.PRICE_PROTECTION_STATUS_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break;    
                     case Constants.PRICE_PROTECTION_START_DATE_LABEL:
                         addItemTable.getItem(object).getItemProperty(Constants.PRICE_PROTECTION_START_DATE_PROPERTY).setValue(massStartDate.getValue());
                         columnName = StringConstantsUtil.PRICE_PROTECTION_START_DATE_COLUMN;
@@ -1311,6 +1366,77 @@ public class AddContractSelection extends CustomComponent {
                             value = CommonUtils.DBDate.format(massEndDate.getValue());
 
                         }
+                        break;
+                    case Constants.MEASUREMENT_PRICE_LABLE_NAME:
+                        value =  massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.MEASUREMENT_PRICE_PROPERTY).setValue(value);
+                        columnName = Constants.MEASUREMENT_PRICE_COLUMN_NAME;
+                        break;
+                    case Constants.NEP_LABLE_NAME:
+                        textValue = massUpdateText.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.NEP_PROPERTY).setValue(textValue);
+                        columnName = Constants.NEP_COLUMN_NAME;
+                        value = textValue;
+                        break;
+                    case Constants.NEP_FORMULA_LABLE_NAME:
+                        FormulaDTO nepForumulaDto = (FormulaDTO) massUpdateText.getData();
+                        textValue = String.valueOf(nepForumulaDto.getFormulaName());
+                        addItemTable.getItem(object).getItemProperty(Constants.NEP_FORMULA_PROPERTY).setValue(textValue);
+                        columnName = Constants.NEP_FORMULA_COLUMN_NAME;
+                        value = textValue;
+                        break;
+                    case Constants.BASE_PRICE_TYPE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.BASE_PRICE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.BASE_PRICE_TYPE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        if (Constants.MANUAL_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            baseLineTextValue = baseWacManual.getValue();
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_MANUAL_LABLE_NAME).setValue(baseLineTextValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
+                        } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_DATE_LABLE_NAME).setValue(baseWacDate.getValue());
+                            baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
+                            baseLineValue = CommonUtils.DBDate.format(baseWacDate.getValue());
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        } else if (Constants.PRICE_TYPE_LABEL.equals(tempDTO.getDescription())) {
+                            baseLineValue = baseWacPriceType.getValue();
+                            addItemTable.getItem(object).getItemProperty(Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME).setValue(baseLineValue);
+                            baseLineColumnName = Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME;
+                            logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                        }
+                        break;
+                    case Constants.BASELINE_NET_WAC_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.BASELINE_NET_WAC_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.BASELINE_NET_WAC_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break;
+                    case Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME:
+                        FormulaDTO netBaselineWACFormulaDto = (FormulaDTO) massUpdateText.getData();
+                        textValue = String.valueOf(netBaselineWACFormulaDto.getFormulaName());
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY).setValue(textValue);
+                        columnName = Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME;
+                        value = textValue;
+                        break;
+                    case Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME:
+                        value = massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY).setValue(value);
+                        columnName = Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME;
+                        break;
+                    case Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break;
+                    case Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME:
+                        FormulaDTO netSubsequentPeriodPriceFormulaDto = (FormulaDTO) massUpdateText.getData();
+                        textValue = String.valueOf(netSubsequentPeriodPriceFormulaDto.getFormulaName());
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY).setValue(textValue);
+                        columnName = Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME;
+                        value = textValue;
                         break;
                     case Constants.PRICE_TOLERANCE_TYPE_LABEL:
                         tempDTO = (HelperDTO) massUpdateValue.getValue();
@@ -1336,55 +1462,70 @@ public class AddContractSelection extends CustomComponent {
                         columnName = StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL;
                         value = tempDTO.getId();
                         break;
-                    case StringConstantsUtil.BASE_PRICE_LABEL:
+                    case Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME:
                         textValue = massUpdateText.getValue();
-                        addItemTable.getItem(object).getItemProperty(StringConstantsUtil.BASE_PRICE_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.BASE_PRICE_COLUMN;
+                        addItemTable.getItem(object).getItemProperty(Constants.MAX_INCREMENTAL_CHANGE_PROPERTY).setValue(textValue);
+                        columnName = Constants.MAX_INCREMENTAL_CHANGE_COLUMN_NAME;
                         value = textValue;
                         break;
-                    case StringConstantsUtil.RS_START_DATE_LABEL_CAPS:
-                        addItemTable.getItem(object).getItemProperty(StringConstantsUtil.RS_START_DATE_LABEL).setValue(massStartDate.getValue());
-                        columnName = StringConstantsUtil.ITEM_REBATE_START_DATE_LABEL;
+                       case Constants.RESET_ELIGIBLE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_ELIGIBLE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.RESET_ELIGIBLE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break; 
+                       case Constants.RESET_TYPE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_TYPE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.RESET_TYPE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break; 
+                    case Constants.RESET_DATE_LABLE_NAME:
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_DATE_PROPERTY).setValue(massStartDate.getValue());
+                        columnName = Constants.RESET_DATE_COLUMN_NAME;
                         value = CommonUtils.DBDate.format(massStartDate.getValue());
                         break;
-                    case StringConstantsUtil.RS_END_DATE_LABEL:
-                        tempDdate = dto.getRSStartDate();
-                        if (tempDdate != null && massEndDate.getValue().before(tempDdate)) {
-                            MessageBox.showPlain(Icon.INFO, Constants.ERROR, StringConstantsUtil.END_DATE_AFTER_START_DATE, ButtonId.OK);
-                            break;
-                        } else {
-                            addItemTable.getItem(object).getItemProperty(StringConstantsUtil.RS_END_DATE_COLUMN).setValue(massEndDate.getValue());
-                            columnName = StringConstantsUtil.ITEM_REBATE_END_DATE_LABEL;
-                            value = CommonUtils.DBDate.format(massEndDate.getValue());
-
-                        }
+                    case Constants.RESET_INTERVAL_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_INTERVAL_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.RESET_INTERVAL_COLUMN_NAME;
+                        value = tempDTO.getId();
                         break;
-                    case Constants.FORMULA_ID_LABEL:
-
-                        FormulaDTO formulaDto = (FormulaDTO) massUpdateText.getData();
-                        textValue = String.valueOf(formulaDto.getFormulaNo());
-                        addItemTable.getItem(object).getItemProperty(Constants.FORMULA_ID_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.FORMULA_ID_LABEL;
-                        value = formulaDto.getFormulaSid();
+                    case Constants.RESET_FREQUENCY_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_FREQUENCY_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.RESET_FREQUENCY_COLUMN_NAME;
+                        value = tempDTO.getId();
                         break;
-                    case Constants.REBATE_PLAN_LABEL:
-                        massUpdateText.addStyleName(SEARCHICON);
-                        ComponentLookUpDTO rebateDto = (ComponentLookUpDTO) massUpdateText.getData();
-                        textValue = rebateDto.getComponentNo();
-                        addItemTable.getItem(object).getItemProperty(Constants.REBATE_PLAN_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.REBATE_PLAN_SYSTEM_ID_LABEL;
-                        value = rebateDto.getComponentSid();
+                    case Constants.RESET_PRICE_TYPE_LABLE_NAME:
+                        value = massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.RESET_PRICE_TYPE_PROPERTY).setValue(value);
+                        columnName = Constants.RESET_PRICE_TYPE_COLUMN_NAME;
                         break;
-                    case StringConstantsUtil.FORMULA_METHOD_ID_LABEL:
-                        textValue = massUpdateText.getValue();
-                        addItemTable.getItem(object).getItemProperty(StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.FORMULA_METHOD_ID_COLUMN;
+                    case Constants.NET_RESET_PRICE_TYPE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_RESET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break;
+                    case Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME:
+                        FormulaDTO netResetPriceFormulaDto = (FormulaDTO) massUpdateText.getData();
+                        textValue = netResetPriceFormulaDto.getFormulaName();
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_RESET_PRICE_FORMULA_PROPERTY).setValue(textValue);
+                        columnName = Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME;
                         value = textValue;
                         break;
-                    case Constants.REBATE_AMOUNT_LABEL:
-                        textValue = massUpdateText.getValue();
-                        addItemTable.getItem(object).getItemProperty(Constants.REBATE_AMOUNT_PROPERTY).setValue(textValue);
-                        columnName = StringConstantsUtil.REBATE_AMOUNT_COLUMN;
+                    case Constants.NET_PRICE_TYPE_LABLE_NAME:
+                        tempDTO = (HelperDTO) massUpdateValue.getValue();
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_PROPERTY).setValue(tempDTO);
+                        columnName = Constants.NET_PRICE_TYPE_COLUMN_NAME;
+                        value = tempDTO.getId();
+                        break;
+                    case Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME:
+                        FormulaDTO netPriceTypeFormulaDto = (FormulaDTO) massUpdateText.getData();
+                        textValue = String.valueOf(netPriceTypeFormulaDto.getFormulaName());
+                        addItemTable.getItem(object).getItemProperty(Constants.NET_PRICE_TYPE_FORMULA_PROPERTY).setValue(textValue);
+                        columnName = Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME;
                         value = textValue;
                         break;
                 }
@@ -1396,6 +1537,7 @@ public class AddContractSelection extends CustomComponent {
 
         list.addAll(getResultsInput(selection));
         logic.massUpdateItemDetails(list);
+        addItemTable.getContainerLogic().setCurrentPage(1);
     }
 
     private void resetMassUpdate() {
@@ -1427,6 +1569,39 @@ public class AddContractSelection extends CustomComponent {
         CommonUtil.getComboBoxByListName(massUpdateValue, StringConstantsUtil.PRICE_TOLERANCE_INTERVAL_LABEL, false);
     }
 
+    public void loadResetTypeListName() {
+        CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.RESET_TYPE_LISTNAME, false);
+    }
+
+    public void loadLockedStatusListName() {
+        CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.LOCKED_STATUS_LISTNAME, false);
+    }
+
+    public void loadBasePriceTypeListName() {
+        CommonUtil.loadComboBoxForGCM(massUpdateValue, Constants.BASE_PRICE_TYPE_LISTNAME, false);
+    }
+    
+
+    public static void loadPriceType(ComboBox priceType, boolean isFilter) {
+        String query = "SELECT ITEM_PRICING_QUALIFIER_SID,ITEM_PRICING_QUALIFIER_NAME FROM ITEM_PRICING_QUALIFIER WHERE ITEM_PRICING_QUALIFIER_NAME IS NOT NULL AND ITEM_PRICING_QUALIFIER_NAME <> '' ";
+        List<Object[]> list = HelperTableLocalServiceUtil.executeSelectQuery(query);
+        priceType.removeAllItems();
+        priceType.setContainerDataSource(null);//removing container
+        priceType.setItemCaptionPropertyId(null);
+        priceType.addItem(0);
+        priceType.setItemCaption(0, isFilter ? GlobalConstants.getShowAll() : GlobalConstants.getSelectOne());
+        if (isFilter) {
+            priceType.setNullSelectionAllowed(true);
+            priceType.setNullSelectionItemId(0);
+        } else {
+            priceType.setNullSelectionAllowed(false);
+        }
+        for (Object[] objects : list) {
+            priceType.addItem((int) objects[0]);
+            priceType.setItemCaption((int) objects[0], objects[1].toString());
+        }
+    }
+
     public static List getResultsInput(SelectionDTO selection) {
         List input = new ArrayList();
         input.add(selection.getSessionId());
@@ -1454,7 +1629,28 @@ public class AddContractSelection extends CustomComponent {
         comboToTableMap.put(Constants.FORMULA_ID_LABEL, Constants.FORMULA_ID_PROPERTY);
         comboToTableMap.put(Constants.REBATE_PLAN_LABEL, Constants.REBATE_PLAN_PROPERTY);
         comboToTableMap.put(StringConstantsUtil.FORMULA_METHOD_ID_LABEL, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY);
-        comboToTableMap.put(Constants.REBATE_AMOUNT_LABEL, Constants.REBATE_AMOUNT_PROPERTY);
+        comboToTableMap.put(Constants.NEP_COLUMN_NAME, Constants.NEP_PROPERTY);
+        comboToTableMap.put(Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_STATUS_PROPERTY);
+        comboToTableMap.put(Constants.NEP_FORMULA_LABLE_NAME, Constants.NEP_FORMULA_PROPERTY);
+        comboToTableMap.put(Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME, Constants.MAX_INCREMENTAL_CHANGE_PROPERTY);
+        comboToTableMap.put(Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_ELIGIBLE_PROPERTY);
+        comboToTableMap.put(Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.RESET_DATE_LABLE_NAME, Constants.RESET_DATE_PROPERTY);
+        comboToTableMap.put(Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_INTERVAL_PROPERTY);
+        comboToTableMap.put(Constants.RESET_FREQUENCY_LABLE_NAME, Constants.RESET_FREQUENCY_PROPERTY);
+        comboToTableMap.put(Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY);
+        comboToTableMap.put(Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.RESET_PRICE_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_PROPERTY);
+        comboToTableMap.put(Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASE_PRICE_PROPERTY);
+        comboToTableMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY);
+        comboToTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME, "netSubsequentPriceFormulaId");
+        comboToTableMap.put(Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, "netBaselineWacFormulaId");
+        comboToTableMap.put(Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.BASELINE_NET_WAC_PROPERTY);
+        comboToTableMap.put(Constants.PRICE_TYPE_LABEL, Constants.PRICE_TYPE_PROPERTY);
+        comboToTableMap.put(Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.MEASUREMENT_PRICE_PROPERTY);
     }
 
     private void LoadTempToTableMap() {
@@ -1478,6 +1674,31 @@ public class AddContractSelection extends CustomComponent {
         tempTableMap.put(Constants.REBATE_PLAN_LABEL, StringConstantsUtil.REBATE_PLAN_SYSTEM_ID_LABEL);
         tempTableMap.put(StringConstantsUtil.FORMULA_METHOD_ID_LABEL, StringConstantsUtil.FORMULA_METHOD_ID_COLUMN);
         tempTableMap.put(Constants.REBATE_AMOUNT_LABEL, StringConstantsUtil.REBATE_AMOUNT_COLUMN);
+        tempTableMap.put(Constants.NEP_LABLE_NAME, Constants.NEP_COLUMN_NAME);
+        tempTableMap.put(Constants.PRICE_PROTECTION_STATUS_LABEL, Constants.PRICE_PROTECTION_STATUS_COLUMN_NAME);
+        tempTableMap.put(Constants.NEP_FORMULA_LABLE_NAME, Constants.NEP_FORMULA_COLUMN_NAME);
+        tempTableMap.put(Constants.MAX_INCREMENTAL_CHANGE_LABLE_NAME, Constants.MAX_INCREMENTAL_CHANGE_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_ELIGIBLE_LABLE_NAME, Constants.RESET_ELIGIBLE_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_TYPE_LABLE_NAME, Constants.RESET_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_DATE_LABLE_NAME, Constants.RESET_DATE_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_INTERVAL_LABLE_NAME, Constants.RESET_INTERVAL_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_FREQUENCY_LABLE_NAME, Constants.RESET_FREQUENCY_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_PRICE_TYPE_LABLE_NAME, Constants.NET_PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_PRICE_TYPE_FORMULA_LABLE_NAME, Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME);
+        tempTableMap.put(Constants.RESET_PRICE_TYPE_LABLE_NAME, Constants.RESET_PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_RESET_PRICE_TYPE_LABLE_NAME, Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_RESET_PRICE_FORMULA_LABLE_NAME, Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME);
+        tempTableMap.put(Constants.BASE_PRICE_TYPE_LABLE_NAME, Constants.BASE_PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME, Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME);
+        tempTableMap.put(Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME, Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_NET_WAC_LABLE_NAME, Constants.BASELINE_NET_WAC_COLUMN_NAME);
+        tempTableMap.put(Constants.PRICE_TYPE_LABEL, Constants.PRICE_TYPE_COLUMN_NAME);
+        tempTableMap.put(Constants.MEASUREMENT_PRICE_LABLE_NAME, Constants.MEASUREMENT_PRICE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_MANUAL_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_DATE_COLUMN_NAME);
+        tempTableMap.put(Constants.BASELINE_WAC_LABLE_NAME, Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME);
     }
 
     private void loadFieldAndPropertyMap() {
@@ -1501,8 +1722,33 @@ public class AddContractSelection extends CustomComponent {
         fieldAndPropertyMap.put(StringConstantsUtil.REBATE_PLAN_SYSTEM_ID_LABEL, Constants.REBATE_PLAN_PROPERTY);
         fieldAndPropertyMap.put(StringConstantsUtil.FORMULA_METHOD_ID_COLUMN, StringConstantsUtil.FORMULA_METHOD_ID_PROPERTY);
         fieldAndPropertyMap.put(StringConstantsUtil.REBATE_AMOUNT_COLUMN, Constants.REBATE_AMOUNT_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NEP_COLUMN_NAME, Constants.NEP_PROPERTY);
+        fieldAndPropertyMap.put(Constants.PRICE_PROTECTION_STATUS_COLUMN_NAME, Constants.PRICE_PROTECTION_STATUS_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NEP_FORMULA_COLUMN_NAME, Constants.NEP_FORMULA_PROPERTY);
+        fieldAndPropertyMap.put(Constants.MAX_INCREMENTAL_CHANGE_COLUMN_NAME, Constants.MAX_INCREMENTAL_CHANGE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_ELIGIBLE_COLUMN_NAME, Constants.RESET_ELIGIBLE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_TYPE_COLUMN_NAME, Constants.RESET_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_DATE_COLUMN_NAME, Constants.RESET_DATE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_INTERVAL_COLUMN_NAME, Constants.RESET_INTERVAL_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_FREQUENCY_COLUMN_NAME, Constants.RESET_FREQUENCY_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_PRICE_TYPE_COLUMN_NAME, Constants.NET_PRICE_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_PRICE_TYPE_FORMULA_COLUMN_NAME, Constants.NET_PRICE_TYPE_FORMULA_PROPERTY);
+        fieldAndPropertyMap.put(Constants.RESET_PRICE_TYPE_COLUMN_NAME, Constants.RESET_PRICE_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_RESET_PRICE_TYPE_COLUMN_NAME, Constants.NET_RESET_PRICE_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_RESET_PRICE_FORMULA_COLUMN_NAME, Constants.NET_RESET_PRICE_FORMULA_PROPERTY);
+        fieldAndPropertyMap.put(Constants.BASE_PRICE_TYPE_COLUMN_NAME, Constants.BASE_PRICE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME, Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME, Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME, "netSubsequentPriceFormulaId");
+        fieldAndPropertyMap.put(Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME, Constants.NET_BASELINE_WAC_FORMULA_PROPERTY);
+        fieldAndPropertyMap.put(Constants.BASELINE_NET_WAC_COLUMN_NAME, Constants.BASELINE_NET_WAC_PROPERTY);
+        fieldAndPropertyMap.put(Constants.PRICE_TYPE_COLUMN_NAME, Constants.PRICE_TYPE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.MEASUREMENT_PRICE_COLUMN_NAME, Constants.MEASUREMENT_PRICE_PROPERTY);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_MANUAL_COLUMN_NAME, Constants.BASELINE_WAC_MANUAL_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_DATE_COLUMN_NAME, Constants.BASELINE_WAC_DATE_LABLE_NAME);
+        fieldAndPropertyMap.put(Constants.BASELINE_WAC_PRICE_TYPE_COLUMN_NAME, Constants.BASELINE_WAC_PRICE_TYPE_LABLE_NAME);
     }
-
+    
     public void LoadField() {
         field.addItems(Arrays.asList(ConstantsUtil.MassUpdateConstants.values()));
     }
@@ -1531,4 +1777,85 @@ public class AddContractSelection extends CustomComponent {
             LOGGER.error(ex);
         }
     }
-}
+    public void loadValueddlbField() {
+        massUpdateValue.setVisible(true);
+        massStartDate.setVisible(false);
+        massEndDate.setVisible(false);
+        populateBtn.setVisible(true);
+        valuelabel.setVisible(true);
+        startdatelabel.setVisible(false);
+        enddatelabel.setVisible(false);
+        massUpdateText.setVisible(false);
+        visibilityOptions();
+    }
+
+    public void loadValueddlbTextField() {
+        massUpdateValue.setVisible(false);
+        massStartDate.setVisible(false);
+        massEndDate.setVisible(false);
+        startdatelabel.setVisible(false);
+        enddatelabel.setVisible(false);
+        massUpdateText.setVisible(true);
+        populateBtn.setVisible(true);
+        valuelabel.setVisible(true);
+        visibilityOptions();
+    }
+
+    public void loadValueddlbDateField(String processName) {
+        massUpdateValue.setVisible(false);
+        populateBtn.setVisible(true);
+        valuelabel.setVisible(false);
+        massUpdateText.setVisible(false);
+        visibilityOptions();
+
+        switch (processName) {
+            case Constants.ITEM_START_DATE:
+                startDateVisibility();
+                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_START_DATE.getConstant());
+                break;
+            case Constants.ITEM_END_DATE:
+                endDateVisibility();
+                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.ITEM_END_DATE.getConstant());
+                break;
+            case StringConstantsUtil.CP_START_DATE_LABEL:
+                startDateVisibility();
+                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_START_DATE.getConstant());
+                break;
+            case StringConstantsUtil.CP_END_DATE_LABEL:
+                endDateVisibility();
+                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.CP_END_DATE.getConstant());
+                break;
+            case Constants.PRICE_PROTECTION_START_DATE_LABEL:
+                startDateVisibility();
+                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_START_DATE.getConstant());
+                break;
+            case Constants.PRICE_PROTECTION_END_DATE_LABEL:
+                endDateVisibility();
+                enddatelabel.setValue(ConstantsUtil.MassUpdateConstants.PRICE_PRODECTION_END_DATE.getConstant());
+                break;
+            case Constants.RESET_DATE_LABLE_NAME:
+                startDateVisibility();
+                startdatelabel.setValue(ConstantsUtil.MassUpdateConstants.RESET_DATE.getConstant());
+                break;
+        }
+    }
+
+    public void endDateVisibility() {
+        massStartDate.setVisible(false);
+        massEndDate.setVisible(true);
+        startdatelabel.setVisible(false);
+        enddatelabel.setVisible(true);
+    }
+
+    public void startDateVisibility() {
+        massStartDate.setVisible(true);
+        massEndDate.setVisible(false);
+        startdatelabel.setVisible(true);
+        enddatelabel.setVisible(false);
+    }
+    public void visibilityOptions() {
+        baseWacPriceType.setVisible(false);
+        baseWacManual.setVisible(false);
+        baseWacDate.setVisible(false);
+    }
+    }

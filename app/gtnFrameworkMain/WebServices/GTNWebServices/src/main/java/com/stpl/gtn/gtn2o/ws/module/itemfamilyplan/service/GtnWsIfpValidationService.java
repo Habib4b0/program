@@ -85,6 +85,10 @@ public class GtnWsIfpValidationService {
 				case "CHECKED_RECORD_COUNT":
 					ifpValidationBean.setCheckedCount(Integer.valueOf(value));
 					break;
+				case "START_DATE_EQUALS_END_DATE":
+					ifpValidationBean.setStartDateEqualCount(getInt(value));
+					ifpValidationBean.setStartDateEqualItemId(getString(value));
+					break;
 				default:
 					break;
 				}

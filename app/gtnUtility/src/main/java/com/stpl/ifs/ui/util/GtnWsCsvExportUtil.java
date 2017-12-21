@@ -32,7 +32,7 @@ public class GtnWsCsvExportUtil {
 	public static final String EXCEL_MIME_TYPE = "application/vnd.ms-excel";
 
 	public static String getExportFileName(String exportName, String countQuery, String dataQuery,
-			List<String> headerList, String userId, String sessionId) {
+			List<String> headerList, String userId, String sessionId,int excludedColumnCount) {
 		GtnUIFrameworkWebServiceClient wsClient = new GtnUIFrameworkWebServiceClient();
 		GtnUIFrameworkWebserviceRequest wsRequest = new GtnUIFrameworkWebserviceRequest();
 		GtnWsCsvExportRequest csvWsRequest = new GtnWsCsvExportRequest();
@@ -43,7 +43,7 @@ public class GtnWsCsvExportUtil {
 		csvExportBean.setCountQuery(countQuery);
 		csvExportBean.setDataQuery(dataQuery);
 		csvExportBean.setHeaderList(headerList);
-
+		csvExportBean.setExcludedColumnCount(excludedColumnCount);
 		GtnUIFrameworkWebserviceResponse wsResponse = wsClient.callGtnWebServiceUrl(
 				GtnWebServiceUrlConstants.GTN_CSV_EXPORT_FILE_SERVICE, wsRequest,
 				getGtnWsSecurityToken(userId, sessionId));

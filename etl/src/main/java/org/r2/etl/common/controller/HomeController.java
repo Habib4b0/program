@@ -464,7 +464,7 @@ public class HomeController {
     /**
      * private variable for LOT ADROIT_CPI_INDEX_INTERFACE.
      */
-    private static final String CONSUMER_PRICE_INDEX_INTERFACE = "CustomerPriceIndexInterface";
+    private static final String CONSUMER_PRICE_INDEX_INTERFACE = "ConsumerPriceIndexInterface";
     
     
      /**

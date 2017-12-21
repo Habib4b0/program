@@ -23,6 +23,8 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 
 /**
  *
@@ -162,6 +164,7 @@ public class GtnFrameworkSqlQueryEngine {
 		return queyValuelist;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Query generateSQLQuery(Session session, String sqlQuery, Object[] params, GtnFrameworkDataType[] type) {
 		Query query = session.createSQLQuery(sqlQuery);
 		for (int i = 0; i < params.length; i++) {
@@ -185,9 +188,14 @@ public class GtnFrameworkSqlQueryEngine {
 			case NULL_ALLOWED:
 				query.setParameter(i, params[i]);
 				break;
+
 			case IN_LIST:
 				query.setParameterList("inParameter", (List<Object>) params[i]);
 				break;
+			case BIG_DECIMAL:
+				query.setBigDecimal(i, (BigDecimal) params[i]);
+				break;
+
 			default:
 				query.setParameter(i, params[i]);
 			}

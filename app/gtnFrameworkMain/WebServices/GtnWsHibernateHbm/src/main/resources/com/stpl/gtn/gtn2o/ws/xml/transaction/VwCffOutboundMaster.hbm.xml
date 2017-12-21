@@ -32,7 +32,7 @@
 		<property name="projectionName" type="string">
 			<column name="PROJECTION_NAME" length="50" />
 		</property>
-		<property name="year" type="java.lang.Integer">
+		<property name="year" type="string">
 			<column name="YEAR" />
 		</property>
 		<property name="month" type="java.lang.Integer">
@@ -89,11 +89,11 @@
 		<property name="itemName" type="string">
 			<column name="ITEM_NAME" length="50" />
 		</property>
-		<property name="salesDollars" type="java.lang.Double">
-			<column name="SALES_DOLLARS" precision="22" scale="6" />
+		<property name="salesDollars" type="string">
+			<column name="SALES_DOLLARS" length="50" />
 		</property>
-		<property name="salesUnits" type="java.lang.Double">
-			<column name="SALES_UNITS" precision="22" scale="6" />
+		<property name="salesUnits" type="string">
+			<column name="SALES_UNITS" length="50" />
 		</property>
 		<property name="salesInclusion" type="string">
 			<column name="SALES_INCLUSION" length="50" />
@@ -137,29 +137,29 @@
 		<property name="deductionCategory6" type="string">
 			<column name="DEDUCTION_CATEGORY6" />
 		</property>
-		<property name="deductionDollars" type="java.lang.Double">
-			<column name="DEDUCTION_DOLLARS" precision="22" scale="6" />
+		<property name="deductionDollars" type="string">
+			<column name="DEDUCTION_DOLLARS" length="50" />
 		</property>
-		<property name="deductionRate" type="java.lang.Double">
-			<column name="DEDUCTION_RATE" precision="22" scale="6" />
+		<property name="deductionRate" type="string">
+			<column name="DEDUCTION_RATE" length="50" />
 		</property>
-		<property name="deductionPerUnit" type="java.lang.Double">
-			<column name="DEDUCTION_PER_UNIT" precision="22" scale="6" />
+		<property name="deductionPerUnit" type="string">
+			<column name="DEDUCTION_PER_UNIT" length="50" />
 		</property>
-		<property name="netSalesDollar" type="java.lang.Double">
-			<column name="NET_SALES_DOLLAR" precision="22" scale="6" />
+		<property name="netSalesDollar" type="string">
+			<column name="NET_SALES_DOLLAR" length="50" />
 		</property>
-		<property name="cogsAmount" type="java.lang.Double">
-			<column name="COGS_AMOUNT" precision="22" scale="6" />
+		<property name="cogsAmount" type="string">
+			<column name="COGS_AMOUNT" length="50" />
 		</property>
-		<property name="cogsPerUnit" type="java.lang.Double">
-			<column name="COGS_PER_UNIT" precision="22" scale="6" />
+		<property name="cogsPerUnit" type="string">
+			<column name="COGS_PER_UNIT" length="50" />
 		</property>
-		<property name="netProfitDollars" type="java.lang.Double">
-			<column name="NET_PROFIT_DOLLARS" precision="22" scale="6" />
+		<property name="netProfitDollars" type="string">
+			<column name="NET_PROFIT_DOLLARS" length="50" />
 		</property>
-		<property name="netProfitPerUnit" type="java.lang.Double">
-			<column name="NET_PROFIT_PER_UNIT" precision="22" scale="6" />
+		<property name="netProfitPerUnit" type="string">
+			<column name="NET_PROFIT_PER_UNIT" length="50" />
 		</property>
 		<property name="companyId" type="string">
 			<column name="COMPANY_ID" length="50" />

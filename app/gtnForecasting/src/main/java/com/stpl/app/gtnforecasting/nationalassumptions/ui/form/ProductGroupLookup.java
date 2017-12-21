@@ -5,7 +5,6 @@
 package com.stpl.app.gtnforecasting.nationalassumptions.ui.form;
 
 import com.stpl.app.gtnforecasting.nationalassumptions.dto.ProductGroupLookUpDTO;
-import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.logic.ProductGroupTableLogic;
 import com.stpl.app.gtnforecasting.nationalassumptions.util.CommonUiUtils;
 import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.LabelConstants.NATIONAL_ASSUMPTIONS;
@@ -52,66 +51,62 @@ public class ProductGroupLookup extends Window {
      * The product group name.
      */
     @UiField("productGroupName")
-    TextField productGroupName;
+    private TextField productGroupName;
 
     /**
      * The product group.
      */
     @UiField("productGroup")
-    TextField productGroup;
+    private TextField productGroup;
 
     /**
      * The result table.
      */
     @UiField("resultsTableLayout")
     private VerticalLayout resultsTableLayout;
-    ProductGroupTableLogic tableLogic = new ProductGroupTableLogic();
-    ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
+    
+    private final ProductGroupTableLogic tableLogic = new ProductGroupTableLogic();
+    private final ExtPagedTable resultTable = new ExtPagedTable(tableLogic);
     /**
      * The table bean.
      */
-    BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
+    private final BeanItemContainer<ProductGroupLookUpDTO> tableBean = new BeanItemContainer<>(ProductGroupLookUpDTO.class);
 
     /**
      * The select.
      */
     @UiField("select")
-    Button select;
+    private Button select;
 
     /**
      * The cancel.
      */
     @UiField("cancel")
-    Button cancel;
+    private Button cancel;
 
     /**
      * The reset table.
      */
     @UiField("resetTable")
-    Button resetTable;
+    private Button resetTable;
 
     /**
      * The search.
      */
     @UiField("search")
-    Button search;
+    private Button search;
 
     /**
      * The reset.
      */
     @UiField("reset")
-    Button reset;
+    private Button reset;
 
-    /**
-     * The logic.
-     */
-    ProductGroupLogic productLogic = new ProductGroupLogic();
-    boolean isCancel = false;
-    SessionDTO sessionDTO;
+    private boolean isCancel = false;
+    private final SessionDTO sessionDTO;
     private final CommonUiUtils commonUiUtils = new CommonUiUtils();
-    /**
-     * Instantiates a new product group lookup.
-     */
+    
+    
     public ProductGroupLookup(SessionDTO sessionDTO) {
         super("Product Group Lookup");
         this.sessionDTO=sessionDTO;
@@ -150,7 +145,7 @@ public class ProductGroupLookup extends Window {
         resultsTableLayout.addComponent(resultTable);
         resultsTableLayout.addComponent(tableLogic.createControls());
         tableLogic.setContainerDataSource(tableBean);
-        resultTable.setVisibleColumns(commonUiUtils.productGroupColumn);
+        resultTable.setVisibleColumns(CommonUiUtils.productGroupColumn);
         resultTable.setColumnHeaders(commonUiUtils.productGroupHeader);
         resultTable.setSelectable(true);
         resultTable.setSortEnabled(true);
@@ -185,7 +180,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        return;
+                        //Default method
                     }
 
                     @Override
@@ -203,7 +198,7 @@ public class ProductGroupLookup extends Window {
                 new AbstractNotificationUtils() {
                     @Override
                     public void noMethod() {
-                        return;
+                        //Default method
                     }
 
                     @Override

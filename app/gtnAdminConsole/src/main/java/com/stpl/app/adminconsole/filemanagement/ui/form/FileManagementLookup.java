@@ -1742,7 +1742,6 @@ public class FileManagementLookup extends Window {
 	@UiHandler("excelExportDetail")
 	public void excelExportDetailLogic(Button.ClickEvent event) {
 		try {
-
 			if (null != detailsResultDTO.getHelperType().getDescription()) {
 				String countQuery;
 				String dataQuery;
@@ -1787,7 +1786,7 @@ public class FileManagementLookup extends Window {
 				SessionDTO sessionDto = getSessionDto();
 				String fileAbsolutePath = GtnWsCsvExportUtil.getExportFileName(
 						detailsResultDTO.getHelperType().getDescription(), countQuery, dataQuery,
-						Arrays.asList(configureExcelDetailsTable()), sessionDto.getUserId(), sessionDto.getSessionId());
+						Arrays.asList(configureExcelDetailsTable()), sessionDto.getUserId(), sessionDto.getSessionId(),1);
 				GtnWsCsvExportUtil.sendTheExcelToUser(detailsResultDTO.getHelperType().getDescription(),
 						fileAbsolutePath, true, sessionDto.getUserId(), sessionDto.getSessionId());
 			}

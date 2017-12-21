@@ -159,7 +159,7 @@ public class NonFampResults extends Window {
     /**
      * The table control Layout.
      */
-    public HorizontalLayout controlLayout;
+    private HorizontalLayout controlLayout;
     /**
      * The max split position.
      */
@@ -179,26 +179,28 @@ public class NonFampResults extends Window {
      * The TableVerticalLayout.
      */
     @UiField("nfTableVerticalLayout")
-    public VerticalLayout tableVerticalLayout;
-    NonFampTableLogic tableLogic = new NonFampTableLogic();
-    FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
-    CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
-    ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    FcpResultsLogic fcpLogic = new FcpResultsLogic();
-    private HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
-    LazyContainer brandContainer;
-    LazyContainer therapeuticContainer;
-    ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
-    ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private VerticalLayout tableVerticalLayout;
+    
+    private NonFampTableLogic tableLogic = new NonFampTableLogic();
+    private FreezePagedTreeTable periodTableId = new FreezePagedTreeTable(tableLogic);
+    private CustomTableHeaderDTO leftHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO fullHeader = new CustomTableHeaderDTO();
+    private ExtTreeContainer<TableDTO> resultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final FcpResultsLogic fcpLogic = new FcpResultsLogic();
+    private final HelperDTO dto = new HelperDTO(0, SELECT_ONE.getConstant());
+    private LazyContainer brandContainer;
+    private LazyContainer therapeuticContainer;
+    private ExtCustomTreeTable exceltable = new ExtCustomTreeTable();
+    private ExtTreeContainer<TableDTO> excelResultBeanContainer = new ExtTreeContainer<>(TableDTO.class,ExtContainer.DataStructureMode.MAP);
+    
     @UiField("nfNdcFilterDdlb")
     private ComboBox ndcFilterDdlb;
-    LazyContainer ndcFilterContainer;
+    private LazyContainer ndcFilterContainer;
     private final HelperDTO ndcFilterDTO = new HelperDTO(0, SELECT_ONE.getConstant());
     private HelperDTO brandWorksheetDto = new HelperDTO(0, SELECT_ONE.getConstant());
-   SessionDTO sessionDTO;
+    private final SessionDTO sessionDTO;
     /**
      * Instantiates a new non famp results.
      */
@@ -359,10 +361,8 @@ public class NonFampResults extends Window {
             } else {
                 closeBtn.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
         ndcFilterDdlb.setWidth("176px");
         tabOrder();
@@ -376,6 +376,7 @@ public class NonFampResults extends Window {
     @UiHandler("nfResetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -509,6 +510,7 @@ public class NonFampResults extends Window {
                 ndcLink.addClickListener(new Button.ClickListener() {
                     private static final long serialVersionUID = 1L;
 
+                    @Override
                     public void buttonClick(final Button.ClickEvent event) {
                         ProjectionSelectionDTO worksheetProjDto = projectionDTO;
                         HelperDTO ndcDto = new HelperDTO();

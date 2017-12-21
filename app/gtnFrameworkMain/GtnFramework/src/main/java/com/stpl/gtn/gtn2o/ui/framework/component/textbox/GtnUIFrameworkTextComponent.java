@@ -74,7 +74,7 @@ public class GtnUIFrameworkTextComponent implements GtnUIFrameworkComponent {
 			textField.setValidationVisible(
 					componentConfig.getGtnUIFrameworkValidationConfig().isFieldValidationVisible());
 		}
-
+		setDefaultFocus(textField, componentConfig);
 		return textField;
 
 	}
@@ -185,6 +185,12 @@ public class GtnUIFrameworkTextComponent implements GtnUIFrameworkComponent {
 		}
 		if (textboxConfig.getBlurActionConfigList() != null) {
 			textField.addBlurListener(GtnUIFrameworkBlurListner.getListener());
+		}
+	}
+	
+	private void setDefaultFocus(AbstractTextField textField, GtnUIFrameworkComponentConfig componentConfig) {
+		if(componentConfig.isDefaultFocus()) {
+			textField.focus();
 		}
 	}
 

@@ -23,7 +23,7 @@ public class GtnWsCfpValidationService {
 		 * empty constructor
 		 */
 	}
-
+	
 	@Autowired
 	private GtnWsSqlService gtnWsSqlService;
 
@@ -34,7 +34,9 @@ public class GtnWsCfpValidationService {
 	public List<Object> cfpIdAndCfpNoValidation(GtnUIFrameworkWebserviceRequest gtnWsRequest)
 			throws GtnFrameworkGeneralException {
 		try {
+			
 			GtnWsCfpRequest gtnWsCfpRequest = gtnWsRequest.getGtnWsCfpRequest();
+			
 			String query = gtnWsSqlService.getQuery("getCfpCfpIdAndCfpNoValidationQuery");
 
 			Object[] params = { gtnWsCfpRequest.getGtnCFamilyPlan().getCfpInfo().getCfpId(),
@@ -42,7 +44,7 @@ public class GtnWsCfpValidationService {
 			GtnFrameworkDataType[] types = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING };
 			if (gtnWsCfpRequest.getGtnCFamilyPlan().getCfpInfo().getCfpSid() != null
 					&& gtnWsCfpRequest.getGtnCFamilyPlan().getCfpInfo().getCfpSid() > 0) {
-				query += " AND CFP_MODEL_SID <>" + gtnWsCfpRequest.getGtnCFamilyPlan().getCfpInfo().getCfpSid() + " ;";
+				query += " AND CFP_MODEL_SID<>" + gtnWsCfpRequest.getGtnCFamilyPlan().getCfpInfo().getCfpSid() + " ;";
 			}
 			return (List<Object>) gtnSqlQueryEngine.executeSelectQuery(query, params, types);
 		} catch (Exception e) {
@@ -50,6 +52,9 @@ public class GtnWsCfpValidationService {
 		}
 
 	}
+
+	
+
 
 	@SuppressWarnings("unchecked")
 	public GtnCFamilyPlanValidationBean cfpCommonValidation(GtnUIFrameworkWebserviceRequest gtnWsRequest)
@@ -112,4 +117,6 @@ public class GtnWsCfpValidationService {
 		}
 		return value;
 	}
+	
+	
 }

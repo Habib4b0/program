@@ -2,6 +2,7 @@ package com.stpl.gtn.gtn2o.ws.util;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,8 +21,10 @@ import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.entity.HelperTable;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
+import com.stpl.gtn.gtn2o.ws.formatter.GtnWsFormatter;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.transaction.constants.GtnWsTransactionConstants;
 
 public class GtnCommonUtil {
 	private GtnCommonUtil() {
@@ -243,30 +246,26 @@ public class GtnCommonUtil {
 		pw.println(headers.get(headerListSize));
 	}
 
-	public static void createDataRows(PrintWriter printWriter, List<Object[]> resultList) {
+	public static void createDataRows(PrintWriter printWriter, List<Object[]> resultList, int excludedColumnCount,
+			List<String> columnFormatList) {
 
 		for (Object[] record : resultList) {
-			int lastItem = record.length - 2;
-			for (int i = 0; i < record.length - 1; i++) {
+			int lastItem = record.length - excludedColumnCount;
+			for (int i = 0; i <= lastItem; i++) {
 
 				Object value = emptyIfNull(record[i]);
-
 				if (i == lastItem) {
 					if (value instanceof Date) {
-
 						printWriter.println(getFormattedDate(value).trim());
-
 					} else {
-
+						value = getFormattedColumn(columnFormatList, value, i);
 						printWriter.println(replaceDoubleQuotes(value).trim());
 					}
 				} else if (value instanceof Date) {
-
 					printWriter
 							.print((getFormattedDate(value) + GtnFrameworkCommonStringConstants.STRING_COMMA).trim());
-
 				} else {
-
+					value = getFormattedColumn(columnFormatList, value, i);
 					printWriter.print((GtnFrameworkCommonStringConstants.QUOTE + replaceDoubleQuotes(value)
 							+ GtnFrameworkCommonStringConstants.QUOTE + GtnFrameworkCommonStringConstants.STRING_COMMA)
 									.trim());
@@ -299,6 +298,39 @@ public class GtnCommonUtil {
 			date = dateFormat.format((Date) ob);
 		}
 		return date;
+	}
+
+	private static Object getFormattedColumn(List<String> columnFormatList, Object value, int index) {
+
+		if (columnFormatList != null && !columnFormatList.isEmpty()) {
+			String format = columnFormatList.get(index);
+			if (format != null) {
+				DecimalFormat columnFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+				columnFormat.applyPattern(format);
+				return formatPercentValue(columnFormat, value);
+			}
+		}
+		return value;
+	}
+
+	private static Object formatPercentValue(DecimalFormat columnFormat, Object value) {
+		String formatPatter = columnFormat.toPattern();
+		Object newValue = setDefaultValueForColumn(value);
+		if (formatPatter.contains(GtnWsTransactionConstants.PERCENTAGE)) {
+			DecimalFormat newcolumnFormat = GtnWsFormatter.DECIMAL_FORMATTER.getFormatter();
+			newcolumnFormat.applyPattern(formatPatter.replace(GtnWsTransactionConstants.PERCENTAGE,
+					GtnFrameworkCommonStringConstants.STRING_EMPTY));
+			return newcolumnFormat.format(Double.parseDouble(newValue.toString()))
+					+ GtnWsTransactionConstants.PERCENTAGE;
+		}
+		return columnFormat.format(Double.parseDouble(newValue.toString()));
+	}
+
+	private static Object setDefaultValueForColumn(Object value) {
+		if (GtnFrameworkCommonStringConstants.STRING_EMPTY.equals(value.toString())) {
+			return "0";
+		}
+		return value;
 	}
 
 }

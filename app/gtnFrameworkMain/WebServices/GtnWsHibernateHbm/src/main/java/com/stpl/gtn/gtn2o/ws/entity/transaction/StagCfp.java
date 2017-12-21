@@ -42,6 +42,7 @@ public class StagCfp  implements java.io.Serializable {
      private String batchId;
      private String source;
      private String addChgDelIndicator;
+     private String salesInclusion;
 
     public StagCfp() {
     }
@@ -357,6 +358,13 @@ public class StagCfp  implements java.io.Serializable {
     }
 
 
+    public String getSalesInclusion() {
+        return salesInclusion;
+    }
+
+    public void setSalesInclusion(String salesInclusion) {
+        this.salesInclusion = salesInclusion;
+    }
 
 
 }

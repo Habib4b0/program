@@ -165,7 +165,7 @@ public class GtnWsItemMasterAddCotroller {
 		try {
 			gtnResponse.setGtnWsGeneralResponse(new GtnWsGeneralResponse());
 			logger.info("Enter Pricing load Data");
-			addWebservice.loadPricingTempData(gtnWsRequest, gtnResponse);
+                        addWebservice.loadPricingTempData(gtnWsRequest, gtnResponse);
 			gtnResponse.getGtnWsGeneralResponse().setSucess(true);
 			return gtnResponse;
 		} catch (Exception ex) {

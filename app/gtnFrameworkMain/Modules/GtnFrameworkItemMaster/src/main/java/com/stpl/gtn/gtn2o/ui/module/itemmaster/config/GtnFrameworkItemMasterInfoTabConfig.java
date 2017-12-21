@@ -17,6 +17,8 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.GtnFrameworkItemMasterNewFormulationAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterBaseCPIBlurAction;
+import com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation.GtnFrameworkItemMasterBaselineAMPBlurAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
@@ -491,10 +493,18 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 		GtnUIFrameworkTextBoxConfig baseLineAMPMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
 		baseLineAMPMaxLengthConfig.setMaximumLength(50);
 		baseLineAMPConfig.setGtnTextBoxConfig(baseLineAMPMaxLengthConfig);
+                
+		List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseline = new ArrayList<>();
+		GtnUIFrameWorkActionConfig blurActionForAMP = new GtnUIFrameWorkActionConfig();
+		blurActionForAMP.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		blurActionForAMP.addActionParameter(GtnFrameworkItemMasterBaselineAMPBlurAction.class.getName());
+		blurActionForAMP.addActionParameter(Arrays.asList("additionalInformationTabBaselineAMP"));
+		actionBlurConfigBaseline.add(blurActionForAMP);
+		baseLineAMPMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseline);
 
 		GtnUIFrameworkValidationConfig baseLineAMPValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,
-				"Baseline AMP can only be Alphanumeric", GtnFrameworkRegexStringConstants.ALPHANUMERIC_FORMAT);
+				"Baseline AMP can contain only Numbers", GtnFrameworkRegexStringConstants.NUMERIC_WITH_SIX_DECIMAL_PRECISION);
 		baseLineAMPConfig.setGtnUIFrameworkValidationConfig(baseLineAMPValidationConfig);
 		componentList.add(baseLineAMPConfig);
 	}
@@ -564,10 +574,18 @@ public class GtnFrameworkItemMasterInfoTabConfig {
 		GtnUIFrameworkTextBoxConfig baseCPIMaxLengthConfig = new GtnUIFrameworkTextBoxConfig();
 		baseCPIMaxLengthConfig.setMaximumLength(50);
 		baseCPIConfig.setGtnTextBoxConfig(baseCPIMaxLengthConfig);
+                
+		List<GtnUIFrameWorkActionConfig> actionBlurConfigBaseCpi = new ArrayList<>();
+		GtnUIFrameWorkActionConfig blurActionForCPI = new GtnUIFrameWorkActionConfig();
+		blurActionForCPI.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		blurActionForCPI.addActionParameter(GtnFrameworkItemMasterBaseCPIBlurAction.class.getName());
+		blurActionForCPI.addActionParameter(Arrays.asList("additionalInformationTabBaseCPI"));
+		actionBlurConfigBaseCpi.add(blurActionForCPI);
+		baseCPIMaxLengthConfig.setBlurActionConfigList(actionBlurConfigBaseCpi);
 
 		GtnUIFrameworkValidationConfig baseCPIValidationConfig = componentConfig.getValidationConfig(
 				Arrays.asList(GtnUIFrameworkConditionalValidationType.NOT_NULL), true,
-				"Base CPI can only be Alphanumeric", GtnFrameworkRegexStringConstants.ALPHANUMERIC_FORMAT);
+				"Base CPI can contain only Numbers", GtnFrameworkRegexStringConstants.NUMERIC_WITH_THREE_DECIMAL_PRECISION);
 		baseCPIConfig.setGtnUIFrameworkValidationConfig(baseCPIValidationConfig);
 
 		componentList.add(baseCPIConfig);

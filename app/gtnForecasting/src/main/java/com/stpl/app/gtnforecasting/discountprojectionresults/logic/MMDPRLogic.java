@@ -39,17 +39,17 @@ public class MMDPRLogic {
 
     private static final DecimalFormat DOLLAR = new DecimalFormat("#");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("0.000");
-    private String ACTUALSRATE = "ActualsRate";
-    private String ACTUALSAMOUNT = "ActualsAmount";
-    private String PROJECTIONSRATE = "ProjectionsRate";
-    private String PROJECTIONSAMOUNT = "ProjectionsAmount";
-    private String ACTUALRPU = "ActualsRPU";
-    private String PROJECTEDRPU = "ProjectedRPU";
-    private String NULL = "null";
-    private String HYPHEN = "-";
-    private String Q = "q";
-    private String PERCENTAGE = Constant.PERCENT;
-    private String DOLLAR_SYMBOL = "$";
+    private final String ACTUALSRATE = "ActualsRate";
+    private final String ACTUALSAMOUNT = "ActualsAmount";
+    private final String PROJECTIONSRATE = "ProjectionsRate";
+    private final String PROJECTIONSAMOUNT = "ProjectionsAmount";
+    private final String ACTUALRPU = "ActualsRPU";
+    private final String PROJECTEDRPU = "ProjectedRPU";
+    private final String NULL = "null";
+    private final String HYPHEN = "-";
+    private final String Q = "q";
+    private final String PERCENTAGE = Constant.PERCENT;
+    private final String DOLLAR_SYMBOL = "$";
     private static final String CURRENCY = "$";
     DPRQueryUtils dqLogic = new DPRQueryUtils();
     boolean checkFlag = true;
@@ -1104,7 +1104,7 @@ public class MMDPRLogic {
                 frequencyDivision = 1;
             }
 
-            List list = dqLogic.getNonMandatedTotal(projectionMasterId,projSelDTO);
+            List list = DPRQueryUtils.getNonMandatedTotal(projectionMasterId,projSelDTO);
 
             dto.setDiscountLevel(Constant.NON_MANDATED_SUPPLEMENTAL);
             for (Object list1 : list) {

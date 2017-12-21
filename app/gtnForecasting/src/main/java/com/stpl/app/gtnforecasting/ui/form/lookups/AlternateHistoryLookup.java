@@ -65,27 +65,27 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
     private CustomFieldGroup searchBinder;
 
     /** The logic. */
-    private NonMandatedLogic logic = new NonMandatedLogic();
+    private final NonMandatedLogic logic = new NonMandatedLogic();
     
-    SalesLogic saleslogic = new SalesLogic();
+    private final SalesLogic saleslogic = new SalesLogic();
     
    
     
     /** The error msg. */
-    private ErrorLabel errorMsg = new ErrorLabel();
+    private final ErrorLabel errorMsg = new ErrorLabel();
         
-     SessionDTO session;
+    private final SessionDTO session;
         
-     String type=STRING_EMPTY;
+    private String type=STRING_EMPTY;
      
-     String hierarchyNo=StringUtils.EMPTY;
+    private String hierarchyNo=StringUtils.EMPTY;
      
-     public static String importedContract=StringUtils.EMPTY;
+    private static String importedContract=StringUtils.EMPTY;
      
-     public static String importedBrand=StringUtils.EMPTY;
+    private static String importedBrand=StringUtils.EMPTY;
 
-    CustomTextField contract=null;
-    CustomTextField brand=null;
+    private CustomTextField contract=null;
+    private CustomTextField brand=null;
      
     /**
      * Constructor for AlternateHistoryLookup.
@@ -297,16 +297,14 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
           }
          
        
-        SalesProjectionLogic logic=new SalesProjectionLogic();
+        SalesProjectionLogic salesProjLogic=new SalesProjectionLogic();
         try {
             
-            logic.callAlternateHistoryProcedure(inputs);
+            salesProjLogic.callAlternateHistoryProcedure(inputs);
     
-        } catch (SystemException ex) {
+        } catch (SystemException | SQLException ex) {
             java.util.logging.Logger.getLogger(AlternateHistoryLookup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(AlternateHistoryLookup.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
         close();
         
     }else{
@@ -388,8 +386,10 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
     @Override
     protected void btnCloseLogic() {
           new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
+                LOGGER.debug("Inside Overriden method: do nothing");
             }
 
             @Override
@@ -425,7 +425,7 @@ public class AlternateHistoryLookup extends AbstractHistoryLookup {
 
     @Override
     protected void configureResultTable(ExtPagedTable results, String indicator) {
-        return;
+        LOGGER.debug("Inside Overriden method: do nothing");
     }
      
 

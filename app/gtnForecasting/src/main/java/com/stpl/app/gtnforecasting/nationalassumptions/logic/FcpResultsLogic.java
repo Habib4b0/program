@@ -15,6 +15,8 @@ import static com.stpl.app.gtnforecasting.nationalassumptions.util.Constants.Lab
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -61,8 +63,8 @@ public class FcpResultsLogic {
     public static final String FCP_OVERRIDE_FSS = "FCP_OVERRIDE_FSS";
     public static final String FCP_OVERRIDE_CPI_U = "FCP_OVERRIDE_CPI_U";
 
-    private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
-    FcpQueryUtils queryUtil = new FcpQueryUtils();
+    private final String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
+    private final FcpQueryUtils queryUtil = new FcpQueryUtils();
 
     public List<TableDTO> getConfiguredFcpResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
         List<TableDTO> resultList;
@@ -164,7 +166,7 @@ public class FcpResultsLogic {
             if (fcpList != null) {
                 projDTOList = getCustomizedFcp(fcpList);
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getFcp method ends ");
@@ -186,7 +188,7 @@ public class FcpResultsLogic {
             } else {
                 projDTOList = getCustPivotFcpChild(fcpList, projSelDTO);
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getFcpChild method ends ");
@@ -975,7 +977,6 @@ public class FcpResultsLogic {
             if (connection != null) {
                 connection.close();
             }
-            System.gc();
         }
         return "SUCCESS";
 

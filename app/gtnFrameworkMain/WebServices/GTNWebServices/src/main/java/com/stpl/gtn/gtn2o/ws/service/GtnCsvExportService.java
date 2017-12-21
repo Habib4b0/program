@@ -36,7 +36,7 @@ public class GtnCsvExportService {
 	private GtnFrameworkSqlQueryEngine gtnSqlQueryEngine;
 
 	@SuppressWarnings({ "unchecked" })
-	public String getCsvExportFile(GtnUIFrameworkWebserviceRequest csvExportRequest)
+	public String getCsvExportFile(GtnUIFrameworkWebserviceRequest csvExportRequest,int excludedColumnCount)
 			throws GtnFrameworkGeneralException {
 		GtnWsCsvExportRequest csvRequest = csvExportRequest.getGtnWsCsvExportRequest();
 		GtnWsCsvExportBean csvExportBean = csvRequest.getGtnWsCsvExportBean();
@@ -62,7 +62,7 @@ public class GtnCsvExportService {
 				Object[] data = { start, offset };
 				List<Object[]> resultList = (List<Object[]>) gtnSqlQueryEngine
 						.executeSelectQuery(csvExportBean.getDataQuery(), data, dataType);
-				GtnCommonUtil.createDataRows(printWriter, resultList);
+				GtnCommonUtil.createDataRows(printWriter, resultList,excludedColumnCount, null);
 				printWriter.flush();
 				start = start + offset;
 			}
