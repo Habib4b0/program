@@ -695,6 +695,12 @@ public class GtnFrameworkContractDashboardContants {
 			getItemDetailHeader()[11], getItemDetailHeader()[12], getItemDetailHeader()[13], getItemDetailHeader()[14],
 			getItemDetailHeader()[15], getItemDetailHeader()[16], getItemDetailHeader()[17] };
 	private static final String[] ITEM_DETAIL_VIEW_COLUMN = { getItemDetailColumn()[1], getItemDetailColumn()[2],
+			getItemDetailColumn()[3], getItemDetailColumn()[4], getItemDetailColumn()[5],
+			getItemDetailColumn()[6], getItemDetailColumn()[7], getItemDetailColumn()[8], getItemDetailColumn()[9],
+			getItemDetailColumn()[10], getItemDetailColumn()[11], getItemDetailColumn()[12], getItemDetailColumn()[13],
+			getItemDetailColumn()[14], getItemDetailColumn()[15], getItemDetailColumn()[16],
+			getItemDetailColumn()[17] };
+	private static final String[] ITEM_DETAIL_PENDING_VIEW_COLUMN = { getItemDetailColumn()[1], getItemDetailColumn()[2],
 			getItemDetailColumn()[3], getItemDetailColumn()[4], getItemDetailPendingColumn()[4],
 			getItemDetailColumn()[6], getItemDetailColumn()[7], getItemDetailColumn()[8], getItemDetailColumn()[9],
 			getItemDetailColumn()[10], getItemDetailColumn()[11], getItemDetailColumn()[12], getItemDetailColumn()[13],
@@ -952,6 +958,10 @@ public class GtnFrameworkContractDashboardContants {
 
 	public static String[] getItemDetailViewColumn() {
 		return ITEM_DETAIL_VIEW_COLUMN.clone();
+	}
+	
+	public static String[] getItemDetailPendingViewColumn() {
+		return ITEM_DETAIL_PENDING_VIEW_COLUMN.clone();
 	}
 
 	public static Class<?>[] getPricingHistoryColumnType() {

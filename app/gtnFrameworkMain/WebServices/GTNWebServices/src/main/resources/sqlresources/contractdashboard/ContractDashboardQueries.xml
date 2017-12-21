@@ -2119,7 +2119,11 @@ SET
                 IMTD.COMPANY_TYPE,
                 IMTD.TRADING_PARTNER_CONTRACT_NO,
                 cm.COMPANY_CATEGORY,
-                recordType='?'
+                CASE
+                WHEN CAST(CFP_DETAILS_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                WHEN CAST(CFP_DETAILS_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CFP_DETAILS_START_DATE AS DATE) AND CAST(ISNULL(CFP_DETAILS_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'    
+                END AS recordType
              FROM IMTD_CFP_DETAILS IMTD
                     JOIN COMPANY_MASTER cm on cm.COMPANY_MASTER_SID=IMTD.COMPANY_MASTER_SID AND cm.INBOUND_STATUS <> 'D'
                     LEFT JOIN HELPER_TABLE htrade on htrade.HELPER_TABLE_SID=IMTD.TRADING_PARTNER_CONTRACT_NO AND htrade.DESCRIPTION  NOT like '%Select One%'
@@ -2284,7 +2288,11 @@ SET
 		<query>
                 <![CDATA[
                 SELECT
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(START_DATE AS DATE) AND CAST(ISNULL(END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         im.ITEM_NO,
                         im.ITEM_NAME,
                         im.ITEM_DESC,
@@ -2439,7 +2447,11 @@ SET
 		<query>
                 <![CDATA[
                 SELECT
-                        recordType = '?',
+                        CASE
+                        WHEN CAST(CONTRACT_PRICE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                        WHEN CAST(CONTRACT_PRICE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                        WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(CONTRACT_PRICE_START_DATE AS DATE) AND CAST(ISNULL(CONTRACT_PRICE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                        END AS recordType,
                         IMTD.ITEM_ID,
                         IMTD.ITEM_NO,
                         IMTD.ITEM_NAME,
@@ -2839,7 +2851,11 @@ WHERE
 		<query>
                 <![CDATA[
                     SELECT
-                            recordType = '?',
+                            CASE
+                            WHEN CAST(PRICE_PROTECTION_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                            WHEN CAST(PRICE_PROTECTION_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                            WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(PRICE_PROTECTION_START_DATE AS DATE) AND CAST(ISNULL(PRICE_PROTECTION_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                            END AS recordType,
                             IMTD.ITEM_ID,
                             IMTD.ITEM_NO,
                             IMTD.ITEM_NAME,
@@ -3178,7 +3194,11 @@ WHERE
 		<query>
                 <![CDATA[
                         SELECT
-                                recordType='?',
+                                CASE
+                                WHEN CAST(ITEM_REBATE_START_DATE AS DATE) > convert(nvarchar, getdate(), 121) THEN 'Future'
+                                WHEN CAST(ITEM_REBATE_END_DATE AS DATE) <  convert(nvarchar, getdate(), 121)  THEN 'History'
+                                WHEN CAST(convert(nvarchar, getdate(), 121) AS DATE)  BETWEEN CAST(ITEM_REBATE_START_DATE AS DATE) AND CAST(ISNULL(ITEM_REBATE_END_DATE, CAST(convert(nvarchar, getdate(), 121) AS DATE) )  AS DATE) THEN 'Current'
+                                END AS recordType,
                                 IMTD.ITEM_NO,
                                 IMTD.ITEM_NAME,
                                 itemType=CASE
