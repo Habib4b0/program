@@ -129,8 +129,8 @@ public class SessionDTO implements Serializable {
     boolean discountRSlistUpdated = false;
     private List<List<String>> discountlist = new ArrayList<>();
     private List<CustomViewMaster> customerViewList = new ArrayList<>();
-    private List<Thread> threadList = new ArrayList<>();
-    private Map<String, Future[]> futureList = new HashMap<>();
+    private final List<Thread> threadList = new ArrayList<>();
+    private final Map<String, Future[]> futureList = new HashMap<>();
     private int numberOfThreads;
     private boolean isPPAUpdated = false;
     private GtnSmallHashMap currentTableNames = new GtnSmallHashMap();    

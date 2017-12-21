@@ -85,7 +85,6 @@ public class GtnWsContractDashboardCommonLogic {
 
 	public void addInputItemSId(GtnUIFrameworkWebserviceRequest gtnWsRequest, List<Object> inputlist) {
 		if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			addInputRecordType(gtnWsRequest, inputlist);
 			String orderByColumn = inputlist.get(inputlist.size() - 3).toString();
 			if (orderByColumn.startsWith("im")) {
 				inputlist.set(inputlist.size() - 3, GtnFrameworkWebserviceConstant.IMTDITEM_MASTER_SID);
@@ -93,19 +92,6 @@ public class GtnWsContractDashboardCommonLogic {
 		}
 	}
 
-	public void addInputRecordType(GtnUIFrameworkWebserviceRequest gtnWsRequest, List<Object> inputlist) {
-		if (!gtnWsRequest.getGtnWsSearchRequest().isCount()) {
-			String recordType = "";
-			if (!gtnWsRequest.getGtnWsSearchRequest().getGtnWebServiceSearchCriteriaList().isEmpty()) {
-				GtnWebServiceSearchCriteria searchCriteria = gtnWsRequest.getGtnWsSearchRequest()
-						.getGtnWebServiceSearchCriteriaList().get(0);
-				if (!searchCriteria.isFilter()) {
-					recordType = searchCriteria.getFilterValue1().replace("[", "").replace("]", "");
-				}
-			}
-			inputlist.add(0, recordType);
-		}
-	}
 
 	public void addUserIdSessionId(GtnUIFrameworkWebserviceRequest gtnWsRequest, List<Object> inputlist) {
 		inputlist.add(0, gtnWsRequest.getGtnWsGeneralRequest().getSessionId());
@@ -324,6 +310,7 @@ public class GtnWsContractDashboardCommonLogic {
 		itemColumnNameMap.put("BasePriceTypeDate", GtnFrameworkCommonConstants.BASE_PRICE_DATE);
 		itemColumnNameMap.put("BasePriceTypeEntry", GtnFrameworkCommonConstants.BASE_PRICE_ENTRY);
 		itemColumnNameMap.put("BasePriceTypeDdlb", GtnFrameworkCommonConstants.BASE_PRICE_DDLB);
+		itemColumnNameMap.put("NetPriceTypeFormula", GtnFrameworkCommonConstants.NET_PRICE_TYPE_FORMULA);
 		
 	}
 

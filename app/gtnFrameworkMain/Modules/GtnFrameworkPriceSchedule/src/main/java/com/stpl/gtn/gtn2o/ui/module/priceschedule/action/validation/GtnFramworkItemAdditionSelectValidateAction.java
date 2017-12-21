@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -29,6 +30,7 @@ public class GtnFramworkItemAdditionSelectValidateAction implements GtnUIFrameWo
 		if (table.getValueFromComponent() == null) {
 			throw new GtnFrameworkValidationFailedException(message, componentId);
 		}
+		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
 	}
 
 	@Override

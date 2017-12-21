@@ -75,7 +75,7 @@ public class ForecastUI extends UI {
     final StplSecurity stplSecurity = new StplSecurity();
     DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
     SessionDTO sessionDto = new SessionDTO();
-    private RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
+    private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
     private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
     private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
     final NonMandatedLogic nmLogic = new NonMandatedLogic();
@@ -131,7 +131,6 @@ public class ForecastUI extends UI {
         String userType = null;
         String noOfApprovals = null;
         String approvalLevels = null;
-        SessionUtil sessionUtil = new SessionUtil();
         ForecastEditWindow editWindow = null;
         AccrualRateProjectionView arpView = null;
         String customerHierSid = StringUtils.EMPTY;
@@ -171,7 +170,7 @@ public class ForecastUI extends UI {
             } else if (getAccrualConstant().equalsIgnoreCase(hm.get(Constant.PORTLET_NAME_PROPERTY))) {
                 screenName = CommonUtils.BUSINESS_PROCESS_TYPE_ACCRUAL_RATE_PROJECTION;
             }
-            sessionDto = sessionUtil.createSession();
+            sessionDto = SessionUtil.createSession();
             List list = WorkflowPersistance.selectWFInstanceInfo(Integer.valueOf(projectionId));
             Long processId = 0L;
             if (list != null && !list.isEmpty()) {
@@ -288,6 +287,7 @@ public class ForecastUI extends UI {
                                     "A new Customer Gross Trade Sales file has been activated since this workflow was last saved. Would you like this workflow to be updated based on the new active file?",
                                     new MessageBoxListener() {
                                 @SuppressWarnings("PMD")
+                                @Override
                                 public void buttonClicked(final ButtonId buttonId) {
                                     if (buttonId.name().equals(Constant.YES)) {
                                         sessionDto.setIsNewFileCalculationNeeded(true);
@@ -343,7 +343,8 @@ public class ForecastUI extends UI {
         }
 
         // Configure the error handler for the UI
-        UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
+        
+           UI.getCurrent().setErrorHandler(new DefaultErrorHandler() {
             @Override
             public void error(com.vaadin.server.ErrorEvent event) {
                 // Find the final cause
@@ -354,7 +355,7 @@ public class ForecastUI extends UI {
                         cause += t.getClass().getName();
 
     }
-
+        
                     LOGGER.error(t.getMessage());
                 }
 
@@ -362,6 +363,7 @@ public class ForecastUI extends UI {
                 // Do the default error handling (optional)
             }
         });
+        
 
     }
 

@@ -43,7 +43,6 @@ public class CommonLogic {
        
       public static NADataSelectionDAO dataSelection = new NADataSelectionDAOImpl();
         public void saveProjectionSelection(Map map, int projectionID, String screenName) throws PortalException {
-        PhsQueryUtils phsQueryUtils = new PhsQueryUtils();
         List<NaProjectionSelection> list = new ArrayList<>();
         DynamicQuery query = DynamicQueryFactoryUtil.forClass(NaProjectionSelection.class);
         query.add(RestrictionsFactoryUtil.eq("naProjMasterSid", projectionID));
@@ -53,7 +52,7 @@ public class CommonLogic {
             if (list.isEmpty()) {
                 PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.SAVE);
             } else {
-                phsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
+                PhsQueryUtils.saveSelection(map, projectionID, screenName, Constant.UPDATE);
             }
             
         } catch (Exception ex) {
@@ -155,9 +154,7 @@ public class CommonLogic {
             } else {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ht;
@@ -180,9 +177,7 @@ public class CommonLogic {
                 ht = new HelperDTO(0, SELECT_ONE.getConstant());
             }
 
-        } catch (PortalException ex) {
-            java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
+        } catch (PortalException | SystemException ex) {
             java.util.logging.Logger.getLogger(FcpResults.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ht;

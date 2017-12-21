@@ -443,10 +443,8 @@ public class FcpResults extends CustomComponent implements View {
             } else {
                 nonFampBtn.setVisible(false);
             }
-        } catch (PortalException portal) {
+        } catch (PortalException | SystemException portal) {
             LOGGER.error(portal);
-        } catch (SystemException system) {
-            LOGGER.error(system);
         }
         tabOrder();
     }
@@ -500,6 +498,7 @@ public class FcpResults extends CustomComponent implements View {
     @UiHandler("resetBtn")
     public void resetBtn(Button.ClickEvent event) {
         new AbstractNotificationUtils() {
+            @Override
             public void noMethod() {
                 // do nothing
             }
@@ -771,6 +770,7 @@ public class FcpResults extends CustomComponent implements View {
      * .ViewChangeEvent)
      */
 
+    @Override
     public void enter(ViewChangeEvent event) {
         //Default method
     }
