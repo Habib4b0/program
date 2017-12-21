@@ -5,6 +5,9 @@
  */
 package com.stpl.gtn.gtn2o.ui.module.itemmaster.action.validation;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.listener.GtnUIFrameworkValueChangeListener;
@@ -12,26 +15,25 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkRegexStringConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  *
  * @author deepika.krishnakumar
  */
-public class GtnFrameworkItemMasterBaselineAMPBlurAction extends GtnUIFrameworkValueChangeListener implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass{
+public class GtnFrameworkItemMasterBaselineAMPBlurAction extends GtnUIFrameworkValueChangeListener
+		implements GtnUIFrameWorkAction, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-         
-        List<String> fieldValueList = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
-        
-        
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+
+		List<String> fieldValueList = (List<String>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
 
 		for (String textFields : fieldValueList) {
 			String value = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(textFields).getStringFromField()
@@ -42,12 +44,12 @@ public class GtnFrameworkItemMasterBaselineAMPBlurAction extends GtnUIFrameworkV
 
 			}
 		}
-	
-    }
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
-    
+	}
+
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
+
 }

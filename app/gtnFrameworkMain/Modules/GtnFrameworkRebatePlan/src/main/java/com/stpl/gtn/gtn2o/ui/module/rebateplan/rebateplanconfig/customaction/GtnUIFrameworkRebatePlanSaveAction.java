@@ -204,7 +204,7 @@ public class GtnUIFrameworkRebatePlanSaveAction implements GtnUIFrameWorkAction,
 				if (ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO) == null || String
 						.valueOf(ruleDetail.getStringProperty(GtnFrameworkCommonConstants.TIER_TO)).isEmpty()) {
 					Object mode = GtnUIFrameworkGlobalUI.getSessionProperty("mode");
-					if (mode != null && ((mode == GtnUIFrameworkModeType.EDIT))) {
+					if (mode != null && mode == GtnUIFrameworkModeType.EDIT) {
 						ruleDetailBean.setTo(getdobValue(1, ruleDetail));
 					} else {
 						ruleDetailBean.setTo(getValue(1, ruleDetail));

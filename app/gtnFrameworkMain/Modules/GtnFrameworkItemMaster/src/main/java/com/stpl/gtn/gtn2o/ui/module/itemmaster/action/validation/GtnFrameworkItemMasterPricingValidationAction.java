@@ -12,6 +12,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkValidationFailedException;
 import com.stpl.gtn.gtn2o.ws.itemmaster.bean.GntWsItemPricingBean;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
+import java.math.BigDecimal;
 
 /**
  *
@@ -73,7 +74,7 @@ public class GtnFrameworkItemMasterPricingValidationAction implements GtnUIFrame
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
 		}
 		GntWsItemPricingBean indenBean = new GntWsItemPricingBean();
-		indenBean.setItemPrice(Double.valueOf(itemPrice));
+		indenBean.setItemPrice(new BigDecimal(itemPrice));
 		indenBean.setPricingCodeStatus(status);
 		indenBean.setItemUom(uom);
 		indenBean.setStartDate(startDate);
