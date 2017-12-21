@@ -185,6 +185,9 @@ public class GtnFrameworkSqlQueryEngine {
 			case NULL_ALLOWED:
 				query.setParameter(i, params[i]);
 				break;
+			case IN_LIST:
+				query.setParameterList("inParameter", (List<Object>) params[i]);
+				break;
 			default:
 				query.setParameter(i, params[i]);
 			}

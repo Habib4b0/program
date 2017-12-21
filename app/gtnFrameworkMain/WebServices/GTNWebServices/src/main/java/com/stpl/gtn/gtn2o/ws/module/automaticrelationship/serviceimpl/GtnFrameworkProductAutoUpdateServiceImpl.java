@@ -85,6 +85,8 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 		AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
+			if (hierarchyLevelDefinitionList.get(i).isUserDefined())
+				continue;
 			GtnFramworkCheckForAutoUpdateRunnable runnableTarget = applicationContext
 					.getBean(GtnFramworkCheckForAutoUpdateRunnable.class);
 			runnableTarget.setAtomicBoolean(atomicBoolean);
@@ -107,6 +109,10 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 				relationBean, userId);
 		for (int i = firstLinkedLevelNo; i < hierarchyLevelDefinitionList.size(); i++) {
 			HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(i);
+			if (hierarchyLevelBean.isUserDefined()) {
+				checkAndInserUserDefinedLevels(relationBean, hierarchyLevelBean);
+				continue;
+			}
 			GtnFrameworkHierarchyQueryBean hierarchyQuery = fileService.getQueryFromFile(
 					hierarchyLevelBean.getHierarchyDefinitionSid(), hierarchyLevelBean.getHierarchyLevelDefinitionSid(),
 					hierarchyLevelBean.getVersionNo());
@@ -124,6 +130,8 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 			inputs.add(relationBean.getRelationshipBuilderSid());
 			inputs.add(previousHierarchyLevelBean == null ? "" : previousHierarchyLevelBean.getLevelNo());
 			inputs.add(updatedVersionNo);
+			inputs.add(hierarchyLevelBean.getLevelNo());
+			inputs.add(updatedVersionNo - 1);
 			inputs.addAll(whereQueryList);
 			hierarchyService.getInboundRestrictionQueryForAutoUpdate(querygeneratorBean);
 			String finalQuery = gtnWsSqlService.getReplacedQuery(inputs, querygeneratorBean.generateQuery());
@@ -133,7 +141,34 @@ public class GtnFrameworkProductAutoUpdateServiceImpl implements GtnFrameworkAut
 					"relationShipSubQueryToInsertAutomaticData");
 			gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 		}
-		deductionRelationService.saveRelationship(relationBean, true);
+		deductionRelationService.saveRelationship(relationBean, relationBean.getDeductionRelation() != null);
+	}
+
+	private void checkAndInserUserDefinedLevels(GtnWsRelationshipBuilderBean relationBean,
+			HierarchyLevelDefinitionBean customerHierarchyLevelBean) throws GtnFrameworkGeneralException {
+		List<Object> input = new ArrayList<>();
+
+		input.add(customerHierarchyLevelBean.getHierarchyLevelDefinitionSid());
+		input.add(customerHierarchyLevelBean.getDefaultVlaue());
+		input.add(customerHierarchyLevelBean.getLevelNo());
+		input.add(customerHierarchyLevelBean.getLevelName());
+		input.add(customerHierarchyLevelBean.getDefaultVlaue());
+		input.add(customerHierarchyLevelBean.getDefaultVlaue());
+		input.add(customerHierarchyLevelBean.getLevelNo() - 1);
+		input.add(relationBean.getVersionNo() + 1);
+		input.add(relationBean.getRelationshipBuilderSid());
+
+		input.add(customerHierarchyLevelBean.getLevelNo());
+		input.add(customerHierarchyLevelBean.getLevelName());
+		input.add(customerHierarchyLevelBean.getLevelNo() - 1);
+		input.add(customerHierarchyLevelBean.getLevelNo());
+		input.add(relationBean.getVersionNo());
+		input.add(relationBean.getVersionNo() + 1);
+		input.add(relationBean.getRelationshipBuilderSid());
+
+		String finalInsertQuery = gtnWsSqlService.getQuery(input, "RelationInsertForIntermediate userDefined");
+		System.out.println(finalInsertQuery);
+		gtnSqlQueryEngine.executeInsertOrUpdateQuery(finalInsertQuery);
 	}
 
 	@Override
