@@ -5,8 +5,8 @@
  */
 package com.stpl.app.cff.dto;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;

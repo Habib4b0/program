@@ -4,24 +4,17 @@
  */
 package com.stpl.app.cff.ui.form;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.AdditionalInfoLogic;
 import com.stpl.app.cff.security.StplSecurity;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.FileUploader;
 import com.stpl.app.cff.util.NotesTabLogic;
 import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.service.ImtdIfpDetailsLocalServiceUtil;
 import com.stpl.ifs.ui.AbstractNotesTab;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.NotesDTO;
@@ -30,18 +23,22 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.util.ExportPdf;
 import com.stpl.ifs.util.ExportWord;
 import com.stpl.ifs.util.GtnFileUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.dao.CommonServiceImpl;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.vaadin.v7.data.fieldgroup.FieldGroup;
-import com.vaadin.v7.data.util.BeanItem;
-import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Resource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.v7.ui.Upload;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *

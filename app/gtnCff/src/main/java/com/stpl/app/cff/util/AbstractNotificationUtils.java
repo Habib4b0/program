@@ -10,12 +10,11 @@ package com.stpl.app.cff.util;
  */
 
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import org.jboss.logging.Logger;
-
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
 import de.steinwedel.messagebox.MessageBoxListener;
+import org.jboss.logging.Logger;
 
 /**
  * The Class NotificationUtils.

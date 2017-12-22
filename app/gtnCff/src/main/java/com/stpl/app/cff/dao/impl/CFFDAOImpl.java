@@ -5,22 +5,20 @@
  */
 package com.stpl.app.cff.dao.impl;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CFFDAO;
+import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.parttwo.model.CffApprovalDetails;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
-import com.stpl.app.parttwo.service.AccClosureMasterLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,18 +34,6 @@ public class CFFDAOImpl implements CFFDAO {
 
     public static CFFDAOImpl getInstance() {
         return dao;
-    }
-
-    /**
-     * Executes update query
-     *
-     * @param queryList
-     * @throws SystemException
-     * @throws PortalException
-     * @throws Exception
-     */
-    public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException {
-        AccClosureMasterLocalServiceUtil.executeUpdateQuery(queryList, null);
     }
 
     /**
@@ -154,7 +140,7 @@ public class CFFDAOImpl implements CFFDAO {
     public List<CffApprovalDetails> getApprovalDetails(final int cffSid) throws SystemException {
         List<CffApprovalDetails> resultList;
 
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
+        DynamicQuery query = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("cffMasterSid", cffSid));
         resultList = CffApprovalDetailsLocalServiceUtil.dynamicQuery(query);
 
@@ -170,7 +156,7 @@ public class CFFDAOImpl implements CFFDAO {
     public List<CffDetails> getCffDetails(final int cffSid) throws SystemException {
         List<CffDetails> resultList;
 
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(CffDetails.class);
+        DynamicQuery query = CffDetailsLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq("cffMasterSid", cffSid));
         resultList = CffDetailsLocalServiceUtil.dynamicQuery(query);
 
@@ -197,13 +183,9 @@ public class CFFDAOImpl implements CFFDAO {
         return CffDetailsLocalServiceUtil.updateCffDetails(cffDetails);
     }
 
-    /**
-     * Get query Implementations
-     * @param queryName
-     * @return String
-     */
     @Override
-    public String getQuery(String queryName) {
-        return AccClosureMasterLocalServiceUtil.getQuery(new ArrayList(), queryName);
+    public List<HelperTable> getHelperTableDetailsByListName(String listName) throws PortalException, SystemException {
+        return CommonServiceImpl.getInstance().getHelperTableSId(listName);
     }
+
 }

@@ -302,6 +302,9 @@ public class Constants {
     public static final String CUSTOM_LABEL = "Custom";
     public static final String BRAND_LABEL = "Brand";
     public static final String ENABLE_LABEL = "Enable";
+    public static final String INDICATOR_LEVEL_CUSTOMER = "Customer Level";
+    public static final String INDICATOR_LEVEL_CONTRACT = "Contract Level";
+    public static final String INDICATOR_CUSTOMER_GROUP = "Customer Group";
 
     /**
      * Enum for Button constants

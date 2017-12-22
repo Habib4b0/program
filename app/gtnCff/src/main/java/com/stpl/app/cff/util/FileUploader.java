@@ -5,23 +5,18 @@
  */
 package com.stpl.app.cff.util;
 
-import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
-
+import com.stpl.ifs.util.CommonUtil;
+import com.stpl.ifs.util.GtnFileUtil;
+import com.vaadin.server.Page;
+import com.vaadin.ui.Notification;
+import com.vaadin.v7.ui.Upload;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
+import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.ifs.util.CommonUtil;
-import com.stpl.ifs.util.GtnFileUtil;
-import com.vaadin.server.Page;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Notification;
-import com.vaadin.v7.ui.Upload;
 
 /**
  *

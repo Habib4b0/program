@@ -5,19 +5,18 @@
  */
 package com.stpl.app.cff.ui.projectionresults.logic;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
-import com.stpl.app.cff.util.HeaderUtils;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstantsForChannels.CUSTOM;
 import static com.stpl.app.cff.util.Constants.LabelConstants.DESCENDING;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
+import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;

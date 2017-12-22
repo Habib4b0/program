@@ -5,13 +5,13 @@
  */
 package com.stpl.app.cff.dao;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.parttwo.model.CffApprovalDetails;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**
@@ -41,17 +41,6 @@ public interface CFFDAO {
      * @throws Exception 
      */    
     public Object executeSelectQuery(String query) throws SystemException, PortalException;
-    
-    /**
-     * Executes update query
-     * 
-     * @param queryList
-     * @throws SystemException
-     * @throws PortalException
-     * @throws Exception 
-     */
-    
-    public void executeUpdateQuery(List<StringBuilder> queryList) throws SystemException, PortalException;
     
     /**
      * Gets Helper table list
@@ -153,11 +142,5 @@ public interface CFFDAO {
      * @throws SystemException 
      */
     public CffDetails updateCffDetails(final CffDetails cffDetails) throws SystemException;
-    /**
-     * To return String query from service ||
-     * @param queryName
-     * @return 
-     */
-    public String getQuery(String queryName);
     
 }

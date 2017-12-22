@@ -1,21 +1,19 @@
 package com.stpl.app.cff.bpm.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
-
-import com.stpl.app.bpm.dto.ForecastingRulesDTO;
-import com.stpl.app.bpm.utils.DroolsProperties;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
-import com.stpl.app.cff.bpm.service.BPMProcessBean;
-import com.stpl.ifs.ui.util.NumericConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
+import com.stpl.app.bpm.dto.ForecastingRulesDTO;
+import com.stpl.app.bpm.utils.DroolsProperties;
+import com.stpl.app.cff.bpm.persistance.WorkflowPersistance;
+import com.stpl.app.cff.bpm.service.BPMProcessBean;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
 
 public class DSCalculationLogic {
 

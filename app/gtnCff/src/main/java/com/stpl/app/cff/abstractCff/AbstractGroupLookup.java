@@ -4,6 +4,10 @@
  */
 package com.stpl.app.cff.abstractCff;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_PRODUCT_GROUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.CUSTOMER_GROUP_NAME;
@@ -12,28 +16,22 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.PRODUCT_GROUP_NAME;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PRODUCT_GROUP_NO;
 import static com.stpl.app.cff.util.Constants.LabelConstants.RESULTS;
 import static com.stpl.app.cff.util.Constants.LabelConstants.SEARCH_CRITERIA;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.extfilteringtable.ExtFilterTable;
-import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-
-import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
-import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;
 import com.stpl.app.cff.util.TableHeaderColumnsUtil;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.v7.ui.Label;
-import com.vaadin.ui.Panel;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.extfilteringtable.ExtFilterTable;
+import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 
 /**
  *

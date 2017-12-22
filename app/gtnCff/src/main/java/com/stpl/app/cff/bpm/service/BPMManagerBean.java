@@ -1,17 +1,14 @@
 package com.stpl.app.cff.bpm.service;
 
 import com.stpl.ifs.util.DroolsProperties;
+import java.util.Properties;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.manager.RuntimeEngine;
 import org.kie.api.runtime.manager.RuntimeEnvironmentBuilder;
 import org.kie.api.runtime.manager.RuntimeManagerFactory;
-
-
-import java.util.Properties;
 
 /**
  *

@@ -1,6 +1,5 @@
 package com.stpl.app.cff.ui.projectionresults.logic;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
@@ -10,6 +9,7 @@ import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
 import static com.stpl.app.cff.util.HeaderUtils.getCommonColumnHeader;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;

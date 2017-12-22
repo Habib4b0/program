@@ -5,9 +5,18 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.logic;
 
+import com.stpl.app.cff.dto.PVSelectionDTO;
+import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
+import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VARIANCE;
-
+import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,20 +24,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-
-import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
-import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.HeaderUtils;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *

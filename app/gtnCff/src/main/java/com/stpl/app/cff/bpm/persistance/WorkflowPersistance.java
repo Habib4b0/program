@@ -1,8 +1,8 @@
 package com.stpl.app.cff.bpm.persistance;
 
 import com.stpl.app.cff.bpm.persistance.provider.BasePersistanceProvider;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import java.util.List;
-import com.stpl.util.dao.orm.CustomSQLUtil;
 
 public class WorkflowPersistance extends BasePersistanceProvider {
     
@@ -38,7 +38,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
     public static  List<Object[]> getProjectionRecords(int projectionId,String userId,String sessionId) {
         List<Object[]> obj = null;
         try {
-            String customSql =CustomSQLUtil.get("getProjectionRecords");
+            String customSql =SQlUtil.getQuery("getProjectionRecords");
             customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
             customSql=customSql.replace("?USER_ID", String.valueOf(userId));
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));
@@ -55,7 +55,7 @@ public class WorkflowPersistance extends BasePersistanceProvider {
     public static  List<Object[]> getProjectionRecordsForAccrual(int projectionId,String userId,String sessionId) {
         List<Object[]> obj = null;
         try {
-            String customSql =CustomSQLUtil.get("getProjectionRecordsForAccrual");
+            String customSql =SQlUtil.getQuery("getProjectionRecordsForAccrual");
             customSql=customSql.replace("?PROJECTION_ID", String.valueOf(projectionId));
             customSql=customSql.replace("?USER_ID", String.valueOf(userId));
             customSql=customSql.replace("?SESSION_ID", String.valueOf(sessionId));

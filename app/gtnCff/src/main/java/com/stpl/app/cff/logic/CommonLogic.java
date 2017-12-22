@@ -1,7 +1,14 @@
 
 package com.stpl.app.cff.logic;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
@@ -11,11 +18,13 @@ import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
 import com.stpl.app.cff.util.NotificationUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.model.ChProjectionSelection;
 import com.stpl.app.model.CustomViewDetails;
@@ -29,7 +38,6 @@ import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.parttwo.service.CffCustomViewDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffCustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.CustomViewDetailsLocalServiceUtil;
-import com.stpl.app.service.CustomViewMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
@@ -41,19 +49,10 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CssLayout;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.v7.ui.HorizontalLayout;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -1046,34 +1045,11 @@ public class CommonLogic {
      */
     public static Object executeSelectQuery(String query, Object udc1, Object udc2) {
 
-        return commonDao.executeSelectQuery(query, udc1, udc2);
+        return commonDao.executeSelectQuery(query);
 
     }
 
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return object
-     */
-    public static Object executeBulkUpdateQuery(String query, Object udc1, Object udc2) {
-        return commonDao.executeBulkUpdateQuery(query, udc1, udc2);
-    }
-
-    /**
-     * Gets the DiscountNo.
-     *
-     * @param projectionId
-     * @param priceGroupType
-     * @return object
-     */
-    public static Object executeUpdateQuery(List<?> nmSalesList, Object udc1, Object udc2, Object udc3) {
-
-        return commonDao.executeUpdateQuery(nmSalesList, udc1, udc2, udc3);
-    }
-
-    public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String where) {
+      public static List<String> getCommonSelectWhereOrderGroupByClause(String table1, String table2, String where) {
         List<String> list = new ArrayList<>();
         String orderBy = " YEARS, PERIODS";
         String groupBy = " " + table1 + StringConstantsUtil.DOT_YEARS;
@@ -1964,7 +1940,7 @@ public class CommonLogic {
         Map<Object, Object> map = new HashMap<>();
         query = "select Field_Name,Field_Values from RETURNS_PROJECTION_SELECTION\n"
                 + "where Projection_Master_Sid=" + projectionId + ";";
-            list = (List) commonDao.executeSelectQuery(query, null, null);
+            list = (List) commonDao.executeSelectQuery(query);
             if (list != null && !list.isEmpty()) {
                 for (int i = 0; i < list.size(); i++) {
                     Object[] obj = (Object[]) list.get(i);

@@ -4,6 +4,10 @@
  */
 package com.stpl.app.cff.dao;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
 import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.ProjectionCustDetails;
 import com.stpl.app.model.ProjectionMaster;
@@ -15,10 +19,6 @@ import com.stpl.app.parttwo.model.CffProdHierarchy;
 import com.stpl.app.parttwo.model.CffViewMaster;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
 import java.util.List;
 import java.util.Map;
 
@@ -27,21 +27,6 @@ import java.util.Map;
  * @author mohamed.hameed
  */
 public interface DataSelectionDAO {
-
-    /**
-     * Find view by name.
-     *
-     * @param viewName the view name
-     * @param forecastType the forecast type
-     * @param userId the user id
-     * @param viewType the view type
-     * @return the list
-     * @throws SystemException the system exception
-     * @throws PortalException the portal exception
-     * @throws Exception the exception
-     */
-    List findViewByName(String viewName, String forecastType, String userId, String viewType)
-            throws SystemException, PortalException;
 
     /**
      * Delete forecasting view master.
@@ -255,15 +240,6 @@ public interface DataSelectionDAO {
     public int generateProjection(final DataSelectionDTO dataSelectionDto) throws SystemException;
 
     /**
-     * Search for projections.
-     *
-     * @param parameters the parameters
-     * @return the projection master result list
-     * @throws com.liferay.portal.kernel.exception.SystemException
-     */
-    public List searchDSProjections(final Map<String, Object> parameters) throws SystemException;
-
-    /**
      * Saves nm projection.
      *
      * @param projectionId the projection id
@@ -276,15 +252,6 @@ public interface DataSelectionDAO {
      * @param projectionId the projection id
      */
     public void submitNMProjection(int projectionId);
-
-    /**
-     * Gets the hierarchy level and its values from Relationship builder
-     *
-     * @param parameters the parameters
-     * @return result list
-     * @throws com.liferay.portal.kernel.exception.SystemException
-     */
-    public List getRelationshipHierarchy(final Map<String, Object> parameters) throws SystemException;
 
     /**
      * Save Customer hierarchy
@@ -303,20 +270,6 @@ public interface DataSelectionDAO {
      */
     public void addProjectionProdHierarchy(final CffProdHierarchy cffProdHierarchy) throws SystemException;
 
-    public List getCcpDetails(final Map<String, Object> parameters) throws SystemException;
-
-    public List getLevelsFromHierarchy(final Map<String, Object> parameters) throws SystemException;
-
-    /**
-     * Gets the list of company groups
-     *
-     * @param parameters the parameters
-     * @return list of company groups
-     * @throws SystemException
-     * @throws Exception
-     */
-    public List getCustomerGroup(final Map<String, Object> parameters) throws SystemException;
-
     /**
      * Gets the list of company groups
      *
@@ -326,16 +279,6 @@ public interface DataSelectionDAO {
      * @throws Exception
      */
     public List getAllCustomerGroup(final DynamicQuery dynamicQuery) throws SystemException;
-
-    /**
-     * Gets the list of Product groups.
-     *
-     * @param parameters the parameters
-     * @return list of Product groups
-     * @throws SystemException
-     * @throws Exception
-     */
-    public List getProductGroup(final Map<String, Object> parameters) throws SystemException;
 
     /**
      * Gets list of Companies
@@ -362,12 +305,6 @@ public interface DataSelectionDAO {
 
     public List getForecastViewFromName(DynamicQuery dynamicQuery) throws SystemException;
 
-    public List getProjection(int projectionId);
-
-    public List getRelationShipValues(final Map<String, Object> parameters) throws SystemException;
-
-    public String deleteProjection(String string, int projectionId);
-
     public List getParentLevels(final int levelNo, final int relationshipLevelSid, final Map<String, Object> parameters) throws SystemException;
 
     public List getCustomerGroupDetails(final DynamicQuery dynamicQuery) throws SystemException;
@@ -378,51 +315,19 @@ public interface DataSelectionDAO {
 
     public List executeQueryforchannel(final Map<String, Object> parameters) throws SystemException;
 
-    public List getHelperTableListNames(final DynamicQuery dynamicQuery) throws SystemException;
-
     public List getItemIdFromCompanyInCCp(final DynamicQuery dynamicQuery) throws SystemException;
-
-    public List getItemsFromBrand(final Map<String, Object> parameters) throws SystemException;
-
-    public List getItemsFromBrand(final DynamicQuery dynamicQuery) throws SystemException;
 
     public List getInnerLevel(final Map<String, Object> parameters) throws SystemException;
 
     public List getForecastConfig(final DynamicQuery dynamicQuery) throws SystemException;
 
-    public List<CffDetails> getProjectionDetails(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
-
-    public CffDetails deleteProjectionDetails(final int systemId) throws PortalException, SystemException;
-
-    public List<CffCustHierarchy> getProjectionCustHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
-
-    public CffCustHierarchy deleteProjectionCustHierarchy(final int systemId) throws PortalException, SystemException;
-
-    public List<CffProdHierarchy> getProjectionProdHierarchy(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
-
-    public CffProdHierarchy deleteProjectionProdHierarchy(final int systemId) throws PortalException, SystemException;
-
-    public List<CffMaster> getProjectionMaster(final DynamicQuery dynamicQuery) throws PortalException, SystemException;
-
-    public CffMaster deleteProjectionMaster(final int systemId) throws PortalException, SystemException;
-
     public List getCcpMap(final Map<String, Object> parameters) throws SystemException;
 
-    public void saveCcp(final Map<String, Object> parameters) throws SystemException;
-
-    CffDetails addProjectionDetails(CffDetails projectionDetails) throws PortalException, SystemException;
-
     public Object tempOperation(final Map<String, Object> input, final String queryName) throws SystemException;
-
-    public List getProjections(final DynamicQuery dynamicQuery) throws SystemException, PortalException;
 
     public int getRelationshipCount(DynamicQuery dynamicQuery) throws SystemException, PortalException;
 
     public List getRelationship(DynamicQuery query) throws SystemException, PortalException;
-
-    public List getChildLevels(final Map<String, Object> parameters) throws SystemException, PortalException;
-
-    public int getDiscountCount(DynamicQuery dynamicQuery) throws SystemException;
 
     public List<Object[]> getDiscounts(DynamicQuery dynamicQuery) throws SystemException;
 

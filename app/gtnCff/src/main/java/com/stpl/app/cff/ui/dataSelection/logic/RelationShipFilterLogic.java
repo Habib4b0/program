@@ -1,14 +1,5 @@
 package com.stpl.app.cff.ui.dataSelection.logic;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
 import com.stpl.app.cff.queryUtils.CommonQueryUtils;
@@ -26,6 +17,14 @@ import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class RelationShipFilterLogic {
 
@@ -96,7 +95,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = getQueryForLinkedLevelCustomer(selectedHierarchyLevelDto, relationshipSid,
 				groupFilteredCompanies, levelHierarchyLevelDefinitionList, relationVersionNo);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -155,7 +154,7 @@ public class RelationShipFilterLogic {
 		String finalQuery = buildQueryForUserDefinedLevel(selectedHierarchyLevelDto, relationshipSid,
 				relationVersionNo);
 		List<Leveldto> resultList = new ArrayList<>();
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -201,7 +200,7 @@ public class RelationShipFilterLogic {
 				groupFilteredItems, selectedCustomerContractList, isNdc, levelHierarchyLevelDefinitionList,
 				customerHierarchyLevelList, relationVersionNo, customerRelationVersionNo, businessUnitValue);
 		List<Object[]> resultsRelationList = getRelationshipList(selectedHierarchyLevelDto, relationshipSid);
-		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> resultsDataList = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		if (resultsDataList != null && !resultsDataList.isEmpty()) {
 			for (int i = 0; i < resultsDataList.size(); i++) {
 				Leveldto dto = (Leveldto) selectedHierarchyLevelDto.clone();
@@ -330,7 +329,7 @@ public class RelationShipFilterLogic {
 		getWhereQueryForCustomerAndContract(selectedCustomerContractList, customerHierarchyLevelDefinitionList,
 				queryBean, customerRelationVersionNo);
 		String finalQuery = CommonQueryUtils.getQuery(queryBean.generateQuery(), whereQueries);
-		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery, null, null);
+		List<Object[]> results = (List<Object[]>) daoImpl.executeSelectQuery(finalQuery);
 		for (Object[] object : results) {
 			customerSidSet.add(getIntegerValue(object, 0));
 			contractSidSet.add(getIntegerValue(object, 1));
@@ -507,7 +506,7 @@ public class RelationShipFilterLogic {
 		input.add(productHierarchyQuery);
 		String withTableNameQuery = QueryUtil.replaceTableNames(CommonQueryUtils.getAppQuery(input, "ccpInsertQuery"),
 				tempTableNames);
-		daoImpl.executeBulkUpdateQuery(withTableNameQuery, null, null);
+		daoImpl.executeSelectQuery(withTableNameQuery);
 
 	}
 

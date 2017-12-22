@@ -4,6 +4,8 @@
  */
 package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
@@ -16,23 +18,21 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ValidationUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
+import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Window;
 import com.vaadin.v7.data.Property;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.data.validator.RegexpValidator;
 import com.vaadin.v7.data.validator.StringLengthValidator;
 import com.vaadin.v7.event.ItemClickEvent;
-import static com.vaadin.server.Sizeable.UNITS_PERCENTAGE;
-import com.vaadin.ui.Button;
 import com.vaadin.v7.ui.ComboBox;
-import com.vaadin.ui.CssLayout;
 import com.vaadin.v7.ui.HorizontalLayout;
-import com.vaadin.ui.Notification;
 import com.vaadin.v7.ui.TextField;
 import com.vaadin.v7.ui.VerticalLayout;
-import com.vaadin.ui.Window;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;

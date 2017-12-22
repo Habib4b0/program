@@ -5,18 +5,21 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractGroupLookup;
 import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
+import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
+import static com.stpl.app.cff.util.Constants.IndicatorConstants.*;
 import com.stpl.app.cff.util.NotificationUtils;
 import com.stpl.app.cff.util.UiUtils;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.vaadin.v7.data.util.BeanItemContainer;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +28,6 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
-import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
-import static com.stpl.app.cff.util.Constants.IndicatorConstants.*;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *

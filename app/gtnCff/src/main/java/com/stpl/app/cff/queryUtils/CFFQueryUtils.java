@@ -6,15 +6,14 @@
  */
 package com.stpl.app.cff.queryUtils;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
-import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,36 +33,6 @@ public class CFFQueryUtils {
      */
     private static final Logger LOGGER = LogManager.getLogger(CFFQueryUtils.class);
     private static final CFFDAO DAO = CFFDAOImpl.getInstance();
-
-    /**
-     * Gets the CCP combination
-     *
-     * @param cffDTO
-     * @return
-     */
-    public List getCCPCombinationForDisplay(CFFDTO cffDTO) {
-        LOGGER.debug("getCCPCombinationForDisplay method started");
-        try {
-            String sql = "";
-
-            if (cffDTO.getProjectionIds() != null) {
-                sql = DAO.getQuery("getCffDetailsOnEditPart1");
-                sql += " AND CFFD.CFF_MASTER_SID != " + cffDTO.getCffMasterId() + "  AND CFFD.CFF_MASTER_SID < " + cffDTO.getCffMasterId() + ") ";
-                sql += DAO.getQuery("getCffDetailsOnEditPart2");
-                sql += " AND CFFM.CFF_MASTER_SID != " + cffDTO.getCffMasterId() + "  AND CFFM.CFF_MASTER_SID < " + cffDTO.getCffMasterId() + ") ";
-                sql += DAO.getQuery("getCffDetailsOnEditPart3");
-                sql += " AND T.PROJECTION_MASTER_SID IN (" + cffDTO.getProjectionIds() + ")";
-            } else {
-                sql = DAO.getQuery("getCffResultsData");
-            }
-
-            return (List) DAO.executeSelectQuery(sql);
-        } catch (Exception e) {
-            LOGGER.error(e);
-            LOGGER.debug("getCCPCombinationForDisplay method ended");
-            return Collections.emptyList();
-        }
-    }
 
     /**
      * Loads the latest approved CCP
@@ -88,28 +57,9 @@ public class CFFQueryUtils {
      *
      * @return
      */
-    public List getApprovedCFF() {
-        LOGGER.debug("Inside getLatestCCP method");
-        String sql = DAO.getQuery("getLastApprovedCFF");
-        try {
-            return (List) DAO.executeSelectQuery(sql);
-        } catch (PortalException ex) {
-            LOGGER.error(ex);
-            return Collections.emptyList();
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-            return Collections.emptyList();
-        }
-    }
-
-    /**
-     * Loads the latest approved CCP
-     *
-     * @return
-     */
     public List getCffDeatils(int cffSid) {
         LOGGER.debug("Inside getLatestCCP method");
-        String sql = DAO.getQuery("getCffDetails");
+        String sql = SQlUtil.getQuery("getCffDetails");
         sql += "AND CFF_MASTER_SID=" + cffSid;
         try {
             return (List) DAO.executeSelectQuery(sql);
@@ -155,7 +105,7 @@ public class CFFQueryUtils {
      */
     public List getPriorName(int projectionId, SessionDTO sessionDTO) {
         LOGGER.debug("Inside getPriorName method");
-        String sql = DAO.getQuery("getPriorName");
+        String sql = SQlUtil.getQuery("getPriorName");
         try {
             if (sessionDTO.getProjectionId() != 0) {
                 sql += " CD.PROJECTION_MASTER_SID = " + projectionId + " AND CM.CFF_MASTER_SID NOT IN( " + sessionDTO.getProjectionId() + " )";

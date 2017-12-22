@@ -5,7 +5,9 @@
  */
 package com.stpl.app.cff.ui.projectionVariance.dto;
 
+import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.v7.ui.AbstractField;
@@ -14,8 +16,6 @@ import com.vaadin.v7.ui.Field;
 import com.vaadin.v7.ui.TextField;
 import java.util.List;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.ifs.ui.util.NumericConstants;
 
 /**
  *

@@ -5,11 +5,11 @@
  */
 package com.stpl.app.cff.dao;
 
-import com.stpl.app.parttwo.model.CffAdditionalInfo;
-import com.stpl.app.parttwo.model.CffDocDetails;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.parttwo.model.CffAdditionalInfo;
+import com.stpl.app.parttwo.model.CffDocDetails;
 import java.util.List;
 
 /**

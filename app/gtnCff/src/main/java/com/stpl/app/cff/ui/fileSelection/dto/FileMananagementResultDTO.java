@@ -6,7 +6,6 @@ package com.stpl.app.cff.ui.fileSelection.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
 
 // TODO: Auto-generated Javadoc

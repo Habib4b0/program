@@ -1,6 +1,7 @@
 package com.stpl.app.cff.ui.projectionVariance.form;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractCff.AbstractComparisonLookup;
 import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
@@ -8,14 +9,13 @@ import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.WindowMessagesName.CONFIRMATION;
 import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.ConstantsUtil.SELECT_ONE;
+import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Button;
+import com.vaadin.v7.data.Property;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;

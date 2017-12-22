@@ -4,6 +4,21 @@
  */
 package com.stpl.app.cff.ui.dataSelection.form;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.abstractCff.AbstractDataSelection;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.queryUtils.CFFQueryUtils;
+import com.stpl.app.cff.security.StplSecurity;
+import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
+import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
+import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
+import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
+import com.stpl.app.cff.util.AbstractNotificationUtils;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_HIERARCHY;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
@@ -19,37 +34,6 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_GRO
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_CUSTOMER_HIERARCHY_LOOKUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_GROUP_LOOKUP;
 import static com.stpl.app.cff.util.Constants.LabelConstants.WINDOW_PRODUCT_HIERARCHY_LOOKUP;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import org.apache.commons.lang.StringUtils;
-import org.asi.ui.container.ExtTreeContainer;
-import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
-
-import com.stpl.app.cff.abstractCff.AbstractDataSelection;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.queryUtils.CFFQueryUtils;
-import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.service.GtnAutomaticRelationServiceRunnable;
-import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
-import com.stpl.app.cff.ui.dataSelection.logic.RelationShipFilterLogic;
-import com.stpl.app.cff.util.AbstractNotificationUtils;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.DataSelectionUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -65,15 +49,28 @@ import com.stpl.ifs.ui.forecastds.dto.ViewDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.IndexedContainer;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Window;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.IndexedContainer;
+import com.vaadin.v7.ui.ComboBox;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.asi.ui.container.ExtTreeContainer;
+import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 
 /**
  *

@@ -1,19 +1,17 @@
 package com.stpl.app.cff.bpm.service;
 
-import com.stpl.app.cff.util.StringConstantsUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.kie.internal.task.api.UserGroupCallback;
-
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.jboss.logging.Logger;
+import org.kie.internal.task.api.UserGroupCallback;
 
 /**
  *

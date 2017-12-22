@@ -6,6 +6,25 @@
 package com.stpl.app.cff.ui.projectionVariance.logic;
 
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
+import com.stpl.app.cff.dto.PVSelectionDTO;
+import com.stpl.app.cff.dto.ProjectionSelectionDTO;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.CFFLogic;
+import com.stpl.app.cff.logic.CommonLogic;
+import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
+import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.ALL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VALUE;
@@ -14,7 +33,18 @@ import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
 import static com.stpl.app.cff.util.Constants.LabelConstants.PROGRAM_CATEGORY;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL;
 import static com.stpl.app.cff.util.Constants.LabelConstants.TOTAL_DISCOUNT;
-
+import com.stpl.app.cff.util.ConstantsUtil;
+import com.stpl.app.cff.util.Converters;
+import com.stpl.app.cff.util.HeaderUtils;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.model.NmProjectionSelection;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.CustomTableHeaderDTO;
+import com.stpl.ifs.util.QueryUtil;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,46 +59,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
 import org.jboss.logging.Logger;
-
-import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
-import com.stpl.app.cff.dao.CommonDAO;
-import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.dto.ProjectionSelectionDTO;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Constants;
-
-import com.stpl.app.cff.util.ConstantsUtil;
-import com.stpl.app.cff.util.Converters;
-import com.stpl.app.cff.util.HeaderUtils;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.NmProjectionSelection;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.CustomTableHeaderDTO;
-import com.stpl.ifs.util.QueryUtil;
-
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  *
@@ -76,7 +69,6 @@ import com.liferay.portal.kernel.exception.SystemException;
  */
 public class ProjectionVarianceLogic {
 
-    private static final CommonDAO commonDao = new CommonDAOImpl();
     public static final Logger LOGGER = Logger.getLogger(ProjectionVarianceLogic.class);
     private String DATASOURCE_CONTEXT = "java:jboss/datasources/jdbc/appDataPool";
     /**
@@ -363,7 +355,7 @@ public class ProjectionVarianceLogic {
         query.append(orderBy.toString());
         query.append(" OFFSET ").append(comparisonLookup.getStart()).append(" ROWS FETCH NEXT ").append(comparisonLookup.getOffset()).append(" ROWS ONLY");
         
-        List result = (List) commonDao.executeSelectQuery(query.toString(), null, null);
+        List result = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return getCustomizedComparisonList(result);
     }
 
@@ -514,7 +506,7 @@ public class ProjectionVarianceLogic {
             query.append(andOperator).append("  BRAND LIKE ").append("'%'");
         }
 
-        List result = (List) commonDao.executeSelectQuery(query.toString(), null, null);
+        List result = HelperTableLocalServiceUtil.executeSelectQuery(query.toString());
         return CFFLogic.getCount(result);
     }
 
@@ -2712,7 +2704,7 @@ public class ProjectionVarianceLogic {
         projectionIds = projectionIds.substring(1, projectionIds.length() - 1);
         String query = SQlUtil.getQuery("get-projection-names-by-id");
         query = query.replace("@CFF_MASTER_SID", projectionIds);
-        List<Object[]> resultList = (List) commonDao.executeSelectQuery(query, null, null);
+        List<Object[]> resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         List<List> list = new ArrayList<>();
         if (resultList != null && !resultList.isEmpty()) {
             List projectionIdList = new ArrayList<>();

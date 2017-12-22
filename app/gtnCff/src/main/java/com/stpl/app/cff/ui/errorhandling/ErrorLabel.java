@@ -1,9 +1,8 @@
 package com.stpl.app.cff.ui.errorhandling;
 
-import org.jboss.logging.Logger;
-
 import com.vaadin.server.UserError;
 import com.vaadin.v7.ui.Label;
+import org.jboss.logging.Logger;
 
 // TODO: Auto-generated Javadoc
 /**

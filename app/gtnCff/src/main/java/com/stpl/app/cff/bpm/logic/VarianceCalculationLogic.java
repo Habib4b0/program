@@ -1,13 +1,12 @@
 package com.stpl.app.cff.bpm.logic;
 
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.bpm.service.BPMProcessBean;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.Map;
-
-import org.kie.api.task.model.TaskSummary;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import org.kie.api.task.model.Status;
+import org.kie.api.task.model.TaskSummary;
 
 public class VarianceCalculationLogic {
 

@@ -4,8 +4,63 @@
  */
 package com.stpl.app.cff.ui.dataSelection.logic;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.stpl.app.cff.dao.CommonDAO;
+import com.stpl.app.cff.dao.DataSelectionDAO;
+import com.stpl.app.cff.dao.impl.CommonDAOImpl;
+import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
+import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
+import com.stpl.app.cff.dto.SessionDTO;
+import com.stpl.app.cff.logic.DataSourceConnection;
+import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
+import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
+import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_CUSTOMER_GROUP;
-
+import com.stpl.app.cff.util.Converters;
+import com.stpl.app.cff.util.DataSelectionUtil;
+import com.stpl.app.cff.util.StringConstantsUtil;
+import com.stpl.app.cff.util.UiUtils;
+import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import com.stpl.app.model.CompanyMaster;
+import com.stpl.app.model.ForecastConfig;
+import com.stpl.app.model.ItemMaster;
+import com.stpl.app.parttwo.model.CffCustHierarchy;
+import com.stpl.app.parttwo.model.CffDetails;
+import com.stpl.app.parttwo.model.CffProdHierarchy;
+import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
+import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.CcpDetailsLocalServiceUtil;
+import com.stpl.app.service.CompanyGroupDetailsLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ForecastConfigLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.app.service.ItemGroupDetailsLocalServiceUtil;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
+import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
+import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
+import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
+import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.ifs.util.QueryUtil;
+import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.TreeTable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,73 +76,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.naming.NamingException;
-
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.container.ExtTreeContainer;
 import org.asi.ui.extfilteringtable.paged.logic.SortByColumn;
-
-import com.stpl.app.cff.dao.CommonDAO;
-import com.stpl.app.cff.dao.DataSelectionDAO;
-import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
-import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
-import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.logic.DataSourceConnection;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
-import com.stpl.app.cff.util.CommonUtils;
-import com.stpl.app.cff.util.Converters;
-import com.stpl.app.cff.util.DataSelectionUtil;
-import com.stpl.app.cff.util.StringConstantsUtil;
-import com.stpl.app.cff.util.UiUtils;
-import com.stpl.app.cff.util.xmlparser.SQlUtil;
-import com.stpl.app.model.BrandMaster;
-import com.stpl.app.model.CcpDetails;
-import com.stpl.app.model.CompanyMaster;
-import com.stpl.app.model.ForecastConfig;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.model.ItemMaster;
-import com.stpl.app.model.RelationshipBuilder;
-import com.stpl.app.parttwo.model.CffCustHierarchy;
-import com.stpl.app.parttwo.model.CffDetails;
-import com.stpl.app.parttwo.model.CffProdHierarchy;
-import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
-import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
-import com.stpl.ifs.ui.forecastds.dto.HierarchyLookupDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
-import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.ifs.util.QueryUtil;
-import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.stpl.app.service.BrandMasterLocalServiceUtil;
-import com.stpl.app.service.CcpDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
-import com.stpl.app.service.ForecastConfigLocalServiceUtil;
-import com.stpl.app.service.ItemGroupDetailsLocalServiceUtil;
-import com.stpl.app.service.ItemMasterLocalServiceUtil;
-import com.stpl.app.service.RelationshipBuilderLocalServiceUtil;
-import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.vaadin.v7.data.Container;
-import com.vaadin.v7.data.util.filter.Between;
-import com.vaadin.v7.data.util.filter.Compare;
-import com.vaadin.v7.data.util.filter.SimpleStringFilter;
-import com.vaadin.v7.ui.TreeTable;
 
 /**
  *
@@ -1365,7 +1357,7 @@ public class DataSelectionLogic {
 	public void setForcastFileDate(DataSelectionDTO dto) {
 		String query = SQlUtil.getQuery("getFileEndDate");
 		query = query.replace("[?BUSINESS_UNIT]", StringUtils.EMPTY + dto.getBusinessUnitSystemId());
-		final List list = (List) salesProjectionDAO.executeSelectQuery(query, null, null);
+		final List list = (List) salesProjectionDAO.executeSelectQuery(query);
 		if (list != null && !list.isEmpty()) {
 			final Object[] tempDate = (Object[]) list.get(0);
 			if (tempDate[0] != null) {
@@ -1522,7 +1514,7 @@ public class DataSelectionLogic {
 			queryString.append("select RELATIONSHIP_LEVEL_VALUES from RELATIONSHIP_LEVEL_DEFINITION where \n"
 					+ "RELATIONSHIP_BUILDER_SID='" + rbID + "'\n" + "and \n" + "LEVEL_NAME='Market Type'");
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
-			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
 		} catch (final Exception ex) {
 			LOGGER.error(ex);
@@ -1549,7 +1541,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select LEVEL_VALUE_REFERENCE from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID="
 					+ definedValue + " and LEVEL_NAME='Market Type'";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str, null, null);
+			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
 			LOGGER.error(e);
@@ -1577,29 +1569,12 @@ public class DataSelectionLogic {
 					+ " where RELATIONSHIP_BUILDER_SID in(Select CUST_RELATIONSHIP_BUILDER_SID\n"
 					+ " from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId
 					+ ") AND LEVEL_NAME='Market Type') \n" + "and LIST_NAME='CONTRACT_TYPE';";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str, null, null);
+			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
 			LOGGER.error(e);
 			return Collections.emptyList();
 		}
-	}
-
-	public int getDiscountCount(String filterText) {
-		try {
-			final DynamicQuery query = HelperTableLocalServiceUtil.dynamicQuery();
-			filterText = StringUtils.trimToEmpty(filterText) + "%";
-			final ProjectionList productProjectionList = ProjectionFactoryUtil.projectionList();
-			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.HELPER_TABLE_SID));
-			productProjectionList.add(ProjectionFactoryUtil.property(StringConstantsUtil.DESCRIPTION1));
-			query.setProjection(ProjectionFactoryUtil.distinct(productProjectionList));
-			query.add(RestrictionsFactoryUtil.ilike(StringConstantsUtil.DESCRIPTION1, filterText));
-			query.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.LIST_NAME, "RS_TYPE"));
-			discountDdlbCount = dataSelectionDao.getDiscountCount(query);
-		} catch (final Exception ex) {
-			LOGGER.error(ex);
-		}
-		return discountDdlbCount;
 	}
 
 	/**
@@ -1689,7 +1664,7 @@ public class DataSelectionLogic {
 				queryString.append("" + projectionId);
 				queryString.append(" ) and LEVEL_NAME='Market TYPE'");
 			}
-			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString(), null, null);
+			list = (List) salesProjectionDAO.executeSelectQuery(queryString.toString());
 			return list;
 
 		} catch (final Exception ex) {
@@ -1874,7 +1849,7 @@ public class DataSelectionLogic {
 			final CommonDAO salesProjectionDAO = new CommonDAOImpl();
 			str = "select FIELD_NAME from HIERARCHY_LEVEL_DEFINITION where HIERARCHY_DEFINITION_SID=" + definedValue
 					+ " and  LEVEL_NAME in('Customer','Trading Partner')";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str, null, null);
+			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 			return list;
 		} catch (final Exception e) {
 			LOGGER.error(e);

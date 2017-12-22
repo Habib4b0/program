@@ -1,16 +1,16 @@
 package com.stpl.app.cff.dao.impl;
 
-import com.stpl.app.cff.dao.StplSecurityDAO;
-import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.app.model.UsergroupDomainMaster;
-import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
-import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.dao.CommonServiceImpl;
+import com.stpl.app.cff.dao.StplSecurityDAO;
+import com.stpl.app.model.UsergroupBusinessrole;
+import com.stpl.app.model.UsergroupDomainMaster;
+import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
+import com.stpl.app.service.UsergroupDomainMasterLocalServiceUtil;
 import java.util.List;
 
 /**

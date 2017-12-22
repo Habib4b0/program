@@ -1,11 +1,10 @@
 package com.stpl.app.cff.ui.errorhandling;
 
-import org.jboss.logging.Logger;
-
 import com.vaadin.server.DefaultErrorHandler;
-import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbstractLayout;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
+import org.jboss.logging.Logger;
 
 /**
  * The Class ErrorHandler.

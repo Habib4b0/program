@@ -4,15 +4,13 @@
  */
 package com.stpl.app.cff.queryUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-import org.jboss.logging.Logger;
-
 import com.stpl.app.cff.dao.CFFDAO;
 import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.lang.StringUtils;
+import org.jboss.logging.Logger;
 
 /**
  *

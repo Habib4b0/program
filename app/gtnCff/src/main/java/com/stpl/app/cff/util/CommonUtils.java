@@ -1,5 +1,15 @@
 package com.stpl.app.cff.util;
 
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.NoSuchUserException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
@@ -9,31 +19,7 @@ import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.queryUtils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.model.HelperTable;
-import com.stpl.app.parttwo.model.CffApprovalDetails;
-import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
-import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.ifs.util.HelperDTO;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.vaadin.v7.data.Property;
-import com.vaadin.v7.data.util.BeanItemContainer;
-import com.vaadin.v7.ui.ComboBox;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import static com.stpl.app.cff.util.Constants.FrequencyConstants.*;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_DAY;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.FORECAST_END_PERIOD;
@@ -59,17 +45,31 @@ import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_STA
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_PERIOD;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR;
 import static com.stpl.app.cff.util.Constants.ProjectionConstants.PROJECTION_START_YEAR_DDLB;
+import com.stpl.app.model.HelperTable;
+import com.stpl.app.parttwo.model.CffApprovalDetails;
+import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.exception.NoSuchUserException;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.ifs.util.HelperDTO;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.ComboBox;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.asi.ui.custommenubar.CustomMenuBar;
-import java.text.DecimalFormat;
 
 /**
  *
@@ -265,42 +265,6 @@ public class CommonUtils {
             code = Integer.valueOf(result.get(0).toString());
         }
         return code;
-    }
-
-    /**
-     * Gets the customized cff results.
-     *
-     * @param resultsList the results list
-     * @return the customized cff results
-     */
-    public List<CFFResultsDTO> getCustomizedCffResults(List<Object[]> resultsList) {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
-        CFFResultsDTO cffResultsDTO;
-        String s = "";
-        HashMap<Long, String> hm = getUserInfo();
-        for (final Object[] obj : resultsList) {
-            cffResultsDTO = new CFFResultsDTO();
-            cffResultsDTO.setWorkflowId(String.valueOf(obj[0]));
-            cffResultsDTO.setProjectionName(String.valueOf(obj[1]));
-
-            s = String.valueOf(obj[NumericConstants.THREE] == null ? "" : obj[NumericConstants.THREE]);
-            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
-            cffResultsDTO.setCreatedBy(s == null ? "" : s);
-
-            s = String.valueOf(obj[NumericConstants.FOUR] == null ? "" : obj[NumericConstants.FOUR]);
-            s = hm.get(Long.parseLong(s.trim().equals("") ? "0" : s));
-            cffResultsDTO.setApprovedBy(s == null ? "" : s);
-
-            s = String.valueOf(obj[NumericConstants.SIX] == null ? "" : obj[NumericConstants.SIX]);
-            cffResultsDTO.setPriorLatestEstimate(s);
-            s = String.valueOf(obj[NumericConstants.SEVEN] == null ? "" : obj[NumericConstants.SEVEN]);
-            cffResultsDTO.setPriorUpdateCycle(s);
-            cffResultsDTO.setProjectionId(Integer.valueOf(String.valueOf(obj[NumericConstants.EIGHT])));
-            cffResultsDTO.setWorkflowMasterSystemID(Integer.valueOf(String.valueOf(obj[NumericConstants.NINE])));
-            cffResultsDTOs.add(cffResultsDTO);
-
-        }
-        return cffResultsDTOs;
     }
 
     public static String[] objectListToStringArray(List<Object> objectList) {

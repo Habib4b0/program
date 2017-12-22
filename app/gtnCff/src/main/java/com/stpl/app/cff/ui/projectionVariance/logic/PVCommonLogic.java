@@ -7,10 +7,10 @@ package com.stpl.app.cff.ui.projectionVariance.logic;
 
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.CommonUtils;
-import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
+import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
+import static com.stpl.app.cff.util.Constants.LabelConstants.PERCENT;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;

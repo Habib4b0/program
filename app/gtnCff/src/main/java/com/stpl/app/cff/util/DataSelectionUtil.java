@@ -6,15 +6,15 @@
  */
 package com.stpl.app.cff.util;
 
-import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
-import static com.stpl.app.cff.util.Constants.NULL;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
+import static com.stpl.app.cff.util.Constants.NULL;
+import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.data.util.BeanItem;
 import com.vaadin.v7.data.util.BeanItemContainer;

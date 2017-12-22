@@ -6,7 +6,6 @@
 package com.stpl.app.cff.dto;
 
 import com.stpl.app.cff.abstractCff.AbstractCustomTreeView;
-import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.app.cff.logic.CommonLogic;
 import static com.stpl.app.cff.logic.CommonLogic.isValidViewName;
 import com.stpl.app.cff.logic.CustomViewLogic;
@@ -15,6 +14,7 @@ import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffCustomViewMaster;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.vaadin.v7.data.util.AbstractContainer;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Table;
@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.asi.ui.container.ExtTreeContainer;
 import org.jboss.logging.Logger;
-// TODO: Auto-generated Javadoc
-
 /**
  * The Class CustomTreeBuild.
  *

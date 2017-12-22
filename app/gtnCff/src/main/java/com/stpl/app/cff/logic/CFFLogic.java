@@ -1,23 +1,15 @@
 package com.stpl.app.cff.logic;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
-
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
@@ -29,7 +21,6 @@ import com.stpl.app.cff.dao.impl.CFFDAOImpl;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.cff.dto.ApprovalDetailsDTO;
-import com.stpl.app.cff.dto.CFFDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
@@ -38,6 +29,7 @@ import com.stpl.app.cff.queryUtils.CommonQueryUtils;
 import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.CommonUtils;
+import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.Converters;
 import com.stpl.app.cff.util.NotificationUtils;
@@ -51,7 +43,7 @@ import com.stpl.app.parttwo.model.CffCustHierarchy;
 import com.stpl.app.parttwo.model.CffDetails;
 import com.stpl.app.parttwo.model.CffMaster;
 import com.stpl.app.parttwo.model.CffProdHierarchy;
-import com.stpl.app.parttwo.model.impl.CffApprovalDetailsImpl;
+import com.stpl.app.parttwo.service.CffApprovalDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffCustHierarchyLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffDetailsLocalServiceUtil;
 import com.stpl.app.parttwo.service.CffProdHierarchyLocalServiceUtil;
@@ -63,19 +55,24 @@ import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
-import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.liferay.portal.kernel.dao.orm.ProjectionList;
-import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.cff.util.Constants;
-import com.vaadin.v7.data.Container;
 import com.vaadin.server.VaadinSession;
+import com.vaadin.v7.data.Container;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.kie.api.runtime.process.ProcessInstance;
+import org.kie.api.task.model.TaskSummary;
 
 /**
  *
@@ -97,24 +94,6 @@ public class CFFLogic {
     private FileSelectionDTO dto = new FileSelectionDTO();
     private DataSelectionDAO dataSelectionDAO = new DataSelectionDAOImpl();
     
-    /**
-     * Gets the cff details for add.
-     *
-     * @return the cff details for add
-     */
-    public List<CFFResultsDTO> getCffDetailsForAdd() {
-        List<CFFResultsDTO> cffResultsDTOs = new ArrayList<>();
-        final CFFDTO cffDTO = new CFFDTO();
-        List resultsList;
-        try {
-            resultsList = cffQueryUtils.getCCPCombinationForDisplay(cffDTO);
-            cffResultsDTOs = commonUtils.getCustomizedCffResults(resultsList);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-        }
-        return cffResultsDTOs;
-    }
-
     /**
      * Gets latest approved CCP Projection
      *
@@ -182,8 +161,7 @@ public class CFFLogic {
 
         final List<HelperDTO> helperList = new ArrayList<>();
 
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil
-                .forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtil.LIST_NAME, listName));
         List<String> statusList = new ArrayList<>();
         statusList.add("Withdrawn");
@@ -300,22 +278,6 @@ public class CFFLogic {
     }
 
     /**
-     * Gets latest approved CCP Projection
-     *
-     * @return Projection List
-     */
-    public CFFResultsDTO getApprovedCFF() {
-        List resultsList;
-        try {
-            resultsList = cffQueryUtils.getApprovedCFF();
-            return commonUtils.getCustomisedLatestApprovedCff(resultsList);
-        } catch (Exception ex) {
-            LOGGER.error(ex);
-            return new CFFResultsDTO();
-        }
-    }
-
-    /**
      * Deleting from Cff master table
      *
      * @param cffMasterSystemId
@@ -410,8 +372,8 @@ public class CFFLogic {
      * @return the string
      */
     public String submitCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(0);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -549,8 +511,8 @@ public class CFFLogic {
      * @return Success message
      */
     public String rejectCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(0);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -584,8 +546,8 @@ public class CFFLogic {
      * @return Success message
      */
     public String cancelCffApproveDetails(String userId, int cffId) {
-        final DynamicQuery cffDetailsDynamicQuery = DynamicQueryFactoryUtil.forClass(CffApprovalDetails.class);
-        final CffApprovalDetails cffApprovalDetails = new CffApprovalDetailsImpl();
+        final DynamicQuery cffDetailsDynamicQuery = CffApprovalDetailsLocalServiceUtil.dynamicQuery();
+        final CffApprovalDetails cffApprovalDetails = CffApprovalDetailsLocalServiceUtil.createCffApprovalDetails(0);
         CffApprovalDetails cffApprovalDetailsOld;
         List<CffApprovalDetails> resultsList = new ArrayList<>();
         int approvalSequence;
@@ -1087,19 +1049,6 @@ public class CFFLogic {
         } catch (Exception e) {
             LOGGER.error(e + " in saveCustomerHierarchyLogic");
         }
-    }
-
-    public void insertToCcpMap(List<String> relationshipBuilderSids, String screenName) throws SystemException {
-        List<String> relationshipBuilderSidsList = null;
-        Map<String, Object> parameters = new HashMap<>();
-        if (relationshipBuilderSids != null && !relationshipBuilderSids.isEmpty()) {
-            relationshipBuilderSidsList = new ArrayList<>(relationshipBuilderSids);
-        }
-        parameters.put(StringConstantsUtil.INDICATOR, "insertToCcpMap");
-        parameters.put("relationshipBuilderSids", relationshipBuilderSidsList);
-        parameters.put("scrennName", screenName);
-        dataSelectionDAO.saveCcp(parameters);
-
     }
 
     public void saveCcp(final List<Leveldto> customerEndLevels, final String projectionId, final GtnSmallHashMap tempTableNames) {
