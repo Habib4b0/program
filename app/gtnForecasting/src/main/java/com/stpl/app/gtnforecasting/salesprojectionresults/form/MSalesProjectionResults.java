@@ -2,7 +2,7 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the editor.current
  */
 package com.stpl.app.gtnforecasting.salesprojectionresults.form;
 
@@ -150,28 +150,24 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         }
     };
     @UiField("tableVerticalLayout")
-    VerticalLayout layout;
-    List<Object> headerList;
-    List<CustomViewMaster> customViewList = new ArrayList<>();
-    List<Leveldto> currentHierarchy = new ArrayList<>();
+    private VerticalLayout layout;
+    private List<CustomViewMaster> customViewList = new ArrayList<>();
 
     /* Map for Mapping double Header right Visible columns */
-    Map<Object, Object[]> mapRightVisibleColumns = new HashMap<>();
-
+    
     /* Map for Mapping double Header Left Visible columns */
-    Map<Object, Object[]> mapLeftVisibleColumns = new HashMap<>();
-    boolean firstGenerated = false;
-    boolean generated = false;
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    
+    private boolean firstGenerated = false;
+    private boolean generated = false;
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
     /**
      * The projection id.
      */
-    int projectionId;
-    int customIdToSelect = 0;
-    int customId = 0;
-    CommonUtils commonUtils = new CommonUtils();
-    String screenName = StringUtils.EMPTY;
-    boolean canLoad = Boolean.TRUE;
+    private int projectionId;
+    private int customIdToSelect = 0;
+    private int customId = 0;
+    private String screenName = StringUtils.EMPTY;
+    private boolean canLoad = Boolean.TRUE;
 
     /**
      * Instantiates a new sales projection results.
@@ -602,10 +598,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
         LOGGER.debug("loadCustomDDLB ends ");
     }
 
-    public void setCurrentHierarchy(List<Leveldto> currentHierarchy) {
-        this.currentHierarchy = currentHierarchy;
-    }
-
+    
     public void generateLogic() {
         levelFilter.removeValueChangeListener(levelFilterChangeOption);
         loadLevelAndFilterValue();
@@ -899,7 +892,7 @@ public class MSalesProjectionResults extends ForecastSalesProjectionResults {
             map.put("Pivot", pivotView.getValue() != null ? pivotView.getValue().toString() : StringUtils.EMPTY );
             sprCommonLogic.saveMandatedSRPSelection(map, session.getProjectionId(), Constant.SALES_PROJECTION_RESULTS);
             LOGGER.debug("saveSPResults method ends");
-        } catch (Exception ex) {
+        } catch (PortalException ex) {
             LOGGER.error(ex);
         }
     }

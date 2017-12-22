@@ -56,14 +56,14 @@ import org.jboss.logging.Logger;
  */
 public class MSalesProjection extends ForecastSalesProjection {
 
-    String screenName;
+    private final String screenName;
     private static final Logger LOGGER = Logger.getLogger(MSalesProjection.class);
     public static Map<String, Integer> rowCountMap = new HashMap<>();
-    boolean generated = false;
-    boolean firstGenerated = false;
-    List<String> projectedPeriodList = new ArrayList();
-    SalesRowDto salesPMPYDTO = new SalesRowDto();
-    Set<String> tableHirarechyNos = new HashSet<>();
+    private boolean generated = false;
+    private boolean firstGenerated = false;
+    private final List<String> projectedPeriodList = new ArrayList();
+    private SalesRowDto salesPMPYDTO = new SalesRowDto();
+    private final Set<String> tableHirarechyNos = new HashSet<>();
 
     public MSalesProjection(SessionDTO session, String screenName) throws PortalException, SystemException  {
         super(session, screenName);
@@ -288,8 +288,8 @@ public class MSalesProjection extends ForecastSalesProjection {
                 pmpyCalc.addCloseListener(new Window.CloseListener() {
                     @Override
                     public void windowClose(Window.CloseEvent e) {
-                        if (pmpyCalc.isImport) {
-                            updateOnPMPYImport(hierarchyNo, pmpyCalc.getUpdateValue(), pmpyCalc.getUpdatePeriod(), pmpyCalc.isSalesOrUnits, salesPMPYDTO);
+                        if (pmpyCalc.isIsImport()) {
+                            updateOnPMPYImport(hierarchyNo, pmpyCalc.getUpdateValue(), pmpyCalc.getUpdatePeriod(), pmpyCalc.isIsSalesOrUnits(), salesPMPYDTO);
                         }
                     }
                 });
@@ -474,7 +474,7 @@ public class MSalesProjection extends ForecastSalesProjection {
 
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }

@@ -79,7 +79,7 @@ public class MedicaidURAResultsLogic {
     public static final String OVERRIDE_CPI_URA = "Override CPI URA";
     public static final String CPI_U = "CPI-U";
 
-    MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
+    protected MedicaidQueryUtils queryUtil = new MedicaidQueryUtils();
     private static final DecimalFormat CUR_FOUR = new DecimalFormat("$0.0000");
 
     public List<TableDTO> getConfiguredMedicaidResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO, SessionDTO session) {
@@ -196,7 +196,7 @@ public class MedicaidURAResultsLogic {
                     projDTOList = getCustomizedProjectionTotal(medicaidList);
                 }
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getMedicaid method ends ");
@@ -221,7 +221,7 @@ public class MedicaidURAResultsLogic {
                 projDTOList = getPriceTypeChild(projSelDTO, parentSid, session);
 
             }
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getMedicaidChild method ends ");
@@ -239,7 +239,7 @@ public class MedicaidURAResultsLogic {
                 medicaidList = queryUtil.loadMedicaidResultsChild(session, parentSid, projSelDTO.getPriceTypeList(), false);
             }
             projDTOList = getCustPriceTypeChild(medicaidList, projSelDTO);
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("getPriceTypeChild method ends ");
@@ -538,7 +538,7 @@ public class MedicaidURAResultsLogic {
                 projDTOList.add(tableDTO);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return projDTOList;
@@ -1013,7 +1013,7 @@ public class MedicaidURAResultsLogic {
                 if (!medicaidIndex.isEmpty()) {
                     count = Integer.parseInt(StringUtils.isNotBlank(String.valueOf(medicaidIndex.get(0))) ? String.valueOf(medicaidIndex.get(0)) : Constant.DASH);
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 LOGGER.error(e);
             }
         }

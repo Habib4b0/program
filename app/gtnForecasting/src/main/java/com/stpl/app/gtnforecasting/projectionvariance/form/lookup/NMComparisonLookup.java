@@ -43,7 +43,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
 
     private Boolean recordSelectedFlag = false;
     private final int currentProjId;
-    List<ComparisonLookupDTO> selectedList;
+    protected List<ComparisonLookupDTO> selectedList;
     /**
      * Logger
      */
@@ -51,7 +51,7 @@ public class NMComparisonLookup extends ForecastPVComparisonLookup {
     /**
      * Screen Name
      */
-    String screenName = StringUtils.EMPTY;
+    protected String screenName = StringUtils.EMPTY;
 
     /**
      * Constructor for ComparisonLookup.

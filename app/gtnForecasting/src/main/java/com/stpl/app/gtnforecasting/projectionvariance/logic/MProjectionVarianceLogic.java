@@ -87,31 +87,19 @@ public class MProjectionVarianceLogic {
     public static final String SUPPLEMENTAL_RPU1 = "Supplemental RPU";
     public static final String YYYY_MM_DD_ZERO = "yyyy-MM-dd 00:00:00.000";
     public static final String YYYY_M_MDD_HH = "yyyy-MM-dd 23:59:59.999";
-    List<Object> pivotTotalList = new ArrayList<>();
+    private List<Object> pivotTotalList = new ArrayList<>();
     private final CommonLogic commonLogic = new CommonLogic();
     /**
      * The Constant AMOUNT.
      */
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
-    CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
-    PVSelectionDTO selectionDTO = new PVSelectionDTO();
-    List<List> currentSales = new ArrayList<>();
-    List<List> currentTotal = new ArrayList<>();
-    List<Integer> priorProjIdSalesList = new ArrayList<>();
-    List<Integer> priorProjIdTotalList = new ArrayList<>();
-    List<List> currentTotalDiscount = new ArrayList<>();
-    List<Integer> priorProjIdDiscountList = new ArrayList<>();
-    List<List> currentPivotGTSTotal = new ArrayList<>();
-    List<Integer> pivotPriorProjIdList = new ArrayList<>();
-    List<List> currentDiscountPer = new ArrayList<>();
-    List<List> currentDiscount = new ArrayList<>();
-    List<Integer> priorIdTotal = new ArrayList<>();
-    Map<String, ProjectionVarianceDTO> programCodeMap = new HashMap<>();
-    static HashMap<String, String> columnName = new HashMap<>();
-    Map<String, List<Object>> discountLevelMap = new HashMap<>();
-    Map<String, List<Object>> discountPcMap = new HashMap<>();
-    Map<String, List<Object>> discountProgramMap = new HashMap<>();
-    List<Object> periodPcNames = new ArrayList<>();
+    private CustomTableHeaderDTO rightHeader = new CustomTableHeaderDTO();
+    private PVSelectionDTO selectionDTO = new PVSelectionDTO();
+    private List<Integer> pivotPriorProjIdList = new ArrayList<>();
+    private final Map<String, List<Object>> discountLevelMap = new HashMap<>();
+    private final Map<String, List<Object>> discountPcMap = new HashMap<>();
+    private final Map<String, List<Object>> discountProgramMap = new HashMap<>();
+    private List<Object> periodPcNames = new ArrayList<>();
 
     public CustomTableHeaderDTO getRightHeader() {
         return rightHeader;
@@ -653,7 +641,7 @@ public class MProjectionVarianceLogic {
             setRightHeader(projSelDTO.getRightHeader());
             count += getProjVarianceCount(projSelDTO, parentId, isLevelCount);
             return count;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return 0;
@@ -788,7 +776,7 @@ public class MProjectionVarianceLogic {
                 Object ob = list.get(0);
                 count = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return count;
@@ -1333,7 +1321,7 @@ public class MProjectionVarianceLogic {
                     projDTOList.addAll(nextLevelList);
             }
 
-        } catch (Exception e) {
+        } catch (PortalException | SystemException e) {
             LOGGER.error(e);
         }
 
@@ -1887,7 +1875,7 @@ public class MProjectionVarianceLogic {
                 }
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return listValue;
@@ -5011,7 +4999,7 @@ public class MProjectionVarianceLogic {
                     contractType.setItemCaption(obj[1] == null ? StringUtils.EMPTY : obj[1].toString(), obj[0] == null ? StringUtils.EMPTY : obj[0].toString());
                 }
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | UnsupportedOperationException ex) {
             LOGGER.error(ex);
         }
         return contractType;
@@ -5027,7 +5015,7 @@ public class MProjectionVarianceLogic {
                 Object ob = list.get(0);
                 customCount = Integer.valueOf(String.valueOf(ob));
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
         return customCount;
@@ -6726,9 +6714,7 @@ public class MProjectionVarianceLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, Constant.UPDATE, "M_PROJECTION_SELECTION");
             }
-        } catch (SystemException ex) {
-            LOGGER.error(ex);
-        } catch (Exception ex) {
+        } catch (SystemException | PortalException ex) {
             LOGGER.error(ex);
         }
     }

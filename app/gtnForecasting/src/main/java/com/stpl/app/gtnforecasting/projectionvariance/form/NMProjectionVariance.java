@@ -520,7 +520,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
             try {
                 List list = (List) CommonLogic.executeSelectQuery(queryUtils.getPVComparisonProjections(comparisonProjId), null, null);
                 selectedList = logic.getCustomizedPVComparisonList(list);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }
@@ -875,7 +875,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                         && (!Constant.NULL.equals(customDdlb.getValue()) && !Constant.SELECT_ONE.equals(customDdlb.getValue())));
                 generated = false;
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1310,7 +1310,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         ForecastConfig forecastConfig = null;
@@ -1706,7 +1706,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                 configureFields();
                 security();
                 flag = false;
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 java.util.logging.Logger.getLogger(NMProjectionVariance.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

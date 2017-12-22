@@ -61,8 +61,8 @@ import org.jboss.logging.Logger;
  */
 public class DiscountProjectionLogic {
 
-    DiscountQueryBuilder queryBuilderAndExecutor = new DiscountQueryBuilder();
-    CommonDAO dao = new CommonDAOImpl();
+    private final DiscountQueryBuilder queryBuilderAndExecutor = new DiscountQueryBuilder();
+    private final CommonDAO dao = new CommonDAOImpl();
     public static final String PAYMENT1 = "payment";
     public static final String PIVOT_LABEL = "Pivot";
     public static final String ALL = "ALL";
@@ -76,12 +76,9 @@ public class DiscountProjectionLogic {
      */
     private static final DecimalFormat PERCENTAGE_FORMAT = new DecimalFormat("#,##0.00%");
     private static final DecimalFormat AMOUNT = new DecimalFormat("$#,##0.00");
-    QueryUtils utils = new QueryUtils();
-    List<String> projectionPeriodList;
-    String baselinePeriods = "";
-    String selectedPeriods = "";
-
-    CommonLogic commonLogic = new CommonLogic();
+    private final QueryUtils utils = new QueryUtils();
+    private String baselinePeriods = "";
+    private String selectedPeriods = "";
 
     /**
      * To load Discount Programs in discount selection lookup
@@ -352,7 +349,7 @@ public class DiscountProjectionLogic {
             LOGGER.debug(" year " + year);
             LOGGER.debug(" refreshHierarchyNumbers " + refreshHierarchyNumbers);
             LOGGER.debug(" isParent " + isParent);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         LOGGER.debug("Exit getDiscountProjection");
@@ -647,7 +644,7 @@ public class DiscountProjectionLogic {
                 statement.setString(NumericConstants.THREE, session.getSessionId());
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
             try {
@@ -722,7 +719,7 @@ public class DiscountProjectionLogic {
                 statement.setInt(NumericConstants.THREE, Integer.parseInt(sessionId));
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.error(ex);
         } finally {
             try {
@@ -804,7 +801,7 @@ public class DiscountProjectionLogic {
             rawList.add(rsNameSids);
             rawList.add(rsNoSids);
             return rawList;
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
 
             LOGGER.error(ex);
             return Collections.emptyList();
@@ -852,13 +849,13 @@ public class DiscountProjectionLogic {
                 statement.setString(NumericConstants.EIGHT, (projectionSelection.getSessionDTO().getDeductionInclusion()==null || projectionSelection.getSessionDTO().getDeductionInclusion().equals(ALL)) ? null : projectionSelection.getSessionDTO().getDeductionInclusion());
                 statement.execute();
             }
-        } catch (Exception ex) {
+        } catch (NumberFormatException | SQLException | NamingException ex) {
             LOGGER.debug(ex);
         } finally {
             try {
                 statement.close();
                 connection.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 LOGGER.error(e);
             }
         }
@@ -1015,7 +1012,7 @@ public class DiscountProjectionLogic {
                 started++;
             }
             return discountProj;
-       }catch(Exception e){
+       }catch(NumberFormatException e){
             LOGGER.error(e);
             return Collections.EMPTY_LIST;
         }
@@ -1075,7 +1072,7 @@ public class DiscountProjectionLogic {
                 discountProjList.add(discountDto);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
     }
@@ -1094,7 +1091,7 @@ public class DiscountProjectionLogic {
             }
             detailsSid.substring(0, detailsSid.length() - 1);
             return detailsSid;
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
             return detailsSid;
         }

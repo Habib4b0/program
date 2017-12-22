@@ -10,7 +10,6 @@ import com.stpl.app.gtnforecasting.dto.PMPYCalculationExporterDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYCalculatorDTO;
 import com.stpl.app.gtnforecasting.dto.PMPYRowDto;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.dto.SalesProjectionResultsDTO;
 import com.stpl.app.gtnforecasting.logic.NonMandatedLogic;
 import com.stpl.app.gtnforecasting.lookups.logic.PmpyLogic;
 import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
@@ -87,7 +86,7 @@ public class NMPmpyCalculator extends Window {
      * The space.
      */
 
-    CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
+    private CustomTableHeaderDTO rightDto = new CustomTableHeaderDTO();
 
     @UiField("effectivePeriod")
     private ComboBox effectivePeriod;
@@ -173,13 +172,13 @@ public class NMPmpyCalculator extends Window {
      * The df calculated amount.
      */
     public static final String STRING_FORMATOR_DECIMAL = "####.0";
-    final DecimalFormat unitFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
+    private final DecimalFormat unitFormat = new DecimalFormat(STRING_FORMATOR_DECIMAL);
     public static final String PLEASE_ENTER_THE_CORRECT_VALUE = "Please Enter the correct value .";
     public static final String STRING_HUNDRED_PERCENT = "100.0%";
     
     public static final DecimalFormat MONEY_TWO_DECIMAL = new DecimalFormat("$#,###.00");
     public static final DecimalFormat MONEY_NO_DECIMAL = new DecimalFormat("$#,###");
-    final DecimalFormat noDecimalPlace = new DecimalFormat("####");
+    private final DecimalFormat noDecimalPlace = new DecimalFormat("####");
     /**
      * The df calculated unit.
      */
@@ -252,28 +251,7 @@ public class NMPmpyCalculator extends Window {
     /**
      * The regex.
      */
-    public static String regex = "(^[0-9]+(\\.[0-9])?$)";
-
-    /**
-     * The uncheckimg.
-     */
-
-    /**
-     * The checkedimg.
-     */
-
-    /**
-     * The checkboxes1.
-     */
-
-    /**
-     * The checkboxes2.
-     */
-
-    /**
-     * The original bean.
-     */
-    public SalesProjectionResultsDTO originalBean = new SalesProjectionResultsDTO();
+    public static final String regex = "(^[0-9]+(\\.[0-9])?$)";
 
     /**
      * The calendar.
@@ -284,14 +262,14 @@ public class NMPmpyCalculator extends Window {
     private ExtTreeContainer<PMPYRowDto> chContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
     private ExtTreeContainer<PMPYRowDto> tpContainer = new ExtTreeContainer<>(PMPYRowDto.class,ExtContainer.DataStructureMode.MAP);
 
-    String historyPeriods = StringUtils.EMPTY;
-    List projectionDetailsId;
+    private String historyPeriods = StringUtils.EMPTY;
+    private final List projectionDetailsId;
 
-    List<Object> visiColumn = new ArrayList<>();
-    List<String> visiHeaders = new ArrayList<>();
+    private final List<Object> visiColumn = new ArrayList<>();
+    private final List<String> visiHeaders = new ArrayList<>();
     private final List<String> chtCheckBoxMap = new ArrayList<>();
     private final List<String> tptCheckBoxMap = new ArrayList<>();
-    boolean valueChange = Boolean.TRUE;
+    private boolean valueChange = Boolean.TRUE;
 
     private String tradeName = StringUtils.EMPTY;
 
@@ -299,17 +277,17 @@ public class NMPmpyCalculator extends Window {
 
     private String contHolder = StringUtils.EMPTY;
 
-    ExtFilterTreeTable excelTable1 = new ExtFilterTreeTable();
+    private final ExtFilterTreeTable excelTable1 = new ExtFilterTreeTable();
 
-    ExtFilterTreeTable excelTable2 = new ExtFilterTreeTable();
+    private final ExtFilterTreeTable excelTable2 = new ExtFilterTreeTable();
 
     private int projectionId = 0;
 
     private boolean importEvent = false;
 
-    SessionDTO session;
-    ProjectionSelectionDTO projectionSelectionDTO;
-    PmpyLogic logic = new PmpyLogic();
+    private final SessionDTO session;
+    private final ProjectionSelectionDTO projectionSelectionDTO;
+    private final PmpyLogic logic = new PmpyLogic();
 
     /**
      * The Constructor.
@@ -661,7 +639,7 @@ public class NMPmpyCalculator extends Window {
 
             });
             LOGGER.debug("End of configureFields method");
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
 
             LOGGER.error(e);
 

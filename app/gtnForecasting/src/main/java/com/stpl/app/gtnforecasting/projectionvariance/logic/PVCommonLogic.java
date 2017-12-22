@@ -214,7 +214,7 @@ public class PVCommonLogic {
                 comparisonBasisCustomization(variableCategory, commonValue, currentValue, format, commonColumn, pvsdto, pvDTO, isPer, pvsdto);
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e.getMessage());
         }
     }

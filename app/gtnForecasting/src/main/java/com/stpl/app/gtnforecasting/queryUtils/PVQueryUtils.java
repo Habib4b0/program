@@ -221,7 +221,7 @@ public class PVQueryUtils {
             customSql.append(" group by  pm.projection_name,pm.projection_description,ht.description ,cm.company_no  ,c.contract_no  ,pm.projection_master_sid,PM.created_date,PM.created_by ");
 
             return customSql.toString();
-        } catch (Exception e) {
+        } catch (ParseException e) {
             LOGGER.error(e + "  at PvQueryUtils -> getComparisonSearch");
             return null;
         }
@@ -505,7 +505,7 @@ public class PVQueryUtils {
             customSql.append("AND PM.FORECASTING_TYPE='").append(screenName).append("' ");
             customSql.append(" group by  pm.projection_name,pm.projection_description,pm.projection_master_sid,PM.created_date,PM.created_by ) RSLT ");
             return customSql.toString();
-        } catch (Exception e) {
+        } catch (SystemException | ParseException e) {
             LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
             return null;
         }
@@ -706,7 +706,7 @@ public class PVQueryUtils {
             customSql.append(offset);
             customSql.append(" ROWS ONLY ;");
             return customSql.toString();
-        } catch (Exception e) {
+        } catch (SystemException | ParseException e) {
             LOGGER.error(e + " at PvQueryUtils -> getComparisonSearch");
             return null;
         }

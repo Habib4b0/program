@@ -373,7 +373,12 @@ public class ParityLookup extends Window {
         StringLengthValidator sd2 = new StringLengthValidator("NDC DESC Should be less than 100 characters", 0, NumericConstants.HUNDRED, true);
         RegexpValidator rg = new RegexpValidator("([a-z|A-Z|\\\\ |\\\\*])*", "Brand Name should be text");
         RegexpValidator rg2 = new RegexpValidator("([0-9|a-z|A-Z|\\\\ |\\\\*])*", "NDC should be AlphaNumeric");
-        boolean check1, check2, check3, check4, check5, check6;
+        boolean check1;
+        boolean check2;
+        boolean check3;
+        boolean check4;
+        boolean check5;
+        boolean check6;
            check1 = sd.isValid(brandName.getValue());
            check3 = sd.isValid(ndc.getValue());
            check2 = sd2.isValid(ndcDesc.getValue());

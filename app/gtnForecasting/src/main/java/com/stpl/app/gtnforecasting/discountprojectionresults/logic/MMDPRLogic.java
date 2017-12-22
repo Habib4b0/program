@@ -19,6 +19,8 @@ import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.FrequencyConstants.MONTHLY;
 import static com.stpl.app.utils.Constants.FrequencyConstants.SEMI_ANNUALLY;
 import com.stpl.ifs.ui.util.NumericConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import java.math.BigDecimal;
 import java.text.DateFormatSymbols;
 import java.text.DecimalFormat;
@@ -51,13 +53,10 @@ public class MMDPRLogic {
     private final String PERCENTAGE = Constant.PERCENT;
     private final String DOLLAR_SYMBOL = "$";
     private static final String CURRENCY = "$";
-    DPRQueryUtils dqLogic = new DPRQueryUtils();
-    boolean checkFlag = true;
-    boolean conditionFlag = true;
-    boolean curFlag = false;
-    String groupValue = StringUtils.EMPTY;
-     Object[] dprOrderedArgs;
-     List<Object[]> totalPrcResultList=new ArrayList<>();
+    private final DPRQueryUtils dqLogic = new DPRQueryUtils();
+    
+    private Object[] dprOrderedArgs;
+    private final List<Object[]> totalPrcResultList=new ArrayList<>();
     /**
      * The Constant LOGGER.
      */
@@ -66,11 +65,10 @@ public class MMDPRLogic {
     private String groupName = StringUtils.EMPTY;
     private String pivotGroupName = StringUtils.EMPTY;
     private String pivotBrandName = StringUtils.EMPTY;
-    CommonLogic cmLogic = new CommonLogic();
     private String nmSupp_Level = StringUtils.EMPTY;
     public static final SimpleDateFormat FORMATDATE = new SimpleDateFormat(Constant.DATE_FORMAT);
-    HashMap<String, String> map = new HashMap<>();
-    boolean viewFlag = false;
+    private final HashMap<String, String> map = new HashMap<>();
+    private boolean viewFlag = false;
 
     public List<DiscountProjectionResultsDTO> getConfiguredMMDicountResults(Object parentId, int start, int offset, ProjectionSelectionDTO projSelDTO) {
          viewFlag = ACTION_VIEW.getConstant().equalsIgnoreCase(projSelDTO.getSessionDTO().getAction());
@@ -850,7 +848,6 @@ public class MMDPRLogic {
 
             projSelDTO.setLastFlag(true);
             projSelDTO.setFilterLevelValue(Constant.CUSTOMER_SMALL);
-            conditionFlag = false;
         } else if ((Constant.DISCOUNT_SMALL.equals(projSelDTO.getPivotView())) && ((Constant.CUSTOMER_SMALL.equalsIgnoreCase(projSelDTO.getCurrentLevel()) || Constant.CONTRACT_SMALL.equalsIgnoreCase(projSelDTO.getCurrentLevel()) || Constant.BRAND_CAPS.equalsIgnoreCase(projSelDTO.getCurrentLevel())) && projSelDTO.getPivotView().equalsIgnoreCase(Constant.DISCOUNT_SMALL))) {
                 DiscountProjectionResultsDTO dto = new DiscountProjectionResultsDTO();
                 List<DiscountProjectionResultsDTO> pivotDTO;
@@ -1143,7 +1140,7 @@ public class MMDPRLogic {
 
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -1762,7 +1759,7 @@ public class MMDPRLogic {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return dto;
@@ -1864,7 +1861,7 @@ public class MMDPRLogic {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             LOGGER.error(e);
         }
         return dto;
@@ -2335,6 +2332,7 @@ public class MMDPRLogic {
     public List<DiscountProjectionResultsDTO> getPivotManCus(DiscountProjectionResultsDTO dto, ProjectionSelectionDTO projSelDTO) {
         try {
             List list = new ArrayList();
+            boolean curFlag;
             dto.setParent(1);
             curFlag = false;
             List<DiscountProjectionResultsDTO> pivotDiscount = new ArrayList<>();
@@ -2634,7 +2632,7 @@ public class MMDPRLogic {
             list = (List) dao.executeSelectQuery(customSql.toString());
 
             return list;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
             return Collections.emptyList();
         }

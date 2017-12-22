@@ -61,12 +61,12 @@ public class ChannelSPRChart1 {
      */
     private static String history;
 
-    CustomTableHeaderDTO rightDto;
+    protected CustomTableHeaderDTO rightDto;
     /**
      * The Constant LOGGER.
      */
     private static final Logger LOGGER = Logger.getLogger(SPRChart.class);
-    ProjectionSelectionDTO projSelDTO;
+    protected ProjectionSelectionDTO projSelDTO;
 
     /**
      * The Constructor.

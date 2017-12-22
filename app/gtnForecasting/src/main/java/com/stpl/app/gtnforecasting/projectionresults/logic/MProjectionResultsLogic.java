@@ -53,39 +53,31 @@ public class MProjectionResultsLogic {
      */
     private static final DecimalFormat CUR_TWO = new DecimalFormat("$#,##0.00");
 
-    ProjectionResultsDTO supDisPerDto = null;
-    ProjectionResultsDTO supDisDolDto = null;
-    ProjectionResultsDTO manDisPerDto = null;
-    ProjectionResultsDTO manDisDolDto = null;
-    ProjectionResultsDTO manRPUDto = null;
-    ProjectionResultsDTO supRPUDto = null;
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private ProjectionResultsDTO supDisPerDto = null;
+    private ProjectionResultsDTO supDisDolDto = null;
+    private ProjectionResultsDTO manDisPerDto = null;
+    private ProjectionResultsDTO manDisDolDto = null;
+    private ProjectionResultsDTO manRPUDto = null;
+    private ProjectionResultsDTO supRPUDto = null;
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
 
-    List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<>();
-    List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> prjTotalDisChildDtoList = new ArrayList<>();
+    private final List<List<ProjectionResultsDTO>> programCodeDtoList = new ArrayList<>();
 
-    List<Object> totalDiscountDollarList = new ArrayList<>();
-    List<Object> childDiscountDollarList = new ArrayList<>();
-    List<Object[]> programCodeDollarList = new ArrayList<>();
-
-    List<Object> totalDiscountPerList = new ArrayList<>();
-    List<Object> childDiscountPerList = new ArrayList<>();
-    List<Object[]> programCodePerList = new ArrayList<>();
     public static final String TOTAL_DISCOUNT_DOLLAR = "Total Discount $";
-    List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
-    List<Object[]> prcMProjResultsContract = new ArrayList<>();
+    private final List<ProjectionResultsDTO> netSalesDtoList = new ArrayList<>();
+    private List<Object[]> prcMProjResultsContract = new ArrayList<>();
      //To Persist the Total Procedure Result List 
-    List<Object[]> prcMProcedureResults = new ArrayList<>();
-    List<Object> totalDiscount = new ArrayList<>();
-    List<Object> childDiscountList = new ArrayList<>();
-    List<Object[]> programCodeList = new ArrayList<>();
-    List<Object> prMainQuery = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<Object[]> prcMProcedureResults = new ArrayList<>();
+    private final List<Object> totalDiscount = new ArrayList<>();
+    private List<Object> childDiscountList = new ArrayList<>();
+    private List<Object[]> programCodeList = new ArrayList<>();
+    private List<Object> prMainQuery = new ArrayList<>();
+    private List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     // To Persist the Total Procedure Input
-     Object[] totalPRCInput;
-     Object[] totalDiscountPRCInput;
+    private Object[] totalPRCInput;
     public List<ProjectionResultsDTO> getProjectionTotal(Object[] orderedArgs, ProjectionSelectionDTO projSelDTO) {
         List<ProjectionResultsDTO> projDTOList = new ArrayList<>();
         if ( projSelDTO.getSessionDTO().isPrRefreshReqd() || !CommonLogic.checkProcedureInputIsSame(orderedArgs, totalPRCInput)) {

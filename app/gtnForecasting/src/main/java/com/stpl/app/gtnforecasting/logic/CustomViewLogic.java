@@ -12,7 +12,6 @@ import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -39,9 +38,9 @@ public class CustomViewLogic {
     private final List<String> listNameCollection = new ArrayList();
     private final List<Integer> helperList_values = new ArrayList();
     private final StringBuilder tableName = new StringBuilder();
-     private final Set<String> tableNameSet = new HashSet();
+    private final Set<String> tableNameSet = new HashSet();
     private final StringBuilder fieldName = new StringBuilder();
-     private final Set<String> fieldNameSet = new HashSet();
+    private final Set<String> fieldNameSet = new HashSet();
     private final StringBuilder finalQuery = new StringBuilder();
     private final List<LevelMapKey> hierarchyList = new ArrayList();
 
@@ -300,7 +299,7 @@ listNameCollection.add(listName);
             }
 
             formHierarchy();
-        } catch (Exception e) {
+        } catch (CloneNotSupportedException | NumberFormatException e) {
             LOGGER.error(e);
         }
 
@@ -376,13 +375,5 @@ listNameCollection.add(listName);
         }
         return parentHierarchyNo;
     }
-
-    Comparator comp = new Comparator<LevelMapKey>() {
-
-        @Override
-        public int compare(LevelMapKey o1, LevelMapKey o2) {
-            return o1.getLevelNo().compareTo(o2.getLevelNo());
-        }
-    };
 
 }

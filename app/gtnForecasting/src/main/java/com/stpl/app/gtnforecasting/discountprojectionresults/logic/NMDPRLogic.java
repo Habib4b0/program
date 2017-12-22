@@ -83,9 +83,9 @@ public class NMDPRLogic {
     private final Map<String, String> valueMap = new HashMap<>();
     private final List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
-    Map<MultiKey, List> customerccpId = new HashMap<>();
-    Map<MultiKey, List> productccpId = new HashMap<>();
-    DPRQueryBuilder queryBuilder = new DPRQueryBuilder();
+    protected Map<MultiKey, List> customerccpId = new HashMap<>();
+    protected Map<MultiKey, List> productccpId = new HashMap<>();
+    protected DPRQueryBuilder queryBuilder = new DPRQueryBuilder();
     private static final Logger LOGGER = Logger.getLogger(NMDPRLogic.class);
     public static final String PROJECTION_CUST_HIERARCHY = "PROJECTION_CUST_HIERARCHY";
     public static final String PROJECTION_PROD_HIERARCHY = "PROJECTION_PROD_HIERARCHY";

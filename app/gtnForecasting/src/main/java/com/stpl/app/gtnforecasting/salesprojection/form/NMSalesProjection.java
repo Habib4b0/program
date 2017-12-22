@@ -74,11 +74,8 @@ import java.util.Collections;
  */
 public class NMSalesProjection extends ForecastSalesProjection {
 
-    final StplSecurity stplSecurity = new StplSecurity();
-    boolean generated = false;
-    boolean firstGenerated = false;
+    private final StplSecurity stplSecurity = new StplSecurity();
     private static final Logger LOGGER = Logger.getLogger(NMSalesProjection.class);
-    List<String> projectedPeriodList = new ArrayList();
     private final SPRCommonLogic sprCommonLogic = new SPRCommonLogic();
     protected NMSalesProjectionTableLogic mSalesProjectionTableLogic;
     protected String ALL = "ALL";
@@ -440,8 +437,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
-                generated = true;
-                firstGenerated = true;
                 tableLayout.removeAllComponents();
                 mSalesProjectionTableLogic = new NMSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(mSalesProjectionTableLogic);
@@ -449,7 +444,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 configureResultTable();
                 addResultTable();
                 generateLogic();
-                generated = false;
             }
         } catch (Exception e) {
             LOGGER.error(e);

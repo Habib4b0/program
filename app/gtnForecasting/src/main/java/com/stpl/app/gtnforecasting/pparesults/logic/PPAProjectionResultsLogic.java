@@ -23,7 +23,6 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.serviceUtils.Constants;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import static com.stpl.app.utils.Constants.CommonConstants.DATE_FORMAT;
-import com.stpl.ifs.ui.util.converters.DataFormatConverter;
 import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.portal.kernel.exception.PortalException;
@@ -69,20 +68,15 @@ public class PPAProjectionResultsLogic {
     private static final String Q = "Q";
     private static final String M = "M";
     private static final String A = "A";
-    String indicater = StringUtils.EMPTY;
-    final PPAPrjectionResultsDAO PPADAO = new PPAProjectionResultsDAOImpl();
-    Date date = new Date();
-    CustomTableHeaderDTO groupListForPivot;
+    private String indicater = StringUtils.EMPTY;
     private static final Logger LOGGER = Logger.getLogger(PPAProjectionResultsLogic.class);
     private List chartList;
-    DataFormatConverter salesFormat = new DataFormatConverter(STRING_FORMAT_TWO, DataFormatConverter.INDICATOR_DOLLAR);
-    DataFormatConverter growthFormat = new DataFormatConverter(STRING_FORMAT_TWO, DataFormatConverter.INDICATOR_PERCENT);
-    ExecutorService service = ThreadPool.getInstance().getService();
-    List<Object[]> periodTableList=null;
-    List<Object[]> wacTableList=null;
-    List<Object[]> wacPriceTableList=null;
-    int currentfrquencyForWacReset=3;
-    int cureentWacFrquencyIndex=3;
+    private final ExecutorService service = ThreadPool.getInstance().getService();
+    private List<Object[]> periodTableList=null;
+    private List<Object[]> wacTableList=null;
+    private List<Object[]> wacPriceTableList=null;
+    private int currentfrquencyForWacReset=3;
+    private int cureentWacFrquencyIndex=3;
 
     public List getChartList() {
         return chartList;
@@ -100,8 +94,6 @@ public class PPAProjectionResultsLogic {
         this.indicater = indicater;
 
     }
-    int neededRecord;
-    int dataIndex;
 
     public void savePPAResultsView(String projectionId) throws PortalException,SystemException{
         PPAPrjectionResultsDAO dao = new PPAProjectionResultsDAOImpl();
@@ -331,6 +323,7 @@ public class PPAProjectionResultsLogic {
     }
 
     public List getFrequencyList(ProjectionSelectionDTO selection) {
+        CustomTableHeaderDTO groupListForPivot;
         selection.setPivotView(Constant.PERIOD);
         groupListForPivot = HeaderUtils.getCalculatedPPAProjectionResultsColumns(selection, new CustomTableHeaderDTO());
         selection.setPivotView(Constant.VARIABLE);
@@ -662,6 +655,7 @@ public class PPAProjectionResultsLogic {
     }
 
     public List<PPAProjectionResultsDTO> getPPAProjectionResults1(int start, int offset, ProjectionSelectionDTO selection, SessionDTO session) {
+        int neededRecord;
         neededRecord = offset;
         int started = start;
         int maxRecord = 0;
@@ -1300,7 +1294,7 @@ public class PPAProjectionResultsLogic {
             int baseperiod = Integer.valueOf(periodSid) - periodList.indexOf(periodSid);
             wac_price[NumericConstants.ONE] = calculateWacPriceChange(searchWacPrice(rsId, String.valueOf(baseperiod)), searchWacPrice(rsId, String.valueOf(historyPeriod)));
             return wac_price;
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             return wac_price;
         }
@@ -1332,7 +1326,7 @@ public class PPAProjectionResultsLogic {
         try {
             Double finalValue = (Double.valueOf(current) - Double.valueOf(history)) / Double.valueOf(history);
             return String.valueOf(finalValue.isInfinite()||finalValue.isNaN()?Constants.ZERO:finalValue * NumericConstants.HUNDRED);
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
             return ConstantsUtils.ZERO;
         }

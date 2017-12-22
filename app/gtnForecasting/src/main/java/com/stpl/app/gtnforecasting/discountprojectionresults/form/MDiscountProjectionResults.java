@@ -81,25 +81,23 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
 
     private static final Logger LOGGER = Logger
             .getLogger(MDiscountProjectionResults.class);
-    CommonUtils commonUtils = new CommonUtils();
-    SessionDTO session;
-    String screenName = StringUtils.EMPTY;
-    final private BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
-    ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
-    ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
-    boolean firstGenerated = false;
-    boolean generated = false;
-    List<Object> pcNameList = null;
-    public HorizontalLayout controlLayout;
+    private final SessionDTO session;
+    private String screenName = StringUtils.EMPTY;
+    private final BeanItemContainer<String> historyBean = new BeanItemContainer<>(String.class);
+    private final ProjectionSelectionDTO projectionDTO = new ProjectionSelectionDTO();
+    private final ProjectionSelectionDTO initialProjSelDTO = new ProjectionSelectionDTO();
+    private boolean firstGenerated = false;
+    private boolean generated = false;
+    private List<Object> pcNameList = null;
     protected List<Leveldto> currentHierarchy = new ArrayList<>();
     private ExtCustomTreeTable exceltable;
-    Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
+    private final Property.ValueChangeListener levelFilterChangeOption = new Property.ValueChangeListener() {
         @Override
         public void valueChange(Property.ValueChangeEvent event) {
             levelFilterDdlbChangeOption(false);
         }
     };
-    boolean canLoad = true;
+    private boolean canLoad = true;
 
     public MDiscountProjectionResults(SessionDTO session, String screenName) {
         super(screenName, session);
@@ -708,6 +706,7 @@ public class MDiscountProjectionResults extends ForecastDiscountProjectionResult
      * Add Result Table.
      */
     private void addResultTable() {
+        HorizontalLayout controlLayout;
         tableVerticalLayout.addComponent(resultsTable);
         controlLayout = tableLogic.createControls();
         tableLogic.sinkItemPerPageWithPageLength(false);

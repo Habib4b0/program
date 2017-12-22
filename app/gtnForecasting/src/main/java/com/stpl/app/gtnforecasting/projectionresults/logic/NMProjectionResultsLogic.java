@@ -46,17 +46,17 @@ public class NMProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjDisDolExfacDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalRPUDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjDisDolExfacDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     
     private static final String CURRENCY = "$";
-     private static final String PERCENTAGE = "%";
+    private static final String PERCENTAGE = "%";
     private static final DecimalFormat CUR_TWO = new DecimalFormat("#,##0.00");
-    int pPACount=0;
-    boolean isFirst=true;
+    private int pPACount=0;
+    private boolean isFirst=true;
 
     public List<ProjectionResultsDTO> getDiscountPer(ProjectionSelectionDTO projSelDTO) {
         LOGGER.debug("= = = Inside getDiscountPer = = =");

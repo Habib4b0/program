@@ -52,9 +52,9 @@ public class ProjectionResultsLogic {
      * The Numeric Zero Decimal Places Format.
      */
     private static final DecimalFormat NUM_ZERO = new DecimalFormat("#,##0");
-    List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
-    List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisPerDtoList = new ArrayList<>();
+    private List<ProjectionResultsDTO> prjTotalDisDolDtoList = new ArrayList<>();
+    private final List<ProjectionResultsDTO> projectionTotalList = new ArrayList<>();
     public static final String ISEMI_ANNUAL = ", I.SEMI_ANNUAL";
     
     public static final String IMONTH_AS_PERIODS_COMMA = "I.\"MONTH\" as PERIODS, \n";

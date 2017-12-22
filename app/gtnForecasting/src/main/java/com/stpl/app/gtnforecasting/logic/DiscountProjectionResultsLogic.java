@@ -47,7 +47,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class DiscountProjectionResultsLogic {
 
-    Map<String, String> periodMap = new HashMap<>();
+    private final Map<String, String> periodMap = new HashMap<>();
     private static final DecimalFormat DOLLAR = new DecimalFormat("#,##0");
     private static final DecimalFormat UNITVOLUME = new DecimalFormat("#,##0.0");
     private static final DecimalFormat CUR_ZERO = new DecimalFormat("$#,##0");
@@ -61,13 +61,13 @@ public class DiscountProjectionResultsLogic {
     private final String PERCENTAGE = "%";
     private final String DOLLAR_SYMBOL = "$";
     private final String ZERO_SYMBOL = "0";
-    Map<String, String> monthMap = new HashMap<>();
-    Map<String, String> valueMap = new HashMap<>();
+    private final Map<String, String> monthMap = new HashMap<>();
+    private final Map<String, String> valueMap = new HashMap<>();
 
     public DiscountProjectionResultsLogic() {
         periodValueMap();
     }
-    List<Integer> startAndEndPeriods = new ArrayList<>();
+    private final List<Integer> startAndEndPeriods = new ArrayList<>();
     private static final CommonDAO commonDao = new CommonDAOImpl();
     public static final String AND_SMALL = " and ";
     /**
@@ -177,7 +177,7 @@ public class DiscountProjectionResultsLogic {
                 }
             }
             return discountProjList;
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
             return Collections.emptyList();
         }
@@ -262,7 +262,7 @@ public class DiscountProjectionResultsLogic {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
         }
         return discountProjList;
@@ -4243,7 +4243,7 @@ public class DiscountProjectionResultsLogic {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
         }
         return dto;
@@ -4552,7 +4552,7 @@ public class DiscountProjectionResultsLogic {
                     }
                 }
             }
-        } catch (Exception e) {
+        } catch (SystemException | NumberFormatException e) {
             Logger.getLogger(DiscountProjectionResultsLogic.class.getName()).log(Level.SEVERE, null, e);
         }
         return dto;

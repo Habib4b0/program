@@ -695,7 +695,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
             }
         }
 
-        rightTable.setColumnAlignment(headerUtils.supplementalRightTableOneColumns[1], ExtCustomTable.Align.LEFT);
+        rightTable.setColumnAlignment(HeaderUtils.supplementalRightTableOneColumns[1], ExtCustomTable.Align.LEFT);
         rightTable.setColumnAlignment(Constant.CONTRACT_END_DATE, ExtCustomTable.Align.CENTER);
 
         rightTable.setDoubleHeaderVisible(true);
@@ -882,7 +882,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
 
                                     }
                                 });
-                            } catch (Exception ex) {
+                            } catch (IllegalArgumentException | NullPointerException ex) {
                                 LOGGER.error(ex);
                             }
                         }
@@ -1350,7 +1350,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                                     valueLookUp.setValue(dtoItemValue);
                                     allowMethod(String.valueOf(valueLookUp.getValue()));
 
-                                } catch (Exception ex) {
+                                } catch (Property.ReadOnlyException ex) {
                                    LOGGER.error(ex);
                                 }
                             }
@@ -1662,7 +1662,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 map.put(Constant.VARIABLES, variablesForMandated.getValue());
                 commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
                 supplementalDiscountProjectionLogic.supplementalSave(session);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
 
                 LOGGER.error(ex);
             }
@@ -1674,7 +1674,7 @@ public class MSupplementalDiscountProjection extends ForecastDiscountProjection 
                 map.put(Constant.VARIABLES, variablesForMandated.getValue());
                 commonLogic.saveProjectionSelectionMandatedDiscountProjection(map, session.getProjectionId(), Constant.SUPPLEMENTAL_DISCOUNT_PROJECTION);
                 supplementalDiscountProjectionLogic.supplementalSave(session);
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
         }

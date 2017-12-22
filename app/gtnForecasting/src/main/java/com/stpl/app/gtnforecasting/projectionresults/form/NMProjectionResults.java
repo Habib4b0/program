@@ -65,17 +65,17 @@ import org.jboss.logging.Logger;
  */
 public class NMProjectionResults extends ForecastProjectionResults {
 
-    final StplSecurity stplSecurity = new StplSecurity();
+    protected final StplSecurity stplSecurity = new StplSecurity();
 
     private static final Logger LOGGER = Logger.getLogger(NMProjectionResults.class);
 
     private final NMProjectionResultsLogic projResLogic = new NMProjectionResultsLogic();
 
-    int tradingPartnerNo = 0;
+    protected int tradingPartnerNo = 0;
 
-    List<List<String>> discountlist = new ArrayList<>();
-    ForecastForm form;
-    SessionDTO session;
+    protected List<List<String>> discountlist = new ArrayList<>();
+    protected ForecastForm form;
+    protected SessionDTO session;
     protected PVParameters parameterDto = new PVParameters();
     private final Map<String, List<ProjectionResultsDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -84,7 +84,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
     private final List<String> discountKeys = new ArrayList();
     private final NMProjectionResultsXLLogic excelLogic = new NMProjectionResultsXLLogic(resultMap, projectionSelectionDTO, hierarchyKeys, tradingPartnerKeys, discountKeys, parameterDto);
 
-    boolean configureFlag = Boolean.TRUE;
+    protected boolean configureFlag = Boolean.TRUE;
 
     private String pivotView = StringUtils.EMPTY;
     public static final String ALL_DISCOUNT_GROUP = "All Discount Group";
@@ -389,7 +389,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
                     }
                 });
             }
-        } catch (Exception ex) {
+        } catch (IllegalArgumentException ex) {
             LOGGER.debug(ex);
         }
     }
@@ -745,7 +745,7 @@ public class NMProjectionResults extends ForecastProjectionResults {
             try {
                 configureOnNonMandated();
                 security();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException ex) {
                 LOGGER.error(ex);
             }
             configureFlag = Boolean.FALSE;

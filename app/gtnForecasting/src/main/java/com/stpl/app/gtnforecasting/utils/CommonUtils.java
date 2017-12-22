@@ -613,7 +613,7 @@ public class CommonUtils {
         dynamicQuery.addOrder(OrderFactoryUtil.desc(Constant.VERSION_NO));
         try {
             resultList = dataSelectionDao.getForecastConfig(dynamicQuery);
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             java.util.logging.Logger.getLogger(CommonUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         ForecastConfig forecastConfig = null;
@@ -1357,7 +1357,7 @@ public class CommonUtils {
                 Object array[] = (Object[]) userList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]));
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return userMap;
@@ -1390,7 +1390,7 @@ public class CommonUtils {
                 Object array[] = (Object[]) userList.get(loop);
                 userMap.put(String.valueOf(array[NumericConstants.TWO]) + ", " + String.valueOf(array[1]), String.valueOf(array[0]));
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return userMap;
@@ -1411,7 +1411,7 @@ public class CommonUtils {
                 Object array[] = (Object[]) discountList.get(loop);
                 userMap.put(String.valueOf(array[0]), String.valueOf(array[1]));
             }
-        } catch (Exception ex) {
+        } catch (SystemException ex) {
             LOGGER.error(ex);
         }
         return userMap;
@@ -1819,7 +1819,12 @@ public class CommonUtils {
 
     private static List<String> quarterList(String startDateString, String endDateString) throws ParseException {
         List<String> quartersList = new ArrayList<>();
-        int startYear = 0, endYear = 0, startMonth = 0, endMonth = 0, startQuarter = 0, endQuarter = 0;
+        int startYear = 0;
+        int endYear = 0;
+        int startMonth = 0;
+        int endMonth = 0;
+        int startQuarter = 0;
+        int endQuarter = 0;
         SimpleDateFormat parser = new SimpleDateFormat(Constant.EEE_MMM_Z_YYYY);
         SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
         SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
@@ -1861,8 +1866,12 @@ public class CommonUtils {
         Date endDate = parser.parse(endDateString);
         SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
         SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
-        int startYear = 0, startMonth = 0, startSemiAnnual = 0;
-        int endYear = 0, endMonth = 0, endSemiAnnual = 0;
+        int startYear = 0; 
+        int startMonth = 0;
+        int startSemiAnnual = 0;
+        int endYear = 0;
+        int endMonth = 0;
+        int endSemiAnnual = 0;
         int limit = NumericConstants.TWO;
 
         startMonth = Integer.valueOf(formatMonth.format(startDate));
@@ -1896,7 +1905,11 @@ public class CommonUtils {
         Date endDate = parser.parse(endDateString);
         SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
         SimpleDateFormat formatMonth = new SimpleDateFormat("MM");
-        int startYear = 0, endYear = 0, limit = NumericConstants.TWELVE, startMonth = 0, endMonth = 0;
+        int startYear = 0;
+        int endYear = 0;
+        int limit = NumericConstants.TWELVE;
+        int startMonth = 0;
+        int endMonth = 0;
 
         startYear = Integer.valueOf(formatYear.format(startDate));
         endYear = Integer.valueOf(formatYear.format(endDate));

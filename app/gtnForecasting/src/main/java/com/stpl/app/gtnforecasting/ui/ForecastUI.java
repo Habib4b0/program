@@ -44,6 +44,8 @@ import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.util.constants.WorkflowConstants;
+import com.stpl.portal.kernel.exception.PortalException;
+import com.stpl.portal.kernel.exception.SystemException;
 import com.stpl.portal.kernel.util.JavaConstants;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;
@@ -71,14 +73,14 @@ public class ForecastUI extends UI {
      */
     private Navigator navigator;
 
-    String pageParameters = null;
-    final StplSecurity stplSecurity = new StplSecurity();
-    DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
-    SessionDTO sessionDto = new SessionDTO();
+    protected String pageParameters = null;
+    protected final StplSecurity stplSecurity = new StplSecurity();
+    protected DataSelectionDAO dataSelectionDao = new DataSelectionDAOImpl();
+    protected SessionDTO sessionDto = new SessionDTO();
     private final RelationShipFilterLogic relationLogic = RelationShipFilterLogic.getInstance();
     private List<Leveldto> productHierarchyLevelDefinitionList = Collections.emptyList();
     private List<Leveldto> customerHierarchyLevelDefinitionList = Collections.emptyList();
-    final NonMandatedLogic nmLogic = new NonMandatedLogic();
+    protected final NonMandatedLogic nmLogic = new NonMandatedLogic();
     /**
      * Logger
      */
@@ -115,7 +117,7 @@ public class ForecastUI extends UI {
         try {
             Collection<Object> userGroupId = stplSecurity.getUserGroupId(Long.parseLong(userId));
             VaadinSession.getCurrent().setAttribute("businessRoleIds", stplSecurity.getBusinessRoleIds(userGroupId));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException | NumberFormatException ex) {
             LOGGER.error(ex);
         }
 
@@ -196,7 +198,7 @@ public class ForecastUI extends UI {
                         logic.getLevelValueMap(temp.getProdRelationshipBuilderSid(), hierarchySid,
                                 temp.getProductHierVersionNo(), temp.getProjectionProdVersionNo()));
                 projectionName = temp.getProjectionName();
-            } catch (Exception ex) {
+            } catch (PortalException | SystemException | NumberFormatException ex) {
                 LOGGER.error(ex);
             }
             sessionDto.setWorkflowId(Integer.valueOf(workflowId));

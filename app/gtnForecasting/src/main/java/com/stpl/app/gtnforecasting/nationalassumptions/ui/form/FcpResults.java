@@ -406,7 +406,7 @@ public class FcpResults extends CustomComponent implements View {
             }
             ndcFilterDdlb.setWidth("176px");
             levelDdlb.setWidth("176px");
-        } catch (Exception e) {
+        } catch (Property.ReadOnlyException | UnsupportedOperationException e) {
             LOGGER.error(e);
         }
         final StplSecurity stplSecurity = new StplSecurity();
@@ -782,7 +782,7 @@ public class FcpResults extends CustomComponent implements View {
             callFcpProcedure();
         }
             loadResultTable();
-        } catch (Exception ex) {
+        } catch (SQLException | NamingException ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("generateLogic ends ");

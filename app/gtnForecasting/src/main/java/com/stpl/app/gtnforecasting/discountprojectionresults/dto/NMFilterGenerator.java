@@ -25,8 +25,8 @@ import org.asi.ui.extfilteringtable.ExtFilterGenerator;
  */
 public class NMFilterGenerator implements ExtFilterGenerator {
 
-    SessionDTO session;
-    ComboBox groupDdlb = null;
+    protected SessionDTO session;
+    protected ComboBox groupDdlb = null;
 
     public NMFilterGenerator(SessionDTO session) {
         this.session = session;

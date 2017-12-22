@@ -263,7 +263,7 @@ public class NationalAssumptionLogic {
 
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Constant.SUCCESS;
@@ -345,7 +345,7 @@ public class NationalAssumptionLogic {
                 if (StringUtils.isNotBlank(queryBuilder.toString())) {
                     commonDAO.executeUpdateQuery(QueryUtil.replaceTableNames(queryBuilder.toString(), session.getCurrentTableNames()));
                 }
-            } catch (Exception e) {
+            } catch (PortalException | SystemException | NumberFormatException e) {
                 LOGGER.error(e);
             }
             return getSavedPriceTypes(session);
@@ -361,7 +361,7 @@ public class NationalAssumptionLogic {
             DataSelectionQueryUtils dsQueryUtils = new DataSelectionQueryUtils();
             List<Object[]> priceTypes = dsQueryUtils.getPriceTypesList(session);
             priceTypesDTOList = getCustomizedPriceTypeResults(priceTypes);
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
 
@@ -419,7 +419,7 @@ public class NationalAssumptionLogic {
                 newNDC = resultList.get(0);
             }
 
-        } catch (Exception e) {
+        } catch (SystemException e) {
             LOGGER.error(e);
         }
         return newNDC;
@@ -1082,7 +1082,7 @@ public class NationalAssumptionLogic {
                 commonDAO.executeBulkUpdateQuery(customSql);
             }
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Constant.SUCCESS;
@@ -1134,7 +1134,7 @@ public class NationalAssumptionLogic {
             String customSql = "DELETE FROM dbo.ST_MEDICAID_NEW_NDC WHERE NDC9 = '" + ndc9 + "'";
 
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1153,7 +1153,7 @@ public class NationalAssumptionLogic {
 
             commonDAO.executeBulkUpdateQuery(QueryUtil.replaceTableNames(customSql, session.getCurrentTableNames()));
 
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1177,7 +1177,7 @@ public class NationalAssumptionLogic {
                         .deleteFederalNewNdc(itemMasterSid);
             }
             LOGGER.debug("federalMainDelete ends");
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1195,7 +1195,7 @@ public class NationalAssumptionLogic {
                         .deleteMedicaidNewNdc(ndc9);
                 LOGGER.debug("medicaidMainDelete ends");
             }
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
     }
@@ -1362,7 +1362,7 @@ public class NationalAssumptionLogic {
             List<Object[]> resultsList = (List<Object[]>) commonDAO.executeSelectQuery(sql);
             int count = getCount(resultsList);
             return count == 0 ? Boolean.TRUE : Boolean.FALSE;
-        } catch (Exception ex) {
+        } catch (PortalException | SystemException ex) {
             LOGGER.error(ex);
         }
         return Boolean.FALSE;

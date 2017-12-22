@@ -50,6 +50,7 @@ import com.stpl.app.gtnforecasting.salesprojection.utils.SalesUtils;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.sqlutil.GtnSqlUtil;
@@ -84,13 +85,13 @@ public class NMSalesProjectionResultsLogic {
 	private static final DecimalFormat TWO_DECIMAL = new DecimalFormat("#,##0.00");
 	private static final String CURRENCY = "$";
 	private static final String PERCENT = "%";
-	SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
-	boolean viewFlag = false;
+	protected SalesProjectionDAO salesProjectionDAO = new SalesProjectionDAOImpl();
+	protected boolean viewFlag = false;
 	public List<SalesProjectionResultsDTO> projectionTotalList = new ArrayList<>();
-	List<Object[]> nonmandatedGtsList = new ArrayList<>();
-	Object[] nonmandatedorderedArgs;
-	List<Object[]> mandatedGtsList = new ArrayList<>();
-	Object[] mandatedorderedArgs;
+	protected List<Object[]> nonmandatedGtsList = new ArrayList<>();
+	protected Object[] nonmandatedorderedArgs;
+	protected List<Object[]> mandatedGtsList = new ArrayList<>();
+	protected Object[] mandatedorderedArgs;
 
 	/**
 	 * The Constant LOGGER.
@@ -333,12 +334,8 @@ public class NMSalesProjectionResultsLogic {
 				}
 			}
 			LOGGER.debug("generateSalesProjectionResults method ends");
-		} catch (SystemException se) {
+		} catch (SystemException | PortalException | GtnFrameworkGeneralException | NumberFormatException se) {
 			LOGGER.error(se);
-		} catch (PortalException pe) {
-			LOGGER.error(pe);
-		} catch (Exception e) {
-			LOGGER.error(e);
 		}
 		return finalList;
 	}
@@ -400,7 +397,7 @@ public class NMSalesProjectionResultsLogic {
 				gtsList.add(gtsDTO);
 			}
 			LOGGER.debug("getGTSResult method ends");
-		} catch (Exception e) {
+		} catch (GtnFrameworkGeneralException | NumberFormatException e) {
 			LOGGER.error(e);
 		}
 		return gtsList;

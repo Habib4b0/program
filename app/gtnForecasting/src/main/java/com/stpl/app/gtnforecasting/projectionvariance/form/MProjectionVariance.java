@@ -102,7 +102,6 @@ public class MProjectionVariance extends ForecastProjectionVariance {
     /**
      * The table control Layout.
      */
-    private HorizontalLayout horizontalLayout;
     public  ExtTreeContainer<ProjectionVarianceDTO> beanContainerResult = new ExtTreeContainer<>(ProjectionVarianceDTO.class,ExtContainer.DataStructureMode.MAP);
     private static List<Integer> projectionIdList = new ArrayList<>();
     private Map<Integer, String> projectionMap = new HashMap<>();
@@ -123,7 +122,6 @@ public class MProjectionVariance extends ForecastProjectionVariance {
      */
     private List<Leveldto> currentHierarchy = new ArrayList<>();
     private final List<Leveldto> viewChangeHierarchy = new ArrayList<>();
-    private final List<CustomViewMaster> customViewMasterList = new ArrayList<>();
     private ExtPagedTreeTable leftTable;
     private ExtPagedTreeTable rightTable;
     private final String scrnName;
