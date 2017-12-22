@@ -241,8 +241,8 @@ and BATCH_ID = @batch_id and ERROR_CODE=&apos;E03&apos;  and ERROR_FIELD=&apos;P
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>961</xloc>
-      <yloc>110</yloc>
+      <xloc>952</xloc>
+      <yloc>112</yloc>
       </entry>
     <entry>
       <name>DELETE FIILES IN FILE PROCESS (2)</name>
