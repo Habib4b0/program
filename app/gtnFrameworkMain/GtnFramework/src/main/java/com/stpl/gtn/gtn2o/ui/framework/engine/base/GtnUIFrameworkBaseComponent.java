@@ -408,6 +408,16 @@ public class GtnUIFrameworkBaseComponent {
 		}
 		return returnList;
 	}
+	public List<GtnWsRecordBean> removeParentAndChildTreeItems(String initialTableId, boolean hasMultipleTable)
+			throws GtnFrameworkValidationFailedException {
+		List<GtnWsRecordBean> returnListToRemove = null;
+		if (getComponentData().getCustomData() instanceof Tree) {
+			returnListToRemove = ((GtnUIFrameworkTreeComponent) (getComponentConfig().getComponentType().getGtnComponent()))
+					.removeParentAndChildTreeItems((Tree) (getComponentData().getCustomData()), initialTableId,
+							hasMultipleTable);
+		}
+		return returnListToRemove;
+	}
 
 	@SuppressWarnings("unchecked")
 	public void setTableValue(Object newValue) {

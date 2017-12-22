@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
-import com.stpl.gtn.gtn2o.ui.framework.action.executor.GtnUIFrameworkActionExecutor;
 import com.stpl.gtn.gtn2o.ui.framework.engine.GtnUIFrameworkGlobalUI;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkBaseComponent;
 import com.stpl.gtn.gtn2o.ui.framework.engine.base.GtnUIFrameworkDynamicClass;
@@ -43,7 +42,7 @@ public class GtnFrameworkRemoveFromTreeAction implements GtnUIFrameWorkAction, G
 	private void removeTreeItems(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String treeId,
 			String initialTableId, String componentId) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkBaseComponent rbTreeBaseComponent = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(treeId);
-		List<GtnWsRecordBean> returnList = rbTreeBaseComponent.removeSelectedTreeItems(initialTableId, false);
+		List<GtnWsRecordBean> returnList = rbTreeBaseComponent.removeParentAndChildTreeItems(initialTableId, false);
 		if (returnList == null) {
 			GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
 					GtnFrameworkCommonStringConstants.ERROR, "Please select a node to remove");
@@ -57,15 +56,7 @@ public class GtnFrameworkRemoveFromTreeAction implements GtnUIFrameWorkAction, G
 			loadResultLayout(gtnUIFrameWorkActionConfig);
 			return;
 		}
-		GtnUIFrameworkGlobalUI.addSessionProperty("selectedId", returnList.get(0));
-		GtnUIFrameWorkActionConfig actionConfig = rbTreeBaseComponent.getComponentConfig().getGtnUIFrameworkTreeConfig()
-				.getItemClickActionConfigList().get(0);
-		actionConfig.setEventParameter(returnList.get(0));
-		GtnUIFrameworkActionExecutor.executeSingleAction(treeId, actionConfig);
-		GtnUIFrameworkGlobalUI.showMessageBox(componentId, GtnUIFrameworkActionType.INFO_ACTION,
-				GtnFrameworkCommonStringConstants.ERROR,
-				"Please remove the child nodes of  " + (returnList.get(0).getStringPropertyByIndex(0)));
-	}
+    }
 
 	private void loadResultLayout(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
