@@ -23,18 +23,6 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		super();
 	}
 
-	private String getHierarchyNo(HierarchyLevelDefinitionBean hierarchyLevelBean) {
-		StringBuilder hierarcyNo = new StringBuilder();
-		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyLevelBean.getTableName(),
-						hierarchyLevelBean.getFieldName());
-		hierarcyNo.append("CONCAT( RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO,");
-		hierarcyNo.append(keyBean.getActualTtableName());
-		hierarcyNo.append(".");
-		hierarcyNo.append(keyBean.getWhereClauseColumn());
-		hierarcyNo.append(",'.')");
-		return hierarcyNo.toString();
-	}
 
 	private String getParentNodeForCustomerAndProdHie(HierarchyLevelDefinitionBean previousHierarchyLevelBean) {
 		if (previousHierarchyLevelBean == null)
@@ -44,6 +32,11 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		parentNodeString.append("CONCAT(");
 		parentNodeString.append(previousHierarchyLevelBean.getLevelNo());
 		parentNodeString.append(",'~',");
+		if (previousHierarchyLevelBean.isUserDefined()) {
+			parentNodeString.append(previousHierarchyLevelBean.getDefaultVlaue());
+			parentNodeString.append(")");
+			return parentNodeString.toString();
+		}
 		GtnFrameworkSingleColumnRelationBean previousKeyBean = gtnFrameworkEntityMasterBean
 				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
 						previousHierarchyLevelBean.getFieldName());
@@ -58,8 +51,8 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 			GtnWsRelationshipBuilderBean relationBean, GtnFrameworkQueryGeneratorBean querygeneratorBean,
 			int updatedVersionNo, String userId, int levelNo) {
 		HierarchyLevelDefinitionBean hierarchyLevelBean = hierarchyLevelDefinitionList.get(levelNo);
-		HierarchyLevelDefinitionBean previousHierarchyLevelBean = levelNo > 0
-				? hierarchyLevelDefinitionList.get(levelNo - 1) : null;
+		HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
+				.getPreviousLinkedLevel(hierarchyLevelDefinitionList, hierarchyLevelBean);
 		querygeneratorBean.removeSelectClauseByIndex(0);
 		querygeneratorBean.addSelectClauseBean(null, "RELATIONSHIP_BUILDER_SID", Boolean.FALSE,
 				String.valueOf(relationBean.getRelationshipBuilderSid()));
@@ -71,7 +64,7 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		querygeneratorBean.addSelectClauseBean(null, "LEVEL_NAME", Boolean.FALSE,
 				"'" + hierarchyLevelBean.getLevelName() + "'");
 		String parentNode = getParentNodeForCustomerAndProdHie(previousHierarchyLevelBean);
-		String hierarchyNo = getHierarchyNo(hierarchyLevelBean);
+		String hierarchyNo = getHierarchyNo(hierarchyLevelDefinitionList, hierarchyLevelBean);
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_NODE", Boolean.FALSE, parentNode);
 		querygeneratorBean.addSelectClauseBean(null, "HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
 		querygeneratorBean.addSelectClauseBean(null, "FLAG", Boolean.FALSE, "'F'");
@@ -83,4 +76,37 @@ public class GtnFramewrokAutomaticCustProdSelectServiceImpl implements GtnFramew
 		querygeneratorBean.addSelectClauseBean(null, "PARENT_HIERARCHY_NO", Boolean.FALSE, hierarchyNo);
 
 	}
+
+	private String getHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean selectedCustomerHierarchyLevelDto) {
+		StringBuilder query = new StringBuilder();
+		StringBuilder finalQuery = new StringBuilder();
+		HierarchyLevelDefinitionBean previousHierarchyBean = HierarchyLevelDefinitionBean
+				.getPreviousLinkedLevel(customerHierarchyLevelDefinitionList, selectedCustomerHierarchyLevelDto);
+		int i;
+		if (previousHierarchyBean == null)
+			i = selectedCustomerHierarchyLevelDto.getLevelNo() - 1;
+		else
+			i = previousHierarchyBean.getLevelNo();
+		for (; i < selectedCustomerHierarchyLevelDto.getLevelNo(); i++) {
+			HierarchyLevelDefinitionBean leveldto = customerHierarchyLevelDefinitionList.get(i);
+			if (leveldto.getTableName().isEmpty()) {
+				query.append("," + leveldto.getDefaultVlaue());
+				query.append(",'.'");
+				continue;
+			}
+			query.append(",");
+			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+			query.append(singleColumnRelationBean.getActualTtableName() + "."
+					+ singleColumnRelationBean.getWhereClauseColumn());
+			query.append(",'.'");
+		}
+		finalQuery.append("isnull(\r\n" + "				RELATIONSHIP_LEVEL_DEFINITION1.HIERARCHY_NO,\r\n"
+				+ "				concat(RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO");
+		finalQuery.append(query);
+		finalQuery.append("))");
+		return finalQuery.toString();
+	}
+
 }
