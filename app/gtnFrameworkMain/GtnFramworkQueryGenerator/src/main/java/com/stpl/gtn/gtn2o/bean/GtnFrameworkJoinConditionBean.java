@@ -15,14 +15,14 @@ public class GtnFrameworkJoinConditionBean implements Serializable {
 	}
 
 	private GtnFrameworkColumnBean joinLeftTableColumnBean;
-	private GtnFrameworkColumnBean joinRightTableColumnBean;
+	private String joinRightTableColumnBean;
 	private GtnFrameworkOperatorType joinOperator;
 
 	public GtnFrameworkColumnBean getJoinLeftTableColumnBean() {
 		return joinLeftTableColumnBean;
 	}
 
-	public GtnFrameworkColumnBean getJoinRightTableColumnBean() {
+	public String getJoinRightTableColumnBean() {
 		return joinRightTableColumnBean;
 	}
 
@@ -37,10 +37,10 @@ public class GtnFrameworkJoinConditionBean implements Serializable {
 		this.joinOperator = joinOperator;
 		joinLeftTableColumnBean.setColumnNameWithAlies(leftPartColumnNameWithAlies);
 		if (rightPartColumnNameWithAlies != null) {
-			this.joinRightTableColumnBean = new GtnFrameworkColumnBean();
-			this.joinRightTableColumnBean.setColumnNameWithAlies(rightPartColumnNameWithAlies);
+			this.joinRightTableColumnBean = rightPartColumnNameWithAlies;
 		}
 
 	}
+
 
 }
