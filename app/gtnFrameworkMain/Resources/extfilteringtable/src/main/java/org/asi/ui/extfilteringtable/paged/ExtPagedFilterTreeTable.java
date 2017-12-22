@@ -15,9 +15,8 @@
  */
 package org.asi.ui.extfilteringtable.paged;
 
+import com.vaadin.v7.data.Container;
 import org.asi.ui.extfilteringtable.paged.logic.ContainerLogic;
-
-import com.vaadin.data.Container;
 
 
 /**

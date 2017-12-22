@@ -15,26 +15,23 @@
  */
 package org.asi.ui.extfilteringtable;
 
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.converter.Converter.ConversionException;
+import com.vaadin.server.LegacyPaint;
+import com.vaadin.server.PaintException;
+import com.vaadin.server.PaintTarget;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.ui.Component;
+import org.asi.ui.extfilteringtable.ExtCustomTreeTable;
+import com.vaadin.ui.HasComponents;
+import com.vaadin.v7.ui.TextField;
+import org.asi.ui.extfilteringtable.ExtFilterFieldGenerator.IFilterTable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-
-import org.asi.ui.extfilteringtable.ExtFilterFieldGenerator.IFilterTable;
-
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Filterable;
-import com.vaadin.data.util.converter.Converter.ConversionException;
-import com.vaadin.server.LegacyPaint;
-import com.vaadin.server.PaintException;
-import com.vaadin.server.PaintTarget;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTreeTable;
-import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.TextField;
 
 
 

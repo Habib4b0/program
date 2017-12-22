@@ -50,6 +50,7 @@ import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.logic.GtnWsSearchQueryGenerationLogic;
 import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.concurrency.GtnFrameworkDeductionRelationServiceRunnable;
+import com.stpl.gtn.gtn2o.ws.module.automaticrelationship.service.GtnFrameworkAutomaticRelationUpdateService;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipBuilderBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.GtnWsRelationshipLevelDefinitionBean;
 import com.stpl.gtn.gtn2o.ws.relationshipbuilder.bean.HierarchyDefinitionBean;
@@ -96,6 +97,9 @@ public class GtnWsRelationshipBuilderService {
 
 	@Autowired
 	private GtnFrameworkHierarchyService hierarchyService;
+	@Autowired
+	private GtnFrameworkAutomaticRelationUpdateService autoMaticRelationService;
+
 	@Autowired
 	private GtnFrameworkDeductionRelationServiceRunnable deductionService;
 
@@ -802,13 +806,6 @@ public class GtnWsRelationshipBuilderService {
 				rbResponse.setMessage("Please make a tree.");
 				return;
 			}
-			if (checkHierarchyLevelsToSave(rbRequest.getHierarchyDefSId(), rbRequest.getHierarchyVersionNo(),
-					rbRequest.getBuildType())) {
-				rbResponse.setSuccess(false);
-				rbResponse.setMessageType(GtnFrameworkCommonStringConstants.ERROR);
-				rbResponse.setMessage("The tree cannot be completed as there are user-defined levels in between");
-				return;
-			}
 			if (checkForDuplicateCompanyTree(rbRequest.getRsTreeNodeList().get(0), rbRequest.getRbSysId(),
 					rbRequest.getHierarchyDefSId())) {
 				rbResponse.setSuccess(false);
@@ -939,7 +936,6 @@ public class GtnWsRelationshipBuilderService {
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		List<String> inputlist = new ArrayList<>();
-		boolean isRelationSaved;
 		try {
 			RelationshipBuilder relationshipBuilder = new RelationshipBuilder();
 			Date date = new Date();
@@ -949,7 +945,6 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setModifiedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo());
-				isRelationSaved = false;
 			} else {
 				relationshipBuilder = session.load(RelationshipBuilder.class, rbRequest.getRbSysId());
 				relationshipBuilder = new RelationshipBuilder();
@@ -959,7 +954,6 @@ public class GtnWsRelationshipBuilderService {
 				relationshipBuilder.setCreatedBy(rbRequest.getCreatedById());
 				relationshipBuilder.setCreatedDate(date);
 				relationshipBuilder.setVersionNo(rbRequest.getVersionNo() + 1);
-				isRelationSaved = true;
 			}
 			updateRelationshipBuilderFromRequest(relationshipBuilder, rbRequest, session);
 			session.saveOrUpdate(relationshipBuilder);
@@ -971,14 +965,10 @@ public class GtnWsRelationshipBuilderService {
 			rbResponse.setMessage("'" + rbRequest.getRelationshipName() + "' has been saved successfully.");
 			inputlist.add(String.valueOf(rbRequest.getHierarchyDefSId()));
 			inputlist.add(String.valueOf(rbRequest.getHierarchyVersionNo()));
-			List<Object> result = executeQuery(
-					gtnWsRelationshipBuilderHierarchyFileGenerator.getQueryReplaced(inputlist, "getHierarchyCatBySid"));
 			tx.commit();
-			if ("Product Hierarchy".equals(result.get(0).toString())) {
-				GtnWsRelationshipBuilderBean relationBuilderBean = getCustomizedRelationShipBean(relationshipBuilder,
-						session);
-				deductionService.saveRelationship(relationBuilderBean, isRelationSaved);
-			}
+			autoMaticRelationService.checkAndUpdateAutomaticRelationship(
+					relationshipBuilder.getRelationshipBuilderSid(),
+					String.valueOf(relationshipBuilder.getCreatedBy()));
 			rbResponse.setSuccess(true);
 		} catch (Exception e) {
 			tx.rollback();
@@ -1272,31 +1262,6 @@ public class GtnWsRelationshipBuilderService {
 				"getRBHierarchyLevelNameList"));
 	}
 
-	private boolean checkHierarchyLevelsToSave(int hierarchyDefSid, int hierarchyVersion, String buildType)
-			throws GtnFrameworkGeneralException {
-		boolean saveFlag = false;
-		List<String> hierarchyLevels = getRBHierarchyLevelNameList(hierarchyDefSid, hierarchyVersion);
-		if ("Automatic".equals(buildType) && hierarchyLevels != null && !hierarchyLevels.isEmpty()
-				&& checkUserDefinedCondition(hierarchyLevels)) {
-			saveFlag = true;
-		}
-		return saveFlag;
-	}
-
-	private boolean checkUserDefinedCondition(List<String> hierarchyLevels) {
-		boolean isLinkedVisted = false;
-		for (int i = 0; i < hierarchyLevels.size(); i++) {
-			String levelName = hierarchyLevels.get(i);
-			if (levelName.equals("Linked")) {
-				isLinkedVisted = true;
-			}
-			if (isLinkedVisted && i + 1 < hierarchyLevels.size()
-					&& GtnFrameworkWebserviceConstant.USER_DEFINED.equals(hierarchyLevels.get(i + 1))) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public GtnWsRelationshipBuilderBean getCustomizedRelationShipBean(RelationshipBuilder relationshipBuilder,
 			Session session) {

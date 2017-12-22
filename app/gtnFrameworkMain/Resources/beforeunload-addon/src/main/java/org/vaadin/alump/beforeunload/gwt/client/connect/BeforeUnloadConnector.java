@@ -33,73 +33,71 @@ import org.vaadin.alump.beforeunload.gwt.client.share.BeforeUnloadState;
 @Connect(org.vaadin.alump.beforeunload.BeforeUnload.class)
 public class BeforeUnloadConnector extends AbstractExtensionConnector {
 
-	private HandlerRegistration winCloseRegistration;
+    private HandlerRegistration winCloseRegistration;
 
-	private static long temporaryDisabled = new Date().getTime();
-	private static boolean permanentlyDisabled = false;
+    private static long temporaryDisabled = new Date().getTime();
+    private static boolean permanentlyDisabled = false;
 
-	private final Window.ClosingHandler closingHandler = new Window.ClosingHandler() {
+    private final Window.ClosingHandler closingHandler = new Window.ClosingHandler() {
 
-		@Override
-		public void onWindowClosing(Window.ClosingEvent closingEvent) {
-			getRpcProxy(BeforeUnloadRpc.class).unload();
-		}
-	};
+        @Override
+        public void onWindowClosing(Window.ClosingEvent closingEvent) {
+                getRpcProxy(BeforeUnloadRpc.class).unload();
+        }
+    };
 
-	@Override
-	protected void init() {
-		super.init();
-		winCloseRegistration = Window.addWindowClosingHandler(closingHandler);
-	}
+    @Override
+    protected void init() {
+        super.init();
+        winCloseRegistration = Window.addWindowClosingHandler(closingHandler);
+    }
 
-	public void onUnregister() {
-		if (winCloseRegistration != null) {
-			winCloseRegistration.removeHandler();
-			winCloseRegistration = null;
-		}
+    public void onUnregister() {
+        if(winCloseRegistration != null) {
+            winCloseRegistration.removeHandler();
+            winCloseRegistration = null;
+        }
 
-		super.onUnregister();
-	}
+        super.onUnregister();
+    }
 
-	@Override
-	protected void extend(ServerConnector serverConnector) {
+    @Override
+    protected void extend(ServerConnector serverConnector) {
+        
+        //ignore
+    }
 
-		// ignore
-	}
+    public BeforeUnloadState getState() {
+        return (BeforeUnloadState)super.getState();
+    }
 
-	public BeforeUnloadState getState() {
-		return (BeforeUnloadState) super.getState();
-	}
+    /**
+     * Way to temporary disable verification. This can be used to avoid
+     * error when forcing page reload on client side (eg. connection
+     * error at ApplicationConnection).
+     * @param millisecs How long exit verification should be disabled
+     *                  in milliseconds.
+     */
+    public static void disableTemporary(long millisecs) {
+        temporaryDisabled = new Date().getTime() + millisecs;
+    }
 
-	/**
-	 * Way to temporary disable verification. This can be used to avoid error
-	 * when forcing page reload on client side (eg. connection error at
-	 * ApplicationConnection).
-	 * 
-	 * @param millisecs
-	 *            How long exit verification should be disabled in milliseconds.
-	 */
-	public static void disableTemporary(long millisecs) {
-		temporaryDisabled = new Date().getTime() + millisecs;
-	}
+    /**
+     * Way to permanently disable verification.
+     * This can be used to avoid error when user manually reloading after
+     * a connection error, or session timeout error.
+     */
+    public static void disablePermanently() {
+        BeforeUnloadConnector.permanentlyDisabled = true;
+    }
 
-	/**
-	 * Way to permanently disable verification. This can be used to avoid error
-	 * when user manually reloading after a connection error, or session timeout
-	 * error.
-	 */
-	public static void disablePermanently() {
-		BeforeUnloadConnector.permanentlyDisabled = true;
-	}
-
-	/**
-	 * Check if exit verification is temporary disabled right now, or
-	 * permanently disabled.
-	 * 
-	 * @return true if disabled
-	 */
-	public static boolean isDisabled() {
-		return permanentlyDisabled || new Date().getTime() < temporaryDisabled;
-	}
+    /**
+     * Check if exit verification is temporary disabled right now,
+     * or permanently disabled.
+     * @return true if disabled
+     */
+    public static boolean isDisabled() {
+        return permanentlyDisabled || new Date().getTime() < temporaryDisabled;
+    }
 
 }

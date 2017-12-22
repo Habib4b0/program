@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
 
 /**
  *

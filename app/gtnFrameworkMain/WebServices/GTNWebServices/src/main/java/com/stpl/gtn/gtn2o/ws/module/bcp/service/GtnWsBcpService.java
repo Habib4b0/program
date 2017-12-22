@@ -87,15 +87,21 @@ public class GtnWsBcpService {
 				}
 
 				if (count > 0) {
+                                    GTNLOGGER.info("Inside count > 0");
 					task.add(executorService.submit(
 							new GtnWsBcpMultiplicationJob(objectList, aint, sema, threadLocalImpl,
 									gtnWsBcpServiceBean)));
 				}
 				executorService.shutdown();
 				executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MINUTES);
+                                if (count > 0) {
+                                    task.get(0).get();
+                                }
+                                
+                                GTNLOGGER.info("fileList size after executor ========="+fileList.size());
 
 				String finalFileName = getFinalFileName(salesFlag, userId, sessionId, finalFile);
-				mergeFiles(fileList, finalFileName, fileOperationList, gtnWsBcpServiceBean.getFolderName());
+				mergeFiles(threadLocalImpl.getFileList(), finalFileName, threadLocalImpl.getFileOperationList(), gtnWsBcpServiceBean.getFolderName());
 				uploadFiles(finalFileName, bcpServiceRequest);
 			}
 

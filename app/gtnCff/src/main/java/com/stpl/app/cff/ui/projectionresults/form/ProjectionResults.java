@@ -108,7 +108,7 @@ public class ProjectionResults extends ForecastProjectionResults {
         if (ACTION_EDIT.getConstant().equalsIgnoreCase(sessionDTO.getAction()) || ACTION_VIEW.getConstant().equalsIgnoreCase(sessionDTO.getAction())) {
             loadOnEdit();
         }
-    }
+       }
 
     @Override
     protected void generateButtonLogic() {
@@ -408,9 +408,11 @@ public class ProjectionResults extends ForecastProjectionResults {
             dataSelectionDTO.setFromDate(dbDateFrom);
             dataSelectionDTO.setToDate(dbDateTO);
         }
+        dataSelectionDTO.setFromDate(fromDateIsNull(dataSelectionDTO.getFromDate()));
+        dataSelectionDTO.setToDate(toDateIsNull(dataSelectionDTO.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
-            dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
         } catch (Exception exp) {
             LOGGER.error(exp);
         }
@@ -751,5 +753,25 @@ public class ProjectionResults extends ForecastProjectionResults {
         } catch (SystemException ex) {
             LOGGER.error(ex);
         }
+    }
+    private Date fromDateIsNull(Date fromDate) {
+        if (fromDate == null) {
+            Calendar calendarFromPeriod = Calendar.getInstance();
+            calendarFromPeriod.set(Calendar.YEAR, (calendarFromPeriod.get(Calendar.YEAR) - 3));
+            calendarFromPeriod.set(Calendar.MONTH, 0);
+            calendarFromPeriod.set(Calendar.DAY_OF_MONTH, 1);
+            return calendarFromPeriod.getTime();
+        }
+        return fromDate;
+    }
+    private Date toDateIsNull(Date toDate) {
+        if (toDate == null) {
+            Calendar calendatToPeriod = Calendar.getInstance();
+            calendatToPeriod.set(Calendar.YEAR, (calendatToPeriod.get(Calendar.YEAR) + 3));
+            calendatToPeriod.set(Calendar.MONTH, 11);
+            calendatToPeriod.set(Calendar.DAY_OF_MONTH, calendatToPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+          return calendatToPeriod.getTime();
+        }
+        return toDate;
     }
 }

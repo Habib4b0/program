@@ -15,7 +15,7 @@
  */
 package org.asi.calendarfield.client;
 
-import com.vaadin.shared.ui.datefield.InlineDateFieldState;
+import com.vaadin.v7.shared.ui.datefield.InlineDateFieldState;
 
 /**
  *

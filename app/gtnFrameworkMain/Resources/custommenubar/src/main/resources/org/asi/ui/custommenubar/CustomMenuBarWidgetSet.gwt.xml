@@ -1,12 +1,11 @@
-<!DOCTYPE xml>
 <module>
 
 	<!-- WS Compiler: manually edited -->
 
 	<!-- Inherit DefaultWidgetSet -->
-	<inherits name="com.vaadin.DefaultWidgetSet" />
+	<inherits name="com.vaadin.v7.Vaadin7WidgetSet" /> 
 
 	<!-- Widget styles in public -directory -->
-	<stylesheet src="custommenubar/custommenubar.css" />
+	<stylesheet src="custommenubar/custommenubar.css"/>
 
 </module>

@@ -5,6 +5,10 @@
  */
 package org.asi.ui.extfilteringtable.paged.logic;
 
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Container.Hierarchical;
+import com.vaadin.v7.data.Container.Indexed;
+import com.vaadin.v7.data.Property;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,14 +16,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterTreeTable;
 import org.asi.ui.extfilteringtable.paged.PagedTreeTableBase;
-
-import com.vaadin.data.Container;
-import com.vaadin.data.Container.Hierarchical;
-import com.vaadin.data.Container.Indexed;
-import com.vaadin.data.Property;
 
 
 /**

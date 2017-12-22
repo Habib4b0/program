@@ -3,10 +3,10 @@ package org.asi.ui.extcustomcheckbox.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.vaadin.client.MouseEventDetailsBuilder;
-import com.vaadin.client.ui.checkbox.CheckBoxConnector;
+import com.vaadin.v7.client.ui.checkbox.CheckBoxConnector;
 import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.shared.ui.checkbox.CheckBoxServerRpc;
+import com.vaadin.v7.shared.ui.checkbox.CheckBoxServerRpc;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
 
 // Connector binds client-side widget class to server-side component class

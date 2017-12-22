@@ -9,10 +9,7 @@ import com.stpl.app.bpm.dto.WorkflowRuleDTO;
 import com.stpl.app.gtnforecasting.abstractforecast.AbstractForm;
 import com.stpl.app.gtnforecasting.accrualrateprojection.logic.DSLogic;
 import com.stpl.app.gtnforecasting.accrualrateprojection.utils.AccrualRateUtils;
-import com.stpl.app.gtnforecasting.bpm.logic.DSCalculationLogic;
 import com.stpl.app.gtnforecasting.bpm.logic.VarianceCalculationLogic;
-import com.stpl.app.gtnforecasting.bpm.service.BPMProcessBean;
-import com.stpl.app.gtnforecasting.bpm.service.MailWorkItemHandler;
 import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -71,8 +68,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import org.kie.api.runtime.process.ProcessInstance;
-import org.kie.api.task.model.TaskSummary;
 
 /**
  *
@@ -336,7 +331,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Approved Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Approved Succesfully", sb);
+//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Approved Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -390,7 +385,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Rejected Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Rejected Succesfully", sb);
+//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Rejected Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -439,7 +434,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is Withdrawn Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Withdrawn Succesfully", sb);
+//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Withdrawn Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -490,7 +485,7 @@ public class AccrualRateProjectionForm extends AbstractForm {
                                     StringBuffer sb = new StringBuffer(Constant.BR_BR);
                                     sb.append(Constant.WORKFLOW_WITH_WORKFLOW_ID + workflowIdUpdate + " is cancelled Succesfully.");
                                     sb.append(Constant.THANKS_BPI_TECHNICAL_TEAM);
-                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Cancelled Succesfully", sb);
+//                                    MailWorkItemHandler.sendMail(Constant.SUPPORT_MAIL, "Workflow Cancelled Succesfully", sb);
                                     getBtnApprove().setEnabled(false);
                                     getBtnWithdraw().setEnabled(false);
                                     getBtnCancel().setEnabled(false);
@@ -766,18 +761,18 @@ public class AccrualRateProjectionForm extends AbstractForm {
 
             String workflowStatus = logic.getWorkflowStatus(session.getProjectionId(), screenName);
             if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
-                ProcessInstance processInstance = DSCalculationLogic.startARPWorkflow();
+//                ProcessInstance processInstance = DSCalculationLogic.startARPWorkflow();
                 User userModel = UserLocalServiceUtil.getUser(Long.parseLong(session.getUserId()));
                 List<String> roleList = new ArrayList<>();
-                workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
-                Long processInstanceId = processInstance.getId();
+//                workflowFlag = DSCalculationLogic.isValidWorkflowUser(userModel, roleList, processInstance.getId());
+//                Long processInstanceId = processInstance.getId();
                 if (workflowFlag) {
                     saveLogic(false);
                     logic.deleteTempBySession();
                     try {
-                        TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, session.getProjectionId(), processInstanceId);
-                        processInstanceId = taskSummary.getProcessInstanceId();
-                        session.setProcessId(processInstanceId);
+//                        TaskSummary taskSummary = DSCalculationLogic.startAndCompleteTask(userModel, session.getProjectionId(), processInstanceId);
+//                        processInstanceId = taskSummary.getProcessInstanceId();
+//                        session.setProcessId(processInstanceId);
                     } catch (Exception e) {
                         LOGGER.error(e);
                     }
@@ -809,7 +804,8 @@ public class AccrualRateProjectionForm extends AbstractForm {
             dto.setNoOfUsers(NumericConstants.TWO);
             params.put("out_workflowDTO", dto);
             VarianceCalculationLogic.submitWorkflow(session.getUserId(), session.getProcessId(), params);
-            String noOfUsers = BPMProcessBean.getProcessVariableLog(session.getProcessId(), "NoOfUsers");
+//            String noOfUsers = BPMProcessBean.getProcessVariableLog(session.getProcessId(), "NoOfUsers");
+String noOfUsers ="";
             if (!noOfUsers.isEmpty()) {
                 workflowId = submitToWorkflow(notes, Integer.parseInt(noOfUsers), screenName, getUploadedData);
             }

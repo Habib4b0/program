@@ -126,4 +126,28 @@ public class CommonQueryUtils {
         }
         return sql;
     }
+    
+    public static String getAppDataQuery(List input, String queryName, String quaryName2) {
+        LOGGER.debug("Inside item get data");
+        List list = new ArrayList();
+        StringBuilder sql = null;
+        LOGGER.debug("queryName - - >> " + queryName);
+        if (queryName != null && !queryName.isEmpty()) {
+            try {
+                sql = new StringBuilder(SQlUtil.getQuery(queryName));
+                if (quaryName2 != null && !quaryName2.equals(StringUtils.EMPTY)) { 
+                    sql.append(" ");
+                    sql.append(SQlUtil.getQuery(quaryName2));
+                }
+                for (final Object temp : input) {
+                    sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+                }
+            } catch (final Exception ex) {
+                LOGGER.error(ex);
+            }
+        }
+
+        LOGGER.debug("End of item get Data");
+        return sql.toString();
+    }
 }
