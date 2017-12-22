@@ -234,7 +234,7 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 		attributes.put("udc3", getUdc3());
 		attributes.put("reasonForFailure", getReasonForFailure());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("costCenter", getCostCenter());
 		attributes.put("glCompany", getGlCompany());
 		attributes.put("brandId", getBrandId());
@@ -438,10 +438,10 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String costCenter = (String)attributes.get("costCenter");
@@ -948,18 +948,18 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1186,7 +1186,7 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 		vwIvldReturnReserveImpl.setUdc3(getUdc3());
 		vwIvldReturnReserveImpl.setReasonForFailure(getReasonForFailure());
 		vwIvldReturnReserveImpl.setCountry(getCountry());
-		vwIvldReturnReserveImpl.setCompanyId(getCompanyId());
+		vwIvldReturnReserveImpl.setCompanyIdString(getCompanyIdString());
 		vwIvldReturnReserveImpl.setCostCenter(getCostCenter());
 		vwIvldReturnReserveImpl.setGlCompany(getGlCompany());
 		vwIvldReturnReserveImpl.setBrandId(getBrandId());
@@ -1503,12 +1503,12 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 			vwIvldReturnReserveCacheModel.country = null;
 		}
 
-		vwIvldReturnReserveCacheModel.companyId = getCompanyId();
+		vwIvldReturnReserveCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwIvldReturnReserveCacheModel.companyId;
+		String companyIdString = vwIvldReturnReserveCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwIvldReturnReserveCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwIvldReturnReserveCacheModel.companyIdString = null;
 		}
 
 		vwIvldReturnReserveCacheModel.costCenter = getCostCenter();
@@ -1668,8 +1668,8 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 		sb.append(getReasonForFailure());
 		sb.append(", country=");
 		sb.append(getCountry());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", costCenter=");
 		sb.append(getCostCenter());
 		sb.append(", glCompany=");
@@ -1828,8 +1828,8 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 		sb.append(getCountry());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>costCenter</column-name><column-value><![CDATA[");
@@ -1919,7 +1919,7 @@ public class VwIvldReturnReserveModelImpl extends BaseModelImpl<VwIvldReturnRese
 	private String _udc3;
 	private String _reasonForFailure;
 	private String _country;
-	private String _companyId;
+	private String _companyIdString;
 	private String _costCenter;
 	private String _glCompany;
 	private String _brandId;

@@ -57,7 +57,7 @@ public class VwCompanyMasterSoap implements Serializable {
 		soapModel.setZipCode(model.getZipCode());
 		soapModel.setUdc2(model.getUdc2());
 		soapModel.setUdc3(model.getUdc3());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setCountry(model.getCountry());
 		soapModel.setCompanyType(model.getCompanyType());
 		soapModel.setCompanyStartDate(model.getCompanyStartDate());
@@ -313,12 +313,12 @@ public class VwCompanyMasterSoap implements Serializable {
 		_udc3 = udc3;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getCountry() {
@@ -417,7 +417,7 @@ public class VwCompanyMasterSoap implements Serializable {
 	private String _zipCode;
 	private String _udc2;
 	private String _udc3;
-	private String _companyId;
+	private String _companyIdString;
 	private String _country;
 	private String _companyType;
 	private Date _companyStartDate;

@@ -165,7 +165,7 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 		attributes.put("parentcompanyId", getParentcompanyId());
 		attributes.put("priorParentcompanyId", getPriorParentcompanyId());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("parentEndDate", getParentEndDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -212,10 +212,10 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String lastUpdatedDate = (String)attributes.get("lastUpdatedDate");
@@ -376,18 +376,18 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -657,7 +657,7 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 		ivldCompanyParentImpl.setParentcompanyId(getParentcompanyId());
 		ivldCompanyParentImpl.setPriorParentcompanyId(getPriorParentcompanyId());
 		ivldCompanyParentImpl.setReasonForFailure(getReasonForFailure());
-		ivldCompanyParentImpl.setCompanyId(getCompanyId());
+		ivldCompanyParentImpl.setCompanyIdString(getCompanyIdString());
 		ivldCompanyParentImpl.setLastUpdatedDate(getLastUpdatedDate());
 		ivldCompanyParentImpl.setParentEndDate(getParentEndDate());
 		ivldCompanyParentImpl.setModifiedDate(getModifiedDate());
@@ -767,12 +767,12 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 			ivldCompanyParentCacheModel.reasonForFailure = null;
 		}
 
-		ivldCompanyParentCacheModel.companyId = getCompanyId();
+		ivldCompanyParentCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = ivldCompanyParentCacheModel.companyId;
+		String companyIdString = ivldCompanyParentCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			ivldCompanyParentCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			ivldCompanyParentCacheModel.companyIdString = null;
 		}
 
 		ivldCompanyParentCacheModel.lastUpdatedDate = getLastUpdatedDate();
@@ -925,8 +925,8 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 		sb.append(getPriorParentcompanyId());
 		sb.append(", reasonForFailure=");
 		sb.append(getReasonForFailure());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", lastUpdatedDate=");
 		sb.append(getLastUpdatedDate());
 		sb.append(", parentEndDate=");
@@ -989,8 +989,8 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 		sb.append(getReasonForFailure());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>lastUpdatedDate</column-name><column-value><![CDATA[");
@@ -1077,7 +1077,7 @@ public class IvldCompanyParentModelImpl extends BaseModelImpl<IvldCompanyParent>
 	private String _parentcompanyId;
 	private String _priorParentcompanyId;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _lastUpdatedDate;
 	private String _parentEndDate;
 	private Date _modifiedDate;

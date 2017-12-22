@@ -88,7 +88,7 @@ public class VwIvldReturnReserveWrapper implements VwIvldReturnReserve,
 		attributes.put("udc3", getUdc3());
 		attributes.put("reasonForFailure", getReasonForFailure());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("costCenter", getCostCenter());
 		attributes.put("glCompany", getGlCompany());
 		attributes.put("brandId", getBrandId());
@@ -289,10 +289,10 @@ public class VwIvldReturnReserveWrapper implements VwIvldReturnReserve,
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String costCenter = (String)attributes.get("costCenter");
@@ -469,13 +469,13 @@ public class VwIvldReturnReserveWrapper implements VwIvldReturnReserve,
 	}
 
 	/**
-	* Returns the company ID of this vw ivld return reserve.
+	* Returns the company ID string of this vw ivld return reserve.
 	*
-	* @return the company ID of this vw ivld return reserve
+	* @return the company ID string of this vw ivld return reserve
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwIvldReturnReserve.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwIvldReturnReserve.getCompanyIdString();
 	}
 
 	/**
@@ -959,13 +959,13 @@ public class VwIvldReturnReserveWrapper implements VwIvldReturnReserve,
 	}
 
 	/**
-	* Sets the company ID of this vw ivld return reserve.
+	* Sets the company ID string of this vw ivld return reserve.
 	*
-	* @param companyId the company ID of this vw ivld return reserve
+	* @param companyIdString the company ID string of this vw ivld return reserve
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwIvldReturnReserve.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwIvldReturnReserve.setCompanyIdString(companyIdString);
 	}
 
 	/**

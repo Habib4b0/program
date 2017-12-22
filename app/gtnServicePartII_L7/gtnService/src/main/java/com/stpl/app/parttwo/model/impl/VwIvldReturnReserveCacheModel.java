@@ -128,8 +128,8 @@ public class VwIvldReturnReserveCacheModel implements CacheModel<VwIvldReturnRes
 		sb.append(reasonForFailure);
 		sb.append(", country=");
 		sb.append(country);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", costCenter=");
 		sb.append(costCenter);
 		sb.append(", glCompany=");
@@ -369,11 +369,11 @@ public class VwIvldReturnReserveCacheModel implements CacheModel<VwIvldReturnRes
 			vwIvldReturnReserveImpl.setCountry(country);
 		}
 
-		if (companyId == null) {
-			vwIvldReturnReserveImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwIvldReturnReserveImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwIvldReturnReserveImpl.setCompanyId(companyId);
+			vwIvldReturnReserveImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (costCenter == null) {
@@ -492,7 +492,7 @@ public class VwIvldReturnReserveCacheModel implements CacheModel<VwIvldReturnRes
 		udc3 = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
 		country = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		costCenter = objectInput.readUTF();
 		glCompany = objectInput.readUTF();
 		brandId = objectInput.readUTF();
@@ -701,11 +701,11 @@ public class VwIvldReturnReserveCacheModel implements CacheModel<VwIvldReturnRes
 			objectOutput.writeUTF(country);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (costCenter == null) {
@@ -818,7 +818,7 @@ public class VwIvldReturnReserveCacheModel implements CacheModel<VwIvldReturnRes
 	public String udc3;
 	public String reasonForFailure;
 	public String country;
-	public String companyId;
+	public String companyIdString;
 	public String costCenter;
 	public String glCompany;
 	public String brandId;

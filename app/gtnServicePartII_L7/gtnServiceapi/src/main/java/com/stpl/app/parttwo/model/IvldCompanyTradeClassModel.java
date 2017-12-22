@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -42,8 +41,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface IvldCompanyTradeClassModel extends BaseModel<IvldCompanyTradeClass>,
-	ShardedModel {
+public interface IvldCompanyTradeClassModel extends BaseModel<IvldCompanyTradeClass> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -109,21 +107,19 @@ public interface IvldCompanyTradeClassModel extends BaseModel<IvldCompanyTradeCl
 	public void setReasonForFailure(String reasonForFailure);
 
 	/**
-	 * Returns the company ID of this ivld company trade class.
+	 * Returns the company ID string of this ivld company trade class.
 	 *
-	 * @return the company ID of this ivld company trade class
+	 * @return the company ID string of this ivld company trade class
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this ivld company trade class.
+	 * Sets the company ID string of this ivld company trade class.
 	 *
-	 * @param companyId the company ID of this ivld company trade class
+	 * @param companyIdString the company ID string of this ivld company trade class
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the last updated date of this ivld company trade class.

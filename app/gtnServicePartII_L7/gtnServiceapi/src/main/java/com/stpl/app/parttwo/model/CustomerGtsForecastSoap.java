@@ -55,7 +55,7 @@ public class CustomerGtsForecastSoap implements Serializable {
 		soapModel.setDeductionRate(model.getDeductionRate());
 		soapModel.setCustomerGtsForecastSid(model.getCustomerGtsForecastSid());
 		soapModel.setCountry(model.getCountry());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setForecastValueType(model.getForecastValueType());
 		soapModel.setDeductionCategory(model.getDeductionCategory());
 		soapModel.setAdjustmentCode(model.getAdjustmentCode());
@@ -301,12 +301,12 @@ public class CustomerGtsForecastSoap implements Serializable {
 		_country = country;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getForecastValueType() {
@@ -447,7 +447,7 @@ public class CustomerGtsForecastSoap implements Serializable {
 	private String _deductionRate;
 	private int _customerGtsForecastSid;
 	private String _country;
-	private String _companyId;
+	private String _companyIdString;
 	private String _forecastValueType;
 	private String _deductionCategory;
 	private String _adjustmentCode;

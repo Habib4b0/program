@@ -225,7 +225,7 @@ public class StAdjustmentGtnDetailPersistenceTest {
 
 		newStAdjustmentGtnDetail.setCostCenter(RandomTestUtil.randomString());
 
-		newStAdjustmentGtnDetail.setCompanyId(RandomTestUtil.randomString());
+		newStAdjustmentGtnDetail.setCompanyIdString(RandomTestUtil.randomString());
 
 		newStAdjustmentGtnDetail.setOutboundStatus(RandomTestUtil.randomString());
 
@@ -382,8 +382,8 @@ public class StAdjustmentGtnDetailPersistenceTest {
 			newStAdjustmentGtnDetail.getUserId());
 		Assert.assertEquals(existingStAdjustmentGtnDetail.getCostCenter(),
 			newStAdjustmentGtnDetail.getCostCenter());
-		Assert.assertEquals(existingStAdjustmentGtnDetail.getCompanyId(),
-			newStAdjustmentGtnDetail.getCompanyId());
+		Assert.assertEquals(existingStAdjustmentGtnDetail.getCompanyIdString(),
+			newStAdjustmentGtnDetail.getCompanyIdString());
 		Assert.assertEquals(existingStAdjustmentGtnDetail.getOutboundStatus(),
 			newStAdjustmentGtnDetail.getOutboundStatus());
 		Assert.assertEquals(existingStAdjustmentGtnDetail.getFuture1(),
@@ -462,7 +462,7 @@ public class StAdjustmentGtnDetailPersistenceTest {
 			"deductionUdc5", true, "glCompanyName", true, "workflowId", true,
 			"itemNo", true, "contractId", true, "deductionProgram", true,
 			"businessUnitId", true, "userId", true, "costCenter", true,
-			"companyId", true, "outboundStatus", true, "future1", true,
+			"companyIdString", true, "outboundStatus", true, "future1", true,
 			"brandId", true, "deductionName", true, "future2", true,
 			"workflowName", true, "glDate", true, "workflowCreatedBy", true,
 			"glMonth", true, "batchId", true, "accountCategory", true,
@@ -758,7 +758,7 @@ public class StAdjustmentGtnDetailPersistenceTest {
 
 		stAdjustmentGtnDetail.setCostCenter(RandomTestUtil.randomString());
 
-		stAdjustmentGtnDetail.setCompanyId(RandomTestUtil.randomString());
+		stAdjustmentGtnDetail.setCompanyIdString(RandomTestUtil.randomString());
 
 		stAdjustmentGtnDetail.setOutboundStatus(RandomTestUtil.randomString());
 

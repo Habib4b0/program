@@ -86,7 +86,7 @@ public class IvldCompanyMasterWrapper implements IvldCompanyMaster,
 		attributes.put("zipCode", getZipCode());
 		attributes.put("udc3", getUdc3());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("address1", getAddress1());
 		attributes.put("country", getCountry());
 		attributes.put("address2", getAddress2());
@@ -276,10 +276,10 @@ public class IvldCompanyMasterWrapper implements IvldCompanyMaster,
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String address1 = (String)attributes.get("address1");
@@ -462,13 +462,13 @@ public class IvldCompanyMasterWrapper implements IvldCompanyMaster,
 	}
 
 	/**
-	* Returns the company ID of this ivld company master.
+	* Returns the company ID string of this ivld company master.
 	*
-	* @return the company ID of this ivld company master
+	* @return the company ID string of this ivld company master
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _ivldCompanyMaster.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _ivldCompanyMaster.getCompanyIdString();
 	}
 
 	/**
@@ -942,13 +942,13 @@ public class IvldCompanyMasterWrapper implements IvldCompanyMaster,
 	}
 
 	/**
-	* Sets the company ID of this ivld company master.
+	* Sets the company ID string of this ivld company master.
 	*
-	* @param companyId the company ID of this ivld company master
+	* @param companyIdString the company ID string of this ivld company master
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_ivldCompanyMaster.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_ivldCompanyMaster.setCompanyIdString(companyIdString);
 	}
 
 	/**

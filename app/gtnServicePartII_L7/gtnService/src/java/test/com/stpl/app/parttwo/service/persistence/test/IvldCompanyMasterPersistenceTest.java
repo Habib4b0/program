@@ -176,7 +176,7 @@ public class IvldCompanyMasterPersistenceTest {
 
 		newIvldCompanyMaster.setReasonForFailure(RandomTestUtil.randomString());
 
-		newIvldCompanyMaster.setCompanyId(RandomTestUtil.randomString());
+		newIvldCompanyMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		newIvldCompanyMaster.setAddress1(RandomTestUtil.randomString());
 
@@ -267,8 +267,8 @@ public class IvldCompanyMasterPersistenceTest {
 			newIvldCompanyMaster.getUdc3());
 		Assert.assertEquals(existingIvldCompanyMaster.getReasonForFailure(),
 			newIvldCompanyMaster.getReasonForFailure());
-		Assert.assertEquals(existingIvldCompanyMaster.getCompanyId(),
-			newIvldCompanyMaster.getCompanyId());
+		Assert.assertEquals(existingIvldCompanyMaster.getCompanyIdString(),
+			newIvldCompanyMaster.getCompanyIdString());
 		Assert.assertEquals(existingIvldCompanyMaster.getAddress1(),
 			newIvldCompanyMaster.getAddress1());
 		Assert.assertEquals(existingIvldCompanyMaster.getCountry(),
@@ -329,11 +329,12 @@ public class IvldCompanyMasterPersistenceTest {
 			"errorCode", true, "intfInsertedDate", true, "modifiedBy", true,
 			"companyMasterIntfid", true, "reprocessedFlag", true, "udc6", true,
 			"udc5", true, "udc4", true, "udc1", true, "udc2", true, "zipCode",
-			true, "udc3", true, "reasonForFailure", true, "companyId", true,
-			"address1", true, "country", true, "address2", true, "companyType",
-			true, "companyStartDate", true, "companyNo", true, "batchId", true,
-			"companyStatus", true, "companyEndDate", true, "errorField", true,
-			"city", true, "regionCode", true, "checkRecord", true);
+			true, "udc3", true, "reasonForFailure", true, "companyIdString",
+			true, "address1", true, "country", true, "address2", true,
+			"companyType", true, "companyStartDate", true, "companyNo", true,
+			"batchId", true, "companyStatus", true, "companyEndDate", true,
+			"errorField", true, "city", true, "regionCode", true,
+			"checkRecord", true);
 	}
 
 	@Test
@@ -591,7 +592,7 @@ public class IvldCompanyMasterPersistenceTest {
 
 		ivldCompanyMaster.setReasonForFailure(RandomTestUtil.randomString());
 
-		ivldCompanyMaster.setCompanyId(RandomTestUtil.randomString());
+		ivldCompanyMaster.setCompanyIdString(RandomTestUtil.randomString());
 
 		ivldCompanyMaster.setAddress1(RandomTestUtil.randomString());
 

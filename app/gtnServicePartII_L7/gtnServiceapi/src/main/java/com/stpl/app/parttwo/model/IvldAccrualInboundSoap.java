@@ -64,7 +64,7 @@ public class IvldAccrualInboundSoap implements Serializable {
 		soapModel.setAccountNo(model.getAccountNo());
 		soapModel.setAccrualId(model.getAccrualId());
 		soapModel.setReasonForFailure(model.getReasonForFailure());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setAccountName(model.getAccountName());
 		soapModel.setAccrualType(model.getAccrualType());
 		soapModel.setPostingDate(model.getPostingDate());
@@ -388,12 +388,12 @@ public class IvldAccrualInboundSoap implements Serializable {
 		_reasonForFailure = reasonForFailure;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getAccountName() {
@@ -591,7 +591,7 @@ public class IvldAccrualInboundSoap implements Serializable {
 	private String _accountNo;
 	private String _accrualId;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _accountName;
 	private String _accrualType;
 	private String _postingDate;

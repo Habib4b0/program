@@ -124,8 +124,8 @@ public class IvldCustomerGtsForecastCacheModel implements CacheModel<IvldCustome
 		sb.append(reasonForFailure);
 		sb.append(", country=");
 		sb.append(country);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", forecastValueType=");
 		sb.append(forecastValueType);
 		sb.append(", deductionCategory=");
@@ -359,11 +359,11 @@ public class IvldCustomerGtsForecastCacheModel implements CacheModel<IvldCustome
 			ivldCustomerGtsForecastImpl.setCountry(country);
 		}
 
-		if (companyId == null) {
-			ivldCustomerGtsForecastImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldCustomerGtsForecastImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldCustomerGtsForecastImpl.setCompanyId(companyId);
+			ivldCustomerGtsForecastImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (forecastValueType == null) {
@@ -504,7 +504,7 @@ public class IvldCustomerGtsForecastCacheModel implements CacheModel<IvldCustome
 		udc3 = objectInput.readUTF();
 		reasonForFailure = objectInput.readUTF();
 		country = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		forecastValueType = objectInput.readUTF();
 		deductionCategory = objectInput.readUTF();
 		adjustmentCode = objectInput.readUTF();
@@ -699,11 +699,11 @@ public class IvldCustomerGtsForecastCacheModel implements CacheModel<IvldCustome
 			objectOutput.writeUTF(country);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (forecastValueType == null) {
@@ -837,7 +837,7 @@ public class IvldCustomerGtsForecastCacheModel implements CacheModel<IvldCustome
 	public String udc3;
 	public String reasonForFailure;
 	public String country;
-	public String companyId;
+	public String companyIdString;
 	public String forecastValueType;
 	public String deductionCategory;
 	public String adjustmentCode;

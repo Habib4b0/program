@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.util.HashUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
-import com.stpl.app.parttwo.model.IvldcompanyIdentifier;
+import com.stpl.app.parttwo.model.IvldCompanyIdentifier;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -31,14 +31,14 @@ import java.io.ObjectOutput;
 import java.util.Date;
 
 /**
- * The cache model class for representing IvldcompanyIdentifier in entity cache.
+ * The cache model class for representing IvldCompanyIdentifier in entity cache.
  *
  * @author
- * @see IvldcompanyIdentifier
+ * @see IvldCompanyIdentifier
  * @generated
  */
 @ProviderType
-public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyIdentifier>,
+public class IvldCompanyIdentifierCacheModel implements CacheModel<IvldCompanyIdentifier>,
 	Externalizable {
 	@Override
 	public boolean equals(Object obj) {
@@ -46,13 +46,13 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 			return true;
 		}
 
-		if (!(obj instanceof IvldcompanyIdentifierCacheModel)) {
+		if (!(obj instanceof IvldCompanyIdentifierCacheModel)) {
 			return false;
 		}
 
-		IvldcompanyIdentifierCacheModel ivldcompanyIdentifierCacheModel = (IvldcompanyIdentifierCacheModel)obj;
+		IvldCompanyIdentifierCacheModel ivldCompanyIdentifierCacheModel = (IvldCompanyIdentifierCacheModel)obj;
 
-		if (ivldcompanyIdentifierSid == ivldcompanyIdentifierCacheModel.ivldcompanyIdentifierSid) {
+		if (ivldCompanyIdentifierSid == ivldCompanyIdentifierCacheModel.ivldCompanyIdentifierSid) {
 			return true;
 		}
 
@@ -61,7 +61,7 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 
 	@Override
 	public int hashCode() {
-		return HashUtil.hash(0, ivldcompanyIdentifierSid);
+		return HashUtil.hash(0, ivldCompanyIdentifierSid);
 	}
 
 	@Override
@@ -70,8 +70,8 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 
 		sb.append("{reasonForFailure=");
 		sb.append(reasonForFailure);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", companyName=");
 		sb.append(companyName);
 		sb.append(", endDate=");
@@ -110,8 +110,8 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 		sb.append(intfInsertedDate);
 		sb.append(", modifiedBy=");
 		sb.append(modifiedBy);
-		sb.append(", ivldcompanyIdentifierSid=");
-		sb.append(ivldcompanyIdentifierSid);
+		sb.append(", ivldCompanyIdentifierSid=");
+		sb.append(ivldCompanyIdentifierSid);
 		sb.append(", reprocessedFlag=");
 		sb.append(reprocessedFlag);
 		sb.append(", identifierCodeQualifier=");
@@ -124,184 +124,184 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 	}
 
 	@Override
-	public IvldcompanyIdentifier toEntityModel() {
-		IvldcompanyIdentifierImpl ivldcompanyIdentifierImpl = new IvldcompanyIdentifierImpl();
+	public IvldCompanyIdentifier toEntityModel() {
+		IvldCompanyIdentifierImpl ivldCompanyIdentifierImpl = new IvldCompanyIdentifierImpl();
 
 		if (reasonForFailure == null) {
-			ivldcompanyIdentifierImpl.setReasonForFailure(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setReasonForFailure(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setReasonForFailure(reasonForFailure);
+			ivldCompanyIdentifierImpl.setReasonForFailure(reasonForFailure);
 		}
 
-		if (companyId == null) {
-			ivldcompanyIdentifierImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			ivldCompanyIdentifierImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCompanyId(companyId);
+			ivldCompanyIdentifierImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (companyName == null) {
-			ivldcompanyIdentifierImpl.setCompanyName(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setCompanyName(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCompanyName(companyName);
+			ivldCompanyIdentifierImpl.setCompanyName(companyName);
 		}
 
 		if (endDate == null) {
-			ivldcompanyIdentifierImpl.setEndDate(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setEndDate(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setEndDate(endDate);
+			ivldCompanyIdentifierImpl.setEndDate(endDate);
 		}
 
 		if (modifiedDate == Long.MIN_VALUE) {
-			ivldcompanyIdentifierImpl.setModifiedDate(null);
+			ivldCompanyIdentifierImpl.setModifiedDate(null);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setModifiedDate(new Date(modifiedDate));
+			ivldCompanyIdentifierImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
 		if (identifierStatus == null) {
-			ivldcompanyIdentifierImpl.setIdentifierStatus(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setIdentifierStatus(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setIdentifierStatus(identifierStatus);
+			ivldCompanyIdentifierImpl.setIdentifierStatus(identifierStatus);
 		}
 
 		if (companyIdentifier == null) {
-			ivldcompanyIdentifierImpl.setCompanyIdentifier(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setCompanyIdentifier(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCompanyIdentifier(companyIdentifier);
+			ivldCompanyIdentifierImpl.setCompanyIdentifier(companyIdentifier);
 		}
 
 		if (entityCode == null) {
-			ivldcompanyIdentifierImpl.setEntityCode(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setEntityCode(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setEntityCode(entityCode);
+			ivldCompanyIdentifierImpl.setEntityCode(entityCode);
 		}
 
 		if (companyIdentifierIntfid == null) {
-			ivldcompanyIdentifierImpl.setCompanyIdentifierIntfid(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setCompanyIdentifierIntfid(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCompanyIdentifierIntfid(companyIdentifierIntfid);
+			ivldCompanyIdentifierImpl.setCompanyIdentifierIntfid(companyIdentifierIntfid);
 		}
 
 		if (startDate == null) {
-			ivldcompanyIdentifierImpl.setStartDate(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setStartDate(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setStartDate(startDate);
+			ivldCompanyIdentifierImpl.setStartDate(startDate);
 		}
 
 		if (source == null) {
-			ivldcompanyIdentifierImpl.setSource(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setSource(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setSource(source);
+			ivldCompanyIdentifierImpl.setSource(source);
 		}
 
 		if (createdDate == Long.MIN_VALUE) {
-			ivldcompanyIdentifierImpl.setCreatedDate(null);
+			ivldCompanyIdentifierImpl.setCreatedDate(null);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCreatedDate(new Date(createdDate));
+			ivldCompanyIdentifierImpl.setCreatedDate(new Date(createdDate));
 		}
 
 		if (createdBy == null) {
-			ivldcompanyIdentifierImpl.setCreatedBy(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setCreatedBy(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCreatedBy(createdBy);
+			ivldCompanyIdentifierImpl.setCreatedBy(createdBy);
 		}
 
 		if (companyNo == null) {
-			ivldcompanyIdentifierImpl.setCompanyNo(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setCompanyNo(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setCompanyNo(companyNo);
+			ivldCompanyIdentifierImpl.setCompanyNo(companyNo);
 		}
 
 		if (addChgDelIndicator == null) {
-			ivldcompanyIdentifierImpl.setAddChgDelIndicator(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setAddChgDelIndicator(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setAddChgDelIndicator(addChgDelIndicator);
+			ivldCompanyIdentifierImpl.setAddChgDelIndicator(addChgDelIndicator);
 		}
 
 		if (batchId == null) {
-			ivldcompanyIdentifierImpl.setBatchId(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setBatchId(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setBatchId(batchId);
+			ivldCompanyIdentifierImpl.setBatchId(batchId);
 		}
 
 		if (errorField == null) {
-			ivldcompanyIdentifierImpl.setErrorField(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setErrorField(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setErrorField(errorField);
+			ivldCompanyIdentifierImpl.setErrorField(errorField);
 		}
 
 		if (errorCode == null) {
-			ivldcompanyIdentifierImpl.setErrorCode(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setErrorCode(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setErrorCode(errorCode);
+			ivldCompanyIdentifierImpl.setErrorCode(errorCode);
 		}
 
 		if (identifierCodeQualifierName == null) {
-			ivldcompanyIdentifierImpl.setIdentifierCodeQualifierName(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setIdentifierCodeQualifierName(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setIdentifierCodeQualifierName(identifierCodeQualifierName);
+			ivldCompanyIdentifierImpl.setIdentifierCodeQualifierName(identifierCodeQualifierName);
 		}
 
 		if (intfInsertedDate == Long.MIN_VALUE) {
-			ivldcompanyIdentifierImpl.setIntfInsertedDate(null);
+			ivldCompanyIdentifierImpl.setIntfInsertedDate(null);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setIntfInsertedDate(new Date(
+			ivldCompanyIdentifierImpl.setIntfInsertedDate(new Date(
 					intfInsertedDate));
 		}
 
 		if (modifiedBy == null) {
-			ivldcompanyIdentifierImpl.setModifiedBy(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setModifiedBy(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setModifiedBy(modifiedBy);
+			ivldCompanyIdentifierImpl.setModifiedBy(modifiedBy);
 		}
 
-		ivldcompanyIdentifierImpl.setIvldcompanyIdentifierSid(ivldcompanyIdentifierSid);
+		ivldCompanyIdentifierImpl.setIvldCompanyIdentifierSid(ivldCompanyIdentifierSid);
 
 		if (reprocessedFlag == null) {
-			ivldcompanyIdentifierImpl.setReprocessedFlag(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setReprocessedFlag(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setReprocessedFlag(reprocessedFlag);
+			ivldCompanyIdentifierImpl.setReprocessedFlag(reprocessedFlag);
 		}
 
 		if (identifierCodeQualifier == null) {
-			ivldcompanyIdentifierImpl.setIdentifierCodeQualifier(StringPool.BLANK);
+			ivldCompanyIdentifierImpl.setIdentifierCodeQualifier(StringPool.BLANK);
 		}
 		else {
-			ivldcompanyIdentifierImpl.setIdentifierCodeQualifier(identifierCodeQualifier);
+			ivldCompanyIdentifierImpl.setIdentifierCodeQualifier(identifierCodeQualifier);
 		}
 
-		ivldcompanyIdentifierImpl.setCheckRecord(checkRecord);
+		ivldCompanyIdentifierImpl.setCheckRecord(checkRecord);
 
-		ivldcompanyIdentifierImpl.resetOriginalValues();
+		ivldCompanyIdentifierImpl.resetOriginalValues();
 
-		return ivldcompanyIdentifierImpl;
+		return ivldCompanyIdentifierImpl;
 	}
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		reasonForFailure = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		companyName = objectInput.readUTF();
 		endDate = objectInput.readUTF();
 		modifiedDate = objectInput.readLong();
@@ -322,7 +322,7 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 		intfInsertedDate = objectInput.readLong();
 		modifiedBy = objectInput.readUTF();
 
-		ivldcompanyIdentifierSid = objectInput.readInt();
+		ivldCompanyIdentifierSid = objectInput.readInt();
 		reprocessedFlag = objectInput.readUTF();
 		identifierCodeQualifier = objectInput.readUTF();
 
@@ -339,11 +339,11 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 			objectOutput.writeUTF(reasonForFailure);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (companyName == null) {
@@ -464,7 +464,7 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 			objectOutput.writeUTF(modifiedBy);
 		}
 
-		objectOutput.writeInt(ivldcompanyIdentifierSid);
+		objectOutput.writeInt(ivldCompanyIdentifierSid);
 
 		if (reprocessedFlag == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -484,7 +484,7 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 	}
 
 	public String reasonForFailure;
-	public String companyId;
+	public String companyIdString;
 	public String companyName;
 	public String endDate;
 	public long modifiedDate;
@@ -504,7 +504,7 @@ public class IvldcompanyIdentifierCacheModel implements CacheModel<IvldcompanyId
 	public String identifierCodeQualifierName;
 	public long intfInsertedDate;
 	public String modifiedBy;
-	public int ivldcompanyIdentifierSid;
+	public int ivldCompanyIdentifierSid;
 	public String reprocessedFlag;
 	public String identifierCodeQualifier;
 	public boolean checkRecord;

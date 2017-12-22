@@ -253,7 +253,7 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 		attributes.put("accountNo", getAccountNo());
 		attributes.put("accrualId", getAccrualId());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("accountName", getAccountName());
 		attributes.put("accrualType", getAccrualType());
 		attributes.put("postingDate", getPostingDate());
@@ -474,10 +474,10 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String accountName = (String)attributes.get("accountName");
@@ -1053,18 +1053,18 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1407,7 +1407,7 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 		ivldAccrualInboundImpl.setAccountNo(getAccountNo());
 		ivldAccrualInboundImpl.setAccrualId(getAccrualId());
 		ivldAccrualInboundImpl.setReasonForFailure(getReasonForFailure());
-		ivldAccrualInboundImpl.setCompanyId(getCompanyId());
+		ivldAccrualInboundImpl.setCompanyIdString(getCompanyIdString());
 		ivldAccrualInboundImpl.setAccountName(getAccountName());
 		ivldAccrualInboundImpl.setAccrualType(getAccrualType());
 		ivldAccrualInboundImpl.setPostingDate(getPostingDate());
@@ -1750,12 +1750,12 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 			ivldAccrualInboundCacheModel.reasonForFailure = null;
 		}
 
-		ivldAccrualInboundCacheModel.companyId = getCompanyId();
+		ivldAccrualInboundCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = ivldAccrualInboundCacheModel.companyId;
+		String companyIdString = ivldAccrualInboundCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			ivldAccrualInboundCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			ivldAccrualInboundCacheModel.companyIdString = null;
 		}
 
 		ivldAccrualInboundCacheModel.accountName = getAccountName();
@@ -1975,8 +1975,8 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 		sb.append(getAccrualId());
 		sb.append(", reasonForFailure=");
 		sb.append(getReasonForFailure());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", accountName=");
 		sb.append(getAccountName());
 		sb.append(", accrualType=");
@@ -2155,8 +2155,8 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 		sb.append(getReasonForFailure());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>accountName</column-name><column-value><![CDATA[");
@@ -2279,7 +2279,7 @@ public class IvldAccrualInboundModelImpl extends BaseModelImpl<IvldAccrualInboun
 	private String _accountNo;
 	private String _accrualId;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _accountName;
 	private String _accrualType;
 	private String _postingDate;

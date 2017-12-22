@@ -214,7 +214,7 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 		attributes.put("deductionRate", getDeductionRate());
 		attributes.put("customerGtsForecastSid", getCustomerGtsForecastSid());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("forecastValueType", getForecastValueType());
 		attributes.put("deductionCategory", getDeductionCategory());
 		attributes.put("adjustmentCode", getAdjustmentCode());
@@ -371,10 +371,10 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String forecastValueType = (String)attributes.get("forecastValueType");
@@ -759,18 +759,18 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1019,7 +1019,7 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 		customerGtsForecastImpl.setDeductionRate(getDeductionRate());
 		customerGtsForecastImpl.setCustomerGtsForecastSid(getCustomerGtsForecastSid());
 		customerGtsForecastImpl.setCountry(getCountry());
-		customerGtsForecastImpl.setCompanyId(getCompanyId());
+		customerGtsForecastImpl.setCompanyIdString(getCompanyIdString());
 		customerGtsForecastImpl.setForecastValueType(getForecastValueType());
 		customerGtsForecastImpl.setDeductionCategory(getDeductionCategory());
 		customerGtsForecastImpl.setAdjustmentCode(getAdjustmentCode());
@@ -1255,12 +1255,12 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 			customerGtsForecastCacheModel.country = null;
 		}
 
-		customerGtsForecastCacheModel.companyId = getCompanyId();
+		customerGtsForecastCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = customerGtsForecastCacheModel.companyId;
+		String companyIdString = customerGtsForecastCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			customerGtsForecastCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			customerGtsForecastCacheModel.companyIdString = null;
 		}
 
 		customerGtsForecastCacheModel.forecastValueType = getForecastValueType();
@@ -1421,8 +1421,8 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 		sb.append(getCustomerGtsForecastSid());
 		sb.append(", country=");
 		sb.append(getCountry());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", forecastValueType=");
 		sb.append(getForecastValueType());
 		sb.append(", deductionCategory=");
@@ -1553,8 +1553,8 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 		sb.append(getCountry());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>forecastValueType</column-name><column-value><![CDATA[");
@@ -1644,7 +1644,7 @@ public class CustomerGtsForecastModelImpl extends BaseModelImpl<CustomerGtsForec
 	private String _deductionRate;
 	private int _customerGtsForecastSid;
 	private String _country;
-	private String _companyId;
+	private String _companyIdString;
 	private String _forecastValueType;
 	private String _deductionCategory;
 	private String _adjustmentCode;

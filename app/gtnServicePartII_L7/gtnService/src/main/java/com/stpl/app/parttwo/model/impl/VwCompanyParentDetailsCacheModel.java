@@ -72,8 +72,8 @@ public class VwCompanyParentDetailsCacheModel implements CacheModel<VwCompanyPar
 		sb.append(parentcompanyId);
 		sb.append(", priorParentcompanyId=");
 		sb.append(priorParentcompanyId);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", lastUpdatedDate=");
 		sb.append(lastUpdatedDate);
 		sb.append(", parentEndDate=");
@@ -121,11 +121,11 @@ public class VwCompanyParentDetailsCacheModel implements CacheModel<VwCompanyPar
 			vwCompanyParentDetailsImpl.setPriorParentcompanyId(priorParentcompanyId);
 		}
 
-		if (companyId == null) {
-			vwCompanyParentDetailsImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwCompanyParentDetailsImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwCompanyParentDetailsImpl.setCompanyId(companyId);
+			vwCompanyParentDetailsImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (lastUpdatedDate == Long.MIN_VALUE) {
@@ -219,7 +219,7 @@ public class VwCompanyParentDetailsCacheModel implements CacheModel<VwCompanyPar
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		parentcompanyId = objectInput.readUTF();
 		priorParentcompanyId = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		lastUpdatedDate = objectInput.readLong();
 		parentEndDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
@@ -252,11 +252,11 @@ public class VwCompanyParentDetailsCacheModel implements CacheModel<VwCompanyPar
 			objectOutput.writeUTF(priorParentcompanyId);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		objectOutput.writeLong(lastUpdatedDate);
@@ -308,7 +308,7 @@ public class VwCompanyParentDetailsCacheModel implements CacheModel<VwCompanyPar
 
 	public String parentcompanyId;
 	public String priorParentcompanyId;
-	public String companyId;
+	public String companyIdString;
 	public long lastUpdatedDate;
 	public long parentEndDate;
 	public long modifiedDate;

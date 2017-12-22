@@ -33,7 +33,7 @@ public class VwcompanyIdentifierSoap implements Serializable {
 	public static VwcompanyIdentifierSoap toSoapModel(VwcompanyIdentifier model) {
 		VwcompanyIdentifierSoap soapModel = new VwcompanyIdentifierSoap();
 
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setCompanyName(model.getCompanyName());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setCompanyIdentifierSid(model.getCompanyIdentifierSid());
@@ -106,12 +106,12 @@ public class VwcompanyIdentifierSoap implements Serializable {
 		setCompanyIdentifierSid(pk);
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getCompanyName() {
@@ -251,7 +251,7 @@ public class VwcompanyIdentifierSoap implements Serializable {
 		_identifierCodeQualifier = identifierCodeQualifier;
 	}
 
-	private String _companyId;
+	private String _companyIdString;
 	private String _companyName;
 	private Date _endDate;
 	private int _companyIdentifierSid;

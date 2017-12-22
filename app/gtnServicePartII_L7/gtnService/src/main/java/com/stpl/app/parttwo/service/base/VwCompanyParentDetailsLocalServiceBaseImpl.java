@@ -65,6 +65,7 @@ import com.stpl.app.parttwo.service.persistence.CffViewMasterPersistence;
 import com.stpl.app.parttwo.service.persistence.CustomerGtsActualPersistence;
 import com.stpl.app.parttwo.service.persistence.CustomerGtsForecastPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldAccrualInboundPersistence;
+import com.stpl.app.parttwo.service.persistence.IvldCompanyIdentifierPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldCompanyMasterPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldCompanyParentPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldCompanyTradeClassPersistence;
@@ -73,7 +74,6 @@ import com.stpl.app.parttwo.service.persistence.IvldCustomerGtsForecastPersisten
 import com.stpl.app.parttwo.service.persistence.IvldItemIdentifierPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldItemMasterPersistence;
 import com.stpl.app.parttwo.service.persistence.IvldItemPricingPersistence;
-import com.stpl.app.parttwo.service.persistence.IvldcompanyIdentifierPersistence;
 import com.stpl.app.parttwo.service.persistence.SlaCalendarDetailsPersistence;
 import com.stpl.app.parttwo.service.persistence.SlaCalendarMasterPersistence;
 import com.stpl.app.parttwo.service.persistence.StAccClosureDetailsPersistence;
@@ -1208,41 +1208,41 @@ public abstract class VwCompanyParentDetailsLocalServiceBaseImpl
 	}
 
 	/**
-	 * Returns the ivldcompany identifier local service.
+	 * Returns the ivld company identifier local service.
 	 *
-	 * @return the ivldcompany identifier local service
+	 * @return the ivld company identifier local service
 	 */
-	public com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService getIvldcompanyIdentifierLocalService() {
-		return ivldcompanyIdentifierLocalService;
+	public com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalService getIvldCompanyIdentifierLocalService() {
+		return ivldCompanyIdentifierLocalService;
 	}
 
 	/**
-	 * Sets the ivldcompany identifier local service.
+	 * Sets the ivld company identifier local service.
 	 *
-	 * @param ivldcompanyIdentifierLocalService the ivldcompany identifier local service
+	 * @param ivldCompanyIdentifierLocalService the ivld company identifier local service
 	 */
-	public void setIvldcompanyIdentifierLocalService(
-		com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService ivldcompanyIdentifierLocalService) {
-		this.ivldcompanyIdentifierLocalService = ivldcompanyIdentifierLocalService;
+	public void setIvldCompanyIdentifierLocalService(
+		com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalService ivldCompanyIdentifierLocalService) {
+		this.ivldCompanyIdentifierLocalService = ivldCompanyIdentifierLocalService;
 	}
 
 	/**
-	 * Returns the ivldcompany identifier persistence.
+	 * Returns the ivld company identifier persistence.
 	 *
-	 * @return the ivldcompany identifier persistence
+	 * @return the ivld company identifier persistence
 	 */
-	public IvldcompanyIdentifierPersistence getIvldcompanyIdentifierPersistence() {
-		return ivldcompanyIdentifierPersistence;
+	public IvldCompanyIdentifierPersistence getIvldCompanyIdentifierPersistence() {
+		return ivldCompanyIdentifierPersistence;
 	}
 
 	/**
-	 * Sets the ivldcompany identifier persistence.
+	 * Sets the ivld company identifier persistence.
 	 *
-	 * @param ivldcompanyIdentifierPersistence the ivldcompany identifier persistence
+	 * @param ivldCompanyIdentifierPersistence the ivld company identifier persistence
 	 */
-	public void setIvldcompanyIdentifierPersistence(
-		IvldcompanyIdentifierPersistence ivldcompanyIdentifierPersistence) {
-		this.ivldcompanyIdentifierPersistence = ivldcompanyIdentifierPersistence;
+	public void setIvldCompanyIdentifierPersistence(
+		IvldCompanyIdentifierPersistence ivldCompanyIdentifierPersistence) {
+		this.ivldCompanyIdentifierPersistence = ivldCompanyIdentifierPersistence;
 	}
 
 	/**
@@ -2524,10 +2524,10 @@ public abstract class VwCompanyParentDetailsLocalServiceBaseImpl
 	protected com.stpl.app.parttwo.service.IvldAccrualInboundLocalService ivldAccrualInboundLocalService;
 	@BeanReference(type = IvldAccrualInboundPersistence.class)
 	protected IvldAccrualInboundPersistence ivldAccrualInboundPersistence;
-	@BeanReference(type = com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService.class)
-	protected com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService ivldcompanyIdentifierLocalService;
-	@BeanReference(type = IvldcompanyIdentifierPersistence.class)
-	protected IvldcompanyIdentifierPersistence ivldcompanyIdentifierPersistence;
+	@BeanReference(type = com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalService.class)
+	protected com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalService ivldCompanyIdentifierLocalService;
+	@BeanReference(type = IvldCompanyIdentifierPersistence.class)
+	protected IvldCompanyIdentifierPersistence ivldCompanyIdentifierPersistence;
 	@BeanReference(type = com.stpl.app.parttwo.service.IvldCompanyMasterLocalService.class)
 	protected com.stpl.app.parttwo.service.IvldCompanyMasterLocalService ivldCompanyMasterLocalService;
 	@BeanReference(type = IvldCompanyMasterPersistence.class)

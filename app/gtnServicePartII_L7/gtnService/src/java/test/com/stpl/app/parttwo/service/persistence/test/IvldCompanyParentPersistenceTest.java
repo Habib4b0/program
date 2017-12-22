@@ -128,7 +128,7 @@ public class IvldCompanyParentPersistenceTest {
 
 		newIvldCompanyParent.setReasonForFailure(RandomTestUtil.randomString());
 
-		newIvldCompanyParent.setCompanyId(RandomTestUtil.randomString());
+		newIvldCompanyParent.setCompanyIdString(RandomTestUtil.randomString());
 
 		newIvldCompanyParent.setLastUpdatedDate(RandomTestUtil.randomString());
 
@@ -174,8 +174,8 @@ public class IvldCompanyParentPersistenceTest {
 			newIvldCompanyParent.getPriorParentcompanyId());
 		Assert.assertEquals(existingIvldCompanyParent.getReasonForFailure(),
 			newIvldCompanyParent.getReasonForFailure());
-		Assert.assertEquals(existingIvldCompanyParent.getCompanyId(),
-			newIvldCompanyParent.getCompanyId());
+		Assert.assertEquals(existingIvldCompanyParent.getCompanyIdString(),
+			newIvldCompanyParent.getCompanyIdString());
 		Assert.assertEquals(existingIvldCompanyParent.getLastUpdatedDate(),
 			newIvldCompanyParent.getLastUpdatedDate());
 		Assert.assertEquals(existingIvldCompanyParent.getParentEndDate(),
@@ -242,9 +242,9 @@ public class IvldCompanyParentPersistenceTest {
 	protected OrderByComparator<IvldCompanyParent> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("IVLD_COMPANY_PARENT",
 			"parentcompanyId", true, "priorParentcompanyId", true,
-			"reasonForFailure", true, "companyId", true, "lastUpdatedDate",
-			true, "parentEndDate", true, "modifiedDate", true,
-			"parentDetailsIntfid", true, "priorParentStartDate", true,
+			"reasonForFailure", true, "companyIdString", true,
+			"lastUpdatedDate", true, "parentEndDate", true, "modifiedDate",
+			true, "parentDetailsIntfid", true, "priorParentStartDate", true,
 			"source", true, "createdBy", true, "createdDate", true,
 			"addChgDelIndicator", true, "batchId", true,
 			"ivldCompanyParentSid", true, "errorField", true, "errorCode",
@@ -460,7 +460,7 @@ public class IvldCompanyParentPersistenceTest {
 
 		ivldCompanyParent.setReasonForFailure(RandomTestUtil.randomString());
 
-		ivldCompanyParent.setCompanyId(RandomTestUtil.randomString());
+		ivldCompanyParent.setCompanyIdString(RandomTestUtil.randomString());
 
 		ivldCompanyParent.setLastUpdatedDate(RandomTestUtil.randomString());
 

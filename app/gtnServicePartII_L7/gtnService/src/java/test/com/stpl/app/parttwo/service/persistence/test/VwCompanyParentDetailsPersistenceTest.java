@@ -126,7 +126,7 @@ public class VwCompanyParentDetailsPersistenceTest {
 
 		newVwCompanyParentDetails.setPriorParentcompanyId(RandomTestUtil.randomString());
 
-		newVwCompanyParentDetails.setCompanyId(RandomTestUtil.randomString());
+		newVwCompanyParentDetails.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwCompanyParentDetails.setLastUpdatedDate(RandomTestUtil.nextDate());
 
@@ -159,8 +159,8 @@ public class VwCompanyParentDetailsPersistenceTest {
 			newVwCompanyParentDetails.getParentcompanyId());
 		Assert.assertEquals(existingVwCompanyParentDetails.getPriorParentcompanyId(),
 			newVwCompanyParentDetails.getPriorParentcompanyId());
-		Assert.assertEquals(existingVwCompanyParentDetails.getCompanyId(),
-			newVwCompanyParentDetails.getCompanyId());
+		Assert.assertEquals(existingVwCompanyParentDetails.getCompanyIdString(),
+			newVwCompanyParentDetails.getCompanyIdString());
 		Assert.assertEquals(Time.getShortTimestamp(
 				existingVwCompanyParentDetails.getLastUpdatedDate()),
 			Time.getShortTimestamp(
@@ -221,12 +221,13 @@ public class VwCompanyParentDetailsPersistenceTest {
 
 	protected OrderByComparator<VwCompanyParentDetails> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("VW_COMPANY_PARENT_DETAILS",
-			"parentcompanyId", true, "priorParentcompanyId", true, "companyId",
-			true, "lastUpdatedDate", true, "parentEndDate", true,
-			"modifiedDate", true, "priorParentStartDate", true, "source", true,
-			"createdBy", true, "createdDate", true, "companyParentDetailsSid",
-			true, "batchId", true, "addChgDelIndicator", true, "modifiedBy",
-			true, "parentStartDate", true);
+			"parentcompanyId", true, "priorParentcompanyId", true,
+			"companyIdString", true, "lastUpdatedDate", true, "parentEndDate",
+			true, "modifiedDate", true, "priorParentStartDate", true, "source",
+			true, "createdBy", true, "createdDate", true,
+			"companyParentDetailsSid", true, "batchId", true,
+			"addChgDelIndicator", true, "modifiedBy", true, "parentStartDate",
+			true);
 	}
 
 	@Test
@@ -441,7 +442,7 @@ public class VwCompanyParentDetailsPersistenceTest {
 
 		vwCompanyParentDetails.setPriorParentcompanyId(RandomTestUtil.randomString());
 
-		vwCompanyParentDetails.setCompanyId(RandomTestUtil.randomString());
+		vwCompanyParentDetails.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwCompanyParentDetails.setLastUpdatedDate(RandomTestUtil.nextDate());
 

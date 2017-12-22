@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -42,8 +41,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface VwCompanyMasterModel extends BaseModel<VwCompanyMaster>,
-	ShardedModel {
+public interface VwCompanyMasterModel extends BaseModel<VwCompanyMaster> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -420,21 +418,19 @@ public interface VwCompanyMasterModel extends BaseModel<VwCompanyMaster>,
 	public void setUdc3(String udc3);
 
 	/**
-	 * Returns the company ID of this vw company master.
+	 * Returns the company ID string of this vw company master.
 	 *
-	 * @return the company ID of this vw company master
+	 * @return the company ID string of this vw company master
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this vw company master.
+	 * Sets the company ID string of this vw company master.
 	 *
-	 * @param companyId the company ID of this vw company master
+	 * @param companyIdString the company ID string of this vw company master
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the country of this vw company master.

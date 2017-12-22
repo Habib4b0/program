@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -42,8 +41,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface IvldCompanyParentModel extends BaseModel<IvldCompanyParent>,
-	ShardedModel {
+public interface IvldCompanyParentModel extends BaseModel<IvldCompanyParent> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -110,21 +108,19 @@ public interface IvldCompanyParentModel extends BaseModel<IvldCompanyParent>,
 	public void setReasonForFailure(String reasonForFailure);
 
 	/**
-	 * Returns the company ID of this ivld company parent.
+	 * Returns the company ID string of this ivld company parent.
 	 *
-	 * @return the company ID of this ivld company parent
+	 * @return the company ID string of this ivld company parent
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this ivld company parent.
+	 * Sets the company ID string of this ivld company parent.
 	 *
-	 * @param companyId the company ID of this ivld company parent
+	 * @param companyIdString the company ID string of this ivld company parent
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the last updated date of this ivld company parent.

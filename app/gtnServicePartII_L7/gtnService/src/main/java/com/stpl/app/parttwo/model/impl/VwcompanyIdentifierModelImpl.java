@@ -154,7 +154,7 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("companyName", getCompanyName());
 		attributes.put("endDate", getEndDate());
 		attributes.put("companyIdentifierSid", getCompanyIdentifierSid());
@@ -182,10 +182,10 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String companyName = (String)attributes.get("companyName");
@@ -295,18 +295,18 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -554,7 +554,7 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	public Object clone() {
 		VwcompanyIdentifierImpl vwcompanyIdentifierImpl = new VwcompanyIdentifierImpl();
 
-		vwcompanyIdentifierImpl.setCompanyId(getCompanyId());
+		vwcompanyIdentifierImpl.setCompanyIdString(getCompanyIdString());
 		vwcompanyIdentifierImpl.setCompanyName(getCompanyName());
 		vwcompanyIdentifierImpl.setEndDate(getEndDate());
 		vwcompanyIdentifierImpl.setCompanyIdentifierSid(getCompanyIdentifierSid());
@@ -638,12 +638,12 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	public CacheModel<VwcompanyIdentifier> toCacheModel() {
 		VwcompanyIdentifierCacheModel vwcompanyIdentifierCacheModel = new VwcompanyIdentifierCacheModel();
 
-		vwcompanyIdentifierCacheModel.companyId = getCompanyId();
+		vwcompanyIdentifierCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwcompanyIdentifierCacheModel.companyId;
+		String companyIdString = vwcompanyIdentifierCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwcompanyIdentifierCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwcompanyIdentifierCacheModel.companyIdString = null;
 		}
 
 		vwcompanyIdentifierCacheModel.companyName = getCompanyName();
@@ -789,8 +789,8 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	public String toString() {
 		StringBundler sb = new StringBundler(37);
 
-		sb.append("{companyId=");
-		sb.append(getCompanyId());
+		sb.append("{companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", companyName=");
 		sb.append(getCompanyName());
 		sb.append(", endDate=");
@@ -839,8 +839,8 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 		sb.append("</model-name>");
 
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>companyName</column-name><column-value><![CDATA[");
@@ -920,7 +920,7 @@ public class VwcompanyIdentifierModelImpl extends BaseModelImpl<VwcompanyIdentif
 	private static final Class<?>[] _escapedModelInterfaces = new Class[] {
 			VwcompanyIdentifier.class
 		};
-	private String _companyId;
+	private String _companyIdString;
 	private String _companyName;
 	private Date _endDate;
 	private int _companyIdentifierSid;

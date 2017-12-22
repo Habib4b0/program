@@ -164,7 +164,7 @@ public class CustomerGtsForecastPersistenceTest {
 
 		newCustomerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		newCustomerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		newCustomerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		newCustomerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 
@@ -245,8 +245,8 @@ public class CustomerGtsForecastPersistenceTest {
 			newCustomerGtsForecast.getCustomerGtsForecastSid());
 		Assert.assertEquals(existingCustomerGtsForecast.getCountry(),
 			newCustomerGtsForecast.getCountry());
-		Assert.assertEquals(existingCustomerGtsForecast.getCompanyId(),
-			newCustomerGtsForecast.getCompanyId());
+		Assert.assertEquals(existingCustomerGtsForecast.getCompanyIdString(),
+			newCustomerGtsForecast.getCompanyIdString());
 		Assert.assertEquals(existingCustomerGtsForecast.getForecastValueType(),
 			newCustomerGtsForecast.getForecastValueType());
 		Assert.assertEquals(existingCustomerGtsForecast.getDeductionCategory(),
@@ -308,8 +308,8 @@ public class CustomerGtsForecastPersistenceTest {
 			"addChgDelIndicator", true, "inboundStatus", true, "modifiedBy",
 			true, "salesAmount", true, "deductionType", true,
 			"companyMasterSid", true, "units", true, "deductionRate", true,
-			"customerGtsForecastSid", true, "country", true, "companyId", true,
-			"forecastValueType", true, "deductionCategory", true,
+			"customerGtsForecastSid", true, "country", true, "companyIdString",
+			true, "forecastValueType", true, "deductionCategory", true,
 			"adjustmentCode", true, "deductionProgramType", true,
 			"recordLockStatus", true, "salesInclusion", true, "forecastVer",
 			true, "batchId", true, "priceType", true, "forecastMonth", true,
@@ -561,7 +561,7 @@ public class CustomerGtsForecastPersistenceTest {
 
 		customerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		customerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		customerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		customerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 

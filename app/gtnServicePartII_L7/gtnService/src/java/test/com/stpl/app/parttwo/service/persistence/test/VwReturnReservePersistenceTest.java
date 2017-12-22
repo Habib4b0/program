@@ -180,7 +180,7 @@ public class VwReturnReservePersistenceTest {
 
 		newVwReturnReserve.setCountry(RandomTestUtil.randomString());
 
-		newVwReturnReserve.setCompanyId(RandomTestUtil.randomString());
+		newVwReturnReserve.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwReturnReserve.setCostCenter(RandomTestUtil.randomString());
 
@@ -268,8 +268,8 @@ public class VwReturnReservePersistenceTest {
 			newVwReturnReserve.getUdc3());
 		Assert.assertEquals(existingVwReturnReserve.getCountry(),
 			newVwReturnReserve.getCountry());
-		Assert.assertEquals(existingVwReturnReserve.getCompanyId(),
-			newVwReturnReserve.getCompanyId());
+		Assert.assertEquals(existingVwReturnReserve.getCompanyIdString(),
+			newVwReturnReserve.getCompanyIdString());
 		Assert.assertEquals(existingVwReturnReserve.getCostCenter(),
 			newVwReturnReserve.getCostCenter());
 		Assert.assertEquals(existingVwReturnReserve.getGlCompany(),
@@ -329,7 +329,7 @@ public class VwReturnReservePersistenceTest {
 			"inboundStatus", true, "modifiedBy", true, "itemNo", true, "month",
 			true, "udc6", true, "udc5", true, "udc4", true, "udc1", true,
 			"units", true, "udc2", true, "udc3", true, "country", true,
-			"companyId", true, "costCenter", true, "glCompany", true,
+			"companyIdString", true, "costCenter", true, "glCompany", true,
 			"brandId", true, "future1", true, "future2", true, "amount", true,
 			"recordLockStatus", true, "division", true, "returnReserveSid",
 			true, "companyNo", true, "batchId", true, "itemName", true);
@@ -592,7 +592,7 @@ public class VwReturnReservePersistenceTest {
 
 		vwReturnReserve.setCountry(RandomTestUtil.randomString());
 
-		vwReturnReserve.setCompanyId(RandomTestUtil.randomString());
+		vwReturnReserve.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwReturnReserve.setCostCenter(RandomTestUtil.randomString());
 

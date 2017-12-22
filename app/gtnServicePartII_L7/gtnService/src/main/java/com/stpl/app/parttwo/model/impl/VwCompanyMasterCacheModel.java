@@ -116,8 +116,8 @@ public class VwCompanyMasterCacheModel implements CacheModel<VwCompanyMaster>,
 		sb.append(udc2);
 		sb.append(", udc3=");
 		sb.append(udc3);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", country=");
 		sb.append(country);
 		sb.append(", companyType=");
@@ -303,11 +303,11 @@ public class VwCompanyMasterCacheModel implements CacheModel<VwCompanyMaster>,
 			vwCompanyMasterImpl.setUdc3(udc3);
 		}
 
-		if (companyId == null) {
-			vwCompanyMasterImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwCompanyMasterImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwCompanyMasterImpl.setCompanyId(companyId);
+			vwCompanyMasterImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (country == null) {
@@ -406,7 +406,7 @@ public class VwCompanyMasterCacheModel implements CacheModel<VwCompanyMaster>,
 		zipCode = objectInput.readUTF();
 		udc2 = objectInput.readUTF();
 		udc3 = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		country = objectInput.readUTF();
 		companyType = objectInput.readUTF();
 		companyStartDate = objectInput.readLong();
@@ -564,11 +564,11 @@ public class VwCompanyMasterCacheModel implements CacheModel<VwCompanyMaster>,
 			objectOutput.writeUTF(udc3);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (country == null) {
@@ -649,7 +649,7 @@ public class VwCompanyMasterCacheModel implements CacheModel<VwCompanyMaster>,
 	public String zipCode;
 	public String udc2;
 	public String udc3;
-	public String companyId;
+	public String companyIdString;
 	public String country;
 	public String companyType;
 	public long companyStartDate;

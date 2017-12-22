@@ -88,7 +88,7 @@ public class StAdjustmentGtnDetailSoap implements Serializable {
 		soapModel.setBusinessUnitId(model.getBusinessUnitId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setCostCenter(model.getCostCenter());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setOutboundStatus(model.getOutboundStatus());
 		soapModel.setFuture1(model.getFuture1());
 		soapModel.setBrandId(model.getBrandId());
@@ -600,12 +600,12 @@ public class StAdjustmentGtnDetailSoap implements Serializable {
 		_costCenter = costCenter;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getOutboundStatus() {
@@ -790,7 +790,7 @@ public class StAdjustmentGtnDetailSoap implements Serializable {
 	private String _businessUnitId;
 	private String _userId;
 	private String _costCenter;
-	private String _companyId;
+	private String _companyIdString;
 	private String _outboundStatus;
 	private String _future1;
 	private String _brandId;

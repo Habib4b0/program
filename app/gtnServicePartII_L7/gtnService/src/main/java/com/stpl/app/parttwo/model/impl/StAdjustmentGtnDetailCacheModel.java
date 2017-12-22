@@ -176,8 +176,8 @@ public class StAdjustmentGtnDetailCacheModel implements CacheModel<StAdjustmentG
 		sb.append(userId);
 		sb.append(", costCenter=");
 		sb.append(costCenter);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", outboundStatus=");
 		sb.append(outboundStatus);
 		sb.append(", future1=");
@@ -586,11 +586,11 @@ public class StAdjustmentGtnDetailCacheModel implements CacheModel<StAdjustmentG
 			stAdjustmentGtnDetailImpl.setCostCenter(costCenter);
 		}
 
-		if (companyId == null) {
-			stAdjustmentGtnDetailImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			stAdjustmentGtnDetailImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			stAdjustmentGtnDetailImpl.setCompanyId(companyId);
+			stAdjustmentGtnDetailImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (outboundStatus == null) {
@@ -764,7 +764,7 @@ public class StAdjustmentGtnDetailCacheModel implements CacheModel<StAdjustmentG
 		businessUnitId = objectInput.readUTF();
 		userId = objectInput.readUTF();
 		costCenter = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		outboundStatus = objectInput.readUTF();
 		future1 = objectInput.readUTF();
 		brandId = objectInput.readUTF();
@@ -1120,11 +1120,11 @@ public class StAdjustmentGtnDetailCacheModel implements CacheModel<StAdjustmentG
 			objectOutput.writeUTF(costCenter);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (outboundStatus == null) {
@@ -1284,7 +1284,7 @@ public class StAdjustmentGtnDetailCacheModel implements CacheModel<StAdjustmentG
 	public String businessUnitId;
 	public String userId;
 	public String costCenter;
-	public String companyId;
+	public String companyIdString;
 	public String outboundStatus;
 	public String future1;
 	public String brandId;

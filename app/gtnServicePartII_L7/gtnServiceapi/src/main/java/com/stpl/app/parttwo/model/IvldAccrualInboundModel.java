@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -42,8 +41,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface IvldAccrualInboundModel extends BaseModel<IvldAccrualInbound>,
-	ShardedModel {
+public interface IvldAccrualInboundModel extends BaseModel<IvldAccrualInbound> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -527,21 +525,19 @@ public interface IvldAccrualInboundModel extends BaseModel<IvldAccrualInbound>,
 	public void setReasonForFailure(String reasonForFailure);
 
 	/**
-	 * Returns the company ID of this ivld accrual inbound.
+	 * Returns the company ID string of this ivld accrual inbound.
 	 *
-	 * @return the company ID of this ivld accrual inbound
+	 * @return the company ID string of this ivld accrual inbound
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this ivld accrual inbound.
+	 * Sets the company ID string of this ivld accrual inbound.
 	 *
-	 * @param companyId the company ID of this ivld accrual inbound
+	 * @param companyIdString the company ID string of this ivld accrual inbound
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the account name of this ivld accrual inbound.

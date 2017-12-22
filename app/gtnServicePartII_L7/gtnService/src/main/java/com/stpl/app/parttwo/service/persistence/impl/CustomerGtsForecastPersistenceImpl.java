@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -121,7 +119,7 @@ public class CustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Cust
 			dbColumnNames.put("customerGtsForecastSid",
 				"CUSTOMER_GTS_FORECAST_SID");
 			dbColumnNames.put("country", "COUNTRY");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("forecastValueType", "FORECAST_VALUE_TYPE");
 			dbColumnNames.put("deductionCategory", "DEDUCTION_CATEGORY");
 			dbColumnNames.put("adjustmentCode", "ADJUSTMENT_CODE");
@@ -236,8 +234,6 @@ public class CustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Cust
 
 		customerGtsForecast.setNew(true);
 		customerGtsForecast.setPrimaryKey(customerGtsForecastSid);
-
-		customerGtsForecast.setCompanyId(companyProvider.getCompanyId());
 
 		return customerGtsForecast;
 	}
@@ -406,7 +402,7 @@ public class CustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Cust
 		customerGtsForecastImpl.setDeductionRate(customerGtsForecast.getDeductionRate());
 		customerGtsForecastImpl.setCustomerGtsForecastSid(customerGtsForecast.getCustomerGtsForecastSid());
 		customerGtsForecastImpl.setCountry(customerGtsForecast.getCountry());
-		customerGtsForecastImpl.setCompanyId(customerGtsForecast.getCompanyId());
+		customerGtsForecastImpl.setCompanyIdString(customerGtsForecast.getCompanyIdString());
 		customerGtsForecastImpl.setForecastValueType(customerGtsForecast.getForecastValueType());
 		customerGtsForecastImpl.setDeductionCategory(customerGtsForecast.getDeductionCategory());
 		customerGtsForecastImpl.setAdjustmentCode(customerGtsForecast.getAdjustmentCode());
@@ -830,8 +826,6 @@ public class CustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Cust
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -849,7 +843,7 @@ public class CustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Cust
 				"addChgDelIndicator", "inboundStatus", "modifiedBy",
 				"salesAmount", "deductionType", "companyMasterSid", "units",
 				"deductionRate", "customerGtsForecastSid", "country",
-				"companyId", "forecastValueType", "deductionCategory",
+				"companyIdString", "forecastValueType", "deductionCategory",
 				"adjustmentCode", "deductionProgramType", "recordLockStatus",
 				"salesInclusion", "forecastVer", "batchId", "priceType",
 				"forecastMonth", "deductionInclusion", "segment", "brand",

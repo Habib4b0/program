@@ -210,7 +210,7 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 		attributes.put("zipCode", getZipCode());
 		attributes.put("udc2", getUdc2());
 		attributes.put("udc3", getUdc3());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("country", getCountry());
 		attributes.put("companyType", getCompanyType());
 		attributes.put("companyStartDate", getCompanyStartDate());
@@ -373,10 +373,10 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 			setUdc3(udc3);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String country = (String)attributes.get("country");
@@ -770,18 +770,18 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -947,7 +947,7 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 		vwCompanyMasterImpl.setZipCode(getZipCode());
 		vwCompanyMasterImpl.setUdc2(getUdc2());
 		vwCompanyMasterImpl.setUdc3(getUdc3());
-		vwCompanyMasterImpl.setCompanyId(getCompanyId());
+		vwCompanyMasterImpl.setCompanyIdString(getCompanyIdString());
 		vwCompanyMasterImpl.setCountry(getCountry());
 		vwCompanyMasterImpl.setCompanyType(getCompanyType());
 		vwCompanyMasterImpl.setCompanyStartDate(getCompanyStartDate());
@@ -1206,12 +1206,12 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 			vwCompanyMasterCacheModel.udc3 = null;
 		}
 
-		vwCompanyMasterCacheModel.companyId = getCompanyId();
+		vwCompanyMasterCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = vwCompanyMasterCacheModel.companyId;
+		String companyIdString = vwCompanyMasterCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			vwCompanyMasterCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			vwCompanyMasterCacheModel.companyIdString = null;
 		}
 
 		vwCompanyMasterCacheModel.country = getCountry();
@@ -1343,8 +1343,8 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 		sb.append(getUdc2());
 		sb.append(", udc3=");
 		sb.append(getUdc3());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", country=");
 		sb.append(getCountry());
 		sb.append(", companyType=");
@@ -1473,8 +1473,8 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 		sb.append(getUdc3());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>country</column-name><column-value><![CDATA[");
@@ -1546,7 +1546,7 @@ public class VwCompanyMasterModelImpl extends BaseModelImpl<VwCompanyMaster>
 	private String _zipCode;
 	private String _udc2;
 	private String _udc3;
-	private String _companyId;
+	private String _companyIdString;
 	private String _country;
 	private String _companyType;
 	private Date _companyStartDate;

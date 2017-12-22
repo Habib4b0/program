@@ -126,7 +126,7 @@ public class IvldCompanyTradeClassPersistenceTest {
 
 		newIvldCompanyTradeClass.setReasonForFailure(RandomTestUtil.randomString());
 
-		newIvldCompanyTradeClass.setCompanyId(RandomTestUtil.randomString());
+		newIvldCompanyTradeClass.setCompanyIdString(RandomTestUtil.randomString());
 
 		newIvldCompanyTradeClass.setLastUpdatedDate(RandomTestUtil.randomString());
 
@@ -175,8 +175,8 @@ public class IvldCompanyTradeClassPersistenceTest {
 			newIvldCompanyTradeClass.getPriorTradeClass());
 		Assert.assertEquals(existingIvldCompanyTradeClass.getReasonForFailure(),
 			newIvldCompanyTradeClass.getReasonForFailure());
-		Assert.assertEquals(existingIvldCompanyTradeClass.getCompanyId(),
-			newIvldCompanyTradeClass.getCompanyId());
+		Assert.assertEquals(existingIvldCompanyTradeClass.getCompanyIdString(),
+			newIvldCompanyTradeClass.getCompanyIdString());
 		Assert.assertEquals(existingIvldCompanyTradeClass.getLastUpdatedDate(),
 			newIvldCompanyTradeClass.getLastUpdatedDate());
 		Assert.assertEquals(existingIvldCompanyTradeClass.getPriorTradeClassStartDate(),
@@ -245,14 +245,14 @@ public class IvldCompanyTradeClassPersistenceTest {
 	protected OrderByComparator<IvldCompanyTradeClass> getOrderByComparator() {
 		return OrderByComparatorFactoryUtil.create("IVLD_COMPANY_TRADE_CLASS",
 			"ivldCompanyTradeClassSid", true, "priorTradeClass", true,
-			"reasonForFailure", true, "companyId", true, "lastUpdatedDate",
-			true, "priorTradeClassStartDate", true, "modifiedDate", true,
-			"tradeClassEndDate", true, "tradeClassIntfid", true,
-			"tradeClassStartDate", true, "source", true, "createdBy", true,
-			"createdDate", true, "addChgDelIndicator", true, "batchId", true,
-			"errorField", true, "errorCode", true, "tradeClass", true,
-			"intfInsertedDate", true, "modifiedBy", true, "reprocessedFlag",
-			true, "checkRecord", true);
+			"reasonForFailure", true, "companyIdString", true,
+			"lastUpdatedDate", true, "priorTradeClassStartDate", true,
+			"modifiedDate", true, "tradeClassEndDate", true,
+			"tradeClassIntfid", true, "tradeClassStartDate", true, "source",
+			true, "createdBy", true, "createdDate", true, "addChgDelIndicator",
+			true, "batchId", true, "errorField", true, "errorCode", true,
+			"tradeClass", true, "intfInsertedDate", true, "modifiedBy", true,
+			"reprocessedFlag", true, "checkRecord", true);
 	}
 
 	@Test
@@ -470,7 +470,7 @@ public class IvldCompanyTradeClassPersistenceTest {
 
 		ivldCompanyTradeClass.setReasonForFailure(RandomTestUtil.randomString());
 
-		ivldCompanyTradeClass.setCompanyId(RandomTestUtil.randomString());
+		ivldCompanyTradeClass.setCompanyIdString(RandomTestUtil.randomString());
 
 		ivldCompanyTradeClass.setLastUpdatedDate(RandomTestUtil.randomString());
 

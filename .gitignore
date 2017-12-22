@@ -14,3 +14,4 @@ etl/target/*
 /app/gtnServicePartI_L7/gtnService/target/
 /app/gtnServicePartI_L7/gtnServiceapi/target/
 app/gtnForecasting/nb-configuration.xml
+/app/gtnServicePartII_L7/gtnServiceapi/target/

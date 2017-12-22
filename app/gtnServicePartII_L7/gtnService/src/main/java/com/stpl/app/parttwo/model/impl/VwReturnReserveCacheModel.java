@@ -126,8 +126,8 @@ public class VwReturnReserveCacheModel implements CacheModel<VwReturnReserve>,
 		sb.append(udc3);
 		sb.append(", country=");
 		sb.append(country);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", costCenter=");
 		sb.append(costCenter);
 		sb.append(", glCompany=");
@@ -338,11 +338,11 @@ public class VwReturnReserveCacheModel implements CacheModel<VwReturnReserve>,
 			vwReturnReserveImpl.setCountry(country);
 		}
 
-		if (companyId == null) {
-			vwReturnReserveImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwReturnReserveImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwReturnReserveImpl.setCompanyId(companyId);
+			vwReturnReserveImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (costCenter == null) {
@@ -459,7 +459,7 @@ public class VwReturnReserveCacheModel implements CacheModel<VwReturnReserve>,
 		udc2 = objectInput.readUTF();
 		udc3 = objectInput.readUTF();
 		country = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		costCenter = objectInput.readUTF();
 		glCompany = objectInput.readUTF();
 		brandId = objectInput.readUTF();
@@ -647,11 +647,11 @@ public class VwReturnReserveCacheModel implements CacheModel<VwReturnReserve>,
 			objectOutput.writeUTF(country);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (costCenter == null) {
@@ -758,7 +758,7 @@ public class VwReturnReserveCacheModel implements CacheModel<VwReturnReserve>,
 	public String udc2;
 	public String udc3;
 	public String country;
-	public String companyId;
+	public String companyIdString;
 	public String costCenter;
 	public String glCompany;
 	public String brandId;

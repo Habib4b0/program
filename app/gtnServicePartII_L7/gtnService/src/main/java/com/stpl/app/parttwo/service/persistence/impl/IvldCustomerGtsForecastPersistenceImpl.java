@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -127,7 +125,7 @@ public class IvldCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<
 			dbColumnNames.put("udc3", "UDC3");
 			dbColumnNames.put("reasonForFailure", "REASON_FOR_FAILURE");
 			dbColumnNames.put("country", "COUNTRY");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("forecastValueType", "FORECAST_VALUE_TYPE");
 			dbColumnNames.put("deductionCategory", "DEDUCTION_CATEGORY");
 			dbColumnNames.put("adjustmentCode", "ADJUSTMENT_CODE");
@@ -248,8 +246,6 @@ public class IvldCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<
 
 		ivldCustomerGtsForecast.setNew(true);
 		ivldCustomerGtsForecast.setPrimaryKey(ivldCustomerGtsForecastSid);
-
-		ivldCustomerGtsForecast.setCompanyId(companyProvider.getCompanyId());
 
 		return ivldCustomerGtsForecast;
 	}
@@ -425,7 +421,7 @@ public class IvldCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<
 		ivldCustomerGtsForecastImpl.setUdc3(ivldCustomerGtsForecast.getUdc3());
 		ivldCustomerGtsForecastImpl.setReasonForFailure(ivldCustomerGtsForecast.getReasonForFailure());
 		ivldCustomerGtsForecastImpl.setCountry(ivldCustomerGtsForecast.getCountry());
-		ivldCustomerGtsForecastImpl.setCompanyId(ivldCustomerGtsForecast.getCompanyId());
+		ivldCustomerGtsForecastImpl.setCompanyIdString(ivldCustomerGtsForecast.getCompanyIdString());
 		ivldCustomerGtsForecastImpl.setForecastValueType(ivldCustomerGtsForecast.getForecastValueType());
 		ivldCustomerGtsForecastImpl.setDeductionCategory(ivldCustomerGtsForecast.getDeductionCategory());
 		ivldCustomerGtsForecastImpl.setAdjustmentCode(ivldCustomerGtsForecast.getAdjustmentCode());
@@ -853,8 +849,6 @@ public class IvldCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -873,7 +867,7 @@ public class IvldCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<
 				"addChgDelIndicator", "errorCode", "intfInsertedDate",
 				"modifiedBy", "salesAmount", "reprocessedFlag", "udc6", "udc5",
 				"deductionType", "udc4", "udc1", "units", "deductionRate",
-				"udc2", "udc3", "reasonForFailure", "country", "companyId",
+				"udc2", "udc3", "reasonForFailure", "country", "companyIdString",
 				"forecastValueType", "deductionCategory", "adjustmentCode",
 				"deductionProgramType", "customerGtsForecastIntfId",
 				"salesInclusion", "forecastVer", "batchId", "priceType",

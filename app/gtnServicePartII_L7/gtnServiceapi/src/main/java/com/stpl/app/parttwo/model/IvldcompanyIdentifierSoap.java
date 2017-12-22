@@ -29,13 +29,13 @@ import java.util.List;
  * @generated
  */
 @ProviderType
-public class IvldcompanyIdentifierSoap implements Serializable {
-	public static IvldcompanyIdentifierSoap toSoapModel(
-		IvldcompanyIdentifier model) {
-		IvldcompanyIdentifierSoap soapModel = new IvldcompanyIdentifierSoap();
+public class IvldCompanyIdentifierSoap implements Serializable {
+	public static IvldCompanyIdentifierSoap toSoapModel(
+		IvldCompanyIdentifier model) {
+		IvldCompanyIdentifierSoap soapModel = new IvldCompanyIdentifierSoap();
 
 		soapModel.setReasonForFailure(model.getReasonForFailure());
-		soapModel.setCompanyId(model.getCompanyId());
+		soapModel.setCompanyIdString(model.getCompanyIdString());
 		soapModel.setCompanyName(model.getCompanyName());
 		soapModel.setEndDate(model.getEndDate());
 		soapModel.setModifiedDate(model.getModifiedDate());
@@ -55,7 +55,7 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		soapModel.setIdentifierCodeQualifierName(model.getIdentifierCodeQualifierName());
 		soapModel.setIntfInsertedDate(model.getIntfInsertedDate());
 		soapModel.setModifiedBy(model.getModifiedBy());
-		soapModel.setIvldcompanyIdentifierSid(model.getIvldcompanyIdentifierSid());
+		soapModel.setIvldCompanyIdentifierSid(model.getIvldCompanyIdentifierSid());
 		soapModel.setReprocessedFlag(model.getReprocessedFlag());
 		soapModel.setIdentifierCodeQualifier(model.getIdentifierCodeQualifier());
 		soapModel.setCheckRecord(model.getCheckRecord());
@@ -63,9 +63,9 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static IvldcompanyIdentifierSoap[] toSoapModels(
-		IvldcompanyIdentifier[] models) {
-		IvldcompanyIdentifierSoap[] soapModels = new IvldcompanyIdentifierSoap[models.length];
+	public static IvldCompanyIdentifierSoap[] toSoapModels(
+		IvldCompanyIdentifier[] models) {
+		IvldCompanyIdentifierSoap[] soapModels = new IvldCompanyIdentifierSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -74,15 +74,15 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static IvldcompanyIdentifierSoap[][] toSoapModels(
-		IvldcompanyIdentifier[][] models) {
-		IvldcompanyIdentifierSoap[][] soapModels = null;
+	public static IvldCompanyIdentifierSoap[][] toSoapModels(
+		IvldCompanyIdentifier[][] models) {
+		IvldCompanyIdentifierSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new IvldcompanyIdentifierSoap[models.length][models[0].length];
+			soapModels = new IvldCompanyIdentifierSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new IvldcompanyIdentifierSoap[0][0];
+			soapModels = new IvldCompanyIdentifierSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -92,26 +92,26 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static IvldcompanyIdentifierSoap[] toSoapModels(
-		List<IvldcompanyIdentifier> models) {
-		List<IvldcompanyIdentifierSoap> soapModels = new ArrayList<IvldcompanyIdentifierSoap>(models.size());
+	public static IvldCompanyIdentifierSoap[] toSoapModels(
+		List<IvldCompanyIdentifier> models) {
+		List<IvldCompanyIdentifierSoap> soapModels = new ArrayList<IvldCompanyIdentifierSoap>(models.size());
 
-		for (IvldcompanyIdentifier model : models) {
+		for (IvldCompanyIdentifier model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new IvldcompanyIdentifierSoap[soapModels.size()]);
+		return soapModels.toArray(new IvldCompanyIdentifierSoap[soapModels.size()]);
 	}
 
-	public IvldcompanyIdentifierSoap() {
+	public IvldCompanyIdentifierSoap() {
 	}
 
 	public int getPrimaryKey() {
-		return _ivldcompanyIdentifierSid;
+		return _ivldCompanyIdentifierSid;
 	}
 
 	public void setPrimaryKey(int pk) {
-		setIvldcompanyIdentifierSid(pk);
+		setIvldCompanyIdentifierSid(pk);
 	}
 
 	public String getReasonForFailure() {
@@ -122,12 +122,12 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		_reasonForFailure = reasonForFailure;
 	}
 
-	public String getCompanyId() {
-		return _companyId;
+	public String getCompanyIdString() {
+		return _companyIdString;
 	}
 
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	public String getCompanyName() {
@@ -283,12 +283,12 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 		_modifiedBy = modifiedBy;
 	}
 
-	public int getIvldcompanyIdentifierSid() {
-		return _ivldcompanyIdentifierSid;
+	public int getIvldCompanyIdentifierSid() {
+		return _ivldCompanyIdentifierSid;
 	}
 
-	public void setIvldcompanyIdentifierSid(int ivldcompanyIdentifierSid) {
-		_ivldcompanyIdentifierSid = ivldcompanyIdentifierSid;
+	public void setIvldCompanyIdentifierSid(int ivldCompanyIdentifierSid) {
+		_ivldCompanyIdentifierSid = ivldCompanyIdentifierSid;
 	}
 
 	public String getReprocessedFlag() {
@@ -320,7 +320,7 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 	}
 
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _companyName;
 	private String _endDate;
 	private Date _modifiedDate;
@@ -340,7 +340,7 @@ public class IvldcompanyIdentifierSoap implements Serializable {
 	private String _identifierCodeQualifierName;
 	private Date _intfInsertedDate;
 	private String _modifiedBy;
-	private int _ivldcompanyIdentifierSid;
+	private int _ivldCompanyIdentifierSid;
 	private String _reprocessedFlag;
 	private String _identifierCodeQualifier;
 	private boolean _checkRecord;

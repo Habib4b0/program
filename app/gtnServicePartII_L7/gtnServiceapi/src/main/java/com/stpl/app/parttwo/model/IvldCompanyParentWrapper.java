@@ -61,7 +61,7 @@ public class IvldCompanyParentWrapper implements IvldCompanyParent,
 		attributes.put("parentcompanyId", getParentcompanyId());
 		attributes.put("priorParentcompanyId", getPriorParentcompanyId());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("parentEndDate", getParentEndDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -105,10 +105,10 @@ public class IvldCompanyParentWrapper implements IvldCompanyParent,
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String lastUpdatedDate = (String)attributes.get("lastUpdatedDate");
@@ -264,13 +264,13 @@ public class IvldCompanyParentWrapper implements IvldCompanyParent,
 	}
 
 	/**
-	* Returns the company ID of this ivld company parent.
+	* Returns the company ID string of this ivld company parent.
 	*
-	* @return the company ID of this ivld company parent
+	* @return the company ID string of this ivld company parent
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _ivldCompanyParent.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _ivldCompanyParent.getCompanyIdString();
 	}
 
 	/**
@@ -544,13 +544,13 @@ public class IvldCompanyParentWrapper implements IvldCompanyParent,
 	}
 
 	/**
-	* Sets the company ID of this ivld company parent.
+	* Sets the company ID string of this ivld company parent.
 	*
-	* @param companyId the company ID of this ivld company parent
+	* @param companyIdString the company ID string of this ivld company parent
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_ivldCompanyParent.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_ivldCompanyParent.setCompanyIdString(companyIdString);
 	}
 
 	/**

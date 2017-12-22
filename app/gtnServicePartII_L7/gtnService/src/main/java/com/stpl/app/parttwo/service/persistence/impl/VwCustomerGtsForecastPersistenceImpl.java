@@ -24,8 +24,6 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.service.persistence.CompanyProvider;
-import com.liferay.portal.kernel.service.persistence.CompanyProviderWrapper;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ReflectionUtil;
@@ -123,7 +121,7 @@ public class VwCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Vw
 			dbColumnNames.put("udc2", "UDC2");
 			dbColumnNames.put("udc3", "UDC3");
 			dbColumnNames.put("country", "COUNTRY");
-			dbColumnNames.put("companyId", "COMPANY_ID");
+			dbColumnNames.put("companyIdString", "COMPANY_ID");
 			dbColumnNames.put("forecastValueType", "FORECAST_VALUE_TYPE");
 			dbColumnNames.put("deductionCategory", "DEDUCTION_CATEGORY");
 			dbColumnNames.put("adjustmentCode", "ADJUSTMENT_CODE");
@@ -240,8 +238,6 @@ public class VwCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Vw
 
 		vwCustomerGtsForecast.setNew(true);
 		vwCustomerGtsForecast.setPrimaryKey(customerGtsForecastSid);
-
-		vwCustomerGtsForecast.setCompanyId(companyProvider.getCompanyId());
 
 		return vwCustomerGtsForecast;
 	}
@@ -412,7 +408,7 @@ public class VwCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Vw
 		vwCustomerGtsForecastImpl.setUdc2(vwCustomerGtsForecast.getUdc2());
 		vwCustomerGtsForecastImpl.setUdc3(vwCustomerGtsForecast.getUdc3());
 		vwCustomerGtsForecastImpl.setCountry(vwCustomerGtsForecast.getCountry());
-		vwCustomerGtsForecastImpl.setCompanyId(vwCustomerGtsForecast.getCompanyId());
+		vwCustomerGtsForecastImpl.setCompanyIdString(vwCustomerGtsForecast.getCompanyIdString());
 		vwCustomerGtsForecastImpl.setForecastValueType(vwCustomerGtsForecast.getForecastValueType());
 		vwCustomerGtsForecastImpl.setDeductionCategory(vwCustomerGtsForecast.getDeductionCategory());
 		vwCustomerGtsForecastImpl.setAdjustmentCode(vwCustomerGtsForecast.getAdjustmentCode());
@@ -836,8 +832,6 @@ public class VwCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Vw
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
-	@ServiceReference(type = CompanyProviderWrapper.class)
-	protected CompanyProvider companyProvider;
 	@ServiceReference(type = EntityCache.class)
 	protected EntityCache entityCache;
 	@ServiceReference(type = FinderCache.class)
@@ -854,7 +848,7 @@ public class VwCustomerGtsForecastPersistenceImpl extends BasePersistenceImpl<Vw
 				"createdDate", "addChgDelIndicator", "modifiedBy", "salesAmount",
 				"udc6", "udc5", "deductionType", "udc4", "units",
 				"deductionRate", "udc1", "customerGtsForecastSid", "udc2",
-				"udc3", "country", "companyId", "forecastValueType",
+				"udc3", "country", "companyIdString", "forecastValueType",
 				"deductionCategory", "adjustmentCode", "deductionProgramType",
 				"customerGtsForecastIntfId", "salesInclusion", "forecastVer",
 				"batchId", "priceType", "forecastMonth", "deductionInclusion",

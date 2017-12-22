@@ -87,7 +87,7 @@ public class VwReturnReserveWrapper implements VwReturnReserve,
 		attributes.put("udc2", getUdc2());
 		attributes.put("udc3", getUdc3());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("costCenter", getCostCenter());
 		attributes.put("glCompany", getGlCompany());
 		attributes.put("brandId", getBrandId());
@@ -283,10 +283,10 @@ public class VwReturnReserveWrapper implements VwReturnReserve,
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String costCenter = (String)attributes.get("costCenter");
@@ -463,13 +463,13 @@ public class VwReturnReserveWrapper implements VwReturnReserve,
 	}
 
 	/**
-	* Returns the company ID of this vw return reserve.
+	* Returns the company ID string of this vw return reserve.
 	*
-	* @return the company ID of this vw return reserve
+	* @return the company ID string of this vw return reserve
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwReturnReserve.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwReturnReserve.getCompanyIdString();
 	}
 
 	/**
@@ -943,13 +943,13 @@ public class VwReturnReserveWrapper implements VwReturnReserve,
 	}
 
 	/**
-	* Sets the company ID of this vw return reserve.
+	* Sets the company ID string of this vw return reserve.
 	*
-	* @param companyId the company ID of this vw return reserve
+	* @param companyIdString the company ID string of this vw return reserve
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwReturnReserve.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwReturnReserve.setCompanyIdString(companyIdString);
 	}
 
 	/**

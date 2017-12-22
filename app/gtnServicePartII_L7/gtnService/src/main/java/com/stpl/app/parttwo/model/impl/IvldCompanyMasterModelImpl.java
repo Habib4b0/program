@@ -230,7 +230,7 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 		attributes.put("zipCode", getZipCode());
 		attributes.put("udc3", getUdc3());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("address1", getAddress1());
 		attributes.put("country", getCountry());
 		attributes.put("address2", getAddress2());
@@ -423,10 +423,10 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String address1 = (String)attributes.get("address1");
@@ -909,18 +909,18 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 	}
 
 	@Override
-	public String getCompanyId() {
-		if (_companyId == null) {
+	public String getCompanyIdString() {
+		if (_companyIdString == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _companyId;
+			return _companyIdString;
 		}
 	}
 
 	@Override
-	public void setCompanyId(String companyId) {
-		_companyId = companyId;
+	public void setCompanyIdString(String companyIdString) {
+		_companyIdString = companyIdString;
 	}
 
 	@Override
@@ -1160,7 +1160,7 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 		ivldCompanyMasterImpl.setZipCode(getZipCode());
 		ivldCompanyMasterImpl.setUdc3(getUdc3());
 		ivldCompanyMasterImpl.setReasonForFailure(getReasonForFailure());
-		ivldCompanyMasterImpl.setCompanyId(getCompanyId());
+		ivldCompanyMasterImpl.setCompanyIdString(getCompanyIdString());
 		ivldCompanyMasterImpl.setAddress1(getAddress1());
 		ivldCompanyMasterImpl.setCountry(getCountry());
 		ivldCompanyMasterImpl.setAddress2(getAddress2());
@@ -1462,12 +1462,12 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 			ivldCompanyMasterCacheModel.reasonForFailure = null;
 		}
 
-		ivldCompanyMasterCacheModel.companyId = getCompanyId();
+		ivldCompanyMasterCacheModel.companyIdString = getCompanyIdString();
 
-		String companyId = ivldCompanyMasterCacheModel.companyId;
+		String companyIdString = ivldCompanyMasterCacheModel.companyIdString;
 
-		if ((companyId != null) && (companyId.length() == 0)) {
-			ivldCompanyMasterCacheModel.companyId = null;
+		if ((companyIdString != null) && (companyIdString.length() == 0)) {
+			ivldCompanyMasterCacheModel.companyIdString = null;
 		}
 
 		ivldCompanyMasterCacheModel.address1 = getAddress1();
@@ -1631,8 +1631,8 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 		sb.append(getUdc3());
 		sb.append(", reasonForFailure=");
 		sb.append(getReasonForFailure());
-		sb.append(", companyId=");
-		sb.append(getCompanyId());
+		sb.append(", companyIdString=");
+		sb.append(getCompanyIdString());
 		sb.append(", address1=");
 		sb.append(getAddress1());
 		sb.append(", country=");
@@ -1785,8 +1785,8 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 		sb.append(getReasonForFailure());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>companyId</column-name><column-value><![CDATA[");
-		sb.append(getCompanyId());
+			"<column><column-name>companyIdString</column-name><column-value><![CDATA[");
+		sb.append(getCompanyIdString());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>address1</column-name><column-value><![CDATA[");
@@ -1878,7 +1878,7 @@ public class IvldCompanyMasterModelImpl extends BaseModelImpl<IvldCompanyMaster>
 	private String _zipCode;
 	private String _udc3;
 	private String _reasonForFailure;
-	private String _companyId;
+	private String _companyIdString;
 	private String _address1;
 	private String _country;
 	private String _address2;

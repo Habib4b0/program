@@ -113,7 +113,7 @@ public class StAdjustmentGtnDetailWrapper implements StAdjustmentGtnDetail,
 		attributes.put("businessUnitId", getBusinessUnitId());
 		attributes.put("userId", getUserId());
 		attributes.put("costCenter", getCostCenter());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("outboundStatus", getOutboundStatus());
 		attributes.put("future1", getFuture1());
 		attributes.put("brandId", getBrandId());
@@ -461,10 +461,10 @@ public class StAdjustmentGtnDetailWrapper implements StAdjustmentGtnDetail,
 			setCostCenter(costCenter);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String outboundStatus = (String)attributes.get("outboundStatus");
@@ -705,13 +705,13 @@ public class StAdjustmentGtnDetailWrapper implements StAdjustmentGtnDetail,
 	}
 
 	/**
-	* Returns the company ID of this st adjustment gtn detail.
+	* Returns the company ID string of this st adjustment gtn detail.
 	*
-	* @return the company ID of this st adjustment gtn detail
+	* @return the company ID string of this st adjustment gtn detail
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _stAdjustmentGtnDetail.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _stAdjustmentGtnDetail.getCompanyIdString();
 	}
 
 	/**
@@ -1485,13 +1485,13 @@ public class StAdjustmentGtnDetailWrapper implements StAdjustmentGtnDetail,
 	}
 
 	/**
-	* Sets the company ID of this st adjustment gtn detail.
+	* Sets the company ID string of this st adjustment gtn detail.
 	*
-	* @param companyId the company ID of this st adjustment gtn detail
+	* @param companyIdString the company ID string of this st adjustment gtn detail
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_stAdjustmentGtnDetail.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_stAdjustmentGtnDetail.setCompanyIdString(companyIdString);
 	}
 
 	/**

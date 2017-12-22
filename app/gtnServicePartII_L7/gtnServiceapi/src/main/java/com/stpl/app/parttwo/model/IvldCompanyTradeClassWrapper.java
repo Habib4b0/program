@@ -62,7 +62,7 @@ public class IvldCompanyTradeClassWrapper implements IvldCompanyTradeClass,
 		attributes.put("ivldCompanyTradeClassSid", getIvldCompanyTradeClassSid());
 		attributes.put("priorTradeClass", getPriorTradeClass());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("lastUpdatedDate", getLastUpdatedDate());
 		attributes.put("priorTradeClassStartDate", getPriorTradeClassStartDate());
 		attributes.put("modifiedDate", getModifiedDate());
@@ -106,10 +106,10 @@ public class IvldCompanyTradeClassWrapper implements IvldCompanyTradeClass,
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String lastUpdatedDate = (String)attributes.get("lastUpdatedDate");
@@ -264,13 +264,13 @@ public class IvldCompanyTradeClassWrapper implements IvldCompanyTradeClass,
 	}
 
 	/**
-	* Returns the company ID of this ivld company trade class.
+	* Returns the company ID string of this ivld company trade class.
 	*
-	* @return the company ID of this ivld company trade class
+	* @return the company ID string of this ivld company trade class
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _ivldCompanyTradeClass.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _ivldCompanyTradeClass.getCompanyIdString();
 	}
 
 	/**
@@ -544,13 +544,13 @@ public class IvldCompanyTradeClassWrapper implements IvldCompanyTradeClass,
 	}
 
 	/**
-	* Sets the company ID of this ivld company trade class.
+	* Sets the company ID string of this ivld company trade class.
 	*
-	* @param companyId the company ID of this ivld company trade class
+	* @param companyIdString the company ID string of this ivld company trade class
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_ivldCompanyTradeClass.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_ivldCompanyTradeClass.setCompanyIdString(companyIdString);
 	}
 
 	/**

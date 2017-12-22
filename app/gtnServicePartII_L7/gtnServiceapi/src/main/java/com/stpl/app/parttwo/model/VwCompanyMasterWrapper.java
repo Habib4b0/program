@@ -82,7 +82,7 @@ public class VwCompanyMasterWrapper implements VwCompanyMaster,
 		attributes.put("zipCode", getZipCode());
 		attributes.put("udc2", getUdc2());
 		attributes.put("udc3", getUdc3());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("country", getCountry());
 		attributes.put("companyType", getCompanyType());
 		attributes.put("companyStartDate", getCompanyStartDate());
@@ -242,10 +242,10 @@ public class VwCompanyMasterWrapper implements VwCompanyMaster,
 			setUdc3(udc3);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String country = (String)attributes.get("country");
@@ -394,13 +394,13 @@ public class VwCompanyMasterWrapper implements VwCompanyMaster,
 	}
 
 	/**
-	* Returns the company ID of this vw company master.
+	* Returns the company ID string of this vw company master.
 	*
-	* @return the company ID of this vw company master
+	* @return the company ID string of this vw company master
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwCompanyMaster.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwCompanyMaster.getCompanyIdString();
 	}
 
 	/**
@@ -784,13 +784,13 @@ public class VwCompanyMasterWrapper implements VwCompanyMaster,
 	}
 
 	/**
-	* Sets the company ID of this vw company master.
+	* Sets the company ID string of this vw company master.
 	*
-	* @param companyId the company ID of this vw company master
+	* @param companyIdString the company ID string of this vw company master
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwCompanyMaster.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwCompanyMaster.setCompanyIdString(companyIdString);
 	}
 
 	/**

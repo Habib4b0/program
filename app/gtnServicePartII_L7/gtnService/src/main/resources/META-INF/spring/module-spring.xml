@@ -89,8 +89,8 @@
 	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldAccrualInboundPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldAccrualInboundPersistence" parent="basePersistence">
 		<property name="dataSource" ref="extDataSource" />
 	</bean>
-	<bean class="com.stpl.app.parttwo.service.impl.IvldcompanyIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldcompanyIdentifierLocalService" />
-	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldcompanyIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldcompanyIdentifierPersistence" parent="basePersistence">
+	<bean class="com.stpl.app.parttwo.service.impl.IvldCompanyIdentifierLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCompanyIdentifierLocalService" />
+	<bean class="com.stpl.app.parttwo.service.persistence.impl.IvldCompanyIdentifierPersistenceImpl" id="com.stpl.app.parttwo.service.persistence.IvldCompanyIdentifierPersistence" parent="basePersistence">
 		<property name="dataSource" ref="extDataSource" />
 	</bean>
 	<bean class="com.stpl.app.parttwo.service.impl.IvldCompanyMasterLocalServiceImpl" id="com.stpl.app.parttwo.service.IvldCompanyMasterLocalService" />

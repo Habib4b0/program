@@ -88,7 +88,7 @@ public class IvldCustomerGtsForecastWrapper implements IvldCustomerGtsForecast,
 		attributes.put("udc3", getUdc3());
 		attributes.put("reasonForFailure", getReasonForFailure());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("forecastValueType", getForecastValueType());
 		attributes.put("deductionCategory", getDeductionCategory());
 		attributes.put("adjustmentCode", getAdjustmentCode());
@@ -281,10 +281,10 @@ public class IvldCustomerGtsForecastWrapper implements IvldCustomerGtsForecast,
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String forecastValueType = (String)attributes.get("forecastValueType");
@@ -447,13 +447,13 @@ public class IvldCustomerGtsForecastWrapper implements IvldCustomerGtsForecast,
 	}
 
 	/**
-	* Returns the company ID of this ivld customer gts forecast.
+	* Returns the company ID string of this ivld customer gts forecast.
 	*
-	* @return the company ID of this ivld customer gts forecast
+	* @return the company ID string of this ivld customer gts forecast
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _ivldCustomerGtsForecast.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _ivldCustomerGtsForecast.getCompanyIdString();
 	}
 
 	/**
@@ -957,13 +957,13 @@ public class IvldCustomerGtsForecastWrapper implements IvldCustomerGtsForecast,
 	}
 
 	/**
-	* Sets the company ID of this ivld customer gts forecast.
+	* Sets the company ID string of this ivld customer gts forecast.
 	*
-	* @param companyId the company ID of this ivld customer gts forecast
+	* @param companyIdString the company ID string of this ivld customer gts forecast
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_ivldCustomerGtsForecast.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_ivldCustomerGtsForecast.setCompanyIdString(companyIdString);
 	}
 
 	/**

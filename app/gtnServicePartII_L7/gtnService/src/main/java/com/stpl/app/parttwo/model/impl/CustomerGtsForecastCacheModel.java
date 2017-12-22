@@ -112,8 +112,8 @@ public class CustomerGtsForecastCacheModel implements CacheModel<CustomerGtsFore
 		sb.append(customerGtsForecastSid);
 		sb.append(", country=");
 		sb.append(country);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", forecastValueType=");
 		sb.append(forecastValueType);
 		sb.append(", deductionCategory=");
@@ -285,11 +285,11 @@ public class CustomerGtsForecastCacheModel implements CacheModel<CustomerGtsFore
 			customerGtsForecastImpl.setCountry(country);
 		}
 
-		if (companyId == null) {
-			customerGtsForecastImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			customerGtsForecastImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			customerGtsForecastImpl.setCompanyId(companyId);
+			customerGtsForecastImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (forecastValueType == null) {
@@ -418,7 +418,7 @@ public class CustomerGtsForecastCacheModel implements CacheModel<CustomerGtsFore
 
 		customerGtsForecastSid = objectInput.readInt();
 		country = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		forecastValueType = objectInput.readUTF();
 		deductionCategory = objectInput.readUTF();
 		adjustmentCode = objectInput.readUTF();
@@ -558,11 +558,11 @@ public class CustomerGtsForecastCacheModel implements CacheModel<CustomerGtsFore
 			objectOutput.writeUTF(country);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (forecastValueType == null) {
@@ -681,7 +681,7 @@ public class CustomerGtsForecastCacheModel implements CacheModel<CustomerGtsFore
 	public String deductionRate;
 	public int customerGtsForecastSid;
 	public String country;
-	public String companyId;
+	public String companyIdString;
 	public String forecastValueType;
 	public String deductionCategory;
 	public String adjustmentCode;

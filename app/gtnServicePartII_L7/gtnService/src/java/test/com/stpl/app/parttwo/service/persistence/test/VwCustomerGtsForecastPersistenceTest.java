@@ -169,7 +169,7 @@ public class VwCustomerGtsForecastPersistenceTest {
 
 		newVwCustomerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		newVwCustomerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		newVwCustomerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		newVwCustomerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 
@@ -255,8 +255,8 @@ public class VwCustomerGtsForecastPersistenceTest {
 			newVwCustomerGtsForecast.getUdc3());
 		Assert.assertEquals(existingVwCustomerGtsForecast.getCountry(),
 			newVwCustomerGtsForecast.getCountry());
-		Assert.assertEquals(existingVwCustomerGtsForecast.getCompanyId(),
-			newVwCustomerGtsForecast.getCompanyId());
+		Assert.assertEquals(existingVwCustomerGtsForecast.getCompanyIdString(),
+			newVwCustomerGtsForecast.getCompanyIdString());
 		Assert.assertEquals(existingVwCustomerGtsForecast.getForecastValueType(),
 			newVwCustomerGtsForecast.getForecastValueType());
 		Assert.assertEquals(existingVwCustomerGtsForecast.getDeductionCategory(),
@@ -319,13 +319,13 @@ public class VwCustomerGtsForecastPersistenceTest {
 			true, "salesAmount", true, "udc6", true, "udc5", true,
 			"deductionType", true, "udc4", true, "units", true,
 			"deductionRate", true, "udc1", true, "customerGtsForecastSid",
-			true, "udc2", true, "udc3", true, "country", true, "companyId",
-			true, "forecastValueType", true, "deductionCategory", true,
-			"adjustmentCode", true, "deductionProgramType", true,
-			"customerGtsForecastIntfId", true, "salesInclusion", true,
-			"forecastVer", true, "batchId", true, "priceType", true,
-			"forecastMonth", true, "deductionInclusion", true, "segment", true,
-			"brand", true, "forecastName", true);
+			true, "udc2", true, "udc3", true, "country", true,
+			"companyIdString", true, "forecastValueType", true,
+			"deductionCategory", true, "adjustmentCode", true,
+			"deductionProgramType", true, "customerGtsForecastIntfId", true,
+			"salesInclusion", true, "forecastVer", true, "batchId", true,
+			"priceType", true, "forecastMonth", true, "deductionInclusion",
+			true, "segment", true, "brand", true, "forecastName", true);
 	}
 
 	@Test
@@ -580,7 +580,7 @@ public class VwCustomerGtsForecastPersistenceTest {
 
 		vwCustomerGtsForecast.setCountry(RandomTestUtil.randomString());
 
-		vwCustomerGtsForecast.setCompanyId(RandomTestUtil.randomString());
+		vwCustomerGtsForecast.setCompanyIdString(RandomTestUtil.randomString());
 
 		vwCustomerGtsForecast.setForecastValueType(RandomTestUtil.randomString());
 

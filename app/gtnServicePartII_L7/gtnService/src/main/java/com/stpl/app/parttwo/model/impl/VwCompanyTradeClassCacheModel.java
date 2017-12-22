@@ -72,8 +72,8 @@ public class VwCompanyTradeClassCacheModel implements CacheModel<VwCompanyTradeC
 		sb.append(priorTradeClass);
 		sb.append(", companyTradeClassSid=");
 		sb.append(companyTradeClassSid);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", lastUpdatedDate=");
 		sb.append(lastUpdatedDate);
 		sb.append(", priorTradeClassStartDate=");
@@ -116,11 +116,11 @@ public class VwCompanyTradeClassCacheModel implements CacheModel<VwCompanyTradeC
 
 		vwCompanyTradeClassImpl.setCompanyTradeClassSid(companyTradeClassSid);
 
-		if (companyId == null) {
-			vwCompanyTradeClassImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			vwCompanyTradeClassImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			vwCompanyTradeClassImpl.setCompanyId(companyId);
+			vwCompanyTradeClassImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (lastUpdatedDate == Long.MIN_VALUE) {
@@ -220,7 +220,7 @@ public class VwCompanyTradeClassCacheModel implements CacheModel<VwCompanyTradeC
 		priorTradeClass = objectInput.readUTF();
 
 		companyTradeClassSid = objectInput.readInt();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		lastUpdatedDate = objectInput.readLong();
 		priorTradeClassStartDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
@@ -247,11 +247,11 @@ public class VwCompanyTradeClassCacheModel implements CacheModel<VwCompanyTradeC
 
 		objectOutput.writeInt(companyTradeClassSid);
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		objectOutput.writeLong(lastUpdatedDate);
@@ -307,7 +307,7 @@ public class VwCompanyTradeClassCacheModel implements CacheModel<VwCompanyTradeC
 
 	public String priorTradeClass;
 	public int companyTradeClassSid;
-	public String companyId;
+	public String companyIdString;
 	public long lastUpdatedDate;
 	public long priorTradeClassStartDate;
 	public long modifiedDate;

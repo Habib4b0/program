@@ -21,7 +21,6 @@ import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CacheModel;
-import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -42,8 +41,7 @@ import java.util.Date;
  * @generated
  */
 @ProviderType
-public interface StAdjustmentGtnDetailModel extends BaseModel<StAdjustmentGtnDetail>,
-	ShardedModel {
+public interface StAdjustmentGtnDetailModel extends BaseModel<StAdjustmentGtnDetail> {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -880,21 +878,19 @@ public interface StAdjustmentGtnDetailModel extends BaseModel<StAdjustmentGtnDet
 	public void setCostCenter(String costCenter);
 
 	/**
-	 * Returns the company ID of this st adjustment gtn detail.
+	 * Returns the company ID string of this st adjustment gtn detail.
 	 *
-	 * @return the company ID of this st adjustment gtn detail
+	 * @return the company ID string of this st adjustment gtn detail
 	 */
 	@AutoEscape
-	@Override
-	public String getCompanyId();
+	public String getCompanyIdString();
 
 	/**
-	 * Sets the company ID of this st adjustment gtn detail.
+	 * Sets the company ID string of this st adjustment gtn detail.
 	 *
-	 * @param companyId the company ID of this st adjustment gtn detail
+	 * @param companyIdString the company ID string of this st adjustment gtn detail
 	 */
-	@Override
-	public void setCompanyId(String companyId);
+	public void setCompanyIdString(String companyIdString);
 
 	/**
 	 * Returns the outbound status of this st adjustment gtn detail.

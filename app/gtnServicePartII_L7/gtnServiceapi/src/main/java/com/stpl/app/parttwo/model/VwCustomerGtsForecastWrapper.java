@@ -83,7 +83,7 @@ public class VwCustomerGtsForecastWrapper implements VwCustomerGtsForecast,
 		attributes.put("udc2", getUdc2());
 		attributes.put("udc3", getUdc3());
 		attributes.put("country", getCountry());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("forecastValueType", getForecastValueType());
 		attributes.put("deductionCategory", getDeductionCategory());
 		attributes.put("adjustmentCode", getAdjustmentCode());
@@ -250,10 +250,10 @@ public class VwCustomerGtsForecastWrapper implements VwCustomerGtsForecast,
 			setCountry(country);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String forecastValueType = (String)attributes.get("forecastValueType");
@@ -394,13 +394,13 @@ public class VwCustomerGtsForecastWrapper implements VwCustomerGtsForecast,
 	}
 
 	/**
-	* Returns the company ID of this vw customer gts forecast.
+	* Returns the company ID string of this vw customer gts forecast.
 	*
-	* @return the company ID of this vw customer gts forecast
+	* @return the company ID string of this vw customer gts forecast
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _vwCustomerGtsForecast.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _vwCustomerGtsForecast.getCompanyIdString();
 	}
 
 	/**
@@ -834,13 +834,13 @@ public class VwCustomerGtsForecastWrapper implements VwCustomerGtsForecast,
 	}
 
 	/**
-	* Sets the company ID of this vw customer gts forecast.
+	* Sets the company ID string of this vw customer gts forecast.
 	*
-	* @param companyId the company ID of this vw customer gts forecast
+	* @param companyIdString the company ID string of this vw customer gts forecast
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_vwCustomerGtsForecast.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_vwCustomerGtsForecast.setCompanyIdString(companyIdString);
 	}
 
 	/**

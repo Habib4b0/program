@@ -89,7 +89,7 @@ public class IvldAccrualInboundWrapper implements IvldAccrualInbound,
 		attributes.put("accountNo", getAccountNo());
 		attributes.put("accrualId", getAccrualId());
 		attributes.put("reasonForFailure", getReasonForFailure());
-		attributes.put("companyId", getCompanyId());
+		attributes.put("companyIdString", getCompanyIdString());
 		attributes.put("accountName", getAccountName());
 		attributes.put("accrualType", getAccrualType());
 		attributes.put("postingDate", getPostingDate());
@@ -307,10 +307,10 @@ public class IvldAccrualInboundWrapper implements IvldAccrualInbound,
 			setReasonForFailure(reasonForFailure);
 		}
 
-		String companyId = (String)attributes.get("companyId");
+		String companyIdString = (String)attributes.get("companyIdString");
 
-		if (companyId != null) {
-			setCompanyId(companyId);
+		if (companyIdString != null) {
+			setCompanyIdString(companyIdString);
 		}
 
 		String accountName = (String)attributes.get("accountName");
@@ -616,13 +616,13 @@ public class IvldAccrualInboundWrapper implements IvldAccrualInbound,
 	}
 
 	/**
-	* Returns the company ID of this ivld accrual inbound.
+	* Returns the company ID string of this ivld accrual inbound.
 	*
-	* @return the company ID of this ivld accrual inbound
+	* @return the company ID string of this ivld accrual inbound
 	*/
 	@Override
-	public java.lang.String getCompanyId() {
-		return _ivldAccrualInbound.getCompanyId();
+	public java.lang.String getCompanyIdString() {
+		return _ivldAccrualInbound.getCompanyIdString();
 	}
 
 	/**
@@ -1198,13 +1198,13 @@ public class IvldAccrualInboundWrapper implements IvldAccrualInbound,
 	}
 
 	/**
-	* Sets the company ID of this ivld accrual inbound.
+	* Sets the company ID string of this ivld accrual inbound.
 	*
-	* @param companyId the company ID of this ivld accrual inbound
+	* @param companyIdString the company ID string of this ivld accrual inbound
 	*/
 	@Override
-	public void setCompanyId(java.lang.String companyId) {
-		_ivldAccrualInbound.setCompanyId(companyId);
+	public void setCompanyIdString(java.lang.String companyIdString) {
+		_ivldAccrualInbound.setCompanyIdString(companyIdString);
 	}
 
 	/**

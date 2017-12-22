@@ -188,8 +188,8 @@ public class StCffOutboundMasterCacheModel implements CacheModel<StCffOutboundMa
 		sb.append(projectionName);
 		sb.append(", userId=");
 		sb.append(userId);
-		sb.append(", companyId=");
-		sb.append(companyId);
+		sb.append(", companyIdString=");
+		sb.append(companyIdString);
 		sb.append(", outboundStatus=");
 		sb.append(outboundStatus);
 		sb.append(", originalBatchId=");
@@ -551,11 +551,11 @@ public class StCffOutboundMasterCacheModel implements CacheModel<StCffOutboundMa
 			stCffOutboundMasterImpl.setUserId(userId);
 		}
 
-		if (companyId == null) {
-			stCffOutboundMasterImpl.setCompanyId(StringPool.BLANK);
+		if (companyIdString == null) {
+			stCffOutboundMasterImpl.setCompanyIdString(StringPool.BLANK);
 		}
 		else {
-			stCffOutboundMasterImpl.setCompanyId(companyId);
+			stCffOutboundMasterImpl.setCompanyIdString(companyIdString);
 		}
 
 		if (outboundStatus == null) {
@@ -694,7 +694,7 @@ public class StCffOutboundMasterCacheModel implements CacheModel<StCffOutboundMa
 		businessUnitId = objectInput.readUTF();
 		projectionName = objectInput.readUTF();
 		userId = objectInput.readUTF();
-		companyId = objectInput.readUTF();
+		companyIdString = objectInput.readUTF();
 		outboundStatus = objectInput.readUTF();
 		originalBatchId = objectInput.readUTF();
 		deductionName = objectInput.readUTF();
@@ -1030,11 +1030,11 @@ public class StCffOutboundMasterCacheModel implements CacheModel<StCffOutboundMa
 			objectOutput.writeUTF(userId);
 		}
 
-		if (companyId == null) {
+		if (companyIdString == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(companyId);
+			objectOutput.writeUTF(companyIdString);
 		}
 
 		if (outboundStatus == null) {
@@ -1154,7 +1154,7 @@ public class StCffOutboundMasterCacheModel implements CacheModel<StCffOutboundMa
 	public String businessUnitId;
 	public String projectionName;
 	public String userId;
-	public String companyId;
+	public String companyIdString;
 	public String outboundStatus;
 	public String originalBatchId;
 	public String deductionName;
