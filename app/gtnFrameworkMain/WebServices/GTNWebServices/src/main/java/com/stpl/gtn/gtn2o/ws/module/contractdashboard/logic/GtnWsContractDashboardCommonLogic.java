@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
-import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;

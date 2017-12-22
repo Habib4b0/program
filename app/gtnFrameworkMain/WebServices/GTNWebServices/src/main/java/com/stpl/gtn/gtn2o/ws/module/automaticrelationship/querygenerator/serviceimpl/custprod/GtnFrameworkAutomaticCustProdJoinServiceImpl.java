@@ -1,5 +1,7 @@
 package com.stpl.gtn.gtn2o.ws.module.automaticrelationship.querygenerator.serviceimpl.custprod;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,12 +28,16 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 
 	@Override
 	public void addJoinClause(GtnFrameworkQueryGeneratorBean querygeneratorBean,
-			HierarchyLevelDefinitionBean hierarchyLevelBean) {
+			List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList, int levelNo) {
+		HierarchyLevelDefinitionBean hierarchyLevelBean = customerHierarchyLevelDefinitionList.get(levelNo);
+		HierarchyLevelDefinitionBean previousHierarchyLevelBean = HierarchyLevelDefinitionBean
+				.getPreviousLinkedLevel(customerHierarchyLevelDefinitionList, hierarchyLevelBean);
 		GtnFrameworkSingleColumnRelationBean keyBean = gtnFrameworkEntityMasterBean
-				.getKeyRelationBeanUsingTableIdAndColumnName(hierarchyLevelBean.getTableName(),
-						hierarchyLevelBean.getFieldName());
-		GtnFrameworkJoinClauseBean relationJoin = querygeneratorBean.addJoinClauseBean("RELATIONSHIP_LEVEL_DEFINITION",
-				"RELATIONSHIP_LEVEL_DEFINITION", GtnFrameworkJoinType.JOIN);
+				.getKeyRelationBeanUsingTableIdAndColumnName(previousHierarchyLevelBean.getTableName(),
+						previousHierarchyLevelBean.getFieldName());
+		String relationShipLevelDef = "RELATIONSHIP_LEVEL_DEFINITION";
+		GtnFrameworkJoinClauseBean relationJoin = querygeneratorBean.addJoinClauseBean(relationShipLevelDef,
+				relationShipLevelDef, GtnFrameworkJoinType.JOIN);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_LEVEL_Values",
 				keyBean.getActualTtableName() + "." + keyBean.getWhereClauseColumn(),
 				GtnFrameworkOperatorType.EQUAL_TO);
@@ -41,7 +47,49 @@ public class GtnFrameworkAutomaticCustProdJoinServiceImpl implements GtnFramewor
 				GtnFrameworkOperatorType.EQUAL_TO);
 		relationJoin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.VERSION_NO", null,
 				GtnFrameworkOperatorType.EQUAL_TO);
+		GtnFrameworkJoinClauseBean relationHIerachyJOin = querygeneratorBean.addJoinClauseBean(
+				relationShipLevelDef, "RELATIONSHIP_LEVEL_DEFINITION1", GtnFrameworkJoinType.LEFT_JOIN);
+		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION.RELATIONSHIP_BUILDER_SID",
+				"RELATIONSHIP_LEVEL_DEFINITION1.RELATIONSHIP_BUILDER_SID", GtnFrameworkOperatorType.EQUAL_TO);
+		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION1.level_no", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION1.VERSION_NO", null,
+				GtnFrameworkOperatorType.EQUAL_TO);
+		relationHIerachyJOin.addConditionBean("RELATIONSHIP_LEVEL_DEFINITION1.HIERARCHY_NO",
+				getHierarchyNo(customerHierarchyLevelDefinitionList, hierarchyLevelBean),
+				GtnFrameworkOperatorType.LIKE);
 
+	}
+
+	public String getHierarchyNo(List<HierarchyLevelDefinitionBean> customerHierarchyLevelDefinitionList,
+			HierarchyLevelDefinitionBean selectedHierarchyLevelDto) {
+		StringBuilder custProdQuery = new StringBuilder();
+		StringBuilder finalQuery = new StringBuilder();
+		HierarchyLevelDefinitionBean previousHierarchyBean = HierarchyLevelDefinitionBean
+				.getPreviousLinkedLevel(customerHierarchyLevelDefinitionList, selectedHierarchyLevelDto);
+		int i;
+		if (previousHierarchyBean == null)
+			i = selectedHierarchyLevelDto.getLevelNo() - 1;
+		else
+			i = previousHierarchyBean.getLevelNo();
+		for (; i < selectedHierarchyLevelDto.getLevelNo(); i++) {
+			HierarchyLevelDefinitionBean leveldto = customerHierarchyLevelDefinitionList.get(i);
+			if (leveldto.getTableName().isEmpty()) {
+				custProdQuery.append(", '%'");
+				custProdQuery.append(",'.'");
+				continue;
+			}
+			custProdQuery.append(",");
+			GtnFrameworkSingleColumnRelationBean singleColumnRelationBean = gtnFrameworkEntityMasterBean
+					.getKeyRelationBeanUsingTableIdAndColumnName(leveldto.getTableName(), leveldto.getFieldName());
+			custProdQuery.append(singleColumnRelationBean.getActualTtableName() + "."
+					+ singleColumnRelationBean.getWhereClauseColumn());
+			custProdQuery.append(",'.'");
+		}
+		finalQuery.append(" concat(RELATIONSHIP_LEVEL_DEFINITION.HIERARCHY_NO");
+		finalQuery.append(custProdQuery);
+		finalQuery.append(")");
+		return finalQuery.toString();
 	}
 
 }
