@@ -143,8 +143,8 @@
         <property name="itemId" type="string">
             <column name="ITEM_ID" length="38" not-null="true"  />
         </property>
-        <property name="baselineAmp" type="double">
-            <column name="BASELINE_AMP" precision="22" scale="6" />
+        <property name="baselineAmp" type="string">
+            <column name="BASELINE_AMP" length="22" />
         </property>
         <property name="dosesPerUnit" type="string">
             <column name="DOSES_PER_UNIT" length="25"  />
@@ -152,8 +152,8 @@
         <property name="dualPricingIndicator" type="string">
             <column name="DUAL_PRICING_INDICATOR" length="30"  />
         </property>
-        <property name="baseCpi" type="double">
-            <column name="BASE_CPI" precision="22" scale="6"  />
+        <property name="baseCpi" type="string">
+            <column name="BASE_CPI" length="22"   />
         </property>
         <property name="createdDate" type="timestamp">
             <column name="CREATED_DATE" precision="23" not-null="true" />
