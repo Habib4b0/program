@@ -8,7 +8,7 @@
 	</parent>
 	<groupId>com.stpl.gtn.gtn20.sharedlibrary</groupId>
 	<artifactId>GtnNewArchSharedLibrary</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>GtnNewArchSharedLibrary</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
