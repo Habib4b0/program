@@ -5,33 +5,34 @@
  */
 package org.asi.ui.extfilteringtable.paged.logic;
 
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.converter.StringToIntegerConverter;
+import com.vaadin.server.Sizeable;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.AbstractSelect;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.ui.UI;
+import com.vaadin.v7.ui.themes.Reindeer;
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 import org.asi.ui.extfilteringtable.paged.ExtPagedFilterControlConfig;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTableChangeEvent;
 import org.asi.ui.extfilteringtable.paged.PagedTreeTableBase;
-
-import com.vaadin.data.Container;
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.converter.StringToIntegerConverter;
-import com.vaadin.server.Sizeable;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.AbstractSelect;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.themes.Reindeer;
 
 /**
  * The Class PageTreeLogicBase.
@@ -672,7 +673,7 @@ import com.vaadin.ui.themes.Reindeer;
 
             @Override
             public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
+                    com.vaadin.v7.data.Property.ValueChangeEvent event) {
                 Property pr = event.getProperty();
                 if (pr != null) {
                     if (pr.getValue() != null) {
@@ -722,8 +723,9 @@ import com.vaadin.ui.themes.Reindeer;
 
             @Override
             public void valueChange(
-                    com.vaadin.data.Property.ValueChangeEvent event) {
+                    com.vaadin.v7.data.Property.ValueChangeEvent event) {
                 try {
+                    if (event.getProperty().getValue() != null && !"null".equals(event.getProperty().getValue())) { // Added for GAL-8160
                     String val=event.getProperty().getValue().toString();
                     val=val.trim().replace(" ", "").replace(",", "");
                     int cpage = Integer.valueOf(val);
@@ -731,6 +733,9 @@ import com.vaadin.ui.themes.Reindeer;
                         if (getCurrentPage() != cpage) {
                             setCurrentPage(cpage);
                         }
+                    } else {
+                        currentPageTextField.setValue("" + getCurrentPage());
+                    }
                     } else {
                         currentPageTextField.setValue("" + getCurrentPage());
                     }
@@ -761,7 +766,7 @@ import com.vaadin.ui.themes.Reindeer;
                 String val = currentPageTextField.getValue();
                 val = val.trim().replace(" ", "").replace(",", "");
                 int cpage = Integer.valueOf(val);
-                currentPageTextField.setValue((cpage - 1) + ""); 
+                currentPageTextField.setValue((cpage - 1) + "");       
             }
         });
         next.addClickListener(new Button.ClickListener() {
@@ -772,7 +777,7 @@ import com.vaadin.ui.themes.Reindeer;
                 String val = currentPageTextField.getValue();
                 val = val.trim().replace(" ", "").replace(",", "");
                 int cpage = Integer.valueOf(val);
-                currentPageTextField.setValue((cpage + 1) + ""); 
+                currentPageTextField.setValue((cpage + 1) + "");
             }
         });
         last.addClickListener(new Button.ClickListener() {

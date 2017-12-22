@@ -1121,7 +1121,7 @@ ORDER  BY PROJECTION_MASTER_SID
                                     ON CFF.PROJECTION_MASTER_SID = PD.PROJECTION_MASTER_SID 
                                        AND CFF.CCP_DETAILS_SID = PD.CCP_DETAILS_SID 
                                        ?
-                                       AND NMDP.RS_CONTRACT_SID IN (SELECT TOKEN FROM UDF_SPLITSTRING(@RS_IDS,','))
+                                       @RSQUERY
                                   JOIN RS_MODEL RM 
                                     ON RM.RS_MODEL_SID = NMDP.RS_MODEL_SID 
                            WHERE  NMDP.PROJECTION_DETAILS_SID = PD.PROJECTION_DETAILS_SID 

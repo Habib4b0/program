@@ -7,8 +7,8 @@ import com.stpl.app.model.HelperTable;
 import com.stpl.app.security.udc.dto.HelperForm;
 import com.stpl.app.security.udc.logic.UdcLogic;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.vaadin.data.fieldgroup.FieldGroup.CommitException;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.fieldgroup.FieldGroup.CommitException;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinSession;
@@ -16,7 +16,7 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 
 public class AddButtonLayout extends HorizontalLayout {

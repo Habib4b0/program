@@ -76,18 +76,13 @@ public class QueryUtils {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
             LOGGER.debug("sql" +sql);
-            Integer count = (Integer) DAO.executeUpdate(sql.toString());
-            if (count > 0) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
+            HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
 
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End of updateData");
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     /**
@@ -162,19 +157,12 @@ public class QueryUtils {
             for (Object temp : input) {
                 sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
             }
-
-            Integer count = (Integer) DAO.executeUpdate(sql.toString());
-            if (count > 0) {
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-
+            HelperTableLocalServiceUtil.executeUpdateQuery(sql.toString());
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
         LOGGER.debug("End updateAppData");
-        return Boolean.FALSE;
+        return Boolean.TRUE;
     }
 
     /**

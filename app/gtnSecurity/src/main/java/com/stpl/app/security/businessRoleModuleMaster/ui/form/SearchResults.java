@@ -6,21 +6,21 @@ import com.stpl.app.security.businessRoleModuleMaster.dto.SearchBusinessRoleModu
 import com.stpl.app.security.businessRoleModuleMaster.logic.BusinessRoleModuleSearchLogic;
 import com.stpl.app.security.businessRoleModuleMaster.util.UIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.shared.ui.datefield.Resolution;
-import com.vaadin.shared.ui.label.ContentMode;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.DateField;
-import com.vaadin.ui.DefaultFieldFactory;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.DateField;
+import com.vaadin.v7.ui.DefaultFieldFactory;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
 
 public class SearchResults extends CustomComponent {
 	private static final long serialVersionUID = 1L;
@@ -189,12 +189,9 @@ public class SearchResults extends CustomComponent {
 	private void configureFields() {
 		add.setImmediate(true);
 		add.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				boolean value = add.getValue();
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent vce) {
+                        boolean value = add.getValue();
 				
 				if(value==true){
 					int size=searchFieldResult.size();
@@ -212,20 +209,17 @@ public class SearchResults extends CustomComponent {
 					
 					
 				}
-			}
-        });
+                    }
+                });
 		
 		
 		
 		
 		view.setImmediate(true);
 		view.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-					boolean value = view.getValue();
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent vce) {
+                        boolean value = view.getValue();
 				
 				if(value==true){
 					int size=searchFieldResult.size();
@@ -240,17 +234,14 @@ public class SearchResults extends CustomComponent {
 				addToTableField();
 				}
 				}
-			}
-        });
+                    }
+                });
 		
 		edit.setImmediate(true);
 		edit.addValueChangeListener(new Property.ValueChangeListener() {
-            private static final long serialVersionUID = -6857112166321059475L;
-
-			public void valueChange(
-					com.vaadin.data.Property.ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				boolean value = edit.getValue();
+                    @Override
+                    public void valueChange(Property.ValueChangeEvent vce) {
+                        boolean value = edit.getValue();
 				
 				if(value==true){
 					int size=searchFieldResult.size();
@@ -265,11 +256,8 @@ public class SearchResults extends CustomComponent {
 				addToTableField();
 				}
 				}
-				
-			}
-        });
-		
-		
+                    }
+                });
 		
 	}
 	

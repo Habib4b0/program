@@ -76,4 +76,4 @@
                 <goal>org.sonarsource.scanner.maven:sonar-maven-plugin:3.3.0.603:sonar</goal>
             </goals>
         </action>
-    </actions>
+           </actions>

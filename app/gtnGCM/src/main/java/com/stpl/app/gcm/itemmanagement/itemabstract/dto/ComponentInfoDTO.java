@@ -73,15 +73,15 @@ public class ComponentInfoDTO {
     private String rebateFrequency_Value = StringUtils.EMPTY;
     private String itemContractNo = StringUtils.EMPTY;
     private Boolean reset = false;
-    private String measurementPrice;
-    private String resetPriceType;
-    private String netResetPriceType;
-    private String netPriceType;
-    private String subsequentPeriodPriceType;
-    private String netSubsequentPeriodPrice;
-    private String baselineNetWAC;
-    private String basePriceType;
-    private String baselineWAC;
+    private String measurementPrice = StringUtils.EMPTY;
+    private String resetPriceType = StringUtils.EMPTY;
+    private String netResetPriceType = StringUtils.EMPTY;
+    private String netPriceType = StringUtils.EMPTY;
+    private String subsequentPeriodPriceType = StringUtils.EMPTY;
+    private String netSubsequentPeriodPrice= StringUtils.EMPTY;
+    private String baselineNetWAC= StringUtils.EMPTY;
+    private String basePriceType= StringUtils.EMPTY;
+    private Object baselineWAC;
     private String netResetPriceFormula = StringUtils.EMPTY;
     private String netPriceTypeFormula = StringUtils.EMPTY;
     private String netSubsequentPeriodPriceFormula = StringUtils.EMPTY;
@@ -626,11 +626,11 @@ public class ComponentInfoDTO {
         this.basePriceType = basePriceType;
     }
 
-    public String getBaselineWAC() {
+    public Object getBaselineWAC() {
         return baselineWAC;
     }
 
-    public void setBaselineWAC(String baselineWAC) {
+    public void setBaselineWAC(Object baselineWAC) {
         this.baselineWAC = baselineWAC;
     }
 

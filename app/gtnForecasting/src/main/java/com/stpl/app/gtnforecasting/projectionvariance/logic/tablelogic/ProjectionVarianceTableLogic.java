@@ -20,8 +20,8 @@ import com.vaadin.v7.data.Container;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtTreeContainer;
-import org.drools.core.util.StringUtils;
 import org.jboss.logging.Logger;
 /**
  *
@@ -309,7 +309,7 @@ public class ProjectionVarianceTableLogic extends PageTreeTableLogic {
 
                         } else {
                             Map<String, List> relationshipLevelDetailsMap = projSelDTO.getSessionDTO().getHierarchyLevelDetails();
-                            List<String> list = commonLogic.getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
+                            List<String> list =  new NMProjectionVarianceLogic().getHiearchyNoAsList(projSelDTO, 0, projSelDTO.getLevelCount());
                             int size = list.size();
                             int index = count - size + 1;
                             for (int j = 0; j < size; j++) {

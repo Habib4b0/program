@@ -156,7 +156,7 @@ public class ItemQueries {
         LOGGER.debug("End of Item Update");
         return Boolean.FALSE;
     }
-    
+
     public static String getQuery(List input, String queryName) {
         StringBuilder sql = null;
         try {

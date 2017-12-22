@@ -15,23 +15,41 @@
  */
 package org.asi.ui.extfilteringtable;
 
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.converter.Converter.ConversionException;
+import com.vaadin.server.ClientMethodInvocation;
+import com.vaadin.server.ErrorHandler;
+import com.vaadin.server.Extension;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.converter.Converter.ConversionException;
 import com.vaadin.server.LegacyPaint;
 import com.vaadin.server.PaintException;
 import com.vaadin.server.PaintTarget;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ServerRpcManager;
+import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinResponse;
+import com.vaadin.shared.Registration;
+import com.vaadin.shared.communication.SharedState;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Component;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.ui.HasComponents;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.declarative.DesignContext;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.ui.TextField;
+import elemental.json.JsonObject;
+import java.io.IOException;
 import org.asi.ui.extfilteringtable.ExtFilterFieldGenerator.IFilterTable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import org.jsoup.nodes.Element;
 
 
 /**

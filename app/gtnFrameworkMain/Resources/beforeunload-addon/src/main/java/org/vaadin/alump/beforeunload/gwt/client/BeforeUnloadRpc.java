@@ -12,6 +12,6 @@ import com.vaadin.shared.communication.ServerRpc;
  *
  * @author shyam.d
  */
-public interface BeforeUnloadRpc extends ServerRpc {
-	void unload();
+public interface BeforeUnloadRpc extends ServerRpc{
+    void unload();
 }

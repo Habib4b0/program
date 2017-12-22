@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.jboss.logging.Logger;
 
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.DefaultConverterFactory;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.DefaultConverterFactory;
 
 // TODO: Auto-generated Javadoc
 /**

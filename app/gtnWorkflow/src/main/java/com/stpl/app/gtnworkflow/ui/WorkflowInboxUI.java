@@ -7,9 +7,11 @@ package com.stpl.app.gtnworkflow.ui;
 
 import com.stpl.app.gtnworkflow.ui.view.InboxDashboardView;
 import com.stpl.app.gtnworkflow.util.CommonUtils;
+import com.stpl.app.gtnworkflow.util.ConstantsUtils;
 import com.stpl.app.gtnworkflow.util.HelperListUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.vaadin.annotations.JavaScript;
+import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinPortletSession;
@@ -27,11 +29,20 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import org.jboss.logging.Logger;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
 /**
  *
  * @author satheesh
  */
+@Theme("mytheme")
+@Widgetset("com.stpl.app.v8.AppWidgetSet")
+@Component(service = UI.class, property = {
+        "com.liferay.portlet.display-category=Workflow Inbox",
+        "javax.portlet.name=WorkflowInbox",
+        "javax.portlet.display-name=Workflow Inbox",
+        "com.vaadin.osgi.liferay.portlet-ui=true"}, scope = ServiceScope.PROTOTYPE)
 @JavaScript("js/WorkflowInboxListener.js")
 public class WorkflowInboxUI extends UI implements PortletListener {
 

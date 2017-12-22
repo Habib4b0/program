@@ -2,7 +2,7 @@ package com.stpl.app.ui.errorhandling;
 
 
 import com.vaadin.server.UserError;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 
 public class ErrorLabel extends Label implements ErrorDisplay {
     private static final long serialVersionUID = 3064066324612002015L;

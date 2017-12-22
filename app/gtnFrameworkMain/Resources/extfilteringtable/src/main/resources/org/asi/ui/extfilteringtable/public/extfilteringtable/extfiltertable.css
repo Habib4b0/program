@@ -6,11 +6,14 @@
 	height: 23px;
 }
 
-.filters-panel>div, .filters-panel>span, .filters-panel>input {
+.filters-panel > div,
+.filters-panel > span,
+.filters-panel > input {
 	float: left !important;
 }
 
-.filters-panel .v-label, .filters-panel .filterplaceholder {
+.filters-panel .v-label,
+.filters-panel .filterplaceholder {
 	height: 23px;
 }
 
@@ -21,21 +24,21 @@
 }
 
 /* TextField within the Filter panel*/
-.v-app .v-table .filters-panel input.v-textfield.v-widget, .v-window .v-table .filters-panel input.v-textfield.v-widget
-	{
+.v-app .v-table .filters-panel input.v-textfield.v-widget, 
+.v-window .v-table .filters-panel input.v-textfield.v-widget {
 	height: 23px;
 	border-radius: 0px;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
 	-o-border-radius: 0px;
-	padding: 1px 2px;
-	/* Fixes issue with Chameleon theme's TextField paddings in em's */
+	padding: 1px 2px; /* Fixes issue with Chameleon theme's TextField paddings in em's */
 }
 
 /* DateFilter button styles */
-.datefilterpopup .v-popupbutton, .datefilterpopup .v-popupbutton:focus,
-	.datefilterpopup .v-popupbutton:active, .datefilterpopup .v-popupbutton.v-pressed
-	{
+.datefilterpopup .v-popupbutton,
+.datefilterpopup .v-popupbutton:focus,
+.datefilterpopup .v-popupbutton:active,
+.datefilterpopup .v-popupbutton.v-pressed {
 	background: #fff none repeat-x 0 100%;
 	height: 23px;
 	border: 1px solid #b7b7b7;
@@ -43,20 +46,23 @@
 	position: relative;
 }
 
-.datefilterpopup .v-popupbutton:focus, .datefilterpopup .v-popupbutton:active,
-	.datefilterpopup .v-popupbutton.v-pressed {
+.datefilterpopup .v-popupbutton:focus,
+.datefilterpopup .v-popupbutton:active,
+.datefilterpopup .v-popupbutton.v-pressed {
 	border-color: #4F83B4 #5B97D0 #5CA0DF;
 }
 
-.datefilterpopup .v-popupbutton .v-button-wrap, .datefilterpopup .v-popupbutton:focus .v-button-wrap,
-	.datefilterpopup .v-popupbutton:active .v-button-wrap, .datefilterpopup .v-popupbutton.v-pressed .v-button-wrap
-	{
+.datefilterpopup .v-popupbutton .v-button-wrap,
+.datefilterpopup .v-popupbutton:focus .v-button-wrap,
+.datefilterpopup .v-popupbutton:active .v-button-wrap,
+.datefilterpopup .v-popupbutton.v-pressed .v-button-wrap {
 	background: none;
 	overflow: hidden;
 	padding: 0;
 	text-align: left;
 	padding-top: 1px;
 }
+
 
 .datefilterpopup .v-popupbutton .v-popup-indicator {
 	height: 21px;
@@ -84,9 +90,10 @@
 }
 
 /* NumberFilter button styles */
-.numberfilterpopup .v-popupbutton, .numberfilterpopup .v-popupbutton:focus,
-	.numberfilterpopup .v-popupbutton:active, .numberfilterpopup .v-popupbutton.v-pressed
-	{
+.numberfilterpopup .v-popupbutton,
+.numberfilterpopup .v-popupbutton:focus,
+.numberfilterpopup .v-popupbutton:active,
+.numberfilterpopup .v-popupbutton.v-pressed {
 	background: #fff none repeat-x 0 100%;
 	height: 23px;
 	border: 1px solid #b7b7b7;
@@ -94,14 +101,16 @@
 	position: relative;
 }
 
-.numberfilterpopup .v-popupbutton:focus, .numberfilterpopup .v-popupbutton:active,
-	.numberfilterpopup .v-popupbutton.v-pressed {
+.numberfilterpopup .v-popupbutton:focus,
+.numberfilterpopup .v-popupbutton:active,
+.numberfilterpopup .v-popupbutton.v-pressed {
 	border-color: #4F83B4 #5B97D0 #5CA0DF;
 }
 
-.numberfilterpopup .v-popupbutton .v-button-wrap, .numberfilterpopup .v-popupbutton:focus .v-button-wrap,
-	.numberfilterpopup .v-popupbutton:active .v-button-wrap,
-	.numberfilterpopup .v-popupbutton.v-pressed .v-button-wrap {
+.numberfilterpopup .v-popupbutton .v-button-wrap,
+.numberfilterpopup .v-popupbutton:focus .v-button-wrap,
+.numberfilterpopup .v-popupbutton:active .v-button-wrap,
+.numberfilterpopup .v-popupbutton.v-pressed .v-button-wrap {
 	background: none;
 	overflow: hidden;
 	padding: 0;
@@ -118,7 +127,6 @@
 	zoom: 1;
 	background-position: -5px -8px;
 }
-
 .numberfilterpopup .v-popupbutton .v-button-caption {
 	display: inline-block;
 	background: none;
@@ -129,27 +137,22 @@
 	font-weight: normal;
 	font-size: 12px;
 }
-
 .filterwrapper {
 	overflow: hidden !important;
 }
-
 .filterwrapper-first {
 	overflow: hidden !important;
 }
-
 .fiterwrapper-last {
 	overflow: hidden !important;
 }
-
-.left-table .v-scrollable {
+.left-table .v-scrollable{
 	overflow: hidden !important;
 }
-
-.v-table-freeze-spacer {
-	height: 0px;
+.v-table-freeze-spacer{
+    height: 0px;
+}
+.left-table .v-table-freeze-spacer.left-freeze-space{
+    height: 18px !important;
 }
 
-.left-table .v-table-freeze-spacer.left-freeze-space {
-	height: 18px !important;
-}

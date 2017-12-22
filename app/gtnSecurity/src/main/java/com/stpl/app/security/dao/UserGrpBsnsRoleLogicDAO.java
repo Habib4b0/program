@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.stpl.app.model.BusinessroleMaster;
 import com.stpl.app.model.UsergroupBusinessrole;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.UserGroup;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.UserGroup;
 
 /**
  *

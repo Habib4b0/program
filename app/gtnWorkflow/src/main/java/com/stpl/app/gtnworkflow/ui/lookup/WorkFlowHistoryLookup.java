@@ -26,18 +26,18 @@ import com.stpl.app.gtnworkflow.util.FileUploader;
 import com.stpl.app.gtnworkflow.util.xmlparser.SQlUtil;
 import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.NotesDTO;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
 import com.stpl.ifs.util.GtnFileUtil;
 import com.stpl.ifs.util.constants.WorkflowConstants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gtnworkflow.util.ConstantsUtils;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.FileDownloader;
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
@@ -46,15 +46,15 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ExtCustomTable;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Upload;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 
 /*
  * To change this template, choose Tools | Templates
@@ -351,7 +351,7 @@ public class WorkFlowHistoryLookup extends Window {
 		if ("ARM".equals(businessProcess.getValue())) {
 			StringBuilder sql = new StringBuilder(SQlUtil.getQuery("wi.historyPopup"));
 			sql.append(" where WORKFLOW_ID = '").append(inboxDashBoardDTOHidden.getWorkflowId()).append("'");
-			List resultList = CompanyMasterLocalServiceUtil.executeQuery(sql.toString());
+			List resultList = HelperTableLocalServiceUtil.executeSelectQuery(sql.toString());
 			getWorkFlowHistory(resultList, businessProcess.getValue());
 		} else {
 			if (!CommonUtils.CONTRACT_MANAGEMENT.equals(businessProcess.getValue())) {

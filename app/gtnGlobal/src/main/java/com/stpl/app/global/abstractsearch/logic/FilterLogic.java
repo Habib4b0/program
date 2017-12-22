@@ -6,11 +6,11 @@
 package com.stpl.app.global.abstractsearch.logic;
 
 import com.stpl.ifs.util.CommonUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.And;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.And;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;

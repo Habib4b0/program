@@ -9,12 +9,12 @@ import com.stpl.app.global.common.util.CommonUtil;
 import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.Field;
 import org.asi.ui.extfilteringtable.ExtFilterGenerator;
 import org.jboss.logging.Logger;
 

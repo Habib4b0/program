@@ -1297,7 +1297,6 @@ public class AddItemContractFieldFactory implements TableFieldFactory {
                         } else {
                             saveTempItemDetails(dto);
                         }
-                        valueChange = true;
                     }
                 });
                 return baseLineWacManual;

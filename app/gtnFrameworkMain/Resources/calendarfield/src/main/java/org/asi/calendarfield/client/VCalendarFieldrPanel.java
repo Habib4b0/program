@@ -50,7 +50,7 @@ import com.vaadin.client.DateTimeService;
 import com.vaadin.client.VConsole;
 import com.vaadin.client.ui.FocusableFlexTable;
 import com.vaadin.client.ui.SubPartAware;
-import com.vaadin.shared.ui.datefield.Resolution;
+import com.vaadin.v7.shared.ui.datefield.Resolution;
 import com.vaadin.shared.util.SharedUtil;
 import java.util.ArrayList;
 import java.util.Date;

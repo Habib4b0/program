@@ -11,3 +11,8 @@ etl/target/*
 /app/gtnServicePart1/jndi-service/target/
 /app/gtnServicePart1/gtnService/target/
 /app/gtnServicePart1/gtnServiceapi/target/
+/app/gtnServicePartI_L7/gtnService/target/
+/app/gtnServicePartI_L7/gtnServiceapi/target/
+app/gtnForecasting/nb-configuration.xml
+/app/gtnServicePartII_L7/gtnServiceapi/target/
+/app/gtnServicePartII_Liferay_7/gtnServiceapi/target/

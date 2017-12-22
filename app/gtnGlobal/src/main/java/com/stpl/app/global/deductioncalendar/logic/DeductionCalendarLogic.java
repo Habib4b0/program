@@ -12,14 +12,12 @@ import com.stpl.app.global.dao.CommonDao;
 import com.stpl.app.global.dao.impl.CommonDaoImpl;
 import com.stpl.app.global.dao.impl.DeductionCalendarDaoImpl;
 import com.stpl.app.global.deductioncalendar.dto.DeductionCalendarDTO;
-import com.stpl.app.model.BrandMaster;
 import com.stpl.app.model.CompanyMaster;
 import com.stpl.app.model.DeductionCalendarMaster;
 import com.stpl.app.model.ItemQualifier;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.service.DeductionCalendarMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
 import com.stpl.app.util.CommonUIUtils;
 import com.stpl.app.util.Constants;
@@ -34,21 +32,23 @@ import com.stpl.ifs.util.CustomTableHeaderDTO;
 import com.stpl.ifs.util.HelperDTO;
 import com.stpl.ifs.util.QueryUtil;
 import com.stpl.ifs.util.constants.GlobalConstants;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionList;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.util.dao.orm.CustomSQLUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.filter.Between;
-import com.vaadin.data.util.filter.Compare;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionList;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.service.BrandMasterLocalServiceUtil;
+import com.stpl.app.service.CompanyMasterLocalServiceUtil;
+import com.stpl.app.service.ItemQualifierLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.filter.Between;
+import com.vaadin.v7.data.util.filter.Compare;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -160,7 +160,7 @@ public class DeductionCalendarLogic {
         if (ConstantsUtils.EDIT.equalsIgnoreCase(sessionDTO.getMode())) {
             queryString.append(" AND DEDUCTION_CALENDAR_MASTER_SID<>'").append(sessionDTO.getSystemId()).append("'");
         }
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(queryString.toString(), StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(queryString.toString());
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
@@ -168,10 +168,10 @@ public class DeductionCalendarLogic {
     }
 
     public Boolean itemAndCompanySelectionCheck(final SessionDTO sessionDTO, final Boolean isItem) {
-        String query = (isItem ? CustomSQLUtil.get("deduction-item-count") : CustomSQLUtil.get("deduction-company-count"))
+        String query = (isItem ? SQLUtil.getQuery("deduction-item-count") : SQLUtil.getQuery("deduction-company-count"))
                 .replace("?UID", sessionDTO.getUserId())
                 .replace("?SID", "'" + sessionDTO.getUiSessionId() + "'");
-        final List list = (List) RsModelLocalServiceUtil.executeSelectQuery(query, StringUtils.EMPTY, StringUtils.EMPTY);
+        final List list = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (list != null && !list.isEmpty()) {
             return (Integer) list.get(0) != 0;
         }
@@ -439,7 +439,7 @@ public class DeductionCalendarLogic {
     }
 
     public void insertToTempSelectionForCust(String userId, String sessionId, int detailMasterSid) {
-        String query = CustomSQLUtil.get("insertToTempForCust");
+        String query = SQLUtil.getQuery("insertToTempForCust");
         query = query.replace("?UID", userId);
         query = query.replace("?SID", "'" + sessionId + "'");
         query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(detailMasterSid));
@@ -447,7 +447,7 @@ public class DeductionCalendarLogic {
     }
 
     public void insertToTempSelectionForProd(String userId, String sessionId, int detailMasterSid) {
-        String query = CustomSQLUtil.get("insertToTempForProd");
+        String query = SQLUtil.getQuery("insertToTempForProd");
         query = query.replace("?UID", userId);
         query = query.replace("?SID", "'" + sessionId + "'");
         query = query.replace(ConstantsUtils.DCID_QUESTION, String.valueOf(detailMasterSid));
@@ -460,21 +460,21 @@ public class DeductionCalendarLogic {
     }
 
     public void deleteCustomer_TempDeductionDetails(SessionDTO session) {
-        String query = CustomSQLUtil.get("deleteCustomer_Selection_Table");
+        String query = SQLUtil.getQuery("deleteCustomer_Selection_Table");
         query = query.replace(ConstantsUtils.USERID_AT, session.getUserId());
         query = query.replace(ConstantsUtils.SESSION_ID_AT, session.getUiSessionId());
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     public void deleteItem_TempDeductionDetails(SessionDTO session) {
-        String query = CustomSQLUtil.get("deleteItem_Selection_Table");
+        String query = SQLUtil.getQuery("deleteItem_Selection_Table");
         query = query.replace(ConstantsUtils.USERID_AT, session.getUserId());
         query = query.replace(ConstantsUtils.SESSION_ID_AT, session.getUiSessionId());
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     public void deleteTempSeletionTable(SessionDTO session) {
-        String query = CustomSQLUtil.get("deleteSelectionTable");
+        String query = SQLUtil.getQuery("deleteSelectionTable");
         query = query.replace(ConstantsUtils.USERID_AT, session.getUserId());
         query = query.replace(ConstantsUtils.SESSION_ID_AT, session.getUiSessionId());
         HelperTableLocalServiceUtil.executeUpdateQuery(query);
@@ -544,7 +544,7 @@ public class DeductionCalendarLogic {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyBrandCount method with filterText" + filterText);
         List<Object[]> qualifierList;
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        final DynamicQuery ifpDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.BRAND_NAME, filterText));
         ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.BRAND_NAME));
         ifpDynamicQuery.add(RestrictionsFactoryUtil.ne(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D));
@@ -579,7 +579,7 @@ public class DeductionCalendarLogic {
             endValue = end - 1;
         }
 
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(BrandMaster.class);
+        final DynamicQuery ifpDynamicQuery = BrandMasterLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.setLimit(startValue, endValue);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.BRAND_MASTER_SID));
@@ -628,7 +628,7 @@ public class DeductionCalendarLogic {
     public static int getLazyItemQualifierNameCount(String filterText, boolean isEditList) throws PortalException, SystemException {
         filterText = StringUtils.trimToEmpty(filterText) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText" + filterText);
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
+        final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.setProjection(ProjectionFactoryUtil.count(ConstantsUtils.ITEM_QUAL_NAME));
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_QUALIFIER_SID));
@@ -668,7 +668,7 @@ public class DeductionCalendarLogic {
             endValue = end - 1;
         }
 
-        final DynamicQuery ifpDynamicQuery = DynamicQueryFactoryUtil.forClass(ItemQualifier.class);
+        final DynamicQuery ifpDynamicQuery = ItemQualifierLocalServiceUtil.dynamicQuery();
         ifpDynamicQuery.setLimit(startValue, endValue);
         final ProjectionList projectionList = ProjectionFactoryUtil.projectionList();
         projectionList.add(ProjectionFactoryUtil.property(ConstantsUtils.ITEM_QUALIFIER_SID));
@@ -717,7 +717,7 @@ public class DeductionCalendarLogic {
         filter = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
         LOGGER.debug("Entering getLazyCompanyQualifierNameCount method with filterText :" + filter);
         List<Object[]> qualifierList;
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+        final DynamicQuery cfpDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.ilike(ConstantsUtils.COMPANY_ID, filter));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.eq(ConstantsUtils.INBOUND_STATUS, ConstantsUtils.INBOUND_STATUS_D)));
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_TYPE, com.stpl.app.util.GeneralCommonUtils.getHelperCode("COMPANY_TYPE", ConstantsUtils.MANUFACTURE)));
@@ -741,7 +741,7 @@ public class DeductionCalendarLogic {
         }
         LOGGER.debug("Entering getLazyManufactureIdResults method with filterText :" + filter);
         final String filterString = StringUtils.trimToEmpty(filter) + ConstantsUtils.PERCENCTAGE;
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(CompanyMaster.class);
+        final DynamicQuery cfpDynamicQuery = CompanyMasterLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.setLimit(startValue, endValue);
         cfpDynamicQuery.add(RestrictionsFactoryUtil.eq(ConstantsUtils.COMPANY_TYPE, com.stpl.app.util.GeneralCommonUtils.getHelperCode("COMPANY_TYPE", ConstantsUtils.MANUFACTURE)));
         if (manufactureId != null && manufactureId.getId() != 0) {

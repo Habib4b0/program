@@ -1,6 +1,6 @@
 package com.stpl.app.ui;
 
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.v7.ui.HorizontalLayout;
 
 /**
  * Customized Horizontal Component.

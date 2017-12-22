@@ -1016,7 +1016,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
 
     public Boolean submitButtonCheck() {
         List input = AbstractLogic.getResultsInput(selection);
-        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check", null);
+        List<Object[]> list = ItemQueries.getItemData(input, "Submit condition check for Item Update", null);
         if (AbstractLogic.getCount(list) == 0) {
             return true;
         } else {
@@ -1345,7 +1345,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
                                 baseLineTextValue = baseWacManual.getValue();
                                 contractSelectionTable.getItem(object).getItemProperty("baseLineWacManual").setValue(baseLineTextValue);
                                 baseLineColumnName = Constants.BASELINE_WAC_MANUAL_COLUMN_NAME;
-                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, dto, selection);
+                               logic.updateBaseLineWacColumn(baseLineColumnName, baseLineTextValue, dto, selection);
                             } else if (Constants.DATE_LABLE_NAME.equals(tempDTO.getDescription())) {
                                 contractSelectionTable.getItem(object).getItemProperty("baseLineWacDate").setValue(baseWacDate.getValue());
                                 baseLineColumnName = Constants.BASELINE_WAC_DATE_COLUMN_NAME;
@@ -1494,6 +1494,7 @@ public abstract class AbstractContractSearch extends CustomComponent {
         }
 
         logic.massUpdateItemDetails(list);
+        contractSelectionTable.getContainerLogic().setCurrentPage(1);
     }
 
     public boolean singleContractCheck(String queryName, List input) {

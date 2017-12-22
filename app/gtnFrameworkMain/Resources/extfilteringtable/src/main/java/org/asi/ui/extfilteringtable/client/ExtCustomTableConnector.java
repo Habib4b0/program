@@ -15,7 +15,7 @@
  */
 package org.asi.ui.extfilteringtable.client;
 
-import com.vaadin.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import java.util.Iterator;
 
 
@@ -40,8 +40,8 @@ import com.vaadin.client.ui.PostLayoutListener;
 import org.asi.ui.extfilteringtable.client.VExtCustomScrollTable.ContextMenuDetails;
 import org.asi.ui.extfilteringtable.client.VExtCustomScrollTable.VScrollTableBody.VScrollTableRow;
 import com.vaadin.shared.ui.Connect;
-import com.vaadin.shared.ui.table.TableConstants;
-import com.vaadin.shared.ui.table.TableState;
+import com.vaadin.v7.shared.ui.table.TableConstants;
+import com.vaadin.v7.shared.ui.table.TableState;
 
 
 /**
@@ -139,7 +139,7 @@ public class ExtCustomTableConnector extends AbstractHasComponentsConnector
 
         getWidget().updateDragMode(uidl);
 
-        getWidget().updateSelectionProperties(uidl, getState(), isReadOnly());
+        getWidget().updateSelectionProperties(uidl, getState(), getState().readOnly);
 
         if (uidl.hasAttribute("alb")) {
             getWidget().bodyActionKeys = uidl.getStringArrayAttribute("alb");
@@ -385,7 +385,7 @@ public class ExtCustomTableConnector extends AbstractHasComponentsConnector
                 @Override
                 public void execute() {
                     // IE8 needs some hacks to measure sizes correctly
-                    Util.forceIE8Redraw(getWidget().getElement());
+                    Util.forceIERedraw(getWidget().getElement());
 
                     getLayoutManager().setNeedsMeasure(
                             ExtCustomTableConnector.this);
@@ -407,15 +407,7 @@ public class ExtCustomTableConnector extends AbstractHasComponentsConnector
 //        }
     }
 
-    /**
-     * Checks if is read only.
-     *
-     * @return true, if is read only
-     */
-    @Override
-    public boolean isReadOnly() {
-        return super.isReadOnly() || getState().propertyReadOnly;
-    }
+    
 
     /**
      * Gets the state.

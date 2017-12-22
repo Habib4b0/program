@@ -204,6 +204,7 @@ public class GtnFrameworkAutomaticRelationUpdateService {
 			hierarchyBean.setTableName(objects[5] == null ? "" : objects[5].toString());
 			hierarchyBean.setFieldName(objects[6] == null ? "" : objects[6].toString());
 			hierarchyBean.setVersionNo(getIntegerValue(7, objects));
+			hierarchyBean.setDefaultVlaue(getIntegerValue(8, objects));
 			hierarchyDefinitionList.add(hierarchyBean);
 		}
 

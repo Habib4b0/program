@@ -1,0 +1,1561 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-lazy="false">
+	<import class="com.stpl.app.parttwo.model.AcBaseRateBaselineDetails" />
+	<import class="com.stpl.app.parttwo.model.AcBrMethodologyDetails" />
+	<import class="com.stpl.app.parttwo.model.AccClosureDetails" />
+	<import class="com.stpl.app.parttwo.model.AccClosureMaster" />
+	<import class="com.stpl.app.parttwo.model.AccClosureViewMaster" />
+	<import class="com.stpl.app.parttwo.model.AcFdAdjustmentSelection" />
+	<import class="com.stpl.app.parttwo.model.AdjustedDemandForecast" />
+	<import class="com.stpl.app.parttwo.model.AhTempDetails" />
+	<import class="com.stpl.app.parttwo.model.ArpOutbound" />
+	<import class="com.stpl.app.parttwo.model.CffAdditionalInfo" />
+	<import class="com.stpl.app.parttwo.model.CffApprovalDetails" />
+	<import class="com.stpl.app.parttwo.model.CffCustHierarchy" />
+	<import class="com.stpl.app.parttwo.model.CffCustomViewDetails" />
+	<import class="com.stpl.app.parttwo.model.CffCustomViewMaster" />
+	<import class="com.stpl.app.parttwo.model.CffDetails" />
+	<import class="com.stpl.app.parttwo.model.CffDocDetails" />
+	<import class="com.stpl.app.parttwo.model.CffMaster" />
+	<import class="com.stpl.app.parttwo.model.CffProdHierarchy" />
+	<import class="com.stpl.app.parttwo.model.CffViewMaster" />
+	<import class="com.stpl.app.parttwo.model.CustomerGtsActual" />
+	<import class="com.stpl.app.parttwo.model.CustomerGtsForecast" />
+	<import class="com.stpl.app.parttwo.model.IvldAccrualInbound" />
+	<import class="com.stpl.app.parttwo.model.IvldCompanyIdentifier" />
+	<import class="com.stpl.app.parttwo.model.IvldCompanyMaster" />
+	<import class="com.stpl.app.parttwo.model.IvldCompanyParent" />
+	<import class="com.stpl.app.parttwo.model.IvldCompanyTradeClass" />
+	<import class="com.stpl.app.parttwo.model.IvldCustomerGtsActual" />
+	<import class="com.stpl.app.parttwo.model.IvldCustomerGtsForecast" />
+	<import class="com.stpl.app.parttwo.model.IvldItemIdentifier" />
+	<import class="com.stpl.app.parttwo.model.IvldItemMaster" />
+	<import class="com.stpl.app.parttwo.model.IvldItemPricing" />
+	<import class="com.stpl.app.parttwo.model.SlaCalendarDetails" />
+	<import class="com.stpl.app.parttwo.model.SlaCalendarMaster" />
+	<import class="com.stpl.app.parttwo.model.StAccClosureDetails" />
+	<import class="com.stpl.app.parttwo.model.StAdjustmentGtnDetail" />
+	<import class="com.stpl.app.parttwo.model.StAdjustmentReserveDetail" />
+	<import class="com.stpl.app.parttwo.model.StArpOutbound" />
+	<import class="com.stpl.app.parttwo.model.StCffOutboundMaster" />
+	<import class="com.stpl.app.parttwo.model.VwAdjustDemandForecastAct" />
+	<import class="com.stpl.app.parttwo.model.VwcompanyIdentifier" />
+	<import class="com.stpl.app.parttwo.model.VwCompanyMaster" />
+	<import class="com.stpl.app.parttwo.model.VwCompanyParentDetails" />
+	<import class="com.stpl.app.parttwo.model.VwCompanyTradeClass" />
+	<import class="com.stpl.app.parttwo.model.VwCustomerGtsForecast" />
+	<import class="com.stpl.app.parttwo.model.VwItemIdentifier" />
+	<import class="com.stpl.app.parttwo.model.VwItemMaster" />
+	<import class="com.stpl.app.parttwo.model.VwItemPricing" />
+	<import class="com.stpl.app.parttwo.model.VwIvldAdjDemandForeActual" />
+	<import class="com.stpl.app.parttwo.model.VwIvldReturnReserve" />
+	<import class="com.stpl.app.parttwo.model.VwReturnReserve" />
+	<class name="com.stpl.app.parttwo.model.impl.AcBaseRateBaselineDetailsImpl" table="Ac_Base_Rate_Baseline_Details">
+		<id column="AC_BR_METHODOLOGY_DETAILS_SID" name="acBrMethodologyDetailsSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PERIOD_VALUE" name="periodValue" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="PERIOD_SID" name="periodSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="PAYMENTS_PERIOD" name="paymentsPeriod" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="SALES_PERIOD" name="salesPeriod" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AcBrMethodologyDetailsImpl" table="AC_BR_METHODOLOGY_DETAILS">
+		<id column="AC_BR_METHODOLOGY_DETAILS_SID" name="acBrMethodologyDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="SALES_GROWTH_RATE" name="salesGrowthRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="METHODOLOGY_START_DATE" name="methodologyStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="FREQUENCY" name="frequency" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CALCULATION_FLAG" name="calculationFlag" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="PROVISION_GROWTH_RATE" name="provisionGrowthRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SALES_BASIS" name="salesBasis" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="METHODOLOGY_END_DATE" name="methodologyEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="METHODOLOGY_VALUE" name="methodologyValue" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DAMPING_FACTOR" name="dampingFactor" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="METHODOLOGY_NAME" name="methodologyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AccClosureDetailsImpl" table="ACC_CLOSURE_DETAILS">
+		<id column="ACC_CLOSURE_DETAILS_SID" name="accClosureDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CCP_DETAILS_SID" name="ccpDetailsSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="RS_MODEL_SID" name="rsModelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AccClosureMasterImpl" table="Acc_Closure_Master">
+		<id column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="SAVE_FLAG" name="saveFlag" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="ACCOUNT_NO" name="accountNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TO_DATE" name="toDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="DESCRIPTION" name="description" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPORT_NAME" name="reportName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RS_TYPE" name="rsType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="PRODUCT_IDENTIFIER" name="productIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="WORKFLOW_STATUS" name="workflowStatus" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODULE_TYPE" name="moduleType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FROM_DATE" name="fromDate" type="org.hibernate.type.TimestampType" />
+		<property column="CONTRACT_TYPE" name="contractType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CONTRACT_MASTER_SID" name="contractMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACCRUAL_PERIOD" name="accrualPeriod" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_GROUP_SID" name="companyGroupSid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RS_CATEGORY" name="rsCategory" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ADJUSTMENT_TYPE" name="adjustmentType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ITEM_GROUP_SID" name="itemGroupSid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REBATE_PROGRAM_TYPE" name="rebateProgramType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AccClosureViewMasterImpl" table="Acc_Closure_View_Master">
+		<id column="ACC_CLOSURE_VIEW_MASTER_SID" name="accClosureViewMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="VIEW_TYPE" name="viewType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="VIEW_NAME" name="viewName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AcFdAdjustmentSelectionImpl" table="AC_FD_ADJUSTMENT_SELECTION">
+		<id column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="METHODOLOGY_START_DATE" name="methodologyStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ALLOCATION_METHOD" name="allocationMethod" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="START_DATE" name="startDate" type="org.hibernate.type.TimestampType" />
+		<property column="TOTAL_FIXED_DOLLAR_ADJ" name="totalFixedDollarAdj" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="CALCULATION_FLAG" name="calculationFlag" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="RATE_CORRECTION" name="rateCorrection" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="BUSINESS_DAYS" name="businessDays" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="GL_IMPACT_DATE" name="glImpactDate" type="org.hibernate.type.TimestampType" />
+		<property column="SALES_BASIS" name="salesBasis" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="RELEASE_TYPE" name="releaseType" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="RELEASE_AMOUNT" name="releaseAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SUGGESTED_ADJ" name="suggestedAdj" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="METHODOLOGY_END_DATE" name="methodologyEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AdjustedDemandForecastImpl" table="ADJUSTED_DEMAND_FORECAST">
+		<id column="ADJUSTED_DEMAND_FORECAST_SID" name="adjustedDemandForecastSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="GROSS_UNITS" name="grossUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="TOTAL_DEMAND_UNITS" name="totalDemandUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="YEAR" name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="BRAND_MASTER_SID" name="brandMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_RATIO" name="marketShareRatio" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER" name="itemIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_UNITS" name="marketShareUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="MONTH" name="month" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_TYPE" name="forecastType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNCAPTURED_UNITS" name="uncapturedUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="GROSS_PRICE" name="grossPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="RECORD_LOCK_STATUS" name="recordLockStatus" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="GROSS_AMOUNT" name="grossAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="ITEM_IDENTIFIER_CODE_QUALIFIER" name="itemIdentifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VER" name="forecastVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_SALES_PRICE" name="netSalesPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="NET_SALES_AMOUNT" name="netSalesAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TOTAL_DEMAND_AMOUNT" name="totalDemandAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SIZE_UNITS" name="marketSizeUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.AhTempDetailsImpl" table="AH_TEMP_DETAILS">
+		<id column="COMPONENT_MASTER_SID" name="componentMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CONTRACT_HOLDER" name="contractHolder" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BUSINESS_UNIT_NO" name="businessUnitNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPONENT_NAME" name="componentName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SCREEN_NAME" name="screenName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER_TYPE" name="itemIdentifierType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPONENT_NO" name="componentNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER" name="itemIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_SID" name="companySid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPONENT_TYPE" name="componentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="THERAPUTIC_CLASS" name="theraputicClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.ArpOutboundImpl" table="ARP_OUTBOUND">
+		<composite-id class="com.stpl.app.parttwo.service.persistence.ArpOutboundPK" name="primaryKey">
+			<key-property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ARP_MASTER_SID" name="arpMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ARP_ID" name="arpId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="PERIOD_SID" name="periodSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="RS_MODEL_SID" name="rsModelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		</composite-id>
+		<property column="SALES_UNITS_RATE" name="salesUnitsRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="ACCOUNT_TYPE" name="accountType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_MASTER_SID" name="brandMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ARP_APPROVAL_DATE" name="arpApprovalDate" type="org.hibernate.type.TimestampType" />
+		<property column="ARP_CREATION_DATE" name="arpCreationDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffAdditionalInfoImpl" table="CFF_ADDITIONAL_INFO">
+		<id column="CFF_ADDITIONAL_INFO_SID" name="cffAdditionalInfoSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="NOTES" name="notes" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffApprovalDetailsImpl" table="CFF_APPROVAL_DETAILS">
+		<id column="CFF_APPROVAL_DETAILS_SID" name="cffApprovalDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="APPROVAL_SEQUENCE" name="approvalSequence" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="APPROVED_DATE" name="approvedDate" type="org.hibernate.type.TimestampType" />
+		<property column="APPROVED_BY" name="approvedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="APPROVAL_STATUS" name="approvalStatus" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffCustHierarchyImpl" table="CFF_CUST_HIERARCHY">
+		<id column="CFF_CUST_HIERARCHY_SID" name="cffCustHierarchySid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="RELATIONSHIP_LEVEL_SID" name="relationshipLevelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffCustomViewDetailsImpl" table="CFF_CUSTOM_VIEW_DETAILS">
+		<id column="CFF_CUSTOM_VIEW_DETAILS_SID" name="cffCustomViewDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="HIERARCHY_ID" name="hierarchyId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="HIERARCHY_INDICATOR" name="hierarchyIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LEVEL_NO" name="levelNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_CUSTOM_VIEW_MASTER_SID" name="cffCustomViewMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffCustomViewMasterImpl" table="CFF_CUSTOM_VIEW_MASTER">
+		<id column="CFF_CUSTOM_VIEW_MASTER_SID" name="cffCustomViewMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="VIEW_NAME" name="viewName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffDetailsImpl" table="CFF_DETAILS">
+		<id column="CFF_DETAILS_SID" name="cffDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CCP_DETAILS_SID" name="ccpDetailsSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="PROJECTION_MASTER_SID" name="projectionMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffDocDetailsImpl" table="CFF_DOC_DETAILS">
+		<id column="CFF_DOC_DETAILS_SID" name="cffDocDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="FILE_NAME" name="fileName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UPLOAD_DATE" name="uploadDate" type="org.hibernate.type.TimestampType" />
+		<property column="FILE_TYPE" name="fileType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UPLOAD_BY" name="uploadBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="FILE_SIZE" name="fileSize" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffMasterImpl" table="CFF_MASTER">
+		<id column="CFF_MASTER_SID" name="cffMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="PRODUCT_HIERARCHY_LEVEL" name="productHierarchyLevel" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACTIVE_FROM_DATE" name="activeFromDate" type="org.hibernate.type.TimestampType" />
+		<property column="CFF_TYPE" name="cffType" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_OFFICIAL" name="cffOfficial" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="PRODUCT_HIER_VERSION_NO" name="productHierVersionNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACTIVE_TO_DATE" name="activeToDate" type="org.hibernate.type.TimestampType" />
+		<property column="CUSTOMER_HIER_VERSION_NO" name="customerHierVersionNo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="CUSTOMER_HIERARCHY_LEVEL" name="customerHierarchyLevel" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="PRODUCT_HIERARCHY_SID" name="productHierarchySid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CFF_NAME" name="cffName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CUSTOMER_HIERARCHY_INNER_LEVEL" name="customerHierarchyInnerLevel" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CUSTOMER_HIERARCHY_SID" name="customerHierarchySid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="COMPANY_GROUP_SID" name="companyGroupSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="PROD_RELATIONSHIP_BUILDER_SID" name="prodRelationshipBuilderSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRODUCT_HIERARCHY_INNER_LEVEL" name="productHierarchyInnerLevel" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ITEM_GROUP_SID" name="itemGroupSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CUST_RELATIONSHIP_BUILDER_SID" name="custRelationshipBuilderSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffProdHierarchyImpl" table="CFF_PROD_HIERARCHY">
+		<id column="CFF_PROD_HIERARCHY_SID" name="cffProdHierarchySid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="RELATIONSHIP_LEVEL_SID" name="relationshipLevelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CffViewMasterImpl" table="CFF_VIEW_MASTER">
+		<id column="CFF_VIEW_MASTER_SID" name="cffViewMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="VIEW_TYPE" name="viewType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CFF_MASTER_SID" name="cffMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="VIEW_NAME" name="viewName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CustomerGtsActualImpl" table="CUSTOMER_GTS_ACTUAL">
+		<id column="CUSTOMER_GTS_ACTUAL_SID" name="customerGtsActualSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="PARENT_ACCOUNT_ID" name="parentAccountId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_ID" name="contractId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_ID" name="accountId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORDER_RECEIVED_DATE" name="orderReceivedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="AMOUNT" name="amount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="ORDER_NUMBER" name="orderNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_DATE" name="invoiceDate" type="org.hibernate.type.TimestampType" />
+		<property column="CUSTOMER_GTS_ACTUAL_INTF_ID" name="customerGtsActualIntfId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_ID" name="salesId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_UOM" name="itemUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_NUMBER" name="invoiceNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LOT_NO" name="lotNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_LINE_NUMBER" name="invoiceLineNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="QUANTITY" name="quantity" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.CustomerGtsForecastImpl" table="CUSTOMER_GTS_FORECAST">
+		<id column="CUSTOMER_GTS_FORECAST_SID" name="customerGtsForecastSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="PRICE" name="price" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="FORECAST_YEAR" name="forecastYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_AMOUNT" name="deductionAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_ID" name="deductionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_DATE" name="forecastDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="BRAND_MASTER_SID" name="brandMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_AMOUNT" name="salesAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_TYPE" name="deductionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RECORD_LOCK_STATUS" name="recordLockStatus" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="SALES_INCLUSION" name="salesInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VER" name="forecastVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICE_TYPE" name="priceType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_MONTH" name="forecastMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_INCLUSION" name="deductionInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldAccrualInboundImpl" table="IVLD_ACCRUAL_INBOUND">
+		<id column="IVLD_ACCRUAL_INBOUND_SID" name="ivldAccrualInboundSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="RECORD_CREATED_DATE" name="recordCreatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_ID" name="accountId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="POSTING_INDICATOR" name="postingIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ACCRUAL_PERIOD_END_DATE" name="accrualPeriodEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENT_CODE_QUALIFIER" name="itemIdentCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_MASTER_ID" name="salesMasterId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCRUAL_PERIOD_START_DATE" name="accrualPeriodStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SUB_LEDGER_TYPE" name="subLedgerType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROGRAM_NO" name="programNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DOCUMENT_TYPE" name="documentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCRUAL_INTFID" name="accrualIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY_NAME" name="glCompanyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CATEGORY_ID" name="categoryId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMP_IDENT_CODE_QUALIFIER" name="compIdentCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCT_IDENT_CODE_QUALIFIER" name="acctIdentCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_ID" name="contractId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_NO" name="accountNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCRUAL_ID" name="accrualId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_NAME" name="accountName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCRUAL_TYPE" name="accrualType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="POSTING_DATE" name="postingDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROVISION_ID" name="provisionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AMOUNT" name="amount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_DATE" name="glDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SUB_LEDGER" name="subLedger" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_COST_CENTER" name="companyCostCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_ACCOUNT" name="glAccount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROGRAM_TYPE" name="programType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_NO" name="contractNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_NAME" name="contractName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCompanyIdentifierImpl" table="IVLD_COMPANY_IDENTIFIER">
+		<id column="IVLD_COMPANY_IDENTIFIER_SID" name="ivldCompanyIdentifierSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="END_DATE" name="endDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="IDENTIFIER_STATUS" name="identifierStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_IDENTIFIER" name="companyIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_IDENTIFIER_INTFID" name="companyIdentifierIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER_NAME" name="identifierCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER" name="identifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCompanyMasterImpl" table="IVLD_COMPANY_MASTER">
+		<id column="IVLD_COMPANY_MASTER_SID" name="ivldCompanyMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="STATE" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FINANCIAL_SYSTEM" name="financialSystem" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_GROUP" name="companyGroup" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_CATEGORY" name="companyCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="STATUS" name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LIVES" name="lives" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_MASTER_INTFID" name="companyMasterIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ZIP_CODE" name="zipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADDRESS_1" name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADDRESS_2" name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_TYPE" name="companyType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_START_DATE" name="companyStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_STATUS" name="companyStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_END_DATE" name="companyEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CITY" name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REGION_CODE" name="regionCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCompanyParentImpl" table="IVLD_COMPANY_PARENT">
+		<id column="IVLD_COMPANY_PARENT_SID" name="ivldCompanyParentSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PARENT_COMPANY_ID" name="parentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PARENT_END_DATE" name="parentEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="PARENT_DETAILS_INTFID" name="parentDetailsIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIOR_PARENT_START_DATE" name="priorParentStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PARENT_START_DATE" name="parentStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCompanyTradeClassImpl" table="IVLD_COMPANY_TRADE_CLASS">
+		<id column="IVLD_COMPANY_TRADE_CLASS_SID" name="ivldCompanyTradeClassSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PRIOR_TRADE_CLASS" name="priorTradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="TRADE_CLASS_END_DATE" name="tradeClassEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TRADE_CLASS_INTFID" name="tradeClassIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TRADE_CLASS_START_DATE" name="tradeClassStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TRADE_CLASS" name="tradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCustomerGtsActualImpl" table="IVLD_CUSTOMER_GTS_ACTUAL">
+		<id column="IVLD_CUSTOMER_GTS_ACTUAL_SID" name="ivldCustomerGtsActualSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="PARENT_ACCOUNT_ID" name="parentAccountId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_ID" name="accountId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORDER_RECEIVED_DATE" name="orderReceivedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ORDER_NUMBER" name="orderNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_UOM" name="itemUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_NUMBER" name="invoiceNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="LOT_NO" name="lotNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="QUANTITY" name="quantity" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_LINE_NUMBER" name="invoiceLineNumber" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_ID" name="contractId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AMOUNT" name="amount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVOICE_DATE" name="invoiceDate" type="org.hibernate.type.TimestampType" />
+		<property column="CUSTOMER_GTS_ACTUAL_INTF_ID" name="customerGtsActualIntfId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_ID" name="salesId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldCustomerGtsForecastImpl" table="IVLD_CUSTOMER_GTS_FORECAST">
+		<id column="IVLD_CUSTOMER_GTS_FORECAST_SID" name="ivldCustomerGtsForecastSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PRICE" name="price" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_YEAR" name="forecastYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_AMOUNT" name="deductionAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_ID" name="deductionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_DATE" name="forecastDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_AMOUNT" name="salesAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_TYPE" name="deductionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CUSTOMER_GTS_FORECAST_INTF_ID" name="customerGtsForecastIntfId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SALES_INCLUSION" name="salesInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VER" name="forecastVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICE_TYPE" name="priceType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_MONTH" name="forecastMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_INCLUSION" name="deductionInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldItemIdentifierImpl" table="IVLD_ITEM_IDENTIFIER">
+		<id column="IVLD_ITEM_IDENTIFIER_SID" name="ivldItemIdentifierSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER_NAME" name="identifierCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER" name="identifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="END_DATE" name="endDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER" name="itemIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_STATUS" name="itemStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER_INTFID" name="itemIdentifierIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldItemMasterImpl" table="IVLD_ITEM_MASTER">
+		<id column="IVLD_ITEM_MASTER_SID" name="ivldItemMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="NEW_FORMULATION_INDICATOR" name="newFormulationIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NEW_FORMULATION_END_DATE" name="newFormulationEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CLOTTING_FACTOR_START_DATE" name="clottingFactorStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SECONDARY_UOM" name="secondaryUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_DESC" name="itemDesc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AUTHORIZED_GENERIC_END_DATE" name="authorizedGenericEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MANUFACTURER_NAME" name="manufacturerName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="STATUS" name="status" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASE_CPI" name="baseCpi" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASELINE_AMP" name="baselineAmp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AUTHORIZED_GENERIC" name="authorizedGeneric" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="THERAPEUTIC_CLASS" name="therapeuticClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_FAMILY_ID" name="itemFamilyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_START_DATE" name="pediatricExclusiveStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIMARY_UOM" name="primaryUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NDC9" name="ndc9" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_LOT_EXPIRATION_DATE" name="lastLotExpirationDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CODE" name="itemCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="STRENGTH" name="strength" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NDC8" name="ndc8" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LABELER_CODE" name="labelerCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUIRED_AMP" name="acquiredAmp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DISCONTINUATION_DATE" name="discontinuationDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_MASTER_INTFID" name="itemMasterIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="DIVESTITURE_DATE" name="divestitureDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASE_CPI_PERIOD" name="baseCpiPeriod" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CLOTTING_FACTOR_END_DATE" name="clottingFactorEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DOSES_PER_UNIT" name="dosesPerUnit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MANUFACTURER_ID" name="manufacturerId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CLOTTING_FACTOR_INDICATOR" name="clottingFactorIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUISITION_DATE" name="acquisitionDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DUAL_PRICING_INDICATOR" name="dualPricingIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NON_FEDERAL_EXPIRATION_DATE" name="nonFederalExpirationDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NEW_FORMULATION" name="newFormulation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OBRA_BAMP" name="obraBamp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_STATUS" name="itemStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AUTHORIZED_GENERIC_START_DATE" name="authorizedGenericStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NEW_FORMULATION_START_DATE" name="newFormulationStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CATEGORY" name="itemCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_END_DATE" name="itemEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_TYPE" name="itemType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_END_DATE" name="pediatricExclusiveEndDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FIRST_SALE_DATE" name="firstSaleDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SHELF_LIFE_TYPE" name="shelfLifeType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_START_DATE" name="itemStartDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_TYPE_INDICATION" name="itemTypeIndication" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUIRED_BAMP" name="acquiredBamp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORM" name="form" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CLASS" name="itemClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MANUFACTURER_NO" name="manufacturerNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_INDICATOR" name="pediatricExclusiveIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE_CODE" name="packageSizeCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DISPLAY_BRAND" name="displayBrand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DRA" name="dra" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE_INTRO_DATE" name="packageSizeIntroDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UPPS" name="upps" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE" name="packageSize" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SHELF_LIFE" name="shelfLife" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_TERMINATION_DATE" name="marketTerminationDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="BASE_CPI_PRECISION" name="baseCpiPrecision" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BASELINE_AMP_PRECISION" name="baselineAmpPrecision" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.IvldItemPricingImpl" table="IVLD_ITEM_PRICING">
+		<id column="IVLD_ITEM_PRICING_SID" name="ivldItemPricingSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICING_CODE_QUALIFIER_NAME" name="pricingCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="END_DATE" name="endDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_PRICING_INTFID" name="itemPricingIntfid" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICING_CODE_STATUS" name="pricingCodeStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_UOM" name="itemUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICING_CODE_QUALIFIER" name="pricingCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_PRICE" name="itemPrice" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="ITEM_PRICE_PRECISION" name="itemPriceprecision" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.SlaCalendarDetailsImpl" table="SLA_CALENDAR_DETAILS">
+		<id column="SLA_CALENDAR_DETAILS_SID" name="slaCalendarDetailsSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SLA_CALENDAR_MASTER_SID" name="slaCalendarMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="HOLIDAY_YEAR" name="holidayYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="HOLIDAY_DAY" name="holidayDay" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="HOLIDAY_COMBINED" name="holidayCombined" type="org.hibernate.type.TimestampType" />
+		<property column="HOLIDAY_MONTH" name="holidayMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.SlaCalendarMasterImpl" table="SLA_CALENDAR_MASTER">
+		<id column="SLA_CALENDAR_MASTER_SID" name="slaCalendarMasterSid" type="int">
+			<generator class="identity" />
+		</id>
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="DEFAULT_HOLIDAYS" name="defaultHolidays" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CALENDAR_NAME" name="calendarName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.StAccClosureDetailsImpl" table="ST_ACC_CLOSURE_DETAILS">
+		<id column="ACC_CLOSURE_MASTER_SID" name="accClosureMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="LAST_MODIFIED_DATE" name="lastModifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CONTRACT_NAME" name="contractName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="MODULE_NAME" name="moduleName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_COST_CENTER" name="companyCostCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_MASTER_SID" name="contractMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CCP_DETAILS_SID" name="ccpDetailsSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RS_MODEL_SID" name="rsModelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CONTRACT_NO" name="contractNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="NDC8" name="ndc8" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.StAdjustmentGtnDetailImpl" table="ST_ADJUSTMENT_GTN_DETAIL">
+		<id column="WORKFLOW_ID" name="workflowId" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="ADJUSTMENT_CREATED_DATE" name="adjustmentCreatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ETL_CHECK_RECORD" name="etlCheckRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="BUSINESS_UNIT_NO" name="businessUnitNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REDEMPTION_PERIOD" name="redemptionPeriod" type="org.hibernate.type.TimestampType" />
+		<property column="DEDUCTION_ID" name="deductionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_YEAR" name="glYear" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_APPROVED_DATE" name="workflowApprovedDate" type="org.hibernate.type.TimestampType" />
+		<property column="UDC_6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_CREATED_DATE" name="workflowCreatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="UDC_4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_TYPE" name="adjustmentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_TYPE" name="deductionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CONTRACT_NAME" name="contractName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_NO" name="deductionNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY_ID" name="glcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_INCLUSION" name="deductionInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_AMOUNT" name="deductionAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECT" name="project" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_3" name="deductionUdc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_4" name="deductionUdc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_1" name="deductionUdc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_2" name="deductionUdc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_TYPE" name="accountType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_STRING" name="glString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_6" name="deductionUdc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_UDC_5" name="deductionUdc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY_NAME" name="glCompanyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_ID" name="contractId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_PROGRAM" name="deductionProgram" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_ID" name="businessUnitId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE_1" name="future1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_NAME" name="deductionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE_2" name="future2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_NAME" name="workflowName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_DATE" name="glDate" type="org.hibernate.type.TimestampType" />
+		<property column="WORKFLOW_CREATED_BY" name="workflowCreatedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_MONTH" name="glMonth" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_CATEGORY" name="accountCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY_NO" name="glCompanyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_APPROVED_BY" name="workflowApprovedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_NO" name="contractNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_LEVEL" name="adjustmentLevel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.StAdjustmentReserveDetailImpl" table="ST_ADJUSTMENT_RESERVE_DETAIL">
+		<id column="WORKFLOW_ID" name="workflowId" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property column="ADJUSTMENT_CREATED_DATE" name="adjustmentCreatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ETL_CHECK_RECORD" name="etlCheckRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="POSTING_INDICATOR" name="postingIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREDIT" name="credit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_APPROVED_DATE" name="workflowApprovedDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LINE_DESCRIPTION" name="lineDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LEDGER" name="ledger" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_CREATED_DATE" name="workflowCreatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="UDC_3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC_1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_TYPE" name="adjustmentType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="COMPANY" name="glCompanyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DIVISION" name="division" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BALANCE_TYPE" name="balanceType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="JOURNAL_NAME" name="journalName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECT" name="project" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEBIT" name="debit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_TYPE" name="accountType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="JOURNAL_DESCRIPTION" name="journalDescription" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CATEGORY" name="category" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="BUSINESS_UNIT" name="businessUnitId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REVERSAL_PERIOD_DATE" name="reversalPeriodDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHART_OF_ACCOUNTS" name="chartOfAccounts" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_NAME" name="batchName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ARD_DB" name="database" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DATA_ACCESS_SET" name="dataAccessSet" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE_1" name="future1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE_2" name="future2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_NAME" name="workflowName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_CREATED_BY" name="workflowCreatedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CURRENCY" name="currency" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNT_CATEGORY" name="accountCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REVERSE_JOURNAL" name="reverseJournal" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="WORKFLOW_APPROVED_BY" name="workflowApprovedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACCOUNTING_DATE" name="accountingDate" type="org.hibernate.type.TimestampType" />
+		<property column="REDEMPTION_PERIOD" name="redemptionPeriod" type="org.hibernate.type.TimestampType" />
+		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_LEVEL" name="adjustmentLevel" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.StArpOutboundImpl" table="ST_ARP_OUTBOUND">
+		<composite-id class="com.stpl.app.parttwo.service.persistence.StArpOutboundPK" name="primaryKey">
+			<key-property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ARP_MASTER_SID" name="arpMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ARP_ID" name="arpId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="PERIOD_SID" name="periodSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="RS_MODEL_SID" name="rsModelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		</composite-id>
+		<property column="SALES_UNITS_RATE" name="salesUnitsRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="ACCOUNT_TYPE" name="accountType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_MASTER_SID" name="brandMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ARP_APPROVAL_DATE" name="arpApprovalDate" type="org.hibernate.type.TimestampType" />
+		<property column="ARP_CREATION_DATE" name="arpCreationDate" type="org.hibernate.type.TimestampType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.StCffOutboundMasterImpl" table="ST_CFF_OUTBOUND_MASTER">
+		<composite-id class="com.stpl.app.parttwo.service.persistence.StCffOutboundMasterPK" name="primaryKey">
+			<key-property column="CFF_DETAILS_SID" name="cffDetailsSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="SESSION_ID" name="sessionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property column="RS_MODEL_SID" name="rsModelSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property column="USER_ID" name="userId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property column="PERIOD_SID" name="periodSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		</composite-id>
+		<property column="ETL_CHECK_RECORD" name="etlCheckRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CUSTOMER_NAME" name="customerName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_HOLDER_ID" name="contractHolderId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NO" name="businessUnitNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="YEAR" name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FINANCIAL_FORECAST_APPROVAL_DATE" name="financialForecastApprovalDate" type="org.hibernate.type.TimestampType" />
+		<property column="DEDUCTION_ID" name="deductionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="DEDUCTION_PER_UNIT" name="deductionPerUnit" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="COGS_PER_UNIT" name="cogsPerUnit" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="CONTRACT_TYPE" name="contractType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_MASTER_SID" name="contractMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="FINANCIAL_FORECAST_ID" name="financialForecastId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECT_ID" name="projectId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CUSTOMER_NO" name="customerNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_DOLLARS" name="salesDollars" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="MONTH" name="month" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="TYPE" name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_TYPE" name="deductionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_MASTER_SID" name="companyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="CONTRACT_NAME" name="contractName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COGS_AMOUNT" name="cogsAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DEDUCTION_NO" name="deductionNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FINANCIAL_FORECAST_CREATION_DATE" name="financialForecastCreationDate" type="org.hibernate.type.TimestampType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_UNITS" name="salesUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_INCLUSION" name="deductionInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_HOLDER_NAME" name="contractHolderName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CUSTOMER_ID" name="customerId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_PROFIT_DOLLARS" name="netProfitDollars" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY1" name="deductionCategory1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY2" name="deductionCategory2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_HOLDER_NO" name="contractHolderNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY3" name="deductionCategory3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY4" name="deductionCategory4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY5" name="deductionCategory5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY6" name="deductionCategory6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CONTRACT_ID" name="contractId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_PROGRAM" name="deductionProgram" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_ID" name="businessUnitId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECTION_NAME" name="projectionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="OUTBOUND_STATUS" name="outboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORIGINAL_BATCH_ID" name="originalBatchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_NAME" name="deductionName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_PROFIT_PER_UNIT" name="netProfitPerUnit" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SALES_INCLUSION" name="salesInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FINANCIAL_FORECAST_NAME" name="financialForecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_SALES_DOLLAR" name="netSalesDollar" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DEDUCTION_DOLLARS" name="deductionDollars" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="CONTRACT_NO" name="contractNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwAdjustDemandForecastActImpl" table="VW_ADJUST_DEMAND_FORECAST_ACT">
+		<id column="ADJUSTED_DEMAND_FORECAST_ID" name="adjustedDemandForecastId" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="FORECAST_VER" name="forecastVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GROSS_UNITS" name="grossUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="BUSINESS_UNIT_NO" name="businessUnitNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_YEAR" name="forecastYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_RATIO" name="marketShareRatio" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_UNITS" name="marketShareUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="FORECAST_MONTH" name="forecastMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_TYPE" name="forecastType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TOTAL_DEMAND_UNITS" name="totalDemandUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IS_FORECAST" name="isForecast" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TOTAL_DEMAND_AMOUNT" name="totalDemandAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="UNCAPTURED_UNITS" name="uncapturedUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="GROSS_PRICE" name="grossPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="GROSS_AMOUNT" name="grossAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_SALES_PRICE" name="netSalesPrice" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="NET_SALES_AMOUNT" name="netSalesAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SIZE_UNITS" name="marketSizeUnits" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwcompanyIdentifierImpl" table="VW_COMPANY_IDENTIFIER">
+		<id column="COMPANY_IDENTIFIER_SID" name="companyIdentifierSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="END_DATE" name="endDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="IDENTIFIER_STATUS" name="identifierStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_IDENTIFIER" name="companyIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER_NAME" name="identifierCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER" name="identifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwCompanyMasterImpl" table="VW_COMPANY_MASTER">
+		<id column="COMPANY_MASTER_SID" name="companyMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="STATE" name="state" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FINANCIAL_SYSTEM" name="financialSystem" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_GROUP" name="companyGroup" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="COMPANY_CATEGORY" name="companyCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="LIVES" name="lives" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADDRESS2" name="address2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADDRESS1" name="address1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ZIP_CODE" name="zipCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_TYPE" name="companyType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_START_DATE" name="companyStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_STATUS" name="companyStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_END_DATE" name="companyEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="CITY" name="city" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REGION_CODE" name="regionCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwCompanyParentDetailsImpl" table="VW_COMPANY_PARENT_DETAILS">
+		<id column="COMPANY_PARENT_DETAILS_SID" name="companyParentDetailsSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PARENT_COMPANY_ID" name="parentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIOR_PARENT_COMPANY_ID" name="priorParentcompanyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="PARENT_END_DATE" name="parentEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="PRIOR_PARENT_START_DATE" name="priorParentStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PARENT_START_DATE" name="parentStartDate" type="org.hibernate.type.TimestampType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwCompanyTradeClassImpl" table="VW_COMPANY_TRADE_CLASS">
+		<id column="COMPANY_TRADE_CLASS_SID" name="companyTradeClassSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PRIOR_TRADE_CLASS" name="priorTradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_UPDATED_DATE" name="lastUpdatedDate" type="org.hibernate.type.TimestampType" />
+		<property column="PRIOR_TRADE_CLASS_START_DATE" name="priorTradeClassStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="TRADE_CLASS_END_DATE" name="tradeClassEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="TRADE_CLASS_START_DATE" name="tradeClassStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="COMPANY_TRADE_CLASS" name="companyTradeClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwCustomerGtsForecastImpl" table="VW_CUSTOMER_GTS_FORECAST">
+		<id column="CUSTOMER_GTS_FORECAST_SID" name="customerGtsForecastSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PRICE" name="price" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="FORECAST_YEAR" name="forecastYear" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_AMOUNT" name="deductionAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DEDUCTION_ID" name="deductionId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_DATE" name="forecastDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SALES_AMOUNT" name="salesAmount" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_TYPE" name="deductionType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="DEDUCTION_RATE" name="deductionRate" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VALUE_TYPE" name="forecastValueType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_CATEGORY" name="deductionCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTMENT_CODE" name="adjustmentCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_PROGRAM_TYPE" name="deductionProgramType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CUSTOMER_GTS_FORECAST_INTF_ID" name="customerGtsForecastIntfId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SALES_INCLUSION" name="salesInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_VER" name="forecastVer" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICE_TYPE" name="priceType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_MONTH" name="forecastMonth" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DEDUCTION_INCLUSION" name="deductionInclusion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwItemIdentifierImpl" table="VW_ITEM_IDENTIFIER">
+		<id column="ITEM_IDENTIFIER_SID" name="itemIdentifierSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="ITEM_STATUS" name="itemStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="END_DATE" name="endDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER" name="itemIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER_NAME" name="identifierCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IDENTIFIER_CODE_QUALIFIER" name="identifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwItemMasterImpl" table="VW_ITEM_MASTER">
+		<id column="ITEM_MASTER_SID" name="itemMasterSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="ITEM_STATUS" name="itemStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_DESC" name="itemDesc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUIRED_AMP" name="acquiredAmp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AUTHORIZED_GENERIC_START_DATE" name="authorizedGenericStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="NEW_FORMULATION_START_DATE" name="newFormulationStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="MARKET_TERMINATION_DATE" name="marketTerminationDate" type="org.hibernate.type.TimestampType" />
+		<property column="OBRA_BAMP" name="obraBamp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND" name="brand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MANUFACTURER_NO" name="manufacturerNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="THERAPEUTIC_CLASS" name="therapeuticClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUIRED_BAMP" name="acquiredBamp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_END_DATE" name="pediatricExclusiveEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NEW_FORMULATION" name="newFormulation" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DIVESTITURE_DATE" name="divestitureDate" type="org.hibernate.type.TimestampType" />
+		<property column="SHELF_LIFE" name="shelfLife" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRIMARY_UOM" name="primaryUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NEW_FORMULATION_END_DATE" name="newFormulationEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE_CODE" name="packageSizeCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SECONDARY_UOM" name="secondaryUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DISCONTINUATION_DATE" name="discontinuationDate" type="org.hibernate.type.TimestampType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE_INTRO_DATE" name="packageSizeIntroDate" type="org.hibernate.type.TimestampType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_END_DATE" name="itemEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="MANUFACTURER_ID" name="manufacturerId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_FAMILY_ID" name="itemFamilyId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="STRENGTH" name="strength" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CATEGORY" name="itemCategory" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UPPS" name="upps" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property column="SHELF_LIFE_TYPE" name="shelfLifeType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_INDICATOR" name="pediatricExclusiveIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_TYPE_INDICATION" name="itemTypeIndication" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ACQUISITION_DATE" name="acquisitionDate" type="org.hibernate.type.TimestampType" />
+		<property column="CLOTTING_FACTOR_INDICATOR" name="clottingFactorIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORM" name="form" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MANUFACTURER_NAME" name="manufacturerName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PEDIATRIC_EXCLUSIVE_START_DATE" name="pediatricExclusiveStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="FIRST_SALE_DATE" name="firstSaleDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_TYPE" name="itemType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASELINE_AMP" name="baselineAmp" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DOSES_PER_UNIT" name="dosesPerUnit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DUAL_PRICING_INDICATOR" name="dualPricingIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASE_CPI" name="baseCpi" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_START_DATE" name="itemStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="AUTHORIZED_GENERIC" name="authorizedGeneric" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NDC9" name="ndc9" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AUTHORIZED_GENERIC_END_DATE" name="authorizedGenericEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PACKAGE_SIZE" name="packageSize" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NDC8" name="ndc8" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CLASS" name="itemClass" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LABELER_CODE" name="labelerCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DISPLAY_BRAND" name="displayBrand" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CLOTTING_FACTOR_END_DATE" name="clottingFactorEndDate" type="org.hibernate.type.TimestampType" />
+		<property column="DRA" name="dra" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BASE_CPI_PERIOD" name="baseCpiPeriod" type="org.hibernate.type.TimestampType" />
+		<property column="NEW_FORMULATION_INDICATOR" name="newFormulationIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="LAST_LOT_EXPIRATION_DATE" name="lastLotExpirationDate" type="org.hibernate.type.TimestampType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_CODE" name="itemCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CLOTTING_FACTOR_START_DATE" name="clottingFactorStartDate" type="org.hibernate.type.TimestampType" />
+		<property column="NON_FEDERAL_EXPIRATION_DATE" name="nonFederalExpirationDate" type="org.hibernate.type.TimestampType" />
+		<property column="BASE_CPI_PRECISION" name="baseCpiPrecision" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="BASELINE_AMP_PRECISION" name="baselineAmpPrecision" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwItemPricingImpl" table="VW_ITEM_PRICING">
+		<id column="ITEM_PRICING_SID" name="itemPricingSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="PRICING_CODE_QUALIFIER" name="pricingCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_PRICE" name="itemPrice" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="END_DATE" name="endDate" type="org.hibernate.type.TimestampType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ENTITY_CODE" name="entityCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="START_DATE" name="startDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_UOM" name="itemUom" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICING_CODE_STATUS" name="pricingCodeStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PRICING_CODE_QUALIFIER_NAME" name="pricingCodeQualifierName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_PRICE_PRECISION" name="itemPriceprecision" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwIvldAdjDemandForeActualImpl" table="VW_IVLD_ADJ_DEMAND_FORE_ACTUAL">
+		<id column="IVLD_ADJUSTED_DEMAND_FORECAST_SID" name="ivldAdjustedDemandForecastSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="FORECAST_VERSION" name="forecastVersion" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GROSS_UNITS" name="grossUnits" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NO" name="businessUnitNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="YEAR" name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ORGANIZATION_KEY" name="organizationKey" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_RATIO" name="marketShareRatio" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER" name="itemIdentifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SHARE_UNITS" name="marketShareUnits" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MONTH" name="month" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INVENTORY_UNIT_CHANGE" name="inventoryUnitChange" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNCAPTURED_UNITS_RATIO" name="uncapturedUnitsRatio" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADJUSTED_DEMAND_FORECAST_INTF_ID" name="adjustedDemandForecastIntfId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_TYPE" name="forecastType" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TOTAL_ADJUSTED_DEMAND_UNITS" name="totalAdjustedDemandUnits" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="IS_FORECAST" name="isForecast" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="TOTAL_ADJUSTED_DEMAND_AMOUNT" name="totalAdjustedDemandAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNCAPTURED_UNITS" name="uncapturedUnits" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GROSS_PRICE" name="grossPrice" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GROSS_AMOUNT" name="grossAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_IDENTIFIER_CODE_QUALIFIER" name="itemIdentifierCodeQualifier" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_SALES_PRICE" name="netSalesPrice" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="NET_SALES_AMOUNT" name="netSalesAmount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SEGMENT" name="segment" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FORECAST_NAME" name="forecastName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MARKET_SIZE_UNITS" name="marketSizeUnits" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwIvldReturnReserveImpl" table="VW_IVLD_RETURN_RESERVE">
+		<id column="IVLD_RETURN_RESERVE_SID" name="ivldReturnReserveSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="YEAR" name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECT" name="project" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RETURN_RESERVE_INTF_ID" name="returnReserveIntfId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT" name="businessUnit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ADD_CHG_DEL_INDICATOR" name="addChgDelIndicator" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_CODE" name="errorCode" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="INTF_INSERTED_DATE" name="intfInsertedDate" type="org.hibernate.type.TimestampType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MONTH" name="month" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REPROCESSED_FLAG" name="reprocessedFlag" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="REASON_FOR_FAILURE" name="reasonForFailure" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY" name="glCompany" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE1" name="future1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE2" name="future2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AMOUNT" name="amount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="DIVISION" name="division" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ERROR_FIELD" name="errorField" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CHECK_RECORD" name="checkRecord" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="com.stpl.app.parttwo.model.impl.VwReturnReserveImpl" table="VW_RETURN_RESERVE">
+		<id column="RETURN_RESERVE_SID" name="returnReserveSid" type="int">
+			<generator class="assigned" />
+		</id>
+		<property column="ITEM_MASTER_SID" name="itemMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="COMPANY_NAME" name="companyName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="PROJECT" name="project" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="YEAR" name="year" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_ID" name="itemId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_NAME" name="brandName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_DATE" name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property column="BRAND_MASTER_SID" name="brandMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="ACCOUNT" name="account" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RETURN_RESERVE_INTF_ID" name="returnReserveIntfId" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="GL_COMPANY_MASTER_SID" name="glCompanyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="SOURCE" name="source" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="CREATED_DATE" name="createdDate" type="org.hibernate.type.TimestampType" />
+		<property column="CREATED_BY" name="createdBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT" name="businessUnit" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BUSINESS_UNIT_NAME" name="businessUnitName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BU_COMPANY_MASTER_SID" name="buCompanyMasterSid" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property column="INBOUND_STATUS" name="inboundStatus" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MODIFIED_BY" name="modifiedBy" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NO" name="itemNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="MONTH" name="month" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC6" name="udc6" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC5" name="udc5" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC4" name="udc4" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC1" name="udc1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UNITS" name="units" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC2" name="udc2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="UDC3" name="udc3" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COUNTRY" name="country" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_ID" name="companyIdString" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COST_CENTER" name="costCenter" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="GL_COMPANY" name="glCompany" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BRAND_ID" name="brandId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE1" name="future1" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="FUTURE2" name="future2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="AMOUNT" name="amount" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="RECORD_LOCK_STATUS" name="recordLockStatus" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property column="DIVISION" name="division" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="COMPANY_NO" name="companyNo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="BATCH_ID" name="batchId" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property column="ITEM_NAME" name="itemName" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+</hibernate-mapping>

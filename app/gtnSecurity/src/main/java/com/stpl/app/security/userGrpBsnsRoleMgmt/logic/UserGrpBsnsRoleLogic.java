@@ -14,12 +14,12 @@ import com.stpl.app.security.dao.UserGrpBsnsRoleLogicDAO;
 import com.stpl.app.security.dao.impl.UserGrpBsnsRoleLogicDAOImpl;
 import com.stpl.app.security.userGrpBsnsRoleMgmt.dto.UserGrpBsnsRoleDTO;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;
-import com.stpl.portal.kernel.dao.orm.Criterion;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.model.UserGroup;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.model.UserGroup;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
