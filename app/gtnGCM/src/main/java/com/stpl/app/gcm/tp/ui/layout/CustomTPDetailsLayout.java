@@ -5,7 +5,7 @@
  */
 package com.stpl.app.gcm.tp.ui.layout;
 
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *

@@ -18,9 +18,9 @@ import com.stpl.app.model.PsModel;
 import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsContractDetails;
 import com.stpl.app.model.RsModel;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import java.util.List;
 
 /**

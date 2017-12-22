@@ -12,10 +12,10 @@ import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.gcm.util.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +115,6 @@ public class TPContractHolderLookUp extends Window {
         resultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().chHolderVisibleColumn);
         resultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().chHolderColumnHeader);
         resultTable.setSelectable(true);
-        resultTable.setImmediate(true);
         resultTable.setHeight("330px");
 
         return resultTable;
@@ -129,7 +128,6 @@ public class TPContractHolderLookUp extends Window {
         resultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         resultTable.addStyleName("filterbar");
         resultTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
-        resultTable.setImmediate(true);
         resultTable.setSelectable(true);
 
         contractHolderStatus.addItem(Constants.SELECT_ONE);

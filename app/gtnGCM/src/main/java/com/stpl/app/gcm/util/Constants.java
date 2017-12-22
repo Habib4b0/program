@@ -244,6 +244,9 @@ public class Constants {
     public static final String PS_NAME_PROPERTY = "pSName";
     public static final String RAR_CATEGORY_PROPERTY = "rARCategory";
     public static final String CONTRACT_TYPE_PROPERTY = "contractType";
+    public static final String BRAND_NAME = "brandName";
+    public static final String MANUFACTURER = "Manufacturer";
+    public static final String BUSINESS_PROCESS_TYPE_NONMANDATED = "Non Mandated";
 
     public final Object summaryContractSelectionColumns[] = new Object[]{
         CHECK_RECORD, Constants.CONTRACT_HOLDER, Constants.CONTRACT_NO, Constants.CONTRACT_NAME, CONTRACT_TYPE_PROPERTY, CONT_START_DATE_PROPERTY, CONT_END_DATE_PROPERTY, Constants.CFP_NAME,

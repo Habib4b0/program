@@ -8,7 +8,7 @@ import com.stpl.app.gcm.common.HelperListUtil;
 import com.stpl.app.gcm.globalchange.ui.view.GlobalChangeUIMainView;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.portal.kernel.util.JavaConstants;
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.DefaultErrorHandler;

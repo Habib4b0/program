@@ -7,8 +7,8 @@ package com.stpl.app.gcm.copycontract.logic.tablelogic;
 
 import com.stpl.app.gcm.copycontract.dto.CopyComponentDTO;
 import com.stpl.app.gcm.copycontract.logic.CopyContractLogic;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;

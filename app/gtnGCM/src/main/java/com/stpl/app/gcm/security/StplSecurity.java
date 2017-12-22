@@ -17,14 +17,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
 
-import com.stpl.portal.kernel.dao.orm.Disjunction;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.dao.orm.Disjunction;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import java.util.concurrent.ConcurrentHashMap;
 
 // TODO: Auto-generated Javadoc
@@ -339,7 +339,7 @@ public class StplSecurity {
      */
     public static Map<Integer, String> getUserName() throws SystemException {
         LOGGER.debug("Enters getUserName method");
-        DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+        DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
         List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
         for (User user : userList) {
             userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());

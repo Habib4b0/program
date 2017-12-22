@@ -16,7 +16,7 @@ import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

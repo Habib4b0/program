@@ -22,7 +22,7 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.*;
 import static com.stpl.app.gcm.util.Converters.convertNullToEmpty;
 import static com.stpl.app.gcm.util.Converters.formatDate;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;

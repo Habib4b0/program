@@ -14,11 +14,11 @@ import com.stpl.app.gcm.util.TableHeaderColumnsUtil;
 import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.server.Sizeable;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.Window;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +120,6 @@ public class RebatePlanLookup extends Window {
         rebateResultTable.setVisibleColumns(TableHeaderColumnsUtil.getInstance().rebatePlanVisibleColumn);
         rebateResultTable.setColumnHeaders(TableHeaderColumnsUtil.getInstance().rebatePlanColumnHeader);
         rebateResultTable.setSelectable(true);
-        rebateResultTable.setImmediate(true);
         rebateResultTable.setWidth("1110px");
         rebateResultTable.setHeight("330px");
         return rebateResultTable;
@@ -133,7 +132,6 @@ public class RebatePlanLookup extends Window {
         rebateResultTable.setFilterBarVisible(true);
         rebateResultTable.setFilterDecorator(new ExtDemoFilterDecorator());
         rebateResultTable.setStyleName("filtertable");
-        rebateResultTable.setImmediate(true);
         rebateResultTable.setSelectable(true);
 
         rebatePlanStatus.addItem(Constants.SELECT_ONE);

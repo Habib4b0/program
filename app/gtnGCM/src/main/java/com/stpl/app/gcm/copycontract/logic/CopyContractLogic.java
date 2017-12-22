@@ -21,15 +21,14 @@ import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import com.stpl.app.model.HelperTable;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.ComboBox;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,8 +37,9 @@ import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 
 /**
  *
@@ -60,7 +60,7 @@ public class CopyContractLogic {
         final List<HelperDTO> helperList = new ArrayList<>();
 
         LOGGER.debug("entering getDropDownList method with paramater listType=" + listType);
-        final DynamicQuery cfpDynamicQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery cfpDynamicQuery = HelperTableLocalServiceUtil.dynamicQuery();
         cfpDynamicQuery.add(RestrictionsFactoryUtil.or(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType), RestrictionsFactoryUtil.like(Constants.LIST_NAME, Constants.ALL)));
         cfpDynamicQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
         final List<HelperTable> list = dao.getHelperTableList(cfpDynamicQuery);
@@ -1407,7 +1407,7 @@ public class CopyContractLogic {
         String query = "INSERT INTO RS_DETAILS (RS_MODEL_SID,IFP_MODEL_SID,ITEM_MASTER_SID,ITEM_REBATE_START_DATE,INBOUND_STATUS,RECORD_LOCK_STATUS,CREATED_BY,CREATED_DATE,MODIFIED_BY,MODIFIED_DATE)\n"
                 + "select " + rsModelSid + ",IFP_MODEL_SID,ITEM_MASTER_SID,PS_DTLS_CONT_PRICE_STARTDATE,'A','0'," + userId + ",getDate()," + userId + ",getDate() from IMTD_PS_DETAILS where PS_MODEL_SID='" + temptableSId + "'";
         LOGGER.debug("Rs Detailsssss Queryy::::" + query);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     public void updatePsAndRsids(int ifpModelSid, String temptableSId, String queryName) {

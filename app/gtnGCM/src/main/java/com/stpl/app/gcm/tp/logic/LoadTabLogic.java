@@ -20,6 +20,7 @@ import com.stpl.app.gcm.tp.dto.TabSelectionDTO;
 import com.stpl.app.gcm.util.CommonUtils;
 import com.stpl.app.gcm.util.Constants;
 import static com.stpl.app.gcm.util.HeaderUtils.getCommonColumnHeader;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -871,7 +872,7 @@ public class LoadTabLogic {
                 + "                        AND C.CONTRACT_MASTER_SID=" + session.getContMasteSid() + "\n"
                 + "                        AND C.COMPANY_MASTER_SID in(" + compSid + ");\n";
 
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query.toString());
+        HelperTableLocalServiceUtil.executeUpdateQuery(query.toString());
 
     }
 
@@ -894,7 +895,7 @@ public class LoadTabLogic {
 
         String tempQuery = " DELETE FROM dbo.ST_" + salesTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + "  AND SESSION_ID=" + session.getSessionId() + ";"
                 + "  DELETE FROM dbo.ST_" + discountTableAndColumn.get(0) + " WHERE  USER_ID=" + session.getUserId() + " AND SESSION_ID=" + session.getSessionId() + "; ";
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(tempQuery);
+        HelperTableLocalServiceUtil.executeUpdateQuery(tempQuery);
     }
 
     public void updateSalesAndDiscount(SessionDTO session) {

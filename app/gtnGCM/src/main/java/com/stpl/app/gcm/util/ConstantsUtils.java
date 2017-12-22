@@ -48,6 +48,7 @@ public final class ConstantsUtils {
      * The quote.
      */
     public final static String QUOTE = "\"";
+    public static final String NULL = "null";
   
     /**
      *

@@ -15,7 +15,6 @@ import com.stpl.app.gcm.promotetptocontract.dto.ComponentInfoDTO;
 import com.stpl.app.gcm.promotetptocontract.dto.CurrentContractDTO;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import com.stpl.app.gcm.security.StplSecurity;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractAliasMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -39,40 +38,41 @@ import com.stpl.app.service.CfpContractDetailsLocalServiceUtil;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.CfpDetailsLocalServiceUtil;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.IfpContractDetailsLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.IfpModelLocalServiceUtil;
-import com.stpl.app.service.PsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.PsContractLocalServiceUtil;
 import com.stpl.app.service.PsModelLocalServiceUtil;
-import com.stpl.app.service.RsContractDetailsLocalServiceUtil;
 import com.stpl.app.service.RsContractLocalServiceUtil;
 import com.stpl.app.service.RsModelLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.ExcelExportforBB;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
+import com.stpl.app.gcm.impl.PsContractDetailsImpl;
+import com.stpl.app.gcm.impl.RsContractDetailsImpl;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.OptionGroup;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
+import com.vaadin.v7.ui.OptionGroup;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -514,7 +514,7 @@ public class TransferComponents extends CustomComponent implements View {
             Object item = transferCompTable1.getValue();
             String ifpContractId = String.valueOf(transferCompContainer1.getContainerProperty(item, "ifpContSid").getValue());
             String query = queryUtils.getIFP(ifpContractId);
-            List ifpList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List ifpList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (ifpList != null && ifpList.size() > 0) {
                 Object[] obj = (Object[]) ifpList.get(0);
                 ifpId.setValue(String.valueOf(obj[0]));
@@ -525,7 +525,7 @@ public class TransferComponents extends CustomComponent implements View {
             if (ifpContractId.equals(Constants.EMPTY)) {
             } else {
                 String componentQuery = queryUtils.getItemMasterDetailsTransContract(ifpContractId);
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> itemList = new ArrayList<>();
@@ -580,7 +580,7 @@ public class TransferComponents extends CustomComponent implements View {
             if (ids.equals(Constants.EMPTY)) {
             } else {
                 String componentQuery = queryUtils.getPSDetailsTransContract(ids);
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> priceList = new ArrayList<>();
@@ -647,7 +647,7 @@ public class TransferComponents extends CustomComponent implements View {
             } else {
                 String componentQuery = queryUtils.getRSDetailsTransContract(ids);
 
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     componentDetailResultsContainer.removeAllItems();
                     List<ComponentInfoDTO> rebateList = new ArrayList<>();
@@ -762,7 +762,7 @@ public class TransferComponents extends CustomComponent implements View {
                         for (Object ifpContId : setA) {
                             String id = String.valueOf(ifpContId);
                             String query = queryUtils.getIFP(id);
-                            List ifpList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                            List ifpList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             Collection<?> returnList1 = contractDashboardResultsTable.getItemIds();
                             for (Object item : returnList1) {
                                 if (contractDashboardResultsTable.getContainerProperty(item, Constants.CATEGORY).getValue().toString().equals(Constants.IFP)) {
@@ -828,7 +828,7 @@ public class TransferComponents extends CustomComponent implements View {
                                     + "	PS_MODEL PS_M JOIN PS_CONTRACT PS_C ON ps_m.PS_MODEL_SID=Ps_c.PS_MODEL_SID\n"
                                     + "WHERE\n"
                                     + "	PS_CONTRACT_SID IN(" + id + ")";
-                            List psList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                            List psList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             Collection<?> returnList1 = contractDashboardResultsTable.getChildren(root);
                             if (returnList1 != null) {
                                 for (Object item : returnList1) {
@@ -851,7 +851,7 @@ public class TransferComponents extends CustomComponent implements View {
 
                                 if (!tmp.contains(modelId)) {
                                     String conditionQuery = "select * from dbo.PS_DETAILS where PS_MODEL_SID=" + modelId + " and IFP_MODEL_SID=" + modelSId;
-                                    CompanyMasterLocalServiceUtil.executeQuery(conditionQuery);
+                                    HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
                                     if (Duplicatealert == 0) {
                                         tmp.add(modelId);
                                         final Object rootId = contractDashboardResultsTable.addItem();
@@ -897,7 +897,7 @@ public class TransferComponents extends CustomComponent implements View {
                                     + "	RS_MODEL RS_M JOIN dbo.RS_CONTRACT Rs_C ON rs_m.RS_MODEL_SID=Rs_c.RS_MODEL_SID\n"
                                     + "WHERE\n"
                                     + "	RS_CONTRACT_SID in (" + id + ")";
-                            List rsList = CompanyMasterLocalServiceUtil.executeQuery(query);
+                            List rsList = HelperTableLocalServiceUtil.executeSelectQuery(query);
                             if (rsList != null && rsList.size() > 0) {
                                 Object[] obj = (Object[]) rsList.get(0);
                                 String modelId = String.valueOf(obj[NumericConstants.THREE]);
@@ -953,7 +953,7 @@ public class TransferComponents extends CustomComponent implements View {
                 String companySid = session.getCompanyMasterSid();
                 String componentQuery = queryUtils.getCompanyInformation(companySid);
                 LOGGER.debug(" populate btn  query " + componentQuery);
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     contractInfoContainer.removeAllItems();
                     List<ComponentInfoDTO> companyList = new ArrayList<>();
@@ -1003,7 +1003,7 @@ public class TransferComponents extends CustomComponent implements View {
                     componentQuery = queryUtils.getRSDetails(ifpId);
                 }
                 LOGGER.debug(" Populate button query 2" + componentQuery);
-                List componentList = CompanyMasterLocalServiceUtil.executeQuery(componentQuery);
+                List componentList = HelperTableLocalServiceUtil.executeSelectQuery(componentQuery);
                 if (componentList != null && componentList.size() > 0) {
                     contractInfoContainer.removeAllItems();
                     List<ComponentInfoDTO> itemList = new ArrayList<>();
@@ -1241,7 +1241,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(ifpModelId);
                     input.add(DBDate.format(ifpmodel.getIfpStartDate()));
                     input.add(ifpmodel.getIfpEndDate() == null ? null : DBDate.format(ifpmodel.getIfpEndDate()));
-                    IfpContractDetailsLocalServiceUtil.saveIfpDetailsAttached(input, null);
+                    IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
                 } else if (level.equals(Constants.THREE)) {
 
                     String psModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1283,7 +1283,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(psModelId);
                     input.add(DBDate.format(psmodel.getPsStartDate()));
                     input.add(psmodel.getPsEndDate() == null ? null : DBDate.format(psmodel.getPsEndDate()));
-                    PsContractDetailsLocalServiceUtil.savePsDetailsAttached(input, null);
+                    PsContractDetailsImpl.savePsDetailsAttached(input, null);
 
                 } else if (level.equals(Constants.FOUR)) {
                     String rsModelId = String.valueOf(contractDashboardResultsTable.getContainerProperty(item, Constants.MODEL_ID).getValue());
@@ -1331,7 +1331,7 @@ public class TransferComponents extends CustomComponent implements View {
                     input.add(rsModelId);
                     input.add(rsmodel.getRsStartDate());
                     input.add(rsmodel.getRsEndDate() == null ? null : rsmodel.getRsEndDate());
-                    RsContractDetailsLocalServiceUtil.saveRsDetailsAttached(input, null);
+                    RsContractDetailsImpl.saveRsDetailsAttached(input, null);
 
                 }
             }
@@ -1461,7 +1461,7 @@ public class TransferComponents extends CustomComponent implements View {
         if (dto != null) {
             int ifpIdValue = Integer.parseInt(dto.getIfpContSid());
             String query = queryUtils.getIFPDetails(ifpIdValue);
-            List ifpList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List ifpList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (ifpList != null && ifpList.size() > 0) {
                 Object[] object = (Object[]) ifpList.get(0);
                 ifpId.setValue(String.valueOf(object[0]));
@@ -1481,7 +1481,7 @@ public class TransferComponents extends CustomComponent implements View {
         if (dto != null) {
             int psIdValue = Integer.parseInt(dto.getPsContSid());
             String query = queryUtils.getPSDetails(psIdValue);
-            List psList = CompanyMasterLocalServiceUtil.executeQuery(query);
+            List psList = HelperTableLocalServiceUtil.executeSelectQuery(query);
             if (psList != null && psList.size() > 0) {
                 Object[] object = (Object[]) psList.get(0);
                 psId.setValue(String.valueOf(object[0]));
@@ -1503,7 +1503,7 @@ public class TransferComponents extends CustomComponent implements View {
                 + " from RS_MODEL rm join RS_CONTRACT rc on rm.RS_MODEL_SID=rc.RS_MODEL_SID and rc.RS_CONTRACT_SID=" + rsIdValue + " left join dbo.HELPER_TABLE h on rm.RS_STATUS=h.HELPER_TABLE_SID join dbo.HELPER_TABLE h1 "
                 + " on h1.HELPER_TABLE_SID=rm.REBATE_FREQUENCY join dbo.HELPER_TABLE h2 on h2.HELPER_TABLE_SID=rm.REBATE_PROGRAM_TYPE"
                 + " join HELPER_TABLE h3 ON rm.RS_TYPE=h3.HELPER_TABLE_SID";
-        List rsList = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List rsList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (rsList != null && rsList.size() > 0) {
             Object[] object = (Object[]) rsList.get(0);
             rebateScheduleId.setValue(String.valueOf(object[0]));

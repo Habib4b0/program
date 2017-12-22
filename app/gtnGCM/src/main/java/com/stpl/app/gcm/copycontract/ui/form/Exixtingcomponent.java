@@ -51,23 +51,23 @@ import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Sizeable;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
 import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.Label;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Panel;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,7 +79,7 @@ import org.apache.commons.lang.StringUtils;
 import static org.asi.ui.extfilteringtable.ExtFilteringTableConstant.VALO_THEME_EXTFILTERING_TABLE;
 import org.asi.ui.extfilteringtable.paged.ExtPagedTable;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.LazyBeanItemContainer;
+import org.asi.ui.addons.lazycontainer.LazyBeanItemContainer;
 import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
@@ -219,7 +219,6 @@ public class Exixtingcomponent extends CustomComponent {
             SearchfieldEC.addItem(Constants.IndicatorConstants.SELECT_ONE.getConstant());
             SearchfieldEC.setNullSelectionAllowed(true);
             SearchfieldEC.setNullSelectionItemId(Constants.IndicatorConstants.SELECT_ONE.getConstant());
-            ComponenttypeNC.setImmediate(true);
             dashboardResultsTable.setWidth(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             dashboardResultsTable.setHeight(NumericConstants.HUNDRED, Unit.PERCENTAGE);
             
@@ -336,7 +335,6 @@ public class Exixtingcomponent extends CustomComponent {
             if (SearchfieldEC.getValue().toString().contains(Constants.RS)) {
                 commonUtil.loadComboBox(SearchfieldECDDlb, UiUtils.RS_TYPE, false);
             }
-            SearchfieldECDDlb.setImmediate(true);
             SearchfieldECDDlb.setValidationVisible(true);
             SearchvaluedEC.setVisible(false);
 
@@ -765,7 +763,7 @@ public class Exixtingcomponent extends CustomComponent {
                         String psId = selectedItemDto.getPriceScheduleSystemId();
                         String Parent = String.valueOf(dashboardResultsTable.getContainerProperty(root, Constants.HIDDEN_ID).getValue());
                         String conditionQuery = "select * from PS_DETAILS where PS_MODEL_SID=" + psId + " and IFP_MODEL_SID=" + Parent;
-                        List conditionList = CompanyMasterLocalServiceUtil.executeQuery(conditionQuery);
+                        List conditionList = HelperTableLocalServiceUtil.executeSelectQuery(conditionQuery);
                         if (conditionList != null && conditionList.size() > 0) {
                             String query = "select PS_ID,PS_NO,PS_NAME from dbo.PS_MODEL where PS_MODEL_SID=" + psId;
                             List cfpList = (List) HelperTableLocalServiceUtil.executeSelectQuery(query);
@@ -1170,7 +1168,6 @@ public class Exixtingcomponent extends CustomComponent {
         componentResultsSearchTable.setMultiSelect(false);
         componentResultsSearchTable.addStyleName("filtertable");
         componentResultsSearchTable.addStyleName("table-header-normal");
-        componentResultsSearchTable.setImmediate(true);
         componentReseultsTableLogic.setContainerDataSource(componentResultsContainer);
         componentReseultsTableLogic.sinkItemPerPageWithPageLength(false);
         componentDetailsSelectedItemLayout.addComponent(componentResultsSearchTable);
@@ -1186,7 +1183,6 @@ public class Exixtingcomponent extends CustomComponent {
         componentDetailsTable.setPageLength(NumericConstants.FIVE);
         componentDetailsTable.addStyleName("filtertable");
         componentDetailsTable.addStyleName("table-header-normal");
-        componentDetailsTable.setImmediate(true);
         componentDetailsSelectedLayout.addComponent(componentDetailsTable);
         componentDetailsSelectedLayout.addComponent(componentDetailsTableLogic.createControls());
         componentDetailsTableLogic.setContainerDataSource(componentDetailsContainer);

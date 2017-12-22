@@ -12,13 +12,13 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.CURRENT_CONTRAC
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TAB_SUMMARY;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.TRADING_PARTNER_REMOVE;
 import com.stpl.ifs.ui.util.NumericConstants;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TabSheet.SelectedTabChangeEvent;
 import com.vaadin.ui.TabSheet.SelectedTabChangeListener;
 import com.vaadin.ui.TabSheet.Tab;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
@@ -76,7 +76,6 @@ public class RemoveTPForm extends CustomWindow {
         tabSheet = new TabSheet();
         tabSheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
         tabSheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-        tabSheet.setImmediate(true);
         tabSheet.addTab(updateContract, CURRENT_CONTRACT.getConstant(), null, 0);
         tabSheet.addTab(summary, TAB_SUMMARY.getConstant(), null, 1);
         tabSheet.addSelectedTabChangeListener(new SelectedTabChangeListener() {

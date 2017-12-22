@@ -1,0 +1,1558 @@
+<?xml version="1.0"?>
+<sql>
+    <!--contract Holder Starts-->
+    <entity id="contractholderStatus count">
+        <query>
+		<![CDATA[
+                    SELECT Count(DISTINCT HL_STATUS.HELPER_TABLE_SID)
+FROM   COMPANY_MASTER CM
+       JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+            AND HL_STATUS.DESCRIPTION LIKE '?' 
+		]]>
+        </query>
+    </entity>
+    <entity id="contractholderStatus">
+        <query>
+		<![CDATA[
+       SELECT distinct HL_STATUS.HELPER_TABLE_SID,
+       HL_STATUS.DESCRIPTION AS STATUS
+      FROM   COMPANY_MASTER CM
+       JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+		JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+          AND HL_STATUS.DESCRIPTION LIKE '?'
+          GROUP  BY HL_STATUS.HELPER_TABLE_SID,
+          HL_STATUS.DESCRIPTION
+          ORDER  BY HL_STATUS.HELPER_TABLE_SID 
+            OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+		]]>
+        </query>
+    </entity>
+    <entity id="contractholderType count">
+        <query>
+		<![CDATA[
+                    SELECT Count(DISTINCT HL_TYPE.HELPER_TABLE_SID)
+FROM   COMPANY_MASTER CM
+       JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+
+		]]>
+        </query>
+    </entity>
+    <entity id="contractholderType">
+        <query>
+		<![CDATA[
+                    SELECT DISTINCT HL_TYPE.HELPER_TABLE_SID,
+                HL_TYPE.DESCRIPTION AS STATUS
+FROM   COMPANY_MASTER CM
+       JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+GROUP  BY HL_TYPE.HELPER_TABLE_SID,
+          HL_TYPE.DESCRIPTION
+ORDER  BY HL_TYPE.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+
+		]]>
+        </query>
+    </entity>
+    <entity id="contractholder">
+        <query>
+		<![CDATA[
+                     SELECT distinct CM.COMPANY_ID,
+       CM.COMPANY_NO,
+       CM.COMPANY_NAME,
+       HL_STATUS.DESCRIPTION AS STATUS,
+       HL_TYPE.DESCRIPTION AS TYPE,
+       CM.COMPANY_MASTER_SID
+FROM   COMPANY_MASTER CM
+        JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+		 AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+            AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+             AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+            AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+		JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+		 JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+         ORDER  BY HL_STATUS.DESCRIPTION,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;  
+
+		]]>
+        </query>
+    </entity>
+    <entity id="contractholder count">
+        <query>
+		<![CDATA[
+     SELECT count( distinct CM.COMPANY_MASTER_SID)
+             FROM   COMPANY_MASTER CM
+        JOIN CONTRACT_MASTER CONT
+         ON CONT.CONT_HOLD_COMPANY_MASTER_SID = CM.COMPANY_MASTER_SID
+         AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+          AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+           AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+          AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE  
+
+		]]>
+        </query>
+    </entity>
+    <!--contract Holder End-->
+    <!--contract  Starts-->
+    <entity id="contractStatus count">
+        <query>
+		<![CDATA[
+                  SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.CONTRACT_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="contractStatus">
+        <query>
+		<![CDATA[
+                  SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.CONTRACT_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="contractType count">
+        <query>
+		<![CDATA[
+                   SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.CONTRACT_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="contractType">
+        <query>
+		<![CDATA[
+         SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.CONTRACT_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="contract count">
+        <query>
+		<![CDATA[
+                 SELECT Count(DISTINCT CM.CONTRACT_MASTER_SID)
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.CONTRACT_STATUS
+		  AND CM.CONTRACT_ID LIKE '?'
+		 AND CM.CONTRACT_NO LIKE '?'
+		 AND CM.CONTRACT_NAME LIKE '?'
+		 AND Isnull(CM.CONTRACT_STATUS, '0') LIKE '?'
+          AND Isnull(CM.CONTRACT_TYPE, '0') LIKE '?'
+           AND CM.CONTRACT_ID LIKE '?'
+		 AND CM.CONTRACT_NO LIKE '?'
+		 AND CM.CONTRACT_NAME LIKE '?'
+		 AND Isnull(CM.CONTRACT_STATUS, '0') LIKE '?'
+          AND Isnull(CM.CONTRACT_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.CONTRACT_TYPE 
+		]]>
+        </query>
+    </entity>
+    <entity id="contract">
+        <query>
+		<![CDATA[
+                 SELECT DISTINCT CM.CONTRACT_ID,
+                CM.CONTRACT_NO,
+                CM.CONTRACT_NAME,
+                HL_STATUS.DESCRIPTION AS STA ,
+                HL_TYPE.DESCRIPTION AS C_TYPE,
+                CM.CONTRACT_MASTER_SID
+FROM   CONTRACT_MASTER CM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.CONTRACT_STATUS
+		 AND CM.CONTRACT_ID LIKE '?'
+		 AND CM.CONTRACT_NO LIKE '?'
+		 AND CM.CONTRACT_NAME LIKE '?'
+		 AND Isnull(CM.CONTRACT_STATUS, '0') LIKE '?'
+          AND Isnull(CM.CONTRACT_TYPE, '0') LIKE '?'
+           AND CM.CONTRACT_ID LIKE '?'
+		 AND CM.CONTRACT_NO LIKE '?'
+		 AND CM.CONTRACT_NAME LIKE '?'
+		 AND Isnull(CM.CONTRACT_STATUS, '0') LIKE '?'
+          AND Isnull(CM.CONTRACT_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.CONTRACT_TYPE
+         ORDER  BY HL_STATUS.DESCRIPTION,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    
+    <!--contract Ends-->
+    <!--company Starts-->
+    <entity id="companyStatus count">
+        <query>
+		<![CDATA[
+                  SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.COMPANY_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="companyStatus">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT HL.HELPER_TABLE_SID,
+               HL.DESCRIPTION
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.COMPANY_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="companyType count">
+        <query>
+		<![CDATA[
+                   SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.COMPANY_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="companyType">
+        <query>
+		<![CDATA[
+         SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = CM.COMPANY_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="company count">
+        <query>
+		<![CDATA[
+                 SELECT Count(DISTINCT CM.COMPANY_MASTER_SID)
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+		  AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+          AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+           AND CM.COMPANY_ID LIKE '?'
+		 AND CM.COMPANY_NO LIKE '?'
+		 AND CM.COMPANY_NAME LIKE '?'
+		 AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+          AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+
+         JOIN CFP_CONTRACT_DETAILS CFD ON CFD.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+         JOIN CFP_CONTRACT CFC ON CFC.CFP_CONTRACT_SID=CFD.CFP_CONTRACT_SID 
+		]]>
+        </query>
+    </entity>
+    <entity id="company">
+        <query>
+		<![CDATA[
+                 SELECT DISTINCT CM.COMPANY_ID,
+                CM.COMPANY_NO,
+                CM.COMPANY_NAME,
+                HL_STATUS.DESCRIPTION AS STATUS,
+                HL_TYPE.DESCRIPTION AS TYPE,
+                CM.COMPANY_MASTER_SID
+FROM   COMPANY_MASTER CM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CM.COMPANY_STATUS
+            AND CM.COMPANY_ID LIKE '?'
+            AND CM.COMPANY_NO LIKE '?'
+            AND CM.COMPANY_NAME LIKE '?'
+            AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+            AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+             AND CM.COMPANY_ID LIKE '?'
+            AND CM.COMPANY_NO LIKE '?'
+            AND CM.COMPANY_NAME LIKE '?'
+            AND Isnull(CM.COMPANY_STATUS, '0') LIKE '?'
+            AND Isnull(CM.COMPANY_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CM.COMPANY_TYPE 
+
+         JOIN CFP_CONTRACT_DETAILS CFD ON CFD.COMPANY_MASTER_SID=CM.COMPANY_MASTER_SID
+        JOIN CFP_CONTRACT CFC ON CFC.CFP_CONTRACT_SID=CFD.CFP_CONTRACT_SID 
+         ORDER  BY HL_STATUS.DESCRIPTION,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--company Ends-->
+    <!--CFP Starts-->
+    <entity id="cfpStatus count">
+        <query>
+		<![CDATA[
+           SELECT Count(DISTINCT HL_STATUS.HELPER_TABLE_SID)
+FROM   CFP_CONTRACT CFP
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CFP.CFP_STATUS 
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="cfpStatus">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT HL_STATUS.HELPER_TABLE_SID,
+                HL_STATUS.DESCRIPTION
+FROM   CFP_CONTRACT CFP
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = CFP.CFP_STATUS
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+            ORDER  BY HL_STATUS.HELPER_TABLE_SID,HL_STATUS.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="cfpType count">
+        <query>
+		<![CDATA[
+                   SELECT Count(DISTINCT HL_TYPE.HELPER_TABLE_SID)
+FROM   CFP_CONTRACT CFP
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CFP.CFP_TYPE 
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="cfpType">
+        <query>
+		<![CDATA[
+   SELECT DISTINCT HL_TYPE.HELPER_TABLE_SID,
+                HL_TYPE.DESCRIPTION
+FROM   CFP_CONTRACT CFP
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = CFP.CFP_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+            ORDER  BY HL_TYPE.HELPER_TABLE_SID,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="cfp count">
+        <query>
+		<![CDATA[
+     SELECT COUNT( DISTINCT CC.CFP_MODEL_SID)
+FROM   CFP_CONTRACT CC
+       JOIN CFP_MODEL CM
+         ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+		   AND CM.CFP_ID LIKE '?'
+		 AND CM.CFP_NO LIKE '?'
+		 AND CM.CFP_NAME LIKE '?'
+		 AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+          AND Isnull(CC.CFP_TYPE, '0') LIKE '?'
+             AND CM.CFP_ID LIKE '?'
+		 AND CM.CFP_NO LIKE '?'
+		 AND CM.CFP_NAME LIKE '?'
+		 AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+          AND Isnull(CC.CFP_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = CC.CFP_TYPE
+		]]>
+        </query>
+    </entity>
+    <entity id="cfp">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT CM.CFP_ID,
+                CM.CFP_NO,
+                CM.CFP_NAME,
+                ST.DESCRIPTION AS STATUS,
+                TY.DESCRIPTION AS TYPE,
+                CC.CFP_CONTRACT_SID
+FROM   CFP_CONTRACT CC
+       JOIN CFP_MODEL CM
+         ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+		  AND CM.CFP_ID LIKE '?'
+		 AND CM.CFP_NO LIKE '?'
+		 AND CM.CFP_NAME LIKE '?'
+		 AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+          AND Isnull(CC.CFP_TYPE, '0') LIKE '?'
+            AND CM.CFP_ID LIKE '?'
+		 AND CM.CFP_NO LIKE '?'
+		 AND CM.CFP_NAME LIKE '?'
+		 AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+          AND Isnull(CC.CFP_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = CC.CFP_TYPE
+         ORDER  BY ST.DESCRIPTION,TY.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="cfp search count">
+        <query>
+		<![CDATA[
+    select count(*) from ( SELECT DISTINCT CM.CFP_ID,
+                CM.CFP_NO,
+                CM.CFP_NAME,
+                TYP.DESCRIPTION   AS TYPE,
+                CAT.DESCRIPTION   AS CATEGORY,
+                CM.CFP_DESIGNATION,
+                ''                AS CFP_PLAN_ID,
+                ''                AS CFP_PLAN_NAME,
+                ST.DESCRIPTION    AS STATUS,
+                TC.DESCRIPTION    AS TRADE_CLASS,
+                CM.CFP_START_DATE AS START_DAT,
+                CM.CFP_END_DATE   AS ENDDATE
+FROM   CFP_CONTRACT CC
+       JOIN CFP_MODEL CM
+         ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+            AND CM.CFP_ID LIKE '?'
+            AND CM.CFP_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = CC.CFP_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND CM.CFP_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = CC.CFP_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+            ?
+       JOIN HELPER_TABLE TC
+         ON TC.HELPER_TABLE_SID = CC.CFP_TRADE_CLASS ? ) C
+            
+		]]>
+        </query>
+    </entity>
+    <entity id="cfp search">
+        <query>
+		<![CDATA[
+SELECT DISTINCT CM.CFP_ID,
+                CM.CFP_NO,
+                CM.CFP_NAME,
+                TYP.DESCRIPTION   AS TYPE,
+                CAT.DESCRIPTION   AS CATEGORY,
+                CM.CFP_DESIGNATION,
+                ''                AS CFP_PLAN_ID,
+                ''                AS CFP_PLAN_NAME,
+                ST.DESCRIPTION    AS STATUS,
+                TC.DESCRIPTION    AS TRADE_CLASS,
+                CM.CFP_START_DATE AS START_DAT,
+                CM.CFP_END_DATE   AS ENDDATE
+FROM   CFP_CONTRACT CC
+       JOIN CFP_MODEL CM
+         ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+            AND CM.CFP_ID LIKE '?'
+            AND CM.CFP_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = CC.CFP_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND CM.CFP_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = CC.CFP_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+            ?
+       JOIN HELPER_TABLE TC
+         ON TC.HELPER_TABLE_SID = CC.CFP_TRADE_CLASS 
+         ?
+        ORDER  BY CM.CFP_START_DATE,CM.CFP_END_DATE ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="CFP-C Abstract">
+        <query>
+		<![CDATA[
+    SELECT Count(*)
+FROM   (SELECT DISTINCT CM.CFP_ID,
+                        CM.CFP_NO,
+                        CM.CFP_NAME,
+                        TY.DESCRIPTION     AS TYPE,
+                        CAT.DESCRIPTION    AS cat,
+                        CM.CFP_DESIGNATION AS DES,
+                        NULL               AS PLAN_ID,
+                        NULL               AS PLAN_NAME,
+                        ST.DESCRIPTION     AS STATUS,
+                        TRADE.DESCRIPTION  AS TRADE,
+                        CC.CFP_START_DATE,
+                        CC.CFP_END_DATE,
+                        CC.CFP_CONTRACT_SID
+        FROM   CFP_CONTRACT CC
+               JOIN CFP_MODEL CM
+                 ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+               JOIN HELPER_TABLE ST
+                 ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+                    AND CM.CFP_ID LIKE '?'
+                    AND CM.CFP_NAME LIKE '?'
+               JOIN HELPER_TABLE CAT
+                 ON CAT.HELPER_TABLE_SID = CC.CFP_CATEGORY
+                    AND CAT.DESCRIPTION LIKE '?'
+                   ?
+                    AND CM.CFP_NO LIKE '?'
+               JOIN HELPER_TABLE TYEP
+                 ON TYEP.HELPER_TABLE_SID = CM.CFP_TYPE
+                    AND TYEP.DESCRIPTION LIKE '?'
+                    AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+                   ?
+               JOIN HELPER_TABLE TY
+                 ON TY.HELPER_TABLE_SID = CC.CFP_TYPE
+               JOIN HELPER_TABLE TRADE
+                 ON TRADE.HELPER_TABLE_SID = CC.CFP_TRADE_CLASS
+? ) COU
+		]]>
+        </query>
+    </entity>
+    <entity id="CFP Abstract">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT CM.CFP_ID as CFP_ID,
+                        CM.CFP_NO,
+                        CM.CFP_NAME,
+                        TY.DESCRIPTION     AS TYPE,
+                        CAT.DESCRIPTION    AS cat,
+                        CM.CFP_DESIGNATION AS DES,
+                        NULL               AS PLAN_ID,
+                        NULL               AS PLAN_NAME,
+                        ST.DESCRIPTION     AS STATUS,
+                        TRADE.DESCRIPTION  AS TRADE,
+                        CC.CFP_START_DATE,
+                        CC.CFP_END_DATE,
+                        CC.CFP_CONTRACT_SID
+        FROM   CFP_CONTRACT CC
+               JOIN CFP_MODEL CM
+                 ON CM.CFP_MODEL_SID = CC.CFP_MODEL_SID
+               JOIN HELPER_TABLE ST
+                 ON ST.HELPER_TABLE_SID = CC.CFP_STATUS
+                    AND CM.CFP_ID LIKE '?'
+                    AND CM.CFP_NAME LIKE '?'
+               JOIN HELPER_TABLE CAT
+                 ON CAT.HELPER_TABLE_SID = CC.CFP_CATEGORY
+                    AND CAT.DESCRIPTION LIKE '?'
+                   ?
+                    AND CM.CFP_NO LIKE '?'
+               JOIN HELPER_TABLE TYEP
+                 ON TYEP.HELPER_TABLE_SID = CM.CFP_TYPE
+                    AND TYEP.DESCRIPTION LIKE '?'
+                    AND Isnull(CC.CFP_STATUS, '0') LIKE '?'
+                    ?
+               JOIN HELPER_TABLE TY
+                 ON TY.HELPER_TABLE_SID = CC.CFP_TYPE
+               JOIN HELPER_TABLE TRADE
+                 ON TRADE.HELPER_TABLE_SID = CC.CFP_TRADE_CLASS
+                 ?
+ORDER  BY ST.DESCRIPTION,TY.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--IFP Ends-->
+    <!--IFP Starts-->
+    <entity id="ifpStatus count">
+        <query>
+		<![CDATA[
+                 SELECT Count(DISTINCT HL_STATUS.HELPER_TABLE_SID)
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IFP.IFP_STATUS 
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="ifpStatus">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT HL_STATUS.HELPER_TABLE_SID,
+                HL_STATUS.DESCRIPTION
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IFP.IFP_STATUS
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+            ORDER  BY HL_STATUS.HELPER_TABLE_SID,HL_STATUS.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="ifpType count">
+        <query>
+		<![CDATA[
+                   SELECT Count(DISTINCT HL_TYPE.HELPER_TABLE_SID)
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = IFP.IFP_TYPE 
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="ifpType">
+        <query>
+		<![CDATA[
+         SELECT DISTINCT HL_TYPE.HELPER_TABLE_SID,
+                HL_TYPE.DESCRIPTION
+FROM   IFP_CONTRACT IFP
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = IFP.IFP_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+            ORDER  BY HL_TYPE.HELPER_TABLE_SID,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="ifp count">
+        <query>
+		<![CDATA[
+     SELECT COUNT( DISTINCT IC.IFP_MODEL_SID)
+FROM   IFP_CONTRACT IC
+       JOIN IFP_MODEL IM
+         ON IM.IFP_MODEL_SID = IC.IFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = IC.IFP_STATUS
+		   AND IM.IFP_ID LIKE '?'
+		 AND IM.IFP_NO LIKE '?'
+		 AND IM.IFP_NAME LIKE '?'
+		 AND Isnull(IC.IFP_STATUS, '0') LIKE '?'
+          AND Isnull(IC.IFP_TYPE, '0') LIKE '?'
+            AND IM.IFP_ID LIKE '?'
+		 AND IM.IFP_NO LIKE '?'
+		 AND IM.IFP_NAME LIKE '?'
+		 AND Isnull(IC.IFP_STATUS, '0') LIKE '?'
+          AND Isnull(IC.IFP_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = IC.IFP_TYPE
+		]]>
+        </query>
+    </entity>
+    <entity id="ifp">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT IM.IFP_ID,
+                IM.IFP_NO,
+                IM.IFP_NAME,
+                ST.DESCRIPTION AS STATUS,
+                TY.DESCRIPTION AS TYPE,
+                IC.IFP_CONTRACT_SID
+FROM   IFP_CONTRACT IC
+       JOIN IFP_MODEL IM
+         ON IM.IFP_MODEL_SID = IC.IFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = IC.IFP_STATUS
+		  AND IM.IFP_ID LIKE '?'
+		 AND IM.IFP_NO LIKE '?'
+		 AND IM.IFP_NAME LIKE '?'
+		 AND Isnull(IC.IFP_STATUS, '0') LIKE '?'
+          AND Isnull(IC.IFP_TYPE, '0') LIKE '?'
+           AND IM.IFP_ID LIKE '?'
+		 AND IM.IFP_NO LIKE '?'
+		 AND IM.IFP_NAME LIKE '?'
+		 AND Isnull(IC.IFP_STATUS, '0') LIKE '?'
+          AND Isnull(IC.IFP_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = IC.IFP_TYPE
+         ORDER  BY ST.DESCRIPTION,TY.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="ifp search count">
+        <query>
+		<![CDATA[
+        SELECT COUNT(*) FROM( SELECT DISTINCT CM.IFP_ID,
+                CM.IFP_NO,
+                CM.IFP_NAME,
+                TYP.DESCRIPTION   AS TYPE,
+                CAT.DESCRIPTION   AS CATEGORY,
+                DESG.DESCRIPTION   AS DESG,
+                ''                AS CFP_PLAN_ID,
+                ''                AS CFP_PLAN_NAME,
+                ST.DESCRIPTION    AS STATUS,
+                CM.IFP_START_DATE AS START_DAT,
+                CM.IFP_END_DATE   AS ENDDATE
+FROM   IFP_CONTRACT CC
+       JOIN IFP_MODEL CM
+         ON CM.IFP_MODEL_SID = CC.IFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.IFP_STATUS
+            AND CM.IFP_ID LIKE '?'
+            AND CM.IFP_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = CC.IFP_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND CM.IFP_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = CC.IFP_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(CC.IFP_STATUS, '0') LIKE '?'
+            LEFT JOIN HELPER_TABLE DESG
+			ON DESG.HELPER_TABLE_SID=CM.IFP_DESIGNATION
+            ?
+            ? ) C
+		]]>
+        </query>
+    </entity>
+    <entity id="ifp search">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT CM.IFP_ID,
+                CM.IFP_NO,
+                CM.IFP_NAME,
+                TYP.DESCRIPTION   AS TYPE,
+                CAT.DESCRIPTION   AS CATEGORY,
+                DESG.DESCRIPTION   AS DESG,
+                ''                AS CFP_PLAN_ID,
+                ''                AS CFP_PLAN_NAME,
+                ST.DESCRIPTION    AS STATUS,
+                CM.IFP_START_DATE AS START_DAT,
+                CM.IFP_END_DATE   AS ENDDATE
+FROM   IFP_CONTRACT CC
+       JOIN IFP_MODEL CM
+         ON CM.IFP_MODEL_SID = CC.IFP_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = CC.IFP_STATUS
+            AND CM.IFP_ID LIKE '?'
+            AND CM.IFP_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = CC.IFP_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND CM.IFP_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = CC.IFP_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(CC.IFP_STATUS, '0') LIKE '?'
+            LEFT JOIN HELPER_TABLE DESG
+			ON DESG.HELPER_TABLE_SID=CM.IFP_DESIGNATION
+            ?
+            ?
+         ORDER  BY CM.IFP_START_DATE,CM.IFP_END_DATE ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="IFP-C Abstract">
+        <query>
+		<![CDATA[
+                SELECT COUNT(*) FROM ( SELECT DISTINCT IFP_M.IFP_NO,
+                IFP_C.IFP_NAME,
+                IFP_TYPE.description AS IFP_TYPE,
+                IFP_Cat.DESCRIPTION  AS IFP_CAt,
+                IFP_D.DESCRIPTION    AS IFP_DE,
+                NULL                 AS IFP_Plan,
+                NULL                 AS IFP_PLAN_name,
+                IFP_S.DESCRIPTION    AS IFP_STATUS6,
+                IFP_C.IFP_START_DATE,
+                IFP_C.IFP_END_DATE,
+                IFP_C.IFP_CONTRACT_SID
+FROM   IFP_CONTRACT IFP_C
+       JOIN IFP_CONTRACT_DETAILS IFP_CD
+         ON IFP_C.IFP_CONTRACT_SID = IFP_CD.IFP_CONTRACT_SID
+            AND ( IFP_C.IFP_NAME LIKE '?' )
+       JOIN IFP_MODEL IFP_M
+         ON IFP_M.IFP_MODEL_SID = IFP_C.IFP_MODEL_sid
+            AND ( IFP_M.IFP_NO LIKE '?' )
+       LEFT JOIN HELPER_TABLE IFP_TYPE
+              ON IFP_C.IFP_TYPE = IFP_TYPE.HELPER_TABLE_SID
+                 AND ( IFP_TYPE.description LIKE '?'
+                        OR IFP_TYPE.description IS NULL )
+       LEFT JOIN HELPER_TABLE IFP_S
+              ON IFP_C.IFP_STATUS = IFP_S.HELPER_TABLE_SID
+                 AND ( IFP_C.IFP_STATUS LIKE '?' )
+       LEFT JOIN HELPER_TABLE IFP_Cat
+              ON IFP_C.IFP_CATEGORY = IFP_Cat.HELPER_TABLE_SID
+                 AND ( IFP_Cat.DESCRIPTION LIKE '?'
+                        OR IFP_Cat.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE IFP_D
+              ON IFP_C.IFP_DESIGNATION = IFP_D.HELPER_TABLE_SID
+              ? ? ? )CIFP
+		]]>
+        </query>
+    </entity>
+    <entity id="IFP Abstract">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT IFP_NO,
+                IFP_C.IFP_NAME,
+                IFP_TYPE.description AS IFP_TYPE,
+                IFP_Cat.DESCRIPTION  AS IFP_CAt,
+                IFP_D.DESCRIPTION    AS IFP_DE,
+                NULL                 AS IFP_Plan,
+                NULL                 AS IFP_PLAN_name,
+                IFP_S.DESCRIPTION    AS IFP_STATUS6,
+                IFP_C.IFP_START_DATE,
+                IFP_C.IFP_END_DATE,
+                IFP_C.IFP_CONTRACT_SID
+FROM   IFP_CONTRACT IFP_C
+       JOIN IFP_CONTRACT_DETAILS IFP_CD
+         ON IFP_C.IFP_CONTRACT_SID = IFP_CD.IFP_CONTRACT_SID
+            AND ( IFP_C.IFP_NAME LIKE '?' )
+       JOIN IFP_MODEL IFP_M
+         ON IFP_M.IFP_MODEL_SID = IFP_C.IFP_MODEL_sid
+            AND ( IFP_M.IFP_NO LIKE '?' )
+       LEFT JOIN HELPER_TABLE IFP_TYPE
+              ON IFP_C.IFP_TYPE = IFP_TYPE.HELPER_TABLE_SID
+                 AND ( IFP_TYPE.description LIKE '?'
+                        OR IFP_TYPE.description IS NULL )
+       LEFT JOIN HELPER_TABLE IFP_S
+              ON IFP_C.IFP_STATUS = IFP_S.HELPER_TABLE_SID
+                 AND ( IFP_C.IFP_STATUS LIKE '?' )
+       LEFT JOIN HELPER_TABLE IFP_Cat
+              ON IFP_C.IFP_CATEGORY = IFP_Cat.HELPER_TABLE_SID
+                 AND ( IFP_Cat.DESCRIPTION LIKE '?'
+                        OR IFP_Cat.DESCRIPTION IS NULL )
+       LEFT JOIN HELPER_TABLE IFP_D
+              ON IFP_C.IFP_DESIGNATION = IFP_D.HELPER_TABLE_SID
+              ? ?
+              ?
+
+         ORDER  BY IFP_C.IFP_CONTRACT_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--IFP Ends-->
+    <!--PS Starts-->
+    <entity id="psStatus count">
+        <query>
+		<![CDATA[
+           SELECT Count(DISTINCT HL_STATUS.HELPER_TABLE_SID)
+FROM   PS_CONTRACT PS
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = PS.PS_STATUS 
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="psStatus">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT HL_STATUS.HELPER_TABLE_SID,
+                HL_STATUS.DESCRIPTION
+FROM   PS_CONTRACT PS
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = PS.PS_STATUS
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+            ORDER  BY HL_STATUS.HELPER_TABLE_SID,HL_STATUS.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="psType count">
+        <query>
+		<![CDATA[
+                   SELECT Count(DISTINCT HL_TYPE.HELPER_TABLE_SID)
+FROM   PS_CONTRACT PS
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = PS.PS_TYPE 
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="psType">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL_TYPE.HELPER_TABLE_SID,
+                HL_TYPE.DESCRIPTION
+FROM   PS_CONTRACT PS
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = PS.PS_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+            ORDER  BY HL_TYPE.HELPER_TABLE_SID,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="ps count">
+        <query>
+		<![CDATA[
+     SELECT COUNT( DISTINCT PC.PS_MODEL_SID)
+FROM   PS_CONTRACT PC
+       JOIN PS_MODEL PS
+         ON PS.PS_MODEL_SID=PC.PS_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = PC.PS_STATUS
+		   AND PS.PS_ID LIKE '?'
+		 AND  PS.PS_NO LIKE '?'
+		 AND  PS.PS_NAME LIKE '?'
+		 AND Isnull( PS.PS_STATUS, '0') LIKE '?'
+          AND Isnull(PS.PS_TYPE, '0') LIKE '?'
+             AND PS.PS_ID LIKE '?'
+		 AND  PS.PS_NO LIKE '?'
+		 AND  PS.PS_NAME LIKE '?'
+		 AND Isnull( PS.PS_STATUS, '0') LIKE '?'
+          AND Isnull(PS.PS_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = PC.PS_TYPE
+		]]>
+        </query>
+    </entity>
+    <entity id="ps">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT PS.PS_ID,
+                PS.PS_NO,
+                PS.PS_NAME,
+                ST.DESCRIPTION AS STATUS,
+                TY.DESCRIPTION AS TYPE,
+                PC.PS_CONTRACT_SID
+FROM   PS_CONTRACT PC
+       JOIN PS_MODEL PS
+         ON PS.PS_MODEL_SID = PC.PS_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = PC.PS_STATUS
+            AND PS.PS_ID LIKE '?'
+            AND PS.PS_NO LIKE '?'
+            AND PS.PS_NAME LIKE '?'
+            AND Isnull(PS.PS_STATUS, '0') LIKE '?'
+            AND Isnull(PS.PS_TYPE, '0') LIKE '?'
+             AND PS.PS_ID LIKE '?'
+            AND PS.PS_NO LIKE '?'
+            AND PS.PS_NAME LIKE '?'
+            AND Isnull(PS.PS_STATUS, '0') LIKE '?'
+            AND Isnull(PS.PS_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = PC.PS_TYPE 
+         ORDER  BY ST.DESCRIPTION,TY.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="ps search count">
+        <query>
+		<![CDATA[
+   SELECT COUNT(*) FROM ( SELECT DISTINCT PS.PS_ID,
+                PS.PS_NO,
+                PS.PS_NAME,
+                CAT.DESCRIPTION   AS CATEGORY,
+                TYP.DESCRIPTION   AS TYPE,
+               desig.DESCRIPTION AS DESIG,
+                PS.PARENT_PS_ID   AS PPSID,
+                PS.PARENT_PS_NAME AS PPSNAME,
+                ST.DESCRIPTION    AS STATUS,
+                PS.PS_START_DATE  AS START_DAT,
+                PS.PS_END_DATE    AS ENDDATE,
+                 TC.DESCRIPTION    AS TRADECLASS
+FROM   PS_CONTRACT PC
+       JOIN PS_MODEL PS
+         ON PS.PS_MODEL_SID = PC.PS_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = PC.PS_STATUS
+            AND PS.PS_ID LIKE '?'
+            AND PS.PS_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = PC.PS_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND PS.PS_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = PC.PS_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(PC.PS_STATUS, '0') LIKE '?'
+       JOIN HELPER_TABLE TC
+         ON TC.HELPER_TABLE_SID = PS.PS_TRADE_CLASS 
+         JOIN HELPER_TABLE desig
+         ON desig.HELPER_TABLE_SID = PS.PS_DESIGNATION
+         ?
+         ?  ) C
+		]]>
+        </query>
+    </entity>
+    <entity id="ps search">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT PS.PS_ID,
+                PS.PS_NO,
+                PS.PS_NAME,
+                CAT.DESCRIPTION   AS CATEGORY,
+                TYP.DESCRIPTION   AS TYPE,
+               desig.DESCRIPTION AS DESIG,
+                PS.PARENT_PS_ID   AS PPSID,
+                PS.PARENT_PS_NAME AS PPSNAME,
+                ST.DESCRIPTION    AS STATUS,
+                PS.PS_START_DATE  AS START_DAT,
+                PS.PS_END_DATE    AS ENDDATE,
+                 TC.DESCRIPTION    AS TRADECLASS
+FROM   PS_CONTRACT PC
+       JOIN PS_MODEL PS
+         ON PS.PS_MODEL_SID = PC.PS_MODEL_SID
+       JOIN HELPER_TABLE ST
+         ON ST.HELPER_TABLE_SID = PC.PS_STATUS
+            AND PS.PS_ID LIKE '?'
+            AND PS.PS_NAME LIKE '?'
+       JOIN HELPER_TABLE CAT
+         ON CAT.HELPER_TABLE_SID = PC.PS_CATEGORY
+            AND CAT.DESCRIPTION LIKE '?'
+            ?
+            AND PS.PS_NO LIKE '?'
+       JOIN HELPER_TABLE TYP
+         ON TYP.HELPER_TABLE_SID = PC.PS_TYPE
+            AND TYP.DESCRIPTION LIKE '?'
+            AND Isnull(PC.PS_STATUS, '0') LIKE '?'
+       JOIN HELPER_TABLE TC
+         ON TC.HELPER_TABLE_SID = PS.PS_TRADE_CLASS 
+         JOIN HELPER_TABLE desig
+         ON desig.HELPER_TABLE_SID = PS.PS_DESIGNATION
+         ?
+         ?
+         ORDER  BY PS.PS_START_DATE,PS.PS_END_DATE ASC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="PS-C Abstract">
+        <query>
+		<![CDATA[
+      SELECT COUNT(*) FROM (SELECT PS_M.PS_NO,
+       PS_C.PS_NAME,
+       PS_TYPE.description AS PS_TYPE1,
+       PS_Cat.DESCRIPTION  AS PS_CAt,
+       PS_T.DESCRIPTION AS TRADE,
+       PS_D.DESCRIPTION    AS PS_DE,
+       NULL                AS PS_Plan,
+       NULL                AS PS_PLAN_name,
+       PS_S.DESCRIPTION    AS PS_STATUS6,
+       PS_C.PS_START_DATE,
+       PS_C.PS_END_DATE,
+       PS_C.PS_CONTRACT_SID
+FROM   PS_CONTRACT PS_C
+       JOIN PS_CONTRACT_DETAILS PS_CD
+         ON PS_C.PS_CONTRACT_SID = PS_CD.PS_CONTRACT_SID
+         AND ( PS_C.PS_NAME LIKE '?' )
+       JOIN PS_MODEL PS_M
+         ON PS_C.PS_MODEL_SID = PS_M.PS_MODEL_SID
+            AND ( PS_M.PS_NO LIKE '?' )
+       LEFT JOIN HELPER_TABLE PS_TYPE
+              ON PS_C.PS_TYPE = PS_TYPE.HELPER_TABLE_SID
+                 AND ( PS_TYPE.description LIKE '?'
+                        OR PS_TYPE.description IS NULL )
+       LEFT JOIN HELPER_TABLE PS_S
+              ON PS_C.PS_STATUS = PS_S.HELPER_TABLE_SID
+                 AND ( PS_C.PS_STATUS LIKE '?' )
+       LEFT JOIN HELPER_TABLE PS_Cat
+              ON PS_C.PS_CATEGORY = PS_Cat.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE PS_D
+              ON PS_C.PS_DESIGNATION = PS_D.HELPER_TABLE_SID
+                LEFT JOIN HELPER_TABLE PS_T
+              ON PS_M.PS_TRADE_CLASS = PS_T.HELPER_TABLE_SID
+               AND ( PS_Cat.DESCRIPTION LIKE '?'
+              OR PS_Cat.DESCRIPTION IS NULL ) 
+              ? ? ? ) CPS
+		]]>
+        </query>
+    </entity>
+    <entity id="PS Abstract">
+        <query>
+		<![CDATA[
+                SELECT PS_M.PS_NO,
+       PS_C.PS_NAME,
+       PS_TYPE.description AS PS_TYPE1,
+       PS_Cat.DESCRIPTION  AS PS_CAt,
+       PS_T.DESCRIPTION AS TRADE,
+       PS_D.DESCRIPTION    AS PS_DE,
+       NULL                AS PS_Plan,
+       NULL                AS PS_PLAN_name,
+       PS_S.DESCRIPTION    AS PS_STATUS6,
+       PS_C.PS_START_DATE,
+       PS_C.PS_END_DATE,
+       PS_C.PS_CONTRACT_SID
+FROM   PS_CONTRACT PS_C
+       JOIN PS_CONTRACT_DETAILS PS_CD
+         ON PS_C.PS_CONTRACT_SID = PS_CD.PS_CONTRACT_SID
+         AND  ( PS_C.PS_NAME LIKE '?' )
+       JOIN PS_MODEL PS_M
+         ON PS_C.PS_MODEL_SID = PS_M.PS_MODEL_SID
+            AND ( PS_M.PS_NO LIKE '?' )
+       LEFT JOIN HELPER_TABLE PS_TYPE
+              ON PS_C.PS_TYPE = PS_TYPE.HELPER_TABLE_SID
+                 AND ( PS_TYPE.description LIKE '?'
+                        OR PS_TYPE.description IS NULL )
+       LEFT JOIN HELPER_TABLE PS_S
+              ON PS_C.PS_STATUS = PS_S.HELPER_TABLE_SID
+                 AND ( PS_C.PS_STATUS LIKE '?' )
+       LEFT JOIN HELPER_TABLE PS_Cat
+              ON PS_C.PS_CATEGORY = PS_Cat.HELPER_TABLE_SID
+       LEFT JOIN HELPER_TABLE PS_D
+              ON PS_C.PS_DESIGNATION = PS_D.HELPER_TABLE_SID
+                LEFT JOIN HELPER_TABLE PS_T
+              ON PS_M.PS_TRADE_CLASS = PS_T.HELPER_TABLE_SID
+              AND ( PS_Cat.DESCRIPTION LIKE '?'
+              OR PS_Cat.DESCRIPTION IS NULL )
+                ? ? ?
+
+         ORDER  BY PS_C.PS_CONTRACT_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--PS Ends-->
+    <!--RS Starts-->
+    <entity id="rsStatus count">
+        <query>
+		<![CDATA[
+           SELECT Count(DISTINCT HL_STATUS.HELPER_TABLE_SID)
+FROM   RS_CONTRACT RS
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = RS.RS_STATUS 
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="rsStatus">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT HL_STATUS.HELPER_TABLE_SID,
+                HL_STATUS.DESCRIPTION
+FROM   RS_CONTRACT RS
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = RS.RS_STATUS
+            AND HL_STATUS.DESCRIPTION LIKE '?'
+            ORDER  BY HL_STATUS.HELPER_TABLE_SID,HL_STATUS.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="rsType count">
+        <query>
+		<![CDATA[
+                  SELECT Count(DISTINCT HL_TYPE.HELPER_TABLE_SID)
+FROM   RS_CONTRACT RS
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = RS.RS_TYPE  
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="rsType">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL_TYPE.HELPER_TABLE_SID,
+                HL_TYPE.DESCRIPTION
+FROM   RS_CONTRACT RS
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = RS.RS_TYPE
+            AND HL_TYPE.DESCRIPTION LIKE '?'
+            ORDER  BY HL_TYPE.HELPER_TABLE_SID,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="rs count For Look UP">
+        <query>
+		<![CDATA[
+     SELECT Count(RC.RS_MODEL_SID)
+FROM    RS_CONTRACT RC
+       JOIN RS_MODEL RS
+         ON RS.RS_MODEL_SID = RC.RS_MODEL_SID
+            AND RS.RS_ID LIKE '?'
+            AND RS.RS_NO LIKE '?'
+            AND RC.RS_NAME LIKE '?'
+            AND ( RC.RS_STATUS LIKE '?'
+                   OR RC.RS_STATUS IS NULL )
+            AND ( RC.RS_TYPE LIKE '?'
+                   OR RC.RS_TYPE IS NULL )
+            AND RS.RS_ID LIKE '?'
+            AND RS.RS_NO LIKE '?'
+            AND RC.RS_NAME LIKE '?'
+            AND ( RC.RS_STATUS LIKE '?'
+                   OR RC.RS_STATUS IS NULL )
+            AND ( RC.RS_TYPE LIKE '?'
+                   OR RC.RS_TYPE IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = RC.RS_STATUS
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = RC.RS_TYPE
+		]]>
+        </query>
+    </entity>
+    <entity id="rs">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT RS.RS_ID,
+                RS.RS_NO,
+                RS.RS_NAME,
+                ST.DESCRIPTION AS STATUS,
+                TY.DESCRIPTION AS TYPE,
+                RC.RS_CONTRACT_SID
+FROM   RS_CONTRACT RC
+       JOIN RS_MODEL RS
+         ON RS.RS_MODEL_SID = RC.RS_MODEL_SID
+            AND RS.RS_ID LIKE '?'
+            AND RS.RS_NO LIKE '?'
+            AND RC.RS_NAME LIKE '?'
+            AND ( RC.RS_STATUS LIKE '?'
+                   OR RC.RS_STATUS IS NULL )
+            AND ( RC.RS_TYPE LIKE '?'
+                   OR RC.RS_TYPE IS NULL )
+            AND RS.RS_ID LIKE '?'
+            AND RS.RS_NO LIKE '?'
+            AND RC.RS_NAME LIKE '?'
+            AND ( RC.RS_STATUS LIKE '?'
+                   OR RC.RS_STATUS IS NULL )
+            AND ( RC.RS_TYPE LIKE '?'
+                   OR RC.RS_TYPE IS NULL )
+       LEFT JOIN HELPER_TABLE ST
+              ON ST.HELPER_TABLE_SID = RC.RS_STATUS
+       JOIN HELPER_TABLE TY
+         ON TY.HELPER_TABLE_SID = RC.RS_TYPE
+ORDER  BY ST.DESCRIPTION,
+          TY.DESCRIPTION  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="RS-C Abstract">
+        <query>
+		<![CDATA[
+   SELECT COUNT(*) FROM(  SELECT RS_M.RS_ID,
+       RS_M.RS_NO,
+       RS_C.RS_NAME,
+       RS_TYPE.description AS RS_TYPE1,
+       RS_C.REBATE_PROGRAM_TYPE,
+       RS_Cat.DESCRIPTION  AS RS_CAt,
+       rs_c.RS_TRADE_CLASS,
+       RS_C.RS_DESIGNATION,
+       RS_C.PARENT_RS_ID,
+       RS_C.PARENT_RS_NAME,
+       RS_S.DESCRIPTION    AS RS_STATUS6,
+       RS_C.RS_START_DATE,
+       RS_C.RS_END_DATE,
+       RS_C.RS_CONTRACT_SID
+FROM   RS_CONTRACT RS_C
+       JOIN RS_CONTRACT_DETAILS RS_CD
+         ON RS_C.RS_CONTRACT_SID = RS_CD.RS_CONTRACT_SID
+       JOIN RS_MODEL RS_M
+         ON RS_C.RS_MODEL_SID = RS_M.RS_MODEL_SID
+            AND ( RS_M.RS_ID LIKE '?' )
+           AND  ( RS_M.RS_NO LIKE '?' )
+            AND ( RS_C.RS_NAME LIKE '?' )
+            AND ( RS_C.REBATE_PROGRAM_TYPE LIKE '?' )
+       LEFT JOIN HELPER_TABLE RS_TYPE
+              ON RS_C.RS_TYPE = RS_TYPE.HELPER_TABLE_SID
+               AND ( RS_C.RS_TYPE LIKE '?' )
+       LEFT JOIN HELPER_TABLE RS_S
+              ON RS_C.RS_STATUS = RS_S.HELPER_TABLE_SID
+                 AND ( RS_C.RS_STATUS LIKE '?' )
+                  AND ( RS_C.RS_CATEGORY LIKE '?'
+              OR RS_C.RS_CATEGORY IS NULL )
+       LEFT JOIN HELPER_TABLE RS_Cat
+              ON RS_C.RS_CATEGORY = RS_Cat.HELPER_TABLE_SID
+               JOIN HELPER_TABLE RSP_TY
+         ON RS_C.REBATE_PROGRAM_TYPE = RSP_TY.HELPER_TABLE_SID
+         LEFT JOIN HELPER_TABLE TR
+         ON RS_C.RS_TRADE_CLASS = TR.HELPER_TABLE_SID
+      ? ? ? ) CRS
+
+		]]>
+        </query>
+    </entity>
+    <entity id="RS Abstract">
+        <query>
+		<![CDATA[
+          SELECT RS_M.RS_ID,
+       RS_M.RS_NO,
+       RS_C.RS_NAME,
+       RS_TYPE.description AS RS_TYPE1,
+       RSP_TY.DESCRIPTION  AS REB_P_TYPE,
+       RS_Cat.DESCRIPTION  AS RS_CAt,
+       TR.DESCRIPTION      AS TRADE,
+       RS_C.RS_DESIGNATION,
+       RS_C.PARENT_RS_ID,
+       RS_C.PARENT_RS_NAME,
+       RS_S.DESCRIPTION    AS RS_STATUS6,
+       RS_C.RS_START_DATE,
+       RS_C.RS_END_DATE
+FROM   RS_CONTRACT RS_C
+       JOIN RS_CONTRACT_DETAILS RS_CD
+         ON RS_C.RS_CONTRACT_SID = RS_CD.RS_CONTRACT_SID
+       JOIN RS_MODEL RS_M
+         ON RS_C.RS_MODEL_SID = RS_M.RS_MODEL_SID
+            AND ( RS_M.RS_ID LIKE '?' )
+            AND ( RS_M.RS_NO LIKE '?' )
+            AND ( RS_C.RS_NAME LIKE '?' )
+            AND ( RS_C.REBATE_PROGRAM_TYPE LIKE '?' )
+       LEFT JOIN HELPER_TABLE RS_TYPE
+              ON RS_C.RS_TYPE = RS_TYPE.HELPER_TABLE_SID
+                AND ( RS_C. RS_TYPE LIKE '?' )
+       LEFT JOIN HELPER_TABLE RS_S
+              ON RS_C.RS_STATUS = RS_S.HELPER_TABLE_SID
+                 AND ( RS_C.RS_STATUS LIKE '?' )
+                 AND ( RS_C.RS_CATEGORY LIKE '?'
+              OR RS_C.RS_CATEGORY IS NULL )
+       LEFT JOIN HELPER_TABLE RS_Cat
+              ON RS_C.RS_CATEGORY = RS_Cat.HELPER_TABLE_SID
+                JOIN HELPER_TABLE RSP_TY
+         ON RS_C.REBATE_PROGRAM_TYPE = RSP_TY.HELPER_TABLE_SID
+      LEFT JOIN HELPER_TABLE TR
+         ON RS_C.RS_TRADE_CLASS = TR.HELPER_TABLE_SID
+      ? ? ?
+
+ORDER  BY RS_C.RS_CONTRACT_SID  OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--RS Ends-->
+    <!--Item Starts-->
+    <entity id="itemStatus count">
+        <query>
+		<![CDATA[
+                  SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.ITEM_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="itemStatus">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT HL.HELPER_TABLE_SID,
+               HL.DESCRIPTION
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.ITEM_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="itemType count">
+        <query>
+		<![CDATA[
+                   SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.ITEM_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="itemType">
+        <query>
+		<![CDATA[
+         SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.ITEM_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="item count">
+        <query>
+		<![CDATA[
+                 SELECT Count(DISTINCT IM.ITEM_MASTER_SID)
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IM.ITEM_STATUS
+		  AND IM.ITEM_ID LIKE '?'
+		 AND IM.ITEM_NO LIKE '?'
+		 AND IM.ITEM_NAME LIKE '?'
+		 AND Isnull(IM.ITEM_STATUS, '0') LIKE '?'
+          AND Isnull(IM.ITEM_TYPE, '0') LIKE '?'
+           AND IM.ITEM_ID LIKE '?'
+		 AND IM.ITEM_NO LIKE '?'
+		 AND IM.ITEM_NAME LIKE '?'
+		 AND Isnull(IM.ITEM_STATUS, '0') LIKE '?'
+          AND Isnull(IM.ITEM_TYPE, '0') LIKE '?'
+
+       LEFT JOIN HELPER_TABLE HL_TYPE
+         ON IM.ITEM_TYPE =HL_TYPE.HELPER_TABLE_SID
+		]]>
+
+        </query>
+    </entity>
+    <!-- JOIN IFP_CONTRACT_DETAILS IFD ON IFD.ITEM_MASTER_SID=IM.ITEM_MASTER_SID
+    JOIN IFP_CONTRACT  IFC ON IFC.IFP_CONTRACT_SID=IFD.IFP_CONTRACT_SID -->
+    <entity id="item">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT IM.ITEM_ID,
+                IM.ITEM_NO,
+                IM.ITEM_NAME,
+                HL_STATUS.DESCRIPTION AS STATUS,
+                HL_TYPE.DESCRIPTION   AS TYPE,
+                IM.ITEM_MASTER_SID
+FROM   ITEM_MASTER IM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IM.ITEM_STATUS
+            AND IM.ITEM_ID LIKE '?'
+            AND IM.ITEM_NO LIKE '?'
+            AND IM.ITEM_NAME LIKE '?'
+            AND Isnull(IM.ITEM_STATUS, '0') LIKE '?'
+            AND Isnull(IM.ITEM_TYPE, '0') LIKE '?'
+             AND IM.ITEM_ID LIKE '?'
+            AND IM.ITEM_NO LIKE '?'
+            AND IM.ITEM_NAME LIKE '?'
+            AND Isnull(IM.ITEM_STATUS, '0') LIKE '?'
+            AND Isnull(IM.ITEM_TYPE, '0') LIKE '?'
+       LEFT JOIN HELPER_TABLE HL_TYPE
+         ON IM.ITEM_TYPE =HL_TYPE.HELPER_TABLE_SID 
+         ORDER  BY HL_STATUS.DESCRIPTION,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--Item Ends-->
+    <!--Formula Lookup-->
+    <entity id="formulaIdCount">
+        <query>
+		<![CDATA[
+SELECT Count(DISTINCT FORMULA_DETAILS_MASTER_SID)
+     FROM   FORMULA_DETAILS_MASTER
+     WHERE  FORMULA_ID LIKE '?'
+            AND FORMULA_NO LIKE '?'
+            AND FORMULA_DESC LIKE '?'  
+       ]]>
+        </query>
+    </entity>
+    <entity id="formulaIdRecord">
+        <query>
+		<![CDATA[
+      SELECT FORMULA_ID,
+       FORMULA_NO,
+       FORMULA_DESC,
+       FORMULA_DETAILS_MASTER_SID
+FROM   FORMULA_DETAILS_MASTER
+WHERE  FORMULA_ID LIKE '?'
+       AND FORMULA_NO LIKE '?'
+       AND FORMULA_DESC LIKE '?'
+       ORDER  BY FORMULA_DETAILS_MASTER_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+       ]]>
+        </query>
+    </entity>
+    <!--Formula Lookup-->
+    <!--Rebate Plan -->
+    <entity id="rebatePlanStatus count">
+        <query>
+		<![CDATA[
+                 SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.REBATE_PLAN_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="rebatePlanStatus">
+        <query>
+		<![CDATA[
+               SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.REBATE_PLAN_STATUS
+            AND HL.DESCRIPTION LIKE '?'
+   ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="rebatePlanType count">
+        <query>
+		<![CDATA[
+   SELECT Count (DISTINCT HL.HELPER_TABLE_SID)
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.REBATE_PLAN_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="rebatePlanType">
+        <query>
+		<![CDATA[
+         SELECT DISTINCT HL.HELPER_TABLE_SID,
+                HL.DESCRIPTION
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = IM.REBATE_PLAN_TYPE
+            AND HL.DESCRIPTION LIKE '?'
+            ORDER  BY HL.HELPER_TABLE_SID,HL.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+    <entity id="rebatePlan count">
+        <query>
+		<![CDATA[
+                SELECT Count(DISTINCT IM.REBATE_PLAN_MASTER_SID)
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IM.REBATE_PLAN_STATUS
+            AND IM.REBATE_PLAN_ID LIKE '?'
+            AND IM.REBATE_PLAN_NO LIKE '?'
+            AND IM.REBATE_PLAN_NAME LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_STATUS, '0') LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_TYPE, '0') LIKE '?'
+            AND IM.REBATE_PLAN_ID LIKE '?'
+            AND IM.REBATE_PLAN_NO LIKE '?'
+            AND IM.REBATE_PLAN_NAME LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_STATUS, '0') LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = IM.REBATE_PLAN_TYPE
+		]]>
+        </query>
+    </entity>
+    <entity id="rebatePlan">
+        <query>
+		<![CDATA[
+                SELECT DISTINCT IM.REBATE_PLAN_ID,
+                IM.REBATE_PLAN_NO,
+                IM.REBATE_PLAN_NAME,
+                HL_STATUS.DESCRIPTION AS STATUS,
+                HL_TYPE.DESCRIPTION   AS TYPE,
+                REBATE_PLAN_MASTER_SID AS SID
+FROM   REBATE_PLAN_MASTER IM
+       JOIN HELPER_TABLE HL_STATUS
+         ON HL_STATUS.HELPER_TABLE_SID = IM.REBATE_PLAN_STATUS
+            AND IM.REBATE_PLAN_ID LIKE '?'
+            AND IM.REBATE_PLAN_NO LIKE '?'
+            AND IM.REBATE_PLAN_NAME LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_STATUS, '0') LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_TYPE, '0') LIKE '?'
+            AND IM.REBATE_PLAN_ID LIKE '?'
+            AND IM.REBATE_PLAN_NO LIKE '?'
+            AND IM.REBATE_PLAN_NAME LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_STATUS, '0') LIKE '?'
+            AND Isnull(IM.REBATE_PLAN_TYPE, '0') LIKE '?'
+       JOIN HELPER_TABLE HL_TYPE
+         ON HL_TYPE.HELPER_TABLE_SID = IM.REBATE_PLAN_TYPE
+  ORDER  BY HL_STATUS.DESCRIPTION,HL_TYPE.DESCRIPTION OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <!--Rebate Plan End-->
+</sql>

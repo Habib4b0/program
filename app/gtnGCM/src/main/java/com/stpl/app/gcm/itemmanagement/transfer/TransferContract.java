@@ -13,11 +13,11 @@ import com.stpl.app.gcm.itemmanagement.index.util.ConstantsUtil;
 import com.stpl.app.gcm.itemmanagement.itemabstract.dto.AbstractContractSearchDTO;
 import com.stpl.app.gcm.itemmanagement.itemabstract.form.AbstractComponentInfo;
 import com.stpl.app.gcm.util.Constants;
-import com.vaadin.data.Property;
+import com.vaadin.v7.data.Property;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.CustomComponent;
 import java.util.List;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 
 /**
  *

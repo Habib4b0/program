@@ -34,11 +34,9 @@ import com.stpl.app.model.PsContract;
 import com.stpl.app.model.PsModel;
 import com.stpl.app.model.RsContract;
 import com.stpl.app.model.RsContractDetails;
-import com.stpl.app.model.RsDetails;
 import com.stpl.app.model.RsModel;
 import com.stpl.app.service.CfpContractLocalServiceUtil;
 import com.stpl.app.service.CfpModelLocalServiceUtil;
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.IfpContractLocalServiceUtil;
 import com.stpl.app.service.IfpModelLocalServiceUtil;
@@ -59,22 +57,23 @@ import static com.stpl.app.gcm.util.Constants.IndicatorConstants.SALES;
 import static com.stpl.app.gcm.util.Constants.IndicatorConstants.UNITS;
 import com.stpl.app.gcm.util.Converters;
 import com.stpl.app.gcm.util.xmlparser.SQlUtil;
-import com.stpl.app.service.CfpContractDetailsLocalServiceUtil;
-import com.stpl.app.service.IfpContractDetailsLocalServiceUtil;
-import com.stpl.app.service.PsContractDetailsLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.OrderFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.stpl.app.gcm.impl.CfpContractDetailsImpl;
+import com.stpl.app.gcm.impl.IfpContractDetailsImpl;
+import com.stpl.app.gcm.impl.PsContractDetailsImpl;
+import com.stpl.app.gcm.impl.RsContractDetailsImpl;
+import com.stpl.app.service.ItemMasterLocalServiceUtil;
+import com.vaadin.v7.data.Container;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -178,7 +177,7 @@ public class DiscountLogic {
     public List<ContractsDetailsDto> getLevelDetails(ContractsDetailsDto tableBean) {
         List<ContractsDetailsDto> levelsDetails = new ArrayList<>();
         try {
-            final DynamicQuery contractQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
+            final DynamicQuery contractQuery = RsContractDetailsLocalServiceUtil.dynamicQuery();
             contractQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", tableBean.getInternalId()));
             List<RsContractDetails> contractDetails = discountDAO.getContractDetails(contractQuery);
             levelsDetails = getNewDiscountTabDto(contractDetails);
@@ -213,7 +212,7 @@ public class DiscountLogic {
 
     public int getItemSearchCount()throws SystemException {
         int count = 0;
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        DynamicQuery query = ItemMasterLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.in("brandMasterSid", new Object[]{NumericConstants.FOUR, NumericConstants.SIX, NumericConstants.TEN, NumericConstants.EIGHTY_FIVE}));
         query.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         count = discountDAO.getItemsCount(query);
@@ -222,7 +221,7 @@ public class DiscountLogic {
 
     public List<ContractsDetailsDto> getItemSearch(ContractsDetailsDto removeDiscountDto) throws SystemException {
         List<ContractsDetailsDto> searchList;
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(ItemMaster.class);
+        DynamicQuery query = ItemMasterLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.in("brandMasterSid", new Object[]{NumericConstants.FOUR, NumericConstants.SIX, NumericConstants.TEN, NumericConstants.EIGHTY_FIVE}));
         query.add(RestrictionsFactoryUtil.not(RestrictionsFactoryUtil.like(Constants.IndicatorConstants.INBOUND_STATUS.getConstant(), "D")));
         query.setLimit(removeDiscountDto.getStartIndex(), removeDiscountDto.getEndIndex());
@@ -941,7 +940,7 @@ public class DiscountLogic {
         rsMasterAttached.setRecordLockStatus(false);
         rsMasterAttached.setInboundStatus("A");
 
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(RsContract.class);
+        DynamicQuery query = RsContractLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         if (cfpSystemId != 0) {
             query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
@@ -988,19 +987,19 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                RsContractDetailsLocalServiceUtil.saveRsDetailsAttached(input, null);
+                RsContractDetailsImpl.saveRsDetailsAttached(input, null);
             }
         } catch (Exception e) {
             LOGGER.error(e);
         }
 
-        DynamicQuery rsContractDetailsQuery = DynamicQueryFactoryUtil.forClass(RsContractDetails.class);
+        DynamicQuery rsContractDetailsQuery = RsContractDetailsLocalServiceUtil.dynamicQuery();
         rsContractDetailsQuery.add(RestrictionsFactoryUtil.eq("rsContractSid", rsContract.getRsContractSid()));
         rsContractDetailsQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
         List<RsContractDetails> rsContDetList = RsContractDetailsLocalServiceUtil.dynamicQuery(rsContractDetailsQuery);
         for (int j = 0; j < rsContDetList.size(); j++) {
             RsContract rsCont = RsContractLocalServiceUtil.getRsContract(rsContDetList.get(j).getRsContractSid());
-            DynamicQuery rsDetailsQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+            DynamicQuery rsDetailsQuery = RsDetailsLocalServiceUtil.dynamicQuery();
             rsDetailsQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", rsCont.getRsModelSid()));
             rsDetailsQuery.add(RestrictionsFactoryUtil.eq("itemMasterSid", rsContDetList.get(j).getItemMasterSid()));
             rsDetailsQuery.add(RestrictionsFactoryUtil.ne("inboundStatus", "D"));
@@ -1176,7 +1175,7 @@ public class DiscountLogic {
             String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempItemDataInsertFromIFP") + ";";
 
             try {
-                count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
                 java.util.logging.Logger.getLogger(DiscountLogic.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -1195,7 +1194,7 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
             String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForIFP") + ";";
             try {
-                count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -1212,7 +1211,7 @@ public class DiscountLogic {
             inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
             String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE) + ";" + CommonUtil.getQuery(inputMap, "ad.tempDataInsertForCFP") + ";";
             try {
-                count = CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                count = HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -1432,7 +1431,7 @@ public class DiscountLogic {
                 query += " AND IFP_MODEL_SID=" + newDiscountTabDto.getInternalId();
             }
             try {
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -1451,7 +1450,7 @@ public class DiscountLogic {
                 query += " AND ITEM_MASTER_SID=" + newDiscountTabDto.getInternalId();
             }
             try {
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -1470,7 +1469,7 @@ public class DiscountLogic {
                 query += " AND COMPANY_MASTER_SID=" + newDiscountTabDto.getInternalId();
             }
             try {
-                CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+                HelperTableLocalServiceUtil.executeUpdateQuery(query);
             } catch (Exception ex) {
                 LOGGER.error(ex);
             }
@@ -1730,7 +1729,7 @@ public class DiscountLogic {
 
     public List<HelperDTO> getDropDownList(final String listType, HelperDTO dto) throws SystemException {
         final List<HelperDTO> helperList = new ArrayList<>();
-        final DynamicQuery helperTableQuery = DynamicQueryFactoryUtil.forClass(HelperTable.class);
+        final DynamicQuery helperTableQuery = HelperTableLocalServiceUtil.dynamicQuery();
         helperTableQuery.add(RestrictionsFactoryUtil.like(Constants.LIST_NAME, listType));
         helperTableQuery.addOrder(OrderFactoryUtil.asc(Constants.DESCRIPTION));
         final List<HelperTable> list = HelperTableLocalServiceUtil.dynamicQuery(helperTableQuery);
@@ -1940,7 +1939,7 @@ public class DiscountLogic {
         inputMap.put("?ITEM_RS_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.RS_IFP_FOR_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoRsDetailsFromTemp");
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
     }
 
@@ -1997,7 +1996,7 @@ public class DiscountLogic {
         inputMap.put("?ITEM_IFP_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoIFPDetailsFromTemp");
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.ITEMS_FOR_IFP_IN_ADD_DISCOUNT.getConstant());
     }
 
@@ -2011,7 +2010,7 @@ public class DiscountLogic {
         inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
 
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoPsDetailsFromTemp");
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.PS_IFP_FOR_ADD_DISCOUNT.getConstant());
     }
 
@@ -2046,7 +2045,7 @@ public class DiscountLogic {
         inputMap.put("?COMPANY_CFP_ATTACHED_DATE?", CommonLogic.convertDateFormat(new Date().toString(), DEFOULT_JAVA_DATE_FORMAT.getConstant(), DEFOULT_SQL_DATE_FORMAT.getConstant()));
         inputMap.put(StringConstantsUtil.OPERATION, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
         String query = CommonUtil.getQuery(inputMap, "ad.insertintoCFPDetailsFromTemp");
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
         deleteTempData(userId, sessionId, Constants.IndicatorConstants.COMPANYS_FOR_CFP_IN_ADD_DISCOUNT.getConstant());
     }
 
@@ -2085,7 +2084,7 @@ public class DiscountLogic {
             psMasterAttached.setRecordLockStatus(false);
             psMasterAttached.setInboundStatus("A");
 
-            DynamicQuery query = DynamicQueryFactoryUtil.forClass(PsContract.class);
+            DynamicQuery query = PsContractLocalServiceUtil.dynamicQuery();
             query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
             if (cfpSystemId != 0) {
                 query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
@@ -2128,7 +2127,7 @@ public class DiscountLogic {
                 input.add(null);
             }
             if (list.isEmpty()) {
-                PsContractDetailsLocalServiceUtil.savePsDetailsAttached(input, null);
+                PsContractDetailsImpl.savePsDetailsAttached(input, null);
             }
         } catch (Exception e) {
             LOGGER.error(e);
@@ -2151,7 +2150,7 @@ public class DiscountLogic {
         inputMap.put(StringConstantsUtil.VALU_E2_QUESTION, sessionId);
         inputMap.put(StringConstantsUtil.VALU_E3_QUESTION, "%" + operation);
         String query = CommonUtil.getQuery(inputMap, StringConstantsUtil.ADTEMP_DATA_DELETE);
-        CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        HelperTableLocalServiceUtil.executeUpdateQuery(query);
     }
 
     public static List duplicateCheck(String operation, String name, String fieldName) {
@@ -2166,7 +2165,7 @@ public class DiscountLogic {
         } else if (operation.equalsIgnoreCase(Constants.IndicatorConstants.REBATE_SCHEDULE.toString())) {
             query = "select * from dbo.RS_MODEL where " + fieldName + " = '" + name + "'" + "and INBOUND_STATUS <> 'D'";
         }
-        list = CompanyMasterLocalServiceUtil.executeQuery(query);
+        list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         return list;
 
     }
@@ -2197,7 +2196,7 @@ public class DiscountLogic {
         ifpMasterAttached.setRecordLockStatus(false);
         ifpMasterAttached.setInboundStatus("A");
 
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(IfpContract.class);
+        DynamicQuery query = IfpContractLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         if (cfpSystemId != 0) {
             query.add(RestrictionsFactoryUtil.ilike(Constants.CFP_CONTRACT_SID, String.valueOf(cfpSystemId)));
@@ -2234,7 +2233,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            IfpContractDetailsLocalServiceUtil.saveIfpDetailsAttached(input, null);
+            IfpContractDetailsImpl.saveIfpDetailsAttached(input, null);
         }
 
         LOGGER.debug("End of saveIFP method");
@@ -2272,7 +2271,7 @@ public class DiscountLogic {
         cfpMasterAttached.setRecordLockStatus(false);
         cfpMasterAttached.setInboundStatus("A");
 
-        DynamicQuery query = DynamicQueryFactoryUtil.forClass(CfpContract.class);
+        DynamicQuery query = CfpContractLocalServiceUtil.dynamicQuery();
         query.add(RestrictionsFactoryUtil.eq(CONTRACT_MASTER_SID.getConstant(), contractSystemId));
         query.add(RestrictionsFactoryUtil.eq("cfpModelSid", cpdId));
         List<CfpContract> list = CfpContractLocalServiceUtil.dynamicQuery(query);
@@ -2300,7 +2299,7 @@ public class DiscountLogic {
             input.add(null);
         }
         if (list.isEmpty()) {
-            CfpContractDetailsLocalServiceUtil.saveCfpDetailsAttached(input, null);
+            CfpContractDetailsImpl.saveCfpDetailsAttached(input, null);
         }
         LOGGER.debug("End of saveCFp method");
 
@@ -2349,7 +2348,7 @@ public class DiscountLogic {
         } else {
             query = query.replace(FILTER, " ");
         }
-        List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         count = list != null ? Integer.parseInt(String.valueOf(list.get(0))) : 0;
         return count;
     }
@@ -2385,7 +2384,7 @@ public class DiscountLogic {
         } else {
             query = query.replace(FILTER, " ");
         }
-        List list = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List list = HelperTableLocalServiceUtil.executeSelectQuery(query);
         result = setContractValues(list);
         return result;
     }
@@ -2673,7 +2672,7 @@ public class DiscountLogic {
 
         try {
             String query = CommonUtil.getQuery(inputMap, queryName);
-            CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+            HelperTableLocalServiceUtil.executeUpdateQuery(query);
         } catch (Exception ex) {
             LOGGER.error(ex);
         }
@@ -2711,7 +2710,7 @@ public class DiscountLogic {
         } else {
             query = CommonUtil.getQuery(inputMap, "ad.tempItemSearch");
         }
-        List resultList = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         LOGGER.debug("Exiting getSelectedTableData");
         return getAttachedNames(resultList, category);
     }
@@ -2742,8 +2741,8 @@ public class DiscountLogic {
         inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         query1 = CommonUtil.getQuery(inputMap, query1);
         query2 = CommonUtil.getQuery(inputMap, query2);
-        List queryList1 = CompanyMasterLocalServiceUtil.executeQuery(query1);
-        List queryList2 = CompanyMasterLocalServiceUtil.executeQuery(query2);
+        List queryList1 = HelperTableLocalServiceUtil.executeSelectQuery(query1);
+        List queryList2 = HelperTableLocalServiceUtil.executeSelectQuery(query2);
         if (queryList1.size() == queryList2.size()) {
             Object[] listArr = queryList2.toArray();
             Object[] dataArr = queryList1.toArray();
@@ -2759,7 +2758,7 @@ public class DiscountLogic {
         inputMap.put(StringConstantsUtil.USERS_SID_QUESTION, userId);
         inputMap.put(StringConstantsUtil.SESSION_ID_QUESTION, sessionId);
         query = CommonUtil.getQuery(inputMap, query);
-        List resultList = CompanyMasterLocalServiceUtil.executeQuery(query);
+        List resultList = HelperTableLocalServiceUtil.executeSelectQuery(query);
         if (resultList.size() == dataList.size()) {
             Object[] listArr = dataList.toArray();
             Object[] dataArr = resultList.toArray();

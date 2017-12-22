@@ -8,7 +8,7 @@ import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.globalchange.dto.SelectionDTO;
 import com.stpl.app.gcm.itemmanagement.add.dto.ContractDashboardDTO;
 import com.stpl.app.gcm.itemmanagement.add.logic.SummaryLogic;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

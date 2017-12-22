@@ -19,18 +19,18 @@ import com.stpl.app.gcm.itemmanagement.itemabstract.form.ComponentLookUp;
 import com.stpl.app.gcm.security.StplSecurity;
 import com.stpl.app.gcm.util.AbstractNotificationUtils;
 import com.stpl.app.gcm.util.Constants;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.PopupDateField;
+import com.vaadin.v7.ui.PopupDateField;
 import com.vaadin.ui.TabSheet;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import com.vaadin.ui.themes.ValoTheme;
 import java.text.ParseException;
@@ -45,7 +45,6 @@ import org.vaadin.teemu.clara.Clara;
 import org.vaadin.teemu.clara.binder.annotation.UiField;
 import org.vaadin.teemu.clara.binder.annotation.UiHandler;
 
-import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.gcm.tp.dao.TradingPartnerDAO;
 import com.stpl.app.gcm.tp.dao.impl.TradingPartnerDAOImpl;
 import com.stpl.app.gcm.transfercontract.util.HeaderUtil;
@@ -53,16 +52,16 @@ import com.stpl.app.gcm.util.UiUtils;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Container;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.FieldEvents;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.FieldEvents;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.CheckBox;
+import com.vaadin.v7.ui.CheckBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TableFieldFactory;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TableFieldFactory;
 import com.vaadin.ui.UI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,6 +70,8 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customwindow.CustomWindow;
 import org.asi.ui.customwindow.MinimizeTray;
 import org.jboss.logging.Logger;
+import com.stpl.app.service.HelperTableLocalServiceUtil;
+import com.vaadin.event.FieldEvents.BlurListener;
 
 /**
  *
@@ -190,7 +191,6 @@ public class CopyContractform extends CustomComponent implements View {
             
             tabsheet.addStyleName(ValoTheme.TABSHEET_FRAMED);
             tabsheet.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-            tabsheet.setImmediate(true);
             tabsheet.markAsDirty();
             tabsheet.markAsDirtyRecursive();
             tabsheet.addTab(Newcomponent, "New", null, 0);
@@ -254,11 +254,11 @@ public class CopyContractform extends CustomComponent implements View {
         List listcNo = null;
         if (!StringUtils.EMPTY.equals(cId)) {
             String query = "select upper(CONTRACT_ID) from CONTRACT_MASTER where CONTRACT_ID='" + cId.toUpperCase() + "'";
-            listcId = CompanyMasterLocalServiceUtil.executeQuery(query);
+            listcId = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
         if (!StringUtils.EMPTY.equals(cNo)) {
             String query = "select upper(CONTRACT_NO) from CONTRACT_MASTER where CONTRACT_NO='" + cNo.toUpperCase() + "'";
-            listcNo = CompanyMasterLocalServiceUtil.executeQuery(query);
+            listcNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
         }
 
         Date AliasSDATE = aliasStartDate.getValue();
@@ -533,9 +533,10 @@ public class CopyContractform extends CustomComponent implements View {
                 }
                 if ("contractId".equals(propertyId)) {
                     final TextField contractIdTextField = new TextField();
-                    contractIdTextField.addBlurListener(new FieldEvents.BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
-                            String newValue = String.valueOf(contractIdTextField.getValue());
+                    contractIdTextField.addBlurListener(new BlurListener() {
+                        @Override
+                        public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
+                             String newValue = String.valueOf(contractIdTextField.getValue());
                             specValidation(newValue, contractIdTextField);
                         }
                     });
@@ -544,8 +545,8 @@ public class CopyContractform extends CustomComponent implements View {
                 }
                 if (Constants.CONTRACT_NO.equals(propertyId)) {
                     final TextField contractNo = new TextField();
-                    contractNo.addBlurListener(new FieldEvents.BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                    contractNo.addBlurListener(new BlurListener() {
+                        public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractNo.getValue());
                             specValidation(newValue, contractNo);
                         }
@@ -554,8 +555,8 @@ public class CopyContractform extends CustomComponent implements View {
                 }
                 if (Constants.CONTRACT_NAME.equals(propertyId)) {
                     final TextField contractName = new TextField();
-                    contractName.addBlurListener(new FieldEvents.BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                    contractName.addBlurListener(new BlurListener() {
+                        public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(contractName.getValue());
                             specValidation(newValue, contractName);
                         }
@@ -565,8 +566,8 @@ public class CopyContractform extends CustomComponent implements View {
                 if (Constants.ALIAS_NUMBER.equals(propertyId)) {
                     final TextField aliasNumber = new TextField();
                     aliasNumber.setWidth("120px");
-                    aliasNumber.addBlurListener(new FieldEvents.BlurListener() {
-                        public void blur(FieldEvents.BlurEvent event) {
+                    aliasNumber.addBlurListener(new BlurListener() {
+                        public void blur(com.vaadin.event.FieldEvents.BlurEvent event) {
                             String newValue = String.valueOf(aliasNumber.getValue());
                             specValidation(newValue, aliasNumber);
                         }
@@ -685,7 +686,7 @@ public class CopyContractform extends CustomComponent implements View {
             if (idList != null) {
                 String ids = commonLogic.idString(idList);
                 String query = "select upper(CONTRACT_ID) from CONTRACT_MASTER where CONTRACT_ID in (" + ids + ")";
-                List listId = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List listId = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (listId != null && listId.size() > 0) {
                     Object obj = listId.get(0);
                     String duplicateId = String.valueOf(obj);
@@ -696,7 +697,7 @@ public class CopyContractform extends CustomComponent implements View {
             if (noList != null) {
                 String ids = commonLogic.idString(noList);
                 String query = "select upper(CONTRACT_NO) from CONTRACT_MASTER where CONTRACT_NO in (" + ids + ")";
-                List listNo = CompanyMasterLocalServiceUtil.executeQuery(query);
+                List listNo = HelperTableLocalServiceUtil.executeSelectQuery(query);
                 if (listNo != null && listNo.size() > 0) {
                     Object obj = listNo.get(0);
                     String duplicateId = String.valueOf(obj);

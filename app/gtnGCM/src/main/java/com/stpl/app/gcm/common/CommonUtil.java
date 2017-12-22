@@ -12,12 +12,12 @@ import com.stpl.app.gcm.util.ValidationUtils;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.validator.RegexpValidator;
-import com.vaadin.data.validator.StringLengthValidator;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.validator.RegexpValidator;
+import com.vaadin.v7.data.validator.StringLengthValidator;
+import com.vaadin.v7.ui.ComboBox;
+import com.vaadin.v7.ui.TextField;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -75,7 +75,6 @@ public class CommonUtil {
         select.removeAllItems();
         final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setData(listName);
@@ -98,7 +97,6 @@ public class CommonUtil {
         select.removeAllItems();
         final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.setContainerDataSource(container);
@@ -107,7 +105,6 @@ public class CommonUtil {
             container.addAll(helperListUtil.getListNameMap().get(listName));
         }
         select.select(defaultValue);
-        select.setImmediate(true);
         select.setItemCaptionPropertyId("description");
         return select;
     }
@@ -117,7 +114,6 @@ public class CommonUtil {
         final HelperDTO defaultValue = isFilter ? ddlbShowAllValue : ddlbDefaultValue;
         String comboboxName = listName;
         columnName.setValidationVisible(true);
-        columnName.setImmediate(true);
         columnName.setNullSelectionAllowed(true);
         columnName.setNullSelectionItemId(defaultValue);
         columnName.setContainerDataSource(container);
@@ -142,7 +138,6 @@ public class CommonUtil {
             container.addAll(helperListUtil.getListNameMap().get(listName));
         }
         columnName.select(defaultValue);
-        columnName.setImmediate(true);
         columnName.setItemCaptionPropertyId("description");
         container.addAll(helperListUtil.getListNameMap().get(listName));
         return columnName;
@@ -186,7 +181,6 @@ public class CommonUtil {
 
         final String defaultValue = isFilter ? ConstantsUtils.SHOW_ALL : ConstantsUtils.SELECT_ONE;
         select.setValidationVisible(true);
-        select.setImmediate(true);
         select.setNullSelectionAllowed(true);
         select.setNullSelectionItemId(defaultValue);
         select.addItem(defaultValue);

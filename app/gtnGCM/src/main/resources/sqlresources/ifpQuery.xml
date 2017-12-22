@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<sql>
+       
+    
+     
+    <entity id="Load Item Status Count">
+        <query>
+		<![CDATA[
+         SELECT COUNT (*) FROM HELPER_TABLE HL WHERE LIST_NAME = 'STATUS'
+         AND HL.DESCRIPTION like '?';
+		]]>
+        </query>
+    </entity>
+    <entity id="Load Item Status">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+          FROM HELPER_TABLE HL WHERE LIST_NAME = 'STATUS'
+          AND HL.DESCRIPTION like '?'
+          GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_TYPE Count">
+        <query>
+		<![CDATA[
+                
+        SELECT COUNT (*) FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_TYPE'
+        AND HL.DESCRIPTION like '?';
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_TYPE">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+          FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_TYPE'
+          AND HL.DESCRIPTION like '?'
+          GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_FREQ Count">
+        <query>
+		<![CDATA[
+         SELECT COUNT (*) FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+         AND HL.DESCRIPTION like '?';
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_FREQ">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+          FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_FREQUENCY'
+          AND HL.DESCRIPTION like '?'
+          GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_INTERVAL Count">
+        <query>
+		<![CDATA[
+         SELECT COUNT (*) FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_INTERVAL'
+         AND HL.DESCRIPTION like '?';
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PS_INTERVAL">
+        <query>
+		<![CDATA[
+          SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+          FROM HELPER_TABLE HL WHERE LIST_NAME = 'PRICE_TOLERANCE_INTERVAL'
+          AND HL.DESCRIPTION like '?'
+          GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PRICE_TYPE Count">
+        <query>
+		<![CDATA[
+SELECT COUNT( DISTINCT HL.HELPER_TABLE_SID)
+FROM   ITEM_PRICING_QUALIFIER IP
+       JOIN PS_CONTRACT_DETAILS PS
+         ON PS.ITEM_PRICING_QUALIFIER_SID = IP.ITEM_PRICING_QUALIFIER_SID
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = PS.ITEM_PRICING_QUALIFIER_SID  
+          AND HL.DESCRIPTION like '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="Load PRICE_TYPE">
+        <query>
+		<![CDATA[
+ SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+FROM   ITEM_PRICING_QUALIFIER IP
+       JOIN PS_CONTRACT_DETAILS PS
+         ON PS.ITEM_PRICING_QUALIFIER_SID = IP.ITEM_PRICING_QUALIFIER_SID
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = PS.ITEM_PRICING_QUALIFIER_SID 
+          AND HL.DESCRIPTION like '?'
+          GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;
+		]]>
+        </query>
+    </entity>
+    <entity id="Load ATTACHED_STATUS Count">
+        <query>
+		<![CDATA[
+SELECT COUNT(DISTINCT HL.HELPER_TABLE_SID)
+FROM   PS_CONTRACT_DETAILS PS
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = PS.PS_CONTRACT_ATTACHED_STATUS 
+         AND HL.DESCRIPTION like '?'
+		]]>
+        </query>
+    </entity>
+    <entity id="Load ATTACHED_STATUS">
+        <query>
+		<![CDATA[
+  SELECT DISTINCT HL.HELPER_TABLE_SID,HL.DESCRIPTION
+FROM   PS_CONTRACT_DETAILS PS
+       JOIN HELPER_TABLE HL
+         ON HL.HELPER_TABLE_SID = PS.PS_CONTRACT_ATTACHED_STATUS 
+         AND HL.DESCRIPTION like '?'
+         GROUP  BY HL.HELPER_TABLE_SID,
+          HL.DESCRIPTION
+          ORDER BY HL.HELPER_TABLE_SID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY; 
+		]]>
+        </query>
+    </entity>
+</sql>

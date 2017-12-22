@@ -17,21 +17,21 @@ import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.DateToStringConverter;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Container;
-import com.vaadin.data.fieldgroup.FieldGroup;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.ui.AbstractField;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.Field;
+import com.vaadin.v7.ui.ComboBox;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.Field;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.PopupDateField;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.PopupDateField;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,23 +142,19 @@ public class IfpLookUp extends Window {
                 try {
                      CustomComboBox comboBox = new CustomComboBox();
                     if (propertyId.equals("ifpType")) {
-                        comboBox.setImmediate(true);
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_TYPE, true);
                         return comboBox;
                     }
                     if (propertyId.equals("ifpCategory")) {
-                        comboBox.setImmediate(true);
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_CATEGORY, true);
                         return ifpCategory;
                     }
                     if (propertyId.equals("ifpDesignation")) {
-                        comboBox.setImmediate(true);
                         commonUtil.loadComboBox(comboBox, UiUtils.IFP_DESIGNATION, true);
                         return comboBox;
                     }
                     if (propertyId.equals("ifpStatus")) {
                        
-                        ifpStatus.setImmediate(true);
                         commonUtil.loadComboBox(comboBox, UiUtils.STATUS, true);
                         return comboBox;
                     }

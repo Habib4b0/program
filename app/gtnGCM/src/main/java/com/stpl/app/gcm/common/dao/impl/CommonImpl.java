@@ -30,7 +30,7 @@ public class CommonImpl implements CommonDao {
     }
 
     public Object executeUpdate(String query) {
-        return CompanyMasterLocalServiceUtil.executeUpdateQuery(query);
+        return HelperTableLocalServiceUtil.executeUpdateQueryCount(query);
     }
 
 }

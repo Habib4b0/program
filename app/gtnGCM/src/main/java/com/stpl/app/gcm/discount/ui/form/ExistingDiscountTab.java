@@ -34,30 +34,30 @@ import com.stpl.app.service.RsDetailsLocalServiceUtil;
 import com.stpl.app.serviceUtils.ConstantsUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.ProjectionFactoryUtil;
-import com.stpl.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.portal.kernel.exception.PortalException;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.event.ItemClickEvent;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.event.ItemClickEvent;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.dd.VerticalDropLocation;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.ExtCustomTable;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
+import org.asi.ui.extfilteringtable.ExtCustomTable;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.Tree;
-import com.vaadin.ui.TreeTable;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.TextField;
+import com.vaadin.v7.ui.Tree;
+import com.vaadin.v7.ui.TreeTable;
+import com.vaadin.v7.ui.VerticalLayout;
 import de.steinwedel.messagebox.ButtonId;
 import de.steinwedel.messagebox.Icon;
 import de.steinwedel.messagebox.MessageBox;
@@ -239,11 +239,7 @@ public class ExistingDiscountTab extends CustomComponent {
 
             componentTypeDdlb = CommonLogic.loadComponentType(componentTypeDdlb, null, true);
 
-            searchFieldDdlb.setImmediate(true);
-            componentTypeDdlb.setImmediate(true);
-            searchValueStatusDdlb.setImmediate(true);
             searchValueStatusDdlb.setVisible(false);
-            resultsComponentTypeDdlb.setImmediate(true);
             configureTables();
             LoadDashBoardTree();
             for (RemoveDiscountDto remove : removeDiscountDto) {
@@ -308,7 +304,6 @@ public class ExistingDiscountTab extends CustomComponent {
         LOGGER.debug("Entering getProcessedTree method");
         final CommonLogic commonLogic = new CommonLogic();
         dashboardTreeTable.markAsDirty();
-        dashboardTreeTable.setImmediate(true);
         dashboardTreeTable.setSizeFull();
         dashboardTreeTable.setPageLength(NumericConstants.TEN);
         dashboardTreeTable.removeAllItems();
@@ -817,7 +812,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 final String message = srcTableBean.getCategory() + " cannot be added to  " + treeBean.getCategory();
                 AbstractNotificationUtils.getWarningNotification(Constants.CRITERIA_MISMATCH, message);
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
-                final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
+                final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
 
                 psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(srcTableBean.getPsSid())));
                 psDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
@@ -855,7 +850,7 @@ public class ExistingDiscountTab extends CustomComponent {
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.IFP.toString())) {
                 LOGGER.debug("Inside Expected Code");
-                final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+                final DynamicQuery rsDynamicQuery = RsDetailsLocalServiceUtil.dynamicQuery();
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
                 rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -885,7 +880,7 @@ public class ExistingDiscountTab extends CustomComponent {
                     }
                 }
             } else if (srcTableBean.getCategory().equals(Constants.IndicatorConstants.RS_VALUE.toString()) && treeBean.getCategory().equals(Constants.IndicatorConstants.PS_VALUE.toString())) {
-                final DynamicQuery rsDynamicQuery = DynamicQueryFactoryUtil.forClass(RsDetails.class);
+                final DynamicQuery rsDynamicQuery = RsDetailsLocalServiceUtil.dynamicQuery();
                 rsDynamicQuery.add(RestrictionsFactoryUtil.eq("rsModelSid", srcTableBean.getInternalId()));
                 rsDynamicQuery.setProjection(ProjectionFactoryUtil.distinct(ProjectionFactoryUtil.property(StringConstantsUtil.IFP_MODEL_SID)));
                 final List<RsDetails> rebateScheduleDetailsList = RsDetailsLocalServiceUtil.dynamicQuery(rsDynamicQuery);
@@ -894,7 +889,7 @@ public class ExistingDiscountTab extends CustomComponent {
                         AbstractNotificationUtils.getWarningNotification("No Items", "No items Exists in RS");
                     } else {
                         final String rsSystem = String.valueOf(rebateScheduleDetailsList.get(0)).trim();
-                        final DynamicQuery psDynamicQuery = DynamicQueryFactoryUtil.forClass(PsDetails.class);
+                        final DynamicQuery psDynamicQuery = PsDetailsLocalServiceUtil.dynamicQuery();
                         if (treeBean.getInternalId() != 0) {
                             psDynamicQuery.add(RestrictionsFactoryUtil.eq(StringConstantsUtil.PS_MODEL_SID_PROPERTY, Integer.valueOf(treeBean.getModelSysId())));
                         } else {

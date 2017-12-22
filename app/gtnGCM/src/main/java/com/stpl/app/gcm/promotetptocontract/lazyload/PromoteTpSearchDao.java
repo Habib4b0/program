@@ -8,10 +8,10 @@ import com.stpl.app.gcm.promotetptocontract.dto.PromoteTpToChDto;
 import com.stpl.app.gcm.promotetptocontract.logic.PromoteTPLogic;
 import java.util.ArrayList;
 import java.util.List;
-import org.vaadin.addons.lazycontainer.BeanDAO;
+import org.asi.ui.addons.lazycontainer.BeanDAO;
 import org.jboss.logging.Logger;
-import org.vaadin.addons.lazycontainer.BeanSearchCriteria;
-import org.vaadin.addons.lazycontainer.OrderByColumn;
+import org.asi.ui.addons.lazycontainer.BeanSearchCriteria;
+import org.asi.ui.addons.lazycontainer.OrderByColumn;
 
 /**
  *

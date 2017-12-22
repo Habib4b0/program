@@ -7,7 +7,7 @@ package com.stpl.app.gcm.discount.logic;
 import org.asi.container.ExtTreeContainer;
 import com.stpl.app.gcm.discount.dto.DiscountDTO;
 import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
-import com.vaadin.data.Container;
+import com.vaadin.v7.data.Container;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -2,7 +2,6 @@ package com.stpl.app.gcm.tp.ui.form;
 
 import com.stpl.app.gcm.common.CommonLogic;
 import com.stpl.app.gcm.common.CommonUtil;
-import static com.stpl.app.gcm.discount.ui.form.ExistingDiscountTab.LOGGER;
 import com.stpl.app.gcm.security.StplSecurity;
 import static com.stpl.app.gcm.security.StplSecurity.userMap;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
@@ -29,37 +28,34 @@ import com.stpl.ifs.ui.util.CommonUIUtils;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.CsvExportforPagedTable;
 import com.stpl.ifs.util.HelperDTO;
-import com.stpl.portal.kernel.dao.orm.DynamicQuery;
-import com.stpl.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.stpl.portal.model.User;
-import com.stpl.portal.service.UserLocalServiceUtil;
-import com.vaadin.data.Container;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItem;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.vaadin.v7.data.Container;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItem;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.filter.SimpleStringFilter;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.AbstractField;
+import com.vaadin.v7.ui.AbstractField;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
+import com.vaadin.v7.ui.ComboBox;
 import com.vaadin.ui.Component;
-import com.vaadin.ui.Field;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.Field;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.TableFieldFactory;
+import com.vaadin.v7.ui.TextField;
 import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.asi.ui.customtextfield.CustomTextField;
 import org.asi.ui.extcustomcheckbox.ExtCustomCheckBox;
@@ -322,7 +318,6 @@ public class CustomerSelection extends VerticalLayout {
                 try {
                         if (propertyId.equals("companyType")) {
                             ComboBox companyType = new ComboBox();
-                            companyType.setImmediate(true);
                             companyType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyType.setHeight("39px");
                             commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
@@ -330,7 +325,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("companyCategory")) {
                             ComboBox companyCategory = new ComboBox();
-                            companyCategory.setImmediate(true);
                             companyCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyCategory.setHeight("39px");
                             commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
@@ -338,7 +332,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("tradeClass")) {
                             ComboBox tradeClass = new ComboBox();
-                            tradeClass.setImmediate(true);
                             tradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             tradeClass.setHeight("39px");
                             commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
@@ -346,7 +339,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("state")) {
                             ComboBox state = new ComboBox();
-                            state.setImmediate(true);
                             state.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             state.setHeight("39px");
                             commonUtil.loadComboBox(state, UiUtils.STATE, true);
@@ -404,7 +396,6 @@ public class CustomerSelection extends VerticalLayout {
                   try {
                         if (propertyId.equals("companyType")) {
                             ComboBox companyType = new ComboBox();
-                            companyType.setImmediate(true);
                             companyType.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyType.setHeight("39px");
                             commonUtil.loadComboBox(companyType, UiUtils.COMPANY_TYPE, true);
@@ -412,7 +403,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("companyCategory")) {
                             ComboBox companyCategory = new ComboBox();
-                            companyCategory.setImmediate(true);
                             companyCategory.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             companyCategory.setHeight("39px");
                             commonUtil.loadComboBox(companyCategory, UiUtils.COMPANY_CATEGORY, true);
@@ -420,7 +410,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("tradeClass")) {
                             ComboBox tradeClass = new ComboBox();
-                            tradeClass.setImmediate(true);
                             tradeClass.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             tradeClass.setHeight("39px");
                             commonUtil.loadComboBox(tradeClass, UiUtils.COMPANY_TRADE_CLASS, true);
@@ -428,7 +417,6 @@ public class CustomerSelection extends VerticalLayout {
                         }
                         if (propertyId.equals("state")) {
                             ComboBox state = new ComboBox();
-                            state.setImmediate(true);
                             state.setWidth(NumericConstants.HUNDRED,Unit.PERCENTAGE);
                             state.setHeight("39px");
                             commonUtil.loadComboBox(state, UiUtils.STATE, true);
@@ -448,7 +436,6 @@ public class CustomerSelection extends VerticalLayout {
                 public Field<?> createField(Container container, final Object itemId, Object propertyId, Component uiContext) {
                     if (propertyId.equals("check")) {
                         final ExtCustomCheckBox check = new ExtCustomCheckBox();
-                        check.setImmediate(true);
                         check.addClickListener(new ExtCustomCheckBox.ClickListener() {
                             public void click(ExtCustomCheckBox.ClickEvent event) {
                                 if (itemId != null) {
@@ -497,7 +484,6 @@ public class CustomerSelection extends VerticalLayout {
     public void configureTable(ExtPagedTable pagedTable) {
         pagedTable.addStyleName(VALO_THEME_EXTFILTERING_TABLE);
         pagedTable.setSelectable(true);
-        pagedTable.setImmediate(true);
         pagedTable.setSizeFull();
         pagedTable.setSelectable(true);
         pagedTable.setPageLength(NumericConstants.FIVE);
@@ -602,7 +588,7 @@ public class CustomerSelection extends VerticalLayout {
      public static Map<Integer, String> getUserName()  {
         try {
             LOGGER.debug("Enters getUserName method");
-            DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(User.class);
+            DynamicQuery dynamicQuery = UserLocalServiceUtil.dynamicQuery();
             List<User> userList = UserLocalServiceUtil.dynamicQuery(dynamicQuery);
             for (User user : userList) {
                 userMap.put(Long.valueOf(user.getUserId()).intValue(), user.getFullName());

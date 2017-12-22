@@ -9,8 +9,8 @@ import com.stpl.app.gcm.discount.dto.RemoveDiscountDto;
 import com.stpl.app.gcm.discount.ui.form.AddDiscountForm;
 import com.stpl.app.gcm.discount.ui.layout.AddDiscountWindow;
 import com.stpl.app.gcm.sessionutils.SessionDTO;
-import com.stpl.portal.kernel.exception.SystemException;
-import com.vaadin.ui.VerticalLayout;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.vaadin.v7.ui.VerticalLayout;
 import java.util.List;
 
 /**
